@@ -1,0 +1,523 @@
+{
+  "users": [
+    {
+      "id": "usr_1776743643988_g0m7ea9",
+      "name": "Atishay",
+      "email": null,
+      "image": null,
+      "subjects": [
+        "gat",
+        "mathematics",
+        "economics"
+      ],
+      "role": "student",
+      "createdAt": 1776743643988
+    },
+    {
+      "id": "usr_1776761043791_h7gez54",
+      "name": "atishay07jain@gmail.com",
+      "email": null,
+      "image": null,
+      "subjects": [
+        "accountancy"
+      ],
+      "role": "student",
+      "createdAt": 1776761043791
+    }
+  ],
+  "attempts": [
+    {
+      "id": "att_1776761056522_teqqzzc",
+      "subject": "accountancy",
+      "score": 0,
+      "correct": 0,
+      "wrong": 2,
+      "unattempted": 1,
+      "total": 3,
+      "details": [
+        {
+          "qid": "a1",
+          "givenIndex": 0,
+          "isCorrect": false
+        },
+        {
+          "qid": "a2",
+          "givenIndex": 1,
+          "isCorrect": false
+        },
+        {
+          "qid": "a3",
+          "isCorrect": null
+        }
+      ],
+      "questionsSnapshot": [
+        {
+          "id": "a1",
+          "subject": "accountancy",
+          "chapter": "Partnership",
+          "question": "A and B share profits 3:2 with capitals ₹5L and ₹3L. Interest on capital @10% p.a. Profit before interest is ₹60,000 (insufficient). How much interest does B receive?",
+          "options": [
+            "₹30,000",
+            "₹22,500",
+            "₹20,000",
+            "₹15,000"
+          ],
+          "correctIndex": 1,
+          "explanation": "When profits are insufficient, interest is distributed in ratio of interest amounts. Total would be ₹80,000, available ₹60,000. B gets 60,000 × (30,000/80,000) = ₹22,500.",
+          "difficulty": "medium",
+          "source": "PYQ 2023",
+          "status": "live",
+          "uploadedBy": "MockMob"
+        },
+        {
+          "id": "a2",
+          "subject": "accountancy",
+          "chapter": "Partnership",
+          "question": "Goodwill brought in cash by a new partner is credited to:",
+          "options": [
+            "Old partners' capital a/c in sacrificing ratio",
+            "Old partners' capital a/c in old ratio",
+            "Goodwill a/c",
+            "New partner's capital a/c"
+          ],
+          "correctIndex": 0,
+          "explanation": "Goodwill compensates old partners for the share they sacrifice; distributed in sacrificing ratio.",
+          "difficulty": "easy",
+          "source": "PYQ 2022",
+          "status": "live",
+          "uploadedBy": "MockMob"
+        },
+        {
+          "id": "a3",
+          "subject": "accountancy",
+          "chapter": "Partnership",
+          "question": "On dissolution, which account is prepared to close the books?",
+          "options": [
+            "Profit & Loss",
+            "Realisation",
+            "Revaluation",
+            "Trading"
+          ],
+          "correctIndex": 1,
+          "explanation": "Realisation Account records sale of assets and payment of liabilities to determine profit/loss on dissolution.",
+          "difficulty": "easy",
+          "source": "PYQ 2023",
+          "status": "live",
+          "uploadedBy": "MockMob"
+        }
+      ],
+      "userId": "usr_1776761043791_h7gez54",
+      "completedAt": 1776761056522
+    },
+    {
+      "id": "att_1776761075206_y3b16c8",
+      "subject": "accountancy",
+      "score": 0,
+      "correct": 0,
+      "wrong": 2,
+      "unattempted": 1,
+      "total": 3,
+      "details": [
+        {
+          "qid": "a2",
+          "givenIndex": 3,
+          "isCorrect": false
+        },
+        {
+          "qid": "a1",
+          "givenIndex": 2,
+          "isCorrect": false
+        },
+        {
+          "qid": "a3",
+          "isCorrect": null
+        }
+      ],
+      "questionsSnapshot": [
+        {
+          "id": "a2",
+          "subject": "accountancy",
+          "chapter": "Partnership",
+          "question": "Goodwill brought in cash by a new partner is credited to:",
+          "options": [
+            "Old partners' capital a/c in sacrificing ratio",
+            "Old partners' capital a/c in old ratio",
+            "Goodwill a/c",
+            "New partner's capital a/c"
+          ],
+          "correctIndex": 0,
+          "explanation": "Goodwill compensates old partners for the share they sacrifice; distributed in sacrificing ratio.",
+          "difficulty": "easy",
+          "source": "PYQ 2022",
+          "status": "live",
+          "uploadedBy": "MockMob"
+        },
+        {
+          "id": "a1",
+          "subject": "accountancy",
+          "chapter": "Partnership",
+          "question": "A and B share profits 3:2 with capitals ₹5L and ₹3L. Interest on capital @10% p.a. Profit before interest is ₹60,000 (insufficient). How much interest does B receive?",
+          "options": [
+            "₹30,000",
+            "₹22,500",
+            "₹20,000",
+            "₹15,000"
+          ],
+          "correctIndex": 1,
+          "explanation": "When profits are insufficient, interest is distributed in ratio of interest amounts. Total would be ₹80,000, available ₹60,000. B gets 60,000 × (30,000/80,000) = ₹22,500.",
+          "difficulty": "medium",
+          "source": "PYQ 2023",
+          "status": "live",
+          "uploadedBy": "MockMob"
+        },
+        {
+          "id": "a3",
+          "subject": "accountancy",
+          "chapter": "Partnership",
+          "question": "On dissolution, which account is prepared to close the books?",
+          "options": [
+            "Profit & Loss",
+            "Realisation",
+            "Revaluation",
+            "Trading"
+          ],
+          "correctIndex": 1,
+          "explanation": "Realisation Account records sale of assets and payment of liabilities to determine profit/loss on dissolution.",
+          "difficulty": "easy",
+          "source": "PYQ 2023",
+          "status": "live",
+          "uploadedBy": "MockMob"
+        }
+      ],
+      "userId": "usr_1776761043791_h7gez54",
+      "completedAt": 1776761075206
+    }
+  ],
+  "questions": [
+    {
+      "id": "a1",
+      "subject": "accountancy",
+      "chapter": "Partnership",
+      "question": "A and B share profits 3:2 with capitals ₹5L and ₹3L. Interest on capital @10% p.a. Profit before interest is ₹60,000 (insufficient). How much interest does B receive?",
+      "options": [
+        "₹30,000",
+        "₹22,500",
+        "₹20,000",
+        "₹15,000"
+      ],
+      "correctIndex": 1,
+      "explanation": "When profits are insufficient, interest is distributed in ratio of interest amounts. Total would be ₹80,000, available ₹60,000. B gets 60,000 × (30,000/80,000) = ₹22,500.",
+      "difficulty": "medium",
+      "source": "PYQ 2023",
+      "status": "live",
+      "uploadedBy": "MockMob"
+    },
+    {
+      "id": "a2",
+      "subject": "accountancy",
+      "chapter": "Partnership",
+      "question": "Goodwill brought in cash by a new partner is credited to:",
+      "options": [
+        "Old partners' capital a/c in sacrificing ratio",
+        "Old partners' capital a/c in old ratio",
+        "Goodwill a/c",
+        "New partner's capital a/c"
+      ],
+      "correctIndex": 0,
+      "explanation": "Goodwill compensates old partners for the share they sacrifice; distributed in sacrificing ratio.",
+      "difficulty": "easy",
+      "source": "PYQ 2022",
+      "status": "live",
+      "uploadedBy": "MockMob"
+    },
+    {
+      "id": "a3",
+      "subject": "accountancy",
+      "chapter": "Partnership",
+      "question": "On dissolution, which account is prepared to close the books?",
+      "options": [
+        "Profit & Loss",
+        "Realisation",
+        "Revaluation",
+        "Trading"
+      ],
+      "correctIndex": 1,
+      "explanation": "Realisation Account records sale of assets and payment of liabilities to determine profit/loss on dissolution.",
+      "difficulty": "easy",
+      "source": "PYQ 2023",
+      "status": "live",
+      "uploadedBy": "MockMob"
+    },
+    {
+      "id": "e1",
+      "subject": "economics",
+      "chapter": "National Income",
+      "question": "GNPMP = GDPMP + ?",
+      "options": [
+        "Net Indirect Taxes",
+        "Depreciation",
+        "Net Factor Income from Abroad",
+        "Subsidies"
+      ],
+      "correctIndex": 2,
+      "explanation": "GNPMP = GDPMP + NFIA. NFIA bridges domestic ↔ national.",
+      "difficulty": "easy",
+      "source": "PYQ 2023",
+      "status": "live",
+      "uploadedBy": "MockMob"
+    },
+    {
+      "id": "e2",
+      "subject": "economics",
+      "chapter": "National Income",
+      "question": "Which is included in national income?",
+      "options": [
+        "Sale of second-hand goods",
+        "Windfall gains",
+        "Services of a housewife",
+        "Commission on sale of shares"
+      ],
+      "correctIndex": 3,
+      "explanation": "Only commission represents productive services; others are transfers/non-market.",
+      "difficulty": "medium",
+      "source": "PYQ 2022",
+      "status": "live",
+      "uploadedBy": "MockMob"
+    },
+    {
+      "id": "e3",
+      "subject": "economics",
+      "chapter": "National Income",
+      "question": "NDPFC = GDPMP − ?",
+      "options": [
+        "Depreciation only",
+        "Indirect Taxes only",
+        "Depreciation + Net Indirect Taxes",
+        "NFIA"
+      ],
+      "correctIndex": 2,
+      "explanation": "NDPFC = GDPMP − Depreciation − Net Indirect Taxes.",
+      "difficulty": "medium",
+      "source": "PYQ 2024",
+      "status": "live",
+      "uploadedBy": "MockMob"
+    },
+    {
+      "id": "m1",
+      "subject": "mathematics",
+      "chapter": "Relations & Functions",
+      "question": "R = {(a,b): a,b ∈ N, a+b=10}. R is:",
+      "options": [
+        "Reflexive",
+        "Symmetric",
+        "Transitive",
+        "Equivalence"
+      ],
+      "correctIndex": 1,
+      "explanation": "If a+b=10 then b+a=10, so symmetric. Not reflexive generally.",
+      "difficulty": "medium",
+      "source": "PYQ 2023",
+      "status": "live",
+      "uploadedBy": "MockMob"
+    },
+    {
+      "id": "m2",
+      "subject": "mathematics",
+      "chapter": "Relations & Functions",
+      "question": "f(x)=2x+3, g(x)=x². (f∘g)(2) = ?",
+      "options": [
+        "7",
+        "11",
+        "14",
+        "19"
+      ],
+      "correctIndex": 1,
+      "explanation": "g(2)=4; f(4)=2(4)+3=11.",
+      "difficulty": "easy",
+      "source": "PYQ 2022",
+      "status": "live",
+      "uploadedBy": "MockMob"
+    },
+    {
+      "id": "m3",
+      "subject": "mathematics",
+      "chapter": "Matrices",
+      "question": "A is 3×3 and |A|=5. |2A| = ?",
+      "options": [
+        "10",
+        "20",
+        "40",
+        "80"
+      ],
+      "correctIndex": 2,
+      "explanation": "|kA| = k³|A|. |2A| = 8 × 5 = 40.",
+      "difficulty": "medium",
+      "source": "PYQ 2024",
+      "status": "live",
+      "uploadedBy": "MockMob"
+    },
+    {
+      "id": "b1",
+      "subject": "business_studies",
+      "chapter": "Management",
+      "question": "\"Management is the art of getting things done through others\" is by:",
+      "options": [
+        "Henri Fayol",
+        "Peter Drucker",
+        "Mary Parker Follett",
+        "F.W. Taylor"
+      ],
+      "correctIndex": 2,
+      "explanation": "Follett's classic definition.",
+      "difficulty": "easy",
+      "source": "PYQ 2023",
+      "status": "live",
+      "uploadedBy": "MockMob"
+    },
+    {
+      "id": "b2",
+      "subject": "business_studies",
+      "chapter": "Management",
+      "question": "\"A place for everything and everything in its place\" is Fayol's principle of:",
+      "options": [
+        "Discipline",
+        "Order",
+        "Unity of Command",
+        "Equity"
+      ],
+      "correctIndex": 1,
+      "explanation": "Order — material and social order.",
+      "difficulty": "easy",
+      "source": "PYQ 2022",
+      "status": "live",
+      "uploadedBy": "MockMob"
+    },
+    {
+      "id": "b3",
+      "subject": "business_studies",
+      "chapter": "Management",
+      "question": "Taylor's Differential Piece Wage rewards:",
+      "options": [
+        "All workers equally",
+        "Efficient workers with higher rates",
+        "Only managers",
+        "Only senior workers"
+      ],
+      "correctIndex": 1,
+      "explanation": "Above-standard workers get higher piece rate.",
+      "difficulty": "medium",
+      "source": "PYQ 2024",
+      "status": "live",
+      "uploadedBy": "MockMob"
+    },
+    {
+      "id": "en1",
+      "subject": "english",
+      "chapter": "Grammar",
+      "question": "Choose the correct sentence:",
+      "options": [
+        "He don't like tea.",
+        "He doesn't likes tea.",
+        "He doesn't like tea.",
+        "He not like tea."
+      ],
+      "correctIndex": 2,
+      "explanation": "With \"doesn't\", main verb stays base form.",
+      "difficulty": "easy",
+      "source": "PYQ 2023",
+      "status": "live",
+      "uploadedBy": "MockMob"
+    },
+    {
+      "id": "en2",
+      "subject": "english",
+      "chapter": "Grammar",
+      "question": "Fill: \"She has been working here ___ 2010.\"",
+      "options": [
+        "since",
+        "for",
+        "from",
+        "in"
+      ],
+      "correctIndex": 0,
+      "explanation": "\"Since\" with point in time; \"for\" with duration.",
+      "difficulty": "easy",
+      "source": "PYQ 2022",
+      "status": "live",
+      "uploadedBy": "MockMob"
+    },
+    {
+      "id": "en3",
+      "subject": "english",
+      "chapter": "Grammar",
+      "question": "Passive voice of \"They built this house in 1920\":",
+      "options": [
+        "This house is built in 1920.",
+        "This house was built in 1920.",
+        "This house has been built in 1920.",
+        "This house were built in 1920."
+      ],
+      "correctIndex": 1,
+      "explanation": "Simple past passive = was/were + past participle.",
+      "difficulty": "medium",
+      "source": "PYQ 2024",
+      "status": "live",
+      "uploadedBy": "MockMob"
+    },
+    {
+      "id": "g1",
+      "subject": "gat",
+      "chapter": "GK",
+      "question": "The Indian Constitution was adopted on:",
+      "options": [
+        "15 Aug 1947",
+        "26 Nov 1949",
+        "26 Jan 1950",
+        "2 Oct 1950"
+      ],
+      "correctIndex": 1,
+      "explanation": "Adopted 26 Nov 1949, came into force 26 Jan 1950.",
+      "difficulty": "easy",
+      "source": "PYQ 2023",
+      "status": "live",
+      "uploadedBy": "MockMob"
+    },
+    {
+      "id": "g2",
+      "subject": "gat",
+      "chapter": "GK",
+      "question": "Number of Fundamental Rights in the Constitution:",
+      "options": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "correctIndex": 1,
+      "explanation": "Now 6 (Right to Property removed by 44th Amendment).",
+      "difficulty": "easy",
+      "source": "PYQ 2022",
+      "status": "live",
+      "uploadedBy": "MockMob"
+    },
+    {
+      "id": "g3",
+      "subject": "gat",
+      "chapter": "GK",
+      "question": "Longest river in India:",
+      "options": [
+        "Yamuna",
+        "Brahmaputra",
+        "Ganga",
+        "Godavari"
+      ],
+      "correctIndex": 2,
+      "explanation": "Ganga ~2,525 km within India.",
+      "difficulty": "easy",
+      "source": "PYQ 2023",
+      "status": "live",
+      "uploadedBy": "MockMob"
+    }
+  ],
+  "pending": []
+}

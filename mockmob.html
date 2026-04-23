@@ -1,0 +1,1942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MockMob — Stop grinding alone.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: { volt: '#d2f000', ink: '#0a0a0a' },
+        fontFamily: {
+          display: ['Space Grotesk', 'sans-serif'],
+          body: ['Inter', 'sans-serif'],
+          mono: ['Lexend', 'sans-serif'],
+        },
+        animation: {
+          'pulse-slow': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          'marquee': 'marquee 40s linear infinite',
+        },
+        keyframes: {
+          marquee: {
+            '0%': { transform: 'translateX(0)' },
+            '100%': { transform: 'translateX(-50%)' },
+          },
+        },
+      },
+    },
+  };
+</script>
+<style>
+  /* ============== BASE LAYER ============== */
+  :root {
+    --volt: #d2f000;
+    --volt-glow: rgba(210, 240, 0, 0.25);
+    --volt-glow-strong: rgba(210, 240, 0, 0.5);
+    --ink: #0a0a0a;
+    --ink-2: #141414;
+  }
+  * { -webkit-tap-highlight-color: transparent; }
+  html, body {
+    background: var(--ink);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+  body { min-height: 100vh; }
+  ::selection { background: var(--volt); color: #000; }
+
+  /* ============== TYPOGRAPHY SCALE (tight, responsive) ============== */
+  .display-xl {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(40px, 7vw, 84px);
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+  }
+  .display-lg {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(32px, 5vw, 52px);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+  }
+  .display-md {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(26px, 3.5vw, 40px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  .heading {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .eyebrow {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--volt);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 999px;
+    background: var(--volt);
+    box-shadow: 0 0 8px var(--volt);
+    display: inline-block;
+  }
+  .eyebrow.no-dot::before { display: none; }
+  .mono-label {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #71717a;
+  }
+
+  /* ============== BACKGROUNDS ============== */
+  .grid-bg {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+  .halo {
+    position: fixed; z-index: 0; pointer-events: none;
+    width: 900px; height: 900px;
+    border-radius: 999px;
+    background: var(--volt);
+    opacity: 0.04;
+    filter: blur(120px);
+    top: -200px; left: 50%; transform: translateX(-50%);
+  }
+
+  /* ============== BUTTONS ============== */
+  .btn-volt {
+    background: var(--volt);
+    color: #000;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-radius: 8px;
+    box-shadow: 0 0 24px var(--volt-glow);
+    transition: all 0.15s ease;
+    cursor: pointer;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .btn-volt:hover { background: #e8ff4a; box-shadow: 0 0 32px var(--volt-glow-strong); }
+  .btn-volt:active { transform: scale(0.97); }
+  .btn-volt:disabled { opacity: 0.3; cursor: not-allowed; box-shadow: none; }
+  .btn-volt.sm { padding: 10px 18px; font-size: 12px; }
+  .btn-volt.md { padding: 12px 22px; font-size: 13px; }
+  .btn-volt.lg { padding: 16px 32px; font-size: 14px; }
+
+  .btn-outline {
+    background: rgba(255,255,255,0.02);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.12);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-radius: 8px;
+    transition: all 0.15s ease;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .btn-outline:hover { border-color: rgba(255,255,255,0.35); background: rgba(255,255,255,0.05); }
+  .btn-outline.sm { padding: 10px 18px; font-size: 12px; }
+  .btn-outline.md { padding: 12px 22px; font-size: 13px; }
+  .btn-outline.lg { padding: 16px 32px; font-size: 14px; }
+
+  .btn-ghost {
+    background: transparent;
+    color: #a1a1aa;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    transition: color 0.15s ease;
+    cursor: pointer;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-ghost:hover { color: #fff; }
+
+  /* ============== GLASS CARD ============== */
+  .glass {
+    background: rgba(255,255,255,0.015);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    backdrop-filter: blur(20px);
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+  .glass.hover:hover { border-color: rgba(255,255,255,0.2); cursor: pointer; }
+  .glass.active { border-color: rgba(210, 240, 0, 0.5); background: rgba(210, 240, 0, 0.03); }
+  .glass.volt-soft { border-color: rgba(210, 240, 0, 0.2); background: rgba(210, 240, 0, 0.02); }
+
+  /* ============== FORM ============== */
+  .input, .select, .textarea {
+    width: 100%;
+    padding: 11px 14px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 13px;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+  .input::placeholder, .textarea::placeholder { color: #52525b; }
+  .input:focus, .select:focus, .textarea:focus { border-color: rgba(210, 240, 0, 0.5); }
+  .textarea { resize: none; font-family: inherit; }
+  .select { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23a1a1aa'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; padding-right: 36px; }
+  .select option { background: var(--ink-2); color: #fff; }
+
+  /* ============== UTILITIES ============== */
+  .text-volt { color: var(--volt); }
+  .bg-volt { background: var(--volt); }
+  .border-volt { border-color: var(--volt); }
+  .volt-highlight {
+    background: var(--volt);
+    color: #000;
+    padding: 0 10px;
+    display: inline-block;
+    transform: rotate(-1deg);
+    box-shadow: 0 0 32px rgba(210, 240, 0, 0.3);
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.15); }
+
+  /* Page transitions */
+  .view { animation: fadeIn 0.25s ease-out; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Nav active underline */
+  .nav-link {
+    padding: 14px 14px;
+    font-family: 'Lexend', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #71717a;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s ease;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    background: transparent;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+  }
+  .nav-link:hover { color: #fff; }
+  .nav-link.active { color: var(--volt); border-bottom-color: var(--volt); }
+
+  /* Icon shims (svg inline) */
+  .icon { width: 1em; height: 1em; display: inline-block; stroke: currentColor; stroke-width: 1.75; fill: none; stroke-linecap: round; stroke-linejoin: round; vertical-align: -0.125em; flex-shrink: 0; }
+
+  /* Option hover feedback for test runner */
+  .q-option {
+    width: 100%;
+    text-align: left;
+    padding: 14px;
+    border-radius: 10px;
+    border: 2px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.01);
+    color: #fff;
+    transition: all 0.15s ease;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1.5;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .q-option:hover { border-color: rgba(255,255,255,0.2); }
+  .q-option.selected { border-color: var(--volt); background: rgba(210, 240, 0, 0.05); }
+  .q-option .letter {
+    width: 30px; height: 30px;
+    border-radius: 6px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 800;
+    font-size: 12px;
+    background: rgba(255,255,255,0.05);
+    color: #a1a1aa;
+    flex-shrink: 0;
+  }
+  .q-option.selected .letter { background: var(--volt); color: #000; }
+
+  /* Q palette chip */
+  .q-chip {
+    width: 34px; height: 34px;
+    border-radius: 6px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    background: rgba(255,255,255,0.03);
+    color: #71717a;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: all 0.1s ease;
+    cursor: pointer;
+  }
+  .q-chip:hover { border-color: rgba(255,255,255,0.25); }
+  .q-chip.done { background: rgba(210, 240, 0, 0.12); color: var(--volt); border-color: rgba(210, 240, 0, 0.35); }
+  .q-chip.current { background: var(--volt); color: #000; border-color: var(--volt); }
+
+  /* Badge pills */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-family: 'Lexend', sans-serif;
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .pill.subtle { background: rgba(255,255,255,0.05); color: #a1a1aa; }
+  .pill.volt { background: rgba(210, 240, 0, 0.1); color: var(--volt); }
+  .pill.red { background: rgba(248, 113, 113, 0.1); color: #f87171; }
+
+  /* Progress bars */
+  .bar {
+    width: 100%; height: 6px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .bar > .fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.4s ease;
+  }
+  .fill-volt { background: var(--volt); box-shadow: 0 0 8px var(--volt); }
+  .fill-amber { background: #fbbf24; }
+  .fill-red { background: #f87171; }
+
+  /* Marquee */
+  .marquee-track {
+    display: flex;
+    gap: 48px;
+    white-space: nowrap;
+    width: max-content;
+    animation: marquee 35s linear infinite;
+    padding: 24px 0;
+  }
+  .marquee-track > span {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 800;
+    font-size: clamp(20px, 3vw, 36px);
+    color: #27272a;
+    letter-spacing: -0.02em;
+    display: inline-flex;
+    align-items: center;
+    gap: 48px;
+  }
+  .marquee-track > span:hover { color: var(--volt); }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* Hide on mobile */
+  .mobile-hide { display: none; }
+  @media (min-width: 768px) { .mobile-hide { display: flex; } .md-show { display: block; } }
+
+  /* Verdict styles */
+  .verdict-good { color: var(--volt); }
+  .verdict-mid { color: #fbbf24; }
+  .verdict-bad { color: #f87171; }
+
+  /* Podium bars */
+  .podium {
+    border-radius: 12px 12px 0 0;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,255,255,0.1);
+    border-bottom: none;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 10px;
+    flex: 1;
+  }
+
+  /* Chart canvas tight layout */
+  canvas { max-width: 100%; }
+
+  /* Stats card */
+  .stat {
+    padding: 18px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.015);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .stat.highlight { border-color: rgba(210, 240, 0, 0.3); background: rgba(210, 240, 0, 0.03); }
+  .stat .value {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 900;
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: #fff;
+    margin: 14px 0 6px;
+  }
+  .stat.highlight .value { color: var(--volt); }
+
+  /* Subject card */
+  .subject-card {
+    padding: 18px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.015);
+    transition: all 0.15s ease;
+    cursor: pointer;
+    text-align: left;
+  }
+  .subject-card:hover { border-color: rgba(255,255,255,0.18); }
+  .subject-card.selected { border-color: var(--volt); background: rgba(210, 240, 0, 0.04); }
+  .subject-card .glyph {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 28px;
+    color: var(--volt);
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  /* Count pill buttons */
+  .count-btn {
+    width: 48px; height: 40px;
+    border-radius: 8px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #a1a1aa;
+    transition: all 0.12s ease;
+    cursor: pointer;
+  }
+  .count-btn:hover { border-color: rgba(255,255,255,0.25); color: #fff; }
+  .count-btn.active { background: var(--volt); color: #000; border-color: var(--volt); }
+
+  /* Logo */
+  .logo {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 800;
+    font-style: italic;
+    font-size: 20px;
+    letter-spacing: -0.02em;
+    color: #fff;
+    text-decoration: none;
+  }
+  .logo .bolt {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    background: var(--volt);
+    display: inline-flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 18px var(--volt-glow);
+  }
+  .logo .dot { color: var(--volt); }
+
+  /* Layout helpers */
+  .container-narrow { max-width: 900px; margin: 0 auto; }
+  .container-std { max-width: 1180px; margin: 0 auto; }
+  .container-wide { max-width: 1280px; margin: 0 auto; }
+
+  /* Hide scrollbar for horiz scroll regions */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { scrollbar-width: none; }
+
+  /* Avatar */
+  .avatar {
+    width: 32px; height: 32px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--volt), #8fa600);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 800;
+    color: #000;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .avatar.lg { width: 44px; height: 44px; font-size: 16px; }
+  .avatar.xl { width: 56px; height: 56px; font-size: 20px; }
+
+  /* Smaller body on desktop */
+  @media (min-width: 1024px) {
+    html, body { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<div class="halo"></div>
+<div id="app" style="position:relative; z-index: 1;"></div>
+
+<!-- Chart.js for analytics -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+<script>
+/* ================================================================================
+   MOCKMOB — vanilla JS state machine. Pure HTML/CSS/JS. No React.
+   ================================================================================ */
+
+/* ============== SUBJECTS ============== */
+const SUBJECTS = [
+  { id: 'accountancy', name: 'Accountancy', short: 'ACC', glyph: '◈', chapters: ['Partnership', 'Company Accounts', 'Financial Statements', 'Cash Flow', 'Not-for-Profit'] },
+  { id: 'economics', name: 'Economics', short: 'ECO', glyph: '◆', chapters: ['National Income', 'Money & Banking', 'Govt Budget', 'BoP', 'Indian Economy'] },
+  { id: 'mathematics', name: 'Mathematics', short: 'MATH', glyph: '∑', chapters: ['Relations & Functions', 'Matrices', 'Calculus', 'Vectors', 'Probability'] },
+  { id: 'business_studies', name: 'Business Studies', short: 'BST', glyph: '▲', chapters: ['Management', 'Planning', 'Marketing', 'Finance', 'Consumer Protection'] },
+  { id: 'english', name: 'English', short: 'ENG', glyph: '✦', chapters: ['Reading Comprehension', 'Grammar', 'Vocabulary'] },
+  { id: 'gat', name: 'General Test', short: 'GAT', glyph: '⬢', chapters: ['Current Affairs', 'Quantitative', 'Logical Reasoning', 'GK'] },
+];
+
+/* ============== COMPACT QUESTIONS (102) ============== */
+const COMPACT_QS = [
+  {id:'a1',s:'accountancy',c:'Partnership',q:'A and B share profits 3:2 with capitals ₹5L and ₹3L. Interest on capital @10% p.a. Profit before interest is ₹60,000 (insufficient). How much interest does B receive?',o:['₹30,000','₹22,500','₹20,000','₹15,000'],ci:1,ex:'When profits are insufficient, interest is distributed in ratio of interest amounts. Total would be ₹80,000, available ₹60,000. B gets 60,000 × (30,000/80,000) = ₹22,500.',d:'medium',src:'PYQ 2023'},
+  {id:'a2',s:'accountancy',c:'Partnership',q:'Goodwill brought in cash by a new partner is credited to:',o:['Old partners\' capital a/c in sacrificing ratio','Old partners\' capital a/c in old ratio','Goodwill a/c','New partner\'s capital a/c'],ci:0,ex:'Goodwill compensates old partners for the share they sacrifice; distributed in sacrificing ratio.',d:'easy',src:'PYQ 2022'},
+  {id:'a3',s:'accountancy',c:'Partnership',q:'On dissolution, which account is prepared to close the books?',o:['Profit & Loss','Realisation','Revaluation','Trading'],ci:1,ex:'Realisation Account records sale of assets and payment of liabilities to determine profit/loss on dissolution.',d:'easy',src:'PYQ 2023'},
+  {id:'a4',s:'accountancy',c:'Partnership',q:'X, Y, Z share 5:3:2. Z retires. New X:Y is 3:2. Gaining ratio is:',o:['3:2','5:3','1:1','2:1'],ci:2,ex:'Gain = New − Old. X: 3/5 − 5/10 = 1/10; Y: 2/5 − 3/10 = 1/10. Ratio 1:1.',d:'hard',src:'PYQ Style'},
+  {id:'a5',s:'accountancy',c:'Company Accounts',q:'Company issued 10,000 shares of ₹10 at 20% premium. Application ₹3, allotment ₹5 (incl. premium), balance on call. Amount on application:',o:['₹30,000','₹50,000','₹20,000','₹1,00,000'],ci:0,ex:'Application = 10,000 × ₹3 = ₹30,000. Premium comes at allotment.',d:'medium',src:'PYQ 2024'},
+  {id:'a6',s:'accountancy',c:'Company Accounts',q:'Forfeited shares account is shown in balance sheet under:',o:['Reserves & Surplus','Share Capital (added to called-up)','Current Liabilities','Long-term Borrowings'],ci:1,ex:'Per Schedule III, forfeited shares amount is added to Subscribed Capital in Notes to Share Capital.',d:'medium',src:'PYQ 2022'},
+  {id:'a7',s:'accountancy',c:'Company Accounts',q:'Debentures issued as collateral security are:',o:['Recorded with journal entry','Shown as contingent liability only','Shown under borrowings with disclosure','Not shown anywhere'],ci:2,ex:'May be recorded by entry or disclosed in notes; appear under Long-term Borrowings.',d:'hard',src:'PYQ Style'},
+  {id:'a8',s:'accountancy',c:'Financial Statements',q:'Current Ratio of 2:1 means:',o:['Current liabilities twice assets','Current assets twice liabilities','Equal CA and CL','Quick assets twice liabilities'],ci:1,ex:'CR = CA/CL. 2:1 means CA is twice CL — good short-term liquidity.',d:'easy',src:'PYQ 2023'},
+  {id:'a9',s:'accountancy',c:'Financial Statements',q:'Debt-Equity Ratio 0.5:1 indicates:',o:['High leverage','Low leverage','Equal debt and equity','Negative equity'],ci:1,ex:'Debt is half of equity — conservative financing with lower risk.',d:'easy',src:'PYQ Style'},
+  {id:'a10',s:'accountancy',c:'Financial Statements',q:'Which is NOT a profitability ratio?',o:['Gross Profit Ratio','Operating Ratio','Current Ratio','Return on Investment'],ci:2,ex:'Current Ratio is a liquidity ratio, not profitability.',d:'easy',src:'PYQ 2022'},
+  {id:'a11',s:'accountancy',c:'Cash Flow',q:'Purchase of machinery for cash is:',o:['Operating activity','Investing activity','Financing activity','Cash equivalent'],ci:1,ex:'AS-3: Acquiring long-term assets is an Investing Activity.',d:'easy',src:'PYQ 2023'},
+  {id:'a12',s:'accountancy',c:'Cash Flow',q:'Dividend paid by a non-finance company is:',o:['Operating','Investing','Financing','None'],ci:2,ex:'For non-financials, dividend paid is a Financing Activity per AS-3.',d:'medium',src:'PYQ 2024'},
+  {id:'a13',s:'accountancy',c:'Not-for-Profit',q:'Subscriptions received in advance by an NPO are shown as:',o:['Income','Asset','Liability','Capital Fund'],ci:2,ex:'Unearned income — an obligation — hence a liability.',d:'easy',src:'PYQ 2023'},
+  {id:'a14',s:'accountancy',c:'Not-for-Profit',q:'Life membership fees are usually treated as:',o:['Revenue receipt','Capital receipt','Deferred revenue','Loss'],ci:1,ex:'One-time large receipts → capital, added to Capital Fund.',d:'medium',src:'PYQ Style'},
+  {id:'a15',s:'accountancy',c:'Partnership',q:'For uniformly-distributed mid-month drawings, interest is calculated for:',o:['5.5 months','6 months','6.5 months','12 months'],ci:1,ex:'Average period for mid-month uniform drawings = 6 months.',d:'hard',src:'PYQ 2022'},
+  {id:'a16',s:'accountancy',c:'Company Accounts',q:'Securities Premium can be used for:',o:['Paying dividend','Writing off preliminary expenses','Meeting operating losses','Paying salaries'],ci:1,ex:'Section 52, Companies Act 2013 — permitted uses include writing off preliminary expenses.',d:'medium',src:'PYQ 2024'},
+  {id:'a17',s:'accountancy',c:'Financial Statements',q:'Inventory Turnover Ratio = ?',o:['Sales / Inventory','COGS / Average Inventory','GP / Inventory','Purchases / Closing Stock'],ci:1,ex:'COGS ÷ Average Inventory, measuring inventory cycling.',d:'easy',src:'PYQ 2023'},
+  {id:'e1',s:'economics',c:'National Income',q:'GNPMP = GDPMP + ?',o:['Net Indirect Taxes','Depreciation','Net Factor Income from Abroad','Subsidies'],ci:2,ex:'GNPMP = GDPMP + NFIA. NFIA bridges domestic ↔ national.',d:'easy',src:'PYQ 2023'},
+  {id:'e2',s:'economics',c:'National Income',q:'Which is included in national income?',o:['Sale of second-hand goods','Windfall gains','Services of a housewife','Commission on sale of shares'],ci:3,ex:'Only commission represents productive services; others are transfers/non-market.',d:'medium',src:'PYQ 2022'},
+  {id:'e3',s:'economics',c:'National Income',q:'NDPFC = GDPMP − ?',o:['Depreciation only','Indirect Taxes only','Depreciation + Net Indirect Taxes','NFIA'],ci:2,ex:'NDPFC = GDPMP − Depreciation − Net Indirect Taxes.',d:'medium',src:'PYQ 2024'},
+  {id:'e4',s:'economics',c:'Money & Banking',q:'M1 measure of money supply = ?',o:['Currency + Demand Deposits + Other deposits with RBI','Currency only','Currency + Time deposits','Savings deposits only'],ci:0,ex:'M1 = Currency with public + DDs with banks + Other deposits with RBI.',d:'easy',src:'PYQ 2023'},
+  {id:'e5',s:'economics',c:'Money & Banking',q:'CRR 10%, initial deposit ₹1,000. Max credit creation is:',o:['₹1,000','₹10,000','₹9,000','₹100'],ci:1,ex:'Money multiplier = 1/CRR = 10. Total = ₹1,000 × 10 = ₹10,000.',d:'medium',src:'PYQ 2023'},
+  {id:'e6',s:'economics',c:'Money & Banking',q:'"Lender of Last Resort" means the Central Bank:',o:['Lends to public','Lends to commercial banks in crisis','Lends to govt only','Gives cheapest loans'],ci:1,ex:'RBI lends to commercial banks when they cannot get funds elsewhere.',d:'easy',src:'PYQ 2022'},
+  {id:'e7',s:'economics',c:'Govt Budget',q:'Fiscal Deficit = ?',o:['Total Exp − Total Receipts (excl. borrowings)','Rev Exp − Rev Receipts','Cap Exp − Cap Receipts','Primary Deficit + Interest'],ci:0,ex:'Measures total borrowing requirement.',d:'medium',src:'PYQ 2024'},
+  {id:'e8',s:'economics',c:'Govt Budget',q:'Primary Deficit = ?',o:['Fiscal Deficit + Interest','Fiscal Deficit − Interest Payments','Revenue − Capital Deficit','Total Deficit'],ci:1,ex:'Isolates current year gap by removing past interest obligations.',d:'medium',src:'PYQ 2023'},
+  {id:'e9',s:'economics',c:'BoP',q:'Which is a capital account item?',o:['Export of goods','Remittance from abroad','Foreign Direct Investment','Interest on foreign loans'],ci:2,ex:'FDI is capital account; goods/remittances/interest are current.',d:'medium',src:'PYQ 2022'},
+  {id:'e10',s:'economics',c:'BoP',q:'Depreciation of domestic currency means:',o:['More foreign currency per domestic unit','More domestic currency per foreign unit','Fixed by government','Equal value'],ci:1,ex:'Weakening — need more domestic currency to buy 1 unit of foreign.',d:'easy',src:'PYQ 2023'},
+  {id:'e11',s:'economics',c:'National Income',q:'If MPC = 0.8, multiplier = ?',o:['1.25','5','4','0.2'],ci:1,ex:'k = 1/(1−MPC) = 1/0.2 = 5.',d:'easy',src:'PYQ 2024'},
+  {id:'e12',s:'economics',c:'Indian Economy',q:'1991 reforms are collectively called:',o:['Liberalisation only','Privatisation only','LPG','Nationalisation'],ci:2,ex:'Liberalisation, Privatisation, Globalisation.',d:'easy',src:'PYQ 2023'},
+  {id:'e13',s:'economics',c:'Indian Economy',q:'Green Revolution was mainly associated with:',o:['Milk production','Foodgrains (wheat & rice)','Fish production','Poultry'],ci:1,ex:'Late 1960s — HYV seeds dramatically raised wheat/rice yields.',d:'easy',src:'PYQ 2022'},
+  {id:'e14',s:'economics',c:'Indian Economy',q:'Demographic dividend refers to:',o:['Rise in elderly','Benefits from rising working-age share','Rising birth rate','Declining literacy'],ci:1,ex:'High working-age share vs dependents accelerates growth.',d:'medium',src:'PYQ 2024'},
+  {id:'e15',s:'economics',c:'Indian Economy',q:'Sustainable Development aims at:',o:['Max current consumption','Meeting present needs without compromising future','Only economic growth','Only environmental protection'],ci:1,ex:'Brundtland definition.',d:'easy',src:'PYQ 2023'},
+  {id:'e16',s:'economics',c:'Money & Banking',q:'Open Market Operations = ?',o:['Setting interest rates','RBI buying/selling govt securities','Changing CRR','Printing currency'],ci:1,ex:'OMO: buying/selling securities to manage money supply.',d:'medium',src:'PYQ Style'},
+  {id:'e17',s:'economics',c:'Govt Budget',q:'Revenue Receipts include:',o:['Borrowings','Disinvestment proceeds','Taxes and fees','Loan recoveries'],ci:2,ex:'No liability created/assets reduced — taxes, fees, fines, interest earned.',d:'easy',src:'PYQ 2022'},
+  {id:'m1',s:'mathematics',c:'Relations & Functions',q:'R = {(a,b): a,b ∈ N, a+b=10}. R is:',o:['Reflexive','Symmetric','Transitive','Equivalence'],ci:1,ex:'If a+b=10 then b+a=10, so symmetric. Not reflexive generally.',d:'medium',src:'PYQ 2023'},
+  {id:'m2',s:'mathematics',c:'Relations & Functions',q:'f(x)=2x+3, g(x)=x². (f∘g)(2) = ?',o:['7','11','14','19'],ci:1,ex:'g(2)=4; f(4)=2(4)+3=11.',d:'easy',src:'PYQ 2022'},
+  {id:'m3',s:'mathematics',c:'Matrices',q:'A is 3×3 and |A|=5. |2A| = ?',o:['10','20','40','80'],ci:2,ex:'|kA| = kⁿ|A|. |2A| = 8 × 5 = 40.',d:'medium',src:'PYQ 2024'},
+  {id:'m4',s:'mathematics',c:'Matrices',q:'A square matrix A is singular if:',o:['|A|=0','|A|≠0','A symmetric','A diagonal'],ci:0,ex:'Determinant zero ⇒ inverse does not exist.',d:'easy',src:'PYQ 2023'},
+  {id:'m5',s:'mathematics',c:'Matrices',q:'(A+B)ᵀ = ?',o:['Aᵀ−Bᵀ','Aᵀ+Bᵀ','AᵀBᵀ','BᵀAᵀ'],ci:1,ex:'Transpose distributes over addition.',d:'easy',src:'PYQ 2022'},
+  {id:'m6',s:'mathematics',c:'Calculus',q:'d/dx (sin x · cos x) = ?',o:['cos²x − sin²x','cos²x + sin²x','2 sin x cos x','−sin x cos x'],ci:0,ex:'Product rule = cos(2x) = cos² − sin².',d:'medium',src:'PYQ 2023'},
+  {id:'m7',s:'mathematics',c:'Calculus',q:'∫ 1/x dx = ?',o:['x²/2 + C','ln|x| + C','−1/x² + C','1 + C'],ci:1,ex:'Standard integral.',d:'easy',src:'PYQ 2024'},
+  {id:'m8',s:'mathematics',c:'Calculus',q:'∫₀^π sin x dx = ?',o:['0','1','2','π'],ci:2,ex:'[−cos x]₀^π = 1+1 = 2.',d:'easy',src:'PYQ 2023'},
+  {id:'m9',s:'mathematics',c:'Calculus',q:'f(x) = |x| is:',o:['Differentiable everywhere','Not continuous at 0','Continuous but not differentiable at 0','Not continuous anywhere'],ci:2,ex:'Continuous at 0; left/right derivatives differ (−1 vs 1).',d:'medium',src:'PYQ 2022'},
+  {id:'m10',s:'mathematics',c:'Calculus',q:'Order of d²y/dx² + (dy/dx)³ = 0 is:',o:['1','2','3','0'],ci:1,ex:'Order = highest derivative = 2.',d:'easy',src:'PYQ 2024'},
+  {id:'m11',s:'mathematics',c:'Vectors',q:'a⃗=î+2ĵ+3k̂, b⃗=2î−ĵ+k̂. a⃗·b⃗ = ?',o:['3','5','7','−1'],ci:0,ex:'(1)(2)+(2)(−1)+(3)(1) = 3.',d:'easy',src:'PYQ 2023'},
+  {id:'m12',s:'mathematics',c:'Vectors',q:'Two vectors are perpendicular if their dot product is:',o:['1','0','−1','|v|'],ci:1,ex:'cos 90° = 0.',d:'easy',src:'PYQ 2022'},
+  {id:'m13',s:'mathematics',c:'Vectors',q:'|a⃗×b⃗|² + |a⃗·b⃗|² = ?',o:['|a|²|b|²','|a|²+|b|²','0','1'],ci:0,ex:'a²b²(sin²+cos²) = |a|²|b|².',d:'hard',src:'PYQ 2024'},
+  {id:'m14',s:'mathematics',c:'Probability',q:'P(A)=0.6, P(B)=0.3, A and B independent. P(A∩B) = ?',o:['0.9','0.18','0.3','0.5'],ci:1,ex:'Independent ⇒ P(A∩B) = P(A)·P(B) = 0.18.',d:'easy',src:'PYQ 2023'},
+  {id:'m15',s:'mathematics',c:'Probability',q:'P(A)=1/3, P(B|A)=1/2. P(A∩B) = ?',o:['1/2','1/3','1/6','2/3'],ci:2,ex:'P(A)·P(B|A) = 1/6.',d:'medium',src:'PYQ 2022'},
+  {id:'m16',s:'mathematics',c:'Calculus',q:'Area between y=x² and x-axis from 0 to 2:',o:['4/3','8/3','2','4'],ci:1,ex:'∫₀² x² dx = 8/3.',d:'medium',src:'PYQ 2024'},
+  {id:'m17',s:'mathematics',c:'Matrices',q:'If A is symmetric, Aᵀ = ?',o:['−A','A','A⁻¹','0'],ci:1,ex:'By definition, symmetric ⇒ A = Aᵀ.',d:'easy',src:'PYQ 2023'},
+  {id:'b1',s:'business_studies',c:'Management',q:'"Management is the art of getting things done through others" is by:',o:['Henri Fayol','Peter Drucker','Mary Parker Follett','F.W. Taylor'],ci:2,ex:'Follett\'s classic definition.',d:'easy',src:'PYQ 2023'},
+  {id:'b2',s:'business_studies',c:'Management',q:'"A place for everything and everything in its place" is Fayol\'s principle of:',o:['Discipline','Order','Unity of Command','Equity'],ci:1,ex:'Order — material and social order.',d:'easy',src:'PYQ 2022'},
+  {id:'b3',s:'business_studies',c:'Management',q:'Taylor\'s Differential Piece Wage rewards:',o:['All workers equally','Efficient workers with higher rates','Only managers','Only senior workers'],ci:1,ex:'Above-standard workers get higher piece rate.',d:'medium',src:'PYQ 2024'},
+  {id:'b4',s:'business_studies',c:'Planning',q:'A "programme" is a type of plan that is:',o:['Single-use detailing actions','Permanent standing','A budget','A procedure'],ci:0,ex:'Programme = single-use plan for a specific objective.',d:'medium',src:'PYQ 2023'},
+  {id:'b5',s:'business_studies',c:'Management',q:'Delegation involves transferring:',o:['Responsibility only','Authority only','Authority, responsibility, accountability','Ownership rights'],ci:2,ex:'All three elements together.',d:'medium',src:'PYQ 2022'},
+  {id:'b6',s:'business_studies',c:'Management',q:'Internal source of recruitment:',o:['Campus placement','Employment exchange','Transfer and promotion','Advertisement'],ci:2,ex:'T&P move existing employees; others are external.',d:'easy',src:'PYQ 2024'},
+  {id:'b7',s:'business_studies',c:'Management',q:'Highest need in Maslow\'s hierarchy:',o:['Safety','Social','Esteem','Self-actualisation'],ci:3,ex:'Peak of the pyramid.',d:'easy',src:'PYQ 2023'},
+  {id:'b8',s:'business_studies',c:'Management',q:'Management by Exception focuses on:',o:['All issues equally','Routine issues','Significant deviations','Employee issues only'],ci:2,ex:'Controlling principle — attention only to significant deviations.',d:'medium',src:'PYQ 2022'},
+  {id:'b9',s:'business_studies',c:'Finance',q:'Capital Structure = mix of:',o:['Cash & bank','Debt and equity','Fixed and current assets','Revenue & capital expenditure'],ci:1,ex:'Long-term debt + equity.',d:'easy',src:'PYQ 2023'},
+  {id:'b10',s:'business_studies',c:'Finance',q:'Working Capital = ?',o:['CA − CL','FA − CL','Total Assets','Net Profit'],ci:0,ex:'Current Assets − Current Liabilities.',d:'easy',src:'PYQ 2024'},
+  {id:'b11',s:'business_studies',c:'Marketing',q:'The 4 Ps of marketing mix are:',o:['Product, Price, Place, Promotion','Person, Price, Place, Promotion','Product, Profit, Place, Promotion','Product, Price, Process, People'],ci:0,ex:'McCarthy\'s classic 4 Ps.',d:'easy',src:'PYQ 2023'},
+  {id:'b12',s:'business_studies',c:'Marketing',q:'In PLC, profits are highest during:',o:['Introduction','Growth','Maturity','Decline'],ci:2,ex:'Sales peak, unit cost low → highest profits.',d:'medium',src:'PYQ 2022'},
+  {id:'b13',s:'business_studies',c:'Consumer Protection',q:'Under CPA 2019, District Commission handles complaints up to:',o:['₹20 lakh','₹50 lakh','₹1 crore','₹2 crore'],ci:2,ex:'CPA 2019: District up to ₹1 crore.',d:'hard',src:'PYQ 2024'},
+  {id:'b14',s:'business_studies',c:'Management',q:'Informal communication is also called:',o:['Grapevine','Vertical','Horizontal','Formal memo'],ci:0,ex:'Grapevine — unstructured, via personal relationships.',d:'easy',src:'PYQ 2023'},
+  {id:'b15',s:'business_studies',c:'Planning',q:'SWOT stands for:',o:['Strategy, Work, Opportunity, Threat','Strength, Weakness, Opportunity, Threat','Sales, Work, Operations, Tactics','Strength, Worth, Options, Trends'],ci:1,ex:'Internal (S/W) + External (O/T).',d:'easy',src:'PYQ 2022'},
+  {id:'b16',s:'business_studies',c:'Finance',q:'Primary market deals with:',o:['Second-hand securities','New issues of securities','Foreign currency','Commodities'],ci:1,ex:'Where new securities are issued to investors.',d:'easy',src:'PYQ 2024'},
+  {id:'b17',s:'business_studies',c:'Management',q:'Function ensuring work matches plans:',o:['Planning','Organising','Directing','Controlling'],ci:3,ex:'Measuring performance vs standards, correcting deviations.',d:'easy',src:'PYQ 2023'},
+  {id:'en1',s:'english',c:'Grammar',q:'Choose the correct sentence:',o:['He don\'t like tea.','He doesn\'t likes tea.','He doesn\'t like tea.','He not like tea.'],ci:2,ex:'With "doesn\'t", main verb stays base form.',d:'easy',src:'PYQ 2023'},
+  {id:'en2',s:'english',c:'Grammar',q:'Fill: "She has been working here ___ 2010."',o:['since','for','from','in'],ci:0,ex:'"Since" with point in time; "for" with duration.',d:'easy',src:'PYQ 2022'},
+  {id:'en3',s:'english',c:'Grammar',q:'Passive voice of "They built this house in 1920":',o:['This house is built in 1920.','This house was built in 1920.','This house has been built in 1920.','This house were built in 1920.'],ci:1,ex:'Simple past passive = was/were + past participle.',d:'medium',src:'PYQ 2024'},
+  {id:'en4',s:'english',c:'Grammar',q:'Find the error: "Each of the boys have completed their work."',o:['Each','of the boys','have completed','their work'],ci:2,ex:'"Each" is singular → "has completed".',d:'medium',src:'PYQ 2023'},
+  {id:'en5',s:'english',c:'Vocabulary',q:'Synonym of "ubiquitous":',o:['Rare','Omnipresent','Visible','Important'],ci:1,ex:'Present everywhere = omnipresent.',d:'medium',src:'PYQ 2024'},
+  {id:'en6',s:'english',c:'Vocabulary',q:'Antonym of "benevolent":',o:['Kind','Generous','Malevolent','Helpful'],ci:2,ex:'Benevolent = well-meaning; opposite = malevolent.',d:'medium',src:'PYQ 2022'},
+  {id:'en7',s:'english',c:'Vocabulary',q:'"To bite the bullet" means:',o:['Shoot a gun','Face a difficult situation bravely','Eat fast','Tell a lie'],ci:1,ex:'Endure something painful/unpleasant with courage.',d:'easy',src:'PYQ 2023'},
+  {id:'en8',s:'english',c:'Grammar',q:'"She is ___ honest person."',o:['a','an','the','no article'],ci:1,ex:'Silent H → vowel sound → "an".',d:'easy',src:'PYQ 2024'},
+  {id:'en9',s:'english',c:'Reading Comprehension',q:'Passage: "The rise of remote work has transformed urban economies. With employees no longer bound to offices, demand for commercial real estate has fallen while suburban housing prices have risen."\n\nWhat is the primary effect described?',o:['Office buildings becoming more valuable','Shift in real estate demand from cities to suburbs','Rise in unemployment','Decline in salaries'],ci:1,ex:'Passage contrasts falling commercial with rising suburban.',d:'easy',src:'PYQ Style'},
+  {id:'en10',s:'english',c:'Reading Comprehension',q:'In the same passage, "bound" means:',o:['Tied physically','Required to be at','Jumping','Limited financially'],ci:1,ex:'Contextual: employees required to be at offices.',d:'medium',src:'PYQ Style'},
+  {id:'en11',s:'english',c:'Grammar',q:'"He is good ___ mathematics."',o:['in','at','on','with'],ci:1,ex:'"Good at" a subject/skill.',d:'easy',src:'PYQ 2023'},
+  {id:'en12',s:'english',c:'Vocabulary',q:'One-word for "a person who speaks many languages":',o:['Bilingual','Monolingual','Polyglot','Linguist'],ci:2,ex:'Polyglot = speaker of several languages.',d:'easy',src:'PYQ 2022'},
+  {id:'en13',s:'english',c:'Grammar',q:'Reported: He said, "I am tired."',o:['He said that he is tired.','He said that he was tired.','He says he is tired.','He told he is tired.'],ci:1,ex:'Past reporting verb → tense shifts: am → was.',d:'medium',src:'PYQ 2024'},
+  {id:'en14',s:'english',c:'Vocabulary',q:'Synonym of "ephemeral":',o:['Permanent','Short-lived','Eternal','Beautiful'],ci:1,ex:'Lasting very short time.',d:'hard',src:'PYQ 2023'},
+  {id:'en15',s:'english',c:'Grammar',q:'Correct: "Neither of the boys were present."',o:['were present','was present','are present','No change'],ci:1,ex:'"Neither" is singular → "was".',d:'medium',src:'PYQ 2022'},
+  {id:'en16',s:'english',c:'Vocabulary',q:'"Pragmatic" means:',o:['Idealistic','Practical and realistic','Theoretical','Emotional'],ci:1,ex:'Dealing with things sensibly and realistically.',d:'medium',src:'PYQ 2024'},
+  {id:'en17',s:'english',c:'Grammar',q:'"If I ___ you, I would accept the offer."',o:['am','was','were','be'],ci:2,ex:'Second conditional uses "were" for all subjects.',d:'medium',src:'PYQ 2023'},
+  {id:'g1',s:'gat',c:'GK',q:'The Indian Constitution was adopted on:',o:['15 Aug 1947','26 Nov 1949','26 Jan 1950','2 Oct 1950'],ci:1,ex:'Adopted 26 Nov 1949, came into force 26 Jan 1950.',d:'easy',src:'PYQ 2023'},
+  {id:'g2',s:'gat',c:'GK',q:'Number of Fundamental Rights in the Constitution:',o:['5','6','7','8'],ci:1,ex:'Now 6 (Right to Property removed by 44th Amendment).',d:'easy',src:'PYQ 2022'},
+  {id:'g3',s:'gat',c:'GK',q:'Longest river in India:',o:['Yamuna','Brahmaputra','Ganga','Godavari'],ci:2,ex:'Ganga ~2,525 km within India.',d:'easy',src:'PYQ 2023'},
+  {id:'g4',s:'gat',c:'GK',q:'Author of India\'s national anthem:',o:['Bankim Chandra','Rabindranath Tagore','Sarojini Naidu','Subhas Chandra Bose'],ci:1,ex:'Tagore composed "Jana Gana Mana".',d:'easy',src:'PYQ 2024'},
+  {id:'g5',s:'gat',c:'GK',q:'UN Headquarters is in:',o:['Geneva','Paris','New York','Vienna'],ci:2,ex:'New York City, USA.',d:'easy',src:'PYQ 2022'},
+  {id:'g6',s:'gat',c:'Quantitative',q:'20% of a number is 60. The number is:',o:['200','300','400','600'],ci:1,ex:'60/0.20 = 300.',d:'easy',src:'PYQ 2023'},
+  {id:'g7',s:'gat',c:'Quantitative',q:'CP ₹400, SP ₹500. Profit % = ?',o:['20%','25%','30%','50%'],ci:1,ex:'(100/400)×100 = 25%.',d:'easy',src:'PYQ 2024'},
+  {id:'g8',s:'gat',c:'Quantitative',q:'A: 10 days, B: 15 days. Together they finish in:',o:['5 days','6 days','7.5 days','12 days'],ci:1,ex:'1/10 + 1/15 = 1/6 ⇒ 6 days.',d:'medium',src:'PYQ 2023'},
+  {id:'g9',s:'gat',c:'Quantitative',q:'Avg of 5 numbers is 20. Remove 30. New avg:',o:['17.5','18','20','22'],ci:0,ex:'Sum 100 → 70; avg 70/4 = 17.5.',d:'medium',src:'PYQ 2022'},
+  {id:'g10',s:'gat',c:'Quantitative',q:'SI on ₹1000 @ 10% for 2 yrs = ?',o:['₹100','₹200','₹210','₹1200'],ci:1,ex:'(1000×10×2)/100 = ₹200.',d:'easy',src:'PYQ 2024'},
+  {id:'g11',s:'gat',c:'Logical Reasoning',q:'Complete: 2, 6, 12, 20, 30, __',o:['36','40','42','45'],ci:2,ex:'Differences 4,6,8,10,12 → 30+12 = 42.',d:'medium',src:'PYQ 2023'},
+  {id:'g12',s:'gat',c:'Logical Reasoning',q:'Odd one out: Dog, Cat, Lion, Sparrow',o:['Dog','Cat','Lion','Sparrow'],ci:3,ex:'Sparrow is a bird; others are mammals.',d:'easy',src:'PYQ 2022'},
+  {id:'g13',s:'gat',c:'Logical Reasoning',q:'BOOK = CPPL, then WORD = ?',o:['XPSD','XPSE','VPSE','XQSE'],ci:1,ex:'Each letter +1: W→X, O→P, R→S, D→E.',d:'medium',src:'PYQ 2024'},
+  {id:'g14',s:'gat',c:'Logical Reasoning',q:'Reena: "His mother is the only daughter of my mother." How is Reena related to the man?',o:['Sister','Aunt','Mother','Grandmother'],ci:2,ex:'Only daughter of her mother = Reena herself → his mother.',d:'medium',src:'PYQ 2023'},
+  {id:'g15',s:'gat',c:'GK',q:'ISRO stands for:',o:['Indian Space and Research Organisation','Indian Science Research Organisation','Indian Space Research Organisation','International Space Research Organisation'],ci:2,ex:'Indian Space Research Organisation (1969).',d:'easy',src:'PYQ 2022'},
+  {id:'g16',s:'gat',c:'Quantitative',q:'Train 180m crosses pole in 9 sec. Speed = ?',o:['54 km/h','60 km/h','72 km/h','90 km/h'],ci:2,ex:'20 m/s × 18/5 = 72 km/h.',d:'medium',src:'PYQ 2024'},
+  {id:'g17',s:'gat',c:'GK',q:'Smallest Indian state by area:',o:['Sikkim','Goa','Tripura','Nagaland'],ci:1,ex:'Goa ~3,702 km².',d:'easy',src:'PYQ 2023'},
+];
+
+const SEED_QUESTIONS = COMPACT_QS.map(q => ({
+  id: q.id, subject: q.s, chapter: q.c, question: q.q, options: q.o, correctIndex: q.ci,
+  explanation: q.ex, difficulty: q.d, source: q.src, status: 'live', uploadedBy: 'MockMob'
+}));
+
+/* ============== STORAGE (localStorage-backed) ============== */
+const LS = {
+  get(k) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { console.error(e); } },
+  remove(k) { try { localStorage.removeItem(k); } catch {} },
+};
+
+/* ============== APP STATE ============== */
+const state = {
+  view: 'loading',
+  user: null,
+  questions: [],
+  pending: [],
+  leaderboard: [],
+  attempts: [],
+  currentTest: null,
+  result: null,
+};
+
+function boot() {
+  const profile = LS.get('mm_user');
+  const qs = LS.get('mm_questions') || SEED_QUESTIONS;
+  if (!LS.get('mm_questions')) LS.set('mm_questions', qs);
+  state.questions = qs;
+  state.pending = LS.get('mm_pending') || [];
+  state.leaderboard = LS.get('mm_leaderboard') || [];
+  state.attempts = LS.get('mm_attempts') || [];
+  if (profile) {
+    state.user = profile;
+    state.view = profile.subjects && profile.subjects.length ? 'dashboard' : 'onboarding';
+  } else {
+    state.view = 'landing';
+  }
+  render();
+}
+
+/* ============== HELPERS ============== */
+const $ = (sel, root = document) => root.querySelector(sel);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shuffle = a => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]]; } return a; };
+const subjBy = id => SUBJECTS.find(s => s.id === id);
+
+function setView(v) { state.view = v; render(); }
+
+function saveUser(u) {
+  state.user = u;
+  LS.set('mm_user', u);
+}
+
+function saveAttempt(a) {
+  state.attempts.push(a);
+  LS.set('mm_attempts', state.attempts);
+  const existing = state.leaderboard.find(x => x.name === state.user.name);
+  if (existing) {
+    existing.totalScore += a.score;
+    existing.tests += 1;
+    existing.avgScore = existing.totalScore / existing.tests;
+    existing.lastPlayed = Date.now();
+  } else {
+    state.leaderboard.push({ name: state.user.name, totalScore: a.score, tests: 1, avgScore: a.score, lastPlayed: Date.now() });
+  }
+  state.leaderboard.sort((x, y) => y.totalScore - x.totalScore);
+  LS.set('mm_leaderboard', state.leaderboard);
+}
+
+function submitQuestion(q) {
+  state.pending.push({ ...q, id: 'u' + Date.now(), status: 'pending', uploadedBy: state.user.name, submittedAt: Date.now() });
+  LS.set('mm_pending', state.pending);
+}
+
+function moderate(id, approve) {
+  const item = state.pending.find(p => p.id === id);
+  if (!item) return;
+  state.pending = state.pending.filter(p => p.id !== id);
+  LS.set('mm_pending', state.pending);
+  if (approve) {
+    state.questions.push({ ...item, status: 'live' });
+    LS.set('mm_questions', state.questions);
+  }
+}
+
+/* ============== ICONS (inline SVG) ============== */
+const ICON = {
+  bolt: '<svg class="icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>',
+  arrow: '<svg class="icon" viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg>',
+  chevR: '<svg class="icon" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>',
+  chevL: '<svg class="icon" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>',
+  play: '<svg class="icon" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M8 5v14l11-7z"/></svg>',
+  check: '<svg class="icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>',
+  x: '<svg class="icon" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>',
+  clock: '<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>',
+  flag: '<svg class="icon" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22V15"/></svg>',
+  logout: '<svg class="icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>',
+  upload: '<svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>',
+  shield: '<svg class="icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+  trophy: '<svg class="icon" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0012 0V3H6v6zM4 22h16M12 15v7"/><path d="M18 5h4v4a4 4 0 01-4 4M6 5H2v4a4 4 0 004 4"/></svg>',
+  bar: '<svg class="icon" viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-6"/></svg>',
+  book: '<svg class="icon" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20V2H6.5A2.5 2.5 0 004 4.5v15z"/><path d="M4 19.5A2.5 2.5 0 016.5 22H20v-5"/></svg>',
+  target: '<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>',
+  trend: '<svg class="icon" viewBox="0 0 24 24"><path d="M23 6l-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/></svg>',
+  flame: '<svg class="icon" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.4-.5-2.3-1.7-3.2-1.3-.9-1.8-2-1.8-2.8C7.5 3.5 12.5 2 14 2c-.5 2 .5 3.5 2 5 1.5 1.5 3 3 3 6 0 4-3.5 7-7 7s-7-2.5-7-6.5"/></svg>',
+  users: '<svg class="icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>',
+  radar: '<svg class="icon" viewBox="0 0 24 24"><path d="M19.07 4.93a10 10 0 00-14.14 0M16.93 7.07a6 6 0 00-9.86 0M14.82 9.19a2 2 0 00-5.64 0"/><circle cx="12" cy="20" r="2"/></svg>',
+  msg: '<svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>',
+  route: '<svg class="icon" viewBox="0 0 24 24"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 000-7h-11a3.5 3.5 0 010-7H15"/><circle cx="18" cy="5" r="3"/></svg>',
+  spark: '<svg class="icon" viewBox="0 0 24 24"><path d="M12 3l2 7h7l-5.5 4 2 7-5.5-4-5.5 4 2-7L3 10h7z"/></svg>',
+  zap: '<svg class="icon" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>',
+  home: '<svg class="icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2h-4V12h-6v10H5a2 2 0 01-2-2z"/></svg>',
+  bell: '<svg class="icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>',
+  alert: '<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>',
+};
+
+/* ============== VIEWS ============== */
+function render() {
+  const app = $('#app');
+  let html = '';
+  switch (state.view) {
+    case 'loading':     html = `<div style="min-height:100vh" class="flex items-center justify-center text-zinc-500">Booting the arena…</div>`; break;
+    case 'landing':     html = Landing(); break;
+    case 'login':       html = Login(); break;
+    case 'onboarding':  html = Onboarding(); break;
+    case 'dashboard':   html = Shell('dashboard', Dashboard()); break;
+    case 'upload':      html = Shell('upload', UploadView()); break;
+    case 'moderation':  html = Shell('moderation', ModerationView()); break;
+    case 'leaderboard': html = Shell('leaderboard', LeaderboardView()); break;
+    case 'analytics':   html = Shell('analytics', AnalyticsView()); break;
+    case 'test':        html = TestRunnerView(); break;
+    case 'result':      html = ResultView(); break;
+  }
+  app.innerHTML = `<div class="view">${html}</div>`;
+  bindEvents();
+  if (state.view === 'analytics') renderCharts();
+  if (state.view === 'test') startTimer();
+}
+
+/* ============== LOGO ============== */
+function Logo() {
+  return `
+    <a href="#" class="logo" data-go="landing">
+      <span class="bolt">${ICON.zap.replace('class="icon"', 'class="icon" style="width:14px;height:14px;color:#000"')}</span>
+      MockMob<span class="dot">.</span>
+    </a>`;
+}
+
+/* ============== LANDING ============== */
+function Landing() {
+  const stats = [
+    { v: '48,210', l: 'Active Mobbers', i: 'users' },
+    { v: state.questions.length + '+', l: 'Questions Live', i: 'book' },
+    { v: '+213', l: 'Avg Rank Jump', i: 'trend' },
+    { v: 'LIVE', l: 'Mock Sprint', i: 'flame', live: true },
+  ];
+  const features = [
+    { t: 'Community-built mocks', d: '10,000+ peer-crafted questions reviewed, rated, and battle-tested by toppers every single day. No dusty PDFs. No decade-old repeats.', tag: 'MOST LOVED', icon: 'users', span: 'md:col-span-8', hero: true },
+    { t: 'AI weakness radar', d: 'Smart analytics pinpoint the exact chapter, topic & trap killing your score.', icon: 'radar', span: 'md:col-span-4', chart: true },
+    { t: 'Discord-style study', d: 'Live voice rooms and real-time doubt solving. Study with your mob, stay accountable 24/7.', icon: 'msg', span: 'md:col-span-4' },
+    { t: 'Exam-specific tracks', d: 'Tailored pathways for CUET, JEE, NEET, and UPSC. Not just tests — a roadmap to the rank.', icon: 'route', span: 'md:col-span-8', track: true },
+  ];
+  const testimonials = [
+    { n: 'Aanya Kulkarni', r: 'CUET • AIR 42', q: 'I used to solve PYQs alone at 2 AM wondering if my speed was normal. MockMob showed me the mob was solving faster — and that pushed me to actually level up.' },
+    { n: 'Rohit Mehta', r: 'JEE ADV • Rank 812', q: 'The speed of the interface is a game changer. It feels exactly like the NTA centre computers, minus the lag.' },
+    { n: 'Sia Prajapati', r: 'NEET • AIR 1,204', q: 'The weakness radar caught that my time management was poor in Biology. Fixed it in 2 weeks. Scored 355/360.' },
+  ];
+  const exams = ['CUET', 'JEE', 'NEET', 'UPSC', 'CAT', 'GATE', 'SSC', 'CLAT', 'NDA'];
+
+  return `
+    <!-- NAV -->
+    <nav class="fixed top-0 left-0 right-0 z-50 border-b border-white/5" style="background: rgba(10,10,10,0.75); backdrop-filter: blur(20px);">
+      <div class="container-wide px-5 flex items-center justify-between" style="height:60px">
+        <div class="flex items-center gap-8">
+          ${Logo()}
+          <div class="hidden md:flex gap-6">
+            ${['Features','Leaderboard','How it works','Testimonials','FAQ'].map(x => `<a href="#" style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:13px; color:#a1a1aa" class="hover:text-white transition-colors">${x}</a>`).join('')}
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <button class="btn-ghost" data-go="login">Log in</button>
+          <button class="btn-volt sm" data-go="login">Join free ${ICON.arrow}</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section style="padding-top: 120px; padding-bottom: 60px;" class="px-5 relative">
+      <div class="container-wide text-center relative">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-volt/20 mb-7" style="background: rgba(210,240,0,0.03);">
+          <span class="w-1.5 h-1.5 rounded-full bg-volt animate-pulse-slow" style="box-shadow: 0 0 8px var(--volt)"></span>
+          <span class="mono-label" style="color: var(--volt)">Now live — CUET '26 Mock Sprint</span>
+          ${ICON.arrow.replace('class="icon"','class="icon" style="color:var(--volt); width:11px; height:11px"')}
+        </div>
+        <h1 class="display-xl mb-5">
+          Stop grinding alone.<br>
+          Rank up with the
+          <span class="volt-highlight" style="font-style:italic">mob.</span>
+        </h1>
+        <p class="text-base md:text-lg text-zinc-400 max-w-2xl mx-auto mb-8" style="line-height: 1.6">
+          India's first community-built mock test platform. Take peer-verified mocks for
+          <span class="text-volt font-semibold">CUET, JEE, NEET, UPSC, CAT, GATE &amp; SSC</span>.
+          Compete live. Climb boards. Crack exams.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center mb-4">
+          <button class="btn-volt lg" data-go="login">Start a free mock ${ICON.arrow}</button>
+          <button class="btn-outline lg" data-go="login">${ICON.play} See the leaderboard</button>
+        </div>
+        <div class="inline-flex items-center gap-2 text-xs text-zinc-500">
+          ${ICON.spark.replace('class="icon"','class="icon" style="color:var(--volt); width:12px; height:12px"')}
+          No credit card. No spam. Just vibes and verified mocks.
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="container-wide mt-14 grid grid-cols-2 md:grid-cols-4 gap-3 px-0">
+        ${stats.map(s => `
+          <div class="stat">
+            <div class="flex items-center justify-between mb-2.5">
+              ${ICON[s.i].replace('class="icon"','class="icon" style="color:var(--volt); width:16px; height:16px"')}
+              ${s.live ? `<span class="mono-label" style="color: var(--volt); display:inline-flex; align-items:center; gap:5px"><span class="w-1 h-1 rounded-full bg-volt animate-pulse-slow"></span>LIVE</span>` : ''}
+            </div>
+            <div class="value">${s.v}</div>
+            <div class="mono-label">${s.l}</div>
+          </div>
+        `).join('')}
+      </div>
+
+      <!-- MARQUEE -->
+      <div class="mt-12 overflow-hidden border-y" style="border-color: rgba(255,255,255,0.05)">
+        <div class="marquee-track">
+          ${[...Array(2)].map(()=>exams.map(e=>`<span>${e} <span style="width:6px;height:6px;border-radius:999px;background:#27272a"></span></span>`).join('')).join('')}
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="px-5" style="padding: 80px 20px;">
+      <div class="container-wide">
+        <div class="mb-10">
+          <div class="eyebrow mb-3">// Features</div>
+          <h2 class="display-lg max-w-3xl">Built by the mob.<br>Tuned for the <span class="text-volt" style="font-style:italic">grind.</span></h2>
+          <p class="text-zinc-500 mt-4 max-w-xl text-sm">Old-school coaching apps are PDFs with a login. MockMob is a living, breathing community weapon — shaped every day by the people writing these exams.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
+          ${features.map(f => `
+            <div class="glass ${f.span}" style="padding: 26px; position: relative; overflow: hidden;">
+              ${ICON[f.icon].replace('class="icon"','class="icon" style="color:var(--volt); width:26px; height:26px; margin-bottom:18px; stroke-width:1.5"')}
+              <h3 class="heading" style="font-size:${f.hero?'24px':'20px'}; margin-bottom:8px; color:#fff">${f.t}</h3>
+              <p class="text-sm text-zinc-400 max-w-md" style="line-height:1.55">${f.d}</p>
+              ${f.tag ? `<div class="mt-4 mono-label" style="color:var(--volt); display:inline-flex; align-items:center; gap:5px">${ICON.trend.replace('class="icon"','class="icon" style="width:11px; height:11px"')} ${f.tag}</div>` : ''}
+              ${f.chart ? `
+                <div style="margin-top: 22px;">
+                  <div class="bar mb-1"><div class="fill fill-volt" style="width:70%"></div></div>
+                  <div class="flex justify-between mono-label mb-3"><span>Calculus depth</span><span style="color:var(--volt)">70% CRITICAL</span></div>
+                  <div class="bar mb-1"><div class="fill fill-red" style="width:45%"></div></div>
+                  <div class="flex justify-between mono-label"><span>Time Management</span><span style="color:#f87171">45%</span></div>
+                </div>
+              ` : ''}
+              ${f.track ? `
+                <div class="grid grid-cols-2 gap-2 mt-5">
+                  ${['CUET','JEE','NEET','UPSC'].map(e=>`
+                    <div class="rounded-lg border border-white/5 p-3 flex items-center justify-between" style="background: rgba(0,0,0,0.35)">
+                      <span style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:12px">${e} '26</span>
+                      ${ICON.chevR.replace('class="icon"','class="icon" style="color:#52525b; width:14px; height:14px"')}
+                    </div>
+                  `).join('')}
+                </div>
+              ` : ''}
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="px-5" style="padding: 80px 20px; background: linear-gradient(180deg, transparent, rgba(255,255,255,0.01), transparent);">
+      <div class="container-wide">
+        <div class="flex flex-col md:flex-row justify-between items-start gap-6 mb-10" style="align-items:flex-end">
+          <div>
+            <div class="eyebrow mb-3">// From the mob</div>
+            <h2 class="display-lg"><span style="font-style:italic">Rank jumps,</span> <span class="text-volt">real quotes.</span></h2>
+          </div>
+          <p class="text-sm text-zinc-500 max-w-xs">Actual students. Actual rank jumps. No stock photos, no scripts.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          ${testimonials.map((t,i) => `
+            <div class="glass ${i===1?'volt-soft':''}" style="padding: 26px">
+              <div style="color:var(--volt); font-size:14px; margin-bottom: 14px">★ ★ ★ ★ ★</div>
+              <p class="text-white mb-5" style="font-style:italic; line-height:1.6; font-size:15px">"${t.q}"</p>
+              <div class="flex items-center gap-3 pt-4 border-t border-white/5">
+                <div class="avatar lg">${t.n[0]}</div>
+                <div>
+                  <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px">${t.n}</div>
+                  <div class="mono-label" style="color:var(--volt)">${t.r}</div>
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="px-5" style="padding: 80px 20px;">
+      <div class="container-narrow">
+        <div class="glass" style="padding: 50px 30px; text-align:center; position: relative; overflow: hidden;">
+          <div style="position:absolute; inset:0; background: linear-gradient(135deg, rgba(210,240,0,0.03), transparent, rgba(210,240,0,0.03))"></div>
+          <div style="position:relative">
+            <div class="eyebrow mb-5" style="display:inline-flex">// Join the waitlist</div>
+            <h2 class="display-lg mb-5">Your AIR is <span class="text-volt" style="font-style:italic">waiting.</span><br>The mob's already <span style="text-decoration: underline; text-decoration-color: var(--volt); text-decoration-thickness: 4px">here.</span></h2>
+            <p class="text-zinc-400 max-w-lg mx-auto mb-7 text-sm">Drop your email, pick your exam, and get first-access invites, weekly mock drops, and topper AMAs.</p>
+            <button class="btn-volt lg" data-go="login">Enter the arena ${ICON.arrow}</button>
+            <div class="mt-5 flex flex-wrap items-center justify-center gap-4 mono-label">
+              <span class="flex items-center gap-1.5">${ICON.check.replace('class="icon"','class="icon" style="color:var(--volt); width:12px; height:12px"')} Free forever core</span>
+              <span class="flex items-center gap-1.5">${ICON.check.replace('class="icon"','class="icon" style="color:var(--volt); width:12px; height:12px"')} No credit card</span>
+              <span class="flex items-center gap-1.5">${ICON.check.replace('class="icon"','class="icon" style="color:var(--volt); width:12px; height:12px"')} 48K+ mobbers in</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="px-5 border-t border-white/5" style="padding: 60px 20px 30px;">
+      <div class="container-wide grid grid-cols-2 md:grid-cols-6 gap-8 mb-10">
+        <div class="col-span-2">
+          ${Logo()}
+          <p class="text-sm text-zinc-500 mt-4 max-w-xs" style="line-height:1.6">India's loudest, nerdiest, most unhinged exam prep community. Built by students, for students.</p>
+        </div>
+        ${[
+          { h:'Exams', l:['CUET','JEE','NEET','UPSC','CAT'] },
+          { h:'Platform', l:['Mock Arena','Leaderboard','Study Rooms','Analytics'] },
+          { h:'Company', l:['About','Careers','Press','Contact'] },
+          { h:'Legal', l:['Privacy','Terms','Cookies','Refunds'] },
+        ].map(s=>`
+          <div>
+            <div class="mono-label mb-3" style="color:#fff">${s.h}</div>
+            <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px">
+              ${s.l.map(x=>`<li><a href="#" class="text-sm text-zinc-500 hover:text-volt" style="transition: color 0.15s">${x}</a></li>`).join('')}
+            </ul>
+          </div>
+        `).join('')}
+      </div>
+      <div class="container-wide border-t border-white/5 pt-5 flex flex-col md:flex-row justify-between items-center gap-2 mono-label">
+        <span>© 2026 MOCKMOB. BUILT FOR THE GRIND.</span>
+        <span>MADE IN 🇮🇳 FOR STUDENTS WHO REFUSE TO LOSE.</span>
+      </div>
+    </footer>
+  `;
+}
+
+/* ============== LOGIN ============== */
+function Login() {
+  return `
+    <div style="min-height:100vh; display:flex; align-items:center; justify-content:center; padding: 40px 20px; position:relative; overflow:hidden">
+      <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:600px; height:600px; background:var(--volt); opacity:0.05; filter:blur(100px); border-radius:999px; pointer-events:none"></div>
+      <div style="max-width: 420px; width:100%; position:relative">
+        <button class="btn-ghost mono-label mb-8" data-go="landing">${ICON.chevL} Back</button>
+        <div style="margin-bottom: 32px">${Logo()}</div>
+        <div class="eyebrow mb-3">// Enter the arena</div>
+        <h1 class="display-md mb-2" style="font-size: 38px">What should we<br>call you, <span class="text-volt" style="font-style:italic">mobber?</span></h1>
+        <p class="text-zinc-500 mb-6 text-sm">No passwords. No OTPs. Just your grind name.</p>
+        <input id="login-name" type="text" placeholder="e.g. rank_chaser_07" class="input mb-4" style="font-family:'Space Grotesk',sans-serif; font-size:15px; padding: 14px 16px" autofocus>
+        <button id="login-submit" class="btn-volt lg" style="width:100%">Continue ${ICON.arrow}</button>
+        <p class="mono-label mt-5 text-center">Demo mode · data stored locally</p>
+      </div>
+    </div>
+  `;
+}
+
+/* ============== ONBOARDING ============== */
+function Onboarding() {
+  const selected = state.tempSelected || [];
+  return `
+    <div style="min-height:100vh; padding: 60px 20px; position: relative">
+      <div class="container-std">
+        <div class="eyebrow mb-3">// Step 02 of 02</div>
+        <h1 class="display-lg mb-3">Pick your <span class="text-volt" style="font-style:italic">weapons.</span></h1>
+        <p class="text-sm text-zinc-500 mb-8 max-w-lg">Choose up to 5 CUET subjects. Your arena, your mocks, your analytics — all built around these.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-7">
+          ${SUBJECTS.map(s => {
+            const sel = selected.includes(s.id);
+            return `
+              <button class="subject-card ${sel?'selected':''}" data-subject="${s.id}">
+                <div class="flex items-start justify-between mb-3">
+                  <div class="glyph">${s.glyph}</div>
+                  ${sel ? `<div style="width:22px; height:22px; border-radius:999px; background:var(--volt); display:inline-flex; align-items:center; justify-content:center; color:#000">${ICON.check.replace('class="icon"','class="icon" style="width:12px;height:12px; stroke-width:3"')}</div>` : ''}
+                </div>
+                <div class="mono-label mb-1">${s.short}</div>
+                <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; color:#fff; margin-bottom:2px">${s.name}</div>
+                <div class="text-xs text-zinc-500">${s.chapters.length} chapters</div>
+              </button>
+            `;
+          }).join('')}
+        </div>
+
+        <div class="flex items-center justify-between border-t border-white/5 pt-5">
+          <div class="mono-label">${selected.length}/5 selected</div>
+          <button id="onboard-continue" class="btn-volt md" ${selected.length===0?'disabled':''}>Enter the mob ${ICON.arrow}</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ============== SHELL (authenticated layout) ============== */
+function Shell(currentTab, content) {
+  const nav = [
+    { id: 'dashboard', label: 'Mocks', icon: 'target' },
+    { id: 'upload', label: 'Upload', icon: 'upload' },
+    { id: 'moderation', label: 'Moderate', icon: 'shield' },
+    { id: 'leaderboard', label: 'Leaderboard', icon: 'trophy' },
+    { id: 'analytics', label: 'Analytics', icon: 'bar' },
+  ];
+  return `
+    <header class="sticky top-0 z-20 border-b border-white/5" style="background: rgba(10,10,10,0.8); backdrop-filter: blur(20px);">
+      <div class="container-wide px-5 flex items-center justify-between" style="height: 54px">
+        ${Logo()}
+        <div class="flex items-center gap-2">
+          <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/5" style="background: rgba(255,255,255,0.02)">
+            <div class="avatar" style="width:22px; height:22px; font-size:10px">${state.user.name[0].toUpperCase()}</div>
+            <span class="text-xs font-medium text-zinc-300">${esc(state.user.name)}</span>
+          </div>
+          <button class="btn-ghost" id="nav-logout" title="Log out" style="padding: 6px">${ICON.logout}</button>
+        </div>
+      </div>
+      <div class="container-wide px-5 flex gap-0 overflow-x-auto no-scrollbar">
+        ${nav.map(n => `
+          <button class="nav-link ${currentTab===n.id?'active':''}" data-nav="${n.id}">
+            ${ICON[n.icon].replace('class="icon"','class="icon" style="width:13px; height:13px"')} ${n.label}
+          </button>
+        `).join('')}
+      </div>
+    </header>
+    <main class="container-wide" style="padding: 26px 20px;">${content}</main>
+  `;
+}
+
+/* ============== DASHBOARD ============== */
+function Dashboard() {
+  const mySubs = SUBJECTS.filter(s => state.user.subjects.includes(s.id));
+  const selSubj = state.dashSubject || mySubs[0]?.id;
+  const count = state.dashCount || 10;
+  const myRankIdx = state.leaderboard.findIndex(x => x.name === state.user.name);
+  const stats = {
+    bank: state.questions.length,
+    tests: state.attempts.length,
+    avg: state.attempts.length ? Math.round(state.attempts.reduce((a,b)=>a+b.score,0)/state.attempts.length) : 0,
+    rank: myRankIdx >= 0 ? myRankIdx + 1 : null,
+  };
+
+  return `
+    <div class="space-y-8" style="display:flex; flex-direction:column; gap: 26px">
+      <div>
+        <div class="eyebrow mb-2">// Command centre</div>
+        <h1 class="display-md">What are we <span class="text-volt" style="font-style:italic">grinding</span> today, ${esc(state.user.name.split(' ')[0])}?</h1>
+        <p class="text-sm text-zinc-500 mt-2">Your arena is live. Pick a subject, drop a mock, and own the board.</p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        ${[
+          { l: 'Bank size · questions', v: stats.bank, i: 'book' },
+          { l: 'Tests crushed · attempts', v: stats.tests, i: 'target' },
+          { l: 'Avg score · all-time', v: stats.avg + '%', i: 'trend', h: stats.avg >= 70 },
+          { l: 'Your rank · on board', v: stats.rank ? '#'+stats.rank : '—', i: 'trophy', live: true },
+        ].map(s => `
+          <div class="stat ${s.h?'highlight':''}">
+            <div class="flex items-center justify-between">
+              ${ICON[s.i].replace('class="icon"','class="icon" style="color:'+(s.h?'var(--volt)':'#71717a')+'; width:15px; height:15px"')}
+              ${s.live ? `<span class="w-1.5 h-1.5 rounded-full bg-volt animate-pulse-slow" style="box-shadow: 0 0 6px var(--volt)"></span>` : ''}
+            </div>
+            <div class="value">${s.v}</div>
+            <div class="mono-label">${s.l}</div>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="glass" style="padding: 24px">
+        <div class="flex items-start justify-between flex-wrap gap-3 mb-5">
+          <div>
+            <div class="eyebrow mb-2">// Drop a mock</div>
+            <h2 class="heading" style="font-size: 22px; color:#fff">Start a test</h2>
+          </div>
+          <div class="mono-label flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-volt animate-pulse-slow"></span>
+            CUET +5/−1 SCORING
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 mb-5">
+          ${mySubs.map(s => {
+            const qc = state.questions.filter(q=>q.subject===s.id).length;
+            const sel = selSubj === s.id;
+            return `
+              <button class="subject-card ${sel?'selected':''}" data-dash-subject="${s.id}" style="padding: 14px">
+                <div class="glyph" style="font-size: 22px; margin-bottom: 6px">${s.glyph}</div>
+                <div class="mono-label mb-1">${s.short}</div>
+                <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:#fff; margin-bottom: 2px">${s.name}</div>
+                <div class="text-xs text-zinc-500">${qc} Qs</div>
+              </button>
+            `;
+          }).join('')}
+        </div>
+
+        ${selSubj ? `
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 pt-4 border-t border-white/5">
+            <span class="mono-label">Questions</span>
+            <div class="flex gap-1.5">
+              ${[5,10,15,20].map(n => `<button class="count-btn ${count===n?'active':''}" data-count="${n}">${n}</button>`).join('')}
+            </div>
+            <div class="sm:ml-auto flex items-center gap-3">
+              <span class="text-xs text-zinc-500" style="font-family: 'Space Grotesk', monospace">${count*60}s · ${count*5} pts max</span>
+              <button class="btn-volt md" id="start-test" data-sid="${selSubj}" data-ct="${count}">${ICON.play} Drop it</button>
+            </div>
+          </div>
+        ` : ''}
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
+        <div class="glass" style="padding: 24px; position: relative; overflow: hidden">
+          <div style="position:absolute; top:-20px; right:-20px; width:150px; height:150px; background:var(--volt); opacity:0.03; filter:blur(60px); border-radius:999px"></div>
+          <div style="position: relative">
+            ${ICON.upload.replace('class="icon"','class="icon" style="color:var(--volt); width:24px; height:24px; margin-bottom:12px; stroke-width:1.5"')}
+            <h3 class="heading mb-2" style="font-size: 18px">Feed the bank</h3>
+            <p class="text-sm text-zinc-400 mb-4 max-w-sm">Upload a question. Pass moderation → earn credits → unlock premium mocks.</p>
+            <button class="btn-ghost" data-nav="upload" style="color:var(--volt); font-weight:700">Upload now ${ICON.arrow.replace('class="icon"','class="icon" style="width:12px; height:12px"')}</button>
+          </div>
+        </div>
+
+        <div class="glass" style="padding: 24px">
+          <div class="eyebrow mb-3">// Recent attempts</div>
+          ${state.attempts.length === 0 ? `<p class="text-sm text-zinc-500">No tests yet. Drop your first mock above.</p>` : `
+            <div>
+              ${[...state.attempts].slice(-5).reverse().map(a => {
+                const sub = subjBy(a.subject);
+                const cls = a.score>=70?'text-volt':a.score>=40?'verdict-mid':'verdict-bad';
+                return `
+                  <div class="flex items-center justify-between py-2.5 border-b border-white/5" style="border-bottom-style:solid">
+                    <div class="flex items-center gap-3">
+                      <span style="color:var(--volt); font-size:20px; font-family:'Space Grotesk',sans-serif">${sub.glyph}</span>
+                      <div>
+                        <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:#fff">${sub.name}</div>
+                        <div class="mono-label">${new Date(a.completedAt).toLocaleDateString()} · ${a.correct}/${a.total} correct</div>
+                      </div>
+                    </div>
+                    <div class="${cls}" style="font-family:'Space Grotesk',sans-serif; font-weight:800; font-size:18px">${a.score}%</div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          `}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ============== TEST RUNNER ============== */
+let timerInterval = null;
+function startTimer() {
+  clearInterval(timerInterval);
+  if (!state.currentTest) return;
+  timerInterval = setInterval(() => {
+    state.currentTest.timeLeft -= 1;
+    if (state.currentTest.timeLeft <= 0) {
+      clearInterval(timerInterval);
+      submitTest();
+      return;
+    }
+    const el = $('#timer');
+    if (el) {
+      const mm = Math.floor(state.currentTest.timeLeft/60).toString().padStart(2,'0');
+      const ss = (state.currentTest.timeLeft%60).toString().padStart(2,'0');
+      el.textContent = mm + ':' + ss;
+      el.classList.toggle('verdict-bad', state.currentTest.timeLeft < 60);
+      el.classList.toggle('text-volt', state.currentTest.timeLeft >= 60);
+      if (state.currentTest.timeLeft < 60) el.classList.add('animate-pulse-slow');
+    }
+  }, 1000);
+}
+
+function submitTest() {
+  clearInterval(timerInterval);
+  const t = state.currentTest;
+  if (!t) return;
+  let correct = 0, wrong = 0, unattempted = 0;
+  const details = t.questions.map(qu => {
+    const given = t.answers[qu.id];
+    if (given === undefined) { unattempted++; return { qid: qu.id, given: null, correct: qu.correctIndex, isCorrect: null }; }
+    const isC = given === qu.correctIndex;
+    if (isC) correct++; else wrong++;
+    return { qid: qu.id, given, correct: qu.correctIndex, isCorrect: isC };
+  });
+  const raw = correct * 5 - wrong;
+  const max = t.questions.length * 5;
+  const score = Math.max(0, Math.round((raw/max)*100));
+  const attempt = { subject: t.subject, score, correct, wrong, unattempted, total: t.questions.length, details, completedAt: Date.now(), questionsSnapshot: t.questions };
+  saveAttempt(attempt);
+  state.result = attempt;
+  setView('result');
+}
+
+function TestRunnerView() {
+  const t = state.currentTest;
+  if (!t) { state.view='dashboard'; return ''; }
+  const q = t.questions[t.idx];
+  const totalQ = t.questions.length;
+  const mm = Math.floor(t.timeLeft/60).toString().padStart(2,'0');
+  const ss = (t.timeLeft%60).toString().padStart(2,'0');
+  const subjName = subjBy(t.subject).name;
+
+  return `
+    <div style="min-height: 100vh">
+      <div class="sticky top-0 z-10 border-b border-white/5" style="background: rgba(10,10,10,0.85); backdrop-filter: blur(20px)">
+        <div class="container-std px-5 flex items-center justify-between" style="height: 54px">
+          <button class="btn-ghost mono-label" id="test-exit">${ICON.chevL} Bail</button>
+          <div class="mono-label" style="color:#fff">${esc(subjName)}</div>
+          <div class="flex items-center gap-1.5 text-volt" style="font-family:'Space Grotesk',sans-serif; font-weight:800; font-size:15px">
+            ${ICON.clock.replace('class="icon"','class="icon" style="width:14px; height:14px"')}
+            <span id="timer">${mm}:${ss}</span>
+          </div>
+        </div>
+        <div style="height: 2px; background: rgba(255,255,255,0.05);">
+          <div style="height:100%; background:var(--volt); box-shadow: 0 0 8px var(--volt); width:${((t.idx+1)/totalQ)*100}%; transition: width 0.3s"></div>
+        </div>
+      </div>
+
+      <div class="container-std" style="padding: 26px 20px">
+        <div class="flex items-center justify-between mb-4">
+          <div class="mono-label">Q ${String(t.idx+1).padStart(2,'0')} / ${String(totalQ).padStart(2,'0')}</div>
+          <div class="mono-label">+5 correct · −1 wrong</div>
+        </div>
+
+        <div class="glass" style="padding: 24px; margin-bottom: 18px">
+          <div class="flex items-center gap-2 mb-3 flex-wrap">
+            <span class="pill subtle">${esc(q.chapter)}</span>
+            <span class="pill volt">${esc(q.difficulty)}</span>
+          </div>
+          <p style="font-size:16px; line-height:1.55; color:#fff; margin-bottom: 18px; white-space: pre-wrap">${esc(q.question)}</p>
+          <div style="display:flex; flex-direction:column; gap:8px">
+            ${q.options.map((opt, i) => {
+              const sel = t.answers[q.id] === i;
+              return `
+                <button class="q-option ${sel?'selected':''}" data-pick="${i}">
+                  <span class="letter">${String.fromCharCode(65+i)}</span>
+                  <span style="flex:1">${esc(opt)}</span>
+                </button>
+              `;
+            }).join('')}
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between gap-2 mb-4">
+          <button class="btn-outline sm" id="prev-q" ${t.idx===0?'style="opacity:0.3; pointer-events:none"':''}>${ICON.chevL} PREV</button>
+          ${t.idx < totalQ-1
+            ? `<button class="btn-outline sm" id="next-q">NEXT ${ICON.chevR}</button>`
+            : `<button class="btn-volt sm" id="submit-test">Submit ${ICON.arrow}</button>`
+          }
+        </div>
+
+        <div class="flex flex-wrap gap-1.5 pt-4 border-t border-white/5">
+          ${t.questions.map((qu,i) => {
+            const done = t.answers[qu.id] !== undefined;
+            const cur = i === t.idx;
+            return `<button class="q-chip ${cur?'current':done?'done':''}" data-jump="${i}">${i+1}</button>`;
+          }).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ============== RESULT ============== */
+function ResultView() {
+  const r = state.result;
+  const subj = subjBy(r.subject);
+  const verdict = r.score >= 70 ? { t: 'COLD-BLOODED', c: 'verdict-good' } : r.score >= 40 ? { t: 'ROOM TO GRIND', c: 'verdict-mid' } : { t: 'TIME TO STUDY', c: 'verdict-bad' };
+  return `
+    <div class="container-std" style="padding: 26px 20px; min-height:100vh">
+      <button class="btn-ghost mono-label mb-5" id="result-exit">${ICON.chevL} Back to arena</button>
+
+      <div class="glass" style="padding: 40px 24px; text-align:center; margin-bottom: 26px; position: relative; overflow: hidden">
+        <div style="position:absolute; inset:0; background: linear-gradient(135deg, rgba(210,240,0,0.04), transparent, rgba(210,240,0,0.02))"></div>
+        <div style="position:relative">
+          <div class="eyebrow mb-4" style="justify-content:center">// Test complete</div>
+          <div class="mono-label mb-4 ${verdict.c}" style="font-size: 11px; letter-spacing: 0.3em">${verdict.t}</div>
+          <div class="${r.score>=70?'verdict-good':r.score>=40?'verdict-mid':'verdict-bad'}" style="font-family:'Space Grotesk',sans-serif; font-weight:900; font-size: clamp(72px, 14vw, 140px); line-height:0.9; letter-spacing:-0.04em; margin-bottom: 8px">
+            ${r.score}<span style="font-size:0.28em; color:#52525b">%</span>
+          </div>
+          <p class="text-sm text-zinc-400 mb-6">${esc(subj.name)} · ${r.total} questions</p>
+          <div class="grid grid-cols-3 gap-3 max-w-xl mx-auto">
+            <div class="rounded-xl p-5 border border-volt/20" style="background: rgba(210,240,0,0.05)">
+              <div class="text-volt" style="font-family:'Space Grotesk',sans-serif; font-weight:900; font-size:26px">${r.correct}</div>
+              <div class="mono-label text-volt">Correct</div>
+            </div>
+            <div class="rounded-xl p-5" style="border:1px solid rgba(248,113,113,0.2); background: rgba(248,113,113,0.05)">
+              <div class="verdict-bad" style="font-family:'Space Grotesk',sans-serif; font-weight:900; font-size:26px">${r.wrong}</div>
+              <div class="mono-label" style="color:#f87171">Wrong</div>
+            </div>
+            <div class="rounded-xl p-5 border border-white/10" style="background: rgba(255,255,255,0.02)">
+              <div style="font-family:'Space Grotesk',sans-serif; font-weight:900; font-size:26px; color:#a1a1aa">${r.unattempted}</div>
+              <div class="mono-label">Skipped</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="eyebrow mb-3">// Post-mortem</div>
+      <div style="display:flex; flex-direction:column; gap:12px">
+        ${r.questionsSnapshot.map((q,i) => {
+          const d = r.details.find(x => x.qid === q.id);
+          const tag = d.isCorrect === true
+            ? `<span class="pill volt">${ICON.check.replace('class="icon"','class="icon" style="width:10px; height:10px"')} Correct</span>`
+            : d.isCorrect === false
+            ? `<span class="pill red">${ICON.x.replace('class="icon"','class="icon" style="width:10px; height:10px"')} Wrong</span>`
+            : `<span class="pill subtle">Skipped</span>`;
+          return `
+            <div class="glass" style="padding: 18px">
+              <div class="flex items-start justify-between mb-3 gap-2">
+                <span class="mono-label">Q${String(i+1).padStart(2,'0')} · ${esc(q.chapter)}</span>
+                ${tag}
+              </div>
+              <p style="color:#fff; font-weight:500; margin-bottom:12px; white-space:pre-wrap">${esc(q.question)}</p>
+              <div style="display:flex; flex-direction:column; gap:5px; margin-bottom: 10px">
+                ${q.options.map((opt, oi) => {
+                  const isCorr = oi === q.correctIndex;
+                  const isGiven = d.given === oi;
+                  let style = 'color:#a1a1aa;';
+                  let extra = '';
+                  if (isCorr) { style = 'background:rgba(210,240,0,0.08); color:var(--volt);'; extra = ICON.check.replace('class="icon"','class="icon" style="width:14px; height:14px; margin-left:auto"'); }
+                  else if (isGiven && !isCorr) { style = 'background:rgba(248,113,113,0.08); color:#f87171; text-decoration:line-through;'; extra = ICON.x.replace('class="icon"','class="icon" style="width:14px; height:14px; margin-left:auto"'); }
+                  return `<div style="padding: 8px 10px; border-radius: 6px; font-size:13px; display:flex; align-items:center; gap:8px; ${style}">
+                    <span style="font-weight:700; min-width: 18px">${String.fromCharCode(65+oi)}.</span>
+                    <span style="flex:1">${esc(opt)}</span>
+                    ${extra}
+                  </div>`;
+                }).join('')}
+              </div>
+              <div style="padding: 10px; border-radius: 6px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); font-size: 12px; color: #a1a1aa">
+                <span class="mono-label" style="color:var(--volt); margin-right: 6px">Why:</span>${esc(q.explanation)}
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+/* ============== UPLOAD ============== */
+function UploadView() {
+  const f = state.uploadForm || { subject:'', chapter:'', question:'', options:['','','',''], correctIndex:0, explanation:'', difficulty:'medium', source:'Community' };
+  state.uploadForm = f;
+  const subj = subjBy(f.subject);
+  const msg = state.uploadMsg;
+  const valid = f.subject && f.chapter && f.question.trim().length>10 && f.options.every(o=>o.trim()) && f.explanation.trim();
+
+  return `
+    <div class="container-narrow">
+      <div class="eyebrow mb-2">// Feed the bank</div>
+      <h1 class="display-md mb-3">Drop a <span class="text-volt" style="font-style:italic">question.</span></h1>
+      <p class="text-sm text-zinc-500 mb-6 max-w-lg">Contributions hit the moderation queue first. Approved questions unlock credits and glory on the contributor board.</p>
+
+      <div class="glass" style="padding: 24px; display:flex; flex-direction:column; gap: 16px">
+        <div>
+          <div class="mono-label mb-2">Subject</div>
+          <select class="select" id="up-subject">
+            <option value="">Select subject</option>
+            ${SUBJECTS.map(s=>`<option value="${s.id}" ${f.subject===s.id?'selected':''}>${s.name}</option>`).join('')}
+          </select>
+        </div>
+        ${subj ? `
+          <div>
+            <div class="mono-label mb-2">Chapter</div>
+            <select class="select" id="up-chapter">
+              <option value="">Select chapter</option>
+              ${subj.chapters.map(c=>`<option value="${c}" ${f.chapter===c?'selected':''}>${c}</option>`).join('')}
+            </select>
+          </div>
+        ` : ''}
+        <div>
+          <div class="mono-label mb-2">Question</div>
+          <textarea class="textarea" id="up-question" rows="3" placeholder="Drop the question…">${esc(f.question)}</textarea>
+        </div>
+        <div>
+          <div class="mono-label mb-2">Options · Tap A/B/C/D to mark correct</div>
+          <div style="display:flex; flex-direction:column; gap:8px">
+            ${f.options.map((opt,i)=>`
+              <div class="flex gap-2 items-center">
+                <button class="q-option" style="width:40px; height:40px; padding:0; justify-content:center; flex-shrink:0; ${f.correctIndex===i?'border-color:var(--volt); background: rgba(210,240,0,0.05)':''}" data-correct="${i}">
+                  <span class="letter" style="margin:0; ${f.correctIndex===i?'background:var(--volt); color:#000':''}">${String.fromCharCode(65+i)}</span>
+                </button>
+                <input class="input" data-opt="${i}" value="${esc(opt)}" placeholder="Option ${String.fromCharCode(65+i)}" />
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <div>
+          <div class="mono-label mb-2">Explanation</div>
+          <textarea class="textarea" id="up-explain" rows="2" placeholder="Why is this the answer?">${esc(f.explanation)}</textarea>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <div class="mono-label mb-2">Difficulty</div>
+            <select class="select" id="up-diff">
+              ${['easy','medium','hard'].map(d=>`<option value="${d}" ${f.difficulty===d?'selected':''}>${d[0].toUpperCase()+d.slice(1)}</option>`).join('')}
+            </select>
+          </div>
+          <div>
+            <div class="mono-label mb-2">Source</div>
+            <input class="input" id="up-src" value="${esc(f.source)}" placeholder="e.g. CUET 2023">
+          </div>
+        </div>
+        ${msg ? `<div style="padding:10px 12px; border-radius:8px; font-size:13px; ${msg.startsWith('✓')?'background:rgba(210,240,0,0.1); color:var(--volt); border:1px solid rgba(210,240,0,0.2)':'background:rgba(251,191,36,0.1); color:#fbbf24; border:1px solid rgba(251,191,36,0.2)'}">${msg}</div>` : ''}
+        <button class="btn-volt lg" id="submit-upload" ${!valid?'disabled':''}>${ICON.upload} Ship it</button>
+      </div>
+    </div>
+  `;
+}
+
+/* ============== MODERATION ============== */
+function ModerationView() {
+  return `
+    <div class="container-std">
+      <div class="flex items-start justify-between mb-7 flex-wrap gap-3">
+        <div>
+          <div class="eyebrow mb-2">// Moderation queue</div>
+          <h1 class="display-md">Gatekeep the <span class="text-volt" style="font-style:italic">bank.</span></h1>
+          <p class="text-sm text-zinc-500 max-w-md mt-2">Approved questions go live. Rejected ones vanish. Be ruthless about quality.</p>
+        </div>
+        <div class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-volt/20" style="background: rgba(210,240,0,0.05)">
+          ${ICON.flag.replace('class="icon"','class="icon" style="color:var(--volt); width:12px; height:12px"')}
+          <span class="mono-label" style="color:var(--volt)">${state.pending.length} pending</span>
+        </div>
+      </div>
+
+      ${state.pending.length === 0 ? `
+        <div class="glass" style="padding: 50px; text-align:center">
+          ${ICON.shield.replace('class="icon"','class="icon" style="color:#3f3f46; width:36px; height:36px; margin-bottom:10px"')}
+          <p style="font-family:'Space Grotesk',sans-serif; font-weight:700; color:#a1a1aa">Queue is clean.</p>
+          <p class="text-xs text-zinc-600 mt-2">Drop questions in the Upload tab to populate the queue.</p>
+        </div>
+      ` : `
+        <div style="display:flex; flex-direction:column; gap:12px">
+          ${state.pending.map(q => `
+            <div class="glass" style="padding: 22px">
+              <div class="flex items-center gap-2 mb-3 flex-wrap">
+                <span class="pill subtle">${esc(subjBy(q.subject)?.name || q.subject)}</span>
+                <span class="pill subtle">${esc(q.chapter)}</span>
+                <span class="pill volt">${esc(q.difficulty)}</span>
+                <span class="mono-label" style="margin-left:auto">by ${esc(q.uploadedBy)}</span>
+              </div>
+              <p style="color:#fff; font-weight:500; margin-bottom:14px; white-space:pre-wrap">${esc(q.question)}</p>
+              <div style="display:flex; flex-direction:column; gap:6px; margin-bottom:14px">
+                ${q.options.map((o,i)=>`
+                  <div style="padding:10px 12px; border-radius:6px; display:flex; align-items:center; gap:12px; font-size:13px; ${i===q.correctIndex?'background:rgba(210,240,0,0.06); color:var(--volt)':'background:rgba(255,255,255,0.015); color:#a1a1aa'}">
+                    <span style="width:24px; height:24px; border-radius:4px; display:inline-flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:11px; ${i===q.correctIndex?'background:var(--volt); color:#000':'background:rgba(255,255,255,0.05); color:#71717a'}">${String.fromCharCode(65+i)}</span>
+                    <span style="flex:1">${esc(o)}</span>
+                    ${i===q.correctIndex ? ICON.check.replace('class="icon"','class="icon" style="width:14px; height:14px"') : ''}
+                  </div>
+                `).join('')}
+              </div>
+              <div style="padding: 10px; border-radius:6px; background: rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); margin-bottom: 14px; font-size:12px; color:#a1a1aa">
+                <span class="mono-label" style="color:var(--volt); margin-right:6px">Why:</span>${esc(q.explanation)}
+              </div>
+              <div class="flex gap-2">
+                <button class="btn-volt sm" data-mod-id="${q.id}" data-mod-ok="1" style="flex:1">${ICON.check} Approve</button>
+                <button data-mod-id="${q.id}" data-mod-ok="0" style="flex:1; padding:10px 18px; border-radius:8px; background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.3); color:#f87171; font-family:'Space Grotesk',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; font-size:12px; cursor:pointer; transition:background 0.15s; display:inline-flex; align-items:center; justify-content:center; gap:6px">${ICON.x} Reject</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `}
+
+      <div class="mt-6 rounded-xl border flex gap-3" style="padding:14px; border-color:rgba(251,191,36,0.2); background:rgba(251,191,36,0.03)">
+        ${ICON.alert.replace('class="icon"','class="icon" style="color:#fbbf24; width:16px; height:16px; flex-shrink:0; margin-top:2px"')}
+        <div class="text-sm text-zinc-400">
+          <span style="color:#fbbf24; font-family:'Space Grotesk',sans-serif; font-weight:700">Demo note:</span>
+          anyone can moderate in this prototype. Production would gate this to verified reviewers or contributors above a reputation threshold, plus AI pre-screening and statistical beta-pool validation.
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ============== LEADERBOARD ============== */
+function LeaderboardView() {
+  const lb = state.leaderboard;
+  return `
+    <div class="container-std">
+      <div class="eyebrow mb-2">// The arena</div>
+      <h1 class="display-md mb-2">Who's running the <span class="text-volt" style="font-style:italic">board.</span></h1>
+      <p class="text-sm text-zinc-500 mb-8">Ranked by total score across every test. No shortcuts, no credits — just output.</p>
+
+      ${lb.length === 0 ? `
+        <div class="glass" style="padding: 50px; text-align:center">
+          ${ICON.trophy.replace('class="icon"','class="icon" style="color:#3f3f46; width:36px; height:36px; margin-bottom:10px"')}
+          <p style="font-family:'Space Grotesk',sans-serif; font-weight:700; color:#a1a1aa">No scores yet.</p>
+          <p class="text-xs text-zinc-600 mt-2">Be the first to climb.</p>
+        </div>
+      ` : `
+        ${lb.length >= 3 ? `
+          <div class="grid grid-cols-3 gap-3 mb-5" style="height:180px">
+            ${[1, 0, 2].map(idx => {
+              const e = lb[idx];
+              const isMe = e.name === state.user.name;
+              const heights = ['130px', '170px', '110px'];
+              const colors = [{ bg:'linear-gradient(135deg,#d4d4d8,#71717a)', t:'#d4d4d8' },{ bg:'linear-gradient(135deg,var(--volt),#8fa600)', t:'var(--volt)' },{ bg:'linear-gradient(135deg,#fb923c,#ea580c)', t:'#fb923c' }];
+              const c = colors[idx];
+              return `
+                <div style="display:flex; flex-direction:column; justify-content:flex-end; align-items:center; gap:4px">
+                  <div class="avatar lg" style="background:${c.bg}; ${idx===0?'box-shadow: 0 0 24px rgba(210,240,0,0.5)':''}">${e.name[0].toUpperCase()}</div>
+                  <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:12px; text-align:center; ${isMe?'color:var(--volt)':'color:#fff'}; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding:0 4px">${esc(e.name)}${isMe?' ★':''}</div>
+                  <div style="color:${c.t}; font-family:'Space Grotesk',sans-serif; font-weight:800; font-size:18px">${e.totalScore}</div>
+                  <div class="podium" style="height:${heights[idx]}; width:100%; margin-top: 2px">
+                    <span style="font-family:'Space Grotesk',sans-serif; font-weight:900; font-size:28px; color:${c.t}">#${idx+1}</span>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        ` : ''}
+
+        <div class="glass" style="overflow:hidden">
+          <div class="grid grid-cols-12 gap-2 p-4 border-b border-white/5 mono-label">
+            <div class="col-span-1">#</div>
+            <div class="col-span-6">Mobber</div>
+            <div class="col-span-2" style="text-align:right">Tests</div>
+            <div class="col-span-3" style="text-align:right">Total</div>
+          </div>
+          ${lb.slice(0,20).map((e,i) => {
+            const isMe = e.name === state.user.name;
+            return `
+              <div class="grid grid-cols-12 gap-2 p-4 border-b border-white/5" style="align-items:center; ${isMe?'background: rgba(210,240,0,0.04)':''}">
+                <div class="col-span-1" style="font-family:'Space Grotesk',sans-serif; font-weight:900; font-size:13px; ${i<3?'color:var(--volt)':'color:#71717a'}">#${i+1}</div>
+                <div class="col-span-6 flex items-center gap-3" style="min-width:0">
+                  <div class="avatar" style="flex-shrink:0; width:28px; height:28px; font-size:11px">${e.name[0].toUpperCase()}</div>
+                  <div style="min-width:0">
+                    <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; ${isMe?'color:var(--volt)':'color:#fff'}">${esc(e.name)}${isMe?` <span class="mono-label" style="margin-left:6px">(YOU)</span>`:''}</div>
+                    <div class="mono-label">avg ${Math.round(e.avgScore)}%</div>
+                  </div>
+                </div>
+                <div class="col-span-2 text-zinc-400" style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:13px; text-align:right">${e.tests}</div>
+                <div class="col-span-3" style="font-family:'Space Grotesk',sans-serif; font-weight:900; font-size:18px; text-align:right; ${isMe?'color:var(--volt)':'color:#fff'}">${e.totalScore}</div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `}
+    </div>
+  `;
+}
+
+/* ============== ANALYTICS ============== */
+function AnalyticsView() {
+  if (state.attempts.length === 0) {
+    return `
+      <div class="container-narrow">
+        <div class="eyebrow mb-2">// Weakness radar</div>
+        <h1 class="display-md mb-5">No signal <span class="text-volt" style="font-style:italic">yet.</span></h1>
+        <div class="glass" style="padding:50px; text-align:center">
+          ${ICON.radar.replace('class="icon"','class="icon" style="color:#3f3f46; width:36px; height:36px; margin-bottom:10px"')}
+          <p style="font-family:'Space Grotesk',sans-serif; font-weight:700; color:#a1a1aa">Drop a test to boot up the radar.</p>
+        </div>
+      </div>
+    `;
+  }
+
+  // Aggregate weakest chapters
+  const byChapter = {};
+  state.attempts.forEach(a => {
+    (a.questionsSnapshot || []).forEach(q => {
+      const d = a.details.find(x => x.qid === q.id); if (!d) return;
+      if (!byChapter[q.chapter]) byChapter[q.chapter] = { chapter: q.chapter, correct: 0, total: 0 };
+      byChapter[q.chapter].total++;
+      if (d.isCorrect === true) byChapter[q.chapter].correct++;
+    });
+  });
+  const chapterArr = Object.values(byChapter).map(x => ({ ...x, acc: Math.round((x.correct/x.total)*100) })).sort((a,b) => a.acc - b.acc).slice(0,6);
+
+  // Attempt totals
+  const totCorrect = state.attempts.reduce((a,b)=>a+b.correct,0);
+  const totWrong = state.attempts.reduce((a,b)=>a+b.wrong,0);
+  const totSkip = state.attempts.reduce((a,b)=>a+b.unattempted,0);
+
+  return `
+    <div style="display:flex; flex-direction:column; gap:18px">
+      <div>
+        <div class="eyebrow mb-2">// Weakness radar</div>
+        <h1 class="display-md">Where you <span class="text-volt" style="font-style:italic">leak marks.</span></h1>
+        <p class="text-sm text-zinc-500 mt-2">Your last ${state.attempts.length} test${state.attempts.length>1?'s':''}, autopsied.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div class="glass" style="padding:22px">
+          <div class="eyebrow mb-3">// Score trajectory</div>
+          <div style="height: 200px"><canvas id="chart-timeline"></canvas></div>
+        </div>
+        <div class="glass" style="padding:22px">
+          <div class="eyebrow mb-3">// Subject average</div>
+          <div style="height: 200px"><canvas id="chart-subjects"></canvas></div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
+        <div class="glass lg:col-span-2" style="padding:22px">
+          <div class="eyebrow mb-3">// Capability radar</div>
+          <div style="height: 280px"><canvas id="chart-radar"></canvas></div>
+        </div>
+        <div class="glass" style="padding:22px">
+          <div class="eyebrow mb-3">// Attempt split</div>
+          <div style="height: 180px; position: relative"><canvas id="chart-pie"></canvas></div>
+          <div style="display:flex; flex-direction:column; gap:6px; margin-top:10px">
+            <div style="display:flex; justify-content:space-between; font-size:12px"><span style="display:flex; align-items:center; gap:6px; color:#a1a1aa"><span style="width:8px; height:8px; border-radius:2px; background:var(--volt)"></span> Correct</span><span style="font-family:'Space Grotesk',sans-serif; font-weight:700; color:var(--volt)">${totCorrect}</span></div>
+            <div style="display:flex; justify-content:space-between; font-size:12px"><span style="display:flex; align-items:center; gap:6px; color:#a1a1aa"><span style="width:8px; height:8px; border-radius:2px; background:#f87171"></span> Wrong</span><span style="font-family:'Space Grotesk',sans-serif; font-weight:700; color:#f87171">${totWrong}</span></div>
+            <div style="display:flex; justify-content:space-between; font-size:12px"><span style="display:flex; align-items:center; gap:6px; color:#a1a1aa"><span style="width:8px; height:8px; border-radius:2px; background:#52525b"></span> Skipped</span><span style="font-family:'Space Grotesk',sans-serif; font-weight:700; color:#a1a1aa">${totSkip}</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass" style="padding:22px">
+        <div class="eyebrow mb-4">// Weakest chapters · work on these</div>
+        ${chapterArr.length === 0 ? `<p class="text-sm text-zinc-500">Take more tests to see chapter-level insights.</p>` : `
+          <div style="display:flex; flex-direction:column; gap:12px">
+            ${chapterArr.map(c => {
+              const cls = c.acc < 50 ? 'fill-red' : c.acc < 75 ? 'fill-amber' : 'fill-volt';
+              const tcls = c.acc < 50 ? 'verdict-bad' : c.acc < 75 ? 'verdict-mid' : 'text-volt';
+              return `
+                <div>
+                  <div class="flex justify-between mb-1.5 text-sm">
+                    <span style="color:#fff; font-family:'Space Grotesk',sans-serif; font-weight:500">${esc(c.chapter)}</span>
+                    <span class="${tcls}" style="font-family:'Space Grotesk',sans-serif; font-weight:700">${c.acc}%</span>
+                  </div>
+                  <div class="bar"><div class="fill ${cls}" style="width:${c.acc}%"></div></div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `}
+      </div>
+    </div>
+  `;
+}
+
+function renderCharts() {
+  if (state.attempts.length === 0) return;
+  const defaults = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { backgroundColor: '#141414', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1, titleFont: { family: 'Space Grotesk' }, bodyFont: { family: 'Space Grotesk' } } },
+  };
+  const gridCol = 'rgba(255,255,255,0.05)';
+  const tickCol = '#52525b';
+  const tickFont = { family: 'Space Grotesk', size: 10 };
+
+  // Timeline
+  const tEl = $('#chart-timeline');
+  if (tEl) new Chart(tEl, {
+    type: 'line',
+    data: {
+      labels: state.attempts.map((_,i) => 'T'+(i+1)),
+      datasets: [{
+        data: state.attempts.map(a => a.score),
+        borderColor: '#d2f000',
+        backgroundColor: 'rgba(210,240,0,0.1)',
+        borderWidth: 2.5,
+        pointRadius: 4,
+        pointBackgroundColor: '#d2f000',
+        tension: 0.25,
+        fill: true,
+      }],
+    },
+    options: { ...defaults,
+      scales: {
+        y: { min: 0, max: 100, grid: { color: gridCol }, ticks: { color: tickCol, font: tickFont } },
+        x: { grid: { color: gridCol }, ticks: { color: tickCol, font: tickFont } },
+      },
+    },
+  });
+
+  // Subjects bar
+  const bySubj = {};
+  state.attempts.forEach(a => {
+    if (!bySubj[a.subject]) bySubj[a.subject] = { total: 0, count: 0 };
+    bySubj[a.subject].total += a.score; bySubj[a.subject].count += 1;
+  });
+  const subjData = Object.entries(bySubj).map(([k,v]) => ({ name: subjBy(k).short, avg: Math.round(v.total/v.count) }));
+  const sEl = $('#chart-subjects');
+  if (sEl) new Chart(sEl, {
+    type: 'bar',
+    data: {
+      labels: subjData.map(s => s.name),
+      datasets: [{ data: subjData.map(s => s.avg), backgroundColor: '#d2f000', borderRadius: 6 }],
+    },
+    options: { ...defaults,
+      scales: {
+        y: { min: 0, max: 100, grid: { color: gridCol }, ticks: { color: tickCol, font: tickFont } },
+        x: { grid: { display: false }, ticks: { color: tickCol, font: tickFont } },
+      },
+    },
+  });
+
+  // Radar
+  const rEl = $('#chart-radar');
+  if (rEl && subjData.length >= 3) {
+    new Chart(rEl, {
+      type: 'radar',
+      data: {
+        labels: subjData.map(s => s.name),
+        datasets: [{
+          data: subjData.map(s => s.avg),
+          borderColor: '#d2f000',
+          backgroundColor: 'rgba(210,240,0,0.2)',
+          borderWidth: 2,
+          pointBackgroundColor: '#d2f000',
+        }],
+      },
+      options: { ...defaults,
+        scales: {
+          r: {
+            min: 0, max: 100,
+            grid: { color: gridCol },
+            angleLines: { color: gridCol },
+            pointLabels: { color: '#a1a1aa', font: { family: 'Space Grotesk', size: 11, weight: '600' } },
+            ticks: { color: '#52525b', backdropColor: 'transparent', font: tickFont },
+          },
+        },
+      },
+    });
+  } else if (rEl) {
+    const ctx = rEl.getContext('2d');
+    ctx.fillStyle = '#71717a';
+    ctx.font = '13px Inter';
+    ctx.textAlign = 'center';
+    ctx.fillText('Take mocks in 3+ subjects to activate the radar.', rEl.width/2, rEl.height/2);
+  }
+
+  // Pie
+  const totCorrect = state.attempts.reduce((a,b)=>a+b.correct,0);
+  const totWrong = state.attempts.reduce((a,b)=>a+b.wrong,0);
+  const totSkip = state.attempts.reduce((a,b)=>a+b.unattempted,0);
+  const pEl = $('#chart-pie');
+  if (pEl) new Chart(pEl, {
+    type: 'doughnut',
+    data: {
+      labels: ['Correct','Wrong','Skipped'],
+      datasets: [{
+        data: [totCorrect, totWrong, totSkip],
+        backgroundColor: ['#d2f000','#f87171','#52525b'],
+        borderColor: '#0a0a0a',
+        borderWidth: 2,
+      }],
+    },
+    options: { ...defaults, cutout: '55%' },
+  });
+}
+
+/* ============== EVENT BINDING ============== */
+function bindEvents() {
+  // Generic nav
+  document.querySelectorAll('[data-go]').forEach(el => el.addEventListener('click', e => {
+    e.preventDefault();
+    setView(el.dataset.go);
+  }));
+  document.querySelectorAll('[data-nav]').forEach(el => el.addEventListener('click', () => setView(el.dataset.nav)));
+
+  // Login
+  const loginBtn = $('#login-submit');
+  const loginInp = $('#login-name');
+  if (loginBtn) {
+    const doLogin = () => {
+      const name = loginInp.value.trim();
+      if (!name) return;
+      saveUser({ name, subjects: [], joinedAt: Date.now() });
+      setView('onboarding');
+    };
+    loginBtn.addEventListener('click', doLogin);
+    loginInp.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+  }
+
+  // Onboarding
+  document.querySelectorAll('[data-subject]').forEach(el => el.addEventListener('click', () => {
+    state.tempSelected = state.tempSelected || [];
+    const id = el.dataset.subject;
+    if (state.tempSelected.includes(id)) state.tempSelected = state.tempSelected.filter(x => x !== id);
+    else if (state.tempSelected.length < 5) state.tempSelected.push(id);
+    render();
+  }));
+  const contBtn = $('#onboard-continue');
+  if (contBtn) contBtn.addEventListener('click', () => {
+    const subs = state.tempSelected || [];
+    if (subs.length === 0) return;
+    state.user.subjects = subs;
+    saveUser(state.user);
+    state.tempSelected = null;
+    setView('dashboard');
+  });
+
+  // Logout
+  const logout = $('#nav-logout');
+  if (logout) logout.addEventListener('click', () => {
+    LS.remove('mm_user');
+    state.user = null;
+    setView('landing');
+  });
+
+  // Dashboard
+  document.querySelectorAll('[data-dash-subject]').forEach(el => el.addEventListener('click', () => {
+    state.dashSubject = el.dataset.dashSubject;
+    render();
+  }));
+  document.querySelectorAll('[data-count]').forEach(el => el.addEventListener('click', () => {
+    state.dashCount = parseInt(el.dataset.count);
+    render();
+  }));
+  const startBtn = $('#start-test');
+  if (startBtn) startBtn.addEventListener('click', () => {
+    const sid = startBtn.dataset.sid;
+    const ct = parseInt(startBtn.dataset.ct);
+    const pool = state.questions.filter(q => q.subject === sid);
+    const picked = shuffle(pool).slice(0, Math.min(ct, pool.length));
+    state.currentTest = { subject: sid, questions: picked, idx: 0, answers: {}, timeLeft: picked.length * 60, startedAt: Date.now() };
+    setView('test');
+  });
+
+  // Test runner
+  document.querySelectorAll('[data-pick]').forEach(el => el.addEventListener('click', () => {
+    const t = state.currentTest;
+    const q = t.questions[t.idx];
+    t.answers[q.id] = parseInt(el.dataset.pick);
+    // Re-render just the options/palette efficiently via full render
+    render();
+  }));
+  const prevBtn = $('#prev-q');
+  if (prevBtn) prevBtn.addEventListener('click', () => { if (state.currentTest.idx > 0) { state.currentTest.idx -= 1; render(); } });
+  const nextBtn = $('#next-q');
+  if (nextBtn) nextBtn.addEventListener('click', () => { if (state.currentTest.idx < state.currentTest.questions.length-1) { state.currentTest.idx += 1; render(); } });
+  document.querySelectorAll('[data-jump]').forEach(el => el.addEventListener('click', () => {
+    state.currentTest.idx = parseInt(el.dataset.jump);
+    render();
+  }));
+  const submitBtn = $('#submit-test');
+  if (submitBtn) submitBtn.addEventListener('click', submitTest);
+  const exitBtn = $('#test-exit');
+  if (exitBtn) exitBtn.addEventListener('click', () => {
+    if (confirm('Exit this test? Progress will be lost.')) {
+      clearInterval(timerInterval);
+      state.currentTest = null;
+      setView('dashboard');
+    }
+  });
+
+  // Result
+  const rExit = $('#result-exit');
+  if (rExit) rExit.addEventListener('click', () => { state.result = null; state.currentTest = null; setView('dashboard'); });
+
+  // Upload
+  const upSubj = $('#up-subject');
+  if (upSubj) upSubj.addEventListener('change', () => { state.uploadForm.subject = upSubj.value; state.uploadForm.chapter = ''; render(); });
+  const upCh = $('#up-chapter');
+  if (upCh) upCh.addEventListener('change', () => { state.uploadForm.chapter = upCh.value; });
+  const upQ = $('#up-question');
+  if (upQ) upQ.addEventListener('input', () => { state.uploadForm.question = upQ.value; });
+  const upEx = $('#up-explain');
+  if (upEx) upEx.addEventListener('input', () => { state.uploadForm.explanation = upEx.value; });
+  const upDiff = $('#up-diff');
+  if (upDiff) upDiff.addEventListener('change', () => { state.uploadForm.difficulty = upDiff.value; });
+  const upSrc = $('#up-src');
+  if (upSrc) upSrc.addEventListener('input', () => { state.uploadForm.source = upSrc.value; });
+  document.querySelectorAll('[data-opt]').forEach(el => el.addEventListener('input', () => {
+    state.uploadForm.options[parseInt(el.dataset.opt)] = el.value;
+  }));
+  document.querySelectorAll('[data-correct]').forEach(el => el.addEventListener('click', () => {
+    state.uploadForm.correctIndex = parseInt(el.dataset.correct);
+    render();
+  }));
+  const sub = $('#submit-upload');
+  if (sub) sub.addEventListener('click', () => {
+    const f = state.uploadForm;
+    const valid = f.subject && f.chapter && f.question.trim().length>10 && f.options.every(o=>o.trim()) && f.explanation.trim();
+    if (!valid) { state.uploadMsg = 'Fill every field. Question needs 10+ chars.'; render(); return; }
+    submitQuestion({ ...f });
+    state.uploadForm = { subject:'', chapter:'', question:'', options:['','','',''], correctIndex:0, explanation:'', difficulty:'medium', source:'Community' };
+    state.uploadMsg = '✓ Submitted. Off to the moderation queue.';
+    render();
+    setTimeout(() => { if (state.view === 'upload') { state.uploadMsg = null; render(); } }, 3500);
+  });
+
+  // Moderation
+  document.querySelectorAll('[data-mod-id]').forEach(el => el.addEventListener('click', () => {
+    moderate(el.dataset.modId, el.dataset.modOk === '1');
+    render();
+  }));
+}
+
+/* ============== INIT ============== */
+document.addEventListener('DOMContentLoaded', boot);
+if (document.readyState !== 'loading') boot();
+</script>
+</body>
+</html>
