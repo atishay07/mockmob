@@ -55,7 +55,7 @@ export default function LandingPage() {
             <Icon name="arrow" style={{ color: 'var(--volt)', width: '11px', height: '11px' }} />
           </div>
           
-          <h1 className="display-xl mb-2">
+          <h1 className="display-xl mb-2 text-white">
             Stop grinding alone.<br />
             Rank up with the
           </h1>
@@ -181,8 +181,8 @@ export default function LandingPage() {
 
       {/* CTA */}
       <section className="px-5 mb-24 relative">
-        <div className="container-narrow glass text-center overflow-hidden relative" style={{ padding: '80px 20px', background: 'linear-gradient(180deg, rgba(210,240,0,0.05) 0%, rgba(255,255,255,0.01) 100%)', borderColor: 'rgba(210,240,0,0.2)' }}>
-          <DotPattern width={20} height={20} cx={1} cy={1} cr={1.5} className="opacity-40 text-volt/50" glow={true} />
+        <div className="container-narrow glass text-center overflow-hidden relative py-12 px-5 md:py-20 md:px-8" style={{ background: 'linear-gradient(180deg, rgba(210,240,0,0.05) 0%, rgba(255,255,255,0.01) 100%)', borderColor: 'rgba(210,240,0,0.2)' }}>
+          <DotPattern width={20} height={20} cx={1} cy={1} cr={1.5} className="opacity-40 text-volt/50" glow={true} style={{ maskImage: 'radial-gradient(circle at center, white, transparent 80%)', WebkitMaskImage: 'radial-gradient(circle at center, white, transparent 80%)' }} />
           <div className="relative z-10">
             <div className="w-16 h-16 bg-volt rounded-2xl mx-auto mb-6 flex items-center justify-center text-black shadow-[0_0_40px_rgba(210,240,0,0.4)]">
               <Icon name="zap" style={{ width: '28px', height: '28px' }} />
