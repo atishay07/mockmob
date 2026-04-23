@@ -4,10 +4,9 @@ import { Logo } from './Logo';
 
 export function NavBar() {
   const links = [
-    { label: 'Features', href: '/' },
+    { label: 'Features', href: '/features' },
     { label: 'Pricing', href: '/pricing' },
     { label: 'Leaderboard', href: '/login' },
-    { label: 'How it works', href: '/' },
   ];
   
   return (

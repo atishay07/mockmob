@@ -43,8 +43,8 @@ export default function LandingPage() {
         <InteractiveGridPattern 
           width={40} 
           height={40} 
-          squares={[32, 32]} 
-          className="opacity-30 mix-blend-overlay"
+          squares={[80, 80]} 
+          className="opacity-[0.15]"
           squaresClassName="hover:fill-volt/20"
         />
 
@@ -120,6 +120,33 @@ export default function LandingPage() {
         </ScrollVelocityContainer>
       </div>
 
+      {/* HOW IT WORKS */}
+      <section className="px-5 mb-24">
+        <div className="container-std">
+          <div className="text-center mb-12">
+            <div className="eyebrow mb-3">{'// Workflow'}</div>
+            <h2 className="display-lg">How MockMob <span className="text-volt" style={{ fontStyle: 'italic' }}>works.</span></h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="glass p-8 text-center relative hover:-translate-y-1 transition-transform">
+              <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 text-volt font-display font-bold text-xl border border-white/10">1</div>
+              <h3 className="heading text-xl mb-3">Pick your target</h3>
+              <p className="text-zinc-400 text-sm">Select your exam and chapters. We curate a custom mock based on what you actually need to study today.</p>
+            </div>
+            <div className="glass p-8 text-center relative hover:-translate-y-1 transition-transform border-volt/20 bg-[rgba(210,240,0,0.03)]">
+              <div className="w-12 h-12 bg-volt rounded-full flex items-center justify-center mx-auto mb-6 text-black font-display font-bold text-xl shadow-[0_0_20px_rgba(210,240,0,0.3)]">2</div>
+              <h3 className="heading text-xl mb-3 text-volt">Enter the Sprint</h3>
+              <p className="text-zinc-400 text-sm">Solve peer-reviewed questions in a strict timed environment. Feel the exact pressure of the real exam.</p>
+            </div>
+            <div className="glass p-8 text-center relative hover:-translate-y-1 transition-transform">
+              <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 text-volt font-display font-bold text-xl border border-white/10">3</div>
+              <h3 className="heading text-xl mb-3">Analyze & Climb</h3>
+              <p className="text-zinc-400 text-sm">Review your trap patterns with the AI Radar and watch your global rank jump on the live leaderboard.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FEATURES BENTO */}
       <section className="px-5 mb-24">
         <div className="container-std">
@@ -129,10 +156,13 @@ export default function LandingPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
             {features.map((f, i) => (
-              <div key={i} className={`glass p-8 flex flex-col justify-between ${f.span}`} style={{ minHeight: '320px', background: f.hero ? 'rgba(210,240,0,0.02)' : 'rgba(255,255,255,0.015)', borderColor: f.hero ? 'rgba(210,240,0,0.2)' : 'rgba(255,255,255,0.08)' }}>
-                <div>
+              <div key={i} className={`glass p-8 flex flex-col justify-between ${f.span} relative overflow-hidden group`} style={{ minHeight: '320px', background: f.hero ? 'rgba(210,240,0,0.02)' : 'rgba(255,255,255,0.015)', borderColor: f.hero ? 'rgba(210,240,0,0.2)' : 'rgba(255,255,255,0.08)' }}>
+                <div className="absolute inset-0 pointer-events-none opacity-[0.35] group-hover:opacity-100 transition-opacity duration-700 z-0">
+                  <DotPattern width={24} height={24} cx={1} cy={1} cr={1.5} className={f.hero ? "text-volt/30" : "text-white/20"} glow={true} style={{ maskImage: 'radial-gradient(ellipse at top left, white, transparent 70%)', WebkitMaskImage: 'radial-gradient(ellipse at top left, white, transparent 70%)' }} />
+                </div>
+                <div className="relative z-10">
                   <div className="flex items-center justify-between mb-8">
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: f.hero ? 'var(--volt)' : 'rgba(255,255,255,0.05)', color: f.hero ? '#000' : '#a1a1aa' }}>
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110 duration-500" style={{ background: f.hero ? 'var(--volt)' : 'rgba(255,255,255,0.05)', color: f.hero ? '#000' : '#a1a1aa' }}>
                       <Icon name={f.icon} style={{ width: '22px', height: '22px' }} />
                     </div>
                     {f.tag && <span className="pill volt">{f.tag}</span>}
@@ -180,19 +210,17 @@ export default function LandingPage() {
       </section>
 
       {/* CTA */}
-      <section className="px-5 mb-24 relative">
-        <div className="container-narrow glass text-center overflow-hidden relative py-12 px-5 md:py-20 md:px-8" style={{ background: 'linear-gradient(180deg, rgba(210,240,0,0.05) 0%, rgba(255,255,255,0.01) 100%)', borderColor: 'rgba(210,240,0,0.2)' }}>
-          <DotPattern width={20} height={20} cx={1} cy={1} cr={1.5} className="opacity-40 text-volt/50" glow={true} style={{ maskImage: 'radial-gradient(circle at center, white, transparent 80%)', WebkitMaskImage: 'radial-gradient(circle at center, white, transparent 80%)' }} />
-          <div className="relative z-10">
-            <div className="w-16 h-16 bg-volt rounded-2xl mx-auto mb-6 flex items-center justify-center text-black shadow-[0_0_40px_rgba(210,240,0,0.4)]">
-              <Icon name="zap" style={{ width: '28px', height: '28px' }} />
-            </div>
-            <h2 className="display-lg mb-4">Stop reading. Start solving.</h2>
-            <p className="text-zinc-400 mb-8 max-w-md mx-auto">The next CUET topper is already on Question 42 today. What are you waiting for?</p>
-            <Link href="/signup">
-              <Button variant="volt" size="lg" className="hover:scale-105 transition-transform">Join the Mob <Icon name="arrow" /></Button>
-            </Link>
+      <section className="px-5 mb-24 relative py-10 md:py-16 text-center">
+        <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,rgba(210,240,0,0.08)_0%,transparent_60%)] pointer-events-none" />
+        <div className="relative z-10 flex flex-col items-center">
+          <div className="w-12 h-12 bg-volt rounded-xl mx-auto mb-5 flex items-center justify-center text-black shadow-[0_0_30px_rgba(210,240,0,0.3)]">
+            <Icon name="zap" style={{ width: '22px', height: '22px' }} />
           </div>
+          <h2 className="display-lg mb-3">Stop reading. Start solving.</h2>
+          <p className="text-zinc-400 mb-8 max-w-sm mx-auto text-sm md:text-base">The next topper is already on Question 42 today. What are you waiting for?</p>
+          <Link href="/signup">
+            <Button variant="volt" size="lg" className="hover:scale-105 transition-transform">Join the Mob <Icon name="arrow" /></Button>
+          </Link>
         </div>
       </section>
 

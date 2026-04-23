@@ -106,35 +106,13 @@ const Texts = ({ texts }) => {
   );
 };
 
-const SvgFilters = () => (
-  <svg
-    id="filters"
-    className="fixed h-0 w-0"
-    preserveAspectRatio="xMidYMid slice"
-  >
-    <defs>
-      <filter id="threshold">
-        <feColorMatrix
-          in="SourceGraphic"
-          type="matrix"
-          values="1 0 0 0 0
-                  0 1 0 0 0
-                  0 0 1 0 0
-                  0 0 0 255 -140"
-        />
-      </filter>
-    </defs>
-  </svg>
-);
-
 export const MorphingText = ({ texts, className }) => (
   <div
     className={cn(
-      "relative mx-auto h-16 w-full max-w-3xl text-center font-sans text-[40pt] leading-none font-bold filter-[url(#threshold)_blur(0.6px)] md:h-24 lg:text-[6rem]",
+      "relative mx-auto h-16 w-full max-w-3xl text-center font-sans text-[40pt] leading-none font-bold md:h-24 lg:text-[6rem]",
       className
     )}
   >
     <Texts texts={texts} />
-    <SvgFilters />
   </div>
 );

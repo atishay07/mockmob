@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 import React from 'react';
 import Link from 'next/link';
-import { ShieldCheck } from 'lucide-react';
+import { ShieldCheck, ChevronDown } from 'lucide-react';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
 import { PricingCard } from '@/components/ui/PricingCard';
@@ -18,21 +18,32 @@ const plans = [
   },
   {
     name: 'Pro',
-    price: '₹399',
+    price: '₹69',
     cycle: '/month',
     description: 'For consistent aspirants who want sharper analytics.',
     ctaLabel: 'Go Pro',
     featured: true,
-    features: ['Unlimited mocks', 'AI weakness radar', 'Chapter-level recommendations', 'Priority moderation credits'],
+    features: ['Unlimited mocks', 'AI weakness tracker', 'Chapter-level recommendations', 'Priority moderation credits'],
+  }
+];
+
+const faqs = [
+  {
+    q: 'How does the Leaderboard work?',
+    a: 'Every mock you take earns you XP based on your speed, accuracy, and difficulty of the questions. Your XP dictates your rank on the global leaderboard. Taking the daily "Mock Sprint" gives you a multiplier to help you climb faster.'
   },
   {
-    name: 'Premium',
-    price: '₹899',
-    cycle: '/month',
-    description: 'Built for top-rank chasers and study squads.',
-    ctaLabel: 'Unlock Premium',
-    features: ['Everything in Pro', 'Real-time squad rooms', 'Advanced rank simulations', 'Premium mock packs + exports'],
+    q: 'What exactly is the AI Weakness Tracker?',
+    a: 'Instead of just showing you a raw score, our engine analyzes exactly which topics and sub-topics you are struggling with. It identifies your "trap patterns" (e.g. silly mistakes vs conceptual gaps) and feeds you custom mocks to fix them.'
   },
+  {
+    q: 'Can I cancel my Pro plan anytime?',
+    a: 'Absolutely. You can cancel your ₹69/month subscription at any time with no hidden fees or lock-in periods.'
+  },
+  {
+    q: 'Are the community mocks reliable?',
+    a: 'Yes! Every question uploaded by the community goes through an AI moderation pipeline and is peer-reviewed by top scorers. Questions with low ratings or incorrect keys are aggressively pruned from the active pool.'
+  }
 ];
 
 export default function PricingPage() {
@@ -54,13 +65,34 @@ export default function PricingPage() {
           </p>
         </section>
 
-        <section className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {plans.map((plan, index) => (
             <PricingCard key={plan.name} {...plan} delay={index * 80} />
           ))}
         </section>
 
-        <section className="mx-auto mt-12 max-w-3xl text-center">
+        <section className="mx-auto mt-24 max-w-3xl text-left">
+          <div className="text-center mb-10">
+            <h2 className="display-md mb-2">Frequently Asked Questions</h2>
+            <p className="text-zinc-400">Everything you need to know about MockMob</p>
+          </div>
+          
+          <div className="flex flex-col gap-3">
+            {faqs.map((faq, index) => (
+              <details key={index} className="glass p-5 group [&_summary::-webkit-details-marker]:hidden">
+                <summary className="flex items-center justify-between cursor-pointer list-none font-display text-lg font-bold">
+                  {faq.q}
+                  <ChevronDown className="h-5 w-5 text-zinc-500 transition-transform group-open:rotate-180" />
+                </summary>
+                <div className="pt-4 text-zinc-400 leading-relaxed text-sm">
+                  {faq.a}
+                </div>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        <section className="mx-auto mt-16 max-w-3xl text-center">
           <p className="text-sm text-zinc-500">Need team or institute pricing? We can set it up in minutes.</p>
           <div className="mt-4 flex justify-center">
             <LiquidGlassButton asChild variant="ghost" size="md">
