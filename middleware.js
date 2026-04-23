@@ -4,13 +4,13 @@ import { createServerClient } from '@supabase/ssr';
 function hasNextAuthSession(request) {
   return Boolean(
     request.cookies.get('authjs.session-token') ||
-      request.cookies.get('__Secure-authjs.session-token') ||
-      request.cookies.get('next-auth.session-token') ||
-      request.cookies.get('__Secure-next-auth.session-token')
+    request.cookies.get('__Secure-authjs.session-token') ||
+    request.cookies.get('next-auth.session-token') ||
+    request.cookies.get('__Secure-next-auth.session-token')
   );
 }
 
-export async function proxy(request) {
+export async function middleware(request) {
   if (hasNextAuthSession(request)) {
     return NextResponse.next();
   }
