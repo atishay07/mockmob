@@ -11,6 +11,20 @@ export async function POST(request) {
     if (!result) {
       return NextResponse.json({ error: 'Question not found' }, { status: 404 });
     }
+
+    // Phase 3: Grant credits on approval
+    if (action === 'approve' && result.uploadedBy) {
+      try {
+        await Database.grantCredits(
+          result.uploadedBy,
+          15, // 15 credits for approved question
+          `question_approved_${id}`
+        );
+      } catch (err) {
+        console.error('[api/questions/moderate] Failed to grant credits:', err);
+      }
+    }
+
     return NextResponse.json(result);
   } catch (error) {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 });

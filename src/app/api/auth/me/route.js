@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
+import { Database } from '@/../data/db';
 
 export async function GET() {
   try {
@@ -8,12 +9,22 @@ export async function GET() {
       return NextResponse.json({ user: null, needsOnboarding: false }, { status: 401 });
     }
 
+    const dbUser =
+      (await Database.getUserById(session.user.id)) ||
+      (session.user.email ? await Database.getUserByEmail(session.user.email) : null);
+
+    if (!dbUser) {
+      return NextResponse.json({ user: null, needsOnboarding: false }, { status: 404 });
+    }
+
     const user = {
-      id: session.user.id,
-      name: session.user.name || '',
-      email: session.user.email || '',
-      image: session.user.image || null,
-      subjects: session.user.subjects || [],
+      id: dbUser.id,
+      name: dbUser.name || '',
+      email: dbUser.email || '',
+      image: dbUser.image || null,
+      subjects: dbUser.subjects || [],
+      role: dbUser.role || 'student',
+      creditBalance: dbUser.creditBalance || 0,
     };
 
     return NextResponse.json({
@@ -25,4 +36,3 @@ export async function GET() {
     return NextResponse.json({ error: 'Failed to resolve auth session' }, { status: 500 });
   }
 }
-

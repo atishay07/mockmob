@@ -74,11 +74,13 @@ export default function AppLayoutClient({ children }) {
     { id: 'leaderboard',label: 'Ranks',    icon: 'trophy' },
     { id: 'upload',     label: 'Contribute',icon: 'upload' },
     { id: 'my-uploads', label: 'My Uploads',icon: 'book' },
+    { id: 'profile',    label: 'Profile',  icon: 'users' },
   ];
   const modTabs = [
     { id: 'moderation', label: 'Mod Queue', icon: 'shield' },
     { id: 'explore',    label: 'Explore',   icon: 'radar' },
     { id: 'dashboard',  label: 'Arena',     icon: 'zap' },
+    { id: 'profile',    label: 'Profile',   icon: 'users' },
   ];
   const tabs = role === 'moderator' ? modTabs : studentTabs;
 
@@ -125,18 +127,34 @@ export default function AppLayoutClient({ children }) {
           {/* Right side */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
             <RoleSwitcher />
+            
+            {/* ── Credit Pill ── */}
             <div style={{
+              display: 'flex', alignItems: 'center', gap: '4px',
+              padding: '4px 10px', borderRadius: '24px',
+              background: 'rgba(210,240,0,.1)',
+              border: '1px solid rgba(210,240,0,.2)',
+              color: 'var(--volt)', fontSize: '12px', fontWeight: 700,
+              fontFamily: 'var(--font-mono)'
+            }}>
+              <Icon name="spark" style={{ width: '12px', height: '12px' }} />
+              <span style={{ opacity: 0.75 }}>Credits</span>
+              {user?.creditBalance || 0}
+            </div>
+
+            <Link href="/profile" style={{
               display: 'flex', alignItems: 'center', gap: '6px',
               padding: '4px 10px 4px 6px', borderRadius: '24px',
               background: 'rgba(255,255,255,.04)',
               border: '1px solid rgba(255,255,255,.07)',
+              textDecoration: 'none',
             }}>
               <Avatar name={user?.name} size="sm" />
               <span style={{
                 fontSize: '12px', fontWeight: 600, color: '#d4d4d8',
                 maxWidth: '80px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
               }}>{user?.name ?? 'User'}</span>
-            </div>
+            </Link>
             <button
               onClick={async () => { await signOut(); router.push('/'); }}
               title="Sign out"

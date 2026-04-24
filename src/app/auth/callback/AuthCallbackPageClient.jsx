@@ -1,13 +1,16 @@
 "use client";
 
 import React, { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { Logo } from '@/components/Logo';
 import { getSupabaseBrowserClient } from '@/lib/supabase-browser';
 
-export default function AuthCallbackPageClient() {
-  const router = useRouter();
+const SESSION_RETRY_DELAYS = [0, 150, 300, 500];
 
+async function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export default function AuthCallbackPageClient() {
   useEffect(() => {
     let mounted = true;
 
@@ -16,23 +19,56 @@ export default function AuthCallbackPageClient() {
         const supabase = getSupabaseBrowserClient();
         const params = new URLSearchParams(window.location.search);
         const code = params.get('code');
+        const authError = params.get('error_description') || params.get('error');
 
-        if (code) {
-          await supabase.auth.exchangeCodeForSession(code);
+        if (authError) {
+          throw new Error(authError);
         }
 
-        const res = await fetch('/api/auth/me', { cache: 'no-store' });
-        if (!mounted) return;
+        if (code) {
+          const { error } = await supabase.auth.exchangeCodeForSession(code);
+          if (error) {
+            throw error;
+          }
+        }
 
-        if (!res.ok) {
-          router.replace('/signup');
+        for (const delay of SESSION_RETRY_DELAYS) {
+          if (delay) {
+            await sleep(delay);
+          }
+
+          const {
+            data: { session },
+          } = await supabase.auth.getSession();
+
+          if (!session) {
+            continue;
+          }
+
+          const res = await fetch('/api/auth/me', {
+            cache: 'no-store',
+            credentials: 'same-origin',
+          });
+          if (!mounted) return;
+
+          if (!res.ok) {
+            if (res.status === 401) {
+              continue;
+            }
+            break;
+          }
+
+          const data = await res.json();
+          window.location.replace(data?.needsOnboarding ? '/onboarding' : '/dashboard');
           return;
         }
 
-        const data = await res.json();
-        router.replace(data?.needsOnboarding ? '/onboarding' : '/dashboard');
       } catch {
-        if (mounted) router.replace('/signup');
+        // Ignore and fall through to the recovery redirect below.
+      }
+
+      if (mounted) {
+        window.location.replace('/signup');
       }
     }
 
@@ -40,7 +76,7 @@ export default function AuthCallbackPageClient() {
     return () => {
       mounted = false;
     };
-  }, [router]);
+  }, []);
 
   return (
     <div className="view min-h-screen flex items-center justify-center px-5">
@@ -52,4 +88,3 @@ export default function AuthCallbackPageClient() {
     </div>
   );
 }
-

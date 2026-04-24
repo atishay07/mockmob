@@ -25,6 +25,7 @@ const userOut = (r) => r && ({
   image: r.image,
   subjects: Array.isArray(r.subjects) ? r.subjects : [],
   role: r.role,
+  creditBalance: r.credit_balance || 0,
   createdAt: new Date(r.created_at).getTime(),
 });
 
@@ -120,6 +121,31 @@ export const Database = {
       .from('users').update(patch).eq('id', id).select('*').maybeSingle();
     if (error) throw error;
     return userOut(data);
+  },
+
+  // =====================================================================
+  // CREDITS (Atomic RPC calls)
+  // =====================================================================
+  async spendCredits(userId, amount, reference) {
+    if (amount <= 0) throw new Error("Amount must be positive");
+    const { data, error } = await supabaseAdmin().rpc('spend_credits', {
+      p_user_id: userId,
+      p_amount: amount,
+      p_reference: reference
+    });
+    if (error) throw error;
+    return data === true; // Returns true if sufficient balance, false otherwise
+  },
+
+  async grantCredits(userId, amount, reference) {
+    if (amount <= 0) throw new Error("Amount must be positive");
+    const { error } = await supabaseAdmin().rpc('grant_credits', {
+      p_user_id: userId,
+      p_amount: amount,
+      p_reference: reference
+    });
+    if (error) throw error;
+    return true;
   },
 
   // =====================================================================

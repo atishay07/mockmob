@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { NavBar } from '@/components/NavBar';
+import { LandingActions } from '@/components/LandingActions';
 import { Icon } from '@/components/ui/Icons';
 import { Button } from '@/components/ui/Button';
 import { MarketingFooter } from '@/components/MarketingFooter';
@@ -64,17 +65,7 @@ export default function LandingPage() {
           <p className="text-base md:text-lg text-zinc-400 max-w-2xl mx-auto mb-8 mt-4" style={{ lineHeight: 1.6 }}>
             India&apos;s first community-built mock test platform. Take peer-verified mocks for <span className="text-volt font-semibold">CUET, JEE, NEET, UPSC, CAT, GATE &amp; SSC</span>. Compete live. Climb boards. Crack exams.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-4">
-            <Link href="/signup">
-              <Button variant="volt" size="lg">Start a free mock <Icon name="arrow" /></Button>
-            </Link>
-            <Link href="/signup">
-              <Button variant="outline" size="lg">Get Started <Icon name="arrow" /></Button>
-            </Link>
-            <Link href="/pricing">
-              <Button variant="outline" size="lg">View Pricing <Icon name="arrow" /></Button>
-            </Link>
-          </div>
+          <LandingActions mode="hero" />
           <div className="inline-flex items-center gap-2 text-xs text-zinc-500">
             <Icon name="spark" style={{ color: 'var(--volt)', width: '12px', height: '12px' }} />
             No credit card. No spam. Just vibes and verified mocks.
@@ -218,9 +209,7 @@ export default function LandingPage() {
           </div>
           <h2 className="display-lg mb-3">Stop reading. Start solving.</h2>
           <p className="text-zinc-400 mb-8 max-w-sm mx-auto text-sm md:text-base">The next topper is already on Question 42 today. What are you waiting for?</p>
-          <Link href="/signup">
-            <Button variant="volt" size="lg" className="hover:scale-105 transition-transform">Join the Mob <Icon name="arrow" /></Button>
-          </Link>
+          <LandingActions mode="primary" />
         </div>
       </section>
 

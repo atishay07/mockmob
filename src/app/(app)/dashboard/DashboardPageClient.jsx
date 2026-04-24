@@ -11,7 +11,7 @@ import { apiGet } from '@/lib/fetcher';
 import { useAuth } from '@/components/AuthProvider';
 
 export default function DashboardPageClient() {
-  const { user, status: authStatus } = useAuth();
+  const { user, status: authStatus, refreshSession } = useAuth();
   const router = useRouter();
 
   const [subjects, setSubjects] = useState([]);
@@ -25,6 +25,9 @@ export default function DashboardPageClient() {
   const [chapters, setChapters] = useState([]);
   const [selChapter, setSelChapter] = useState(null); // null = "Any"
   const [count, setCount] = useState(10);
+  const [isLaunching, setIsLaunching] = useState(false);
+  const [creditError, setCreditError] = useState(null);
+  const [launchSuccess, setLaunchSuccess] = useState(null);
 
   // ---------- bootstrap data ----------
   useEffect(() => {
@@ -108,6 +111,18 @@ export default function DashboardPageClient() {
         <div className="eyebrow mb-2">{'// Command centre'}</div>
         <h1 className="display-md">What are we <span className="text-volt italic">grinding</span> today, {user?.name?.split(' ')[0]}?</h1>
         <p className="text-sm text-zinc-500 mt-2">Your arena is live. Pick a subject, drop a mock, and own the board.</p>
+        {creditError && (
+          <div className="mt-4 p-3 rounded-lg border border-red-500/30 bg-red-500/10 text-red-400 text-sm">
+            <Icon name="spark" className="inline-block mr-2" style={{ width: '14px', height: '14px' }} />
+            {creditError}
+          </div>
+        )}
+        {launchSuccess && (
+          <div className="mt-4 p-3 rounded-lg border border-volt/25 bg-volt/10 text-volt text-sm">
+            <Icon name="check" className="inline-block mr-2" style={{ width: '14px', height: '14px' }} />
+            {launchSuccess}
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -119,6 +134,18 @@ export default function DashboardPageClient() {
 
       {/* ---------- Launcher ---------- */}
       <div className="glass p-6">
+        <div className="glass volt-soft p-4 mb-5">
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <div>
+              <div className="mono-label mb-2">Credits</div>
+              <div className="display-md text-volt">{user?.creditBalance || 0}</div>
+            </div>
+            <div className="text-sm text-zinc-400">
+              Generate Mock <span className="text-volt font-semibold">- 1 Credit</span>
+            </div>
+          </div>
+        </div>
+
         <div className="flex items-start justify-between flex-wrap gap-3 mb-5">
           <div>
             <div className="eyebrow mb-2">{'// Drop a mock'}</div>
@@ -200,8 +227,39 @@ export default function DashboardPageClient() {
                     <span className="text-xs text-zinc-500 font-mono" style={{ fontVariantNumeric: 'tabular-nums' }}>
                       {count * 60}s · {count * 5} pts max
                     </span>
-                    <Button variant="volt" size="md" onClick={() => router.push(launchHref)}>
-                      <Icon name="play" /> Drop it
+                    <Button 
+                      variant="volt" 
+                      size="md" 
+                      disabled={isLaunching || (user?.creditBalance || 0) < 1}
+                      onClick={async () => {
+                        setCreditError(null);
+                        setLaunchSuccess(null);
+                        setIsLaunching(true);
+                        try {
+                          // Spend 1 credit to generate a premium mock
+                          const res = await fetch('/api/credits/spend', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ amount: 1, reference: `generate_mock_${selSubj}_${count}` })
+                          });
+                          
+                          if (!res.ok) {
+                            const data = await res.json();
+                            setCreditError(data.error || 'Insufficient credits to generate mock.');
+                            setIsLaunching(false);
+                            return;
+                          }
+                          
+                          await refreshSession({ silent: true });
+                          setLaunchSuccess('Credits verified. Launching your mock...');
+                          router.push(launchHref);
+                        } catch (err) {
+                          setCreditError('Failed to verify credits. Please try again.');
+                          setIsLaunching(false);
+                        }
+                      }}
+                    >
+                      <Icon name="play" /> {isLaunching ? 'Verifying...' : 'Generate Mock - 1 Credit'}
                     </Button>
                   </div>
                 </div>

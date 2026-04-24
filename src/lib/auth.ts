@@ -76,7 +76,7 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET || 'fallback_secret_for_dev_only'
 };
 
-const { handlers, auth: nextAuthAuth } = NextAuth(authOptions);
+const { handlers } = NextAuth(authOptions);
 
 async function getSupabaseUserFromCookies() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -121,16 +121,22 @@ async function ensureDbUserFromIdentity(identity) {
       image: identity.image || null,
       subjects: [],
     });
+    return dbUser;
   }
+
+  const updates = {};
+  if (!dbUser.name && identity.name) updates.name = identity.name;
+  if (!dbUser.email && identity.email) updates.email = identity.email;
+  if (!dbUser.image && identity.image) updates.image = identity.image;
+
+  if (Object.keys(updates).length > 0) {
+    dbUser = await Database.updateUser(dbUser.id, updates);
+  }
+
   return dbUser;
 }
 
 export async function auth() {
-  const nextAuthSession = await nextAuthAuth();
-  if (nextAuthSession?.user?.id) {
-    return nextAuthSession;
-  }
-
   const supabaseUser = await getSupabaseUserFromCookies();
   if (!supabaseUser?.email) return null;
 
@@ -145,10 +151,12 @@ export async function auth() {
   return {
     user: {
       id: dbUser.id,
-      name: dbUser.name,
-      email: dbUser.email,
+      name: dbUser.name || '',
+      email: dbUser.email || '',
       image: dbUser.image,
       subjects: dbUser.subjects || [],
+      role: dbUser.role || 'student',
+      creditBalance: dbUser.creditBalance || 0,
       supabaseId: supabaseUser.id,
     },
   };
