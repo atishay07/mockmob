@@ -1,36 +1,22 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-
-const STORAGE_KEY = 'mm_role';
-const VALID_ROLES = ['student', 'moderator'];
+import React, { createContext, useContext, useMemo } from 'react';
+import { useAuth } from '@/components/AuthProvider';
 
 const RoleContext = createContext(null);
 
 export function RoleProvider({ children }) {
-  const [role, setRoleState] = useState('student');
-  const [loaded, setLoaded] = useState(false);
+  const { user } = useAuth();
+  const role = user?.role === 'moderator' ? 'moderator' : 'student';
 
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored && VALID_ROLES.includes(stored)) setRoleState(stored);
-    } catch {}
-    setLoaded(true);
-  }, []);
-
-  const setRole = useCallback((r) => {
-    if (!VALID_ROLES.includes(r)) return;
-    setRoleState(r);
-    try { localStorage.setItem(STORAGE_KEY, r); } catch {}
-  }, []);
-
-  if (!loaded) return null; // avoid SSR flash
+  const value = useMemo(() => ({
+    role,
+    setRole: () => {},
+    isModerator: role === 'moderator',
+  }), [role]);
 
   return (
-    <RoleContext.Provider value={{ role, setRole, isModerator: role === 'moderator' }}>
-      {children}
-    </RoleContext.Provider>
+    <RoleContext.Provider value={value}>{children}</RoleContext.Provider>
   );
 }
 

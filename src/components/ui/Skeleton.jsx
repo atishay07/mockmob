@@ -53,3 +53,24 @@ export function ErrorState({ message = 'Something went wrong.', onRetry }) {
     </div>
   );
 }
+
+export function EmptyState({
+  eyebrow = '// Empty',
+  title = 'Nothing here yet.',
+  message = 'Once data starts flowing, it will show up here.',
+  actionLabel,
+  onAction,
+}) {
+  return (
+    <div className="glass p-8 text-center flex flex-col items-center gap-3">
+      <div className="eyebrow no-dot">{eyebrow}</div>
+      <h3 className="heading text-xl">{title}</h3>
+      <p className="text-sm text-zinc-400 max-w-md">{message}</p>
+      {actionLabel && onAction && (
+        <button onClick={onAction} className="btn-outline sm">
+          {actionLabel}
+        </button>
+      )}
+    </div>
+  );
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Logo } from '@/components/Logo';
@@ -10,46 +10,26 @@ import { useAuth } from '@/components/AuthProvider';
 import { useRole } from '@/lib/roleContext';
 import { DotPattern } from '@/components/ui/dot-pattern';
 
-// ── Role switcher pill ────────────────────────────────────────────────────────
-function RoleSwitcher() {
-  const { role, setRole } = useRole();
-  const next = role === 'student' ? 'moderator' : 'student';
-  return (
-    <button
-      onClick={() => setRole(next)}
-      title={`Switch to ${next}`}
-      style={{
-        display: 'flex', alignItems: 'center', gap: '5px',
-        padding: '4px 10px', borderRadius: '20px',
-        background: role === 'moderator'
-          ? 'rgba(210,240,0,.12)'
-          : 'rgba(255,255,255,.05)',
-        border: role === 'moderator'
-          ? '1px solid rgba(210,240,0,.3)'
-          : '1px solid rgba(255,255,255,.08)',
-        color: role === 'moderator' ? 'var(--volt)' : '#71717a',
-        cursor: 'pointer', fontSize: '9px',
-        fontFamily: 'var(--font-mono)', fontWeight: 700, letterSpacing: '0.15em',
-        textTransform: 'uppercase', transition: 'all .2s ease',
-      }}
-    >
-      {role === 'moderator' ? '⚡' : '👤'} {role}
-    </button>
-  );
-}
-
-// ── Main layout ───────────────────────────────────────────────────────────────
 export default function AppLayoutClient({ children }) {
-  const pathname   = usePathname();
-  const router     = useRouter();
+  const pathname = usePathname();
+  const router = useRouter();
   const { user, status, signOut } = useAuth();
-  const { role }   = useRole();
+  const { role, isModerator } = useRole();
 
   useEffect(() => {
-    if (status === 'unauthenticated') router.replace('/signup');
+    if (status === 'unauthenticated') {
+      router.replace('/signup');
+    }
   }, [status, router]);
 
-  if (status !== 'authenticated') {
+  useEffect(() => {
+    if (status !== 'authenticated') return;
+    if (pathname.startsWith('/moderation') && !isModerator) {
+      router.replace('/dashboard');
+    }
+  }, [status, pathname, isModerator, router]);
+
+  if (status !== 'authenticated' || (pathname.startsWith('/moderation') && !isModerator)) {
     return (
       <div style={{
         minHeight: '100vh', display: 'flex', alignItems: 'center',
@@ -66,69 +46,71 @@ export default function AppLayoutClient({ children }) {
     );
   }
 
-  // ── Nav tabs (role-aware) ──
   const studentTabs = [
-    { id: 'dashboard',  label: 'Arena',    icon: 'zap' },
-    { id: 'explore',    label: 'Explore',  icon: 'radar' },
-    { id: 'analytics',  label: 'Radar',    icon: 'bar' },
-    { id: 'leaderboard',label: 'Ranks',    icon: 'trophy' },
-    { id: 'upload',     label: 'Contribute',icon: 'upload' },
-    { id: 'my-uploads', label: 'My Uploads',icon: 'book' },
-    { id: 'profile',    label: 'Profile',  icon: 'users' },
+    { id: 'dashboard', label: 'Arena', icon: 'zap' },
+    { id: 'explore', label: 'Explore', icon: 'radar' },
+    { id: 'analytics', label: 'Radar', icon: 'bar' },
+    { id: 'leaderboard', label: 'Ranks', icon: 'trophy' },
+    { id: 'upload', label: 'Contribute', icon: 'upload' },
+    { id: 'my-uploads', label: 'My Uploads', icon: 'book' },
+    { id: 'profile', label: 'Profile', icon: 'users' },
   ];
-  const modTabs = [
-    { id: 'moderation', label: 'Mod Queue', icon: 'shield' },
-    { id: 'explore',    label: 'Explore',   icon: 'radar' },
-    { id: 'dashboard',  label: 'Arena',     icon: 'zap' },
-    { id: 'profile',    label: 'Profile',   icon: 'users' },
-  ];
-  const tabs = role === 'moderator' ? modTabs : studentTabs;
 
+  const modTabs = [
+    { id: 'dashboard', label: 'Arena', icon: 'zap' },
+    { id: 'moderation', label: 'Mod Queue', icon: 'shield' },
+    { id: 'explore', label: 'Explore', icon: 'radar' },
+    { id: 'profile', label: 'Profile', icon: 'users' },
+  ];
+
+  const tabs = role === 'moderator' ? modTabs : studentTabs;
   const isActive = (id) => pathname.includes(id);
 
   return (
     <div className="view" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      {/* ── Top Nav ── */}
       <nav style={{
         position: 'sticky', top: 0, zIndex: 40,
         background: 'rgba(10,10,10,.85)',
         backdropFilter: 'blur(20px)',
         borderBottom: '1px solid rgba(255,255,255,.06)',
       }}>
-        <div className="container-std" style={{
-          padding: '0 20px',
-          display: 'flex', alignItems: 'center',
-          height: '60px', gap: '8px',
-        }}>
-          {/* Logo */}
+        <div className="container-std px-4 py-3 md:py-0 flex flex-wrap md:flex-nowrap items-center gap-3 md:h-[60px]">
           <Logo />
 
-          {/* Nav links — scrollable on mobile */}
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: '2px',
-            overflowX: 'auto', flex: 1, margin: '0 8px',
-            scrollbarWidth: 'none',
-          }}
-            className="no-scrollbar"
-          >
-            {tabs.map(t => (
+          <div className="no-scrollbar order-3 md:order-none basis-full md:basis-auto md:flex-1 flex items-center gap-2 overflow-x-auto md:mx-2">
+            {tabs.map((tab) => (
               <Link
-                key={t.id}
-                href={`/${t.id}`}
-                className={`nav-link ${isActive(t.id) ? 'active' : ''}`}
+                key={tab.id}
+                href={`/${tab.id}`}
+                className={`nav-link ${isActive(tab.id) ? 'active' : ''}`}
                 style={{ whiteSpace: 'nowrap' }}
               >
-                <Icon name={t.icon} style={{ width: '13px', height: '13px' }} />
-                {t.label}
+                <Icon name={tab.icon} style={{ width: '13px', height: '13px' }} />
+                {tab.label}
               </Link>
             ))}
           </div>
 
-          {/* Right side */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
-            <RoleSwitcher />
-            
-            {/* ── Credit Pill ── */}
+          <div className="ml-auto flex w-full md:w-auto items-center justify-between md:justify-end gap-2 flex-wrap md:flex-nowrap">
+            {isModerator && (
+              <Link
+                href="/moderation"
+                className="btn-ghost"
+                style={{
+                  padding: '6px 10px',
+                  borderRadius: '999px',
+                  border: '1px solid rgba(210,240,0,.22)',
+                  background: 'rgba(210,240,0,.08)',
+                  color: 'var(--volt)',
+                  fontSize: '10px',
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                Moderator Mode
+              </Link>
+            )}
+
             <div style={{
               display: 'flex', alignItems: 'center', gap: '4px',
               padding: '4px 10px', borderRadius: '24px',
@@ -142,19 +124,24 @@ export default function AppLayoutClient({ children }) {
               {user?.creditBalance || 0}
             </div>
 
-            <Link href="/profile" style={{
-              display: 'flex', alignItems: 'center', gap: '6px',
-              padding: '4px 10px 4px 6px', borderRadius: '24px',
-              background: 'rgba(255,255,255,.04)',
-              border: '1px solid rgba(255,255,255,.07)',
-              textDecoration: 'none',
-            }}>
+            <Link
+              href="/profile"
+              style={{
+                display: 'flex', alignItems: 'center', gap: '6px',
+                padding: '4px 10px 4px 6px', borderRadius: '24px',
+                background: 'rgba(255,255,255,.04)',
+                border: '1px solid rgba(255,255,255,.07)',
+                textDecoration: 'none',
+                minWidth: 0,
+              }}
+            >
               <Avatar name={user?.name} size="sm" />
               <span style={{
                 fontSize: '12px', fontWeight: 600, color: '#d4d4d8',
-                maxWidth: '80px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                maxWidth: '90px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
               }}>{user?.name ?? 'User'}</span>
             </Link>
+
             <button
               onClick={async () => { await signOut(); router.push('/'); }}
               title="Sign out"
@@ -163,16 +150,15 @@ export default function AppLayoutClient({ children }) {
                 borderRadius: '8px', padding: '6px 8px', cursor: 'pointer',
                 color: '#52525b', transition: 'color .15s ease',
               }}
-              onMouseEnter={e => e.currentTarget.style.color = '#f87171'}
-              onMouseLeave={e => e.currentTarget.style.color = '#52525b'}
+              onMouseEnter={(e) => { e.currentTarget.style.color = '#f87171'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = '#52525b'; }}
             >
               <Icon name="logout" style={{ width: '14px', height: '14px' }} />
             </button>
           </div>
         </div>
 
-        {/* ── Role banner for moderators ── */}
-        {role === 'moderator' && (
+        {isModerator && (
           <div style={{
             background: 'rgba(210,240,0,.06)',
             borderTop: '1px solid rgba(210,240,0,.15)',
@@ -181,13 +167,12 @@ export default function AppLayoutClient({ children }) {
             fontSize: '10px', color: 'var(--volt)',
             fontFamily: 'var(--font-mono)', fontWeight: 700, letterSpacing: '0.18em',
           }}>
-            ⚡ MODERATOR MODE — actions are permanent
+            Moderator access is active for this account.
           </div>
         )}
       </nav>
 
-      {/* ── Page content ── */}
-      <main style={{ flex: 1, padding: '32px 20px', position: 'relative' }}>
+      <main className="px-4 py-6 md:px-5 md:py-8" style={{ flex: 1, position: 'relative' }}>
         <DotPattern className="fixed inset-0 opacity-20 pointer-events-none" width={24} height={24} />
         <div className="container-std relative z-10">
           {children}

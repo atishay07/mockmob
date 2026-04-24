@@ -6,10 +6,12 @@ import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icons';
 import { SkeletonCard, ErrorState } from '@/components/ui/Skeleton';
 import { useAuth } from '@/components/AuthProvider';
+import { useToast } from '@/components/ToastProvider';
 import { apiGet, apiPatch } from '@/lib/fetcher';
 
 export default function ProfilePageClient() {
   const { user, status, refreshSession } = useAuth();
+  const toast = useToast();
   const [attempts, setAttempts] = useState([]);
   const [pageStatus, setPageStatus] = useState('loading');
   const [error, setError] = useState(null);
@@ -131,8 +133,11 @@ export default function ProfilePageClient() {
                   await refreshSession({ silent: true });
                   setDraftName(null);
                   setSaveState({ type: 'success', message: 'Profile updated successfully.' });
+                  toast.success('Profile updated successfully.');
                 } catch (e) {
-                  setSaveState({ type: 'error', message: e.message || 'Failed to update profile.' });
+                  const message = e.message || 'Failed to update profile.';
+                  setSaveState({ type: 'error', message });
+                  toast.error(message);
                 } finally {
                   setIsSaving(false);
                 }
