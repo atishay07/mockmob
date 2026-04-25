@@ -9,7 +9,6 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const subjectId = searchParams.get('subject');
     const chapter = searchParams.get('chapter');
-    const idempotencyKey = searchParams.get('generationKey');
     const countRaw = parseInt(searchParams.get('count') || '10', 10);
     const count = Number.isFinite(countRaw) ? Math.max(1, Math.min(100, countRaw)) : 10;
 
@@ -20,15 +19,6 @@ export async function GET(request) {
     const session = await auth();
     if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-    if (typeof idempotencyKey !== 'string' || idempotencyKey.length < 12) {
-      return NextResponse.json({ error: 'generationKey is required' }, { status: 400 });
-    }
-
-    const reference = `generate:${session.user.id}:${idempotencyKey}`;
-    const paid = await Database.spendCredits(session.user.id, 'generate', reference);
-    if (!paid) {
-      return NextResponse.json({ error: 'Insufficient credits' }, { status: 402 });
     }
 
     const questions = await Database.getQuestions(subjectId, count, {
