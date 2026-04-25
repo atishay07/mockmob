@@ -1,7 +1,8 @@
 "use client";
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { fetchFeed } from '@/lib/services/questionService';
 import { QuestionCard } from './QuestionCard';
+
+const FEED_LIMIT = 20;
 
 // ── Card skeleton ─────────────────────────────────────────────────────────────
 function CardSkeleton() {
@@ -128,17 +129,28 @@ function Spinner() {
 export function DiscoveryFeed() {
   const [subjects,    setSubjects]    = useState([]);
   const [subject,     setSubject]     = useState('');
-  const [chapters,    setChapters]    = useState([]);
+  // chaptersData holds the raw API response: { grouped, units? [], chapters? [] }
+  const [chaptersData, setChaptersData] = useState(null);
+  const [unit,        setUnit]        = useState('');
   const [chapter,     setChapter]     = useState('');
   const [questions,   setQuestions]   = useState([]);
-  const [cursors,     setCursors]     = useState({ easy: null, medium: null, hard: null });
+  const [search,      setSearch]      = useState('');
   const [initLoading, setInitLoading] = useState(false);
   const [moreLoading, setMoreLoading] = useState(false);
   const [hasMore,     setHasMore]     = useState(true);
   const [error,       setError]       = useState(null);
 
   const loadingRef  = useRef(false);
+  const offsetRef   = useRef(0);       // tracks how many questions have been fetched
   const sentinelRef = useRef(null);
+
+  // ── Derived chapter lists ──
+  const isGrouped     = chaptersData?.grouped === true;
+  const unitList      = isGrouped ? (chaptersData.units ?? []) : [];
+  const flatChapters  = isGrouped ? [] : (chaptersData?.chapters ?? []);
+  const unitChapters  = isGrouped && unit
+    ? (unitList.find(u => u.id === unit)?.chapters ?? [])
+    : [];
 
   // ── Load subjects once ──
   useEffect(() => {
@@ -152,46 +164,46 @@ export function DiscoveryFeed() {
       .catch(() => {});
   }, []);
 
-  // ── Load chapters when subject changes ──
+  // ── Load chapters/units when subject changes ──
   useEffect(() => {
     if (!subject) return;
+    setUnit('');
     setChapter('');
-    setChapters([]);
+    setChaptersData(null);
     fetch(`/api/chapters?subject=${encodeURIComponent(subject)}`)
-      .then(r => r.ok ? r.json() : [])
-      .then(d => setChapters(Array.isArray(d) ? d : []))
+      .then(r => r.ok ? r.json() : null)
+      .then(d => setChaptersData(d && typeof d === 'object' ? d : null))
       .catch(() => {});
   }, [subject]);
 
-  // ── Core fetch ──
-  const loadFeed = useCallback(async (isReset, activeCursors) => {
+  // ── Core fetch — uses /api/questions/feed with offset pagination ──
+  const loadFeed = useCallback(async (isReset) => {
     if (loadingRef.current || !subject) return;
     loadingRef.current = true;
     isReset ? setInitLoading(true) : setMoreLoading(true);
     setError(null);
 
+    if (isReset) offsetRef.current = 0;
+
     try {
-      const data = await fetchFeed({
+      const params = new URLSearchParams({
         subject,
-        chapter: chapter || '',
-        limit: 12,
-        cursors: isReset ? { easy: null, medium: null, hard: null } : activeCursors,
+        limit: String(FEED_LIMIT),
+        offset: String(offsetRef.current),
       });
+      if (chapter) params.set('chapter', chapter);
+
+      const res = await fetch(`/api/questions/feed?${params}`);
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}));
+        throw new Error(d.error || `Feed load failed (${res.status})`);
+      }
+      const data = await res.json();
 
       const incoming = data.questions ?? [];
-      const nc = data.next_cursors ?? {};
-      const newCursors = {
-        easy:   nc.cursor_easy   ?? null,
-        medium: nc.cursor_medium ?? null,
-        hard:   nc.cursor_hard   ?? null,
-      };
-
+      offsetRef.current += incoming.length;
       setQuestions(prev => isReset ? incoming : [...prev, ...incoming]);
-      setCursors(newCursors);
-
-      const exhausted = !nc.cursor_easy && !nc.cursor_medium && !nc.cursor_hard;
-      if (incoming.length === 0 || exhausted) setHasMore(false);
-      else setHasMore(true);
+      setHasMore(data.hasMore ?? false);
     } catch (e) {
       setError(e.message ?? 'Could not load questions');
     } finally {
@@ -205,8 +217,7 @@ export function DiscoveryFeed() {
     if (!subject) return;
     setQuestions([]);
     setHasMore(true);
-    setCursors({ easy: null, medium: null, hard: null });
-    loadFeed(true, null);
+    loadFeed(true);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subject, chapter]);
 
@@ -216,16 +227,43 @@ export function DiscoveryFeed() {
     const obs = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && hasMore && !loadingRef.current && questions.length > 0) {
-          loadFeed(false, cursors);
+          loadFeed(false);
         }
       },
       { rootMargin: '400px' }
     );
     obs.observe(sentinelRef.current);
     return () => obs.disconnect();
-  }, [hasMore, cursors, questions.length, loadFeed]);
+  }, [hasMore, questions.length, loadFeed]);
 
   const currentSubject = subjects.find(s => s.id === subject);
+
+  const selectStyle = {
+    flex: 1, padding: '8px 12px', borderRadius: '10px',
+    border: '1px solid rgba(255,255,255,.08)',
+    background: 'rgba(255,255,255,.03)',
+    color: '#f4f4f5', fontSize: '12px',
+    fontFamily: 'var(--font-mono)', letterSpacing: '0.05em',
+    cursor: 'pointer', outline: 'none',
+    appearance: 'none',
+    backgroundImage: 'linear-gradient(45deg, transparent 50%, #71717a 50%), linear-gradient(135deg, #71717a 50%, transparent 50%)',
+    backgroundPosition: 'calc(100% - 16px) 50%, calc(100% - 11px) 50%',
+    backgroundSize: '5px 5px',
+    backgroundRepeat: 'no-repeat',
+    paddingRight: '30px',
+  };
+
+  // ── Client-side search filter ──
+  const needle = search.trim().toLowerCase();
+  const visibleQuestions = needle
+    ? questions.filter(q => {
+        const hay = [
+          q.body, q.question, q.subject, q.chapter,
+          ...(Array.isArray(q.tags) ? q.tags : []),
+        ].filter(Boolean).join(' ').toLowerCase();
+        return hay.includes(needle);
+      })
+    : questions;
 
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', width: '100%' }}>
@@ -240,13 +278,30 @@ export function DiscoveryFeed() {
         </p>
       </div>
 
-      {/* ── Subject filter ── */}
+      {/* ── Search input ── */}
+      <div style={{ marginBottom: '16px' }}>
+        <input
+          type="search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search questions by text, subject, or tag…"
+          style={{
+            width: '100%', padding: '11px 14px', borderRadius: '12px',
+            border: '1px solid rgba(255,255,255,.08)',
+            background: 'rgba(255,255,255,.03)',
+            color: '#f4f4f5', fontSize: '13px',
+            fontFamily: 'var(--font-sans, inherit)', outline: 'none',
+            transition: 'border-color .15s ease',
+          }}
+          onFocus={e => { e.currentTarget.style.borderColor = 'rgba(210,240,0,.4)'; }}
+          onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,.08)'; }}
+        />
+      </div>
+
+      {/* ── Subject filter (wrapping grid — no horizontal scroll) ── */}
       {subjects.length > 0 && (
-        <div style={{ marginBottom: '16px' }}>
-          <div style={{
-            display: 'flex', gap: '6px', overflowX: 'auto', paddingBottom: '4px',
-            scrollbarWidth: 'none',
-          }} className="no-scrollbar">
+        <div style={{ marginBottom: '14px' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
             {subjects.map(s => (
               <FilterPill
                 key={s.id}
@@ -260,26 +315,77 @@ export function DiscoveryFeed() {
         </div>
       )}
 
-      {/* ── Chapter filter ── */}
-      {chapters.length > 0 && (
+      {/* ── Unit dropdown (only when subject has units) ── */}
+      {isGrouped && unitList.length > 0 && (
         <div style={{
-          marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px',
+          marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '10px',
+        }}>
+          <span style={{
+            fontSize: '10px', color: '#52525b',
+            fontFamily: 'var(--font-mono)', letterSpacing: '0.15em', textTransform: 'uppercase',
+            flexShrink: 0,
+          }}>Unit</span>
+          <select
+            value={unit}
+            onChange={(e) => { setUnit(e.target.value); setChapter(''); }}
+            style={selectStyle}
+          >
+            <option value="" style={{ background: '#0a0a0a' }}>All units</option>
+            {unitList.map(u => (
+              <option key={u.id} value={u.id} style={{ background: '#0a0a0a' }}>{u.name}</option>
+            ))}
+          </select>
+        </div>
+      )}
+
+      {/* ── Chapter dropdown ── */}
+      {/* Grouped subject: show only when a unit is selected */}
+      {isGrouped && unit && unitChapters.length > 0 && (
+        <div style={{
+          marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px',
         }}>
           <span style={{
             fontSize: '10px', color: '#52525b',
             fontFamily: 'var(--font-mono)', letterSpacing: '0.15em', textTransform: 'uppercase',
             flexShrink: 0,
           }}>Chapter</span>
-          <div style={{ display: 'flex', gap: '6px', overflowX: 'auto', scrollbarWidth: 'none' }} className="no-scrollbar">
-            <FilterPill active={chapter === ''} onClick={() => setChapter('')}>All</FilterPill>
-            {chapters.map(c => (
-              <FilterPill
-                key={c.id ?? c.name}
-                active={chapter === c.name}
-                onClick={() => setChapter(c.name)}
-              >{c.name}</FilterPill>
+          <select
+            value={chapter}
+            onChange={(e) => setChapter(e.target.value)}
+            style={selectStyle}
+          >
+            <option value="" style={{ background: '#0a0a0a' }}>All chapters</option>
+            {unitChapters.map(c => (
+              <option key={c.id ?? c.name} value={c.name} style={{ background: '#0a0a0a' }}>
+                {c.name}
+              </option>
             ))}
-          </div>
+          </select>
+        </div>
+      )}
+
+      {/* Flat subject: always show chapter dropdown */}
+      {!isGrouped && flatChapters.length > 0 && (
+        <div style={{
+          marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px',
+        }}>
+          <span style={{
+            fontSize: '10px', color: '#52525b',
+            fontFamily: 'var(--font-mono)', letterSpacing: '0.15em', textTransform: 'uppercase',
+            flexShrink: 0,
+          }}>Chapter</span>
+          <select
+            value={chapter}
+            onChange={(e) => setChapter(e.target.value)}
+            style={selectStyle}
+          >
+            <option value="" style={{ background: '#0a0a0a' }}>All chapters</option>
+            {flatChapters.map(c => (
+              <option key={c.id ?? c.name} value={c.name} style={{ background: '#0a0a0a' }}>
+                {c.name}
+              </option>
+            ))}
+          </select>
         </div>
       )}
 
@@ -293,17 +399,31 @@ export function DiscoveryFeed() {
       )}
 
       {!initLoading && error && (
-        <ErrorState message={error} onRetry={() => loadFeed(true, null)} />
+        <ErrorState message={error} onRetry={() => loadFeed(true)} />
       )}
 
       {!initLoading && !error && questions.length === 0 && (
         <EmptyState subjectName={currentSubject?.name} />
       )}
 
-      {!initLoading && !error && questions.map(row => (
+      {!initLoading && !error && questions.length > 0 && visibleQuestions.length === 0 && (
+        <div style={{
+          textAlign: 'center', padding: '48px 24px',
+          background: 'rgba(255,255,255,.02)',
+          border: '1px solid rgba(255,255,255,.06)',
+          borderRadius: '20px',
+        }}>
+          <div style={{ fontSize: '2rem', marginBottom: '10px' }}>🔍</div>
+          <p style={{ color: '#71717a', fontSize: '13px' }}>
+            No questions match “{search}”.
+          </p>
+        </div>
+      )}
+
+      {!initLoading && !error && visibleQuestions.map(q => (
         <QuestionCard
-          key={row.question_id ?? row.id ?? row.questions?.id ?? Math.random()}
-          row={row}
+          key={q.id}
+          row={q}
         />
       ))}
 
@@ -312,8 +432,8 @@ export function DiscoveryFeed() {
 
       {moreLoading && <Spinner />}
 
-      {!hasMore && !moreLoading && questions.length > 0 && (
-        <EndState count={questions.length} />
+      {!hasMore && !moreLoading && visibleQuestions.length > 0 && (
+        <EndState count={visibleQuestions.length} />
       )}
 
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>

@@ -1,11 +1,15 @@
 import { NextResponse } from 'next/server';
 import { Database } from '@/../data/db';
+import { auth } from '@/lib/auth';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
     const subjectId = searchParams.get('subject');
     const chapter = searchParams.get('chapter');
+    const idempotencyKey = searchParams.get('generationKey');
     const countRaw = parseInt(searchParams.get('count') || '10', 10);
     const count = Number.isFinite(countRaw) ? Math.max(1, Math.min(100, countRaw)) : 10;
 
@@ -13,7 +17,24 @@ export async function GET(request) {
       return NextResponse.json({ error: 'Subject is required' }, { status: 400 });
     }
 
-    const questions = await Database.getQuestions(subjectId, count, { chapter: chapter || undefined });
+    const session = await auth();
+    if (!session?.user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    if (typeof idempotencyKey !== 'string' || idempotencyKey.length < 12) {
+      return NextResponse.json({ error: 'generationKey is required' }, { status: 400 });
+    }
+
+    const reference = `generate:${session.user.id}:${idempotencyKey}`;
+    const paid = await Database.spendCredits(session.user.id, 'generate', reference);
+    if (!paid) {
+      return NextResponse.json({ error: 'Insufficient credits' }, { status: 402 });
+    }
+
+    const questions = await Database.getQuestions(subjectId, count, {
+      chapter: chapter || undefined,
+      userId: session.user.id,
+    });
     return NextResponse.json(questions);
   } catch (e) {
     console.error('[api/questions] GET failed:', e);
@@ -38,12 +59,20 @@ function validateQuestionPayload(q) {
 
 export async function POST(request) {
   try {
+    const session = await auth();
+    if (!session?.user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const body = await request.json();
     const errors = validateQuestionPayload(body);
     if (errors.length) {
       return NextResponse.json({ error: 'Validation failed', details: errors }, { status: 400 });
     }
-    const newQuestion = await Database.addPendingQuestion(body);
+    const newQuestion = await Database.addPendingQuestion({
+      ...body,
+      uploadedBy: session.user.id,
+    });
     return NextResponse.json(newQuestion, { status: 201 });
   } catch (e) {
     console.error('[api/questions] POST failed:', e);

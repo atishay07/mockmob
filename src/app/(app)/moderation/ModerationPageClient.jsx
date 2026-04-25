@@ -93,7 +93,8 @@ function ModCard({ question, onAction, toast }) {
         {options.length > 0 && (
           <div className="flex flex-col gap-2 mb-4">
             {options.map((option, index) => {
-              const isCorrect = option.key === question.correct_answer || String(option.key) === String(question.correct_answer);
+              const correctKey = question.correctAnswer ?? (question.options?.[question.correctIndex]?.key);
+              const isCorrect = option.key === correctKey || String(option.key) === String(correctKey);
               return (
                 <div
                   key={index}

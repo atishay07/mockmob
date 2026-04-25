@@ -1,5 +1,7 @@
 -- Add credit balance to users table
-ALTER TABLE users ADD COLUMN IF NOT EXISTS credit_balance INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE users ADD COLUMN IF NOT EXISTS credit_balance INTEGER NOT NULL DEFAULT 100;
+ALTER TABLE users ALTER COLUMN credit_balance SET DEFAULT 100;
+UPDATE users SET credit_balance = 100 WHERE credit_balance = 0;
 
 -- Create enum for transaction types if it doesn't exist
 DO $$ BEGIN

@@ -1,11 +1,14 @@
 import { supabase } from '@/lib/supabase';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const { count, error } = await supabase
       .from('questions')
       .select('*', { count: 'exact', head: true })
-      .eq('status', 'live');
+      .eq('is_deleted', false)
+      .or('status.eq.live,and(verification_state.eq.verified,exploration_state.eq.active)');
     
     if (error) throw error;
     

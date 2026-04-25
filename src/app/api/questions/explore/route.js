@@ -4,8 +4,12 @@
 //                    the discovery feed.
 
 import { supabase } from '@/lib/supabase'
+import { auth } from '@/lib/auth'
+import { Database } from '@/../data/db'
 
-const DIFFICULTY_QUOTAS = { easy: 0.35, medium: 0.45, hard: 0.20 }
+export const dynamic = 'force-dynamic'
+
+const DIFFICULTY_QUOTAS = { easy: 0.10, medium: 0.60, hard: 0.30 }
 
 /**
  * GET /api/questions/explore
@@ -70,6 +74,13 @@ export async function GET(request) {
   const buckets = { easy: easyRows, medium: mediumRows, hard: hardRows }
 
   const { result: merged, lastConsumed } = interleaveByQuota(buckets, DIFFICULTY_QUOTAS, limit)
+  const session = await auth().catch(() => null)
+  if (session?.user?.id && merged.length > 0) {
+    const voteMap = await Database.getUserVotes(session.user.id, merged.map((row) => row.question_id))
+    for (const row of merged) {
+      if (row.questions) row.questions.userVote = voteMap.get(row.question_id) || null
+    }
+  }
 
   // Build next_cursors: the rank_score of the last item served from each bucket.
   // A null means nothing was served from that bucket this page (exhausted or target = 0).
@@ -96,9 +107,10 @@ async function fetchBucket({ subject, chapter, difficulty, lane, limit, cursor }
   const quota       = DIFFICULTY_QUOTAS[difficulty]
   const bucketLimit = Math.ceil(limit * quota) + 3
 
-  let query = supabase
-    .from('question_scores')
-    .select(`
+  const buildQuery = (withVotes) => {
+    let query = supabase
+      .from('question_scores')
+      .select(`
       question_id,
       rank_score,
       momentum_score,
@@ -110,7 +122,7 @@ async function fetchBucket({ subject, chapter, difficulty, lane, limit, cursor }
       skip_rate,
       report_rate,
       exploration_lane,
-      questions (
+      questions!inner (
         id,
         subject,
         chapter,
@@ -122,28 +134,41 @@ async function fetchBucket({ subject, chapter, difficulty, lane, limit, cursor }
         ai_score,
         verification_state,
         quality_band,
+        ${withVotes ? 'upvotes, downvotes, score,' : ''}
         live_at
       )
     `)
-    .eq('subject', subject)
-    .eq('difficulty', difficulty)
-    .eq('exploration_lane', lane)
-    .eq('is_eligible_for_discovery', true)
-    .order('rank_score', { ascending: false })
-    .limit(bucketLimit)
+      .eq('subject', subject)
+      .eq('difficulty', difficulty)
+      .eq('exploration_lane', lane)
+      .eq('is_eligible_for_discovery', true)
+      .order('rank_score', { ascending: false })
+      .limit(bucketLimit)
 
-  if (chapter) query = query.eq('chapter', chapter)
-  // Per-difficulty cursor: only return items ranked below this score
-  if (cursor !== null) query = query.lt('rank_score', cursor)
+    if (withVotes) query = query.gte('questions.score', 0)
+    if (chapter) query = query.eq('chapter', chapter)
+    // Per-difficulty cursor: only return items ranked below this score
+    if (cursor !== null) query = query.lt('rank_score', cursor)
+    return query
+  }
 
-  const { data, error } = await query
+  let { data, error } = await buildQuery(true)
+  if (error && (error.code === '42703' || /score|upvotes|downvotes|column .* does not exist/i.test(error.message || ''))) {
+    ({ data, error } = await buildQuery(false))
+  }
 
   if (error) {
     console.error(`[explore] bucket fetch error (${difficulty}):`, error)
     return []
   }
 
-  return data ?? []
+  return (data ?? []).sort((a, b) => {
+    const aScore = a.questions?.score ?? 0
+    const bScore = b.questions?.score ?? 0
+    const aBoost = aScore > 5 ? 1000 : 0
+    const bBoost = bScore > 5 ? 1000 : 0
+    return (bBoost + bScore + Number(b.rank_score || 0)) - (aBoost + aScore + Number(a.rank_score || 0))
+  })
 }
 
 /**

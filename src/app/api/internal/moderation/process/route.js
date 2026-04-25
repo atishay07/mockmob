@@ -236,7 +236,17 @@ async function processJob(job) {
     }
   }
 
-  return { question_id: question.id, tier: finalTier, ai_score: aiScore }
+  return {
+    question_id: question.id,
+    tier: finalTier,
+    ai_score: aiScore,
+    validation: {
+      score: llmResult?.score ?? null,
+      difficulty_correct: llmResult?.difficulty_correct ?? null,
+      cuet_alignment: llmResult?.cuet_alignment ?? null,
+      issues: llmResult?.issues ?? [],
+    },
+  }
 }
 
 async function markJobCompleted(jobId) {

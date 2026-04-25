@@ -1,0 +1,152 @@
+[auth] daily login credit grant failed: Could not find the function public.grant_daily_login_credits(p_user_id) in the schema cache
+[auth] daily login credit grant failed: Could not find the function public.grant_daily_login_credits(p_user_id) in the schema cache
+[auth] daily login credit grant failed: Could not find the function public.grant_daily_login_credits(p_user_id) in the schema cache
+[auth] daily login credit grant failed: Could not find the function public.grant_daily_login_credits(p_user_id) in the schema cache
+[auth] daily login credit grant failed: Could not find the function public.grant_daily_login_credits(p_user_id) in the schema cache
+[auth] daily login credit grant failed: Could not find the function public.grant_daily_login_credits(p_user_id) in the schema cache
+[auth] daily login credit grant failed: Could not find the function public.grant_daily_login_credits(p_user_id) in the schema cache
+[auth] daily login credit grant failed: Could not find the function public.grant_daily_login_credits(p_user_id) in the schema cache
+[auth] daily login credit grant failed: Could not find the function public.grant_daily_login_credits(p_user_id) in the schema cache
+[auth] daily login credit grant failed: Could not find the function public.grant_daily_login_credits(p_user_id) in the schema cache
+[auth] daily login credit grant failed: Could not find the function public.grant_daily_login_credits(p_user_id) in the schema cache
+[auth] daily login credit grant failed: Could not find the function public.grant_daily_login_credits(p_user_id) in the schema cache
+[auth] daily login credit grant failed: Could not find the function public.grant_daily_login_credits(p_user_id) in the schema cache
+[auth] daily login credit grant failed: Could not find the function public.grant_daily_login_credits(p_user_id) in the schema cache
+[auth] daily login credit grant failed: Could not find the function public.grant_daily_login_credits(p_user_id) in the schema cache
+[auth] daily login credit grant failed: Could not find the function public.grant_daily_login_credits(p_user_id) in the schema cache
+[api/questions] GET failed: {
+  code: '42703',
+  details: null,
+  hint: null,
+  message: 'column questions.score does not exist'
+}
+[api/questions/vote] POST failed: {
+  code: 'PGRST202',
+  details: 'Searched for the function public.apply_question_vote with parameters p_question_id, p_user_id, p_vote_type or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.',
+  hint: 'Perhaps you meant to call the function public.claim_moderation_job',
+  message: 'Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache'
+}
+[browser] [vote] failed: Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[api/questions/vote] POST failed: {
+  code: 'PGRST202',
+  details: 'Searched for the function public.apply_question_vote with parameters p_question_id, p_user_id, p_vote_type or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.',
+  hint: 'Perhaps you meant to call the function public.claim_moderation_job',
+  message: 'Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache'
+}
+[browser] [vote] failed: Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[api/questions/vote] POST failed: {
+  code: 'PGRST202',
+  details: 'Searched for the function public.apply_question_vote with parameters p_question_id, p_user_id, p_vote_type or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.',
+  hint: 'Perhaps you meant to call the function public.claim_moderation_job',
+  message: 'Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache'
+}
+[browser] [vote] failed: Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[api/questions/vote] POST failed: {
+  code: 'PGRST202',
+  details: 'Searched for the function public.apply_question_vote with parameters p_question_id, p_user_id, p_vote_type or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.',
+  hint: 'Perhaps you meant to call the function public.claim_moderation_job',
+  message: 'Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache'
+}
+[browser] [vote] failed: Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[api/questions/vote] POST failed: {
+  code: 'PGRST202',
+  details: 'Searched for the function public.apply_question_vote with parameters p_question_id, p_user_id, p_vote_type or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.',
+  hint: 'Perhaps you meant to call the function public.claim_moderation_job',
+  message: 'Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache'
+}
+[browser] [vote] failed: Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[api/questions/vote] POST failed: {
+  code: 'PGRST202',
+  details: 'Searched for the function public.apply_question_vote with parameters p_question_id, p_user_id, p_vote_type or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.',
+  hint: 'Perhaps you meant to call the function public.claim_moderation_job',
+  message: 'Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache'
+}
+[browser] [vote] failed: Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[api/questions/vote] POST failed: {
+  code: 'PGRST202',
+  details: 'Searched for the function public.apply_question_vote with parameters p_question_id, p_user_id, p_vote_type or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.',
+  hint: 'Perhaps you meant to call the function public.claim_moderation_job',
+  message: 'Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache'
+}
+[browser] [vote] failed: Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[api/questions/vote] POST failed: {
+  code: 'PGRST202',
+  details: 'Searched for the function public.apply_question_vote with parameters p_question_id, p_user_id, p_vote_type or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.',
+  hint: 'Perhaps you meant to call the function public.claim_moderation_job',
+  message: 'Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache'
+}
+[browser] [vote] failed: Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[api/questions/vote] POST failed: {
+  code: 'PGRST202',
+  details: 'Searched for the function public.apply_question_vote with parameters p_question_id, p_user_id, p_vote_type or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.',
+  hint: 'Perhaps you meant to call the function public.claim_moderation_job',
+  message: 'Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache'
+}
+[browser] [vote] failed: Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[api/questions/vote] POST failed: {
+  code: 'PGRST202',
+  details: 'Searched for the function public.apply_question_vote with parameters p_question_id, p_user_id, p_vote_type or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.',
+  hint: 'Perhaps you meant to call the function public.claim_moderation_job',
+  message: 'Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache'
+}
+[browser] [vote] failed: Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[api/questions/vote] POST failed: {
+  code: 'PGRST202',
+  details: 'Searched for the function public.apply_question_vote with parameters p_question_id, p_user_id, p_vote_type or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.',
+  hint: 'Perhaps you meant to call the function public.claim_moderation_job',
+  message: 'Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache'
+}
+[browser] [vote] failed: Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[api/questions/vote] POST failed: {
+  code: 'PGRST202',
+  details: 'Searched for the function public.apply_question_vote with parameters p_question_id, p_user_id, p_vote_type or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.',
+  hint: 'Perhaps you meant to call the function public.claim_moderation_job',
+  message: 'Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache'
+}
+[browser] [vote] failed: Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[api/questions/vote] POST failed: {
+  code: 'PGRST202',
+  details: 'Searched for the function public.apply_question_vote with parameters p_question_id, p_user_id, p_vote_type or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.',
+  hint: 'Perhaps you meant to call the function public.claim_moderation_job',
+  message: 'Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache'
+}
+[browser] [vote] failed: Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[api/questions/vote] POST failed: {
+  code: 'PGRST202',
+  details: 'Searched for the function public.apply_question_vote with parameters p_question_id, p_user_id, p_vote_type or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.',
+  hint: 'Perhaps you meant to call the function public.claim_moderation_job',
+  message: 'Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache'
+}
+[browser] [vote] failed: Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[api/questions/vote] POST failed: {
+  code: 'PGRST202',
+  details: 'Searched for the function public.apply_question_vote with parameters p_question_id, p_user_id, p_vote_type or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.',
+  hint: 'Perhaps you meant to call the function public.claim_moderation_job',
+  message: 'Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache'
+}
+[browser] [vote] failed: Could not find the function public.apply_question_vote(p_question_id, p_user_id, p_vote_type) in the schema cache (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+⚠ Blocked cross-origin request to Next.js dev resource /_next/webpack-hmr from "127.0.0.1".
+Cross-origin access to Next.js dev resources is blocked by default for safety.
+
+To allow this host in development, add it to "allowedDevOrigins" in next.config.js and restart the dev server:
+
+// next.config.js
+module.exports = {
+  allowedDevOrigins: ['127.0.0.1'],
+}
+
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+[api/questions/vote] POST failed: {
+  code: '42702',
+  details: 'It could refer to either a PL/pgSQL variable or a table column.',
+  hint: null,
+  message: 'column reference "question_id" is ambiguous'
+}
+[browser] [vote] failed: column reference "question_id" is ambiguous (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+[api/questions/vote] POST failed: {
+  code: '42702',
+  details: 'It could refer to either a PL/pgSQL variable or a table column.',
+  hint: null,
+  message: 'column reference "question_id" is ambiguous'
+}
+[browser] [vote] failed: column reference "question_id" is ambiguous (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)

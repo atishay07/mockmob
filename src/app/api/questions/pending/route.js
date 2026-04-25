@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
 import { Database } from '@/../data/db';
 
-// GET /api/questions/pending           → pending queue
-// GET /api/questions/pending?status=rejected → rejected archive
+export const dynamic = 'force-dynamic';
+
+// GET /api/questions/pending           -> pending queue
+// GET /api/questions/pending?status=rejected -> rejected archive
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);

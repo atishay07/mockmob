@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Icon } from '@/components/ui/Icons';
@@ -11,8 +11,10 @@ import { apiGet } from '@/lib/fetcher';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/ToastProvider';
 
+const TEST_START_CREDIT_COST = 10;
+
 export default function DashboardPageClient() {
-  const { user, status: authStatus, refreshSession } = useAuth();
+  const { user, status: authStatus } = useAuth();
   const toast = useToast();
   const router = useRouter();
 
@@ -22,12 +24,15 @@ export default function DashboardPageClient() {
   const [status, setStatus] = useState('loading');
   const [error, setError] = useState(null);
   const [stats, setStats] = useState({ bankSize: 0 });
+  const [submissions, setSubmissions] = useState([]);
+  const [subRefreshing, setSubRefreshing] = useState(false);
 
   const [selSubj, setSelSubj] = useState(null);
   const [chapters, setChapters] = useState([]);
   const [selChapter, setSelChapter] = useState(null);
   const [count, setCount] = useState(10);
   const [isLaunching, setIsLaunching] = useState(false);
+  const launchingKeyRef = useRef(null);
   const [creditError, setCreditError] = useState(null);
   const [launchSuccess, setLaunchSuccess] = useState(null);
 
@@ -37,17 +42,19 @@ export default function DashboardPageClient() {
     let alive = true;
     async function load() {
       try {
-        const [subs, atts, board, statData] = await Promise.all([
+        const [subs, atts, board, statData, myQs] = await Promise.all([
           apiGet('/api/subjects'),
           apiGet(`/api/attempts?userId=${user.id}`),
           apiGet('/api/leaderboard'),
           apiGet('/api/stats'),
+          apiGet('/api/questions/mine').catch(() => []),
         ]);
         if (!alive) return;
         setSubjects(subs);
         setAttempts(atts);
         setLeaderboard(board);
         setStats(statData);
+        setSubmissions(Array.isArray(myQs) ? myQs : []);
         const mySubs = subs.filter((subject) => user.subjects?.includes(subject.id));
         if (mySubs.length > 0) setSelSubj(mySubs[0].id);
         setStatus('ready');
@@ -61,6 +68,18 @@ export default function DashboardPageClient() {
     load();
     return () => { alive = false; };
   }, [user, authStatus]);
+
+  async function refreshSubmissions() {
+    setSubRefreshing(true);
+    try {
+      const myQs = await apiGet('/api/questions/mine');
+      setSubmissions(Array.isArray(myQs) ? myQs : []);
+    } catch {
+      // non-fatal
+    } finally {
+      setSubRefreshing(false);
+    }
+  }
 
   useEffect(() => {
     if (!selSubj) return;
@@ -145,7 +164,7 @@ export default function DashboardPageClient() {
               <div className="display-md text-volt">{user?.creditBalance || 0}</div>
             </div>
             <div className="text-sm text-zinc-400">
-              Generate Mock <span className="text-volt font-semibold">- 1 Credit</span>
+              Generate Mock <span className="text-volt font-semibold">- {TEST_START_CREDIT_COST} Credits</span>
             </div>
           </div>
         </div>
@@ -236,46 +255,84 @@ export default function DashboardPageClient() {
                     <Button
                       variant="volt"
                       size="md"
-                      disabled={isLaunching || (user?.creditBalance || 0) < 1}
+                      disabled={isLaunching || (user?.creditBalance || 0) < TEST_START_CREDIT_COST}
                       onClick={async () => {
                         setCreditError(null);
                         setLaunchSuccess(null);
+                        if (isLaunching) return;
                         setIsLaunching(true);
+                        launchingKeyRef.current = launchingKeyRef.current || crypto.randomUUID();
                         try {
-                          const res = await fetch('/api/credits/spend', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ amount: 1, reference: `generate_mock_${selSubj}_${count}` }),
-                          });
-
-                          if (!res.ok) {
-                            const data = await res.json();
-                            const message = data.error || 'Insufficient credits to generate mock.';
-                            setCreditError(message);
-                            toast.error(message);
-                            setIsLaunching(false);
-                            return;
-                          }
-
-                          await refreshSession({ silent: true });
-                          setLaunchSuccess('Credits verified. Launching your mock...');
-                          toast.success('Mock unlocked. Entering the arena...');
-                          router.push(launchHref);
+                          setLaunchSuccess('Launching your mock...');
+                          toast.success('Entering the arena...');
+                          router.push(`${launchHref}&generationKey=${encodeURIComponent(launchingKeyRef.current)}`);
                         } catch {
                           const message = 'Failed to verify credits. Please try again.';
                           setCreditError(message);
                           toast.error(message);
                           setIsLaunching(false);
+                          launchingKeyRef.current = null;
                         }
                       }}
                     >
-                      <Icon name="play" /> {isLaunching ? 'Verifying...' : 'Generate Mock - 1 Credit'}
+                      <Icon name="play" /> {isLaunching ? 'Verifying...' : `Generate Mock - ${TEST_START_CREDIT_COST} Credits`}
                     </Button>
                   </div>
                 </div>
               </div>
             )}
           </>
+        )}
+      </div>
+
+      {/* ── My Submissions ── */}
+      <div className="glass p-6">
+        <div className="flex items-center justify-between mb-3">
+          <div className="eyebrow">{'// My submissions'}</div>
+          <button
+            onClick={refreshSubmissions}
+            disabled={subRefreshing}
+            className="btn-outline sm"
+            style={{ borderRadius: '999px', fontSize: '10px', padding: '3px 12px' }}
+          >
+            {subRefreshing ? 'Refreshing…' : 'Refresh'}
+          </button>
+        </div>
+        {submissions.length === 0 ? (
+          <EmptyState
+            eyebrow="// Nothing yet"
+            title="No questions uploaded"
+            message="Upload a question and track its moderation status here."
+          />
+        ) : (
+          <div>
+            {submissions.slice(0, 10).map((q) => {
+              const STATUS = {
+                live:     { label: 'Approved', color: '#4ade80', bg: 'rgba(74,222,128,.08)',    border: 'rgba(74,222,128,.2)'    },
+                pending:  { label: 'Pending',  color: '#fbbf24', bg: 'rgba(251,191,36,.08)',   border: 'rgba(251,191,36,.2)'   },
+                rejected: { label: 'Rejected', color: '#f87171', bg: 'rgba(248,113,113,.08)', border: 'rgba(248,113,113,.2)' },
+              };
+              const s = STATUS[q.status] ?? STATUS.pending;
+              return (
+                <div key={q.id} className="flex items-start justify-between gap-3 py-2.5 border-b border-white/5 last:border-0">
+                  <div className="min-w-0 flex-1">
+                    <div className="font-display font-medium text-[13px] text-white truncate">{q.question}</div>
+                    <div className="mono-label mt-0.5">
+                      {q.subject}{q.chapter ? ` · ${q.chapter}` : ''} · {new Date(q.createdAt).toLocaleDateString()}
+                    </div>
+                  </div>
+                  <span style={{
+                    flexShrink: 0, padding: '2px 8px', borderRadius: '4px',
+                    fontSize: '10px', fontFamily: 'var(--font-mono)', fontWeight: 700,
+                    letterSpacing: '0.1em', textTransform: 'uppercase',
+                    color: s.color, background: s.bg, border: `1px solid ${s.border}`,
+                  }}>
+                    {s.label}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
         )}
       </div>
 

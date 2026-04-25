@@ -8,6 +8,7 @@ import { ProgressBar } from '@/components/ui/ProgressBar';
 import { PageSpinner, ErrorState } from '@/components/ui/Skeleton';
 import { apiGet, apiPost } from '@/lib/fetcher';
 import { useAuth } from '@/components/AuthProvider';
+import { VoteControls } from '@/components/questions/VoteControls';
 
 /**
  * Test Runner
@@ -29,14 +30,29 @@ import { useAuth } from '@/components/AuthProvider';
 const storageKey = (uid, subject, chapter, count) =>
   `mm:test:${uid || 'anon'}:${subject}:${chapter || '*'}:${count}`;
 
+function optionLabel(option) {
+  return typeof option === 'string' ? option : option?.text ?? String(option ?? '');
+}
+
+function correctOptionIndex(question) {
+  if (Number.isInteger(question.correctIndex)) return question.correctIndex;
+  if (!Array.isArray(question.options)) return -1;
+  return question.options.findIndex((option, index) => (
+    option?.key === question.correctAnswer ||
+    option?.key === question.correct_answer ||
+    String(index) === String(question.correctAnswer ?? question.correct_answer)
+  ));
+}
+
 function TestRunner() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { user, status: authStatus } = useAuth();
+  const { user, status: authStatus, refreshSession } = useAuth();
 
   const subjectId = searchParams.get('subject');
   const chapter   = searchParams.get('chapter') || null;
   const count     = parseInt(searchParams.get('count') || '10', 10);
+  const generationKey = searchParams.get('generationKey');
 
   const [questions, setQuestions] = useState([]);
   const [idx, setIdx] = useState(0);
@@ -70,6 +86,12 @@ function TestRunner() {
     let alive = true;
     async function load() {
       setLoading(true); setError(null);
+      if (!generationKey || generationKey.length < 12) {
+        if (!alive) return;
+        setError('Missing generation key. Start a fresh test from the dashboard.');
+        setLoading(false);
+        return;
+      }
 
       // Attempt restore from localStorage
       if (typeof window !== 'undefined') {
@@ -99,6 +121,7 @@ function TestRunner() {
       try {
         const qs = new URLSearchParams({ subject: subjectId, count: String(count) });
         if (chapter) qs.set('chapter', chapter);
+        qs.set('generationKey', generationKey);
         const data = await apiGet(`/api/questions?${qs.toString()}`);
         if (!alive) return;
         if (!Array.isArray(data) || data.length === 0) {
@@ -112,6 +135,7 @@ function TestRunner() {
         setIdx(0);
         setEndsAt(ends);
         setLoading(false);
+        refreshSession({ silent: true });
       } catch (e) {
         if (!alive) return;
         setError(e.message || 'Failed to load questions');
@@ -120,7 +144,7 @@ function TestRunner() {
     }
     load();
     return () => { alive = false; };
-  }, [subjectId, chapter, count, key, authStatus]);
+  }, [subjectId, chapter, count, generationKey, key, authStatus, refreshSession]);
 
   // ------------------------------------------------------------------
   // Persist progress on every answer/idx change.
@@ -176,7 +200,7 @@ function TestRunner() {
     const details = qs.map((q) => {
       const given = ans[q.id];
       if (given === undefined) { unattempted++; return { qid: q.id, givenIndex: null, isCorrect: null }; }
-      const isCorrect = given === q.correctIndex;
+      const isCorrect = given === correctOptionIndex(q);
       if (isCorrect) correct++; else wrong++;
       return { qid: q.id, givenIndex: given, isCorrect };
     });
@@ -284,6 +308,21 @@ function TestRunner() {
             <div className="flex gap-2 mb-4">
               <span className="pill volt">{q.chapter}</span>
               {q.difficulty && <span className="pill subtle">{q.difficulty}</span>}
+              <span className="ml-auto">
+                <VoteControls
+                  questionId={q.id}
+                  initialScore={q.score}
+                  initialUserVote={q.userVote}
+                  compact
+                  onVoteApplied={(vote) => {
+                    setQuestions((prev) => prev.map((item) => (
+                      item.id === q.id
+                        ? { ...item, score: vote.score, upvotes: vote.upvotes, downvotes: vote.downvotes, userVote: vote.userVote }
+                        : item
+                    )));
+                  }}
+                />
+              </span>
             </div>
             <h2 className="heading text-xl md:text-2xl leading-relaxed mb-8">{q.question}</h2>
             <div className="flex flex-col gap-3">
@@ -294,7 +333,7 @@ function TestRunner() {
                   onClick={() => setAnswers(prev => ({ ...prev, [q.id]: i }))}
                 >
                   <span className="letter">{['A','B','C','D','E'][i] || (i + 1)}</span>
-                  <span>{opt}</span>
+                  <span>{optionLabel(opt)}</span>
                 </button>
               ))}
             </div>

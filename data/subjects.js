@@ -1,3 +1,5 @@
+import { getCanonicalSubject } from './canonical_syllabus.js';
+
 // CUET Subject Definitions — Complete mapping
 // Source of truth for subject metadata (id, name, short code, glyph, chapters).
 // Chapters here are mirrored into the `chapters` DB table by scripts/seed.mjs
@@ -313,6 +315,14 @@ export const SUBJECTS = [
     ],
   },
 ];
+
+for (const subject of SUBJECTS) {
+  const canonical = getCanonicalSubject(subject.id);
+  if (!canonical) continue;
+
+  subject.units = canonical.units;
+  subject.chapters = Array.from(new Set(canonical.units.flatMap((unit) => unit.chapters)));
+}
 
 export function getSubjectById(id) {
   return SUBJECTS.find((s) => s.id === id);

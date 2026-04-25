@@ -1,9 +1,20 @@
 "use client";
-import React, { useEffect, useRef, useState, useCallback, memo } from 'react';
+import React, { useEffect, useRef, useState, useCallback, useMemo, memo } from 'react';
 import { interactWithQuestion } from '@/lib/services/questionService';
 import { Analytics } from '@/lib/analytics';
+import { VoteControls } from '@/components/questions/VoteControls';
 
 const LETTERS = ['A', 'B', 'C', 'D', 'E'];
+
+function readSavedState(id) {
+  if (!id || typeof window === 'undefined') return false;
+  try {
+    const saves = JSON.parse(localStorage.getItem('mm_saves') || '{}');
+    return Boolean(saves[id]);
+  } catch {
+    return false;
+  }
+}
 
 // ── Difficulty badge ──────────────────────────────────────────────────────────
 const DIFF = {
@@ -67,17 +78,32 @@ const Option = memo(function Option({ idx, text, state, disabled, onSelect }) {
 // ── Main card ─────────────────────────────────────────────────────────────────
 export const QuestionCard = memo(function QuestionCard({ row }) {
   const q       = row?.questions ?? row ?? {};
-  const options = Array.isArray(q.options) ? q.options : [];
+  const options = useMemo(() => (
+    Array.isArray(q.options) ? q.options : []
+  ), [q.options]);
 
   const [selected,  setSelected]  = useState(null);   // idx
   const [revealed,  setRevealed]  = useState(false);
-  const [liked,     setLiked]     = useState(false);
-  const [saved,     setSaved]     = useState(false);
+  const [saved,     setSaved]     = useState(() => readSavedState(q.id));
   const [skipping,  setSkipping]  = useState(false);
 
-  const mountAt  = useRef(Date.now());
+  const mountAt  = useRef(0);
   const seenDone = useRef(false);
   const cardRef  = useRef(null);
+
+  // ── Reset per-question timers without making render time-dependent ──
+  useEffect(() => {
+    mountAt.current = Date.now();
+  }, [q.id]);
+
+  const writeLS = (key, id, value) => {
+    try {
+      const obj = JSON.parse(localStorage.getItem(key) || '{}');
+      if (value === null || value === 0 || value === false) delete obj[id];
+      else obj[id] = value;
+      localStorage.setItem(key, JSON.stringify(obj));
+    } catch { /* ignore */ }
+  };
 
   // ── Auto-fire "seen" at 60 % visibility ──────────────────────────────────
   useEffect(() => {
@@ -125,19 +151,12 @@ export const QuestionCard = memo(function QuestionCard({ row }) {
     setTimeout(() => { setRevealed(true); setSkipping(false); }, 300);
   }, [revealed, skipping, q.id]);
 
-  const handleLike = useCallback(() => {
-    setLiked(p => !p);
-    interactWithQuestion(q.id, {
-      interaction_type: liked ? 'unlike' : 'like',
-      flow_context: 'explore',
-      dwell_ms: dwellMs(),
-    });
-  }, [liked, q.id]);
-
   const handleSave = useCallback(() => {
-    setSaved(p => !p);
+    const next = !saved;
+    setSaved(next);
+    writeLS('mm_saves', q.id, next ? Date.now() : false);
     interactWithQuestion(q.id, {
-      interaction_type: saved ? 'unsave' : 'save',
+      interaction_type: next ? 'save' : 'unsave',
       flow_context: 'explore',
       dwell_ms: dwellMs(),
     });
@@ -249,26 +268,12 @@ export const QuestionCard = memo(function QuestionCard({ row }) {
         paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,.06)',
         gap: '12px',
       }}>
-        {/* Like cluster */}
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: '2px',
-          background: 'rgba(255,255,255,.04)', borderRadius: '24px', padding: '4px',
-        }}>
-          <ActionBtn
-            label="Like"
-            active={liked}
-            activeColor="#000"
-            activeBg="var(--volt)"
-            onClick={handleLike}
-          >▲</ActionBtn>
-          <span style={{
-            minWidth: '28px', textAlign: 'center',
-            fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '11px', color: '#71717a',
-          }}>
-            {row?.like_rate != null ? `${Math.round(row.like_rate * 100)}%` : '—'}
-          </span>
-          <ActionBtn label="Downvote" activeBg="rgba(248,113,113,.25)" activeColor="#f87171">▼</ActionBtn>
-        </div>
+        {/* Vote cluster */}
+        <VoteControls
+          questionId={q.id}
+          initialScore={q.score}
+          initialUserVote={q.userVote}
+        />
 
         {/* Save + Skip */}
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>

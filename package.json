@@ -7,10 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "db:seed": "node scripts/seed.mjs"
+    "db:seed": "node scripts/seed.mjs",
+    "autonomous": "node --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.90.0",
+    "@google/generative-ai": "^0.24.1",
     "@radix-ui/react-slot": "^1.2.4",
     "@supabase/ssr": "^0.10.2",
     "@supabase/supabase-js": "^2.104.0",

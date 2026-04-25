@@ -13,8 +13,8 @@ import { SEED_QUESTIONS } from './questions';
 
 // ---------- id helpers (match legacy formats) ----------
 const rid = () => Math.random().toString(36).substring(2, 9);
-const newUserId     = () => `usr_${Date.now()}_${rid()}`;
-const newAttemptId  = () => `att_${Date.now()}_${rid()}`;
+const newUserId = () => `usr_${Date.now()}_${rid()}`;
+const newAttemptId = () => `att_${Date.now()}_${rid()}`;
 const newQuestionId = () => `q_${Date.now()}_${rid()}`;
 
 // ---------- row <-> app-shape mappers ----------
@@ -33,15 +33,92 @@ const questionOut = (r) => r && ({
   id: r.id,
   subject: r.subject,
   chapter: r.chapter,
-  question: r.question,
+  body: r.body ?? r.question,
+  question: r.question ?? r.body,   // upload route writes `body`; addPendingQuestion writes `question`
   options: r.options || [],
-  correctIndex: r.correct_index,
+  correctIndex: Number.isInteger(r.correct_index)
+    ? r.correct_index
+    : Array.isArray(r.options)
+      ? r.options.findIndex((option, index) => (
+        option?.key === r.correct_answer || String(index) === String(r.correct_answer)
+      ))
+      : -1,
+  correctAnswer: r.correct_answer,  // upload route writes `correct_answer`
   explanation: r.explanation,
   difficulty: r.difficulty,
   source: r.source,
   status: r.status,
   uploadedBy: r.uploaded_by,
+  authorId: r.author_id ?? r.uploaded_by,
+  aiTier: r.ai_tier,
+  aiScore: r.ai_score,
+  verificationState: r.verification_state,
+  qualityBand: r.quality_band,
+  upvotes: r.upvotes || 0,
+  downvotes: r.downvotes || 0,
+  score: r.score || 0,
+  userVote: r.user_vote || null,
+  createdAt: r.created_at ? new Date(r.created_at).getTime() : null,
 });
+
+const VISIBLE_QUESTION_FILTER = 'status.eq.live,and(verification_state.eq.verified,exploration_state.eq.active)';
+const MOCK_DIFFICULTY_QUOTAS = { easy: 0.10, medium: 0.60, hard: 0.30 };
+
+function isMissingPhase1VoteSchema(error) {
+  return error?.code === '42703' ||
+    error?.code === '42P01' ||
+    /question_votes|score|upvotes|downvotes|schema cache|column .* does not exist/i.test(error?.message || '');
+}
+
+function computeDifficultyTargets(total) {
+  if (total <= 1) return { easy: 0, medium: total, hard: 0 };
+
+  let easy = Math.max(1, Math.round(total * MOCK_DIFFICULTY_QUOTAS.easy));
+  let medium = Math.max(1, Math.round(total * MOCK_DIFFICULTY_QUOTAS.medium));
+  let hard = total - easy - medium;
+
+  if (hard < 1 && total >= 3) {
+    hard = 1;
+  }
+
+  while (easy + medium + hard > total) {
+    if (medium > 1) medium--;
+    else if (hard > 1) hard--;
+    else break;
+  }
+
+  while (easy + medium + hard < total) {
+    medium++;
+  }
+
+  return { easy, medium, hard };
+}
+
+function pickQuestionsForMock(rows, count) {
+  const buckets = {
+    easy: rows.filter((row) => row.difficulty === 'easy'),
+    medium: rows.filter((row) => row.difficulty === 'medium'),
+    hard: rows.filter((row) => row.difficulty === 'hard'),
+    other: rows.filter((row) => !['easy', 'medium', 'hard'].includes(row.difficulty)),
+  };
+
+  const targets = computeDifficultyTargets(count);
+  const selected = [];
+
+  for (const difficulty of ['easy', 'medium', 'hard']) {
+    for (let i = 0; i < targets[difficulty] && buckets[difficulty].length > 0; i += 1) {
+      selected.push(buckets[difficulty].shift());
+    }
+  }
+
+  for (const difficulty of ['medium', 'hard', 'easy', 'other']) {
+    while (selected.length < count && buckets[difficulty].length > 0) {
+      selected.push(buckets[difficulty].shift());
+    }
+  }
+
+  return selected.slice(0, count);
+}
 
 const attemptOut = (r) => r && ({
   id: r.id,
@@ -102,6 +179,7 @@ export const Database = {
       image: user.image || null,
       subjects: user.subjects || [],
       role: user.role || 'student',
+      credit_balance: 100,
     };
     const { data, error } = await supabaseAdmin()
       .from('users').insert(row).select('*').single();
@@ -111,11 +189,11 @@ export const Database = {
 
   async updateUser(id, updates) {
     const patch = {};
-    if ('name'     in updates) patch.name     = updates.name;
-    if ('email'    in updates) patch.email    = updates.email;
-    if ('image'    in updates) patch.image    = updates.image;
+    if ('name' in updates) patch.name = updates.name;
+    if ('email' in updates) patch.email = updates.email;
+    if ('image' in updates) patch.image = updates.image;
     if ('subjects' in updates) patch.subjects = updates.subjects;
-    if ('role'     in updates) patch.role     = updates.role;
+    if ('role' in updates) patch.role = updates.role;
 
     const { data, error } = await supabaseAdmin()
       .from('users').update(patch).eq('id', id).select('*').maybeSingle();
@@ -126,26 +204,25 @@ export const Database = {
   // =====================================================================
   // CREDITS (Atomic RPC calls)
   // =====================================================================
-  async spendCredits(userId, amount, reference) {
-    if (amount <= 0) throw new Error("Amount must be positive");
+  async spendCredits(userId, action, reference) {
+    if (!['generate', 'attempt'].includes(action)) throw new Error('Invalid credit spend action');
     const { data, error } = await supabaseAdmin().rpc('spend_credits', {
       p_user_id: userId,
-      p_amount: amount,
+      p_action: action,
       p_reference: reference
     });
     if (error) throw error;
     return data === true; // Returns true if sufficient balance, false otherwise
   },
 
-  async grantCredits(userId, amount, reference) {
-    if (amount <= 0) throw new Error("Amount must be positive");
-    const { error } = await supabaseAdmin().rpc('grant_credits', {
+  async grantContributionCredits(userId, reference) {
+    const { data, error } = await supabaseAdmin().rpc('grant_contribution_credits', {
       p_user_id: userId,
-      p_amount: amount,
+      p_action: 'contribute',
       p_reference: reference
     });
     if (error) throw error;
-    return true;
+    return data === true;
   },
 
   // =====================================================================
@@ -190,17 +267,113 @@ export const Database = {
   // QUESTIONS
   // =====================================================================
   async getQuestions(subjectId, count, opts = {}) {
-    let q = supabaseAdmin()
-      .from('questions')
-      .select('*')
-      .eq('subject', subjectId)
-      .eq('status', 'live');
-    if (opts.chapter) q = q.eq('chapter', opts.chapter);
-    const { data, error } = await q;
+    const buildQuery = (withScore) => {
+      let query = supabaseAdmin()
+        .from('questions')
+        .select('*')
+        .eq('subject', subjectId)
+        .eq('is_deleted', false)
+        .or(VISIBLE_QUESTION_FILTER);
+      if (opts.chapter) query = query.eq('chapter', opts.chapter);
+      if (withScore) {
+        query = query
+          .gte('score', -2)
+          .order('score', { ascending: false });
+      }
+      return query.order('created_at', { ascending: false });
+    };
+
+    let { data, error } = await buildQuery(true);
+    if (error && isMissingPhase1VoteSchema(error)) {
+      ({ data, error } = await buildQuery(false));
+    }
     if (error) throw error;
-    const shuffled = [...data].sort(() => Math.random() - 0.5);
-    const limit = count ? Math.min(count, shuffled.length) : shuffled.length;
-    return shuffled.slice(0, limit).map(questionOut);
+    const visibleRows = Array.isArray(data) ? data : [];
+    const limit = count ? Math.min(count, visibleRows.length) : visibleRows.length;
+    const selected = pickQuestionsForMock(visibleRows, limit);
+
+    if (opts.userId && selected.length > 0) {
+      const voteMap = await this.getUserVotes(opts.userId, selected.map((row) => row.id));
+      return selected.map((row) => questionOut({ ...row, user_vote: voteMap.get(row.id) || null }));
+    }
+
+    return selected.map(questionOut);
+  },
+
+  async getUserVotes(userId, questionIds) {
+    if (!userId || !Array.isArray(questionIds) || questionIds.length === 0) return new Map();
+    const { data, error } = await supabaseAdmin()
+      .from('question_votes')
+      .select('question_id, vote_type')
+      .eq('user_id', userId)
+      .in('question_id', questionIds);
+    if (error && isMissingPhase1VoteSchema(error)) return new Map();
+    if (error) throw error;
+    return new Map((data || []).map((row) => [row.question_id, row.vote_type]));
+  },
+
+  async voteQuestion(userId, questionId, voteType) {
+    if (!userId) throw new Error('User is required');
+    if (!questionId) throw new Error('Question is required');
+    if (![null, 'up', 'down'].includes(voteType)) throw new Error('Invalid vote type');
+
+    const supabase = supabaseAdmin();
+
+    // 1. Check existing vote
+    const { data: existing } = await supabase
+      .from("question_votes")
+      .select("*")
+      .eq("user_id", userId)
+      .eq("question_id", questionId)
+      .maybeSingle();
+
+    // 2. Insert / update / delete
+    if (voteType === null) {
+      await supabase
+        .from("question_votes")
+        .delete()
+        .eq("user_id", userId)
+        .eq("question_id", questionId);
+    } else if (existing) {
+      await supabase
+        .from("question_votes")
+        .update({ vote_type: voteType })
+        .eq("user_id", userId)
+        .eq("question_id", questionId);
+    } else {
+      await supabase.from("question_votes").insert({
+        user_id: userId,
+        question_id: questionId,
+        vote_type: voteType,
+      });
+    }
+
+    // 3. Fetch all votes for this question
+    const { data: votes } = await supabase
+      .from("question_votes")
+      .select("vote_type")
+      .eq("question_id", questionId);
+
+    const upvotes = votes.filter(v => v.vote_type === "up").length;
+    const downvotes = votes.filter(v => v.vote_type === "down").length;
+    const score = upvotes - downvotes;
+
+    // 4. Update question table
+    await supabase
+      .from("questions")
+      .update({ upvotes, downvotes, score })
+      .eq("id", questionId);
+
+    const result = {
+      questionId,
+      upvotes,
+      downvotes,
+      score,
+      userVote: voteType,
+    };
+
+    console.log('Vote saved', questionId, result);
+    return result;
   },
 
   async getAllQuestions() {
@@ -211,7 +384,10 @@ export const Database = {
 
   async getPendingQuestions() {
     const { data, error } = await supabaseAdmin()
-      .from('questions').select('*').eq('status', 'pending')
+      .from('questions').select('*')
+      .eq('status', 'pending')
+      .eq('is_deleted', false)
+      .in('verification_state', ['unverified', 'pending_review', 'disputed'])
       .order('created_at', { ascending: false });
     if (error) throw error;
     return data.map(questionOut);
@@ -238,24 +414,23 @@ export const Database = {
   },
 
   async moderateQuestion(id, action) {
-    const nextStatus =
-      action === 'approve' ? 'live' :
-      action === 'reject'  ? 'rejected' :
-      null;
-    if (!nextStatus) return null;
+    if (!['approve', 'reject'].includes(action)) return null;
 
-    const { data, error } = await supabaseAdmin()
-      .from('questions').update({ status: nextStatus })
-      .eq('id', id).eq('status', 'pending')
-      .select('*').maybeSingle();
+    const { data, error } = await supabaseAdmin().rpc('moderate_question_with_credit', {
+      p_question_id: id,
+      p_action: action,
+    });
     if (error) throw error;
+
     return questionOut(data);
   },
 
   /** List rejected questions — useful for the moderation "rejected" tab. */
   async getRejectedQuestions() {
     const { data, error } = await supabaseAdmin()
-      .from('questions').select('*').eq('status', 'rejected')
+      .from('questions').select('*')
+      .eq('is_deleted', false)
+      .or('status.eq.rejected,verification_state.eq.rejected')
       .order('created_at', { ascending: false });
     if (error) throw error;
     return data.map(questionOut);

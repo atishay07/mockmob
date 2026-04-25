@@ -86,3 +86,21 @@ export async function interactWithQuestion(questionId, {
   }
   return data;
 }
+
+/**
+ * POST /api/questions/:id/vote
+ * @param {string} questionId
+ * @param {'up'|'down'} voteType
+ */
+export async function voteOnQuestion(questionId, voteType) {
+  const res = await fetch(`/api/questions/${questionId}/vote`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ vote_type: voteType }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw Object.assign(new Error(data.error || 'Vote failed'), { status: res.status, data });
+  }
+  return data;
+}

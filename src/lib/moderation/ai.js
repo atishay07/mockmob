@@ -9,24 +9,32 @@ const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
 const SYSTEM_PROMPT = `You are a strict question quality evaluator for a competitive exam preparation platform (MockMob), specifically focused on the CUET (Common University Entrance Test) for 12th-grade level students.
 
-Your job is to evaluate uploaded practice questions, VALIDATE their correctness, and return a structured JSON assessment.
+Your job is to evaluate uploaded practice questions, validate correctness, and return a structured JSON assessment.
 
 CRITICAL VALIDATION LAYER:
 1. Correctness: Verify the correct_answer is truly correct given the body and options. If incorrect, mark as "REJECT" or provide "fixed_fields".
-2. Ambiguity: If the question or options are ambiguous, provide a "fixed_fields" object to resolve it.
-3. Clarity: Improve the wording of the body or explanation if it is awkward or unclear.
-4. Syllabus Alignment: The question MUST perfectly align with the CUET 12th-grade curriculum. It must NOT be a generic 10th-grade or 11th-grade question unless it is explicitly part of the CUET syllabus.
-5. Difficulty Threshold: The question can be easy, but it MUST meet the minimum difficulty threshold of the easiest actual CUET exam question.
+2. Ambiguity: If the question or options are ambiguous, provide "fixed_fields" to resolve it.
+3. Clarity: Improve wording if it is awkward or unclear.
+4. Syllabus Alignment: The question must align with the CUET 12th-grade syllabus.
+5. Difficulty Calibration:
+   - Easy: foundational but still conceptually relevant. Never trivial one-step recall.
+   - Medium: true CUET level with application or multi-step reasoning.
+   - Hard: 10-20% above typical CUET PYQ level, with deeper twists, traps, or edge cases.
+6. Pattern Alignment: The question should feel like a real CUET PYQ or a strong CUET mock, not workbook filler.
 
-Tiering rules (apply strictly):
-- "REJECT": Factually incorrect, totally off-syllabus (e.g. 10th-grade), or nonsensical.
-- "C": Potentially salvageable but has major clarity/ambiguity issues.
-- "B": Solid question but needs minor wording/explanation refinement.
-- "A": High quality — perfectly accurate, clear, and syllabus-aligned.
+Tiering rules:
+- "REJECT": factually incorrect, off-syllabus, trivial, misclassified in difficulty, or not CUET-aligned.
+- "C": potentially salvageable but has major clarity/ambiguity issues.
+- "B": solid question but needs minor wording/explanation refinement.
+- "A": high quality, clear, accurate, CUET-aligned, and correctly calibrated.
 
-Respond ONLY with a valid JSON object matching this exact shape:
+Respond ONLY with valid JSON matching this exact shape:
 {
   "tier": "A" | "B" | "C" | "REJECT",
+  "score": <float 0-10>,
+  "difficulty_correct": <boolean>,
+  "cuet_alignment": <boolean>,
+  "issues": [<string>, ...],
   "ai_score": <float 0-1>,
   "clarity_score": <float 0-1>,
   "syllabus_relevance_score": <float 0-1>,
@@ -36,7 +44,7 @@ Respond ONLY with a valid JSON object matching this exact shape:
   "difficulty_confidence": <float 0-1>,
   "recommended_difficulty": "easy" | "medium" | "hard",
   "reason_codes": [<string>, ...],
-  "validation_note": <string explaining any fixes or issues>,
+  "validation_note": <string>,
   "fixed_fields": {
     "body": <string or null>,
     "options": <array of {key, text} or null>,
@@ -45,13 +53,20 @@ Respond ONLY with a valid JSON object matching this exact shape:
   }
 }
 
-Set "fixed_fields" properties to null unless you are suggesting a specific improvement.
-reason_codes are short lowercase_snake_case labels, e.g. ["clear_question","fixed_ambiguity","factually_incorrect"]`
+You MUST set:
+- "difficulty_correct" to false if the stated difficulty label is wrong.
+- "cuet_alignment" to false if the item does not match CUET phrasing, depth, or style.
+- "tier" to "REJECT" when score < 7, difficulty_correct is false, or cuet_alignment is false.
 
-// Fixed mock parsed object — field names match what process/route.js and
-// tiering.js read (flat, not nested). Values taken from the spec example.
+Set "fixed_fields" properties to null unless you are suggesting a specific improvement.
+reason_codes are short lowercase_snake_case labels.`
+
 const MOCK_PARSED = {
   tier:                        'B',
+  score:                       8.7,
+  difficulty_correct:          true,
+  cuet_alignment:              true,
+  issues:                      ['mocked_response'],
   ai_score:                    0.87,
   clarity_score:               0.90,
   syllabus_relevance_score:    0.85,
@@ -61,17 +76,15 @@ const MOCK_PARSED = {
   difficulty_confidence:       0.80,
   recommended_difficulty:      'medium',
   reason_codes:                ['mocked_response'],
+  validation_note:             'Mock moderation response.',
+  fixed_fields: {
+    body: null,
+    options: null,
+    correct_answer: null,
+    explanation: null,
+  },
 }
 
-/**
- * @param {object} question
- * @param {{ timeoutMs?: number }} options
- * timeoutMs defaults to 28 000 ms — below the 35 s job-level timeout
- * so the worker always has time to write the retry record before the
- * outer job timeout fires.
- *
- * Set MOCK_AI=true to skip the real API call and return a fixed response.
- */
 export async function callModerationLLM(question, { timeoutMs = 28_000 } = {}) {
   if (process.env.MOCK_AI === 'true') {
     return {
@@ -92,14 +105,14 @@ export async function callModerationLLM(question, { timeoutMs = 28_000 } = {}) {
     const response = await client.messages.create(
       {
         model:      'claude-sonnet-4-6',
-        max_tokens: 512,
+        max_tokens: 700,
         system:     SYSTEM_PROMPT,
         messages:   [{ role: 'user', content: userMessage }],
       },
       { signal: controller.signal }
     )
 
-    const raw    = response.content[0]?.text ?? ''
+    const raw = response.content[0]?.text ?? ''
     const parsed = parseJsonSafe(raw)
 
     return { parsed, raw, processingMs: Date.now() - startMs, modelUsed: response.model }
@@ -110,23 +123,23 @@ export async function callModerationLLM(question, { timeoutMs = 28_000 } = {}) {
 
 function buildUserMessage(q) {
   const optionsText = Array.isArray(q.options)
-    ? q.options.map(o => `  ${o.key}: ${o.text}`).join('\n')
+    ? q.options.map((option) => `  ${option.key}: ${option.text}`).join('\n')
     : '(open-ended, no options)'
 
   return [
     `Subject: ${q.subject}`,
     `Chapter: ${q.chapter}`,
     `Stated difficulty: ${q.difficulty}`,
-    ``,
-    `Question:`,
+    '',
+    'Question:',
     q.body,
-    ``,
-    `Options:`,
+    '',
+    'Options:',
     optionsText,
-    ``,
+    '',
     `Correct answer: ${q.correct_answer}`,
-    ``,
-    `Explanation:`,
+    '',
+    'Explanation:',
     q.explanation ?? '(none provided)',
   ].join('\n')
 }
@@ -134,6 +147,7 @@ function buildUserMessage(q) {
 function parseJsonSafe(text) {
   const match = text.match(/\{[\s\S]*\}/)
   if (!match) return null
+
   try {
     return JSON.parse(match[0])
   } catch {

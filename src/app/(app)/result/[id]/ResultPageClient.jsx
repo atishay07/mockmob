@@ -7,6 +7,17 @@ import { Button } from '@/components/ui/Button';
 import { PageSpinner, ErrorState } from '@/components/ui/Skeleton';
 import { apiGet } from '@/lib/fetcher';
 
+function displayValue(value, fallback = '') {
+  if (value == null) return fallback;
+  if (typeof value === 'string' || typeof value === 'number') return String(value);
+  if (typeof value === 'object') return value.text ?? value.label ?? value.name ?? value.key ?? fallback;
+  return String(value);
+}
+
+function optionText(option) {
+  return displayValue(option, 'Option');
+}
+
 /**
  * Result page — shows verdict, breakdown, and per-question review.
  * Fetches a single attempt by ID instead of pulling all user attempts.
@@ -143,10 +154,10 @@ export default function ResultPageClient() {
                 <div>
                   <div className="flex gap-2 items-center mb-1 flex-wrap">
                     <span className="mono-label">Q{i + 1}</span>
-                    <span className="pill subtle">{q.chapter}</span>
-                    {q.difficulty && <span className="pill subtle">{q.difficulty}</span>}
+                    <span className="pill subtle">{displayValue(q.chapter, 'Chapter')}</span>
+                    {q.difficulty && <span className="pill subtle">{displayValue(q.difficulty)}</span>}
                   </div>
-                  <p className="text-lg leading-relaxed">{q.question}</p>
+                  <p className="text-lg leading-relaxed">{displayValue(q.question ?? q.body, 'Question unavailable')}</p>
                 </div>
               </div>
 
@@ -160,7 +171,7 @@ export default function ResultPageClient() {
 
                   return (
                     <div key={j} className={`p-3 rounded-lg border ${cls} flex justify-between gap-3`}>
-                      <span>{opt}</span>
+                      <span>{optionText(opt)}</span>
                       <span className="flex gap-2 text-[10px] font-mono shrink-0">
                         {isSelected && <span className="pill subtle">YOUR PICK</span>}
                         {isActuallyCorrect && <span className="pill volt">CORRECT</span>}
@@ -172,7 +183,7 @@ export default function ResultPageClient() {
                 {q.explanation && (
                   <div className="mt-4 p-4 bg-black/30 rounded-lg text-sm text-zinc-300 border border-white/5 leading-relaxed">
                     <span className="text-volt font-bold mr-2 mono-label">Explanation</span>
-                    <div className="mt-2">{q.explanation}</div>
+                    <div className="mt-2">{displayValue(q.explanation)}</div>
                   </div>
                 )}
               </div>

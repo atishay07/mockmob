@@ -36,18 +36,34 @@ A fully functional, ledger-backed atomic credit economy is live.
 - **Upload System:** Users can submit new questions for peer review.
 - **Moderation Pipeline:** A dedicated moderator UI to approve/reject pending questions. AI moderation capabilities exist in the backend schema.
 - **Dashboard (Arena):** The authenticated command center where users select subjects/chapters, view their rank, and spend credits to generate mock sprints.
+- **Profile System:** Authenticated users have a `/profile` page showing name, email, avatar fallback, credit balance, and basic account stats.
 
 ## 3. FRONTEND STATE
 - **Implemented:** 
   - Marketing landing page with high-end glassmorphism UI, morphing text, and dot-matrix patterns.
-  - Private `/dashboard` layout (`AppLayoutClient.jsx`) featuring a live credit pill and role-switching (Student/Mod).
+  - Private app shell (`AppLayoutClient.jsx`) with responsive navigation, a live credit pill, profile access, and mobile-safe layout behavior.
+  - Auth-aware public navigation and landing page CTAs.
+  - `/dashboard`, `/profile`, and `/moderation` now share a more consistent product UI.
   - `/features` and `/pricing` pages.
-- **Missing / Broken:**
-  - Login panel/routing occasionally traps users or fails to handle edge cases gracefully.
-  - UI inconsistencies between public marketing pages and private dashboard states.
-  - Missing dynamic CTA routing on the landing page for already logged-in users.
+- **Current State:**
+  - Frontend is now in a functional MVP state rather than a prototype state.
+  - Core auth/session handling is stable enough for normal product flows.
+  - Mobile responsiveness has been improved across navbar, header, layout stacking, and overflow handling.
 
-## 4. FILE STRUCTURE
+## 4. ROLE SYSTEM
+- **Source of Truth:** `user.role` from the existing auth session is the only frontend role source.
+- **Supported Roles:** `student` | `moderator`.
+- **Dashboard Behavior:** The private app UI renders different navigation/actions based on the authenticated role.
+- **Moderation Access:** `/moderation` is reserved for moderators. Non-moderators are redirected to `/dashboard`.
+- **Navigation Rules:** Moderator navigation is only shown to moderators. No password-based or frontend-only role switching is used.
+
+## 5. UX SYSTEM
+- **Toast Feedback:** `ToastProvider` is mounted globally and used for success/error feedback in key flows.
+- **Async Safety:** Primary actions now use loading states and disabled buttons to prevent double submissions.
+- **Empty States:** Dashboard and moderation views include explicit empty-state UI with helpful messaging and simple CTAs.
+- **Consistency:** Spacing, button behavior, and cross-page alignment have been tightened across dashboard, profile, and moderation.
+
+## 6. FILE STRUCTURE
 - `src/app/(app)/`: Contains the authenticated dashboard and tools (`dashboard`, `explore`, `leaderboard`, `upload`, `moderation`). Uses `AppLayoutClient.jsx`.
 - `src/app/api/`: All backend endpoints (Next.js App Router).
 - `src/components/`: Reusable UI components (NavBar, AuthProvider, Magic UI elements).
@@ -55,13 +71,28 @@ A fully functional, ledger-backed atomic credit economy is live.
 - `data/db.js`: The central data access layer wrapping Supabase Postgres calls and RPCs.
 - `supabase/migrations/`: Database schema definitions, notably `0005_phase1_schema.sql` (core) and `0011_credits_system.sql` (ledger).
 
-## 5. KNOWN ISSUES / TODO
-- Fix the login panel flow and ensure AuthCallback seamlessly hands off to `/dashboard` or `/onboarding`.
-- Ensure the main marketing Navbar is aware of `useAuth()` so logged-in users see "Go to Arena" instead of "Log in / Sign up".
-- Create seamless UI bridges between the marketing pages and the private AppLayout.
-- Refine error handling across the application.
+## 7. KNOWN ISSUES / TODO
+- Continue preview and device testing, especially on mobile.
+- Do a final UX polish pass only where real rough edges remain.
+- Prepare the app for initial user testing and deployment hardening.
 
-## 6. CONSTRAINTS
+## 8. CONSTRAINTS
 - **DO NOT break existing backend APIs.** The data access layer in `db.js` must remain intact.
 - **DO NOT re-implement credits.** The ledger system via RPCs is strictly defined and active. Always use `Database.spendCredits` and `Database.grantCredits`.
 - Maintain the Next.js App Router paradigm. Use Server Components where possible, and `"use client"` exclusively for interactive UI.
+
+## CURRENT STATUS
+- Phase 1: Completed
+- Phase 2: Completed
+- App is MVP-ready
+
+## NEXT PRIORITIES
+- Deployment testing (preview + mobile)
+- Final UX polish if needed
+- Prepare for initial users
+
+## CONSTRAINTS FOR NEXT AGENT
+- Do NOT rebuild auth system
+- Do NOT modify credit system
+- Do NOT refactor architecture unnecessarily
+- Focus on incremental improvements only
