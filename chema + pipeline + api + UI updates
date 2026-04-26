@@ -1,0 +1,480 @@
+[1mdiff --git a/.gitignore b/.gitignore[m
+[1mindex 197de40..8313881 100644[m
+[1m--- a/.gitignore[m
+[1m+++ b/.gitignore[m
+[36m@@ -42,3 +42,7 @@[m [myarn-error.log*[m
+ *.tsbuildinfo[m
+ next-env.d.ts[m
+ .claude/[m
+[32m+[m
+[32m+[m[32m# pipeline runtime data[m
+[32m+[m[32mscripts/pipeline/data/[m
+[41m+[m
+[1mdiff --git a/data/db.js b/data/db.js[m
+[1mindex fb8cc42..14554fe 100644[m
+[1m--- a/data/db.js[m
+[1m+++ b/data/db.js[m
+[36m@@ -26,6 +26,8 @@[m [mconst userOut = (r) => r && ({[m
+   subjects: Array.isArray(r.subjects) ? r.subjects : [],[m
+   role: r.role,[m
+   creditBalance: r.credit_balance || 0,[m
+[32m+[m[32m  subscriptionStatus: r.subscription_status || 'free',[m
+[32m+[m[32m  isPremium: r.subscription_status === 'active',[m
+   createdAt: new Date(r.created_at).getTime(),[m
+ });[m
+ [m
+[36m@@ -194,6 +196,7 @@[m [mexport const Database = {[m
+     if ('image' in updates) patch.image = updates.image;[m
+     if ('subjects' in updates) patch.subjects = updates.subjects;[m
+     if ('role' in updates) patch.role = updates.role;[m
+[32m+[m[32m    if ('subscriptionStatus' in updates) patch.subscription_status = updates.subscriptionStatus;[m
+ [m
+     const { data, error } = await supabaseAdmin()[m
+       .from('users').update(patch).eq('id', id).select('*').maybeSingle();[m
+[36m@@ -274,7 +277,9 @@[m [mexport const Database = {[m
+         .eq('subject', subjectId)[m
+         .eq('is_deleted', false)[m
+         .or(VISIBLE_QUESTION_FILTER);[m
+[31m-      if (opts.chapter) query = query.eq('chapter', opts.chapter);[m
+[32m+[m[32m      if (Array.isArray(opts.chapters) && opts.chapters.length > 0) query = query.in('chapter', opts.chapters);[m
+[32m+[m[32m      else if (opts.chapter) query = query.eq('chapter', opts.chapter);[m
+[32m+[m[32m      if (['easy', 'medium', 'hard'].includes(opts.difficulty)) query = query.eq('difficulty', opts.difficulty);[m
+       if (withScore) {[m
+         query = query[m
+           .gte('score', -2)[m
+[1mdiff --git a/package-lock.json b/package-lock.json[m
+[1mindex 57c8f86..dec93a0 100644[m
+[1m--- a/package-lock.json[m
+[1m+++ b/package-lock.json[m
+[36m@@ -20,6 +20,7 @@[m
+         "motion": "^12.38.0",[m
+         "next": "16.2.4",[m
+         "next-auth": "^5.0.0-beta.31",[m
+[32m+[m[32m        "openai": "^6.34.0",[m
+         "react": "19.2.4",[m
+         "react-chartjs-2": "^5.3.1",[m
+         "react-dom": "19.2.4",[m
+[36m@@ -5596,6 +5597,27 @@[m
+         "url": "https://github.com/sponsors/ljharb"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/openai": {[m
+[32m+[m[32m      "version": "6.34.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/openai/-/openai-6.34.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-yEr2jdGf4tVFYG6ohmr3pF6VJuveP0EA/sS8TBx+4Eq5NT10alu5zg2dmxMXMgqpihRDQlFGpRt2XwsGj+Fyxw==",[m
+[32m+[m[32m      "license": "Apache-2.0",[m
+[32m+[m[32m      "bin": {[m
+[32m+[m[32m        "openai": "bin/cli"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "peerDependencies": {[m
+[32m+[m[32m        "ws": "^8.18.0",[m
+[32m+[m[32m        "zod": "^3.25 || ^4.0"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "peerDependenciesMeta": {[m
+[32m+[m[32m        "ws": {[m
+[32m+[m[32m          "optional": true[m
+[32m+[m[32m        },[m
+[32m+[m[32m        "zod": {[m
+[32m+[m[32m          "optional": true[m
+[32m+[m[32m        }[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/optionator": {[m
+       "version": "0.9.4",[m
+       "resolved": "https://registry.npmjs.org/optionator/-/optionator-0.9.4.tgz",[m
+[1mdiff --git a/package.json b/package.json[m
+[1mindex d53a8d4..ca53f7e 100644[m
+[1m--- a/package.json[m
+[1m+++ b/package.json[m
+[36m@@ -24,6 +24,7 @@[m
+     "motion": "^12.38.0",[m
+     "next": "16.2.4",[m
+     "next-auth": "^5.0.0-beta.31",[m
+[32m+[m[32m    "openai": "^6.34.0",[m
+     "react": "19.2.4",[m
+     "react-chartjs-2": "^5.3.1",[m
+     "react-dom": "19.2.4",[m
+[1mdiff --git a/scripts/pipeline/autonomous/analyzer.mjs b/scripts/pipeline/autonomous/analyzer.mjs[m
+[1mindex 3f5ee9f..4cb02d7 100644[m
+[1m--- a/scripts/pipeline/autonomous/analyzer.mjs[m
+[1m+++ b/scripts/pipeline/autonomous/analyzer.mjs[m
+[36m@@ -6,9 +6,59 @@[m [mconst supabase = createClient([m
+   process.env.SUPABASE_SERVICE_ROLE_KEY[m
+ );[m
+ [m
+[32m+[m[32m// ── Tier-aware gap thresholds ─────────────────────────────────────────────────[m
+[32m+[m[32m// Tier 1 subjects need deep coverage (CUET high-demand); Tier 2/3 need less.[m
+[32m+[m[32m// These thresholds must stay in sync with the tier definitions in planner.mjs.[m
+[32m+[m[32mconst TIER1_GAP_THRESHOLD = 150;  // keep generating Tier-1 until 150 q/chapter[m
+[32m+[m[32mconst TIER2_GAP_THRESHOLD = 75;   // Tier-2 target: 75 q/chapter[m
+[32m+[m[32mconst TIER3_GAP_THRESHOLD = 50;   // Tier-3 target: 50 q/chapter (original default)[m
+[32m+[m
+[32m+[m[32mfunction normalizeId(id) {[m
+[32m+[m[32m  return String(id)[m
+[32m+[m[32m    .toLowerCase()[m
+[32m+[m[32m    .replace(/[^a-z0-9]+/g, '_')[m
+[32m+[m[32m    .replace(/^_|_$/g, '');[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// Mirror of RAW_SUBJECT_TIERS in planner.mjs — keep in sync.[m
+[32m+[m[32mconst TIER1_SUBJECTS = new Set([[m
+[32m+[m[32m  'physics', 'chemistry', 'biology', 'mathematics',[m
+[32m+[m[32m  'accountancy', 'economics', 'business_studies',[m
+[32m+[m[32m  'english', 'history',[m
+[32m+[m[32m  'gat', 'general_test',[m
+[32m+[m[32m].map(normalizeId));[m
+[32m+[m
+[32m+[m[32mconst TIER2_SUBJECTS = new Set([[m
+[32m+[m[32m  'political_science', 'geography', 'psychology', 'sociology',[m
+[32m+[m[32m  'computer_science', 'informatics_practices',[m
+[32m+[m[32m  'physical_education', 'home_science', 'environmental_studies',[m
+[32m+[m[32m  'anthropology',[m
+[32m+[m[32m].map(normalizeId));[m
+[32m+[m
+[32m+[m[32mfunction getThreshold(subjectId) {[m
+[32m+[m[32m  const id = normalizeId(subjectId);[m
+[32m+[m[32m  if (TIER1_SUBJECTS.has(id)) return TIER1_GAP_THRESHOLD;[m
+[32m+[m[32m  if (TIER2_SUBJECTS.has(id)) return TIER2_GAP_THRESHOLD;[m
+[32m+[m[32m  return TIER3_GAP_THRESHOLD;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m/**[m
+[32m+[m[32m * Priority score for a gap — lower number = higher urgency.[m
+[32m+[m[32m * Scales relative to the tier's own threshold so all tiers are compared fairly.[m
+[32m+[m[32m */[m
+[32m+[m[32mfunction getPriority(count, threshold) {[m
+[32m+[m[32m  if (count === 0) return 1;                           // empty — critical[m
+[32m+[m[32m  if (count < threshold * 0.1) return 2;              // <10 % filled[m
+[32m+[m[32m  if (count < threshold * 0.25) return 3;             // <25 % filled[m
+[32m+[m[32m  if (count < threshold * 0.5) return 4;              // <50 % filled[m
+[32m+[m[32m  return 5;                                            // 50–99 % filled[m
+[32m+[m[32m}[m
+[32m+[m
+ /**[m
+  * COVERAGE ANALYZER[m
+  * Scans the database to identify gaps in question coverage.[m
+[32m+[m[32m * Gap thresholds are tier-aware: Tier 1 targets 150 q/chapter, Tier 2 targets[m
+[32m+[m[32m * 75 q/chapter, Tier 3 targets 50 q/chapter.[m
+  */[m
+ export async function analyzeCoverage() {[m
+   console.log('🧐 Analyzing database coverage...');[m
+[36m@@ -39,23 +89,35 @@[m [mexport async function analyzeCoverage() {[m
+     }[m
+   }[m
+ [m
+[31m-  // 2. Identify Gaps[m
+[32m+[m[32m  // 2. Identify gaps (tier-aware thresholds)[m
+   const gaps = [];[m
+   for (const sid in coverage) {[m
+[32m+[m[32m    const threshold = getThreshold(sid);[m
+     for (const cid in coverage[sid].chapters) {[m
+       const count = coverage[sid].chapters[cid];[m
+[31m-      if (count < 50) { // Gap threshold[m
+[32m+[m[32m      if (count < threshold) {[m
+         gaps.push({[m
+           subject_id: sid,[m
+           chapter: cid,[m
+           count,[m
+[31m-          priority: count < 10 ? 1 : 5, // Higher priority for near-empty chapters[m
+[31m-          type: count === 0 ? 'EMPTY' : 'LOW'[m
+[32m+[m[32m          priority: getPriority(count, threshold),[m
+[32m+[m[32m          type: count === 0 ? 'EMPTY' : 'LOW',[m
+         });[m
+       }[m
+     }[m
+   }[m
+ [m
+[31m-  console.log(`Found ${gaps.length} chapters with low coverage.`);[m
+[32m+[m[32m  // Debug: log tier-split breakdown so operators can verify thresholds are working[m
+[32m+[m[32m  const tier1Gaps = gaps.filter((g) => TIER1_SUBJECTS.has(normalizeId(g.subject_id)));[m
+[32m+[m[32m  const tier2Gaps = gaps.filter((g) => TIER2_SUBJECTS.has(normalizeId(g.subject_id)));[m
+[32m+[m[32m  const tier3Gaps = gaps.filter((g) => !TIER1_SUBJECTS.has(normalizeId(g.subject_id)) && !TIER2_SUBJECTS.has(normalizeId(g.subject_id)));[m
+[32m+[m
+[32m+[m[32m  console.log(`[analyzer] Found ${gaps.length} chapters with low coverage:`, {[m
+[32m+[m[32m    tier1_gaps: tier1Gaps.length,[m
+[32m+[m[32m    tier2_gaps: tier2Gaps.length,[m
+[32m+[m[32m    tier3_gaps: tier3Gaps.length,[m
+[32m+[m[32m    thresholds: { tier1: TIER1_GAP_THRESHOLD, tier2: TIER2_GAP_THRESHOLD, tier3: TIER3_GAP_THRESHOLD },[m
+[32m+[m[32m  });[m
+[32m+[m
+   return { coverage, gaps };[m
+ }[m
+[1mdiff --git a/scripts/pipeline/autonomous/planner.mjs b/scripts/pipeline/autonomous/planner.mjs[m
+[1mindex f899142..131fb20 100644[m
+[1m--- a/scripts/pipeline/autonomous/planner.mjs[m
+[1m+++ b/scripts/pipeline/autonomous/planner.mjs[m
+[36m@@ -1,4 +1,5 @@[m
+ import { createClient } from '@supabase/supabase-js';[m
+[32m+[m[32mimport { SUBJECTS } from '../../../data/subjects.js';[m
+ [m
+ const supabase = createClient([m
+   process.env.SUPABASE_URL,[m
+[36m@@ -14,106 +15,247 @@[m [mfunction normalizeId(id) {[m
+ [m
+ const MAX_PER_CHAPTER_TOTAL = 200;[m
+ const MAX_JOBS_PER_RUN = 10;[m
+[32m+[m
+[32m+[m[32m// ── Tier definitions ──────────────────────────────────────────────────────────[m
+[32m+[m[32m// Every subject in the codebase is explicitly placed in a tier.[m
+[32m+[m[32m// Nothing falls through silently — unlisted subjects emit a warning and land[m
+[32m+[m[32m// in Tier 3 so the operator can triage.[m
+ const RAW_SUBJECT_TIERS = {[m
+   1: new Set([[m
+[31m-    'accountancy', 'economics', 'business_studies', 'mathematics', 'english',[m
+[31m-    'general_test', 'physics', 'chemistry', 'biology', 'history',[m
+[32m+[m[32m    // Core sciences[m
+[32m+[m[32m    'physics', 'chemistry', 'biology', 'mathematics',[m
+[32m+[m[32m    // Commerce / economics stream[m
+[32m+[m[32m    'accountancy', 'economics', 'business_studies',[m
+[32m+[m[32m    // High-demand general / language[m
+[32m+[m[32m    'english', 'history',[m
+[32m+[m[32m    // General Aptitude Test (both legacy and current DB ids)[m
+[32m+[m[32m    'gat', 'general_test',[m
+   ]),[m
+   2: new Set([[m
+[31m-    'political_science', 'geography', 'psychology', 'sociology', 'computer_science',[m
+[31m-    'informatics_practices', 'physical_education', 'home_science', 'environmental_studies',[m
+[32m+[m[32m    'political_science', 'geography', 'psychology', 'sociology',[m
+[32m+[m[32m    'computer_science', 'informatics_practices',[m
+[32m+[m[32m    'physical_education', 'home_science', 'environmental_studies',[m
+[32m+[m[32m    'anthropology',[m
+   ]),[m
+   3: new Set([[m
+[32m+[m[32m    // Vocational / applied[m
+     'fine_arts', 'performing_arts', 'theatre', 'mass_media', 'agriculture',[m
+[31m-    'engineering_graphics', 'legal_studies', 'entrepreneurship', 'teaching_aptitude', 'tourism',[m
+[31m-    'fashion_studies', 'design', 'music', 'dance', 'hindi', 'sanskrit', 'urdu', 'punjabi',[m
+[31m-    'bengali', 'marathi', 'tamil', 'telugu', 'kannada', 'malayalam', 'gujarati', 'odia',[m
+[32m+[m[32m    'engineering_graphics', 'legal_studies', 'entrepreneurship',[m
+[32m+[m[32m    'teaching_aptitude', 'tourism', 'fashion_studies', 'design', 'music', 'dance',[m
+[32m+[m[32m    'knowledge_tradition_india',[m
+[32m+[m[32m    // Regional languages[m
+[32m+[m[32m    'hindi', 'sanskrit', 'urdu', 'punjabi', 'bengali', 'marathi',[m
+[32m+[m[32m    'tamil', 'telugu', 'kannada', 'malayalam', 'gujarati', 'odia', 'assamese',[m
+   ]),[m
+ };[m
+[32m+[m
+ const SUBJECT_TIERS = Object.fromEntries([m
+   Object.entries(RAW_SUBJECT_TIERS).map(([tier, values]) => [[m
+     tier,[m
+[31m-    new Set([...values].map((value) => normalizeId(value))),[m
+[32m+[m[32m    new Set([...values].map(normalizeId)),[m
+   ])[m
+ );[m
+ [m
+[32m+[m[32m// Validate at module load: every Tier-1 subject must be explicitly listed and[m
+[32m+[m[32m// not accidentally duplicated in a lower tier.[m
+[32m+[m[32m(function validateTierIntegrity() {[m
+[32m+[m[32m  const tier1Ids = [...SUBJECT_TIERS[1]];[m
+[32m+[m[32m  for (const id of tier1Ids) {[m
+[32m+[m[32m    if (SUBJECT_TIERS[2].has(id)) {[m
+[32m+[m[32m      console.error(`[planner] TIER_INTEGRITY_ERROR: "${id}" is in BOTH Tier 1 and Tier 2`);[m
+[32m+[m[32m    }[m
+[32m+[m[32m    if (SUBJECT_TIERS[3].has(id)) {[m
+[32m+[m[32m      console.error(`[planner] TIER_INTEGRITY_ERROR: "${id}" is in BOTH Tier 1 and Tier 3`);[m
+[32m+[m[32m    }[m
+[32m+[m[32m  }[m
+[32m+[m[32m})();[m
+[32m+[m
+[32m+[m[32m/**[m
+[32m+[m[32m * Returns synthetic gap entries for EVERY chapter of every Tier-1 subject.[m
+[32m+[m[32m * Used as a fallback when the analyzer reports zero Tier-1 gaps (all chapters[m
+[32m+[m[32m * have already crossed the Tier-1 coverage threshold).  The planner will still[m
+[32m+[m[32m * create jobs so the 90 / 10 distribution is maintained.[m
+[32m+[m[32m */[m
+[32m+[m[32mfunction getAllTier1Chapters() {[m
+[32m+[m[32m  const fallbackGaps = [];[m
+[32m+[m[32m  for (const subject of SUBJECTS) {[m
+[32m+[m[32m    if (!SUBJECT_TIERS[1].has(normalizeId(subject.id))) continue;[m
+[32m+[m[32m    for (const chapter of subject.chapters || []) {[m
+[32m+[m[32m      fallbackGaps.push({[m
+[32m+[m[32m        subject_id: subject.id,[m
+[32m+[m[32m        chapter,[m
+[32m+[m[32m        count: 0,   // treat as if empty so priority math works[m
+[32m+[m[32m        priority: 5,[m
+[32m+[m[32m        type: 'TIER1_FALLBACK',[m
+[32m+[m[32m      });[m
+[32m+[m[32m    }[m
+[32m+[m[32m  }[m
+[32m+[m[32m  return fallbackGaps;[m
+[32m+[m[32m}[m
+[32m+[m
+ /**[m
+  * PLANNER (Intelligence Layer)[m
+[31m- * Prioritizes gaps and creates generation_jobs.[m
+[32m+[m[32m * Prioritises gaps and creates generation_jobs with strict 90 / 10 Tier-1 / other[m
+[32m+[m[32m * distribution.  Tier filtering happens BEFORE candidate selection — not after.[m
+  */[m
+ export async function planGeneration(gaps) {[m
+   console.log('📅 Planning generation jobs...');[m
+ [m
+[31m-  // 1. Fetch all currently active jobs in one go to avoid N+1 queries[m
+[31m-  const { data: activeJobs, error: fetchErr } = await supabase[m
+[31m-    .from('generation_jobs')[m
+[31m-    .select('subject_id, chapter')[m
+[31m-    .in('status', ['queued', 'processing']);[m
+[31m-[m
+[31m-  if (fetchErr) throw fetchErr;[m
+[32m+[m[32m  // Active queued/processing jobs are intentionally ignored in local planning.[m
+[32m+[m[32m  const tier1GapCount = (gaps || []).filter((gap) => getSubjectTier(gap.subject_id) === 1).length;[m
+ [m
+[31m-  const activeJobKeys = new Set((activeJobs || []).map(j => `${j.subject_id}|${j.chapter}`));[m
+[31m-  const jobsToCreate = [];[m
+[32m+[m[32m  // ── 2. Split gaps into tier buckets BEFORE any other processing ─────────────[m
+[32m+[m[32m  // This is the key structural change: tier assignment is the FIRST filter,[m
+[32m+[m[32m  // not something applied after a mixed candidate list is built.[m
+[32m+[m[32m  const tierGaps = { 1: [], 2: [], 3: [] };[m
+[32m+[m[32m  const unmappedSubjects = new Set();[m
+ [m
+[31m-  for (const gap of gaps) {[m
+[31m-    // Safety check: Avoid saturated chapters[m
+[32m+[m[32m  for (const gap of gaps || []) {[m
+[32m+[m[32m    // Skip saturated chapters[m
+     if (gap.count >= MAX_PER_CHAPTER_TOTAL) continue;[m
+[32m+[m[32m    const tier = getSubjectTier(gap.subject_id);[m
+ [m
+[31m-    // Check if a job is already queued for this chapter (using the pre-fetched set)[m
+[31m-    if (activeJobKeys.has(`${gap.subject_id}|${gap.chapter}`)) continue;[m
+[32m+[m[32m    // Warn on first encounter of any unlisted subject[m
+[32m+[m[32m    if (tier === 3 && !SUBJECT_TIERS[3].has(normalizeId(gap.subject_id))) {[m
+[32m+[m[32m      unmappedSubjects.add(gap.subject_id);[m
+[32m+[m[32m    }[m
+ [m
+[31m-    // Plan a job to fill the gap[m
+[31m-    jobsToCreate.push({[m
+[31m-      subject_id: gap.subject_id,[m
+[31m-      chapter: gap.chapter,[m
+[31m-      target_count: 10,[m
+[31m-      priority: gap.priority,[m
+[31m-      status: 'queued'[m
+[31m-    });[m
+[32m+[m[32m    tierGaps[tier].push(gap);[m
+   }[m
+ [m
+[31m-  if (jobsToCreate.length === 0) {[m
+[31m-    console.log('No new jobs needed.');[m
+[31m-    return [];[m
+[32m+[m[32m  // Warn for any subjects that silently defaulted to Tier 3[m
+[32m+[m[32m  for (const sid of unmappedSubjects) {[m
+[32m+[m[32m    console.warn([m
+[32m+[m[32m      `[planner] UNMAPPED_SUBJECT: "${sid}" (normalized: "${normalizeId(sid)}") is not in any tier definition — defaulting to Tier 3. Add it explicitly to RAW_SUBJECT_TIERS.`,[m
+[32m+[m[32m    );[m
+   }[m
+ [m
+[31m-  // Insert top priority jobs with stronger subject-tier batching.[m
+[31m-  const rankedJobs = jobsToCreate.sort((a, b) => b.priority - a.priority);[m
+[31m-  const tierBuckets = { 1: [], 2: [], 3: [] };[m
+[32m+[m[32m  const tier1AvailableBeforeOverride = tierGaps[1].length;[m
+ [m
+[31m-  for (const job of rankedJobs) {[m
+[31m-    const tier = getSubjectTier(job.subject_id);[m
+[31m-    console.log("Subject:", job.subject_id, "→ normalized:", normalizeId(job.subject_id), "→ tier:", tier);[m
+[31m-    tierBuckets[tier].push(job);[m
+[32m+[m[32m  if (tierGaps[1].length === 0 && tier1GapCount > 0) {[m
+[32m+[m[32m    console.warn('[planner] FORCING Tier 1 override: tier1_gaps exist but tier1_available is 0');[m
+[32m+[m[32m    tierGaps[1] = getAllTier1Chapters();[m
+[32m+[m[32m  } else if (tierGaps[1].length === 0) {[m
+[32m+[m[32m    const allTier1 = getAllTier1Chapters();[m
+[32m+[m[32m    if (allTier1.length > 0) {[m
+[32m+[m[32m      console.warn(`[planner] Zero Tier-1 gaps from analyzer; falling back to full Tier-1 roster (${allTier1.length} chapters).`);[m
+[32m+[m[32m      tierGaps[1] = allTier1;[m
+[32m+[m[32m    }[m
+   }[m
+ [m
+[31m-  const topJobs = [];[m
+[31m-  const tierTargets = { 1: 8, 2: 1, 3: 1 };[m
+[32m+[m[32m  console.log('[planner] tier_pool_before_selection:', {[m
+[32m+[m[32m    tier1_available: tier1AvailableBeforeOverride,[m
+[32m+[m[32m    tier1_gaps: tier1GapCount,[m
+[32m+[m[32m    tier1_after_override: tierGaps[1].length,[m
+[32m+[m[32m    tier2_available: tierGaps[2].length,[m
+[32m+[m[32m    tier3_available: tierGaps[3].length,[m
+[32m+[m[32m    subjects_in_pool: getSubjectsInPool(tierGaps),[m
+[32m+[m[32m  });[m
+[32m+[m[32m  const totalCandidates =[m
+[32m+[m[32m    tierGaps[1].length + tierGaps[2].length + tierGaps[3].length;[m
+[32m+[m[32m  if (totalCandidates === 0) {[m
+[32m+[m[32m    console.log('[planner] No new jobs needed across any tier.');[m
+[32m+[m[32m    return [];[m
+[32m+[m[32m  }[m
+ [m
+[31m-  while (topJobs.length < MAX_JOBS_PER_RUN && tierBuckets[1].length > 0) {[m
+[31m-    topJobs.push(tierBuckets[1].shift());[m
+[32m+[m[32m  // ── 5. Sort each tier independently by priority (highest first) ─────────────[m
+[32m+[m[32m  for (const tier of [1, 2, 3]) {[m
+[32m+[m[32m    tierGaps[tier].sort((a, b) => b.priority - a.priority);[m
+   }[m
+ [m
+[31m-  if (topJobs.length < MAX_JOBS_PER_RUN) {[m
+[31m-    while (topJobs.length < MAX_JOBS_PER_RUN && topJobs.filter((job) => getSubjectTier(job.subject_id) === 2).length < tierTargets[2] && tierBuckets[2].length > 0) {[m
+[31m-      topJobs.push(tierBuckets[2].shift());[m
+[31m-    }[m
+[32m+[m[32m  // ── 6. Hard-enforce 90 / 10 distribution ────────────────────────────────────[m
+[32m+[m[32m  const TIER1_TARGET = Math.floor(MAX_JOBS_PER_RUN * 0.9); // 9[m
+[32m+[m[32m  const OTHER_TARGET = MAX_JOBS_PER_RUN - TIER1_TARGET;    // 1[m
+[32m+[m
+[32m+[m[32m  const tier1Picked = selectEvenlyAcrossSubjects(tierGaps[1], TIER1_TARGET);[m
+[32m+[m[32m  const tier1Shortfall = TIER1_TARGET - tier1Picked.length;[m
+[32m+[m
+[32m+[m[32m  if (tier1Shortfall > 0 && tierGaps[1].length > 0) {[m
+[32m+[m[32m    // We had SOME Tier-1 but not enough to fill the quota[m
+[32m+[m[32m    console.warn([m
+[32m+[m[32m      `[planner] Tier-1 shortfall: wanted ${TIER1_TARGET}, available ${tier1Picked.length}. ` +[m
+[32m+[m[32m      `Filling remaining ${tier1Shortfall} slot(s) from Tier-2/3.`[m
+[32m+[m[32m    );[m
+   }[m
+ [m
+[31m-  if (topJobs.length < MAX_JOBS_PER_RUN && tierBuckets[1].length === 0) {[m
+[31m-    while (topJobs.length < MAX_JOBS_PER_RUN && topJobs.filter((job) => getSubjectTier(job.subject_id) === 3).length < tierTargets[3] && tierBuckets[3].length > 0) {[m
+[31m-      topJobs.push(tierBuckets[3].shift());[m
+[31m-    }[m
+[32m+[m[32m  // Tier-2 and Tier-3 combined, sorted by priority[m
+[32m+[m[32m  const tier23Combined = [...tierGaps[2], ...tierGaps[3]][m
+[32m+[m[32m    .sort((a, b) => b.priority - a.priority);[m
+[32m+[m
+[32m+[m[32m  // Other slots = normal OTHER_TARGET + any Tier-1 shortfall[m
+[32m+[m[32m  const otherAllowed = Math.min(OTHER_TARGET + tier1Shortfall, tier23Combined.length);[m
+[32m+[m[32m  const otherPicked = selectEvenlyAcrossSubjects([m
+[32m+[m[32m    tier23Combined,[m
+[32m+[m[32m    otherAllowed,[m
+[32m+[m[32m    2,[m
+[32m+[m[32m    countBySubject(tier1Picked),[m
+[32m+[m[32m  );[m
+[32m+[m
+[32m+[m[32m  // Assemble final job list (Tier-1 first)[m
+[32m+[m[32m  const topJobs = [...tier1Picked, ...otherPicked].map((gap) => ({[m
+[32m+[m[32m    subject_id: gap.subject_id,[m
+[32m+[m[32m    chapter: gap.chapter,[m
+[32m+[m[32m    target_count: 18,[m
+[32m+[m[32m    priority: gap.priority,[m
+[32m+[m[32m    status: 'queued',[m
+[32m+[m[32m  }));[m
+[32m+[m
+[32m+[m[32m  if (topJobs.length === 0) {[m
+[32m+[m[32m    console.log('[planner] No new jobs to insert.');[m
+[32m+[m[32m    return [];[m
+   }[m
+ [m
+[31m-  for (const tier of [1, 2, 3]) {[m
+[31m-    while (topJobs.length < MAX_JOBS_PER_RUN && tierBuckets[tier].length > 0) {[m
+[31m-      topJobs.push(tierBuckets[tier].shift());[m
+[31m-    }[m
+[32m+[m[32m  // ── 7. Post-selection debug log ──────────────────────────────────────────────[m
+[32m+[m[32m  const finalMix = countTierMix(topJobs);[m
+[32m+[m[32m  const tier1Pct = topJobs.length > 0[m
+[32m+[m[32m    ? Math.round((finalMix.tier1 / topJobs.length) * 100)[m
+[32m+[m[32m    : 0;[m
+[32m+[m
+[32m+[m[32m  const distributionMet = tier1Pct >= Math.round(TIER1_TARGET / MAX_JOBS_PER_RUN * 100) || tierGaps[1].length === 0;[m
+[32m+[m[32m  console.log('[planner] tier_selection:', {[m
+[32m+[m[32m    tier1_selected: finalMix.tier1,[m
+[32m+[m[32m    tier2_selected: finalMix.tier2,[m
+[32m+[m[32m    tier3_selected: finalMix.tier3,[m
+[32m+[m[32m    other_selected: finalMix.tier2 + finalMix.tier3,[m
+[32m+[m[32m    total_jobs: topJobs.length,[m
+[32m+[m[32m    tier1_pct: `${tier1Pct}%`,[m
+[32m+[m[32m    target_pct: `${Math.round(TIER1_TARGET / MAX_JOBS_PER_RUN * 100)}%`,[m
+[32m+[m[32m    distribution_met: distributionMet,[m
+[32m+[m[32m  });[m
+[32m+[m
+[32m+[m[32m  if (!dis
