@@ -26,6 +26,7 @@ const pricingCardVariants = cva(
 export function PricingCard({
   name,
   price,
+  originalPrice,
   cycle = '/month',
   description,
   features = [],
@@ -49,12 +50,21 @@ export function PricingCard({
         <p className="mt-3 text-sm text-zinc-400">{description}</p>
       </div>
 
-      <div className="mb-6 flex items-end gap-2">
-        <span className={`font-display text-[44px] font-extrabold leading-none ${featured ? 'text-volt' : 'text-white'}`}>{price}</span>
-        <span className="pb-1 text-sm text-zinc-500">{cycle}</span>
+      <div className="mb-6">
+        {originalPrice ? (
+          <div className="mb-2 flex items-center gap-2 text-sm text-zinc-500">
+            <span className="font-medium">MRP</span>
+            <span className="line-through decoration-zinc-500/80 decoration-2">{originalPrice}</span>
+            <span>{cycle}</span>
+          </div>
+        ) : null}
+        <div className="flex items-end gap-2">
+          <span className={`font-display text-[44px] font-extrabold leading-none ${featured ? 'text-volt' : 'text-white'}`}>{price}</span>
+          <span className="pb-1 text-sm text-zinc-500">{cycle}</span>
+        </div>
       </div>
 
-      <ul className="mb-8 flex flex-1 flex-col gap-3">
+      <ul className="mb-8 flex flex-1 flex-col gap-2.5">
         {features.map((feature) => (
           <li key={feature} className="flex items-start gap-3 text-sm text-zinc-300">
             <Check className={`mt-0.5 h-4 w-4 shrink-0 ${featured ? 'text-volt' : 'text-zinc-400'}`} />

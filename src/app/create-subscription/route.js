@@ -7,6 +7,30 @@ import { Database } from '@/../data/db';
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
+const RAZORPAY_TIMESTAMP_FIELDS = ['end_time', 'end_at', 'start_at', 'charge_at', 'expire_by'];
+const RAZORPAY_MIN_TIMESTAMP = 946684800;
+const RAZORPAY_MAX_TIMESTAMP = 4765046400;
+const MILLISECOND_TIMESTAMP_THRESHOLD = 9999999999;
+
+function assertRazorpayTimestampsAreSeconds(payload) {
+  for (const field of RAZORPAY_TIMESTAMP_FIELDS) {
+    const value = payload[field];
+    if (value === undefined || value === null) continue;
+
+    if (!Number.isInteger(value)) {
+      throw new Error(`${field} must be a UNIX timestamp in seconds`);
+    }
+
+    if (value > MILLISECOND_TIMESTAMP_THRESHOLD) {
+      throw new Error('Timestamp is in milliseconds, must be seconds');
+    }
+
+    if (value < RAZORPAY_MIN_TIMESTAMP || value > RAZORPAY_MAX_TIMESTAMP) {
+      throw new Error(`${field} must be between ${RAZORPAY_MIN_TIMESTAMP} and ${RAZORPAY_MAX_TIMESTAMP}`);
+    }
+  }
+}
+
 export async function POST(request) {
   try {
     const session = await auth();
@@ -51,16 +75,20 @@ export async function POST(request) {
       return NextResponse.json({ error: 'User is already subscribed to premium' }, { status: 409 });
     }
 
-    const subscription = await getRazorpayClient().subscriptions.create({
+    const subscriptionPayload = {
       plan_id: razorpayPlanId,
-      total_count: 1200,
+      total_count: 12,
       quantity: 1,
       customer_notify: 1,
       notes: {
         userId,
         planId: plan.id,
       },
-    });
+    };
+
+    assertRazorpayTimestampsAreSeconds(subscriptionPayload);
+
+    const subscription = await getRazorpayClient().subscriptions.create(subscriptionPayload);
 
     await Database.createPayment({
       userId,
@@ -88,4 +116,3 @@ export async function POST(request) {
     return NextResponse.json({ error: 'Failed to create Razorpay subscription' }, { status: 500 });
   }
 }
-

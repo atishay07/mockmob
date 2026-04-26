@@ -52,7 +52,7 @@ export function NavBar() {
         <div className="flex items-center gap-3">
           {status === 'loading' ? null : isAuthenticated ? (
             <>
-              <Link href="/dashboard" className="btn-ghost">Go to Arena</Link>
+              <Link href="/dashboard" className="btn-ghost hidden sm:inline-flex">Go to Arena</Link>
               <div className="relative" ref={menuRef}>
                 <button
                   type="button"
@@ -68,6 +68,7 @@ export function NavBar() {
                 >
                   <Avatar name="Profile" size="sm" />
                   <span className="hidden sm:inline">Profile</span>
+                  <span className="sm:hidden mono-label !text-zinc-300 !tracking-[0.08em]">Menu</span>
                   <svg className="icon" viewBox="0 0 24 24" style={{ transform: menuOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform .15s ease' }}>
                     <path d="M6 9l6 6 6-6" />
                   </svg>
@@ -84,6 +85,27 @@ export function NavBar() {
                       padding: '10px',
                     }}
                   >
+                    <div className="md:hidden">
+                      {links.map((link) => (
+                        <Link
+                          key={link.label}
+                          href={link.href}
+                          className="btn-ghost"
+                          style={{ width: '100%', justifyContent: 'flex-start', padding: '8px 10px', borderRadius: '10px' }}
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          <Icon name="arrow" /> {link.label}
+                        </Link>
+                      ))}
+                    </div>
+                    <Link
+                      href="/dashboard"
+                      className="btn-ghost"
+                      style={{ width: '100%', justifyContent: 'flex-start', padding: '8px 10px', borderRadius: '10px' }}
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      <Icon name="zap" /> Arena
+                    </Link>
                     <Link
                       href="/profile"
                       className="btn-ghost"
@@ -110,7 +132,61 @@ export function NavBar() {
             </>
           ) : (
             <>
-              <Link href="/login" className="btn-ghost">Login / Signup</Link>
+              <div className="relative" ref={menuRef}>
+                <button
+                  type="button"
+                  className="btn-ghost"
+                  style={{
+                    padding: '8px 10px',
+                    borderRadius: '999px',
+                    border: '1px solid rgba(255,255,255,0.08)',
+                    background: 'rgba(255,255,255,0.03)',
+                    color: '#d4d4d8',
+                  }}
+                  onClick={() => setMenuOpen((open) => !open)}
+                  aria-label="Open navigation menu"
+                >
+                  <span className="inline-flex flex-col gap-1">
+                    <span className="block h-0.5 w-4 rounded-full bg-current" />
+                    <span className="block h-0.5 w-4 rounded-full bg-current" />
+                    <span className="block h-0.5 w-4 rounded-full bg-current" />
+                  </span>
+                  <span className="hidden sm:inline">Menu</span>
+                </button>
+
+                {menuOpen && (
+                  <div
+                    className="glass"
+                    style={{
+                      position: 'absolute',
+                      right: 0,
+                      top: 'calc(100% + 10px)',
+                      minWidth: '220px',
+                      padding: '10px',
+                    }}
+                  >
+                    {links.map((link) => (
+                      <Link
+                        key={link.label}
+                        href={link.href}
+                        className="btn-ghost"
+                        style={{ width: '100%', justifyContent: 'flex-start', padding: '8px 10px', borderRadius: '10px' }}
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        <Icon name="arrow" /> {link.label}
+                      </Link>
+                    ))}
+                    <Link
+                      href="/login"
+                      className="btn-ghost"
+                      style={{ width: '100%', justifyContent: 'flex-start', padding: '8px 10px', borderRadius: '10px', color: 'var(--volt)' }}
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      <Icon name="users" /> Login / Signup
+                    </Link>
+                  </div>
+                )}
+              </div>
             </>
           )}
         </div>

@@ -34,3 +34,4 @@
   15 |   }
   16 |
   17 |   client = new Razorpay({
+⚠ Fast Refresh had to perform a full reload when ./src/app/coming-soon/ComingSoonClient.jsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload

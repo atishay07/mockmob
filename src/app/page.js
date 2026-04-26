@@ -163,13 +163,13 @@ export default function LandingPage() {
             </div>
             <div className="grid grid-cols-3 gap-2 w-full lg:w-auto">
               {[
-                ['1 tap', 'save weak Qs'],
+                ['1 tap', 'save weak questions'],
                 ['5 min', 'chapter drills'],
                 ['24/7', 'live radar'],
               ].map(([value, label]) => (
-                <div key={label} className="glass px-4 py-3 text-center min-w-0">
+                <div key={label} className="glass px-3 py-3 text-center min-w-0">
                   <div className="heading text-volt text-xl">{value}</div>
-                  <div className="mono-label truncate">{label}</div>
+                  <div className="mono-label !tracking-[0.08em] leading-snug whitespace-normal break-words">{label}</div>
                 </div>
               ))}
             </div>
@@ -199,12 +199,12 @@ export default function LandingPage() {
       {/* TESTIMONIALS */}
       <section className="px-5 mb-24">
         <div className="container-std">
-          <div className="flex flex-col md:flex-row items-end justify-between mb-10 gap-6">
+          <div className="flex flex-col md:flex-row items-center md:items-end justify-between mb-10 gap-6 text-center md:text-left">
             <div>
               <div className="eyebrow mb-3">{'// Wall of love'}</div>
               <h2 className="display-lg">The mob <span className="text-volt" style={{ fontStyle: 'italic' }}>speaks.</span></h2>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center justify-center gap-2">
               <button className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5"><Icon name="chevL" /></button>
               <button className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5"><Icon name="chevR" /></button>
             </div>

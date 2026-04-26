@@ -173,8 +173,56 @@ export default function AnalyticsPageClient() {
         ))}
       </div>
 
+      <div className="md:hidden glass p-5 relative overflow-hidden mb-4">
+        <div className={`${isPremium ? '' : 'blur-[1px] opacity-60 pointer-events-none select-none'}`}>
+          <div className="flex items-start justify-between gap-3 mb-4">
+            <div>
+              <div className="eyebrow mb-2">{'// Premium Radar'}</div>
+              <h3 className="heading text-white text-xl">Advanced analysis</h3>
+            </div>
+            <div className="pill volt">{isPremium ? 'ACTIVE' : 'LOCKED'}</div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-3">
+            {advancedStats.map((stat) => (
+              <div key={stat.label} className="glass p-4">
+                <div className="mono-label mb-2">{stat.label}</div>
+                <div className="heading text-2xl text-white mb-1" style={{ fontVariantNumeric: 'tabular-nums' }}>{stat.value}</div>
+                <p className="text-xs text-zinc-500 leading-relaxed">{stat.detail}</p>
+              </div>
+            ))}
+          </div>
+
+          {(insights?.recommendations || []).length > 0 && (
+            <div className="mt-3 glass p-4">
+              <div className="mono-label mb-3">Recommended next moves</div>
+              <div className="flex flex-col gap-2">
+                {(insights?.recommendations || []).slice(0, 3).map((item, index) => (
+                  <p key={item} className="text-sm text-zinc-300 leading-relaxed">
+                    <span className="text-volt font-bold">{index + 1}.</span> {item}
+                  </p>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {!isPremium && (
+          <div className="absolute inset-0 flex items-center justify-center p-5 bg-black/35 backdrop-blur-[3px]">
+            <div className="max-w-sm rounded-2xl border border-volt/25 bg-[#090909]/95 p-5 text-center shadow-[0_0_40px_rgba(210,240,0,0.12)]">
+              <div className="mono-label text-volt mb-2">Premium analysis</div>
+              <h4 className="heading text-xl text-white mb-2">Unlock your next score jump</h4>
+              <p className="text-sm text-zinc-400 leading-relaxed mb-4">
+                Advanced Radar stats, chapter priority maps, and AI weakness prompts stay pinned at the top on mobile.
+              </p>
+              <Link href="/pricing" className="inline-flex items-center justify-center rounded-full bg-volt px-5 py-2 text-sm font-bold text-black hover:brightness-110 transition">Go Premium</Link>
+            </div>
+          </div>
+        )}
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
-        <div className="lg:col-span-2 glass p-6 h-[340px] flex flex-col">
+        <div className="lg:col-span-2 glass p-5 md:p-6 h-[270px] md:h-[340px] flex flex-col">
           <div className="flex items-center justify-between mb-4">
             <h3 className="heading">Score Trajectory</h3>
             {timeline.length > 1 && (
@@ -190,7 +238,7 @@ export default function AnalyticsPageClient() {
           </div>
         </div>
 
-        <div className="glass p-6 h-[340px] flex flex-col">
+        <div className="glass p-5 md:p-6 h-[270px] md:h-[340px] flex flex-col">
           <h3 className="heading mb-4 text-center">Subject Mastery</h3>
           <div className="flex-1 relative">
             {subjects.length > 0
@@ -263,7 +311,7 @@ export default function AnalyticsPageClient() {
           )}
         </div>
 
-        <div className="glass p-6 md:col-span-2 relative overflow-hidden">
+        <div className="hidden md:block glass p-6 md:col-span-2 relative overflow-hidden">
           <div className={`${isPremium ? '' : 'blur-[2px] opacity-55 pointer-events-none select-none'}`}>
             <div className="flex items-start justify-between gap-4 mb-5">
               <div>

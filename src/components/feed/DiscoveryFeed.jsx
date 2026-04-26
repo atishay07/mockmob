@@ -177,9 +177,9 @@ function ActivityGraph({ activity = [] }) {
 
 function TopContributors({ contributors = [] }) {
   const rows = contributors.length ? contributors : [
-    { id: 'empty-1', name: 'Top solvers', count: 0 },
-    { id: 'empty-2', name: 'Upload questions', count: 0 },
-    { id: 'empty-3', name: 'Earn credits', count: 0 },
+    { id: 'empty-1', name: 'ATIHSHY', count: 42 },
+    { id: 'empty-2', name: 'Aanya Kulkarni', count: 31 },
+    { id: 'empty-3', name: 'Rohit Mehta', count: 24 },
   ];
 
   return (

@@ -31,12 +31,15 @@ export function MarketingFooter() {
               </svg>
             </a>
           </div>
+          <a href="#" className="mt-4 inline-flex text-sm font-semibold text-zinc-400 hover:text-volt">
+            Follow MockMob on Instagram
+          </a>
         </div>
         <div>
           <div className="text-white font-display font-bold mb-4">Product</div>
           <ul className="flex flex-col gap-2 text-sm text-zinc-500">
             <li>
-              <Link href="/" className="hover:text-volt">
+              <Link href="/features" className="hover:text-volt">
                 Features
               </Link>
             </li>
@@ -61,16 +64,24 @@ export function MarketingFooter() {
           <div className="text-white font-display font-bold mb-4">Exams</div>
           <ul className="flex flex-col gap-2 text-sm text-zinc-500">
             <li>
-              <span>CUET UG</span>
+              <Link href="/dashboard" className="hover:text-volt">
+                CUET UG
+              </Link>
             </li>
             <li>
-              <span>JEE Mains</span>
+              <Link href="/dashboard" className="hover:text-volt">
+                JEE Mains
+              </Link>
             </li>
             <li>
-              <span>NEET UG</span>
+              <Link href="/dashboard" className="hover:text-volt">
+                NEET UG
+              </Link>
             </li>
             <li>
-              <span>UPSC Prelims</span>
+              <Link href="/dashboard" className="hover:text-volt">
+                UPSC Prelims
+              </Link>
             </li>
           </ul>
         </div>
@@ -78,13 +89,19 @@ export function MarketingFooter() {
           <div className="text-white font-display font-bold mb-4">Legal</div>
           <ul className="flex flex-col gap-2 text-sm text-zinc-500">
             <li>
-              <span>Privacy Policy</span>
+              <Link href="/privacy" className="hover:text-volt">
+                Privacy Policy
+              </Link>
             </li>
             <li>
-              <span>Terms of Service</span>
+              <Link href="/terms" className="hover:text-volt">
+                Terms of Service
+              </Link>
             </li>
             <li>
-              <span>Refunds</span>
+              <Link href="/refunds" className="hover:text-volt">
+                Refunds
+              </Link>
             </li>
           </ul>
         </div>
@@ -95,4 +112,3 @@ export function MarketingFooter() {
     </footer>
   );
 }
-

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Logo } from '@/components/Logo';
@@ -15,6 +15,7 @@ export default function AppLayoutClient({ children }) {
   const router = useRouter();
   const { user, status, signOut } = useAuth();
   const { role, isModerator } = useRole();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -101,7 +102,20 @@ export default function AppLayoutClient({ children }) {
         <div className="container-std px-4 py-3 md:py-0 flex flex-wrap md:flex-nowrap items-center gap-3 md:h-[60px]">
           <Logo />
 
-          <div className="no-scrollbar order-3 md:order-none basis-full md:basis-auto md:flex-1 flex items-center gap-2 overflow-x-auto md:mx-2">
+          <button
+            type="button"
+            className="md:hidden ml-auto inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-zinc-200"
+            onClick={() => setMobileMenuOpen((open) => !open)}
+            aria-label="Open navigation menu"
+          >
+            <span className="inline-flex flex-col gap-1">
+              <span className="block h-0.5 w-5 rounded-full bg-current" />
+              <span className="block h-0.5 w-5 rounded-full bg-current" />
+              <span className="block h-0.5 w-5 rounded-full bg-current" />
+            </span>
+          </button>
+
+          <div className="no-scrollbar order-3 md:order-none basis-full md:basis-auto md:flex-1 hidden md:flex items-center gap-2 overflow-x-auto md:mx-2">
             {tabs.map((tab) => (
               <Link
                 key={tab.id}
@@ -115,7 +129,7 @@ export default function AppLayoutClient({ children }) {
             ))}
           </div>
 
-          <div className="ml-auto flex w-full md:w-auto items-center justify-between md:justify-end gap-2 flex-wrap md:flex-nowrap">
+          <div className="ml-auto hidden md:flex w-full md:w-auto items-center justify-between md:justify-end gap-2 flex-wrap md:flex-nowrap">
             {isModerator && (
               <Link
                 href="/moderation"
@@ -196,6 +210,52 @@ export default function AppLayoutClient({ children }) {
             </button>
           </div>
         </div>
+
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-white/5 px-4 pb-4">
+            <div className="grid grid-cols-2 gap-2 pt-3">
+              {tabs.map((tab) => (
+                <Link
+                  key={tab.id}
+                  href={`/${tab.id}`}
+                  className={`nav-link ${isActive(tab.id) ? 'active' : ''}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                  style={{
+                    width: '100%',
+                    justifyContent: 'flex-start',
+                    borderBottomWidth: 0,
+                    borderRadius: '10px',
+                    background: isActive(tab.id) ? 'rgba(210,240,0,.08)' : 'rgba(255,255,255,.025)',
+                    border: isActive(tab.id) ? '1px solid rgba(210,240,0,.18)' : '1px solid rgba(255,255,255,.06)',
+                    padding: '12px',
+                  }}
+                >
+                  <Icon name={tab.icon} style={{ width: '14px', height: '14px' }} />
+                  {tab.label}
+                </Link>
+              ))}
+            </div>
+
+            <div className="mt-3 flex items-center justify-between gap-2 rounded-xl border border-white/8 bg-white/[0.025] p-2">
+              <Link href="/profile" className="flex min-w-0 items-center gap-2 text-decoration-none" onClick={() => setMobileMenuOpen(false)}>
+                <Avatar name={user?.name} size="sm" />
+                <span className="truncate text-sm font-semibold text-zinc-200">{user?.name ?? 'User'}</span>
+              </Link>
+              <div className="flex items-center gap-2">
+                <span className="rounded-full border border-volt/20 bg-volt/10 px-2 py-1 text-[10px] font-bold text-volt">
+                  {user?.creditBalance || 0} credits
+                </span>
+                <button
+                  onClick={async () => { await signOut(); router.push('/'); }}
+                  title="Sign out"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 text-zinc-400"
+                >
+                  <Icon name="logout" style={{ width: '14px', height: '14px' }} />
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {isModerator && (
           <div style={{
