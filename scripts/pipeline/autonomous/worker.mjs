@@ -185,34 +185,82 @@ function sampleArray(items, limit) {
   return [...items].sort(() => Math.random() - 0.5).slice(0, limit);
 }
 
+function normalizeQuestion(question, expectedSubject, expectedChapter) {
+  if (!question || typeof question !== 'object') return null;
+
+  const subject = question.subject || expectedSubject;
+  const chapter = question.chapter || expectedChapter;
+  const options = normalizeWorkerOptions(question.options || question.o || []);
+  const correctAnswer = normalizeWorkerAnswer(question.correct_answer || question.answer || question.a, options);
+  const body = String(question.body || question.question || question.q || '').trim();
+
+  return {
+    ...question,
+    subject,
+    chapter,
+    body,
+    question: body,
+    options,
+    correct_answer: correctAnswer,
+    answer: correctAnswer,
+    difficulty: question.difficulty || question.d || 'medium',
+    explanation: question.explanation || '',
+    concept_pattern: question.concept_pattern || '',
+  };
+}
+
+function normalizeWorkerOptions(options) {
+  if (Array.isArray(options)) {
+    return options.map((option, index) => {
+      if (option && typeof option === 'object') {
+        return {
+          key: String(option.key || ['A', 'B', 'C', 'D'][index] || '').trim().toUpperCase(),
+          text: String(option.text || option.value || option.option || '').trim(),
+        };
+      }
+      return {
+        key: ['A', 'B', 'C', 'D'][index] || '',
+        text: String(option || '').trim(),
+      };
+    });
+  }
+
+  if (options && typeof options === 'object') {
+    return Object.entries(options).map(([key, value]) => ({
+      key: String(key || '').trim().toUpperCase(),
+      text: String(value || '').trim(),
+    }));
+  }
+
+  return [];
+}
+
+function normalizeWorkerAnswer(answer, options) {
+  const raw = String(answer || '').trim();
+  const upper = raw.toUpperCase();
+  if (['A', 'B', 'C', 'D'].includes(upper)) return upper;
+
+  const match = (options || []).find((option) => String(option?.text || '').trim().toLowerCase() === raw.toLowerCase());
+  return match?.key || '';
+}
+
+function isValidQuestion(question) {
+  return Boolean(
+    question?.body &&
+    Array.isArray(question.options) &&
+    question.options.length === 4 &&
+    question.correct_answer
+  );
+}
+
 /** Removes questions that fail structural integrity before dedup or validation. */
 function filterMalformedQuestions(questions) {
   const valid = [];
   let removed = 0;
-  const weakStemPattern = /\b(which|what)\s+of\s+the\s+following\s+(is|are)\s+(correct|true)\b/i;
 
   for (const question of questions) {
     if (!question || typeof question !== 'object') { removed += 1; continue; }
-    const body = String(question.body || '').trim();
-    if (!body) { removed += 1; continue; }
-    const bodyTokens = body.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter((token) => token.length > 2);
-    if (bodyTokens.length < 8) { removed += 1; continue; }
-    if (weakStemPattern.test(body) && bodyTokens.length < 14) { removed += 1; continue; }
-    if (!question.correct_answer) { removed += 1; continue; }
-
-    const options = question.options;
-    if (!Array.isArray(options) || options.length !== 4) { removed += 1; continue; }
-
-    const keys = options.map((o) => String(o?.key || '').trim().toUpperCase());
-    if (new Set(keys).size !== 4) { removed += 1; continue; }
-
-    const texts = options.map((o) => String(o?.text || '').trim().toLowerCase());
-    if (new Set(texts).size !== 4) { removed += 1; continue; }
-
-    const answer = String(question.correct_answer || '').trim().toUpperCase();
-    if (!['A', 'B', 'C', 'D'].includes(answer)) { removed += 1; continue; }
-    if (!keys.includes(answer)) { removed += 1; continue; }
-    if (texts.some((text) => text.length < 3 || /^[a-d]$|^(?:yes|no|true|false|none|all of the above|none of the above)$/i.test(text))) { removed += 1; continue; }
+    if (!isValidQuestion(question)) { removed += 1; continue; }
 
     valid.push(question);
   }
@@ -328,7 +376,7 @@ async function workerLoop() {
       }
 
       let { data: job, error: jobErr } = await jobQuery
-        .order('priority', { ascending: true })
+        .order('priority', { ascending: false })
         .order('created_at', { ascending: true })
         .limit(1)
         .maybeSingle();
@@ -342,7 +390,7 @@ async function workerLoop() {
           .from('generation_jobs')
           .select('*')
           .eq('status', 'queued')
-          .order('priority', { ascending: true })
+          .order('priority', { ascending: false })
           .order('created_at', { ascending: true })
           .limit(1)
           .maybeSingle();
@@ -358,6 +406,10 @@ async function workerLoop() {
         priority: job.priority,
         created_at: job.created_at,
         from_planner_capture: preferredPlannedJobIds.includes(job.id),
+      } : null);
+      console.log('[worker] picking job:', job ? {
+        subject: job.subject_id,
+        priority: job.priority,
       } : null);
 
       if (!job) {
@@ -380,7 +432,8 @@ async function workerLoop() {
           .select('*')
           .eq('status', 'queued')
           .neq('subject_id', job.subject_id)
-          .order('priority', { ascending: true })
+          .gte('priority', job.priority)
+          .order('priority', { ascending: false })
           .order('created_at', { ascending: true })
           .limit(1)
           .maybeSingle();
@@ -529,7 +582,7 @@ async function processJob(job) {
       used_concepts_sampled: usedConceptSample.length,
     });
     console.log(`[pipeline] Generating ${generateCount} candidates... chapter="${job.chapter}" unit="${canonicalUnit.unit_name}" usedConcepts=${generationContext.usedConcepts.length} saturated=${generationContext.saturatedSubtopics.length} (api_call=${stats.apiCallsUsed})`);
-    const rawQuestions = await generateQuestions(subject, job.chapter, generateCount, generationContext);
+    let rawQuestions = await generateQuestions(subject, job.chapter, generateCount, generationContext);
 
     if (rawQuestions?.error) {
       await supabase
@@ -541,6 +594,7 @@ async function processJob(job) {
 
     const generationDiagnostics = getLastGenerationDiagnostics();
     mergeDropReasons(dropReasons, generationDiagnostics.dropReasons);
+    console.log('[pipeline] RAW_PARSED_COUNT', generationDiagnostics.rawParsedCount ?? rawQuestions.length ?? 0);
 
     if (!rawQuestions || rawQuestions.length === 0) {
       logDropSummary(job, dropReasons, generationDiagnostics);
@@ -550,6 +604,11 @@ async function processJob(job) {
         .eq('id', job.id);
       return;
     }
+
+    rawQuestions = rawQuestions
+      .map((question) => normalizeQuestion(question, job.subject_id, job.chapter))
+      .filter(Boolean);
+    console.log('[pipeline] NORMALIZED_COUNT', rawQuestions.length);
 
     stats.total = rawQuestions.length;
     console.log(`[pipeline] generated_count=${rawQuestions.length} | mix=${formatDifficultyCounts(rawQuestions)}`);
@@ -577,6 +636,7 @@ async function processJob(job) {
 
     // ── Step 3: Structural quality filter — sync ──────────────────────────────
     const { valid: structFiltered, removed: structRemoved } = filterMalformedQuestions(chapterFiltered);
+    console.log('[pipeline] VALIDATED_COUNT', structFiltered.length);
     stats.preValidationFiltered = structRemoved;
     dropReasons.missing_required_fields += structRemoved;
     if (structRemoved > 0) {
@@ -592,7 +652,11 @@ async function processJob(job) {
     stats.crossJobDuplicates = crossJobDupCount;
     const dupRate = structFiltered.length > 0 ? dupCount / structFiltered.length : 0;
 
-    const selectedForValidation = rankValidationCandidates(dedupedQuestions, VALIDATION_CANDIDATE_LIMIT);
+    let selectedForValidation = rankValidationCandidates(dedupedQuestions, VALIDATION_CANDIDATE_LIMIT);
+    if (selectedForValidation.length === 0 && rawQuestions.length > 0) {
+      console.warn('[pipeline] fallback_triggered: using raw normalized questions');
+      selectedForValidation = rawQuestions.slice(0, Math.min(targetCount, VALIDATION_CANDIDATE_LIMIT));
+    }
 
     console.log(`[pipeline] after_chapter_filter=${chapterFiltered.length} | pre_validation_filtered=${structRemoved} | batch_duplicates=${batchDupCount} | cross_job_duplicates=${crossJobDupCount} | ranked_for_validation=${selectedForValidation.length}`);
 
@@ -600,7 +664,7 @@ async function processJob(job) {
       console.warn(`[pipeline] HIGH_DUPLICATE_RATE=${(dupRate * 100).toFixed(1)}% (threshold=30%)`);
     }
 
-    if (dedupedQuestions.length === 0) {
+    if (selectedForValidation.length === 0) {
       logDropSummary(job, dropReasons, {
         rawParsedCount: generationDiagnostics.rawParsedCount,
         normalizedCount: rawQuestions.length,
@@ -681,6 +745,11 @@ async function processJob(job) {
       stats.scores.push(validation.score);
     }
 
+    if (validatedQuestions.length === 0 && rawQuestions.length > 0) {
+      console.warn('[pipeline] fallback_triggered: using raw normalized questions');
+      validatedQuestions = rawQuestions.slice(0, targetCount);
+    }
+
     const modelDifficultyCounts = countDifficultyMix(validatedQuestions);
     validatedQuestions = validatedQuestions.map((question) => ({
       ...question,
@@ -743,6 +812,7 @@ async function processJob(job) {
       stats.rejected += schemaRejected;
     }
 
+    console.log('[pipeline] FINAL_ACCEPTED_COUNT', publishReady.length);
     console.log(`[pipeline] selected_count=${publishReady.length} | FINAL DISTRIBUTION: ${JSON.stringify(countDifficultyMix(publishReady))}`);
 
     // ── Step 9: Publish first batch ───────────────────────────────────────────

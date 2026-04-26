@@ -1038,8 +1038,31 @@ function parseJsonArray(text) {
     if (recoveredObjects) return recoveredObjects;
   }
 
+  console.error('JSON_PARSE_FAILED');
   console.error(`[llm] Failed to parse JSON array. Raw response: ${text}`);
   return [];
+}
+
+function safeParseJSON(text) {
+  const raw = String(text || '')
+    .replace(/[−]/g, '-')
+    .replace(/[×]/g, '*')
+    .replace(/[^\x00-\x7F]/g, (character) => character);
+
+  try {
+    return JSON.parse(raw);
+  } catch {
+    try {
+      const fixed = raw
+        .replace(/,\s*}/g, '}')
+        .replace(/,\s*]/g, ']');
+
+      return JSON.parse(fixed);
+    } catch {
+      console.error('JSON_PARSE_FAILED');
+      return [];
+    }
+  }
 }
 
 function parseJsonArrayStrict(text) {
@@ -1051,16 +1074,13 @@ function parseJsonArrayStrict(text) {
 }
 
 function parseJsonObject(text) {
-  try {
-    return JSON.parse(text.replace(/```json|```/g, '').trim());
-  } catch {
-    return {};
-  }
+  const parsed = safeParseJSON(String(text || '').replace(/```json|```/g, '').trim());
+  return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
 }
 
 function parseJsonObjectStrict(text) {
   try {
-    const parsed = JSON.parse(String(text || '').replace(/```json|```/g, '').trim());
+    const parsed = safeParseJSON(String(text || '').replace(/```json|```/g, '').trim());
     if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
       throw new Error('validation response must be a JSON object');
     }
@@ -1121,9 +1141,9 @@ function normalizeGeneratedQuestions(questions, subjectId, chapter) {
     const normalized = {
       subject: subjectId,
       chapter,
-      body: String(question.body || question.q || '').trim(),
+      body: String(question.body || question.question || question.q || '').trim(),
       options: normalizeOptions(question.options || question.o),
-      correct_answer: normalizeAnswerKey(question.correct_answer || question.a),
+      correct_answer: normalizeAnswerKey(question.correct_answer || question.answer || question.a),
       explanation: String(question.explanation || '').trim(),
       difficulty: normalizeDifficulty(question.difficulty || question.d),
       concept_pattern: String(question.concept_pattern || `concept_${index + 1}`).trim(),
@@ -1528,16 +1548,12 @@ function sanitizeJsonText(text) {
 }
 
 function tryParseQuestionPayload(candidate, method) {
-  try {
-    const parsed = JSON.parse(candidate);
-    const normalized = normalizeQuestionPayload(parsed);
-    if (normalized.length > 0) {
-      console.log(`[llm] JSON recovery used: ${method}`);
-      console.log(`[llm] Parsed question count: ${normalized.length}`);
-      return normalized;
-    }
-  } catch {
-    return null;
+  const parsed = safeParseJSON(candidate);
+  const normalized = normalizeQuestionPayload(parsed);
+  if (normalized.length > 0) {
+    console.log(`[llm] JSON recovery used: ${method}`);
+    console.log(`[llm] Parsed question count: ${normalized.length}`);
+    return normalized;
   }
 
   return null;
@@ -1547,7 +1563,7 @@ function normalizeQuestionPayload(parsed) {
   if (Array.isArray(parsed)) return parsed.filter((entry) => entry && typeof entry === 'object');
   if (Array.isArray(parsed?.questions)) return parsed.questions.filter((entry) => entry && typeof entry === 'object');
   if (Array.isArray(parsed?.data)) return parsed.data.filter((entry) => entry && typeof entry === 'object');
-  if (parsed && typeof parsed === 'object' && parsed.body) return [parsed];
+  if (parsed && typeof parsed === 'object' && (parsed.body || parsed.question || parsed.q)) return [parsed];
   return [];
 }
 

@@ -195,14 +195,14 @@ function TopContributors({ contributors = [] }) {
   );
 }
 
-function LearningRail({ summary, user }) {
+function LearningRail({ summary, user, className = '' }) {
   const progress = summary?.progress || {};
   const plan = summary?.plan || {};
   const premium = summary?.premium || {};
   const avgDwell = progress.avgDwellMs ? `${Math.max(1, Math.round(progress.avgDwellMs / 1000))}s` : '—';
 
   return (
-    <aside className="learningRail">
+    <aside className={`learningRail ${className}`}>
       <div className="glass feedCommand">
         <div className="feedCommandHeader">
           <div>
@@ -293,6 +293,7 @@ export function DiscoveryFeed() {
   const [error,       setError]       = useState(null);
   const [summary,     setSummary]     = useState(null);
   const [showAllSubjects, setShowAllSubjects] = useState(false);
+  const [showMobileStats, setShowMobileStats] = useState(false);
 
   const loadingRef  = useRef(false);
   const offsetRef   = useRef(0);       // tracks how many questions have been fetched
@@ -484,7 +485,7 @@ export function DiscoveryFeed() {
 
   return (
     <div className="feedShell">
-      <LearningRail summary={summary} user={user} />
+      <LearningRail summary={summary} user={user} className={showMobileStats ? 'mobile-open' : ''} />
 
       <section className="feedMain">
         <div className="feedHero">
@@ -500,6 +501,18 @@ export function DiscoveryFeed() {
             <small>loaded</small>
           </div>
         </div>
+
+        <button
+          type="button"
+          className={`mobileStatsToggle ${showMobileStats ? 'active' : ''}`}
+          onClick={() => setShowMobileStats((value) => !value)}
+        >
+          <span>
+            <Icon name="bar" style={{ width: '14px', height: '14px' }} />
+            {showMobileStats ? 'Hide stats' : 'Show progress stats'}
+          </span>
+          <Icon name={showMobileStats ? 'chevL' : 'chevR'} style={{ width: '14px', height: '14px' }} />
+        </button>
 
         <div className="glass filterDock">
           <label className="searchBox">
@@ -712,6 +725,9 @@ export function DiscoveryFeed() {
           font-size: 9px;
           letter-spacing: .14em;
           text-transform: uppercase;
+        }
+        .mobileStatsToggle {
+          display: none;
         }
         .filterDock {
           position: sticky;
@@ -1173,12 +1189,54 @@ export function DiscoveryFeed() {
           .learningRail {
             position: static;
             order: 2;
-            display: grid;
+            display: none;
             grid-template-columns: 1fr;
+            margin-bottom: 14px;
           }
-          .feedMain { order: 1; }
+          .learningRail.mobile-open {
+            display: grid;
+          }
+          .feedMain {
+            order: 2;
+            display: contents;
+          }
+          .feedHero {
+            order: 0;
+          }
+          .mobileStatsToggle {
+            order: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            width: 100%;
+            min-height: 46px;
+            margin-bottom: 0;
+            border: 1px solid rgba(210,240,0,.22);
+            border-radius: 12px;
+            background: rgba(210,240,0,.07);
+            color: var(--volt);
+            padding: 0 14px;
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+          }
+          .mobileStatsToggle span {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+          }
+          .mobileStatsToggle.active {
+            background: rgba(210,240,0,.12);
+          }
           .filterDock {
             top: 64px;
+            order: 3;
+          }
+          .feedList {
+            order: 4;
           }
         }
         @media (max-width: 640px) {

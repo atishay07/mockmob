@@ -31,6 +31,7 @@ export function PricingCard({
   features = [],
   ctaLabel,
   ctaHref = '/signup',
+  ctaElement,
   featured = false,
   delay = 0,
 }) {
@@ -62,10 +63,11 @@ export function PricingCard({
         ))}
       </ul>
 
-      <LiquidGlassButton asChild size="lg" variant={featured ? 'volt' : 'ghost'} className="w-full">
-        <Link href={ctaHref}>{ctaLabel}</Link>
-      </LiquidGlassButton>
+      {ctaElement || (
+        <LiquidGlassButton asChild size="lg" variant={featured ? 'volt' : 'ghost'} className="w-full">
+          <Link href={ctaHref}>{ctaLabel}</Link>
+        </LiquidGlassButton>
+      )}
     </article>
   );
 }
-

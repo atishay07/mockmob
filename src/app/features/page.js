@@ -18,6 +18,7 @@ export default function FeaturesPage() {
     { t: 'Live Leaderboards', d: 'Turn practice into pressure. Climb ranks as you solve, submit, and compete in focused mock sprints.', icon: 'trend' },
     { t: 'Saved Question Bank', d: 'Bookmark tough questions from Explore and build your personal revision stack for repeat practice.', icon: 'book' },
     { t: 'Exam Tracks', d: 'CUET-first pathways with subject, unit, chapter, and difficulty controls shaped around actual student workflows.', icon: 'route' },
+    { t: 'AI Admission Compass', d: 'Premium users unlock a DU college predictor with mock CUET score bands, category-aware targets, and course-subject eligibility checks.', icon: 'target', highlight: true },
     { t: 'Premium Speed Layer', d: 'Unlock unlimited mocks, advanced Radar, targeted difficulty, and faster high-intent practice loops.', icon: 'zap' },
   ];
   const proof = [
@@ -84,22 +85,54 @@ export default function FeaturesPage() {
 
       <section className="px-5 mb-28">
         <div className="container-std">
-          <div className="glass p-6 md:p-8 grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-8 items-center relative overflow-hidden border-volt/20">
+          <div className="glass premium-feature-card p-5 md:p-6 grid grid-cols-1 lg:grid-cols-[minmax(360px,0.95fr)_minmax(0,1fr)] gap-6 items-stretch relative overflow-hidden border-volt/20">
             <DotPattern width={22} height={22} cx={1} cy={1} cr={1.2} className="text-volt/20 opacity-45" glow={true} style={{ maskImage: 'radial-gradient(ellipse at right, white, transparent 70%)', WebkitMaskImage: 'radial-gradient(ellipse at right, white, transparent 70%)' }} />
-            <div className="relative z-10">
-              <div className="eyebrow mb-3">{'// Premium loop'}</div>
-              <h2 className="display-md mb-3">Free gets you started. Premium makes practice aggressive.</h2>
-              <p className="text-zinc-400 leading-relaxed max-w-xl">
-                Unlimited mocks, advanced Radar, targeted difficulty, and premium practice recipes help serious students compress the time between mistake and improvement.
-              </p>
-            </div>
-            <div className="relative z-10 grid grid-cols-2 gap-3">
-              {['Unlimited mocks', 'Advanced Radar', 'Difficulty targeting', 'Saved revision stack'].map((item) => (
-                <div key={item} className="glass p-4 min-h-[92px] flex flex-col justify-between">
-                  <Icon name="check" style={{ color: 'var(--volt)', width: '18px', height: '18px' }} />
-                  <p className="text-sm font-semibold text-white">{item}</p>
+            <div className="relative z-10 feature-compass-shot">
+              <div className="shot-top">
+                <div>
+                  <div className="mono-label">Admission Compass</div>
+                  <div className="shot-score">872<span>/1000</span></div>
                 </div>
-              ))}
+                <span className="pill volt">High chance · 850-1000</span>
+              </div>
+              <div className="shot-bars">
+                {['Accountancy', 'Economics', 'Maths', 'English', 'Business'].map((item, index) => (
+                  <div key={item}>
+                    <div className="flex items-center justify-between text-xs text-zinc-400 mb-1">
+                      <span>{item}</span>
+                      <span>{[184, 172, 166, 178, 172][index]}/200</span>
+                    </div>
+                    <div className="bar"><div className="fill fill-volt" style={{ width: `${[92, 86, 83, 89, 86][index]}%` }} /></div>
+                  </div>
+                ))}
+              </div>
+              <div className="shot-list">
+                {[
+                  ['SRCC', 'B.Com (Hons)', 'Aspirational'],
+                  ['Hansraj', 'Economics', 'Moderate'],
+                  ['Venky', 'B.Com (Hons)', 'High'],
+                ].map(([college, course, chance]) => (
+                  <div key={`${college}-${course}`} className="shot-row">
+                    <div>
+                      <b>{college}</b>
+                      <span>{course}</span>
+                    </div>
+                    <em>{chance}</em>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="relative z-10 premium-copy">
+              <div className="eyebrow mb-3">{'// Premium loop'}</div>
+              <h2 className="display-md mb-3">Premium turns practice into admission intelligence.</h2>
+              <p className="text-zinc-400 leading-relaxed max-w-xl">
+                Unlimited mocks, advanced Radar, AI analysis, targeted difficulty, and Admission Compass help serious students see the gap between their current score and likely DU college-course options.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {['Mock CUET score', 'DU college matching', 'Course eligibility', 'AI improvement moves'].map((item) => (
+                  <span key={item} className="pill volt">{item}</span>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -118,6 +151,87 @@ export default function FeaturesPage() {
       </section>
 
       <MarketingFooter />
+      <style>{`
+        .premium-feature-card {
+          min-height: 0;
+        }
+        .premium-copy {
+          align-self: center;
+          padding: clamp(4px, 1vw, 14px);
+        }
+        .feature-compass-shot {
+          border: 1px solid rgba(255,255,255,.09);
+          border-radius: 14px;
+          background: rgba(0,0,0,.34);
+          padding: 18px;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+          align-self: stretch;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+        .shot-top {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 16px;
+          margin-bottom: 18px;
+        }
+        .shot-score {
+          font-family: var(--font-display);
+          font-weight: 900;
+          font-size: clamp(42px, 6vw, 68px);
+          line-height: .9;
+          color: var(--volt);
+          font-variant-numeric: tabular-nums;
+        }
+        .shot-score span {
+          color: #71717a;
+          font-size: 18px;
+        }
+        .shot-bars {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 12px;
+          margin-bottom: 16px;
+        }
+        .shot-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          padding: 12px 0;
+          border-top: 1px solid rgba(255,255,255,.06);
+        }
+        .shot-row b,
+        .shot-row span {
+          display: block;
+        }
+        .shot-row b {
+          font-family: var(--font-display);
+          color: #fff;
+        }
+        .shot-row span {
+          color: #71717a;
+          font-size: 12px;
+        }
+        .shot-row em {
+          color: var(--volt);
+          font-size: 12px;
+          font-style: normal;
+          font-weight: 800;
+        }
+        @media (max-width: 640px) {
+          .shot-top,
+          .shot-row {
+            align-items: flex-start;
+            flex-direction: column;
+          }
+          .shot-bars {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
     </div>
   );
 }

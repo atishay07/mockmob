@@ -263,18 +263,6 @@ export default function AnalyticsPageClient() {
           )}
         </div>
 
-        <div className="glass p-6 md:col-span-2">
-          <h3 className="heading mb-4 text-white">Recommended next moves</h3>
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
-            {(insights?.recommendations || []).map((item, index) => (
-              <div key={item} className="glass p-4">
-                <div className="mono-label mb-2">Move {index + 1}</div>
-                <p className="text-sm text-zinc-300 leading-relaxed">{item}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
         <div className="glass p-6 md:col-span-2 relative overflow-hidden">
           <div className={`${isPremium ? '' : 'blur-[2px] opacity-55 pointer-events-none select-none'}`}>
             <div className="flex items-start justify-between gap-4 mb-5">
@@ -283,6 +271,18 @@ export default function AnalyticsPageClient() {
                 <h3 className="heading text-white">Advanced analysis</h3>
               </div>
               <div className="pill volt">{isPremium ? 'ACTIVE' : 'LOCKED'}</div>
+            </div>
+
+            <div className="glass p-4 mb-4">
+              <h3 className="heading mb-4 text-white">Recommended next moves</h3>
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
+                {(insights?.recommendations || []).map((item, index) => (
+                  <div key={item} className="glass p-4">
+                    <div className="mono-label mb-2">Move {index + 1}</div>
+                    <p className="text-sm text-zinc-300 leading-relaxed">{item}</p>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">

@@ -6,6 +6,9 @@ import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
 import { PricingCard } from '@/components/ui/PricingCard';
 import { LiquidGlassButton } from '@/components/ui/LiquidGlassButton';
+import { RazorpayPaymentButton } from '@/components/billing/RazorpayPaymentButton';
+import { auth } from '@/lib/auth';
+import { Database } from '@/../data/db';
 
 const plans = [
   {
@@ -22,6 +25,8 @@ const plans = [
     cycle: '/month',
     description: 'For consistent aspirants who want sharper analytics.',
     ctaLabel: 'Go Pro',
+    planId: 'pro_monthly',
+    amount: 6900,
     featured: true,
     features: ['Unlimited mocks', 'Fast-lane mock generation', 'Unlimited bookmarks', 'Speed diagnostics + chapter recommendations'],
   }
@@ -46,7 +51,11 @@ const faqs = [
   }
 ];
 
-export default function PricingPage() {
+export default async function PricingPage() {
+  const session = await auth();
+  const currentUser = session?.user?.id ? await Database.getUserById(session.user.id) : null;
+  const isCurrentUserPremium = Boolean(currentUser?.isPremium);
+
   return (
     <div className="view min-h-screen">
       <NavBar />
@@ -67,7 +76,19 @@ export default function PricingPage() {
 
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {plans.map((plan, index) => (
-            <PricingCard key={plan.name} {...plan} delay={index * 80} />
+            <PricingCard
+              key={plan.name}
+              {...plan}
+              delay={index * 80}
+              ctaElement={plan.planId ? (
+                <RazorpayPaymentButton
+                  planId={plan.planId}
+                  amount={plan.amount}
+                  label={plan.ctaLabel}
+                  initialIsPremium={isCurrentUserPremium}
+                />
+              ) : null}
+            />
           ))}
         </section>
 

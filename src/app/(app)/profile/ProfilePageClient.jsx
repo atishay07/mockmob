@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from 'react';
+import Link from 'next/link';
 import { Avatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icons';
@@ -162,6 +163,15 @@ export default function ProfilePageClient() {
                 ? 'Unlimited mocks, multi-chapter targeting, difficulty controls, and premium speed diagnostics are active.'
                 : 'Use credits to generate mocks. Upgrade for unlimited mocks and premium controls.'}
             </p>
+            {!user?.isPremium && (
+              <Link
+                href="/pricing"
+                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-volt px-4 py-3 text-sm font-black uppercase tracking-[0.08em] text-black shadow-[0_0_26px_rgba(210,240,0,0.18)] transition hover:brightness-110"
+              >
+                <Icon name="zap" style={{ width: '15px', height: '15px' }} />
+                Go Premium for unlimited mocks
+              </Link>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-3">

@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { SUBJECTS } from '../../../data/subjects.js';
+import { CANONICAL_SYLLABUS } from '../../../data/canonical_syllabus.js';
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
@@ -13,62 +14,30 @@ function normalizeId(id) {
     .replace(/^_|_$/g, '');
 }
 
-const MAX_PER_CHAPTER_TOTAL = 200;
 const MAX_JOBS_PER_RUN = 10;
+const MAX_JOBS_PER_CHAPTER = 2;
 
 // ── Tier definitions ──────────────────────────────────────────────────────────
 // Every subject in the codebase is explicitly placed in a tier.
 // Nothing falls through silently — unlisted subjects emit a warning and land
 // in Tier 3 so the operator can triage.
-const RAW_SUBJECT_TIERS = {
-  1: new Set([
-    // Core sciences
-    'physics', 'chemistry', 'biology', 'mathematics',
-    // Commerce / economics stream
-    'accountancy', 'economics', 'business_studies',
-    // High-demand general / language
-    'english', 'history',
-    // General Aptitude Test (both legacy and current DB ids)
-    'gat', 'general_test',
-  ]),
-  2: new Set([
-    'political_science', 'geography', 'psychology', 'sociology',
-    'computer_science', 'informatics_practices',
-    'physical_education', 'home_science', 'environmental_studies',
-    'anthropology',
-  ]),
-  3: new Set([
-    // Vocational / applied
-    'fine_arts', 'performing_arts', 'theatre', 'mass_media', 'agriculture',
-    'engineering_graphics', 'legal_studies', 'entrepreneurship',
-    'teaching_aptitude', 'tourism', 'fashion_studies', 'design', 'music', 'dance',
-    'knowledge_tradition_india',
-    // Regional languages
-    'hindi', 'sanskrit', 'urdu', 'punjabi', 'bengali', 'marathi',
-    'tamil', 'telugu', 'kannada', 'malayalam', 'gujarati', 'odia', 'assamese',
-  ]),
+const VALID_SUBJECTS = new Set(CANONICAL_SYLLABUS.map((subject) => subject.subject_id));
+
+const TIER_1 = new Set([
+  'physics', 'chemistry', 'mathematics', 'biology',
+  'accountancy', 'business_studies', 'economics',
+  'history', 'political_science', 'geography',
+]);
+
+const TIER_2 = new Set([
+  'english', 'gat', 'computer_science', 'psychology', 'sociology',
+]);
+
+const SUBJECT_TIERS = {
+  1: TIER_1,
+  2: TIER_2,
+  3: new Set([...VALID_SUBJECTS].filter((subject) => !TIER_1.has(subject) && !TIER_2.has(subject))),
 };
-
-const SUBJECT_TIERS = Object.fromEntries(
-  Object.entries(RAW_SUBJECT_TIERS).map(([tier, values]) => [
-    tier,
-    new Set([...values].map(normalizeId)),
-  ])
-);
-
-// Validate at module load: every Tier-1 subject must be explicitly listed and
-// not accidentally duplicated in a lower tier.
-(function validateTierIntegrity() {
-  const tier1Ids = [...SUBJECT_TIERS[1]];
-  for (const id of tier1Ids) {
-    if (SUBJECT_TIERS[2].has(id)) {
-      console.error(`[planner] TIER_INTEGRITY_ERROR: "${id}" is in BOTH Tier 1 and Tier 2`);
-    }
-    if (SUBJECT_TIERS[3].has(id)) {
-      console.error(`[planner] TIER_INTEGRITY_ERROR: "${id}" is in BOTH Tier 1 and Tier 3`);
-    }
-  }
-})();
 
 /**
  * Returns synthetic gap entries for EVERY chapter of every Tier-1 subject.
@@ -79,7 +48,7 @@ const SUBJECT_TIERS = Object.fromEntries(
 function getAllTier1Chapters() {
   const fallbackGaps = [];
   for (const subject of SUBJECTS) {
-    if (!SUBJECT_TIERS[1].has(normalizeId(subject.id))) continue;
+    if (!TIER_1.has(normalizeId(subject.id))) continue;
     for (const chapter of subject.chapters || []) {
       fallbackGaps.push({
         subject_id: subject.id,
@@ -93,6 +62,17 @@ function getAllTier1Chapters() {
   return fallbackGaps;
 }
 
+function getGapSubject(gap) {
+  return normalizeId(gap?.subject || gap?.subject_id || '');
+}
+
+function getSubjectWeight(subject) {
+  const normalizedSubject = normalizeId(subject);
+  if (TIER_1.has(normalizedSubject)) return 1.0;
+  if (TIER_2.has(normalizedSubject)) return 0.7;
+  return 0.2;
+}
+
 /**
  * PLANNER (Intelligence Layer)
  * Prioritises gaps and creates generation_jobs with strict 90 / 10 Tier-1 / other
@@ -102,32 +82,32 @@ export async function planGeneration(gaps) {
   console.log('📅 Planning generation jobs...');
 
   // Active queued/processing jobs are intentionally ignored in local planning.
-  const tier1GapCount = (gaps || []).filter((gap) => getSubjectTier(gap.subject_id) === 1).length;
+  const plannerPool = (gaps || [])
+    .filter((gap) => VALID_SUBJECTS.has(getGapSubject(gap)))
+    .map((gap) => ({
+      ...gap,
+      subject_id: getGapSubject(gap),
+      subject: getGapSubject(gap),
+      priority: Number(gap.priority || 0) * getSubjectWeight(getGapSubject(gap)),
+    }));
+  const syllabusTotal = plannerPool.length;
+  const coveredChapters = plannerPool.filter((gap) => (gap.question_count ?? gap.count ?? 0) > 0).length;
+  const missingCount = plannerPool.filter((gap) => (gap.question_count ?? gap.count ?? 0) === 0).length;
+  const tier1GapCount = plannerPool.filter((gap) => getSubjectTier(gap.subject_id) === 1).length;
+
+  console.log('[planner] syllabus_total:', syllabusTotal);
+  console.log('[planner] db_covered:', coveredChapters);
+  console.log('[planner] missing_chapters:', missingCount);
 
   // ── 2. Split gaps into tier buckets BEFORE any other processing ─────────────
   // This is the key structural change: tier assignment is the FIRST filter,
   // not something applied after a mixed candidate list is built.
   const tierGaps = { 1: [], 2: [], 3: [] };
-  const unmappedSubjects = new Set();
 
-  for (const gap of gaps || []) {
-    // Skip saturated chapters
-    if (gap.count >= MAX_PER_CHAPTER_TOTAL) continue;
+  for (const gap of plannerPool) {
     const tier = getSubjectTier(gap.subject_id);
 
-    // Warn on first encounter of any unlisted subject
-    if (tier === 3 && !SUBJECT_TIERS[3].has(normalizeId(gap.subject_id))) {
-      unmappedSubjects.add(gap.subject_id);
-    }
-
     tierGaps[tier].push(gap);
-  }
-
-  // Warn for any subjects that silently defaulted to Tier 3
-  for (const sid of unmappedSubjects) {
-    console.warn(
-      `[planner] UNMAPPED_SUBJECT: "${sid}" (normalized: "${normalizeId(sid)}") is not in any tier definition — defaulting to Tier 3. Add it explicitly to RAW_SUBJECT_TIERS.`,
-    );
   }
 
   const tier1AvailableBeforeOverride = tierGaps[1].length;
@@ -160,39 +140,29 @@ export async function planGeneration(gaps) {
 
   // ── 5. Sort each tier independently by priority (highest first) ─────────────
   for (const tier of [1, 2, 3]) {
-    tierGaps[tier].sort((a, b) => b.priority - a.priority);
+    tierGaps[tier].sort(compareGaps);
   }
 
   // ── 6. Hard-enforce 90 / 10 distribution ────────────────────────────────────
-  const TIER1_TARGET = Math.floor(MAX_JOBS_PER_RUN * 0.9); // 9
-  const OTHER_TARGET = MAX_JOBS_PER_RUN - TIER1_TARGET;    // 1
+  const TIER1_TARGET = Math.ceil(MAX_JOBS_PER_RUN * 0.7);
+  const TIER2_TARGET = Math.ceil(MAX_JOBS_PER_RUN * 0.25);
+  const TIER3_TARGET = MAX_JOBS_PER_RUN - TIER1_TARGET - TIER2_TARGET;
 
-  const tier1Picked = selectEvenlyAcrossSubjects(tierGaps[1], TIER1_TARGET);
-  const tier1Shortfall = TIER1_TARGET - tier1Picked.length;
-
-  if (tier1Shortfall > 0 && tierGaps[1].length > 0) {
-    // We had SOME Tier-1 but not enough to fill the quota
-    console.warn(
-      `[planner] Tier-1 shortfall: wanted ${TIER1_TARGET}, available ${tier1Picked.length}. ` +
-      `Filling remaining ${tier1Shortfall} slot(s) from Tier-2/3.`
-    );
-  }
-
-  // Tier-2 and Tier-3 combined, sorted by priority
-  const tier23Combined = [...tierGaps[2], ...tierGaps[3]]
-    .sort((a, b) => b.priority - a.priority);
-
-  // Other slots = normal OTHER_TARGET + any Tier-1 shortfall
-  const otherAllowed = Math.min(OTHER_TARGET + tier1Shortfall, tier23Combined.length);
-  const otherPicked = selectEvenlyAcrossSubjects(
-    tier23Combined,
-    otherAllowed,
-    2,
-    countBySubject(tier1Picked),
+  const chapterCounts = new Map();
+  const tier1Picked = pickTop(tierGaps[1], TIER1_TARGET, chapterCounts);
+  const tier2Picked = pickTop(tierGaps[2], TIER2_TARGET, chapterCounts);
+  const tier3Picked = pickTop(tierGaps[3], TIER3_TARGET, chapterCounts);
+  const alreadyPicked = new Set([...tier1Picked, ...tier2Picked, ...tier3Picked]);
+  const pickedCount = tier1Picked.length + tier2Picked.length + tier3Picked.length;
+  const overflowPicked = pickTop(
+    [...tierGaps[1], ...tierGaps[2], ...tierGaps[3]]
+      .filter((gap) => !alreadyPicked.has(gap))
+      .sort(compareGaps),
+    MAX_JOBS_PER_RUN - pickedCount,
+    chapterCounts,
   );
 
-  // Assemble final job list (Tier-1 first)
-  const topJobs = [...tier1Picked, ...otherPicked].map((gap) => ({
+  const topJobs = [...tier1Picked, ...tier2Picked, ...tier3Picked, ...overflowPicked].map((gap) => ({
     subject_id: gap.subject_id,
     chapter: gap.chapter,
     target_count: 18,
@@ -226,7 +196,7 @@ export async function planGeneration(gaps) {
   if (!distributionMet) {
     console.warn(
       `[planner] TIER_DISTRIBUTION_FAILED: Tier-1 is only ${tier1Pct}% of planned jobs (target ≥ ${Math.round(TIER1_TARGET / MAX_JOBS_PER_RUN * 100)}%). ` +
-      'Check that Tier-1 subjects are present in the gap list and that subject IDs match RAW_SUBJECT_TIERS.'
+      'Check that Tier-1 subjects are present in the syllabus-driven gap list.'
     );
   }
 
@@ -287,60 +257,27 @@ function getSubjectTier(subjectId) {
   return 3; // explicit Tier-3 entries + unlisted subjects
 }
 
-function selectEvenlyAcrossSubjects(candidates, limit, maxPerSubject = 2, initialCounts = new Map()) {
+function compareGaps(a, b) {
+  return b.priority - a.priority ||
+    String(a.subject_id).localeCompare(String(b.subject_id)) ||
+    String(a.chapter).localeCompare(String(b.chapter));
+}
+
+function pickTop(candidates, limit, chapterCounts) {
   if (limit <= 0 || !Array.isArray(candidates) || candidates.length === 0) return [];
 
-  const groups = new Map();
-  for (const candidate of candidates) {
-    const subjectId = candidate.subject_id;
-    if (!groups.has(subjectId)) groups.set(subjectId, []);
-    groups.get(subjectId).push(candidate);
-  }
-
-  for (const group of groups.values()) {
-    group.sort((a, b) => b.priority - a.priority);
-  }
-
-  const subjects = shuffleArray([...groups.keys()]);
   const selected = [];
-  const counts = new Map(initialCounts);
+  for (const candidate of candidates) {
+    if (selected.length >= limit) break;
 
-  while (selected.length < limit) {
-    let pickedThisRound = false;
+    const chapterKey = `${candidate.subject_id}::${candidate.chapter}`;
+    if ((chapterCounts.get(chapterKey) || 0) >= MAX_JOBS_PER_CHAPTER) continue;
 
-    for (const subjectId of subjects) {
-      if (selected.length >= limit) break;
-      if ((counts.get(subjectId) || 0) >= maxPerSubject) continue;
-
-      const group = groups.get(subjectId);
-      if (!group || group.length === 0) continue;
-
-      selected.push(group.shift());
-      counts.set(subjectId, (counts.get(subjectId) || 0) + 1);
-      pickedThisRound = true;
-    }
-
-    if (!pickedThisRound) break;
+    selected.push(candidate);
+    chapterCounts.set(chapterKey, (chapterCounts.get(chapterKey) || 0) + 1);
   }
 
   return selected;
-}
-
-function countBySubject(candidates) {
-  const counts = new Map();
-  for (const candidate of candidates || []) {
-    counts.set(candidate.subject_id, (counts.get(candidate.subject_id) || 0) + 1);
-  }
-  return counts;
-}
-
-function shuffleArray(values) {
-  const shuffled = [...values];
-  for (let i = shuffled.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
 }
 
 function getSubjectsInPool(tierGaps) {

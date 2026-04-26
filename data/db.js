@@ -16,6 +16,7 @@ const rid = () => Math.random().toString(36).substring(2, 9);
 const newUserId = () => `usr_${Date.now()}_${rid()}`;
 const newAttemptId = () => `att_${Date.now()}_${rid()}`;
 const newQuestionId = () => `q_${Date.now()}_${rid()}`;
+const newPaymentId = () => `payrec_${Date.now()}_${rid()}`;
 
 // ---------- row <-> app-shape mappers ----------
 const userOut = (r) => r && ({
@@ -27,8 +28,26 @@ const userOut = (r) => r && ({
   role: r.role,
   creditBalance: r.credit_balance || 0,
   subscriptionStatus: r.subscription_status || 'free',
-  isPremium: r.subscription_status === 'active',
+  isPremium: Boolean(r.is_premium) || r.subscription_status === 'active',
   createdAt: new Date(r.created_at).getTime(),
+});
+
+const paymentOut = (r) => r && ({
+  id: r.id,
+  userId: r.user_id,
+  orderId: r.order_id,
+  subscriptionId: r.subscription_id,
+  paymentId: r.payment_id,
+  planId: r.plan_id,
+  razorpayPlanId: r.razorpay_plan_id,
+  amount: r.amount,
+  currency: r.currency,
+  status: r.status,
+  rawOrder: r.raw_order || {},
+  rawSubscription: r.raw_subscription || {},
+  rawPayment: r.raw_payment || {},
+  createdAt: r.created_at ? new Date(r.created_at).getTime() : null,
+  updatedAt: r.updated_at ? new Date(r.updated_at).getTime() : null,
 });
 
 const questionOut = (r) => r && ({
@@ -197,11 +216,97 @@ export const Database = {
     if ('subjects' in updates) patch.subjects = updates.subjects;
     if ('role' in updates) patch.role = updates.role;
     if ('subscriptionStatus' in updates) patch.subscription_status = updates.subscriptionStatus;
+    if ('isPremium' in updates) patch.is_premium = updates.isPremium;
 
     const { data, error } = await supabaseAdmin()
       .from('users').update(patch).eq('id', id).select('*').maybeSingle();
     if (error) throw error;
     return userOut(data);
+  },
+
+  // =====================================================================
+  // PAYMENTS
+  // =====================================================================
+  async createPayment(payment) {
+    const row = {
+      id: payment.id || newPaymentId(),
+      user_id: payment.userId,
+      order_id: payment.orderId || null,
+      subscription_id: payment.subscriptionId || null,
+      payment_id: payment.paymentId || null,
+      plan_id: payment.planId,
+      razorpay_plan_id: payment.razorpayPlanId || null,
+      amount: payment.amount,
+      currency: payment.currency || 'INR',
+      status: payment.status || 'created',
+      raw_order: payment.rawOrder || {},
+      raw_subscription: payment.rawSubscription || {},
+      raw_payment: payment.rawPayment || {},
+    };
+
+    const { data, error } = await supabaseAdmin()
+      .from('payments')
+      .insert(row)
+      .select('*')
+      .single();
+    if (error) throw error;
+    return paymentOut(data);
+  },
+
+  async getPaymentByOrderId(orderId) {
+    if (!orderId) return null;
+    const { data, error } = await supabaseAdmin()
+      .from('payments')
+      .select('*')
+      .eq('order_id', orderId)
+      .maybeSingle();
+    if (error) throw error;
+    return paymentOut(data);
+  },
+
+  async getPaymentBySubscriptionId(subscriptionId) {
+    if (!subscriptionId) return null;
+    const { data, error } = await supabaseAdmin()
+      .from('payments')
+      .select('*')
+      .eq('subscription_id', subscriptionId)
+      .maybeSingle();
+    if (error) throw error;
+    return paymentOut(data);
+  },
+
+  async updatePaymentByOrderId(orderId, updates) {
+    const patch = { updated_at: new Date().toISOString() };
+    if (updates.paymentId !== undefined) patch.payment_id = updates.paymentId;
+    if (updates.status !== undefined) patch.status = updates.status;
+    if (updates.rawPayment !== undefined) patch.raw_payment = updates.rawPayment;
+    if (updates.rawSubscription !== undefined) patch.raw_subscription = updates.rawSubscription;
+
+    const { data, error } = await supabaseAdmin()
+      .from('payments')
+      .update(patch)
+      .eq('order_id', orderId)
+      .select('*')
+      .maybeSingle();
+    if (error) throw error;
+    return paymentOut(data);
+  },
+
+  async updatePaymentBySubscriptionId(subscriptionId, updates) {
+    const patch = { updated_at: new Date().toISOString() };
+    if (updates.paymentId !== undefined) patch.payment_id = updates.paymentId;
+    if (updates.status !== undefined) patch.status = updates.status;
+    if (updates.rawPayment !== undefined) patch.raw_payment = updates.rawPayment;
+    if (updates.rawSubscription !== undefined) patch.raw_subscription = updates.rawSubscription;
+
+    const { data, error } = await supabaseAdmin()
+      .from('payments')
+      .update(patch)
+      .eq('subscription_id', subscriptionId)
+      .select('*')
+      .maybeSingle();
+    if (error) throw error;
+    return paymentOut(data);
   },
 
   // =====================================================================

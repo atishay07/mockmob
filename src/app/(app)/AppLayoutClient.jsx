@@ -52,6 +52,7 @@ export default function AppLayoutClient({ children }) {
 
   const studentTabs = [
     { id: 'dashboard', label: 'Arena', icon: 'zap' },
+    { id: 'admission-compass', label: 'Compass', icon: 'target' },
     { id: 'explore', label: 'Explore', icon: 'radar' },
     { id: 'analytics', label: 'Radar', icon: 'bar' },
     { id: 'saved', label: 'Saved', icon: 'book' },
@@ -63,6 +64,7 @@ export default function AppLayoutClient({ children }) {
 
   const modTabs = [
     { id: 'dashboard', label: 'Arena', icon: 'zap' },
+    { id: 'admission-compass', label: 'Compass', icon: 'target' },
     { id: 'moderation', label: 'Mod Queue', icon: 'shield' },
     { id: 'explore', label: 'Explore', icon: 'radar' },
     { id: 'saved', label: 'Saved', icon: 'book' },
