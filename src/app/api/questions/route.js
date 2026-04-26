@@ -9,6 +9,12 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const subjectId = searchParams.get('subject');
     const chapter = searchParams.get('chapter');
+    const chapters = (searchParams.get('chapters') || '')
+      .split(',')
+      .map((entry) => entry.trim())
+      .filter(Boolean)
+      .slice(0, 12);
+    const difficulty = searchParams.get('difficulty') || '';
     const countRaw = parseInt(searchParams.get('count') || '10', 10);
     const count = Number.isFinite(countRaw) ? Math.max(1, Math.min(100, countRaw)) : 10;
 
@@ -21,8 +27,20 @@ export async function GET(request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const dbUser = await Database.getUserById(session.user.id);
+    const isPremium = dbUser?.subscriptionStatus === 'active';
+    const usesPremiumControls = ['easy', 'medium', 'hard'].includes(difficulty);
+    if (usesPremiumControls && !isPremium) {
+      return NextResponse.json({
+        error: 'Premium required',
+        details: 'Difficulty targeting is a premium control.',
+      }, { status: 402 });
+    }
+
     const questions = await Database.getQuestions(subjectId, count, {
       chapter: chapter || undefined,
+      chapters: chapters.length > 0 ? chapters : undefined,
+      difficulty: isPremium ? difficulty : undefined,
       userId: session.user.id,
     });
     return NextResponse.json(questions);

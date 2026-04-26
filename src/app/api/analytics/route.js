@@ -73,6 +73,23 @@ export async function GET(request) {
       score: a.score,
       at: a.completedAt,
     }));
+    const scores = timeline.map((row) => row.score);
+    const latestScore = scores.at(-1) || 0;
+    const firstScore = scores[0] || 0;
+    const bestScore = scores.length ? Math.max(...scores) : 0;
+    const recentScores = scores.slice(-3);
+    const previousScores = scores.slice(-6, -3);
+    const recentAverage = recentScores.length
+      ? Math.round(recentScores.reduce((sum, score) => sum + score, 0) / recentScores.length)
+      : 0;
+    const previousAverage = previousScores.length
+      ? Math.round(previousScores.reduce((sum, score) => sum + score, 0) / previousScores.length)
+      : firstScore;
+    const scoreRange = scores.length ? Math.max(...scores) - Math.min(...scores) : 0;
+    const momentum = recentAverage - previousAverage;
+    const consistency = scores.length > 1
+      ? Math.max(0, 100 - Math.round(scores.reduce((sum, score) => sum + Math.abs(score - latestScore), 0) / scores.length))
+      : 0;
 
     // -------- Totals --------
     const totals = attempts.reduce((acc, a) => {
@@ -82,12 +99,70 @@ export async function GET(request) {
       return acc;
     }, { correct: 0, wrong: 0, unattempted: 0 });
 
+    const totalQuestions = totals.correct + totals.wrong + totals.unattempted;
+    const lifetimeAccuracy = totalQuestions ? Math.round((totals.correct / totalQuestions) * 100) : 0;
+    const completionRate = totalQuestions ? Math.round(((totals.correct + totals.wrong) / totalQuestions) * 100) : 0;
+    const negativePressure = totalQuestions ? Math.round((totals.wrong / totalQuestions) * 100) : 0;
+    const focusScore = Math.max(0, Math.min(100, Math.round((lifetimeAccuracy * 0.55) + (consistency * 0.3) + (completionRate * 0.15))));
+    const rankReadiness = Math.max(0, Math.min(100, Math.round((recentAverage * 0.45) + (lifetimeAccuracy * 0.25) + (consistency * 0.2) + (completionRate * 0.1))));
+
+    const weakest = weakChaptersFallback[0];
+    const strongest = [...chapterRows].sort((a, b) => b.acc - a.acc)[0];
+    const secondWeakest = weakChaptersFallback[1];
+    const lowConfidenceSubjects = subjects
+      .filter((subject) => subject.tests >= 1)
+      .sort((a, b) => a.accuracy - b.accuracy)
+      .slice(0, 2);
+    const recommendations = [
+      weakest ? `Revise ${weakest.chapter} first; current accuracy is ${weakest.acc}%.` : 'Take two more mocks to unlock chapter recommendations.',
+      strongest ? `Keep ${strongest.chapter} warm with a short mixed drill.` : 'Mix subjects to build a stronger radar profile.',
+      latestScore < 60 ? 'Prioritize accuracy before speed in the next sprint.' : 'Add timed drills to convert accuracy into rank speed.',
+      secondWeakest ? `Pair ${weakest.chapter} with ${secondWeakest.chapter} in one 20-question repair set.` : 'Use a mixed 15-question drill after your next full mock.',
+      completionRate < 85 ? 'Reduce skips first; attempt confidence is currently limiting your real score.' : 'Your completion rate is strong. Push difficulty one level higher for the next drill.',
+    ];
+    const advanced = {
+      readinessScore: rankReadiness,
+      focusScore,
+      recentAverage,
+      momentum,
+      scoreRange,
+      completionRate,
+      negativePressure,
+      priorityStack: [
+        weakest ? `${weakest.chapter}: highest recovery impact` : 'Generate chapter data with two more mocks',
+        lowConfidenceSubjects[0] ? `${lowConfidenceSubjects[0].name}: lowest subject accuracy` : 'Add one more subject mock for comparison',
+        scoreRange > 25 ? 'Score volatility is high; use shorter controlled drills' : 'Score volatility is stable enough for timed mocks',
+      ],
+      premiumMoves: [
+        weakest ? `Ask Radar: why do I miss ${weakest.chapter} questions?` : 'Ask Radar: what should I practice today?',
+        `Build a ${completionRate < 85 ? 'confidence-first' : 'speed-first'} mock recipe for the next session.`,
+        lowConfidenceSubjects[0] ? `Compare ${lowConfidenceSubjects[0].name} mistakes against your strongest subject.` : 'Unlock subject-vs-subject trap analysis.',
+      ],
+    };
+
     return NextResponse.json({
       weakChapters: weakChaptersFallback,
       subjects,
       timeline,
       totals,
       totalAttempts: attempts.length,
+      insights: {
+        latestScore,
+        bestScore,
+        scoreDelta: latestScore - firstScore,
+        consistency,
+        recentAverage,
+        momentum,
+        scoreRange,
+        completionRate,
+        negativePressure,
+        focusScore,
+        rankReadiness,
+        weakestChapter: weakest || null,
+        strongestChapter: strongest || null,
+        recommendations,
+        advanced,
+      },
     });
   } catch (e) {
     console.error('[api/analytics] GET failed:', e);

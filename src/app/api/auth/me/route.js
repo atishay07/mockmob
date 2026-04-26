@@ -25,6 +25,8 @@ export async function GET() {
       subjects: dbUser.subjects || [],
       role: dbUser.role || 'student',
       creditBalance: dbUser.creditBalance || 0,
+      subscriptionStatus: dbUser.subscriptionStatus || 'free',
+      isPremium: Boolean(dbUser.isPremium),
     };
 
     return NextResponse.json({

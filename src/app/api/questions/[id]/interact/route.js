@@ -4,6 +4,7 @@
 // FIX 17 (Medium):   gate report_resolved / answer_challenged on is_moderator.
 
 import { supabase } from '@/lib/supabase'
+import { auth } from '@/lib/auth'
 
 const VALID_INTERACTION_TYPES = new Set([
   'seen', 'attempted', 'like', 'unlike', 'save', 'unsave',
@@ -35,10 +36,10 @@ export async function POST(request, { params }) {
   const { id: questionId } = await params
 
   // ---- Auth: derive user_id from verified JWT ----
-  // In development, skip JWT validation and use a fixed test user.
   let user_id
-  if (process.env.NODE_ENV === 'development') {
-    user_id = 'test-user'
+  const session = await auth().catch(() => null)
+  if (session?.user?.id) {
+    user_id = session.user.id
   } else {
     const authHeader = request.headers.get('authorization')
     if (!authHeader?.startsWith('Bearer ')) {
@@ -119,7 +120,7 @@ export async function POST(request, { params }) {
   // ---- Load question (existence + authorship) ----
   const { data: question, error: qError } = await supabase
     .from('questions')
-    .select('id, author_id, live_at, is_deleted')
+    .select('id, author_id, live_at, is_deleted, subject, chapter, correct_answer')
     .eq('id', questionId)
     .single()
 
@@ -162,6 +163,14 @@ export async function POST(request, { params }) {
     console.error('[interact] insert error:', insertError)
     return Response.json({ error: 'Failed to record interaction.' }, { status: 500 })
   }
+
+  await updateLearningProgress({
+    user_id,
+    question,
+    interaction_type,
+    dwell_ms,
+    metadata,
+  })
 
   return Response.json({ interaction_id: interaction.id }, { status: 201 })
 }
@@ -220,4 +229,57 @@ async function checkQualifiedSignal(userId, questionId, flowContext) {
   if ((sessionCount ?? 0) >= 2) return null
 
   return 'Account too new. Complete 2 mocks or wait 24 hours before liking questions.'
+}
+
+async function updateLearningProgress({ user_id, question, interaction_type, dwell_ms, metadata }) {
+  if (!['seen', 'attempted', 'skip'].includes(interaction_type)) return
+
+  const selectedKey = metadata?.selected_key == null ? null : String(metadata.selected_key)
+  const correctKey = question.correct_answer == null ? null : String(question.correct_answer)
+  const isAttempt = interaction_type === 'attempted'
+  const isCorrect = isAttempt && selectedKey !== null && correctKey !== null && selectedKey === correctKey
+
+  const patch = {
+    user_id,
+    question_id: question.id,
+    subject: question.subject || null,
+    chapter: question.chapter || null,
+    updated_at: new Date().toISOString(),
+  }
+
+  const { data: existing, error: readError } = await supabase
+    .from('user_question_progress')
+    .select('*')
+    .eq('user_id', user_id)
+    .eq('question_id', question.id)
+    .maybeSingle()
+
+  if (readError) {
+    console.warn('[interact] progress read skipped:', readError.message)
+    return
+  }
+
+  patch.seen_count = (existing?.seen_count || 0) + (interaction_type === 'seen' ? 1 : 0)
+  patch.attempt_count = (existing?.attempt_count || 0) + (isAttempt ? 1 : 0)
+  patch.correct_count = (existing?.correct_count || 0) + (isCorrect ? 1 : 0)
+  patch.skip_count = (existing?.skip_count || 0) + (interaction_type === 'skip' ? 1 : 0)
+  patch.last_selected_key = isAttempt ? selectedKey : existing?.last_selected_key || null
+  patch.last_correct = isAttempt ? isCorrect : existing?.last_correct ?? null
+  patch.best_dwell_ms = typeof dwell_ms === 'number'
+    ? Math.min(existing?.best_dwell_ms || dwell_ms, dwell_ms)
+    : existing?.best_dwell_ms || null
+  patch.last_seen_at = interaction_type === 'seen'
+    ? patch.updated_at
+    : existing?.last_seen_at || null
+  patch.last_attempted_at = isAttempt
+    ? patch.updated_at
+    : existing?.last_attempted_at || null
+
+  const { error: writeError } = await supabase
+    .from('user_question_progress')
+    .upsert(patch, { onConflict: 'user_id,question_id' })
+
+  if (writeError) {
+    console.warn('[interact] progress write skipped:', writeError.message)
+  }
 }

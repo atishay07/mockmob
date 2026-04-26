@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from 'react';
+import Link from 'next/link';
 import {
   Chart as ChartJS,
   CategoryScale, LinearScale, PointElement, LineElement,
   Title, Tooltip, Filler, RadialLinearScale, RadarController,
 } from 'chart.js';
 import { Line, Radar } from 'react-chartjs-2';
-import { SkeletonCard, ErrorState, PageSpinner } from '@/components/ui/Skeleton';
+import { SkeletonCard, ErrorState } from '@/components/ui/Skeleton';
 import { apiGet } from '@/lib/fetcher';
 import { useAuth } from '@/components/AuthProvider';
 
@@ -115,9 +116,22 @@ export default function AnalyticsPageClient() {
     );
   }
 
-  const { timeline, weakChapters, subjects, totals, totalAttempts } = data;
+  const { timeline, weakChapters, subjects, totals, totalAttempts, insights } = data;
   const totalQ = totals.correct + totals.wrong + totals.unattempted;
   const lifetimeAccuracy = totalQ ? Math.round((totals.correct / totalQ) * 100) : 0;
+  const isPremium = Boolean(user?.isPremium || user?.subscriptionStatus === 'active');
+  const advanced = insights?.advanced || {};
+  const signalCards = [
+    { label: 'Recent average', value: `${insights?.recentAverage || 0}%`, tone: 'text-white' },
+    { label: 'Momentum', value: `${(insights?.momentum || 0) >= 0 ? '+' : ''}${insights?.momentum || 0}`, tone: (insights?.momentum || 0) >= 0 ? 'text-volt' : 'text-red-400' },
+    { label: 'Completion', value: `${insights?.completionRate || 0}%`, tone: 'text-white' },
+    { label: 'Focus score', value: `${insights?.focusScore || 0}`, tone: 'text-volt' },
+  ];
+  const advancedStats = [
+    { label: 'Rank readiness', value: `${advanced.readinessScore || insights?.rankReadiness || 0}/100`, detail: 'Mock pressure + accuracy + completion' },
+    { label: 'Score volatility', value: `${advanced.scoreRange || insights?.scoreRange || 0} pts`, detail: 'Gap between best and lowest recent outcomes' },
+    { label: 'Negative pressure', value: `${advanced.negativePressure || insights?.negativePressure || 0}%`, detail: 'Wrong-answer load across attempted sets' },
+  ];
 
   return (
     <div className="container-std pb-20 view">
@@ -127,6 +141,36 @@ export default function AnalyticsPageClient() {
           <h1 className="display-md text-white">Your Performance</h1>
           <p className="text-sm text-zinc-500 mt-1">Across {totalAttempts} test{totalAttempts === 1 ? '' : 's'} · {totalQ} question{totalQ === 1 ? '' : 's'} answered</p>
         </div>
+      </div>
+
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+        <div className="glass p-4">
+          <div className="mono-label mb-2">Latest score</div>
+          <div className="display-md text-white">{insights?.latestScore || 0}%</div>
+        </div>
+        <div className="glass p-4">
+          <div className="mono-label mb-2">Best score</div>
+          <div className="display-md text-volt">{insights?.bestScore || 0}%</div>
+        </div>
+        <div className="glass p-4">
+          <div className="mono-label mb-2">Score delta</div>
+          <div className={`display-md ${(insights?.scoreDelta || 0) >= 0 ? 'text-volt' : 'text-red-400'}`}>
+            {(insights?.scoreDelta || 0) >= 0 ? '+' : ''}{insights?.scoreDelta || 0}
+          </div>
+        </div>
+        <div className="glass p-4">
+          <div className="mono-label mb-2">Consistency</div>
+          <div className="display-md text-white">{insights?.consistency || 0}%</div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+        {signalCards.map((card) => (
+          <div key={card.label} className="glass p-4">
+            <div className="mono-label mb-2">{card.label}</div>
+            <div className={`heading text-2xl ${card.tone}`} style={{ fontVariantNumeric: 'tabular-nums' }}>{card.value}</div>
+          </div>
+        ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
@@ -214,6 +258,78 @@ export default function AnalyticsPageClient() {
                     </span>
                   </div>
                 ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="glass p-6 md:col-span-2">
+          <h3 className="heading mb-4 text-white">Recommended next moves</h3>
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
+            {(insights?.recommendations || []).map((item, index) => (
+              <div key={item} className="glass p-4">
+                <div className="mono-label mb-2">Move {index + 1}</div>
+                <p className="text-sm text-zinc-300 leading-relaxed">{item}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="glass p-6 md:col-span-2 relative overflow-hidden">
+          <div className={`${isPremium ? '' : 'blur-[2px] opacity-55 pointer-events-none select-none'}`}>
+            <div className="flex items-start justify-between gap-4 mb-5">
+              <div>
+                <div className="eyebrow mb-2">{'// Premium Radar'}</div>
+                <h3 className="heading text-white">Advanced analysis</h3>
+              </div>
+              <div className="pill volt">{isPremium ? 'ACTIVE' : 'LOCKED'}</div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+              {advancedStats.map((stat) => (
+                <div key={stat.label} className="glass p-4">
+                  <div className="mono-label mb-2">{stat.label}</div>
+                  <div className="heading text-2xl text-white mb-2" style={{ fontVariantNumeric: 'tabular-nums' }}>{stat.value}</div>
+                  <p className="text-xs text-zinc-500 leading-relaxed">{stat.detail}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div className="glass p-4">
+                <div className="mono-label mb-3">Priority stack</div>
+                <div className="flex flex-col gap-3">
+                  {(advanced.priorityStack || []).map((item, index) => (
+                    <div key={`${item}-${index}`} className="flex items-center gap-3">
+                      <span className="w-6 h-6 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[10px] text-volt font-bold">{index + 1}</span>
+                      <p className="text-sm text-zinc-300">{item}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="glass p-4">
+                <div className="mono-label mb-3">Ask Radar</div>
+                <div className="rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-zinc-500 mb-3">
+                  What weakness should I fix before my next mock?
+                </div>
+                <div className="flex flex-col gap-2">
+                  {(advanced.premiumMoves || []).map((item) => (
+                    <p key={item} className="text-sm text-zinc-300 leading-relaxed">{item}</p>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {!isPremium && (
+            <div className="absolute inset-0 flex items-center justify-center p-5 bg-black/30 backdrop-blur-[3px]">
+              <div className="max-w-md rounded-2xl border border-volt/25 bg-[#090909]/90 p-5 text-center shadow-[0_0_40px_rgba(210,240,0,0.12)]">
+                <div className="mono-label text-volt mb-2">Premium analysis</div>
+                <h4 className="heading text-xl text-white mb-2">Unlock your next score jump</h4>
+                <p className="text-sm text-zinc-400 leading-relaxed mb-4">
+                  Get advanced Radar stats, chapter priority maps, AI weakness prompts, and premium mock recipes.
+                </p>
+                <Link href="/pricing" className="inline-flex items-center justify-center rounded-full bg-volt px-5 py-2 text-sm font-bold text-black hover:brightness-110 transition">Go Premium</Link>
               </div>
             </div>
           )}

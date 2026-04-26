@@ -27,8 +27,8 @@ import { VoteControls } from '@/components/questions/VoteControls';
 
 // A stable localStorage key per (user, subject, chapter, count) — distinct tests
 // get distinct keys so two subjects' progress don't collide.
-const storageKey = (uid, subject, chapter, count) =>
-  `mm:test:${uid || 'anon'}:${subject}:${chapter || '*'}:${count}`;
+const storageKey = (uid, subject, chapter, count, difficulty = 'auto') =>
+  `mm:test:${uid || 'anon'}:${subject}:${chapter || '*'}:${count}:${difficulty || 'auto'}`;
 
 function optionLabel(option) {
   return typeof option === 'string' ? option : option?.text ?? String(option ?? '');
@@ -51,6 +51,8 @@ function TestRunner() {
 
   const subjectId = searchParams.get('subject');
   const chapter   = searchParams.get('chapter') || null;
+  const chapters  = searchParams.get('chapters') || null;
+  const difficulty = searchParams.get('difficulty') || null;
   const count     = parseInt(searchParams.get('count') || '10', 10);
   const generationKey = searchParams.get('generationKey');
 
@@ -62,11 +64,12 @@ function TestRunner() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [showVoteCoach, setShowVoteCoach] = useState(false);
 
   const userId = user?.id;
   const key = useMemo(
-    () => storageKey(userId, subjectId, chapter, count),
-    [userId, subjectId, chapter, count],
+    () => storageKey(userId, subjectId, chapters || chapter, count, difficulty || 'auto'),
+    [userId, subjectId, chapter, chapters, count, difficulty],
   );
 
   // Keep latest answers/questions in refs so timer-triggered submit sees them.
@@ -120,7 +123,9 @@ function TestRunner() {
 
       try {
         const qs = new URLSearchParams({ subject: subjectId, count: String(count) });
-        if (chapter) qs.set('chapter', chapter);
+        if (chapters) qs.set('chapters', chapters);
+        else if (chapter) qs.set('chapter', chapter);
+        if (difficulty) qs.set('difficulty', difficulty);
         qs.set('generationKey', generationKey);
         const data = await apiGet(`/api/questions?${qs.toString()}`);
         if (!alive) return;
@@ -135,6 +140,9 @@ function TestRunner() {
         setIdx(0);
         setEndsAt(ends);
         setLoading(false);
+        if (typeof window !== 'undefined' && !window.localStorage.getItem('mm_vote_coach_seen')) {
+          setShowVoteCoach(true);
+        }
         refreshSession({ silent: true });
       } catch (e) {
         if (!alive) return;
@@ -144,7 +152,7 @@ function TestRunner() {
     }
     load();
     return () => { alive = false; };
-  }, [subjectId, chapter, count, generationKey, key, authStatus, refreshSession]);
+  }, [subjectId, chapter, chapters, difficulty, count, generationKey, key, authStatus, refreshSession]);
 
   // ------------------------------------------------------------------
   // Persist progress on every answer/idx change.
@@ -271,6 +279,46 @@ function TestRunner() {
 
   return (
     <div className="container-std pb-28 relative">
+      {showVoteCoach && (
+        <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/70 backdrop-blur-sm px-4">
+          <div className="glass volt-soft max-w-lg w-full p-5 md:p-6 relative overflow-hidden">
+            <div className="vote-cursor-demo" aria-hidden="true">
+              <span className="vote-cursor">⌁</span>
+              <span className="vote-target">▼</span>
+            </div>
+            <div className="eyebrow mb-3">{'// Quality loop'}</div>
+            <h2 className="heading text-[24px] mb-3">Help clean the question bank</h2>
+            <p className="text-sm text-zinc-300 leading-relaxed mb-4">
+              If a question feels out of syllabus, wrongly keyed, or unfairly hard, downvote it. Repeated downvotes push weak questions out of active mocks so the system gets sharper for everyone.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-5">
+              <div className="glass p-3">
+                <div className="mono-label mb-1">1</div>
+                <div className="text-sm text-white">Spot the issue</div>
+              </div>
+              <div className="glass p-3">
+                <div className="mono-label mb-1">2</div>
+                <div className="text-sm text-white">Tap downvote</div>
+              </div>
+              <div className="glass p-3">
+                <div className="mono-label mb-1">3</div>
+                <div className="text-sm text-white">Bank improves</div>
+              </div>
+            </div>
+            <Button
+              variant="volt"
+              className="w-full"
+              onClick={() => {
+                window.localStorage.setItem('mm_vote_coach_seen', '1');
+                setShowVoteCoach(false);
+              }}
+            >
+              Got it
+            </Button>
+          </div>
+        </div>
+      )}
+
       <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
         <div className="flex items-center gap-3">
           <Button variant="ghost" onClick={() => {
@@ -408,6 +456,45 @@ function TestRunner() {
           </button>
         ))}
       </div>
+      <style>{`
+        .vote-cursor-demo {
+          position: absolute;
+          top: 18px;
+          right: 18px;
+          width: 86px;
+          height: 58px;
+          border: 1px solid rgba(255,255,255,.08);
+          border-radius: 12px;
+          background: rgba(0,0,0,.24);
+        }
+        .vote-target {
+          position: absolute;
+          right: 16px;
+          bottom: 12px;
+          width: 30px;
+          height: 30px;
+          border-radius: 999px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #f87171;
+          background: rgba(248,113,113,.16);
+          font-family: var(--font-mono);
+        }
+        .vote-cursor {
+          position: absolute;
+          left: 12px;
+          top: 8px;
+          color: var(--volt);
+          font-size: 28px;
+          transform: rotate(-25deg);
+          animation: coach-cursor 1.5s ease-in-out infinite;
+        }
+        @keyframes coach-cursor {
+          0%, 100% { transform: translate(0, 0) rotate(-25deg); opacity: .72; }
+          55% { transform: translate(33px, 20px) rotate(-25deg); opacity: 1; }
+        }
+      `}</style>
     </div>
   );
 }

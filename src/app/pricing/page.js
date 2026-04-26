@@ -14,7 +14,7 @@ const plans = [
     cycle: '/month',
     description: 'Perfect for getting started with focused mock practice.',
     ctaLabel: 'Start Free',
-    features: ['3 mocks per week', 'Basic performance summary', 'Community leaderboard access', 'Question bank preview'],
+    features: ['Credit-gated mocks', 'Weekly progress bar', '25 saved questions', 'Community leaderboard access'],
   },
   {
     name: 'Pro',
@@ -23,7 +23,7 @@ const plans = [
     description: 'For consistent aspirants who want sharper analytics.',
     ctaLabel: 'Go Pro',
     featured: true,
-    features: ['Unlimited mocks', 'AI weakness tracker', 'Chapter-level recommendations', 'Priority moderation credits'],
+    features: ['Unlimited mocks', 'Fast-lane mock generation', 'Unlimited bookmarks', 'Speed diagnostics + chapter recommendations'],
   }
 ];
 
@@ -34,7 +34,7 @@ const faqs = [
   },
   {
     q: 'What exactly is the AI Weakness Tracker?',
-    a: 'Instead of just showing you a raw score, our engine analyzes exactly which topics and sub-topics you are struggling with. It identifies your "trap patterns" (e.g. silly mistakes vs conceptual gaps) and feeds you custom mocks to fix them.'
+    a: 'Instead of only showing a raw score, the premium layer connects Arena attempts, Explore solves, bookmarks, and speed signals to show the chapters slowing you down.'
   },
   {
     q: 'Can I cancel my Pro plan anytime?',

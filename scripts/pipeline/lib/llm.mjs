@@ -1,23 +1,266 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import Anthropic from '@anthropic-ai/sdk';
+import OpenAI from "openai";
 import { getCanonicalUnitForChapter, isValidCanonicalChapter } from '../../../data/canonical_syllabus.js';
 
 const genAI = process.env.GEMINI_API_KEY ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY) : null;
 const anthropic = process.env.ANTHROPIC_API_KEY ? new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY }) : null;
+const openai = process.env.OPENAI_API_KEY ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY }) : null;
 
-const DIFFICULTY_DISTRIBUTION = { easy: 0.10, medium: 0.60, hard: 0.30 };
-const MIN_GENERATION_COUNT = 30;
-const MAX_GENERATION_COUNT = 50;
-const RETRY_DELAYS_MS = [2000, 5000, 10000, 20000, 30000];
+// Equal thirds â†’ 4 easy / 4 medium / 4 hard for a 12-question batch.
+const DIFFICULTY_DISTRIBUTION = { easy: 0.30, medium: 0.50, hard: 0.20 };
+// Small-batch strategy: keep OpenAI generation light enough to avoid timeouts.
+export const PIPELINE_BATCH_SIZE = 15;
+const MIN_GENERATION_COUNT = 12;
+const MAX_GENERATION_COUNT = 15;
+// â”€â”€ Subject validation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+/**
+ * Subjects whose primary purpose IS language / grammar testing.
+ * For these, we do not apply the language-pattern rejection filter.
+ */
+const LANGUAGE_SUBJECTS = new Set([
+  'english', 'hindi', 'assamese', 'bengali', 'gujarati', 'kannada',
+  'malayalam', 'marathi', 'odia', 'punjabi', 'tamil', 'telugu', 'urdu', 'sanskrit',
+]);
+
+/**
+ * Patterns that signal a language/grammar test question.
+ * Used to reject drift into English-style questions in non-language subjects.
+ */
+const LANGUAGE_TEST_PATTERNS = [
+  /\bsynonym(s)?\b/i, /\bantonym(s)?\b/i, /\bfill in the blank\b/i,
+  /\bread the passage\b/i, /\bcomprehension\b/i, /\bfigure of speech\b/i,
+  /\bparts of speech\b/i, /\btense(s)?\b/i, /\bpreposition\b/i,
+  /\bgrammatical(ly)?\b/i, /\bvocabulary\b/i,
+];
+
+/**
+ * At least one keyword from this list must appear in the question body
+ * for it to be accepted as belonging to the declared subject.
+ * Subjects absent from this map are not keyword-filtered (pass-through).
+ */
+const SUBJECT_KEYWORD_MAP = {
+  accountancy: [
+    'partnership', 'profit', 'loss', 'debit', 'credit', 'journal', 'ledger',
+    'balance sheet', 'capital', 'liability', 'asset', 'share', 'debenture',
+    'cash flow', 'depreciation', 'goodwill', 'appropriation', 'dissolution',
+    'admission', 'retirement', 'revaluation', 'sacrificing ratio', 'gaining ratio',
+  ],
+  biology: [
+    'cell', 'dna', 'rna', 'chromosome', 'gene', 'protein', 'enzyme', 'organism',
+    'reproduction', 'ecosystem', 'evolution', 'species', 'mitosis', 'meiosis',
+    'hormone', 'neuron', 'photosynthesis', 'respiration', 'biodiversity',
+    'genetic', 'mutation', 'allele', 'phenotype', 'genotype',
+  ],
+  business_studies: [
+    'management', 'planning', 'organising', 'staffing', 'directing', 'controlling',
+    'marketing', 'financial management', 'consumer', 'entrepreneurship',
+    'business environment', 'delegation', 'coordination', 'span of control',
+    'motivation', 'leadership', 'recruitment', 'selection',
+  ],
+  chemistry: [
+    'atom', 'molecule', 'bond', 'reaction', 'element', 'compound', 'orbital',
+    'acid', 'base', 'oxidation', 'reduction', 'polymer', 'catalyst', 'solution',
+    'mole', 'enthalpy', 'equilibrium', 'electrolyte', 'electrode', 'isomer',
+    'functional group', 'hybridization', 'crystal',
+  ],
+  economics: [
+    'gdp', 'inflation', 'deflation', 'demand', 'supply', 'market', 'price level',
+    'national income', 'money supply', 'bank rate', 'fiscal', 'budget',
+    'export', 'import', 'balance of payments', 'human development', 'employment',
+    'aggregate', 'multiplier', 'investment', 'consumption',
+  ],
+  history: [
+    'civilisation', 'empire', 'colonial', 'revolution', 'dynasty', 'independence',
+    'partition', 'constitution', 'nationalist', 'mahatma', 'vijayanagara',
+    'mughal', 'harappan', 'british', 'revolt', 'king', 'ruler', 'medieval',
+    'ancient', 'modern india',
+  ],
+  mathematics: [
+    'equation', 'function', 'matrix', 'determinant', 'integral', 'derivative',
+    'vector', 'probability', 'limit', 'differential', 'polynomial', 'theorem',
+    'trigonometric', 'angle', 'circle', 'set', 'relation', 'linear programming',
+    'inverse', 'continuity', 'differentiability',
+  ],
+  physics: [
+    'force', 'energy', 'velocity', 'acceleration', 'mass', 'charge', 'current',
+    'voltage', 'resistance', 'wave', 'frequency', 'nucleus', 'electron', 'photon',
+    'magnetic field', 'electric field', 'capacitance', 'inductance', 'refraction',
+    'diffraction', 'semiconductor', 'circuit',
+  ],
+  gat: [
+    'reasoning', 'logical', 'numerical ability', 'quantitative', 'mental ability',
+    'current affairs', 'general knowledge', 'data interpretation', 'statistical',
+    'series', 'analogy', 'syllogism', 'coding', 'decoding',
+  ],
+  political_science: [
+    'constitution', 'parliament', 'government', 'election', 'party', 'sovereignty',
+    'federalism', 'rights', 'cold war', 'globalisation', 'international',
+    'amendment', 'fundamental', 'directive', 'judiciary', 'legislature',
+  ],
+  geography: [
+    'latitude', 'longitude', 'climate', 'soil', 'population', 'migration',
+    'settlement', 'resource', 'industry', 'transport', 'trade', 'river',
+    'plateau', 'delta', 'monsoon', 'agriculture', 'mineral',
+  ],
+  psychology: [
+    'behaviour', 'personality', 'intelligence', 'stress', 'therapy', 'perception',
+    'motivation', 'attitude', 'cognition', 'disorder', 'emotion', 'learning',
+    'memory', 'mental health', 'counselling',
+  ],
+  sociology: [
+    'society', 'culture', 'social', 'caste', 'class', 'gender', 'institution',
+    'social change', 'movement', 'community', 'globalisation', 'urbanisation',
+    'tribal', 'kinship', 'family', 'stratification',
+  ],
+  computer_science: [
+    'python', 'function', 'file handling', 'database', 'network', 'boolean',
+    'algorithm', 'data structure', 'query', 'sql', 'interface', 'stack',
+    'queue', 'recursion', 'cyber security',
+  ],
+};
+
+// â”€â”€ Structural pattern layer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Regex patterns that are CHARACTERISTIC of a subject's question format.
+// Used as a secondary acceptance gate when keyword matching fails.
+const SUBJECT_STRUCTURAL_PATTERNS = {
+  accountancy: [
+    /\b(?:dr|cr)\.?\s*[|:]/i,                          // Dr./Cr. journal-entry format
+    /\d[\d,]*\s*(?:rs\.?|â‚¹)/i,                         // rupee amounts
+    /(?:debit|credit)\s+(?:side|balance|account)/i,
+    /(?:trial\s+balance|balance\s+sheet|profit\s*(?:&|and)\s*loss|p\s*&\s*l)/i,
+    /(?:sacrificing|gaining|new\s+profit)\s+ratio/i,
+    /(?:goodwill|revaluation|realisation)\s+account/i,
+  ],
+  mathematics: [
+    /[a-zA-Z]\s*[=<>â‰¤â‰¥]\s*[-\d(]/,                    // variable equation: x = 5
+    /\d+\s*[+\-Ã—Ã·*]\s*\d+/,                            // arithmetic expression
+    /[âˆ«âˆ‘âˆšâˆžÏ€Î¸Î±Î²Î»Î”]/,                                     // math Unicode symbols
+    /f\s*\(\s*[a-z]\s*\)/i,                             // function notation f(x)
+    /\b(?:lim|det|sin|cos|tan|log|ln)\b/i,             // math functions
+  ],
+  physics: [
+    /\d+\.?\d*\s*(?:m\/s|km\/h|n\b|kg|j\b|w\b|pa|hz|v\b|a\b|Ï‰|rad|ohm)/i,
+    /F\s*=\s*ma|v\s*=\s*u\s*[+\-]|E\s*=\s*mc/,       // standard physics formulae
+    /[Î»Î½]\s*=|âˆ†t|âˆ†x|âˆ†v/,                               // delta notation
+    /\b(?:newton|joule|watt|ampere|coulomb|farad|henry|tesla)\b/i,
+  ],
+  chemistry: [
+    /\b[A-Z][a-z]?\d*(?:[A-Z][a-z]?\d*)+\b/,          // chemical formula (H2O, NaCl)
+    /\d+\.?\d*\s*(?:mol|g\/mol|atm|kJ\/mol|M\b)/i,    // chemistry units
+    /(?:oxidation\s+state|valency|atomic\s+number|molecular\s+(?:weight|mass))/i,
+    /â†’|â‡Œ|â‡’/,                                            // reaction arrows
+  ],
+  economics: [
+    /\b(?:gdp|gnp|ndp|nnp|gva)\b/i,                    // macro aggregates
+    /(?:aggregate\s+(?:demand|supply)|ad[-â€“]as)/i,
+    /\b(?:mpc|mps|mrs|mrt|mrts)\b/i,                   // economics acronyms
+    /\d+\s*(?:crore|lakh|billion|trillion|%)/i,
+  ],
+  biology: [
+    /\b(?:dna|rna|atp|adp|nadh|nadph)\b/i,             // bio molecules
+    /(?:mitosis|meiosis|prophase|metaphase|anaphase|telophase)/i,
+    /(?:genotype|phenotype|homozygous|heterozygous|allele)/i,
+    /\b(?:prokaryot|eukaryot|chloroplast|mitochondri)/i,
+  ],
+};
+
+/**
+ * Secondary check: does the question body contain structural patterns
+ * characteristic of the declared subject?  Used when keyword check fails.
+ */
+function hasSubjectStructure(rawBody, subjectId) {
+  const patterns = SUBJECT_STRUCTURAL_PATTERNS[subjectId];
+  if (!patterns) return false;
+  return patterns.some((p) => p.test(rawBody));
+}
+
+/**
+ * Returns true if the question body belongs to the declared subject.
+ *
+ * Three-gate logic:
+ *   1. Language subjects always pass.
+ *   2. Language-test patterns in non-language subjects always fail.
+ *   3. PASS if either keyword gate OR structural pattern gate succeeds.
+ *      Both must fail for the question to be rejected.
+ */
+export function isQuestionFromSubject(question, subjectId) {
+  const body    = String(question.body || '').toLowerCase();
+  const rawBody = String(question.body || '');   // preserve case for structural patterns
+
+  // Gate 1: language subjects test language by definition â€” always accept
+  if (LANGUAGE_SUBJECTS.has(subjectId)) return true;
+
+  // Gate 2: hard reject if it looks like a grammar/comprehension question
+  if (LANGUAGE_TEST_PATTERNS.some((pattern) => pattern.test(body))) {
+    return false;
+  }
+
+  // Gate 3a: keyword check
+  const keywords = SUBJECT_KEYWORD_MAP[subjectId];
+  const passesKeyword = keywords
+    ? keywords.some((kw) => body.includes(kw.toLowerCase()))
+    : true; // no keyword list â†’ pass through
+
+  let relevanceScore = 0;
+  if (passesKeyword) relevanceScore += 2;
+  if (hasSubjectStructure(rawBody, subjectId)) relevanceScore += 2;
+  if (question.subject === subjectId) relevanceScore += 1;
+
+  return relevanceScore >= 1;
+}
+
+// â”€â”€ Subtopic rotation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Tracks which chapters/concepts have already been focussed on per subject so
+// successive batches rotate across different sub-topics.
+const _subtopicCursor = new Map(); // subjectId â†’ index
+
+/**
+ * Returns up to `pickCount` chapter names to focus on in this batch,
+ * advancing the round-robin cursor for the subject.
+ */
+function getSubtopicFocus(subjectId, allChapters, pickCount = 3) {
+  if (!allChapters || allChapters.length === 0) return [];
+  const shuffledOnce = _subtopicCursor.has(subjectId)
+    ? null // cursor already initialised
+    : (() => {
+        // Shuffle chapters once on first call for this subject
+        const shuffled = [...allChapters].sort(() => Math.random() - 0.5);
+        _subtopicCursor.set(subjectId, { chapters: shuffled, index: 0 });
+        return shuffled;
+      })();
+  if (shuffledOnce) {
+    // already set above
+  }
+  const state = _subtopicCursor.get(subjectId);
+  if (!state) return allChapters.slice(0, pickCount);
+
+  const picked = [];
+  for (let i = 0; i < Math.min(pickCount, state.chapters.length); i += 1) {
+    picked.push(state.chapters[state.index % state.chapters.length]);
+    state.index += 1;
+  }
+  return picked;
+}
+
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+const OPENAI_GENERATION_MODEL = "gpt-5-mini";
 const GENERATION_MODELS = [
-  "gemini-2.5-flash-lite",
-  "gemini-3.1-flash-lite",
+  OPENAI_GENERATION_MODEL,
 ];
 const VALIDATION_MODELS = [
-  "gemini-2.5-flash",
-  "gemini-3-flash",
+  "gemini-2.5-flash-lite",
 ];
 const GENERATION_TIMEOUT_MS = 90_000;
+const MAX_CONCURRENT_LLM_CALLS = Number(process.env.LLM_MAX_CONCURRENT || 6);
+const LLM_SAME_MODEL_ATTEMPTS = 3;
+const LLM_BACKOFF_BASE_MS = 800;
+const FAILSAFE_WINDOW_SIZE = 10;
+const FAILSAFE_FAILURE_THRESHOLD = 0.5;
+const FAILSAFE_PAUSE_MIN_MS = 10_000;
+const FAILSAFE_PAUSE_JITTER_MS = 10_000;
 const MODEL_COOLDOWN_MIN_MS = 5 * 60_000;
 const MODEL_COOLDOWN_JITTER_MS = 5 * 60_000;
 const EMPTY_DIAGNOSTICS = Object.freeze({
@@ -41,6 +284,10 @@ let activeModel = GENERATION_MODELS[0];
 const failedModels = new Map();
 let activeValidationModel = VALIDATION_MODELS[0];
 const failedValidationModels = new Map();
+const llmRateLimiterQueue = [];
+let activeLlmCalls = 0;
+const recentLlmCallOutcomes = [];
+let failSafePauseUntil = 0;
 
 function getPipelineModelAssignmentError() {
   return GENERATION_MODELS.some((model) => VALIDATION_MODELS.includes(model))
@@ -50,11 +297,29 @@ function getPipelineModelAssignmentError() {
 
 /**
  * GENERATION ENGINE
+ *
+ * Generates a single large candidate batch (PIPELINE_BATCH_SIZE) of questions for
+ * one specific subject + chapter.  Never mixes subjects.
+ *
+ * @param {object} subject        - Subject object from SUBJECTS array
+ * @param {string} chapter        - Exact chapter name
+ * @param {number} count          - Desired question count (clamped to PIPELINE_BATCH_SIZE)
+ * @param {object} context        - Optional context for subtopic rotation / dedup hints
+ * @param {string[]} context.usedConcepts  - Concepts already covered; model will avoid them
  */
-export async function generateQuestions(subject, chapter, count = 10) {
+export async function generateQuestions(subject, chapter, count = 10, context = {}) {
   lastGenerationDiagnostics = cloneDiagnostics(EMPTY_DIAGNOSTICS);
   const modelAssignmentError = getPipelineModelAssignmentError();
   if (modelAssignmentError) return modelAssignmentError;
+  const difficultyOverride = normalizeDifficultyOverride(context.difficultyOverride);
+
+  console.log('[llm] GENERATION_CALL_INPUT:', {
+    expected_subject: subject?.id || null,
+    prompt_subject_name: subject?.name || null,
+    expected_chapter: chapter,
+    requested_count: count,
+    difficulty_override: difficultyOverride,
+  });
 
   if (!subject?.id || !isValidCanonicalChapter(subject.id, chapter)) {
     console.warn('[llm] question_rejected_due_to_invalid_mapping', {
@@ -64,16 +329,19 @@ export async function generateQuestions(subject, chapter, count = 10) {
     return [];
   }
 
+  // Single-call candidate pool: large enough for selective validation.
   const safeCount = Math.min(Math.max(count, MIN_GENERATION_COUNT), MAX_GENERATION_COUNT);
+
   if (process.env.MOCK_AI === 'true') {
-    const questions = generateMockQuestions(subject, chapter, safeCount);
+    const questions = generateMockQuestions(subject, chapter, safeCount, difficultyOverride);
     lastGenerationDiagnostics = cloneDiagnostics(EMPTY_DIAGNOSTICS);
     lastGenerationDiagnostics.rawParsedCount = questions.length;
     lastGenerationDiagnostics.normalizedCount = questions.length;
     return questions;
   }
-  if (genAI) return generateWithGeminiFallback(subject, chapter, safeCount);
-  console.error('[llm] stage_failed no_gemini_api_key');
+
+  if (openai) return generateWithOpenAI(subject, chapter, safeCount, context);
+  console.error('[llm] stage_failed no_openai_api_key');
   return { error: 'stage_failed' };
 }
 
@@ -81,80 +349,78 @@ export function getLastGenerationDiagnostics() {
   return cloneDiagnostics(lastGenerationDiagnostics);
 }
 
-async function generateWithGeminiFallback(subject, chapter, count) {
-  const targets = buildDifficultyTargets(count);
-  const prompt = buildGenerationPrompt(subject, chapter, count, targets);
-  const availableModels = getAvailableGenerationModels();
+async function generateWithOpenAI(subject, chapter, count, context = {}) {
+  const difficultyOverride = normalizeDifficultyOverride(context.difficultyOverride);
 
-  for (let modelIndex = 0; modelIndex < availableModels.length; modelIndex += 1) {
-    const modelName = availableModels[modelIndex];
-    const model = genAI.getGenerativeModel({
-      model: modelName,
-      generationConfig: { responseMimeType: "application/json" }
+  const targets = buildDifficultyTargets(count, difficultyOverride);
+  // Pick subtopics to focus on for this batch (round-robin across chapters)
+  const subtopicFocus = getSubtopicFocus(subject.id, subject.chapters || [], 3);
+  const prompt = buildGenerationPrompt(subject, chapter, count, targets, {
+    usedConcepts: context.usedConcepts || [],
+    saturatedSubtopics: context.saturatedSubtopics || [],
+    subtopicFocus,
+    difficultyOverride,
+  });
+
+  try {
+    console.log(`[llm] active_model=${OPENAI_GENERATION_MODEL}`);
+    logLlmEvent('active_model', {
+      activeModel: OPENAI_GENERATION_MODEL,
+      stickyModel: activeModel,
+      subject: subject.id,
+      chapter,
+      count,
     });
 
-    try {
-      console.log(`[llm] active_model=${modelName}`);
-      logLlmEvent('active_model', {
-        activeModel: modelName,
-        stickyModel: activeModel,
-        subject: subject.id,
-        chapter,
-        count,
-      });
-
-      const result = await withTimeout(
-        model.generateContent(prompt),
+    const result = await runRateLimitedLlmCall({
+      modelName: OPENAI_GENERATION_MODEL,
+      subjectId: subject.id,
+      stage: 'generation',
+      call: () => withTimeout(
+        openai.responses.create({
+          model: OPENAI_GENERATION_MODEL,
+          input: prompt,
+        }),
         GENERATION_TIMEOUT_MS,
         `timeout after ${GENERATION_TIMEOUT_MS}ms`
-      );
-      const text = result?.response?.text?.() ?? '';
-      if (!String(text).trim()) {
-        throw new LlmGenerationError('empty response', 'empty_response');
-      }
-
-      console.log(`[llm] Raw Gemini response | model=${modelName}: ${text}`);
-      const parsed = parseJsonArrayStrict(text);
-      const normalized = normalizeGeneratedQuestions(parsed, subject.id, chapter);
-      const diagnostics = getLastGenerationDiagnostics();
-      if (diagnostics.dropReasons.chapter_mismatch > 0) {
-        throw new LlmGenerationError('chapter mismatch detected; discarded batch for regeneration', 'chapter_mismatch');
-      }
-      if (normalized.length === 0) {
-        throw new LlmGenerationError('empty question array after normalization', 'empty_questions');
-      }
-
-      activeModel = modelName;
-      failedModels.delete(modelName);
-      console.log(`[llm] success ${modelName}`);
-      logLlmEvent('success', {
-        model: modelName,
-        questionCount: normalized.length,
-        subject: subject.id,
-        chapter,
-      });
-      return normalized;
-    } catch (error) {
-      const reason = getLlmFailureReason(error);
-      const cooldownUntil = markModelFailed(modelName, reason);
-      console.warn(`[llm] failure ${modelName} (${formatFailureReason(error, reason)})`);
-      logLlmEvent('model_failure', {
-        model: modelName,
-        reason,
-        message: error.message,
-        cooldownUntil: new Date(cooldownUntil).toISOString(),
-      }, 'warn');
-
-      const nextModel = availableModels[modelIndex + 1] || getNextAvailableModel(modelName);
-      if (nextModel) {
-        console.warn(`[llm] switching -> ${nextModel}`);
-        logLlmEvent('model_switch', {
-          failedModel: modelName,
-          nextModel,
-          reason,
-        }, 'warn');
-      }
+      ),
+    });
+    const text = extractOpenAIResponseText(result);
+    if (!String(text).trim()) {
+      throw new LlmGenerationError('empty response', 'empty_response');
     }
+
+    console.log(`[llm] Raw OpenAI response | model=${OPENAI_GENERATION_MODEL}: ${text}`);
+    const parsed = parseJsonArrayStrict(text);
+    const normalized = normalizeGeneratedQuestions(parsed, subject.id, chapter);
+    const diagnostics = getLastGenerationDiagnostics();
+    if (diagnostics.dropReasons.chapter_mismatch > 0) {
+      throw new LlmGenerationError('chapter mismatch detected; discarded batch for regeneration', 'chapter_mismatch');
+    }
+    if (normalized.length === 0) {
+      throw new LlmGenerationError('empty question array after normalization', 'empty_questions');
+    }
+
+    activeModel = OPENAI_GENERATION_MODEL;
+    failedModels.delete(OPENAI_GENERATION_MODEL);
+    console.log(`[llm] success ${OPENAI_GENERATION_MODEL}`);
+    logLlmEvent('success', {
+      model: OPENAI_GENERATION_MODEL,
+      questionCount: normalized.length,
+      subject: subject.id,
+      chapter,
+    });
+    return normalized;
+  } catch (error) {
+    const reason = getLlmFailureReason(error);
+    const cooldownUntil = markModelFailed(OPENAI_GENERATION_MODEL, reason);
+    console.warn(`[llm] failure ${OPENAI_GENERATION_MODEL} (${formatFailureReason(error, reason)})`);
+    logLlmEvent('model_failure', {
+      model: OPENAI_GENERATION_MODEL,
+      reason,
+      message: error.message,
+      cooldownUntil: cooldownUntil ? new Date(cooldownUntil).toISOString() : null,
+    }, 'warn');
   }
 
   lastGenerationDiagnostics = cloneDiagnostics(EMPTY_DIAGNOSTICS);
@@ -175,13 +441,13 @@ function getAvailableGenerationModels() {
   const readyModels = ordered.filter((model) => !failedModels.has(model));
   if (readyModels.length > 0) return readyModels;
 
-  console.warn('[llm] all models in cooldown -> forcing primary retry');
+  console.warn('[llm] all generation models in cooldown');
   logLlmEvent('model_switch', {
-    reason: 'all_models_in_cooldown_forcing_primary_retry',
-    nextModel: GENERATION_MODELS[0],
+    reason: 'all_generation_models_in_cooldown',
+    nextModel: null,
     failedModels: Object.fromEntries(failedModels),
   }, 'warn');
-  return [GENERATION_MODELS[0]];
+  return [];
 }
 
 function getNextAvailableModel(currentModel) {
@@ -189,6 +455,7 @@ function getNextAvailableModel(currentModel) {
 }
 
 function markModelFailed(modelName, reason) {
+  if (!shouldCooldownModel(reason)) return null;
   const cooldownMs = getModelCooldownMs(reason);
   const cooldownUntil = Date.now() + cooldownMs;
   failedModels.set(modelName, cooldownUntil);
@@ -220,13 +487,18 @@ function getNextAvailableValidationModel(currentModel) {
   return getAvailableValidationModels().find((model) => model !== currentModel) || null;
 }
 
-function markValidationModelFailed(modelName) {
+function markValidationModelFailed(modelName, reason) {
+  if (!shouldCooldownModel(reason)) return null;
   const cooldownUntil = Date.now() + getModelCooldownMs();
   failedValidationModels.set(modelName, cooldownUntil);
   if (activeValidationModel === modelName) {
     activeValidationModel = getNextAvailableValidationModel(modelName) || VALIDATION_MODELS[0];
   }
   return cooldownUntil;
+}
+
+function shouldCooldownModel(reason) {
+  return reason === 'invalid_model';
 }
 
 function clearExpiredValidationModelFailures() {
@@ -236,27 +508,133 @@ function clearExpiredValidationModelFailures() {
   }
 }
 
-function buildGenerationPrompt(subject, chapter, count, targets) {
+function buildGenerationPrompt(subject, chapter, count, targets, options = {}) {
   const unit = getCanonicalUnitForChapter(subject.id, chapter);
-  return `Generate exactly ${count} CUET-level MCQs as JSON. subject="${subject.name}"(${subject.id}); chapter="${chapter}"; unit="${unit?.unit_name || 'UNKNOWN'}"; difficulty: easy=${targets.easy}, medium=${targets.medium}, hard=${targets.hard}.
+  const { usedConcepts = [], subtopicFocus = [], saturatedSubtopics = [], difficultyOverride = null } = options;
+  const chapterKeywords = extractChapterKeywords(chapter);
+  const chapterGroundingLine = chapterKeywords.length > 0
+    ? `\nCHAPTER KEYWORDS: ${chapterKeywords.join(', ')}. Use these only as grounding hints, not as mandatory words.`
+    : '';
 
-DIVERSITY RULES (strictly enforced):
-- Every question MUST test a DIFFERENT concept or sub-topic within the chapter
-- Vary formats across the set: factual recall, cause-effect, application, numerical, statement-based
-- No two questions may share more than 40% of their key words
-- Self-check for near-duplicates before outputting — remove any redundant questions
-- Each wrong option must be plausible but unambiguously incorrect
+  const avoidLine = usedConcepts.length > 0
+    ? `\nAVOID â€” these concepts are already covered, do NOT repeat them: ${usedConcepts.slice(0, 8).join(', ')}.`
+    : '';
 
-Output ONLY valid JSON, no markdown, no extra text:
-{"questions":[{"q":"question text","o":["A option","B option","C option","D option"],"a":"A","d":"easy|medium|hard","concept":"unique_concept_tag","explanation":"one sentence"}]}`;
+  const saturatedLine = saturatedSubtopics.length > 0
+    ? `\nSATURATED â€” these sub-topics have enough questions already, skip them entirely: ${saturatedSubtopics.slice(0, 8).join(', ')}.`
+    : '';
+
+  const focusLine = subtopicFocus.length > 0
+    ? `\nFOCUS on these under-covered sub-topics: ${subtopicFocus.join(', ')}.`
+    : '';
+
+  const subjectControlLine = subject.id === 'business_studies'
+    ? '\nBUSINESS STUDIES CONTROL: minimize numericals; focus on principles, functions, short case logic, assertion-reason, and statement-based MCQs.'
+    : subject.id === 'gat'
+      ? '\nGAT CONTROL: restrict to general knowledge, reasoning, and current affairs. Ban advanced statistics, econometrics, and formulas unless basic.'
+    : '';
+
+  let difficultyModeBlock = '';
+  if (difficultyOverride === 'easy') {
+    difficultyModeBlock = `
+
+STRICT EASY MODE:
+- Direct concept, not trivial
+- Simple NCERT-based trap or close option allowed
+- No calculations or long scenarios
+`;
+  } else if (difficultyOverride === 'medium') {
+    difficultyModeBlock = `
+
+STRICT MEDIUM MODE:
+- Concept + elimination
+- 2-3 plausible options
+- Short statement/assertion/case allowed
+`;
+  } else if (difficultyOverride === 'hard') {
+    difficultyModeBlock = `
+
+STRICT HARD MODE:
+- HARD questions MUST include close/confusing options.
+- Include conceptual traps and test differences between similar concepts.
+- NOT directly answerable by recall.
+- Require elimination between at least 2 strong options.
+- Use Assertion-Reason with subtle twist, incorrect-statement, short tricky case, or confusing match format.
+- If answerable immediately without thinking, it is NOT hard.
+- Avoid definition questions, obvious answers, and single-step recall.
+- Do NOT generate safe or obvious questions. Prefer slightly challenging over safe questions.
+`;
+  }
+
+  console.log('[llm] PROMPT_CONSTRUCTION:', {
+    expected_subject: subject.id,
+    prompt_subject_name: subject.name,
+    expected_chapter: chapter,
+    canonical_unit: unit?.unit_name || null,
+    batch_size: count,
+    used_concepts_count: usedConcepts.length,
+    saturated_subtopics_count: saturatedSubtopics.length,
+    difficulty_override: difficultyOverride,
+  });
+
+  return `You are a CUET exam question setter. Generate PYQ-like MCQs that test understanding, not memory.
+
+SUBJECT (STRICT): "${subject.name}" [id="${subject.id}"]
+CHAPTER: "${chapter}"
+UNIT: "${unit?.unit_name || 'Unknown'}"
+DIFFICULTY TARGET: easy=${targets.easy}, medium=${targets.medium}, hard=${targets.hard} (30% easy, 50% medium, 20% hard unless strict mode overrides)
+BATCH SIZE: exactly ${count} questions in ONE JSON array${focusLine}${chapterGroundingLine}${subjectControlLine}${saturatedLine}${avoidLine}${difficultyModeBlock}
+
+STRICT CHAPTER BOUNDARY:
+- ONLY generate questions strictly from the given chapter.
+- DO NOT use concepts outside this chapter.
+- If unsure, SKIP instead of guessing.
+
+CUET STYLE:
+- Questions must feel like NCERT-based CUET questions, NOT MBA or advanced academic problems.
+- Prefer short, precise, NCERT-based concept questions with conceptual traps.
+- Use elimination, statement-based MCQs, incorrect-statement MCQs, and assertion-reason.
+- Definition-based and conceptual recall questions are allowed when options create confusion.
+- Easy = direct concept, no trick but not trivial; medium = concept + elimination; hard = subtle confusion with close options or statement traps.
+- When STRICT HARD MODE is active, at least 70% of candidates must be truly hard by the hard definition above.
+AVOID: direct textbook copy, long scenario chains, heavy numericals, advanced academic/MBA style, obvious answers, joke/absurd options.
+
+QUESTION FORMAT â€” distribute across ALL of these types, use every format multiple times:
+  â€¢ conceptual   â€” tests definitions, principles, cause-effect relationships
+  â€¢ numerical    â€” involves calculation, formula application, or quantitative reasoning
+  â€¢ application  â€” applies a concept to a real-world scenario or case study
+  â€¢ assertion-reason â€” "Assertion: â€¦ Reason: â€¦" MCQ (4 standard A/B/C/D options)
+  â€¢ match-based  â€” "Match List I with List II" MCQ
+  â€¢ case-based   â€” 2-sentence scenario followed by one question about it
+Maximum 1 question per micro-concept â€” never repeat the same narrow idea.
+No two questions may share more than 40 % of their key words.
+Avoid standard textbook stems like "Which of the following is correct?" unless the stem includes a concrete scenario, data point, assertion, or comparison.
+
+MANDATORY RULES â€” violating any rule means the entire batch is rejected:
+1. ALL questions MUST belong to "${subject.name}" ONLY. No other subject allowed.
+2. Every question MUST test a DIFFERENT concept or sub-topic within this chapter.
+3. Do NOT generate grammar, comprehension, fill-in-the-blank, or vocabulary questions unless the subject is English.
+4. Each wrong option must be a plausible distractor but unambiguously incorrect.
+5. If you cannot form a valid question for this subject+chapter, omit it rather than substituting another subject.
+6. The "subject" field in every output object MUST equal exactly "${subject.id}".
+7. The "chapter" field in every output object MUST equal exactly "${chapter}".
+8. The "concept_pattern" tag must be unique across the batch â€” no two questions share the same tag.
+
+Output ONLY a valid JSON array â€” no markdown, no commentary, no extra keys:
+[{"q":"...","o":["A ...","B ...","C ...","D ..."],"a":"A","d":"easy|medium|hard","concept_pattern":"unique_snake_case_tag","explanation":"one sentence","subject":"${subject.id}","chapter":"${chapter}"}]`;
+}
 
 async function generateWithClaude(subject, chapter, count) {
   const targets = buildDifficultyTargets(count);
-  for (let attempt = 0; attempt < RETRY_DELAYS_MS.length; attempt += 1) {
-    try {
-      console.log(`[llm] Claude attempt ${attempt + 1}/${RETRY_DELAYS_MS.length} | ${subject.id} | ${chapter} | count=${count}`);
-      const response = await anthropic.messages.create({
-        model: 'claude-3-5-sonnet-20240620',
+  try {
+    const modelName = 'claude-3-5-sonnet-20240620';
+    console.log(`[llm] Claude single_attempt | ${subject.id} | ${chapter} | count=${count}`);
+    const response = await runRateLimitedLlmCall({
+      modelName,
+      subjectId: subject.id,
+      stage: 'generation_claude',
+      call: () => anthropic.messages.create({
+        model: modelName,
         max_tokens: 4096,
         messages: [{
           role: 'user',
@@ -277,41 +655,28 @@ Difficulty distribution:
 - hard: ${targets.hard}
 
 Rules:
-- easy must still be conceptually meaningful, not trivial
-- medium must reflect true CUET level
-- hard must be 10-20% above CUET PYQ level
-- vary theory, numerical, and application formats
-- avoid repetitive templates
-- return ONLY a JSON array with no markdown and no extra text
-- the entire response must be exactly one JSON array, never multiple root objects
-- do not include reasoning, self-corrections, or commentary text
+- each question must test a different micro-topic
+- use mixed conceptual, numerical, case-based, and assertion-reason formats
+- avoid repetitive textbook templates
+- return ONLY one JSON array with no markdown and no extra text
 
 Return only a JSON array with:
 subject, chapter, body, options[{key,text}], correct_answer, explanation, difficulty, concept_pattern, tags
-          `.trim()
+        `.trim()
         }]
-      });
+      }),
+    });
 
-      const raw = response.content?.[0]?.text ?? '[]';
-      console.log(`[llm] Raw Claude response: ${raw}`);
-      return normalizeGeneratedQuestions(parseJsonArray(raw), subject.id, chapter);
-    } catch (error) {
-      const retryable = isRetryableLlmError(error);
-      console.warn(`[llm] Claude attempt ${attempt + 1} failed: ${error.message}`);
-      if (!retryable || attempt === RETRY_DELAYS_MS.length - 1) {
-        console.error(`[llm] Claude final failure for ${subject.id}/${chapter}: ${error.message}`);
-        return [];
-      }
-      console.log(`[llm] Retrying Claude in ${RETRY_DELAYS_MS[attempt]}ms`);
-      await delay(RETRY_DELAYS_MS[attempt]);
-    }
+    const raw = response.content?.[0]?.text ?? '[]';
+    console.log(`[llm] Raw Claude response: ${raw}`);
+    return normalizeGeneratedQuestions(parseJsonArray(raw), subject.id, chapter);
+  } catch (error) {
+    console.warn(`[llm] Claude single attempt failed: ${error.message}`);
+    return [];
   }
-
-  return [];
 }
-
-function generateMockQuestions(subject, chapter, count) {
-  const targets = buildDifficultyTargets(count);
+function generateMockQuestions(subject, chapter, count, difficultyOverride = null) {
+  const targets = buildDifficultyTargets(count, difficultyOverride);
   const sequence = [
     ...Array(targets.easy).fill('easy'),
     ...Array(targets.medium).fill('medium'),
@@ -336,6 +701,16 @@ function generateMockQuestions(subject, chapter, count) {
   }));
 }
 
+function extractOpenAIResponseText(response) {
+  if (typeof response?.output_text === 'string') return response.output_text;
+  if (!Array.isArray(response?.output)) return '';
+
+  return response.output
+    .flatMap((item) => Array.isArray(item?.content) ? item.content : [])
+    .map((part) => part?.text || '')
+    .join('');
+}
+
 /**
  * VALIDATOR
  * Returns a stricter moderation summary used by the autonomous worker.
@@ -344,16 +719,21 @@ export async function validateAndAlign(question, subjectContext) {
   if (process.env.MOCK_AI === 'true') {
     return {
       score: 9,
+      exam_quality: 8,
+      distractor_quality: 8,
+      conceptual_depth: 8,
+      textbook_style: false,
       decision: "accept",
       difficulty_correct: true,
       cuet_alignment: true,
       recommended_difficulty: question.difficulty || 'medium',
       issues: [],
+      improved_question: null,
     };
   }
 
   if (genAI) {
-    const prompt = `VAL CUET MCQ. Return JSON only: {"score":0-10,"difficulty_correct":true,"cuet_alignment":true,"recommended_difficulty":"easy|medium|hard","issues":[],"decision":"accept|reject"}. Check answer, ambiguity, options, chapter. q=${JSON.stringify(compactQuestionForValidation(question))}`;
+    const prompt = `VAL CUET MCQ. Return JSON only: {"score":0-10,"exam_quality":0-10,"distractor_quality":0-10,"conceptual_depth":0-10,"textbook_style":false,"difficulty_correct":true,"cuet_alignment":true,"recommended_difficulty":"easy|medium|hard","issues":[],"decision":"accept|reject","improved_question":null}. Accept NCERT-based recall/definition with close distractors. Reject over-complex MBA/college style, unnecessary multi-step, heavy numerical, direct textbook copy, weak distractors, ambiguity, wrong chapter. q=${JSON.stringify(compactQuestionForValidation(question))}`;
 
     const availableModels = getAvailableValidationModels();
     if (availableModels.length === 0) {
@@ -376,11 +756,16 @@ export async function validateAndAlign(question, subjectContext) {
           questionId: question?.id || null,
         });
 
-        const result = await withTimeout(
-          model.generateContent(prompt),
-          GENERATION_TIMEOUT_MS,
-          `validation timeout after ${GENERATION_TIMEOUT_MS}ms`
-        );
+        const result = await runRateLimitedLlmCall({
+          modelName,
+          subjectId: subjectContext?.id,
+          stage: 'single_validation',
+          call: () => withTimeout(
+            model.generateContent(prompt),
+            GENERATION_TIMEOUT_MS,
+            `validation timeout after ${GENERATION_TIMEOUT_MS}ms`
+          ),
+        });
         const text = result?.response?.text?.() ?? '';
         if (!String(text).trim()) {
           throw new LlmGenerationError('empty validation response', 'empty_response');
@@ -402,7 +787,7 @@ export async function validateAndAlign(question, subjectContext) {
           model: modelName,
           reason,
           message: error.message,
-          cooldownUntil: new Date(cooldownUntil).toISOString(),
+          cooldownUntil: cooldownUntil ? new Date(cooldownUntil).toISOString() : null,
         }, 'warn');
 
         const nextModel = availableModels[modelIndex + 1] || getNextAvailableValidationModel(modelName);
@@ -429,7 +814,7 @@ export async function validateAndAlign(question, subjectContext) {
  * Returns an array of validation results aligned by index to the input array.
  *
  * Throws BatchValidationIntegrityError if the LLM returns structurally invalid results
- * (count mismatch, missing/duplicate indices). The worker must catch this and retry once.
+ * (count mismatch, missing/duplicate indices). The worker does not retry validation.
  * Throws LlmGenerationError if all models fail with API errors.
  * Never silently falls back on integrity failures.
  */
@@ -439,11 +824,16 @@ export async function validateAndAlignBatch(questions, subjectContext) {
   if (process.env.MOCK_AI === 'true') {
     return questions.map((question) => ({
       score: 9,
+      exam_quality: 8,
+      distractor_quality: 8,
+      conceptual_depth: 8,
+      textbook_style: false,
       decision: 'accept',
       difficulty_correct: true,
       cuet_alignment: true,
       recommended_difficulty: question.difficulty || 'medium',
       issues: [],
+      improved_question: null,
     }));
   }
 
@@ -452,7 +842,7 @@ export async function validateAndAlignBatch(questions, subjectContext) {
   }
 
   const compactBatch = questions.map((q, i) => ({ i, ...compactQuestionForValidation(q) }));
-  const prompt = `VALIDATE CUET MCQ BATCH. Return a JSON array with EXACTLY ${questions.length} result objects, one per input question, using indices 0 through ${questions.length - 1}. Format: [{"index":0,"score":0-10,"difficulty_correct":true,"cuet_alignment":true,"recommended_difficulty":"easy|medium|hard","issues":[],"decision":"accept|reject"},...]. Check: answer correctness, option quality, no ambiguity, chapter alignment, difficulty accuracy. Return ONLY the JSON array, no markdown. questions=${JSON.stringify(compactBatch)}`;
+  const prompt = `VALIDATE CUET MCQ BATCH as a CUET PYQ reviewer. Return EXACTLY ${questions.length} JSON result objects, indices 0 through ${questions.length - 1}. Format: [{"index":0,"score":0-10,"exam_quality":0-10,"distractor_quality":0-10,"conceptual_depth":0-10,"textbook_style":false,"difficulty_correct":true,"cuet_alignment":true,"recommended_difficulty":"easy|medium|hard","issues":[],"decision":"accept|reject","improved_question":null},...]. Accept if NCERT concept is clear, tone is CUET-like, and a trap/confusion exists. Allow definition or recall if distractors are close and not copied directly. Reject if too complex for CUET, unnecessary multi-step reasoning, heavy numerical, long scenario chain, MBA/college style, direct textbook copy, obvious options, wrong chapter, or ambiguous. If fixable, put improved_question as {"q":"...","o":["A ...","B ...","C ...","D ..."],"a":"A","d":"easy|medium|hard","concept_pattern":"...","explanation":"..."}. Return ONLY JSON array. questions=${JSON.stringify(compactBatch)}`;
 
   const availableModels = getAvailableValidationModels();
   if (availableModels.length === 0) {
@@ -476,11 +866,16 @@ export async function validateAndAlignBatch(questions, subjectContext) {
         questionCount: questions.length,
       });
 
-      const result = await withTimeout(
-        model.generateContent(prompt),
-        GENERATION_TIMEOUT_MS,
-        `batch validation timeout after ${GENERATION_TIMEOUT_MS}ms`,
-      );
+      const result = await runRateLimitedLlmCall({
+        modelName,
+        subjectId: subjectContext?.id,
+        stage: 'batch_validation',
+        call: () => withTimeout(
+          model.generateContent(prompt),
+          GENERATION_TIMEOUT_MS,
+          `batch validation timeout after ${GENERATION_TIMEOUT_MS}ms`,
+        ),
+      });
       const text = result?.response?.text?.() ?? '';
       if (!String(text).trim()) {
         throw new LlmGenerationError('empty batch validation response', 'empty_response');
@@ -491,8 +886,8 @@ export async function validateAndAlignBatch(questions, subjectContext) {
         throw new LlmGenerationError('non-array or empty batch validation JSON', 'invalid_json');
       }
 
-      // INTEGRITY CHECK — throws BatchValidationIntegrityError on any structural mismatch.
-      // This error is NOT caught below and propagates directly to the worker for retry.
+      // INTEGRITY CHECK â€” throws BatchValidationIntegrityError on any structural mismatch.
+      // This error is NOT caught below and propagates directly to the worker.
       assertBatchIntegrity(parsed, questions.length, subjectContext?.id, modelName);
 
       activeValidationModel = modelName;
@@ -508,7 +903,7 @@ export async function validateAndAlignBatch(questions, subjectContext) {
 
     } catch (error) {
       if (error instanceof BatchValidationIntegrityError) {
-        // Integrity failures must not be masked by model fallback — let the worker retry
+        // Integrity failures must not be masked by model fallback.
         throw error;
       }
       lastError = error;
@@ -519,7 +914,7 @@ export async function validateAndAlignBatch(questions, subjectContext) {
         model: modelName,
         reason,
         message: error.message,
-        cooldownUntil: new Date(cooldownUntil).toISOString(),
+        cooldownUntil: cooldownUntil ? new Date(cooldownUntil).toISOString() : null,
       }, 'warn');
     }
   }
@@ -547,12 +942,17 @@ function fallbackValidationResult(question, reason) {
 
   return {
     score: basicChecksPass ? 5.5 : 0,
+    exam_quality: basicChecksPass ? 5.5 : 0,
+    distractor_quality: basicChecksPass ? 5.5 : 0,
+    conceptual_depth: basicChecksPass ? 5.5 : 0,
+    textbook_style: false,
     decision: basicChecksPass ? 'accept' : 'reject',
     difficulty_correct: true,
     cuet_alignment: basicChecksPass,
     recommended_difficulty: question.difficulty || 'medium',
     validation_confidence: 'low',
     requires_review: true,
+    improved_question: null,
     issues: [basicChecksPass
       ? `skipped_due_to_llm_failure:${reason}`
       : `basic_schema_failed_after_llm_failure:${reason}`],
@@ -583,7 +983,11 @@ function compactQuestionForValidation(question) {
   };
 }
 
-function buildDifficultyTargets(count) {
+function buildDifficultyTargets(count, difficultyOverride = null) {
+  if (difficultyOverride === 'easy') return { easy: count, medium: 0, hard: 0 };
+  if (difficultyOverride === 'medium') return { easy: 0, medium: count, hard: 0 };
+  if (difficultyOverride === 'hard') return { easy: 0, medium: 0, hard: count };
+
   if (count <= 1) return { easy: 0, medium: count, hard: 0 };
 
   let easy = Math.max(1, Math.round(count * DIFFICULTY_DISTRIBUTION.easy));
@@ -603,6 +1007,16 @@ function buildDifficultyTargets(count) {
   }
 
   return { easy, medium, hard };
+}
+
+function extractChapterKeywords(chapter) {
+  return String(chapter || '')
+    .toLowerCase()
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .split(/\s+/)
+    .filter((token) => token.length > 3 && !['chapter', 'unit', 'with', 'from', 'into', 'and', 'the'].includes(token))
+    .slice(0, 10);
 }
 
 function parseJsonArray(text) {
@@ -672,6 +1086,20 @@ function normalizeGeneratedQuestions(questions, subjectId, chapter) {
     }
 
     const rawChapter = typeof question.chapter === 'string' ? question.chapter : '';
+    const rawSubject = typeof question.subject === 'string' ? question.subject.trim() : '';
+    if (rawSubject && rawSubject !== subjectId) {
+      diagnostics.dropReasons.normalization_failed += 1;
+      diagnostics.sampleFailedRawQuestion ||= question;
+      console.warn('[llm] question_rejected_due_to_wrong_subject', {
+        expected_subject: subjectId,
+        received_subject: rawSubject,
+        expected_chapter: chapter,
+        received_chapter: rawChapter || null,
+        index,
+      });
+      continue;
+    }
+
     if (rawChapter && rawChapter !== chapter) {
       diagnostics.dropReasons.chapter_mismatch += 1;
       diagnostics.sampleFailedRawQuestion ||= question;
@@ -697,7 +1125,7 @@ function normalizeGeneratedQuestions(questions, subjectId, chapter) {
       options: normalizeOptions(question.options || question.o),
       correct_answer: normalizeAnswerKey(question.correct_answer || question.a),
       explanation: String(question.explanation || '').trim(),
-      difficulty: normalizeDifficulty(question.difficulty),
+      difficulty: normalizeDifficulty(question.difficulty || question.d),
       concept_pattern: String(question.concept_pattern || `concept_${index + 1}`).trim(),
       tags: normalizeTags(question.tags),
     };
@@ -716,6 +1144,19 @@ function normalizeGeneratedQuestions(questions, subjectId, chapter) {
       continue;
     }
 
+    // Subject validation: reject questions that drift to wrong subject or language tests
+    if (!isQuestionFromSubject(normalized, subjectId)) {
+      diagnostics.dropReasons.normalization_failed += 1;
+      console.warn('[llm] question_rejected_subject_validation', {
+        subject: subjectId,
+        chapter,
+        body: normalized.body.slice(0, 80),
+        index,
+      });
+      diagnostics.sampleFailedRawQuestion ||= question;
+      continue;
+    }
+
     normalizedQuestions.push(normalized);
   }
 
@@ -726,24 +1167,41 @@ function normalizeGeneratedQuestions(questions, subjectId, chapter) {
 
 function normalizeValidationResult(result, question) {
   const score = Number.isFinite(Number(result.score)) ? Number(result.score) : 0;
+  const examQuality = Number.isFinite(Number(result.exam_quality)) ? Number(result.exam_quality) : score;
+  const distractorQuality = Number.isFinite(Number(result.distractor_quality)) ? Number(result.distractor_quality) : score;
+  const conceptualDepth = Number.isFinite(Number(result.conceptual_depth)) ? Number(result.conceptual_depth) : score;
+  const textbookStyle = result.textbook_style === true;
   const difficultyCorrect = result.difficulty_correct !== false;
   const cuetAlignment = result.cuet_alignment !== false;
   const recommendedDifficulty = normalizeDifficulty(result.recommended_difficulty || question.difficulty);
   const issues = Array.isArray(result.issues) ? result.issues.map(String) : [];
+  const improvedQuestion = result.improved_question && typeof result.improved_question === 'object'
+    ? result.improved_question
+    : null;
 
+  // Reduced from 7 â†’ 5.  difficulty_correct is tracked but no longer a hard rejection
+  // (the model often mis-labels difficulty; the question itself may still be valid).
+  // cuet_alignment remains a soft signal â€” the worker applies its own compound check.
   const shouldReject =
-    score < 7 ||
-    !difficultyCorrect ||
+    score < 5 ||
+    examQuality < 7 ||
+    distractorQuality < 7 ||
+    textbookStyle ||
     !cuetAlignment ||
     String(result.decision || '').toLowerCase() === 'reject';
 
   return {
     score,
+    exam_quality: examQuality,
+    distractor_quality: distractorQuality,
+    conceptual_depth: conceptualDepth,
+    textbook_style: textbookStyle,
     decision: shouldReject ? 'reject' : 'accept',
     difficulty_correct: difficultyCorrect,
     cuet_alignment: cuetAlignment,
     recommended_difficulty: recommendedDifficulty,
     issues,
+    improved_question: improvedQuestion,
   };
 }
 
@@ -810,18 +1268,17 @@ function normalizeDifficulty(value) {
   return ['easy', 'medium', 'hard'].includes(difficulty) ? difficulty : 'medium';
 }
 
+function normalizeDifficultyOverride(value) {
+  const difficulty = String(value || '').trim().toLowerCase();
+  return ['easy', 'medium', 'hard'].includes(difficulty) ? difficulty : null;
+}
+
 function normalizeTags(tags) {
   const normalized = Array.isArray(tags)
     ? tags.map((tag) => String(tag).trim().toLowerCase()).filter(Boolean)
     : [];
 
   return Array.from(new Set(['cuet', ...normalized]));
-}
-
-function isRetryableLlmError(error) {
-  const message = String(error?.message || '').toLowerCase();
-  const status = Number(error?.status || error?.statusCode || error?.code || 0);
-  return status === 429 || status === 503 || message.includes('429') || message.includes('503') || message.includes('rate limit') || message.includes('quota') || message.includes('high demand') || message.includes('overloaded') || message.includes('unavailable');
 }
 
 function getLlmFailureReason(error) {
@@ -840,6 +1297,144 @@ function formatFailureReason(error, reason) {
   const status = error?.status || error?.statusCode || error?.code;
   if (status) return status;
   return reason;
+}
+
+async function runRateLimitedLlmCall({ modelName, subjectId, stage, call }) {
+  let lastError = null;
+
+  for (let retryCount = 0; retryCount < LLM_SAME_MODEL_ATTEMPTS; retryCount += 1) {
+    await waitForFailSafeIfNeeded();
+    const release = await acquireLlmSlot({ modelName, subjectId, stage, retryCount });
+    const startedAt = Date.now();
+    let status = 'success';
+    let reason = null;
+
+    try {
+      await sleep(50 + Math.floor(Math.random() * 151));
+      const result = await call();
+      const duration = Date.now() - startedAt;
+      recordLlmCallOutcome(true);
+      logLlmCall({ modelName, subjectId, stage, status, retryCount, duration });
+      return result;
+    } catch (error) {
+      lastError = error;
+      reason = getLlmFailureReason(error);
+      status = reason;
+      const duration = Date.now() - startedAt;
+      recordLlmCallOutcome(false);
+      logLlmCall({ modelName, subjectId, stage, status, retryCount, duration, error });
+
+      if (!shouldRetryLlmCall(reason, error) || retryCount >= LLM_SAME_MODEL_ATTEMPTS - 1) {
+        throw error;
+      }
+
+      const backoffMs = getBackoffDelayMs(retryCount);
+      console.warn(`[llm-call] retrying_same_model model=${modelName} subject=${subjectId || 'unknown'} reason=${reason} retry_count=${retryCount + 1} delay_ms=${backoffMs}`);
+      release();
+      await sleep(backoffMs);
+    } finally {
+      release();
+    }
+  }
+
+  throw lastError ?? new LlmGenerationError('llm_call_failed_without_error', 'transient_failure');
+}
+
+function acquireLlmSlot({ modelName, subjectId, stage, retryCount }) {
+  return new Promise((resolve) => {
+    const enter = () => {
+      activeLlmCalls += 1;
+      logRateLimiterState('acquire', { modelName, subjectId, stage, retryCount });
+      let released = false;
+      resolve(() => {
+        if (released) return;
+        released = true;
+        activeLlmCalls = Math.max(0, activeLlmCalls - 1);
+        processNextLlmQueueItem();
+        logRateLimiterState('release', { modelName, subjectId, stage, retryCount });
+      });
+    };
+
+    if (activeLlmCalls < MAX_CONCURRENT_LLM_CALLS) {
+      enter();
+      return;
+    }
+
+    llmRateLimiterQueue.push(enter);
+    logRateLimiterState('queued', { modelName, subjectId, stage, retryCount });
+  });
+}
+
+function processNextLlmQueueItem() {
+  if (activeLlmCalls >= MAX_CONCURRENT_LLM_CALLS) return;
+  const next = llmRateLimiterQueue.shift();
+  if (next) next();
+}
+
+function logRateLimiterState(event, { modelName, subjectId, stage, retryCount }) {
+  console.log('[rate-limiter]', {
+    event,
+    active_calls: activeLlmCalls,
+    queue_length: llmRateLimiterQueue.length,
+    max_concurrent: MAX_CONCURRENT_LLM_CALLS,
+    model: modelName,
+    subject: subjectId || null,
+    stage,
+    retry_count: retryCount,
+  });
+}
+
+function logLlmCall({ modelName, subjectId, stage, status, retryCount, duration, error = null }) {
+  console.log('[llm-call]', {
+    model: modelName,
+    subject: subjectId || null,
+    stage,
+    status,
+    retry_count: retryCount,
+    duration,
+    error: error?.message || null,
+  });
+}
+
+function shouldRetryLlmCall(reason, error) {
+  if (reason === 'invalid_model') return false;
+  if (reason === 'rate_limit' || reason === 'timeout' || reason === 'service_unavailable') return true;
+  const status = Number(error?.status || error?.statusCode || error?.code || 0);
+  return status >= 500 && status < 600;
+}
+
+function getBackoffDelayMs(retryCount) {
+  return (LLM_BACKOFF_BASE_MS * (2 ** retryCount)) + Math.floor(Math.random() * 301);
+}
+
+async function waitForFailSafeIfNeeded() {
+  const now = Date.now();
+  if (failSafePauseUntil <= now) return;
+  const pauseMs = failSafePauseUntil - now;
+  console.warn(`[llm-call] failsafe_pause_wait=${pauseMs}ms`);
+  await sleep(pauseMs);
+}
+
+function recordLlmCallOutcome(success) {
+  recentLlmCallOutcomes.push(success);
+  while (recentLlmCallOutcomes.length > FAILSAFE_WINDOW_SIZE) recentLlmCallOutcomes.shift();
+
+  if (recentLlmCallOutcomes.length < FAILSAFE_WINDOW_SIZE) return;
+  const failures = recentLlmCallOutcomes.filter((outcome) => !outcome).length;
+  if (failures / FAILSAFE_WINDOW_SIZE <= FAILSAFE_FAILURE_THRESHOLD) return;
+
+  const pauseMs = FAILSAFE_PAUSE_MIN_MS + Math.floor(Math.random() * FAILSAFE_PAUSE_JITTER_MS);
+  failSafePauseUntil = Math.max(failSafePauseUntil, Date.now() + pauseMs);
+  console.warn('[llm-call] FAILSAFE_PAUSE_TRIGGERED', {
+    failures,
+    window: FAILSAFE_WINDOW_SIZE,
+    failure_rate: failures / FAILSAFE_WINDOW_SIZE,
+    pause_ms: pauseMs,
+  });
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 function logLlmEvent(event, payload, level = 'log') {
@@ -888,7 +1483,7 @@ class BatchValidationIntegrityError extends Error {
 /**
  * Throws BatchValidationIntegrityError if the parsed batch results are structurally
  * inconsistent with the input: wrong count, out-of-range index, or duplicate index.
- * Called immediately after JSON parse — before any result is trusted.
+ * Called immediately after JSON parse â€” before any result is trusted.
  */
 function assertBatchIntegrity(results, expectedCount, subjectId, modelName) {
   if (results.length !== expectedCount) {
@@ -910,7 +1505,7 @@ function assertBatchIntegrity(results, expectedCount, subjectId, modelName) {
     const idx = Number(r.index ?? r.i ?? -1);
     if (!Number.isInteger(idx) || idx < 0 || idx >= expectedCount) {
       throw new BatchValidationIntegrityError(
-        `out-of-range index ${idx} (valid range 0–${expectedCount - 1})`,
+        `out-of-range index ${idx} (valid range 0â€“${expectedCount - 1})`,
         'invalid_index',
       );
     }
@@ -922,10 +1517,6 @@ function assertBatchIntegrity(results, expectedCount, subjectId, modelName) {
     }
     seenIndices.add(idx);
   }
-}
-
-function delay(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 function sanitizeJsonText(text) {

@@ -23,6 +23,10 @@ export default function AppLayoutClient({ children }) {
   }, [status, router]);
 
   useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [pathname]);
+
+  useEffect(() => {
     if (status !== 'authenticated') return;
     if (pathname.startsWith('/moderation') && !isModerator) {
       router.replace('/dashboard');
@@ -50,6 +54,7 @@ export default function AppLayoutClient({ children }) {
     { id: 'dashboard', label: 'Arena', icon: 'zap' },
     { id: 'explore', label: 'Explore', icon: 'radar' },
     { id: 'analytics', label: 'Radar', icon: 'bar' },
+    { id: 'saved', label: 'Saved', icon: 'book' },
     { id: 'leaderboard', label: 'Ranks', icon: 'trophy' },
     { id: 'upload', label: 'Contribute', icon: 'upload' },
     { id: 'my-uploads', label: 'My Uploads', icon: 'book' },
@@ -60,6 +65,7 @@ export default function AppLayoutClient({ children }) {
     { id: 'dashboard', label: 'Arena', icon: 'zap' },
     { id: 'moderation', label: 'Mod Queue', icon: 'shield' },
     { id: 'explore', label: 'Explore', icon: 'radar' },
+    { id: 'saved', label: 'Saved', icon: 'book' },
     { id: 'profile', label: 'Profile', icon: 'users' },
   ];
 
@@ -68,7 +74,23 @@ export default function AppLayoutClient({ children }) {
 
   return (
     <div className="view" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <nav style={{
+      <aside className="desktop-sidebar">
+        <Logo />
+        <div className="sidebar-links">
+          {tabs.map((tab) => (
+            <Link
+              key={tab.id}
+              href={`/${tab.id}`}
+              className={`sidebar-link ${isActive(tab.id) ? 'active' : ''}`}
+            >
+              <Icon name={tab.icon} style={{ width: '15px', height: '15px' }} />
+              {tab.label}
+            </Link>
+          ))}
+        </div>
+      </aside>
+
+      <nav className="top-nav" style={{
         position: 'sticky', top: 0, zIndex: 40,
         background: 'rgba(10,10,10,.85)',
         backdropFilter: 'blur(20px)',
@@ -124,6 +146,21 @@ export default function AppLayoutClient({ children }) {
               {user?.creditBalance || 0}
             </div>
 
+            {user?.isPremium && (
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: '5px',
+                padding: '4px 10px', borderRadius: '24px',
+                background: 'var(--volt)',
+                border: '1px solid var(--volt)',
+                color: '#000', fontSize: '11px', fontWeight: 800,
+                fontFamily: 'var(--font-mono)', letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+              }}>
+                <Icon name="zap" style={{ width: '12px', height: '12px' }} />
+                Premium
+              </div>
+            )}
+
             <Link
               href="/profile"
               style={{
@@ -172,12 +209,55 @@ export default function AppLayoutClient({ children }) {
         )}
       </nav>
 
-      <main className="px-4 py-6 md:px-5 md:py-8" style={{ flex: 1, position: 'relative' }}>
+      <main className="app-main px-4 py-6 md:px-5 md:py-8" style={{ flex: 1, position: 'relative' }}>
         <DotPattern className="fixed inset-0 opacity-20 pointer-events-none" width={24} height={24} />
         <div className="container-std relative z-10">
           {children}
         </div>
       </main>
+      <style>{`
+        .desktop-sidebar { display: none; }
+        @media (min-width: 1024px) {
+          .desktop-sidebar {
+            display: flex;
+            position: fixed;
+            inset: 0 auto 0 0;
+            z-index: 45;
+            width: 224px;
+            padding: 22px 14px;
+            border-right: 1px solid rgba(255,255,255,.07);
+            background: rgba(10,10,10,.88);
+            backdrop-filter: blur(20px);
+            flex-direction: column;
+            gap: 26px;
+          }
+          .sidebar-links { display: flex; flex-direction: column; gap: 6px; }
+          .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 40px;
+            border-radius: 10px;
+            color: #71717a;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .14em;
+            padding: 0 12px;
+            text-decoration: none;
+            text-transform: uppercase;
+          }
+          .sidebar-link:hover { color: #fff; background: rgba(255,255,255,.035); }
+          .sidebar-link.active {
+            color: var(--volt);
+            background: rgba(210,240,0,.08);
+            border: 1px solid rgba(210,240,0,.18);
+          }
+          .top-nav .nav-link { display: none; }
+          .top-nav .container-std { padding-left: 244px; }
+          .app-main { padding-left: 244px !important; }
+        }
+      `}</style>
     </div>
   );
 }

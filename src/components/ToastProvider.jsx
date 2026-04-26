@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import Link from 'next/link';
 
 const ToastContext = createContext(null);
 
@@ -17,7 +18,8 @@ export function ToastProvider({ children }) {
 
   const pushToast = useCallback((type, message) => {
     const id = uid();
-    setToasts((current) => [...current, { id, type, message }]);
+    const payload = typeof message === 'string' ? { message } : message;
+    setToasts((current) => [...current, { id, type, ...payload }]);
     window.setTimeout(() => dismissToast(id), 3200);
   }, [dismissToast]);
 
@@ -38,6 +40,11 @@ export function ToastProvider({ children }) {
           >
             <div className="flex items-center justify-between gap-3">
               <span>{toast.message}</span>
+              {toast.href && (
+                <Link href={toast.href} className="font-bold underline underline-offset-4">
+                  {toast.actionLabel || 'Open'}
+                </Link>
+              )}
               <button
                 type="button"
                 className="btn-ghost"

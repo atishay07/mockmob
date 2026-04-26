@@ -1,8 +1,9 @@
 "use client";
 import React, { useEffect, useRef, useState, useCallback, useMemo, memo } from 'react';
-import { interactWithQuestion } from '@/lib/services/questionService';
+import { interactWithQuestion, setQuestionBookmark } from '@/lib/services/questionService';
 import { Analytics } from '@/lib/analytics';
 import { VoteControls } from '@/components/questions/VoteControls';
+import { useToast } from '@/components/ToastProvider';
 
 const LETTERS = ['A', 'B', 'C', 'D', 'E'];
 
@@ -76,7 +77,8 @@ const Option = memo(function Option({ idx, text, state, disabled, onSelect }) {
 });
 
 // ── Main card ─────────────────────────────────────────────────────────────────
-export const QuestionCard = memo(function QuestionCard({ row }) {
+export const QuestionCard = memo(function QuestionCard({ row, onProgressChange }) {
+  const toast = useToast();
   const q       = row?.questions ?? row ?? {};
   const options = useMemo(() => (
     Array.isArray(q.options) ? q.options : []
@@ -84,7 +86,7 @@ export const QuestionCard = memo(function QuestionCard({ row }) {
 
   const [selected,  setSelected]  = useState(null);   // idx
   const [revealed,  setRevealed]  = useState(false);
-  const [saved,     setSaved]     = useState(() => readSavedState(q.id));
+  const [saved,     setSaved]     = useState(() => Boolean(q.saved) || readSavedState(q.id));
   const [skipping,  setSkipping]  = useState(false);
 
   const mountAt  = useRef(0);
@@ -139,28 +141,44 @@ export const QuestionCard = memo(function QuestionCard({ row }) {
       flow_context: 'explore',
       dwell_ms: ms,
       metadata: { selected_key: options[idx]?.key ?? String(idx) },
-    });
-  }, [revealed, q.id, options]);
+    }).then(() => onProgressChange?.({ type: 'attempted', questionId: q.id })).catch(() => {});
+  }, [revealed, q.id, options, onProgressChange]);
 
   const handleSkip = useCallback(() => {
     if (revealed || skipping) return;
     const ms = dwellMs();
     setSkipping(true);
     Analytics.recordSkip(ms);
-    interactWithQuestion(q.id, { interaction_type: 'skip', flow_context: 'explore', dwell_ms: ms });
+    interactWithQuestion(q.id, { interaction_type: 'skip', flow_context: 'explore', dwell_ms: ms })
+      .then(() => onProgressChange?.({ type: 'skip', questionId: q.id }))
+      .catch(() => {});
     setTimeout(() => { setRevealed(true); setSkipping(false); }, 300);
-  }, [revealed, skipping, q.id]);
+  }, [revealed, skipping, q.id, onProgressChange]);
 
   const handleSave = useCallback(() => {
     const next = !saved;
     setSaved(next);
     writeLS('mm_saves', q.id, next ? Date.now() : false);
-    interactWithQuestion(q.id, {
-      interaction_type: next ? 'save' : 'unsave',
-      flow_context: 'explore',
-      dwell_ms: dwellMs(),
-    });
-  }, [saved, q.id]);
+    setQuestionBookmark(q.id, next)
+      .then((result) => {
+        onProgressChange?.({ type: next ? 'save' : 'unsave', questionId: q.id, result });
+        if (next) {
+          toast.success({
+            message: 'Added to saved questions.',
+            actionLabel: 'Open saved',
+            href: '/saved',
+          });
+        }
+      })
+      .catch(() => {
+        setSaved(!next);
+        writeLS('mm_saves', q.id, !next ? Date.now() : false);
+        toast.error(next
+          ? 'Could not save this question. Run the saved-questions migration and try again.'
+          : 'Could not update saved questions.'
+        );
+      });
+  }, [saved, q.id, onProgressChange, toast]);
 
   // ── Option state resolver ─────────────────────────────────────────────────
   const optionState = (idx) => {

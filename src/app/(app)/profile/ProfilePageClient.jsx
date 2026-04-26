@@ -150,9 +150,18 @@ export default function ProfilePageClient() {
 
         <section className="flex flex-col gap-4">
           <div className="glass p-6 volt-soft">
-            <div className="mono-label mb-2">Credit balance</div>
-            <div className="display-md text-volt">{user?.creditBalance || 0}</div>
-            <p className="text-sm text-zinc-400 mt-2">Use credits to generate premium mocks. Earn more by contributing quality questions.</p>
+            <div className="flex items-center justify-between gap-3 mb-2">
+              <div className="mono-label">Plan</div>
+              <span className={`pill ${user?.isPremium ? 'volt' : 'subtle'}`}>
+                {user?.isPremium ? 'Premium' : 'Free'}
+              </span>
+            </div>
+            <div className="display-md text-volt">{user?.isPremium ? 'Active' : `${user?.creditBalance || 0}`}</div>
+            <p className="text-sm text-zinc-400 mt-2">
+              {user?.isPremium
+                ? 'Unlimited mocks, multi-chapter targeting, difficulty controls, and premium speed diagnostics are active.'
+                : 'Use credits to generate mocks. Upgrade for unlimited mocks and premium controls.'}
+            </p>
           </div>
 
           <div className="grid grid-cols-2 gap-3">

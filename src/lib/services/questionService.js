@@ -88,6 +88,24 @@ export async function interactWithQuestion(questionId, {
 }
 
 /**
+ * POST /api/bookmarks
+ * @param {string} questionId
+ * @param {boolean} saved
+ */
+export async function setQuestionBookmark(questionId, saved) {
+  const res = await fetch('/api/bookmarks', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ questionId, saved, source: 'explore' }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw Object.assign(new Error(data.error || 'Bookmark update failed'), { status: res.status, data });
+  }
+  return data;
+}
+
+/**
  * POST /api/questions/:id/vote
  * @param {string} questionId
  * @param {'up'|'down'} voteType

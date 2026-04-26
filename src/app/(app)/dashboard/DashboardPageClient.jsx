@@ -24,12 +24,16 @@ export default function DashboardPageClient() {
   const [status, setStatus] = useState('loading');
   const [error, setError] = useState(null);
   const [stats, setStats] = useState({ bankSize: 0 });
+  const [learningSummary, setLearningSummary] = useState(null);
   const [submissions, setSubmissions] = useState([]);
   const [subRefreshing, setSubRefreshing] = useState(false);
 
   const [selSubj, setSelSubj] = useState(null);
   const [chapters, setChapters] = useState([]);
+  const [chapterSearch, setChapterSearch] = useState('');
   const [selChapter, setSelChapter] = useState(null);
+  const [selectedChapters, setSelectedChapters] = useState([]);
+  const [difficultyMode, setDifficultyMode] = useState('auto');
   const [count, setCount] = useState(10);
   const [isLaunching, setIsLaunching] = useState(false);
   const launchingKeyRef = useRef(null);
@@ -42,18 +46,20 @@ export default function DashboardPageClient() {
     let alive = true;
     async function load() {
       try {
-        const [subs, atts, board, statData, myQs] = await Promise.all([
+        const [subs, atts, board, statData, myQs, learning] = await Promise.all([
           apiGet('/api/subjects'),
           apiGet(`/api/attempts?userId=${user.id}`),
           apiGet('/api/leaderboard'),
           apiGet('/api/stats'),
           apiGet('/api/questions/mine').catch(() => []),
+          apiGet('/api/learning/summary').catch(() => null),
         ]);
         if (!alive) return;
         setSubjects(subs);
         setAttempts(atts);
         setLeaderboard(board);
-        setStats(statData);
+        setStats(statData || { bankSize: 0, subjectCounts: {} });
+        setLearningSummary(learning);
         setSubmissions(Array.isArray(myQs) ? myQs : []);
         const mySubs = subs.filter((subject) => user.subjects?.includes(subject.id));
         if (mySubs.length > 0) setSelSubj(mySubs[0].id);
@@ -85,7 +91,15 @@ export default function DashboardPageClient() {
     if (!selSubj) return;
     let alive = true;
     apiGet(`/api/chapters?subject=${selSubj}`)
-      .then((data) => { if (alive) setChapters(data); })
+      .then((data) => {
+        if (!alive) return;
+        const list = data?.grouped
+          ? (data.units || []).flatMap((unit) => (unit.chapters || []).map((chapter) => ({ ...chapter, unitName: unit.name })))
+          : (data?.chapters || []);
+        setChapters(list);
+        setChapterSearch('');
+        setSelectedChapters([]);
+      })
       .catch(() => { if (alive) setChapters([]); });
     return () => { alive = false; };
   }, [selSubj]);
@@ -97,6 +111,13 @@ export default function DashboardPageClient() {
   const myRankIdx = leaderboard.findIndex((entry) => entry.userId === user?.id);
   const avg = attempts.length ? Math.round(attempts.reduce((sum, attempt) => sum + attempt.score, 0) / attempts.length) : 0;
   const rank = myRankIdx >= 0 ? myRankIdx + 1 : null;
+  const isPremium = Boolean(user?.isPremium || learningSummary?.plan?.isPremium);
+  const mockCreditCost = isPremium ? 0 : TEST_START_CREDIT_COST;
+  const filteredChapters = useMemo(() => {
+    const needle = chapterSearch.trim().toLowerCase();
+    if (!needle) return chapters.slice(0, 10);
+    return chapters.filter((chapter) => chapter.name?.toLowerCase().includes(needle)).slice(0, 16);
+  }, [chapters, chapterSearch]);
 
   if (status === 'loading') {
     return (
@@ -127,7 +148,23 @@ export default function DashboardPageClient() {
     return <ErrorState message={error} onRetry={() => window.location.reload()} />;
   }
 
-  const launchHref = `/test?subject=${selSubj}&count=${count}${selChapter ? `&chapter=${encodeURIComponent(selChapter)}` : ''}`;
+  const chapterParam = selectedChapters.length > 0
+    ? `&chapters=${encodeURIComponent(selectedChapters.join(','))}`
+    : '';
+  const difficultyParam = isPremium && difficultyMode !== 'auto'
+    ? `&difficulty=${encodeURIComponent(difficultyMode)}`
+    : '';
+  const launchHref = `/test?subject=${selSubj}&count=${count}${chapterParam}${difficultyParam}`;
+  const selectedSubject = subjects.find((entry) => entry.id === selSubj);
+  const selectedSubjectCount = stats.subjectCounts?.[selSubj] || 0;
+
+  function togglePremiumChapter(chapterName) {
+    setSelectedChapters((prev) => (
+      prev.includes(chapterName)
+        ? prev.filter((entry) => entry !== chapterName)
+        : [...prev, chapterName]
+    ));
+  }
 
   return (
     <div className="flex flex-col gap-6 view">
@@ -164,7 +201,7 @@ export default function DashboardPageClient() {
               <div className="display-md text-volt">{user?.creditBalance || 0}</div>
             </div>
             <div className="text-sm text-zinc-400">
-              Generate Mock <span className="text-volt font-semibold">- {TEST_START_CREDIT_COST} Credits</span>
+              Generate Mock <span className="text-volt font-semibold">{mockCreditCost === 0 ? '0 Credits with Premium' : `- ${mockCreditCost} Credits`}</span>
             </div>
           </div>
         </div>
@@ -190,47 +227,133 @@ export default function DashboardPageClient() {
           />
         ) : (
           <>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 mb-5">
-              {mySubs.map((subject) => (
-                <button
-                  key={subject.id}
-                  className={`subject-card ${selSubj === subject.id ? 'selected' : ''} p-3.5`}
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-3 mb-5">
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+                {mySubs.slice(0, 5).map((subject) => (
+                  <button
+                    key={subject.id}
+                    className={`arena-subject-card ${selSubj === subject.id ? 'selected' : ''}`}
                   onClick={() => {
                     setSelSubj(subject.id);
                     setSelChapter(null);
+                    setSelectedChapters([]);
+                    setDifficultyMode('auto');
                   }}
                 >
-                  <div className="glyph text-[22px] mb-1.5">{subject.glyph}</div>
-                  <div className="mono-label mb-1">{subject.short}</div>
-                  <div className="font-display font-bold text-[13px] text-white mb-0.5">{subject.name}</div>
-                  <div className="text-xs text-zinc-500">Qs available</div>
+                    <div className="flex items-center justify-between gap-2 mb-1">
+                      <span className="mono-label">{subject.short}</span>
+                      <span className="text-[18px] text-volt leading-none">{subject.glyph}</span>
+                    </div>
+                    <div className="font-display font-bold text-[13px] text-white truncate">{subject.name}</div>
+                    <div className="text-xs text-zinc-500 mt-1" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                      {stats.subjectCounts?.[subject.id] || 0} questions
+                    </div>
                 </button>
               ))}
+            </div>
+              <label className="flex flex-col gap-2">
+                <span className="mono-label">Select subject</span>
+                <select
+                  className="select"
+                  value={selSubj || ''}
+                  onChange={(event) => {
+                    setSelSubj(event.target.value);
+                    setSelChapter(null);
+                    setSelectedChapters([]);
+                    setDifficultyMode('auto');
+                  }}
+                >
+                  {mySubs.map((subject) => (
+                    <option key={subject.id} value={subject.id}>
+                      {subject.name} ({stats.subjectCounts?.[subject.id] || 0} qs)
+                    </option>
+                  ))}
+                </select>
+                <span className="text-xs text-zinc-500">
+                  {selectedSubject?.name || 'Subject'} has <span className="text-volt">{selectedSubjectCount}</span> available questions.
+                </span>
+              </label>
             </div>
 
             {selSubj && (
               <div className="flex flex-col gap-4 pt-4 border-t border-white/5">
                 {chapters.length > 0 && (
-                  <div className="flex items-start gap-3 flex-wrap">
-                    <span className="mono-label pt-2 shrink-0">Chapter</span>
-                    <div className="flex gap-1.5 flex-wrap">
-                      <button
-                        className={`count-btn ${selChapter === null ? 'active' : ''}`}
-                        style={{ width: 'auto', padding: '0 14px' }}
-                        onClick={() => setSelChapter(null)}
+                  <div className="glass p-3 relative overflow-hidden">
+                    <div className="flex items-center justify-between gap-3 mb-3 flex-wrap">
+                      <span className="mono-label">Chapter</span>
+                      <select
+                        className="select"
+                        style={{ maxWidth: '320px' }}
+                        value={selectedChapters[0] || ''}
+                        onChange={(event) => {
+                          const value = event.target.value;
+                          setSelectedChapters(value ? [value] : []);
+                          setSelChapter(value || null);
+                        }}
                       >
-                        Any
+                        <option value="">Any chapter</option>
+                        {chapters.map((chapter) => (
+                          <option key={chapter.id || chapter.name} value={chapter.name}>{chapter.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <input
+                      className="input mb-3"
+                      value={chapterSearch}
+                      onChange={(event) => setChapterSearch(event.target.value)}
+                      placeholder="Search chapters..."
+                    />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-[210px] overflow-y-auto pr-1">
+                      <button
+                        className={`count-btn ${selChapter === null && selectedChapters.length === 0 ? 'active' : ''}`}
+                        style={{ width: '100%', padding: '0 14px', justifyContent: 'flex-start' }}
+                        onClick={() => { setSelChapter(null); setSelectedChapters([]); }}
+                      >
+                        Any chapter
                       </button>
-                      {chapters.map((chapter) => (
+                      {filteredChapters.map((chapter) => (
                         <button
-                          key={chapter.id}
-                          className={`count-btn ${selChapter === chapter.name ? 'active' : ''}`}
-                          style={{ width: 'auto', padding: '0 14px' }}
-                          onClick={() => setSelChapter(chapter.name)}
+                          key={chapter.id || chapter.name}
+                          className={`count-btn ${selectedChapters.includes(chapter.name) ? 'active' : ''}`}
+                          style={{ width: '100%', padding: '0 14px', justifyContent: 'flex-start', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                          onClick={() => togglePremiumChapter(chapter.name)}
+                          title={chapter.name}
                         >
                           {chapter.name}
                         </button>
                       ))}
+                    </div>
+                    {!isPremium && (
+                      <div className="mt-4 rounded-xl border border-volt/25 bg-black/55 backdrop-blur-md p-3">
+                        <div className="flex items-center justify-between gap-3">
+                          <div>
+                            <div className="font-display font-bold text-white text-sm">Premium difficulty controls</div>
+                            <p className="text-xs text-zinc-400 mt-1">Choose Easy, Medium, or Hard instead of Auto.</p>
+                          </div>
+                          <button className="btn-volt sm" onClick={() => router.push('/pricing')}>
+                            Go Premium
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    <div className="mt-4 pt-4 border-t border-white/5">
+                      <div className="flex items-center justify-between gap-3 mb-3">
+                        <span className="mono-label">Difficulty</span>
+                        {!isPremium && <span className="pill volt">Premium</span>}
+                      </div>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                        {['auto', 'easy', 'medium', 'hard'].map((mode) => (
+                          <button
+                            key={mode}
+                            className={`count-btn ${difficultyMode === mode ? 'active' : ''}`}
+                            disabled={!isPremium && mode !== 'auto'}
+                            onClick={() => setDifficultyMode(mode)}
+                            style={{ width: '100%', textTransform: 'capitalize' }}
+                          >
+                            {mode}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 )}
@@ -255,7 +378,7 @@ export default function DashboardPageClient() {
                     <Button
                       variant="volt"
                       size="md"
-                      disabled={isLaunching || (user?.creditBalance || 0) < TEST_START_CREDIT_COST}
+                      disabled={isLaunching || (user?.creditBalance || 0) < mockCreditCost}
                       onClick={async () => {
                         setCreditError(null);
                         setLaunchSuccess(null);
@@ -275,7 +398,7 @@ export default function DashboardPageClient() {
                         }
                       }}
                     >
-                      <Icon name="play" /> {isLaunching ? 'Verifying...' : `Generate Mock - ${TEST_START_CREDIT_COST} Credits`}
+                      <Icon name="play" /> {isLaunching ? 'Verifying...' : mockCreditCost === 0 ? 'Generate Premium Mock' : `Generate Mock - ${mockCreditCost} Credits`}
                     </Button>
                   </div>
                 </div>
@@ -336,7 +459,33 @@ export default function DashboardPageClient() {
         )}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+        <div className="glass p-6">
+          <div className="eyebrow mb-3">{'// Premium speed'}</div>
+          <h3 className="heading mb-2 text-[18px]">{isPremium ? 'Fast lane active' : 'Remove credit friction'}</h3>
+          <p className="text-sm text-zinc-400 mb-4 max-w-sm">
+            {isPremium
+              ? 'Arena mocks launch at zero credits with fast-lane generation and deeper speed diagnostics.'
+              : 'Premium keeps unlimited mocks, fast-lane generation, and speed diagnostics ready for longer grind sessions.'}
+          </p>
+          <div className="grid grid-cols-3 gap-2">
+            <div className="glass p-3">
+              <div className="mono-label mb-1">Mock cost</div>
+              <div className="font-display font-bold text-volt">{mockCreditCost}</div>
+            </div>
+            <div className="glass p-3">
+              <div className="mono-label mb-1">Solved</div>
+              <div className="font-display font-bold text-white">{learningSummary?.progress?.solvedTotal || 0}</div>
+            </div>
+            <div className="glass p-3">
+              <div className="mono-label mb-1">Speed</div>
+              <div className="font-display font-bold text-white">
+                {learningSummary?.progress?.avgDwellMs ? `${Math.round(learningSummary.progress.avgDwellMs / 1000)}s` : '—'}
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="glass p-6 relative overflow-hidden">
           <div className="absolute top-[-20px] right-[-20px] w-[150px] h-[150px] bg-volt opacity-5 blur-[60px] rounded-full" />
           <div className="relative">
@@ -383,6 +532,24 @@ export default function DashboardPageClient() {
           )}
         </div>
       </div>
+      <style>{`
+        .arena-subject-card {
+          min-height: 92px;
+          border-radius: 10px;
+          border: 1px solid rgba(255,255,255,.07);
+          background: rgba(255,255,255,.018);
+          padding: 12px;
+          text-align: left;
+          transition: border-color .15s ease, background .15s ease;
+        }
+        .arena-subject-card:hover {
+          border-color: rgba(255,255,255,.18);
+        }
+        .arena-subject-card.selected {
+          border-color: rgba(210,240,0,.55);
+          background: rgba(210,240,0,.055);
+        }
+      `}</style>
     </div>
   );
 }

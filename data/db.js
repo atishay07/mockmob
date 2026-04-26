@@ -26,6 +26,8 @@ const userOut = (r) => r && ({
   subjects: Array.isArray(r.subjects) ? r.subjects : [],
   role: r.role,
   creditBalance: r.credit_balance || 0,
+  subscriptionStatus: r.subscription_status || 'free',
+  isPremium: r.subscription_status === 'active',
   createdAt: new Date(r.created_at).getTime(),
 });
 
@@ -194,6 +196,7 @@ export const Database = {
     if ('image' in updates) patch.image = updates.image;
     if ('subjects' in updates) patch.subjects = updates.subjects;
     if ('role' in updates) patch.role = updates.role;
+    if ('subscriptionStatus' in updates) patch.subscription_status = updates.subscriptionStatus;
 
     const { data, error } = await supabaseAdmin()
       .from('users').update(patch).eq('id', id).select('*').maybeSingle();
@@ -274,7 +277,9 @@ export const Database = {
         .eq('subject', subjectId)
         .eq('is_deleted', false)
         .or(VISIBLE_QUESTION_FILTER);
-      if (opts.chapter) query = query.eq('chapter', opts.chapter);
+      if (Array.isArray(opts.chapters) && opts.chapters.length > 0) query = query.in('chapter', opts.chapters);
+      else if (opts.chapter) query = query.eq('chapter', opts.chapter);
+      if (['easy', 'medium', 'hard'].includes(opts.difficulty)) query = query.eq('difficulty', opts.difficulty);
       if (withScore) {
         query = query
           .gte('score', -2)

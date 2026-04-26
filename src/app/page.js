@@ -139,13 +139,42 @@ export default function LandingPage() {
       </section>
 
       {/* FEATURES BENTO */}
-      <section className="px-5 mb-24">
+      <section className="px-5 mb-24 relative overflow-hidden py-10">
+        <div className="absolute inset-0 pointer-events-none opacity-40">
+          <DotPattern
+            width={22}
+            height={22}
+            cx={1}
+            cy={1}
+            cr={1.2}
+            className="text-volt/20"
+            glow={true}
+            style={{ maskImage: 'radial-gradient(ellipse at center, white, transparent 68%)', WebkitMaskImage: 'radial-gradient(ellipse at center, white, transparent 68%)' }}
+          />
+        </div>
         <div className="container-std">
-          <div className="text-center mb-12">
-            <div className="eyebrow mb-3">{'// Why MockMob'}</div>
-            <h2 className="display-lg">Built for the <span className="text-volt" style={{ fontStyle: 'italic' }}>top 1%.</span></h2>
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12 relative z-10">
+            <div>
+              <div className="eyebrow mb-3">{'// Why MockMob'}</div>
+              <h2 className="display-lg">Built for the <span className="text-volt" style={{ fontStyle: 'italic' }}>top 1%.</span></h2>
+              <p className="text-zinc-400 max-w-xl mt-3 leading-relaxed">
+                A faster loop for serious students: solve, vote, save, diagnose, and return to the exact chapters that move the score.
+              </p>
+            </div>
+            <div className="grid grid-cols-3 gap-2 w-full lg:w-auto">
+              {[
+                ['1 tap', 'save weak Qs'],
+                ['5 min', 'chapter drills'],
+                ['24/7', 'live radar'],
+              ].map(([value, label]) => (
+                <div key={label} className="glass px-4 py-3 text-center min-w-0">
+                  <div className="heading text-volt text-xl">{value}</div>
+                  <div className="mono-label truncate">{label}</div>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 relative z-10">
             {features.map((f, i) => (
               <div key={i} className={`glass p-8 flex flex-col justify-between ${f.span} relative overflow-hidden group`} style={{ minHeight: '320px', background: f.hero ? 'rgba(210,240,0,0.02)' : 'rgba(255,255,255,0.015)', borderColor: f.hero ? 'rgba(210,240,0,0.2)' : 'rgba(255,255,255,0.08)' }}>
                 <div className="absolute inset-0 pointer-events-none opacity-[0.35] group-hover:opacity-100 transition-opacity duration-700 z-0">
