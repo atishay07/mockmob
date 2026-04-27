@@ -28,3 +28,22 @@ export async function signInWithGoogle(redirectTo) {
   });
 }
 
+export async function signInWithEmailOtp(email, redirectTo) {
+  const supabase = getSupabaseBrowserClient();
+  return supabase.auth.signInWithOtp({
+    email,
+    options: {
+      shouldCreateUser: true,
+      emailRedirectTo: redirectTo,
+    },
+  });
+}
+
+export async function verifyEmailOtp(email, token) {
+  const supabase = getSupabaseBrowserClient();
+  return supabase.auth.verifyOtp({
+    email,
+    token,
+    type: 'email',
+  });
+}

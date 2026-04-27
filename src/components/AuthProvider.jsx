@@ -1,7 +1,12 @@
 "use client";
 
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { getSupabaseBrowserClient, signInWithGoogle as signInWithGoogleOAuth } from '@/lib/supabase-browser';
+import {
+  getSupabaseBrowserClient,
+  signInWithGoogle as signInWithGoogleOAuth,
+  signInWithEmailOtp as signInWithEmailOtpAuth,
+  verifyEmailOtp as verifyEmailOtpAuth,
+} from '@/lib/supabase-browser';
 
 const AuthContext = createContext(null);
 const AUTH_ME_RETRY_DELAYS = [0, 150, 300];
@@ -133,6 +138,25 @@ export function AuthProvider({ children }) {
     return signInWithGoogleOAuth(redirectTo);
   }, []);
 
+  const signInWithEmail = useCallback(async (email) => {
+    const redirectTo = `${window.location.origin}/auth/callback`;
+    return signInWithEmailOtpAuth(email, redirectTo);
+  }, []);
+
+  const verifyEmailOtp = useCallback(async (email, token) => {
+    if (mountedRef.current) {
+      setStatus('loading');
+    }
+
+    const result = await verifyEmailOtpAuth(email, token);
+    if (!result.error) {
+      await refreshSession({ silent: false });
+    } else if (mountedRef.current) {
+      setStatus('unauthenticated');
+    }
+    return result;
+  }, [refreshSession]);
+
   const signOut = useCallback(async () => {
     const supabase = getSupabaseBrowserClient();
     await supabase.auth.signOut();
@@ -147,10 +171,12 @@ export function AuthProvider({ children }) {
       needsOnboarding,
       isAuthenticated: status === 'authenticated',
       signInWithGoogle,
+      signInWithEmail,
+      verifyEmailOtp,
       signOut,
       refreshSession,
     }),
-    [user, status, needsOnboarding, signInWithGoogle, signOut, refreshSession],
+    [user, status, needsOnboarding, signInWithGoogle, signInWithEmail, verifyEmailOtp, signOut, refreshSession],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

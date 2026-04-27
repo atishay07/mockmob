@@ -244,7 +244,7 @@ export default function DashboardPageClient() {
                       <span className="mono-label">{subject.short}</span>
                       <span className="text-[18px] text-volt leading-none">{subject.glyph}</span>
                     </div>
-                    <div className="font-display font-bold text-[13px] text-white truncate">{subject.name}</div>
+                    <div className="font-display font-bold text-[13px] leading-tight text-white line-clamp-2">{subject.name}</div>
                     <div className="text-xs text-zinc-500 mt-1" style={{ fontVariantNumeric: 'tabular-nums' }}>
                       {stats.subjectCounts?.[subject.id] || 0} questions
                     </div>
@@ -534,7 +534,7 @@ export default function DashboardPageClient() {
       </div>
       <style>{`
         .arena-subject-card {
-          min-height: 92px;
+          min-height: 104px;
           border-radius: 10px;
           border: 1px solid rgba(255,255,255,.07);
           background: rgba(255,255,255,.018);

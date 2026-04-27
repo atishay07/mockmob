@@ -34,6 +34,7 @@ export default function AppLayoutClient({ children }) {
   const [tourOpen, setTourOpen] = useState(false);
   const [tourStep, setTourStep] = useState(0);
   const [tourTarget, setTourTarget] = useState(null);
+  const tourSeenKey = user?.id ? `mockmob_app_tour_seen_${user.id}` : 'mockmob_app_tour_seen';
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -54,10 +55,10 @@ export default function AppLayoutClient({ children }) {
 
   useEffect(() => {
     if (status !== 'authenticated' || typeof window === 'undefined') return;
-    if (window.localStorage.getItem('mockmob_app_tour_seen')) return;
-    const id = window.setTimeout(() => setTourOpen(true), 0);
+    if (window.localStorage.getItem(tourSeenKey)) return;
+    const id = window.setTimeout(() => setTourOpen(true), 250);
     return () => window.clearTimeout(id);
-  }, [status]);
+  }, [status, tourSeenKey]);
 
   useEffect(() => {
     if (!tourOpen || typeof window === 'undefined') {
@@ -77,26 +78,29 @@ export default function AppLayoutClient({ children }) {
         return;
       }
       node.scrollIntoView({ block: 'center', inline: 'center', behavior: 'smooth' });
-      const rect = node.getBoundingClientRect();
-      const padding = 8;
-      const cardWidth = Math.min(360, window.innerWidth - 32);
-      const left = Math.min(
-        Math.max(16, rect.left),
-        Math.max(16, window.innerWidth - cardWidth - 16),
-      );
-      const placeBelow = rect.bottom + 18 + 220 < window.innerHeight;
-      const top = placeBelow
-        ? rect.bottom + 18
-        : Math.max(16, rect.top - 238);
+      window.setTimeout(() => {
+        const rect = node.getBoundingClientRect();
+        const padding = 8;
+        const cardWidth = Math.min(380, window.innerWidth - 32);
+        const cardHeight = 260;
+        const left = Math.min(
+          Math.max(16, rect.left),
+          Math.max(16, window.innerWidth - cardWidth - 16),
+        );
+        const placeBelow = rect.bottom + 18 + cardHeight < window.innerHeight;
+        const top = placeBelow
+          ? rect.bottom + 18
+          : Math.max(16, rect.top - cardHeight - 18);
 
-      setTourTarget({
-        left: Math.max(8, rect.left - padding),
-        top: Math.max(8, rect.top - padding),
-        width: rect.width + padding * 2,
-        height: rect.height + padding * 2,
-        cardLeft: left,
-        cardTop: top,
-      });
+        setTourTarget({
+          left: Math.max(8, rect.left - padding),
+          top: Math.max(8, rect.top - padding),
+          width: rect.width + padding * 2,
+          height: rect.height + padding * 2,
+          cardLeft: left,
+          cardTop: top,
+        });
+      }, 220);
     };
 
     updateTarget();
@@ -153,7 +157,7 @@ export default function AppLayoutClient({ children }) {
     setTourOpen(false);
     setTourStep(0);
     if (typeof window !== 'undefined') {
-      window.localStorage.setItem('mockmob_app_tour_seen', 'true');
+      window.localStorage.setItem(tourSeenKey, 'true');
     }
   }
 
@@ -391,10 +395,20 @@ export default function AppLayoutClient({ children }) {
         </div>
       </main>
       {tourOpen && (
-        <div className="fixed inset-0 z-[80] bg-black/60 backdrop-blur-[2px]">
+        <div className="pointer-events-none fixed inset-0 z-[80]">
+          {tourTarget ? (
+            <>
+              <div className="fixed left-0 right-0 top-0 bg-black/62 backdrop-blur-[2px]" style={{ height: tourTarget.top }} />
+              <div className="fixed left-0 bg-black/62 backdrop-blur-[2px]" style={{ top: tourTarget.top, width: tourTarget.left, height: tourTarget.height }} />
+              <div className="fixed bg-black/62 backdrop-blur-[2px]" style={{ left: tourTarget.left + tourTarget.width, right: 0, top: tourTarget.top, height: tourTarget.height }} />
+              <div className="fixed bottom-0 left-0 right-0 bg-black/62 backdrop-blur-[2px]" style={{ top: tourTarget.top + tourTarget.height }} />
+            </>
+          ) : (
+            <div className="fixed inset-0 bg-black/62 backdrop-blur-[2px]" />
+          )}
           {tourTarget && (
             <div
-              className="pointer-events-none fixed rounded-2xl border-2 border-volt shadow-[0_0_0_9999px_rgba(0,0,0,0.62),0_0_34px_rgba(210,240,0,0.42)]"
+              className="pointer-events-none fixed rounded-2xl border-2 border-volt shadow-[0_0_34px_rgba(210,240,0,0.42)]"
               style={{
                 left: tourTarget.left,
                 top: tourTarget.top,
@@ -404,13 +418,13 @@ export default function AppLayoutClient({ children }) {
             />
           )}
           <div
-            className="fixed w-[min(360px,calc(100vw-32px))] rounded-2xl border border-volt/25 bg-[#0b0b0b] p-5 shadow-[0_24px_90px_rgba(0,0,0,0.75)]"
+            className="pointer-events-auto fixed w-[min(380px,calc(100vw-32px))] rounded-2xl border border-volt/25 bg-[#0b0b0b]/95 p-5 shadow-[0_24px_90px_rgba(0,0,0,0.75)]"
             style={tourTarget ? { left: tourTarget.cardLeft, top: tourTarget.cardTop } : { left: '16px', bottom: '16px' }}
           >
             <div className="mb-4 flex items-center justify-between gap-3">
               <div>
                 <div className="mono-label text-volt">Step {tourStep + 1} of {TOUR_STEPS.length}</div>
-                <h2 className="mt-1 font-display text-2xl font-extrabold text-white">{TOUR_STEPS[tourStep].title}</h2>
+                <h2 className="mt-1 font-display text-[22px] font-extrabold text-white">{TOUR_STEPS[tourStep].title}</h2>
               </div>
               <button
                 type="button"
@@ -428,20 +442,20 @@ export default function AppLayoutClient({ children }) {
             <div className="mt-5 flex items-center justify-between gap-3">
               <button
                 type="button"
-                className="btn-ghost"
+                className="rounded-full border border-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-zinc-400 transition hover:border-white/20 hover:text-white disabled:opacity-35"
                 disabled={tourStep === 0}
                 onClick={() => setTourStep((step) => Math.max(0, step - 1))}
               >
                 Back
               </button>
               {tourStep === TOUR_STEPS.length - 1 ? (
-                <button type="button" className="btn-volt" onClick={closeTour}>
+                <button type="button" className="rounded-full bg-volt px-5 py-2 text-sm font-extrabold text-black shadow-[0_0_22px_rgba(210,240,0,0.22)] transition hover:brightness-110" onClick={closeTour}>
                   Finish
                 </button>
               ) : (
                 <button
                   type="button"
-                  className="btn-volt"
+                  className="rounded-full bg-volt px-5 py-2 text-sm font-extrabold text-black shadow-[0_0_22px_rgba(210,240,0,0.22)] transition hover:brightness-110"
                   onClick={() => setTourStep((step) => Math.min(TOUR_STEPS.length - 1, step + 1))}
                 >
                   Next

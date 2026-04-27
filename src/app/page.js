@@ -50,11 +50,11 @@ export default function LandingPage() {
         />
 
         <div className="container-wide text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-volt/20 mb-7" style={{ background: 'rgba(210,240,0,0.03)' }}>
-            <span className="w-1.5 h-1.5 rounded-full bg-volt animate-pulse-slow" style={{ boxShadow: '0 0 8px var(--volt)' }}></span>
+          <Link href="/signup" className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-red-500/25 mb-7 no-underline" style={{ background: 'rgba(248,113,113,0.04)' }}>
+            <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse-slow" style={{ boxShadow: '0 0 8px rgba(248,113,113,.9)' }}></span>
             <span className="mono-label" style={{ color: 'var(--volt)' }}>Now live — CUET &apos;26 Mock Sprint</span>
             <Icon name="arrow" style={{ color: 'var(--volt)', width: '11px', height: '11px' }} />
-          </div>
+          </Link>
           
           <h1 className="display-xl mb-2 text-white">
             Stop grinding alone.<br />

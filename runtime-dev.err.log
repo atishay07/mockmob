@@ -34,3 +34,9 @@
   hint: null,
   message: 'duplicate key value violates unique constraint "users_pkey"'
 }
+[browser] AuthApiError: Invalid Refresh Token: Refresh Token Not Found
+    at handleError (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:924:11)
+    at async _handleRequest (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:974:9)
+    at async _request (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:954:18)
+    at async (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:7518:24)
+    at async (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:674:36) (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:7620:33)

@@ -173,8 +173,8 @@ export default function AnalyticsPageClient() {
         ))}
       </div>
 
-      <div className="md:hidden glass p-5 relative overflow-hidden mb-4">
-        <div className={`${isPremium ? '' : 'blur-[1px] opacity-60 pointer-events-none select-none'}`}>
+      <div className={`md:hidden glass p-5 relative overflow-hidden mb-4 ${isPremium ? '' : 'min-h-[260px]'}`}>
+        <div className={`${isPremium ? '' : 'hidden'}`}>
           <div className="flex items-start justify-between gap-3 mb-4">
             <div>
               <div className="eyebrow mb-2">{'// Premium Radar'}</div>
@@ -208,7 +208,7 @@ export default function AnalyticsPageClient() {
         </div>
 
         {!isPremium && (
-          <div className="absolute inset-0 flex items-center justify-center p-5 bg-black/35 backdrop-blur-[3px]">
+          <div className="absolute inset-0 flex items-center justify-center p-5 bg-black/35 backdrop-blur-[2px]">
             <div className="max-w-sm rounded-2xl border border-volt/25 bg-[#090909]/95 p-5 text-center shadow-[0_0_40px_rgba(210,240,0,0.12)]">
               <div className="mono-label text-volt mb-2">Premium analysis</div>
               <h4 className="heading text-xl text-white mb-2">Unlock your next score jump</h4>
@@ -311,8 +311,8 @@ export default function AnalyticsPageClient() {
           )}
         </div>
 
-        <div className="hidden md:block glass p-6 md:col-span-2 relative overflow-hidden">
-          <div className={`${isPremium ? '' : 'blur-[2px] opacity-55 pointer-events-none select-none'}`}>
+        <div className={`hidden md:block glass p-6 md:col-span-2 relative overflow-hidden ${isPremium ? '' : 'min-h-[280px]'}`}>
+          <div className={`${isPremium ? '' : 'hidden'}`}>
             <div className="flex items-start justify-between gap-4 mb-5">
               <div>
                 <div className="eyebrow mb-2">{'// Premium Radar'}</div>
@@ -370,7 +370,7 @@ export default function AnalyticsPageClient() {
           </div>
 
           {!isPremium && (
-            <div className="absolute inset-0 flex items-center justify-center p-5 bg-black/30 backdrop-blur-[3px]">
+            <div className="absolute inset-0 flex items-center justify-center p-5 bg-black/30 backdrop-blur-[2px]">
               <div className="max-w-md rounded-2xl border border-volt/25 bg-[#090909]/90 p-5 text-center shadow-[0_0_40px_rgba(210,240,0,0.12)]">
                 <div className="mono-label text-volt mb-2">Premium analysis</div>
                 <h4 className="heading text-xl text-white mb-2">Unlock your next score jump</h4>

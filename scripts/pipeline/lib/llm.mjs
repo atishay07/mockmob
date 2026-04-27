@@ -35,6 +35,9 @@ const LANGUAGE_TEST_PATTERNS = [
   /\bgrammatical(ly)?\b/i, /\bvocabulary\b/i,
 ];
 
+const ENGLISH_RC_CHAPTERS = new Set(['Factual Passage', 'Narrative Passage', 'Literary Passage']);
+const ENGLISH_VERBAL_CHAPTERS = new Set(['Para Jumbles', 'Match the Following', 'Vocabulary', 'Correct Word Usage']);
+
 /**
  * At least one keyword from this list must appear in the question body
  * for it to be accepted as belonging to the declared subject.
@@ -541,6 +544,9 @@ function buildGenerationPrompt(subject, chapter, count, targets, options = {}) {
     : subject.id === 'gat'
       ? '\nGAT CONTROL: restrict to general knowledge, reasoning, and current affairs. Ban advanced statistics, econometrics, and formulas unless basic.'
     : '';
+  const englishControlLine = subject.id === 'english'
+    ? buildEnglishGenerationControl(chapter)
+    : '';
 
   let difficultyModeBlock = '';
   if (difficultyOverride === 'easy') {
@@ -591,7 +597,7 @@ SUBJECT (STRICT): "${subject.name}" [id="${subject.id}"]
 CHAPTER: "${chapter}"
 UNIT: "${unit?.unit_name || 'Unknown'}"
 DIFFICULTY TARGET: easy=${targets.easy}, medium=${targets.medium}, hard=${targets.hard} (30% easy, 50% medium, 20% hard unless strict mode overrides)
-BATCH SIZE: exactly ${count} questions in ONE JSON array${focusLine}${chapterGroundingLine}${subjectControlLine}${saturatedLine}${avoidLine}${difficultyModeBlock}
+BATCH SIZE: exactly ${count} questions in ONE JSON array${focusLine}${chapterGroundingLine}${subjectControlLine}${englishControlLine}${saturatedLine}${avoidLine}${difficultyModeBlock}
 
 STRICT CHAPTER BOUNDARY:
 - ONLY generate questions strictly from the given chapter.
@@ -629,7 +635,46 @@ MANDATORY RULES â€” violating any rule means the entire batch is rejected:
 8. The "concept_pattern" tag must be unique across the batch â€” no two questions share the same tag.
 
 Output ONLY a valid JSON array â€” no markdown, no commentary, no extra keys:
-[{"q":"...","o":["A ...","B ...","C ...","D ..."],"a":"A","d":"easy|medium|hard","concept_pattern":"unique_snake_case_tag","explanation":"one sentence","subject":"${subject.id}","chapter":"${chapter}"}]`;
+[{"q":"...","o":["A ...","B ...","C ...","D ..."],"a":"A","d":"easy|medium|hard","concept_pattern":"unique_snake_case_tag","explanation":"one sentence","subject":"${subject.id}","chapter":"${chapter}","passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc"}]`;
+}
+
+function buildEnglishGenerationControl(chapter) {
+  if (ENGLISH_RC_CHAPTERS.has(chapter)) {
+    const type = chapter.replace(' Passage', '').toLowerCase();
+    return `
+
+ENGLISH CUET CONTROL:
+- Generate ONLY "${chapter}" questions for CUET English.
+- Every item MUST include a passage first, followed by exactly one MCQ about that passage.
+- Group Reading Comprehension output as one passage with 3-5 related questions using the same "passage_id"; repeat the same passage text in each grouped item.
+- The passage MUST be at least 80 words.
+- Use a shared "passage_id" for questions based on the same passage.
+- Always set "passage_type" to "${type}".
+- DO NOT generate standalone Reading Comprehension questions.
+- DO NOT mix factual, narrative, and literary passages in one item.
+- Factual passages must be informational/expository and not story-like or poem-like.
+- Narrative passages must contain story, characters, events, or sequence of actions.
+- Literary passages must contain poem/stanza/speaker/literary tone/imagery or prose with literary analysis.
+- DO NOT generate grammar theory questions.`;
+  }
+
+  if (!ENGLISH_VERBAL_CHAPTERS.has(chapter)) return '';
+
+  const controls = {
+    'Para Jumbles': 'Every question must ask for the correct order/rearrangement of sentence parts. Do not use passage comprehension.',
+    'Match the Following': 'Every question must contain two columns/lists and ask the learner to match pairs. Do not use fill-in-the-blank.',
+    Vocabulary: 'Every question must ask synonym, antonym, meaning, or closest word meaning without sentence-blank context.',
+    'Correct Word Usage': 'Every question must test the correct word/phrase in a sentence or blank. Do not ask pure synonym/antonym without usage context.',
+  };
+
+  return `
+
+ENGLISH CUET CONTROL:
+- Generate ONLY "${chapter}" questions for CUET English.
+- ${controls[chapter]}
+- DO NOT generate Reading Comprehension passages for this chapter.
+- DO NOT generate grammar theory questions such as definitions of nouns, tenses, or parts of speech.
+- Keep every item in CUET MCQ pattern with four plausible options.`;
 }
 
 async function generateWithClaude(subject, chapter, count) {
@@ -1098,6 +1143,98 @@ function parseJsonObjectStrict(text) {
   }
 }
 
+function countWords(text) {
+  return String(text || '').trim().split(/\s+/).filter(Boolean).length;
+}
+
+function extractEnglishPassageText(body) {
+  const text = String(body || '').trim();
+  const passageMatch = text.match(/(?:passage|read the passage|read the following passage)\s*:?\s*([\s\S]+?)(?:\n\s*(?:question|q\.?\s*\d*|which|what|why|how)\b|$)/i);
+  if (passageMatch?.[1] && countWords(passageMatch[1]) >= 40) return passageMatch[1].trim();
+
+  const paragraphs = text.split(/\n{2,}/).map((part) => part.trim()).filter(Boolean);
+  const longParagraph = paragraphs.find((part) => countWords(part) >= 80);
+  if (longParagraph) return longParagraph;
+
+  const beforeQuestion = text.split(/\b(?:question|q\.?\s*\d*|which|what|why|how)\b/i)[0]?.trim();
+  return countWords(beforeQuestion) >= 80 ? beforeQuestion : '';
+}
+
+function detectEnglishRcTypeFromPassage(passage) {
+  const text = String(passage || '').toLowerCase();
+  if (/\b(poem|stanza|verse|speaker|poet|imagery|metaphor|symbolism|literary|rhyme|line\s+\d+|ode|sonnet)\b/.test(text)) {
+    return { detectedType: 'Literary Passage', confidence: 0.95 };
+  }
+  if (/\b(story|narrative|character|protagonist|village|journey|incident|event|dialogue|scene|remembered|returned|walked|said|asked|replied)\b/.test(text)) {
+    return { detectedType: 'Narrative Passage', confidence: 0.9 };
+  }
+  return { detectedType: 'Factual Passage', confidence: 0.8 };
+}
+
+function hasGrammarTheoryDrift(body) {
+  return /\b(define|definition of|what is a noun|parts of speech|types of tense|rule of grammar|identify the tense rule)\b/i.test(body);
+}
+
+function classifyEnglishGeneratedQuestion(question, expectedChapter, index) {
+  const body = String(question.body || '').trim();
+  const passage = extractEnglishPassageText(body);
+  const passageId = String(question.passage_id || question.passageId || '').trim();
+
+  if (hasGrammarTheoryDrift(body)) {
+    return { valid: false, detectedType: 'grammar_theory', confidence: 0.95, reason: 'grammar_theory', tags: [] };
+  }
+
+  if (ENGLISH_RC_CHAPTERS.has(expectedChapter)) {
+    if (!passage) {
+      return { valid: false, detectedType: 'standalone_rc', confidence: 0.95, reason: 'rc_without_passage', tags: [] };
+    }
+    if (countWords(passage) < 80) {
+      return { valid: false, detectedType: 'short_passage', confidence: 0.95, reason: 'passage_too_short', tags: [] };
+    }
+
+    const { detectedType, confidence } = detectEnglishRcTypeFromPassage(passage);
+    if (detectedType !== expectedChapter) {
+      return { valid: false, detectedType, confidence, reason: 'incorrect_passage_classification', tags: [] };
+    }
+
+    return {
+      valid: true,
+      detectedType,
+      confidence,
+      passageType: detectedType.replace(' Passage', '').toLowerCase(),
+      passageId: passageId || `${detectedType.toLowerCase().replace(/\s+/g, '_')}_${index + 1}`,
+      tags: ['english', 'reading_comprehension', detectedType],
+    };
+  }
+
+  const containsPassage = countWords(passage) >= 80 || /\b(read the following passage|passage\s*:)/i.test(body);
+  if (containsPassage) {
+    return { valid: false, detectedType: 'reading_comprehension', confidence: 0.9, reason: 'passage_in_verbal_chapter', tags: [] };
+  }
+
+  const rules = {
+    'Para Jumbles': /\b(rearrange|arrange|correct order|sequence|jumbled|sentence order|parts.*order)\b/i,
+    'Match the Following': /\b(match|column\s+[i1]|column\s+ii|list\s+[i1]|list\s+ii|pair|following pairs)\b/i,
+    Vocabulary: /\b(synonym|antonym|opposite|nearest meaning|closest meaning|means|meaning of)\b/i,
+    'Correct Word Usage': /\b(fill in the blank|blank|correct word|correct usage|most appropriate word|appropriate word|complete the sentence)\b/i,
+  };
+
+  const matchesExpected = rules[expectedChapter]?.test(body) === true;
+  const misclassifiedBlankVocabulary = expectedChapter === 'Vocabulary' && /\b(blank|complete the sentence|correct usage|appropriate word)\b/i.test(body);
+  const misclassifiedContextlessWord = expectedChapter === 'Correct Word Usage' && /\b(synonym|antonym|opposite|nearest meaning|closest meaning)\b/i.test(body) && !/\b(sentence|blank|usage|context)\b/i.test(body);
+
+  if (!matchesExpected || misclassifiedBlankVocabulary || misclassifiedContextlessWord) {
+    return { valid: false, detectedType: 'ambiguous_verbal_ability', confidence: 0.75, reason: 'verbal_classification_mismatch', tags: [] };
+  }
+
+  return {
+    valid: true,
+    detectedType: expectedChapter,
+    confidence: 0.9,
+    tags: ['english', 'verbal_ability', expectedChapter],
+  };
+}
+
 function normalizeGeneratedQuestions(questions, subjectId, chapter) {
   const parsedQuestions = Array.isArray(questions) ? questions : [];
   const normalizedQuestions = [];
@@ -1156,6 +1293,8 @@ function normalizeGeneratedQuestions(questions, subjectId, chapter) {
       difficulty: normalizeDifficulty(question.difficulty || question.d),
       concept_pattern: String(question.concept_pattern || `concept_${index + 1}`).trim(),
       tags: normalizeTags(question.tags),
+      passage_id: String(question.passage_id || question.passageId || '').trim(),
+      passage_type: String(question.passage_type || question.passageType || '').trim().toLowerCase(),
     };
 
     if (!normalized.body || !normalized.correct_answer) {
@@ -1170,6 +1309,32 @@ function normalizeGeneratedQuestions(questions, subjectId, chapter) {
       diagnostics.sampleFailedRawQuestion ||= question;
       diagnostics.sampleFailedNormalizedAttempt ||= normalized;
       continue;
+    }
+
+    if (subjectId === 'english') {
+      const classification = classifyEnglishGeneratedQuestion(normalized, chapter, index);
+      console.log('[english-classification]', {
+        question_id: normalized.concept_pattern || index + 1,
+        detected_type: classification.detectedType,
+        confidence: classification.confidence,
+      });
+
+      if (!classification.valid) {
+        diagnostics.dropReasons.normalization_failed += 1;
+        diagnostics.sampleFailedRawQuestion ||= question;
+        diagnostics.sampleFailedNormalizedAttempt ||= normalized;
+        console.warn('[llm] english_question_rejected', {
+          chapter,
+          reason: classification.reason,
+          detected_type: classification.detectedType,
+          index,
+        });
+        continue;
+      }
+
+      normalized.tags = normalizeTags([...normalized.tags, ...classification.tags]);
+      if (classification.passageId) normalized.passage_id = classification.passageId;
+      if (classification.passageType) normalized.passage_type = classification.passageType;
     }
 
     // Subject validation: reject questions that drift to wrong subject or language tests

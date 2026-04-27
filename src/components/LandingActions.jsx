@@ -22,18 +22,25 @@ export function LandingActions({ mode = 'hero' }) {
   }
 
   return (
-    <div className="flex flex-col sm:flex-row gap-3 justify-center mb-4">
-      <Link href={primaryHref}>
-        <Button variant="volt" size="lg">{primaryText} <Icon name="arrow" /></Button>
-      </Link>
+    <div className="mb-4 flex flex-col items-center gap-3">
       {!isAuthenticated && (
-        <Link href="/signup">
-          <Button variant="outline" size="lg">Get Started <Icon name="arrow" /></Button>
-        </Link>
+        <div className="font-display text-2xl font-extrabold text-white md:text-3xl">
+          CUET UG 2026 starts here
+        </div>
       )}
-      <Link href="/pricing">
-        <Button variant="outline" size="lg">View Pricing <Icon name="arrow" /></Button>
-      </Link>
+      <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
+        <Link href={primaryHref}>
+          <Button variant="volt" size="lg">{primaryText} <Icon name="arrow" /></Button>
+        </Link>
+        {!isAuthenticated && (
+          <Link href="/signup">
+            <Button variant="outline" size="lg">Get Started <Icon name="arrow" /></Button>
+          </Link>
+        )}
+        <Link href="/pricing">
+          <Button variant="outline" size="lg">View Pricing <Icon name="arrow" /></Button>
+        </Link>
+      </div>
     </div>
   );
 }

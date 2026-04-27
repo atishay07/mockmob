@@ -1,53 +1,53 @@
 "use client";
 
-import React, { useState } from 'react';
-import { Logo } from '@/components/Logo';
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { Sparkles } from 'lucide-react';
+import { NavBar } from '@/components/NavBar';
+import { MarketingFooter } from '@/components/MarketingFooter';
+import { SignupCard } from '@/components/ui/SignupCard';
 import { Icon } from '@/components/ui/Icons';
-import { Button } from '@/components/ui/Button';
 import { useAuth } from '@/components/AuthProvider';
 
 export default function LoginPageClient() {
-  const { signInWithGoogle } = useAuth();
-  const [googleLoading, setGoogleLoading] = useState(false);
-  const [error, setError] = useState('');
+  const router = useRouter();
+  const { status, needsOnboarding } = useAuth();
 
-  const handleGoogleLogin = async () => {
-    setError('');
-    setGoogleLoading(true);
-    try {
-      const { error: oauthError } = await signInWithGoogle();
-      if (oauthError) {
-        setError(oauthError.message || 'Google sign-in failed.');
-      }
-    } catch {
-      setError('Google sign-in failed. Please try again.');
-    } finally {
-      setGoogleLoading(false);
-    }
-  };
+  useEffect(() => {
+    if (status !== 'authenticated') return;
+    router.replace(needsOnboarding ? '/onboarding' : '/dashboard');
+  }, [status, needsOnboarding, router]);
 
   return (
-    <div className="view flex flex-col items-center justify-center min-h-screen px-5">
-      <div className="text-center mb-8">
-        <Logo className="mb-4 justify-center" />
-        <h1 className="display-lg mb-2">Welcome to the mob.</h1>
-        <p className="text-zinc-400">Log in or create an account to start grinding.</p>
-      </div>
+    <div className="view relative min-h-screen overflow-hidden">
+      <NavBar />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-[radial-gradient(circle_at_top,rgba(210,240,0,0.12),transparent_70%)]" />
 
-      <div className="glass p-8 w-full max-w-sm">
-        <Button onClick={handleGoogleLogin} variant="volt" className="w-full justify-center" disabled={googleLoading}>
-          <svg className="icon" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12.24 10.285V14.4h6.806c-.275 1.765-2.056 5.174-6.806 5.174-4.095 0-7.439-3.389-7.439-7.574s3.345-7.574 7.439-7.574c2.33 0 3.891.989 4.785 1.849l3.254-3.138C18.189 1.186 15.479 0 12.24 0c-6.635 0-12 5.365-12 12s5.365 12 12 12c6.926 0 11.52-4.869 11.52-11.726 0-.788-.085-1.39-.189-1.989H12.24z"/>
-          </svg>
-          {googleLoading ? 'Redirecting...' : 'Continue with Google'}
-        </Button>
-        {error && <p className="text-red-400 text-xs mt-4 text-center">{error}</p>}
+      <div className="container-wide relative z-10 px-5 pb-10 pt-[108px]">
+        <section className="mx-auto grid max-w-5xl grid-cols-1 items-center gap-10 lg:grid-cols-2">
+          <div>
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1">
+              <Sparkles className="h-3.5 w-3.5 text-volt" />
+              <span className="mono-label !text-zinc-300">Back to the MockMob arena</span>
+            </div>
+            <h1 className="display-lg mb-4">
+              Continue the next rank jump with the <span className="text-volt italic">mob</span>.
+            </h1>
+            <p className="max-w-lg text-zinc-400">
+              Pick up your mocks, radar, credits, and subject plan exactly where you left them.
+            </p>
+            <div className="mt-8 max-w-xs text-xs text-zinc-500">
+              <Icon name="shield" style={{ display: 'inline', width: '14px', height: '14px', marginRight: '4px' }} />
+              We only store your display name for the leaderboard. No spam ever.
+            </div>
+          </div>
+
+          <div className="flex justify-center lg:justify-end">
+            <SignupCard mode="login" />
+          </div>
+        </section>
       </div>
-      
-      <div className="mt-8 text-center text-xs text-zinc-500 max-w-xs">
-        <Icon name="shield" style={{ display: 'inline', width: '14px', height: '14px', marginRight: '4px' }} />
-        We only store your display name for the leaderboard. No spam ever.
-      </div>
+      <MarketingFooter />
     </div>
   );
 }

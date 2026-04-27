@@ -15,7 +15,7 @@ export default function OnboardingPageClient() {
   useEffect(() => {
     fetch('/api/subjects')
       .then(res => res.json())
-      .then(data => setSubjects(data));
+      .then(data => setSubjects((Array.isArray(data) ? data : []).filter((subject) => subject.id !== 'teaching_aptitude')));
   }, []);
 
   useEffect(() => {
@@ -62,7 +62,7 @@ export default function OnboardingPageClient() {
         <div className="text-sm font-mono text-zinc-500">Step 1 of 1</div>
       </nav>
 
-      <div className="container-narrow px-5 py-12 text-center">
+      <div className="container-narrow px-5 pt-12 pb-40 text-center">
         <div className="eyebrow mb-3">{'// Build your curriculum'}</div>
         <h1 className="display-md mb-3">What are you <span className="text-volt" style={{ fontStyle: 'italic' }}>targeting?</span></h1>
         <p className="text-zinc-400 mb-10 max-w-md mx-auto">Select up to 5 subjects to tailor your mock test feed and weakness radar.</p>
