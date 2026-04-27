@@ -12,7 +12,9 @@ export function NavBar() {
   const router = useRouter();
   const { isAuthenticated, status, signOut } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
-  const menuRef = useRef(null);
+  const desktopMenuRef = useRef(null);
+  const mobileMenuRef = useRef(null);
+  const mobileMenuButtonRef = useRef(null);
 
   const links = [
     { label: 'Features', href: '/features' },
@@ -22,7 +24,11 @@ export function NavBar() {
 
   useEffect(() => {
     function handleClickOutside(event) {
-      if (!menuRef.current?.contains(event.target)) {
+      if (
+        !desktopMenuRef.current?.contains(event.target) &&
+        !mobileMenuRef.current?.contains(event.target) &&
+        !mobileMenuButtonRef.current?.contains(event.target)
+      ) {
         setMenuOpen(false);
       }
     }
@@ -35,6 +41,20 @@ export function NavBar() {
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5" style={{ background: 'rgba(10,10,10,0.75)', backdropFilter: 'blur(20px)' }}>
       <div className="container-wide px-5 flex items-center justify-between" style={{ height: '60px' }}>
         <div className="flex items-center gap-8">
+          <button
+            ref={mobileMenuButtonRef}
+            type="button"
+            className="md:hidden inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-volt/30 bg-volt text-black shadow-[0_0_28px_rgba(210,240,0,0.22)]"
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={menuOpen}
+          >
+            <span className="inline-flex flex-col gap-1.5">
+              <span className="block h-0.5 w-5 rounded-full bg-current" />
+              <span className="block h-0.5 w-5 rounded-full bg-current" />
+              <span className="block h-0.5 w-5 rounded-full bg-current" />
+            </span>
+          </button>
           <Logo />
           <div className="hidden md:flex gap-6">
             {links.map((link) => (
@@ -53,7 +73,7 @@ export function NavBar() {
           {status === 'loading' ? null : isAuthenticated ? (
             <>
               <Link href="/dashboard" className="btn-ghost hidden sm:inline-flex">Go to Arena</Link>
-              <div className="relative" ref={menuRef}>
+              <div className="relative hidden md:block" ref={desktopMenuRef}>
                 <button
                   type="button"
                   className="btn-ghost"
@@ -76,7 +96,7 @@ export function NavBar() {
 
                 {menuOpen && (
                   <div
-                    className="glass"
+                    className="glass desktop-menu-panel"
                     style={{
                       position: 'absolute',
                       right: 0,
@@ -101,7 +121,7 @@ export function NavBar() {
                     <Link
                       href="/dashboard"
                       className="btn-ghost"
-                      style={{ width: '100%', justifyContent: 'flex-start', padding: '8px 10px', borderRadius: '10px' }}
+                      style={{ width: '100%', justifyContent: 'flex-start', padding: '10px 12px', borderRadius: '10px' }}
                       onClick={() => setMenuOpen(false)}
                     >
                       <Icon name="zap" /> Arena
@@ -109,7 +129,7 @@ export function NavBar() {
                     <Link
                       href="/profile"
                       className="btn-ghost"
-                      style={{ width: '100%', justifyContent: 'flex-start', padding: '8px 10px', borderRadius: '10px' }}
+                      style={{ width: '100%', justifyContent: 'flex-start', padding: '10px 12px', borderRadius: '10px' }}
                       onClick={() => setMenuOpen(false)}
                     >
                       <Icon name="users" /> Profile
@@ -117,7 +137,7 @@ export function NavBar() {
                     <button
                       type="button"
                       className="btn-ghost"
-                      style={{ width: '100%', justifyContent: 'flex-start', padding: '8px 10px', borderRadius: '10px' }}
+                      style={{ width: '100%', justifyContent: 'flex-start', padding: '10px 12px', borderRadius: '10px' }}
                       onClick={async () => {
                         setMenuOpen(false);
                         await signOut();
@@ -132,7 +152,7 @@ export function NavBar() {
             </>
           ) : (
             <>
-              <div className="relative" ref={menuRef}>
+              <div className="relative hidden md:block" ref={desktopMenuRef}>
                 <button
                   type="button"
                   className="btn-ghost"
@@ -156,7 +176,7 @@ export function NavBar() {
 
                 {menuOpen && (
                   <div
-                    className="glass"
+                    className="glass desktop-menu-panel"
                     style={{
                       position: 'absolute',
                       right: 0,
@@ -170,7 +190,7 @@ export function NavBar() {
                         key={link.label}
                         href={link.href}
                         className="btn-ghost"
-                        style={{ width: '100%', justifyContent: 'flex-start', padding: '8px 10px', borderRadius: '10px' }}
+                        style={{ width: '100%', justifyContent: 'flex-start', padding: '10px 12px', borderRadius: '10px' }}
                         onClick={() => setMenuOpen(false)}
                       >
                         <Icon name="arrow" /> {link.label}
@@ -179,7 +199,7 @@ export function NavBar() {
                     <Link
                       href="/login"
                       className="btn-ghost"
-                      style={{ width: '100%', justifyContent: 'flex-start', padding: '8px 10px', borderRadius: '10px', color: 'var(--volt)' }}
+                      style={{ width: '100%', justifyContent: 'flex-start', padding: '10px 12px', borderRadius: '10px', color: 'var(--volt)' }}
                       onClick={() => setMenuOpen(false)}
                     >
                       <Icon name="users" /> Login / Signup
@@ -191,6 +211,73 @@ export function NavBar() {
           )}
         </div>
       </div>
+      {menuOpen && (
+        <div
+          ref={mobileMenuRef}
+          className="md:hidden fixed left-3 right-3 top-[70px] z-[60] rounded-2xl border border-white/10 bg-[#090909] p-4 shadow-[0_24px_90px_rgba(0,0,0,0.72)]"
+        >
+          <div className="mb-3 flex items-center justify-between border-b border-white/8 pb-3">
+            <Logo />
+            <button
+              type="button"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 text-zinc-300"
+              onClick={() => setMenuOpen(false)}
+              aria-label="Close navigation menu"
+            >
+              <span className="text-2xl leading-none">&times;</span>
+            </button>
+          </div>
+          <div className="flex flex-col gap-2">
+            {links.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="flex min-h-14 items-center gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-4 font-display text-base font-bold text-white no-underline"
+                onClick={() => setMenuOpen(false)}
+              >
+                <Icon name="arrow" /> {link.label}
+              </Link>
+            ))}
+            {isAuthenticated ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  className="flex min-h-14 items-center gap-3 rounded-xl border border-volt/30 bg-volt/10 px-4 font-display text-base font-bold text-volt no-underline"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <Icon name="zap" /> Arena
+                </Link>
+                <Link
+                  href="/profile"
+                  className="flex min-h-14 items-center gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-4 font-display text-base font-bold text-white no-underline"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <Icon name="users" /> Profile
+                </Link>
+                <button
+                  type="button"
+                  className="flex min-h-14 items-center gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-4 text-left font-display text-base font-bold text-zinc-300"
+                  onClick={async () => {
+                    setMenuOpen(false);
+                    await signOut();
+                    router.refresh();
+                  }}
+                >
+                  <Icon name="logout" /> Sign out
+                </button>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className="flex min-h-14 items-center gap-3 rounded-xl border border-volt/30 bg-volt px-4 font-display text-base font-black text-black no-underline"
+                onClick={() => setMenuOpen(false)}
+              >
+                <Icon name="users" /> Login / Signup
+              </Link>
+            )}
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

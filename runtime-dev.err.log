@@ -1,0 +1,36 @@
+[api/auth/me] GET failed: {
+  code: '23505',
+  details: 'Key (id)=(8e4d7e45-3db0-4a5d-b7df-5064cc8ae15f) already exists.',
+  hint: null,
+  message: 'duplicate key value violates unique constraint "users_pkey"'
+}
+[api/auth/me] GET failed: {
+  code: '23505',
+  details: 'Key (id)=(8e4d7e45-3db0-4a5d-b7df-5064cc8ae15f) already exists.',
+  hint: null,
+  message: 'duplicate key value violates unique constraint "users_pkey"'
+}
+[api/auth/me] GET failed: {
+  code: '23505',
+  details: 'Key (id)=(8e4d7e45-3db0-4a5d-b7df-5064cc8ae15f) already exists.',
+  hint: null,
+  message: 'duplicate key value violates unique constraint "users_pkey"'
+}
+[api/auth/me] GET failed: {
+  code: '23505',
+  details: 'Key (id)=(8e4d7e45-3db0-4a5d-b7df-5064cc8ae15f) already exists.',
+  hint: null,
+  message: 'duplicate key value violates unique constraint "users_pkey"'
+}
+[api/auth/me] GET failed: {
+  code: '23505',
+  details: 'Key (id)=(8e4d7e45-3db0-4a5d-b7df-5064cc8ae15f) already exists.',
+  hint: null,
+  message: 'duplicate key value violates unique constraint "users_pkey"'
+}
+[api/auth/me] GET failed: {
+  code: '23505',
+  details: 'Key (id)=(8e4d7e45-3db0-4a5d-b7df-5064cc8ae15f) already exists.',
+  hint: null,
+  message: 'duplicate key value violates unique constraint "users_pkey"'
+}

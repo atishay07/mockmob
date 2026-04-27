@@ -106,6 +106,16 @@ export default function FeaturesPage() {
                   </div>
                 ))}
               </div>
+              <div className="shot-insights">
+                <div>
+                  <span>Eligibility</span>
+                  <strong>5/5 subjects fit</strong>
+                </div>
+                <div>
+                  <span>Next move</span>
+                  <strong>Attack Economics</strong>
+                </div>
+              </div>
               <div className="shot-list">
                 {[
                   ['SRCC', 'B.Com (Hons)', 'Aspirational'],
@@ -191,9 +201,38 @@ export default function FeaturesPage() {
         }
         .shot-bars {
           display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
+          grid-template-columns: 1fr;
           gap: 12px;
           margin-bottom: 16px;
+        }
+        .shot-insights {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 10px;
+          margin-bottom: 14px;
+        }
+        .shot-insights div {
+          border: 1px solid rgba(255,255,255,.07);
+          border-radius: 10px;
+          background: rgba(255,255,255,.025);
+          padding: 10px;
+        }
+        .shot-insights span,
+        .shot-insights strong {
+          display: block;
+        }
+        .shot-insights span {
+          color: #71717a;
+          font-family: var(--font-mono);
+          font-size: 9px;
+          font-weight: 800;
+          letter-spacing: .12em;
+          text-transform: uppercase;
+        }
+        .shot-insights strong {
+          color: #f4f4f5;
+          font-size: 12px;
+          margin-top: 5px;
         }
         .shot-row {
           display: flex;
@@ -228,6 +267,9 @@ export default function FeaturesPage() {
             flex-direction: column;
           }
           .shot-bars {
+            grid-template-columns: 1fr;
+          }
+          .shot-insights {
             grid-template-columns: 1fr;
           }
         }

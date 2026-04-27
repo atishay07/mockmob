@@ -69,7 +69,22 @@ export async function GET(request) {
         }
       }
 
+      const unassignedChapters = chapters
+        .filter((ch) => !ch.unit_id || !unitMap.has(ch.unit_id))
+        .map((ch) => ({
+          id:        ch.id,
+          name:      ch.name,
+          sortOrder: ch.sort_order,
+        }));
       const groupedUnits = [...unitMap.values()].filter(u => u.chapters.length > 0);
+      if (unassignedChapters.length > 0) {
+        groupedUnits.push({
+          id:        `${subject}__unassigned`,
+          name:      'Other chapters',
+          sortOrder: Number.MAX_SAFE_INTEGER,
+          chapters:  unassignedChapters,
+        });
+      }
       return NextResponse.json({ grouped: true, units: groupedUnits });
     }
 

@@ -115,8 +115,8 @@ export default function DashboardPageClient() {
   const mockCreditCost = isPremium ? 0 : TEST_START_CREDIT_COST;
   const filteredChapters = useMemo(() => {
     const needle = chapterSearch.trim().toLowerCase();
-    if (!needle) return chapters.slice(0, 10);
-    return chapters.filter((chapter) => chapter.name?.toLowerCase().includes(needle)).slice(0, 16);
+    if (!needle) return chapters;
+    return chapters.filter((chapter) => chapter.name?.toLowerCase().includes(needle));
   }, [chapters, chapterSearch]);
 
   if (status === 'loading') {

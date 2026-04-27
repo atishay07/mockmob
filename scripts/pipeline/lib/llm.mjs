@@ -11,7 +11,7 @@ const openai = process.env.OPENAI_API_KEY ? new OpenAI({ apiKey: process.env.OPE
 const DIFFICULTY_DISTRIBUTION = { easy: 0.30, medium: 0.50, hard: 0.20 };
 // Small-batch strategy: keep OpenAI generation light enough to avoid timeouts.
 export const PIPELINE_BATCH_SIZE = 15;
-const MIN_GENERATION_COUNT = 12;
+const MIN_GENERATION_COUNT = 5;
 const MAX_GENERATION_COUNT = 15;
 // â”€â”€ Subject validation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
@@ -247,8 +247,10 @@ function getSubtopicFocus(subjectId, allChapters, pickCount = 3) {
 // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const OPENAI_GENERATION_MODEL = "gpt-5-mini";
+const OPENAI_GENERATION_FALLBACK_MODEL = "gpt-5-nano";
 const GENERATION_MODELS = [
   OPENAI_GENERATION_MODEL,
+  OPENAI_GENERATION_FALLBACK_MODEL,
 ];
 const VALIDATION_MODELS = [
   "gemini-2.5-flash-lite",
@@ -351,6 +353,9 @@ export function getLastGenerationDiagnostics() {
 
 async function generateWithOpenAI(subject, chapter, count, context = {}) {
   const difficultyOverride = normalizeDifficultyOverride(context.difficultyOverride);
+  const modelName = GENERATION_MODELS.includes(context.modelOverride)
+    ? context.modelOverride
+    : OPENAI_GENERATION_MODEL;
 
   const targets = buildDifficultyTargets(count, difficultyOverride);
   // Pick subtopics to focus on for this batch (round-robin across chapters)
@@ -361,11 +366,12 @@ async function generateWithOpenAI(subject, chapter, count, context = {}) {
     subtopicFocus,
     difficultyOverride,
   });
+  let lastGenerationError = null;
 
   try {
-    console.log(`[llm] active_model=${OPENAI_GENERATION_MODEL}`);
+    console.log(`[llm] active_model=${modelName}`);
     logLlmEvent('active_model', {
-      activeModel: OPENAI_GENERATION_MODEL,
+      activeModel: modelName,
       stickyModel: activeModel,
       subject: subject.id,
       chapter,
@@ -373,12 +379,13 @@ async function generateWithOpenAI(subject, chapter, count, context = {}) {
     });
 
     const result = await runRateLimitedLlmCall({
-      modelName: OPENAI_GENERATION_MODEL,
+      modelName,
       subjectId: subject.id,
       stage: 'generation',
+      maxAttempts: context.maxAttempts ?? 1,
       call: () => withTimeout(
         openai.responses.create({
-          model: OPENAI_GENERATION_MODEL,
+          model: modelName,
           input: prompt,
         }),
         GENERATION_TIMEOUT_MS,
@@ -390,7 +397,7 @@ async function generateWithOpenAI(subject, chapter, count, context = {}) {
       throw new LlmGenerationError('empty response', 'empty_response');
     }
 
-    console.log(`[llm] Raw OpenAI response | model=${OPENAI_GENERATION_MODEL}: ${text}`);
+    console.log(`[llm] Raw OpenAI response | model=${modelName}: ${text}`);
     const parsed = parseJsonArrayStrict(text);
     const normalized = normalizeGeneratedQuestions(parsed, subject.id, chapter);
     const diagnostics = getLastGenerationDiagnostics();
@@ -401,22 +408,23 @@ async function generateWithOpenAI(subject, chapter, count, context = {}) {
       throw new LlmGenerationError('empty question array after normalization', 'empty_questions');
     }
 
-    activeModel = OPENAI_GENERATION_MODEL;
-    failedModels.delete(OPENAI_GENERATION_MODEL);
-    console.log(`[llm] success ${OPENAI_GENERATION_MODEL}`);
+    activeModel = modelName;
+    failedModels.delete(modelName);
+    console.log(`[llm] success ${modelName}`);
     logLlmEvent('success', {
-      model: OPENAI_GENERATION_MODEL,
+      model: modelName,
       questionCount: normalized.length,
       subject: subject.id,
       chapter,
     });
     return normalized;
   } catch (error) {
+    lastGenerationError = error;
     const reason = getLlmFailureReason(error);
-    const cooldownUntil = markModelFailed(OPENAI_GENERATION_MODEL, reason);
-    console.warn(`[llm] failure ${OPENAI_GENERATION_MODEL} (${formatFailureReason(error, reason)})`);
+    const cooldownUntil = markModelFailed(modelName, reason);
+    console.warn(`[llm] failure ${modelName} (${formatFailureReason(error, reason)})`);
     logLlmEvent('model_failure', {
-      model: OPENAI_GENERATION_MODEL,
+      model: modelName,
       reason,
       message: error.message,
       cooldownUntil: cooldownUntil ? new Date(cooldownUntil).toISOString() : null,
@@ -430,7 +438,7 @@ async function generateWithOpenAI(subject, chapter, count, context = {}) {
     chapter,
     count,
   }, 'error');
-  return { error: 'stage_failed' };
+  return { error: getLlmFailureReason(lastGenerationError), reason: getLlmFailureReason(lastGenerationError), message: lastGenerationError?.message || 'stage_failed' };
 }
 
 function getAvailableGenerationModels() {
@@ -1319,10 +1327,11 @@ function formatFailureReason(error, reason) {
   return reason;
 }
 
-async function runRateLimitedLlmCall({ modelName, subjectId, stage, call }) {
+async function runRateLimitedLlmCall({ modelName, subjectId, stage, call, maxAttempts = LLM_SAME_MODEL_ATTEMPTS }) {
   let lastError = null;
+  const attempts = Math.max(1, maxAttempts);
 
-  for (let retryCount = 0; retryCount < LLM_SAME_MODEL_ATTEMPTS; retryCount += 1) {
+  for (let retryCount = 0; retryCount < attempts; retryCount += 1) {
     await waitForFailSafeIfNeeded();
     const release = await acquireLlmSlot({ modelName, subjectId, stage, retryCount });
     const startedAt = Date.now();
@@ -1344,7 +1353,7 @@ async function runRateLimitedLlmCall({ modelName, subjectId, stage, call }) {
       recordLlmCallOutcome(false);
       logLlmCall({ modelName, subjectId, stage, status, retryCount, duration, error });
 
-      if (!shouldRetryLlmCall(reason, error) || retryCount >= LLM_SAME_MODEL_ATTEMPTS - 1) {
+      if (!shouldRetryLlmCall(reason, error) || retryCount >= attempts - 1) {
         throw error;
       }
 

@@ -211,15 +211,15 @@ export default async function PricingPage() {
             <p className="text-zinc-400">Everything serious CUET prep needs, laid out clearly.</p>
           </div>
 
-          <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.025]">
-            <div className="grid grid-cols-[1.2fr_0.9fr_0.9fr] border-b border-white/10 bg-white/[0.035] text-xs font-mono uppercase tracking-[0.18em] text-zinc-500">
+          <div className="pricing-comparison overflow-hidden rounded-2xl border border-white/10 bg-white/[0.025]">
+            <div className="comparison-head grid grid-cols-[1.2fr_0.9fr_0.9fr] border-b border-white/10 bg-white/[0.035] text-xs font-mono uppercase tracking-[0.18em] text-zinc-500">
               <div className="px-4 py-4">Feature</div>
               <div className="px-4 py-4">Free</div>
               <div className="px-4 py-4 text-volt">Pro</div>
             </div>
             {comparisonRows.map(([feature, free, pro, highlight]) => (
-              <div key={feature} className={`grid grid-cols-1 border-b border-white/[0.08] last:border-b-0 sm:grid-cols-[1.2fr_0.9fr_0.9fr] ${highlight ? 'bg-volt/[0.035]' : ''}`}>
-                <div className="px-4 pb-2 pt-4 text-sm font-semibold text-white sm:py-4">
+              <div key={feature} className={`comparison-row grid grid-cols-1 border-b border-white/[0.08] last:border-b-0 sm:grid-cols-[1.2fr_0.9fr_0.9fr] ${highlight ? 'bg-volt/[0.035]' : ''}`}>
+                <div className="comparison-feature px-4 pb-2 pt-4 text-sm font-semibold text-white sm:py-4">
                   <span>{feature}</span>
                   {highlight ? (
                     <span className="ml-2 inline-flex rounded-full border border-volt/25 bg-volt/10 px-2 py-0.5 text-[10px] font-mono uppercase tracking-[0.14em] text-volt">
@@ -227,8 +227,8 @@ export default async function PricingPage() {
                     </span>
                   ) : null}
                 </div>
-                <div className="px-4 py-2 text-sm sm:py-4"><ComparisonValue value={free} /></div>
-                <div className="px-4 pb-4 pt-2 text-sm sm:py-4"><ComparisonValue value={pro} pro highlight={highlight} /></div>
+                <div className="comparison-value px-4 py-2 text-sm sm:py-4" data-label="Free"><ComparisonValue value={free} /></div>
+                <div className="comparison-value px-4 pb-4 pt-2 text-sm sm:py-4" data-label="Pro"><ComparisonValue value={pro} pro highlight={highlight} /></div>
               </div>
             ))}
           </div>
@@ -312,6 +312,40 @@ export default async function PricingPage() {
           0% { opacity: 0; transform: translateY(8px) scale(.7); }
           40% { opacity: 1; }
           100% { opacity: 0; transform: translateY(-18px) scale(1.2); }
+        }
+        @media (max-width: 639px) {
+          .comparison-head {
+            display: none;
+          }
+          .comparison-row {
+            gap: 0;
+            padding: 14px;
+          }
+          .comparison-feature {
+            padding: 0 0 12px;
+            line-height: 1.45;
+          }
+          .comparison-value {
+            display: grid;
+            grid-template-columns: 72px minmax(0, 1fr);
+            align-items: center;
+            gap: 12px;
+            min-height: 42px;
+            border-top: 1px solid rgba(255,255,255,.06);
+            padding: 10px 0;
+          }
+          .comparison-value::before {
+            content: attr(data-label);
+            color: #71717a;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+          }
+          .comparison-value > span {
+            min-width: 0;
+          }
         }
       `}</style>
     </div>

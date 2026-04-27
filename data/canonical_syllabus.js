@@ -3,7 +3,14 @@
 // preserving existing chapter names already used by questions and UI filters.
 
 export const CANONICAL_SYLLABUS = [
-  lang('english', 'English', ['Reading Comprehension'], ['Grammar & Usage', 'Vocabulary', 'Figures of Speech'], ['Literature — Prose', 'Literature — Poetry', 'Note Making', 'Composition']),
+  {
+    subject_id: 'english',
+    subject_name: 'English',
+    units: [
+      unit('Reading Comprehension', ['Factual Passage', 'Narrative Passage', 'Literary Passage']),
+      unit('Verbal Ability', ['Para Jumbles', 'Match the Following', 'Vocabulary', 'Correct Word Usage']),
+    ],
+  },
   lang('hindi', 'Hindi', ['Apathit Gadyansh', 'Apathit Padyansh'], ['Vyakaran', 'Anuvad'], ['Kavya Khand', 'Gadya Khand', 'Rachnatmak Lekhan']),
   ...['assamese', 'bengali', 'gujarati', 'kannada', 'malayalam', 'marathi', 'odia', 'punjabi', 'tamil', 'telugu', 'urdu'].map((id) =>
     lang(id, title(id), ['Reading Comprehension'], ['Grammar', 'Vocabulary'], ['Literature — Prose', 'Literature — Poetry', 'Composition'])

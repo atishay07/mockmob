@@ -1,5 +1,4 @@
 import { createClient } from '@supabase/supabase-js';
-import { SUBJECTS } from '../../../data/subjects.js';
 import { CANONICAL_SYLLABUS } from '../../../data/canonical_syllabus.js';
 
 const supabase = createClient(
@@ -22,6 +21,12 @@ const MAX_JOBS_PER_CHAPTER = 2;
 // Nothing falls through silently — unlisted subjects emit a warning and land
 // in Tier 3 so the operator can triage.
 const VALID_SUBJECTS = new Set(CANONICAL_SYLLABUS.map((subject) => subject.subject_id));
+const SYLLABUS_MAP = new Map(
+  CANONICAL_SYLLABUS.map((subject) => [
+    subject.subject_id,
+    new Set(subject.units.flatMap((unit) => unit.chapters)),
+  ])
+);
 
 const TIER_1 = new Set([
   'physics', 'chemistry', 'mathematics', 'biology',
@@ -47,14 +52,15 @@ const SUBJECT_TIERS = {
  */
 function getAllTier1Chapters() {
   const fallbackGaps = [];
-  for (const subject of SUBJECTS) {
-    if (!TIER_1.has(normalizeId(subject.id))) continue;
-    for (const chapter of subject.chapters || []) {
+  for (const [subjectId, chapters] of SYLLABUS_MAP) {
+    if (!TIER_1.has(normalizeId(subjectId))) continue;
+    for (const chapter of chapters) {
       fallbackGaps.push({
-        subject_id: subject.id,
+        subject_id: subjectId,
         chapter,
-        count: 0,   // treat as if empty so priority math works
-        priority: 5,
+        count: 0,
+        question_count: 0,
+        priority: 100,
         type: 'TIER1_FALLBACK',
       });
     }
@@ -73,6 +79,12 @@ function getSubjectWeight(subject) {
   return 0.2;
 }
 
+function isValidSyllabusGap(gap) {
+  const subjectId = getGapSubject(gap);
+  const chapter = gap?.chapter;
+  return SYLLABUS_MAP.has(subjectId) && SYLLABUS_MAP.get(subjectId).has(chapter);
+}
+
 /**
  * PLANNER (Intelligence Layer)
  * Prioritises gaps and creates generation_jobs with strict 90 / 10 Tier-1 / other
@@ -83,7 +95,7 @@ export async function planGeneration(gaps) {
 
   // Active queued/processing jobs are intentionally ignored in local planning.
   const plannerPool = (gaps || [])
-    .filter((gap) => VALID_SUBJECTS.has(getGapSubject(gap)))
+    .filter(isValidSyllabusGap)
     .map((gap) => ({
       ...gap,
       subject_id: getGapSubject(gap),
@@ -175,6 +187,14 @@ export async function planGeneration(gaps) {
     return [];
   }
 
+  for (const job of topJobs) {
+    console.log('[planner] valid syllabus jobs only:', {
+      subject: job.subject_id,
+      chapter: job.chapter,
+      count: job.question_count ?? job.count ?? 0,
+    });
+  }
+
   // ── 7. Post-selection debug log ──────────────────────────────────────────────
   const finalMix = countTierMix(topJobs);
   const tier1Pct = topJobs.length > 0
@@ -258,7 +278,8 @@ function getSubjectTier(subjectId) {
 }
 
 function compareGaps(a, b) {
-  return b.priority - a.priority ||
+  return (a.question_count ?? a.count ?? 0) - (b.question_count ?? b.count ?? 0) ||
+    b.priority - a.priority ||
     String(a.subject_id).localeCompare(String(b.subject_id)) ||
     String(a.chapter).localeCompare(String(b.chapter));
 }
@@ -269,6 +290,7 @@ function pickTop(candidates, limit, chapterCounts) {
   const selected = [];
   for (const candidate of candidates) {
     if (selected.length >= limit) break;
+    if (!isValidSyllabusGap(candidate)) continue;
 
     const chapterKey = `${candidate.subject_id}::${candidate.chapter}`;
     if ((chapterCounts.get(chapterKey) || 0) >= MAX_JOBS_PER_CHAPTER) continue;

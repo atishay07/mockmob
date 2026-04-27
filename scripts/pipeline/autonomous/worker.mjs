@@ -8,7 +8,7 @@ import { generateQuestions, getLastGenerationDiagnostics, validateAndAlignBatch,
 import { deduplicateBatch, deduplicateAgainst } from '../lib/dedupe.mjs';
 import { publishQuestion } from '../lib/publish.mjs';
 import { SUBJECTS } from '../../../data/subjects.js';
-import { getCanonicalUnitForChapter } from '../../../data/canonical_syllabus.js';
+import { CANONICAL_SYLLABUS, getCanonicalUnitForChapter } from '../../../data/canonical_syllabus.js';
 
 const supabase = createClient(
   process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -18,6 +18,25 @@ const supabase = createClient(
 const API_SECRET = process.env.INTERNAL_API_SECRET || 'test-secret';
 const MAX_API_CALLS_PER_JOB = 2;
 const VALIDATION_CANDIDATE_LIMIT = 25;
+const MIN_QUESTIONS_PER_CHAPTER = 50;
+const canonical_syllabus = Object.fromEntries(CANONICAL_SYLLABUS.map((subject) => [subject.subject_id, subject]));
+const VALID_SUBJECTS = new Set(Object.keys(canonical_syllabus));
+const SYLLABUS_MAP = new Map(
+  CANONICAL_SYLLABUS.map((subject) => [
+    subject.subject_id,
+    new Set(subject.units.flatMap((unit) => unit.chapters)),
+  ])
+);
+const DEFAULT_GENERATION_COUNT = PIPELINE_BATCH_SIZE;
+const HEAVY_CHAPTER_GENERATION_COUNT = 6;
+const MIN_TIMEOUT_RETRY_COUNT = 5;
+const MAX_GENERATION_TIMEOUT_RETRIES = 2;
+const GENERATION_FALLBACK_MODEL = 'gpt-5-nano';
+const HEAVY_GENERATION_CHAPTERS = new Set([
+  'Differential Equations',
+  'Probability',
+  'Integrals',
+]);
 
 const args = process.argv.slice(2);
 let difficultyOverride = null;
@@ -335,6 +354,148 @@ function isSchemaValid(question) {
   return keys.includes(answer);
 }
 
+function getInitialGenerationCount(chapter) {
+  return HEAVY_GENERATION_CHAPTERS.has(chapter)
+    ? HEAVY_CHAPTER_GENERATION_COUNT
+    : DEFAULT_GENERATION_COUNT;
+}
+
+function isGenerationTimeout(result) {
+  return result?.error === 'timeout' ||
+    result?.reason === 'timeout' ||
+    String(result?.message || '').toLowerCase().includes('timeout');
+}
+
+function isValidSyllabusPair(subjectId, chapter) {
+  return SYLLABUS_MAP.has(subjectId) && SYLLABUS_MAP.get(subjectId).has(chapter);
+}
+
+function getCoveragePriority(subject, chapter, count, subjectTotal = 0) {
+  let priority = 10;
+  if (count === 0) priority = 100;
+  else if (count < 10) priority = 90;
+  else if (count < 25) priority = 75;
+  else if (count < MIN_QUESTIONS_PER_CHAPTER) priority = 60;
+  else if (count < 60) priority = 50;
+
+  if (subjectTotal < 60) priority += 5;
+  return Math.min(priority, 100);
+}
+
+async function getCoverageSnapshot() {
+  const rows = [];
+  const pageSize = 1000;
+
+  for (let from = 0; ; from += pageSize) {
+    const { data, error } = await supabase
+      .from('questions')
+      .select('subject, chapter')
+      .eq('is_deleted', false)
+      .range(from, from + pageSize - 1);
+
+    if (error) throw error;
+    rows.push(...(data || []));
+    if (!data || data.length < pageSize) break;
+  }
+
+  const chapterCounts = new Map();
+  const subjectTotals = new Map();
+
+  for (const row of rows) {
+    const subject = row.subject;
+    const chapter = row.chapter;
+    if (!subject || !chapter) continue;
+    if (!isValidSyllabusPair(subject, chapter)) continue;
+
+    const chapterKey = `${subject}::${chapter}`;
+    chapterCounts.set(chapterKey, (chapterCounts.get(chapterKey) || 0) + 1);
+    subjectTotals.set(subject, (subjectTotals.get(subject) || 0) + 1);
+  }
+
+  return { chapterCounts, subjectTotals };
+}
+
+function annotateJobWithCoverage(job, coverage) {
+  const questionCount = coverage.chapterCounts.get(`${job.subject_id}::${job.chapter}`) || 0;
+  const subjectTotal = coverage.subjectTotals.get(job.subject_id) || 0;
+
+  return {
+    ...job,
+    question_count: questionCount,
+    subject_question_count: subjectTotal,
+    priority: getCoveragePriority(job.subject_id, job.chapter, questionCount, subjectTotal),
+    original_priority: job.priority,
+  };
+}
+
+function compareJobsByCoverage(a, b) {
+  return a.question_count - b.question_count ||
+    b.priority - a.priority ||
+    new Date(a.created_at || 0) - new Date(b.created_at || 0);
+}
+
+async function markJobAsSkipped(jobId, reason = 'Invalid subject') {
+  await supabase
+    .from('generation_jobs')
+    .update({
+      status: 'skipped',
+      completed_at: new Date().toISOString(),
+      error_message: reason,
+    })
+    .eq('id', jobId);
+}
+
+async function skipInvalidQueuedJobs() {
+  const { data, error } = await supabase
+    .from('generation_jobs')
+    .select('id, subject_id, chapter')
+    .eq('status', 'queued')
+    .limit(1000);
+
+  if (error) throw error;
+
+  const invalidJobs = (data || []).filter((job) => !isValidSyllabusPair(job.subject_id, job.chapter));
+  for (const job of invalidJobs) {
+    console.warn('[worker] Skipping invalid syllabus job:', {
+      subject: job.subject_id,
+      chapter: job.chapter,
+    });
+    await markJobAsSkipped(job.id, `Invalid syllabus pair: ${job.subject_id}/${job.chapter}`);
+  }
+}
+
+async function selectCoverageFirstJob({ preferredJobIds = [], coverage, excludeSubject = null, minPriority = null } = {}) {
+  let query = supabase
+    .from('generation_jobs')
+    .select('*')
+    .eq('status', 'queued')
+    .in('subject_id', [...VALID_SUBJECTS])
+    .order('created_at', { ascending: true })
+    .limit(1000);
+
+  if (preferredJobIds.length > 0) {
+    query = query.in('id', preferredJobIds);
+  }
+
+  if (excludeSubject) {
+    query = query.neq('subject_id', excludeSubject);
+  }
+
+  if (minPriority !== null) {
+    query = query.gte('priority', minPriority);
+  }
+
+  const { data, error } = await query;
+  if (error) throw error;
+
+  const jobs = (data || [])
+    .filter((candidate) => isValidSyllabusPair(candidate.subject_id, candidate.chapter))
+    .map((candidate) => annotateJobWithCoverage(candidate, coverage))
+    .sort(compareJobsByCoverage);
+
+  return jobs[0] || null;
+}
+
 async function workerLoop() {
   console.log('\nAutonomous CUET Question Engine Started');
   loadConceptMemory();
@@ -363,39 +524,20 @@ async function workerLoop() {
 
       console.log('[queue] WORKER_SELECT_REQUEST:', {
         preferred_planned_job_ids: preferredPlannedJobIds,
-        fallback: preferredPlannedJobIds.length === 0 ? 'all_queued_by_priority_age' : 'planner_inserted_ids_first',
+        fallback: preferredPlannedJobIds.length === 0 ? 'valid_queued_by_lowest_coverage' : 'planner_inserted_ids_first_coverage_ranked',
       });
 
-      let jobQuery = supabase
-        .from('generation_jobs')
-        .select('*')
-        .eq('status', 'queued');
-
-      if (preferredPlannedJobIds.length > 0) {
-        jobQuery = jobQuery.in('id', preferredPlannedJobIds);
-      }
-
-      let { data: job, error: jobErr } = await jobQuery
-        .order('priority', { ascending: false })
-        .order('created_at', { ascending: true })
-        .limit(1)
-        .maybeSingle();
-
-      if (jobErr) throw jobErr;
+      const coverage = await getCoverageSnapshot();
+      await skipInvalidQueuedJobs();
+      let job = await selectCoverageFirstJob({
+        preferredJobIds: preferredPlannedJobIds,
+        coverage,
+      });
 
       if (!job && preferredPlannedJobIds.length > 0) {
-        console.warn('[queue] PREFERRED_PLANNED_JOBS_EMPTY_OR_ALREADY_CLAIMED: falling back to all queued jobs');
+        console.warn('[queue] PREFERRED_PLANNED_JOBS_EMPTY_OR_ALREADY_CLAIMED: falling back to valid queued jobs by lowest coverage');
         preferredPlannedJobIds = [];
-        const fallbackResult = await supabase
-          .from('generation_jobs')
-          .select('*')
-          .eq('status', 'queued')
-          .order('priority', { ascending: false })
-          .order('created_at', { ascending: true })
-          .limit(1)
-          .maybeSingle();
-        if (fallbackResult.error) throw fallbackResult.error;
-        job = fallbackResult.data;
+        job = await selectCoverageFirstJob({ coverage });
       }
 
       console.log('[queue] WORKER_SELECTED_JOB:', job ? {
@@ -404,20 +546,42 @@ async function workerLoop() {
         actual_chapter: job.chapter,
         status: job.status,
         priority: job.priority,
+        original_priority: job.original_priority,
+        question_count: job.question_count,
+        subject_question_count: job.subject_question_count,
         created_at: job.created_at,
         from_planner_capture: preferredPlannedJobIds.includes(job.id),
       } : null);
       console.log('[worker] picking job:', job ? {
         subject: job.subject_id,
+        chapter: job.chapter,
+        count: job.question_count,
         priority: job.priority,
       } : null);
 
       if (!job) {
+        console.log('[worker] No valid jobs available');
         console.log('No queued jobs. Sleeping for 5 minutes...');
         await new Promise((resolve) => setTimeout(resolve, 5 * 60 * 1000));
         lastPlanTime = 0;
         continue;
       }
+
+      if (!isValidSyllabusPair(job.subject_id, job.chapter)) {
+        console.warn('[worker] Skipping invalid syllabus job:', {
+          subject: job.subject_id,
+          chapter: job.chapter,
+        });
+        await markJobAsSkipped(job.id, `Invalid syllabus pair: ${job.subject_id}/${job.chapter}`);
+        preferredPlannedJobIds = preferredPlannedJobIds.filter((id) => id !== job.id);
+        continue;
+      }
+
+      console.log('[worker] coverage-based selection:', {
+        subject: job.subject_id,
+        chapter: job.chapter,
+        count: job.question_count,
+      });
 
       // ── Subject-loop guard ───────────────────────────────────────────────────
       // If the last SUBJECT_LOOP_MAX jobs all processed the same subject, try to
@@ -427,16 +591,11 @@ async function workerLoop() {
         recentSubjects.every((s) => s === job.subject_id) &&
         !preferredPlannedJobIds.includes(job.id)
       ) {
-        const { data: altJob } = await supabase
-          .from('generation_jobs')
-          .select('*')
-          .eq('status', 'queued')
-          .neq('subject_id', job.subject_id)
-          .gte('priority', job.priority)
-          .order('priority', { ascending: false })
-          .order('created_at', { ascending: true })
-          .limit(1)
-          .maybeSingle();
+        const altJob = await selectCoverageFirstJob({
+          coverage,
+          excludeSubject: job.subject_id,
+          minPriority: job.original_priority,
+        });
 
         if (altJob) {
           console.warn(
@@ -450,8 +609,14 @@ async function workerLoop() {
             override_job_id: altJob.id,
             override_subject: altJob.subject_id,
             override_chapter: altJob.chapter,
+            override_question_count: altJob.question_count,
           });
           job = altJob;
+          console.log('[worker] coverage-based selection:', {
+            subject: job.subject_id,
+            chapter: job.chapter,
+            count: job.question_count,
+          });
         } else {
           console.warn(
             `[worker] SUBJECT_LOOP_GUARD: "${job.subject_id}" ran ${SUBJECT_LOOP_MAX} times in a row — ` +
@@ -499,6 +664,15 @@ async function processJob(job) {
     priority: job.priority,
     created_at: job.created_at,
   });
+
+  if (!isValidSyllabusPair(job.subject_id, job.chapter)) {
+    console.warn('[worker] Skipping invalid syllabus job:', {
+      subject: job.subject_id,
+      chapter: job.chapter,
+    });
+    await markJobAsSkipped(job.id, `Invalid syllabus pair: ${job.subject_id}/${job.chapter}`);
+    return;
+  }
 
   const subject = SUBJECTS.find((entry) => entry.id === job.subject_id);
   console.log('[worker] SUBJECT_RESOLUTION:', {
@@ -562,14 +736,19 @@ async function processJob(job) {
     stats.apiCallsUsed += 1;
     // Generate one large candidate pool; downstream filters choose what to validate.
     const targetCount = job.target_count || 18;
-    const generateCount = PIPELINE_BATCH_SIZE;
+    let generateCount = getInitialGenerationCount(job.chapter);
     const adaptiveMax = getAdaptiveMaxPerConcept(subject);
     const usedConceptSample = sampleArray([...getUsedConcepts(job.subject_id)], 20);
-    const generationContext = {
+    let generationContext = {
       usedConcepts: usedConceptSample,
       saturatedSubtopics: getSaturatedSubtopics(job.subject_id, adaptiveMax),
       difficultyOverride,
+      maxAttempts: 1,
     };
+    console.log('[generation] batch adjusted:', {
+      chapter: job.chapter,
+      generate_count: generateCount,
+    });
     console.log('[worker] GENERATION_INPUT:', {
       job_id: job.id,
       expected_subject: job.subject_id,
@@ -583,6 +762,39 @@ async function processJob(job) {
     });
     console.log(`[pipeline] Generating ${generateCount} candidates... chapter="${job.chapter}" unit="${canonicalUnit.unit_name}" usedConcepts=${generationContext.usedConcepts.length} saturated=${generationContext.saturatedSubtopics.length} (api_call=${stats.apiCallsUsed})`);
     let rawQuestions = await generateQuestions(subject, job.chapter, generateCount, generationContext);
+
+    let generationRetryCount = 0;
+    while (isGenerationTimeout(rawQuestions) && generationRetryCount < MAX_GENERATION_TIMEOUT_RETRIES) {
+      generationRetryCount += 1;
+      stats.retryCount += 1;
+      generateCount = Math.max(MIN_TIMEOUT_RETRY_COUNT, Math.floor(generateCount / 2));
+      generationContext = {
+        ...generationContext,
+        modelOverride: GENERATION_FALLBACK_MODEL,
+      };
+      console.warn('[generation] timeout fallback reduction:', {
+        chapter: job.chapter,
+        retry_count: generationRetryCount,
+        generate_count: generateCount,
+        fallback_model: GENERATION_FALLBACK_MODEL,
+      });
+      console.log('[generation] batch adjusted:', {
+        chapter: job.chapter,
+        generate_count: generateCount,
+      });
+      rawQuestions = await generateQuestions(subject, job.chapter, generateCount, generationContext);
+    }
+
+    if (isGenerationTimeout(rawQuestions) && generationRetryCount >= MAX_GENERATION_TIMEOUT_RETRIES) {
+      console.warn('Skipping heavy chapter due to repeated timeouts', {
+        job_id: job.id,
+        subject: job.subject_id,
+        chapter: job.chapter,
+        retry_count: generationRetryCount,
+      });
+      await markJobAsSkipped(job.id, 'Skipped: repeated generation timeouts');
+      return;
+    }
 
     if (rawQuestions?.error) {
       await supabase

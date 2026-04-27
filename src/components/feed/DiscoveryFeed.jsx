@@ -426,8 +426,8 @@ export function DiscoveryFeed() {
   const activeChapterList = useMemo(() => {
     const source = isGrouped ? unitChapters : flatChapters;
     const needleValue = chapterSearch.trim().toLowerCase();
-    if (!needleValue) return source.slice(0, 12);
-    return source.filter((entry) => entry.name?.toLowerCase().includes(needleValue)).slice(0, 16);
+    if (!needleValue) return source;
+    return source.filter((entry) => entry.name?.toLowerCase().includes(needleValue));
   }, [isGrouped, unitChapters, flatChapters, chapterSearch]);
 
   const loadSummary = useCallback(async () => {

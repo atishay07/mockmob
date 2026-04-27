@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { SUBJECTS } from '../../../data/subjects.js';
+import { CANONICAL_SYLLABUS } from '../../../data/canonical_syllabus.js';
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
@@ -12,6 +12,17 @@ const supabase = createClient(
 const TIER1_GAP_THRESHOLD = 150;  // keep generating Tier-1 until 150 q/chapter
 const TIER2_GAP_THRESHOLD = 75;   // Tier-2 target: 75 q/chapter
 const TIER3_GAP_THRESHOLD = 50;   // Tier-3 target: 50 q/chapter
+
+const SYLLABUS_MAP = new Map(
+  CANONICAL_SYLLABUS.map((subject) => [
+    subject.subject_id,
+    new Set(subject.units.flatMap((unit) => unit.chapters)),
+  ])
+);
+
+const SYLLABUS_SUBJECTS = new Map(
+  CANONICAL_SYLLABUS.map((subject) => [subject.subject_id, subject])
+);
 
 function normalizeId(id) {
   return String(id)
@@ -66,9 +77,10 @@ function getTier(subjectId) {
  */
 function getPriority(count, threshold) {
   if (count === 0) return 100;
-  if (count < threshold * 0.1) return 90;
-  if (count < threshold * 0.3) return 75;
-  return 50;
+  if (count < 10) return 90;
+  if (count < 25) return 75;
+  if (count < 50) return 60;
+  return 10;
 }
 
 /**
@@ -97,23 +109,26 @@ export async function analyzeCoverage() {
   const chapterLookup = {};
 
   // Initialize from canonical syllabus, not from DB presence.
-  for (const subject of SUBJECTS) {
-    coverage[subject.id] = { name: subject.name, total: 0, chapters: {} };
-    chapterLookup[subject.id] = {};
+  for (const [subjectId, chapters] of SYLLABUS_MAP) {
+    const subject = SYLLABUS_SUBJECTS.get(subjectId);
+    coverage[subjectId] = { name: subject?.subject_name || subjectId, total: 0, chapters: {} };
+    chapterLookup[subjectId] = {};
 
-    for (const chapter of subject.chapters || []) {
-      coverage[subject.id].chapters[chapter] = 0;
-      chapterLookup[subject.id][normalizeChapterName(chapter)] = chapter;
+    for (const chapter of chapters) {
+      coverage[subjectId].chapters[chapter] = 0;
+      chapterLookup[subjectId][normalizeChapterName(chapter)] = chapter;
     }
   }
 
-  // Count DB rows against canonical chapter names using conservative matching.
+  // Count only DB rows that map to canonical subject/chapter pairs.
   const dbCoveredKeys = new Set();
   for (const row of counts) {
     const subjectId = row.subject;
+    if (!SYLLABUS_MAP.has(subjectId)) continue;
+
     const canonicalChapter = chapterLookup[subjectId]?.[normalizeChapterName(row.chapter)];
 
-    if (!canonicalChapter || !coverage[subjectId]) continue;
+    if (!canonicalChapter || !SYLLABUS_MAP.get(subjectId).has(canonicalChapter)) continue;
 
     coverage[subjectId].chapters[canonicalChapter]++;
     coverage[subjectId].total++;

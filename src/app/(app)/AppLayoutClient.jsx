@@ -10,12 +10,30 @@ import { useAuth } from '@/components/AuthProvider';
 import { useRole } from '@/lib/roleContext';
 import { DotPattern } from '@/components/ui/dot-pattern';
 
+const TOUR_STEPS = [
+  { title: 'Arena', target: 'nav-dashboard', body: 'Start timed CUET mocks, choose subjects, chapters, question count, and difficulty controls.' },
+  { title: 'Compass', target: 'nav-admission-compass', body: 'Turn your mock score band into college and course direction.' },
+  { title: 'Explore', target: 'nav-explore', body: 'Practice from the live question feed with subject, unit, chapter, difficulty, and search filters.' },
+  { title: 'Radar', target: 'nav-analytics', body: 'Track accuracy, weak areas, speed, streaks, and chapter priorities.' },
+  { title: 'Saved', target: 'nav-saved', body: 'Keep important questions in one place for revision.' },
+  { title: 'Ranks', target: 'nav-leaderboard', body: 'Compare XP and performance on the community leaderboard.' },
+  { title: 'Contribute', target: 'nav-upload', body: 'Upload useful questions and grow the shared question bank.' },
+  { title: 'My Uploads', target: 'nav-my-uploads', body: 'Watch your submitted questions move through moderation.' },
+  { title: 'Profile', target: 'nav-profile', body: 'Manage account details, subjects, credits, and plan status.' },
+  { title: 'Credits', target: 'credits-pill', body: 'Free users spend credits to generate mocks. Premium removes that friction.' },
+  { title: 'Mobile menu', target: 'mobile-menu-toggle', body: 'This menu opens by default on phones. Tap the three lines to hide or show it anytime.' },
+  { title: 'Premium', target: 'guide-button', body: 'Use Premium for unlimited mocks, advanced Radar, Compass, fast-lane generation, and advanced filters.' },
+];
+
 export default function AppLayoutClient({ children }) {
   const pathname = usePathname();
   const router = useRouter();
   const { user, status, signOut } = useAuth();
   const { role, isModerator } = useRole();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(true);
+  const [tourOpen, setTourOpen] = useState(false);
+  const [tourStep, setTourStep] = useState(0);
+  const [tourTarget, setTourTarget] = useState(null);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -33,6 +51,62 @@ export default function AppLayoutClient({ children }) {
       router.replace('/dashboard');
     }
   }, [status, pathname, isModerator, router]);
+
+  useEffect(() => {
+    if (status !== 'authenticated' || typeof window === 'undefined') return;
+    if (window.localStorage.getItem('mockmob_app_tour_seen')) return;
+    const id = window.setTimeout(() => setTourOpen(true), 0);
+    return () => window.clearTimeout(id);
+  }, [status]);
+
+  useEffect(() => {
+    if (!tourOpen || typeof window === 'undefined') {
+      return;
+    }
+
+    const updateTarget = () => {
+      const current = TOUR_STEPS[tourStep];
+      const node = [...document.querySelectorAll(`[data-tour="${current.target}"]`)]
+        .find((candidate) => {
+          const rect = candidate.getBoundingClientRect();
+          const style = window.getComputedStyle(candidate);
+          return rect.width > 0 && rect.height > 0 && style.display !== 'none' && style.visibility !== 'hidden';
+        });
+      if (!node) {
+        setTourTarget(null);
+        return;
+      }
+      node.scrollIntoView({ block: 'center', inline: 'center', behavior: 'smooth' });
+      const rect = node.getBoundingClientRect();
+      const padding = 8;
+      const cardWidth = Math.min(360, window.innerWidth - 32);
+      const left = Math.min(
+        Math.max(16, rect.left),
+        Math.max(16, window.innerWidth - cardWidth - 16),
+      );
+      const placeBelow = rect.bottom + 18 + 220 < window.innerHeight;
+      const top = placeBelow
+        ? rect.bottom + 18
+        : Math.max(16, rect.top - 238);
+
+      setTourTarget({
+        left: Math.max(8, rect.left - padding),
+        top: Math.max(8, rect.top - padding),
+        width: rect.width + padding * 2,
+        height: rect.height + padding * 2,
+        cardLeft: left,
+        cardTop: top,
+      });
+    };
+
+    updateTarget();
+    window.addEventListener('resize', updateTarget);
+    window.addEventListener('scroll', updateTarget, { passive: true });
+    return () => {
+      window.removeEventListener('resize', updateTarget);
+      window.removeEventListener('scroll', updateTarget);
+    };
+  }, [tourOpen, tourStep]);
 
   if (status !== 'authenticated' || (pathname.startsWith('/moderation') && !isModerator)) {
     return (
@@ -75,6 +149,14 @@ export default function AppLayoutClient({ children }) {
   const tabs = role === 'moderator' ? modTabs : studentTabs;
   const isActive = (id) => pathname.includes(id);
 
+  function closeTour() {
+    setTourOpen(false);
+    setTourStep(0);
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('mockmob_app_tour_seen', 'true');
+    }
+  }
+
   return (
     <div className="view" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <aside className="desktop-sidebar">
@@ -85,6 +167,7 @@ export default function AppLayoutClient({ children }) {
               key={tab.id}
               href={`/${tab.id}`}
               className={`sidebar-link ${isActive(tab.id) ? 'active' : ''}`}
+              data-tour={`nav-${tab.id}`}
             >
               <Icon name={tab.icon} style={{ width: '15px', height: '15px' }} />
               {tab.label}
@@ -104,9 +187,11 @@ export default function AppLayoutClient({ children }) {
 
           <button
             type="button"
+            data-tour="mobile-menu-toggle"
             className="md:hidden ml-auto inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-zinc-200"
             onClick={() => setMobileMenuOpen((open) => !open)}
-            aria-label="Open navigation menu"
+            aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={mobileMenuOpen}
           >
             <span className="inline-flex flex-col gap-1">
               <span className="block h-0.5 w-5 rounded-full bg-current" />
@@ -121,6 +206,7 @@ export default function AppLayoutClient({ children }) {
                 key={tab.id}
                 href={`/${tab.id}`}
                 className={`nav-link ${isActive(tab.id) ? 'active' : ''}`}
+                data-tour={`nav-${tab.id}`}
                 style={{ whiteSpace: 'nowrap' }}
               >
                 <Icon name={tab.icon} style={{ width: '13px', height: '13px' }} />
@@ -149,6 +235,20 @@ export default function AppLayoutClient({ children }) {
               </Link>
             )}
 
+            <button
+              type="button"
+              className="btn-ghost"
+              data-tour="guide-button"
+              style={{ padding: '6px 10px', borderRadius: '999px', fontSize: '10px' }}
+              onClick={() => {
+                setTourStep(0);
+                setTourOpen(true);
+              }}
+            >
+              <Icon name="spark" style={{ width: '12px', height: '12px' }} />
+              Guide
+            </button>
+
             <div style={{
               display: 'flex', alignItems: 'center', gap: '4px',
               padding: '4px 10px', borderRadius: '24px',
@@ -156,7 +256,7 @@ export default function AppLayoutClient({ children }) {
               border: '1px solid rgba(210,240,0,.2)',
               color: 'var(--volt)', fontSize: '12px', fontWeight: 700,
               fontFamily: 'var(--font-mono)'
-            }}>
+            }} data-tour="credits-pill">
               <Icon name="spark" style={{ width: '12px', height: '12px' }} />
               <span style={{ opacity: 0.75 }}>Credits</span>
               {user?.creditBalance || 0}
@@ -219,6 +319,7 @@ export default function AppLayoutClient({ children }) {
                   key={tab.id}
                   href={`/${tab.id}`}
                   className={`nav-link ${isActive(tab.id) ? 'active' : ''}`}
+                  data-tour={`nav-${tab.id}`}
                   onClick={() => setMobileMenuOpen(false)}
                   style={{
                     width: '100%',
@@ -254,6 +355,18 @@ export default function AppLayoutClient({ children }) {
                 </button>
               </div>
             </div>
+            <button
+              type="button"
+              className="mt-3 flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-volt/25 bg-volt/10 font-display text-sm font-bold text-volt"
+              data-tour="guide-button"
+              onClick={() => {
+                setTourStep(0);
+                setTourOpen(true);
+              }}
+            >
+              <Icon name="spark" style={{ width: '14px', height: '14px' }} />
+              Open guide
+            </button>
           </div>
         )}
 
@@ -277,6 +390,67 @@ export default function AppLayoutClient({ children }) {
           {children}
         </div>
       </main>
+      {tourOpen && (
+        <div className="fixed inset-0 z-[80] bg-black/60 backdrop-blur-[2px]">
+          {tourTarget && (
+            <div
+              className="pointer-events-none fixed rounded-2xl border-2 border-volt shadow-[0_0_0_9999px_rgba(0,0,0,0.62),0_0_34px_rgba(210,240,0,0.42)]"
+              style={{
+                left: tourTarget.left,
+                top: tourTarget.top,
+                width: tourTarget.width,
+                height: tourTarget.height,
+              }}
+            />
+          )}
+          <div
+            className="fixed w-[min(360px,calc(100vw-32px))] rounded-2xl border border-volt/25 bg-[#0b0b0b] p-5 shadow-[0_24px_90px_rgba(0,0,0,0.75)]"
+            style={tourTarget ? { left: tourTarget.cardLeft, top: tourTarget.cardTop } : { left: '16px', bottom: '16px' }}
+          >
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <div>
+                <div className="mono-label text-volt">Step {tourStep + 1} of {TOUR_STEPS.length}</div>
+                <h2 className="mt-1 font-display text-2xl font-extrabold text-white">{TOUR_STEPS[tourStep].title}</h2>
+              </div>
+              <button
+                type="button"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 text-zinc-400"
+                onClick={closeTour}
+                aria-label="Close guide"
+              >
+                <span className="text-2xl leading-none">&times;</span>
+              </button>
+            </div>
+            <p className="text-sm leading-6 text-zinc-300">{TOUR_STEPS[tourStep].body}</p>
+            <div className="mt-5 h-1.5 overflow-hidden rounded-full bg-white/10">
+              <div className="h-full rounded-full bg-volt" style={{ width: `${((tourStep + 1) / TOUR_STEPS.length) * 100}%` }} />
+            </div>
+            <div className="mt-5 flex items-center justify-between gap-3">
+              <button
+                type="button"
+                className="btn-ghost"
+                disabled={tourStep === 0}
+                onClick={() => setTourStep((step) => Math.max(0, step - 1))}
+              >
+                Back
+              </button>
+              {tourStep === TOUR_STEPS.length - 1 ? (
+                <button type="button" className="btn-volt" onClick={closeTour}>
+                  Finish
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="btn-volt"
+                  onClick={() => setTourStep((step) => Math.min(TOUR_STEPS.length - 1, step + 1))}
+                >
+                  Next
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
       <style>{`
         .desktop-sidebar { display: none; }
         @media (min-width: 1024px) {

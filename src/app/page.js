@@ -44,8 +44,8 @@ export default function LandingPage() {
         <InteractiveGridPattern 
           width={40} 
           height={40} 
-          squares={[80, 80]} 
-          className="opacity-[0.15]"
+          squares={[36, 28]} 
+          className="opacity-[0.15] landing-grid-pattern"
           squaresClassName="hover:fill-volt/20"
         />
 
@@ -105,7 +105,7 @@ export default function LandingPage() {
         <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#0a0a0a] to-transparent z-10"></div>
         <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#0a0a0a] to-transparent z-10"></div>
         <ScrollVelocityContainer className="font-display font-bold text-3xl md:text-5xl tracking-tight text-white/40">
-          <ScrollVelocityRow baseVelocity={3} direction={1}>
+          <ScrollVelocityRow baseVelocity={1.6} direction={1} scrollReactivity={false}>
             CUET <span className="opacity-15 mx-4">—</span> JEE <span className="opacity-15 mx-4">—</span> NEET <span className="opacity-15 mx-4">—</span> UPSC <span className="opacity-15 mx-4">—</span> CAT <span className="opacity-15 mx-4">—</span> GATE <span className="opacity-15 mx-4">—</span> SSC <span className="opacity-15 mx-4">—</span> CLAT <span className="opacity-15 mx-4">—</span> NDA <span className="opacity-15 mx-4">—</span> 
           </ScrollVelocityRow>
         </ScrollVelocityContainer>
