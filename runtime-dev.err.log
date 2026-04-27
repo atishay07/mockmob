@@ -40,3 +40,33 @@
     at async _request (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:954:18)
     at async (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:7518:24)
     at async (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:674:36) (file://C:/Users/atish/Desktop/mockmob copy/mockmob copy/.next/dev/static/chunks/node_modules_%40supabase_auth-js_dist_module_0.pzobh._.js:7620:33)
+[api/auth/me] GET failed: {
+  code: '23505',
+  details: 'Key (id)=(9f9535c7-b10c-4f52-ad19-efab9d14fd86) already exists.',
+  hint: null,
+  message: 'duplicate key value violates unique constraint "users_pkey"'
+}
+[api/auth/me] GET failed: {
+  code: '23505',
+  details: 'Key (id)=(9f9535c7-b10c-4f52-ad19-efab9d14fd86) already exists.',
+  hint: null,
+  message: 'duplicate key value violates unique constraint "users_pkey"'
+}
+[api/auth/me] GET failed: {
+  code: '23505',
+  details: 'Key (id)=(9f9535c7-b10c-4f52-ad19-efab9d14fd86) already exists.',
+  hint: null,
+  message: 'duplicate key value violates unique constraint "users_pkey"'
+}
+[api/auth/me] GET failed: {
+  code: '23505',
+  details: 'Key (id)=(9f9535c7-b10c-4f52-ad19-efab9d14fd86) already exists.',
+  hint: null,
+  message: 'duplicate key value violates unique constraint "users_pkey"'
+}
+[api/auth/me] GET failed: {
+  code: '23505',
+  details: 'Key (id)=(9f9535c7-b10c-4f52-ad19-efab9d14fd86) already exists.',
+  hint: null,
+  message: 'duplicate key value violates unique constraint "users_pkey"'
+}
