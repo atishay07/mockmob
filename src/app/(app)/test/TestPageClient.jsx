@@ -146,6 +146,15 @@ function TestRunner() {
         refreshSession({ silent: true });
       } catch (e) {
         if (!alive) return;
+        if (e?.status === 402 && e?.body?.upgrade) {
+          // Insufficient credits at start. Block the test, refresh balance
+          // so the dashboard reflects truth, and bounce to pricing.
+          try { await refreshSession({ silent: true }); } catch {}
+          setError('Insufficient credits. Upgrade to Premium for unlimited mocks.');
+          setLoading(false);
+          router.replace('/pricing?reason=insufficient_credits');
+          return;
+        }
         setError(e.message || 'Failed to load questions');
         setLoading(false);
       }
@@ -227,6 +236,8 @@ function TestRunner() {
     try {
       const data = await apiPost('/api/attempts', payload);
       try { window.localStorage.removeItem(key); } catch {}
+      try { window.sessionStorage.setItem('mm:postTest', '1'); } catch {}
+      try { await refreshSession({ silent: true }); } catch {}
       router.push(`/result/${data.id}`);
     } catch (e) {
       submittedRef.current = false;

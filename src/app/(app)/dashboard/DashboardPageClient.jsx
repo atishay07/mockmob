@@ -10,6 +10,7 @@ import { SkeletonCard, ErrorState, EmptyState } from '@/components/ui/Skeleton';
 import { apiGet } from '@/lib/fetcher';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/ToastProvider';
+import { CreditsRemainingModal } from '@/components/CreditsRemainingModal';
 
 const TEST_START_CREDIT_COST = 10;
 
@@ -39,6 +40,21 @@ export default function DashboardPageClient() {
   const launchingKeyRef = useRef(null);
   const [creditError, setCreditError] = useState(null);
   const [launchSuccess, setLaunchSuccess] = useState(null);
+  const [showCreditsModal, setShowCreditsModal] = useState(false);
+
+  // After a mock attempt the test page sets `mm:postTest=1` in sessionStorage
+  // before redirecting. When the user lands back here (Arena), pop the modal
+  // once and clear the flag so it doesn't re-trigger on a refresh.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (authStatus !== 'authenticated') return;
+    try {
+      if (window.sessionStorage.getItem('mm:postTest') === '1') {
+        window.sessionStorage.removeItem('mm:postTest');
+        setShowCreditsModal(true);
+      }
+    } catch { /* private mode — non-fatal */ }
+  }, [authStatus]);
 
   useEffect(() => {
     if (authStatus === 'loading' || !user?.id) return;
@@ -168,6 +184,11 @@ export default function DashboardPageClient() {
 
   return (
     <div className="flex flex-col gap-6 view">
+      <CreditsRemainingModal
+        open={showCreditsModal}
+        credits={user?.creditBalance ?? 0}
+        onClose={() => setShowCreditsModal(false)}
+      />
       <div>
         <div className="eyebrow mb-2">{'// Command centre'}</div>
         <h1 className="display-md">What are we <span className="text-volt italic">grinding</span> today, {user?.name?.split(' ')[0]}?</h1>
