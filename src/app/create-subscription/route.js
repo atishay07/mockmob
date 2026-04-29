@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { getRazorpayClient, getRazorpayKeyId } from '@/lib/payments/razorpay';
 import { getPaymentPlan, getRazorpayPlanId } from '@/lib/payments/plans';
+import { resolveCreatorCode } from '@/lib/referrals/offers';
 import { Database } from '@/../data/db';
 
 export const dynamic = 'force-dynamic';
@@ -31,6 +32,17 @@ function assertRazorpayTimestampsAreSeconds(payload) {
   }
 }
 
+// Razorpay errors arrive in different shapes depending on the SDK code path.
+// Extract a user-presentable description if we can find one.
+function extractRazorpayErrorMessage(err) {
+  return (
+    err?.error?.description
+    || err?.response?.data?.error?.description
+    || err?.message
+    || null
+  );
+}
+
 export async function POST(request) {
   try {
     const session = await auth();
@@ -41,6 +53,7 @@ export async function POST(request) {
     const body = await request.json();
     const { userId, planId } = body || {};
     const requestedAmount = Number(body?.amount);
+    const rawCode = typeof body?.code === 'string' ? body.code : null;
 
     if (!userId || !planId) {
       return NextResponse.json({ error: 'userId and planId are required' }, { status: 400 });
@@ -75,6 +88,12 @@ export async function POST(request) {
       return NextResponse.json({ error: 'User is already subscribed to premium' }, { status: 409 });
     }
 
+    // Resolve the creator code to a Razorpay offer_id. resolveCreatorCode
+    // handles normalization + DB lookup + static fallback. Invalid or unknown
+    // codes return null and are silently dropped — the subscription is
+    // created at full price, exactly as today.
+    const creator = rawCode ? await resolveCreatorCode(rawCode) : null;
+
     const subscriptionPayload = {
       plan_id: razorpayPlanId,
       total_count: 12,
@@ -83,12 +102,26 @@ export async function POST(request) {
       notes: {
         userId,
         planId: plan.id,
+        ...(creator ? { creatorCode: creator.code, creatorId: creator.creatorId || '' } : {}),
       },
+      ...(creator?.offerId ? { offer_id: creator.offerId } : {}),
     };
 
     assertRazorpayTimestampsAreSeconds(subscriptionPayload);
 
-    const subscription = await getRazorpayClient().subscriptions.create(subscriptionPayload);
+    let subscription;
+    try {
+      subscription = await getRazorpayClient().subscriptions.create(subscriptionPayload);
+    } catch (rzpError) {
+      // Most common: offer_id expired or not applicable. Surface the
+      // description so the UI can render something better than a generic 500.
+      const description = extractRazorpayErrorMessage(rzpError);
+      console.error('[create-subscription] Razorpay rejected:', description, rzpError);
+      return NextResponse.json({
+        error: description || 'Payment provider rejected the subscription',
+        code: 'razorpay_rejected',
+      }, { status: 400 });
+    }
 
     await Database.createPayment({
       userId,
@@ -99,6 +132,9 @@ export async function POST(request) {
       currency: plan.currency,
       status: subscription.status || 'created',
       rawSubscription: subscription,
+      creatorCode: creator?.code || null,
+      creatorId: creator?.creatorId || null,
+      offerId: creator?.offerId || null,
     });
 
     return NextResponse.json({
@@ -110,6 +146,9 @@ export async function POST(request) {
         amount: plan.amount,
         currency: plan.currency,
       },
+      // Tell the client whether the code they sent was actually applied,
+      // so it can surface "Code applied" / silent ignore appropriately.
+      applied: creator ? { code: creator.code, offerId: creator.offerId } : null,
     });
   } catch (error) {
     console.error('[create-subscription] failed:', error);

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { getRazorpayClient, verifyRazorpaySubscriptionSignature } from '@/lib/payments/razorpay';
+import { recordEarningIfApplicable } from '@/lib/payouts';
 import { Database } from '@/../data/db';
 
 export const dynamic = 'force-dynamic';
@@ -50,14 +51,29 @@ export async function POST(request) {
 
     const razorpayPayment = await getRazorpayClient().payments.fetch(paymentId);
     const razorpaySubscription = await getRazorpayClient().subscriptions.fetch(subscriptionId);
+
+    // Amount validation:
+    //   - Without an offer: the payment must equal the plan's nominal amount.
+    //   - With an offer: the payment may be lower than the nominal amount
+    //     (discounted) but must be > 0. We can't predict the discounted
+    //     amount here without re-fetching the offer, so the upper bound
+    //     (<= nominal) is the strongest reasonable check.
+    const hasOffer = Boolean(paymentRecord.offerId);
+    const amountIsAcceptable = hasOffer
+      ? Number.isInteger(razorpayPayment.amount)
+        && razorpayPayment.amount > 0
+        && razorpayPayment.amount <= paymentRecord.amount
+      : razorpayPayment.amount === paymentRecord.amount;
+
     if (
       razorpaySubscription.id !== subscriptionId ||
-      razorpayPayment.amount !== paymentRecord.amount ||
-      !['authorized', 'captured'].includes(razorpayPayment.status)
+      !amountIsAcceptable ||
+      razorpayPayment.status !== 'captured'
     ) {
       await Database.updatePaymentBySubscriptionId(subscriptionId, {
         paymentId,
         status: 'failed',
+        amountPaid: typeof razorpayPayment.amount === 'number' ? razorpayPayment.amount : null,
         rawPayment: razorpayPayment,
         rawSubscription: razorpaySubscription,
       });
@@ -66,11 +82,11 @@ export async function POST(request) {
 
     await Database.updatePaymentBySubscriptionId(subscriptionId, {
       paymentId,
-      status: ['active', 'authenticated'].includes(razorpaySubscription.status)
-        ? razorpaySubscription.status
-        : razorpayPayment.status === 'captured'
-          ? 'captured'
-          : 'attempted',
+      status: 'captured',
+      // amount_paid is the actually-charged paise amount post-offer, while
+      // payments.amount stays at the plan's nominal price. The delta tells
+      // us how much discount the creator's offer applied.
+      amountPaid: typeof razorpayPayment.amount === 'number' ? razorpayPayment.amount : null,
       rawPayment: razorpayPayment,
       rawSubscription: razorpaySubscription,
     });
@@ -79,6 +95,9 @@ export async function POST(request) {
       subscriptionStatus: 'active',
       isPremium: true,
     });
+
+    // Lock in creator earnings now that the payment is confirmed.
+    await recordEarningIfApplicable(subscriptionId);
 
     return NextResponse.json({
       ok: true,

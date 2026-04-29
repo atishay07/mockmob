@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { SUBJECTS } from '../../data/subjects.js';
+import { TOP_SUBJECTS, isValidTopSyllabusPair } from '../../data/canonical_syllabus.js';
 import { normalizeQuestion, scoreAndModerateQuestion } from './lib/llm.mjs';
 import { isDuplicate } from './lib/dedupe.mjs';
 import { publishBatch } from './lib/publish.mjs';
@@ -17,6 +18,11 @@ const BATCH_SIZE = 25;
 
 async function runPipeline(subjectId) {
   console.log(`\n🚀 Starting PRODUCTION Ingestion Pipeline for ${subjectId}`);
+
+  if (!TOP_SUBJECTS.includes(subjectId)) {
+    console.warn(`[SKIP] ${subjectId} is outside the top-15 CUET generation scope.`);
+    return;
+  }
 
   const subject = SUBJECTS.find(s => s.id === subjectId);
   if (!subject) {
@@ -64,6 +70,10 @@ async function runPipeline(subjectId) {
     // Normalization
     const normalized = await normalizeQuestion(rawEntries[i], subject, targetDifficulty);
     if (!normalized) continue;
+    if (!isValidTopSyllabusPair(normalized.subject, normalized.chapter)) {
+      console.warn(`[SKIP] Non-canonical top-15 syllabus pair: ${normalized.subject}/${normalized.chapter}`);
+      continue;
+    }
 
     // A. Chapter Limit Check
     const chapter = normalized.chapter;

@@ -65,8 +65,11 @@ export default function FeaturesPage() {
         <div className="container-std">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {allFeatures.map((f, i) => (
-              <div key={i} className="glass p-8 relative overflow-hidden group flex flex-col justify-between" style={{ minHeight: '280px', borderColor: f.highlight ? 'rgba(210,240,0,0.2)' : 'rgba(255,255,255,0.08)' }}>
-                <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-0">
+              <div key={i} className="glass p-6 md:p-8 relative overflow-hidden group md:min-h-[260px]" style={{ borderColor: f.highlight ? 'rgba(210,240,0,0.2)' : 'rgba(255,255,255,0.08)' }}>
+                <div
+                  className="pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+                  style={{ position: 'absolute', inset: 0, zIndex: 0 }}
+                >
                   <DotPattern width={24} height={24} cx={1} cy={1} cr={1.5} className={f.highlight ? "text-volt/30" : "text-white/20"} glow={true} style={{ maskImage: 'radial-gradient(ellipse at center, white, transparent 70%)', WebkitMaskImage: 'radial-gradient(ellipse at center, white, transparent 70%)' }} />
                 </div>
                 

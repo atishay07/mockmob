@@ -106,16 +106,16 @@ export default function AdmissionCompassPageClient() {
 
   if (status === 'loading' || authStatus === 'loading') {
     return (
-      <div className="view flex flex-col gap-5">
+      <div className="view flex flex-col gap-3 md:gap-5">
         <div>
           <div className="eyebrow mb-2">{'// Admission Compass'}</div>
-          <div className="h-10 w-80 max-w-full skeleton mb-2" />
-          <div className="h-4 w-96 max-w-full skeleton" />
+          <div className="h-7 md:h-10 w-64 md:w-80 max-w-full skeleton mb-2" />
+          <div className="h-3 md:h-4 w-72 md:w-96 max-w-full skeleton" />
         </div>
-        <SkeletonCard lines={6} />
+        <SkeletonCard lines={4} />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-          <SkeletonCard lines={5} />
-          <SkeletonCard lines={5} />
+          <SkeletonCard lines={3} />
+          <SkeletonCard lines={3} />
         </div>
       </div>
     );

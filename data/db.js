@@ -41,11 +41,44 @@ const paymentOut = (r) => r && ({
   planId: r.plan_id,
   razorpayPlanId: r.razorpay_plan_id,
   amount: r.amount,
+  amountPaid: r.amount_paid ?? null,
   currency: r.currency,
   status: r.status,
+  creatorCode: r.creator_code || null,
+  creatorId: r.creator_id || null,
+  offerId: r.offer_id || null,
+  creatorEarning: r.creator_earning ?? null,
+  payoutId: r.payout_id || null,
   rawOrder: r.raw_order || {},
   rawSubscription: r.raw_subscription || {},
   rawPayment: r.raw_payment || {},
+  createdAt: r.created_at ? new Date(r.created_at).getTime() : null,
+  updatedAt: r.updated_at ? new Date(r.updated_at).getTime() : null,
+});
+
+const payoutOut = (r) => r && ({
+  id: r.id,
+  creatorId: r.creator_id,
+  amount: r.amount,
+  paymentCount: r.payment_count,
+  status: r.status,
+  notes: r.notes || null,
+  createdAt: r.created_at ? new Date(r.created_at).getTime() : null,
+  paidAt: r.paid_at ? new Date(r.paid_at).getTime() : null,
+  markedPaidBy: r.marked_paid_by || null,
+});
+
+const creatorOut = (r) => r && ({
+  id: r.id,
+  userId: r.user_id || null,
+  name: r.name,
+  email: r.email || null,
+  code: r.code,
+  offerId: r.offer_id || null,
+  commissionRate: typeof r.commission_rate === 'string' ? Number(r.commission_rate) : r.commission_rate,
+  payoutPerSale: r.payout_per_sale ?? 2000,
+  isActive: Boolean(r.is_active),
+  notes: r.notes || null,
   createdAt: r.created_at ? new Date(r.created_at).getTime() : null,
   updatedAt: r.updated_at ? new Date(r.updated_at).getTime() : null,
 });
@@ -84,11 +117,24 @@ const questionOut = (r) => r && ({
 
 const VISIBLE_QUESTION_FILTER = 'status.eq.live,and(verification_state.eq.verified,exploration_state.eq.active)';
 const MOCK_DIFFICULTY_QUOTAS = { easy: 0.10, medium: 0.60, hard: 0.30 };
+const PAID_SALE_STATUSES = new Set(['captured', 'completed', 'paid']);
 
 function isMissingPhase1VoteSchema(error) {
   return error?.code === '42703' ||
     error?.code === '42P01' ||
     /question_votes|score|upvotes|downvotes|schema cache|column .* does not exist/i.test(error?.message || '');
+}
+
+function isMissingReferralSchema(error) {
+  return error?.code === '42703' ||
+    error?.code === '42P01' ||
+    /creators|payouts|creator_id|creator_code|offer_id|amount_paid|creator_earning|payout_id|payout_per_sale|schema cache|column .* does not exist|relation .* does not exist/i.test(error?.message || '');
+}
+
+function isPaidSaleRow(row) {
+  return Boolean(row?.payment_id) &&
+    PAID_SALE_STATUSES.has(row?.status) &&
+    Number(row?.amount_paid) > 0;
 }
 
 function computeDifficultyTargets(total) {
@@ -237,8 +283,12 @@ export const Database = {
       plan_id: payment.planId,
       razorpay_plan_id: payment.razorpayPlanId || null,
       amount: payment.amount,
+      amount_paid: payment.amountPaid ?? null,
       currency: payment.currency || 'INR',
       status: payment.status || 'created',
+      creator_code: payment.creatorCode || null,
+      creator_id: payment.creatorId || null,
+      offer_id: payment.offerId || null,
       raw_order: payment.rawOrder || {},
       raw_subscription: payment.rawSubscription || {},
       raw_payment: payment.rawPayment || {},
@@ -279,6 +329,7 @@ export const Database = {
     const patch = { updated_at: new Date().toISOString() };
     if (updates.paymentId !== undefined) patch.payment_id = updates.paymentId;
     if (updates.status !== undefined) patch.status = updates.status;
+    if (updates.amountPaid !== undefined) patch.amount_paid = updates.amountPaid;
     if (updates.rawPayment !== undefined) patch.raw_payment = updates.rawPayment;
     if (updates.rawSubscription !== undefined) patch.raw_subscription = updates.rawSubscription;
 
@@ -296,6 +347,7 @@ export const Database = {
     const patch = { updated_at: new Date().toISOString() };
     if (updates.paymentId !== undefined) patch.payment_id = updates.paymentId;
     if (updates.status !== undefined) patch.status = updates.status;
+    if (updates.amountPaid !== undefined) patch.amount_paid = updates.amountPaid;
     if (updates.rawPayment !== undefined) patch.raw_payment = updates.rawPayment;
     if (updates.rawSubscription !== undefined) patch.raw_subscription = updates.rawSubscription;
 
@@ -307,6 +359,372 @@ export const Database = {
       .maybeSingle();
     if (error) throw error;
     return paymentOut(data);
+  },
+
+  // =====================================================================
+  // CREATORS / PAYOUTS / ATTRIBUTION
+  // =====================================================================
+
+  async listCreators({ activeOnly = false } = {}) {
+    let query = supabaseAdmin().from('creators').select('*').order('created_at', { ascending: false });
+    if (activeOnly) query = query.eq('is_active', true);
+    const { data, error } = await query;
+    if (error) {
+      if (isMissingReferralSchema(error)) {
+        console.error('[db] listCreators skipped because referral schema is missing:', error.message);
+        return [];
+      }
+      throw error;
+    }
+    return (data || []).map(creatorOut);
+  },
+
+  async createCreator(input) {
+    const row = {
+      name: input.name,
+      email: input.email || null,
+      code: String(input.code || '').trim().toLowerCase(),
+      offer_id: input.offerId || null,
+      payout_per_sale: Number.isFinite(input.payoutPerSale) ? Math.round(input.payoutPerSale) : 2000,
+      is_active: input.isActive !== false,
+      notes: input.notes || null,
+    };
+    if (input.id) row.id = input.id;
+    if (input.userId) row.user_id = input.userId;
+    if (input.commissionRate != null) row.commission_rate = input.commissionRate;
+
+    const { data, error } = await supabaseAdmin()
+      .from('creators').insert(row).select('*').single();
+    if (error) throw error;
+
+    // Backfill the link if a user with this email already exists.
+    // (Triggers cover the future direction — user signs up after the
+    // creator row is created — but not this one.)
+    if (data.email && !data.user_id) {
+      const existingUser = await this.getUserByEmail(data.email);
+      if (existingUser) {
+        const { data: linked } = await supabaseAdmin()
+          .from('creators').update({ user_id: existingUser.id })
+          .eq('id', data.id).select('*').maybeSingle();
+        if (existingUser.role !== 'admin' && existingUser.role !== 'moderator') {
+          await supabaseAdmin().from('users')
+            .update({ role: 'creator' })
+            .eq('id', existingUser.id);
+        }
+        return creatorOut(linked || data);
+      }
+    }
+
+    return creatorOut(data);
+  },
+
+  async updateCreator(id, updates) {
+    const patch = {};
+    if ('name' in updates) patch.name = updates.name;
+    if ('email' in updates) patch.email = updates.email || null;
+    if ('code' in updates) patch.code = String(updates.code || '').trim().toLowerCase();
+    if ('offerId' in updates) patch.offer_id = updates.offerId || null;
+    if ('payoutPerSale' in updates) patch.payout_per_sale = Math.round(Number(updates.payoutPerSale) || 0);
+    if ('isActive' in updates) patch.is_active = Boolean(updates.isActive);
+    if ('notes' in updates) patch.notes = updates.notes || null;
+    if ('userId' in updates) patch.user_id = updates.userId || null;
+    if (Object.keys(patch).length === 0) return await this.getCreatorById(id);
+
+    const { data, error } = await supabaseAdmin()
+      .from('creators').update(patch).eq('id', id).select('*').maybeSingle();
+    if (error) throw error;
+    return creatorOut(data);
+  },
+
+  async deleteCreator(id) {
+    // Soft-delete by deactivating; never hard-delete because payouts FK.
+    return this.updateCreator(id, { isActive: false });
+  },
+
+  async getCreatorByCode(code) {
+    if (!code) return null;
+    const trimmed = String(code).trim().toLowerCase();
+    if (!trimmed) return null;
+    const { data, error } = await supabaseAdmin()
+      .from('creators')
+      .select('*')
+      .ilike('code', trimmed)
+      .limit(1)
+      .maybeSingle();
+    if (error) {
+      // Table may not exist yet — caller can fall back.
+      if (isMissingReferralSchema(error)) return null;
+      throw error;
+    }
+    return creatorOut(data);
+  },
+
+  async getCreatorById(id) {
+    if (!id) return null;
+    const { data, error } = await supabaseAdmin()
+      .from('creators').select('*').eq('id', id).maybeSingle();
+    if (error) {
+      if (isMissingReferralSchema(error)) return null;
+      throw error;
+    }
+    return creatorOut(data);
+  },
+
+  async getCreatorByUserId(userId) {
+    if (!userId) return null;
+    const { data, error } = await supabaseAdmin()
+      .from('creators').select('*').eq('user_id', userId).maybeSingle();
+    if (error) {
+      if (isMissingReferralSchema(error)) return null;
+      throw error;
+    }
+    return creatorOut(data);
+  },
+
+  async getCreatorByEmail(email) {
+    if (!email) return null;
+    const trimmed = String(email).trim().toLowerCase();
+    if (!trimmed) return null;
+    const { data, error } = await supabaseAdmin()
+      .from('creators').select('*').ilike('email', trimmed).maybeSingle();
+    if (error) {
+      if (isMissingReferralSchema(error)) return null;
+      throw error;
+    }
+    return creatorOut(data);
+  },
+
+  /**
+   * Set or update creator_earning on a payment. Used by the earnings
+   * helper after a payment becomes successful. Idempotent: if the
+   * earning is already recorded, the function still updates (in case
+   * payout_per_sale changed before the payout was bundled).
+   */
+  async setPaymentEarning(paymentId, earningPaise) {
+    if (!paymentId) return null;
+    const { data, error } = await supabaseAdmin()
+      .from('payments')
+      .update({ creator_earning: Math.max(0, Math.round(Number(earningPaise) || 0)) })
+      .eq('id', paymentId)
+      .is('payout_id', null)            // never touch already-paid-out rows
+      .select('*')
+      .maybeSingle();
+    if (error) {
+      if (isMissingReferralSchema(error)) return null;
+      throw error;
+    }
+    return paymentOut(data);
+  },
+
+  async clearUnpaidEarningsForUnpaidPayments() {
+    const { data, error } = await supabaseAdmin()
+      .from('payments')
+      .select('id, status, amount_paid, payment_id, creator_earning')
+      .not('creator_earning', 'is', null);
+    if (error) {
+      if (isMissingReferralSchema(error)) return false;
+      throw error;
+    }
+
+    const ids = (data || [])
+      .filter((row) => !isPaidSaleRow(row))
+      .map((row) => row.id);
+    if (ids.length === 0) return true;
+
+    const { error: updateError } = await supabaseAdmin()
+      .from('payments')
+      .update({ creator_earning: null })
+      .in('id', ids)
+      .is('payout_id', null);
+    if (updateError) {
+      if (isMissingReferralSchema(updateError)) return false;
+      throw updateError;
+    }
+    return true;
+  },
+
+  async listOrders({ limit = 100, offset = 0, creatorId = null } = {}) {
+    let query = supabaseAdmin()
+      .from('payments')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .range(offset, offset + limit - 1);
+    if (creatorId) query = query.eq('creator_id', creatorId);
+    const { data, error } = await query;
+    if (error) {
+      if (isMissingReferralSchema(error)) {
+        console.error('[db] listOrders skipped because referral schema is missing:', error.message);
+        return [];
+      }
+      throw error;
+    }
+    return (data || []).map(paymentOut);
+  },
+
+  /**
+   * Sum live KPIs by creator. One row per creator with at least one
+   * successful payment. Used by both the admin dashboard "Creators"
+   * table and the per-creator stats card.
+   */
+  async getCreatorStats(creatorId = null) {
+    let query = supabaseAdmin()
+      .from('payments')
+      .select('creator_id, status, amount_paid, amount, creator_earning, payout_id, payment_id')
+      .not('creator_id', 'is', null);
+    if (creatorId) query = query.eq('creator_id', creatorId);
+    const { data, error } = await query;
+    if (error) {
+      if (isMissingReferralSchema(error)) {
+        console.error('[db] getCreatorStats skipped because referral schema is missing:', error.message);
+        return [];
+      }
+      throw error;
+    }
+
+    const stats = new Map();
+    for (const row of data || []) {
+      const id = row.creator_id;
+      if (!stats.has(id)) {
+        stats.set(id, {
+          creatorId: id,
+          totalSales: 0,
+          totalRevenuePaise: 0,
+          totalEarningsPaise: 0,
+          pendingPayoutPaise: 0,
+          paidPayoutPaise: 0,
+        });
+      }
+      const s = stats.get(id);
+      if (!isPaidSaleRow(row)) continue;
+
+      s.totalSales += 1;
+      s.totalRevenuePaise += Number(row.amount_paid) || 0;
+      const earning = Number(row.creator_earning) || 0;
+      s.totalEarningsPaise += earning;
+      if (row.payout_id) {
+        s.paidPayoutPaise += earning;
+      } else {
+        s.pendingPayoutPaise += earning;
+      }
+    }
+    return Array.from(stats.values());
+  },
+
+  /**
+   * Aggregate platform-wide overview — one query for admin home cards.
+   */
+  async getPlatformOverview() {
+    const { data: payments, error: pe } = await supabaseAdmin()
+      .from('payments')
+      .select('status, amount_paid, amount, creator_earning, payout_id, creator_id, payment_id');
+    if (pe) {
+      if (isMissingReferralSchema(pe)) {
+        console.error('[db] getPlatformOverview using empty payment stats because schema is missing:', pe.message);
+        return {
+          totalRevenuePaise: 0,
+          totalSales: 0,
+          totalCreators: 0,
+          activeCreators: 0,
+          pendingPayoutPaise: 0,
+          paidPayoutPaise: 0,
+        };
+      }
+      throw pe;
+    }
+
+    const { data: creatorRows, error: ce } = await supabaseAdmin()
+      .from('creators')
+      .select('id, is_active');
+    if (ce && !isMissingReferralSchema(ce)) throw ce;
+
+    let totalRevenuePaise = 0;
+    let totalSales = 0;
+    let pendingPayoutPaise = 0;
+    let paidPayoutPaise = 0;
+
+    for (const row of payments || []) {
+      if (!isPaidSaleRow(row)) continue;
+      totalSales += 1;
+      totalRevenuePaise += Number(row.amount_paid) || 0;
+      const earning = Number(row.creator_earning) || 0;
+      if (row.payout_id) paidPayoutPaise += earning;
+      else pendingPayoutPaise += earning;
+    }
+
+    const totalCreators = (creatorRows || []).length;
+    const activeCreators = (creatorRows || []).filter((c) => c.is_active).length;
+
+    return {
+      totalRevenuePaise,
+      totalSales,
+      totalCreators,
+      activeCreators,
+      pendingPayoutPaise,
+      paidPayoutPaise,
+    };
+  },
+
+  async listPayouts({ creatorId = null, limit = 100 } = {}) {
+    let query = supabaseAdmin()
+      .from('payouts').select('*')
+      .order('created_at', { ascending: false }).limit(limit);
+    if (creatorId) query = query.eq('creator_id', creatorId);
+    const { data, error } = await query;
+    if (error) {
+      if (isMissingReferralSchema(error)) {
+        console.error('[db] listPayouts skipped because payout schema is missing:', error.message);
+        return [];
+      }
+      throw error;
+    }
+    return (data || []).map(payoutOut);
+  },
+
+  async createPayoutForCreator(creatorId, actorId) {
+    await this.clearUnpaidEarningsForUnpaidPayments();
+    const { data, error } = await supabaseAdmin().rpc('create_pending_payout', {
+      p_creator_id: creatorId,
+      p_actor_id: actorId || null,
+    });
+    if (error) throw error;
+    return data; // payout id
+  },
+
+  // =====================================================================
+  // WEBHOOK EVENTS (idempotency)
+  // =====================================================================
+  /**
+   * Insert a webhook event row keyed by event_id. Returns true if this is
+   * the first time we've seen this event_id (caller should process), false
+   * if it's a duplicate (caller should no-op).
+   */
+  async claimWebhookEvent({ eventId, eventType, payload, provider = 'razorpay' }) {
+    if (!eventId) throw new Error('eventId required');
+    const { error } = await supabaseAdmin()
+      .from('webhook_events')
+      .insert({
+        event_id: eventId,
+        provider,
+        event_type: eventType,
+        payload: payload || {},
+      });
+    if (!error) return true;
+    if (error.code === '23505') return false; // duplicate — already processed
+    if (error.code === '42P01') return true;  // table not yet migrated — don't block prod
+    throw error;
+  },
+
+  async markWebhookEventProcessed(eventId, errorMessage = null) {
+    if (!eventId) return;
+    const patch = { processed_at: new Date().toISOString() };
+    if (errorMessage) patch.error_message = errorMessage;
+    const { error } = await supabaseAdmin()
+      .from('webhook_events')
+      .update(patch)
+      .eq('event_id', eventId);
+    if (error && error.code !== '42P01') {
+      console.error('[webhook] failed to mark event processed:', error.message);
+    }
   },
 
   // =====================================================================

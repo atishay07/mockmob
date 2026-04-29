@@ -176,18 +176,31 @@ export default function LandingPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 relative z-10">
             {features.map((f, i) => (
-              <div key={i} className={`glass p-8 flex flex-col justify-between ${f.span} relative overflow-hidden group`} style={{ minHeight: '320px', background: f.hero ? 'rgba(210,240,0,0.02)' : 'rgba(255,255,255,0.015)', borderColor: f.hero ? 'rgba(210,240,0,0.2)' : 'rgba(255,255,255,0.08)' }}>
-                <div className="absolute inset-0 pointer-events-none opacity-[0.35] group-hover:opacity-100 transition-opacity duration-700 z-0">
+              <div
+                key={i}
+                className={`glass p-6 md:p-8 ${f.span} relative overflow-hidden group md:min-h-[280px]`}
+                style={{
+                  background: f.hero ? 'rgba(210,240,0,0.02)' : 'rgba(255,255,255,0.015)',
+                  borderColor: f.hero ? 'rgba(210,240,0,0.2)' : 'rgba(255,255,255,0.08)',
+                }}
+              >
+                {/* Dot pattern is decorative; force absolute positioning so it can't
+                    grow as a flex/block sibling and steal vertical space (the
+                    `.glass > *` rule otherwise reverts it to position:relative). */}
+                <div
+                  className="pointer-events-none opacity-[0.35] group-hover:opacity-100 transition-opacity duration-700"
+                  style={{ position: 'absolute', inset: 0, zIndex: 0 }}
+                >
                   <DotPattern width={24} height={24} cx={1} cy={1} cr={1.5} className={f.hero ? "text-volt/30" : "text-white/20"} glow={true} style={{ maskImage: 'radial-gradient(ellipse at top left, white, transparent 70%)', WebkitMaskImage: 'radial-gradient(ellipse at top left, white, transparent 70%)' }} />
                 </div>
                 <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-8">
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110 duration-500" style={{ background: f.hero ? 'var(--volt)' : 'rgba(255,255,255,0.05)', color: f.hero ? '#000' : '#a1a1aa' }}>
-                      <Icon name={f.icon} style={{ width: '22px', height: '22px' }} />
+                  <div className="flex items-center justify-between mb-4 md:mb-6">
+                    <div className="w-11 h-11 md:w-12 md:h-12 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110 duration-500" style={{ background: f.hero ? 'var(--volt)' : 'rgba(255,255,255,0.05)', color: f.hero ? '#000' : '#a1a1aa' }}>
+                      <Icon name={f.icon} style={{ width: '20px', height: '20px' }} />
                     </div>
                     {f.tag && <span className="pill volt">{f.tag}</span>}
                   </div>
-                  <h3 className="heading text-2xl mb-3">{f.t}</h3>
+                  <h3 className="heading text-xl md:text-2xl mb-2 md:mb-3">{f.t}</h3>
                   <p className="text-zinc-400 text-sm md:text-base leading-relaxed">{f.d}</p>
                 </div>
               </div>

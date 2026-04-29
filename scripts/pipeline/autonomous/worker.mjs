@@ -8,7 +8,7 @@ import { generateQuestions, getLastGenerationDiagnostics, validateAndAlignBatch,
 import { deduplicateBatch, deduplicateAgainst } from '../lib/dedupe.mjs';
 import { publishQuestion } from '../lib/publish.mjs';
 import { SUBJECTS } from '../../../data/subjects.js';
-import { CANONICAL_SYLLABUS, getCanonicalUnitForChapter } from '../../../data/canonical_syllabus.js';
+import { CANONICAL_SYLLABUS, TOP_SUBJECTS, getCanonicalUnitForChapter, isValidTopSyllabusPair } from '../../../data/canonical_syllabus.js';
 
 const supabase = createClient(
   process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -16,22 +16,24 @@ const supabase = createClient(
 );
 
 const API_SECRET = process.env.INTERNAL_API_SECRET || 'test-secret';
-const MAX_API_CALLS_PER_JOB = 2;
+const MAX_RETRIES = 2;
+const MAX_API_CALLS_PER_JOB = MAX_RETRIES + 1;
 const VALIDATION_CANDIDATE_LIMIT = 25;
+const STANDARD_VALIDATION_SAMPLE_RATE = 0.35;
+const LOW_COVERAGE_VALIDATION_THRESHOLD = 25;
 const MIN_QUESTIONS_PER_CHAPTER = 50;
-const canonical_syllabus = Object.fromEntries(CANONICAL_SYLLABUS.map((subject) => [subject.subject_id, subject]));
-const VALID_SUBJECTS = new Set(Object.keys(canonical_syllabus));
-const SYLLABUS_MAP = new Map(
-  CANONICAL_SYLLABUS.map((subject) => [
-    subject.subject_id,
-    new Set(subject.units.flatMap((unit) => unit.chapters)),
-  ])
+const TOP_SUBJECT_SET = new Set(TOP_SUBJECTS);
+const canonical_syllabus = Object.fromEntries(
+  CANONICAL_SYLLABUS
+    .filter((subject) => TOP_SUBJECT_SET.has(subject.subject_id))
+    .map((subject) => [subject.subject_id, subject])
 );
+const VALID_SUBJECTS = new Set(Object.keys(canonical_syllabus));
 const DEFAULT_GENERATION_COUNT = PIPELINE_BATCH_SIZE;
-const HEAVY_CHAPTER_GENERATION_COUNT = 6;
-const MIN_TIMEOUT_RETRY_COUNT = 5;
+const HEAVY_CHAPTER_GENERATION_COUNT = 10;
+const MIN_TIMEOUT_RETRY_COUNT = 10;
 const MAX_GENERATION_TIMEOUT_RETRIES = 2;
-const GENERATION_FALLBACK_MODEL = 'gpt-5-nano';
+const GENERATION_FALLBACK_MODEL = 'gpt-5.4-mini';
 const HEAVY_GENERATION_CHAPTERS = new Set([
   'Differential Equations',
   'Probability',
@@ -287,6 +289,60 @@ function filterMalformedQuestions(questions) {
   return { valid, removed };
 }
 
+function filterInternalQualityQuestions(questions, expectedSubject, expectedChapter) {
+  const valid = [];
+  const rejected = [];
+
+  for (const question of questions) {
+    const reason = getInternalRejectionReason(question, expectedSubject, expectedChapter);
+    if (reason) {
+      rejected.push({ question, reason });
+      continue;
+    }
+    valid.push(question);
+  }
+
+  return { valid, rejected };
+}
+
+function getInternalRejectionReason(question, expectedSubject, expectedChapter) {
+  if (!isSchemaValid(question)) return 'invalid_schema';
+  if (!isValidSyllabusPair(question.subject, question.chapter)) return 'invalid_syllabus_pair';
+  if (question.subject !== expectedSubject || question.chapter !== expectedChapter) return 'subject_or_chapter_mismatch';
+
+  const body = String(question.body || '').trim();
+  const bodyLower = body.toLowerCase();
+  if (body.length > 420 || countWords(body) > 70) return 'question_too_long';
+  if (isClearlyAdvancedOrNonCuet(bodyLower)) return 'advanced_or_non_cuet_pattern';
+  if (hasWeakOptions(question.options, question.correct_answer)) return 'weak_options';
+  if (isClearlyOutsideChapter(question, expectedChapter, expectedSubject)) return 'outside_chapter';
+
+  return null;
+}
+
+function countWords(text) {
+  return String(text || '').trim().split(/\s+/).filter(Boolean).length;
+}
+
+function isClearlyAdvancedOrNonCuet(text) {
+  return /\b(vector space|subspace|basis|rank-nullity|heine-borel|cayley-hamilton|prove|proof|derive|derivation|jee|graduate|mba|b\.com|econometrics|hypothesis testing|functional analysis|abstract algebra|ring|field|group under|multi-step|caselet)\b/i.test(text);
+}
+
+function hasWeakOptions(options, correctAnswer) {
+  if (!Array.isArray(options) || options.length !== 4) return true;
+  const keys = options.map((option) => String(option?.key || '').trim().toUpperCase());
+  if (!['A', 'B', 'C', 'D'].every((key) => keys.includes(key))) return true;
+  if (!keys.includes(String(correctAnswer || '').trim().toUpperCase())) return true;
+
+  const texts = options.map((option) => String(option?.text || '').trim().toLowerCase());
+  if (texts.some((text) => text.length < 2)) return true;
+  if (new Set(texts).size !== 4) return true;
+  if (texts.some((text) => /\b(all of the above|none of the above|both a and b|cannot be determined)\b/i.test(text))) return true;
+
+  const avgLength = texts.reduce((sum, text) => sum + text.length, 0) / texts.length;
+  return texts.some((text) => avgLength > 0 && text.length < avgLength * 0.25);
+}
+
 function rankValidationCandidates(questions, limit = VALIDATION_CANDIDATE_LIMIT) {
   return [...questions]
     .map((question, index) => ({
@@ -297,6 +353,62 @@ function rankValidationCandidates(questions, limit = VALIDATION_CANDIDATE_LIMIT)
     .sort((a, b) => b.score - a.score || a.index - b.index)
     .slice(0, limit)
     .map((entry) => entry.question);
+}
+
+function pickValidationSample(questions, coverage, sampleRate = STANDARD_VALIDATION_SAMPLE_RATE) {
+  if (!Array.isArray(questions) || questions.length === 0) return [];
+  const selected = questions.filter((question) => (
+    question?.difficulty === 'hard' ||
+    coverage < LOW_COVERAGE_VALIDATION_THRESHOLD ||
+    Math.random() < sampleRate
+  ));
+  return selected.length > 0 ? selected : [questions[0]];
+}
+
+function balanceCorrectAnswerDistribution(questions) {
+  const keys = ['A', 'B', 'C', 'D'];
+  return questions.map((question, index) => {
+    const targetKey = keys[index % keys.length];
+    return moveCorrectAnswerToKey(question, targetKey);
+  });
+}
+
+function moveCorrectAnswerToKey(question, targetKey) {
+  const currentKey = String(question.correct_answer || '').trim().toUpperCase();
+  if (!keysIncludeAnswer(currentKey) || !keysIncludeAnswer(targetKey) || currentKey === targetKey) return question;
+
+  const options = normalizeWorkerOptions(question.options);
+  const currentIndex = options.findIndex((option) => option.key === currentKey);
+  const targetIndex = options.findIndex((option) => option.key === targetKey);
+  if (currentIndex < 0 || targetIndex < 0) return question;
+
+  const reordered = options.map((option) => ({ ...option }));
+  const [correctOption] = reordered.splice(currentIndex, 1);
+  reordered.splice(targetIndex, 0, correctOption);
+  const rekeyed = reordered.map((option, index) => ({
+    ...option,
+    key: ['A', 'B', 'C', 'D'][index],
+  }));
+
+  return {
+    ...question,
+    options: rekeyed,
+    correct_answer: targetKey,
+    answer: targetKey,
+  };
+}
+
+function keysIncludeAnswer(key) {
+  return ['A', 'B', 'C', 'D'].includes(key);
+}
+
+function logRejectedQuestion({ subject, chapter, reason, attemptCount = 0 }) {
+  console.log('[reject]', {
+    subject,
+    chapter,
+    reason,
+    attemptCount,
+  });
 }
 
 function scoreCandidateForValidation(question, pool) {
@@ -367,7 +479,7 @@ function isGenerationTimeout(result) {
 }
 
 function isValidSyllabusPair(subjectId, chapter) {
-  return SYLLABUS_MAP.has(subjectId) && SYLLABUS_MAP.get(subjectId).has(chapter);
+  return isValidTopSyllabusPair(subjectId, chapter);
 }
 
 function getCoveragePriority(subject, chapter, count, subjectTotal = 0) {
@@ -390,6 +502,7 @@ async function getCoverageSnapshot() {
     const { data, error } = await supabase
       .from('questions')
       .select('subject, chapter')
+      .in('subject', TOP_SUBJECTS)
       .eq('is_deleted', false)
       .range(from, from + pageSize - 1);
 
@@ -735,7 +848,7 @@ async function processJob(job) {
     // ── Step 1: Generate — API call 1 ────────────────────────────────────────
     stats.apiCallsUsed += 1;
     // Generate one large candidate pool; downstream filters choose what to validate.
-    const targetCount = job.target_count || 18;
+    const targetCount = Math.min(job.target_count || PIPELINE_BATCH_SIZE, PIPELINE_BATCH_SIZE);
     let generateCount = getInitialGenerationCount(job.chapter);
     const adaptiveMax = getAdaptiveMaxPerConcept(subject);
     const usedConceptSample = sampleArray([...getUsedConcepts(job.subject_id)], 20);
@@ -762,6 +875,8 @@ async function processJob(job) {
     });
     console.log(`[pipeline] Generating ${generateCount} candidates... chapter="${job.chapter}" unit="${canonicalUnit.unit_name}" usedConcepts=${generationContext.usedConcepts.length} saturated=${generationContext.saturatedSubtopics.length} (api_call=${stats.apiCallsUsed})`);
     let rawQuestions = await generateQuestions(subject, job.chapter, generateCount, generationContext);
+    let generationAttemptCount = 1;
+    let bestRawQuestions = Array.isArray(rawQuestions) ? rawQuestions : [];
 
     let generationRetryCount = 0;
     while (isGenerationTimeout(rawQuestions) && generationRetryCount < MAX_GENERATION_TIMEOUT_RETRIES) {
@@ -782,7 +897,12 @@ async function processJob(job) {
         chapter: job.chapter,
         generate_count: generateCount,
       });
+      stats.apiCallsUsed += 1;
+      generationAttemptCount += 1;
       rawQuestions = await generateQuestions(subject, job.chapter, generateCount, generationContext);
+      if (Array.isArray(rawQuestions) && rawQuestions.length > bestRawQuestions.length) {
+        bestRawQuestions = rawQuestions;
+      }
     }
 
     if (isGenerationTimeout(rawQuestions) && generationRetryCount >= MAX_GENERATION_TIMEOUT_RETRIES) {
@@ -794,6 +914,50 @@ async function processJob(job) {
       });
       await markJobAsSkipped(job.id, 'Skipped: repeated generation timeouts');
       return;
+    }
+
+    if (rawQuestions?.error) {
+      await supabase
+        .from('generation_jobs')
+        .update({ status: 'failed', completed_at: new Date().toISOString(), error_message: rawQuestions.error })
+        .eq('id', job.id);
+      return;
+    }
+
+    while (
+      (!Array.isArray(rawQuestions) || rawQuestions.length === 0) &&
+      generationAttemptCount < MAX_RETRIES
+    ) {
+      generationAttemptCount += 1;
+      stats.retryCount += 1;
+      stats.apiCallsUsed += 1;
+      console.warn('[generation] retrying_empty_or_invalid_generation', {
+        subject: job.subject_id,
+        chapter: job.chapter,
+        attempt_count: generationAttemptCount,
+        max_retries: MAX_RETRIES,
+      });
+      logRejectedQuestion({
+        subject: job.subject_id,
+        chapter: job.chapter,
+        reason: 'empty_or_invalid_generation_attempt',
+        attemptCount: generationAttemptCount - 1,
+      });
+      rawQuestions = await generateQuestions(subject, job.chapter, generateCount, generationContext);
+      if (Array.isArray(rawQuestions) && rawQuestions.length > bestRawQuestions.length) {
+        bestRawQuestions = rawQuestions;
+      }
+      if (rawQuestions?.error) break;
+    }
+
+    if ((!Array.isArray(rawQuestions) || rawQuestions.length === 0) && bestRawQuestions.length > 0) {
+      console.warn('[generation] using_best_generation_attempt_after_retries', {
+        subject: job.subject_id,
+        chapter: job.chapter,
+        attempt_count: generationAttemptCount,
+        best_count: bestRawQuestions.length,
+      });
+      rawQuestions = bestRawQuestions;
     }
 
     if (rawQuestions?.error) {
@@ -841,6 +1005,12 @@ async function processJob(job) {
           subject: job.subject_id,
           body: question.body?.slice(0, 100) || null,
         });
+        logRejectedQuestion({
+          subject: job.subject_id,
+          chapter: job.chapter,
+          reason: 'wrong_chapter',
+          attemptCount: generationAttemptCount,
+        });
         continue;
       }
       chapterFiltered.push(question);
@@ -848,7 +1018,7 @@ async function processJob(job) {
 
     // ── Step 3: Structural quality filter — sync ──────────────────────────────
     const { valid: structFiltered, removed: structRemoved } = filterMalformedQuestions(chapterFiltered);
-    console.log('[pipeline] VALIDATED_COUNT', structFiltered.length);
+    console.log('[pipeline] STRUCTURAL_VALID_COUNT', structFiltered.length);
     stats.preValidationFiltered = structRemoved;
     dropReasons.missing_required_fields += structRemoved;
     if (structRemoved > 0) {
@@ -857,26 +1027,47 @@ async function processJob(job) {
 
     // ── Step 4: Pre-validation deduplication (within-batch + cross-job) ───────
     // First dedup within the batch itself, then against the existing DB pool.
-    const { unique: batchUnique, removed: batchDupCount } = deduplicateBatch(structFiltered);
+    const { valid: internallyFiltered, rejected: internalRejected } = filterInternalQualityQuestions(
+      structFiltered,
+      job.subject_id,
+      job.chapter,
+    );
+    if (internalRejected.length > 0) {
+      stats.rejected += internalRejected.length;
+      dropReasons.validation_failed += internalRejected.length;
+      stats.preValidationFiltered += internalRejected.length;
+      console.warn('[pipeline] INTERNAL_REJECTION', internalRejected.map((entry) => ({
+        reason: entry.reason,
+        body: entry.question?.body?.slice(0, 100) || null,
+      })));
+      for (const entry of internalRejected) {
+        logRejectedQuestion({
+          subject: job.subject_id,
+          chapter: job.chapter,
+          reason: entry.reason,
+          attemptCount: generationAttemptCount,
+        });
+      }
+    }
+
+    const { unique: batchUnique, removed: batchDupCount } = deduplicateBatch(internallyFiltered);
     const { unique: dedupedQuestions, removed: crossJobDupCount } = deduplicateAgainst(batchUnique, existingQuestions);
     const dupCount = batchDupCount + crossJobDupCount;
     stats.duplicates = batchDupCount;
     stats.crossJobDuplicates = crossJobDupCount;
-    const dupRate = structFiltered.length > 0 ? dupCount / structFiltered.length : 0;
+    const dupRate = internallyFiltered.length > 0 ? dupCount / internallyFiltered.length : 0;
 
-    let selectedForValidation = rankValidationCandidates(dedupedQuestions, VALIDATION_CANDIDATE_LIMIT);
-    if (selectedForValidation.length === 0 && rawQuestions.length > 0) {
-      console.warn('[pipeline] fallback_triggered: using raw normalized questions');
-      selectedForValidation = rawQuestions.slice(0, Math.min(targetCount, VALIDATION_CANDIDATE_LIMIT));
-    }
+    const balancedQuestions = balanceCorrectAnswerDistribution(dedupedQuestions).slice(0, targetCount);
+    const rankedForValidation = rankValidationCandidates(balancedQuestions, VALIDATION_CANDIDATE_LIMIT);
+    const selectedForValidation = pickValidationSample(rankedForValidation, job.question_count || 0);
 
-    console.log(`[pipeline] after_chapter_filter=${chapterFiltered.length} | pre_validation_filtered=${structRemoved} | batch_duplicates=${batchDupCount} | cross_job_duplicates=${crossJobDupCount} | ranked_for_validation=${selectedForValidation.length}`);
+    console.log(`[pipeline] after_chapter_filter=${chapterFiltered.length} | pre_validation_filtered=${structRemoved + internalRejected.length} | batch_duplicates=${batchDupCount} | cross_job_duplicates=${crossJobDupCount} | candidate_pool=${balancedQuestions.length} | sampled_for_validation=${selectedForValidation.length}`);
 
     if (dupRate > 0.30) {
       console.warn(`[pipeline] HIGH_DUPLICATE_RATE=${(dupRate * 100).toFixed(1)}% (threshold=30%)`);
     }
 
-    if (selectedForValidation.length === 0) {
+    if (balancedQuestions.length === 0) {
       logDropSummary(job, dropReasons, {
         rawParsedCount: generationDiagnostics.rawParsedCount,
         normalizedCount: rawQuestions.length,
@@ -912,9 +1103,21 @@ async function processJob(job) {
 
     // ── Step 6: Filter by validation scores ───────────────────────────────────
     let validatedQuestions = [];
-    for (let i = 0; i < selectedForValidation.length; i += 1) {
-      const question = selectedForValidation[i];
-      const validation = validationResults[i];
+    const validationByQuestion = new Map(
+      selectedForValidation.map((question, index) => [question, validationResults[index]])
+    );
+
+    for (let i = 0; i < balancedQuestions.length; i += 1) {
+      const question = balancedQuestions[i];
+      const validation = validationByQuestion.get(question);
+      if (!validation) {
+        validatedQuestions.push({
+          ...question,
+          validation_score: null,
+          validation_sampled: false,
+        });
+        continue;
+      }
       const scoreThreshold = getDifficultyThreshold(question.difficulty);
       const improvedQuestion = applyValidationImprovement(question, validation?.improved_question, job.chapter);
       const hasValidatorImprovement = improvedQuestion !== question;
@@ -943,6 +1146,12 @@ async function processJob(job) {
         console.warn(
           `[pipeline] Rejected | score=${validation.score} | exam_quality=${validation.exam_quality} | distractor_quality=${validation.distractor_quality} | conceptual_depth=${validation.conceptual_depth} | textbook_style=${validation.textbook_style} | difficulty_correct=${validation.difficulty_correct} | cuet_alignment=${validation.cuet_alignment} | issues=${(validation.issues || []).join('; ')}`,
         );
+        logRejectedQuestion({
+          subject: job.subject_id,
+          chapter: job.chapter,
+          reason: (validation.issues || []).join('; ') || validation.decision || 'validation_failed',
+          attemptCount: generationAttemptCount,
+        });
         stats.rejected += 1;
         continue;
       }
@@ -953,13 +1162,13 @@ async function processJob(job) {
       validatedQuestions.push({
         ...improvedQuestion,
         validation_score: validation.score,
+        validation_sampled: true,
       });
       stats.scores.push(validation.score);
     }
 
-    if (validatedQuestions.length === 0 && rawQuestions.length > 0) {
-      console.warn('[pipeline] fallback_triggered: using raw normalized questions');
-      validatedQuestions = rawQuestions.slice(0, targetCount);
+    if (validatedQuestions.length === 0) {
+      console.warn('[pipeline] strict_mode_no_validated_questions');
     }
 
     const modelDifficultyCounts = countDifficultyMix(validatedQuestions);
@@ -1001,7 +1210,7 @@ async function processJob(job) {
     console.log('[difficulty] override:', difficultyOverride);
     console.log('[difficulty] accepted_count:', validatedQuestions.length);
 
-    const acceptanceRate = selectedForValidation.length > 0 ? validatedQuestions.length / selectedForValidation.length : 0;
+    const acceptanceRate = balancedQuestions.length > 0 ? validatedQuestions.length / balancedQuestions.length : 0;
     if (acceptanceRate < 0.30) {
       console.warn(`[pipeline] LOW_ACCEPTANCE_RATE=${(acceptanceRate * 100).toFixed(1)}% (threshold=30%)`);
     }
@@ -1017,7 +1226,10 @@ async function processJob(job) {
     }
 
     // ── Step 8: Schema guard — last line of defence before DB write ───────────
-    const publishReady = sanityUnique.filter(isSchemaValid);
+    const publishReady = sanityUnique.filter((question) => (
+      isSchemaValid(question) &&
+      !getInternalRejectionReason(question, job.subject_id, job.chapter)
+    ));
     const schemaRejected = sanityUnique.length - publishReady.length;
     if (schemaRejected > 0) {
       console.warn(`[pipeline] SCHEMA_GUARD removed ${schemaRejected} questions with invalid schema`);
@@ -1101,8 +1313,8 @@ async function processJob(job) {
 
     console.log(
       `[pipeline] METRICS | generated_count=${stats.total}` +
-      ` | prefiltered_count=${selectedForValidation.length}` +
-      ` | validated_count=${selectedForValidation.length}` +
+      ` | prefiltered_count=${balancedQuestions.length}` +
+      ` | sampled_validation_count=${selectedForValidation.length}` +
       ` | accepted_count=${stats.accepted}` +
       ` | api_calls_used=${stats.apiCallsUsed}` +
       ` | cost_efficiency_ratio=${costEfficiencyRatio.toFixed(2)}`,
@@ -1111,7 +1323,7 @@ async function processJob(job) {
     console.log(
       `[pipeline] SUMMARY | subject=${job.subject_id} | chapter=${job.chapter} | target=${targetCount}` +
       ` | generated_count=${stats.total} | batch_duplicates=${stats.duplicates} | cross_job_duplicates=${stats.crossJobDuplicates}` +
-      ` | pre_validation_filtered=${stats.preValidationFiltered} | validated_count=${validatedQuestions.length}` +
+      ` | pre_validation_filtered=${stats.preValidationFiltered} | sampled_validation_count=${selectedForValidation.length} | validated_count=${validatedQuestions.length}` +
       ` | accepted_count=${stats.accepted} | shortfall=${finalShortfall}` +
       ` | yield_rate=${(finalYieldRate * 100).toFixed(1)}%` +
       ` | retry_count=${stats.retryCount} | api_calls_used=${stats.apiCallsUsed}`,

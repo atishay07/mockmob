@@ -20,8 +20,8 @@ export function SkeletonLines({ count = 3, className = '' }) {
 /** A glass card with skeleton content inside — matches .glass card shape. */
 export function SkeletonCard({ className = '', lines = 3 }) {
   return (
-    <div className={`glass p-6 ${className}`}>
-      <Skeleton className="h-4 w-24 mb-4" />
+    <div className={`glass p-4 md:p-6 ${className}`}>
+      <Skeleton className="h-4 w-24 mb-3" />
       <SkeletonLines count={lines} />
     </div>
   );

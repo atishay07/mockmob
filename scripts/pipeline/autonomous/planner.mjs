@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { CANONICAL_SYLLABUS } from '../../../data/canonical_syllabus.js';
+import { CANONICAL_SYLLABUS, TOP_SUBJECTS, isValidTopSyllabusPair } from '../../../data/canonical_syllabus.js';
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
@@ -15,28 +15,25 @@ function normalizeId(id) {
 
 const MAX_JOBS_PER_RUN = 10;
 const MAX_JOBS_PER_CHAPTER = 2;
+const TOP_SUBJECT_SET = new Set(TOP_SUBJECTS);
 
 // ── Tier definitions ──────────────────────────────────────────────────────────
 // Every subject in the codebase is explicitly placed in a tier.
 // Nothing falls through silently — unlisted subjects emit a warning and land
 // in Tier 3 so the operator can triage.
-const VALID_SUBJECTS = new Set(CANONICAL_SYLLABUS.map((subject) => subject.subject_id));
+const VALID_SUBJECTS = new Set(CANONICAL_SYLLABUS.map((subject) => subject.subject_id).filter((subjectId) => TOP_SUBJECT_SET.has(subjectId)));
 const SYLLABUS_MAP = new Map(
-  CANONICAL_SYLLABUS.map((subject) => [
+  CANONICAL_SYLLABUS.filter((subject) => TOP_SUBJECT_SET.has(subject.subject_id)).map((subject) => [
     subject.subject_id,
     new Set(subject.units.flatMap((unit) => unit.chapters)),
   ])
 );
 
 const TIER_1 = new Set([
-  'physics', 'chemistry', 'mathematics', 'biology',
-  'accountancy', 'business_studies', 'economics',
-  'history', 'political_science', 'geography',
+  ...TOP_SUBJECTS,
 ]);
 
-const TIER_2 = new Set([
-  'english', 'gat', 'computer_science', 'psychology', 'sociology',
-]);
+const TIER_2 = new Set([]);
 
 const SUBJECT_TIERS = {
   1: TIER_1,
@@ -75,14 +72,13 @@ function getGapSubject(gap) {
 function getSubjectWeight(subject) {
   const normalizedSubject = normalizeId(subject);
   if (TIER_1.has(normalizedSubject)) return 1.0;
-  if (TIER_2.has(normalizedSubject)) return 0.7;
-  return 0.2;
+  return 0;
 }
 
 function isValidSyllabusGap(gap) {
   const subjectId = getGapSubject(gap);
   const chapter = gap?.chapter;
-  return SYLLABUS_MAP.has(subjectId) && SYLLABUS_MAP.get(subjectId).has(chapter);
+  return isValidTopSyllabusPair(subjectId, chapter);
 }
 
 /**
@@ -156,9 +152,9 @@ export async function planGeneration(gaps) {
   }
 
   // ── 6. Hard-enforce 90 / 10 distribution ────────────────────────────────────
-  const TIER1_TARGET = Math.ceil(MAX_JOBS_PER_RUN * 0.7);
-  const TIER2_TARGET = Math.ceil(MAX_JOBS_PER_RUN * 0.25);
-  const TIER3_TARGET = MAX_JOBS_PER_RUN - TIER1_TARGET - TIER2_TARGET;
+  const TIER1_TARGET = MAX_JOBS_PER_RUN;
+  const TIER2_TARGET = 0;
+  const TIER3_TARGET = 0;
 
   const chapterCounts = new Map();
   const tier1Picked = pickTop(tierGaps[1], TIER1_TARGET, chapterCounts);
@@ -177,8 +173,9 @@ export async function planGeneration(gaps) {
   const topJobs = [...tier1Picked, ...tier2Picked, ...tier3Picked, ...overflowPicked].map((gap) => ({
     subject_id: gap.subject_id,
     chapter: gap.chapter,
-    target_count: 18,
+    target_count: 15,
     priority: gap.priority,
+    _coverage: gap.question_count ?? gap.count ?? 0,
     status: 'queued',
   }));
 
@@ -188,10 +185,12 @@ export async function planGeneration(gaps) {
   }
 
   for (const job of topJobs) {
-    console.log('[planner] valid syllabus jobs only:', {
+    const coverage = job._coverage ?? 0;
+    console.log('[planner]', {
       subject: job.subject_id,
       chapter: job.chapter,
-      count: job.question_count ?? job.count ?? 0,
+      coverage,
+      priority: job.priority,
     });
   }
 
@@ -249,7 +248,7 @@ export async function planGeneration(gaps) {
 
   const { data, error } = await supabase
     .from('generation_jobs')
-    .insert(topJobs)
+    .insert(topJobs.map(({ _coverage, ...job }) => job))
     .select('*');
 
   if (error) {

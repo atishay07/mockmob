@@ -263,7 +263,7 @@ export default async function PricingPage() {
           <p className="text-sm text-zinc-500">Need team or institute pricing? We can set it up in minutes.</p>
           <div className="mt-4 flex justify-center">
             <LiquidGlassButton asChild variant="ghost" size="md">
-              <Link href="/signup">Talk to us</Link>
+              <a href="mailto:support@mockmob.in?subject=Team%20%2F%20institute%20pricing">Talk to us</a>
             </LiquidGlassButton>
           </div>
         </section>

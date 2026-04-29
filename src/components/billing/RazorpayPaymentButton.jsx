@@ -1,8 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-import { AlertCircle, CheckCircle2, Loader2, ShieldCheck } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { AlertCircle, BadgeCheck, CheckCircle2, Loader2, ShieldCheck, Tag } from 'lucide-react';
 import { LiquidGlassButton } from '@/components/ui/LiquidGlassButton';
+
+const REF_STORAGE_KEY = 'mm_ref';
+const CODE_PATTERN = /^[a-z0-9._-]{1,64}$/;
 
 function loadRazorpayCheckout() {
   return new Promise((resolve, reject) => {
@@ -33,6 +36,44 @@ async function postJson(url, payload) {
   return data;
 }
 
+function readRefFromUrl() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('ref') || params.get('code') || '';
+  } catch {
+    return '';
+  }
+}
+
+function readRefFromStorage() {
+  try {
+    return localStorage.getItem(REF_STORAGE_KEY) || '';
+  } catch {
+    return '';
+  }
+}
+
+function readRefFromCookie() {
+  try {
+    const match = document.cookie.match(/(?:^|;\s*)mm_ref=([^;]+)/);
+    return match ? decodeURIComponent(match[1]) : '';
+  } catch {
+    return '';
+  }
+}
+
+function persistRef(value) {
+  try {
+    if (value) localStorage.setItem(REF_STORAGE_KEY, value);
+  } catch {
+    /* localStorage may be disabled */
+  }
+}
+
+function normalizeCodeInput(raw) {
+  return String(raw || '').trim().toLowerCase();
+}
+
 export function RazorpayPaymentButton({
   planId,
   amount,
@@ -42,6 +83,29 @@ export function RazorpayPaymentButton({
   const [status, setStatus] = useState('idle');
   const [message, setMessage] = useState('');
   const [isPremium, setIsPremium] = useState(initialIsPremium);
+  const [code, setCode] = useState('');
+  const [appliedCode, setAppliedCode] = useState(null); // { code, offerId } once subscription created
+
+  // Prefill on mount: URL ?ref= wins, then localStorage. URL also writes
+  // through to localStorage so the code persists across navigation.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const fromUrl = normalizeCodeInput(readRefFromUrl());
+    if (fromUrl && CODE_PATTERN.test(fromUrl)) {
+      setCode(fromUrl);
+      persistRef(fromUrl);
+      return;
+    }
+    const fromStorage = normalizeCodeInput(readRefFromStorage());
+    if (fromStorage && CODE_PATTERN.test(fromStorage)) {
+      setCode(fromStorage);
+      return;
+    }
+    const fromCookie = normalizeCodeInput(readRefFromCookie());
+    if (fromCookie && CODE_PATTERN.test(fromCookie)) {
+      setCode(fromCookie);
+    }
+  }, []);
 
   async function handlePayment() {
     try {
@@ -50,6 +114,9 @@ export function RazorpayPaymentButton({
 
       const authResponse = await fetch('/api/auth/me');
       if (authResponse.status === 401) {
+        // Preserve the code the user entered so they don't have to retype
+        // it after sign-in.
+        if (code) persistRef(normalizeCodeInput(code));
         window.location.href = '/login';
         return;
       }
@@ -69,11 +136,23 @@ export function RazorpayPaymentButton({
 
       await loadRazorpayCheckout();
 
-      const { keyId, subscription, plan } = await postJson('/create-subscription', {
+      const normalized = normalizeCodeInput(code);
+      const codeForServer = normalized && CODE_PATTERN.test(normalized) ? normalized : undefined;
+
+      const { keyId, subscription, plan, applied } = await postJson('/create-subscription', {
         userId: user.id,
         planId,
         amount,
+        code: codeForServer,
       });
+
+      if (applied?.code) {
+        setAppliedCode(applied);
+      } else if (codeForServer) {
+        // Server silently dropped the code (unknown / inactive). Don't
+        // block checkout — just tell the user it didn't apply.
+        setMessage('Code not recognised — continuing without discount.');
+      }
 
       const checkout = new window.Razorpay({
         key: keyId,
@@ -87,6 +166,7 @@ export function RazorpayPaymentButton({
         notes: {
           userId: user.id,
           planId,
+          ...(applied?.code ? { creatorCode: applied.code } : {}),
         },
         theme: {
           color: '#d2f000',
@@ -143,6 +223,34 @@ export function RazorpayPaymentButton({
 
   return (
     <div className="w-full">
+      <label className="mb-3 block">
+        <span className="mono-label mb-1.5 flex items-center gap-1.5 !text-zinc-400">
+          <Tag className="h-3 w-3" />
+          Have a referral / discount code?
+        </span>
+        <input
+          className="input w-full"
+          type="text"
+          autoComplete="off"
+          inputMode="text"
+          value={code}
+          onChange={(event) => {
+            setAppliedCode(null);
+            setMessage('');
+            setCode(event.target.value);
+          }}
+          placeholder="creator code"
+          maxLength={64}
+          disabled={isLoading}
+        />
+        {appliedCode ? (
+          <span className="mt-1.5 inline-flex items-center gap-1.5 text-xs text-volt">
+            <BadgeCheck className="h-3.5 w-3.5" />
+            Code <strong className="font-semibold">{appliedCode.code}</strong> applied
+          </span>
+        ) : null}
+      </label>
+
       <LiquidGlassButton
         type="button"
         size="lg"

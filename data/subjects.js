@@ -305,6 +305,14 @@ export const SUBJECTS = [
     ],
   },
 
+  {
+    id: 'applied_mathematics', name: 'Applied Mathematics', short: 'AMATH', glyph: 'AM',
+    chapters: [
+      'Numbers, Quantification and Numerical Applications', 'Probability Distributions',
+      'Time Based Data', 'Inferential Statistics', 'Financial Mathematics',
+    ],
+  },
+
   // ---------- Section III — General Test ----------
   {
     id: 'gat', name: 'General Test', short: 'GAT', glyph: '⬢',

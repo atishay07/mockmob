@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { getCanonicalUnitForChapter } from '../../../data/canonical_syllabus.js';
+import { getCanonicalUnitForChapter, isValidTopSyllabusPair } from '../../../data/canonical_syllabus.js';
 
 const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -18,7 +18,7 @@ export async function publishQuestion(question, apiSecret, options = {}) {
     const expectedChapter = options.expectedChapter;
     const canonicalUnit = getCanonicalUnitForChapter(question.subject, chapter);
 
-    if (!canonicalUnit) {
+    if (!isValidTopSyllabusPair(question.subject, chapter) || !canonicalUnit) {
       console.warn('[llm] question_rejected_due_to_invalid_mapping', {
         subject: question.subject || null,
         chapter: chapter || null,

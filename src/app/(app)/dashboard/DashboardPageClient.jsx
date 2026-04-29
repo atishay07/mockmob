@@ -215,16 +215,65 @@ export default function DashboardPageClient() {
       </div>
 
       <div className="glass p-4 md:p-6">
-        <div className="glass volt-soft p-4 mb-5">
+        <div className="glass volt-soft p-4 mb-4">
           <div className="flex items-center justify-between gap-3 flex-wrap">
             <div>
-              <div className="mono-label mb-2">Credits</div>
-              <div className="display-md text-volt">{user?.creditBalance || 0}</div>
+              <div className="mono-label mb-1">Credits</div>
+              <div className="flex items-baseline gap-2">
+                <div className="display-md text-volt" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                  {isPremium ? '∞' : (user?.creditBalance || 0)}
+                </div>
+                {!isPremium && (
+                  <div className="text-xs text-zinc-500">
+                    · <span className="text-zinc-300 font-semibold">{Math.floor((user?.creditBalance || 0) / TEST_START_CREDIT_COST)}</span> mock{Math.floor((user?.creditBalance || 0) / TEST_START_CREDIT_COST) === 1 ? '' : 's'} remaining
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="text-sm text-zinc-400">
-              Generate Mock <span className="text-volt font-semibold">{mockCreditCost === 0 ? '0 Credits with Premium' : `- ${mockCreditCost} Credits`}</span>
+            <div className="text-sm text-zinc-400 text-right">
+              Generate Mock <span className="text-volt font-semibold">{mockCreditCost === 0 ? '0 Credits · Premium' : `- ${mockCreditCost} Credits`}</span>
             </div>
           </div>
+          {!isPremium && (
+            <div
+              className="mt-3 h-1.5 rounded-full overflow-hidden"
+              style={{ background: 'rgba(255,255,255,0.06)' }}
+              aria-hidden
+            >
+              <div
+                style={{
+                  width: `${Math.min(100, ((user?.creditBalance || 0) / 100) * 100)}%`,
+                  height: '100%',
+                  background: (user?.creditBalance || 0) < 30
+                    ? 'linear-gradient(90deg, #f59e0b, #f97316)'
+                    : 'linear-gradient(90deg, var(--volt), #b8e600)',
+                  transition: 'width 400ms ease',
+                }}
+              />
+            </div>
+          )}
+          {!isPremium && (user?.creditBalance ?? 0) < 30 && (user?.creditBalance ?? 0) > 0 && (
+            <div className="mt-3 flex items-center justify-between gap-3 flex-wrap text-xs">
+              <span className="text-amber-300">
+                <Icon name="spark" className="inline-block mr-1" style={{ width: '12px', height: '12px' }} />
+                You&apos;re running low — only {Math.floor((user?.creditBalance || 0) / TEST_START_CREDIT_COST)} mock{Math.floor((user?.creditBalance || 0) / TEST_START_CREDIT_COST) === 1 ? '' : 's'} left.
+              </span>
+              <Link href="/pricing" className="text-volt font-semibold underline-offset-2 hover:underline">
+                Unlock unlimited →
+              </Link>
+            </div>
+          )}
+          {!isPremium && (user?.creditBalance ?? 0) === 0 && (
+            <div className="mt-3 flex items-center justify-between gap-3 flex-wrap text-xs">
+              <span className="text-red-400">
+                <Icon name="spark" className="inline-block mr-1" style={{ width: '12px', height: '12px' }} />
+                Out of credits. Upgrade to keep grinding.
+              </span>
+              <Link href="/pricing" className="text-volt font-semibold underline-offset-2 hover:underline">
+                Upgrade Now →
+              </Link>
+            </div>
+          )}
         </div>
 
         <div className="flex items-start justify-between flex-wrap gap-3 mb-5">

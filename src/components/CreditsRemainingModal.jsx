@@ -11,11 +11,19 @@ export function CreditsRemainingModal({ open, credits, onClose }) {
     if (!open) return;
     const onKey = (e) => { if (e.key === 'Escape') onClose?.(); };
     document.addEventListener('keydown', onKey);
-    const prev = document.body.style.overflow;
+    // Lock background scroll without causing layout shift from the disappearing
+    // scrollbar (matters on desktop; mobile already has overlay scrollbars).
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    const prevOverflow = document.body.style.overflow;
+    const prevPaddingRight = document.body.style.paddingRight;
     document.body.style.overflow = 'hidden';
+    if (scrollbarWidth > 0) {
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
     return () => {
       document.removeEventListener('keydown', onKey);
-      document.body.style.overflow = prev;
+      document.body.style.overflow = prevOverflow;
+      document.body.style.paddingRight = prevPaddingRight;
     };
   }, [open, onClose]);
 
@@ -31,7 +39,7 @@ export function CreditsRemainingModal({ open, credits, onClose }) {
       aria-labelledby="credits-modal-title"
       onClick={onClose}
       style={{
-        position: 'fixed', inset: 0, zIndex: 80,
+        position: 'fixed', inset: 0, zIndex: 100,
         background: 'rgba(4, 6, 10, 0.72)',
         backdropFilter: 'blur(8px)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',

@@ -1,35 +1,24 @@
 import { createClient } from '@supabase/supabase-js';
-import { CANONICAL_SYLLABUS } from '../../../data/canonical_syllabus.js';
+import { CANONICAL_SYLLABUS, TOP_SUBJECTS, isValidTopSyllabusPair } from '../../../data/canonical_syllabus.js';
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
-// Tier-aware gap thresholds.
-// Tier 1 subjects need deep coverage (CUET high-demand); Tier 2/3 need less.
-// These thresholds must stay in sync with the tier definitions in planner.mjs.
-const TIER1_GAP_THRESHOLD = 150;  // keep generating Tier-1 until 150 q/chapter
-const TIER2_GAP_THRESHOLD = 75;   // Tier-2 target: 75 q/chapter
-const TIER3_GAP_THRESHOLD = 50;   // Tier-3 target: 50 q/chapter
+const GAP_THRESHOLD = 50;
+const TOP_SUBJECT_SET = new Set(TOP_SUBJECTS);
 
 const SYLLABUS_MAP = new Map(
-  CANONICAL_SYLLABUS.map((subject) => [
+  CANONICAL_SYLLABUS.filter((subject) => TOP_SUBJECT_SET.has(subject.subject_id)).map((subject) => [
     subject.subject_id,
     new Set(subject.units.flatMap((unit) => unit.chapters)),
   ])
 );
 
 const SYLLABUS_SUBJECTS = new Map(
-  CANONICAL_SYLLABUS.map((subject) => [subject.subject_id, subject])
+  CANONICAL_SYLLABUS.filter((subject) => TOP_SUBJECT_SET.has(subject.subject_id)).map((subject) => [subject.subject_id, subject])
 );
-
-function normalizeId(id) {
-  return String(id)
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '_')
-    .replace(/^_|_$/g, '');
-}
 
 function normalizeChapterName(chapter) {
   return String(chapter || '')
@@ -42,33 +31,12 @@ function normalizeChapterName(chapter) {
     .replace(/\s+/g, ' ');
 }
 
-// Mirror of RAW_SUBJECT_TIERS in planner.mjs - keep in sync.
-const TIER1_SUBJECTS = new Set([
-  'physics', 'chemistry', 'biology', 'mathematics',
-  'accountancy', 'economics', 'business_studies',
-  'english', 'history',
-  'gat', 'general_test',
-].map(normalizeId));
-
-const TIER2_SUBJECTS = new Set([
-  'political_science', 'geography', 'psychology', 'sociology',
-  'computer_science', 'informatics_practices',
-  'physical_education', 'home_science', 'environmental_studies',
-  'anthropology',
-].map(normalizeId));
-
 function getThreshold(subjectId) {
-  const id = normalizeId(subjectId);
-  if (TIER1_SUBJECTS.has(id)) return TIER1_GAP_THRESHOLD;
-  if (TIER2_SUBJECTS.has(id)) return TIER2_GAP_THRESHOLD;
-  return TIER3_GAP_THRESHOLD;
+  return TOP_SUBJECT_SET.has(subjectId) ? GAP_THRESHOLD : 0;
 }
 
 function getTier(subjectId) {
-  const id = normalizeId(subjectId);
-  if (TIER1_SUBJECTS.has(id)) return 1;
-  if (TIER2_SUBJECTS.has(id)) return 2;
-  return 3;
+  return TOP_SUBJECT_SET.has(subjectId) ? 1 : 3;
 }
 
 /**
@@ -97,6 +65,7 @@ export async function analyzeCoverage() {
     const { data, error } = await supabase
       .from('questions')
       .select('subject, chapter')
+      .in('subject', TOP_SUBJECTS)
       .eq('is_deleted', false)
       .range(from, from + pageSize - 1);
 
@@ -124,11 +93,11 @@ export async function analyzeCoverage() {
   const dbCoveredKeys = new Set();
   for (const row of counts) {
     const subjectId = row.subject;
-    if (!SYLLABUS_MAP.has(subjectId)) continue;
+    if (!TOP_SUBJECT_SET.has(subjectId) || !SYLLABUS_MAP.has(subjectId)) continue;
 
     const canonicalChapter = chapterLookup[subjectId]?.[normalizeChapterName(row.chapter)];
 
-    if (!canonicalChapter || !SYLLABUS_MAP.get(subjectId).has(canonicalChapter)) continue;
+    if (!canonicalChapter || !isValidTopSyllabusPair(subjectId, canonicalChapter)) continue;
 
     coverage[subjectId].chapters[canonicalChapter]++;
     coverage[subjectId].total++;
@@ -162,9 +131,9 @@ export async function analyzeCoverage() {
     }
   }
 
-  const tier1Gaps = gaps.filter((g) => TIER1_SUBJECTS.has(normalizeId(g.subject_id)));
-  const tier2Gaps = gaps.filter((g) => TIER2_SUBJECTS.has(normalizeId(g.subject_id)));
-  const tier3Gaps = gaps.filter((g) => !TIER1_SUBJECTS.has(normalizeId(g.subject_id)) && !TIER2_SUBJECTS.has(normalizeId(g.subject_id)));
+  const tier1Gaps = gaps.filter((g) => TOP_SUBJECT_SET.has(g.subject_id));
+  const tier2Gaps = [];
+  const tier3Gaps = [];
 
   console.log(`[analyzer] Found ${gaps.length} syllabus chapters in planner pool:`, {
     tier1_gaps: tier1Gaps.length,
@@ -173,7 +142,7 @@ export async function analyzeCoverage() {
     syllabus_total: totalChapters,
     db_covered: dbCoveredKeys.size,
     missing_chapters: missingCount,
-    thresholds: { tier1: TIER1_GAP_THRESHOLD, tier2: TIER2_GAP_THRESHOLD, tier3: TIER3_GAP_THRESHOLD },
+    thresholds: { top_subjects: GAP_THRESHOLD },
   });
 
   return { coverage, gaps };

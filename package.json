@@ -9,7 +9,10 @@
     "start": "next start",
     "lint": "eslint",
     "db:seed": "node scripts/seed.mjs",
-    "autonomous": "node --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start"
+    "autonomous": "node --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start",
+    "validate:sample": "node --env-file=.env.local scripts/pipeline/validate-existing.mjs --mode=sample --sample-size=50",
+    "validate:dry-run": "node --env-file=.env.local scripts/pipeline/validate-existing.mjs --mode=dry-run",
+    "validate:apply": "node --env-file=.env.local scripts/pipeline/validate-existing.mjs --mode=apply"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.90.0",

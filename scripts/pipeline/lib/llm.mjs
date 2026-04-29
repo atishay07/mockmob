@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import Anthropic from '@anthropic-ai/sdk';
 import OpenAI from "openai";
-import { getCanonicalUnitForChapter, isValidCanonicalChapter } from '../../../data/canonical_syllabus.js';
+import { getCanonicalUnitForChapter, isValidTopSyllabusPair } from '../../../data/canonical_syllabus.js';
 
 const genAI = process.env.GEMINI_API_KEY ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY) : null;
 const anthropic = process.env.ANTHROPIC_API_KEY ? new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY }) : null;
@@ -86,6 +86,11 @@ const SUBJECT_KEYWORD_MAP = {
     'trigonometric', 'angle', 'circle', 'set', 'relation', 'linear programming',
     'inverse', 'continuity', 'differentiability',
   ],
+  applied_mathematics: [
+    'quantification', 'numerical', 'probability distribution', 'time based data',
+    'inferential statistics', 'financial mathematics', 'annuity', 'emi',
+    'index number', 'moving average', 'permutation', 'combination',
+  ],
   physics: [
     'force', 'energy', 'velocity', 'acceleration', 'mass', 'charge', 'current',
     'voltage', 'resistance', 'wave', 'frequency', 'nucleus', 'electron', 'photon',
@@ -116,6 +121,11 @@ const SUBJECT_KEYWORD_MAP = {
     'society', 'culture', 'social', 'caste', 'class', 'gender', 'institution',
     'social change', 'movement', 'community', 'globalisation', 'urbanisation',
     'tribal', 'kinship', 'family', 'stratification',
+  ],
+  legal_studies: [
+    'judiciary', 'law', 'constitution', 'rights', 'tribunal', 'arbitration',
+    'adr', 'human rights', 'legal profession', 'legal services', 'criminal',
+    'family law', 'constitutional law', 'court', 'justice',
   ],
   computer_science: [
     'python', 'function', 'file handling', 'database', 'network', 'boolean',
@@ -249,15 +259,37 @@ function getSubtopicFocus(subjectId, allChapters, pickCount = 3) {
 
 // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-const OPENAI_GENERATION_MODEL = "gpt-5-mini";
-const OPENAI_GENERATION_FALLBACK_MODEL = "gpt-5-nano";
+const OPENAI_GENERATION_MODEL = "gpt-5.4";
+const OPENAI_GENERATION_FALLBACK_MODEL = "gpt-5.4-mini";
 const GENERATION_MODELS = [
   OPENAI_GENERATION_MODEL,
   OPENAI_GENERATION_FALLBACK_MODEL,
 ];
 const VALIDATION_MODELS = [
-  "gemini-2.5-flash-lite",
+  "gemini-3-flash",
 ];
+const CUET_GENERATION_SYSTEM_PROMPT = `You are generating CUET-level MCQs strictly based on NCERT.
+
+Rules:
+- Only NCERT concepts.
+- No abstract theory.
+- No multi-step reasoning.
+- No JEE-level difficulty.
+- Must be solvable in under 60 seconds.
+
+Allowed:
+- Direct concept questions.
+- Definitions.
+- One-step numericals.
+
+Disallowed:
+- Proof-based questions.
+- Deep theory.
+- Complex assertion-reason.
+
+Each question must have 4 options A-D, exactly 1 correct answer, and plausible distractors.
+Before finalizing each item, check CUET realism, NCERT alignment, and simplicity. If any fails, regenerate internally.
+Output JSON only.`;
 const GENERATION_TIMEOUT_MS = 90_000;
 const MAX_CONCURRENT_LLM_CALLS = Number(process.env.LLM_MAX_CONCURRENT || 6);
 const LLM_SAME_MODEL_ATTEMPTS = 3;
@@ -326,7 +358,7 @@ export async function generateQuestions(subject, chapter, count = 10, context = 
     difficulty_override: difficultyOverride,
   });
 
-  if (!subject?.id || !isValidCanonicalChapter(subject.id, chapter)) {
+  if (!subject?.id || !isValidTopSyllabusPair(subject.id, chapter)) {
     console.warn('[llm] question_rejected_due_to_invalid_mapping', {
       subject: subject?.id || null,
       chapter,
@@ -389,7 +421,10 @@ async function generateWithOpenAI(subject, chapter, count, context = {}) {
       call: () => withTimeout(
         openai.responses.create({
           model: modelName,
-          input: prompt,
+          input: [
+            { role: 'system', content: CUET_GENERATION_SYSTEM_PROMPT },
+            { role: 'user', content: prompt },
+          ],
         }),
         GENERATION_TIMEOUT_MS,
         `timeout after ${GENERATION_TIMEOUT_MS}ms`
@@ -569,14 +604,10 @@ STRICT MEDIUM MODE:
     difficultyModeBlock = `
 
 STRICT HARD MODE:
-- HARD questions MUST include close/confusing options.
-- Include conceptual traps and test differences between similar concepts.
-- NOT directly answerable by recall.
-- Require elimination between at least 2 strong options.
-- Use Assertion-Reason with subtle twist, incorrect-statement, short tricky case, or confusing match format.
-- If answerable immediately without thinking, it is NOT hard.
-- Avoid definition questions, obvious answers, and single-step recall.
-- Do NOT generate safe or obvious questions. Prefer slightly challenging over safe questions.
+- CUET-hard only: close NCERT distractors, not advanced difficulty.
+- No JEE-style, proof-style, multi-step, or abstract questions.
+- Use simple statement/incorrect-statement formats over complex assertion-reason.
+- Must still be solvable in under 60 seconds.
 `;
   }
 
@@ -598,6 +629,15 @@ CHAPTER: "${chapter}"
 UNIT: "${unit?.unit_name || 'Unknown'}"
 DIFFICULTY TARGET: easy=${targets.easy}, medium=${targets.medium}, hard=${targets.hard} (30% easy, 50% medium, 20% hard unless strict mode overrides)
 BATCH SIZE: exactly ${count} questions in ONE JSON array${focusLine}${chapterGroundingLine}${subjectControlLine}${englishControlLine}${saturatedLine}${avoidLine}${difficultyModeBlock}
+
+STRICT CUET-NCERT REALISM:
+- Before generating, recall 2-3 typical CUET PYQ patterns for this chapter and follow those patterns. Do NOT invent new formats.
+- Only NCERT Class 11/12 concepts from the exact chapter.
+- No abstract theory, proof-based questions, deep theory, JEE-level difficulty, or multi-step reasoning.
+- Allowed patterns: direct concept, definition, factual NCERT check, and one-step numerical.
+- Disallowed patterns: complex assertion-reason, long caselets, derivations, graduate/MBA content, and weak/absurd options.
+- Every question must be solvable in under 60 seconds.
+- Balance correct answers across A/B/C/D as evenly as possible.
 
 STRICT CHAPTER BOUNDARY:
 - ONLY generate questions strictly from the given chapter.
@@ -786,7 +826,11 @@ export async function validateAndAlign(question, subjectContext) {
   }
 
   if (genAI) {
-    const prompt = `VAL CUET MCQ. Return JSON only: {"score":0-10,"exam_quality":0-10,"distractor_quality":0-10,"conceptual_depth":0-10,"textbook_style":false,"difficulty_correct":true,"cuet_alignment":true,"recommended_difficulty":"easy|medium|hard","issues":[],"decision":"accept|reject","improved_question":null}. Accept NCERT-based recall/definition with close distractors. Reject over-complex MBA/college style, unnecessary multi-step, heavy numerical, direct textbook copy, weak distractors, ambiguity, wrong chapter. q=${JSON.stringify(compactQuestionForValidation(question))}`;
+    const prompt = `VAL CUET MCQ. CUET = NCERT familiarity test, NOT deep reasoning. Return JSON only: {"score":0-10,"exam_quality":0-10,"distractor_quality":0-10,"conceptual_depth":0-10,"textbook_style":false,"difficulty_correct":true,"cuet_alignment":true,"recommended_difficulty":"easy|medium|hard","issues":[],"decision":"accept|reject","improved_question":null}.
+ACCEPT: direct NCERT recall/definition, one-step application, simple assertion-reason with NCERT-phrased clauses, basic numericals (one formula).
+REJECT if ANY of: abstract algebra/vector space/proof/theorem-by-name, JEE-style derivation, multi-step calculation, MBA/graduate-level concept, college viva style, complex assertion-reason (named theorems, nested conditionals), direct textbook copy, weak distractors, ambiguity, wrong chapter.
+When in doubt → reject. CUET students should answer from textbook memory + one simple step only.
+q=${JSON.stringify(compactQuestionForValidation(question))}`;
 
     const availableModels = getAvailableValidationModels();
     if (availableModels.length === 0) {
@@ -895,7 +939,7 @@ export async function validateAndAlignBatch(questions, subjectContext) {
   }
 
   const compactBatch = questions.map((q, i) => ({ i, ...compactQuestionForValidation(q) }));
-  const prompt = `VALIDATE CUET MCQ BATCH as a CUET PYQ reviewer. Return EXACTLY ${questions.length} JSON result objects, indices 0 through ${questions.length - 1}. Format: [{"index":0,"score":0-10,"exam_quality":0-10,"distractor_quality":0-10,"conceptual_depth":0-10,"textbook_style":false,"difficulty_correct":true,"cuet_alignment":true,"recommended_difficulty":"easy|medium|hard","issues":[],"decision":"accept|reject","improved_question":null},...]. Accept if NCERT concept is clear, tone is CUET-like, and a trap/confusion exists. Allow definition or recall if distractors are close and not copied directly. Reject if too complex for CUET, unnecessary multi-step reasoning, heavy numerical, long scenario chain, MBA/college style, direct textbook copy, obvious options, wrong chapter, or ambiguous. If fixable, put improved_question as {"q":"...","o":["A ...","B ...","C ...","D ..."],"a":"A","d":"easy|medium|hard","concept_pattern":"...","explanation":"..."}. Return ONLY JSON array. questions=${JSON.stringify(compactBatch)}`;
+  const prompt = `BASIC CUET SANITY CHECK ONLY. Return EXACTLY ${questions.length} JSON result objects, indices 0 through ${questions.length - 1}. Format: [{"index":0,"score":0-10,"exam_quality":0-10,"distractor_quality":0-10,"conceptual_depth":0-10,"textbook_style":false,"difficulty_correct":true,"cuet_alignment":true,"recommended_difficulty":"easy|medium|hard","issues":[],"decision":"accept|reject","improved_question":null},...]. Accept only if the question is NCERT-level, CUET-like, short, chapter-aligned, has exactly one answer, and has plausible distractors. Reject obvious failures: out of chapter, abstract theory, proof/derivation, multi-step/JEE-style, graduate/MBA content, weak options, ambiguity, or too long for <60 seconds. Do not perform deep reasoning; flag only pattern and sanity failures. Return ONLY JSON array. questions=${JSON.stringify(compactBatch)}`;
 
   const availableModels = getAvailableValidationModels();
   if (availableModels.length === 0) {
@@ -1350,12 +1394,50 @@ function normalizeGeneratedQuestions(questions, subjectId, chapter) {
       continue;
     }
 
+    const internalRejectReason = getGeneratedQuestionInternalRejectReason(normalized);
+    if (internalRejectReason) {
+      diagnostics.dropReasons.validation_failed += 1;
+      diagnostics.sampleFailedRawQuestion ||= question;
+      diagnostics.sampleFailedNormalizedAttempt ||= normalized;
+      console.warn('[llm] question_rejected_internal_quality', {
+        subject: subjectId,
+        chapter,
+        reason: internalRejectReason,
+        body: normalized.body.slice(0, 100),
+        index,
+      });
+      continue;
+    }
+
     normalizedQuestions.push(normalized);
   }
 
   diagnostics.normalizedCount = normalizedQuestions.length;
   lastGenerationDiagnostics = diagnostics;
   return normalizedQuestions;
+}
+
+function getGeneratedQuestionInternalRejectReason(question) {
+  const body = String(question?.body || '').trim();
+  const bodyLower = body.toLowerCase();
+  if (body.length > 420 || countWords(body) > 70) return 'question_too_long';
+  if (/\b(vector space|subspace|basis|rank-nullity|heine-borel|cayley-hamilton|prove|proof|derive|derivation|jee|graduate|mba|b\.com|econometrics|hypothesis testing|functional analysis|abstract algebra|ring|field|group under|multi-step|caselet)\b/i.test(bodyLower)) {
+    return 'advanced_or_non_cuet_pattern';
+  }
+  if (hasGeneratedWeakOptions(question.options, question.correct_answer)) return 'weak_options';
+  return null;
+}
+
+function hasGeneratedWeakOptions(options, correctAnswer) {
+  const normalizedOptions = normalizeOptions(options);
+  if (normalizedOptions.length !== 4) return true;
+  const answer = normalizeAnswerKey(correctAnswer);
+  if (!answer || !normalizedOptions.some((option) => option.key === answer)) return true;
+
+  const texts = normalizedOptions.map((option) => String(option.text || '').trim().toLowerCase());
+  if (texts.some((text) => text.length < 2)) return true;
+  if (new Set(texts).size !== 4) return true;
+  return texts.some((text) => /\b(all of the above|none of the above|both a and b|cannot be determined)\b/i.test(text));
 }
 
 function normalizeValidationResult(result, question) {

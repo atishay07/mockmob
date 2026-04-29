@@ -2,6 +2,24 @@
 // Source of truth: PDFs in data/CUET 2026, with a stability bias toward
 // preserving existing chapter names already used by questions and UI filters.
 
+export const TOP_SUBJECTS = Object.freeze([
+  'accountancy',
+  'economics',
+  'business_studies',
+  'mathematics',
+  'applied_mathematics',
+  'physics',
+  'chemistry',
+  'biology',
+  'english',
+  'history',
+  'political_science',
+  'geography',
+  'psychology',
+  'sociology',
+  'legal_studies',
+]);
+
 export const CANONICAL_SYLLABUS = [
   {
     subject_id: 'english',
@@ -199,6 +217,13 @@ export const CANONICAL_SYLLABUS = [
     ],
   },
   {
+    subject_id: 'applied_mathematics',
+    subject_name: 'Applied Mathematics',
+    units: [
+      unit('Applied Mathematics', ['Numbers, Quantification and Numerical Applications', 'Probability Distributions', 'Time Based Data', 'Inferential Statistics', 'Financial Mathematics']),
+    ],
+  },
+  {
     subject_id: 'performing_arts',
     subject_name: 'Performing Arts',
     units: [
@@ -284,6 +309,22 @@ export const CANONICAL_SYLLABUS = [
     ],
   },
 ];
+
+export const SYLLABUS_MAP = new Map(
+  CANONICAL_SYLLABUS.map((subject) => [
+    subject.subject_id,
+    new Set(subject.units.flatMap((unitEntry) => unitEntry.chapters)),
+  ])
+);
+
+export function isTopSubject(subjectId) {
+  return TOP_SUBJECTS.includes(String(subjectId || ''));
+}
+
+export function isValidTopSyllabusPair(subjectId, chapter) {
+  const subject = String(subjectId || '');
+  return isTopSubject(subject) && SYLLABUS_MAP.has(subject) && SYLLABUS_MAP.get(subject).has(chapter);
+}
 
 export function getCanonicalSubject(subjectId) {
   return CANONICAL_SYLLABUS.find((subject) => subject.subject_id === subjectId);
