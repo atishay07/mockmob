@@ -5,6 +5,8 @@ import { supabase } from '@/lib/supabase'
 import { auth } from '@/lib/auth'
 import { runRuleChecks } from '@/lib/moderation/rules'
 import { computeContentHash } from '@/lib/moderation/hash'
+import { normalizeSubjectSelection } from '@/../data/cuet_controls'
+import { isValidTopSyllabusPair } from '@/../data/canonical_syllabus'
 
 /**
  * POST /api/questions/upload
@@ -87,6 +89,21 @@ export async function POST(request) {
       has_explanation: !!explanation,
     })
 
+    const subjectSelection = normalizeSubjectSelection({ subject })
+    if (!subjectSelection.valid) {
+      return Response.json(
+        { error: subjectSelection.error },
+        { status: subjectSelection.error === 'SUBJECT_REQUIRED' ? 400 : 422 }
+      )
+    }
+
+    if (!isValidTopSyllabusPair(subjectSelection.internalSubject, chapter)) {
+      return Response.json(
+        { error: 'Unsupported CUET subject or chapter. Only the top 15 CUET subjects are accepted.' },
+        { status: 422 }
+      )
+    }
+
     // ---- Supabase client check ----
     console.log('[upload] 3. supabase client:', typeof supabase?.from)
 
@@ -132,7 +149,7 @@ export async function POST(request) {
       .from('questions')
       .insert({
         author_id,
-        subject:           subject.trim(),
+        subject:           subjectSelection.internalSubject,
         chapter:           chapter.trim(),
         body:              questionBody.trim(),
         options:           options ?? null,

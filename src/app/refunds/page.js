@@ -1,11 +1,13 @@
 import React from 'react';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
+import { seoMetadata } from '@/lib/seo';
 
-export const metadata = {
+export const metadata = seoMetadata({
   title: 'Refund Policy | MockMob',
-  description: 'Refund and cancellation policy for MockMob Pro.',
-};
+  description: 'Read MockMob cancellation and refund guidance for Pro subscriptions and payment issues.',
+  path: '/refunds',
+});
 
 export default function RefundsPage() {
   return (

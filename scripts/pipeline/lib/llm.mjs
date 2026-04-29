@@ -2,6 +2,16 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import Anthropic from '@anthropic-ai/sdk';
 import OpenAI from "openai";
 import { getCanonicalUnitForChapter, isValidTopSyllabusPair } from '../../../data/canonical_syllabus.js';
+import {
+  CUET_DIFFICULTY_STANDARD,
+  buildConstraintObject,
+  getCuetSubjectConfig,
+  getPyqStylePack,
+  getSyllabusConcepts,
+  toPublicSubjectId,
+  validateTraceability,
+} from '../../../data/cuet_controls.js';
+import { selectPyqAnchors } from '../../../data/pyq_anchors.js';
 
 const genAI = process.env.GEMINI_API_KEY ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY) : null;
 const anthropic = process.env.ANTHROPIC_API_KEY ? new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY }) : null;
@@ -268,28 +278,21 @@ const GENERATION_MODELS = [
 const VALIDATION_MODELS = [
   "gemini-3-flash",
 ];
-const CUET_GENERATION_SYSTEM_PROMPT = `You are generating CUET-level MCQs strictly based on NCERT.
+const CUET_GENERATION_SYSTEM_PROMPT = `You are a strict CUET exam paper setter, not a creative generator.
 
-Rules:
-- Only NCERT concepts.
-- No abstract theory.
-- No multi-step reasoning.
-- No JEE-level difficulty.
-- Must be solvable in under 60 seconds.
+Non-negotiable source order:
+1. CUET syllabus constraint object is the primary source of truth.
+2. CUET PYQ style examples are the style and difficulty benchmark.
+3. NCERT or external knowledge is secondary support only.
 
-Allowed:
-- Direct concept questions.
-- Definitions.
-- One-step numericals.
+Hard rejection rules:
+- If the requested subject is outside the top-15 allowlist, stop.
+- If a concept is not directly traceable to the CUET syllabus constraint object, stop.
+- Do not generate free-form questions. Use only the supplied PYQ-derived templates.
+- No out-of-syllabus content, advanced theory, proof, derivation, JEE-style, MBA/graduate content, or multi-step logic.
+- Keep language simple, direct, and exam-oriented.
 
-Disallowed:
-- Proof-based questions.
-- Deep theory.
-- Complex assertion-reason.
-
-Each question must have 4 options A-D, exactly 1 correct answer, and plausible distractors.
-Before finalizing each item, check CUET realism, NCERT alignment, and simplicity. If any fails, regenerate internally.
-Output JSON only.`;
+Each question must have exactly 4 options, exactly 1 correct answer, traceable subject/chapter/topic/concept/concept_id, and JSON only output.`;
 const GENERATION_TIMEOUT_MS = 90_000;
 const MAX_CONCURRENT_LLM_CALLS = Number(process.env.LLM_MAX_CONCURRENT || 6);
 const LLM_SAME_MODEL_ATTEMPTS = 3;
@@ -393,13 +396,32 @@ async function generateWithOpenAI(subject, chapter, count, context = {}) {
     : OPENAI_GENERATION_MODEL;
 
   const targets = buildDifficultyTargets(count, difficultyOverride);
+  const conceptId = context.concept_id || context.conceptId || getSyllabusConcepts(subject.id, chapter)[0]?.concept_id;
+  const anchorSelection = selectPyqAnchors({
+    subject: subject.id,
+    concept_id: conceptId,
+    difficulty: difficultyOverride || 'medium',
+    question_type: context.question_type || context.questionType || null,
+  });
+  if (!anchorSelection.valid) {
+    console.warn('[llm] pyq_anchor_unavailable', {
+      subject: subject.id,
+      chapter,
+      concept_id: conceptId || null,
+      error: anchorSelection.error,
+    });
+    return { error: anchorSelection.error, reason: anchorSelection.error };
+  }
+
   // Pick subtopics to focus on for this batch (round-robin across chapters)
   const subtopicFocus = getSubtopicFocus(subject.id, subject.chapters || [], 3);
-  const prompt = buildGenerationPrompt(subject, chapter, count, targets, {
+  const prompt = buildStrictCuetGenerationPrompt(subject, chapter, count, targets, {
     usedConcepts: context.usedConcepts || [],
     saturatedSubtopics: context.saturatedSubtopics || [],
     subtopicFocus,
     difficultyOverride,
+    anchorSelection,
+    validationFeedback: context.validationFeedback || [],
   });
   let lastGenerationError = null;
 
@@ -437,7 +459,12 @@ async function generateWithOpenAI(subject, chapter, count, context = {}) {
 
     console.log(`[llm] Raw OpenAI response | model=${modelName}: ${text}`);
     const parsed = parseJsonArrayStrict(text);
-    const normalized = normalizeGeneratedQuestions(parsed, subject.id, chapter);
+    const normalized = normalizeGeneratedQuestions(parsed, subject.id, chapter)
+      .map((question) => ({
+        ...question,
+        pyq_anchor_id: question.pyq_anchor_id || anchorSelection.primary.id,
+        anchor_tier: Number(question.anchor_tier || anchorSelection.anchor_tier),
+      }));
     const diagnostics = getLastGenerationDiagnostics();
     if (diagnostics.dropReasons.chapter_mismatch > 0) {
       throw new LlmGenerationError('chapter mismatch detected; discarded batch for regeneration', 'chapter_mismatch');
@@ -527,6 +554,145 @@ function getAvailableValidationModels() {
   return [activeValidationModel, ...VALIDATION_MODELS].filter((model, index, array) => (
     VALIDATION_MODELS.includes(model) && array.indexOf(model) === index && !failedValidationModels.has(model)
   ));
+}
+
+function buildStrictCuetGenerationPrompt(subject, chapter, count, targets, options = {}) {
+  const unit = getCanonicalUnitForChapter(subject.id, chapter);
+  const { usedConcepts = [], subtopicFocus = [], saturatedSubtopics = [], difficultyOverride = null, anchorSelection = null, validationFeedback = [] } = options;
+  const subjectConfig = getCuetSubjectConfig(subject.id);
+  const conceptBackbone = getSyllabusConcepts(subject.id, chapter);
+  const primaryConcept = conceptBackbone[0]?.concept || chapter;
+  const questionType = subjectConfig?.enforcement?.allowedPatterns?.[0] || 'direct_concept';
+  const constraint = buildConstraintObject({
+    subjectId: subject.id,
+    chapter,
+    concept: primaryConcept,
+    questionType,
+    difficulty: difficultyOverride || 'medium',
+  });
+
+  if (!constraint.valid) {
+    throw new LlmGenerationError(`invalid_constraint_object:${constraint.reason}`, 'invalid_constraint');
+  }
+  if (!anchorSelection?.valid) {
+    throw new LlmGenerationError('NO_PYQ_ANCHOR_AVAILABLE', 'NO_PYQ_ANCHOR_AVAILABLE');
+  }
+
+  const focusLine = subtopicFocus.length > 0
+    ? `\nFOCUS on these under-covered syllabus entries only: ${subtopicFocus.join(', ')}.`
+    : '';
+  const avoidLine = usedConcepts.length > 0
+    ? `\nAVOID already accepted concept patterns: ${usedConcepts.slice(0, 8).join(', ')}.`
+    : '';
+  const saturatedLine = saturatedSubtopics.length > 0
+    ? `\nDO NOT USE saturated concept patterns: ${saturatedSubtopics.slice(0, 8).join(', ')}.`
+    : '';
+  const englishControlLine = subject.id === 'english' ? buildEnglishGenerationControl(chapter) : '';
+  const subjectControlLine = subjectConfig?.enforcement?.rule
+    ? `\nSUBJECT-SPECIFIC ENFORCEMENT: ${subjectConfig.enforcement.rule}`
+    : '';
+  const difficultyLine = difficultyOverride
+    ? `\nSTRICT ${difficultyOverride.toUpperCase()} MODE: generate only ${difficultyOverride} questions using the CUET difficulty definition.`
+    : '';
+  const feedbackLine = Array.isArray(validationFeedback) && validationFeedback.length > 0
+    ? `\nPREVIOUS ATTEMPT FAILED DUE TO:\n${validationFeedback.slice(0, 8).map((reason) => `- ${reason}`).join('\n')}\nFix these issues strictly in this attempt. Do not repeat the same mistake. Adjust difficulty, clarity, and options accordingly.`
+    : '';
+
+  console.log('[llm] STRICT_CUET_PROMPT_CONSTRUCTION:', {
+    expected_subject: subject.id,
+    expected_chapter: chapter,
+    canonical_unit: unit?.unit_name || null,
+    concept_id: constraint.concept_id,
+    pyq_anchor_id: anchorSelection.primary.id,
+    anchor_tier: anchorSelection.anchor_tier,
+    batch_size: count,
+    pyq_style_patterns: getPyqStylePack(subject.id, 3).map((entry) => entry.pattern_type),
+    difficulty_override: difficultyOverride,
+  });
+
+  return `Generate ${count} CUET MCQs. This is a strict CUET paper-setting task, not creative writing.
+
+PRIMARY SOURCE OF TRUTH - CUET CONSTRAINT OBJECT:
+${JSON.stringify(constraint, null, 2)}
+
+CUET SYLLABUS BACKBONE:
+${JSON.stringify(conceptBackbone, null, 2)}
+
+PYQ STYLE + DIFFICULTY BENCHMARKS:
+${JSON.stringify(getPyqStylePack(subject.id, 3), null, 2)}
+
+PRIMARY REFERENCE PYQ:
+${JSON.stringify({
+  id: anchorSelection.primary.id,
+  subject: anchorSelection.primary.public_subject,
+  chapter: anchorSelection.primary.chapter,
+  topic: anchorSelection.primary.topic,
+  concept_id: anchorSelection.primary.concept_id,
+  question_type: anchorSelection.primary.question_type,
+  difficulty: anchorSelection.primary.difficulty,
+  structure_template: anchorSelection.primary.structure_template,
+  option_pattern: anchorSelection.primary.option_pattern,
+  question_text: anchorSelection.primary.question_text,
+  options: anchorSelection.primary.options,
+  correct_answer: anchorSelection.primary.correct_answer,
+}, null, 2)}
+
+Anchor Tier: ${anchorSelection.anchor_tier}
+${anchorSelection.anchor_tier > 1 ? `
+TIER ${anchorSelection.anchor_tier} FALLBACK CONTROL:
+- Stay strictly within the given concept: ${constraint.concept_id}.
+- Do NOT drift topic.
+- Use the anchor only for structure and difficulty guidance.
+- The generated content must still come from the constraint object, not from the fallback anchor's concept.
+` : ''}
+
+BACKUP PYQ ANCHORS:
+${JSON.stringify(anchorSelection.backups.map((anchor) => ({
+  id: anchor.id,
+  question_type: anchor.question_type,
+  difficulty: anchor.difficulty,
+  structure_template: anchor.structure_template,
+  question_text: anchor.question_text,
+  options: anchor.options,
+})), null, 2)}
+
+DIFFICULTY STANDARD:
+${JSON.stringify(CUET_DIFFICULTY_STANDARD, null, 2)}
+
+SUBJECT: "${subject.name}" [id="${subject.id}"]
+CHAPTER: "${chapter}"
+UNIT: "${unit?.unit_name || 'Unknown'}"
+DIFFICULTY TARGET: easy=${targets.easy}, medium=${targets.medium}, hard=${targets.hard}
+BATCH SIZE: exactly ${count} questions in one JSON array${focusLine}${avoidLine}${saturatedLine}${subjectControlLine}${englishControlLine}${difficultyLine}${feedbackLine}
+
+MANDATORY CUET-FIRST RULES:
+- Generate only from CONSTRAINT OBJECT.allowed_concepts.
+- Match the structure, tone, and difficulty of the reference PYQ, but introduce controlled variation.
+- Change surface context such as names, situations, and numbers where appropriate.
+- Avoid copying phrasing. The question should feel new but familiar.
+- Maintain the same reasoning depth. Do not increase complexity.
+- Reject internally and regenerate if the question is too similar to the anchor or reuses anchor phrasing directly.
+- Do not copy PYQ content. Create new content from the selected micro-concept only.
+- Do not increase difficulty beyond the primary reference PYQ.
+- NCERT knowledge is secondary support only; never expand scope beyond the CUET syllabus backbone.
+- If a question is not directly traceable to the constraint object, omit it.
+- If style or difficulty is above typical CUET PYQ level, omit it.
+- Use template-based patterns only. Do not invent new formats.
+- Keep language simple, direct, and exam-oriented.
+- Avoid trick questions, long caselets, advanced theory, derivations, proof, JEE-style, MBA/graduate content, and multi-step logic.
+- Every question must have exactly 4 options and exactly 1 correct answer.
+
+TRACEABILITY REQUIRED IN EVERY ITEM:
+- subject must equal "${subject.id}"
+- chapter must equal "${chapter}"
+- topic must equal "${constraint.topic}"
+- concept must equal "${constraint.concept}"
+- concept_id must equal "${constraint.concept_id}"
+- pyq_anchor_id must equal "${anchorSelection.primary.id}"
+- anchor_tier must equal ${anchorSelection.anchor_tier}
+
+Return ONLY a valid JSON array. No markdown. No prose. No extra keys.
+[{"q":"...","o":["A ...","B ...","C ...","D ..."],"a":"A","d":"easy|medium|hard","question_type":"${anchorSelection.primary.question_type || questionType}","concept_pattern":"unique_snake_case_tag","explanation":"one sentence","subject":"${subject.id}","public_subject":"${toPublicSubjectId(subject.id)}","chapter":"${chapter}","topic":"${constraint.topic}","concept":"${constraint.concept}","concept_id":"${constraint.concept_id}","pyq_anchor_id":"${anchorSelection.primary.id}","anchor_tier":${anchorSelection.anchor_tier},"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc"}]`;
 }
 
 function getNextAvailableValidationModel(currentModel) {
@@ -770,6 +936,13 @@ subject, chapter, body, options[{key,text}], correct_answer, explanation, diffic
 }
 function generateMockQuestions(subject, chapter, count, difficultyOverride = null) {
   const targets = buildDifficultyTargets(count, difficultyOverride);
+  const constraint = buildConstraintObject({
+    subjectId: subject.id,
+    chapter,
+    concept: chapter,
+    questionType: 'direct_concept',
+    difficulty: difficultyOverride || 'medium',
+  });
   const sequence = [
     ...Array(targets.easy).fill('easy'),
     ...Array(targets.medium).fill('medium'),
@@ -789,6 +962,10 @@ function generateMockQuestions(subject, chapter, count, difficultyOverride = nul
     correct_answer: "A",
     explanation: "Mock explanation aligned to the chosen difficulty.",
     difficulty,
+    topic: constraint.topic,
+    concept: constraint.concept,
+    concept_id: constraint.concept_id,
+    question_type: constraint.question_type,
     concept_pattern: `mock_${difficulty}_${index + 1}`,
     tags: ["mock", "cuet"]
   }));
@@ -819,6 +996,21 @@ export async function validateAndAlign(question, subjectContext) {
       decision: "accept",
       difficulty_correct: true,
       cuet_alignment: true,
+      fully_within_cuet_syllabus: 'YES',
+      matches_cuet_pyq_difficulty: 'YES',
+      harder_than_typical_cuet_level: 'NO',
+      ambiguity_or_multiple_correct_answers: 'NO',
+      language_unnecessarily_complex: 'NO',
+      syllabus_alignment: 'WITHIN',
+      concept_match: 'EXACT',
+      difficulty_level: String(question.difficulty || 'medium').toUpperCase(),
+      compared_to_pyqs: 'MATCH',
+      clarity: 'CLEAR',
+      language_level: 'SIMPLE',
+      option_quality: 'CLEAN',
+      subject_consistency: 'CORRECT',
+      verdict: 'VALID',
+      reasons: [],
       recommended_difficulty: question.difficulty || 'medium',
       issues: [],
       improved_question: null,
@@ -928,6 +1120,21 @@ export async function validateAndAlignBatch(questions, subjectContext) {
       decision: 'accept',
       difficulty_correct: true,
       cuet_alignment: true,
+      fully_within_cuet_syllabus: 'YES',
+      matches_cuet_pyq_difficulty: 'YES',
+      harder_than_typical_cuet_level: 'NO',
+      ambiguity_or_multiple_correct_answers: 'NO',
+      language_unnecessarily_complex: 'NO',
+      syllabus_alignment: 'WITHIN',
+      concept_match: 'EXACT',
+      difficulty_level: String(question.difficulty || 'medium').toUpperCase(),
+      compared_to_pyqs: 'MATCH',
+      clarity: 'CLEAR',
+      language_level: 'SIMPLE',
+      option_quality: 'CLEAN',
+      subject_consistency: 'CORRECT',
+      verdict: 'VALID',
+      reasons: [],
       recommended_difficulty: question.difficulty || 'medium',
       issues: [],
       improved_question: null,
@@ -939,7 +1146,53 @@ export async function validateAndAlignBatch(questions, subjectContext) {
   }
 
   const compactBatch = questions.map((q, i) => ({ i, ...compactQuestionForValidation(q) }));
-  const prompt = `BASIC CUET SANITY CHECK ONLY. Return EXACTLY ${questions.length} JSON result objects, indices 0 through ${questions.length - 1}. Format: [{"index":0,"score":0-10,"exam_quality":0-10,"distractor_quality":0-10,"conceptual_depth":0-10,"textbook_style":false,"difficulty_correct":true,"cuet_alignment":true,"recommended_difficulty":"easy|medium|hard","issues":[],"decision":"accept|reject","improved_question":null},...]. Accept only if the question is NCERT-level, CUET-like, short, chapter-aligned, has exactly one answer, and has plausible distractors. Reject obvious failures: out of chapter, abstract theory, proof/derivation, multi-step/JEE-style, graduate/MBA content, weak options, ambiguity, or too long for <60 seconds. Do not perform deep reasoning; flag only pattern and sanity failures. Return ONLY JSON array. questions=${JSON.stringify(compactBatch)}`;
+  const syllabusConcepts = getSyllabusConcepts(subjectContext?.id, questions[0]?.chapter);
+  const pyqStylePack = questions
+    .map((question) => ({
+      pyq_anchor_id: question.pyq_anchor_id || null,
+      concept_id: question.concept_id || null,
+      question_type: question.question_type || null,
+    }))
+    .slice(0, 15);
+  const prompt = `Evaluate these CUET questions as a strict CUET exam paper setter.
+
+Primary source of truth:
+${JSON.stringify(syllabusConcepts, null, 0)}
+
+PYQ anchor metadata for this batch:
+${JSON.stringify(pyqStylePack, null, 0)}
+
+Evaluate each question and return Validator V2 fields exactly:
+1. syllabus_alignment: WITHIN | OUTSIDE
+2. concept_match: EXACT | PARTIAL | MISMATCH
+3. difficulty_level: EASY | MEDIUM | HARD | TOO HARD
+4. compared_to_pyqs: EASIER | MATCH | HARDER
+5. clarity: CLEAR | AMBIGUOUS
+6. language_level: SIMPLE | MODERATE | COMPLEX
+7. option_quality: CLEAN | OVERLAPPING | CONFUSING
+8. subject_consistency: CORRECT | WRONG
+9. verdict: VALID | INVALID
+10. reasons: string[] with concise causes when INVALID, e.g. "too hard compared to PYQs", "language too complex", "concept mismatch", "ambiguous options", "too similar to anchor", "anchor phrasing reused"
+
+INVALID CONDITIONS:
+- syllabus_alignment != WITHIN
+- concept_match != EXACT
+- difficulty_level == TOO HARD
+- compared_to_pyqs == HARDER
+- clarity == AMBIGUOUS
+- language_level == COMPLEX
+- option_quality != CLEAN
+- subject_consistency != CORRECT
+- question is too similar to anchor
+- anchor phrasing is reused directly
+
+Also reject if subject, concept_id, or pyq_anchor_id is missing or if the subject does not match the selected subject. PYQ comparison must be against the same subject only.
+
+Return EXACTLY ${questions.length} JSON result objects, indices 0 through ${questions.length - 1}. Format:
+[{"index":0,"syllabus_alignment":"WITHIN|OUTSIDE","concept_match":"EXACT|PARTIAL|MISMATCH","difficulty_level":"EASY|MEDIUM|HARD|TOO HARD","compared_to_pyqs":"EASIER|MATCH|HARDER","clarity":"CLEAR|AMBIGUOUS","language_level":"SIMPLE|MODERATE|COMPLEX","option_quality":"CLEAN|OVERLAPPING|CONFUSING","subject_consistency":"CORRECT|WRONG","verdict":"VALID|INVALID","reasons":[],"score":0-10,"exam_quality":0-10,"distractor_quality":0-10,"conceptual_depth":0-10,"textbook_style":false,"difficulty_correct":true,"cuet_alignment":true,"recommended_difficulty":"easy|medium|hard","issues":[],"decision":"accept|reject","improved_question":null},...]
+
+Return ONLY JSON array.
+questions=${JSON.stringify(compactBatch)}`;
 
   const availableModels = getAvailableValidationModels();
   if (availableModels.length === 0) {
@@ -1072,11 +1325,18 @@ function hasValidQuestionSchema(question) {
 function compactQuestionForValidation(question) {
   const options = normalizeOptions(question?.options).map((option) => option.text);
   return {
+    subject: String(question?.subject || '').trim(),
     q: String(question?.body || question?.q || '').trim(),
     o: options,
     a: normalizeAnswerKey(question?.correct_answer || question?.a),
     d: normalizeDifficulty(question?.difficulty),
     c: String(question?.chapter || '').trim(),
+    topic: String(question?.topic || '').trim(),
+    concept: String(question?.concept || '').trim(),
+    concept_id: String(question?.concept_id || '').trim(),
+    question_type: String(question?.question_type || '').trim(),
+    pyq_anchor_id: String(question?.pyq_anchor_id || '').trim(),
+    anchor_tier: Number(question?.anchor_tier || 0),
   };
 }
 
@@ -1335,6 +1595,12 @@ function normalizeGeneratedQuestions(questions, subjectId, chapter) {
       correct_answer: normalizeAnswerKey(question.correct_answer || question.answer || question.a),
       explanation: String(question.explanation || '').trim(),
       difficulty: normalizeDifficulty(question.difficulty || question.d),
+      question_type: String(question.question_type || question.pattern_type || 'direct_concept').trim(),
+      topic: String(question.topic || '').trim(),
+      concept: String(question.concept || '').trim(),
+      concept_id: String(question.concept_id || '').trim(),
+      pyq_anchor_id: String(question.pyq_anchor_id || question.pyqAnchorId || '').trim(),
+      anchor_tier: Number(question.anchor_tier || question.anchorTier || 0),
       concept_pattern: String(question.concept_pattern || `concept_${index + 1}`).trim(),
       tags: normalizeTags(question.tags),
       passage_id: String(question.passage_id || question.passageId || '').trim(),
@@ -1354,6 +1620,25 @@ function normalizeGeneratedQuestions(questions, subjectId, chapter) {
       diagnostics.sampleFailedNormalizedAttempt ||= normalized;
       continue;
     }
+
+    const traceability = validateTraceability(normalized, subjectId, chapter);
+    if (!traceability.valid) {
+      diagnostics.dropReasons.validation_failed += 1;
+      diagnostics.sampleFailedRawQuestion ||= question;
+      diagnostics.sampleFailedNormalizedAttempt ||= normalized;
+      console.warn('[llm] question_rejected_traceability', {
+        subject: subjectId,
+        chapter,
+        reason: traceability.reason,
+        concept_id: normalized.concept_id || null,
+        concept: normalized.concept || null,
+        index,
+      });
+      continue;
+    }
+    normalized.topic = traceability.concept.topic;
+    normalized.concept = traceability.concept.concept;
+    normalized.concept_id = traceability.concept.concept_id;
 
     if (subjectId === 'english') {
       const classification = classifyEnglishGeneratedQuestion(normalized, chapter, index);
@@ -1453,11 +1738,44 @@ function normalizeValidationResult(result, question) {
   const improvedQuestion = result.improved_question && typeof result.improved_question === 'object'
     ? result.improved_question
     : null;
+  const fullyWithinCuetSyllabus = normalizeYesNo(result.fully_within_cuet_syllabus, false);
+  const matchesCuetPyqDifficulty = normalizeYesNo(result.matches_cuet_pyq_difficulty, false);
+  const harderThanTypicalCuetLevel = normalizeYesNo(result.harder_than_typical_cuet_level, true);
+  const ambiguityOrMultipleCorrectAnswers = normalizeYesNo(result.ambiguity_or_multiple_correct_answers, true);
+  const languageUnnecessarilyComplex = normalizeYesNo(result.language_unnecessarily_complex, true);
+  const syllabusAlignment = normalizeEnum(result.syllabus_alignment, ['WITHIN', 'OUTSIDE'], 'OUTSIDE');
+  const conceptMatch = normalizeEnum(result.concept_match, ['EXACT', 'PARTIAL', 'MISMATCH'], 'MISMATCH');
+  const difficultyLevel = normalizeEnum(result.difficulty_level, ['EASY', 'MEDIUM', 'HARD', 'TOO HARD'], 'TOO HARD');
+  const comparedToPyqs = normalizeEnum(result.compared_to_pyqs, ['EASIER', 'MATCH', 'HARDER'], 'HARDER');
+  const clarity = normalizeEnum(result.clarity, ['CLEAR', 'AMBIGUOUS'], 'AMBIGUOUS');
+  const languageLevel = normalizeEnum(result.language_level, ['SIMPLE', 'MODERATE', 'COMPLEX'], 'COMPLEX');
+  const optionQuality = normalizeEnum(result.option_quality, ['CLEAN', 'OVERLAPPING', 'CONFUSING'], 'CONFUSING');
+  const subjectConsistency = normalizeEnum(result.subject_consistency, ['CORRECT', 'WRONG'], 'WRONG');
+  const verdict = normalizeEnum(result.verdict, ['VALID', 'INVALID'], 'INVALID');
+  const validatorReasons = normalizeValidatorReasons(result.reasons);
+  const validatorCheckFailed =
+    fullyWithinCuetSyllabus !== 'YES' ||
+    matchesCuetPyqDifficulty !== 'YES' ||
+    harderThanTypicalCuetLevel !== 'NO' ||
+    ambiguityOrMultipleCorrectAnswers !== 'NO' ||
+    languageUnnecessarilyComplex !== 'NO';
+  const validatorV2Failed =
+    syllabusAlignment !== 'WITHIN' ||
+    conceptMatch !== 'EXACT' ||
+    difficultyLevel === 'TOO HARD' ||
+    comparedToPyqs === 'HARDER' ||
+    clarity === 'AMBIGUOUS' ||
+    languageLevel === 'COMPLEX' ||
+    optionQuality !== 'CLEAN' ||
+    subjectConsistency !== 'CORRECT';
 
   // Reduced from 7 â†’ 5.  difficulty_correct is tracked but no longer a hard rejection
   // (the model often mis-labels difficulty; the question itself may still be valid).
   // cuet_alignment remains a soft signal â€” the worker applies its own compound check.
   const shouldReject =
+    validatorCheckFailed ||
+    validatorV2Failed ||
+    verdict !== 'VALID' ||
     score < 5 ||
     examQuality < 7 ||
     distractorQuality < 7 ||
@@ -1474,10 +1792,86 @@ function normalizeValidationResult(result, question) {
     decision: shouldReject ? 'reject' : 'accept',
     difficulty_correct: difficultyCorrect,
     cuet_alignment: cuetAlignment,
+    fully_within_cuet_syllabus: fullyWithinCuetSyllabus,
+    matches_cuet_pyq_difficulty: matchesCuetPyqDifficulty,
+    harder_than_typical_cuet_level: harderThanTypicalCuetLevel,
+    ambiguity_or_multiple_correct_answers: ambiguityOrMultipleCorrectAnswers,
+    language_unnecessarily_complex: languageUnnecessarilyComplex,
+    syllabus_alignment: syllabusAlignment,
+    concept_match: conceptMatch,
+    difficulty_level: difficultyLevel,
+    compared_to_pyqs: comparedToPyqs,
+    clarity,
+    language_level: languageLevel,
+    option_quality: optionQuality,
+    subject_consistency: subjectConsistency,
+    verdict: shouldReject ? 'INVALID' : 'VALID',
+    reasons: shouldReject ? normalizeRejectionReasons({
+      validatorReasons,
+      validatorCheckFailed,
+      validatorV2Failed,
+      syllabusAlignment,
+      conceptMatch,
+      difficultyLevel,
+      comparedToPyqs,
+      clarity,
+      languageLevel,
+      optionQuality,
+      subjectConsistency,
+      issues,
+    }) : [],
     recommended_difficulty: recommendedDifficulty,
-    issues,
+    issues: validatorCheckFailed || validatorV2Failed || verdict !== 'VALID' ? [...issues, 'validator_v2_failed'] : issues,
     improved_question: improvedQuestion,
   };
+}
+
+function normalizeYesNo(value, defaultYes) {
+  const normalized = String(value || '').trim().toUpperCase();
+  if (normalized === 'YES' || normalized === 'NO') return normalized;
+  if (value === true) return 'YES';
+  if (value === false) return 'NO';
+  return defaultYes ? 'YES' : 'NO';
+}
+
+function normalizeEnum(value, allowedValues, fallback) {
+  const normalized = String(value || '').trim().toUpperCase();
+  return allowedValues.includes(normalized) ? normalized : fallback;
+}
+
+function normalizeValidatorReasons(reasons) {
+  if (!Array.isArray(reasons)) return [];
+  return reasons.map((reason) => String(reason || '').trim()).filter(Boolean).slice(0, 8);
+}
+
+function normalizeRejectionReasons({
+  validatorReasons,
+  validatorCheckFailed,
+  validatorV2Failed,
+  syllabusAlignment,
+  conceptMatch,
+  difficultyLevel,
+  comparedToPyqs,
+  clarity,
+  languageLevel,
+  optionQuality,
+  subjectConsistency,
+  issues,
+}) {
+  const reasons = new Set(validatorReasons);
+  if (syllabusAlignment !== 'WITHIN') reasons.add('outside CUET syllabus');
+  if (conceptMatch !== 'EXACT') reasons.add('concept mismatch');
+  if (difficultyLevel === 'TOO HARD') reasons.add('too hard compared to PYQs');
+  if (comparedToPyqs === 'HARDER') reasons.add('too hard compared to PYQs');
+  if (clarity === 'AMBIGUOUS') reasons.add('ambiguous wording');
+  if (languageLevel === 'COMPLEX') reasons.add('language too complex');
+  if (optionQuality !== 'CLEAN') reasons.add(optionQuality === 'OVERLAPPING' ? 'ambiguous options' : 'confusing options');
+  if (subjectConsistency !== 'CORRECT') reasons.add('subject mismatch');
+  if (validatorCheckFailed || validatorV2Failed) reasons.add('validator v2 strict checks failed');
+  for (const issue of issues || []) {
+    if (issue) reasons.add(String(issue));
+  }
+  return [...reasons].slice(0, 8);
 }
 
 function normalizeOptions(options) {

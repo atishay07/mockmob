@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { getSubjectById } from '@/../data/subjects';
+import { normalizeSubjectSelection } from '@/../data/cuet_controls';
 
 /**
  * GET /api/chapters?subject=<id>
@@ -22,18 +23,23 @@ export async function GET(request) {
     if (!subject) {
       return NextResponse.json({ error: 'subject is required' }, { status: 400 });
     }
+    const subjectSelection = normalizeSubjectSelection({ subject });
+    if (!subjectSelection.valid) {
+      return NextResponse.json({ error: subjectSelection.error }, { status: subjectSelection.error === 'SUBJECT_REQUIRED' ? 400 : 422 });
+    }
+    const internalSubject = subjectSelection.internalSubject;
 
     // ── Try units first ────────────────────────────────────────
     const [unitsRes, chaptersRes] = await Promise.all([
       supabaseAdmin()
         .from('units')
         .select('id, name, sort_order')
-        .eq('subject_id', subject)
+        .eq('subject_id', internalSubject)
         .order('sort_order', { ascending: true }),
       supabaseAdmin()
         .from('chapters')
         .select('id, name, sort_order, unit_id')
-        .eq('subject_id', subject)
+        .eq('subject_id', internalSubject)
         .order('sort_order', { ascending: true }),
     ]);
 
@@ -79,7 +85,7 @@ export async function GET(request) {
       const groupedUnits = [...unitMap.values()].filter(u => u.chapters.length > 0);
       if (unassignedChapters.length > 0) {
         groupedUnits.push({
-          id:        `${subject}__unassigned`,
+          id:        `${internalSubject}__unassigned`,
           name:      'Other chapters',
           sortOrder: Number.MAX_SAFE_INTEGER,
           chapters:  unassignedChapters,
@@ -101,13 +107,13 @@ export async function GET(request) {
     }
 
     // ── Static fallback ────────────────────────────────────────
-    const sub = getSubjectById(subject);
+    const sub = getSubjectById(internalSubject);
     if (!sub) return NextResponse.json({ grouped: false, chapters: [] }, { status: 200 });
 
     return NextResponse.json({
       grouped: false,
       chapters: sub.chapters.map((name, i) => ({
-        id:        `${subject}__${name.toLowerCase().replace(/[^a-z0-9]+/g, '_')}`,
+        id:        `${internalSubject}__${name.toLowerCase().replace(/[^a-z0-9]+/g, '_')}`,
         name,
         sortOrder: i,
       })),

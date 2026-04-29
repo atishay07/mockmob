@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { Database } from '@/../data/db';
 import { auth } from '@/lib/auth';
+import { normalizeSubjectSelection } from '@/../data/cuet_controls';
+import { isValidTopSyllabusPair } from '@/../data/canonical_syllabus';
 
 export const dynamic = 'force-dynamic';
 
@@ -19,8 +21,15 @@ export async function GET(request) {
     const count = Number.isFinite(countRaw) ? Math.max(1, Math.min(100, countRaw)) : 10;
     const generationKey = (searchParams.get('generationKey') || '').trim();
 
-    if (!subjectId) {
-      return NextResponse.json({ error: 'Subject is required' }, { status: 400 });
+    const subjectSelection = normalizeSubjectSelection({ subject: subjectId });
+    if (!subjectSelection.valid && subjectSelection.error === 'SUBJECT_REQUIRED') {
+      return NextResponse.json({ error: 'SUBJECT_REQUIRED' }, { status: 400 });
+    }
+    if (!subjectSelection.valid) {
+      return NextResponse.json({ error: 'SUBJECT_NOT_SUPPORTED' }, { status: 422 });
+    }
+    if (chapter && !isValidTopSyllabusPair(subjectSelection.internalSubject, chapter)) {
+      return NextResponse.json({ error: 'Unsupported CUET chapter for this subject.' }, { status: 422 });
     }
 
     const session = await auth();
@@ -77,7 +86,7 @@ export async function GET(request) {
       });
     }
 
-    const questions = await Database.getQuestions(subjectId, count, {
+    const questions = await Database.getQuestions(subjectSelection.internalSubject, count, {
       chapter: chapter || undefined,
       chapters: chapters.length > 0 ? chapters : undefined,
       difficulty: isPremium ? difficulty : undefined,
@@ -94,8 +103,10 @@ export async function GET(request) {
 function validateQuestionPayload(q) {
   const errors = [];
   if (!q || typeof q !== 'object') { errors.push('Body must be an object'); return errors; }
-  if (typeof q.subject !== 'string' || !q.subject.trim()) errors.push('subject is required');
+  const subjectSelection = normalizeSubjectSelection({ subject: q.subject });
+  if (!subjectSelection.valid) errors.push(subjectSelection.error || 'SUBJECT_NOT_SUPPORTED');
   if (typeof q.chapter !== 'string' || !q.chapter.trim()) errors.push('chapter is required');
+  if (subjectSelection.valid && q.chapter && !isValidTopSyllabusPair(subjectSelection.internalSubject, q.chapter)) errors.push('unsupported CUET subject/chapter');
   if (typeof q.question !== 'string' || q.question.trim().length < 5) errors.push('question must be at least 5 characters');
   if (!Array.isArray(q.options) || q.options.length < 2) errors.push('options must be an array of at least 2 items');
   else if (q.options.some(o => typeof o !== 'string' || !o.trim())) errors.push('every option must be a non-empty string');
@@ -119,6 +130,7 @@ export async function POST(request) {
     }
     const newQuestion = await Database.addPendingQuestion({
       ...body,
+      subject: normalizeSubjectSelection({ subject: body.subject }).internalSubject,
       uploadedBy: session.user.id,
     });
     return NextResponse.json(newQuestion, { status: 201 });

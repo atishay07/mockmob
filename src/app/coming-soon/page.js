@@ -6,6 +6,10 @@ import { ComingSoonClient, ComingSoonCountdown } from "./ComingSoonClient";
 export const metadata = {
   title: "Coming Soon | MockMob",
   description: "MockMob is opening soon.",
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 const tracks = ["CUET 2026", "JEE", "NEET", "UPSC", "CAT", "GATE", "SSC", "CLAT"];

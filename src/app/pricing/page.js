@@ -4,11 +4,20 @@ import Link from 'next/link';
 import { Check, ChevronDown, PartyPopper, ShieldCheck, Sparkles, X } from 'lucide-react';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
+import { JsonLd } from '@/components/JsonLd';
 import { PricingCard } from '@/components/ui/PricingCard';
 import { LiquidGlassButton } from '@/components/ui/LiquidGlassButton';
 import { RazorpayPaymentButton } from '@/components/billing/RazorpayPaymentButton';
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
+import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
+
+export const metadata = seoMetadata({
+  title: 'MockMob Pricing for CUET Mock Tests & Analytics',
+  description:
+    'Start free or unlock MockMob Pro for unlimited CUET mocks, advanced Radar analytics, bookmarks, and Admission Compass.',
+  path: '/pricing',
+});
 
 const plans = [
   {
@@ -134,6 +143,17 @@ export default async function PricingPage() {
 
   return (
     <div className="view min-h-screen">
+      <JsonLd
+        id="pricing-breadcrumb-json-ld"
+        data={breadcrumbJsonLd([
+          { name: 'Home', path: '/' },
+          { name: 'Pricing', path: '/pricing' },
+        ])}
+      />
+      <JsonLd
+        id="pricing-faq-json-ld"
+        data={faqJsonLd(faqs.map((faq) => ({ question: faq.q, answer: faq.a })))}
+      />
       <NavBar />
       <div className="container-wide px-5 pb-14 pt-[108px]">
 

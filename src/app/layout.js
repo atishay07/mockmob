@@ -1,6 +1,8 @@
 import { Space_Grotesk, Inter, Lexend } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
+import { JsonLd } from "@/components/JsonLd";
+import { globalJsonLd, seoMetadata, siteConfig } from "@/lib/seo";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -21,8 +23,20 @@ const lexend = Lexend({
 });
 
 export const metadata = {
-  title: "MockMob",
-  description: "Community-built exam prep platform",
+  metadataBase: new URL(siteConfig.url),
+  applicationName: siteConfig.name,
+  generator: "Next.js",
+  referrer: "origin-when-cross-origin",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  ...seoMetadata({
+    title: "CUET Mock Tests & Practice Questions | MockMob",
+    description: siteConfig.description,
+    path: "/",
+  }),
 };
 
 export default function RootLayout({ children }) {
@@ -31,6 +45,9 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${spaceGrotesk.variable} ${inter.variable} ${lexend.variable} h-full antialiased`}
     >
+      <head>
+        <JsonLd id="global-json-ld" data={globalJsonLd()} />
+      </head>
       <body className="min-h-full flex flex-col">
         <Providers>{children}</Providers>
       </body>

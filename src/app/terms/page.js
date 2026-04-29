@@ -1,11 +1,13 @@
 import React from 'react';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
+import { seoMetadata } from '@/lib/seo';
 
-export const metadata = {
+export const metadata = seoMetadata({
   title: 'Terms of Service | MockMob',
-  description: 'Terms for using MockMob.',
-};
+  description: 'Read the terms for using MockMob mock tests, community questions, premium features, and accounts.',
+  path: '/terms',
+});
 
 export default function TermsPage() {
   return (

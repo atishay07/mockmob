@@ -17,6 +17,8 @@ export function NavBar() {
   const mobileMenuButtonRef = useRef(null);
 
   const links = [
+    { label: 'CUET Mock Test', href: '/cuet-mock-test-free' },
+    { label: 'CUET PYQs', href: '/cuet-previous-year-questions' },
     { label: 'Features', href: '/features' },
     { label: 'Pricing', href: '/pricing' },
     { label: 'Leaderboard', href: isAuthenticated ? '/leaderboard' : '/login' },

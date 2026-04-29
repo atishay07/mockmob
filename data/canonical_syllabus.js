@@ -3,21 +3,21 @@
 // preserving existing chapter names already used by questions and UI filters.
 
 export const TOP_SUBJECTS = Object.freeze([
+  'english',
+  'gat',
   'accountancy',
   'economics',
   'business_studies',
   'mathematics',
-  'applied_mathematics',
   'physics',
   'chemistry',
   'biology',
-  'english',
   'history',
   'political_science',
   'geography',
   'psychology',
   'sociology',
-  'legal_studies',
+  'computer_science',
 ]);
 
 export const CANONICAL_SYLLABUS = [

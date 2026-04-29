@@ -7,8 +7,9 @@ import { planGeneration } from './planner.mjs';
 import { generateQuestions, getLastGenerationDiagnostics, validateAndAlignBatch, PIPELINE_BATCH_SIZE } from '../lib/llm.mjs';
 import { deduplicateBatch, deduplicateAgainst } from '../lib/dedupe.mjs';
 import { publishQuestion } from '../lib/publish.mjs';
-import { SUBJECTS } from '../../../data/subjects.js';
+import { CUET_SUPPORTED_SUBJECTS } from '../../../data/subjects.js';
 import { CANONICAL_SYLLABUS, TOP_SUBJECTS, getCanonicalUnitForChapter, isValidTopSyllabusPair } from '../../../data/canonical_syllabus.js';
+import { validateTraceability } from '../../../data/cuet_controls.js';
 
 const supabase = createClient(
   process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -16,8 +17,9 @@ const supabase = createClient(
 );
 
 const API_SECRET = process.env.INTERNAL_API_SECRET || 'test-secret';
-const MAX_RETRIES = 2;
+const MAX_RETRIES = 3;
 const MAX_API_CALLS_PER_JOB = MAX_RETRIES + 1;
+const VALIDATOR_FEEDBACK_PREFIX = 'validator_feedback:';
 const VALIDATION_CANDIDATE_LIMIT = 25;
 const STANDARD_VALIDATION_SAMPLE_RATE = 0.35;
 const LOW_COVERAGE_VALIDATION_THRESHOLD = 25;
@@ -226,6 +228,12 @@ function normalizeQuestion(question, expectedSubject, expectedChapter) {
     answer: correctAnswer,
     difficulty: question.difficulty || question.d || 'medium',
     explanation: question.explanation || '',
+    topic: question.topic || '',
+    concept: question.concept || '',
+    concept_id: question.concept_id || '',
+    pyq_anchor_id: question.pyq_anchor_id || '',
+    anchor_tier: Number(question.anchor_tier || question.anchorTier || 0),
+    question_type: question.question_type || question.pattern_type || 'direct_concept',
     concept_pattern: question.concept_pattern || '',
   };
 }
@@ -309,6 +317,10 @@ function getInternalRejectionReason(question, expectedSubject, expectedChapter) 
   if (!isSchemaValid(question)) return 'invalid_schema';
   if (!isValidSyllabusPair(question.subject, question.chapter)) return 'invalid_syllabus_pair';
   if (question.subject !== expectedSubject || question.chapter !== expectedChapter) return 'subject_or_chapter_mismatch';
+  const traceability = validateTraceability(question, expectedSubject, expectedChapter);
+  if (!traceability.valid) return traceability.reason;
+  if (!String(question.pyq_anchor_id || '').trim()) return 'missing_pyq_anchor';
+  if (![1, 2, 3].includes(Number(question.anchor_tier))) return 'missing_or_invalid_anchor_tier';
 
   const body = String(question.body || '').trim();
   const bodyLower = body.toLowerCase();
@@ -409,6 +421,73 @@ function logRejectedQuestion({ subject, chapter, reason, attemptCount = 0 }) {
     reason,
     attemptCount,
   });
+}
+
+function parseValidatorRetryFeedback(errorMessage) {
+  const raw = String(errorMessage || '');
+  if (!raw.startsWith(VALIDATOR_FEEDBACK_PREFIX)) {
+    return { attempt: 0, reasons: [] };
+  }
+
+  try {
+    const parsed = JSON.parse(raw.slice(VALIDATOR_FEEDBACK_PREFIX.length));
+    return {
+      attempt: Math.max(0, Math.min(Number(parsed.attempt || 0), MAX_RETRIES - 1)),
+      reasons: collectUniqueFeedbackReasons(parsed.reasons || []),
+    };
+  } catch {
+    return { attempt: 0, reasons: [] };
+  }
+}
+
+function collectValidationReasons(validation) {
+  const reasons = [
+    ...(Array.isArray(validation?.reasons) ? validation.reasons : []),
+    ...(Array.isArray(validation?.issues) ? validation.issues : []),
+  ];
+
+  if (validation?.syllabus_alignment && validation.syllabus_alignment !== 'WITHIN') reasons.push('outside CUET syllabus');
+  if (validation?.concept_match && validation.concept_match !== 'EXACT') reasons.push('concept mismatch');
+  if (validation?.difficulty_level === 'TOO HARD' || validation?.compared_to_pyqs === 'HARDER') reasons.push('too hard compared to PYQs');
+  if (validation?.clarity === 'AMBIGUOUS') reasons.push('ambiguous wording');
+  if (validation?.language_level === 'COMPLEX') reasons.push('language too complex');
+  if (validation?.option_quality && validation.option_quality !== 'CLEAN') reasons.push('ambiguous or confusing options');
+  if (validation?.subject_consistency && validation.subject_consistency !== 'CORRECT') reasons.push('subject mismatch');
+  if (validation?.verdict === 'INVALID' && reasons.length === 0) reasons.push('validator marked invalid');
+
+  return collectUniqueFeedbackReasons(reasons);
+}
+
+function collectUniqueFeedbackReasons(reasons) {
+  const unique = new Set();
+  for (const reason of Array.isArray(reasons) ? reasons : []) {
+    const clean = String(reason || '').trim();
+    if (clean) unique.add(clean);
+  }
+  return [...unique].slice(0, 8);
+}
+
+async function requeueJobWithValidatorFeedback(jobId, attempt, reasons) {
+  const feedback = {
+    attempt,
+    reasons: collectUniqueFeedbackReasons(reasons),
+    updatedAt: new Date().toISOString(),
+  };
+
+  console.warn('[validator-feedback] requeueing_job_with_feedback', {
+    job_id: jobId,
+    next_attempt: attempt + 1,
+    max_attempts: MAX_RETRIES,
+    reasons: feedback.reasons,
+  });
+
+  await supabase
+    .from('generation_jobs')
+    .update({
+      status: 'queued',
+      error_message: `${VALIDATOR_FEEDBACK_PREFIX}${JSON.stringify(feedback)}`,
+    })
+    .eq('id', jobId);
 }
 
 function scoreCandidateForValidation(question, pool) {
@@ -787,7 +866,7 @@ async function processJob(job) {
     return;
   }
 
-  const subject = SUBJECTS.find((entry) => entry.id === job.subject_id);
+  const subject = CUET_SUPPORTED_SUBJECTS.find((entry) => entry.id === job.subject_id);
   console.log('[worker] SUBJECT_RESOLUTION:', {
     job_id: job.id,
     expected_subject: job.subject_id,
@@ -801,6 +880,16 @@ async function processJob(job) {
     preValidationFiltered: 0, retryCount: 0, apiCallsUsed: 0, scores: [],
     crossJobDuplicates: 0,
   };
+  const retryFeedback = parseValidatorRetryFeedback(job.error_message);
+  if (retryFeedback.reasons.length > 0) {
+    stats.retryCount += retryFeedback.attempt;
+    console.warn('[validator-feedback] retry_context_loaded', {
+      job_id: job.id,
+      attempt: retryFeedback.attempt + 1,
+      max_attempts: MAX_RETRIES,
+      reasons: retryFeedback.reasons,
+    });
+  }
   const dropReasons = {
     normalization_failed: 0,
     invalid_options_format: 0,
@@ -856,6 +945,7 @@ async function processJob(job) {
       usedConcepts: usedConceptSample,
       saturatedSubtopics: getSaturatedSubtopics(job.subject_id, adaptiveMax),
       difficultyOverride,
+      validationFeedback: retryFeedback.reasons,
       maxAttempts: 1,
     };
     console.log('[generation] batch adjusted:', {
@@ -1059,9 +1149,9 @@ async function processJob(job) {
 
     const balancedQuestions = balanceCorrectAnswerDistribution(dedupedQuestions).slice(0, targetCount);
     const rankedForValidation = rankValidationCandidates(balancedQuestions, VALIDATION_CANDIDATE_LIMIT);
-    const selectedForValidation = pickValidationSample(rankedForValidation, job.question_count || 0);
+    const selectedForValidation = rankedForValidation;
 
-    console.log(`[pipeline] after_chapter_filter=${chapterFiltered.length} | pre_validation_filtered=${structRemoved + internalRejected.length} | batch_duplicates=${batchDupCount} | cross_job_duplicates=${crossJobDupCount} | candidate_pool=${balancedQuestions.length} | sampled_for_validation=${selectedForValidation.length}`);
+    console.log(`[pipeline] after_chapter_filter=${chapterFiltered.length} | pre_validation_filtered=${structRemoved + internalRejected.length} | batch_duplicates=${batchDupCount} | cross_job_duplicates=${crossJobDupCount} | candidate_pool=${balancedQuestions.length} | sent_for_strict_validation=${selectedForValidation.length}`);
 
     if (dupRate > 0.30) {
       console.warn(`[pipeline] HIGH_DUPLICATE_RATE=${(dupRate * 100).toFixed(1)}% (threshold=30%)`);
@@ -1103,6 +1193,7 @@ async function processJob(job) {
 
     // ── Step 6: Filter by validation scores ───────────────────────────────────
     let validatedQuestions = [];
+    const validatorFeedbackReasons = [];
     const validationByQuestion = new Map(
       selectedForValidation.map((question, index) => [question, validationResults[index]])
     );
@@ -1111,10 +1202,14 @@ async function processJob(job) {
       const question = balancedQuestions[i];
       const validation = validationByQuestion.get(question);
       if (!validation) {
-        validatedQuestions.push({
-          ...question,
-          validation_score: null,
-          validation_sampled: false,
+        dropReasons.validation_failed += 1;
+        stats.rejected += 1;
+        validatorFeedbackReasons.push('missing strict validation result');
+        logRejectedQuestion({
+          subject: job.subject_id,
+          chapter: job.chapter,
+          reason: 'missing_strict_validation_result',
+          attemptCount: generationAttemptCount,
         });
         continue;
       }
@@ -1133,7 +1228,20 @@ async function processJob(job) {
         validation.decision === 'reject' ||
         validation.exam_quality < 7 ||
         validation.distractor_quality < 7 ||
-        validation.textbook_style === true;
+        validation.textbook_style === true ||
+        validation.fully_within_cuet_syllabus !== 'YES' ||
+        validation.matches_cuet_pyq_difficulty !== 'YES' ||
+        validation.harder_than_typical_cuet_level !== 'NO' ||
+        validation.ambiguity_or_multiple_correct_answers !== 'NO' ||
+        validation.language_unnecessarily_complex !== 'NO' ||
+        validation.syllabus_alignment !== 'WITHIN' ||
+        validation.concept_match !== 'EXACT' ||
+        validation.difficulty_level === 'TOO HARD' ||
+        validation.compared_to_pyqs === 'HARDER' ||
+        validation.clarity === 'AMBIGUOUS' ||
+        validation.language_level === 'COMPLEX' ||
+        validation.option_quality !== 'CLEAN' ||
+        validation.subject_consistency !== 'CORRECT';
       const shouldReject =
         !validationSkippedForReview &&
         (fatalValidationFailure || (!hasValidatorImprovement && qualityValidationFailure));
@@ -1143,6 +1251,7 @@ async function processJob(job) {
         if (validation.score < scoreThreshold) dropReasons.low_score += 1;
         if (validation.difficulty_correct === false) dropReasons.difficulty_mismatch += 1;
         if (validation.cuet_alignment === false) dropReasons.cuet_alignment_failed += 1;
+        validatorFeedbackReasons.push(...collectValidationReasons(validation));
         console.warn(
           `[pipeline] Rejected | score=${validation.score} | exam_quality=${validation.exam_quality} | distractor_quality=${validation.distractor_quality} | conceptual_depth=${validation.conceptual_depth} | textbook_style=${validation.textbook_style} | difficulty_correct=${validation.difficulty_correct} | cuet_alignment=${validation.cuet_alignment} | issues=${(validation.issues || []).join('; ')}`,
         );
@@ -1163,12 +1272,18 @@ async function processJob(job) {
         ...improvedQuestion,
         validation_score: validation.score,
         validation_sampled: true,
+        strict_cuet_validated: true,
       });
       stats.scores.push(validation.score);
     }
 
     if (validatedQuestions.length === 0) {
       console.warn('[pipeline] strict_mode_no_validated_questions');
+      const feedbackReasons = collectUniqueFeedbackReasons(validatorFeedbackReasons);
+      if (retryFeedback.attempt < MAX_RETRIES - 1 && feedbackReasons.length > 0) {
+        await requeueJobWithValidatorFeedback(job.id, retryFeedback.attempt + 1, feedbackReasons);
+        return;
+      }
     }
 
     const modelDifficultyCounts = countDifficultyMix(validatedQuestions);
@@ -1314,7 +1429,7 @@ async function processJob(job) {
     console.log(
       `[pipeline] METRICS | generated_count=${stats.total}` +
       ` | prefiltered_count=${balancedQuestions.length}` +
-      ` | sampled_validation_count=${selectedForValidation.length}` +
+      ` | strict_validation_count=${selectedForValidation.length}` +
       ` | accepted_count=${stats.accepted}` +
       ` | api_calls_used=${stats.apiCallsUsed}` +
       ` | cost_efficiency_ratio=${costEfficiencyRatio.toFixed(2)}`,
@@ -1323,7 +1438,7 @@ async function processJob(job) {
     console.log(
       `[pipeline] SUMMARY | subject=${job.subject_id} | chapter=${job.chapter} | target=${targetCount}` +
       ` | generated_count=${stats.total} | batch_duplicates=${stats.duplicates} | cross_job_duplicates=${stats.crossJobDuplicates}` +
-      ` | pre_validation_filtered=${stats.preValidationFiltered} | sampled_validation_count=${selectedForValidation.length} | validated_count=${validatedQuestions.length}` +
+      ` | pre_validation_filtered=${stats.preValidationFiltered} | strict_validation_count=${selectedForValidation.length} | validated_count=${validatedQuestions.length}` +
       ` | accepted_count=${stats.accepted} | shortfall=${finalShortfall}` +
       ` | yield_rate=${(finalYieldRate * 100).toFixed(1)}%` +
       ` | retry_count=${stats.retryCount} | api_calls_used=${stats.apiCallsUsed}`,

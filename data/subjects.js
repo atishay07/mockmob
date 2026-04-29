@@ -1,4 +1,5 @@
-import { getCanonicalSubject } from './canonical_syllabus.js';
+import { TOP_SUBJECTS, getCanonicalSubject } from './canonical_syllabus.js';
+import { toInternalSubjectId } from './cuet_controls.js';
 
 // CUET Subject Definitions — Complete mapping
 // Source of truth for subject metadata (id, name, short code, glyph, chapters).
@@ -332,6 +333,10 @@ for (const subject of SUBJECTS) {
   subject.chapters = Array.from(new Set(canonical.units.flatMap((unit) => unit.chapters)));
 }
 
+export const CUET_SUPPORTED_SUBJECTS = SUBJECTS.filter((subject) => TOP_SUBJECTS.includes(subject.id));
+
 export function getSubjectById(id) {
-  return SUBJECTS.find((s) => s.id === id);
+  const internalId = toInternalSubjectId(id);
+  if (!TOP_SUBJECTS.includes(internalId)) return null;
+  return SUBJECTS.find((s) => s.id === internalId);
 }

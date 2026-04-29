@@ -5,6 +5,8 @@ import { LandingActions } from '@/components/LandingActions';
 import { Icon } from '@/components/ui/Icons';
 import { Button } from '@/components/ui/Button';
 import { MarketingFooter } from '@/components/MarketingFooter';
+import { JsonLd } from '@/components/JsonLd';
+import { breadcrumbJsonLd, courseJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
 
 // Magic UI components
 import { MorphingText } from '@/components/ui/morphing-text';
@@ -12,6 +14,13 @@ import { NumberTicker } from '@/components/ui/number-ticker';
 import { ScrollVelocityContainer, ScrollVelocityRow } from '@/components/ui/scroll-based-velocity';
 import { DotPattern } from '@/components/ui/dot-pattern';
 import { InteractiveGridPattern } from '@/components/ui/interactive-grid-pattern';
+
+export const metadata = seoMetadata({
+  title: 'CUET Mock Tests & Practice Questions | MockMob',
+  description:
+    'Take CUET mock tests, practise peer-reviewed questions, track weak chapters, and prepare for CUET UG with MockMob.',
+  path: '/',
+});
 
 export default function LandingPage() {
   const stats = [
@@ -34,8 +43,36 @@ export default function LandingPage() {
     { n: 'Sia Prajapati', r: 'NEET • AIR 1,204', q: 'The weakness radar caught that my time management was poor in Biology. Fixed it in 2 weeks. Scored 355/360.' },
   ];
 
+  const faqs = [
+    {
+      question: 'Can I take a CUET mock test free on MockMob?',
+      answer:
+        'Yes. MockMob lets students start with free CUET mock practice and upgrade when they need unlimited mocks, deeper analytics, and Admission Compass.',
+    },
+    {
+      question: 'Does MockMob include CUET previous year questions?',
+      answer:
+        'MockMob is built around CUET-style practice, previous year question routines, chapter drills, and community-verified questions for exam preparation.',
+    },
+    {
+      question: 'Is MockMob affiliated with NTA?',
+      answer:
+        'No. MockMob is an independent exam preparation platform and is not affiliated with NTA, DU, CUET, or any official exam body.',
+    },
+  ];
+
   return (
     <div className="view">
+      <JsonLd id="home-breadcrumb-json-ld" data={breadcrumbJsonLd([{ name: 'Home', path: '/' }])} />
+      <JsonLd id="home-faq-json-ld" data={faqJsonLd(faqs)} />
+      <JsonLd
+        id="home-course-json-ld"
+        data={courseJsonLd({
+          name: 'CUET Mock Tests and Practice Questions',
+          description: 'CUET UG preparation with free mock tests, online practice questions, analytics, and admission planning.',
+          path: '/',
+        })}
+      />
       <NavBar />
       
       {/* HERO */}
@@ -252,6 +289,25 @@ export default function LandingPage() {
           <h2 className="display-lg mb-3">Stop reading. Start solving.</h2>
           <p className="text-zinc-400 mb-8 max-w-sm mx-auto text-sm md:text-base">The next topper is already on Question 42 today. What are you waiting for?</p>
           <LandingActions mode="primary" />
+        </div>
+      </section>
+
+      <section className="px-5 mb-24">
+        <div className="container-narrow">
+          <div className="text-center mb-8">
+            <div className="eyebrow mb-3">{'// CUET FAQ'}</div>
+            <h2 className="display-md">Quick answers before you start.</h2>
+          </div>
+          <div className="grid gap-3">
+            {faqs.map((faq) => (
+              <details key={faq.question} className="glass p-5 [&_summary::-webkit-details-marker]:hidden">
+                <summary className="cursor-pointer list-none font-display text-lg font-bold text-white">
+                  {faq.question}
+                </summary>
+                <p className="pt-3 text-sm leading-relaxed text-zinc-400">{faq.answer}</p>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
 

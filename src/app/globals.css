@@ -470,6 +470,55 @@ canvas { max-width: 100%; }
 .container-std { max-width: 1180px; margin: 0 auto; }
 .container-wide { max-width: 1280px; margin: 0 auto; }
 
+.seo-page {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(210, 240, 0, 0.07), transparent 42%),
+    var(--ink);
+}
+.seo-copy {
+  display: grid;
+  gap: 36px;
+  color: #a1a1aa;
+  font-size: 16px;
+  line-height: 1.85;
+}
+.seo-copy section {
+  display: grid;
+  gap: 14px;
+}
+.seo-copy h2 {
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+.seo-copy p {
+  margin: 0;
+}
+.seo-link-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+.seo-link-row a {
+  border: 1px solid rgba(210, 240, 0, 0.24);
+  border-radius: 8px;
+  background: rgba(210, 240, 0, 0.08);
+  color: var(--volt);
+  padding: 10px 12px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+}
+.seo-faq-list {
+  display: grid;
+  gap: 12px;
+}
+
 /* Hide scrollbar for horiz scroll regions */
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { scrollbar-width: none; }

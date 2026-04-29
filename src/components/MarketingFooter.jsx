@@ -54,6 +54,11 @@ export function MarketingFooter() {
               </Link>
             </li>
             <li>
+              <Link href="/cuet-practice-tests-online" className="hover:text-volt">
+                CUET Practice Tests
+              </Link>
+            </li>
+            <li>
               <Link href="/login" className="hover:text-volt">
                 Login
               </Link>
@@ -64,13 +69,18 @@ export function MarketingFooter() {
           <div className="text-white font-display font-bold mb-4">Exams</div>
           <ul className="flex flex-col gap-2 text-sm text-zinc-500">
             <li>
-              <Link href="/dashboard" className="hover:text-volt">
-                CUET UG
+              <Link href="/cuet-mock-test-free" className="hover:text-volt">
+                CUET Mock Test Free
               </Link>
             </li>
             <li>
-              <Link href="/dashboard" className="hover:text-volt">
-                JEE Mains
+              <Link href="/cuet-previous-year-questions" className="hover:text-volt">
+                CUET PYQs
+              </Link>
+            </li>
+            <li>
+              <Link href="/cuet-practice-tests-online" className="hover:text-volt">
+                CUET Online Practice
               </Link>
             </li>
             <li>

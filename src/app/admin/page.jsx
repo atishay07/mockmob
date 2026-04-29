@@ -6,6 +6,12 @@ import AdminDashboardClient from './AdminDashboardClient';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
+export const metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 const emptyStats = (creatorId) => ({
   creatorId,

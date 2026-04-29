@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { getCanonicalUnitForChapter, isValidTopSyllabusPair } from '../../../data/canonical_syllabus.js';
+import { validateTraceability } from '../../../data/cuet_controls.js';
 
 const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -42,6 +43,32 @@ export async function publishQuestion(question, apiSecret, options = {}) {
       return { success: false, error: 'chapter_mismatch' };
     }
 
+    const traceability = validateTraceability(question, question.subject, chapter);
+    if (!traceability.valid) {
+      console.warn('[llm] question_rejected_due_to_traceability', {
+        subject: question.subject || null,
+        chapter,
+        reason: traceability.reason,
+        source: 'publish_guard',
+      });
+      return { success: false, error: traceability.reason };
+    }
+    if (!String(question.pyq_anchor_id || '').trim()) {
+      return { success: false, error: 'missing_pyq_anchor' };
+    }
+    if (![1, 2, 3].includes(Number(question.anchor_tier))) {
+      return { success: false, error: 'missing_or_invalid_anchor_tier' };
+    }
+
+    const traceTags = [
+      ...(question.tags || []),
+      `topic:${traceability.concept.topic}`,
+      `concept:${traceability.concept.concept_id}`,
+      `pyq_anchor:${question.pyq_anchor_id}`,
+      `anchor_tier:${Number(question.anchor_tier)}`,
+      `question_type:${question.question_type || 'direct_concept'}`,
+    ];
+
     const { data: qData, error: qError } = await supabase
       .from('questions')
       .insert({
@@ -53,7 +80,13 @@ export async function publishQuestion(question, apiSecret, options = {}) {
         correct_answer: question.correct_answer.trim(),
         explanation: question.explanation || null,
         difficulty,
-        tags: question.tags || [],
+        tags: Array.from(new Set(traceTags)),
+        topic: traceability.concept.topic,
+        concept: traceability.concept.concept,
+        concept_id: traceability.concept.concept_id,
+        pyq_anchor_id: question.pyq_anchor_id,
+        anchor_tier: Number(question.anchor_tier),
+        question_type: question.question_type || 'direct_concept',
         status: 'live',
         ai_tier: 'A',
         verification_state: 'verified',

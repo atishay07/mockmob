@@ -1,11 +1,13 @@
 import React from 'react';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
+import { seoMetadata } from '@/lib/seo';
 
-export const metadata = {
+export const metadata = seoMetadata({
   title: 'Privacy Policy | MockMob',
-  description: 'How MockMob collects, uses, and protects student data.',
-};
+  description: 'Read how MockMob collects, uses, and protects student account, practice, and payment data.',
+  path: '/privacy',
+});
 
 export default function PrivacyPage() {
   return (

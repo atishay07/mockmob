@@ -2,14 +2,17 @@ import React from 'react';
 import Link from 'next/link';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
+import { JsonLd } from '@/components/JsonLd';
 import { Icon } from '@/components/ui/Icons';
 import { Button } from '@/components/ui/Button';
 import { DotPattern } from '@/components/ui/dot-pattern';
+import { breadcrumbJsonLd, seoMetadata } from '@/lib/seo';
 
-export const metadata = {
-  title: 'Features | MockMob',
-  description: 'Explore the powerful tools built for top percentile rankers on MockMob.',
-};
+export const metadata = seoMetadata({
+  title: 'CUET Practice Features, Analytics & Admission Compass | MockMob',
+  description: 'Explore MockMob features for CUET mock tests, weakness radar, saved questions, leaderboards, and admission guidance.',
+  path: '/features',
+});
 
 export default function FeaturesPage() {
   const allFeatures = [
@@ -29,6 +32,13 @@ export default function FeaturesPage() {
 
   return (
     <div className="view">
+      <JsonLd
+        id="features-breadcrumb-json-ld"
+        data={breadcrumbJsonLd([
+          { name: 'Home', path: '/' },
+          { name: 'Features', path: '/features' },
+        ])}
+      />
       <NavBar />
       
       {/* HEADER */}

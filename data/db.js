@@ -10,6 +10,7 @@
 
 import { supabaseAdmin } from '@/lib/supabase';
 import { SEED_QUESTIONS } from './questions';
+import { toPublicSubjectId } from './cuet_controls';
 
 // ---------- id helpers (match legacy formats) ----------
 const rid = () => Math.random().toString(36).substring(2, 9);
@@ -85,7 +86,8 @@ const creatorOut = (r) => r && ({
 
 const questionOut = (r) => r && ({
   id: r.id,
-  subject: r.subject,
+  subject: toPublicSubjectId(r.subject),
+  internalSubject: r.subject,
   chapter: r.chapter,
   body: r.body ?? r.question,
   question: r.question ?? r.body,   // upload route writes `body`; addPendingQuestion writes `question`
@@ -100,6 +102,11 @@ const questionOut = (r) => r && ({
   correctAnswer: r.correct_answer,  // upload route writes `correct_answer`
   explanation: r.explanation,
   difficulty: r.difficulty,
+  topic: r.topic || null,
+  concept: r.concept || null,
+  conceptId: r.concept_id || null,
+  pyqAnchorId: r.pyq_anchor_id || null,
+  questionType: r.question_type || null,
   source: r.source,
   status: r.status,
   uploadedBy: r.uploaded_by,
