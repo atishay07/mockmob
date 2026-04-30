@@ -391,9 +391,10 @@ export function getLastGenerationDiagnostics() {
 
 async function generateWithOpenAI(subject, chapter, count, context = {}) {
   const difficultyOverride = normalizeDifficultyOverride(context.difficultyOverride);
-  const modelName = GENERATION_MODELS.includes(context.modelOverride)
+  const forcedModel = GENERATION_MODELS.includes(context.modelOverride)
     ? context.modelOverride
-    : OPENAI_GENERATION_MODEL;
+    : null;
+  const modelCandidates = forcedModel ? [forcedModel] : getAvailableGenerationModels();
 
   const targets = buildDifficultyTargets(count, difficultyOverride);
   const conceptId = context.concept_id || context.conceptId || getSyllabusConcepts(subject.id, chapter)[0]?.concept_id;
@@ -412,6 +413,16 @@ async function generateWithOpenAI(subject, chapter, count, context = {}) {
     });
     return { error: anchorSelection.error, reason: anchorSelection.error };
   }
+  console.log('[llm] pyq_anchor_selected', {
+    subject: subject.id,
+    chapter,
+    concept_id: conceptId,
+    pyq_anchor_id: anchorSelection.primary?.id || null,
+    anchor_tier: anchorSelection.anchor_tier,
+    fallback_used: anchorSelection.fallback_used === true,
+    concept_mismatch_risk: anchorSelection.concept_mismatch_risk || 'unknown',
+    synthetic_anchor: anchorSelection.primary?.synthetic === true,
+  });
 
   // Pick subtopics to focus on for this batch (round-robin across chapters)
   const subtopicFocus = getSubtopicFocus(subject.id, subject.chapters || [], 3);
@@ -422,10 +433,13 @@ async function generateWithOpenAI(subject, chapter, count, context = {}) {
     difficultyOverride,
     anchorSelection,
     validationFeedback: context.validationFeedback || [],
+    previousAttempts: context.previousAttempts || context.previous_attempts || [],
   });
   let lastGenerationError = null;
 
-  try {
+  for (let modelIndex = 0; modelIndex < modelCandidates.length; modelIndex += 1) {
+    const modelName = modelCandidates[modelIndex];
+    try {
     console.log(`[llm] active_model=${modelName}`);
     logLlmEvent('active_model', {
       activeModel: modelName,
@@ -464,6 +478,7 @@ async function generateWithOpenAI(subject, chapter, count, context = {}) {
         ...question,
         pyq_anchor_id: question.pyq_anchor_id || anchorSelection.primary.id,
         anchor_tier: Number(question.anchor_tier || anchorSelection.anchor_tier),
+        difficulty_weight: getDifficultyWeight(question.difficulty),
       }));
     const diagnostics = getLastGenerationDiagnostics();
     if (diagnostics.dropReasons.chapter_mismatch > 0) {
@@ -483,17 +498,29 @@ async function generateWithOpenAI(subject, chapter, count, context = {}) {
       chapter,
     });
     return normalized;
-  } catch (error) {
-    lastGenerationError = error;
-    const reason = getLlmFailureReason(error);
-    const cooldownUntil = markModelFailed(modelName, reason);
-    console.warn(`[llm] failure ${modelName} (${formatFailureReason(error, reason)})`);
-    logLlmEvent('model_failure', {
-      model: modelName,
-      reason,
-      message: error.message,
-      cooldownUntil: cooldownUntil ? new Date(cooldownUntil).toISOString() : null,
-    }, 'warn');
+    } catch (error) {
+      lastGenerationError = error;
+      const reason = getLlmFailureReason(error);
+      const cooldownUntil = forcedModel ? null : markModelFailed(modelName, reason);
+      console.warn(`[llm] failure ${modelName} (${formatFailureReason(error, reason)})`);
+      logLlmEvent('model_failure', {
+        model: modelName,
+        reason,
+        message: error.message,
+        cooldownUntil: cooldownUntil ? new Date(cooldownUntil).toISOString() : null,
+      }, 'warn');
+      if (forcedModel) break;
+      const nextModel = modelCandidates[modelIndex + 1] || null;
+      if (nextModel) {
+        console.warn('[llm] generation_model_fallback', {
+          failed_model: modelName,
+          next_model: nextModel,
+          reason,
+          subject: subject.id,
+          chapter,
+        });
+      }
+    }
   }
 
   lastGenerationDiagnostics = cloneDiagnostics(EMPTY_DIAGNOSTICS);
@@ -558,7 +585,7 @@ function getAvailableValidationModels() {
 
 function buildStrictCuetGenerationPrompt(subject, chapter, count, targets, options = {}) {
   const unit = getCanonicalUnitForChapter(subject.id, chapter);
-  const { usedConcepts = [], subtopicFocus = [], saturatedSubtopics = [], difficultyOverride = null, anchorSelection = null, validationFeedback = [] } = options;
+  const { usedConcepts = [], subtopicFocus = [], saturatedSubtopics = [], difficultyOverride = null, anchorSelection = null, validationFeedback = [], previousAttempts = [] } = options;
   const subjectConfig = getCuetSubjectConfig(subject.id);
   const conceptBackbone = getSyllabusConcepts(subject.id, chapter);
   const primaryConcept = conceptBackbone[0]?.concept || chapter;
@@ -596,6 +623,15 @@ function buildStrictCuetGenerationPrompt(subject, chapter, count, targets, optio
     : '';
   const feedbackLine = Array.isArray(validationFeedback) && validationFeedback.length > 0
     ? `\nPREVIOUS ATTEMPT FAILED DUE TO:\n${validationFeedback.slice(0, 8).map((reason) => `- ${reason}`).join('\n')}\nFix these issues strictly in this attempt. Do not repeat the same mistake. Adjust difficulty, clarity, and options accordingly.`
+    : '';
+  const previousAttemptsLine = Array.isArray(previousAttempts) && previousAttempts.length > 0
+    ? `\nPREVIOUS FAILED ATTEMPTS:\n${JSON.stringify(previousAttempts.slice(0, 5).map((attempt) => ({
+        question: String(attempt?.question || '').slice(0, 240),
+        reasons: Array.isArray(attempt?.reasons) ? attempt.reasons.slice(0, 5) : [],
+      })), null, 2)}\nDo NOT repeat patterns or mistakes from previous failed attempts.`
+    : '';
+  const tier3ConceptLock = anchorSelection.anchor_tier >= 3
+    ? `\nCRITICAL:\nYou MUST strictly generate the question ONLY from the given concept_id.\nThe reference PYQ is ONLY for structure and difficulty guidance.\nDO NOT use its concept or content.`
     : '';
 
   console.log('[llm] STRICT_CUET_PROMPT_CONSTRUCTION:', {
@@ -644,7 +680,7 @@ TIER ${anchorSelection.anchor_tier} FALLBACK CONTROL:
 - Do NOT drift topic.
 - Use the anchor only for structure and difficulty guidance.
 - The generated content must still come from the constraint object, not from the fallback anchor's concept.
-` : ''}
+` : ''}${tier3ConceptLock}
 
 BACKUP PYQ ANCHORS:
 ${JSON.stringify(anchorSelection.backups.map((anchor) => ({
@@ -663,7 +699,7 @@ SUBJECT: "${subject.name}" [id="${subject.id}"]
 CHAPTER: "${chapter}"
 UNIT: "${unit?.unit_name || 'Unknown'}"
 DIFFICULTY TARGET: easy=${targets.easy}, medium=${targets.medium}, hard=${targets.hard}
-BATCH SIZE: exactly ${count} questions in one JSON array${focusLine}${avoidLine}${saturatedLine}${subjectControlLine}${englishControlLine}${difficultyLine}${feedbackLine}
+BATCH SIZE: exactly ${count} questions in one JSON array${focusLine}${avoidLine}${saturatedLine}${subjectControlLine}${englishControlLine}${difficultyLine}${feedbackLine}${previousAttemptsLine}
 
 MANDATORY CUET-FIRST RULES:
 - Generate only from CONSTRAINT OBJECT.allowed_concepts.
@@ -690,9 +726,10 @@ TRACEABILITY REQUIRED IN EVERY ITEM:
 - concept_id must equal "${constraint.concept_id}"
 - pyq_anchor_id must equal "${anchorSelection.primary.id}"
 - anchor_tier must equal ${anchorSelection.anchor_tier}
+- difficulty_weight must be 1 for easy, 2 for medium, 3 for hard
 
 Return ONLY a valid JSON array. No markdown. No prose. No extra keys.
-[{"q":"...","o":["A ...","B ...","C ...","D ..."],"a":"A","d":"easy|medium|hard","question_type":"${anchorSelection.primary.question_type || questionType}","concept_pattern":"unique_snake_case_tag","explanation":"one sentence","subject":"${subject.id}","public_subject":"${toPublicSubjectId(subject.id)}","chapter":"${chapter}","topic":"${constraint.topic}","concept":"${constraint.concept}","concept_id":"${constraint.concept_id}","pyq_anchor_id":"${anchorSelection.primary.id}","anchor_tier":${anchorSelection.anchor_tier},"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc"}]`;
+[{"q":"...","o":["A ...","B ...","C ...","D ..."],"a":"A","d":"easy|medium|hard","difficulty_weight":2,"question_type":"${anchorSelection.primary.question_type || questionType}","concept_pattern":"unique_snake_case_tag","explanation":"one sentence","subject":"${subject.id}","public_subject":"${toPublicSubjectId(subject.id)}","chapter":"${chapter}","topic":"${constraint.topic}","concept":"${constraint.concept}","concept_id":"${constraint.concept_id}","pyq_anchor_id":"${anchorSelection.primary.id}","anchor_tier":${anchorSelection.anchor_tier},"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc"}]`;
 }
 
 function getNextAvailableValidationModel(currentModel) {
@@ -962,6 +999,7 @@ function generateMockQuestions(subject, chapter, count, difficultyOverride = nul
     correct_answer: "A",
     explanation: "Mock explanation aligned to the chosen difficulty.",
     difficulty,
+    difficulty_weight: getDifficultyWeight(difficulty),
     topic: constraint.topic,
     concept: constraint.concept,
     concept_id: constraint.concept_id,
@@ -1330,6 +1368,7 @@ function compactQuestionForValidation(question) {
     o: options,
     a: normalizeAnswerKey(question?.correct_answer || question?.a),
     d: normalizeDifficulty(question?.difficulty),
+    difficulty_weight: getDifficultyWeight(question?.difficulty),
     c: String(question?.chapter || '').trim(),
     topic: String(question?.topic || '').trim(),
     concept: String(question?.concept || '').trim(),
@@ -1595,6 +1634,7 @@ function normalizeGeneratedQuestions(questions, subjectId, chapter) {
       correct_answer: normalizeAnswerKey(question.correct_answer || question.answer || question.a),
       explanation: String(question.explanation || '').trim(),
       difficulty: normalizeDifficulty(question.difficulty || question.d),
+      difficulty_weight: getDifficultyWeight(question.difficulty || question.d),
       question_type: String(question.question_type || question.pattern_type || 'direct_concept').trim(),
       topic: String(question.topic || '').trim(),
       concept: String(question.concept || '').trim(),
@@ -1935,6 +1975,10 @@ function normalizeAnswerKey(value) {
 function normalizeDifficulty(value) {
   const difficulty = String(value || '').trim().toLowerCase();
   return ['easy', 'medium', 'hard'].includes(difficulty) ? difficulty : 'medium';
+}
+
+function getDifficultyWeight(value) {
+  return { easy: 1, medium: 2, hard: 3 }[normalizeDifficulty(value)] || 2;
 }
 
 function normalizeDifficultyOverride(value) {

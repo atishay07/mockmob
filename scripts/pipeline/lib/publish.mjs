@@ -15,6 +15,7 @@ export async function publishQuestion(question, apiSecret, options = {}) {
   try {
     const now = new Date().toISOString();
     const difficulty = normalizeDifficulty(question.difficulty);
+    const difficultyWeight = getDifficultyWeight(difficulty);
     const chapter = typeof question.chapter === 'string' ? question.chapter : '';
     const expectedChapter = options.expectedChapter;
     const canonicalUnit = getCanonicalUnitForChapter(question.subject, chapter);
@@ -66,6 +67,7 @@ export async function publishQuestion(question, apiSecret, options = {}) {
       `concept:${traceability.concept.concept_id}`,
       `pyq_anchor:${question.pyq_anchor_id}`,
       `anchor_tier:${Number(question.anchor_tier)}`,
+      `difficulty_weight:${difficultyWeight}`,
       `question_type:${question.question_type || 'direct_concept'}`,
     ];
 
@@ -80,6 +82,7 @@ export async function publishQuestion(question, apiSecret, options = {}) {
         correct_answer: question.correct_answer.trim(),
         explanation: question.explanation || null,
         difficulty,
+        difficulty_weight: difficultyWeight,
         tags: Array.from(new Set(traceTags)),
         topic: traceability.concept.topic,
         concept: traceability.concept.concept,
@@ -142,4 +145,8 @@ function normalizeDifficulty(rawDifficulty) {
   }
 
   return 'medium';
+}
+
+function getDifficultyWeight(difficulty) {
+  return { easy: 1, medium: 2, hard: 3 }[normalizeDifficulty(difficulty)] || 2;
 }

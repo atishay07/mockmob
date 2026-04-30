@@ -11,6 +11,7 @@
 import { supabaseAdmin } from '@/lib/supabase';
 import { SEED_QUESTIONS } from './questions';
 import { toPublicSubjectId } from './cuet_controls';
+import { getMode, computeDifficultyTargets } from './test_modes';
 
 // ---------- id helpers (match legacy formats) ----------
 const rid = () => Math.random().toString(36).substring(2, 9);
@@ -102,6 +103,7 @@ const questionOut = (r) => r && ({
   correctAnswer: r.correct_answer,  // upload route writes `correct_answer`
   explanation: r.explanation,
   difficulty: r.difficulty,
+  difficultyWeight: r.difficulty_weight || null,
   topic: r.topic || null,
   concept: r.concept || null,
   conceptId: r.concept_id || null,
@@ -123,7 +125,6 @@ const questionOut = (r) => r && ({
 });
 
 const VISIBLE_QUESTION_FILTER = 'status.eq.live,and(verification_state.eq.verified,exploration_state.eq.active)';
-const MOCK_DIFFICULTY_QUOTAS = { easy: 0.10, medium: 0.60, hard: 0.30 };
 const PAID_SALE_STATUSES = new Set(['captured', 'completed', 'paid']);
 
 function isMissingPhase1VoteSchema(error) {
@@ -144,54 +145,79 @@ function isPaidSaleRow(row) {
     Number(row?.amount_paid) > 0;
 }
 
-function computeDifficultyTargets(total) {
-  if (total <= 1) return { easy: 0, medium: total, hard: 0 };
-
-  let easy = Math.max(1, Math.round(total * MOCK_DIFFICULTY_QUOTAS.easy));
-  let medium = Math.max(1, Math.round(total * MOCK_DIFFICULTY_QUOTAS.medium));
-  let hard = total - easy - medium;
-
-  if (hard < 1 && total >= 3) {
-    hard = 1;
-  }
-
-  while (easy + medium + hard > total) {
-    if (medium > 1) medium--;
-    else if (hard > 1) hard--;
-    else break;
-  }
-
-  while (easy + medium + hard < total) {
-    medium++;
-  }
-
-  return { easy, medium, hard };
+function getDifficultyWeight(difficulty) {
+  return { easy: 1, medium: 2, hard: 3 }[String(difficulty || '').toLowerCase()] || 2;
 }
 
-function pickQuestionsForMock(rows, count) {
-  const buckets = {
-    easy: rows.filter((row) => row.difficulty === 'easy'),
-    medium: rows.filter((row) => row.difficulty === 'medium'),
-    hard: rows.filter((row) => row.difficulty === 'hard'),
-    other: rows.filter((row) => !['easy', 'medium', 'hard'].includes(row.difficulty)),
-  };
+// ── Mode-aware mock picker ──────────────────────────────────────────────────
+// Layered priority (highest first):
+//   1. unseen by user
+//   2. weak-topic concepts (smart mode only)
+//   3. least recently used
+//   4. community quality (score) as tiebreaker
+// Then enforces difficulty targets and a per-concept cap.
+function rankCandidates(rows, { mode, progress, weakConcepts }) {
+  const now = Date.now();
+  const dayMs = 1000 * 60 * 60 * 24;
+  return rows
+    .map((row) => {
+      const seen = progress.get(row.id);
+      const isUnseen = !seen || (seen.attempt_count || 0) === 0;
+      const isWeak = mode.useWeakTopics && row.concept_id && weakConcepts.has(row.concept_id);
+      const last = seen?.last_attempted_at ? new Date(seen.last_attempted_at).getTime() : 0;
+      const ageDays = last ? Math.min(400, (now - last) / dayMs) : 400;
 
-  const targets = computeDifficultyTargets(count);
-  const selected = [];
+      let priority = 0;
+      if (isUnseen) priority += 10000;
+      if (isWeak) priority += 5000;
+      priority += ageDays;            // older = higher priority (LRU)
+      priority += (row.score || 0);   // community quality tiebreaker
+      return { row, priority };
+    })
+    .sort((a, b) => b.priority - a.priority)
+    .map((entry) => entry.row);
+}
 
-  for (const difficulty of ['easy', 'medium', 'hard']) {
-    for (let i = 0; i < targets[difficulty] && buckets[difficulty].length > 0; i += 1) {
-      selected.push(buckets[difficulty].shift());
+function pickWithConstraints(orderedRows, count, mode) {
+  const targets = computeDifficultyTargets(count, mode.difficulty);
+  const taken = { easy: 0, medium: 0, hard: 0 };
+  const conceptCount = new Map();
+  const cap = mode.maxPerConcept || 2;
+  const out = [];
+  const used = new Set();
+
+  // Pass 1 — respect difficulty targets + per-concept cap.
+  for (const row of orderedRows) {
+    if (out.length >= count) break;
+    const d = ['easy', 'medium', 'hard'].includes(row.difficulty) ? row.difficulty : 'medium';
+    if (taken[d] >= targets[d]) continue;
+    if (cap && row.concept_id && (conceptCount.get(row.concept_id) || 0) >= cap) continue;
+    out.push(row); used.add(row.id); taken[d]++;
+    if (row.concept_id) conceptCount.set(row.concept_id, (conceptCount.get(row.concept_id) || 0) + 1);
+  }
+
+  // Pass 2 — fill remaining slots, only the per-concept cap still applies.
+  if (out.length < count) {
+    for (const row of orderedRows) {
+      if (out.length >= count) break;
+      if (used.has(row.id)) continue;
+      if (cap && row.concept_id && (conceptCount.get(row.concept_id) || 0) >= cap) continue;
+      out.push(row); used.add(row.id);
+      if (row.concept_id) conceptCount.set(row.concept_id, (conceptCount.get(row.concept_id) || 0) + 1);
     }
   }
 
-  for (const difficulty of ['medium', 'hard', 'easy', 'other']) {
-    while (selected.length < count && buckets[difficulty].length > 0) {
-      selected.push(buckets[difficulty].shift());
-    }
-  }
+  return out.slice(0, count);
+}
 
-  return selected.slice(0, count);
+function validateMockSet(rows, count) {
+  if (!rows.length) return { ok: false, reason: 'empty_pool' };
+  const ids = new Set(rows.map((r) => r.id));
+  if (ids.size !== rows.length) return { ok: false, reason: 'duplicate_ids' };
+  const subjects = new Set(rows.map((r) => r.subject));
+  if (subjects.size > 1) return { ok: false, reason: 'mixed_subjects' };
+  if (rows.length < Math.ceil(count * 0.7)) return { ok: false, reason: 'pool_too_thin' };
+  return { ok: true };
 }
 
 const attemptOut = (r) => r && ({
@@ -738,7 +764,13 @@ export const Database = {
   // CREDITS (Atomic RPC calls)
   // =====================================================================
   async spendCredits(userId, action, reference) {
-    if (!['generate', 'attempt'].includes(action)) throw new Error('Invalid credit spend action');
+    // Allowed actions match the SQL CASE in spend_credits():
+    //   'generate'     -> 10 credits (question generation)
+    //   'attempt'      -> 10 credits (Quick Practice)
+    //   'attempt_full' -> 50 credits (Full Mock)
+    if (!['generate', 'attempt', 'attempt_full'].includes(action)) {
+      throw new Error('Invalid credit spend action');
+    }
     const { data, error } = await supabaseAdmin().rpc('spend_credits', {
       p_user_id: userId,
       p_action: action,
@@ -800,6 +832,12 @@ export const Database = {
   // QUESTIONS
   // =====================================================================
   async getQuestions(subjectId, count, opts = {}) {
+    const mode = getMode(opts.mode || 'quick');
+    const targetCount = Math.max(1, Math.min(100, count || mode.fixedCount || mode.defaultCount || 10));
+
+    // Pull a generous candidate pool — enough to survive recency + concept caps.
+    const poolSize = Math.max(60, targetCount * 6);
+
     const buildQuery = (withScore) => {
       let query = supabaseAdmin()
         .from('questions')
@@ -809,13 +847,20 @@ export const Database = {
         .or(VISIBLE_QUESTION_FILTER);
       if (Array.isArray(opts.chapters) && opts.chapters.length > 0) query = query.in('chapter', opts.chapters);
       else if (opts.chapter) query = query.eq('chapter', opts.chapter);
-      if (['easy', 'medium', 'hard'].includes(opts.difficulty)) query = query.eq('difficulty', opts.difficulty);
+      if (mode.allowDifficultyOverride && ['easy', 'medium', 'hard'].includes(opts.difficulty)) {
+        query = query.eq('difficulty', opts.difficulty);
+      }
+      if (mode.requireAnchor) {
+        query = query.in('anchor_tier', [1, 2]);
+      }
       if (withScore) {
         query = query
           .gte('score', -2)
           .order('score', { ascending: false });
       }
-      return query.order('created_at', { ascending: false });
+      return query
+        .order('created_at', { ascending: false })
+        .limit(poolSize);
     };
 
     let { data, error } = await buildQuery(true);
@@ -823,9 +868,35 @@ export const Database = {
       ({ data, error } = await buildQuery(false));
     }
     if (error) throw error;
-    const visibleRows = Array.isArray(data) ? data : [];
-    const limit = count ? Math.min(count, visibleRows.length) : visibleRows.length;
-    const selected = pickQuestionsForMock(visibleRows, limit);
+    let pool = Array.isArray(data) ? data : [];
+
+    // Recency: drop questions seen in the user's last N attempts for this subject.
+    if (opts.userId && mode.recencyLimit > 0) {
+      const recentIds = await this._recentQuestionIds(opts.userId, subjectId, mode.recencyLimit);
+      if (recentIds.size) {
+        const trimmed = pool.filter((row) => !recentIds.has(row.id));
+        // Only honour recency if we still have a viable pool afterwards.
+        if (trimmed.length >= Math.ceil(targetCount * 0.7)) pool = trimmed;
+      }
+    }
+
+    if (pool.length === 0) return [];
+
+    // Per-user signals for the priority stack.
+    const progress = opts.userId
+      ? await this._userProgress(opts.userId, pool.map((row) => row.id))
+      : new Map();
+    const weakConcepts = (mode.useWeakTopics && opts.userId)
+      ? await this._weakConcepts(opts.userId, subjectId, mode.weakAccuracyThreshold || 0.6)
+      : new Set();
+
+    const ranked = rankCandidates(pool, { mode, progress, weakConcepts });
+    const selected = pickWithConstraints(ranked, targetCount, mode);
+
+    const validation = validateMockSet(selected, targetCount);
+    if (!validation.ok && validation.reason === 'pool_too_thin') {
+      console.warn('[mock] pool thin', { subject: subjectId, mode: mode.id, requested: targetCount, got: selected.length });
+    }
 
     if (opts.userId && selected.length > 0) {
       const voteMap = await this.getUserVotes(opts.userId, selected.map((row) => row.id));
@@ -833,6 +904,79 @@ export const Database = {
     }
 
     return selected.map(questionOut);
+  },
+
+  async _recentQuestionIds(userId, subjectId, lastN) {
+    if (!userId || !lastN) return new Set();
+    const { data, error } = await supabaseAdmin()
+      .from('attempts')
+      .select('questions_snapshot')
+      .eq('user_id', userId)
+      .eq('subject', subjectId)
+      .order('completed_at', { ascending: false })
+      .limit(lastN);
+    if (error) {
+      console.warn('[mock] recency lookup failed:', error.message);
+      return new Set();
+    }
+    const ids = new Set();
+    for (const row of data || []) {
+      for (const q of row.questions_snapshot || []) {
+        if (q && q.id) ids.add(q.id);
+      }
+    }
+    return ids;
+  },
+
+  async _userProgress(userId, questionIds) {
+    if (!userId || !Array.isArray(questionIds) || questionIds.length === 0) return new Map();
+    const { data, error } = await supabaseAdmin()
+      .from('user_question_progress')
+      .select('question_id, attempt_count, correct_count, last_attempted_at')
+      .eq('user_id', userId)
+      .in('question_id', questionIds);
+    if (error) {
+      // Schema may not be present in older envs — degrade gracefully.
+      return new Map();
+    }
+    return new Map((data || []).map((row) => [row.question_id, row]));
+  },
+
+  async _weakConcepts(userId, subjectId, threshold) {
+    // Cheap aggregate. STEP 3 mandates JS-layer logic — no new SQL function.
+    // 1. Pull this user's per-question progress rows for the subject.
+    // 2. Look up concept_id for each question_id in a single batched query.
+    // 3. Bucket by concept and flag those with >=3 attempts and accuracy < threshold.
+    const { data: progressRows, error } = await supabaseAdmin()
+      .from('user_question_progress')
+      .select('question_id, attempt_count, correct_count')
+      .eq('user_id', userId)
+      .eq('subject', subjectId)
+      .gt('attempt_count', 0);
+    if (error || !progressRows?.length) return new Set();
+
+    const ids = progressRows.map((row) => row.question_id);
+    const { data: qRows, error: qError } = await supabaseAdmin()
+      .from('questions')
+      .select('id, concept_id')
+      .in('id', ids);
+    if (qError) return new Set();
+    const conceptByQid = new Map((qRows || []).map((row) => [row.id, row.concept_id]));
+
+    const buckets = new Map(); // concept_id -> { attempts, correct }
+    for (const row of progressRows) {
+      const concept = conceptByQid.get(row.question_id);
+      if (!concept) continue;
+      const bucket = buckets.get(concept) || { attempts: 0, correct: 0 };
+      bucket.attempts += row.attempt_count || 0;
+      bucket.correct += row.correct_count || 0;
+      buckets.set(concept, bucket);
+    }
+    const weak = new Set();
+    for (const [concept, b] of buckets.entries()) {
+      if (b.attempts >= 3 && (b.correct / b.attempts) < threshold) weak.add(concept);
+    }
+    return weak;
   },
 
   async getUserVotes(userId, questionIds) {
@@ -938,6 +1082,7 @@ export const Database = {
       correct_index: q.correctIndex,
       explanation: q.explanation || null,
       difficulty: q.difficulty || null,
+      difficulty_weight: getDifficultyWeight(q.difficulty || 'medium'),
       source: q.source || null,
       status: 'pending',
       uploaded_by: q.uploadedBy || null,

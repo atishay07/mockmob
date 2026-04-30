@@ -26,7 +26,13 @@ const plans = [
     cycle: '/month',
     description: 'Perfect for getting started with focused mock practice.',
     ctaLabel: 'Start Free',
-    features: ['Credit-gated mocks', 'Weekly progress bar', '25 saved questions', 'Community leaderboard access'],
+    features: [
+      'Quick Practice (5 to 20 questions) — credit-gated',
+      'Full Mock (50 questions, 60 minutes) — credit-gated',
+      'Weekly progress tracking',
+      '25 saved questions',
+      'Community leaderboard access',
+    ],
   },
   {
     name: 'Pro',
@@ -39,31 +45,59 @@ const plans = [
     amount: 6900,
     featured: true,
     features: [
-      'Unlimited mocks across your CUET subjects',
-      'Difficulty selector: easy, medium, hard, or auto',
-      'Premium Radar with weakness analysis and chapter priority maps',
-      'Admission Compass with CUET score bands and DU college recommendations',
+      'Admission Compass — CUET score bands and DU college recommendations',
       'Custom subject-course eligibility mapping for your target colleges',
+      'Premium Radar with weakness analysis and chapter priority maps',
+      'Difficulty selector: easy, medium, hard, or auto',
       'Fast-lane mock generation and unlimited bookmarks',
-      'AI weakness prompts and premium mock recipes',
+      'Unlimited Quick Practice and Full Mock',
+      'Smart Practice — adaptive, targets your weak topics',
+      'NTA Mode — strict CUET exam simulation (50 Qs, 60 min, PYQ-anchored)',
     ],
   }
 ];
 
-const comparisonRows = [
-  ['CUET mock practice', 'Credit gated', 'Unlimited'],
-  ['Saved questions', '25 saves', 'Unlimited saves'],
-  ['Community leaderboard', true, true],
-  ['Weekly progress tracking', true, true],
-  ['Admission Compass', false, true, true],
-  ['CUET score band estimate', false, true, true],
-  ['College recommendations', false, true, true],
-  ['Custom subject-course mapping', false, true, true],
-  ['Difficulty selector', false, 'Easy, medium, hard, auto'],
-  ['Premium Radar analysis', false, true],
-  ['Chapter priority maps', false, true],
-  ['AI weakness prompts', false, true],
-  ['Fast-lane mock generation', false, true],
+// ── Comparison rows are grouped to keep the table scannable: ──
+//   1. Core test modes (available to all)
+//   2. Core platform features (available to all)
+//   3. Advanced features (Pro) — Compass family is highlighted Most Popular
+//   4. Advanced test modes (Pro) — bottom of the table
+const COMPARISON_GROUPS = [
+  {
+    heading: 'Core test modes',
+    rows: [
+      ['Quick Practice (5 to 20 Qs)', 'Credit-gated · 10 credits each', 'Unlimited'],
+      ['Full Mock (50 Qs · 60 min)', 'Credit-gated · 50 credits each', 'Unlimited'],
+    ],
+  },
+  {
+    heading: 'Platform basics',
+    rows: [
+      ['Saved questions', '25 saves', 'Unlimited saves'],
+      ['Community leaderboard', true, true],
+      ['Weekly progress tracking', true, true],
+    ],
+  },
+  {
+    heading: 'Advanced features',
+    rows: [
+      ['Admission Compass', false, true, 'popular'],
+      ['CUET score band estimate', false, true, 'popular'],
+      ['College recommendations', false, true, 'popular'],
+      ['Custom subject-course mapping', false, true, 'popular'],
+      ['Difficulty selector', false, 'Easy, medium, hard, auto'],
+      ['Premium Radar analysis', false, true],
+      ['Chapter priority maps', false, true],
+      ['Fast-lane mock generation', false, true],
+    ],
+  },
+  {
+    heading: 'Advanced test modes',
+    rows: [
+      ['Smart Practice — adaptive', false, 'Unlimited'],
+      ['NTA Mode — CUET exam simulation', false, 'Unlimited'],
+    ],
+  },
 ];
 
 const compassShots = [
@@ -231,25 +265,38 @@ export default async function PricingPage() {
             <p className="text-zinc-400">Everything serious CUET prep needs, laid out clearly.</p>
           </div>
 
-          <div className="pricing-comparison overflow-hidden rounded-2xl border border-white/10 bg-white/[0.025]">
-            <div className="comparison-head grid grid-cols-[1.2fr_0.9fr_0.9fr] border-b border-white/10 bg-white/[0.035] text-xs font-mono uppercase tracking-[0.18em] text-zinc-500">
-              <div className="px-4 py-4">Feature</div>
-              <div className="px-4 py-4">Free</div>
-              <div className="px-4 py-4 text-volt">Pro</div>
+          <div className="pricing-comparison overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02]">
+            <div className="comparison-head grid grid-cols-[1.4fr_0.85fr_0.85fr] border-b border-white/10 bg-white/[0.04] text-xs font-mono uppercase tracking-[0.18em] text-zinc-500">
+              <div className="px-5 py-4">Feature</div>
+              <div className="px-5 py-4">Free</div>
+              <div className="px-5 py-4 text-volt">Pro</div>
             </div>
-            {comparisonRows.map(([feature, free, pro, highlight]) => (
-              <div key={feature} className={`comparison-row grid grid-cols-1 border-b border-white/[0.08] last:border-b-0 sm:grid-cols-[1.2fr_0.9fr_0.9fr] ${highlight ? 'bg-volt/[0.035]' : ''}`}>
-                <div className="comparison-feature px-4 pb-2 pt-4 text-sm font-semibold text-white sm:py-4">
-                  <span>{feature}</span>
-                  {highlight ? (
-                    <span className="ml-2 inline-flex rounded-full border border-volt/25 bg-volt/10 px-2 py-0.5 text-[10px] font-mono uppercase tracking-[0.14em] text-volt">
-                      Most popular
-                    </span>
-                  ) : null}
+            {COMPARISON_GROUPS.map((group) => (
+              <React.Fragment key={group.heading}>
+                <div className="comparison-group-heading">
+                  {group.heading}
                 </div>
-                <div className="comparison-value px-4 py-2 text-sm sm:py-4" data-label="Free"><ComparisonValue value={free} /></div>
-                <div className="comparison-value px-4 pb-4 pt-2 text-sm sm:py-4" data-label="Pro"><ComparisonValue value={pro} pro highlight={highlight} /></div>
-              </div>
+                {group.rows.map(([feature, free, pro, marker]) => {
+                  const isPopular = marker === 'popular';
+                  return (
+                    <div
+                      key={feature}
+                      className={`comparison-row grid grid-cols-1 border-b border-white/[0.06] last:border-b-0 sm:grid-cols-[1.4fr_0.85fr_0.85fr] ${isPopular ? 'is-popular' : ''}`}
+                    >
+                      <div className="comparison-feature px-5 pb-2 pt-4 text-sm font-semibold text-white sm:py-4">
+                        <span>{feature}</span>
+                        {isPopular ? (
+                          <span className="ml-2 inline-flex rounded-full border border-volt/30 bg-volt/10 px-2 py-0.5 text-[10px] font-mono uppercase tracking-[0.14em] text-volt">
+                            Most popular
+                          </span>
+                        ) : null}
+                      </div>
+                      <div className="comparison-value px-5 py-2 text-sm sm:py-4" data-label="Free"><ComparisonValue value={free} /></div>
+                      <div className="comparison-value px-5 pb-4 pt-2 text-sm sm:py-4" data-label="Pro"><ComparisonValue value={pro} pro highlight={isPopular} /></div>
+                    </div>
+                  );
+                })}
+              </React.Fragment>
             ))}
           </div>
 
@@ -328,6 +375,33 @@ export default async function PricingPage() {
           min-height: 238px;
           box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
         }
+        .comparison-group-heading {
+          padding: 14px 20px 8px;
+          font-family: var(--font-mono);
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: .18em;
+          text-transform: uppercase;
+          color: #71717a;
+          background: rgba(0,0,0,.18);
+          border-bottom: 1px solid rgba(255,255,255,.06);
+          border-top: 1px solid rgba(255,255,255,.06);
+        }
+        .pricing-comparison .comparison-head > div + div,
+        .pricing-comparison .comparison-row > div + div {
+          border-left: 1px solid rgba(255,255,255,.05);
+        }
+        /* Subtle highlight on the entire Pro column. */
+        .pricing-comparison .comparison-head > div:last-child,
+        .pricing-comparison .comparison-row > div:last-child {
+          background: rgba(210,240,0,.025);
+        }
+        .pricing-comparison .comparison-row.is-popular {
+          background: rgba(210,240,0,.05);
+        }
+        .pricing-comparison .comparison-row.is-popular > div:last-child {
+          background: rgba(210,240,0,.07);
+        }
         @keyframes sale-pop {
           0% { opacity: 0; transform: translateY(8px) scale(.7); }
           40% { opacity: 1; }
@@ -336,6 +410,12 @@ export default async function PricingPage() {
         @media (max-width: 639px) {
           .comparison-head {
             display: none;
+          }
+          .pricing-comparison .comparison-row > div + div {
+            border-left: 0;
+          }
+          .pricing-comparison .comparison-row > div:last-child {
+            background: transparent;
           }
           .comparison-row {
             gap: 0;

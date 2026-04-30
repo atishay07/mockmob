@@ -3,6 +3,7 @@ import { Database } from '@/../data/db';
 import { auth } from '@/lib/auth';
 import { normalizeSubjectSelection } from '@/../data/cuet_controls';
 import { isValidTopSyllabusPair } from '@/../data/canonical_syllabus';
+import { getMode, isValidModeId, resolveCount } from '@/../data/test_modes';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,8 +19,12 @@ export async function GET(request) {
       .slice(0, 12);
     const difficulty = searchParams.get('difficulty') || '';
     const countRaw = parseInt(searchParams.get('count') || '10', 10);
-    const count = Number.isFinite(countRaw) ? Math.max(1, Math.min(100, countRaw)) : 10;
+    const requestedCount = Number.isFinite(countRaw) ? Math.max(1, Math.min(100, countRaw)) : 10;
     const generationKey = (searchParams.get('generationKey') || '').trim();
+    const modeIdRaw = (searchParams.get('mode') || '').trim();
+    const modeId = isValidModeId(modeIdRaw) ? modeIdRaw : 'quick';
+    const mode = getMode(modeId);
+    const count = resolveCount(mode, requestedCount);
 
     const subjectSelection = normalizeSubjectSelection({ subject: subjectId });
     if (!subjectSelection.valid && subjectSelection.error === 'SUBJECT_REQUIRED') {
@@ -39,10 +44,28 @@ export async function GET(request) {
 
     const dbUser = await Database.getUserById(session.user.id);
     const isPremium = dbUser?.subscriptionStatus === 'active';
-    const usesPremiumControls = ['easy', 'medium', 'hard'].includes(difficulty);
-    if (usesPremiumControls && !isPremium) {
+
+    if (mode.premium && !isPremium) {
       return NextResponse.json({
-        error: 'Premium required',
+        error: 'PREMIUM_REQUIRED',
+        details: `${mode.label} is a premium mode. Upgrade to access it.`,
+      }, { status: 402 });
+    }
+
+    // Difficulty override is only meaningful for modes that allow it AND
+    // remains a premium control for free users on those modes.
+    const wantsDifficultyOverride = ['easy', 'medium', 'hard'].includes(difficulty);
+    const effectiveDifficulty =
+      wantsDifficultyOverride && mode.allowDifficultyOverride && isPremium ? difficulty : '';
+    if (wantsDifficultyOverride && !mode.allowDifficultyOverride) {
+      return NextResponse.json({
+        error: 'DIFFICULTY_NOT_ALLOWED',
+        details: `${mode.label} does not allow manual difficulty selection.`,
+      }, { status: 422 });
+    }
+    if (wantsDifficultyOverride && mode.allowDifficultyOverride && !isPremium) {
+      return NextResponse.json({
+        error: 'PREMIUM_REQUIRED',
         details: 'Difficulty targeting is a premium control.',
       }, { status: 402 });
     }
@@ -51,16 +74,24 @@ export async function GET(request) {
     // (row lock + balance check + ledger insert), and idempotent by
     // reference — a refresh that reuses the same generationKey will not
     // double-charge. Premium users are exempt (matches frontend gating).
-    if (generationKey && generationKey.length >= 12 && !isPremium) {
-      const reference = `generate_mock_${generationKey}`;
+    //
+    // Cost depends on mode:
+    //   Quick Practice -> 'attempt'      (10 credits)
+    //   Full Mock      -> 'attempt_full' (50 credits)
+    //   Smart / NTA    -> premium-only, never charged here
+    if (generationKey && generationKey.length >= 12 && !isPremium && mode.creditAction) {
+      const reference = `generate_mock_${mode.id}_${generationKey}`;
       console.log('[credits] spend attempt', {
         userId: session.user.id,
+        mode: mode.id,
+        action: mode.creditAction,
+        cost: mode.creditCost,
         reference,
         balanceBefore: dbUser?.creditBalance,
       });
       let ok = false;
       try {
-        ok = await Database.spendCredits(session.user.id, 'attempt', reference);
+        ok = await Database.spendCredits(session.user.id, mode.creditAction, reference);
       } catch (rpcErr) {
         console.error('[credits] spend_credits RPC failed:', rpcErr);
         return NextResponse.json(
@@ -69,12 +100,18 @@ export async function GET(request) {
         );
       }
       if (!ok) {
-        console.log('[credits] insufficient', { userId: session.user.id, balance: dbUser?.creditBalance });
+        console.log('[credits] insufficient', {
+          userId: session.user.id,
+          mode: mode.id,
+          required: mode.creditCost,
+          balance: dbUser?.creditBalance,
+        });
         return NextResponse.json(
           {
             error: 'Insufficient credits',
             upgrade: true,
             creditBalance: dbUser?.creditBalance ?? 0,
+            required: mode.creditCost,
           },
           { status: 402 },
         );
@@ -82,14 +119,16 @@ export async function GET(request) {
       const after = await Database.getUserById(session.user.id);
       console.log('[credits] spend ok', {
         userId: session.user.id,
+        mode: mode.id,
         balanceAfter: after?.creditBalance,
       });
     }
 
     const questions = await Database.getQuestions(subjectSelection.internalSubject, count, {
+      mode: mode.id,
       chapter: chapter || undefined,
       chapters: chapters.length > 0 ? chapters : undefined,
-      difficulty: isPremium ? difficulty : undefined,
+      difficulty: effectiveDifficulty || undefined,
       userId: session.user.id,
     });
     return NextResponse.json(questions);

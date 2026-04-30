@@ -4,6 +4,9 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 
+const QUICK_COST = 10;
+const FULL_COST = 50;
+
 export function CreditsRemainingModal({ open, credits, onClose }) {
   const router = useRouter();
 
@@ -30,7 +33,8 @@ export function CreditsRemainingModal({ open, credits, onClose }) {
   if (!open) return null;
 
   const safe = Math.max(0, Number.isFinite(credits) ? credits : 0);
-  const runsLeft = Math.floor(safe / 10);
+  const quickRuns = Math.floor(safe / QUICK_COST);
+  const fullRuns = Math.floor(safe / FULL_COST);
 
   return (
     <div
@@ -62,23 +66,19 @@ export function CreditsRemainingModal({ open, credits, onClose }) {
         }}
       >
         <div style={{
-          display: 'flex', alignItems: 'center', gap: '12px',
+          display: 'flex', alignItems: 'center', gap: '10px',
           marginBottom: '18px',
         }}>
-          <div style={{
-            width: 44, height: 44, borderRadius: 12,
-            display: 'grid', placeItems: 'center',
-            background: 'rgba(212,255,0,0.12)',
-            border: '1px solid rgba(212,255,0,0.25)',
-            fontSize: 22,
-          }} aria-hidden>
-            ⚡
-          </div>
+          <span style={{
+            display: 'inline-block',
+            width: 6, height: 6, borderRadius: 999,
+            background: '#d4ff00',
+          }} aria-hidden />
           <div style={{
             fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.18em',
             textTransform: 'uppercase', color: 'rgba(212,255,0,0.85)',
           }}>
-            // wallet
+            {'// wallet'}
           </div>
         </div>
 
@@ -95,16 +95,49 @@ export function CreditsRemainingModal({ open, credits, onClose }) {
 
         <p style={{
           fontSize: 15, color: 'rgba(255,255,255,0.78)',
-          margin: 0, marginBottom: 18,
+          margin: 0, marginBottom: 14,
         }}>
           You have <span style={{
             color: '#d4ff00', fontWeight: 700,
             fontVariantNumeric: 'tabular-nums',
-          }}>{safe}</span> credits left
-          <span style={{ color: 'rgba(255,255,255,0.5)' }}>
-            {' '}({runsLeft} mock{runsLeft === 1 ? '' : 's'} to go)
-          </span>.
+          }}>{safe}</span> credits left.
         </p>
+
+        <div style={{
+          display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8,
+          marginBottom: 18,
+        }}>
+          <div style={{
+            border: '1px solid rgba(255,255,255,0.08)',
+            borderRadius: 10, padding: '10px 12px',
+            background: 'rgba(255,255,255,0.02)',
+          }}>
+            <div style={{
+              fontFamily: 'var(--font-mono)', fontSize: 9,
+              letterSpacing: '0.14em', textTransform: 'uppercase',
+              color: '#71717a', marginBottom: 4,
+            }}>Quick Practice · {QUICK_COST} cr</div>
+            <div style={{
+              fontFamily: 'var(--font-display)', fontSize: 20, color: '#fff',
+              fontVariantNumeric: 'tabular-nums',
+            }}>{quickRuns} run{quickRuns === 1 ? '' : 's'}</div>
+          </div>
+          <div style={{
+            border: '1px solid rgba(255,255,255,0.08)',
+            borderRadius: 10, padding: '10px 12px',
+            background: 'rgba(255,255,255,0.02)',
+          }}>
+            <div style={{
+              fontFamily: 'var(--font-mono)', fontSize: 9,
+              letterSpacing: '0.14em', textTransform: 'uppercase',
+              color: '#71717a', marginBottom: 4,
+            }}>Full Mock · {FULL_COST} cr</div>
+            <div style={{
+              fontFamily: 'var(--font-display)', fontSize: 20, color: '#fff',
+              fontVariantNumeric: 'tabular-nums',
+            }}>{fullRuns} run{fullRuns === 1 ? '' : 's'}</div>
+          </div>
+        </div>
 
         <div style={{
           height: 8, borderRadius: 999,
@@ -123,7 +156,7 @@ export function CreditsRemainingModal({ open, credits, onClose }) {
           fontSize: 13, color: 'rgba(255,255,255,0.6)',
           margin: 0, marginBottom: 22, lineHeight: 1.5,
         }}>
-          Upgrade to Premium for <span style={{ color: '#fff', fontWeight: 600 }}>unlimited mock tests</span> and uninterrupted practice. 🚀
+          Upgrade to Premium for <span style={{ color: '#fff', fontWeight: 600 }}>unlimited mocks</span>, Smart Practice, and NTA Mode.
         </p>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>

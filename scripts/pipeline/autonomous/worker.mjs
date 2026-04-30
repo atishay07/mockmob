@@ -10,6 +10,7 @@ import { publishQuestion } from '../lib/publish.mjs';
 import { CUET_SUPPORTED_SUBJECTS } from '../../../data/subjects.js';
 import { CANONICAL_SYLLABUS, TOP_SUBJECTS, getCanonicalUnitForChapter, isValidTopSyllabusPair } from '../../../data/canonical_syllabus.js';
 import { validateTraceability } from '../../../data/cuet_controls.js';
+import { PYQ_ANCHORS } from '../../../data/pyq_anchors.js';
 
 const supabase = createClient(
   process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -227,6 +228,7 @@ function normalizeQuestion(question, expectedSubject, expectedChapter) {
     correct_answer: correctAnswer,
     answer: correctAnswer,
     difficulty: question.difficulty || question.d || 'medium',
+    difficulty_weight: getDifficultyWeight(question.difficulty || question.d || 'medium'),
     explanation: question.explanation || '',
     topic: question.topic || '',
     concept: question.concept || '',
@@ -426,7 +428,7 @@ function logRejectedQuestion({ subject, chapter, reason, attemptCount = 0 }) {
 function parseValidatorRetryFeedback(errorMessage) {
   const raw = String(errorMessage || '');
   if (!raw.startsWith(VALIDATOR_FEEDBACK_PREFIX)) {
-    return { attempt: 0, reasons: [] };
+    return { attempt: 0, reasons: [], previousAttempts: [] };
   }
 
   try {
@@ -434,9 +436,10 @@ function parseValidatorRetryFeedback(errorMessage) {
     return {
       attempt: Math.max(0, Math.min(Number(parsed.attempt || 0), MAX_RETRIES - 1)),
       reasons: collectUniqueFeedbackReasons(parsed.reasons || []),
+      previousAttempts: normalizePreviousAttempts(parsed.previous_attempts || parsed.previousAttempts || []),
     };
   } catch {
-    return { attempt: 0, reasons: [] };
+    return { attempt: 0, reasons: [], previousAttempts: [] };
   }
 }
 
@@ -467,10 +470,29 @@ function collectUniqueFeedbackReasons(reasons) {
   return [...unique].slice(0, 8);
 }
 
-async function requeueJobWithValidatorFeedback(jobId, attempt, reasons) {
+function normalizePreviousAttempts(attempts) {
+  if (!Array.isArray(attempts)) return [];
+  return attempts
+    .map((attempt) => ({
+      question: String(attempt?.question || '').trim().slice(0, 240),
+      reasons: collectUniqueFeedbackReasons(attempt?.reasons || []),
+    }))
+    .filter((attempt) => attempt.question || attempt.reasons.length > 0)
+    .slice(-8);
+}
+
+function buildPreviousAttemptsFromRejected(entries) {
+  return normalizePreviousAttempts(entries.map((entry) => ({
+    question: entry.question?.body || entry.question?.question || '',
+    reasons: entry.reasons || [],
+  })));
+}
+
+async function requeueJobWithValidatorFeedback(jobId, attempt, reasons, previousAttempts = []) {
   const feedback = {
     attempt,
     reasons: collectUniqueFeedbackReasons(reasons),
+    previous_attempts: normalizePreviousAttempts(previousAttempts),
     updatedAt: new Date().toISOString(),
   };
 
@@ -479,6 +501,7 @@ async function requeueJobWithValidatorFeedback(jobId, attempt, reasons) {
     next_attempt: attempt + 1,
     max_attempts: MAX_RETRIES,
     reasons: feedback.reasons,
+    previous_attempts: feedback.previous_attempts.length,
   });
 
   await supabase
@@ -525,6 +548,82 @@ function lexicalOverlap(left, right) {
   const leftSet = new Set(String(left || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter((token) => token.length > 2));
   const rightSet = new Set(String(right || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter((token) => token.length > 2));
   return setOverlap(leftSet, rightSet);
+}
+
+function filterSimilarQuestions(questions, existingQuestions, recentLimit = 50) {
+  const valid = [];
+  const rejected = [];
+  const recentBodies = (existingQuestions || [])
+    .map((question) => question?.body)
+    .filter(Boolean)
+    .slice(0, recentLimit);
+
+  for (const question of questions || []) {
+    const reason = getSimilarityRejectionReason(question, [...recentBodies, ...valid.map((entry) => entry.body)]);
+    if (reason) {
+      rejected.push({ question, reason, reasons: [reason] });
+      continue;
+    }
+    valid.push(question);
+  }
+
+  return { valid, rejected };
+}
+
+function getSimilarityRejectionReason(question, recentBodies) {
+  const body = String(question?.body || '').trim();
+  if (!body) return 'empty_question_for_similarity_check';
+
+  const anchor = PYQ_ANCHORS.find((entry) => entry.id === question.pyq_anchor_id);
+  if (anchor?.question_text && isTooSimilar(body, anchor.question_text, { keyword: 0.72, phrase: 0.55 })) {
+    return 'too_similar_to_pyq_anchor';
+  }
+
+  for (const recentBody of recentBodies || []) {
+    if (isTooSimilar(body, recentBody, { keyword: 0.82, phrase: 0.65 })) {
+      return 'too_similar_to_recent_question';
+    }
+  }
+
+  return null;
+}
+
+function isTooSimilar(left, right, thresholds) {
+  const keywordScore = lexicalOverlapWithoutStopwords(left, right);
+  const phraseScore = phraseOverlap(left, right);
+  return keywordScore >= thresholds.keyword || phraseScore >= thresholds.phrase;
+}
+
+function lexicalOverlapWithoutStopwords(left, right) {
+  const leftSet = new Set(tokenizeSignificantWords(left));
+  const rightSet = new Set(tokenizeSignificantWords(right));
+  return setOverlap(leftSet, rightSet);
+}
+
+function phraseOverlap(left, right) {
+  const leftPhrases = new Set(extractPhrases(left));
+  const rightPhrases = new Set(extractPhrases(right));
+  return setOverlap(leftPhrases, rightPhrases);
+}
+
+function extractPhrases(text) {
+  const tokens = tokenizeSignificantWords(text);
+  const phrases = [];
+  for (let size = 2; size <= 4; size += 1) {
+    for (let index = 0; index <= tokens.length - size; index += 1) {
+      phrases.push(tokens.slice(index, index + size).join(' '));
+    }
+  }
+  return phrases;
+}
+
+function tokenizeSignificantWords(text) {
+  const stopwords = new Set(['the', 'and', 'for', 'with', 'from', 'that', 'this', 'which', 'what', 'when', 'where', 'will', 'would', 'should', 'could', 'into', 'than', 'then', 'are', 'was', 'were', 'has', 'have', 'had', 'not', 'only', 'one', 'two', 'following', 'correct', 'incorrect']);
+  return String(text || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .split(/\s+/)
+    .filter((token) => token.length > 2 && !stopwords.has(token));
 }
 
 function setOverlap(leftSet, rightSet) {
@@ -928,6 +1027,7 @@ async function processJob(job) {
       .eq('subject', job.subject_id)
       .eq('chapter', job.chapter)
       .eq('is_deleted', false)
+      .order('created_at', { ascending: false })
       .limit(200);
     const existingQuestions = existingQsData || [];
     if (existingQuestions.length > 0) {
@@ -946,6 +1046,7 @@ async function processJob(job) {
       saturatedSubtopics: getSaturatedSubtopics(job.subject_id, adaptiveMax),
       difficultyOverride,
       validationFeedback: retryFeedback.reasons,
+      previousAttempts: retryFeedback.previousAttempts,
       maxAttempts: 1,
     };
     console.log('[generation] batch adjusted:', {
@@ -1142,12 +1243,33 @@ async function processJob(job) {
 
     const { unique: batchUnique, removed: batchDupCount } = deduplicateBatch(internallyFiltered);
     const { unique: dedupedQuestions, removed: crossJobDupCount } = deduplicateAgainst(batchUnique, existingQuestions);
+    const {
+      valid: similarityFilteredQuestions,
+      rejected: similarityRejected,
+    } = filterSimilarQuestions(dedupedQuestions, existingQuestions);
+    if (similarityRejected.length > 0) {
+      stats.rejected += similarityRejected.length;
+      stats.preValidationFiltered += similarityRejected.length;
+      dropReasons.validation_failed += similarityRejected.length;
+      console.warn('[pipeline] SIMILARITY_REJECTION', similarityRejected.map((entry) => ({
+        reason: entry.reason,
+        body: entry.question?.body?.slice(0, 100) || null,
+      })));
+      for (const entry of similarityRejected) {
+        logRejectedQuestion({
+          subject: job.subject_id,
+          chapter: job.chapter,
+          reason: entry.reason,
+          attemptCount: generationAttemptCount,
+        });
+      }
+    }
     const dupCount = batchDupCount + crossJobDupCount;
     stats.duplicates = batchDupCount;
     stats.crossJobDuplicates = crossJobDupCount;
     const dupRate = internallyFiltered.length > 0 ? dupCount / internallyFiltered.length : 0;
 
-    const balancedQuestions = balanceCorrectAnswerDistribution(dedupedQuestions).slice(0, targetCount);
+    const balancedQuestions = balanceCorrectAnswerDistribution(similarityFilteredQuestions).slice(0, targetCount);
     const rankedForValidation = rankValidationCandidates(balancedQuestions, VALIDATION_CANDIDATE_LIMIT);
     const selectedForValidation = rankedForValidation;
 
@@ -1158,6 +1280,16 @@ async function processJob(job) {
     }
 
     if (balancedQuestions.length === 0) {
+      const feedbackReasons = collectUniqueFeedbackReasons(similarityRejected.map((entry) => entry.reason));
+      if (retryFeedback.attempt < MAX_RETRIES - 1 && feedbackReasons.length > 0) {
+        await requeueJobWithValidatorFeedback(
+          job.id,
+          retryFeedback.attempt + 1,
+          feedbackReasons,
+          [...retryFeedback.previousAttempts, ...buildPreviousAttemptsFromRejected(similarityRejected)],
+        );
+        return;
+      }
       logDropSummary(job, dropReasons, {
         rawParsedCount: generationDiagnostics.rawParsedCount,
         normalizedCount: rawQuestions.length,
@@ -1194,6 +1326,7 @@ async function processJob(job) {
     // ── Step 6: Filter by validation scores ───────────────────────────────────
     let validatedQuestions = [];
     const validatorFeedbackReasons = [];
+    const rejectedValidationAttempts = [];
     const validationByQuestion = new Map(
       selectedForValidation.map((question, index) => [question, validationResults[index]])
     );
@@ -1205,6 +1338,7 @@ async function processJob(job) {
         dropReasons.validation_failed += 1;
         stats.rejected += 1;
         validatorFeedbackReasons.push('missing strict validation result');
+        rejectedValidationAttempts.push({ question, reasons: ['missing strict validation result'] });
         logRejectedQuestion({
           subject: job.subject_id,
           chapter: job.chapter,
@@ -1251,7 +1385,9 @@ async function processJob(job) {
         if (validation.score < scoreThreshold) dropReasons.low_score += 1;
         if (validation.difficulty_correct === false) dropReasons.difficulty_mismatch += 1;
         if (validation.cuet_alignment === false) dropReasons.cuet_alignment_failed += 1;
-        validatorFeedbackReasons.push(...collectValidationReasons(validation));
+        const validationReasons = collectValidationReasons(validation);
+        validatorFeedbackReasons.push(...validationReasons);
+        rejectedValidationAttempts.push({ question, reasons: validationReasons });
         console.warn(
           `[pipeline] Rejected | score=${validation.score} | exam_quality=${validation.exam_quality} | distractor_quality=${validation.distractor_quality} | conceptual_depth=${validation.conceptual_depth} | textbook_style=${validation.textbook_style} | difficulty_correct=${validation.difficulty_correct} | cuet_alignment=${validation.cuet_alignment} | issues=${(validation.issues || []).join('; ')}`,
         );
@@ -1281,7 +1417,12 @@ async function processJob(job) {
       console.warn('[pipeline] strict_mode_no_validated_questions');
       const feedbackReasons = collectUniqueFeedbackReasons(validatorFeedbackReasons);
       if (retryFeedback.attempt < MAX_RETRIES - 1 && feedbackReasons.length > 0) {
-        await requeueJobWithValidatorFeedback(job.id, retryFeedback.attempt + 1, feedbackReasons);
+        await requeueJobWithValidatorFeedback(
+          job.id,
+          retryFeedback.attempt + 1,
+          feedbackReasons,
+          [...retryFeedback.previousAttempts, ...buildPreviousAttemptsFromRejected(rejectedValidationAttempts)],
+        );
         return;
       }
     }
@@ -1290,6 +1431,9 @@ async function processJob(job) {
     validatedQuestions = validatedQuestions.map((question) => ({
       ...question,
       difficulty: classifyDifficulty(question),
+    })).map((question) => ({
+      ...question,
+      difficulty_weight: getDifficultyWeight(question.difficulty),
     }));
     const systemDifficultyCounts = countDifficultyMix(validatedQuestions);
     console.log('[difficulty distribution]', {
@@ -1663,6 +1807,10 @@ function countDifficultyMix(questions) {
     medium: questions.filter((question) => question.difficulty === 'medium').length,
     hard: questions.filter((question) => question.difficulty === 'hard').length,
   };
+}
+
+function getDifficultyWeight(difficulty) {
+  return { easy: 1, medium: 2, hard: 3 }[String(difficulty || '').toLowerCase()] || 2;
 }
 
 if (process.argv.includes('--start')) {

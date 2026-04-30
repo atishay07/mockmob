@@ -26,6 +26,13 @@ const LEGACY_CHAPTER_MAP = Object.freeze({
 });
 
 const DIFFICULTY_RANK = Object.freeze({ easy: 0, medium: 1, hard: 2 });
+const SIMPLE_STRUCTURE_RANK = Object.freeze({
+  short_direct_mcq: 0,
+  which_of_the_following_direct_concept: 1,
+  choose_correct_usage: 1,
+  fill_in_blank_usage: 1,
+  one_step_numerical_question: 2,
+});
 
 function normalizeDifficulty(value) {
   const difficulty = String(value || '').toLowerCase();
@@ -116,16 +123,62 @@ export function selectPyqAnchors({ subject, concept_id: conceptId, difficulty = 
   if (!concept) return { valid: false, error: 'CONCEPT_NOT_IN_TAXONOMY' };
 
   const targetRank = DIFFICULTY_RANK[normalizeDifficulty(difficulty)];
+  const normalizedDifficulty = normalizeDifficulty(difficulty);
   const requestedQuestionType = questionType || concept.allowed_question_types?.[0] || null;
   const subjectAnchors = PYQ_ANCHORS.filter((anchor) => anchor.subject === subjectSelection.internalSubject);
   const byClosestDifficulty = (left, right) => (
     Math.abs(DIFFICULTY_RANK[left.difficulty] - targetRank) -
     Math.abs(DIFFICULTY_RANK[right.difficulty] - targetRank)
   );
-  const byExactDifficultyThenClosest = (left, right) => {
-    const leftExact = left.difficulty === normalizeDifficulty(difficulty) ? 0 : 1;
-    const rightExact = right.difficulty === normalizeDifficulty(difficulty) ? 0 : 1;
-    return leftExact - rightExact || byClosestDifficulty(left, right);
+  const byQuestionTypeMatch = (left, right) => {
+    const leftMatch = requestedQuestionType && left.question_type === requestedQuestionType ? 0 : 1;
+    const rightMatch = requestedQuestionType && right.question_type === requestedQuestionType ? 0 : 1;
+    return leftMatch - rightMatch;
+  };
+  const bySimpleStructure = (left, right) => (
+    getSimpleStructureRank(left.structure_template) - getSimpleStructureRank(right.structure_template)
+  );
+
+  if (subjectAnchors.length === 0) {
+    console.warn('[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback', {
+      subject: subjectSelection.internalSubject,
+      concept_id: conceptId,
+      selected_anchor_id: `synthetic_cuet_structure_${subjectSelection.internalSubject}`,
+      anchor_tier: 4,
+      fallback_used: true,
+      concept_mismatch_risk: 'none_no_real_anchor',
+      requested_difficulty: normalizedDifficulty,
+      requested_question_type: requestedQuestionType,
+    });
+    return buildSyntheticAnchorSelection({
+      subjectSelection,
+      concept,
+      difficulty: normalizedDifficulty,
+      requestedQuestionType,
+    });
+  }
+
+  const logSelection = (tier, primary, candidates) => {
+    const fallbackUsed = tier > 1;
+    const conceptMismatchRisk = primary?.concept_id && primary.concept_id !== conceptId
+      ? (tier >= 3 ? 'high' : 'medium')
+      : 'low';
+    const payload = {
+      subject: subjectSelection.internalSubject,
+      requested_concept_id: conceptId,
+      selected_anchor_id: primary?.id || null,
+      selected_anchor_concept_id: primary?.concept_id || null,
+      anchor_tier: tier,
+      fallback_used: fallbackUsed,
+      concept_mismatch_risk: conceptMismatchRisk,
+      candidates: candidates.length,
+      requested_difficulty: normalizedDifficulty,
+      selected_difficulty: primary?.difficulty || null,
+      requested_question_type: requestedQuestionType,
+      selected_question_type: primary?.question_type || null,
+    };
+    const logger = fallbackUsed ? console.warn : console.log;
+    logger('[pyq_anchor] selected_anchor', payload);
   };
 
   const tier1 = subjectAnchors
@@ -140,22 +193,21 @@ export function selectPyqAnchors({ subject, concept_id: conceptId, difficulty = 
     ))
     .sort(byClosestDifficulty);
 
-  const tier3 = subjectAnchors
-    .filter((anchor) => (
-      (!requestedQuestionType || anchor.question_type === requestedQuestionType) &&
-      anchor.difficulty === normalizeDifficulty(difficulty)
-    ))
-    .sort(byExactDifficultyThenClosest);
+  const tier3 = [...subjectAnchors]
+    .sort((left, right) => byClosestDifficulty(left, right) || byQuestionTypeMatch(left, right));
+
+  const tier4 = [...subjectAnchors]
+    .sort((left, right) => byClosestDifficulty(left, right) || bySimpleStructure(left, right));
 
   const tieredCandidates = [
     { tier: 1, candidates: tier1 },
     { tier: 2, candidates: tier2 },
     { tier: 3, candidates: tier3 },
+    { tier: 4, candidates: tier4 },
   ].find((entry) => entry.candidates.length > 0);
 
-  if (!tieredCandidates) {
-    return { valid: false, error: 'NO_PYQ_ANCHOR_AVAILABLE' };
-  }
+  const primary = tieredCandidates.candidates[0];
+  logSelection(tieredCandidates.tier, primary, tieredCandidates.candidates);
 
   return {
     valid: true,
@@ -163,8 +215,52 @@ export function selectPyqAnchors({ subject, concept_id: conceptId, difficulty = 
     internalSubject: subjectSelection.internalSubject,
     concept,
     anchor_tier: tieredCandidates.tier,
-    primary: tieredCandidates.candidates[0],
+    fallback_used: tieredCandidates.tier > 1,
+    concept_mismatch_risk: primary.concept_id === conceptId ? 'low' : (tieredCandidates.tier >= 3 ? 'high' : 'medium'),
+    primary,
     backups: tieredCandidates.candidates.slice(1, 3),
+  };
+}
+
+function getSimpleStructureRank(structureTemplate) {
+  return SIMPLE_STRUCTURE_RANK[structureTemplate] ?? 9;
+}
+
+function buildSyntheticAnchorSelection({ subjectSelection, concept, difficulty, requestedQuestionType }) {
+  const syntheticAnchor = {
+    id: `synthetic_cuet_structure_${subjectSelection.internalSubject}`,
+    subject: subjectSelection.internalSubject,
+    public_subject: subjectSelection.subject,
+    chapter: concept.chapter,
+    topic: concept.topic,
+    concept_id: concept.concept_id,
+    question_type: requestedQuestionType || 'direct_concept',
+    difficulty,
+    structure_template: 'short_direct_mcq',
+    option_pattern: {
+      count: 4,
+      correct_key: 'A',
+      pattern: 'short_plausible_distractors',
+      average_length: 12,
+    },
+    question_text: '',
+    options: [],
+    correct_answer: 'A',
+    explanation: '',
+    source: 'SYNTHETIC_CUET_FALLBACK',
+    synthetic: true,
+  };
+
+  return {
+    valid: true,
+    subject: subjectSelection.subject,
+    internalSubject: subjectSelection.internalSubject,
+    concept,
+    anchor_tier: 4,
+    fallback_used: true,
+    concept_mismatch_risk: 'none_no_real_anchor',
+    primary: syntheticAnchor,
+    backups: [],
   };
 }
 

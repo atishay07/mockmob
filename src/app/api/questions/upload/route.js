@@ -156,6 +156,7 @@ export async function POST(request) {
         correct_answer:    correct_answer.trim(),
         explanation:       explanation?.trim() ?? null,
         difficulty,
+        difficulty_weight: getDifficultyWeight(difficulty),
         tags,
         ai_tier:           'PENDING',
         content_hash:      contentHash,
@@ -224,4 +225,8 @@ export async function POST(request) {
       { status: 500 }
     )
   }
+}
+
+function getDifficultyWeight(difficulty) {
+  return { easy: 1, medium: 2, hard: 3 }[String(difficulty || '').toLowerCase()] || 2;
 }

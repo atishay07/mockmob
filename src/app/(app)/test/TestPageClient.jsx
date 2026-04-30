@@ -9,6 +9,7 @@ import { PageSpinner, ErrorState } from '@/components/ui/Skeleton';
 import { apiGet, apiPost } from '@/lib/fetcher';
 import { useAuth } from '@/components/AuthProvider';
 import { VoteControls } from '@/components/questions/VoteControls';
+import { getMode, isValidModeId, resolveCount, resolveDurationSec } from '@/../data/test_modes';
 
 /**
  * Test Runner
@@ -25,10 +26,10 @@ import { VoteControls } from '@/components/questions/VoteControls';
  *  - The palette lives in a right rail on desktop, a bottom bar on mobile.
  */
 
-// A stable localStorage key per (user, subject, chapter, count) — distinct tests
-// get distinct keys so two subjects' progress don't collide.
-const storageKey = (uid, subject, chapter, count, difficulty = 'auto') =>
-  `mm:test:${uid || 'anon'}:${subject}:${chapter || '*'}:${count}:${difficulty || 'auto'}`;
+// A stable localStorage key per (user, subject, chapter, count, mode) — distinct
+// tests get distinct keys so two subjects' progress don't collide.
+const storageKey = (uid, subject, chapter, count, difficulty = 'auto', modeId = 'quick') =>
+  `mm:test:${uid || 'anon'}:${subject}:${chapter || '*'}:${count}:${difficulty || 'auto'}:${modeId}`;
 
 function optionLabel(option) {
   return typeof option === 'string' ? option : option?.text ?? String(option ?? '');
@@ -53,12 +54,20 @@ function TestRunner() {
   const chapter   = searchParams.get('chapter') || null;
   const chapters  = searchParams.get('chapters') || null;
   const difficulty = searchParams.get('difficulty') || null;
-  const count     = parseInt(searchParams.get('count') || '10', 10);
+  const modeIdRaw = searchParams.get('mode') || 'quick';
+  const modeId    = isValidModeId(modeIdRaw) ? modeIdRaw : 'quick';
+  const mode      = getMode(modeId);
+  const requestedCount = parseInt(searchParams.get('count') || '10', 10);
+  const count     = resolveCount(mode, requestedCount);
   const generationKey = searchParams.get('generationKey');
 
   const [questions, setQuestions] = useState([]);
   const [idx, setIdx] = useState(0);
   const [answers, setAnswers] = useState({});
+  // Per-question state. visited[qid]=true when the user lands on it.
+  // marked[qid]=true when the user toggles "Mark for review".
+  const [visited, setVisited] = useState({});
+  const [marked, setMarked] = useState({});
   const [endsAt, setEndsAt] = useState(null);
   const [now, setNow] = useState(() => Date.now());
   const [loading, setLoading] = useState(true);
@@ -68,8 +77,8 @@ function TestRunner() {
 
   const userId = user?.id;
   const key = useMemo(
-    () => storageKey(userId, subjectId, chapters || chapter, count, difficulty || 'auto'),
-    [userId, subjectId, chapter, chapters, count, difficulty],
+    () => storageKey(userId, subjectId, chapters || chapter, count, difficulty || 'auto', modeId),
+    [userId, subjectId, chapter, chapters, count, difficulty, modeId],
   );
 
   // Keep latest answers/questions in refs so timer-triggered submit sees them.
@@ -110,8 +119,13 @@ function TestRunner() {
               if (!alive) return;
               setQuestions(saved.questions);
               setAnswers(saved.answers || {});
+              setVisited(saved.visited || {});
+              setMarked(saved.marked || {});
               setEndsAt(saved.endsAt);
-              setIdx(typeof saved.idx === 'number' ? Math.min(saved.idx, saved.questions.length - 1) : 0);
+              const restoredIdx = typeof saved.idx === 'number' ? Math.min(saved.idx, saved.questions.length - 1) : 0;
+              setIdx(restoredIdx);
+              const initial = saved.questions[restoredIdx];
+              if (initial?.id) setVisited((prev) => ({ ...prev, [initial.id]: true }));
               setLoading(false);
               return;
             }
@@ -122,7 +136,7 @@ function TestRunner() {
       }
 
       try {
-        const qs = new URLSearchParams({ subject: subjectId, count: String(count) });
+        const qs = new URLSearchParams({ subject: subjectId, count: String(count), mode: modeId });
         if (chapters) qs.set('chapters', chapters);
         else if (chapter) qs.set('chapter', chapter);
         if (difficulty) qs.set('difficulty', difficulty);
@@ -134,9 +148,13 @@ function TestRunner() {
           setLoading(false);
           return;
         }
-        const ends = Date.now() + count * 60 * 1000;
+        // Adaptive timing: when the mode uses adaptiveDurationByDifficulty,
+        // pass the actual question array so the duration reflects the mix.
+        const ends = Date.now() + resolveDurationSec(mode, data) * 1000;
         setQuestions(data);
         setAnswers({});
+        setVisited(data[0]?.id ? { [data[0].id]: true } : {});
+        setMarked({});
         setIdx(0);
         setEndsAt(ends);
         setLoading(false);
@@ -161,7 +179,9 @@ function TestRunner() {
     }
     load();
     return () => { alive = false; };
-  }, [subjectId, chapter, chapters, difficulty, count, generationKey, key, authStatus, refreshSession]);
+  // mode is a stable object reference for a given modeId (TEST_MODES lookup),
+  // so omitting it from deps would be safe — but include it for the linter.
+  }, [subjectId, chapter, chapters, difficulty, count, mode, modeId, generationKey, key, authStatus, refreshSession]);
 
   // ------------------------------------------------------------------
   // Persist progress on every answer/idx change.
@@ -170,10 +190,21 @@ function TestRunner() {
     if (loading || !endsAt || typeof window === 'undefined') return;
     try {
       window.localStorage.setItem(key, JSON.stringify({
-        questions, answers, endsAt, idx,
+        questions, answers, visited, marked, endsAt, idx,
       }));
     } catch { /* quota full / private mode — non-fatal */ }
-  }, [questions, answers, endsAt, idx, key, loading]);
+  }, [questions, answers, visited, marked, endsAt, idx, key, loading]);
+
+  // gotoQuestion is the single funnel for changing the active question. It
+  // updates idx AND records the visit in one shot, so the palette state never
+  // drifts from reality. Used by the palette chips, Next/Prev buttons, and
+  // the keyboard shortcuts.
+  const gotoQuestion = useCallback((nextIdx) => {
+    const safe = Math.max(0, Math.min(questionsRef.current.length - 1, nextIdx));
+    setIdx(safe);
+    const q = questionsRef.current[safe];
+    if (q?.id) setVisited((prev) => (prev[q.id] ? prev : { ...prev, [q.id]: true }));
+  }, []);
 
   // ------------------------------------------------------------------
   // Timer: tick 4x/sec, derive seconds from endsAt.
@@ -286,7 +317,30 @@ function TestRunner() {
   const secs = timeLeft % 60;
   const progress = ((idx + 1) / questions.length) * 100;
   const answered = Object.keys(answers).filter(k => answers[k] !== undefined).length;
+  const markedCount = Object.values(marked).filter(Boolean).length;
   const lowTime = timeLeft < 60;
+
+  // Single source of truth for palette chip state. Order of precedence
+  // matches NTA's official palette: marked beats answered for color, but
+  // answered+marked has its own state.
+  const chipStateFor = (qid) => {
+    const isAnswered = answers[qid] !== undefined;
+    const isMarked = !!marked[qid];
+    const isVisited = !!visited[qid];
+    if (isMarked && isAnswered) return 'marked-answered';
+    if (isMarked) return 'marked';
+    if (isAnswered) return 'answered';
+    if (isVisited) return 'visited';
+    return 'notvisited';
+  };
+
+  const toggleMarked = (qid) => {
+    setMarked((prev) => {
+      const next = { ...prev };
+      if (next[qid]) delete next[qid]; else next[qid] = true;
+      return next;
+    });
+  };
 
   return (
     <div className="container-std pb-28 relative">
@@ -399,10 +453,17 @@ function TestRunner() {
           </div>
 
           <div className="flex items-center justify-between gap-3 flex-wrap">
-            <Button variant="outline" disabled={idx === 0} onClick={() => setIdx(idx - 1)}>
+            <Button variant="outline" disabled={idx === 0} onClick={() => gotoQuestion(idx - 1)}>
               <Icon name="chevL" /> Previous
             </Button>
             <div className="flex items-center gap-2">
+              <Button
+                variant={marked[q.id] ? 'volt' : 'ghost'}
+                onClick={() => toggleMarked(q.id)}
+                title="Toggle 'Mark for review'"
+              >
+                {marked[q.id] ? 'Unmark' : 'Mark for review'}
+              </Button>
               <Button variant="ghost" onClick={() => {
                 setAnswers(prev => { const n = { ...prev }; delete n[q.id]; return n; });
               }}>Clear</Button>
@@ -411,7 +472,7 @@ function TestRunner() {
                   {submitting ? 'Submitting…' : <>Submit Test <Icon name="check" /></>}
                 </Button>
               ) : (
-                <Button variant="outline" onClick={() => setIdx(idx + 1)}>
+                <Button variant="outline" onClick={() => gotoQuestion(idx + 1)}>
                   Next <Icon name="chevR" />
                 </Button>
               )}
@@ -422,29 +483,41 @@ function TestRunner() {
         {/* ------------------------- Palette (desktop rail) ------------------------- */}
         <aside className="glass p-4 h-max sticky top-24 mobile-hide">
           <div className="eyebrow no-dot mb-3">{'// Palette'}</div>
-          <div className="q-palette mb-4">
-            {questions.map((qq, i) => (
-              <button
-                key={qq.id}
-                className={`q-chip ${answers[qq.id] !== undefined ? 'done' : ''} ${i === idx ? 'current' : ''}`}
-                onClick={() => setIdx(i)}
-                aria-label={`Go to question ${i + 1}`}
-              >
-                {i + 1}
-              </button>
-            ))}
+          <div className="palette-summary mb-3">
+            <div><strong>{answered}</strong><span>Answered</span></div>
+            <div><strong>{markedCount}</strong><span>Marked</span></div>
+            <div><strong>{questions.length - answered}</strong><span>Pending</span></div>
           </div>
-          <div className="flex flex-col gap-1 text-xs text-zinc-500 font-mono">
-            <div className="flex items-center gap-2"><span className="w-2 h-2 rounded-sm bg-volt inline-block" /> Answered</div>
-            <div className="flex items-center gap-2"><span className="w-2 h-2 rounded-sm bg-white/10 inline-block" /> Not visited</div>
+          <div className="q-palette mb-4">
+            {questions.map((qq, i) => {
+              const state = chipStateFor(qq.id);
+              return (
+                <button
+                  key={qq.id}
+                  className={`q-chip q-chip--${state} ${i === idx ? 'current' : ''}`}
+                  onClick={() => gotoQuestion(i)}
+                  aria-label={`Question ${i + 1}, ${state.replace('-', ' and ')}`}
+                >
+                  {i + 1}
+                </button>
+              );
+            })}
+          </div>
+          <div className="palette-legend">
+            <div><span className="legend-dot legend-answered" /> Answered</div>
+            <div><span className="legend-dot legend-marked-answered" /> Answered &amp; marked</div>
+            <div><span className="legend-dot legend-marked" /> Marked for review</div>
+            <div><span className="legend-dot legend-visited" /> Not answered</div>
+            <div><span className="legend-dot legend-notvisited" /> Not visited</div>
           </div>
           {!submitting && (
             <Button
               variant="volt"
               className="mt-4 w-full"
               onClick={() => {
-                if (answered < questions.length) {
-                  if (!confirm(`You have ${questions.length - answered} unanswered. Submit anyway?`)) return;
+                const remaining = questions.length - answered;
+                if (remaining > 0) {
+                  if (!confirm(`You have ${remaining} unanswered question${remaining === 1 ? '' : 's'}${markedCount ? ` and ${markedCount} marked for review` : ''}. Submit anyway?`)) return;
                 }
                 submitTest();
               }}
@@ -457,17 +530,138 @@ function TestRunner() {
 
       {/* Palette (mobile bottom bar) */}
       <div className="fixed bottom-0 left-0 right-0 px-3 py-3 bg-ink/85 backdrop-blur-md border-t border-white/8 md:hidden flex gap-2 overflow-x-auto no-scrollbar">
-        {questions.map((qq, i) => (
-          <button
-            key={qq.id}
-            className={`q-chip shrink-0 ${answers[qq.id] !== undefined ? 'done' : ''} ${i === idx ? 'current' : ''}`}
-            onClick={() => setIdx(i)}
-          >
-            {i + 1}
-          </button>
-        ))}
+        {questions.map((qq, i) => {
+          const state = chipStateFor(qq.id);
+          return (
+            <button
+              key={qq.id}
+              className={`q-chip q-chip--${state} shrink-0 ${i === idx ? 'current' : ''}`}
+              onClick={() => gotoQuestion(i)}
+            >
+              {i + 1}
+            </button>
+          );
+        })}
       </div>
       <style>{`
+        /* ── Palette summary ── */
+        .palette-summary {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 6px;
+        }
+        .palette-summary > div {
+          display: flex;
+          flex-direction: column;
+          padding: 8px;
+          border-radius: 8px;
+          background: rgba(255,255,255,.03);
+          border: 1px solid rgba(255,255,255,.06);
+          text-align: center;
+        }
+        .palette-summary strong {
+          font-family: var(--font-display);
+          font-size: 18px;
+          color: #fff;
+          font-variant-numeric: tabular-nums;
+        }
+        .palette-summary span {
+          font-family: var(--font-mono);
+          font-size: 9px;
+          color: #71717a;
+          letter-spacing: .12em;
+          text-transform: uppercase;
+          margin-top: 2px;
+        }
+
+        /* ── Palette chip states (NTA-style) ──
+           Built on top of the existing .q-chip class in globals.css; these
+           overrides set the colors for each state. */
+        .q-chip { transition: transform .12s ease, background .12s, border-color .12s, color .12s; }
+        .q-chip:hover { transform: translateY(-1px); }
+        .q-chip.current {
+          outline: 2px solid var(--volt);
+          outline-offset: 2px;
+        }
+        .q-chip--notvisited {
+          background: rgba(255,255,255,.04);
+          border: 1px solid rgba(255,255,255,.1);
+          color: #a1a1aa;
+        }
+        .q-chip--visited {
+          background: rgba(248,113,113,.1);
+          border: 1px solid rgba(248,113,113,.4);
+          color: #f87171;
+        }
+        .q-chip--answered {
+          background: rgba(74,222,128,.18);
+          border: 1px solid rgba(74,222,128,.55);
+          color: #4ade80;
+        }
+        .q-chip--marked {
+          background: rgba(168,85,247,.16);
+          border: 1px solid rgba(168,85,247,.55);
+          color: #c084fc;
+        }
+        .q-chip--marked-answered {
+          background: rgba(168,85,247,.16);
+          border: 1px solid rgba(168,85,247,.55);
+          color: #c084fc;
+          position: relative;
+        }
+        .q-chip--marked-answered::after {
+          content: '';
+          position: absolute;
+          right: 4px;
+          bottom: 4px;
+          width: 7px;
+          height: 7px;
+          border-radius: 999px;
+          background: #4ade80;
+          box-shadow: 0 0 0 1px rgba(0,0,0,.6);
+        }
+
+        /* ── Legend ── */
+        .palette-legend {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+          font-family: var(--font-mono);
+          font-size: 10px;
+          color: #71717a;
+          letter-spacing: .04em;
+        }
+        .palette-legend > div {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+        .legend-dot {
+          width: 10px;
+          height: 10px;
+          border-radius: 3px;
+          display: inline-block;
+          border: 1px solid;
+        }
+        .legend-answered { background: rgba(74,222,128,.18); border-color: rgba(74,222,128,.55); }
+        .legend-marked-answered {
+          background: rgba(168,85,247,.16);
+          border-color: rgba(168,85,247,.55);
+          position: relative;
+        }
+        .legend-marked-answered::after {
+          content: '';
+          position: absolute;
+          right: -2px; bottom: -2px;
+          width: 5px; height: 5px;
+          border-radius: 999px;
+          background: #4ade80;
+          box-shadow: 0 0 0 1px rgba(0,0,0,.6);
+        }
+        .legend-marked { background: rgba(168,85,247,.16); border-color: rgba(168,85,247,.55); }
+        .legend-visited { background: rgba(248,113,113,.1); border-color: rgba(248,113,113,.4); }
+        .legend-notvisited { background: rgba(255,255,255,.04); border-color: rgba(255,255,255,.18); }
+
         .vote-cursor-demo {
           position: absolute;
           top: 18px;

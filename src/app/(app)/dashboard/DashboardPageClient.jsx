@@ -11,8 +11,10 @@ import { apiGet } from '@/lib/fetcher';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/ToastProvider';
 import { CreditsRemainingModal } from '@/components/CreditsRemainingModal';
+import { TEST_MODES, defaultModeFor, resolveCount } from '@/../data/test_modes';
 
 const TEST_START_CREDIT_COST = 10;
+const MODE_LIST = ['quick', 'smart', 'full', 'nta'];
 
 export default function DashboardPageClient() {
   const { user, status: authStatus } = useAuth();
@@ -35,7 +37,10 @@ export default function DashboardPageClient() {
   const [selChapter, setSelChapter] = useState(null);
   const [selectedChapters, setSelectedChapters] = useState([]);
   const [difficultyMode, setDifficultyMode] = useState('auto');
+  // null until the user picks one — defaults are derived from plan during render.
+  const [selMode, setSelMode] = useState(null);
   const [count, setCount] = useState(10);
+  const [chapterOpen, setChapterOpen] = useState(false);
   const [isLaunching, setIsLaunching] = useState(false);
   const launchingKeyRef = useRef(null);
   const [creditError, setCreditError] = useState(null);
@@ -128,12 +133,32 @@ export default function DashboardPageClient() {
   const avg = attempts.length ? Math.round(attempts.reduce((sum, attempt) => sum + attempt.score, 0) / attempts.length) : 0;
   const rank = myRankIdx >= 0 ? myRankIdx + 1 : null;
   const isPremium = Boolean(user?.isPremium || learningSummary?.plan?.isPremium);
-  const mockCreditCost = isPremium ? 0 : TEST_START_CREDIT_COST;
+  const effectiveModeId = selMode && TEST_MODES[selMode] ? selMode : defaultModeFor(isPremium);
+  const mode = TEST_MODES[effectiveModeId];
+  const modeIsLockedForUser = mode.premium && !isPremium;
+  // Mode-specific cost: Quick = 10, Full = 50, Smart/NTA = 0 (premium-only).
+  // Premium users always pay 0.
+  const mockCreditCost = isPremium ? 0 : (mode.creditCost ?? TEST_START_CREDIT_COST);
+  const balance = user?.creditBalance || 0;
+  const runsAtCurrentMode = mode.creditCost > 0 ? Math.floor(balance / mode.creditCost) : 0;
   const filteredChapters = useMemo(() => {
     const needle = chapterSearch.trim().toLowerCase();
     if (!needle) return chapters;
     return chapters.filter((chapter) => chapter.name?.toLowerCase().includes(needle));
   }, [chapters, chapterSearch]);
+
+  // Click handler — also clamps count and resets difficulty when needed.
+  function chooseMode(id) {
+    const next = TEST_MODES[id];
+    if (!next) return;
+    if (next.premium && !isPremium) {
+      router.push('/pricing?reason=premium_mode');
+      return;
+    }
+    setSelMode(id);
+    setCount((current) => resolveCount(next, current));
+    if (!next.allowDifficultyOverride) setDifficultyMode('auto');
+  }
 
   if (status === 'loading') {
     return (
@@ -167,10 +192,11 @@ export default function DashboardPageClient() {
   const chapterParam = selectedChapters.length > 0
     ? `&chapters=${encodeURIComponent(selectedChapters.join(','))}`
     : '';
-  const difficultyParam = isPremium && difficultyMode !== 'auto'
+  const difficultyParam = mode.allowDifficultyOverride && isPremium && difficultyMode !== 'auto'
     ? `&difficulty=${encodeURIComponent(difficultyMode)}`
     : '';
-  const launchHref = `/test?subject=${selSubj}&count=${count}${chapterParam}${difficultyParam}`;
+  const modeParam = `&mode=${encodeURIComponent(mode.id)}`;
+  const launchHref = `/test?subject=${selSubj}&count=${count}${modeParam}${chapterParam}${difficultyParam}`;
   const selectedSubject = subjects.find((entry) => entry.id === selSubj);
   const selectedSubjectCount = stats.subjectCounts?.[selSubj] || 0;
 
@@ -221,17 +247,17 @@ export default function DashboardPageClient() {
               <div className="mono-label mb-1">Credits</div>
               <div className="flex items-baseline gap-2">
                 <div className="display-md text-volt" style={{ fontVariantNumeric: 'tabular-nums' }}>
-                  {isPremium ? '∞' : (user?.creditBalance || 0)}
+                  {isPremium ? '∞' : balance}
                 </div>
-                {!isPremium && (
+                {!isPremium && mode.creditCost > 0 && (
                   <div className="text-xs text-zinc-500">
-                    · <span className="text-zinc-300 font-semibold">{Math.floor((user?.creditBalance || 0) / TEST_START_CREDIT_COST)}</span> mock{Math.floor((user?.creditBalance || 0) / TEST_START_CREDIT_COST) === 1 ? '' : 's'} remaining
+                    · <span className="text-zinc-300 font-semibold">{runsAtCurrentMode}</span> {mode.label} run{runsAtCurrentMode === 1 ? '' : 's'} remaining
                   </div>
                 )}
               </div>
             </div>
             <div className="text-sm text-zinc-400 text-right">
-              Generate Mock <span className="text-volt font-semibold">{mockCreditCost === 0 ? '0 Credits · Premium' : `- ${mockCreditCost} Credits`}</span>
+              {mode.label} <span className="text-volt font-semibold">{mockCreditCost === 0 ? 'Premium · 0 Credits' : `- ${mockCreditCost} Credits`}</span>
             </div>
           </div>
           {!isPremium && (
@@ -242,9 +268,9 @@ export default function DashboardPageClient() {
             >
               <div
                 style={{
-                  width: `${Math.min(100, ((user?.creditBalance || 0) / 100) * 100)}%`,
+                  width: `${Math.min(100, (balance / 100) * 100)}%`,
                   height: '100%',
-                  background: (user?.creditBalance || 0) < 30
+                  background: balance < 30
                     ? 'linear-gradient(90deg, #f59e0b, #f97316)'
                     : 'linear-gradient(90deg, var(--volt), #b8e600)',
                   transition: 'width 400ms ease',
@@ -252,25 +278,23 @@ export default function DashboardPageClient() {
               />
             </div>
           )}
-          {!isPremium && (user?.creditBalance ?? 0) < 30 && (user?.creditBalance ?? 0) > 0 && (
+          {!isPremium && balance < mockCreditCost && mockCreditCost > 0 && (
             <div className="mt-3 flex items-center justify-between gap-3 flex-wrap text-xs">
-              <span className="text-amber-300">
-                <Icon name="spark" className="inline-block mr-1" style={{ width: '12px', height: '12px' }} />
-                You&apos;re running low — only {Math.floor((user?.creditBalance || 0) / TEST_START_CREDIT_COST)} mock{Math.floor((user?.creditBalance || 0) / TEST_START_CREDIT_COST) === 1 ? '' : 's'} left.
+              <span className="text-red-400">
+                Need {mockCreditCost - balance} more credits to start a {mode.label}.
               </span>
               <Link href="/pricing" className="text-volt font-semibold underline-offset-2 hover:underline">
-                Unlock unlimited →
+                Upgrade →
               </Link>
             </div>
           )}
-          {!isPremium && (user?.creditBalance ?? 0) === 0 && (
+          {!isPremium && balance < 30 && balance >= mockCreditCost && mockCreditCost > 0 && (
             <div className="mt-3 flex items-center justify-between gap-3 flex-wrap text-xs">
-              <span className="text-red-400">
-                <Icon name="spark" className="inline-block mr-1" style={{ width: '12px', height: '12px' }} />
-                Out of credits. Upgrade to keep grinding.
+              <span className="text-amber-300">
+                Low balance — {runsAtCurrentMode} {mode.label} run{runsAtCurrentMode === 1 ? '' : 's'} left.
               </span>
               <Link href="/pricing" className="text-volt font-semibold underline-offset-2 hover:underline">
-                Upgrade Now →
+                Unlock unlimited →
               </Link>
             </div>
           )}
@@ -347,116 +371,180 @@ export default function DashboardPageClient() {
 
             {selSubj && (
               <div className="flex flex-col gap-4 pt-4 border-t border-white/5">
-                {chapters.length > 0 && (
-                  <div className="glass p-3 relative overflow-hidden">
-                    <div className="flex items-center justify-between gap-3 mb-3 flex-wrap">
-                      <span className="mono-label">Chapter</span>
-                      <select
-                        className="select"
-                        style={{ maxWidth: '320px' }}
-                        value={selectedChapters[0] || ''}
-                        onChange={(event) => {
-                          const value = event.target.value;
-                          setSelectedChapters(value ? [value] : []);
-                          setSelChapter(value || null);
-                        }}
-                      >
-                        <option value="">Any chapter</option>
-                        {chapters.map((chapter) => (
-                          <option key={chapter.id || chapter.name} value={chapter.name}>{chapter.name}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <input
-                      className="input mb-3"
-                      value={chapterSearch}
-                      onChange={(event) => setChapterSearch(event.target.value)}
-                      placeholder="Search chapters..."
-                    />
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-[210px] overflow-y-auto pr-1">
-                      <button
-                        className={`count-btn ${selChapter === null && selectedChapters.length === 0 ? 'active' : ''}`}
-                        style={{ width: '100%', padding: '0 14px', justifyContent: 'flex-start' }}
-                        onClick={() => { setSelChapter(null); setSelectedChapters([]); }}
-                      >
-                        Any chapter
-                      </button>
-                      {filteredChapters.map((chapter) => (
+                {/* ── Mode picker (Step 2) ── */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="mono-label">Mode</span>
+                    <span className="text-xs text-zinc-500">{mode.blurb}</span>
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    {MODE_LIST.map((id) => {
+                      const m = TEST_MODES[id];
+                      const locked = m.premium && !isPremium;
+                      const active = effectiveModeId === id;
+                      const costLabel = isPremium
+                        ? 'Free with Pro'
+                        : m.creditCost > 0
+                          ? `${m.creditCost} credits`
+                          : 'Premium';
+                      // Badge precedence: Premium (locked) > Most Popular > Free.
+                      const badgeText = m.badge;
+                      const badgeClass =
+                        badgeText === 'Premium' ? 'badge premium'
+                        : badgeText === 'Most Popular' ? 'badge popular'
+                        : 'badge free';
+                      return (
                         <button
-                          key={chapter.id || chapter.name}
-                          className={`count-btn ${selectedChapters.includes(chapter.name) ? 'active' : ''}`}
-                          style={{ width: '100%', padding: '0 14px', justifyContent: 'flex-start', overflow: 'hidden', textOverflow: 'ellipsis' }}
-                          onClick={() => togglePremiumChapter(chapter.name)}
-                          title={chapter.name}
+                          key={id}
+                          type="button"
+                          className={`mode-card ${active ? 'selected' : ''} ${locked ? 'locked' : ''}`}
+                          onClick={() => chooseMode(id)}
                         >
-                          {chapter.name}
+                          <div className="flex items-center justify-between mb-2">
+                            <span className={badgeClass}>{badgeText}</span>
+                            {active && <span className="mono-label text-volt">Selected</span>}
+                          </div>
+                          <div className="font-display font-bold text-[14px] leading-tight text-white">{m.label}</div>
+                          <div className="text-[11px] text-zinc-500 mt-1 line-clamp-2">{m.blurb}</div>
+                          <div className="mode-card-foot">{costLabel}</div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* ── Difficulty (Step 4) — only for modes that allow it ── */}
+                {mode.allowDifficultyOverride && (
+                  <div>
+                    <div className="flex items-center justify-between gap-3 mb-2">
+                      <span className="mono-label">Difficulty</span>
+                      {!isPremium && <span className="pill volt">Premium override</span>}
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                      {['auto', 'easy', 'medium', 'hard'].map((d) => (
+                        <button
+                          key={d}
+                          className={`count-btn ${difficultyMode === d ? 'active' : ''}`}
+                          disabled={!isPremium && d !== 'auto'}
+                          onClick={() => setDifficultyMode(d)}
+                          style={{ width: '100%', textTransform: 'capitalize' }}
+                        >
+                          {d}
                         </button>
                       ))}
                     </div>
-                    {!isPremium && (
-                      <div className="mt-4 rounded-xl border border-volt/25 bg-black/55 backdrop-blur-md p-3">
-                        <div className="flex items-center justify-between gap-3">
-                          <div>
-                            <div className="font-display font-bold text-white text-sm">Premium difficulty controls</div>
-                            <p className="text-xs text-zinc-400 mt-1">Choose Easy, Medium, or Hard instead of Auto.</p>
-                          </div>
-                          <button className="btn-volt sm" onClick={() => router.push('/pricing')}>
-                            Go Premium
+                    <p className="text-[11px] text-zinc-500 mt-2">
+                      {difficultyMode === 'auto'
+                        ? `${mode.label} uses a balanced mix by default.`
+                        : `Forcing ${difficultyMode} difficulty across the test.`}
+                    </p>
+                  </div>
+                )}
+
+                {/* ── Optional chapter filter — collapsed by default to reduce clutter ── */}
+                {chapters.length > 0 && (
+                  <div className="chapter-filter">
+                    <button
+                      type="button"
+                      className="chapter-filter-toggle"
+                      onClick={() => setChapterOpen((value) => !value)}
+                      aria-expanded={chapterOpen}
+                    >
+                      <span className="mono-label">Filter by chapter</span>
+                      <span className="text-xs text-zinc-500">
+                        {selectedChapters.length === 0
+                          ? 'Optional · all chapters'
+                          : `${selectedChapters.length} selected`}
+                      </span>
+                      <Icon
+                        name={chapterOpen ? 'chevL' : 'chevR'}
+                        style={{ width: '12px', height: '12px', transform: chapterOpen ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform .15s' }}
+                      />
+                    </button>
+                    {chapterOpen && (
+                      <div className="mt-3">
+                        <input
+                          className="input mb-3"
+                          value={chapterSearch}
+                          onChange={(event) => setChapterSearch(event.target.value)}
+                          placeholder="Search chapters..."
+                        />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-[210px] overflow-y-auto pr-1">
+                          <button
+                            className={`count-btn ${selChapter === null && selectedChapters.length === 0 ? 'active' : ''}`}
+                            style={{ width: '100%', padding: '0 14px', justifyContent: 'flex-start' }}
+                            onClick={() => { setSelChapter(null); setSelectedChapters([]); }}
+                          >
+                            Any chapter
                           </button>
+                          {filteredChapters.map((chapter) => (
+                            <button
+                              key={chapter.id || chapter.name}
+                              className={`count-btn ${selectedChapters.includes(chapter.name) ? 'active' : ''}`}
+                              style={{ width: '100%', padding: '0 14px', justifyContent: 'flex-start', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                              onClick={() => togglePremiumChapter(chapter.name)}
+                              title={chapter.name}
+                            >
+                              {chapter.name}
+                            </button>
+                          ))}
                         </div>
                       </div>
                     )}
-                    <div className="mt-4 pt-4 border-t border-white/5">
-                      <div className="flex items-center justify-between gap-3 mb-3">
-                        <span className="mono-label">Difficulty</span>
-                        {!isPremium && <span className="pill volt">Premium</span>}
-                      </div>
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                        {['auto', 'easy', 'medium', 'hard'].map((mode) => (
-                          <button
-                            key={mode}
-                            className={`count-btn ${difficultyMode === mode ? 'active' : ''}`}
-                            disabled={!isPremium && mode !== 'auto'}
-                            onClick={() => setDifficultyMode(mode)}
-                            style={{ width: '100%', textTransform: 'capitalize' }}
-                          >
-                            {mode}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
                   </div>
                 )}
 
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-                  <span className="mono-label">Questions</span>
-                  <div className="flex gap-1.5">
-                    {[5, 10, 15, 20].map((n) => (
-                      <button
-                        key={n}
-                        className={`count-btn ${count === n ? 'active' : ''}`}
-                        onClick={() => setCount(n)}
-                      >
-                        {n}
-                      </button>
-                    ))}
-                  </div>
+                  {mode.fixedCount ? (
+                    <>
+                      <span className="mono-label">Questions</span>
+                      <div className="flex gap-1.5">
+                        <span className="count-btn active" style={{ pointerEvents: 'none' }}>
+                          {mode.fixedCount}
+                        </span>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <span className="mono-label">Questions</span>
+                      <div className="flex gap-1.5">
+                        {(mode.countOptions || [5, 10, 15, 20]).map((n) => (
+                          <button
+                            key={n}
+                            className={`count-btn ${count === n ? 'active' : ''}`}
+                            onClick={() => setCount(n)}
+                          >
+                            {n}
+                          </button>
+                        ))}
+                      </div>
+                    </>
+                  )}
                   <div className="sm:ml-auto flex items-center gap-3 flex-wrap">
                     <span className="text-xs text-zinc-500 font-mono" style={{ fontVariantNumeric: 'tabular-nums' }}>
-                      {count * 60}s · {count * 5} pts max
+                      {(() => {
+                        const c = mode.fixedCount || count;
+                        const sec = mode.fixedDurationSec || c * (mode.durationPerQuestionSec || 60);
+                        const mins = Math.round(sec / 60);
+                        return `${mins}m · ${c * 5} pts max`;
+                      })()}
                     </span>
                     <Button
                       variant="volt"
                       size="md"
-                      disabled={isLaunching || (user?.creditBalance || 0) < mockCreditCost}
+                      disabled={isLaunching || modeIsLockedForUser || (user?.creditBalance || 0) < mockCreditCost}
                       onClick={async () => {
+                        if (modeIsLockedForUser) {
+                          router.push('/pricing?reason=premium_mode');
+                          return;
+                        }
                         setCreditError(null);
                         setLaunchSuccess(null);
                         if (isLaunching) return;
                         setIsLaunching(true);
                         launchingKeyRef.current = launchingKeyRef.current || crypto.randomUUID();
                         try {
-                          setLaunchSuccess('Launching your mock...');
+                          setLaunchSuccess(`Launching ${mode.label}...`);
                           toast.success('Entering the arena...');
                           router.push(`${launchHref}&generationKey=${encodeURIComponent(launchingKeyRef.current)}`);
                         } catch {
@@ -468,7 +556,13 @@ export default function DashboardPageClient() {
                         }
                       }}
                     >
-                      <Icon name="play" /> {isLaunching ? 'Verifying...' : mockCreditCost === 0 ? 'Generate Premium Mock' : `Generate Mock - ${mockCreditCost} Credits`}
+                      <Icon name="play" /> {isLaunching
+                        ? 'Verifying...'
+                        : modeIsLockedForUser
+                          ? `${mode.label} — Premium`
+                          : mockCreditCost === 0
+                            ? `Start ${mode.label}`
+                            : `Start ${mode.label} · ${mockCreditCost} cr`}
                     </Button>
                   </div>
                 </div>
@@ -618,6 +712,89 @@ export default function DashboardPageClient() {
         .arena-subject-card.selected {
           border-color: rgba(210,240,0,.55);
           background: rgba(210,240,0,.055);
+        }
+        .mode-card {
+          position: relative;
+          min-height: 116px;
+          border-radius: 10px;
+          border: 1px solid rgba(255,255,255,.08);
+          background: rgba(255,255,255,.02);
+          padding: 14px;
+          text-align: left;
+          cursor: pointer;
+          display: flex;
+          flex-direction: column;
+          transition: border-color .15s ease, background .15s ease, transform .15s ease;
+        }
+        .mode-card:hover {
+          border-color: rgba(255,255,255,.22);
+          background: rgba(255,255,255,.035);
+          transform: translateY(-1px);
+        }
+        .mode-card.selected {
+          border-color: rgba(210,240,0,.6);
+          background: rgba(210,240,0,.06);
+          box-shadow: 0 0 0 1px rgba(210,240,0,.35) inset;
+        }
+        .mode-card.locked {
+          opacity: .72;
+        }
+        .mode-card-foot {
+          margin-top: auto;
+          padding-top: 10px;
+          font-family: var(--font-mono);
+          font-size: 10px;
+          letter-spacing: .12em;
+          text-transform: uppercase;
+          color: #71717a;
+        }
+        .mode-card.selected .mode-card-foot {
+          color: var(--volt);
+        }
+        .badge {
+          display: inline-flex;
+          align-items: center;
+          padding: 2px 8px;
+          border-radius: 999px;
+          border: 1px solid;
+          font-family: var(--font-mono);
+          font-size: 9px;
+          font-weight: 700;
+          letter-spacing: .12em;
+          text-transform: uppercase;
+        }
+        .badge.free {
+          color: #a1a1aa;
+          border-color: rgba(255,255,255,.14);
+          background: rgba(255,255,255,.04);
+        }
+        .badge.premium {
+          color: var(--volt);
+          border-color: rgba(210,240,0,.45);
+          background: rgba(210,240,0,.08);
+        }
+        .badge.popular {
+          color: #000;
+          border-color: var(--volt);
+          background: var(--volt);
+        }
+        .chapter-filter {
+          border: 1px solid rgba(255,255,255,.07);
+          border-radius: 10px;
+          background: rgba(255,255,255,.02);
+          padding: 12px;
+        }
+        .chapter-filter-toggle {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+          background: transparent;
+          border: 0;
+          color: #fff;
+          cursor: pointer;
+          padding: 0;
         }
       `}</style>
     </div>
