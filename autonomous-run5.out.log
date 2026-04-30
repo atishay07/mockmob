@@ -1,0 +1,3131 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5680 concepts across 40 subjects (saved 2026-04-30T10:00:48.756Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] { subject: 'biology', chapter: 'Ecosystem', coverage: 4, priority: 90 }
+[planner] {
+  subject: 'biology',
+  chapter: 'Environmental Issues',
+  coverage: 4,
+  priority: 90
+}
+[planner] { subject: 'chemistry', chapter: 'Amines', coverage: 4, priority: 90 }
+[planner] {
+  subject: 'computer_science',
+  chapter: 'MySQL',
+  coverage: 4,
+  priority: 90
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Government Budget & the Economy',
+  coverage: 4,
+  priority: 90
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Money & Banking',
+  coverage: 4,
+  priority: 90
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  coverage: 4,
+  priority: 90
+}
+[planner] {
+  subject: 'mathematics',
+  chapter: 'Vector Algebra',
+  coverage: 4,
+  priority: 90
+}
+[planner] {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  coverage: 4,
+  priority: 90
+}
+[planner] {
+  subject: 'biology',
+  chapter: 'Biotechnology & its Applications',
+  coverage: 5,
+  priority: 90
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: biology → normalized: biology → tier: 1
+Subject: biology → normalized: biology → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: economics → normalized: economics → tier: 1
+Subject: economics → normalized: economics → tier: 1
+Subject: english → normalized: english → tier: 1
+Subject: mathematics → normalized: mathematics → tier: 1
+Subject: sociology → normalized: sociology → tier: 1
+Subject: biology → normalized: biology → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Ecosystem',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Environmental Issues',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Amines',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'MySQL',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Government Budget & the Economy',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Money & Banking',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'mathematics',
+    expected_chapter: 'Vector Algebra',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'sociology',
+    expected_chapter: 'Mass Media & Communications',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Biotechnology & its Applications',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'biology',
+    chapter: 'Ecosystem',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Environmental Issues',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'Amines',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'MySQL',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'economics',
+    chapter: 'Government Budget & the Economy',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'economics',
+    chapter: 'Money & Banking',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'mathematics',
+    chapter: 'Vector Algebra',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'sociology',
+    chapter: 'Mass Media & Communications',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Biotechnology & its Applications',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: '1da86c22-c60f-42b1-90d3-b6b9a8299d70',
+    subject_id: 'biology',
+    chapter: 'Ecosystem',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T10:04:23.900209+00:00'
+  },
+  {
+    id: '8352add1-efe7-4051-a624-717ea1f8d6cf',
+    subject_id: 'biology',
+    chapter: 'Environmental Issues',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T10:04:23.900209+00:00'
+  },
+  {
+    id: '35927ffe-61bb-4d5c-97d8-f7db88bb234e',
+    subject_id: 'chemistry',
+    chapter: 'Amines',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T10:04:23.900209+00:00'
+  },
+  {
+    id: 'e09b66d1-d10a-4fe4-9ad2-1bad3dd42a44',
+    subject_id: 'computer_science',
+    chapter: 'MySQL',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T10:04:23.900209+00:00'
+  },
+  {
+    id: 'ce4d4ee5-a57f-4f26-ae1c-4e9c65306834',
+    subject_id: 'economics',
+    chapter: 'Government Budget & the Economy',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T10:04:23.900209+00:00'
+  },
+  {
+    id: '7dff5870-1223-463d-aab9-0a063eb97c05',
+    subject_id: 'economics',
+    chapter: 'Money & Banking',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T10:04:23.900209+00:00'
+  },
+  {
+    id: '7ea11b73-e2f3-44df-a0d2-e6648db02bee',
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T10:04:23.900209+00:00'
+  },
+  {
+    id: 'aee5cab5-c962-4921-94ec-7e42d3146668',
+    subject_id: 'mathematics',
+    chapter: 'Vector Algebra',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T10:04:23.900209+00:00'
+  },
+  {
+    id: '0000f8af-5726-4f48-a972-75b49b91a3df',
+    subject_id: 'sociology',
+    chapter: 'Mass Media & Communications',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T10:04:23.900209+00:00'
+  },
+  {
+    id: 'e4e601d9-cc9d-4439-a52f-c9d4d855e5a8',
+    subject_id: 'biology',
+    chapter: 'Biotechnology & its Applications',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T10:04:23.900209+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: '1da86c22-c60f-42b1-90d3-b6b9a8299d70',
+    expected_subject: 'biology',
+    expected_chapter: 'Ecosystem',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '8352add1-efe7-4051-a624-717ea1f8d6cf',
+    expected_subject: 'biology',
+    expected_chapter: 'Environmental Issues',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '35927ffe-61bb-4d5c-97d8-f7db88bb234e',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Amines',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'e09b66d1-d10a-4fe4-9ad2-1bad3dd42a44',
+    expected_subject: 'computer_science',
+    expected_chapter: 'MySQL',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'ce4d4ee5-a57f-4f26-ae1c-4e9c65306834',
+    expected_subject: 'economics',
+    expected_chapter: 'Government Budget & the Economy',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '7dff5870-1223-463d-aab9-0a063eb97c05',
+    expected_subject: 'economics',
+    expected_chapter: 'Money & Banking',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '7ea11b73-e2f3-44df-a0d2-e6648db02bee',
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'aee5cab5-c962-4921-94ec-7e42d3146668',
+    expected_subject: 'mathematics',
+    expected_chapter: 'Vector Algebra',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '0000f8af-5726-4f48-a972-75b49b91a3df',
+    expected_subject: 'sociology',
+    expected_chapter: 'Mass Media & Communications',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'e4e601d9-cc9d-4439-a52f-c9d4d855e5a8',
+    expected_subject: 'biology',
+    expected_chapter: 'Biotechnology & its Applications',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '1da86c22-c60f-42b1-90d3-b6b9a8299d70',
+    '8352add1-efe7-4051-a624-717ea1f8d6cf',
+    '35927ffe-61bb-4d5c-97d8-f7db88bb234e',
+    'e09b66d1-d10a-4fe4-9ad2-1bad3dd42a44',
+    'ce4d4ee5-a57f-4f26-ae1c-4e9c65306834',
+    '7dff5870-1223-463d-aab9-0a063eb97c05',
+    '7ea11b73-e2f3-44df-a0d2-e6648db02bee',
+    'aee5cab5-c962-4921-94ec-7e42d3146668',
+    '0000f8af-5726-4f48-a972-75b49b91a3df',
+    'e4e601d9-cc9d-4439-a52f-c9d4d855e5a8'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '1da86c22-c60f-42b1-90d3-b6b9a8299d70',
+  actual_subject: 'biology',
+  actual_chapter: 'Ecosystem',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 4,
+  subject_question_count: 364,
+  created_at: '2026-04-30T10:04:23.900209+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: { subject: 'biology', chapter: 'Ecosystem', count: 4, priority: 90 }
+[worker] coverage-based selection: { subject: 'biology', chapter: 'Ecosystem', count: 4 }
+
+[JOB 1da86c22] Starting: [biology] Ecosystem
+[worker] RECEIVED_JOB: {
+  job_id: '1da86c22-c60f-42b1-90d3-b6b9a8299d70',
+  expected_subject: 'biology',
+  expected_chapter: 'Ecosystem',
+  raw_subject_id: 'biology',
+  raw_chapter: 'Ecosystem',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T10:04:23.900209+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '1da86c22-c60f-42b1-90d3-b6b9a8299d70',
+  expected_subject: 'biology',
+  resolved_subject_id: 'biology',
+  resolved_subject_name: 'Biology',
+  chapter: 'Ecosystem',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=4 existing questions loaded
+[generation] batch adjusted: { chapter: 'Ecosystem', generate_count: 15 }
+[worker] GENERATION_INPUT: {
+  job_id: '1da86c22-c60f-42b1-90d3-b6b9a8299d70',
+  expected_subject: 'biology',
+  resolved_subject_id: 'biology',
+  resolved_subject_name: 'Biology',
+  expected_chapter: 'Ecosystem',
+  canonical_unit: 'Ecology and Environment',
+  generate_count: 15,
+  difficulty_override: null,
+  used_concepts_sampled: 20
+}
+[pipeline] Generating 15 candidates... chapter="Ecosystem" unit="Ecology and Environment" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'biology',
+  prompt_subject_name: 'Biology',
+  expected_chapter: 'Ecosystem',
+  requested_count: 15,
+  difficulty_override: null
+}
+[llm] pyq_anchor_selected {
+  subject: 'biology',
+  chapter: 'Ecosystem',
+  concept_id: 'biology::ecosystem',
+  pyq_anchor_id: 'synthetic_cuet_structure_biology',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  synthetic_anchor: true
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'biology',
+  expected_chapter: 'Ecosystem',
+  canonical_unit: 'Ecology and Environment',
+  concept_id: 'biology::ecosystem',
+  pyq_anchor_id: 'synthetic_cuet_structure_biology',
+  anchor_tier: 4,
+  batch_size: 15,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] active_model=gpt-5.4
+[llm] {"event":"active_model","timestamp":"2026-04-30T10:04:23.945Z","activeModel":"gpt-5.4","stickyModel":"gpt-5.4","subject":"biology","chapter":"Ecosystem","count":15}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-5.4',
+  subject: 'biology',
+  stage: 'generation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-5.4',
+  subject: 'biology',
+  stage: 'generation',
+  status: 'success',
+  retry_count: 0,
+  duration: 43623,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-5.4',
+  subject: 'biology',
+  stage: 'generation',
+  retry_count: 0
+}
+[llm] Raw OpenAI response | model=gpt-5.4: [
+  {
+    "q": "Which of the following best describes an ecosystem?",
+    "o": [
+      "A functional unit where living organisms interact with each other and with the physical environment",
+      "A group of organisms of the same species living in one area only",
+      "Only the non-living components present in a habitat",
+      "A large geographical region with a particular climate"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "ecosystem_definition_basic",
+    "explanation": "An ecosystem includes both biotic and abiotic components interacting as a functional unit.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following is a correct statement about an ecosystem?",
+    "o": [
+      "It includes both living and non-living components",
+      "It contains only plants and animals",
+      "It includes only decomposers and soil",
+      "It is made up of only abiotic factors"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "statement_based",
+    "concept_pattern": "biotic_abiotic_inclusion_statement",
+    "explanation": "An ecosystem consists of living organisms as well as physical environmental factors.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "A pond with plants, fish, microbes, water and dissolved minerals is an example of:",
+    "o": [
+      "An ecosystem",
+      "A population",
+      "A single species community",
+      "A biome only"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "one_step_application",
+    "concept_pattern": "pond_as_ecosystem_example",
+    "explanation": "A pond has interacting biotic and abiotic components, so it is an ecosystem.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following is an abiotic component of an ecosystem?",
+    "o": [
+      "Water",
+      "Grass",
+      "Bacteria",
+      "Frog"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "identify_abiotic_component_water",
+    "explanation": "Water is a non-living factor and therefore an abiotic component of an ecosystem.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following is a biotic component of an ecosystem?",
+    "o": [
+      "Algae",
+      "Air",
+      "Temperature",
+      "Mineral salts"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "identify_biotic_component_algae",
+    "explanation": "Algae are living organisms and hence a biotic component of an ecosystem.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct?",
+    "o": [
+      "An ecosystem may be small like a pond or large like a forest",
+      "An ecosystem is always very large in size",
+      "An ecosystem includes only wild organisms",
+      "An ecosystem cannot exist without animals"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "ecosystem_size_variation_statement",
+    "explanation": "Ecosystems can vary in size from small natural units to large ones.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In a garden, plants, insects, soil, air and water are all interacting. This represents:",
+    "o": [
+      "An ecosystem",
+      "Only a community",
+      "Only a population",
+      "Only abiotic surroundings"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "garden_interaction_ecosystem",
+    "explanation": "The interaction of living and non-living components makes the garden an ecosystem.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following best shows the two main parts of an ecosystem?",
+    "o": [
+      "Biotic and abiotic components",
+      "Flora and fauna only",
+      "Plants and decomposers only",
+      "Water and soil only"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "two_main_parts_ecosystem",
+    "explanation": "The two broad components of an ecosystem are living and non-living parts.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about ecosystem components?",
+    "o": [
+      "Sunlight, soil and air are abiotic components",
+      "Plants, water and bacteria are all biotic components",
+      "Animals and minerals are both abiotic components",
+      "Only microbes are biotic in an ecosystem"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "abiotic_examples_statement",
+    "explanation": "Sunlight, soil and air are all non-living parts of an ecosystem.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "A water tank containing aquatic plants, snails, microbes and water can be treated as:",
+    "o": [
+      "A small ecosystem",
+      "Only a population",
+      "Only a habitat without organisms",
+      "Only an abiotic system"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "water_tank_small_ecosystem",
+    "explanation": "A water tank with interacting organisms and physical factors is a small ecosystem.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following is essential for calling a unit an ecosystem?",
+    "o": [
+      "Interaction between living organisms and the physical environment",
+      "Presence of many animal species only",
+      "Large area covered by trees only",
+      "Presence of water alone"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "essential_feature_interaction",
+    "explanation": "The defining feature of an ecosystem is interaction between organisms and abiotic factors.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct?",
+    "o": [
+      "Both natural and man-made systems can function as ecosystems",
+      "Only forests can be ecosystems",
+      "Only water bodies can be ecosystems",
+      "Only natural systems can be ecosystems"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "natural_and_manmade_ecosystem_statement",
+    "explanation": "An ecosystem may occur naturally or may be maintained as a man-made system.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In a school aquarium, fish, aquatic plants, microbes, water and light together form:",
+    "o": [
+      "An ecosystem",
+      "Only a population",
+      "Only a food chain",
+      "Only an abiotic environment"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "aquarium_ecosystem_identification",
+    "explanation": "The aquarium contains interacting living and non-living components, so it is an ecosystem.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following combinations correctly represents an ecosystem?",
+    "o": [
+      "Grassland with grasses, animals, soil, air and sunlight",
+      "Only grasses growing in a field",
+      "Only animals living in a forest",
+      "Only air, water and soil without organisms"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "direct_concept",
+    "concept_pattern": "complete_combination_ecosystem_components",
+    "explanation": "An ecosystem must include both living organisms and abiotic surroundings together.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which statement best distinguishes an ecosystem from a group of organisms alone?",
+    "o": [
+      "An ecosystem includes interaction of organisms with abiotic factors",
+      "An ecosystem includes only producers and consumers",
+      "An ecosystem always has more than one habitat",
+      "An ecosystem contains only terrestrial organisms"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "statement_based",
+    "concept_pattern": "distinguish_ecosystem_from_organism_group",
+    "explanation": "An ecosystem is identified by the inclusion of abiotic factors along with interacting organisms.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "A forest area has trees, birds, insects, fungi, soil, water and climate factors. In this situation, which principle is being applied?",
+    "o": [
+      "The forest functions as an ecosystem",
+      "Only the tree population is being studied",
+      "Only abiotic factors define the area",
+      "Only consumers determine the system"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "forest_functions_as_ecosystem",
+    "explanation": "The forest includes interacting living organisms and abiotic factors, showing an ecosystem.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  }
+]
+[llm] Cleaned response: [
+  {
+    "q": "Which of the following best describes an ecosystem?",
+    "o": [
+      "A functional unit where living organisms interact with each other and with the physical environment",
+      "A group of organisms of the same species living in one area only",
+      "Only the non-living components present in a habitat",
+      "A large geographical region with a particular climate"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "ecosystem_definition_basic",
+    "explanation": "An ecosystem includes both biotic and abiotic components interacting as a functional unit.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following is a correct statement about an ecosystem?",
+    "o": [
+      "It includes both living and non-living components",
+      "It contains only plants and animals",
+      "It includes only decomposers and soil",
+      "It is made up of only abiotic factors"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "statement_based",
+    "concept_pattern": "biotic_abiotic_inclusion_statement",
+    "explanation": "An ecosystem consists of living organisms as well as physical environmental factors.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "A pond with plants, fish, microbes, water and dissolved minerals is an example of:",
+    "o": [
+      "An ecosystem",
+      "A population",
+      "A single species community",
+      "A biome only"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "one_step_application",
+    "concept_pattern": "pond_as_ecosystem_example",
+    "explanation": "A pond has interacting biotic and abiotic components, so it is an ecosystem.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following is an abiotic component of an ecosystem?",
+    "o": [
+      "Water",
+      "Grass",
+      "Bacteria",
+      "Frog"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "identify_abiotic_component_water",
+    "explanation": "Water is a non-living factor and therefore an abiotic component of an ecosystem.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following is a biotic component of an ecosystem?",
+    "o": [
+      "Algae",
+      "Air",
+      "Temperature",
+      "Mineral salts"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "identify_biotic_component_algae",
+    "explanation": "Algae are living organisms and hence a biotic component of an ecosystem.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct?",
+    "o": [
+      "An ecosystem may be small like a pond or large like a forest",
+      "An ecosystem is always very large in size",
+      "An ecosystem includes only wild organisms",
+      "An ecosystem cannot exist without animals"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "ecosystem_size_variation_statement",
+    "explanation": "Ecosystems can vary in size from small natural units to large ones.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In a garden, plants, insects, soil, air and water are all interacting. This represents:",
+    "o": [
+      "An ecosystem",
+      "Only a community",
+      "Only a population",
+      "Only abiotic surroundings"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "garden_interaction_ecosystem",
+    "explanation": "The interaction of living and non-living components makes the garden an ecosystem.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following best shows the two main parts of an ecosystem?",
+    "o": [
+      "Biotic and abiotic components",
+      "Flora and fauna only",
+      "Plants and decomposers only",
+      "Water and soil only"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "two_main_parts_ecosystem",
+    "explanation": "The two broad components of an ecosystem are living and non-living parts.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about ecosystem components?",
+    "o": [
+      "Sunlight, soil and air are abiotic components",
+      "Plants, water and bacteria are all biotic components",
+      "Animals and minerals are both abiotic components",
+      "Only microbes are biotic in an ecosystem"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "abiotic_examples_statement",
+    "explanation": "Sunlight, soil and air are all non-living parts of an ecosystem.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "A water tank containing aquatic plants, snails, microbes and water can be treated as:",
+    "o": [
+      "A small ecosystem",
+      "Only a population",
+      "Only a habitat without organisms",
+      "Only an abiotic system"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "water_tank_small_ecosystem",
+    "explanation": "A water tank with interacting organisms and physical factors is a small ecosystem.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following is essential for calling a unit an ecosystem?",
+    "o": [
+      "Interaction between living organisms and the physical environment",
+      "Presence of many animal species only",
+      "Large area covered by trees only",
+      "Presence of water alone"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "essential_feature_interaction",
+    "explanation": "The defining feature of an ecosystem is interaction between organisms and abiotic factors.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct?",
+    "o": [
+      "Both natural and man-made systems can function as ecosystems",
+      "Only forests can be ecosystems",
+      "Only water bodies can be ecosystems",
+      "Only natural systems can be ecosystems"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "natural_and_manmade_ecosystem_statement",
+    "explanation": "An ecosystem may occur naturally or may be maintained as a man-made system.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In a school aquarium, fish, aquatic plants, microbes, water and light together form:",
+    "o": [
+      "An ecosystem",
+      "Only a population",
+      "Only a food chain",
+      "Only an abiotic environment"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "aquarium_ecosystem_identification",
+    "explanation": "The aquarium contains interacting living and non-living components, so it is an ecosystem.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following combinations correctly represents an ecosystem?",
+    "o": [
+      "Grassland with grasses, animals, soil, air and sunlight",
+      "Only grasses growing in a field",
+      "Only animals living in a forest",
+      "Only air, water and soil without organisms"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "direct_concept",
+    "concept_pattern": "complete_combination_ecosystem_components",
+    "explanation": "An ecosystem must include both living organisms and abiotic surroundings together.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which statement best distinguishes an ecosystem from a group of organisms alone?",
+    "o": [
+      "An ecosystem includes interaction of organisms with abiotic factors",
+      "An ecosystem includes only producers and consumers",
+      "An ecosystem always has more than one habitat",
+      "An ecosystem contains only terrestrial organisms"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "statement_based",
+    "concept_pattern": "distinguish_ecosystem_from_organism_group",
+    "explanation": "An ecosystem is identified by the inclusion of abiotic factors along with interacting organisms.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "A forest area has trees, birds, insects, fungi, soil, water and climate factors. In this situation, which principle is being applied?",
+    "o": [
+      "The forest functions as an ecosystem",
+      "Only the tree population is being studied",
+      "Only abiotic factors define the area",
+      "Only consumers determine the system"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "forest_functions_as_ecosystem",
+    "explanation": "The forest includes interacting living organisms and abiotic factors, showing an ecosystem.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Ecosystem",
+    "topic": "Ecology and Environment",
+    "concept": "Ecosystem",
+    "concept_id": "biology::ecosystem",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 16
+[llm] success gpt-5.4
+[llm] {"event":"success","timestamp":"2026-04-30T10:05:07.575Z","model":"gpt-5.4","questionCount":16,"subject":"biology","chapter":"Ecosystem"}
+[pipeline] RAW_PARSED_COUNT 16
+[pipeline] NORMALIZED_COUNT 16
+[pipeline] generated_count=16 | mix=easy=5, medium=9, hard=2
+[pipeline] STRUCTURAL_VALID_COUNT 16
+[pipeline] after_chapter_filter=16 | pre_validation_filtered=0 | batch_duplicates=1 | cross_job_duplicates=0 | candidate_pool=15 | sent_for_strict_validation=15
+[pipeline] Starting batch validation for 15 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-2.5-flash-lite | count=15
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T10:05:07.591Z","model":"gemini-2.5-flash-lite","subject":"biology","questionCount":15}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-2.5-flash-lite',
+  subject: 'biology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-2.5-flash-lite',
+  subject: 'biology',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 11527,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-2.5-flash-lite',
+  subject: 'biology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 9,
+    "distractor_quality": 8,
+    "conceptual_depth": 8,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 3,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 4,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 5,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "HARD",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 7,
+    "exam_quality": 7,
+    "distractor_quality": 8,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "hard",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 6,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 7,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "HARD",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 7,
+    "exam_quality": 7,
+    "distractor_quality": 8,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "hard",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 8,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 9,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 9,
+    "distractor_quality": 8,
+    "conceptual_depth": 8,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 10,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 9,
+    "distractor_quality": 8,
+    "conceptual_depth": 8,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 11,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 9,
+    "distractor_quality": 8,
+    "conceptual_depth": 8,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 12,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 13,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 9,
+    "distractor_quality": 8,
+    "conceptual_depth": 8,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 14,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 15
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T10:05:19.122Z","model":"gemini-2.5-flash-lite","subject":"biology","resultCount":15}
+[difficulty distribution] {
+  model: { easy: 5, medium: 8, hard: 2 },
+  system: { easy: 5, medium: 8, hard: 2 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 15
+[pipeline] validated_count=15 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 15
+[pipeline] selected_count=15 | FINAL DISTRIBUTION: {"easy":5,"medium":8,"hard":2}
+✅ Published 26b58bb5-03a9-48c2-b125-7e4730341368 | status=live | difficulty=easy | discoverable=true
+✅ Published b2cc18e5-23fd-4c84-a031-1c3e3ba64e1f | status=live | difficulty=easy | discoverable=true
+✅ Published 89aa79fc-8257-412a-8893-de31601b115e | status=live | difficulty=easy | discoverable=true
+✅ Published 7f8817a3-3a19-4cd5-8eb5-e577b063d4c1 | status=live | difficulty=easy | discoverable=true
+✅ Published f34605b2-20d3-411a-a654-2fc958f935e0 | status=live | difficulty=easy | discoverable=true
+✅ Published 7a015298-fefd-4b30-aaf3-5e6e65f22a52 | status=live | difficulty=medium | discoverable=true
+✅ Published c8cdf51d-ea18-4bed-86c5-944a2fbe5cac | status=live | difficulty=medium | discoverable=true
+✅ Published 0ebe1d73-391f-46c1-b98e-2ef3f44cfaab | status=live | difficulty=medium | discoverable=true
+✅ Published f086beb2-690f-41d6-a31c-e89c256af8a0 | status=live | difficulty=medium | discoverable=true
+✅ Published 202672b1-c33f-40a3-b47e-131371dd5f09 | status=live | difficulty=medium | discoverable=true
+✅ Published 2a535507-995a-4608-81bf-9d1aa0db75c6 | status=live | difficulty=medium | discoverable=true
+✅ Published 43ebf75b-5bde-45b4-8604-048a66caab59 | status=live | difficulty=medium | discoverable=true
+✅ Published 6b1cd21a-ab85-4e79-9b9c-13a6279f8e28 | status=live | difficulty=medium | discoverable=true
+✅ Published f01d9023-c6ba-49c4-8287-661117debcb8 | status=live | difficulty=hard | discoverable=true
+✅ Published 0f23ddaa-29ef-4c72-9d52-ab5e0d0ad8b2 | status=live | difficulty=hard | discoverable=true
+[pipeline] METRICS | generated_count=16 | prefiltered_count=15 | strict_validation_count=15 | accepted_count=15 | api_calls_used=2 | cost_efficiency_ratio=7.50
+[pipeline] SUMMARY | subject=biology | chapter=Ecosystem | target=15 | generated_count=16 | batch_duplicates=1 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=15 | validated_count=15 | accepted_count=15 | shortfall=0 | yield_rate=93.8% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=5, medium=8, hard=2
+[pipeline] subject_distribution: {"subject":"biology","accepted":15,"rejected":0,"target":15,"met":true}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '8352add1-efe7-4051-a624-717ea1f8d6cf',
+    '35927ffe-61bb-4d5c-97d8-f7db88bb234e',
+    'e09b66d1-d10a-4fe4-9ad2-1bad3dd42a44',
+    'ce4d4ee5-a57f-4f26-ae1c-4e9c65306834',
+    '7dff5870-1223-463d-aab9-0a063eb97c05',
+    '7ea11b73-e2f3-44df-a0d2-e6648db02bee',
+    'aee5cab5-c962-4921-94ec-7e42d3146668',
+    '0000f8af-5726-4f48-a972-75b49b91a3df',
+    'e4e601d9-cc9d-4439-a52f-c9d4d855e5a8'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '8352add1-efe7-4051-a624-717ea1f8d6cf',
+  actual_subject: 'biology',
+  actual_chapter: 'Environmental Issues',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 4,
+  subject_question_count: 379,
+  created_at: '2026-04-30T10:04:23.900209+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'biology',
+  chapter: 'Environmental Issues',
+  count: 4,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'biology', chapter: 'Environmental Issues', count: 4 }
+
+[JOB 8352add1] Starting: [biology] Environmental Issues
+[worker] RECEIVED_JOB: {
+  job_id: '8352add1-efe7-4051-a624-717ea1f8d6cf',
+  expected_subject: 'biology',
+  expected_chapter: 'Environmental Issues',
+  raw_subject_id: 'biology',
+  raw_chapter: 'Environmental Issues',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T10:04:23.900209+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '8352add1-efe7-4051-a624-717ea1f8d6cf',
+  expected_subject: 'biology',
+  resolved_subject_id: 'biology',
+  resolved_subject_name: 'Biology',
+  chapter: 'Environmental Issues',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=4 existing questions loaded
+[generation] batch adjusted: { chapter: 'Environmental Issues', generate_count: 15 }
+[worker] GENERATION_INPUT: {
+  job_id: '8352add1-efe7-4051-a624-717ea1f8d6cf',
+  expected_subject: 'biology',
+  resolved_subject_id: 'biology',
+  resolved_subject_name: 'Biology',
+  expected_chapter: 'Environmental Issues',
+  canonical_unit: 'Ecology and Environment',
+  generate_count: 15,
+  difficulty_override: null,
+  used_concepts_sampled: 20
+}
+[pipeline] Generating 15 candidates... chapter="Environmental Issues" unit="Ecology and Environment" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'biology',
+  prompt_subject_name: 'Biology',
+  expected_chapter: 'Environmental Issues',
+  requested_count: 15,
+  difficulty_override: null
+}
+[llm] pyq_anchor_selected {
+  subject: 'biology',
+  chapter: 'Environmental Issues',
+  concept_id: 'biology::environmental_issues',
+  pyq_anchor_id: 'synthetic_cuet_structure_biology',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  synthetic_anchor: true
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'biology',
+  expected_chapter: 'Environmental Issues',
+  canonical_unit: 'Ecology and Environment',
+  concept_id: 'biology::environmental_issues',
+  pyq_anchor_id: 'synthetic_cuet_structure_biology',
+  anchor_tier: 4,
+  batch_size: 15,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] active_model=gpt-5.4
+[llm] {"event":"active_model","timestamp":"2026-04-30T10:05:42.865Z","activeModel":"gpt-5.4","stickyModel":"gpt-5.4","subject":"biology","chapter":"Environmental Issues","count":15}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-5.4',
+  subject: 'biology',
+  stage: 'generation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-5.4',
+  subject: 'biology',
+  stage: 'generation',
+  status: 'success',
+  retry_count: 0,
+  duration: 49900,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-5.4',
+  subject: 'biology',
+  stage: 'generation',
+  retry_count: 0
+}
+[llm] Raw OpenAI response | model=gpt-5.4: [
+  {
+    "q": "Which of the following best describes air pollution?",
+    "o": [
+      "A presence of harmful substances in air beyond safe limits",
+      "B increase in oxygen content of atmosphere",
+      "C natural movement of air from high to low pressure",
+      "D formation of clouds due to condensation"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "air_pollution_definition",
+    "explanation": "Air pollution means addition of undesirable substances to air in harmful amounts.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following is a primary pollutant released directly into the atmosphere?",
+    "o": [
+      "A Sulphur dioxide",
+      "B Ozone",
+      "C Peroxyacetyl nitrate",
+      "D Smog"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "primary_pollutant_identification",
+    "explanation": "Sulphur dioxide is emitted directly from sources, while ozone and PAN are secondary pollutants.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about photochemical smog?",
+    "o": [
+      "A It is formed in sunlight from nitrogen oxides and hydrocarbons",
+      "B It is formed only in cold and foggy nights",
+      "C It contains only carbon dioxide and water vapour",
+      "D It is produced only by nuclear plants"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "photochemical_smog_statement",
+    "explanation": "Photochemical smog forms by reactions of nitrogen oxides and hydrocarbons in sunlight.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which gas is mainly responsible for depletion of ozone layer?",
+    "o": [
+      "A Chlorofluorocarbons",
+      "B Nitrogen",
+      "C Oxygen",
+      "D Hydrogen"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "ozone_depletion_cause",
+    "explanation": "Chlorofluorocarbons release chlorine radicals that damage stratospheric ozone.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Acid rain is mainly caused by the presence of which pollutants in air?",
+    "o": [
+      "A Sulphur dioxide and nitrogen oxides",
+      "B Oxygen and argon",
+      "C Methane and helium",
+      "D Hydrogen and nitrogen"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "acid_rain_pollutants",
+    "explanation": "Sulphur dioxide and nitrogen oxides react with water to form acids causing acid rain.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following is the major effect of increased ultraviolet radiation due to ozone depletion?",
+    "o": [
+      "A Higher risk of skin cancer",
+      "B Increase in soil fertility",
+      "C Better protection from sunlight",
+      "D Reduction in eye damage"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "uv_radiation_effect",
+    "explanation": "Ozone depletion allows more UV radiation to reach Earth, increasing skin cancer risk.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following best describes eutrophication?",
+    "o": [
+      "A Excess enrichment of water body with nutrients leading to algal growth",
+      "B Cooling of water body due to rain",
+      "C Removal of minerals from water by plants",
+      "D Increase in salinity of ocean water"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "eutrophication_definition",
+    "explanation": "Eutrophication is nutrient enrichment of water that causes excessive algal bloom.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "A pond receives large amounts of fertilizers from nearby fields and dense algal growth appears. In this situation, which principle is being applied?",
+    "o": [
+      "A Eutrophication",
+      "B Biomagnification",
+      "C Deforestation",
+      "D Radioactive decay"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "fertilizer_runoff_eutrophication",
+    "explanation": "Fertilizer runoff adds nutrients to water and leads to eutrophication.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about biomagnification?",
+    "o": [
+      "A Concentration of toxic substances increases at higher trophic levels",
+      "B Concentration of all minerals decreases in food chain",
+      "C Only producers are affected by pollutants",
+      "D It occurs only in terrestrial food chains"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "biomagnification_statement",
+    "explanation": "Biomagnification refers to increase in concentration of non-biodegradable toxins along food chains.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "The increase in concentration of DDT from water to fish to bird is an example of:",
+    "o": [
+      "A Biomagnification",
+      "B Nitrogen fixation",
+      "C Ecological succession",
+      "D Mutualism"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "one_step_application",
+    "concept_pattern": "ddt_food_chain_example",
+    "explanation": "DDT concentration rising along trophic levels is a classic example of biomagnification.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following is a non-biodegradable pollutant?",
+    "o": [
+      "A DDT",
+      "B Vegetable waste",
+      "C Paper",
+      "D Cotton cloth"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "non_biodegradable_pollutant_example",
+    "explanation": "DDT persists in the environment and is not easily decomposed by microorganisms.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which method is most suitable for disposal of hospital waste before final dumping?",
+    "o": [
+      "A Incineration",
+      "B Open grazing",
+      "C Surface irrigation",
+      "D Forest mulching"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "direct_concept",
+    "concept_pattern": "hospital_waste_disposal_method",
+    "explanation": "Incineration is used for safe disposal of many infectious hospital wastes.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about sanitary landfills?",
+    "o": [
+      "A Waste is dumped and covered to reduce exposure and spread",
+      "B Waste is left open for free burning",
+      "C Only liquid waste is stored in them",
+      "D They are used only for radioactive substances"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "sanitary_landfill_statement",
+    "explanation": "In sanitary landfills, waste is buried and covered to control smell, pests and spread.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "A city encourages people to reduce use of plastic bags, reuse containers and recycle paper. Which environmental approach is being followed?",
+    "o": [
+      "A The three R's",
+      "B Greenhouse effect",
+      "C Ozone depletion",
+      "D Biological magnification"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "three_rs_application",
+    "explanation": "Reducing, reusing and recycling together form the three R's approach to waste management.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about greenhouse effect?",
+    "o": [
+      "A It results from trapping of heat by gases like carbon dioxide",
+      "B It is caused by reduction in sunlight reaching Earth",
+      "C It happens only due to nitrogen in atmosphere",
+      "D It removes all infrared radiation from atmosphere"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "greenhouse_effect_statement",
+    "explanation": "Greenhouse gases trap outgoing heat and warm the lower atmosphere.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "A layer of pollutants over a city causes irritation in eyes and reduced visibility during sunny weather. Which of the following best describes this condition?",
+    "o": [
+      "A Photochemical smog",
+      "B Acid rain",
+      "C Soil erosion",
+      "D Composting"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "one_step_application",
+    "concept_pattern": "sunny_city_smog_application",
+    "explanation": "Eye irritation and reduced visibility in sunny urban air indicate photochemical smog.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  }
+]
+[llm] Cleaned response: [
+  {
+    "q": "Which of the following best describes air pollution?",
+    "o": [
+      "A presence of harmful substances in air beyond safe limits",
+      "B increase in oxygen content of atmosphere",
+      "C natural movement of air from high to low pressure",
+      "D formation of clouds due to condensation"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "air_pollution_definition",
+    "explanation": "Air pollution means addition of undesirable substances to air in harmful amounts.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following is a primary pollutant released directly into the atmosphere?",
+    "o": [
+      "A Sulphur dioxide",
+      "B Ozone",
+      "C Peroxyacetyl nitrate",
+      "D Smog"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "primary_pollutant_identification",
+    "explanation": "Sulphur dioxide is emitted directly from sources, while ozone and PAN are secondary pollutants.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about photochemical smog?",
+    "o": [
+      "A It is formed in sunlight from nitrogen oxides and hydrocarbons",
+      "B It is formed only in cold and foggy nights",
+      "C It contains only carbon dioxide and water vapour",
+      "D It is produced only by nuclear plants"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "photochemical_smog_statement",
+    "explanation": "Photochemical smog forms by reactions of nitrogen oxides and hydrocarbons in sunlight.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which gas is mainly responsible for depletion of ozone layer?",
+    "o": [
+      "A Chlorofluorocarbons",
+      "B Nitrogen",
+      "C Oxygen",
+      "D Hydrogen"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "ozone_depletion_cause",
+    "explanation": "Chlorofluorocarbons release chlorine radicals that damage stratospheric ozone.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Acid rain is mainly caused by the presence of which pollutants in air?",
+    "o": [
+      "A Sulphur dioxide and nitrogen oxides",
+      "B Oxygen and argon",
+      "C Methane and helium",
+      "D Hydrogen and nitrogen"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "acid_rain_pollutants",
+    "explanation": "Sulphur dioxide and nitrogen oxides react with water to form acids causing acid rain.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following is the major effect of increased ultraviolet radiation due to ozone depletion?",
+    "o": [
+      "A Higher risk of skin cancer",
+      "B Increase in soil fertility",
+      "C Better protection from sunlight",
+      "D Reduction in eye damage"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "uv_radiation_effect",
+    "explanation": "Ozone depletion allows more UV radiation to reach Earth, increasing skin cancer risk.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following best describes eutrophication?",
+    "o": [
+      "A Excess enrichment of water body with nutrients leading to algal growth",
+      "B Cooling of water body due to rain",
+      "C Removal of minerals from water by plants",
+      "D Increase in salinity of ocean water"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "eutrophication_definition",
+    "explanation": "Eutrophication is nutrient enrichment of water that causes excessive algal bloom.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "A pond receives large amounts of fertilizers from nearby fields and dense algal growth appears. In this situation, which principle is being applied?",
+    "o": [
+      "A Eutrophication",
+      "B Biomagnification",
+      "C Deforestation",
+      "D Radioactive decay"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "fertilizer_runoff_eutrophication",
+    "explanation": "Fertilizer runoff adds nutrients to water and leads to eutrophication.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about biomagnification?",
+    "o": [
+      "A Concentration of toxic substances increases at higher trophic levels",
+      "B Concentration of all minerals decreases in food chain",
+      "C Only producers are affected by pollutants",
+      "D It occurs only in terrestrial food chains"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "biomagnification_statement",
+    "explanation": "Biomagnification refers to increase in concentration of non-biodegradable toxins along food chains.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "The increase in concentration of DDT from water to fish to bird is an example of:",
+    "o": [
+      "A Biomagnification",
+      "B Nitrogen fixation",
+      "C Ecological succession",
+      "D Mutualism"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "one_step_application",
+    "concept_pattern": "ddt_food_chain_example",
+    "explanation": "DDT concentration rising along trophic levels is a classic example of biomagnification.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following is a non-biodegradable pollutant?",
+    "o": [
+      "A DDT",
+      "B Vegetable waste",
+      "C Paper",
+      "D Cotton cloth"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "non_biodegradable_pollutant_example",
+    "explanation": "DDT persists in the environment and is not easily decomposed by microorganisms.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which method is most suitable for disposal of hospital waste before final dumping?",
+    "o": [
+      "A Incineration",
+      "B Open grazing",
+      "C Surface irrigation",
+      "D Forest mulching"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "direct_concept",
+    "concept_pattern": "hospital_waste_disposal_method",
+    "explanation": "Incineration is used for safe disposal of many infectious hospital wastes.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about sanitary landfills?",
+    "o": [
+      "A Waste is dumped and covered to reduce exposure and spread",
+      "B Waste is left open for free burning",
+      "C Only liquid waste is stored in them",
+      "D They are used only for radioactive substances"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "sanitary_landfill_statement",
+    "explanation": "In sanitary landfills, waste is buried and covered to control smell, pests and spread.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "A city encourages people to reduce use of plastic bags, reuse containers and recycle paper. Which environmental approach is being followed?",
+    "o": [
+      "A The three R's",
+      "B Greenhouse effect",
+      "C Ozone depletion",
+      "D Biological magnification"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "three_rs_application",
+    "explanation": "Reducing, reusing and recycling together form the three R's approach to waste management.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about greenhouse effect?",
+    "o": [
+      "A It results from trapping of heat by gases like carbon dioxide",
+      "B It is caused by reduction in sunlight reaching Earth",
+      "C It happens only due to nitrogen in atmosphere",
+      "D It removes all infrared radiation from atmosphere"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "greenhouse_effect_statement",
+    "explanation": "Greenhouse gases trap outgoing heat and warm the lower atmosphere.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "A layer of pollutants over a city causes irritation in eyes and reduced visibility during sunny weather. Which of the following best describes this condition?",
+    "o": [
+      "A Photochemical smog",
+      "B Acid rain",
+      "C Soil erosion",
+      "D Composting"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "one_step_application",
+    "concept_pattern": "sunny_city_smog_application",
+    "explanation": "Eye irritation and reduced visibility in sunny urban air indicate photochemical smog.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Environmental Issues",
+    "topic": "Ecology and Environment",
+    "concept": "Environmental Issues",
+    "concept_id": "biology::environmental_issues",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 16
+[llm] success gpt-5.4
+[llm] {"event":"success","timestamp":"2026-04-30T10:06:32.768Z","model":"gpt-5.4","questionCount":16,"subject":"biology","chapter":"Environmental Issues"}
+[pipeline] RAW_PARSED_COUNT 16
+[pipeline] NORMALIZED_COUNT 16
+[pipeline] generated_count=16 | mix=easy=5, medium=9, hard=2
+[pipeline] STRUCTURAL_VALID_COUNT 16
+[pipeline] after_chapter_filter=16 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=15 | sent_for_strict_validation=15
+[pipeline] Starting batch validation for 15 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-2.5-flash-lite | count=15
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T10:06:32.782Z","model":"gemini-2.5-flash-lite","subject":"biology","questionCount":15}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-2.5-flash-lite',
+  subject: 'biology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-2.5-flash-lite',
+  subject: 'biology',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 18131,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-2.5-flash-lite',
+  subject: 'biology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 7,
+    "exam_quality": 7,
+    "distractor_quality": 7,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 3,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "HARD",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 8,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "hard",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 4,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 7,
+    "exam_quality": 7,
+    "distractor_quality": 7,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 5,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 7,
+    "exam_quality": 7,
+    "distractor_quality": 7,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 6,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 7,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 8,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 7,
+    "exam_quality": 7,
+    "distractor_quality": 7,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 9,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 10,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 11,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 12,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 7,
+    "exam_quality": 7,
+    "distractor_quality": 7,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 13,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 14,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 15
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T10:06:50.916Z","model":"gemini-2.5-flash-lite","subject":"biology","resultCount":15}
+[difficulty distribution] {
+  model: { easy: 5, medium: 9, hard: 1 },
+  system: { easy: 5, medium: 9, hard: 1 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 15
+[pipeline] validated_count=15 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 15
+[pipeline] selected_count=15 | FINAL DISTRIBUTION: {"easy":5,"medium":9,"hard":1}
+✅ Published 8d309c16-0951-4901-a7da-4b6c6a8f2fa2 | status=live | difficulty=easy | discoverable=true
+✅ Published 60a70f9a-31ea-45dd-9d94-9d7b00512dd5 | status=live | difficulty=easy | discoverable=true
+✅ Published 4f83d2d4-01c4-4afe-9c99-2dc36543475b | status=live | difficulty=easy | discoverable=true
+✅ Published e20adf36-8ed3-42aa-af22-5b44bbd9452b | status=live | difficulty=easy | discoverable=true
+✅ Published c57d63ac-c0ae-4d9d-ae32-1a5643da7a1b | status=live | difficulty=easy | discoverable=true
+✅ Published f20c0fce-9d74-4ecb-9a0c-69789ed215f3 | status=live | difficulty=medium | discoverable=true
+✅ Published f7d1b6ec-9fed-4946-b310-c30552a06700 | status=live | difficulty=medium | discoverable=true
+✅ Published 09c8bbdb-8aed-456d-ac90-c0eb49a2ad06 | status=live | difficulty=medium | discoverable=true
+✅ Published 6701d984-bf92-46a9-988c-90fb3d3e19d7 | status=live | difficulty=medium | discoverable=true
+✅ Published dfd81dd5-72b5-4e87-bfdf-2fc7da291503 | status=live | difficulty=medium | discoverable=true
+✅ Published d33544bf-76f6-4158-afc3-abe08103f090 | status=live | difficulty=medium | discoverable=true
+✅ Published 735e2f64-4410-46c4-ba03-c7104f916c8f | status=live | difficulty=medium | discoverable=true
+✅ Published e6429db1-b602-4e45-986e-e37c19eb68e8 | status=live | difficulty=medium | discoverable=true
+✅ Published 820af46b-4ad9-4df8-8fad-c0e545ab7216 | status=live | difficulty=hard | discoverable=true
+✅ Published 22d7bec9-c341-4bdc-952a-2212577fbed2 | status=live | difficulty=medium | discoverable=true
+[pipeline] METRICS | generated_count=16 | prefiltered_count=15 | strict_validation_count=15 | accepted_count=15 | api_calls_used=2 | cost_efficiency_ratio=7.50
+[pipeline] SUMMARY | subject=biology | chapter=Environmental Issues | target=15 | generated_count=16 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=15 | validated_count=15 | accepted_count=15 | shortfall=0 | yield_rate=93.8% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=5, medium=9, hard=1
+[pipeline] subject_distribution: {"subject":"biology","accepted":15,"rejected":0,"target":15,"met":true}
+Cooling down for 15s to respect API limits...

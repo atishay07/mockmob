@@ -21,6 +21,9 @@ const nextConfig = {
     ];
   },
   async headers() {
+    if (process.env.NODE_ENV === 'development') {
+      return [];
+    }
     return [
       {
         source: '/:all*(svg|jpg|jpeg|png|webp|avif|ico|css|js)',

@@ -1,0 +1,433 @@
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::literary_passage',
+  selected_anchor_id: 'seed_pyq_en3',
+  selected_anchor_concept_id: 'english::correct_word_usage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'reading_comprehension',
+  selected_question_type: 'correct_word_usage'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::literary_passage',
+  source_anchor_id: 'seed_pyq_en3',
+  source_anchor_concept_id: 'english::correct_word_usage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'reading_comprehension',
+  selected_question_type: 'correct_word_usage'
+}
+FULL ERROR: LlmGenerationError: gemini timeout after 45000ms
+    at Timeout._onTimeout (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/llm.mjs:2540:43)
+    at listOnTimeout (node:internal/timers:605:17)
+    at process.processTimers (node:internal/timers:541:7) {
+  reason: 'timeout'
+}
+ERROR DETAILS: {
+  "name": "LlmGenerationError",
+  "message": "gemini timeout after 45000ms",
+  "status": null,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] gemini_generation failure gemini-3.1-pro: gemini timeout after 45000ms
+[llm] generation_model_cooldown gemini-3.1-pro reason=timeout until=2026-04-30T14:13:59.897Z
+[llm] gemini_generation fallback -> gemini-3.1-flash
+[llm] english_question_rejected {
+  chapter: 'Literary Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Narrative Passage',
+  index: 0
+}
+[llm] english_question_rejected {
+  chapter: 'Literary Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Narrative Passage',
+  index: 1
+}
+[llm] english_question_rejected {
+  chapter: 'Literary Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Narrative Passage',
+  index: 2
+}
+[llm] english_question_rejected {
+  chapter: 'Literary Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Narrative Passage',
+  index: 3
+}
+[llm] english_question_rejected {
+  chapter: 'Literary Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Narrative Passage',
+  index: 4
+}
+[llm] english_question_rejected {
+  chapter: 'Literary Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Factual Passage',
+  index: 5
+}
+[llm] english_question_rejected {
+  chapter: 'Literary Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Factual Passage',
+  index: 6
+}
+[llm] english_question_rejected {
+  chapter: 'Literary Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Factual Passage',
+  index: 7
+}
+[llm] english_question_rejected {
+  chapter: 'Literary Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Factual Passage',
+  index: 8
+}
+[llm] english_question_rejected {
+  chapter: 'Literary Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Factual Passage',
+  index: 9
+}
+[llm] english_question_rejected {
+  chapter: 'Literary Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Factual Passage',
+  index: 10
+}
+[llm] english_question_rejected {
+  chapter: 'Literary Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Factual Passage',
+  index: 11
+}
+[llm] english_question_rejected {
+  chapter: 'Literary Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Factual Passage',
+  index: 12
+}
+[llm] english_question_rejected {
+  chapter: 'Literary Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Factual Passage',
+  index: 13
+}
+[llm] english_question_rejected {
+  chapter: 'Literary Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Factual Passage',
+  index: 14
+}
+[llm] gemini_generation failure gemini-3.1-flash: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::narrative_passage',
+  selected_anchor_id: 'seed_pyq_en3',
+  selected_anchor_concept_id: 'english::correct_word_usage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'reading_comprehension',
+  selected_question_type: 'correct_word_usage'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::narrative_passage',
+  source_anchor_id: 'seed_pyq_en3',
+  source_anchor_concept_id: 'english::correct_word_usage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'reading_comprehension',
+  selected_question_type: 'correct_word_usage'
+}
+[llm] english_question_rejected {
+  chapter: 'Narrative Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Factual Passage',
+  index: 0
+}
+[llm] english_question_rejected {
+  chapter: 'Narrative Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Factual Passage',
+  index: 1
+}
+[llm] english_question_rejected {
+  chapter: 'Narrative Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Factual Passage',
+  index: 2
+}
+[llm] english_question_rejected {
+  chapter: 'Narrative Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Factual Passage',
+  index: 3
+}
+[llm] english_question_rejected {
+  chapter: 'Narrative Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Factual Passage',
+  index: 4
+}
+[llm] english_question_rejected {
+  chapter: 'Narrative Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Literary Passage',
+  index: 5
+}
+[llm] english_question_rejected {
+  chapter: 'Narrative Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Literary Passage',
+  index: 6
+}
+[llm] english_question_rejected {
+  chapter: 'Narrative Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Literary Passage',
+  index: 7
+}
+[llm] english_question_rejected {
+  chapter: 'Narrative Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Literary Passage',
+  index: 8
+}
+[llm] english_question_rejected {
+  chapter: 'Narrative Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Literary Passage',
+  index: 9
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: 'What specific celestial phenomenon was Maya hoping to witness?',
+  index: 10
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: 'In what way did the city’s power outage serve as a positive event for Maya?',
+  index: 11
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: 'Which of the following best describes Maya’s approach to astronomy in this passage?',
+  index: 12
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: "What does the contrast between the neighborhood's reaction and Maya's reaction suggest about her cha",
+  index: 13
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: 'Based on the concluding sentence, how did the event affect Maya emotionally?',
+  index: 14
+}
+[llm] gemini_generation failure gemini-3.1-flash: empty question array after normalization
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'psychology',
+  concept_id: 'psychology::psychology_and_life',
+  selected_anchor_id: 'synthetic_cuet_structure_psychology',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'direct_concept'
+}
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [503 Service Unavailable] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 503,
+  statusText: 'Service Unavailable',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [503 Service Unavailable] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+  "status": 503,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] gemini_generation failure gemini-3.1-flash: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [503 Service Unavailable] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'psychology',
+  concept_id: 'psychology::self_and_personality',
+  selected_anchor_id: 'synthetic_cuet_structure_psychology',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'direct_concept'
+}
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [503 Service Unavailable] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 503,
+  statusText: 'Service Unavailable',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [503 Service Unavailable] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+  "status": 503,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] gemini_generation failure gemini-3.1-flash: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [503 Service Unavailable] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'psychology',
+  concept_id: 'psychology::social_influence_and_group_processes',
+  selected_anchor_id: 'synthetic_cuet_structure_psychology',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'direct_concept'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Social Influence & Group Processes',
+  reason: 'weak_options',
+  body: 'In a group formation process, a team of students is currently experiencing disagreements regarding w',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Social Influence & Group Processes',
+  reason: 'weak_options',
+  body: 'During a village rope-pulling competition, it is observed that individuals tend to exert less effort',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Social Influence & Group Processes',
+  reason: 'weak_options',
+  body: "Which of the following scenarios best illustrates the concept of 'Obedience' as a form of social inf",
+  index: 2
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Social Influence & Group Processes',
+  reason: 'weak_options',
+  body: 'A collection of people standing at a railway station waiting for a train is best described as a ____',
+  index: 3
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Social Influence & Group Processes',
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'A professional athlete performs much better in a packed stadium than during private practice session',
+  index: 4
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Social Influence & Group Processes',
+  reason: 'weak_options',
+  body: 'After a group discussion on environmental protection, members who were already somewhat concerned be',
+  index: 5
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Social Influence & Group Processes',
+  reason: 'weak_options',
+  body: "In which stage of group development do members start developing a sense of 'we-feeling' and establis",
+  index: 7
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Social Influence & Group Processes',
+  reason: 'weak_options',
+  body: 'A highly cohesive committee ignores realistic alternatives and suppresses dissenting viewpoints to r',
+  index: 8
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Social Influence & Group Processes',
+  reason: 'weak_options',
+  body: 'Which of the following conditions is most likely to reduce social loafing in a group project?',
+  index: 9
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Social Influence & Group Processes',
+  reason: 'weak_options',
+  body: 'Two students are solving the same math problems sitting on the same bench but are not helping each o',
+  index: 10
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Social Influence & Group Processes',
+  reason: 'weak_options',
+  body: "Which of the following is an example of 'Normative Social Influence'?",
+  index: 12
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Social Influence & Group Processes',
+  reason: 'weak_options',
+  body: "A corporate team has become so cohesive that they have developed a 'mindguard' to protect the leader",
+  index: 13
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Social Influence & Group Processes',
+  reason: 'weak_options',
+  body: 'In a social experiment, a participant is asked to judge the length of lines. Even though the correct',
+  index: 14
+}
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent: [503 Service Unavailable] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 503,
+  statusText: 'Service Unavailable',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent: [503 Service Unavailable] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+  "status": 503,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm-call] retrying_same_model model=gemini-3.1-flash-lite-preview subject=psychology reason=service_unavailable retry_count=1 delay_ms=1002

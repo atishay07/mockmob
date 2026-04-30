@@ -51,7 +51,7 @@ BEGIN
   ) THEN
     ALTER TABLE public.questions
       ADD CONSTRAINT questions_anchor_tier_check
-      CHECK (anchor_tier IS NULL OR anchor_tier IN (1, 2, 3));
+      CHECK (anchor_tier IS NULL OR anchor_tier IN (1, 2, 3, 4));
   END IF;
 END $$;
 

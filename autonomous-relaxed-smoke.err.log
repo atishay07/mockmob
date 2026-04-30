@@ -1,0 +1,305 @@
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::literary_passage',
+  selected_anchor_id: 'seed_pyq_en3',
+  selected_anchor_concept_id: 'english::correct_word_usage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'reading_comprehension',
+  selected_question_type: 'correct_word_usage'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::literary_passage',
+  source_anchor_id: 'seed_pyq_en3',
+  source_anchor_concept_id: 'english::correct_word_usage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'reading_comprehension',
+  selected_question_type: 'correct_word_usage'
+}
+FULL ERROR: LlmGenerationError: gemini timeout after 90000ms
+    at Timeout._onTimeout (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/llm.mjs:2586:43)
+    at listOnTimeout (node:internal/timers:605:17)
+    at process.processTimers (node:internal/timers:541:7) {
+  reason: 'timeout'
+}
+ERROR DETAILS: {
+  "name": "LlmGenerationError",
+  "message": "gemini timeout after 90000ms",
+  "status": null,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] gemini_generation failure gemini-3.1-pro: gemini timeout after 90000ms
+[llm] generation_model_cooldown gemini-3.1-pro reason=timeout until=2026-04-30T14:33:55.961Z
+[llm] gemini_generation fallback -> gemini-3.1-flash
+[llm] english_classification_warning_log_only {
+  chapter: 'Literary Passage',
+  reason: 'incorrect_passage_classification_log_only',
+  detected_type: 'Narrative Passage',
+  index: 0
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "In the passage, the phrase 'silent sentinel' is used to describe the house. What does this metaphor "
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Literary Passage',
+  reason: 'incorrect_passage_classification_log_only',
+  detected_type: 'Narrative Passage',
+  index: 1
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "The author compares the windows to 'tired eyes' mainly to evoke a sense of:"
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Literary Passage',
+  reason: 'incorrect_passage_classification_log_only',
+  detected_type: 'Narrative Passage',
+  index: 2
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Literary Passage',
+  reason: 'incorrect_passage_classification_log_only',
+  detected_type: 'Narrative Passage',
+  index: 3
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "What does the phrase 'anchored and adrift' reveal about Elara's internal state?"
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Literary Passage',
+  reason: 'incorrect_passage_classification_log_only',
+  detected_type: 'Narrative Passage',
+  index: 4
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "Which literary device is most prominent in the sentence: 'Every creak of the wood seemed to whisper "
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Literary Passage',
+  reason: 'incorrect_passage_classification_log_only',
+  detected_type: 'Factual Passage',
+  index: 5
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'According to the poem, what is the primary role of the clock?'
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Literary Passage',
+  reason: 'incorrect_passage_classification_log_only',
+  detected_type: 'Factual Passage',
+  index: 6
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "What do the 'shadows' represent in the context of the poem?"
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Literary Passage',
+  reason: 'incorrect_passage_classification_log_only',
+  detected_type: 'Factual Passage',
+  index: 7
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "The use of 'amber glow' creates a mood that is primarily:"
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Literary Passage',
+  reason: 'incorrect_passage_classification_log_only',
+  detected_type: 'Factual Passage',
+  index: 8
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'direct_definition_or_textbook_stem',
+  body: "What is the significance of 'The song remains within the heart' in the third stanza?"
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "What is the significance of 'The song remains within the heart' in the third stanza?"
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Literary Passage',
+  reason: 'incorrect_passage_classification_log_only',
+  detected_type: 'Factual Passage',
+  index: 9
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'The final lines of the poem suggest that:'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "According to the author, literature serves as a 'mirror' because it:"
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "What does the phrase 'translates the abstract into the tangible' mean in the passage?"
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "The author compares a well-crafted sentence to 'music' because of its:"
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'direct_definition_or_textbook_stem',
+  body: "What is the primary factor that distinguishes a 'literary masterpiece' from a 'simple narrative'?"
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "What is the primary factor that distinguishes a 'literary masterpiece' from a 'simple narrative'?"
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'In the final sentence, the author suggests that reading is a process of:'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "In the passage, the phrase 'silent sentinel' is used to describe the house. What does this metaphor "
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "The author compares the windows to 'tired eyes' mainly to evoke a sense of:"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "What does the phrase 'anchored and adrift' reveal about Elara's internal state?"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "Which literary device is most prominent in the sentence: 'Every creak of the wood seemed to whisper "
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'According to the poem, what is the primary role of the clock?'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "What do the 'shadows' represent in the context of the poem?"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "The use of 'amber glow' creates a mood that is primarily:"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'direct_definition_or_textbook_stem',
+  body: "What is the significance of 'The song remains within the heart' in the third stanza?"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "What is the significance of 'The song remains within the heart' in the third stanza?"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'The final lines of the poem suggest that:'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "According to the author, literature serves as a 'mirror' because it:"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "What does the phrase 'translates the abstract into the tangible' mean in the passage?"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "The author compares a well-crafted sentence to 'music' because of its:"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'direct_definition_or_textbook_stem',
+  body: "What is the primary factor that distinguishes a 'literary masterpiece' from a 'simple narrative'?"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "What is the primary factor that distinguishes a 'literary masterpiece' from a 'simple narrative'?"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'In the final sentence, the author suggests that reading is a process of:'
+}
+[pipeline] Rejected | compositeScore=100 | source=validator_normalized | rule=validator marked invalid | reasons=validator marked invalid
+[pipeline] Rejected | compositeScore=42 | source=validator_normalized | rule=direct definition | reasons=direct definition; obvious answer; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; low trap quality; direct textbook-style wording; validator decision reject
+[pipeline] Rejected | compositeScore=100 | source=validator_normalized | rule=validator marked invalid | reasons=validator marked invalid
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'According to the poem, what is the primary role of the clock?'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "What do the 'shadows' represent in the context of the poem?"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "In the passage, the phrase 'silent sentinel' is used to describe the house. What does this metaphor "
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "The author compares the windows to 'tired eyes' mainly to evoke a sense of:"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "What does the phrase 'anchored and adrift' reveal about Elara's internal state?"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "The use of 'amber glow' creates a mood that is primarily:"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "What does the phrase 'translates the abstract into the tangible' mean in the passage?"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "Which literary device is most prominent in the sentence: 'Every creak of the wood seemed to whisper "
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'The final lines of the poem suggest that:'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'In the final sentence, the author suggests that reading is a process of:'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "The author compares a well-crafted sentence to 'music' because of its:"
+}
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[pipeline] TARGET_NOT_MET | target=15 | accepted=12 | shortfall=3 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::narrative_passage',
+  selected_anchor_id: 'seed_pyq_en3',
+  selected_anchor_concept_id: 'english::correct_word_usage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'reading_comprehension',
+  selected_question_type: 'correct_word_usage'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::narrative_passage',
+  source_anchor_id: 'seed_pyq_en3',
+  source_anchor_concept_id: 'english::correct_word_usage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'reading_comprehension',
+  selected_question_type: 'correct_word_usage'
+}

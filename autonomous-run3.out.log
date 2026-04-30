@@ -1,0 +1,3090 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5640 concepts across 40 subjects (saved 2026-04-30T09:55:30.666Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'biology',
+  chapter: 'Biodiversity & Conservation',
+  coverage: 3,
+  priority: 90
+}
+[planner] {
+  subject: 'biology',
+  chapter: 'Organisms & Populations',
+  coverage: 3,
+  priority: 90
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'Haloalkanes & Haloarenes',
+  coverage: 3,
+  priority: 90
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Para Jumbles',
+  coverage: 3,
+  priority: 90
+}
+[planner] { subject: 'biology', chapter: 'Ecosystem', coverage: 4, priority: 90 }
+[planner] {
+  subject: 'biology',
+  chapter: 'Environmental Issues',
+  coverage: 4,
+  priority: 90
+}
+[planner] { subject: 'chemistry', chapter: 'Amines', coverage: 4, priority: 90 }
+[planner] {
+  subject: 'computer_science',
+  chapter: 'MySQL',
+  coverage: 4,
+  priority: 90
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Government Budget & the Economy',
+  coverage: 4,
+  priority: 90
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Money & Banking',
+  coverage: 4,
+  priority: 90
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: biology → normalized: biology → tier: 1
+Subject: biology → normalized: biology → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: english → normalized: english → tier: 1
+Subject: biology → normalized: biology → tier: 1
+Subject: biology → normalized: biology → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: economics → normalized: economics → tier: 1
+Subject: economics → normalized: economics → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Biodiversity & Conservation',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Organisms & Populations',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Haloalkanes & Haloarenes',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Para Jumbles',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Ecosystem',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Environmental Issues',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Amines',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'MySQL',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Government Budget & the Economy',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Money & Banking',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'biology',
+    chapter: 'Biodiversity & Conservation',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Organisms & Populations',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'Haloalkanes & Haloarenes',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'english',
+    chapter: 'Para Jumbles',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Ecosystem',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Environmental Issues',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'Amines',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'MySQL',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'economics',
+    chapter: 'Government Budget & the Economy',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'economics',
+    chapter: 'Money & Banking',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: '7d143a26-3934-4832-8d82-a41e173297c2',
+    subject_id: 'biology',
+    chapter: 'Biodiversity & Conservation',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:56:48.566597+00:00'
+  },
+  {
+    id: '5d139029-52dd-4feb-afbe-efa618fa18dd',
+    subject_id: 'biology',
+    chapter: 'Organisms & Populations',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:56:48.566597+00:00'
+  },
+  {
+    id: 'd970b116-811e-4c81-a398-c040bfcb7ca1',
+    subject_id: 'chemistry',
+    chapter: 'Haloalkanes & Haloarenes',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:56:48.566597+00:00'
+  },
+  {
+    id: '18a4c04b-ef6a-4b7a-89cb-0aa11d759dcd',
+    subject_id: 'english',
+    chapter: 'Para Jumbles',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:56:48.566597+00:00'
+  },
+  {
+    id: 'c6a90f24-a152-4214-be08-49a6975221a6',
+    subject_id: 'biology',
+    chapter: 'Ecosystem',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:56:48.566597+00:00'
+  },
+  {
+    id: 'c986ede6-2831-4618-b93b-5520d5bd874c',
+    subject_id: 'biology',
+    chapter: 'Environmental Issues',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:56:48.566597+00:00'
+  },
+  {
+    id: '8ce80683-7955-4857-8e96-c5c6a727f5d3',
+    subject_id: 'chemistry',
+    chapter: 'Amines',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:56:48.566597+00:00'
+  },
+  {
+    id: 'e482e94b-153a-43f6-90ab-9ebc84b1c717',
+    subject_id: 'computer_science',
+    chapter: 'MySQL',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:56:48.566597+00:00'
+  },
+  {
+    id: '98832a0a-5361-4a77-affc-03ac8160f039',
+    subject_id: 'economics',
+    chapter: 'Government Budget & the Economy',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:56:48.566597+00:00'
+  },
+  {
+    id: '33faa614-89f8-46df-9aed-27f344f1dc2a',
+    subject_id: 'economics',
+    chapter: 'Money & Banking',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:56:48.566597+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: '7d143a26-3934-4832-8d82-a41e173297c2',
+    expected_subject: 'biology',
+    expected_chapter: 'Biodiversity & Conservation',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '5d139029-52dd-4feb-afbe-efa618fa18dd',
+    expected_subject: 'biology',
+    expected_chapter: 'Organisms & Populations',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'd970b116-811e-4c81-a398-c040bfcb7ca1',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Haloalkanes & Haloarenes',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '18a4c04b-ef6a-4b7a-89cb-0aa11d759dcd',
+    expected_subject: 'english',
+    expected_chapter: 'Para Jumbles',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'c6a90f24-a152-4214-be08-49a6975221a6',
+    expected_subject: 'biology',
+    expected_chapter: 'Ecosystem',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'c986ede6-2831-4618-b93b-5520d5bd874c',
+    expected_subject: 'biology',
+    expected_chapter: 'Environmental Issues',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '8ce80683-7955-4857-8e96-c5c6a727f5d3',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Amines',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'e482e94b-153a-43f6-90ab-9ebc84b1c717',
+    expected_subject: 'computer_science',
+    expected_chapter: 'MySQL',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '98832a0a-5361-4a77-affc-03ac8160f039',
+    expected_subject: 'economics',
+    expected_chapter: 'Government Budget & the Economy',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '33faa614-89f8-46df-9aed-27f344f1dc2a',
+    expected_subject: 'economics',
+    expected_chapter: 'Money & Banking',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '7d143a26-3934-4832-8d82-a41e173297c2',
+    '5d139029-52dd-4feb-afbe-efa618fa18dd',
+    'd970b116-811e-4c81-a398-c040bfcb7ca1',
+    '18a4c04b-ef6a-4b7a-89cb-0aa11d759dcd',
+    'c6a90f24-a152-4214-be08-49a6975221a6',
+    'c986ede6-2831-4618-b93b-5520d5bd874c',
+    '8ce80683-7955-4857-8e96-c5c6a727f5d3',
+    'e482e94b-153a-43f6-90ab-9ebc84b1c717',
+    '98832a0a-5361-4a77-affc-03ac8160f039',
+    '33faa614-89f8-46df-9aed-27f344f1dc2a'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '7d143a26-3934-4832-8d82-a41e173297c2',
+  actual_subject: 'biology',
+  actual_chapter: 'Biodiversity & Conservation',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 3,
+  subject_question_count: 334,
+  created_at: '2026-04-30T09:56:48.566597+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'biology',
+  chapter: 'Biodiversity & Conservation',
+  count: 3,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'biology',
+  chapter: 'Biodiversity & Conservation',
+  count: 3
+}
+
+[JOB 7d143a26] Starting: [biology] Biodiversity & Conservation
+[worker] RECEIVED_JOB: {
+  job_id: '7d143a26-3934-4832-8d82-a41e173297c2',
+  expected_subject: 'biology',
+  expected_chapter: 'Biodiversity & Conservation',
+  raw_subject_id: 'biology',
+  raw_chapter: 'Biodiversity & Conservation',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T09:56:48.566597+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '7d143a26-3934-4832-8d82-a41e173297c2',
+  expected_subject: 'biology',
+  resolved_subject_id: 'biology',
+  resolved_subject_name: 'Biology',
+  chapter: 'Biodiversity & Conservation',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=3 existing questions loaded
+[generation] batch adjusted: { chapter: 'Biodiversity & Conservation', generate_count: 15 }
+[worker] GENERATION_INPUT: {
+  job_id: '7d143a26-3934-4832-8d82-a41e173297c2',
+  expected_subject: 'biology',
+  resolved_subject_id: 'biology',
+  resolved_subject_name: 'Biology',
+  expected_chapter: 'Biodiversity & Conservation',
+  canonical_unit: 'Ecology and Environment',
+  generate_count: 15,
+  difficulty_override: null,
+  used_concepts_sampled: 20
+}
+[pipeline] Generating 15 candidates... chapter="Biodiversity & Conservation" unit="Ecology and Environment" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'biology',
+  prompt_subject_name: 'Biology',
+  expected_chapter: 'Biodiversity & Conservation',
+  requested_count: 15,
+  difficulty_override: null
+}
+[llm] pyq_anchor_selected {
+  subject: 'biology',
+  chapter: 'Biodiversity & Conservation',
+  concept_id: 'biology::biodiversity_and_conservation',
+  pyq_anchor_id: 'synthetic_cuet_structure_biology',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  synthetic_anchor: true
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'biology',
+  expected_chapter: 'Biodiversity & Conservation',
+  canonical_unit: 'Ecology and Environment',
+  concept_id: 'biology::biodiversity_and_conservation',
+  pyq_anchor_id: 'synthetic_cuet_structure_biology',
+  anchor_tier: 4,
+  batch_size: 15,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] active_model=gpt-5.4
+[llm] {"event":"active_model","timestamp":"2026-04-30T09:56:48.431Z","activeModel":"gpt-5.4","stickyModel":"gpt-5.4","subject":"biology","chapter":"Biodiversity & Conservation","count":15}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-5.4',
+  subject: 'biology',
+  stage: 'generation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-5.4',
+  subject: 'biology',
+  stage: 'generation',
+  status: 'success',
+  retry_count: 0,
+  duration: 40119,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-5.4',
+  subject: 'biology',
+  stage: 'generation',
+  retry_count: 0
+}
+[llm] Raw OpenAI response | model=gpt-5.4: [
+  {
+    "q": "Which of the following best describes biodiversity?",
+    "o": [
+      "A variety of living organisms at different levels",
+      "A group of organisms of one species only",
+      "The number of plants in one field only",
+      "The study of fossils and rocks"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "biodiversity_definition_basic",
+    "explanation": "Biodiversity means the variety of organisms present at genetic, species and ecosystem levels.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about conservation?",
+    "o": [
+      "Conservation means planned protection of biodiversity",
+      "Conservation means complete removal of all human concern",
+      "Conservation means replacing all forests with farms",
+      "Conservation means using only one species repeatedly"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "statement_based",
+    "concept_pattern": "conservation_meaning_core",
+    "explanation": "Conservation refers to protection and proper management of biodiversity.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which level of biodiversity is represented by differences among individuals of the same species?",
+    "o": [
+      "Genetic diversity",
+      "Species diversity",
+      "Ecosystem diversity",
+      "Landscape diversity"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "genetic_diversity_identification",
+    "explanation": "Variation among individuals of the same species is genetic diversity.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "The variety of habitats, communities and ecological processes in a region refers to:",
+    "o": [
+      "Ecosystem diversity",
+      "Genetic diversity",
+      "Species isolation",
+      "Artificial selection"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "ecosystem_diversity_definition",
+    "explanation": "Ecosystem diversity includes variety in habitats and ecological communities.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following is the most suitable aim of biodiversity conservation?",
+    "o": [
+      "Protection of species, genes and ecosystems",
+      "Removal of all natural habitats",
+      "Keeping only useful crop plants",
+      "Reducing all species to one population"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "conservation_aim_overall",
+    "explanation": "Biodiversity conservation aims to protect genes, species and ecosystems.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct?",
+    "o": [
+      "Greater biodiversity usually increases ecosystem stability",
+      "Greater biodiversity always decreases stability",
+      "Biodiversity has no relation with ecosystem functioning",
+      "Only one species can maintain all ecosystems equally"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "biodiversity_stability_relation",
+    "explanation": "Higher biodiversity is generally associated with better ecosystem stability and functioning.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In this situation, which principle is being applied? A rare plant species is protected in its natural forest habitat.",
+    "o": [
+      "In situ conservation",
+      "Ex situ conservation",
+      "Selective breeding",
+      "Artificial propagation"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "in_situ_natural_habitat_case",
+    "explanation": "Protection of a species in its natural habitat is in situ conservation.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In this situation, which principle is being applied? Seeds of endangered plants are stored safely for future use.",
+    "o": [
+      "Ex situ conservation",
+      "In situ conservation",
+      "Natural succession",
+      "Species invasion"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "ex_situ_seed_storage_case",
+    "explanation": "Storage of seeds outside their natural habitat is ex situ conservation.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about endemic species?",
+    "o": [
+      "They are restricted to a particular geographical area",
+      "They are found equally in all countries",
+      "They are always domesticated by humans",
+      "They never require conservation efforts"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "endemic_species_statement",
+    "explanation": "Endemic species are naturally confined to a particular region.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about threatened biodiversity?",
+    "o": [
+      "Loss of habitat is a major cause of decline",
+      "Protection of habitat always reduces diversity",
+      "Conservation has no role in species survival",
+      "Species decline only because of old age"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "habitat_loss_major_cause",
+    "explanation": "Habitat loss is one of the main reasons for biodiversity decline.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following best describes species diversity?",
+    "o": [
+      "Variety of species present in an area",
+      "Variation in genes within one species only",
+      "Difference among habitats only",
+      "Number of chromosomes in one organism"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "species_diversity_definition",
+    "explanation": "Species diversity refers to the variety of species in a region.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In this situation, which principle is being applied? Animals of an endangered species are maintained and bred in a zoological park.",
+    "o": [
+      "Ex situ conservation",
+      "In situ conservation",
+      "Ecological succession",
+      "Territorial competition"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "ex_situ_zoo_breeding_case",
+    "explanation": "Conserving endangered animals outside their natural habitat is ex situ conservation.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct regarding biodiversity conservation?",
+    "o": [
+      "Both in situ and ex situ methods are useful",
+      "Only ex situ methods are useful in all cases",
+      "Only in situ methods are possible in all cases",
+      "Conservation methods are unrelated to biodiversity"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "both_conservation_methods_useful",
+    "explanation": "Both in situ and ex situ approaches are important for conserving biodiversity.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following best describes a biodiversity hotspot?",
+    "o": [
+      "A region rich in species and under threat",
+      "A region with only one dominant crop",
+      "A cold desert with no life forms",
+      "An area used only for urban growth"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "direct_concept",
+    "concept_pattern": "hotspot_definition_core",
+    "explanation": "A biodiversity hotspot is known for high richness and high threat to biodiversity.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "A conserved region shows many species, high habitat variety and protection of local organisms in natural surroundings. Which option best matches this?",
+    "o": [
+      "Biodiversity with in situ conservation",
+      "Only genetic engineering",
+      "Only artificial selection",
+      "Loss of biodiversity"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "one_step_application",
+    "concept_pattern": "combined_biodiversity_in_situ_case",
+    "explanation": "The situation describes biodiversity being protected in natural habitats, which is in situ conservation.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  }
+]
+[llm] Cleaned response: [
+  {
+    "q": "Which of the following best describes biodiversity?",
+    "o": [
+      "A variety of living organisms at different levels",
+      "A group of organisms of one species only",
+      "The number of plants in one field only",
+      "The study of fossils and rocks"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "biodiversity_definition_basic",
+    "explanation": "Biodiversity means the variety of organisms present at genetic, species and ecosystem levels.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about conservation?",
+    "o": [
+      "Conservation means planned protection of biodiversity",
+      "Conservation means complete removal of all human concern",
+      "Conservation means replacing all forests with farms",
+      "Conservation means using only one species repeatedly"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "statement_based",
+    "concept_pattern": "conservation_meaning_core",
+    "explanation": "Conservation refers to protection and proper management of biodiversity.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which level of biodiversity is represented by differences among individuals of the same species?",
+    "o": [
+      "Genetic diversity",
+      "Species diversity",
+      "Ecosystem diversity",
+      "Landscape diversity"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "genetic_diversity_identification",
+    "explanation": "Variation among individuals of the same species is genetic diversity.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "The variety of habitats, communities and ecological processes in a region refers to:",
+    "o": [
+      "Ecosystem diversity",
+      "Genetic diversity",
+      "Species isolation",
+      "Artificial selection"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "ecosystem_diversity_definition",
+    "explanation": "Ecosystem diversity includes variety in habitats and ecological communities.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following is the most suitable aim of biodiversity conservation?",
+    "o": [
+      "Protection of species, genes and ecosystems",
+      "Removal of all natural habitats",
+      "Keeping only useful crop plants",
+      "Reducing all species to one population"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "conservation_aim_overall",
+    "explanation": "Biodiversity conservation aims to protect genes, species and ecosystems.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct?",
+    "o": [
+      "Greater biodiversity usually increases ecosystem stability",
+      "Greater biodiversity always decreases stability",
+      "Biodiversity has no relation with ecosystem functioning",
+      "Only one species can maintain all ecosystems equally"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "biodiversity_stability_relation",
+    "explanation": "Higher biodiversity is generally associated with better ecosystem stability and functioning.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In this situation, which principle is being applied? A rare plant species is protected in its natural forest habitat.",
+    "o": [
+      "In situ conservation",
+      "Ex situ conservation",
+      "Selective breeding",
+      "Artificial propagation"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "in_situ_natural_habitat_case",
+    "explanation": "Protection of a species in its natural habitat is in situ conservation.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In this situation, which principle is being applied? Seeds of endangered plants are stored safely for future use.",
+    "o": [
+      "Ex situ conservation",
+      "In situ conservation",
+      "Natural succession",
+      "Species invasion"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "ex_situ_seed_storage_case",
+    "explanation": "Storage of seeds outside their natural habitat is ex situ conservation.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about endemic species?",
+    "o": [
+      "They are restricted to a particular geographical area",
+      "They are found equally in all countries",
+      "They are always domesticated by humans",
+      "They never require conservation efforts"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "endemic_species_statement",
+    "explanation": "Endemic species are naturally confined to a particular region.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about threatened biodiversity?",
+    "o": [
+      "Loss of habitat is a major cause of decline",
+      "Protection of habitat always reduces diversity",
+      "Conservation has no role in species survival",
+      "Species decline only because of old age"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "habitat_loss_major_cause",
+    "explanation": "Habitat loss is one of the main reasons for biodiversity decline.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following best describes species diversity?",
+    "o": [
+      "Variety of species present in an area",
+      "Variation in genes within one species only",
+      "Difference among habitats only",
+      "Number of chromosomes in one organism"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "species_diversity_definition",
+    "explanation": "Species diversity refers to the variety of species in a region.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In this situation, which principle is being applied? Animals of an endangered species are maintained and bred in a zoological park.",
+    "o": [
+      "Ex situ conservation",
+      "In situ conservation",
+      "Ecological succession",
+      "Territorial competition"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "ex_situ_zoo_breeding_case",
+    "explanation": "Conserving endangered animals outside their natural habitat is ex situ conservation.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct regarding biodiversity conservation?",
+    "o": [
+      "Both in situ and ex situ methods are useful",
+      "Only ex situ methods are useful in all cases",
+      "Only in situ methods are possible in all cases",
+      "Conservation methods are unrelated to biodiversity"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "both_conservation_methods_useful",
+    "explanation": "Both in situ and ex situ approaches are important for conserving biodiversity.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following best describes a biodiversity hotspot?",
+    "o": [
+      "A region rich in species and under threat",
+      "A region with only one dominant crop",
+      "A cold desert with no life forms",
+      "An area used only for urban growth"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "direct_concept",
+    "concept_pattern": "hotspot_definition_core",
+    "explanation": "A biodiversity hotspot is known for high richness and high threat to biodiversity.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "A conserved region shows many species, high habitat variety and protection of local organisms in natural surroundings. Which option best matches this?",
+    "o": [
+      "Biodiversity with in situ conservation",
+      "Only genetic engineering",
+      "Only artificial selection",
+      "Loss of biodiversity"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "one_step_application",
+    "concept_pattern": "combined_biodiversity_in_situ_case",
+    "explanation": "The situation describes biodiversity being protected in natural habitats, which is in situ conservation.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Biodiversity & Conservation",
+    "topic": "Ecology and Environment",
+    "concept": "Biodiversity & Conservation",
+    "concept_id": "biology::biodiversity_and_conservation",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 15
+[llm] success gpt-5.4
+[llm] {"event":"success","timestamp":"2026-04-30T09:57:28.580Z","model":"gpt-5.4","questionCount":15,"subject":"biology","chapter":"Biodiversity & Conservation"}
+[pipeline] RAW_PARSED_COUNT 15
+[pipeline] NORMALIZED_COUNT 15
+[pipeline] generated_count=15 | mix=easy=5, medium=8, hard=2
+[pipeline] STRUCTURAL_VALID_COUNT 15
+[pipeline] after_chapter_filter=15 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=15 | sent_for_strict_validation=15
+[pipeline] Starting batch validation for 15 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-2.5-flash-lite | count=15
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T09:57:28.596Z","model":"gemini-2.5-flash-lite","subject":"biology","questionCount":15}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-2.5-flash-lite',
+  subject: 'biology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-2.5-flash-lite',
+  subject: 'biology',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 8911,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-2.5-flash-lite',
+  subject: 'biology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "HARD",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "hard",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 7,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 7,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 3,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 7,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 4,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 9,
+    "distractor_quality": 9,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 5,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 9,
+    "distractor_quality": 9,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 6,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 9,
+    "distractor_quality": 9,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 7,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 8,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 9,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 10,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 9,
+    "distractor_quality": 9,
+    "conceptual_depth": 6,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 11,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "HARD",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "hard",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 12,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 13,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 14,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 9,
+    "distractor_quality": 9,
+    "conceptual_depth": 6,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 15
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T09:57:37.508Z","model":"gemini-2.5-flash-lite","subject":"biology","resultCount":15}
+[difficulty distribution] {
+  model: { easy: 5, medium: 8, hard: 2 },
+  system: { easy: 5, medium: 7, hard: 3 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 15
+[pipeline] validated_count=15 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 15
+[pipeline] selected_count=15 | FINAL DISTRIBUTION: {"easy":5,"medium":7,"hard":3}
+✅ Published 8e748912-f3c3-4a09-9a1a-472df29c1e15 | status=live | difficulty=easy | discoverable=true
+✅ Published 217ecb87-3d81-4260-b241-31eb4081fe0c | status=live | difficulty=easy | discoverable=true
+✅ Published 786b7be5-866c-4f48-8cbc-358044e72b37 | status=live | difficulty=easy | discoverable=true
+✅ Published d424584c-78b8-43dc-80c6-80687a6e7b7c | status=live | difficulty=easy | discoverable=true
+✅ Published 0fad5eeb-3be5-4439-bb2b-b719127d15e9 | status=live | difficulty=easy | discoverable=true
+✅ Published a8bee366-e4cd-4a13-8652-f12630f59557 | status=live | difficulty=medium | discoverable=true
+✅ Published 4ba35de9-0c6f-4d37-88e6-881915441c0b | status=live | difficulty=medium | discoverable=true
+✅ Published 812d427a-fe8a-4b94-9756-84012db177db | status=live | difficulty=medium | discoverable=true
+✅ Published 6f7eaf85-5cdf-49ec-805e-8425f9d32fe5 | status=live | difficulty=medium | discoverable=true
+✅ Published 9ef91eac-af8e-440f-a610-c7603252d99b | status=live | difficulty=medium | discoverable=true
+✅ Published 5cb15890-22a1-4da7-8ae5-0fb461b62b43 | status=live | difficulty=medium | discoverable=true
+✅ Published 43e58bbe-0691-453b-882c-1bd69b1e15b5 | status=live | difficulty=medium | discoverable=true
+✅ Published a24bcd2c-ba6e-405d-84c0-e3cd604d672e | status=live | difficulty=hard | discoverable=true
+✅ Published 82879f6c-afe3-4178-afba-12066bc5e3ec | status=live | difficulty=hard | discoverable=true
+✅ Published 8177acd9-5545-49fa-9334-655d2cc2818f | status=live | difficulty=hard | discoverable=true
+[pipeline] METRICS | generated_count=15 | prefiltered_count=15 | strict_validation_count=15 | accepted_count=15 | api_calls_used=2 | cost_efficiency_ratio=7.50
+[pipeline] SUMMARY | subject=biology | chapter=Biodiversity & Conservation | target=15 | generated_count=15 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=15 | validated_count=15 | accepted_count=15 | shortfall=0 | yield_rate=100.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=5, medium=7, hard=3
+[pipeline] subject_distribution: {"subject":"biology","accepted":15,"rejected":0,"target":15,"met":true}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '5d139029-52dd-4feb-afbe-efa618fa18dd',
+    'd970b116-811e-4c81-a398-c040bfcb7ca1',
+    '18a4c04b-ef6a-4b7a-89cb-0aa11d759dcd',
+    'c6a90f24-a152-4214-be08-49a6975221a6',
+    'c986ede6-2831-4618-b93b-5520d5bd874c',
+    '8ce80683-7955-4857-8e96-c5c6a727f5d3',
+    'e482e94b-153a-43f6-90ab-9ebc84b1c717',
+    '98832a0a-5361-4a77-affc-03ac8160f039',
+    '33faa614-89f8-46df-9aed-27f344f1dc2a'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '5d139029-52dd-4feb-afbe-efa618fa18dd',
+  actual_subject: 'biology',
+  actual_chapter: 'Organisms & Populations',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 3,
+  subject_question_count: 349,
+  created_at: '2026-04-30T09:56:48.566597+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'biology',
+  chapter: 'Organisms & Populations',
+  count: 3,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'biology', chapter: 'Organisms & Populations', count: 3 }
+
+[JOB 5d139029] Starting: [biology] Organisms & Populations
+[worker] RECEIVED_JOB: {
+  job_id: '5d139029-52dd-4feb-afbe-efa618fa18dd',
+  expected_subject: 'biology',
+  expected_chapter: 'Organisms & Populations',
+  raw_subject_id: 'biology',
+  raw_chapter: 'Organisms & Populations',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T09:56:48.566597+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '5d139029-52dd-4feb-afbe-efa618fa18dd',
+  expected_subject: 'biology',
+  resolved_subject_id: 'biology',
+  resolved_subject_name: 'Biology',
+  chapter: 'Organisms & Populations',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=3 existing questions loaded
+[generation] batch adjusted: { chapter: 'Organisms & Populations', generate_count: 15 }
+[worker] GENERATION_INPUT: {
+  job_id: '5d139029-52dd-4feb-afbe-efa618fa18dd',
+  expected_subject: 'biology',
+  resolved_subject_id: 'biology',
+  resolved_subject_name: 'Biology',
+  expected_chapter: 'Organisms & Populations',
+  canonical_unit: 'Ecology and Environment',
+  generate_count: 15,
+  difficulty_override: null,
+  used_concepts_sampled: 20
+}
+[pipeline] Generating 15 candidates... chapter="Organisms & Populations" unit="Ecology and Environment" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'biology',
+  prompt_subject_name: 'Biology',
+  expected_chapter: 'Organisms & Populations',
+  requested_count: 15,
+  difficulty_override: null
+}
+[llm] pyq_anchor_selected {
+  subject: 'biology',
+  chapter: 'Organisms & Populations',
+  concept_id: 'biology::organisms_and_populations',
+  pyq_anchor_id: 'synthetic_cuet_structure_biology',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  synthetic_anchor: true
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'biology',
+  expected_chapter: 'Organisms & Populations',
+  canonical_unit: 'Ecology and Environment',
+  concept_id: 'biology::organisms_and_populations',
+  pyq_anchor_id: 'synthetic_cuet_structure_biology',
+  anchor_tier: 4,
+  batch_size: 15,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] active_model=gpt-5.4
+[llm] {"event":"active_model","timestamp":"2026-04-30T09:58:00.430Z","activeModel":"gpt-5.4","stickyModel":"gpt-5.4","subject":"biology","chapter":"Organisms & Populations","count":15}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-5.4',
+  subject: 'biology',
+  stage: 'generation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-5.4',
+  subject: 'biology',
+  stage: 'generation',
+  status: 'success',
+  retry_count: 0,
+  duration: 50207,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-5.4',
+  subject: 'biology',
+  stage: 'generation',
+  retry_count: 0
+}
+[llm] Raw OpenAI response | model=gpt-5.4: [
+  {
+    "q": "Which of the following best describes an organism?",
+    "o": [
+      "A living individual capable of performing life processes",
+      "A group of different species living together",
+      "A physical area with soil and water only",
+      "A non-living component of the environment"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "definition_of_organism",
+    "explanation": "An organism is an individual living entity that carries out all basic life processes.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following best describes a population?",
+    "o": [
+      "All individuals of one species living in a given area",
+      "All plants living in a large region",
+      "All organisms found in a pond",
+      "Only the old individuals of a species"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "definition_of_population",
+    "explanation": "A population consists of members of the same species living in a particular area.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about a population?",
+    "o": [
+      "Members of a population belong to the same species",
+      "Members of a population always live in different countries",
+      "A population contains only producers",
+      "A population has no relation with environment"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "statement_based",
+    "concept_pattern": "same_species_population_statement",
+    "explanation": "A population is made up of individuals of the same species.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "A cactus growing in a desert is an example of an organism living under which condition?",
+    "o": [
+      "A specific habitat with environmental challenges",
+      "A population without surroundings",
+      "A species with no adaptation need",
+      "A community of many species only"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "one_step_application",
+    "concept_pattern": "organism_in_specific_habitat",
+    "explanation": "An organism survives in a habitat that has particular environmental conditions.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following is an example of a population?",
+    "o": [
+      "All mango trees in one orchard",
+      "All animals in one forest",
+      "All green plants on Earth",
+      "All organisms in a lake"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "population_example_single_species",
+    "explanation": "A population includes individuals of one species in a defined area.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct?",
+    "o": [
+      "Population attributes are studied at the population level, not for a single individual",
+      "A single organism alone shows population density",
+      "Birth rate is a property of one individual only",
+      "Population size is unrelated to number of organisms"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "population_attributes_level_statement",
+    "explanation": "Attributes like density and birth rate are meaningful for a population and not for a single organism.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "If the number of individuals per unit area increases, which population feature increases?",
+    "o": [
+      "Population density",
+      "Population decline",
+      "Emigration only",
+      "Age at death only"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "density_from_individuals_per_area",
+    "explanation": "Population density refers to the number of individuals present per unit area or volume.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following can increase the size of a population?",
+    "o": [
+      "Natality and immigration",
+      "Mortality and emigration",
+      "Only mortality",
+      "Only competition"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "population_increase_factors",
+    "explanation": "Births and entry of individuals from outside increase population size.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following can decrease the size of a population?",
+    "o": [
+      "Mortality and emigration",
+      "Natality and immigration",
+      "Only reproduction",
+      "Only food availability"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "population_decrease_factors",
+    "explanation": "Deaths and movement out of an area reduce the population size.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In a bird population, some birds enter from nearby regions. This process is called:",
+    "o": [
+      "Immigration",
+      "Emigration",
+      "Mortality",
+      "Natality"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "identify_immigration",
+    "explanation": "Immigration is the arrival of individuals into a population from other areas.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "When some deer leave a forest and move to another area, the process is known as:",
+    "o": [
+      "Emigration",
+      "Immigration",
+      "Natality",
+      "Adaptation"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "identify_emigration",
+    "explanation": "Emigration is the movement of individuals out of a population.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about population density?",
+    "o": [
+      "It may be measured by number or sometimes by biomass",
+      "It is always equal to birth rate",
+      "It is the same as mortality",
+      "It applies only to human populations"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "density_number_or_biomass",
+    "explanation": "Population density can be expressed through number of individuals or sometimes by biomass.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "If a fish population has more births than deaths in a season, what is the likely effect?",
+    "o": [
+      "Population size will increase",
+      "Population size will become zero",
+      "Population density must decrease",
+      "The species will change immediately"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "births_more_than_deaths_effect",
+    "explanation": "When births exceed deaths, the number of individuals in the population increases.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following best explains why a single tiger cannot be said to have natality?",
+    "o": [
+      "Natality is a population-level attribute",
+      "A tiger is not a living organism",
+      "Natality means movement out of an area",
+      "Natality applies only to plants"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "direct_concept",
+    "concept_pattern": "natality_population_not_individual",
+    "explanation": "Natality refers to birth rate in a population and is not assigned to one individual organism.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In a plant population, counting individuals is difficult because one plant may spread widely. In this case, population density is better expressed by:",
+    "o": [
+      "Percent cover or biomass",
+      "Only species name",
+      "Only flower colour",
+      "Only root length of one plant"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "one_step_application",
+    "concept_pattern": "density_by_cover_or_biomass",
+    "explanation": "For some plant populations, density is more meaningfully represented by percent cover or biomass.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about organisms in relation to environment?",
+    "o": [
+      "Organisms interact with and respond to environmental conditions",
+      "Organisms live independently of all surroundings",
+      "Organisms are always found only in water",
+      "Organisms do not show any adjustment to habitat"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "organisms_environment_interaction_statement",
+    "explanation": "Organisms survive by interacting with and responding to the conditions of their environment.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  }
+]
+[llm] Cleaned response: [
+  {
+    "q": "Which of the following best describes an organism?",
+    "o": [
+      "A living individual capable of performing life processes",
+      "A group of different species living together",
+      "A physical area with soil and water only",
+      "A non-living component of the environment"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "definition_of_organism",
+    "explanation": "An organism is an individual living entity that carries out all basic life processes.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following best describes a population?",
+    "o": [
+      "All individuals of one species living in a given area",
+      "All plants living in a large region",
+      "All organisms found in a pond",
+      "Only the old individuals of a species"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "definition_of_population",
+    "explanation": "A population consists of members of the same species living in a particular area.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about a population?",
+    "o": [
+      "Members of a population belong to the same species",
+      "Members of a population always live in different countries",
+      "A population contains only producers",
+      "A population has no relation with environment"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "statement_based",
+    "concept_pattern": "same_species_population_statement",
+    "explanation": "A population is made up of individuals of the same species.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "A cactus growing in a desert is an example of an organism living under which condition?",
+    "o": [
+      "A specific habitat with environmental challenges",
+      "A population without surroundings",
+      "A species with no adaptation need",
+      "A community of many species only"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "one_step_application",
+    "concept_pattern": "organism_in_specific_habitat",
+    "explanation": "An organism survives in a habitat that has particular environmental conditions.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following is an example of a population?",
+    "o": [
+      "All mango trees in one orchard",
+      "All animals in one forest",
+      "All green plants on Earth",
+      "All organisms in a lake"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "population_example_single_species",
+    "explanation": "A population includes individuals of one species in a defined area.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct?",
+    "o": [
+      "Population attributes are studied at the population level, not for a single individual",
+      "A single organism alone shows population density",
+      "Birth rate is a property of one individual only",
+      "Population size is unrelated to number of organisms"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "population_attributes_level_statement",
+    "explanation": "Attributes like density and birth rate are meaningful for a population and not for a single organism.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "If the number of individuals per unit area increases, which population feature increases?",
+    "o": [
+      "Population density",
+      "Population decline",
+      "Emigration only",
+      "Age at death only"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "density_from_individuals_per_area",
+    "explanation": "Population density refers to the number of individuals present per unit area or volume.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following can increase the size of a population?",
+    "o": [
+      "Natality and immigration",
+      "Mortality and emigration",
+      "Only mortality",
+      "Only competition"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "population_increase_factors",
+    "explanation": "Births and entry of individuals from outside increase population size.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following can decrease the size of a population?",
+    "o": [
+      "Mortality and emigration",
+      "Natality and immigration",
+      "Only reproduction",
+      "Only food availability"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "population_decrease_factors",
+    "explanation": "Deaths and movement out of an area reduce the population size.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In a bird population, some birds enter from nearby regions. This process is called:",
+    "o": [
+      "Immigration",
+      "Emigration",
+      "Mortality",
+      "Natality"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "identify_immigration",
+    "explanation": "Immigration is the arrival of individuals into a population from other areas.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "When some deer leave a forest and move to another area, the process is known as:",
+    "o": [
+      "Emigration",
+      "Immigration",
+      "Natality",
+      "Adaptation"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "identify_emigration",
+    "explanation": "Emigration is the movement of individuals out of a population.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about population density?",
+    "o": [
+      "It may be measured by number or sometimes by biomass",
+      "It is always equal to birth rate",
+      "It is the same as mortality",
+      "It applies only to human populations"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "density_number_or_biomass",
+    "explanation": "Population density can be expressed through number of individuals or sometimes by biomass.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "If a fish population has more births than deaths in a season, what is the likely effect?",
+    "o": [
+      "Population size will increase",
+      "Population size will become zero",
+      "Population density must decrease",
+      "The species will change immediately"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "births_more_than_deaths_effect",
+    "explanation": "When births exceed deaths, the number of individuals in the population increases.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following best explains why a single tiger cannot be said to have natality?",
+    "o": [
+      "Natality is a population-level attribute",
+      "A tiger is not a living organism",
+      "Natality means movement out of an area",
+      "Natality applies only to plants"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "direct_concept",
+    "concept_pattern": "natality_population_not_individual",
+    "explanation": "Natality refers to birth rate in a population and is not assigned to one individual organism.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In a plant population, counting individuals is difficult because one plant may spread widely. In this case, population density is better expressed by:",
+    "o": [
+      "Percent cover or biomass",
+      "Only species name",
+      "Only flower colour",
+      "Only root length of one plant"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "one_step_application",
+    "concept_pattern": "density_by_cover_or_biomass",
+    "explanation": "For some plant populations, density is more meaningfully represented by percent cover or biomass.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about organisms in relation to environment?",
+    "o": [
+      "Organisms interact with and respond to environmental conditions",
+      "Organisms live independently of all surroundings",
+      "Organisms are always found only in water",
+      "Organisms do not show any adjustment to habitat"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "organisms_environment_interaction_statement",
+    "explanation": "Organisms survive by interacting with and responding to the conditions of their environment.",
+    "subject": "biology",
+    "public_subject": "biology",
+    "chapter": "Organisms & Populations",
+    "topic": "Ecology and Environment",
+    "concept": "Organisms & Populations",
+    "concept_id": "biology::organisms_and_populations",
+    "pyq_anchor_id": "synthetic_cuet_structure_biology",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 16
+[llm] success gpt-5.4
+[llm] {"event":"success","timestamp":"2026-04-30T09:58:50.639Z","model":"gpt-5.4","questionCount":16,"subject":"biology","chapter":"Organisms & Populations"}
+[pipeline] RAW_PARSED_COUNT 16
+[pipeline] NORMALIZED_COUNT 16
+[pipeline] generated_count=16 | mix=easy=5, medium=9, hard=2
+[pipeline] STRUCTURAL_VALID_COUNT 16
+[pipeline] after_chapter_filter=16 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=15 | sent_for_strict_validation=15
+[pipeline] Starting batch validation for 15 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-2.5-flash-lite | count=15
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T09:58:50.651Z","model":"gemini-2.5-flash-lite","subject":"biology","questionCount":15}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-2.5-flash-lite',
+  subject: 'biology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-2.5-flash-lite',
+  subject: 'biology',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 8741,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-2.5-flash-lite',
+  subject: 'biology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 7,
+    "exam_quality": 7,
+    "distractor_quality": 7,
+    "conceptual_depth": 6,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 3,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 4,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 5,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "HARD",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 7,
+    "exam_quality": 7,
+    "distractor_quality": 7,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "hard",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 6,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 7,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 9,
+    "distractor_quality": 9,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 8,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 9,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 10,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 11,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 9,
+    "distractor_quality": 9,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 12,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 13,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 9,
+    "distractor_quality": 9,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 14,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 9,
+    "distractor_quality": 9,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 15
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T09:58:59.394Z","model":"gemini-2.5-flash-lite","subject":"biology","resultCount":15}
+[difficulty distribution] {
+  model: { easy: 5, medium: 8, hard: 2 },
+  system: { easy: 6, medium: 7, hard: 2 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 15
+[pipeline] validated_count=15 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 15
+[pipeline] selected_count=15 | FINAL DISTRIBUTION: {"easy":6,"medium":7,"hard":2}
+✅ Published 1474da28-90d8-4f0f-b3fa-b4138e4c5c22 | status=live | difficulty=easy | discoverable=true
+✅ Published 5b06738a-cd40-4e45-85f0-38c1d735c005 | status=live | difficulty=easy | discoverable=true
+✅ Published 19d8aa8e-1c0a-4f93-8477-242e4f17a8e4 | status=live | difficulty=easy | discoverable=true
+✅ Published c1deac48-e84c-48b9-82d4-72ff458c5d33 | status=live | difficulty=easy | discoverable=true
+✅ Published 80712b2d-528f-4159-b72b-9493d5103b66 | status=live | difficulty=easy | discoverable=true
+✅ Published d486c4a0-6284-4048-b774-fb60c6f8ab57 | status=live | difficulty=medium | discoverable=true
+✅ Published 49dc67f3-2b9b-407e-aa5c-a507fbc4b612 | status=live | difficulty=medium | discoverable=true
+✅ Published fe253c18-b96f-4646-a271-9bd8cbf23e6a | status=live | difficulty=medium | discoverable=true
+✅ Published f8f1eb81-a398-4bb0-a9a8-716014208dce | status=live | difficulty=medium | discoverable=true
+✅ Published 6b872614-0b22-4d92-965d-aa56fa596421 | status=live | difficulty=medium | discoverable=true
+✅ Published 4eff08cc-4d71-4a2f-921a-40b356b76d46 | status=live | difficulty=medium | discoverable=true
+✅ Published 2b104c45-a8d7-4513-a4cb-f3c6618abc92 | status=live | difficulty=medium | discoverable=true
+✅ Published 112d36d0-0e75-4f55-90b6-adc183a5b332 | status=live | difficulty=hard | discoverable=true
+✅ Published 1378f53e-35e6-4e27-96c1-60e5d8ff4985 | status=live | difficulty=hard | discoverable=true
+✅ Published 69bbf4eb-e19b-44c8-93bd-afa7e71b2f08 | status=live | difficulty=easy | discoverable=true
+[pipeline] METRICS | generated_count=16 | prefiltered_count=15 | strict_validation_count=15 | accepted_count=15 | api_calls_used=2 | cost_efficiency_ratio=7.50
+[pipeline] SUMMARY | subject=biology | chapter=Organisms & Populations | target=15 | generated_count=16 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=15 | validated_count=15 | accepted_count=15 | shortfall=0 | yield_rate=93.8% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=6, medium=7, hard=2
+[pipeline] subject_distribution: {"subject":"biology","accepted":15,"rejected":0,"target":15,"met":true}
+Cooling down for 15s to respect API limits...

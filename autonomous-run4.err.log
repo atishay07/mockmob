@@ -1,0 +1,69 @@
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'chemistry',
+  concept_id: 'chemistry::haloalkanes_and_haloarenes',
+  selected_anchor_id: 'synthetic_cuet_structure_chemistry',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'direct_concept'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Haloalkanes & Haloarenes',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Which of the following contains halogen attached to an sp2 carbon of benzene ring?',
+  index: 5
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Haloalkanes & Haloarenes',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'In this situation, which principle is being applied? A compound with formula C6H5Cl is placed under ',
+  index: 15
+}
+[pipeline] SIMILARITY_REJECTION [
+  {
+    reason: 'too_similar_to_recent_question',
+    body: 'Which of the following is a haloarene?'
+  },
+  {
+    reason: 'too_similar_to_recent_question',
+    body: 'Which of the following statements is correct?'
+  },
+  {
+    reason: 'too_similar_to_recent_question',
+    body: 'Which of the following is not a haloarene?'
+  },
+  {
+    reason: 'too_similar_to_recent_question',
+    body: 'Which of the following statements is incorrect?'
+  }
+]
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[pipeline] TARGET_NOT_MET | target=15 | accepted=10 | shortfall=5 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  selected_anchor_id: 'seed_pyq_en3',
+  selected_anchor_concept_id: 'english::correct_word_usage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'reading_comprehension',
+  selected_question_type: 'correct_word_usage'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  source_anchor_id: 'seed_pyq_en3',
+  source_anchor_concept_id: 'english::correct_word_usage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'reading_comprehension',
+  selected_question_type: 'correct_word_usage'
+}

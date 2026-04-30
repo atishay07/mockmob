@@ -1,0 +1,2895 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5670 concepts across 40 subjects (saved 2026-04-30T09:59:10.260Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'Haloalkanes & Haloarenes',
+  coverage: 3,
+  priority: 90
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Para Jumbles',
+  coverage: 3,
+  priority: 90
+}
+[planner] { subject: 'biology', chapter: 'Ecosystem', coverage: 4, priority: 90 }
+[planner] {
+  subject: 'biology',
+  chapter: 'Environmental Issues',
+  coverage: 4,
+  priority: 90
+}
+[planner] { subject: 'chemistry', chapter: 'Amines', coverage: 4, priority: 90 }
+[planner] {
+  subject: 'computer_science',
+  chapter: 'MySQL',
+  coverage: 4,
+  priority: 90
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Government Budget & the Economy',
+  coverage: 4,
+  priority: 90
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Money & Banking',
+  coverage: 4,
+  priority: 90
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  coverage: 4,
+  priority: 90
+}
+[planner] {
+  subject: 'mathematics',
+  chapter: 'Vector Algebra',
+  coverage: 4,
+  priority: 90
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: english → normalized: english → tier: 1
+Subject: biology → normalized: biology → tier: 1
+Subject: biology → normalized: biology → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: economics → normalized: economics → tier: 1
+Subject: economics → normalized: economics → tier: 1
+Subject: english → normalized: english → tier: 1
+Subject: mathematics → normalized: mathematics → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Haloalkanes & Haloarenes',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Para Jumbles',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Ecosystem',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Environmental Issues',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Amines',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'MySQL',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Government Budget & the Economy',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Money & Banking',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'mathematics',
+    expected_chapter: 'Vector Algebra',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'chemistry',
+    chapter: 'Haloalkanes & Haloarenes',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'english',
+    chapter: 'Para Jumbles',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Ecosystem',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Environmental Issues',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'Amines',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'MySQL',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'economics',
+    chapter: 'Government Budget & the Economy',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'economics',
+    chapter: 'Money & Banking',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'mathematics',
+    chapter: 'Vector Algebra',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: '80a8bb91-25c1-45c3-9e94-e18a5f68bdbf',
+    subject_id: 'chemistry',
+    chapter: 'Haloalkanes & Haloarenes',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:59:43.080644+00:00'
+  },
+  {
+    id: '5d25c8ce-8077-47cc-af1d-2a909860b03f',
+    subject_id: 'english',
+    chapter: 'Para Jumbles',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:59:43.080644+00:00'
+  },
+  {
+    id: '29b69dd2-3d03-490a-b2d5-dc4a8b2ae8ea',
+    subject_id: 'biology',
+    chapter: 'Ecosystem',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:59:43.080644+00:00'
+  },
+  {
+    id: '7b05d68a-55b7-4511-8c54-c065283a3c5b',
+    subject_id: 'biology',
+    chapter: 'Environmental Issues',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:59:43.080644+00:00'
+  },
+  {
+    id: '0245787d-2a43-4967-a872-39ca4dce9191',
+    subject_id: 'chemistry',
+    chapter: 'Amines',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:59:43.080644+00:00'
+  },
+  {
+    id: '9feb6105-a51b-4786-9eeb-fe66c9cdfc69',
+    subject_id: 'computer_science',
+    chapter: 'MySQL',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:59:43.080644+00:00'
+  },
+  {
+    id: 'aa635400-ff26-4b90-8b04-696cf0338acb',
+    subject_id: 'economics',
+    chapter: 'Government Budget & the Economy',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:59:43.080644+00:00'
+  },
+  {
+    id: '1499b357-027a-4b21-8ed8-b1882045080a',
+    subject_id: 'economics',
+    chapter: 'Money & Banking',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:59:43.080644+00:00'
+  },
+  {
+    id: 'd254782d-864e-44a5-822d-333906ccbc1e',
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:59:43.080644+00:00'
+  },
+  {
+    id: 'ecce0432-dd4a-4319-8a80-8f5142106717',
+    subject_id: 'mathematics',
+    chapter: 'Vector Algebra',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:59:43.080644+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: '80a8bb91-25c1-45c3-9e94-e18a5f68bdbf',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Haloalkanes & Haloarenes',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '5d25c8ce-8077-47cc-af1d-2a909860b03f',
+    expected_subject: 'english',
+    expected_chapter: 'Para Jumbles',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '29b69dd2-3d03-490a-b2d5-dc4a8b2ae8ea',
+    expected_subject: 'biology',
+    expected_chapter: 'Ecosystem',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '7b05d68a-55b7-4511-8c54-c065283a3c5b',
+    expected_subject: 'biology',
+    expected_chapter: 'Environmental Issues',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '0245787d-2a43-4967-a872-39ca4dce9191',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Amines',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '9feb6105-a51b-4786-9eeb-fe66c9cdfc69',
+    expected_subject: 'computer_science',
+    expected_chapter: 'MySQL',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'aa635400-ff26-4b90-8b04-696cf0338acb',
+    expected_subject: 'economics',
+    expected_chapter: 'Government Budget & the Economy',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '1499b357-027a-4b21-8ed8-b1882045080a',
+    expected_subject: 'economics',
+    expected_chapter: 'Money & Banking',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'd254782d-864e-44a5-822d-333906ccbc1e',
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'ecce0432-dd4a-4319-8a80-8f5142106717',
+    expected_subject: 'mathematics',
+    expected_chapter: 'Vector Algebra',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '80a8bb91-25c1-45c3-9e94-e18a5f68bdbf',
+    '5d25c8ce-8077-47cc-af1d-2a909860b03f',
+    '29b69dd2-3d03-490a-b2d5-dc4a8b2ae8ea',
+    '7b05d68a-55b7-4511-8c54-c065283a3c5b',
+    '0245787d-2a43-4967-a872-39ca4dce9191',
+    '9feb6105-a51b-4786-9eeb-fe66c9cdfc69',
+    'aa635400-ff26-4b90-8b04-696cf0338acb',
+    '1499b357-027a-4b21-8ed8-b1882045080a',
+    'd254782d-864e-44a5-822d-333906ccbc1e',
+    'ecce0432-dd4a-4319-8a80-8f5142106717'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '80a8bb91-25c1-45c3-9e94-e18a5f68bdbf',
+  actual_subject: 'chemistry',
+  actual_chapter: 'Haloalkanes & Haloarenes',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 3,
+  subject_question_count: 248,
+  created_at: '2026-04-30T09:59:43.080644+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'chemistry',
+  chapter: 'Haloalkanes & Haloarenes',
+  count: 3,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'chemistry', chapter: 'Haloalkanes & Haloarenes', count: 3 }
+
+[JOB 80a8bb91] Starting: [chemistry] Haloalkanes & Haloarenes
+[worker] RECEIVED_JOB: {
+  job_id: '80a8bb91-25c1-45c3-9e94-e18a5f68bdbf',
+  expected_subject: 'chemistry',
+  expected_chapter: 'Haloalkanes & Haloarenes',
+  raw_subject_id: 'chemistry',
+  raw_chapter: 'Haloalkanes & Haloarenes',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T09:59:43.080644+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '80a8bb91-25c1-45c3-9e94-e18a5f68bdbf',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  chapter: 'Haloalkanes & Haloarenes',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=3 existing questions loaded
+[generation] batch adjusted: { chapter: 'Haloalkanes & Haloarenes', generate_count: 15 }
+[worker] GENERATION_INPUT: {
+  job_id: '80a8bb91-25c1-45c3-9e94-e18a5f68bdbf',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  expected_chapter: 'Haloalkanes & Haloarenes',
+  canonical_unit: 'Haloalkanes and Haloarenes',
+  generate_count: 15,
+  difficulty_override: null,
+  used_concepts_sampled: 20
+}
+[pipeline] Generating 15 candidates... chapter="Haloalkanes & Haloarenes" unit="Haloalkanes and Haloarenes" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'chemistry',
+  prompt_subject_name: 'Chemistry',
+  expected_chapter: 'Haloalkanes & Haloarenes',
+  requested_count: 15,
+  difficulty_override: null
+}
+[llm] pyq_anchor_selected {
+  subject: 'chemistry',
+  chapter: 'Haloalkanes & Haloarenes',
+  concept_id: 'chemistry::haloalkanes_and_haloarenes',
+  pyq_anchor_id: 'synthetic_cuet_structure_chemistry',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  synthetic_anchor: true
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'chemistry',
+  expected_chapter: 'Haloalkanes & Haloarenes',
+  canonical_unit: 'Haloalkanes and Haloarenes',
+  concept_id: 'chemistry::haloalkanes_and_haloarenes',
+  pyq_anchor_id: 'synthetic_cuet_structure_chemistry',
+  anchor_tier: 4,
+  batch_size: 15,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] active_model=gpt-5.4
+[llm] {"event":"active_model","timestamp":"2026-04-30T09:59:42.927Z","activeModel":"gpt-5.4","stickyModel":"gpt-5.4","subject":"chemistry","chapter":"Haloalkanes & Haloarenes","count":15}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-5.4',
+  subject: 'chemistry',
+  stage: 'generation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-5.4',
+  subject: 'chemistry',
+  stage: 'generation',
+  status: 'success',
+  retry_count: 0,
+  duration: 46376,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-5.4',
+  subject: 'chemistry',
+  stage: 'generation',
+  retry_count: 0
+}
+[llm] Raw OpenAI response | model=gpt-5.4: [
+  {
+    "q": "Which of the following is a haloalkane?",
+    "o": ["A CH3Cl", "B C6H5Cl", "C C6H5OH", "D CH3OH"],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "identify_haloalkane_example",
+    "explanation": "CH3Cl is an alkyl halide in which halogen is attached to an alkyl group.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following is a haloarene?",
+    "o": ["A CH3CH2Br", "B C6H5Br", "C CH2Cl2", "D C2H5Cl"],
+    "a": "B",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "identify_haloarene_example",
+    "explanation": "C6H5Br is a haloarene because bromine is directly attached to an aromatic ring.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct?",
+    "o": ["A In haloarenes, halogen is attached directly to an aromatic ring", "B In haloalkanes, halogen is attached only to oxygen", "C Haloarenes always contain two halogen atoms", "D Haloalkanes do not contain carbon"],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "statement_based",
+    "concept_pattern": "basic_definition_haloarene",
+    "explanation": "A haloarene has halogen directly bonded to an aromatic ring carbon.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Chlorobenzene belongs to which class of compounds?",
+    "o": ["A Alcohol", "B Haloarene", "C Aldehyde", "D Ether"],
+    "a": "B",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "classify_chlorobenzene",
+    "explanation": "Chlorobenzene is a haloarene as chlorine is attached to a benzene ring.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Bromoethane is an example of:",
+    "o": ["A Haloalkane", "B Haloarene", "C Phenol", "D Ketone"],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "classify_bromoethane",
+    "explanation": "Bromoethane has bromine attached to an alkyl group, so it is a haloalkane.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following contains halogen attached to an sp2 carbon of benzene ring?",
+    "o": ["A C6H5Cl", "B CH3CH2Cl", "C CH3Cl", "D CH2ClCH3"],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "halogen_on_aromatic_ring_carbon",
+    "explanation": "In chlorobenzene, chlorine is directly attached to a benzene ring carbon.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following is an aryl halide?",
+    "o": ["A C6H5I", "B CH3I", "C C2H5I", "D CH2I2"],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "identify_aryl_halide",
+    "explanation": "C6H5I is an aryl halide because iodine is bonded directly to the aromatic ring.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which pair contains one haloalkane and one haloarene respectively?",
+    "o": ["A CH3Br and C6H5Cl", "B C6H5Br and CH3Cl", "C C6H5Cl and C6H5Br", "D CH3Cl and C2H5Br"],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "pair_haloalkane_then_haloarene",
+    "explanation": "CH3Br is a haloalkane and C6H5Cl is a haloarene.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct for haloalkanes?",
+    "o": ["A Halogen is attached to an alkyl group", "B Halogen is attached only to benzene ring", "C They do not contain sigma bond", "D They are always aromatic"],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "basic_definition_haloalkane",
+    "explanation": "Haloalkanes are compounds in which halogen is attached to an alkyl group.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following belongs to the class haloarenes?",
+    "o": ["A Bromobenzene", "B Bromomethane", "C Chloroethane", "D Iodoethane"],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "select_haloarene_from_names",
+    "explanation": "Bromobenzene is a haloarene because bromine is bonded to a benzene ring.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In the compound C6H5Br, the halogen is attached to:",
+    "o": ["A An alkyl carbon", "B An aromatic ring carbon", "C An oxygen atom", "D A nitrogen atom"],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "bonding_site_in_bromobenzene",
+    "explanation": "In bromobenzene, bromine is directly attached to a carbon atom of the benzene ring.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following is not a haloarene?",
+    "o": ["A Chlorobenzene", "B Bromobenzene", "C Iodobenzene", "D Chloroethane"],
+    "a": "D",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "identify_non_haloarene",
+    "explanation": "Chloroethane is a haloalkane, not a haloarene.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following compounds has halogen attached to an alkyl carbon?",
+    "o": ["A C2H5Cl", "B C6H5Cl", "C C6H5Br", "D C6H5I"],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "halogen_on_alkyl_carbon",
+    "explanation": "In C2H5Cl, chlorine is attached to an alkyl carbon, so it is a haloalkane.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is incorrect?",
+    "o": ["A Haloalkanes contain carbon-halogen bond", "B Haloarenes contain halogen attached to aromatic ring", "C Chlorobenzene is a haloalkane", "D Bromoethane is a haloalkane"],
+    "a": "C",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "statement_based",
+    "concept_pattern": "incorrect_statement_chlorobenzene_class",
+    "explanation": "Chlorobenzene is a haloarene, not a haloalkane.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which compound is correctly matched with its class?",
+    "o": ["A C6H5Cl - haloarene", "B CH3Cl - haloarene", "C C2H5Br - haloarene", "D C6H5Br - haloalkane"],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "statement_based",
+    "concept_pattern": "correct_match_compound_class",
+    "explanation": "C6H5Cl is correctly classified as a haloarene.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In this situation, which principle is being applied? A compound with formula C6H5Cl is placed under haloarenes because chlorine is bonded directly to benzene ring.",
+    "o": ["A Classification based on halogen attached to aromatic ring", "B Classification based on presence of oxygen", "C Classification based on carbon chain length", "D Classification based on number of hydrogen atoms"],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "classification_principle_haloarene",
+    "explanation": "Haloarenes are identified by halogen directly attached to an aromatic ring.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  }
+]
+[llm] Cleaned response: [
+  {
+    "q": "Which of the following is a haloalkane?",
+    "o": ["A CH3Cl", "B C6H5Cl", "C C6H5OH", "D CH3OH"],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "identify_haloalkane_example",
+    "explanation": "CH3Cl is an alkyl halide in which halogen is attached to an alkyl group.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following is a haloarene?",
+    "o": ["A CH3CH2Br", "B C6H5Br", "C CH2Cl2", "D C2H5Cl"],
+    "a": "B",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "identify_haloarene_example",
+    "explanation": "C6H5Br is a haloarene because bromine is directly attached to an aromatic ring.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct?",
+    "o": ["A In haloarenes, halogen is attached directly to an aromatic ring", "B In haloalkanes, halogen is attached only to oxygen", "C Haloarenes always contain two halogen atoms", "D Haloalkanes do not contain carbon"],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "statement_based",
+    "concept_pattern": "basic_definition_haloarene",
+    "explanation": "A haloarene has halogen directly bonded to an aromatic ring carbon.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Chlorobenzene belongs to which class of compounds?",
+    "o": ["A Alcohol", "B Haloarene", "C Aldehyde", "D Ether"],
+    "a": "B",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "classify_chlorobenzene",
+    "explanation": "Chlorobenzene is a haloarene as chlorine is attached to a benzene ring.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Bromoethane is an example of:",
+    "o": ["A Haloalkane", "B Haloarene", "C Phenol", "D Ketone"],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "classify_bromoethane",
+    "explanation": "Bromoethane has bromine attached to an alkyl group, so it is a haloalkane.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following contains halogen attached to an sp2 carbon of benzene ring?",
+    "o": ["A C6H5Cl", "B CH3CH2Cl", "C CH3Cl", "D CH2ClCH3"],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "halogen_on_aromatic_ring_carbon",
+    "explanation": "In chlorobenzene, chlorine is directly attached to a benzene ring carbon.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following is an aryl halide?",
+    "o": ["A C6H5I", "B CH3I", "C C2H5I", "D CH2I2"],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "identify_aryl_halide",
+    "explanation": "C6H5I is an aryl halide because iodine is bonded directly to the aromatic ring.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which pair contains one haloalkane and one haloarene respectively?",
+    "o": ["A CH3Br and C6H5Cl", "B C6H5Br and CH3Cl", "C C6H5Cl and C6H5Br", "D CH3Cl and C2H5Br"],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "pair_haloalkane_then_haloarene",
+    "explanation": "CH3Br is a haloalkane and C6H5Cl is a haloarene.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct for haloalkanes?",
+    "o": ["A Halogen is attached to an alkyl group", "B Halogen is attached only to benzene ring", "C They do not contain sigma bond", "D They are always aromatic"],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "basic_definition_haloalkane",
+    "explanation": "Haloalkanes are compounds in which halogen is attached to an alkyl group.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following belongs to the class haloarenes?",
+    "o": ["A Bromobenzene", "B Bromomethane", "C Chloroethane", "D Iodoethane"],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "select_haloarene_from_names",
+    "explanation": "Bromobenzene is a haloarene because bromine is bonded to a benzene ring.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In the compound C6H5Br, the halogen is attached to:",
+    "o": ["A An alkyl carbon", "B An aromatic ring carbon", "C An oxygen atom", "D A nitrogen atom"],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "bonding_site_in_bromobenzene",
+    "explanation": "In bromobenzene, bromine is directly attached to a carbon atom of the benzene ring.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following is not a haloarene?",
+    "o": ["A Chlorobenzene", "B Bromobenzene", "C Iodobenzene", "D Chloroethane"],
+    "a": "D",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "identify_non_haloarene",
+    "explanation": "Chloroethane is a haloalkane, not a haloarene.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following compounds has halogen attached to an alkyl carbon?",
+    "o": ["A C2H5Cl", "B C6H5Cl", "C C6H5Br", "D C6H5I"],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "halogen_on_alkyl_carbon",
+    "explanation": "In C2H5Cl, chlorine is attached to an alkyl carbon, so it is a haloalkane.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is incorrect?",
+    "o": ["A Haloalkanes contain carbon-halogen bond", "B Haloarenes contain halogen attached to aromatic ring", "C Chlorobenzene is a haloalkane", "D Bromoethane is a haloalkane"],
+    "a": "C",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "statement_based",
+    "concept_pattern": "incorrect_statement_chlorobenzene_class",
+    "explanation": "Chlorobenzene is a haloarene, not a haloalkane.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which compound is correctly matched with its class?",
+    "o": ["A C6H5Cl - haloarene", "B CH3Cl - haloarene", "C C2H5Br - haloarene", "D C6H5Br - haloalkane"],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "statement_based",
+    "concept_pattern": "correct_match_compound_class",
+    "explanation": "C6H5Cl is correctly classified as a haloarene.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In this situation, which principle is being applied? A compound with formula C6H5Cl is placed under haloarenes because chlorine is bonded directly to benzene ring.",
+    "o": ["A Classification based on halogen attached to aromatic ring", "B Classification based on presence of oxygen", "C Classification based on carbon chain length", "D Classification based on number of hydrogen atoms"],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "classification_principle_haloarene",
+    "explanation": "Haloarenes are identified by halogen directly attached to an aromatic ring.",
+    "subject": "chemistry",
+    "public_subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "topic": "Haloalkanes and Haloarenes",
+    "concept": "Haloalkanes & Haloarenes",
+    "concept_id": "chemistry::haloalkanes_and_haloarenes",
+    "pyq_anchor_id": "synthetic_cuet_structure_chemistry",
+    "anchor_tier": 4,
+    "passage_id": "",
+    "passage_type": ""
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 16
+[llm] success gpt-5.4
+[llm] {"event":"success","timestamp":"2026-04-30T10:00:29.311Z","model":"gpt-5.4","questionCount":14,"subject":"chemistry","chapter":"Haloalkanes & Haloarenes"}
+[pipeline] RAW_PARSED_COUNT 16
+[pipeline] NORMALIZED_COUNT 14
+[pipeline] generated_count=14 | mix=easy=5, medium=7, hard=2
+[pipeline] STRUCTURAL_VALID_COUNT 14
+[reject] {
+  subject: 'chemistry',
+  chapter: 'Haloalkanes & Haloarenes',
+  reason: 'too_similar_to_recent_question',
+  source: 'pre_validation_similarity',
+  rule: 'too_similar_to_recent_question',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'chemistry',
+  chapter: 'Haloalkanes & Haloarenes',
+  reason: 'too_similar_to_recent_question',
+  source: 'pre_validation_similarity',
+  rule: 'too_similar_to_recent_question',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'chemistry',
+  chapter: 'Haloalkanes & Haloarenes',
+  reason: 'too_similar_to_recent_question',
+  source: 'pre_validation_similarity',
+  rule: 'too_similar_to_recent_question',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'chemistry',
+  chapter: 'Haloalkanes & Haloarenes',
+  reason: 'too_similar_to_recent_question',
+  source: 'pre_validation_similarity',
+  rule: 'too_similar_to_recent_question',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=14 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=10 | sent_for_strict_validation=10
+[pipeline] Starting batch validation for 10 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-2.5-flash-lite | count=10
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T10:00:29.324Z","model":"gemini-2.5-flash-lite","subject":"chemistry","questionCount":10}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-2.5-flash-lite',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-2.5-flash-lite',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 9625,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-2.5-flash-lite',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "HARD",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "hard",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 7,
+    "exam_quality": 7,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 3,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 4,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 5,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 7,
+    "exam_quality": 7,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 6,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 7,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 8,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 9,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 7,
+    "exam_quality": 7,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 10
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T10:00:38.953Z","model":"gemini-2.5-flash-lite","subject":"chemistry","resultCount":10}
+[difficulty distribution] {
+  model: { easy: 3, medium: 6, hard: 1 },
+  system: { easy: 9, medium: 1, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 10
+[pipeline] validated_count=10 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 10
+[pipeline] selected_count=10 | FINAL DISTRIBUTION: {"easy":9,"medium":1,"hard":0}
+✅ Published 8bbb8000-2d0c-4fab-81c8-86526bbbaa6d | status=live | difficulty=easy | discoverable=true
+✅ Published 2cb9d06e-f8e5-4907-8d6f-9d1fa2145c28 | status=live | difficulty=easy | discoverable=true
+✅ Published 268d28bc-714c-486c-ae1b-ed0706c87e6c | status=live | difficulty=easy | discoverable=true
+✅ Published bb2c7665-a1b3-45b3-a5c6-614f8bda9d9b | status=live | difficulty=medium | discoverable=true
+✅ Published 2e4337fe-c644-4244-a42e-4425d7a6bc86 | status=live | difficulty=easy | discoverable=true
+✅ Published 2b4a9f48-293d-429a-a51b-449c1ae907ac | status=live | difficulty=easy | discoverable=true
+✅ Published e3a63e9f-4504-472e-9252-96e7bacec971 | status=live | difficulty=easy | discoverable=true
+✅ Published e2e4a5b5-69fc-41d1-941f-af2faabe8aee | status=live | difficulty=easy | discoverable=true
+✅ Published 3ae6db51-ab9c-4a41-9325-fec4b0b930c8 | status=live | difficulty=easy | discoverable=true
+✅ Published b075ebdf-c549-4962-92b9-82d855c52d25 | status=live | difficulty=easy | discoverable=true
+[pipeline] METRICS | generated_count=14 | prefiltered_count=10 | strict_validation_count=10 | accepted_count=10 | api_calls_used=2 | cost_efficiency_ratio=5.00
+[pipeline] SUMMARY | subject=chemistry | chapter=Haloalkanes & Haloarenes | target=15 | generated_count=14 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=4 | strict_validation_count=10 | validated_count=10 | accepted_count=10 | shortfall=5 | yield_rate=71.4% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=9, medium=1, hard=0
+[pipeline] subject_distribution: {"subject":"chemistry","accepted":10,"rejected":4,"target":15,"met":false}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '5d25c8ce-8077-47cc-af1d-2a909860b03f',
+    '29b69dd2-3d03-490a-b2d5-dc4a8b2ae8ea',
+    '7b05d68a-55b7-4511-8c54-c065283a3c5b',
+    '0245787d-2a43-4967-a872-39ca4dce9191',
+    '9feb6105-a51b-4786-9eeb-fe66c9cdfc69',
+    'aa635400-ff26-4b90-8b04-696cf0338acb',
+    '1499b357-027a-4b21-8ed8-b1882045080a',
+    'd254782d-864e-44a5-822d-333906ccbc1e',
+    'ecce0432-dd4a-4319-8a80-8f5142106717'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '5d25c8ce-8077-47cc-af1d-2a909860b03f',
+  actual_subject: 'english',
+  actual_chapter: 'Para Jumbles',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 3,
+  subject_question_count: 103,
+  created_at: '2026-04-30T09:59:43.080644+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: { subject: 'english', chapter: 'Para Jumbles', count: 3, priority: 90 }
+[worker] coverage-based selection: { subject: 'english', chapter: 'Para Jumbles', count: 3 }
+
+[JOB 5d25c8ce] Starting: [english] Para Jumbles
+[worker] RECEIVED_JOB: {
+  job_id: '5d25c8ce-8077-47cc-af1d-2a909860b03f',
+  expected_subject: 'english',
+  expected_chapter: 'Para Jumbles',
+  raw_subject_id: 'english',
+  raw_chapter: 'Para Jumbles',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T09:59:43.080644+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '5d25c8ce-8077-47cc-af1d-2a909860b03f',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  chapter: 'Para Jumbles',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=3 existing questions loaded
+[generation] batch adjusted: { chapter: 'Para Jumbles', generate_count: 15 }
+[worker] GENERATION_INPUT: {
+  job_id: '5d25c8ce-8077-47cc-af1d-2a909860b03f',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  expected_chapter: 'Para Jumbles',
+  canonical_unit: 'Verbal Ability',
+  generate_count: 15,
+  difficulty_override: null,
+  used_concepts_sampled: 20
+}
+[pipeline] Generating 15 candidates... chapter="Para Jumbles" unit="Verbal Ability" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'English',
+  expected_chapter: 'Para Jumbles',
+  requested_count: 15,
+  difficulty_override: null
+}
+[llm] pyq_anchor_selected {
+  subject: 'english',
+  chapter: 'Para Jumbles',
+  concept_id: 'english::para_jumbles',
+  pyq_anchor_id: 'structure_only_seed_pyq_en3_for_english::para_jumbles',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_structure_only',
+  synthetic_anchor: false
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'english',
+  expected_chapter: 'Para Jumbles',
+  canonical_unit: 'Verbal Ability',
+  concept_id: 'english::para_jumbles',
+  pyq_anchor_id: 'structure_only_seed_pyq_en3_for_english::para_jumbles',
+  anchor_tier: 3,
+  batch_size: 15,
+  pyq_style_patterns: [ 'reading_comprehension', 'vocabulary', 'correct_word_usage' ],
+  difficulty_override: null
+}
+[llm] active_model=gpt-5.4
+[llm] {"event":"active_model","timestamp":"2026-04-30T10:01:00.550Z","activeModel":"gpt-5.4","stickyModel":"gpt-5.4","subject":"english","chapter":"Para Jumbles","count":15}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-5.4',
+  subject: 'english',
+  stage: 'generation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-5.4',
+  subject: 'english',
+  stage: 'generation',
+  status: 'success',
+  retry_count: 0,
+  duration: 50143,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-5.4',
+  subject: 'english',
+  stage: 'generation',
+  retry_count: 0
+}
+[llm] Raw OpenAI response | model=gpt-5.4: [
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. the school bus\nQ. reached the stop\nR. before 7 a.m.\nS. every morning\n",
+    "o": [
+      "A. P Q R S",
+      "B. P S Q R",
+      "C. S P Q R",
+      "D. Q P S R"
+    ],
+    "a": "C",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "simple_time_place_order",
+    "explanation": "The correct sentence is 'Every morning the school bus reached the stop before 7 a.m.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. for the test\nQ. Riya studied\nR. all night\nS. carefully\n",
+    "o": [
+      "A. Q S R P",
+      "B. Q P R S",
+      "C. S Q P R",
+      "D. Q R S P"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "subject_verb_manner_time_purpose",
+    "explanation": "The correct order gives 'Riya studied carefully all night for the test.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. in the garden\nQ. were playing\nR. the children\nS. happily\n",
+    "o": [
+      "A. R Q S P",
+      "B. Q R P S",
+      "C. R S Q P",
+      "D. P R Q S"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "plural_subject_action_place",
+    "explanation": "The correct sentence is 'The children were playing happily in the garden.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. the lights went out\nQ. during the storm\nR. suddenly\nS. last night\n",
+    "o": [
+      "A. Q P R S",
+      "B. P R Q S",
+      "C. S Q P R",
+      "D. R S P Q"
+    ],
+    "a": "C",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "time_then_event_sequence",
+    "explanation": "The meaningful sentence is 'Last night during the storm the lights went out suddenly.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. a useful book\nQ. I found\nR. at the fair\nS. yesterday\n",
+    "o": [
+      "A. Q P S R",
+      "B. Q P R S",
+      "C. S Q P R",
+      "D. P Q R S"
+    ],
+    "a": "C",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "simple_past_discovery_order",
+    "explanation": "The correct order forms 'Yesterday I found a useful book at the fair.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. because it was raining\nQ. we stayed indoors\nR. the whole afternoon\nS. yesterday\n",
+    "o": [
+      "A. S Q R P",
+      "B. Q P S R",
+      "C. R S Q P",
+      "D. S P Q R"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "time_main_clause_reason",
+    "explanation": "The proper sentence is 'Yesterday we stayed indoors the whole afternoon because it was raining.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. after dinner\nQ. my grandfather\nR. tells us stories\nS. every evening\n",
+    "o": [
+      "A. Q S R P",
+      "B. S Q P R",
+      "C. Q R S P",
+      "D. P Q S R"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "habitual_action_time_phrase",
+    "explanation": "The correct sentence is 'My grandfather every evening tells us stories after dinner,' best arranged as standard CUET order with subject first and time phrase before final detail.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. for the meeting\nQ. arrived late\nR. due to traffic\nS. the manager\n",
+    "o": [
+      "A. S Q R P",
+      "B. Q S P R",
+      "C. S P Q R",
+      "D. R S Q P"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "subject_action_reason_purpose",
+    "explanation": "The meaningful sentence is 'The manager arrived late due to traffic for the meeting.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. to save electricity\nQ. always switches off\nR. before leaving the room\nS. Neha\n",
+    "o": [
+      "A. S Q R P",
+      "B. S P Q R",
+      "C. Q S P R",
+      "D. R S Q P"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "habit_action_purpose_order",
+    "explanation": "The correct arrangement is 'Neha always switches off before leaving the room to save electricity.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. with great interest\nQ. the students listened\nR. to the guest speaker\nS. in the hall\n",
+    "o": [
+      "A. Q P R S",
+      "B. R Q S P",
+      "C. Q S P R",
+      "D. S Q R P"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "subject_verb_manner_object_place",
+    "explanation": "The correct sentence is 'The students listened with great interest to the guest speaker in the hall.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. after the results were announced\nQ. cheered loudly\nR. the crowd\nS. outside the stadium\n",
+    "o": [
+      "A. R Q P S",
+      "B. S R Q P",
+      "C. R Q S P",
+      "D. P R S Q"
+    ],
+    "a": "C",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "main_clause_place_then_time",
+    "explanation": "The correct arrangement is 'The crowd cheered loudly outside the stadium after the results were announced.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. although he was tired\nQ. completed the assignment\nR. Arun\nS. on time\n",
+    "o": [
+      "A. P R Q S",
+      "B. R Q S P",
+      "C. R P Q S",
+      "D. Q R P S"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "concession_subject_action_result",
+    "explanation": "The proper sentence is 'Although he was tired, Arun completed the assignment on time.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. by the principal\nQ. was praised\nR. for her honesty\nS. Meera\n",
+    "o": [
+      "A. S Q R P",
+      "B. S Q P R",
+      "C. Q S P R",
+      "D. R S Q P"
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "passive_voice_praise_sequence",
+    "explanation": "The correct sentence is 'Meera was praised by the principal for her honesty.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. if you need help\nQ. call me\nR. at any time\nS. during your journey\n",
+    "o": [
+      "A. Q P R S",
+      "B. P Q S R",
+      "C. P Q R S",
+      "D. R S P Q"
+    ],
+    "a": "C",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "conditional_command_time_place",
+    "explanation": "The best arrangement is 'If you need help, call me at any time during your journey.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. because the road was blocked\nQ. the villagers took\nR. a different route\nS. to the market\n",
+    "o": [
+      "A. Q R S P",
+      "B. P Q R S",
+      "C. Q S R P",
+      "D. R Q P S"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "main_clause_object_destination_reason",
+    "explanation": "The correct sentence is 'The villagers took a different route to the market because the road was blocked.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  }
+]
+[llm] Cleaned response: [
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. the school bus\nQ. reached the stop\nR. before 7 a.m.\nS. every morning\n",
+    "o": [
+      "A. P Q R S",
+      "B. P S Q R",
+      "C. S P Q R",
+      "D. Q P S R"
+    ],
+    "a": "C",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "simple_time_place_order",
+    "explanation": "The correct sentence is 'Every morning the school bus reached the stop before 7 a.m.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. for the test\nQ. Riya studied\nR. all night\nS. carefully\n",
+    "o": [
+      "A. Q S R P",
+      "B. Q P R S",
+      "C. S Q P R",
+      "D. Q R S P"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "subject_verb_manner_time_purpose",
+    "explanation": "The correct order gives 'Riya studied carefully all night for the test.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. in the garden\nQ. were playing\nR. the children\nS. happily\n",
+    "o": [
+      "A. R Q S P",
+      "B. Q R P S",
+      "C. R S Q P",
+      "D. P R Q S"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "plural_subject_action_place",
+    "explanation": "The correct sentence is 'The children were playing happily in the garden.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. the lights went out\nQ. during the storm\nR. suddenly\nS. last night\n",
+    "o": [
+      "A. Q P R S",
+      "B. P R Q S",
+      "C. S Q P R",
+      "D. R S P Q"
+    ],
+    "a": "C",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "time_then_event_sequence",
+    "explanation": "The meaningful sentence is 'Last night during the storm the lights went out suddenly.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. a useful book\nQ. I found\nR. at the fair\nS. yesterday\n",
+    "o": [
+      "A. Q P S R",
+      "B. Q P R S",
+      "C. S Q P R",
+      "D. P Q R S"
+    ],
+    "a": "C",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "simple_past_discovery_order",
+    "explanation": "The correct order forms 'Yesterday I found a useful book at the fair.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. because it was raining\nQ. we stayed indoors\nR. the whole afternoon\nS. yesterday\n",
+    "o": [
+      "A. S Q R P",
+      "B. Q P S R",
+      "C. R S Q P",
+      "D. S P Q R"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "time_main_clause_reason",
+    "explanation": "The proper sentence is 'Yesterday we stayed indoors the whole afternoon because it was raining.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. after dinner\nQ. my grandfather\nR. tells us stories\nS. every evening\n",
+    "o": [
+      "A. Q S R P",
+      "B. S Q P R",
+      "C. Q R S P",
+      "D. P Q S R"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "habitual_action_time_phrase",
+    "explanation": "The correct sentence is 'My grandfather every evening tells us stories after dinner,' best arranged as standard CUET order with subject first and time phrase before final detail.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. for the meeting\nQ. arrived late\nR. due to traffic\nS. the manager\n",
+    "o": [
+      "A. S Q R P",
+      "B. Q S P R",
+      "C. S P Q R",
+      "D. R S Q P"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "subject_action_reason_purpose",
+    "explanation": "The meaningful sentence is 'The manager arrived late due to traffic for the meeting.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. to save electricity\nQ. always switches off\nR. before leaving the room\nS. Neha\n",
+    "o": [
+      "A. S Q R P",
+      "B. S P Q R",
+      "C. Q S P R",
+      "D. R S Q P"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "habit_action_purpose_order",
+    "explanation": "The correct arrangement is 'Neha always switches off before leaving the room to save electricity.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. with great interest\nQ. the students listened\nR. to the guest speaker\nS. in the hall\n",
+    "o": [
+      "A. Q P R S",
+      "B. R Q S P",
+      "C. Q S P R",
+      "D. S Q R P"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "subject_verb_manner_object_place",
+    "explanation": "The correct sentence is 'The students listened with great interest to the guest speaker in the hall.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. after the results were announced\nQ. cheered loudly\nR. the crowd\nS. outside the stadium\n",
+    "o": [
+      "A. R Q P S",
+      "B. S R Q P",
+      "C. R Q S P",
+      "D. P R S Q"
+    ],
+    "a": "C",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "main_clause_place_then_time",
+    "explanation": "The correct arrangement is 'The crowd cheered loudly outside the stadium after the results were announced.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. although he was tired\nQ. completed the assignment\nR. Arun\nS. on time\n",
+    "o": [
+      "A. P R Q S",
+      "B. R Q S P",
+      "C. R P Q S",
+      "D. Q R P S"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "concession_subject_action_result",
+    "explanation": "The proper sentence is 'Although he was tired, Arun completed the assignment on time.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. by the principal\nQ. was praised\nR. for her honesty\nS. Meera\n",
+    "o": [
+      "A. S Q R P",
+      "B. S Q P R",
+      "C. Q S P R",
+      "D. R S Q P"
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "passive_voice_praise_sequence",
+    "explanation": "The correct sentence is 'Meera was praised by the principal for her honesty.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. if you need help\nQ. call me\nR. at any time\nS. during your journey\n",
+    "o": [
+      "A. Q P R S",
+      "B. P Q S R",
+      "C. P Q R S",
+      "D. R S P Q"
+    ],
+    "a": "C",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "conditional_command_time_place",
+    "explanation": "The best arrangement is 'If you need help, call me at any time during your journey.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Arrange the following parts to form a meaningful sentence:\nP. because the road was blocked\nQ. the villagers took\nR. a different route\nS. to the market\n",
+    "o": [
+      "A. Q R S P",
+      "B. P Q R S",
+      "C. Q S R P",
+      "D. R Q P S"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "main_clause_object_destination_reason",
+    "explanation": "The correct sentence is 'The villagers took a different route to the market because the road was blocked.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Para Jumbles",
+    "topic": "Verbal Ability",
+    "concept": "Para Jumbles",
+    "concept_id": "english::para_jumbles",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::para_jumbles",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 15
+[english-classification] {
+  question_id: 'simple_time_place_order',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'subject_verb_manner_time_purpose',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'plural_subject_action_place',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'time_then_event_sequence',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'simple_past_discovery_order',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'time_main_clause_reason',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'habitual_action_time_phrase',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'subject_action_reason_purpose',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'habit_action_purpose_order',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'subject_verb_manner_object_place',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'main_clause_place_then_time',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'concession_subject_action_result',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'passive_voice_praise_sequence',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'conditional_command_time_place',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'main_clause_object_destination_reason',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+[llm] success gpt-5.4
+[llm] {"event":"success","timestamp":"2026-04-30T10:01:50.702Z","model":"gpt-5.4","questionCount":15,"subject":"english","chapter":"Para Jumbles"}
+[pipeline] RAW_PARSED_COUNT 15
+[pipeline] NORMALIZED_COUNT 15
+[pipeline] generated_count=15 | mix=easy=5, medium=8, hard=2
+[pipeline] STRUCTURAL_VALID_COUNT 15
+[pipeline] after_chapter_filter=15 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=15 | sent_for_strict_validation=15
+[pipeline] Starting batch validation for 15 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-2.5-flash-lite | count=15
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T10:01:50.717Z","model":"gemini-2.5-flash-lite","subject":"english","questionCount":15}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-2.5-flash-lite',
+  subject: 'english',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-2.5-flash-lite',
+  subject: 'english',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 15486,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-2.5-flash-lite',
+  subject: 'english',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 7,
+    "distractor_quality": 7,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 3,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 7,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 7,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 4,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 7,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 7,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 5,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 6,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 7,
+    "distractor_quality": 7,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 7,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 8,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 9,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 7,
+    "distractor_quality": 7,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 10,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 11,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 12,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 13,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 7,
+    "distractor_quality": 7,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 14,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 7,
+    "distractor_quality": 7,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 15
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T10:02:06.205Z","model":"gemini-2.5-flash-lite","subject":"english","resultCount":15}
+[difficulty distribution] {
+  model: { easy: 5, medium: 8, hard: 2 },
+  system: { easy: 15, medium: 0, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 15
+[pipeline] validated_count=15 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 15
+[pipeline] selected_count=15 | FINAL DISTRIBUTION: {"easy":15,"medium":0,"hard":0}
+✅ Published 9ab866f3-fc98-4b38-8332-d89ba83e7989 | status=live | difficulty=easy | discoverable=true
+✅ Published 7c67f9ec-3490-476e-89d2-eb65c4d100f5 | status=live | difficulty=easy | discoverable=true
+✅ Published 7c7042be-3694-473c-88d0-ea94e1272313 | status=live | difficulty=easy | discoverable=true
+✅ Published 70e0a493-aab4-4ff5-b9f4-5c7f4a0af9da | status=live | difficulty=easy | discoverable=true
+✅ Published 17508e4a-7052-4221-a4c2-1e5c3647b950 | status=live | difficulty=easy | discoverable=true
+✅ Published 9778589e-2792-43ef-b432-0ac706b51551 | status=live | difficulty=easy | discoverable=true
+✅ Published 3fe710b3-a248-4720-bbc0-13831d73f498 | status=live | difficulty=easy | discoverable=true
+✅ Published 14bddd76-de4f-4ae3-9fb6-18840332d62f | status=live | difficulty=easy | discoverable=true

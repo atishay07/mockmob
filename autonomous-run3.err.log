@@ -1,0 +1,21 @@
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'biology',
+  concept_id: 'biology::biodiversity_and_conservation',
+  selected_anchor_id: 'synthetic_cuet_structure_biology',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'direct_concept'
+}
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'biology',
+  concept_id: 'biology::organisms_and_populations',
+  selected_anchor_id: 'synthetic_cuet_structure_biology',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'direct_concept'
+}

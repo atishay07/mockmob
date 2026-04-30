@@ -1,0 +1,399 @@
+[worker] recovered stale processing jobs: [
+  {
+    id: 'd63c1b95-38bc-4a6f-98eb-ae35b9431465',
+    subject_id: 'english',
+    chapter: 'Literary Passage',
+    started_at: null
+  }
+]
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::narrative_passage',
+  selected_anchor_id: 'seed_pyq_en3',
+  selected_anchor_concept_id: 'english::correct_word_usage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'reading_comprehension',
+  selected_question_type: 'correct_word_usage'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::narrative_passage',
+  source_anchor_id: 'seed_pyq_en3',
+  source_anchor_concept_id: 'english::correct_word_usage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'reading_comprehension',
+  selected_question_type: 'correct_word_usage'
+}
+FULL ERROR: LlmGenerationError: gemini timeout after 45000ms
+    at Timeout._onTimeout (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/llm.mjs:2540:43)
+    at listOnTimeout (node:internal/timers:605:17)
+    at process.processTimers (node:internal/timers:541:7) {
+  reason: 'timeout'
+}
+ERROR DETAILS: {
+  "name": "LlmGenerationError",
+  "message": "gemini timeout after 45000ms",
+  "status": null,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] gemini_generation failure gemini-3.1-pro: gemini timeout after 45000ms
+[llm] generation_model_cooldown gemini-3.1-pro reason=timeout until=2026-04-30T14:09:49.385Z
+[llm] gemini_generation fallback -> gemini-3.1-flash
+[llm] english_question_rejected {
+  chapter: 'Narrative Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Factual Passage',
+  index: 0
+}
+[llm] english_question_rejected {
+  chapter: 'Narrative Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Factual Passage',
+  index: 1
+}
+[llm] english_question_rejected {
+  chapter: 'Narrative Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Factual Passage',
+  index: 2
+}
+[llm] english_question_rejected {
+  chapter: 'Narrative Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Factual Passage',
+  index: 3
+}
+[llm] english_question_rejected {
+  chapter: 'Narrative Passage',
+  reason: 'incorrect_passage_classification',
+  detected_type: 'Factual Passage',
+  index: 4
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: "Which physical reaction indicates Meera's nervousness at the start of the passage?",
+  index: 5
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: "What does the phrase 'a blur of blue uniforms' suggest about Meera’s experience?",
+  index: 7
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: 'Which city has Meera moved to in the story?',
+  index: 8
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: "What specific action by Mrs. D'Souza changed Meera's outlook?",
+  index: 9
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: "What does the 'modern, automated beacon' represent in Elias's journey?",
+  index: 10
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: 'How long was Captain Elias away from Blackwood Cove?',
+  index: 11
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'direct_definition_or_textbook_stem',
+  body: "What is the 'only constant companion' for Elias mentioned in the text?",
+  index: 12
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: "Which description of the town highlights Elias's inner feeling of disconnection?",
+  index: 13
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'direct_definition_or_textbook_stem',
+  body: "What is the overall tone of the final paragraph regarding Captain Elias's return?",
+  index: 14
+}
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent: [503 Service Unavailable] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 503,
+  statusText: 'Service Unavailable',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent: [503 Service Unavailable] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+  "status": 503,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm-call] retrying_same_model model=gemini-3.1-flash-lite-preview subject=english reason=service_unavailable retry_count=1 delay_ms=1075
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent: [503 Service Unavailable] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 503,
+  statusText: 'Service Unavailable',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent: [503 Service Unavailable] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+  "status": 503,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm-call] retrying_same_model model=gemini-3.1-flash-lite-preview subject=english reason=service_unavailable retry_count=2 delay_ms=1660
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent: [503 Service Unavailable] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 503,
+  statusText: 'Service Unavailable',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent: [503 Service Unavailable] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+  "status": 503,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] batch_validation_failure gemini-3.1-flash-lite (503)
+[llm] {"event":"batch_validation_failure","timestamp":"2026-04-30T14:01:12.094Z","model":"gemini-3.1-flash-lite","reason":"service_unavailable","message":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent: [503 Service Unavailable] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.","cooldownUntil":null}
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[pipeline] TARGET_NOT_MET | target=15 | accepted=1 | shortfall=14 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::literary_passage',
+  selected_anchor_id: 'seed_pyq_en3',
+  selected_anchor_concept_id: 'english::correct_word_usage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'reading_comprehension',
+  selected_question_type: 'correct_word_usage'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::literary_passage',
+  source_anchor_id: 'seed_pyq_en3',
+  source_anchor_concept_id: 'english::correct_word_usage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'reading_comprehension',
+  selected_question_type: 'correct_word_usage'
+}
+[llm] gemini_generation failure gemini-3.1-flash: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'gat',
+  requested_concept_id: 'gat::general_science_and_environment_literacy',
+  selected_anchor_id: 'seed_pyq_g1',
+  selected_anchor_concept_id: 'gat::general_knowledge',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'easy',
+  requested_question_type: 'simple_arithmetic',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'gat',
+  requested_concept_id: 'gat::general_science_and_environment_literacy',
+  source_anchor_id: 'seed_pyq_g1',
+  source_anchor_concept_id: 'gat::general_knowledge',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'easy',
+  requested_question_type: 'simple_arithmetic',
+  selected_question_type: 'statement_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'gat',
+  chapter: 'General Science and Environment Literacy',
+  reason: 'weak_options',
+  body: 'In a village, the birth rate is 25 per 1000 and the death rate is 15 per 1000 annually. What is the ',
+  index: 3
+}
+[llm] question_rejected_internal_quality {
+  subject: 'gat',
+  chapter: 'General Science and Environment Literacy',
+  reason: 'weak_options',
+  body: 'An observer notices that a ray of light passing from a vacuum into a glass slab slows down. Which of',
+  index: 6
+}
+[llm] question_rejected_internal_quality {
+  subject: 'gat',
+  chapter: 'General Science and Environment Literacy',
+  reason: 'weak_options',
+  body: 'To treat soil that has become too acidic for healthy plant growth, a farmer should apply which of th',
+  index: 7
+}
+[llm] question_rejected_internal_quality {
+  subject: 'gat',
+  chapter: 'General Science and Environment Literacy',
+  reason: 'weak_options',
+  body: 'A student places an iron nail in a solution of copper sulphate. After some time, the blue color of t',
+  index: 10
+}
+[llm] question_rejected_internal_quality {
+  subject: 'gat',
+  chapter: 'General Science and Environment Literacy',
+  reason: 'weak_options',
+  body: "Which of the following actions directly helps in reducing the 'Carbon Footprint' of an individual?",
+  index: 11
+}
+[llm] question_rejected_internal_quality {
+  subject: 'gat',
+  chapter: 'General Science and Environment Literacy',
+  reason: 'weak_options',
+  body: 'The depletion of the Ozone layer in the upper atmosphere is primarily caused by the reaction of ozon',
+  index: 12
+}
+[llm] question_rejected_internal_quality {
+  subject: 'gat',
+  chapter: 'General Science and Environment Literacy',
+  reason: 'weak_options',
+  body: 'A historic monument built of marble (calcium carbonate) is corroding in an industrial zone. This is ',
+  index: 14
+}
+[pipeline] Rejected | compositeScore=47 | source=validator_normalized | rule=textbook style | reasons=textbook style; low trap quality; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording; validator decision reject; validator verdict invalid
+[pipeline] validation_signal_mismatch_accepted {
+  source: 'validator_normalized',
+  mismatches: [
+    'score_below_threshold_but_accepted',
+    'exam_quality_below_threshold_but_accepted',
+    'ambiguous_but_accepted'
+  ],
+  compositeScore: 83
+}
+[pipeline] Rejected | compositeScore=41 | source=validator_normalized | rule=direct recall stem | reasons=direct recall stem; low conceptual depth; obvious answer; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; low trap quality
+[pipeline] TARGET_NOT_MET | target=15 | accepted=6 | shortfall=9 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'psychology',
+  concept_id: 'psychology::psychological_disorders',
+  selected_anchor_id: 'synthetic_cuet_structure_psychology',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'direct_concept'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  reason: 'weak_options',
+  body: 'A student finds it difficult to attend classes because they are constantly worried about failing, wh',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  reason: 'weak_options',
+  body: "In the historical development of psychological disorders, the 'Organismic Approach' suggests that be",
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Which of the following describes the function of the ICD-10 in the field of clinical psychology?',
+  index: 2
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  reason: 'weak_options',
+  body: 'According to the Diathesis-Stress model, a psychological disorder develops when:',
+  index: 5
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  reason: 'weak_options',
+  body: 'A person believes that their internal organs are rotting or that they are turning into stone, despit',
+  index: 6
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  reason: 'weak_options',
+  body: "Which of the following sets of symptoms identifies the 'Negative Symptoms' of Schizophrenia?",
+  index: 7
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'An individual reports being unable to move their left arm following a traumatic car accident, but me',
+  index: 9
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  reason: 'weak_options',
+  body: 'Identify the behavior that differentiates Bulimia Nervosa from Binge Eating Disorder.',
+  index: 10
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  reason: 'weak_options',
+  body: 'A child frequently interrupts others, cannot sit still in their chair, and acts without thinking abo',
+  index: 11
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  reason: 'weak_options',
+  body: 'In Schizophrenia, when a patient maintains a rigid body posture for hours and is completely unrespon',
+  index: 13
+}
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=obvious answer | reasons=obvious answer; low trap quality; textbook_style; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] Rejected | compositeScore=49 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; conceptual_depth < 7; obvious answer; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; validator marked non-CUET alignment; validator decision reject
+[pipeline] TARGET_NOT_MET | target=15 | accepted=3 | shortfall=12 | api_calls_used=2 | reason=accepted_lower_count_without_retry

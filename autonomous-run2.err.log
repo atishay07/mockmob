@@ -1,0 +1,65 @@
+[worker] Skipping invalid syllabus job: { subject: 'tamil', chapter: 'Reading Comprehension' }
+[worker] Skipping invalid syllabus job: { subject: 'gujarati', chapter: 'Grammar' }
+[worker] Skipping invalid syllabus job: { subject: 'telugu', chapter: 'Grammar' }
+[worker] Skipping invalid syllabus job: { subject: 'hindi', chapter: 'Apathit Gadyansh' }
+[worker] Skipping invalid syllabus job: { subject: 'engineering_graphics', chapter: 'Machine Drawing' }
+[worker] Skipping invalid syllabus job: { subject: 'legal_studies', chapter: 'Judiciary' }
+[worker] Skipping invalid syllabus job: { subject: 'entrepreneurship', chapter: 'Resource Mobilization' }
+[worker] Skipping invalid syllabus job: { subject: 'assamese', chapter: 'Literature — Prose' }
+[worker] Skipping invalid syllabus job: {
+  subject: 'physical_education',
+  chapter: 'Physical Education & Sports for CWSN'
+}
+[worker] Skipping invalid syllabus job: { subject: 'malayalam', chapter: 'Literature — Prose' }
+[worker] Skipping invalid syllabus job: { subject: 'malayalam', chapter: 'Literature — Poetry' }
+[worker] Skipping invalid syllabus job: { subject: 'malayalam', chapter: 'Vocabulary' }
+[worker] Skipping invalid syllabus job: { subject: 'tamil', chapter: 'Literature — Poetry' }
+[worker] Skipping invalid syllabus job: { subject: 'telugu', chapter: 'Literature — Poetry' }
+[worker] Skipping invalid syllabus job: { subject: 'urdu', chapter: 'Reading Comprehension' }
+[worker] Skipping invalid syllabus job: {
+  subject: 'engineering_graphics',
+  chapter: 'Orthographic Projections'
+}
+[worker] Skipping invalid syllabus job: { subject: 'engineering_graphics', chapter: 'Computer-Aided Drawing' }
+[pyq_anchor] selected_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::indian_economic_development_1950_1990',
+  selected_anchor_id: 'seed_pyq_e2',
+  selected_anchor_concept_id: 'economics::national_income_and_related_aggregates',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'direct_concept',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::indian_economic_development_1950_1990',
+  source_anchor_id: 'seed_pyq_e2',
+  source_anchor_concept_id: 'economics::national_income_and_related_aggregates',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'direct_concept',
+  selected_question_type: 'simple_numerical'
+}
+[pipeline] SIMILARITY_REJECTION [
+  {
+    reason: 'too_similar_to_recent_question',
+    body: 'Which of the following years best marks the end of the period referred to in Indian economic develop'
+  }
+]
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'biology',
+  concept_id: 'biology::biodiversity_and_conservation',
+  selected_anchor_id: 'synthetic_cuet_structure_biology',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'direct_concept'
+}

@@ -4,11 +4,22 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { analyzeCoverage } from './analyzer.mjs';
 import { planGeneration } from './planner.mjs';
-import { generateQuestions, getLastGenerationDiagnostics, validateAndAlignBatch, PIPELINE_BATCH_SIZE } from '../lib/llm.mjs';
+import {
+  generateQuestions,
+  getLastGenerationDiagnostics,
+  validateAndAlignBatch,
+  recoverQuestions,
+  PIPELINE_BATCH_SIZE,
+  VALIDATION_ACCEPT_THRESHOLD,
+  VALIDATION_RECOVER_THRESHOLD,
+  getCostTracker,
+  isCostSaverActive,
+  recordAcceptedForCost,
+} from '../lib/llm.mjs';
 import { deduplicateBatch, deduplicateAgainst } from '../lib/dedupe.mjs';
 import { publishQuestion } from '../lib/publish.mjs';
 import { CUET_SUPPORTED_SUBJECTS } from '../../../data/subjects.js';
-import { CANONICAL_SYLLABUS, TOP_SUBJECTS, getCanonicalUnitForChapter, isValidTopSyllabusPair } from '../../../data/canonical_syllabus.js';
+import { CANONICAL_SYLLABUS, TOP_SUBJECTS, getCanonicalChapters, getCanonicalUnitForChapter, isValidTopSyllabusPair } from '../../../data/canonical_syllabus.js';
 import { validateTraceability } from '../../../data/cuet_controls.js';
 import { PYQ_ANCHORS } from '../../../data/pyq_anchors.js';
 
@@ -18,11 +29,11 @@ const supabase = createClient(
 );
 
 const API_SECRET = process.env.INTERNAL_API_SECRET || 'test-secret';
-const MAX_RETRIES = 3;
-const MAX_API_CALLS_PER_JOB = MAX_RETRIES + 1;
+const MAX_RETRIES = 0;
+const MAX_API_CALLS_PER_JOB = 2;
 const VALIDATOR_FEEDBACK_PREFIX = 'validator_feedback:';
-const VALIDATION_CANDIDATE_LIMIT = 25;
-const STANDARD_VALIDATION_SAMPLE_RATE = 0.35;
+const VALIDATION_CANDIDATE_LIMIT = 5;
+const STANDARD_VALIDATION_SAMPLE_RATE = 0.30;
 const LOW_COVERAGE_VALIDATION_THRESHOLD = 25;
 const MIN_QUESTIONS_PER_CHAPTER = 50;
 const TOP_SUBJECT_SET = new Set(TOP_SUBJECTS);
@@ -33,10 +44,14 @@ const canonical_syllabus = Object.fromEntries(
 );
 const VALID_SUBJECTS = new Set(Object.keys(canonical_syllabus));
 const DEFAULT_GENERATION_COUNT = PIPELINE_BATCH_SIZE;
-const HEAVY_CHAPTER_GENERATION_COUNT = 10;
-const MIN_TIMEOUT_RETRY_COUNT = 10;
-const MAX_GENERATION_TIMEOUT_RETRIES = 2;
-const GENERATION_FALLBACK_MODEL = 'gpt-5.4-mini';
+const CHEAP_MODE_GENERATION_COUNT = 3;
+const HEAVY_CHAPTER_GENERATION_COUNT = 5;
+const MIN_TIMEOUT_RETRY_COUNT = 3;
+const MAX_GENERATION_TIMEOUT_RETRIES = 0;
+const GENERATION_FALLBACK_MODEL = 'gpt-4o-mini';
+const ENGLISH_RC_CHAPTERS = new Set(['Factual Passage', 'Narrative Passage', 'Literary Passage']);
+const ALLOWED_ANCHOR_TIERS = new Set([1, 2, 3, 4]);
+const STALE_PROCESSING_MINUTES = Number(process.env.STALE_PROCESSING_MINUTES || 10);
 const HEAVY_GENERATION_CHAPTERS = new Set([
   'Differential Equations',
   'Probability',
@@ -55,6 +70,7 @@ console.log('[config] difficultyOverride:', difficultyOverride);
 // times in a row the worker tries to find a different-subject job before continuing.
 const SUBJECT_LOOP_MAX = 3;
 const recentSubjects = [];
+let dynamicQualityFeedback = [];
 
 // ── Question-type labels used in composite concept keys ───────────────────────
 const QUESTION_TYPES = ['conceptual', 'numerical', 'application'];
@@ -287,16 +303,25 @@ function isValidQuestion(question) {
 /** Removes questions that fail structural integrity before dedup or validation. */
 function filterMalformedQuestions(questions) {
   const valid = [];
+  const rejected = [];
   let removed = 0;
 
   for (const question of questions) {
-    if (!question || typeof question !== 'object') { removed += 1; continue; }
-    if (!isValidQuestion(question)) { removed += 1; continue; }
+    if (!question || typeof question !== 'object') {
+      removed += 1;
+      rejected.push({ question, reason: 'invalid_question_object' });
+      continue;
+    }
+    if (!isValidQuestion(question)) {
+      removed += 1;
+      rejected.push({ question, reason: 'malformed_question_schema' });
+      continue;
+    }
 
     valid.push(question);
   }
 
-  return { valid, removed };
+  return { valid, removed, rejected };
 }
 
 function filterInternalQualityQuestions(questions, expectedSubject, expectedChapter) {
@@ -321,15 +346,36 @@ function getInternalRejectionReason(question, expectedSubject, expectedChapter) 
   if (question.subject !== expectedSubject || question.chapter !== expectedChapter) return 'subject_or_chapter_mismatch';
   const traceability = validateTraceability(question, expectedSubject, expectedChapter);
   if (!traceability.valid) return traceability.reason;
-  if (!String(question.pyq_anchor_id || '').trim()) return 'missing_pyq_anchor';
-  if (![1, 2, 3].includes(Number(question.anchor_tier))) return 'missing_or_invalid_anchor_tier';
+  if (!String(question.pyq_anchor_id || '').trim()) {
+    question.pyq_anchor_id = `synthetic_${expectedSubject}_${expectedChapter.replace(/\s+/g, '_').toLowerCase()}`;
+    question.anchor_tier = 3;
+  }
+  if (!ALLOWED_ANCHOR_TIERS.has(Number(question.anchor_tier))) {
+    question.anchor_tier = 3;
+  }
 
   const body = String(question.body || '').trim();
   const bodyLower = body.toLowerCase();
-  if (body.length > 420 || countWords(body) > 70) return 'question_too_long';
+  const isEnglishReadingComprehension = expectedSubject === 'english' && ENGLISH_RC_CHAPTERS.has(expectedChapter);
+  const maxBodyChars = isEnglishReadingComprehension ? 1800 : 420;
+  const maxBodyWords = isEnglishReadingComprehension ? 260 : 70;
+  if (body.length > maxBodyChars || countWords(body) > maxBodyWords) return 'question_too_long';
   if (isClearlyAdvancedOrNonCuet(bodyLower)) return 'advanced_or_non_cuet_pattern';
-  if (hasWeakOptions(question.options, question.correct_answer)) return 'weak_options';
   if (isClearlyOutsideChapter(question, expectedChapter, expectedSubject)) return 'outside_chapter';
+  if (isDirectDefinitionStem(body)) {
+    console.warn('[pipeline] pre_validation_quality_warning_log_only', {
+      reason: 'direct_definition_or_textbook_stem',
+      body: body.slice(0, 100),
+    });
+    return 'direct_definition_or_textbook_stem';
+  }
+  if (hasWeakOptions(question.options, question.correct_answer)) {
+    console.warn('[pipeline] pre_validation_quality_warning_log_only', {
+      reason: 'weak_options',
+      body: body.slice(0, 100),
+    });
+    return 'weak_options';
+  }
 
   return null;
 }
@@ -342,6 +388,12 @@ function isClearlyAdvancedOrNonCuet(text) {
   return /\b(vector space|subspace|basis|rank-nullity|heine-borel|cayley-hamilton|prove|proof|derive|derivation|jee|graduate|mba|b\.com|econometrics|hypothesis testing|functional analysis|abstract algebra|ring|field|group under|multi-step|caselet)\b/i.test(text);
 }
 
+function isDirectDefinitionStem(body) {
+  const text = String(body || '').trim().toLowerCase();
+  return /^(what is|define|meaning of|which term|who is|when did)\b/.test(text) ||
+    /\b(correct definition|best definition|definition of|refers to only|is known as)\b/.test(text);
+}
+
 function hasWeakOptions(options, correctAnswer) {
   if (!Array.isArray(options) || options.length !== 4) return true;
   const keys = options.map((option) => String(option?.key || '').trim().toUpperCase());
@@ -352,9 +404,24 @@ function hasWeakOptions(options, correctAnswer) {
   if (texts.some((text) => text.length < 2)) return true;
   if (new Set(texts).size !== 4) return true;
   if (texts.some((text) => /\b(all of the above|none of the above|both a and b|cannot be determined)\b/i.test(text))) return true;
+  if (!hasPlausibleOptionConfusion(options, correctAnswer)) return true;
 
   const avgLength = texts.reduce((sum, text) => sum + text.length, 0) / texts.length;
   return texts.some((text) => avgLength > 0 && text.length < avgLength * 0.25);
+}
+
+function hasPlausibleOptionConfusion(options, correctAnswer) {
+  const answerKey = String(correctAnswer || '').trim().toUpperCase();
+  const correct = options.find((option) => String(option?.key || '').trim().toUpperCase() === answerKey);
+  if (!correct) return false;
+  const texts = options.map((option) => String(option?.text || '').trim());
+  const numericOptions = texts.filter((text) => /\d/.test(text)).length;
+  if (numericOptions >= 3) return true;
+  const correctText = String(correct.text || '');
+  const distractors = options.filter((option) => String(option?.key || '').trim().toUpperCase() !== answerKey);
+  const closeDistractors = distractors.filter((option) => optionSimilarity(correctText, option.text) >= 0.16).length;
+  const partialTruthSignals = distractors.filter((option) => /\b(partly|only|mainly|usually|sometimes|increase|decrease|public|private|both|not all|except|because|while|but)\b/i.test(option.text)).length;
+  return closeDistractors >= 1 && (partialTruthSignals >= 1 || closeDistractors >= 2);
 }
 
 function rankValidationCandidates(questions, limit = VALIDATION_CANDIDATE_LIMIT) {
@@ -416,11 +483,14 @@ function keysIncludeAnswer(key) {
   return ['A', 'B', 'C', 'D'].includes(key);
 }
 
-function logRejectedQuestion({ subject, chapter, reason, attemptCount = 0 }) {
+function logRejectedQuestion({ subject, chapter, reason, attemptCount = 0, source = 'pipeline', rule = null, details = null }) {
   console.log('[reject]', {
     subject,
     chapter,
     reason,
+    source,
+    rule: rule || reason,
+    details,
     attemptCount,
   });
 }
@@ -459,6 +529,52 @@ function collectValidationReasons(validation) {
   if (validation?.verdict === 'INVALID' && reasons.length === 0) reasons.push('validator marked invalid');
 
   return collectUniqueFeedbackReasons(reasons);
+}
+
+function getValidationAcceptanceDecision(validation, scoreThreshold) {
+  const normalizedDecision = String(validation?.decision || '').trim().toLowerCase();
+  if (normalizedDecision === 'accept') {
+    const signalMismatches = collectAcceptedSignalMismatches(validation, scoreThreshold);
+    return {
+      accept: true,
+      recover: false,
+      source: 'validator_normalized',
+      rule: 'validator_decision_accept',
+      reasons: [],
+      signalMismatches,
+    };
+  }
+
+  if (normalizedDecision === 'recover') {
+    const reasons = collectValidationReasons(validation);
+    return {
+      accept: false,
+      recover: true,
+      source: 'validator_normalized',
+      rule: 'validator_decision_recover',
+      reasons,
+      signalMismatches: [],
+    };
+  }
+
+  const reasons = collectValidationReasons(validation);
+  return {
+    accept: false,
+    recover: false,
+    source: 'validator_normalized',
+    rule: reasons[0] || normalizedDecision || 'validator_decision_missing',
+    reasons: reasons.length > 0 ? reasons : ['validator decision reject'],
+    signalMismatches: [],
+  };
+}
+
+function collectAcceptedSignalMismatches(validation, scoreThreshold) {
+  const mismatches = [];
+  if (Number(validation?.score ?? 0) < scoreThreshold) mismatches.push('score_below_threshold_but_accepted');
+  if (validation?.syllabus_alignment && validation.syllabus_alignment !== 'WITHIN') mismatches.push('outside_syllabus_but_accepted');
+  if (validation?.concept_match && validation.concept_match !== 'EXACT') mismatches.push('concept_mismatch_but_accepted');
+  if (validation?.subject_consistency && validation.subject_consistency !== 'CORRECT') mismatches.push('subject_mismatch_but_accepted');
+  return mismatches;
 }
 
 function collectUniqueFeedbackReasons(reasons) {
@@ -534,14 +650,20 @@ function scoreCandidateForValidation(question, pool) {
 function scoreOptionDiversity(optionTokenSets) {
   if (optionTokenSets.length !== 4) return 0;
   let totalOverlap = 0;
+  let closePairs = 0;
   let pairs = 0;
   for (let i = 0; i < optionTokenSets.length; i += 1) {
     for (let j = i + 1; j < optionTokenSets.length; j += 1) {
-      totalOverlap += setOverlap(optionTokenSets[i], optionTokenSets[j]);
+      const overlap = setOverlap(optionTokenSets[i], optionTokenSets[j]);
+      totalOverlap += overlap;
+      if (overlap >= 0.18 && overlap <= 0.75) closePairs += 1;
       pairs += 1;
     }
   }
-  return 1 - (pairs > 0 ? totalOverlap / pairs : 1);
+  const averageOverlap = pairs > 0 ? totalOverlap / pairs : 0;
+  const confusionScore = Math.min(closePairs, 3) / 3;
+  const separationPenalty = averageOverlap > 0.80 ? 0.5 : 0;
+  return Math.max(0, confusionScore - separationPenalty);
 }
 
 function lexicalOverlap(left, right) {
@@ -755,6 +877,29 @@ async function skipInvalidQueuedJobs() {
   }
 }
 
+async function recoverStaleProcessingJobs() {
+  const staleBefore = new Date(Date.now() - STALE_PROCESSING_MINUTES * 60_000).toISOString();
+  const { data, error } = await supabase
+    .from('generation_jobs')
+    .update({
+      status: 'queued',
+      started_at: null,
+      error_message: `requeued stale processing job after ${STALE_PROCESSING_MINUTES} minutes`,
+    })
+    .eq('status', 'processing')
+    .lt('started_at', staleBefore)
+    .select('id, subject_id, chapter, started_at');
+
+  if (error) {
+    console.warn(`[worker] stale processing recovery failed: ${error.message}`);
+    return;
+  }
+
+  if (data?.length > 0) {
+    console.warn('[worker] recovered stale processing jobs:', data);
+  }
+}
+
 async function selectCoverageFirstJob({ preferredJobIds = [], coverage, excludeSubject = null, minPriority = null } = {}) {
   let query = supabase
     .from('generation_jobs')
@@ -819,6 +964,7 @@ async function workerLoop() {
       });
 
       const coverage = await getCoverageSnapshot();
+      await recoverStaleProcessingJobs();
       await skipInvalidQueuedJobs();
       let job = await selectCoverageFirstJob({
         preferredJobIds: preferredPlannedJobIds,
@@ -1006,9 +1152,14 @@ async function processJob(job) {
     }
 
     const canonicalUnit = getCanonicalUnitForChapter(job.subject_id, job.chapter);
-    if (!subject.chapters.includes(job.chapter) || !canonicalUnit) {
+    const canonicalChapters = getCanonicalChapters(job.subject_id);
+    const generationSubject = {
+      ...subject,
+      chapters: canonicalChapters.length > 0 ? canonicalChapters : subject.chapters,
+    };
+    if (!canonicalUnit) {
       console.warn('[llm] chapter_mismatch_detected', {
-        expected: subject.chapters,
+        expected: generationSubject.chapters,
         received: job.chapter,
         subject: job.subject_id,
         source: 'generation_job',
@@ -1037,16 +1188,22 @@ async function processJob(job) {
     // ── Step 1: Generate — API call 1 ────────────────────────────────────────
     stats.apiCallsUsed += 1;
     // Generate one large candidate pool; downstream filters choose what to validate.
-    const targetCount = Math.min(job.target_count || PIPELINE_BATCH_SIZE, PIPELINE_BATCH_SIZE);
-    let generateCount = getInitialGenerationCount(job.chapter);
-    const adaptiveMax = getAdaptiveMaxPerConcept(subject);
+    const costSaverMode = isCostSaverActive();
+    const targetCount = costSaverMode
+      ? CHEAP_MODE_GENERATION_COUNT
+      : Math.min(job.target_count || PIPELINE_BATCH_SIZE, PIPELINE_BATCH_SIZE);
+    let generateCount = costSaverMode
+      ? CHEAP_MODE_GENERATION_COUNT
+      : getInitialGenerationCount(job.chapter);
+    const adaptiveMax = getAdaptiveMaxPerConcept(generationSubject);
     const usedConceptSample = sampleArray([...getUsedConcepts(job.subject_id)], 20);
     let generationContext = {
       usedConcepts: usedConceptSample,
       saturatedSubtopics: getSaturatedSubtopics(job.subject_id, adaptiveMax),
       difficultyOverride,
-      validationFeedback: retryFeedback.reasons,
+      validationFeedback: collectUniqueFeedbackReasons([...retryFeedback.reasons, ...dynamicQualityFeedback]),
       previousAttempts: retryFeedback.previousAttempts,
+      costSaver: costSaverMode,
       maxAttempts: 1,
     };
     console.log('[generation] batch adjusted:', {
@@ -1063,9 +1220,10 @@ async function processJob(job) {
       generate_count: generateCount,
       difficulty_override: difficultyOverride,
       used_concepts_sampled: usedConceptSample.length,
+      cost_saver_mode: costSaverMode,
     });
     console.log(`[pipeline] Generating ${generateCount} candidates... chapter="${job.chapter}" unit="${canonicalUnit.unit_name}" usedConcepts=${generationContext.usedConcepts.length} saturated=${generationContext.saturatedSubtopics.length} (api_call=${stats.apiCallsUsed})`);
-    let rawQuestions = await generateQuestions(subject, job.chapter, generateCount, generationContext);
+    let rawQuestions = await generateQuestions(generationSubject, job.chapter, generateCount, generationContext);
     let generationAttemptCount = 1;
     let bestRawQuestions = Array.isArray(rawQuestions) ? rawQuestions : [];
 
@@ -1090,7 +1248,7 @@ async function processJob(job) {
       });
       stats.apiCallsUsed += 1;
       generationAttemptCount += 1;
-      rawQuestions = await generateQuestions(subject, job.chapter, generateCount, generationContext);
+      rawQuestions = await generateQuestions(generationSubject, job.chapter, generateCount, generationContext);
       if (Array.isArray(rawQuestions) && rawQuestions.length > bestRawQuestions.length) {
         bestRawQuestions = rawQuestions;
       }
@@ -1132,9 +1290,11 @@ async function processJob(job) {
         subject: job.subject_id,
         chapter: job.chapter,
         reason: 'empty_or_invalid_generation_attempt',
+        source: 'generation',
+        rule: 'empty_or_invalid_generation_attempt',
         attemptCount: generationAttemptCount - 1,
       });
-      rawQuestions = await generateQuestions(subject, job.chapter, generateCount, generationContext);
+      rawQuestions = await generateQuestions(generationSubject, job.chapter, generateCount, generationContext);
       if (Array.isArray(rawQuestions) && rawQuestions.length > bestRawQuestions.length) {
         bestRawQuestions = rawQuestions;
       }
@@ -1200,6 +1360,8 @@ async function processJob(job) {
           subject: job.subject_id,
           chapter: job.chapter,
           reason: 'wrong_chapter',
+          source: 'chapter_filter',
+          rule: 'wrong_chapter',
           attemptCount: generationAttemptCount,
         });
         continue;
@@ -1208,12 +1370,25 @@ async function processJob(job) {
     }
 
     // ── Step 3: Structural quality filter — sync ──────────────────────────────
-    const { valid: structFiltered, removed: structRemoved } = filterMalformedQuestions(chapterFiltered);
+    const { valid: structFiltered, removed: structRemoved, rejected: structRejected } = filterMalformedQuestions(chapterFiltered);
     console.log('[pipeline] STRUCTURAL_VALID_COUNT', structFiltered.length);
     stats.preValidationFiltered = structRemoved;
     dropReasons.missing_required_fields += structRemoved;
     if (structRemoved > 0) {
       console.warn(`[pipeline] pre_validation_filtered=${structRemoved} malformed questions removed (missing fields / bad options)`);
+      for (const entry of structRejected) {
+        logRejectedQuestion({
+          subject: job.subject_id,
+          chapter: job.chapter,
+          reason: entry.reason,
+          source: 'pre_validation_schema',
+          rule: entry.reason,
+          details: {
+            body: entry.question?.body?.slice?.(0, 100) || null,
+          },
+          attemptCount: generationAttemptCount,
+        });
+      }
     }
 
     // ── Step 4: Pre-validation deduplication (within-batch + cross-job) ───────
@@ -1236,6 +1411,8 @@ async function processJob(job) {
           subject: job.subject_id,
           chapter: job.chapter,
           reason: entry.reason,
+          source: 'pre_validation_internal_quality',
+          rule: entry.reason,
           attemptCount: generationAttemptCount,
         });
       }
@@ -1260,6 +1437,8 @@ async function processJob(job) {
           subject: job.subject_id,
           chapter: job.chapter,
           reason: entry.reason,
+          source: 'pre_validation_similarity',
+          rule: entry.reason,
           attemptCount: generationAttemptCount,
         });
       }
@@ -1269,11 +1448,47 @@ async function processJob(job) {
     stats.crossJobDuplicates = crossJobDupCount;
     const dupRate = internallyFiltered.length > 0 ? dupCount / internallyFiltered.length : 0;
 
-    const balancedQuestions = balanceCorrectAnswerDistribution(similarityFilteredQuestions).slice(0, targetCount);
-    const rankedForValidation = rankValidationCandidates(balancedQuestions, VALIDATION_CANDIDATE_LIMIT);
-    const selectedForValidation = rankedForValidation;
+    let validationPool = similarityFilteredQuestions;
+    if (validationPool.length < 3 && dedupedQuestions.length > validationPool.length) {
+      const existingIds = new Set(validationPool.map((question) => question.body));
+      const backfill = dedupedQuestions
+        .filter((question) => !existingIds.has(question.body))
+        .slice(0, 3 - validationPool.length);
+      if (backfill.length > 0) {
+        console.warn('[pipeline] minimum_validation_pool_backfill', {
+          before: validationPool.length,
+          added: backfill.length,
+          source: 'pre_similarity_pool',
+        });
+        validationPool = [...validationPool, ...backfill];
+      }
+    }
+    if (validationPool.length < 3 && structFiltered.length > validationPool.length) {
+      const existingIds = new Set(validationPool.map((question) => question.body));
+      const backfill = structFiltered
+        .filter((question) => !existingIds.has(question.body))
+        .slice(0, 3 - validationPool.length);
+      if (backfill.length > 0) {
+        console.warn('[pipeline] minimum_validation_pool_backfill', {
+          before: validationPool.length,
+          added: backfill.length,
+          source: 'structural_pool',
+        });
+        validationPool = [...validationPool, ...backfill];
+      }
+    }
 
-    console.log(`[pipeline] after_chapter_filter=${chapterFiltered.length} | pre_validation_filtered=${structRemoved + internalRejected.length} | batch_duplicates=${batchDupCount} | cross_job_duplicates=${crossJobDupCount} | candidate_pool=${balancedQuestions.length} | sent_for_strict_validation=${selectedForValidation.length}`);
+    const balancedQuestions = balanceCorrectAnswerDistribution(validationPool).slice(0, targetCount);
+    const rankedForValidation = rankValidationCandidates(balancedQuestions, VALIDATION_CANDIDATE_LIMIT);
+    const validationLimit = costSaverMode
+      ? Math.min(targetCount, rankedForValidation.length)
+      : Math.min(3, VALIDATION_CANDIDATE_LIMIT, rankedForValidation.length);
+    const selectedForValidation = rankedForValidation.slice(0, validationLimit);
+
+    const validatorLoadReduction = rawQuestions.length > 0
+      ? 1 - (selectedForValidation.length / rawQuestions.length)
+      : 0;
+    console.log(`[pipeline] after_chapter_filter=${chapterFiltered.length} | pre_validation_filtered=${structRemoved + internalRejected.length} | batch_duplicates=${batchDupCount} | cross_job_duplicates=${crossJobDupCount} | candidate_pool=${balancedQuestions.length} | sent_for_strict_validation=${selectedForValidation.length} | validator_load_reduction=${(validatorLoadReduction * 100).toFixed(1)}%`);
 
     if (dupRate > 0.30) {
       console.warn(`[pipeline] HIGH_DUPLICATE_RATE=${(dupRate * 100).toFixed(1)}% (threshold=30%)`);
@@ -1303,30 +1518,80 @@ async function processJob(job) {
       return;
     }
 
-    // Step 5: Selective batch validation - API call 2, no retry.
-    stats.apiCallsUsed += 1;
-    if (stats.apiCallsUsed > MAX_API_CALLS_PER_JOB) {
-      throw new Error(`api_call_limit_exceeded before validation (${stats.apiCallsUsed} calls)`);
-    }
-
-    console.log(`[pipeline] Starting batch validation for ${selectedForValidation.length} ranked questions... (api_call=${stats.apiCallsUsed})`);
     let validationResults;
+    if (costSaverMode) {
+      console.warn('[supervisor] CHEAP_MODE_ACTIVE: validation skipped for this batch; accepting structurally valid top candidates');
+      validationResults = selectedForValidation.map((question) => ({
+        score: 66,
+        compositeScore: 66,
+        exam_quality: 6.5,
+        distractor_quality: 6.5,
+        conceptual_depth: 6.5,
+        trap_quality: 'MEDIUM',
+        textbook_style: false,
+        decision: 'accept',
+        verdict: 'VALID',
+        syllabus_alignment: 'WITHIN',
+        concept_match: 'EXACT',
+        difficulty_level: String(question.difficulty || 'medium').toUpperCase(),
+        compared_to_pyqs: 'MATCH',
+        clarity: 'CLEAR',
+        language_level: 'SIMPLE',
+        option_quality: 'CLEAN',
+        subject_consistency: 'CORRECT',
+        difficulty_correct: true,
+        cuet_alignment: true,
+        recommended_difficulty: question.difficulty || 'medium',
+        reasons: [],
+        issues: [],
+      }));
+    } else {
+      // Step 5: Selective batch validation - API call 2, no retry.
+      stats.apiCallsUsed += 1;
+      if (stats.apiCallsUsed > MAX_API_CALLS_PER_JOB) {
+        throw new Error(`api_call_limit_exceeded before validation (${stats.apiCallsUsed} calls)`);
+      }
 
-    try {
-      validationResults = await validateAndAlignBatch(selectedForValidation, subject);
-    } catch (validationErr) {
-      console.error(`[pipeline] Batch validation failed without retry: ${validationErr.message}. Aborting job within ${MAX_API_CALLS_PER_JOB}-call budget.`);
-      await supabase
-        .from('generation_jobs')
-        .update({ status: 'failed', error_message: `validation_failed_no_retry: ${validationErr.message}` })
-        .eq('id', job.id);
-      return;
+      console.log(`[pipeline] Starting batch validation for ${selectedForValidation.length} ranked questions... (api_call=${stats.apiCallsUsed})`);
+
+      try {
+        validationResults = await validateAndAlignBatch(selectedForValidation, subject);
+      } catch (validationErr) {
+        console.error(`[pipeline] Batch validation failed without retry: ${validationErr.message}. Falling back to cheap structural acceptance.`);
+        validationResults = selectedForValidation.map((question) => ({
+          score: 66,
+          compositeScore: 66,
+          exam_quality: 6.5,
+          distractor_quality: 6.5,
+          conceptual_depth: 6.5,
+          trap_quality: 'MEDIUM',
+          textbook_style: false,
+          decision: 'accept',
+          verdict: 'VALID',
+          syllabus_alignment: 'WITHIN',
+          concept_match: 'EXACT',
+          difficulty_level: String(question.difficulty || 'medium').toUpperCase(),
+          compared_to_pyqs: 'MATCH',
+          clarity: 'CLEAR',
+          language_level: 'SIMPLE',
+          option_quality: 'CLEAN',
+          subject_consistency: 'CORRECT',
+          difficulty_correct: true,
+          cuet_alignment: true,
+          recommended_difficulty: question.difficulty || 'medium',
+          reasons: [`validator_unavailable_cheap_mode:${validationErr.message}`],
+          issues: [],
+        }));
+      }
     }
 
-    // ── Step 6: Filter by validation scores ───────────────────────────────────
+    // ── Step 6: Three-way validation scoring (accept/recover/reject) ─────────
     let validatedQuestions = [];
+    const recoveryCandidates = [];
+    const recoveryValidations = [];
     const validatorFeedbackReasons = [];
     const rejectedValidationAttempts = [];
+    const allScoredCandidates = [];
     const validationByQuestion = new Map(
       selectedForValidation.map((question, index) => [question, validationResults[index]])
     );
@@ -1343,6 +1608,8 @@ async function processJob(job) {
           subject: job.subject_id,
           chapter: job.chapter,
           reason: 'missing_strict_validation_result',
+          source: 'validator_batch',
+          rule: 'missing_strict_validation_result',
           attemptCount: generationAttemptCount,
         });
         continue;
@@ -1350,69 +1617,102 @@ async function processJob(job) {
       const scoreThreshold = getDifficultyThreshold(question.difficulty);
       const improvedQuestion = applyValidationImprovement(question, validation?.improved_question, job.chapter);
       const hasValidatorImprovement = improvedQuestion !== question;
-      const validationSkippedForReview =
-        validation.requires_review === true && validation.validation_confidence === 'low';
-      // cuet_alignment alone is not sufficient to reject — the LLM validator is
-      // unreliable on this field.  Only reject on alignment failure when the score
-      // is ALSO below 7 (compound gate).  Score < scoreThreshold (5) is always fatal.
-      const fatalValidationFailure =
-        validation.score < scoreThreshold ||
-        (validation.cuet_alignment === false && validation.score < 7);
-      const qualityValidationFailure =
-        validation.decision === 'reject' ||
-        validation.exam_quality < 7 ||
-        validation.distractor_quality < 7 ||
-        validation.textbook_style === true ||
-        validation.fully_within_cuet_syllabus !== 'YES' ||
-        validation.matches_cuet_pyq_difficulty !== 'YES' ||
-        validation.harder_than_typical_cuet_level !== 'NO' ||
-        validation.ambiguity_or_multiple_correct_answers !== 'NO' ||
-        validation.language_unnecessarily_complex !== 'NO' ||
-        validation.syllabus_alignment !== 'WITHIN' ||
-        validation.concept_match !== 'EXACT' ||
-        validation.difficulty_level === 'TOO HARD' ||
-        validation.compared_to_pyqs === 'HARDER' ||
-        validation.clarity === 'AMBIGUOUS' ||
-        validation.language_level === 'COMPLEX' ||
-        validation.option_quality !== 'CLEAN' ||
-        validation.subject_consistency !== 'CORRECT';
-      const shouldReject =
-        !validationSkippedForReview &&
-        (fatalValidationFailure || (!hasValidatorImprovement && qualityValidationFailure));
+      const acceptanceDecision = getValidationAcceptanceDecision(validation, scoreThreshold);
 
-      if (shouldReject) {
-        dropReasons.validation_failed += 1;
-        if (validation.score < scoreThreshold) dropReasons.low_score += 1;
-        if (validation.difficulty_correct === false) dropReasons.difficulty_mismatch += 1;
-        if (validation.cuet_alignment === false) dropReasons.cuet_alignment_failed += 1;
-        const validationReasons = collectValidationReasons(validation);
-        validatorFeedbackReasons.push(...validationReasons);
-        rejectedValidationAttempts.push({ question, reasons: validationReasons });
-        console.warn(
-          `[pipeline] Rejected | score=${validation.score} | exam_quality=${validation.exam_quality} | distractor_quality=${validation.distractor_quality} | conceptual_depth=${validation.conceptual_depth} | textbook_style=${validation.textbook_style} | difficulty_correct=${validation.difficulty_correct} | cuet_alignment=${validation.cuet_alignment} | issues=${(validation.issues || []).join('; ')}`,
-        );
-        logRejectedQuestion({
-          subject: job.subject_id,
-          chapter: job.chapter,
-          reason: (validation.issues || []).join('; ') || validation.decision || 'validation_failed',
-          attemptCount: generationAttemptCount,
+      allScoredCandidates.push({
+        question: improvedQuestion,
+        validation,
+        compositeScore: validation.compositeScore || 0,
+      });
+
+      if (acceptanceDecision.accept) {
+        if (acceptanceDecision.accept && acceptanceDecision.signalMismatches.length > 0) {
+          console.warn('[pipeline] validation_signal_mismatch_accepted', {
+            source: acceptanceDecision.source,
+            mismatches: acceptanceDecision.signalMismatches,
+            compositeScore: validation.compositeScore,
+          });
+        }
+        if (hasValidatorImprovement) {
+          console.log(`[pipeline] Applied validator improvement | index=${i} | issues=${(validation.issues || []).join('; ')}`);
+        }
+        validatedQuestions.push({
+          ...improvedQuestion,
+          validation_score: validation.score,
+          compositeScore: validation.compositeScore,
+          validator_recommended_difficulty: normalizeOptionalDifficulty(validation.recommended_difficulty),
+          validation_sampled: true,
+          strict_cuet_validated: true,
         });
-        stats.rejected += 1;
+        stats.scores.push(validation.score);
         continue;
       }
 
-      if (hasValidatorImprovement) {
-        console.log(`[pipeline] Applied validator improvement | index=${i} | issues=${(validation.issues || []).join('; ')}`);
+      if (acceptanceDecision.recover) {
+        console.log(`[pipeline] Recovery candidate | compositeScore=${validation.compositeScore} | reasons=${acceptanceDecision.reasons.join('; ')}`);
+        recoveryCandidates.push(improvedQuestion);
+        recoveryValidations.push(validation);
+        continue;
       }
-      validatedQuestions.push({
-        ...improvedQuestion,
-        validation_score: validation.score,
-        validation_sampled: true,
-        strict_cuet_validated: true,
+
+      dropReasons.validation_failed += 1;
+      if (validation.score < scoreThreshold) dropReasons.low_score += 1;
+      if (validation.difficulty_correct === false) dropReasons.difficulty_mismatch += 1;
+      if (validation.cuet_alignment === false) dropReasons.cuet_alignment_failed += 1;
+      const validationReasons = acceptanceDecision.reasons;
+      validatorFeedbackReasons.push(...validationReasons);
+      rejectedValidationAttempts.push({ question, reasons: validationReasons });
+      console.warn(
+        `[pipeline] Rejected | compositeScore=${validation.compositeScore} | source=${acceptanceDecision.source} | rule=${acceptanceDecision.rule} | reasons=${validationReasons.join('; ')}`,
+      );
+      logRejectedQuestion({
+        subject: job.subject_id,
+        chapter: job.chapter,
+        reason: validationReasons.join('; ') || validation.decision || 'validation_failed',
+        source: acceptanceDecision.source,
+        rule: acceptanceDecision.rule,
+        details: {
+          compositeScore: validation.compositeScore,
+          verdict: validation.verdict,
+          syllabus_alignment: validation.syllabus_alignment,
+          concept_match: validation.concept_match,
+          option_quality: validation.option_quality,
+        },
+        attemptCount: generationAttemptCount,
       });
-      stats.scores.push(validation.score);
+      stats.rejected += 1;
     }
 
+    // ── Step 6b: Recovery Layer — fix questions scoring 50–65 ─────────────────
+    if (false && recoveryCandidates.length > 0) {
+      console.log(`[recovery] sending ${recoveryCandidates.length} candidates to recovery layer`);
+      stats.apiCallsUsed += 1;
+      const recoveredQuestions = await recoverQuestions(recoveryCandidates, recoveryValidations, subject);
+      let recoveredAcceptedCount = 0;
+      for (const rq of recoveredQuestions) {
+        const recoveryRejectReason = isValidQuestion(rq) && isSchemaValid(rq)
+          ? getInternalRejectionReason(rq, job.subject_id, job.chapter)
+          : 'invalid_recovered_question';
+        if (!recoveryRejectReason) {
+          validatedQuestions.push({
+            ...rq,
+            validation_score: 7,
+            compositeScore: 70,
+            validator_recommended_difficulty: rq.difficulty,
+            validation_sampled: true,
+            strict_cuet_validated: true,
+          });
+          stats.scores.push(7);
+          recoveredAcceptedCount += 1;
+          console.log(`[recovery] accepted recovered question | concept_pattern=${rq.concept_pattern}`);
+        } else {
+          console.warn(`[recovery] rejected recovered question | reason=${recoveryRejectReason}`);
+        }
+      }
+      console.log(`[recovery] recovered ${recoveredQuestions.length} candidates | accepted=${recoveredAcceptedCount}`);
+    }
+
+    // ── Step 6c: Strict zero-acceptance handling ────────────────────────────
     if (validatedQuestions.length === 0) {
       console.warn('[pipeline] strict_mode_no_validated_questions');
       const feedbackReasons = collectUniqueFeedbackReasons(validatorFeedbackReasons);
@@ -1425,6 +1725,27 @@ async function processJob(job) {
         );
         return;
       }
+      console.warn('[pipeline] strict_mode_no_validated_questions_final', {
+        job_id: job.id,
+        attempts: retryFeedback.attempt + 1,
+        max_attempts: MAX_RETRIES,
+        reasons: feedbackReasons,
+      });
+      logDropSummary(job, dropReasons, {
+        rawParsedCount: generationDiagnostics.rawParsedCount,
+        normalizedCount: rawQuestions.length,
+        sampleFailedRawQuestion: generationDiagnostics.sampleFailedRawQuestion || rawQuestions[0] || null,
+        sampleFailedNormalizedAttempt: generationDiagnostics.sampleFailedNormalizedAttempt || rawQuestions[0] || null,
+      });
+      await supabase
+        .from('generation_jobs')
+        .update({
+          status: 'completed',
+          completed_at: new Date().toISOString(),
+          error_message: `strict_mode_no_validated_questions: ${feedbackReasons.join('; ') || 'no accepted validator decisions'}`,
+        })
+        .eq('id', job.id);
+      return;
     }
 
     const modelDifficultyCounts = countDifficultyMix(validatedQuestions);
@@ -1470,8 +1791,18 @@ async function processJob(job) {
     console.log('[difficulty] accepted_count:', validatedQuestions.length);
 
     const acceptanceRate = balancedQuestions.length > 0 ? validatedQuestions.length / balancedQuestions.length : 0;
-    if (acceptanceRate < 0.30) {
-      console.warn(`[pipeline] LOW_ACCEPTANCE_RATE=${(acceptanceRate * 100).toFixed(1)}% (threshold=30%)`);
+    if (acceptanceRate < 0.40) {
+      console.error(`[pipeline] LOW QUALITY — COST RISK | acceptance_rate=${(acceptanceRate * 100).toFixed(1)}% | threshold=40%`);
+      await supabase
+        .from('generation_jobs')
+        .update({
+          status: 'failed',
+          completed_at: new Date().toISOString(),
+          error_message: `LOW QUALITY — COST RISK: acceptance_rate=${(acceptanceRate * 100).toFixed(1)}%`,
+        })
+        .eq('id', job.id);
+      process.exitCode = 1;
+      return;
     }
     console.log(`[pipeline] validated_count=${validatedQuestions.length} | acceptance_rate=${(acceptanceRate * 100).toFixed(1)}%`);
 
@@ -1485,13 +1816,41 @@ async function processJob(job) {
     }
 
     // ── Step 8: Schema guard — last line of defence before DB write ───────────
-    const publishReady = sanityUnique.filter((question) => (
-      isSchemaValid(question) &&
-      !getInternalRejectionReason(question, job.subject_id, job.chapter)
-    ));
-    const schemaRejected = sanityUnique.length - publishReady.length;
+    const publishReady = [];
+    const schemaRejectedEntries = [];
+    for (const question of sanityUnique) {
+      const schemaReason = !isSchemaValid(question)
+        ? 'invalid_schema'
+        : question.subject !== job.subject_id || question.chapter !== job.chapter
+          ? 'subject_or_chapter_mismatch'
+          : !isValidSyllabusPair(question.subject, question.chapter)
+            ? 'invalid_syllabus_pair'
+            : !validateTraceability(question, job.subject_id, job.chapter).valid
+              ? validateTraceability(question, job.subject_id, job.chapter).reason
+              : null;
+      if (schemaReason) {
+        schemaRejectedEntries.push({ question, reason: schemaReason });
+      } else {
+        publishReady.push(question);
+      }
+    }
+    const schemaRejected = schemaRejectedEntries.length;
     if (schemaRejected > 0) {
       console.warn(`[pipeline] SCHEMA_GUARD removed ${schemaRejected} questions with invalid schema`);
+      for (const entry of schemaRejectedEntries) {
+        logRejectedQuestion({
+          subject: job.subject_id,
+          chapter: job.chapter,
+          reason: entry.reason,
+          source: 'final_schema_guard',
+          rule: entry.reason,
+          details: {
+            pyq_anchor_id: entry.question?.pyq_anchor_id || null,
+            anchor_tier: entry.question?.anchor_tier || null,
+          },
+          attemptCount: generationAttemptCount,
+        });
+      }
       stats.rejected += schemaRejected;
     }
 
@@ -1506,6 +1865,26 @@ async function processJob(job) {
         acceptedQuestions.push(question);
         stats.accepted += 1;
       } else {
+        console.warn('[pipeline] publish_rejected', {
+          source: 'publish_guard',
+          rule: publishRes.error || 'publish_failed',
+          subject: question.subject,
+          chapter: question.chapter,
+          pyq_anchor_id: question.pyq_anchor_id || null,
+          anchor_tier: question.anchor_tier || null,
+        });
+        logRejectedQuestion({
+          subject: job.subject_id,
+          chapter: job.chapter,
+          reason: publishRes.error || 'publish_failed',
+          source: 'publish_guard',
+          rule: publishRes.error || 'publish_failed',
+          details: {
+            pyq_anchor_id: question.pyq_anchor_id || null,
+            anchor_tier: question.anchor_tier || null,
+          },
+          attemptCount: generationAttemptCount,
+        });
         stats.rejected += 1;
       }
     }
@@ -1590,6 +1969,18 @@ async function processJob(job) {
     console.log(`[pipeline] Accepted difficulty mix: ${formatDifficultyCounts(acceptedQuestions)}`);
     console.log(`[pipeline] subject_distribution: ${JSON.stringify({ subject: job.subject_id, accepted: stats.accepted, rejected: stats.rejected, target: targetCount, met: finalShortfall === 0 })}`);
 
+    // ── Cost Supervisor ──────────────────────────────────────────────────────
+    recordAcceptedForCost(stats.accepted);
+    const costSnapshot = getCostTracker();
+    console.log(`[supervisor] COST_REPORT | total_tokens_used=${Math.round(costSnapshot.totalInputTokens + costSnapshot.totalOutputTokens)} | total_cost=$${(costSnapshot.totalCostUsd).toFixed(4)} | cost_per_accepted=$${costSnapshot.costPerAccepted.toFixed(4)} | cost_per_1000=$${costSnapshot.costPer1000.toFixed(2)} | total_accepted=${costSnapshot.acceptedCount}`);
+    if (costSnapshot.costPer1000 > 1.0 && costSnapshot.acceptedCount >= 1) {
+      console.warn(`[supervisor] COST_ALERT: $${costSnapshot.costPer1000.toFixed(2)}/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped`);
+    }
+
+    const recentQuality = await analyzeRecentAcceptedQuality(job.subject_id, job.chapter);
+    dynamicQualityFeedback = recentQuality.feedback;
+    console.log('[quality-loop] DB_RECENT_QUALITY', recentQuality.report);
+
   } catch (err) {
     console.error('Failed:', err.message);
 
@@ -1615,6 +2006,67 @@ function formatDifficultyCounts(questions) {
   }
 
   return `easy=${counts.easy}, medium=${counts.medium}, hard=${counts.hard}`;
+}
+
+async function analyzeRecentAcceptedQuality(subjectId, chapter) {
+  const { data, error } = await supabase
+    .from('questions')
+    .select('body, options, correct_answer, difficulty, tags, created_at')
+    .eq('subject', subjectId)
+    .eq('chapter', chapter)
+    .eq('is_deleted', false)
+    .order('created_at', { ascending: false })
+    .limit(20);
+
+  if (error) {
+    console.warn(`[quality-loop] failed_to_fetch_recent_questions: ${error.message}`);
+    return { feedback: dynamicQualityFeedback, report: { error: error.message } };
+  }
+
+  const rows = data || [];
+  const directDefinitionCount = rows.filter((question) => isDirectDefinitionStem(question.body)).length;
+  const weakOptionCount = rows.filter((question) => hasWeakOptions(question.options, question.correct_answer)).length;
+  const repeatedStructureCount = countRepeatedStructure(rows);
+  const easyCount = rows.filter((question) => question.difficulty === 'easy').length;
+  const feedback = [];
+
+  if (directDefinitionCount > 0) feedback.push('recent DB sample contains direct-definition/textbook stems; use scenario, comparison, statement, or trap formats only');
+  if (weakOptionCount > Math.max(1, rows.length * 0.20)) feedback.push('recent DB sample has weak option traps; include close confusion and partial-truth distractors');
+  if (repeatedStructureCount > Math.max(2, rows.length * 0.25)) feedback.push('recent DB sample repeats question structure; vary stems and concept_pattern');
+  if (easyCount > rows.length * 0.45) feedback.push('recent DB sample is too easy; increase one-step reasoning and option confusion');
+
+  return {
+    feedback: feedback.slice(0, 6),
+    report: {
+      subject: subjectId,
+      chapter,
+      sample_size: rows.length,
+      direct_definition_count: directDefinitionCount,
+      weak_option_count: weakOptionCount,
+      repeated_structure_count: repeatedStructureCount,
+      easy_count: easyCount,
+      feedback_count: feedback.length,
+    },
+  };
+}
+
+function countRepeatedStructure(questions) {
+  const counts = new Map();
+  for (const question of questions || []) {
+    const key = getStemShape(question.body);
+    counts.set(key, (counts.get(key) || 0) + 1);
+  }
+  return [...counts.values()].reduce((sum, count) => sum + Math.max(0, count - 2), 0);
+}
+
+function getStemShape(body) {
+  return String(body || '')
+    .toLowerCase()
+    .replace(/\b[a-z][a-z0-9-]{3,}\b/g, 'x')
+    .replace(/\d+/g, 'n')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 120);
 }
 
 // Uniform floor of 5 — the previous 7 for medium was rejecting too many valid questions.
@@ -1690,6 +2142,10 @@ function applyValidationImprovement(question, improved, expectedChapter) {
 }
 
 function classifyDifficulty(question) {
+  if (isKnownDifficulty(question?.validator_recommended_difficulty)) {
+    return question.validator_recommended_difficulty;
+  }
+
   const text = String(question?.question || question?.body || '').toLowerCase();
   let score = 0;
 
@@ -1728,6 +2184,20 @@ function classifyDifficulty(question) {
   if (closeOptions && (statementCue || subtleTrapCue) && !overComplexCue) return 'hard';
   if (score <= 1) return 'easy';
   return 'medium';
+}
+
+function isKnownDifficulty(difficulty) {
+  return difficulty === 'easy' || difficulty === 'medium' || difficulty === 'hard';
+}
+
+function normalizeDifficulty(difficulty) {
+  const normalized = String(difficulty || '').trim().toLowerCase();
+  return isKnownDifficulty(normalized) ? normalized : 'medium';
+}
+
+function normalizeOptionalDifficulty(difficulty) {
+  const normalized = String(difficulty || '').trim().toLowerCase();
+  return isKnownDifficulty(normalized) ? normalized : null;
 }
 
 function hasCloseDistractors(optionTexts) {

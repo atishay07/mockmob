@@ -1,0 +1,187 @@
+[pyq_anchor] selected_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::indian_economic_development_1950_1990',
+  selected_anchor_id: 'seed_pyq_e2',
+  selected_anchor_concept_id: 'economics::national_income_and_related_aggregates',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'direct_concept',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::indian_economic_development_1950_1990',
+  source_anchor_id: 'seed_pyq_e2',
+  source_anchor_concept_id: 'economics::national_income_and_related_aggregates',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'direct_concept',
+  selected_question_type: 'simple_numerical'
+}
+❌ Database publish error: Could not find the 'anchor_tier' column of 'questions' in the schema cache
+[pipeline] publish_rejected {
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+  anchor_tier: 3
+}
+❌ Database publish error: Could not find the 'anchor_tier' column of 'questions' in the schema cache
+[pipeline] publish_rejected {
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+  anchor_tier: 3
+}
+❌ Database publish error: Could not find the 'anchor_tier' column of 'questions' in the schema cache
+[pipeline] publish_rejected {
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+  anchor_tier: 3
+}
+❌ Database publish error: Could not find the 'anchor_tier' column of 'questions' in the schema cache
+[pipeline] publish_rejected {
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+  anchor_tier: 3
+}
+❌ Database publish error: Could not find the 'anchor_tier' column of 'questions' in the schema cache
+[pipeline] publish_rejected {
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+  anchor_tier: 3
+}
+❌ Database publish error: Could not find the 'anchor_tier' column of 'questions' in the schema cache
+[pipeline] publish_rejected {
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+  anchor_tier: 3
+}
+❌ Database publish error: Could not find the 'anchor_tier' column of 'questions' in the schema cache
+[pipeline] publish_rejected {
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+  anchor_tier: 3
+}
+❌ Database publish error: Could not find the 'anchor_tier' column of 'questions' in the schema cache
+[pipeline] publish_rejected {
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+  anchor_tier: 3
+}
+❌ Database publish error: Could not find the 'anchor_tier' column of 'questions' in the schema cache
+[pipeline] publish_rejected {
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+  anchor_tier: 3
+}
+❌ Database publish error: Could not find the 'anchor_tier' column of 'questions' in the schema cache
+[pipeline] publish_rejected {
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+  anchor_tier: 3
+}
+❌ Database publish error: Could not find the 'anchor_tier' column of 'questions' in the schema cache
+[pipeline] publish_rejected {
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+  anchor_tier: 3
+}
+❌ Database publish error: Could not find the 'anchor_tier' column of 'questions' in the schema cache
+[pipeline] publish_rejected {
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+  anchor_tier: 3
+}
+❌ Database publish error: Could not find the 'anchor_tier' column of 'questions' in the schema cache
+[pipeline] publish_rejected {
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+  anchor_tier: 3
+}
+❌ Database publish error: Could not find the 'anchor_tier' column of 'questions' in the schema cache
+[pipeline] publish_rejected {
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+  anchor_tier: 3
+}
+❌ Database publish error: Could not find the 'anchor_tier' column of 'questions' in the schema cache
+[pipeline] publish_rejected {
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+  anchor_tier: 3
+}
+[pipeline] TARGET_NOT_MET | target=15 | accepted=0 | shortfall=15 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+No questions returned for economics/Indian Economic Development 1950–1990
+RAW_PARSED_COUNT=16
+NORMALIZED_COUNT=16
+VALIDATED_COUNT=0
+Drop summary:
+- normalization_failed: 0
+- invalid_options_format: 0
+- missing_required_fields: 0
+- validation_failed: 0
+- low_score: 0
+- difficulty_mismatch: 0
+- cuet_alignment_failed: 0
+- chapter_mismatch: 0
+Sample failed raw question: {"subject":"economics","chapter":"Indian Economic Development 1950–1990","body":"Which of the following best describes Indian economic development during 1950–1990?","options":[{"key":"A","text":"A period of complete dependence on foreign private companies"},{"key":"B","text":"A period focused on planned development after Independence"},{"key":"C","text":"A period with no role of the public sector"},{"key":"D","text":"A period of only agricultural exports"}],"correct_answer":"B","explanation":"The period 1950–1990 in India is identified with planned economic development after Independence.","difficulty":"easy","difficulty_weight":1,"question_type":"direct_concept","topic":"Indian Economic Development","concept":"Indian Economic Development 1950–1990","concept_id":"economics::indian_economic_development_1950_1990","pyq_anchor_id":"structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990","anchor_tier":3,"concept_pattern":"planned_development_period_identity","tags":["cuet"],"passage_id":"","passage_type":"","question":"Which of the following best describes Indian economic development during 1950–1990?","answer":"B"}
+Sample normalized attempt: {"subject":"economics","chapter":"Indian Economic Development 1950–1990","body":"Which of the following best describes Indian economic development during 1950–1990?","options":[{"key":"A","text":"A period of complete dependence on foreign private companies"},{"key":"B","text":"A period focused on planned development after Independence"},{"key":"C","text":"A period with no role of the public sector"},{"key":"D","text":"A period of only agricultural exports"}],"correct_answer":"B","explanation":"The period 1950–1990 in India is identified with planned economic development after Independence.","difficulty":"easy","difficulty_weight":1,"question_type":"direct_concept","topic":"Indian Economic Development","concept":"Indian Economic Development 1950–1990","concept_id":"economics::indian_economic_development_1950_1990","pyq_anchor_id":"structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990","anchor_tier":3,"concept_pattern":"planned_development_period_identity","tags":["cuet"],"passage_id":"","passage_type":"","question":"Which of the following best describes Indian economic development during 1950–1990?","answer":"B"}
+[pipeline] LOW_YIELD=0.0% (threshold=30%) — less than 30 % of generated questions were accepted
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'biology',
+  concept_id: 'biology::biodiversity_and_conservation',
+  selected_anchor_id: 'synthetic_cuet_structure_biology',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'direct_concept'
+}

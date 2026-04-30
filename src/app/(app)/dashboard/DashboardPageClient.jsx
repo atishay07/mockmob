@@ -52,14 +52,16 @@ export default function DashboardPageClient() {
   // once and clear the flag so it doesn't re-trigger on a refresh.
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    if (authStatus !== 'authenticated') return;
+    if (authStatus !== 'authenticated' || !user) return;
     try {
       if (window.sessionStorage.getItem('mm:postTest') === '1') {
         window.sessionStorage.removeItem('mm:postTest');
-        setShowCreditsModal(true);
+        if (user.plan !== 'premium') {
+          setShowCreditsModal(true);
+        }
       }
     } catch { /* private mode — non-fatal */ }
-  }, [authStatus]);
+  }, [authStatus, user]);
 
   useEffect(() => {
     if (authStatus === 'loading' || !user?.id) return;
@@ -345,8 +347,11 @@ export default function DashboardPageClient() {
                 </button>
               ))}
             </div>
-              <label className="flex flex-col gap-2">
-                <span className="mono-label">Select subject</span>
+              <div className="flex flex-col gap-2">
+                <div className="flex justify-between items-center">
+                  <span className="mono-label">Select subject</span>
+                  <Link href="/onboarding?edit=true" className="text-volt font-mono text-[10px] uppercase tracking-wider font-bold hover:underline">Edit</Link>
+                </div>
                 <select
                   className="select"
                   value={selSubj || ''}
@@ -366,7 +371,7 @@ export default function DashboardPageClient() {
                 <span className="text-xs text-zinc-500">
                   {selectedSubject?.name || 'Subject'} has <span className="text-volt">{selectedSubjectCount}</span> available questions.
                 </span>
-              </label>
+              </div>
             </div>
 
             {selSubj && (

@@ -1,0 +1,2843 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5910 concepts across 40 subjects (saved 2026-04-30T14:03:52.199Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Literary Passage',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Psychology & Life',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Self & Personality',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Social Influence & Group Processes',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Therapeutic Approaches',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'sociology',
+  chapter: 'Change & Development in Rural Society',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'business_studies',
+  chapter: 'Planning',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  coverage: 6,
+  priority: 90
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: english → normalized: english → tier: 1
+Subject: english → normalized: english → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+Subject: sociology → normalized: sociology → tier: 1
+Subject: biology → normalized: biology → tier: 1
+Subject: business_studies → normalized: business_studies → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Literary Passage',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Psychology & Life',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Self & Personality',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Social Influence & Group Processes',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Therapeutic Approaches',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'sociology',
+    expected_chapter: 'Change & Development in Rural Society',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Human Reproduction',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'business_studies',
+    expected_chapter: 'Planning',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'p-Block Elements',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'english',
+    chapter: 'Literary Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Psychology & Life',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Self & Personality',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Social Influence & Group Processes',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Therapeutic Approaches',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'sociology',
+    chapter: 'Change & Development in Rural Society',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Human Reproduction',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'business_studies',
+    chapter: 'Planning',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'p-Block Elements',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: '43493126-7cdb-4cc3-b60f-d7908d619c8f',
+    subject_id: 'english',
+    chapter: 'Literary Passage',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:10:18.382329+00:00'
+  },
+  {
+    id: '749832e3-f4e5-414f-bf51-ad5e23d911c0',
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:10:18.382329+00:00'
+  },
+  {
+    id: '79332d86-b66f-4cce-9940-57e52e8a1968',
+    subject_id: 'psychology',
+    chapter: 'Psychology & Life',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:10:18.382329+00:00'
+  },
+  {
+    id: 'c07fc625-524b-4666-9311-6df4c7e8274c',
+    subject_id: 'psychology',
+    chapter: 'Self & Personality',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:10:18.382329+00:00'
+  },
+  {
+    id: '08256e2c-5346-42b0-9394-5f28559d35d4',
+    subject_id: 'psychology',
+    chapter: 'Social Influence & Group Processes',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:10:18.382329+00:00'
+  },
+  {
+    id: '3fd6aed8-0f6a-4125-b1b9-0e385ad2c34d',
+    subject_id: 'psychology',
+    chapter: 'Therapeutic Approaches',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:10:18.382329+00:00'
+  },
+  {
+    id: '93943dba-cd7a-427e-a738-dff3f14d4579',
+    subject_id: 'sociology',
+    chapter: 'Change & Development in Rural Society',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:10:18.382329+00:00'
+  },
+  {
+    id: '713bae0f-0324-4bc4-b609-07d0edbd6279',
+    subject_id: 'biology',
+    chapter: 'Human Reproduction',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:10:18.382329+00:00'
+  },
+  {
+    id: '31652608-de6a-4cdf-9f0c-5355cfd889bb',
+    subject_id: 'business_studies',
+    chapter: 'Planning',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:10:18.382329+00:00'
+  },
+  {
+    id: 'c6bc9d67-9f82-410b-94bc-c7b59ec28ff2',
+    subject_id: 'chemistry',
+    chapter: 'p-Block Elements',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:10:18.382329+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: '43493126-7cdb-4cc3-b60f-d7908d619c8f',
+    expected_subject: 'english',
+    expected_chapter: 'Literary Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '749832e3-f4e5-414f-bf51-ad5e23d911c0',
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '79332d86-b66f-4cce-9940-57e52e8a1968',
+    expected_subject: 'psychology',
+    expected_chapter: 'Psychology & Life',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'c07fc625-524b-4666-9311-6df4c7e8274c',
+    expected_subject: 'psychology',
+    expected_chapter: 'Self & Personality',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '08256e2c-5346-42b0-9394-5f28559d35d4',
+    expected_subject: 'psychology',
+    expected_chapter: 'Social Influence & Group Processes',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '3fd6aed8-0f6a-4125-b1b9-0e385ad2c34d',
+    expected_subject: 'psychology',
+    expected_chapter: 'Therapeutic Approaches',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '93943dba-cd7a-427e-a738-dff3f14d4579',
+    expected_subject: 'sociology',
+    expected_chapter: 'Change & Development in Rural Society',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '713bae0f-0324-4bc4-b609-07d0edbd6279',
+    expected_subject: 'biology',
+    expected_chapter: 'Human Reproduction',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '31652608-de6a-4cdf-9f0c-5355cfd889bb',
+    expected_subject: 'business_studies',
+    expected_chapter: 'Planning',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'c6bc9d67-9f82-410b-94bc-c7b59ec28ff2',
+    expected_subject: 'chemistry',
+    expected_chapter: 'p-Block Elements',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '43493126-7cdb-4cc3-b60f-d7908d619c8f',
+    '749832e3-f4e5-414f-bf51-ad5e23d911c0',
+    '79332d86-b66f-4cce-9940-57e52e8a1968',
+    'c07fc625-524b-4666-9311-6df4c7e8274c',
+    '08256e2c-5346-42b0-9394-5f28559d35d4',
+    '3fd6aed8-0f6a-4125-b1b9-0e385ad2c34d',
+    '93943dba-cd7a-427e-a738-dff3f14d4579',
+    '713bae0f-0324-4bc4-b609-07d0edbd6279',
+    '31652608-de6a-4cdf-9f0c-5355cfd889bb',
+    'c6bc9d67-9f82-410b-94bc-c7b59ec28ff2'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '43493126-7cdb-4cc3-b60f-d7908d619c8f',
+  actual_subject: 'english',
+  actual_chapter: 'Literary Passage',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 5,
+  subject_question_count: 112,
+  created_at: '2026-04-30T14:10:18.382329+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'english',
+  chapter: 'Literary Passage',
+  count: 5,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'english', chapter: 'Literary Passage', count: 5 }
+
+[JOB 43493126] Starting: [english] Literary Passage
+[worker] RECEIVED_JOB: {
+  job_id: '43493126-7cdb-4cc3-b60f-d7908d619c8f',
+  expected_subject: 'english',
+  expected_chapter: 'Literary Passage',
+  raw_subject_id: 'english',
+  raw_chapter: 'Literary Passage',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T14:10:18.382329+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '43493126-7cdb-4cc3-b60f-d7908d619c8f',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  chapter: 'Literary Passage',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=5 existing questions loaded
+[generation] batch adjusted: { chapter: 'Literary Passage', generate_count: 15 }
+[worker] GENERATION_INPUT: {
+  job_id: '43493126-7cdb-4cc3-b60f-d7908d619c8f',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  expected_chapter: 'Literary Passage',
+  canonical_unit: 'Reading Comprehension',
+  generate_count: 15,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 15 candidates... chapter="Literary Passage" unit="Reading Comprehension" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'English',
+  expected_chapter: 'Literary Passage',
+  requested_count: 15,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'english',
+  expected_chapter: 'Literary Passage',
+  canonical_unit: 'Reading Comprehension',
+  concept_id: 'english::literary_passage',
+  pyq_anchor_id: 'structure_only_seed_pyq_en3_for_english::literary_passage',
+  anchor_tier: 3,
+  batch_size: 15,
+  pyq_style_patterns: [ 'reading_comprehension', 'vocabulary', 'correct_word_usage' ],
+  difficulty_override: null
+}
+[llm] gemini_generation active_model=gemini-3.1-pro resolved_model=gemini-3.1-pro-preview
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3.1-pro-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3.1-pro-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  status: 'timeout',
+  retry_count: 0,
+  duration: 15158,
+  error: 'gemini timeout after 15000ms'
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3.1-pro-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm] gemini_generation active_model=gemini-3.1-flash resolved_model=gemini-3-flash-preview
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  status: 'success',
+  retry_count: 0,
+  duration: 38141,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "q": "Based on the passage, what does the transformation of the garden from 'riotous color' to 'sharp and silver thorns' primarily suggest?",
+    "o": [
+      "The garden was intentionally destroyed by the characters.",
+      "The vibrancy of the past has been replaced by a harsh, cold reality.",
+      "The garden is now more beautiful than it was during the summer.",
+      "Elena prefers the garden in its current, wilder state."
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "literary_imagery_inference",
+    "explanation": "The contrast between 'riotous color' and 'sharp and silver thorns' symbolizes the loss of life and warmth over time.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_01_garden",
+    "passage_type": "literary",
+    "passage_text": "The sun dipped below the horizon, casting long, skeletal shadows across the overgrown garden. Elena stood amidst the tangled briars, where once roses had bloomed in riotous color. Now, only the thorns remained, sharp and silver in the twilight. A rusted gate groaned under the weight of the wind, a sound like a low, mournful sigh. She remembered her grandmother's laughter echoing here, a melody now lost to the relentless march of time. The air grew cold, smelling of damp earth and forgotten memories. Every leaf that fell felt like a secret whispered and then immediately silenced by the encroaching dark."
+  },
+  {
+    "q": "Which literary device is most prominent in the description of the rusted gate's sound?",
+    "o": [
+      "Hyperbole, to exaggerate the size of the garden gate.",
+      "Personification, giving the inanimate gate a human-like quality of mourning.",
+      "Alliteration, repeating the same consonant sounds for rhythm.",
+      "Onomatopoeia, using the word 'groaned' to mimic the sound of the wind."
+    ],
+    "a": "B",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "literary_device_identification",
+    "explanation": "The gate 'groaning' like a 'mournful sigh' attributes human emotions and actions to an object.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_01_garden",
+    "passage_type": "literary",
+    "passage_text": "The sun dipped below the horizon, casting long, skeletal shadows across the overgrown garden. Elena stood amidst the tangled briars, where once roses had bloomed in riotous color. Now, only the thorns remained, sharp and silver in the twilight. A rusted gate groaned under the weight of the wind, a sound like a low, mournful sigh. She remembered her grandmother's laughter echoing here, a melody now lost to the relentless march of time. The air grew cold, smelling of damp earth and forgotten memories. Every leaf that fell felt like a secret whispered and then immediately silenced by the encroaching dark."
+  },
+  {
+    "q": "The phrase 'relentless march of time' implies that time is:",
+    "o": [
+      "A peaceful journey toward the future.",
+      "An unstoppable and indifferent force of change.",
+      "A rhythmic sequence of musical events.",
+      "A memory that can be easily recovered."
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "literary_metaphor_meaning",
+    "explanation": "'Relentless march' suggests a steady, unyielding movement that cannot be stopped.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_01_garden",
+    "passage_type": "literary",
+    "passage_text": "The sun dipped below the horizon, casting long, skeletal shadows across the overgrown garden. Elena stood amidst the tangled briars, where once roses had bloomed in riotous color. Now, only the thorns remained, sharp and silver in the twilight. A rusted gate groaned under the weight of the wind, a sound like a low, mournful sigh. She remembered her grandmother's laughter echoing here, a melody now lost to the relentless march of time. The air grew cold, smelling of damp earth and forgotten memories. Every leaf that fell felt like a secret whispered and then immediately silenced by the encroaching dark."
+  },
+  {
+    "q": "Which of the following best describes the overall mood established in the passage?",
+    "o": [
+      "Terrifying and suspenseful.",
+      "Melancholic and nostalgic.",
+      "Cheerful and optimistic.",
+      "Boring and monotonous."
+    ],
+    "a": "B",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "literary_mood_identification",
+    "explanation": "The imagery of shadows, 'mournful sigh', and 'forgotten memories' creates a sad, reflective mood.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_01_garden",
+    "passage_type": "literary",
+    "passage_text": "The sun dipped below the horizon, casting long, skeletal shadows across the overgrown garden. Elena stood amidst the tangled briars, where once roses had bloomed in riotous color. Now, only the thorns remained, sharp and silver in the twilight. A rusted gate groaned under the weight of the wind, a sound like a low, mournful sigh. She remembered her grandmother's laughter echoing here, a melody now lost to the relentless march of time. The air grew cold, smelling of damp earth and forgotten memories. Every leaf that fell felt like a secret whispered and then immediately silenced by the encroaching dark."
+  },
+  {
+    "q": "What is the significance of the 'skeletal shadows' and 'encroaching dark' in the context of the passage?",
+    "o": [
+      "They suggest the physical danger Elena is in.",
+      "They symbolize the fading of memories and the inevitability of death.",
+      "They represent the arrival of winter and the end of the year.",
+      "They highlight the botanical health of the garden."
+    ],
+    "a": "B",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "literary_symbolism_analysis",
+    "explanation": "These dark, skeletal images reinforce the theme of loss and the end of a previous era.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_01_garden",
+    "passage_type": "literary",
+    "passage_text": "The sun dipped below the horizon, casting long, skeletal shadows across the overgrown garden. Elena stood amidst the tangled briars, where once roses had bloomed in riotous color. Now, only the thorns remained, sharp and silver in the twilight. A rusted gate groaned under the weight of the wind, a sound like a low, mournful sigh. She remembered her grandmother's laughter echoing here, a melody now lost to the relentless march of time. The air grew cold, smelling of damp earth and forgotten memories. Every leaf that fell felt like a secret whispered and then immediately silenced by the encroaching dark."
+  },
+  {
+    "q": "What does the comparison of books to 'weary soldiers' indicate about their state?",
+    "o": [
+      "They are ready for a physical battle.",
+      "They have endured a long time and show signs of age and struggle.",
+      "They are being actively read by many people.",
+      "They are new and waiting to be used."
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "literary_metaphor_interpretation",
+    "explanation": "'Weary soldiers' implies that the books have 'survived' through centuries but are worn out.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_02_library",
+    "passage_type": "literary",
+    "passage_text": "The library was a cathedral of dust and silence, its high vaulted ceilings lost in shadow. Books with cracked leather spines stood like weary soldiers on the mahogany shelves, their gold-leaf titles faded by centuries of neglect. Elias moved through the aisles with a reverence bordering on fear. To him, every volume was a vessel of a soul long departed, a silent witness to eras he could only dream of. The air was thick with the scent of old paper and incense, a perfume that seemed to thicken the deeper he ventured into the labyrinth of knowledge. He reached for a heavy tome, his fingers trembling as they touched the cold, embossed cover."
+  },
+  {
+    "q": "How does Elias view the books in the library?",
+    "o": [
+      "As expensive items to be sold.",
+      "As living connections to people and times from the past.",
+      "As useless objects covered in dust.",
+      "As frightening weapons from a previous era."
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "literary_character_perspective",
+    "explanation": "Elias sees each volume as a 'vessel of a soul' and a 'witness' to past eras.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_02_library",
+    "passage_type": "literary",
+    "passage_text": "The library was a cathedral of dust and silence, its high vaulted ceilings lost in shadow. Books with cracked leather spines stood like weary soldiers on the mahogany shelves, their gold-leaf titles faded by centuries of neglect. Elias moved through the aisles with a reverence bordering on fear. To him, every volume was a vessel of a soul long departed, a silent witness to eras he could only dream of. The air was thick with the scent of old paper and incense, a perfume that seemed to thicken the deeper he ventured into the labyrinth of knowledge. He reached for a heavy tome, his fingers trembling as they touched the cold, embossed cover."
+  },
+  {
+    "q": "The use of the word 'labyrinth' to describe knowledge suggests that knowledge is:",
+    "o": [
+      "Simple and easy to find.",
+      "Complex and easy to get lost in.",
+      "A straight path to the truth.",
+      "A place where people live."
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "literary_vocabulary_usage",
+    "explanation": "A labyrinth is a maze, implying that the library and knowledge are complex and winding.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_02_library",
+    "passage_type": "literary",
+    "passage_text": "The library was a cathedral of dust and silence, its high vaulted ceilings lost in shadow. Books with cracked leather spines stood like weary soldiers on the mahogany shelves, their gold-leaf titles faded by centuries of neglect. Elias moved through the aisles with a reverence bordering on fear. To him, every volume was a vessel of a soul long departed, a silent witness to eras he could only dream of. The air was thick with the scent of old paper and incense, a perfume that seemed to thicken the deeper he ventured into the labyrinth of knowledge. He reached for a heavy tome, his fingers trembling as they touched the cold, embossed cover."
+  },
+  {
+    "q": "What effect does the author create by calling the library a 'cathedral of dust'?",
+    "o": [
+      "It makes the library seem like a dirty place that needs cleaning.",
+      "It gives the library a sacred yet forgotten or neglected atmosphere.",
+      "It suggests that religious services are held in the library.",
+      "It implies that the library is a small, insignificant building."
+    ],
+    "a": "B",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "literary_metaphor_analysis",
+    "explanation": "Cathedral implies sanctity and vastness, while 'dust' highlights the passage of time and neglect.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_02_library",
+    "passage_type": "literary",
+    "passage_text": "The library was a cathedral of dust and silence, its high vaulted ceilings lost in shadow. Books with cracked leather spines stood like weary soldiers on the mahogany shelves, their gold-leaf titles faded by centuries of neglect. Elias moved through the aisles with a reverence bordering on fear. To him, every volume was a vessel of a soul long departed, a silent witness to eras he could only dream of. The air was thick with the scent of old paper and incense, a perfume that seemed to thicken the deeper he ventured into the labyrinth of knowledge. He reached for a heavy tome, his fingers trembling as they touched the cold, embossed cover."
+  },
+  {
+    "q": "Choose the word closest in meaning to 'reverence' as used in the passage.",
+    "o": [
+      "Humor",
+      "Deep respect",
+      "Confusion",
+      "Arrogance"
+    ],
+    "a": "B",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "vocabulary_synonym_usage",
+    "explanation": "In the context of the passage, reverence describes Elias's profound respect for the books.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_02_library",
+    "passage_type": "literary",
+    "passage_text": "The library was a cathedral of dust and silence, its high vaulted ceilings lost in shadow. Books with cracked leather spines stood like weary soldiers on the mahogany shelves, their gold-leaf titles faded by centuries of neglect. Elias moved through the aisles with a reverence bordering on fear. To him, every volume was a vessel of a soul long departed, a silent witness to eras he could only dream of. The air was thick with the scent of old paper and incense, a perfume that seemed to thicken the deeper he ventured into the labyrinth of knowledge. He reached for a heavy tome, his fingers trembling as they touched the cold, embossed cover."
+  },
+  {
+    "q": "Which of the following best describes the sea in the passage?",
+    "o": [
+      "A calm and peaceful resource for fishermen.",
+      "An aggressive and dangerous force of nature.",
+      "A mythical creature that Silas is trying to capture.",
+      "A bright and welcoming presence under the moon."
+    ],
+    "a": "B",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "literary_imagery_description",
+    "explanation": "Words like 'restless beast', 'clawing', and 'primal hunger' depict the sea as dangerous and aggressive.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_03_lighthouse",
+    "passage_type": "literary",
+    "passage_text": "The sea was a restless beast tonight, clawing at the jagged cliffs with foamy white talons. Beneath the silver moon, the waves roared with a primal hunger that chilled Silas to his bones. He watched from the lighthouse balcony, a lone sentinel against the gathering storm. The salt spray stung his eyes, a harsh reminder of the ocean's indifference to human frailty. Somewhere in that churning abyss, his father’s ship had vanished, swallowed by the same greed that now threatened the very shore. The wind howled, a banshee's cry that seemed to mock his helpless vigil, stripping away the thin veil of hope he had clung to for weeks."
+  },
+  {
+    "q": "The 'ocean's indifference' suggests that:",
+    "o": [
+      "The ocean hates humans and wants to hurt them.",
+      "The ocean does not care about the fate or suffering of people.",
+      "The ocean is purposefully hiding the ship from Silas.",
+      "The ocean is a kind protector of the sailors."
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "literary_thematic_interpretation",
+    "explanation": "Indifference means a lack of concern, indicating nature is unconcerned with human life.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_03_lighthouse",
+    "passage_type": "literary",
+    "passage_text": "The sea was a restless beast tonight, clawing at the jagged cliffs with foamy white talons. Beneath the silver moon, the waves roared with a primal hunger that chilled Silas to his bones. He watched from the lighthouse balcony, a lone sentinel against the gathering storm. The salt spray stung his eyes, a harsh reminder of the ocean's indifference to human frailty. Somewhere in that churning abyss, his father’s ship had vanished, swallowed by the same greed that now threatened the very shore. The wind howled, a banshee's cry that seemed to mock his helpless vigil, stripping away the thin veil of hope he had clung to for weeks."
+  },
+  {
+    "q": "What does the author imply by calling Silas a 'lone sentinel'?",
+    "o": [
+      "He is a soldier in a war against the sea.",
+      "He is alone and keeping a watchful, protective eye on the storm.",
+      "He is the only person who lived through the ship's sinking.",
+      "He is a criminal who is hiding in the lighthouse."
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "literary_character_role",
+    "explanation": "A sentinel is a guard; 'lone' highlights his isolation while he watches the storm.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_03_lighthouse",
+    "passage_type": "literary",
+    "passage_text": "The sea was a restless beast tonight, clawing at the jagged cliffs with foamy white talons. Beneath the silver moon, the waves roared with a primal hunger that chilled Silas to his bones. He watched from the lighthouse balcony, a lone sentinel against the gathering storm. The salt spray stung his eyes, a harsh reminder of the ocean's indifference to human frailty. Somewhere in that churning abyss, his father’s ship had vanished, swallowed by the same greed that now threatened the very shore. The wind howled, a banshee's cry that seemed to mock his helpless vigil, stripping away the thin veil of hope he had clung to for weeks."
+  },
+  {
+    "q": "What is the function of the phrase 'banshee's cry' in describing the wind?",
+    "o": [
+      "To show that the wind was making a musical sound.",
+      "To convey a sense of supernatural terror or impending doom.",
+      "To indicate that the wind was cooling the area down.",
+      "To provide a scientific explanation for the storm's sound."
+    ],
+    "a": "B",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "literary_allusion_effect",
+    "explanation": "A banshee is a mythical spirit whose cry predicts death, adding to the passage's grim tone.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_03_lighthouse",
+    "passage_type": "literary",
+    "passage_text": "The sea was a restless beast tonight, clawing at the jagged cliffs with foamy white talons. Beneath the silver moon, the waves roared with a primal hunger that chilled Silas to his bones. He watched from the lighthouse balcony, a lone sentinel against the gathering storm. The salt spray stung his eyes, a harsh reminder of the ocean's indifference to human frailty. Somewhere in that churning abyss, his father’s ship had vanished, swallowed by the same greed that now threatened the very shore. The wind howled, a banshee's cry that seemed to mock his helpless vigil, stripping away the thin veil of hope he had clung to for weeks."
+  },
+  {
+    "q": "According to the passage, what is 'stripping away' Silas's hope?",
+    "o": [
+      "The bright light from the lighthouse.",
+      "The relentless and mocking sound of the wind.",
+      "The fact that he cannot find any more food.",
+      "The arrival of another ship on the horizon."
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "literary_inference_causality",
+    "explanation": "The text states the wind's howl 'seemed to mock his helpless vigil, stripping away the thin veil of hope'.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_03_lighthouse",
+    "passage_type": "literary",
+    "passage_text": "The sea was a restless beast tonight, clawing at the jagged cliffs with foamy white talons. Beneath the silver moon, the waves roared with a primal hunger that chilled Silas to his bones. He watched from the lighthouse balcony, a lone sentinel against the gathering storm. The salt spray stung his eyes, a harsh reminder of the ocean's indifference to human frailty. Somewhere in that churning abyss, his father’s ship had vanished, swallowed by the same greed that now threatened the very shore. The wind howled, a banshee's cry that seemed to mock his helpless vigil, stripping away the thin veil of hope he had clung to for weeks."
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 15
+[english-classification] {
+  question_id: 'literary_imagery_inference',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'literary_device_identification',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'literary_metaphor_meaning',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'literary_mood_identification',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'literary_symbolism_analysis',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'literary_metaphor_interpretation',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'literary_character_perspective',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'literary_vocabulary_usage',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'literary_metaphor_analysis',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'vocabulary_synonym_usage',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'literary_imagery_description',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'literary_thematic_interpretation',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'literary_character_role',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'literary_allusion_effect',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'literary_inference_causality',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '749832e3-f4e5-414f-bf51-ad5e23d911c0',
+    '79332d86-b66f-4cce-9940-57e52e8a1968',
+    'c07fc625-524b-4666-9311-6df4c7e8274c',
+    '08256e2c-5346-42b0-9394-5f28559d35d4',
+    '3fd6aed8-0f6a-4125-b1b9-0e385ad2c34d',
+    '93943dba-cd7a-427e-a738-dff3f14d4579',
+    '713bae0f-0324-4bc4-b609-07d0edbd6279',
+    '31652608-de6a-4cdf-9f0c-5355cfd889bb',
+    'c6bc9d67-9f82-410b-94bc-c7b59ec28ff2'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '749832e3-f4e5-414f-bf51-ad5e23d911c0',
+  actual_subject: 'english',
+  actual_chapter: 'Narrative Passage',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 5,
+  subject_question_count: 112,
+  created_at: '2026-04-30T14:10:18.382329+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  count: 5,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'english', chapter: 'Narrative Passage', count: 5 }
+
+[JOB 749832e3] Starting: [english] Narrative Passage
+[worker] RECEIVED_JOB: {
+  job_id: '749832e3-f4e5-414f-bf51-ad5e23d911c0',
+  expected_subject: 'english',
+  expected_chapter: 'Narrative Passage',
+  raw_subject_id: 'english',
+  raw_chapter: 'Narrative Passage',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T14:10:18.382329+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '749832e3-f4e5-414f-bf51-ad5e23d911c0',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  chapter: 'Narrative Passage',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=5 existing questions loaded
+[generation] batch adjusted: { chapter: 'Narrative Passage', generate_count: 15 }
+[worker] GENERATION_INPUT: {
+  job_id: '749832e3-f4e5-414f-bf51-ad5e23d911c0',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  expected_chapter: 'Narrative Passage',
+  canonical_unit: 'Reading Comprehension',
+  generate_count: 15,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 15 candidates... chapter="Narrative Passage" unit="Reading Comprehension" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'English',
+  expected_chapter: 'Narrative Passage',
+  requested_count: 15,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'english',
+  expected_chapter: 'Narrative Passage',
+  canonical_unit: 'Reading Comprehension',
+  concept_id: 'english::narrative_passage',
+  pyq_anchor_id: 'structure_only_seed_pyq_en3_for_english::narrative_passage',
+  anchor_tier: 3,
+  batch_size: 15,
+  pyq_style_patterns: [ 'reading_comprehension', 'vocabulary', 'correct_word_usage' ],
+  difficulty_override: null
+}
+[llm] gemini_generation active_model=gemini-3.1-flash resolved_model=gemini-3-flash-preview
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  status: 'success',
+  retry_count: 0,
+  duration: 56075,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "q": "What was the primary reason Elias felt a sense of calm before the gallery opening?",
+    "o": [
+      "A. He knew his work would be the most expensive in the show.",
+      "B. He had shifted his focus from critic approval to personal satisfaction.",
+      "C. His former teacher had sent him a letter of apology.",
+      "D. The gallery owner had guaranteed that his paintings would sell."
+    ],
+    "a": "B",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_character_motivation",
+    "explanation": "The passage states Elias felt calm because he wasn't painting for critics anymore, indicating a shift toward internal satisfaction.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_01",
+    "passage_type": "narrative",
+    "passage_text": "Elias sat by the window, his fingers stained with charcoal and oil. For months, he had labored over the canvas that now stood covered in the corner of his cramped attic studio. The upcoming Autumn Gallery was his last chance to prove that his unconventional style had merit. He remembered the harsh words of his former teacher, who called his work 'chaotic and directionless.' However, as the sun dipped below the horizon, Elias felt a strange sense of calm. He wasn't painting for the critics anymore; he was painting for the silence that followed a completed thought. When the gallery doors finally opened, the crowd bypassed the traditional landscapes and gathered around his vibrant, swirling depiction of a city at midnight."
+  },
+  {
+    "q": "How did the audience at the gallery react to Elias's work?",
+    "o": [
+      "A. They ignored his painting to look at traditional landscapes.",
+      "B. They agreed with the teacher that the work was directionless.",
+      "C. They were drawn to his vibrant and unique depiction of the city.",
+      "D. They asked the gallery owner to remove the unconventional art."
+    ],
+    "a": "C",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_event_outcome",
+    "explanation": "The passage concludes by describing the crowd bypassing traditional art to gather around Elias's painting.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_01",
+    "passage_type": "narrative",
+    "passage_text": "Elias sat by the window, his fingers stained with charcoal and oil. For months, he had labored over the canvas that now stood covered in the corner of his cramped attic studio. The upcoming Autumn Gallery was his last chance to prove that his unconventional style had merit. He remembered the harsh words of his former teacher, who called his work 'chaotic and directionless.' However, as the sun dipped below the horizon, Elias felt a strange sense of calm. He wasn't painting for the critics anymore; he was painting for the silence that followed a completed thought. When the gallery doors finally opened, the crowd bypassed the traditional landscapes and gathered around his vibrant, swirling depiction of a city at midnight."
+  },
+  {
+    "q": "In the context of the passage, the word 'unconventional' most likely means:",
+    "o": [
+      "A. Lacking any specific skill or technical training.",
+      "B. Following the strict rules of traditional art schools.",
+      "C. Differing from what is commonly done or accepted.",
+      "D. Expensive to create due to the use of charcoal and oil."
+    ],
+    "a": "C",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_vocabulary_in_context",
+    "explanation": "The word is used to contrast Elias's style with the 'traditional' landscapes mentioned later, implying it is non-traditional.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_01",
+    "passage_type": "narrative",
+    "passage_text": "Elias sat by the window, his fingers stained with charcoal and oil. For months, he had labored over the canvas that now stood covered in the corner of his cramped attic studio. The upcoming Autumn Gallery was his last chance to prove that his unconventional style had merit. He remembered the harsh words of his former teacher, who called his work 'chaotic and directionless.' However, as the sun dipped below the horizon, Elias felt a strange sense of calm. He wasn't painting for the critics anymore; he was painting for the silence that followed a completed thought. When the gallery doors finally opened, the crowd bypassed the traditional landscapes and gathered around his vibrant, swirling depiction of a city at midnight."
+  },
+  {
+    "q": "Which statement best describes the shift in Elias's motivation?",
+    "o": [
+      "A. He realized that painting traditional landscapes was more profitable.",
+      "B. He stopped caring about his art and focused on gallery sales.",
+      "C. He moved from seeking external validation to valuing his own creative process.",
+      "D. He decided to prove his teacher wrong by mimicking his style."
+    ],
+    "a": "C",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_theme_inference",
+    "explanation": "The text highlights that Elias stopped painting for critics and instead painted for the 'silence that followed a completed thought.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_01",
+    "passage_type": "narrative",
+    "passage_text": "Elias sat by the window, his fingers stained with charcoal and oil. For months, he had labored over the canvas that now stood covered in the corner of his cramped attic studio. The upcoming Autumn Gallery was his last chance to prove that his unconventional style had merit. He remembered the harsh words of his former teacher, who called his work 'chaotic and directionless.' However, as the sun dipped below the horizon, Elias felt a strange sense of calm. He wasn't painting for the critics anymore; he was painting for the silence that followed a completed thought. When the gallery doors finally opened, the crowd bypassed the traditional landscapes and gathered around his vibrant, swirling depiction of a city at midnight."
+  },
+  {
+    "q": "Why did Silas stop at the Silver Oak Inn?",
+    "o": [
+      "A. He wanted to buy a new cloak to protect himself from the wind.",
+      "B. He needed to deliver a message to the Mayor.",
+      "C. He was looking for a job as an innkeeper.",
+      "D. He was a regular visitor who enjoyed roasting meat."
+    ],
+    "a": "B",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_plot_detail",
+    "explanation": "The passage explicitly states Silas had a message for the Mayor that couldn't wait.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_02",
+    "passage_type": "narrative",
+    "passage_text": "The wind howled through the narrow pass as Silas pulled his cloak tighter. He had been traveling for three days without seeing another soul. As night began to fall, a flickering light appeared in the distance—the Silver Oak Inn. Inside, the air was thick with the smell of roasting meat and damp wool. The villagers stopped their chatter as he entered, their eyes following his every move. Silas didn't mind the scrutiny; he had a message for the Mayor that couldn't wait. He approached the bar, where a stout man was polishing a glass. 'I seek the one who holds the key to the northern gate,' Silas whispered. The innkeeper paled, dropped the glass, and gestured toward a dark corner where a hooded figure sat alone."
+  },
+  {
+    "q": "How did the innkeeper respond when Silas asked about the 'northern gate'?",
+    "o": [
+      "A. He laughed and told Silas he was in the wrong village.",
+      "B. He showed a visible reaction of fear or shock.",
+      "C. He immediately took Silas to meet the Mayor.",
+      "D. He ignored the question and continued polishing his glass."
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_character_interaction",
+    "explanation": "The text states the innkeeper 'paled' and 'dropped the glass,' indicating a shocked or fearful reaction.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_02",
+    "passage_type": "narrative",
+    "passage_text": "The wind howled through the narrow pass as Silas pulled his cloak tighter. He had been traveling for three days without seeing another soul. As night began to fall, a flickering light appeared in the distance—the Silver Oak Inn. Inside, the air was thick with the smell of roasting meat and damp wool. The villagers stopped their chatter as he entered, their eyes following his every move. Silas didn't mind the scrutiny; he had a message for the Mayor that couldn't wait. He approached the bar, where a stout man was polishing a glass. 'I seek the one who holds the key to the northern gate,' Silas whispered. The innkeeper paled, dropped the glass, and gestured toward a dark corner where a hooded figure sat alone."
+  },
+  {
+    "q": "What can be inferred about the atmosphere in the inn upon Silas's arrival?",
+    "o": [
+      "A. It was a cheerful place where travelers were warmly welcomed.",
+      "B. It was a tense environment where strangers were closely watched.",
+      "C. It was completely empty except for the innkeeper and a hooded figure.",
+      "D. It was a chaotic place where people were fighting over meat."
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_setting_inference",
+    "explanation": "The passage describes villagers stopping their chatter and following Silas's every move, suggesting a tense or suspicious atmosphere.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_02",
+    "passage_type": "narrative",
+    "passage_text": "The wind howled through the narrow pass as Silas pulled his cloak tighter. He had been traveling for three days without seeing another soul. As night began to fall, a flickering light appeared in the distance—the Silver Oak Inn. Inside, the air was thick with the smell of roasting meat and damp wool. The villagers stopped their chatter as he entered, their eyes following his every move. Silas didn't mind the scrutiny; he had a message for the Mayor that couldn't wait. He approached the bar, where a stout man was polishing a glass. 'I seek the one who holds the key to the northern gate,' Silas whispered. The innkeeper paled, dropped the glass, and gestured toward a dark corner where a hooded figure sat alone."
+  },
+  {
+    "q": "Which action occurred immediately after the innkeeper dropped the glass?",
+    "o": [
+      "A. The villagers resumed their loud conversation.",
+      "B. Silas delivered his message to the stout man.",
+      "C. The innkeeper pointed toward a hidden figure in the corner.",
+      "D. Silas sat down to eat roasted meat."
+    ],
+    "a": "C",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_sequence_of_events",
+    "explanation": "According to the passage, right after dropping the glass, the innkeeper 'gestured toward a dark corner where a hooded figure sat alone.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_02",
+    "passage_type": "narrative",
+    "passage_text": "The wind howled through the narrow pass as Silas pulled his cloak tighter. He had been traveling for three days without seeing another soul. As night began to fall, a flickering light appeared in the distance—the Silver Oak Inn. Inside, the air was thick with the smell of roasting meat and damp wool. The villagers stopped their chatter as he entered, their eyes following his every move. Silas didn't mind the scrutiny; he had a message for the Mayor that couldn't wait. He approached the bar, where a stout man was polishing a glass. 'I seek the one who holds the key to the northern gate,' Silas whispered. The innkeeper paled, dropped the glass, and gestured toward a dark corner where a hooded figure sat alone."
+  },
+  {
+    "q": "What physical evidence first confirmed to Dr. Thorne that she had found something significant?",
+    "o": [
+      "A. A gold-lined wall visible through the jungle trees.",
+      "B. A rectangular stone featuring celestial carvings.",
+      "C. An old map that started glowing in her hand.",
+      "D. A specific smell of ancient dust in the jungle air."
+    ],
+    "a": "B",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_factual_retrieval",
+    "explanation": "The passage states she 'stumbled upon a moss-covered stone' that was 'perfectly rectangular, bearing faint carvings.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_03",
+    "passage_type": "narrative",
+    "passage_text": "Deep within the dense foliage of the Amazon, Dr. Aris Thorne stumbled upon a moss-covered stone that didn't belong. Unlike the jagged rocks surrounding it, this one was perfectly rectangular, bearing faint carvings of celestial patterns. Her team had been searching for the 'Lost Temple of the Stars' for years, following maps that many dismissed as mere folklore. As she brushed away the vines, a narrow opening revealed itself. The air that rushed out was cool and smelled of ancient dust. 'We've found it,' she breathed, her voice trembling with a mix of exhaustion and triumph. They stepped inside, their flashlights cutting through a darkness that had remained undisturbed for centuries, illuminating walls lined with pure gold and intricate constellations."
+  },
+  {
+    "q": "Why were the maps Dr. Thorne used not taken seriously by others?",
+    "o": [
+      "A. They were written in an unknown and unreadable code.",
+      "B. People believed the maps were based on myths rather than facts.",
+      "C. The maps led to a location that was already well-known.",
+      "D. Dr. Thorne had stolen the maps from a rival team of scientists."
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_contextual_understanding",
+    "explanation": "The passage mentions the maps were 'dismissed as mere folklore,' which means people thought they were myths.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_03",
+    "passage_type": "narrative",
+    "passage_text": "Deep within the dense foliage of the Amazon, Dr. Aris Thorne stumbled upon a moss-covered stone that didn't belong. Unlike the jagged rocks surrounding it, this one was perfectly rectangular, bearing faint carvings of celestial patterns. Her team had been searching for the 'Lost Temple of the Stars' for years, following maps that many dismissed as mere folklore. As she brushed away the vines, a narrow opening revealed itself. The air that rushed out was cool and smelled of ancient dust. 'We've found it,' she breathed, her voice trembling with a mix of exhaustion and triumph. They stepped inside, their flashlights cutting through a darkness that had remained undisturbed for centuries, illuminating walls lined with pure gold and intricate constellations."
+  },
+  {
+    "q": "The phrase 'undisturbed for centuries' implies that the temple:",
+    "o": [
+      "A. Was built using materials that never age or decay.",
+      "B. Had been visited by explorers quite recently.",
+      "C. Had been forgotten and untouched for a long time.",
+      "D. Was protected by the local tribes living in the Amazon."
+    ],
+    "a": "C",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_phrase_meaning",
+    "explanation": "The term 'undisturbed' combined with 'centuries' suggests that it has not been accessed or touched for a very long period.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_03",
+    "passage_type": "narrative",
+    "passage_text": "Deep within the dense foliage of the Amazon, Dr. Aris Thorne stumbled upon a moss-covered stone that didn't belong. Unlike the jagged rocks surrounding it, this one was perfectly rectangular, bearing faint carvings of celestial patterns. Her team had been searching for the 'Lost Temple of the Stars' for years, following maps that many dismissed as mere folklore. As she brushed away the vines, a narrow opening revealed itself. The air that rushed out was cool and smelled of ancient dust. 'We've found it,' she breathed, her voice trembling with a mix of exhaustion and triumph. They stepped inside, their flashlights cutting through a darkness that had remained undisturbed for centuries, illuminating walls lined with pure gold and intricate constellations."
+  },
+  {
+    "q": "Which of the following best describes Dr. Thorne’s emotional state upon finding the entrance?",
+    "o": [
+      "A. She felt bored because the discovery took too long.",
+      "B. She was purely focused on the monetary value of the gold.",
+      "C. She was deeply moved by a sense of combined fatigue and success.",
+      "D. She was terrified of the darkness inside the temple."
+    ],
+    "a": "C",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_character_emotion",
+    "explanation": "The passage describes her voice 'trembling with a mix of exhaustion and triumph.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_03",
+    "passage_type": "narrative",
+    "passage_text": "Deep within the dense foliage of the Amazon, Dr. Aris Thorne stumbled upon a moss-covered stone that didn't belong. Unlike the jagged rocks surrounding it, this one was perfectly rectangular, bearing faint carvings of celestial patterns. Her team had been searching for the 'Lost Temple of the Stars' for years, following maps that many dismissed as mere folklore. As she brushed away the vines, a narrow opening revealed itself. The air that rushed out was cool and smelled of ancient dust. 'We've found it,' she breathed, her voice trembling with a mix of exhaustion and triumph. They stepped inside, their flashlights cutting through a darkness that had remained undisturbed for centuries, illuminating walls lined with pure gold and intricate constellations."
+  },
+  {
+    "q": "What was the environment Maya grew up in before her trip to the sea?",
+    "o": [
+      "A. A busy port city with many wooden boats.",
+      "B. A lush mountain range with high rainfall.",
+      "C. A dry and dusty inland area.",
+      "D. A village located on the banks of a large river."
+    ],
+    "a": "C",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_background_detail",
+    "explanation": "The passage identifies Maya as a girl from 'the dusty plains of the interior.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_04",
+    "passage_type": "narrative",
+    "passage_text": "Maya had never seen the ocean before. To a girl from the dusty plains of the interior, the vast expanse of blue was both terrifying and hypnotic. Her grandfather took her hand as they walked toward the shore where the waves crashed with a rhythmic roar. 'The sea has a memory, Maya,' he said, his voice barely audible over the wind. She watched as a small wooden boat struggled against the incoming tide. It reminded her of the stories her father told about the great migrations. As the salt spray hit her face, she felt a sudden surge of belonging. She realized then that her life would no longer be defined by the dry earth she grew up on, but by the endless possibilities of the horizon."
+  },
+  {
+    "q": "What did the grandfather imply when he said 'The sea has a memory'?",
+    "o": [
+      "A. The water level always stays exactly the same.",
+      "B. The ocean preserves history and ancestral stories.",
+      "C. Maya should be careful not to forget her way back home.",
+      "D. The sea only flows in one direction forever."
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_symbolism_inference",
+    "explanation": "In the context of the story about 'great migrations' and the feeling of 'belonging,' the grandfather is referring to the ocean as a holder of history.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_04",
+    "passage_type": "narrative",
+    "passage_text": "Maya had never seen the ocean before. To a girl from the dusty plains of the interior, the vast expanse of blue was both terrifying and hypnotic. Her grandfather took her hand as they walked toward the shore where the waves crashed with a rhythmic roar. 'The sea has a memory, Maya,' he said, his voice barely audible over the wind. She watched as a small wooden boat struggled against the incoming tide. It reminded her of the stories her father told about the great migrations. As the salt spray hit her face, she felt a sudden surge of belonging. She realized then that her life would no longer be defined by the dry earth she grew up on, but by the endless possibilities of the horizon."
+  },
+  {
+    "q": "By the end of the passage, how has Maya's outlook changed?",
+    "o": [
+      "A. She decided to immediately return to the dusty plains.",
+      "B. She felt more connected to the sea and its future potential.",
+      "C. She became even more terrified of the water than before.",
+      "D. She decided she wanted to build a small wooden boat."
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_character_development",
+    "explanation": "The passage ends with her feeling a 'surge of belonging' and looking toward the 'endless possibilities of the horizon.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_04",
+    "passage_type": "narrative",
+    "passage_text": "Maya had never seen the ocean before. To a girl from the dusty plains of the interior, the vast expanse of blue was both terrifying and hypnotic. Her grandfather took her hand as they walked toward the shore where the waves crashed with a rhythmic roar. 'The sea has a memory, Maya,' he said, his voice barely audible over the wind. She watched as a small wooden boat struggled against the incoming tide. It reminded her of the stories her father told about the great migrations. As the salt spray hit her face, she felt a sudden surge of belonging. She realized then that her life would no longer be defined by the dry earth she grew up on, but by the endless possibilities of the horizon."
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 15
+[english-classification] {
+  question_id: 'narrative_character_motivation',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'narrative_event_outcome',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'narrative_vocabulary_in_context',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'narrative_theme_inference',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'narrative_plot_detail',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'narrative_character_interaction',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'narrative_setting_inference',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'narrative_sequence_of_events',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'narrative_factual_retrieval',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'narrative_contextual_understanding',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'narrative_phrase_meaning',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'narrative_character_emotion',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'narrative_background_detail',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'narrative_symbolism_inference',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'narrative_character_development',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '79332d86-b66f-4cce-9940-57e52e8a1968',
+    'c07fc625-524b-4666-9311-6df4c7e8274c',
+    '08256e2c-5346-42b0-9394-5f28559d35d4',
+    '3fd6aed8-0f6a-4125-b1b9-0e385ad2c34d',
+    '93943dba-cd7a-427e-a738-dff3f14d4579',
+    '713bae0f-0324-4bc4-b609-07d0edbd6279',
+    '31652608-de6a-4cdf-9f0c-5355cfd889bb',
+    'c6bc9d67-9f82-410b-94bc-c7b59ec28ff2'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '79332d86-b66f-4cce-9940-57e52e8a1968',
+  actual_subject: 'psychology',
+  actual_chapter: 'Psychology & Life',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 5,
+  subject_question_count: 92,
+  created_at: '2026-04-30T14:10:18.382329+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'psychology',
+  chapter: 'Psychology & Life',
+  count: 5,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'psychology', chapter: 'Psychology & Life', count: 5 }
+
+[JOB 79332d86] Starting: [psychology] Psychology & Life
+[worker] RECEIVED_JOB: {
+  job_id: '79332d86-b66f-4cce-9940-57e52e8a1968',
+  expected_subject: 'psychology',
+  expected_chapter: 'Psychology & Life',
+  raw_subject_id: 'psychology',
+  raw_chapter: 'Psychology & Life',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T14:10:18.382329+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '79332d86-b66f-4cce-9940-57e52e8a1968',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  chapter: 'Psychology & Life',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=5 existing questions loaded
+[generation] batch adjusted: { chapter: 'Psychology & Life', generate_count: 15 }
+[worker] GENERATION_INPUT: {
+  job_id: '79332d86-b66f-4cce-9940-57e52e8a1968',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  expected_chapter: 'Psychology & Life',
+  canonical_unit: 'Existing Psychology Coverage',
+  generate_count: 15,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 15 candidates... chapter="Psychology & Life" unit="Existing Psychology Coverage" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'psychology',
+  prompt_subject_name: 'Psychology',
+  expected_chapter: 'Psychology & Life',
+  requested_count: 15,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'psychology',
+  expected_chapter: 'Psychology & Life',
+  canonical_unit: 'Existing Psychology Coverage',
+  concept_id: 'psychology::psychology_and_life',
+  pyq_anchor_id: 'synthetic_cuet_structure_psychology',
+  anchor_tier: 4,
+  batch_size: 15,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] gemini_generation active_model=gemini-3.1-flash resolved_model=gemini-3-flash-preview
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'generation_gemini',
+  status: 'success',
+  retry_count: 0,
+  duration: 26201,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "q": "In a busy library, Ananya finds it difficult to focus on her research because of the constant whispering and movement of others. Which environmental concept explains her subjective feeling of discomfort due to the presence of many people in a restricted space?",
+    "o": [
+      "Crowding",
+      "Population density",
+      "Territoriality",
+      "Environmental stress"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "apply_crowding_perception",
+    "explanation": "Crowding refers to the subjective feeling of discomfort due to the presence of too many people, whereas density is the objective physical state.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychology & Life",
+    "topic": "Existing Psychology Coverage",
+    "concept": "Psychology & Life",
+    "concept_id": "psychology::psychology_and_life",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Which of the following statements best illustrates 'Pro-environmental behavior' in a daily life context?",
+    "o": [
+      "Switching to public transport to reduce the individual carbon footprint.",
+      "Reading books about environmental conservation to gain knowledge.",
+      "Developing a new urban housing project with more windows.",
+      "Watching a documentary on global warming for school."
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "identify_pro_environmental_action",
+    "explanation": "Pro-environmental behavior involves actions intended to protect or limit damage to the environment.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychology & Life",
+    "topic": "Existing Psychology Coverage",
+    "concept": "Psychology & Life",
+    "concept_id": "psychology::psychology_and_life",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "A person keeps their bag on the seat next to them in a crowded train to prevent others from sitting there. This behavior is an example of:",
+    "o": [
+      "Territoriality",
+      "Personal space violation",
+      "Social facilitation",
+      "Crowding effect"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "apply_territoriality_marking",
+    "explanation": "Territoriality involves marking and defending a physical space to show ownership or control.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychology & Life",
+    "topic": "Existing Psychology Coverage",
+    "concept": "Psychology & Life",
+    "concept_id": "psychology::psychology_and_life",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "When Rohan is talking to his close friend, he maintains a distance of about 2 feet. According to Edward Hall, which interpersonal physical distance zone is he likely using?",
+    "o": [
+      "Personal zone",
+      "Intimate zone",
+      "Social zone",
+      "Public zone"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "classify_personal_space_zones",
+    "explanation": "The personal zone ranges from 18 inches to 4 feet and is typically used for interactions with friends.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychology & Life",
+    "topic": "Existing Psychology Coverage",
+    "concept": "Psychology & Life",
+    "concept_id": "psychology::psychology_and_life",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Which characteristic of noise makes it most disruptive to a student preparing for a difficult mathematics exam?",
+    "o": [
+      "Unpredictability and lack of control",
+      "The duration of the sound",
+      "The frequency or pitch of the noise",
+      "The source of the noise"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "identify_noise_stressor_features",
+    "explanation": "Unpredictable and uncontrollable noise is more stressful and more likely to interfere with complex cognitive tasks.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychology & Life",
+    "topic": "Existing Psychology Coverage",
+    "concept": "Psychology & Life",
+    "concept_id": "psychology::psychology_and_life",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "The perspective that humans and nature are in a reciprocal relationship, where the environment influences human behavior and humans change the environment, is known as:",
+    "o": [
+      "Interactionist perspective",
+      "Instrumental perspective",
+      "Spiritual perspective",
+      "Biophilic perspective"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "direct_concept",
+    "concept_pattern": "discriminate_environmental_perspectives",
+    "explanation": "The interactionist view emphasizes the mutual influence between humans and their physical surroundings.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychology & Life",
+    "topic": "Existing Psychology Coverage",
+    "concept": "Psychology & Life",
+    "concept_id": "psychology::psychology_and_life",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Which of the following is an example of the 'Instrumental perspective' towards the environment?",
+    "o": [
+      "Using river water solely for industrial production and profit.",
+      "Protecting a forest because it is considered a sacred deity.",
+      "Studying how climate change affects mental health symptoms.",
+      "Minimizing waste to maintain ecological balance for all species."
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "apply_instrumental_view",
+    "explanation": "The instrumental perspective sees the environment as a resource meant to satisfy human needs and comfort.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychology & Life",
+    "topic": "Existing Psychology Coverage",
+    "concept": "Psychology & Life",
+    "concept_id": "psychology::psychology_and_life",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Studies on high-density environments suggest that people living in such conditions are less likely to help a stranger in distress. This phenomenon is related to:",
+    "o": [
+      "Decreased pro-social behavior",
+      "Increased personal space",
+      "High territoriality",
+      "Environmental adaptation"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "identify_density_social_consequences",
+    "explanation": "High density and crowding are associated with a decrease in helping behavior or pro-sociality.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychology & Life",
+    "topic": "Existing Psychology Coverage",
+    "concept": "Psychology & Life",
+    "concept_id": "psychology::psychology_and_life",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Which statement correctly distinguishes between 'Population Density' and 'Crowding'?",
+    "o": [
+      "Density is an objective physical measure; Crowding is a subjective psychological state.",
+      "Density refers to rural areas; Crowding refers only to urban metropolitan areas.",
+      "Density is a feeling of restriction; Crowding is the count of people per unit area.",
+      "There is no psychological difference between density and crowding in research."
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "statement_based",
+    "concept_pattern": "compare_density_and_crowding",
+    "explanation": "Density is the number of people in a space (objective), while crowding is the negative experience of that space (subjective).",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychology & Life",
+    "topic": "Existing Psychology Coverage",
+    "concept": "Psychology & Life",
+    "concept_id": "psychology::psychology_and_life",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Following a major earthquake, many survivors report persistent anxiety, sleep disturbances, and a loss of interest in activities. These are typical symptoms of:",
+    "o": [
+      "Post-Traumatic Stress Disorder (PTSD)",
+      "Generalized Anxiety Disorder (GAD)",
+      "Occupational stress",
+      "Environmental adaptation syndrome"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "one_step_application",
+    "concept_pattern": "identify_disaster_impact",
+    "explanation": "Natural disasters are severe environmental stressors that can lead to PTSD.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychology & Life",
+    "topic": "Existing Psychology Coverage",
+    "concept": "Psychology & Life",
+    "concept_id": "psychology::psychology_and_life",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Which of the following is a psychological effect commonly associated with long-term exposure to high noise levels?",
+    "o": [
+      "Increased irritability and low frustration tolerance",
+      "Improved performance on simple motor tasks",
+      "Development of extraversion personality traits",
+      "Enhanced auditory processing speed"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "identify_noise_psychological_effects",
+    "explanation": "Chronic noise exposure leads to emotional effects like irritability and decreased patience.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychology & Life",
+    "topic": "Existing Psychology Coverage",
+    "concept": "Psychology & Life",
+    "concept_id": "psychology::psychology_and_life",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "When an individual feels that their personal space has been violated by a stranger standing too close in an elevator, they are likely to feel:",
+    "o": [
+      "Anxiety and a desire to move away",
+      "Happiness due to social interaction",
+      "A sense of increased territorial power",
+      "Calmness and physiological relaxation"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "one_step_application",
+    "concept_pattern": "predict_space_violation_response",
+    "explanation": "Violation of personal space by strangers typically causes discomfort, tension, and withdrawal.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychology & Life",
+    "topic": "Existing Psychology Coverage",
+    "concept": "Psychology & Life",
+    "concept_id": "psychology::psychology_and_life",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "The concept that suggests nature should be respected as a living entity, where humans are just one part of a larger system, is the:",
+    "o": [
+      "Spiritual perspective",
+      "Instrumental perspective",
+      "Interactionist perspective",
+      "Economic perspective"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "direct_concept",
+    "concept_pattern": "identify_spiritual_environmental_view",
+    "explanation": "The spiritual perspective views nature as sacred and humans as part of a harmonious system, rather than masters of it.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychology & Life",
+    "topic": "Existing Psychology Coverage",
+    "concept": "Psychology & Life",
+    "concept_id": "psychology::psychology_and_life",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "An environmental psychologist is studying how the layout of a classroom affects student participation. This area of study focuses on:",
+    "o": [
+      "The influence of the physical environment on social behavior.",
+      "The genetic basis of educational achievement.",
+      "The impact of clinical disorders on learning ability.",
+      "The role of nutrition in student memory."
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "identify_environmental_psychology_scope",
+    "explanation": "Environmental psychology examines how physical settings (like classroom design) influence human behavior and interaction.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychology & Life",
+    "topic": "Existing Psychology Coverage",
+    "concept": "Psychology & Life",
+    "concept_id": "psychology::psychology_and_life",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Which factor is most likely to reduce the negative psychological impact of a high-density living situation?",
+    "o": [
+      "Having a high sense of personal control over the environment.",
+      "Increasing the volume of background music in the area.",
+      "Reducing the number of windows and exits in the building.",
+      "Ignoring the presence of other people in the vicinity."
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "direct_concept",
+    "concept_pattern": "identify_crowding_mitigation_factors",
+    "explanation": "Perceived control is a major moderator that can reduce the stress associated with crowding.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychology & Life",
+    "topic": "Existing Psychology Coverage",
+    "concept": "Psychology & Life",
+    "concept_id": "psychology::psychology_and_life",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 15
+[llm] gemini_generation success gemini-3.1-flash resolved_model=gemini-3-flash-preview count=3
+[pipeline] RAW_PARSED_COUNT 15
+[pipeline] NORMALIZED_COUNT 3
+[pipeline] generated_count=3 | mix=easy=1, medium=1, hard=1
+[pipeline] STRUCTURAL_VALID_COUNT 3
+[reject] {
+  subject: 'psychology',
+  chapter: 'Psychology & Life',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=3 | pre_validation_filtered=1 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=2 | sent_for_strict_validation=2
+[pipeline] Starting batch validation for 2 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3.1-flash-lite | resolved_model=gemini-3.1-flash-lite-preview | count=2
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T14:13:08.237Z","model":"gemini-3.1-flash-lite","resolvedModel":"gemini-3.1-flash-lite-preview","subject":"psychology","questionCount":2}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3.1-flash-lite-preview',
+  subject: 'psychology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3.1-flash-lite-preview',
+  subject: 'psychology',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 24391,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3.1-flash-lite-preview',
+  subject: 'psychology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "HIGH",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 9,
+    "distractor_quality": 9,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "HARD",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "HIGH",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 9,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "hard",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 2
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T14:13:32.630Z","model":"gemini-3.1-flash-lite","subject":"psychology","resultCount":2}
+[difficulty distribution] {
+  model: { easy: 0, medium: 1, hard: 1 },
+  system: { easy: 0, medium: 1, hard: 1 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 2
+[pipeline] validated_count=2 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 2
+[pipeline] selected_count=2 | FINAL DISTRIBUTION: {"easy":0,"medium":1,"hard":1}
+✅ Published db47b608-cf0e-4c1a-bf15-dc10a0ec7551 | status=live | difficulty=medium | discoverable=true
+✅ Published 7e320f0e-34d9-4ae5-8151-d143fd70fd78 | status=live | difficulty=hard | discoverable=true
+[pipeline] METRICS | generated_count=3 | prefiltered_count=2 | strict_validation_count=2 | accepted_count=2 | api_calls_used=2 | cost_efficiency_ratio=1.00
+[pipeline] SUMMARY | subject=psychology | chapter=Psychology & Life | target=15 | generated_count=3 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=1 | strict_validation_count=2 | validated_count=2 | accepted_count=2 | shortfall=13 | yield_rate=66.7% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=1, hard=1
+[pipeline] subject_distribution: {"subject":"psychology","accepted":2,"rejected":1,"target":15,"met":false}
+[supervisor] COST_REPORT | batch_cost=$0.0112 | cost_per_accepted=$0.0056 | cost_per_1000=$5.60 | total_accepted=2
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'psychology',
+  chapter: 'Psychology & Life',
+  sample_size: 7,
+  direct_definition_count: 0,
+  weak_option_count: 5,
+  repeated_structure_count: 0,
+  easy_count: 1,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'c07fc625-524b-4666-9311-6df4c7e8274c',
+    '08256e2c-5346-42b0-9394-5f28559d35d4',
+    '3fd6aed8-0f6a-4125-b1b9-0e385ad2c34d',
+    '93943dba-cd7a-427e-a738-dff3f14d4579',
+    '713bae0f-0324-4bc4-b609-07d0edbd6279',
+    '31652608-de6a-4cdf-9f0c-5355cfd889bb',
+    'c6bc9d67-9f82-410b-94bc-c7b59ec28ff2'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'c07fc625-524b-4666-9311-6df4c7e8274c',
+  actual_subject: 'psychology',
+  actual_chapter: 'Self & Personality',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 5,
+  subject_question_count: 94,
+  created_at: '2026-04-30T14:10:18.382329+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'psychology',
+  chapter: 'Self & Personality',
+  count: 5,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'psychology', chapter: 'Self & Personality', count: 5 }
+
+[JOB c07fc625] Starting: [psychology] Self & Personality
+[worker] RECEIVED_JOB: {
+  job_id: 'c07fc625-524b-4666-9311-6df4c7e8274c',
+  expected_subject: 'psychology',
+  expected_chapter: 'Self & Personality',
+  raw_subject_id: 'psychology',
+  raw_chapter: 'Self & Personality',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T14:10:18.382329+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'c07fc625-524b-4666-9311-6df4c7e8274c',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  chapter: 'Self & Personality',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=5 existing questions loaded
+[generation] batch adjusted: { chapter: 'Self & Personality', generate_count: 15 }
+[worker] GENERATION_INPUT: {
+  job_id: 'c07fc625-524b-4666-9311-6df4c7e8274c',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  expected_chapter: 'Self & Personality',
+  canonical_unit: 'Self and Personality',
+  generate_count: 15,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 15 candidates... chapter="Self & Personality" unit="Self and Personality" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'psychology',
+  prompt_subject_name: 'Psychology',
+  expected_chapter: 'Self & Personality',
+  requested_count: 15,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'psychology',
+  expected_chapter: 'Self & Personality',
+  canonical_unit: 'Self and Personality',
+  concept_id: 'psychology::self_and_personality',
+  pyq_anchor_id: 'synthetic_cuet_structure_psychology',
+  anchor_tier: 4,
+  batch_size: 15,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] gemini_generation active_model=gemini-3.1-flash resolved_model=gemini-3-flash-preview
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'generation_gemini',
+  status: 'success',
+  retry_count: 0,
+  duration: 23969,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "q": "A student who consistently believes they have the ability to successfully complete a challenging research project, despite facing initial setbacks, is demonstrating which aspect of the self?",
+    "o": [
+      "High self-efficacy regarding the specific task",
+      "High self-esteem across all life domains",
+      "General self-concept of being a good student",
+      "Self-actualization of their inner potential"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "one_step_application",
+    "concept_pattern": "self_efficacy_scenario",
+    "explanation": "Self-efficacy refers to the belief in one's capability to perform specific tasks to achieve a goal.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Self & Personality",
+    "topic": "Self and Personality",
+    "concept": "Self & Personality",
+    "concept_id": "psychology::self_and_personality",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Which of the following scenarios best illustrates the functioning of the 'Ego' according to the psychodynamic perspective?",
+    "o": [
+      "Planning a budget to buy a desired luxury item after three months",
+      "Buying a luxury item immediately using credit without considering debt",
+      "Feeling intense guilt and refusing to buy the item even if affordable",
+      "Ignoring the desire for the item and focusing on spiritual growth"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "freud_ego_reality_principle",
+    "explanation": "The Ego operates on the reality principle, seeking to satisfy the Id's desires in a socially acceptable and realistic manner.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Self & Personality",
+    "topic": "Self and Personality",
+    "concept": "Self & Personality",
+    "concept_id": "psychology::self_and_personality",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "When an individual describes themselves as 'a member of the school debate team' and 'an Indian citizen', which aspect of the self are they emphasizing?",
+    "o": [
+      "Social Identity",
+      "Personal Identity",
+      "Self-Esteem",
+      "Self-Regulation"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "social_vs_personal_identity",
+    "explanation": "Social identity refers to those aspects of a person's self-concept derived from their knowledge of their membership in a social group.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Self & Personality",
+    "topic": "Self and Personality",
+    "concept": "Self & Personality",
+    "concept_id": "psychology::self_and_personality",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "A person who is highly organized, dependable, and always meets deadlines would likely score high on which dimension of the Big Five Model?",
+    "o": [
+      "Conscientiousness",
+      "Agreeableness",
+      "Extraversion",
+      "Openness to experience"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "big_five_trait_identification",
+    "explanation": "Conscientiousness reflects the tendency to be responsible, organized, and hard-working.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Self & Personality",
+    "topic": "Self and Personality",
+    "concept": "Self & Personality",
+    "concept_id": "psychology::self_and_personality",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "In the context of self-control, which technique is being used when a student records how many hours they spend on social media each day to reduce usage?",
+    "o": [
+      "Observation of own behavior",
+      "Self-instruction",
+      "Self-reinforcement",
+      "Self-punishment"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "self_control_techniques",
+    "explanation": "Observation of own behavior involves monitoring one's own actions to provide necessary information for self-change.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Self & Personality",
+    "topic": "Self and Personality",
+    "concept": "Self & Personality",
+    "concept_id": "psychology::self_and_personality",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "A manager who attributes their success entirely to their own hard work but blames the economy for their failures is likely protecting their:",
+    "o": [
+      "Self-esteem",
+      "Self-efficacy",
+      "Self-regulation",
+      "Social-identity"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "self_esteem_protection",
+    "explanation": "Individuals often use self-serving biases to protect their self-esteem, which is the value judgment of their own worth.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Self & Personality",
+    "topic": "Self and Personality",
+    "concept": "Self & Personality",
+    "concept_id": "psychology::self_and_personality",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Consider the case of a leader whose entire life is governed by the single pursuit of 'non-violence'. According to Gordon Allport, this trait would be classified as a:",
+    "o": [
+      "Cardinal trait",
+      "Central trait",
+      "Secondary trait",
+      "Surface trait"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "one_step_application",
+    "concept_pattern": "allport_trait_hierarchy",
+    "explanation": "Cardinal traits are highly generalized dispositions that define a person's whole life.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Self & Personality",
+    "topic": "Self and Personality",
+    "concept": "Self & Personality",
+    "concept_id": "psychology::self_and_personality",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Which of the following statements regarding 'Type A' personality is correct according to Friedman and Rosenman?",
+    "o": [
+      "Type A individuals feel a constant sense of time urgency and high motivation",
+      "Type A individuals are characterized by a relaxed and easy-going approach to life",
+      "Type A individuals lack patience but rarely experience high blood pressure",
+      "Type A individuals are less likely to experience coronary heart disease than Type B"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "type_a_personality_features",
+    "explanation": "Type A personality is characterized by high motivation, lack of patience, and a constant sense of time urgency.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Self & Personality",
+    "topic": "Self and Personality",
+    "concept": "Self & Personality",
+    "concept_id": "psychology::self_and_personality",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "In Carl Rogers' theory, when there is a significant discrepancy between the 'Ideal Self' and the 'Real Self', the individual is likely to experience:",
+    "o": [
+      "Incongruence and psychological distress",
+      "Congruence and self-actualization",
+      "High self-efficacy and motivation",
+      "An increase in social identity"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "rogers_congruence_incongruence",
+    "explanation": "Incongruence occurs when the real self and ideal self do not match, leading to unhappiness and dissatisfaction.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Self & Personality",
+    "topic": "Self and Personality",
+    "concept": "Self & Personality",
+    "concept_id": "psychology::self_and_personality",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Which assessment method involves asking the subject to look at ambiguous inkblots and describe what they see to uncover unconscious motives?",
+    "o": [
+      "Projective Techniques",
+      "Self-report Measures",
+      "Behavioral Ratings",
+      "Situational Tests"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "concept_pattern": "projective_technique_identification",
+    "explanation": "Projective techniques use ambiguous stimuli to reveal a person's unconscious feelings and desires.",
+    "question_type": "direct_concept",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Self & Personality",
+    "topic": "Self and Personality",
+    "concept": "Self & Personality",
+    "concept_id": "psychology::self_and_personality",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Karen Horney's theory of personality differs from Freud's primarily because she emphasized:",
+    "o": [
+      "The role of social and cultural factors in development",
+      "The biological and sexual nature of the Libido",
+      "The role of the collective unconscious and archetypes",
+      "The importance of birth order on personality"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "horney_vs_freud",
+    "explanation": "Karen Horney challenged Freud's biological determinism, emphasizing interpersonal relationships and social factors.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Self & Personality",
+    "topic": "Self and Personality",
+    "concept": "Self & Personality",
+    "concept_id": "psychology::self_and_personality",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "A person who is very aggressive towards their younger sibling after being scolded by their teacher is using which defense mechanism?",
+    "o": [
+      "Displacement",
+      "Projection",
+      "Rationalization",
+      "Regression"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "defense_mechanism_displacement",
+    "explanation": "Displacement involves redirecting an impulse towards a less threatening target.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Self & Personality",
+    "topic": "Self and Personality",
+    "concept": "Self & Personality",
+    "concept_id": "psychology::self_and_personality",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Identify the correct sequence of Psychosexual stages of development as proposed by Sigmund Freud.",
+    "o": [
+      "Oral, Anal, Phallic, Latency, Genital",
+      "Oral, Phallic, Anal, Genital, Latency",
+      "Anal, Oral, Phallic, Latency, Genital",
+      "Latency, Oral, Anal, Phallic, Genital"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "freud_stages_sequence",
+    "explanation": "The stages are Oral (birth-1), Anal (1-3), Phallic (3-6), Latency (6-puberty), and Genital (puberty onwards).",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Self & Personality",
+    "topic": "Self and Personality",
+    "concept": "Self & Personality",
+    "concept_id": "psychology::self_and_personality",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Which limitation is most commonly associated with self-report measures like the MMPI?",
+    "o": [
+      "The tendency of the respondent to give socially desirable answers",
+      "The lack of standardization in scoring and administration",
+      "The difficulty in interpreting ambiguous inkblot stimuli",
+      "The inability to measure specific traits like extraversion"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "statement_based",
+    "concept_pattern": "self_report_limitations",
+    "explanation": "Self-report measures are prone to social desirability bias where respondents try to present themselves in a favorable light.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Self & Personality",
+    "topic": "Self and Personality",
+    "concept": "Self & Personality",
+    "concept_id": "psychology::self_and_personality",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "According to the Indian perspective on self, the 'atman' is best described in terms of:",
+    "o": [
+      "A stable and eternal core distinct from the physical body",
+      "The external social roles one plays in a community",
+      "The collection of memories and cognitive processes",
+      "The biological drives and impulses of the individual"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "direct_concept",
+    "concept_pattern": "indian_perspective_self",
+    "explanation": "The Indian perspective emphasizes an eternal, unchanging self (atman) that is different from the transient physical self.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Self & Personality",
+    "topic": "Self and Personality",
+    "concept": "Self & Personality",
+    "concept_id": "psychology::self_and_personality",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 15
+[llm] gemini_generation success gemini-3.1-flash resolved_model=gemini-3-flash-preview count=4
+[pipeline] RAW_PARSED_COUNT 15
+[pipeline] NORMALIZED_COUNT 4
+[pipeline] generated_count=4 | mix=easy=0, medium=3, hard=1
+[pipeline] STRUCTURAL_VALID_COUNT 4
+[reject] {
+  subject: 'psychology',
+  chapter: 'Self & Personality',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'psychology',
+  chapter: 'Self & Personality',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=4 | pre_validation_filtered=2 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=2 | sent_for_strict_validation=2
+[pipeline] Starting batch validation for 2 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3.1-flash-lite | resolved_model=gemini-3.1-flash-lite-preview | count=2
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T14:14:15.932Z","model":"gemini-3.1-flash-lite","resolvedModel":"gemini-3.1-flash-lite-preview","subject":"psychology","questionCount":2}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3.1-flash-lite-preview',
+  subject: 'psychology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3.1-flash-lite-preview',
+  subject: 'psychology',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 11899,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3.1-flash-lite-preview',
+  subject: 'psychology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "HARD",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "HIGH",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 9,
+    "distractor_quality": 8,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "hard",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "direct definition",
+      "low trap quality",
+      "too similar to anchor"
+    ],
+    "score": 4,
+    "exam_quality": 3,
+    "distractor_quality": 3,
+    "conceptual_depth": 3,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Question is a standard direct recall sequence which does not test application."
+    ],
+    "decision": "reject",
+    "improved_question": "A child is currently experiencing intense curiosity about their bodily functions and displays a strong attachment to the parent of the opposite sex. According to Freud's theory of psychosexual development, this child is likely in which stage and what is the primary conflict involved?"
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 2
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T14:14:27.832Z","model":"gemini-3.1-flash-lite","subject":"psychology","resultCount":2}
+[reject] {
+  subject: 'psychology',
+  chapter: 'Self & Personality',
+  reason: 'direct definition; low trap quality; too similar to anchor; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; validator decision reject',
+  source: 'validator_normalized',
+  rule: 'direct definition',
+  details: {
+    compositeScore: 53,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 0, hard: 1 },
+  system: { easy: 0, medium: 0, hard: 1 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 1
+[pipeline] validated_count=1 | acceptance_rate=50.0%
+[pipeline] FINAL_ACCEPTED_COUNT 1
+[pipeline] selected_count=1 | FINAL DISTRIBUTION: {"easy":0,"medium":0,"hard":1}
+✅ Published 588d8937-66f6-49e7-a2fa-ed1b6211f0cd | status=live | difficulty=hard | discoverable=true
+[pipeline] METRICS | generated_count=4 | prefiltered_count=2 | strict_validation_count=2 | accepted_count=1 | api_calls_used=2 | cost_efficiency_ratio=0.50
+[pipeline] SUMMARY | subject=psychology | chapter=Self & Personality | target=15 | generated_count=4 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=2 | strict_validation_count=2 | validated_count=1 | accepted_count=1 | shortfall=14 | yield_rate=25.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=0, hard=1
+[pipeline] subject_distribution: {"subject":"psychology","accepted":1,"rejected":3,"target":15,"met":false}
+[supervisor] COST_REPORT | batch_cost=$0.0139 | cost_per_accepted=$0.0046 | cost_per_1000=$4.63 | total_accepted=3
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'psychology',
+  chapter: 'Self & Personality',
+  sample_size: 6,
+  direct_definition_count: 0,
+  weak_option_count: 2,
+  repeated_structure_count: 0,
+  easy_count: 1,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '08256e2c-5346-42b0-9394-5f28559d35d4',
+    '3fd6aed8-0f6a-4125-b1b9-0e385ad2c34d',
+    '93943dba-cd7a-427e-a738-dff3f14d4579',
+    '713bae0f-0324-4bc4-b609-07d0edbd6279',
+    '31652608-de6a-4cdf-9f0c-5355cfd889bb',
+    'c6bc9d67-9f82-410b-94bc-c7b59ec28ff2'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}

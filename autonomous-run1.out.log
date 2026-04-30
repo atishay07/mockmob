@@ -1,0 +1,2054 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5625 concepts across 40 subjects (saved 2026-04-30T09:46:35.119Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  coverage: 2,
+  priority: 90
+}
+[planner] {
+  subject: 'biology',
+  chapter: 'Biodiversity & Conservation',
+  coverage: 3,
+  priority: 90
+}
+[planner] {
+  subject: 'biology',
+  chapter: 'Organisms & Populations',
+  coverage: 3,
+  priority: 90
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'Haloalkanes & Haloarenes',
+  coverage: 3,
+  priority: 90
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Para Jumbles',
+  coverage: 3,
+  priority: 90
+}
+[planner] { subject: 'biology', chapter: 'Ecosystem', coverage: 4, priority: 90 }
+[planner] {
+  subject: 'biology',
+  chapter: 'Environmental Issues',
+  coverage: 4,
+  priority: 90
+}
+[planner] { subject: 'chemistry', chapter: 'Amines', coverage: 4, priority: 90 }
+[planner] {
+  subject: 'computer_science',
+  chapter: 'MySQL',
+  coverage: 4,
+  priority: 90
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Government Budget & the Economy',
+  coverage: 4,
+  priority: 90
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: economics → normalized: economics → tier: 1
+Subject: biology → normalized: biology → tier: 1
+Subject: biology → normalized: biology → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: english → normalized: english → tier: 1
+Subject: biology → normalized: biology → tier: 1
+Subject: biology → normalized: biology → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: economics → normalized: economics → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Indian Economic Development 1950–1990',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Biodiversity & Conservation',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Organisms & Populations',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Haloalkanes & Haloarenes',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Para Jumbles',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Ecosystem',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Environmental Issues',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Amines',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'MySQL',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Government Budget & the Economy',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'economics',
+    chapter: 'Indian Economic Development 1950–1990',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Biodiversity & Conservation',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Organisms & Populations',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'Haloalkanes & Haloarenes',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'english',
+    chapter: 'Para Jumbles',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Ecosystem',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Environmental Issues',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'Amines',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'MySQL',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'economics',
+    chapter: 'Government Budget & the Economy',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: '43b80a85-21f7-4634-8c58-4b0b6391b175',
+    subject_id: 'economics',
+    chapter: 'Indian Economic Development 1950–1990',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:49:46.497076+00:00'
+  },
+  {
+    id: '19619010-dfab-4810-b5d1-215b6d8de117',
+    subject_id: 'biology',
+    chapter: 'Biodiversity & Conservation',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:49:46.497076+00:00'
+  },
+  {
+    id: 'c59a19bf-dba1-4495-b145-864f67e62f8d',
+    subject_id: 'biology',
+    chapter: 'Organisms & Populations',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:49:46.497076+00:00'
+  },
+  {
+    id: 'a79cdb54-b22c-4bcd-a7ee-5bff647783eb',
+    subject_id: 'chemistry',
+    chapter: 'Haloalkanes & Haloarenes',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:49:46.497076+00:00'
+  },
+  {
+    id: 'da34ebca-91b0-488c-99c7-64d52e1d392f',
+    subject_id: 'english',
+    chapter: 'Para Jumbles',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:49:46.497076+00:00'
+  },
+  {
+    id: 'a4de2520-568d-421a-ba02-a68de4324298',
+    subject_id: 'biology',
+    chapter: 'Ecosystem',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:49:46.497076+00:00'
+  },
+  {
+    id: '376b0605-e609-4fe8-be2c-41dada9a63b9',
+    subject_id: 'biology',
+    chapter: 'Environmental Issues',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:49:46.497076+00:00'
+  },
+  {
+    id: '344c9914-0a2a-4515-8c91-8cff4c6652fd',
+    subject_id: 'chemistry',
+    chapter: 'Amines',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:49:46.497076+00:00'
+  },
+  {
+    id: '590455fc-3387-42c9-ae7c-a2f3040c5de7',
+    subject_id: 'computer_science',
+    chapter: 'MySQL',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:49:46.497076+00:00'
+  },
+  {
+    id: 'd209a750-9d71-453a-9f32-20b02e8700f6',
+    subject_id: 'economics',
+    chapter: 'Government Budget & the Economy',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T09:49:46.497076+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: '43b80a85-21f7-4634-8c58-4b0b6391b175',
+    expected_subject: 'economics',
+    expected_chapter: 'Indian Economic Development 1950–1990',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '19619010-dfab-4810-b5d1-215b6d8de117',
+    expected_subject: 'biology',
+    expected_chapter: 'Biodiversity & Conservation',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'c59a19bf-dba1-4495-b145-864f67e62f8d',
+    expected_subject: 'biology',
+    expected_chapter: 'Organisms & Populations',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'a79cdb54-b22c-4bcd-a7ee-5bff647783eb',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Haloalkanes & Haloarenes',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'da34ebca-91b0-488c-99c7-64d52e1d392f',
+    expected_subject: 'english',
+    expected_chapter: 'Para Jumbles',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'a4de2520-568d-421a-ba02-a68de4324298',
+    expected_subject: 'biology',
+    expected_chapter: 'Ecosystem',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '376b0605-e609-4fe8-be2c-41dada9a63b9',
+    expected_subject: 'biology',
+    expected_chapter: 'Environmental Issues',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '344c9914-0a2a-4515-8c91-8cff4c6652fd',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Amines',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '590455fc-3387-42c9-ae7c-a2f3040c5de7',
+    expected_subject: 'computer_science',
+    expected_chapter: 'MySQL',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'd209a750-9d71-453a-9f32-20b02e8700f6',
+    expected_subject: 'economics',
+    expected_chapter: 'Government Budget & the Economy',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '43b80a85-21f7-4634-8c58-4b0b6391b175',
+    '19619010-dfab-4810-b5d1-215b6d8de117',
+    'c59a19bf-dba1-4495-b145-864f67e62f8d',
+    'a79cdb54-b22c-4bcd-a7ee-5bff647783eb',
+    'da34ebca-91b0-488c-99c7-64d52e1d392f',
+    'a4de2520-568d-421a-ba02-a68de4324298',
+    '376b0605-e609-4fe8-be2c-41dada9a63b9',
+    '344c9914-0a2a-4515-8c91-8cff4c6652fd',
+    '590455fc-3387-42c9-ae7c-a2f3040c5de7',
+    'd209a750-9d71-453a-9f32-20b02e8700f6'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '43b80a85-21f7-4634-8c58-4b0b6391b175',
+  actual_subject: 'economics',
+  actual_chapter: 'Indian Economic Development 1950–1990',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 2,
+  subject_question_count: 271,
+  created_at: '2026-04-30T09:49:46.497076+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  count: 2,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  count: 2
+}
+
+[JOB 43b80a85] Starting: [economics] Indian Economic Development 1950–1990
+[worker] RECEIVED_JOB: {
+  job_id: '43b80a85-21f7-4634-8c58-4b0b6391b175',
+  expected_subject: 'economics',
+  expected_chapter: 'Indian Economic Development 1950–1990',
+  raw_subject_id: 'economics',
+  raw_chapter: 'Indian Economic Development 1950–1990',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T09:49:46.497076+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '43b80a85-21f7-4634-8c58-4b0b6391b175',
+  expected_subject: 'economics',
+  resolved_subject_id: 'economics',
+  resolved_subject_name: 'Economics / Business Economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=2 existing questions loaded
+[generation] batch adjusted: {
+  chapter: 'Indian Economic Development 1950–1990',
+  generate_count: 15
+}
+[worker] GENERATION_INPUT: {
+  job_id: '43b80a85-21f7-4634-8c58-4b0b6391b175',
+  expected_subject: 'economics',
+  resolved_subject_id: 'economics',
+  resolved_subject_name: 'Economics / Business Economics',
+  expected_chapter: 'Indian Economic Development 1950–1990',
+  canonical_unit: 'Indian Economic Development',
+  generate_count: 15,
+  difficulty_override: null,
+  used_concepts_sampled: 20
+}
+[pipeline] Generating 15 candidates... chapter="Indian Economic Development 1950–1990" unit="Indian Economic Development" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'economics',
+  prompt_subject_name: 'Economics / Business Economics',
+  expected_chapter: 'Indian Economic Development 1950–1990',
+  requested_count: 15,
+  difficulty_override: null
+}
+[llm] pyq_anchor_selected {
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  concept_id: 'economics::indian_economic_development_1950_1990',
+  pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_structure_only',
+  synthetic_anchor: false
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'economics',
+  expected_chapter: 'Indian Economic Development 1950–1990',
+  canonical_unit: 'Indian Economic Development',
+  concept_id: 'economics::indian_economic_development_1950_1990',
+  pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+  anchor_tier: 3,
+  batch_size: 15,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] active_model=gpt-5.4
+[llm] {"event":"active_model","timestamp":"2026-04-30T09:49:46.801Z","activeModel":"gpt-5.4","stickyModel":"gpt-5.4","subject":"economics","chapter":"Indian Economic Development 1950–1990","count":15}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-5.4',
+  subject: 'economics',
+  stage: 'generation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-5.4',
+  subject: 'economics',
+  stage: 'generation',
+  status: 'success',
+  retry_count: 0,
+  duration: 53108,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-5.4',
+  subject: 'economics',
+  stage: 'generation',
+  retry_count: 0
+}
+[llm] Raw OpenAI response | model=gpt-5.4: [
+  {
+    "q": "Which of the following best describes Indian economic development during 1950–1990?",
+    "o": [
+      "A period of complete dependence on foreign private companies",
+      "A period focused on planned development after Independence",
+      "A period with no role of the public sector",
+      "A period of only agricultural exports"
+    ],
+    "a": "B",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "planned_development_period_identity",
+    "explanation": "The period 1950–1990 in India is identified with planned economic development after Independence.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about Indian economic development in the period 1950–1990?",
+    "o": [
+      "India followed economic planning for development",
+      "India completely avoided state participation in development",
+      "India depended only on imports for all production",
+      "India had no development goals during this period"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "statement_based",
+    "concept_pattern": "planning_statement_check",
+    "explanation": "Economic planning was an important feature of Indian economic development in 1950–1990.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "The period 1950–1990 in India is most closely associated with which approach to development?",
+    "o": [
+      "Unplanned growth",
+      "Planned development",
+      "Only private foreign control",
+      "No government policy"
+    ],
+    "a": "B",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "development_approach_identification",
+    "explanation": "India adopted a planned development approach in the period 1950–1990.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following best describes the broad aim of Indian economic development from 1950 to 1990?",
+    "o": [
+      "To ignore national development needs",
+      "To promote economic development through a planned process",
+      "To stop all domestic production",
+      "To leave development entirely to chance"
+    ],
+    "a": "B",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "broad_aim_planned_process",
+    "explanation": "The period focused on promoting development through planning rather than leaving it unregulated.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In this situation, which principle is being applied? A country prepares development targets and works according to a planned framework for many years after Independence.",
+    "o": [
+      "Planned economic development",
+      "No-role government policy",
+      "Random production system",
+      "Only foreign ownership model"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "one_step_application",
+    "concept_pattern": "planned_framework_situation",
+    "explanation": "Working through development targets and a planned framework reflects planned economic development.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct for Indian economic development during 1950–1990?",
+    "o": [
+      "Development efforts were linked with national planning",
+      "There was no concern for economic development",
+      "Only external agencies decided development goals",
+      "The economy had no organised direction"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "national_planning_link_statement",
+    "explanation": "Indian economic development in this period was linked to national planning.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following best describes the nature of India's development strategy in 1950–1990?",
+    "o": [
+      "Completely directionless growth",
+      "A planned strategy for economic development",
+      "Only short-term market guesses",
+      "No national approach to development"
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "development_strategy_nature",
+    "explanation": "India followed a planned strategy for economic development in this period.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In this situation, which principle is being applied? After 1950, development decisions are made within a national plan instead of leaving them entirely to private choice.",
+    "o": [
+      "Planned development approach",
+      "No development policy",
+      "Only foreign trade approach",
+      "Completely informal growth"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "plan_over_private_choice",
+    "explanation": "When development decisions are guided by a national plan, the planned development approach is being applied.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct?",
+    "o": [
+      "Indian economic development from 1950–1990 had a planned character",
+      "Indian economic development from 1950–1990 had no organised goals",
+      "Indian economic development from 1950–1990 was outside national policy",
+      "Indian economic development from 1950–1990 rejected all planning ideas"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "planned_character_statement",
+    "explanation": "The development process in India during 1950–1990 had a planned character.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following best describes a central feature of Indian economic development in the period 1950–1990?",
+    "o": [
+      "Absence of any planning framework",
+      "Development guided by planning",
+      "Only household-level decisions",
+      "No concern with national growth"
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "central_feature_guided_by_planning",
+    "explanation": "A central feature of this period was development guided by planning.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In this situation, which principle is being applied? Economic development is pursued through a structured national approach over several decades.",
+    "o": [
+      "Planned economic development",
+      "Unrelated short-run trading",
+      "No public policy approach",
+      "Accidental economic change"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "structured_national_approach",
+    "explanation": "A structured national approach to development over time indicates planned economic development.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about the Indian economy in 1950–1990?",
+    "o": [
+      "It followed a development path influenced by planning",
+      "It had no organised development efforts",
+      "It worked without any national direction",
+      "It avoided all long-term development thinking"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "planning_influenced_path_statement",
+    "explanation": "The Indian economy during 1950–1990 followed a development path influenced by planning.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following best describes the economic direction of India in the years 1950–1990?",
+    "o": [
+      "A planned direction of development",
+      "A complete absence of development policy",
+      "Only external control of economic life",
+      "A purely random growth pattern"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "economic_direction_identification",
+    "explanation": "India's economic direction in this period is best described as planned development.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct?",
+    "o": [
+      "The period 1950–1990 in India is linked with a planned model of development",
+      "The period 1950–1990 in India had no development orientation",
+      "The period 1950–1990 in India was free from all policy direction",
+      "The period 1950–1990 in India ignored economic development"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "statement_based",
+    "concept_pattern": "planned_model_link_statement",
+    "explanation": "This period in India is linked with a planned model of development.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In this situation, which principle is being applied? A government chooses an organised development path for the economy after Independence and continues it for decades.",
+    "o": [
+      "Planned economic development",
+      "No development framework",
+      "Only short-term consumption policy",
+      "Purely accidental development"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "one_step_application",
+    "concept_pattern": "organised_path_after_independence",
+    "explanation": "An organised development path continued over decades reflects planned economic development.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following best describes the Indian economic development concept covered for the years 1950 to 1990?",
+    "o": [
+      "A period of development under an organised plan-based approach",
+      "A period with no national economic direction",
+      "A period of only isolated local decisions",
+      "A period unrelated to development policy"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "concept_covering_years_description",
+    "explanation": "The concept for 1950–1990 refers to development under an organised plan-based approach.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  }
+]
+[llm] Cleaned response: [
+  {
+    "q": "Which of the following best describes Indian economic development during 1950–1990?",
+    "o": [
+      "A period of complete dependence on foreign private companies",
+      "A period focused on planned development after Independence",
+      "A period with no role of the public sector",
+      "A period of only agricultural exports"
+    ],
+    "a": "B",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "planned_development_period_identity",
+    "explanation": "The period 1950–1990 in India is identified with planned economic development after Independence.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about Indian economic development in the period 1950–1990?",
+    "o": [
+      "India followed economic planning for development",
+      "India completely avoided state participation in development",
+      "India depended only on imports for all production",
+      "India had no development goals during this period"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "statement_based",
+    "concept_pattern": "planning_statement_check",
+    "explanation": "Economic planning was an important feature of Indian economic development in 1950–1990.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "The period 1950–1990 in India is most closely associated with which approach to development?",
+    "o": [
+      "Unplanned growth",
+      "Planned development",
+      "Only private foreign control",
+      "No government policy"
+    ],
+    "a": "B",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "development_approach_identification",
+    "explanation": "India adopted a planned development approach in the period 1950–1990.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following best describes the broad aim of Indian economic development from 1950 to 1990?",
+    "o": [
+      "To ignore national development needs",
+      "To promote economic development through a planned process",
+      "To stop all domestic production",
+      "To leave development entirely to chance"
+    ],
+    "a": "B",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "broad_aim_planned_process",
+    "explanation": "The period focused on promoting development through planning rather than leaving it unregulated.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In this situation, which principle is being applied? A country prepares development targets and works according to a planned framework for many years after Independence.",
+    "o": [
+      "Planned economic development",
+      "No-role government policy",
+      "Random production system",
+      "Only foreign ownership model"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "one_step_application",
+    "concept_pattern": "planned_framework_situation",
+    "explanation": "Working through development targets and a planned framework reflects planned economic development.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct for Indian economic development during 1950–1990?",
+    "o": [
+      "Development efforts were linked with national planning",
+      "There was no concern for economic development",
+      "Only external agencies decided development goals",
+      "The economy had no organised direction"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "national_planning_link_statement",
+    "explanation": "Indian economic development in this period was linked to national planning.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following best describes the nature of India's development strategy in 1950–1990?",
+    "o": [
+      "Completely directionless growth",
+      "A planned strategy for economic development",
+      "Only short-term market guesses",
+      "No national approach to development"
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "development_strategy_nature",
+    "explanation": "India followed a planned strategy for economic development in this period.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In this situation, which principle is being applied? After 1950, development decisions are made within a national plan instead of leaving them entirely to private choice.",
+    "o": [
+      "Planned development approach",
+      "No development policy",
+      "Only foreign trade approach",
+      "Completely informal growth"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "plan_over_private_choice",
+    "explanation": "When development decisions are guided by a national plan, the planned development approach is being applied.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct?",
+    "o": [
+      "Indian economic development from 1950–1990 had a planned character",
+      "Indian economic development from 1950–1990 had no organised goals",
+      "Indian economic development from 1950–1990 was outside national policy",
+      "Indian economic development from 1950–1990 rejected all planning ideas"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "planned_character_statement",
+    "explanation": "The development process in India during 1950–1990 had a planned character.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following best describes a central feature of Indian economic development in the period 1950–1990?",
+    "o": [
+      "Absence of any planning framework",
+      "Development guided by planning",
+      "Only household-level decisions",
+      "No concern with national growth"
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "central_feature_guided_by_planning",
+    "explanation": "A central feature of this period was development guided by planning.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In this situation, which principle is being applied? Economic development is pursued through a structured national approach over several decades.",
+    "o": [
+      "Planned economic development",
+      "Unrelated short-run trading",
+      "No public policy approach",
+      "Accidental economic change"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "structured_national_approach",
+    "explanation": "A structured national approach to development over time indicates planned economic development.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct about the Indian economy in 1950–1990?",
+    "o": [
+      "It followed a development path influenced by planning",
+      "It had no organised development efforts",
+      "It worked without any national direction",
+      "It avoided all long-term development thinking"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "planning_influenced_path_statement",
+    "explanation": "The Indian economy during 1950–1990 followed a development path influenced by planning.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following best describes the economic direction of India in the years 1950–1990?",
+    "o": [
+      "A planned direction of development",
+      "A complete absence of development policy",
+      "Only external control of economic life",
+      "A purely random growth pattern"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "economic_direction_identification",
+    "explanation": "India's economic direction in this period is best described as planned development.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following statements is correct?",
+    "o": [
+      "The period 1950–1990 in India is linked with a planned model of development",
+      "The period 1950–1990 in India had no development orientation",
+      "The period 1950–1990 in India was free from all policy direction",
+      "The period 1950–1990 in India ignored economic development"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "statement_based",
+    "concept_pattern": "planned_model_link_statement",
+    "explanation": "This period in India is linked with a planned model of development.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "In this situation, which principle is being applied? A government chooses an organised development path for the economy after Independence and continues it for decades.",
+    "o": [
+      "Planned economic development",
+      "No development framework",
+      "Only short-term consumption policy",
+      "Purely accidental development"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "one_step_application",
+    "concept_pattern": "organised_path_after_independence",
+    "explanation": "An organised development path continued over decades reflects planned economic development.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  },
+  {
+    "q": "Which of the following best describes the Indian economic development concept covered for the years 1950 to 1990?",
+    "o": [
+      "A period of development under an organised plan-based approach",
+      "A period with no national economic direction",
+      "A period of only isolated local decisions",
+      "A period unrelated to development policy"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "concept_covering_years_description",
+    "explanation": "The concept for 1950–1990 refers to development under an organised plan-based approach.",
+    "subject": "economics",
+    "public_subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "topic": "Indian Economic Development",
+    "concept": "Indian Economic Development 1950–1990",
+    "concept_id": "economics::indian_economic_development_1950_1990",
+    "pyq_anchor_id": "structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990",
+    "anchor_tier": 3,
+    "passage_id": "",
+    "passage_type": ""
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 16
+[llm] success gpt-5.4
+[llm] {"event":"success","timestamp":"2026-04-30T09:50:39.915Z","model":"gpt-5.4","questionCount":16,"subject":"economics","chapter":"Indian Economic Development 1950–1990"}
+[pipeline] RAW_PARSED_COUNT 16
+[pipeline] NORMALIZED_COUNT 16
+[pipeline] generated_count=16 | mix=easy=5, medium=9, hard=2
+[pipeline] STRUCTURAL_VALID_COUNT 16
+[pipeline] after_chapter_filter=16 | pre_validation_filtered=0 | batch_duplicates=1 | cross_job_duplicates=0 | candidate_pool=15 | sent_for_strict_validation=15
+[pipeline] Starting batch validation for 15 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-2.5-flash-lite | count=15
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T09:50:39.932Z","model":"gemini-2.5-flash-lite","subject":"economics","questionCount":15}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-2.5-flash-lite',
+  subject: 'economics',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-2.5-flash-lite',
+  subject: 'economics',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 9099,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-2.5-flash-lite',
+  subject: 'economics',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "HARD",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 7,
+    "exam_quality": 7,
+    "distractor_quality": 7,
+    "conceptual_depth": 8,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "hard",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 3,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 4,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 5,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 6,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 7,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 8,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 9,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 10,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 11,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 12,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 13,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 14,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 15
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T09:50:49.046Z","model":"gemini-2.5-flash-lite","subject":"economics","resultCount":15}
+[difficulty distribution] {
+  model: { easy: 5, medium: 9, hard: 1 },
+  system: { easy: 5, medium: 8, hard: 2 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 15
+[pipeline] validated_count=15 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 15
+[pipeline] selected_count=15 | FINAL DISTRIBUTION: {"easy":5,"medium":8,"hard":2}
+[reject] {
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  reason: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  details: {
+    pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+    anchor_tier: 3
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  reason: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  details: {
+    pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+    anchor_tier: 3
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  reason: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  details: {
+    pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+    anchor_tier: 3
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  reason: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  details: {
+    pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+    anchor_tier: 3
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  reason: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  details: {
+    pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+    anchor_tier: 3
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  reason: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  details: {
+    pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+    anchor_tier: 3
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  reason: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  details: {
+    pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+    anchor_tier: 3
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  reason: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  details: {
+    pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+    anchor_tier: 3
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  reason: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  details: {
+    pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+    anchor_tier: 3
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  reason: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  details: {
+    pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+    anchor_tier: 3
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  reason: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  details: {
+    pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+    anchor_tier: 3
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  reason: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  details: {
+    pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+    anchor_tier: 3
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  reason: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  details: {
+    pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+    anchor_tier: 3
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  reason: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  details: {
+    pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+    anchor_tier: 3
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'economics',
+  chapter: 'Indian Economic Development 1950–1990',
+  reason: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  source: 'publish_guard',
+  rule: "Could not find the 'anchor_tier' column of 'questions' in the schema cache",
+  details: {
+    pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::indian_economic_development_1950_1990',
+    anchor_tier: 3
+  },
+  attemptCount: 1
+}
+[pipeline] METRICS | generated_count=16 | prefiltered_count=15 | strict_validation_count=15 | accepted_count=0 | api_calls_used=2 | cost_efficiency_ratio=0.00
+[pipeline] SUMMARY | subject=economics | chapter=Indian Economic Development 1950–1990 | target=15 | generated_count=16 | batch_duplicates=1 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=15 | validated_count=15 | accepted_count=0 | shortfall=15 | yield_rate=0.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=0, hard=0
+[pipeline] subject_distribution: {"subject":"economics","accepted":0,"rejected":15,"target":15,"met":false}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '19619010-dfab-4810-b5d1-215b6d8de117',
+    'c59a19bf-dba1-4495-b145-864f67e62f8d',
+    'a79cdb54-b22c-4bcd-a7ee-5bff647783eb',
+    'da34ebca-91b0-488c-99c7-64d52e1d392f',
+    'a4de2520-568d-421a-ba02-a68de4324298',
+    '376b0605-e609-4fe8-be2c-41dada9a63b9',
+    '344c9914-0a2a-4515-8c91-8cff4c6652fd',
+    '590455fc-3387-42c9-ae7c-a2f3040c5de7',
+    'd209a750-9d71-453a-9f32-20b02e8700f6'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '19619010-dfab-4810-b5d1-215b6d8de117',
+  actual_subject: 'biology',
+  actual_chapter: 'Biodiversity & Conservation',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 3,
+  subject_question_count: 334,
+  created_at: '2026-04-30T09:49:46.497076+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'biology',
+  chapter: 'Biodiversity & Conservation',
+  count: 3,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'biology',
+  chapter: 'Biodiversity & Conservation',
+  count: 3
+}
+
+[JOB 19619010] Starting: [biology] Biodiversity & Conservation
+[worker] RECEIVED_JOB: {
+  job_id: '19619010-dfab-4810-b5d1-215b6d8de117',
+  expected_subject: 'biology',
+  expected_chapter: 'Biodiversity & Conservation',
+  raw_subject_id: 'biology',
+  raw_chapter: 'Biodiversity & Conservation',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T09:49:46.497076+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '19619010-dfab-4810-b5d1-215b6d8de117',
+  expected_subject: 'biology',
+  resolved_subject_id: 'biology',
+  resolved_subject_name: 'Biology',
+  chapter: 'Biodiversity & Conservation',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=3 existing questions loaded
+[generation] batch adjusted: { chapter: 'Biodiversity & Conservation', generate_count: 15 }
+[worker] GENERATION_INPUT: {
+  job_id: '19619010-dfab-4810-b5d1-215b6d8de117',
+  expected_subject: 'biology',
+  resolved_subject_id: 'biology',
+  resolved_subject_name: 'Biology',
+  expected_chapter: 'Biodiversity & Conservation',
+  canonical_unit: 'Ecology and Environment',
+  generate_count: 15,
+  difficulty_override: null,
+  used_concepts_sampled: 20
+}
+[pipeline] Generating 15 candidates... chapter="Biodiversity & Conservation" unit="Ecology and Environment" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'biology',
+  prompt_subject_name: 'Biology',
+  expected_chapter: 'Biodiversity & Conservation',
+  requested_count: 15,
+  difficulty_override: null
+}
+[llm] pyq_anchor_selected {
+  subject: 'biology',
+  chapter: 'Biodiversity & Conservation',
+  concept_id: 'biology::biodiversity_and_conservation',
+  pyq_anchor_id: 'synthetic_cuet_structure_biology',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  synthetic_anchor: true
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'biology',
+  expected_chapter: 'Biodiversity & Conservation',
+  canonical_unit: 'Ecology and Environment',
+  concept_id: 'biology::biodiversity_and_conservation',
+  pyq_anchor_id: 'synthetic_cuet_structure_biology',
+  anchor_tier: 4,
+  batch_size: 15,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] active_model=gpt-5.4
+[llm] {"event":"active_model","timestamp":"2026-04-30T09:51:08.503Z","activeModel":"gpt-5.4","stickyModel":"gpt-5.4","subject":"biology","chapter":"Biodiversity & Conservation","count":15}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-5.4',
+  subject: 'biology',
+  stage: 'generation',
+  retry_count: 0
+}

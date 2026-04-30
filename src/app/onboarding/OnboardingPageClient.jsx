@@ -13,6 +13,12 @@ export default function OnboardingPageClient() {
   const [selected, setSelected] = useState([]);
 
   useEffect(() => {
+    if (user?.subjects?.length > 0 && selected.length === 0) {
+      setSelected(user.subjects);
+    }
+  }, [user]);
+
+  useEffect(() => {
     fetch('/api/subjects')
       .then(res => res.json())
       .then(data => setSubjects((Array.isArray(data) ? data : []).filter((subject) => subject.id !== 'teaching_aptitude')));
@@ -22,8 +28,9 @@ export default function OnboardingPageClient() {
     if (status === 'unauthenticated') {
       router.push('/signup');
     } else if (status === 'authenticated') {
+      const isEdit = typeof window !== 'undefined' && window.location.search.includes('edit=true');
       // If user already has subjects, go to dashboard
-      if (user?.subjects?.length > 0) {
+      if (user?.subjects?.length > 0 && !isEdit) {
         router.push('/dashboard');
       }
     }

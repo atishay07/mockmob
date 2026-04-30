@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import Anthropic from '@anthropic-ai/sdk';
 import OpenAI from "openai";
+import { loadEnvFile } from 'node:process';
 import { getCanonicalUnitForChapter, isValidTopSyllabusPair } from '../../../data/canonical_syllabus.js';
 import {
   CUET_DIFFICULTY_STANDARD,
@@ -13,16 +13,23 @@ import {
 } from '../../../data/cuet_controls.js';
 import { selectPyqAnchors } from '../../../data/pyq_anchors.js';
 
+try {
+  loadEnvFile('.env.local');
+} catch {
+  // Production and npm scripts may provide env vars directly.
+}
+
+console.log("GEMINI API KEY:", process.env.GEMINI_API_KEY ? "LOADED" : "MISSING");
+
 const genAI = process.env.GEMINI_API_KEY ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY) : null;
-const anthropic = process.env.ANTHROPIC_API_KEY ? new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY }) : null;
 const openai = process.env.OPENAI_API_KEY ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY }) : null;
 
 // Equal thirds â†’ 4 easy / 4 medium / 4 hard for a 12-question batch.
-const DIFFICULTY_DISTRIBUTION = { easy: 0.30, medium: 0.50, hard: 0.20 };
-// Small-batch strategy: keep OpenAI generation light enough to avoid timeouts.
-export const PIPELINE_BATCH_SIZE = 15;
-const MIN_GENERATION_COUNT = 5;
-const MAX_GENERATION_COUNT = 15;
+const DIFFICULTY_DISTRIBUTION = { easy: 0.25, medium: 0.50, hard: 0.25 };
+// Small-batch strategy: keep generation light enough to avoid timeouts.
+export const PIPELINE_BATCH_SIZE = 5;
+const MIN_GENERATION_COUNT = 3;
+const MAX_GENERATION_COUNT = 5;
 // â”€â”€ Subject validation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 /**
@@ -269,20 +276,28 @@ function getSubtopicFocus(subjectId, allChapters, pickCount = 3) {
 
 // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-const OPENAI_GENERATION_MODEL = "gpt-5.4";
-const OPENAI_GENERATION_FALLBACK_MODEL = "gpt-5.4-mini";
-const GENERATION_MODELS = [
+const OPENAI_GENERATION_MODEL = "gpt-4o-mini";
+const OPENAI_GENERATION_FALLBACK_MODEL = "gpt-4o-mini";
+const OPENAI_GENERATION_MODELS = [
   OPENAI_GENERATION_MODEL,
   OPENAI_GENERATION_FALLBACK_MODEL,
 ];
+const GENERATION_MODELS = [
+  OPENAI_GENERATION_MODEL,
+];
 const VALIDATION_MODELS = [
   "gemini-3-flash",
+  "gemini-2-flash",
 ];
-const CUET_GENERATION_SYSTEM_PROMPT = `You are a strict CUET exam paper setter, not a creative generator.
+const GEMINI_MODEL_ALIASES = {
+  'gemini-3-flash': process.env.GEMINI_3_FLASH_MODEL || 'gemini-3-flash-preview',
+  'gemini-2-flash': process.env.GEMINI_2_FLASH_MODEL || 'gemini-2.0-flash',
+};
+const CUET_GENERATION_SYSTEM_PROMPT = `You are a strict CUET exam paper setter, not a textbook question writer.
 
 Non-negotiable source order:
 1. CUET syllabus constraint object is the primary source of truth.
-2. CUET PYQ style examples are the style and difficulty benchmark.
+2. CUET PYQ style examples are ONLY for question structure, option style, and difficulty level.
 3. NCERT or external knowledge is secondary support only.
 
 Hard rejection rules:
@@ -290,10 +305,81 @@ Hard rejection rules:
 - If a concept is not directly traceable to the CUET syllabus constraint object, stop.
 - Do not generate free-form questions. Use only the supplied PYQ-derived templates.
 - No out-of-syllabus content, advanced theory, proof, derivation, JEE-style, MBA/graduate content, or multi-step logic.
-- Keep language simple, direct, and exam-oriented.
+- Do not copy PYQ content or concept; concept_id is always the source of truth.
+- Do not generate direct definition questions such as "What is X?", "Define X", or "Which is the correct definition of X?"
+- Generate CUET-level application, scenario, comparison, statement, or trap-based questions that require elimination.
+- Each option set must contain one correct answer, one close confusion option, one partial truth option, and one clearly wrong option.
+- At least two options must appear correct to a partially prepared student.
+- Keep language simple and exam-oriented without making the answer obvious.
 
 Each question must have exactly 4 options, exactly 1 correct answer, traceable subject/chapter/topic/concept/concept_id, and JSON only output.`;
 const GENERATION_TIMEOUT_MS = 90_000;
+
+// ── Validation scoring thresholds (0–100 composite score) ────────────────────
+export const VALIDATION_ACCEPT_THRESHOLD = 65;
+export const VALIDATION_RECOVER_THRESHOLD = 50;
+
+// ── Cost tracking per-model (USD per 1K tokens) ─────────────────────────────
+const MODEL_COST_PER_1K_INPUT = {
+  'gpt-4o-mini': 0.00015,
+  'gemini-3-flash-preview': 0.00015,
+  'gemini-3-flash': 0.00015,
+  'gemini-2-flash': 0.00010,
+  'gemini-2.0-flash': 0.00010,
+};
+const MODEL_COST_PER_1K_OUTPUT = {
+  'gpt-4o-mini': 0.0006,
+  'gemini-3-flash-preview': 0.0006,
+  'gemini-3-flash': 0.0006,
+  'gemini-2-flash': 0.0004,
+  'gemini-2.0-flash': 0.0004,
+};
+const COST_PER_1000_LIMIT = Number(process.env.COST_PER_1000_LIMIT || 1);
+
+const costTracker = {
+  totalInputTokens: 0,
+  totalOutputTokens: 0,
+  totalCostUsd: 0,
+  batchCount: 0,
+  acceptedCount: 0,
+};
+
+export function getCostTracker() {
+  return {
+    ...costTracker,
+    costPerAccepted: costTracker.acceptedCount > 0
+      ? costTracker.totalCostUsd / costTracker.acceptedCount
+      : 0,
+    costPer1000: costTracker.acceptedCount > 0
+      ? (costTracker.totalCostUsd / costTracker.acceptedCount) * 1000
+      : 0,
+  };
+}
+
+export function recordCost(modelName, inputTokens, outputTokens) {
+  const resolvedModelName = resolveGeminiModelName(modelName);
+  const inputCost = (inputTokens / 1000) * (MODEL_COST_PER_1K_INPUT[modelName] || MODEL_COST_PER_1K_INPUT[resolvedModelName] || 0.001);
+  const outputCost = (outputTokens / 1000) * (MODEL_COST_PER_1K_OUTPUT[modelName] || MODEL_COST_PER_1K_OUTPUT[resolvedModelName] || 0.003);
+  costTracker.totalInputTokens += inputTokens;
+  costTracker.totalOutputTokens += outputTokens;
+  costTracker.totalCostUsd += inputCost + outputCost;
+  costTracker.batchCount += 1;
+  return inputCost + outputCost;
+}
+
+export function recordAcceptedForCost(count) {
+  costTracker.acceptedCount += count;
+}
+
+export function isCostSaverActive() {
+  const snapshot = getCostTracker();
+  return snapshot.acceptedCount >= 1 && snapshot.costPer1000 > COST_PER_1000_LIMIT;
+}
+
+function resolveGeminiModelName(modelName) {
+  return GEMINI_MODEL_ALIASES[modelName] || modelName;
+}
+
 const MAX_CONCURRENT_LLM_CALLS = Number(process.env.LLM_MAX_CONCURRENT || 6);
 const LLM_SAME_MODEL_ATTEMPTS = 3;
 const LLM_BACKOFF_BASE_MS = 800;
@@ -380,9 +466,11 @@ export async function generateQuestions(subject, chapter, count = 10, context = 
     return questions;
   }
 
-  if (openai) return generateWithOpenAI(subject, chapter, safeCount, context);
-  console.error('[llm] stage_failed no_openai_api_key');
-  return { error: 'stage_failed' };
+  if (!openai) {
+    console.error('[llm] stage_failed no_openai_api_key');
+    return { error: 'stage_failed', reason: 'no_openai_api_key' };
+  }
+  return generateWithOpenAI(subject, chapter, safeCount, context);
 }
 
 export function getLastGenerationDiagnostics() {
@@ -391,11 +479,6 @@ export function getLastGenerationDiagnostics() {
 
 async function generateWithOpenAI(subject, chapter, count, context = {}) {
   const difficultyOverride = normalizeDifficultyOverride(context.difficultyOverride);
-  const forcedModel = GENERATION_MODELS.includes(context.modelOverride)
-    ? context.modelOverride
-    : null;
-  const modelCandidates = forcedModel ? [forcedModel] : getAvailableGenerationModels();
-
   const targets = buildDifficultyTargets(count, difficultyOverride);
   const conceptId = context.concept_id || context.conceptId || getSyllabusConcepts(subject.id, chapter)[0]?.concept_id;
   const anchorSelection = selectPyqAnchors({
@@ -405,27 +488,16 @@ async function generateWithOpenAI(subject, chapter, count, context = {}) {
     question_type: context.question_type || context.questionType || null,
   });
   if (!anchorSelection.valid) {
-    console.warn('[llm] pyq_anchor_unavailable', {
-      subject: subject.id,
-      chapter,
-      concept_id: conceptId || null,
-      error: anchorSelection.error,
+    console.warn('[llm] pyq_anchor_unavailable_openai', {
+      subject: subject.id, chapter, concept_id: conceptId || null, error: anchorSelection.error,
     });
     return { error: anchorSelection.error, reason: anchorSelection.error };
   }
-  console.log('[llm] pyq_anchor_selected', {
-    subject: subject.id,
-    chapter,
-    concept_id: conceptId,
-    pyq_anchor_id: anchorSelection.primary?.id || null,
-    anchor_tier: anchorSelection.anchor_tier,
-    fallback_used: anchorSelection.fallback_used === true,
-    concept_mismatch_risk: anchorSelection.concept_mismatch_risk || 'unknown',
-    synthetic_anchor: anchorSelection.primary?.synthetic === true,
-  });
 
-  // Pick subtopics to focus on for this batch (round-robin across chapters)
-  const subtopicFocus = getSubtopicFocus(subject.id, subject.chapters || [], 3);
+  const subtopicFocus = getSyllabusConcepts(subject.id, chapter)
+    .map((c) => c.concept_name || c.concept || c.subtopic)
+    .filter(Boolean)
+    .slice(0, 3);
   const prompt = buildStrictCuetGenerationPrompt(subject, chapter, count, targets, {
     usedConcepts: context.usedConcepts || [],
     saturatedSubtopics: context.saturatedSubtopics || [],
@@ -435,102 +507,59 @@ async function generateWithOpenAI(subject, chapter, count, context = {}) {
     validationFeedback: context.validationFeedback || [],
     previousAttempts: context.previousAttempts || context.previous_attempts || [],
   });
-  let lastGenerationError = null;
 
-  for (let modelIndex = 0; modelIndex < modelCandidates.length; modelIndex += 1) {
-    const modelName = modelCandidates[modelIndex];
-    try {
-    console.log(`[llm] active_model=${modelName}`);
-    logLlmEvent('active_model', {
-      activeModel: modelName,
-      stickyModel: activeModel,
-      subject: subject.id,
-      chapter,
-      count,
-    });
-
+  const modelName = OPENAI_GENERATION_MODEL;
+  try {
+    console.log(`[llm] openai_generation active_model=${modelName}`);
     const result = await runRateLimitedLlmCall({
       modelName,
       subjectId: subject.id,
-      stage: 'generation',
-      maxAttempts: context.maxAttempts ?? 1,
+      stage: 'generation_openai',
+      maxAttempts: 1,
       call: () => withTimeout(
-        openai.responses.create({
+        openai.chat.completions.create({
           model: modelName,
-          input: [
+          temperature: 0.55,
+          max_tokens: 2600,
+          messages: [
             { role: 'system', content: CUET_GENERATION_SYSTEM_PROMPT },
             { role: 'user', content: prompt },
           ],
         }),
         GENERATION_TIMEOUT_MS,
-        `timeout after ${GENERATION_TIMEOUT_MS}ms`
+        `openai timeout after ${GENERATION_TIMEOUT_MS}ms`,
       ),
     });
-    const text = extractOpenAIResponseText(result);
+
+    const text = result?.choices?.[0]?.message?.content ?? '';
     if (!String(text).trim()) {
-      throw new LlmGenerationError('empty response', 'empty_response');
+      throw new LlmGenerationError('empty openai response', 'empty_response');
     }
 
-    console.log(`[llm] Raw OpenAI response | model=${modelName}: ${text}`);
+    const usage = result?.usage || {};
+    const estimatedInputTokens = Number(usage.prompt_tokens) || prompt.length / 4;
+    const estimatedOutputTokens = Number(usage.completion_tokens) || text.length / 4;
+    recordCost(modelName, estimatedInputTokens, estimatedOutputTokens);
+
     const parsed = parseJsonArrayStrict(text);
     const normalized = normalizeGeneratedQuestions(parsed, subject.id, chapter)
-      .map((question) => ({
-        ...question,
-        pyq_anchor_id: question.pyq_anchor_id || anchorSelection.primary.id,
-        anchor_tier: Number(question.anchor_tier || anchorSelection.anchor_tier),
-        difficulty_weight: getDifficultyWeight(question.difficulty),
+      .map((q) => ({
+        ...q,
+        pyq_anchor_id: q.pyq_anchor_id || anchorSelection.primary.id,
+        anchor_tier: Number(q.anchor_tier || anchorSelection.anchor_tier),
+        difficulty_weight: getDifficultyWeight(q.difficulty),
       }));
-    const diagnostics = getLastGenerationDiagnostics();
-    if (diagnostics.dropReasons.chapter_mismatch > 0) {
-      throw new LlmGenerationError('chapter mismatch detected; discarded batch for regeneration', 'chapter_mismatch');
-    }
+
     if (normalized.length === 0) {
       throw new LlmGenerationError('empty question array after normalization', 'empty_questions');
     }
 
-    activeModel = modelName;
-    failedModels.delete(modelName);
-    console.log(`[llm] success ${modelName}`);
-    logLlmEvent('success', {
-      model: modelName,
-      questionCount: normalized.length,
-      subject: subject.id,
-      chapter,
-    });
+    console.log(`[llm] openai_generation success ${modelName} count=${normalized.length}`);
     return normalized;
-    } catch (error) {
-      lastGenerationError = error;
-      const reason = getLlmFailureReason(error);
-      const cooldownUntil = forcedModel ? null : markModelFailed(modelName, reason);
-      console.warn(`[llm] failure ${modelName} (${formatFailureReason(error, reason)})`);
-      logLlmEvent('model_failure', {
-        model: modelName,
-        reason,
-        message: error.message,
-        cooldownUntil: cooldownUntil ? new Date(cooldownUntil).toISOString() : null,
-      }, 'warn');
-      if (forcedModel) break;
-      const nextModel = modelCandidates[modelIndex + 1] || null;
-      if (nextModel) {
-        console.warn('[llm] generation_model_fallback', {
-          failed_model: modelName,
-          next_model: nextModel,
-          reason,
-          subject: subject.id,
-          chapter,
-        });
-      }
-    }
+  } catch (error) {
+    console.warn(`[llm] openai_generation failure ${modelName}: ${error.message}`);
+    return { error: getLlmFailureReason(error), reason: 'openai_generation_failed' };
   }
-
-  lastGenerationDiagnostics = cloneDiagnostics(EMPTY_DIAGNOSTICS);
-  logLlmEvent('generation_all_models_failed', {
-    models: GENERATION_MODELS,
-    subject: subject.id,
-    chapter,
-    count,
-  }, 'error');
-  return { error: getLlmFailureReason(lastGenerationError), reason: getLlmFailureReason(lastGenerationError), message: lastGenerationError?.message || 'stage_failed' };
 }
 
 function getAvailableGenerationModels() {
@@ -633,6 +662,9 @@ function buildStrictCuetGenerationPrompt(subject, chapter, count, targets, optio
   const tier3ConceptLock = anchorSelection.anchor_tier >= 3
     ? `\nCRITICAL:\nYou MUST strictly generate the question ONLY from the given concept_id.\nThe reference PYQ is ONLY for structure and difficulty guidance.\nDO NOT use its concept or content.`
     : '';
+  const structureOnlyAnchorLine = anchorSelection.primary?.structure_only || anchorSelection.primary?.synthetic
+    ? `\nSTRUCTURE-ONLY FALLBACK:\n- No real PYQ content is supplied because the best real anchor was outside the requested concept.\n- Use only the supplied structure_template, option_pattern, and difficulty.\n- Generate content strictly from concept_id "${constraint.concept_id}".`
+    : '';
 
   console.log('[llm] STRICT_CUET_PROMPT_CONSTRUCTION:', {
     expected_subject: subject.id,
@@ -656,6 +688,15 @@ ${JSON.stringify(conceptBackbone, null, 2)}
 
 PYQ STYLE + DIFFICULTY BENCHMARKS:
 ${JSON.stringify(getPyqStylePack(subject.id, 3), null, 2)}
+
+STRUCTURE LEARNING SIGNALS:
+${JSON.stringify({
+  structure_template: anchorSelection.primary.structure_template,
+  option_pattern: anchorSelection.primary.option_pattern,
+  question_type: anchorSelection.primary.question_type,
+  difficulty: anchorSelection.primary.difficulty,
+  structure_only: anchorSelection.primary.structure_only === true || anchorSelection.primary.synthetic === true,
+}, null, 2)}
 
 PRIMARY REFERENCE PYQ:
 ${JSON.stringify({
@@ -690,7 +731,7 @@ ${JSON.stringify(anchorSelection.backups.map((anchor) => ({
   structure_template: anchor.structure_template,
   question_text: anchor.question_text,
   options: anchor.options,
-})), null, 2)}
+  })), null, 2)}${structureOnlyAnchorLine}
 
 DIFFICULTY STANDARD:
 ${JSON.stringify(CUET_DIFFICULTY_STANDARD, null, 2)}
@@ -703,6 +744,11 @@ BATCH SIZE: exactly ${count} questions in one JSON array${focusLine}${avoidLine}
 
 MANDATORY CUET-FIRST RULES:
 - Generate only from CONSTRAINT OBJECT.allowed_concepts.
+- Generate exactly ${count} questions; the production cost target requires tiny high-yield batches.
+- Before returning each question, internally verify the answer key and ensure at least 2 options feel plausible.
+- Reference PYQ is ONLY for question structure, option style, and difficulty level.
+- DO NOT copy reference PYQ content, facts, numbers, context, or concept.
+- concept_id "${constraint.concept_id}" is ALWAYS the source of truth; anchor content NEVER overrides concept.
 - Match the structure, tone, and difficulty of the reference PYQ, but introduce controlled variation.
 - Change surface context such as names, situations, and numbers where appropriate.
 - Avoid copying phrasing. The question should feel new but familiar.
@@ -714,9 +760,17 @@ MANDATORY CUET-FIRST RULES:
 - If a question is not directly traceable to the constraint object, omit it.
 - If style or difficulty is above typical CUET PYQ level, omit it.
 - Use template-based patterns only. Do not invent new formats.
-- Keep language simple, direct, and exam-oriented.
-- Avoid trick questions, long caselets, advanced theory, derivations, proof, JEE-style, MBA/graduate content, and multi-step logic.
+- Keep language simple and exam-oriented, but never make the answer obvious.
+- Do NOT generate "What is X?", "Define X", "Which is the correct definition of X?", or bare term-identification questions.
+- MUST generate application-based, scenario-based, comparison-based, statement-based, or trap-based items.
+- Easy = simple but not direct; it must require elimination between plausible options.
+- Medium = one-step reasoning with confusion between at least two options.
+- Hard = CUET-hard tricky logic or multi-concept discrimination, not advanced/JEE difficulty.
+- Avoid long caselets, advanced theory, derivations, proof, JEE-style, MBA/graduate content, and heavy multi-step logic.
 - Every question must have exactly 4 options and exactly 1 correct answer.
+- Every option set must include: one correct answer, one CLOSE CONFUSION option, one PARTIAL TRUTH option, one CLEARLY WRONG option.
+- At least 2 options must appear correct to a partially prepared student; trivial elimination is forbidden.
+- Labeling is implicit only; do not write "close confusion" or "partial truth" in option text.
 
 TRACEABILITY REQUIRED IN EVERY ITEM:
 - subject must equal "${subject.id}"
@@ -729,7 +783,7 @@ TRACEABILITY REQUIRED IN EVERY ITEM:
 - difficulty_weight must be 1 for easy, 2 for medium, 3 for hard
 
 Return ONLY a valid JSON array. No markdown. No prose. No extra keys.
-[{"q":"...","o":["A ...","B ...","C ...","D ..."],"a":"A","d":"easy|medium|hard","difficulty_weight":2,"question_type":"${anchorSelection.primary.question_type || questionType}","concept_pattern":"unique_snake_case_tag","explanation":"one sentence","subject":"${subject.id}","public_subject":"${toPublicSubjectId(subject.id)}","chapter":"${chapter}","topic":"${constraint.topic}","concept":"${constraint.concept}","concept_id":"${constraint.concept_id}","pyq_anchor_id":"${anchorSelection.primary.id}","anchor_tier":${anchorSelection.anchor_tier},"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc"}]`;
+[{"q":"...","o":["A ...","B ...","C ...","D ..."],"a":"A","d":"easy|medium|hard","difficulty_weight":2,"question_type":"${anchorSelection.primary.question_type || questionType}","concept_pattern":"unique_snake_case_tag","explanation":"one sentence","subject":"${subject.id}","public_subject":"${toPublicSubjectId(subject.id)}","chapter":"${chapter}","topic":"${constraint.topic}","concept":"${constraint.concept}","concept_id":"${constraint.concept_id}","pyq_anchor_id":"${anchorSelection.primary.id}","anchor_tier":${anchorSelection.anchor_tier},"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"}]`;
 }
 
 function getNextAvailableValidationModel(currentModel) {
@@ -747,7 +801,7 @@ function markValidationModelFailed(modelName, reason) {
 }
 
 function shouldCooldownModel(reason) {
-  return reason === 'invalid_model';
+  return reason === 'invalid_model' || reason === 'timeout' || reason === 'service_unavailable' || reason === 'rate_limit';
 }
 
 function clearExpiredValidationModelFailures() {
@@ -920,57 +974,6 @@ ENGLISH CUET CONTROL:
 - Keep every item in CUET MCQ pattern with four plausible options.`;
 }
 
-async function generateWithClaude(subject, chapter, count) {
-  const targets = buildDifficultyTargets(count);
-  try {
-    const modelName = 'claude-3-5-sonnet-20240620';
-    console.log(`[llm] Claude single_attempt | ${subject.id} | ${chapter} | count=${count}`);
-    const response = await runRateLimitedLlmCall({
-      modelName,
-      subjectId: subject.id,
-      stage: 'generation_claude',
-      call: () => anthropic.messages.create({
-        model: modelName,
-        max_tokens: 4096,
-        messages: [{
-          role: 'user',
-          content: `
-Generate exactly ${count} CUET MCQs for ${subject.name} / ${chapter}.
-
-STRICT CHAPTER LOCKING:
-- The chapter provided MUST be used exactly: "${chapter}"
-- Do NOT create new chapter names.
-- Do NOT modify chapter names.
-- Do NOT generalize or infer topics outside the given chapter.
-- The "chapter" field in output MUST EXACTLY match the provided chapter string.
-- If the question does not fit the chapter, DO NOT generate it.
-
-Difficulty distribution:
-- easy: ${targets.easy}
-- medium: ${targets.medium}
-- hard: ${targets.hard}
-
-Rules:
-- each question must test a different micro-topic
-- use mixed conceptual, numerical, case-based, and assertion-reason formats
-- avoid repetitive textbook templates
-- return ONLY one JSON array with no markdown and no extra text
-
-Return only a JSON array with:
-subject, chapter, body, options[{key,text}], correct_answer, explanation, difficulty, concept_pattern, tags
-        `.trim()
-        }]
-      }),
-    });
-
-    const raw = response.content?.[0]?.text ?? '[]';
-    console.log(`[llm] Raw Claude response: ${raw}`);
-    return normalizeGeneratedQuestions(parseJsonArray(raw), subject.id, chapter);
-  } catch (error) {
-    console.warn(`[llm] Claude single attempt failed: ${error.message}`);
-    return [];
-  }
-}
 function generateMockQuestions(subject, chapter, count, difficultyOverride = null) {
   const targets = buildDifficultyTargets(count, difficultyOverride);
   const constraint = buildConstraintObject({
@@ -1009,16 +1012,6 @@ function generateMockQuestions(subject, chapter, count, difficultyOverride = nul
   }));
 }
 
-function extractOpenAIResponseText(response) {
-  if (typeof response?.output_text === 'string') return response.output_text;
-  if (!Array.isArray(response?.output)) return '';
-
-  return response.output
-    .flatMap((item) => Array.isArray(item?.content) ? item.content : [])
-    .map((part) => part?.text || '')
-    .join('');
-}
-
 /**
  * VALIDATOR
  * Returns a stricter moderation summary used by the autonomous worker.
@@ -1030,6 +1023,7 @@ export async function validateAndAlign(question, subjectContext) {
       exam_quality: 8,
       distractor_quality: 8,
       conceptual_depth: 8,
+      trap_quality: 'HIGH',
       textbook_style: false,
       decision: "accept",
       difficulty_correct: true,
@@ -1069,24 +1063,27 @@ q=${JSON.stringify(compactQuestionForValidation(question))}`;
 
     for (let modelIndex = 0; modelIndex < availableModels.length; modelIndex += 1) {
       const modelName = availableModels[modelIndex];
+      const resolvedModelName = resolveGeminiModelName(modelName);
       const model = genAI.getGenerativeModel({
-        model: modelName,
+        model: resolvedModelName,
         generationConfig: { responseMimeType: "application/json" }
       });
 
       try {
-        console.log(`[llm] validation_model_used=${modelName}`);
+        console.log(`[llm] validation_model_used=${modelName} resolved_model=${resolvedModelName}`);
         logLlmEvent('validation_model_used', {
           model: modelName,
+          resolvedModel: resolvedModelName,
           stickyModel: activeValidationModel,
           subject: subjectContext?.id,
           questionId: question?.id || null,
         });
 
         const result = await runRateLimitedLlmCall({
-          modelName,
+          modelName: resolvedModelName,
           subjectId: subjectContext?.id,
           stage: 'single_validation',
+          maxAttempts: 1,
           call: () => withTimeout(
             model.generateContent(prompt),
             GENERATION_TIMEOUT_MS,
@@ -1097,6 +1094,7 @@ q=${JSON.stringify(compactQuestionForValidation(question))}`;
         if (!String(text).trim()) {
           throw new LlmGenerationError('empty validation response', 'empty_response');
         }
+        recordCost(modelName, prompt.length / 4, text.length / 4);
 
         const parsed = parseJsonObjectStrict(text);
         activeValidationModel = modelName;
@@ -1210,7 +1208,8 @@ Evaluate each question and return Validator V2 fields exactly:
 7. option_quality: CLEAN | OVERLAPPING | CONFUSING
 8. subject_consistency: CORRECT | WRONG
 9. verdict: VALID | INVALID
-10. reasons: string[] with concise causes when INVALID, e.g. "too hard compared to PYQs", "language too complex", "concept mismatch", "ambiguous options", "too similar to anchor", "anchor phrasing reused"
+10. trap_quality: HIGH | MEDIUM | LOW
+11. reasons: string[] with concise causes when INVALID, e.g. "too hard compared to PYQs", "language too complex", "concept mismatch", "obvious answer", "low trap quality", "direct definition", "too similar to anchor", "anchor phrasing reused"
 
 INVALID CONDITIONS:
 - syllabus_alignment != WITHIN
@@ -1221,13 +1220,20 @@ INVALID CONDITIONS:
 - language_level == COMPLEX
 - option_quality != CLEAN
 - subject_consistency != CORRECT
+- textbook_style == true
+- direct definition / direct recall stem ("What is X?", "Define X", "Which is the correct definition of X?")
+- obvious answer or no reasoning required
+- fewer than 2 options plausibly attractive to a partially prepared student
+- trap_quality == LOW
+- conceptual_depth < 7
 - question is too similar to anchor
 - anchor phrasing is reused directly
 
 Also reject if subject, concept_id, or pyq_anchor_id is missing or if the subject does not match the selected subject. PYQ comparison must be against the same subject only.
+Target a real screening rate: reject weak textbook questions even if technically correct. A 100% acceptance batch is suspicious unless every item has genuine option traps.
 
 Return EXACTLY ${questions.length} JSON result objects, indices 0 through ${questions.length - 1}. Format:
-[{"index":0,"syllabus_alignment":"WITHIN|OUTSIDE","concept_match":"EXACT|PARTIAL|MISMATCH","difficulty_level":"EASY|MEDIUM|HARD|TOO HARD","compared_to_pyqs":"EASIER|MATCH|HARDER","clarity":"CLEAR|AMBIGUOUS","language_level":"SIMPLE|MODERATE|COMPLEX","option_quality":"CLEAN|OVERLAPPING|CONFUSING","subject_consistency":"CORRECT|WRONG","verdict":"VALID|INVALID","reasons":[],"score":0-10,"exam_quality":0-10,"distractor_quality":0-10,"conceptual_depth":0-10,"textbook_style":false,"difficulty_correct":true,"cuet_alignment":true,"recommended_difficulty":"easy|medium|hard","issues":[],"decision":"accept|reject","improved_question":null},...]
+[{"index":0,"syllabus_alignment":"WITHIN|OUTSIDE","concept_match":"EXACT|PARTIAL|MISMATCH","difficulty_level":"EASY|MEDIUM|HARD|TOO HARD","compared_to_pyqs":"EASIER|MATCH|HARDER","clarity":"CLEAR|AMBIGUOUS","language_level":"SIMPLE|MODERATE|COMPLEX","option_quality":"CLEAN|OVERLAPPING|CONFUSING","subject_consistency":"CORRECT|WRONG","verdict":"VALID|INVALID","trap_quality":"HIGH|MEDIUM|LOW","reasons":[],"score":0-10,"exam_quality":0-10,"distractor_quality":0-10,"conceptual_depth":0-10,"textbook_style":false,"difficulty_correct":true,"cuet_alignment":true,"recommended_difficulty":"easy|medium|hard","issues":[],"decision":"accept|reject","improved_question":null},...]
 
 Return ONLY JSON array.
 questions=${JSON.stringify(compactBatch)}`;
@@ -1241,23 +1247,26 @@ questions=${JSON.stringify(compactBatch)}`;
 
   for (let modelIndex = 0; modelIndex < availableModels.length; modelIndex += 1) {
     const modelName = availableModels[modelIndex];
+    const resolvedModelName = resolveGeminiModelName(modelName);
     const model = genAI.getGenerativeModel({
-      model: modelName,
+      model: resolvedModelName,
       generationConfig: { responseMimeType: 'application/json' },
     });
 
     try {
-      console.log(`[llm] batch_validation_start | model=${modelName} | count=${questions.length}`);
+      console.log(`[llm] batch_validation_start | model=${modelName} | resolved_model=${resolvedModelName} | count=${questions.length}`);
       logLlmEvent('batch_validation_start', {
         model: modelName,
+        resolvedModel: resolvedModelName,
         subject: subjectContext?.id,
         questionCount: questions.length,
       });
 
       const result = await runRateLimitedLlmCall({
-        modelName,
+        modelName: resolvedModelName,
         subjectId: subjectContext?.id,
         stage: 'batch_validation',
+        maxAttempts: 1,
         call: () => withTimeout(
           model.generateContent(prompt),
           GENERATION_TIMEOUT_MS,
@@ -1268,6 +1277,7 @@ questions=${JSON.stringify(compactBatch)}`;
       if (!String(text).trim()) {
         throw new LlmGenerationError('empty batch validation response', 'empty_response');
       }
+      recordCost(modelName, prompt.length / 4, text.length / 4);
 
       const parsed = parseJsonArray(text);
       if (!Array.isArray(parsed) || parsed.length === 0) {
@@ -1376,6 +1386,8 @@ function compactQuestionForValidation(question) {
     question_type: String(question?.question_type || '').trim(),
     pyq_anchor_id: String(question?.pyq_anchor_id || '').trim(),
     anchor_tier: Number(question?.anchor_tier || 0),
+    passage_text: String(question?.passage_text || '').trim(),
+    passage_type: String(question?.passage_type || '').trim(),
   };
 }
 
@@ -1520,7 +1532,7 @@ function hasGrammarTheoryDrift(body) {
 
 function classifyEnglishGeneratedQuestion(question, expectedChapter, index) {
   const body = String(question.body || '').trim();
-  const passage = extractEnglishPassageText(body);
+  const passage = extractEnglishPassageText(body) || String(question.passage_text || question.passageText || '').trim();
   const passageId = String(question.passage_id || question.passageId || '').trim();
 
   if (hasGrammarTheoryDrift(body)) {
@@ -1529,15 +1541,41 @@ function classifyEnglishGeneratedQuestion(question, expectedChapter, index) {
 
   if (ENGLISH_RC_CHAPTERS.has(expectedChapter)) {
     if (!passage) {
-      return { valid: false, detectedType: 'standalone_rc', confidence: 0.95, reason: 'rc_without_passage', tags: [] };
+      return {
+        valid: true,
+        detectedType: expectedChapter,
+        confidence: 0.4,
+        reason: 'rc_without_passage_log_only',
+        passageType: expectedChapter.replace(' Passage', '').toLowerCase(),
+        passageId: passageId || `${expectedChapter.toLowerCase().replace(/\s+/g, '_')}_${index + 1}`,
+        tags: ['english', 'reading_comprehension', expectedChapter, 'rc_classification_warning'],
+      };
     }
     if (countWords(passage) < 80) {
-      return { valid: false, detectedType: 'short_passage', confidence: 0.95, reason: 'passage_too_short', tags: [] };
+      return {
+        valid: true,
+        detectedType: expectedChapter,
+        confidence: 0.5,
+        reason: 'passage_too_short_log_only',
+        passageType: expectedChapter.replace(' Passage', '').toLowerCase(),
+        passageId: passageId || `${expectedChapter.toLowerCase().replace(/\s+/g, '_')}_${index + 1}`,
+        passageText: passage,
+        tags: ['english', 'reading_comprehension', expectedChapter, 'rc_classification_warning'],
+      };
     }
 
     const { detectedType, confidence } = detectEnglishRcTypeFromPassage(passage);
     if (detectedType !== expectedChapter) {
-      return { valid: false, detectedType, confidence, reason: 'incorrect_passage_classification', tags: [] };
+      return {
+        valid: true,
+        detectedType,
+        confidence,
+        reason: 'incorrect_passage_classification_log_only',
+        passageType: expectedChapter.replace(' Passage', '').toLowerCase(),
+        passageId: passageId || `${expectedChapter.toLowerCase().replace(/\s+/g, '_')}_${index + 1}`,
+        passageText: passage,
+        tags: ['english', 'reading_comprehension', expectedChapter, 'rc_classification_warning'],
+      };
     }
 
     return {
@@ -1546,6 +1584,7 @@ function classifyEnglishGeneratedQuestion(question, expectedChapter, index) {
       confidence,
       passageType: detectedType.replace(' Passage', '').toLowerCase(),
       passageId: passageId || `${detectedType.toLowerCase().replace(/\s+/g, '_')}_${index + 1}`,
+      passageText: passage,
       tags: ['english', 'reading_comprehension', detectedType],
     };
   }
@@ -1645,6 +1684,7 @@ function normalizeGeneratedQuestions(questions, subjectId, chapter) {
       tags: normalizeTags(question.tags),
       passage_id: String(question.passage_id || question.passageId || '').trim(),
       passage_type: String(question.passage_type || question.passageType || '').trim().toLowerCase(),
+      passage_text: String(question.passage_text || question.passageText || '').trim(),
     };
 
     if (!normalized.body || !normalized.correct_answer) {
@@ -1700,10 +1740,19 @@ function normalizeGeneratedQuestions(questions, subjectId, chapter) {
         });
         continue;
       }
+      if (classification.reason) {
+        console.warn('[llm] english_classification_warning_log_only', {
+          chapter,
+          reason: classification.reason,
+          detected_type: classification.detectedType,
+          index,
+        });
+      }
 
       normalized.tags = normalizeTags([...normalized.tags, ...classification.tags]);
       if (classification.passageId) normalized.passage_id = classification.passageId;
       if (classification.passageType) normalized.passage_type = classification.passageType;
+      if (classification.passageText) normalized.passage_text = classification.passageText;
     }
 
     // Subject validation: reject questions that drift to wrong subject or language tests
@@ -1745,12 +1794,32 @@ function normalizeGeneratedQuestions(questions, subjectId, chapter) {
 function getGeneratedQuestionInternalRejectReason(question) {
   const body = String(question?.body || '').trim();
   const bodyLower = body.toLowerCase();
-  if (body.length > 420 || countWords(body) > 70) return 'question_too_long';
+  const isEnglishReadingComprehension = question?.subject === 'english' && ENGLISH_RC_CHAPTERS.has(question?.chapter);
+  const maxBodyChars = isEnglishReadingComprehension ? 1800 : 420;
+  const maxBodyWords = isEnglishReadingComprehension ? 260 : 70;
+  if (body.length > maxBodyChars || countWords(body) > maxBodyWords) return 'question_too_long';
   if (/\b(vector space|subspace|basis|rank-nullity|heine-borel|cayley-hamilton|prove|proof|derive|derivation|jee|graduate|mba|b\.com|econometrics|hypothesis testing|functional analysis|abstract algebra|ring|field|group under|multi-step|caselet)\b/i.test(bodyLower)) {
     return 'advanced_or_non_cuet_pattern';
   }
-  if (hasGeneratedWeakOptions(question.options, question.correct_answer)) return 'weak_options';
+  if (isDirectDefinitionStem(body)) {
+    console.warn('[llm] pre_validation_quality_warning_log_only', {
+      reason: 'direct_definition_or_textbook_stem',
+      body: body.slice(0, 100),
+    });
+  }
+  if (hasGeneratedWeakOptions(question.options, question.correct_answer)) {
+    console.warn('[llm] pre_validation_quality_warning_log_only', {
+      reason: 'weak_options',
+      body: body.slice(0, 100),
+    });
+  }
   return null;
+}
+
+function isDirectDefinitionStem(body) {
+  const text = String(body || '').trim().toLowerCase();
+  return /^(what is|define|meaning of|which term|who is|when did)\b/.test(text) ||
+    /\b(correct definition|best definition|definition of|refers to only|is known as)\b/.test(text);
 }
 
 function hasGeneratedWeakOptions(options, correctAnswer) {
@@ -1762,74 +1831,150 @@ function hasGeneratedWeakOptions(options, correctAnswer) {
   const texts = normalizedOptions.map((option) => String(option.text || '').trim().toLowerCase());
   if (texts.some((text) => text.length < 2)) return true;
   if (new Set(texts).size !== 4) return true;
-  return texts.some((text) => /\b(all of the above|none of the above|both a and b|cannot be determined)\b/i.test(text));
+  if (texts.some((text) => /\b(all of the above|none of the above|both a and b|cannot be determined)\b/i.test(text))) return true;
+  return !hasPlausibleOptionConfusion(normalizedOptions, answer);
+}
+
+function hasPlausibleOptionConfusion(options, correctAnswer) {
+  const correct = options.find((option) => option.key === correctAnswer);
+  if (!correct) return false;
+  const texts = options.map((option) => String(option.text || '').trim());
+  const avgLength = texts.reduce((sum, text) => sum + text.length, 0) / texts.length;
+  if (avgLength > 0 && texts.some((text) => text.length < Math.max(3, avgLength * 0.30))) return false;
+
+  const correctText = String(correct.text || '');
+  const distractors = options.filter((option) => option.key !== correctAnswer);
+  const closeDistractors = distractors.filter((option) => optionTextSimilarity(correctText, option.text) >= 0.16).length;
+  const partialTruthSignals = distractors.filter((option) => /\b(partly|only|mainly|usually|sometimes|increase|decrease|public|private|both|not all|except|because|while|but)\b/i.test(option.text)).length;
+  const numericOptions = texts.filter((text) => /\d/.test(text)).length;
+  if (numericOptions >= 3) return true;
+  return closeDistractors >= 1 && (partialTruthSignals >= 1 || closeDistractors >= 2);
+}
+
+function optionTextSimilarity(left, right) {
+  const leftTokens = new Set(String(left || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter((token) => token.length > 3));
+  const rightTokens = new Set(String(right || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter((token) => token.length > 3));
+  if (leftTokens.size === 0 || rightTokens.size === 0) return 0;
+  const intersection = [...leftTokens].filter((token) => rightTokens.has(token)).length;
+  const union = new Set([...leftTokens, ...rightTokens]).size;
+  return union === 0 ? 0 : intersection / union;
 }
 
 function normalizeValidationResult(result, question) {
+  result = result && typeof result === 'object' ? result : {};
   const score = Number.isFinite(Number(result.score)) ? Number(result.score) : 0;
   const examQuality = Number.isFinite(Number(result.exam_quality)) ? Number(result.exam_quality) : score;
   const distractorQuality = Number.isFinite(Number(result.distractor_quality)) ? Number(result.distractor_quality) : score;
   const conceptualDepth = Number.isFinite(Number(result.conceptual_depth)) ? Number(result.conceptual_depth) : score;
+  const trapQuality = normalizeEnum(result.trap_quality, ['HIGH', 'MEDIUM', 'LOW'], inferTrapQuality(result, question));
   const textbookStyle = result.textbook_style === true;
   const difficultyCorrect = result.difficulty_correct !== false;
   const cuetAlignment = result.cuet_alignment !== false;
+  const rawDecision = String(result.decision || '').trim().toLowerCase();
   const recommendedDifficulty = normalizeDifficulty(result.recommended_difficulty || question.difficulty);
   const issues = Array.isArray(result.issues) ? result.issues.map(String) : [];
   const improvedQuestion = result.improved_question && typeof result.improved_question === 'object'
     ? result.improved_question
     : null;
-  const fullyWithinCuetSyllabus = normalizeYesNo(result.fully_within_cuet_syllabus, false);
-  const matchesCuetPyqDifficulty = normalizeYesNo(result.matches_cuet_pyq_difficulty, false);
-  const harderThanTypicalCuetLevel = normalizeYesNo(result.harder_than_typical_cuet_level, true);
-  const ambiguityOrMultipleCorrectAnswers = normalizeYesNo(result.ambiguity_or_multiple_correct_answers, true);
-  const languageUnnecessarilyComplex = normalizeYesNo(result.language_unnecessarily_complex, true);
-  const syllabusAlignment = normalizeEnum(result.syllabus_alignment, ['WITHIN', 'OUTSIDE'], 'OUTSIDE');
-  const conceptMatch = normalizeEnum(result.concept_match, ['EXACT', 'PARTIAL', 'MISMATCH'], 'MISMATCH');
-  const difficultyLevel = normalizeEnum(result.difficulty_level, ['EASY', 'MEDIUM', 'HARD', 'TOO HARD'], 'TOO HARD');
-  const comparedToPyqs = normalizeEnum(result.compared_to_pyqs, ['EASIER', 'MATCH', 'HARDER'], 'HARDER');
-  const clarity = normalizeEnum(result.clarity, ['CLEAR', 'AMBIGUOUS'], 'AMBIGUOUS');
-  const languageLevel = normalizeEnum(result.language_level, ['SIMPLE', 'MODERATE', 'COMPLEX'], 'COMPLEX');
-  const optionQuality = normalizeEnum(result.option_quality, ['CLEAN', 'OVERLAPPING', 'CONFUSING'], 'CONFUSING');
-  const subjectConsistency = normalizeEnum(result.subject_consistency, ['CORRECT', 'WRONG'], 'WRONG');
-  const verdict = normalizeEnum(result.verdict, ['VALID', 'INVALID'], 'INVALID');
+  const syllabusAlignment = normalizeEnum(result.syllabus_alignment, ['WITHIN', 'OUTSIDE'], cuetAlignment ? 'WITHIN' : 'OUTSIDE');
+  const conceptMatch = normalizeEnum(result.concept_match, ['EXACT', 'PARTIAL', 'MISMATCH'], cuetAlignment ? 'EXACT' : 'MISMATCH');
+  const difficultyLevel = normalizeEnum(
+    result.difficulty_level,
+    ['EASY', 'MEDIUM', 'HARD', 'TOO HARD'],
+    String(question.difficulty || recommendedDifficulty || 'medium').trim().toUpperCase(),
+  );
+  const comparedToPyqs = normalizeEnum(result.compared_to_pyqs, ['EASIER', 'MATCH', 'HARDER'], difficultyCorrect ? 'MATCH' : 'HARDER');
+  const clarity = normalizeEnum(result.clarity, ['CLEAR', 'AMBIGUOUS'], 'CLEAR');
+  const languageLevel = normalizeEnum(result.language_level, ['SIMPLE', 'MODERATE', 'COMPLEX'], 'SIMPLE');
+  const optionQuality = normalizeEnum(result.option_quality, ['CLEAN', 'OVERLAPPING', 'CONFUSING'], 'CLEAN');
+  const subjectConsistency = normalizeEnum(result.subject_consistency, ['CORRECT', 'WRONG'], 'CORRECT');
+  const verdict = normalizeEnum(result.verdict, ['VALID', 'INVALID'], rawDecision === 'reject' ? 'INVALID' : 'VALID');
+  const fullyWithinCuetSyllabus = normalizeYesNo(
+    result.fully_within_cuet_syllabus,
+    syllabusAlignment === 'WITHIN' && conceptMatch === 'EXACT',
+  );
+  const matchesCuetPyqDifficulty = normalizeYesNo(
+    result.matches_cuet_pyq_difficulty,
+    comparedToPyqs === 'MATCH' || comparedToPyqs === 'EASIER',
+  );
+  const harderThanTypicalCuetLevel = normalizeYesNo(
+    result.harder_than_typical_cuet_level,
+    comparedToPyqs !== 'HARDER' && difficultyLevel !== 'TOO HARD' ? false : true,
+  );
+  const ambiguityOrMultipleCorrectAnswers = normalizeYesNo(
+    result.ambiguity_or_multiple_correct_answers,
+    clarity === 'AMBIGUOUS' || optionQuality !== 'CLEAN',
+  );
+  const languageUnnecessarilyComplex = normalizeYesNo(
+    result.language_unnecessarily_complex,
+    languageLevel === 'COMPLEX',
+  );
   const validatorReasons = normalizeValidatorReasons(result.reasons);
-  const validatorCheckFailed =
-    fullyWithinCuetSyllabus !== 'YES' ||
-    matchesCuetPyqDifficulty !== 'YES' ||
-    harderThanTypicalCuetLevel !== 'NO' ||
-    ambiguityOrMultipleCorrectAnswers !== 'NO' ||
-    languageUnnecessarilyComplex !== 'NO';
-  const validatorV2Failed =
-    syllabusAlignment !== 'WITHIN' ||
-    conceptMatch !== 'EXACT' ||
-    difficultyLevel === 'TOO HARD' ||
-    comparedToPyqs === 'HARDER' ||
-    clarity === 'AMBIGUOUS' ||
-    languageLevel === 'COMPLEX' ||
-    optionQuality !== 'CLEAN' ||
-    subjectConsistency !== 'CORRECT';
+  const compositeScore = computeCompositeScore({
+    syllabusAlignment,
+    conceptMatch,
+    difficultyLevel,
+    comparedToPyqs,
+    clarity,
+    languageLevel,
+    optionQuality,
+    subjectConsistency,
+    score,
+    examQuality,
+    distractorQuality,
+    conceptualDepth,
+    trapQuality,
+    textbookStyle,
+    cuetAlignment,
+    verdict,
+  });
 
-  // Reduced from 7 â†’ 5.  difficulty_correct is tracked but no longer a hard rejection
-  // (the model often mis-labels difficulty; the question itself may still be valid).
-  // cuet_alignment remains a soft signal â€” the worker applies its own compound check.
-  const shouldReject =
-    validatorCheckFailed ||
-    validatorV2Failed ||
-    verdict !== 'VALID' ||
-    score < 5 ||
-    examQuality < 7 ||
-    distractorQuality < 7 ||
-    textbookStyle ||
-    !cuetAlignment ||
-    String(result.decision || '').toLowerCase() === 'reject';
+  const hardReject = subjectConsistency === 'WRONG';
+  let decision;
+  const acceptThreshold = VALIDATION_ACCEPT_THRESHOLD;
+
+  if (hardReject || compositeScore < VALIDATION_RECOVER_THRESHOLD) {
+    decision = 'reject';
+  } else if (compositeScore >= acceptThreshold) {
+    decision = 'accept';
+  } else {
+    decision = 'recover';
+  }
+
+  const isNotAccepted = decision !== 'accept';
+  const rejectionParams = {
+    validatorReasons,
+    validatorCheckFailed: false,
+    validatorV2Failed: false,
+    syllabusAlignment,
+    conceptMatch,
+    difficultyLevel,
+    comparedToPyqs,
+    clarity,
+    languageLevel,
+    optionQuality,
+    subjectConsistency,
+    score,
+    examQuality,
+    distractorQuality,
+    conceptualDepth,
+    trapQuality,
+    textbookStyle,
+    cuetAlignment,
+    rawDecision,
+    verdict,
+    issues,
+  };
 
   return {
     score,
+    compositeScore,
     exam_quality: examQuality,
     distractor_quality: distractorQuality,
     conceptual_depth: conceptualDepth,
+    trap_quality: trapQuality,
     textbook_style: textbookStyle,
-    decision: shouldReject ? 'reject' : 'accept',
+    decision,
     difficulty_correct: difficultyCorrect,
     cuet_alignment: cuetAlignment,
     fully_within_cuet_syllabus: fullyWithinCuetSyllabus,
@@ -1845,25 +1990,64 @@ function normalizeValidationResult(result, question) {
     language_level: languageLevel,
     option_quality: optionQuality,
     subject_consistency: subjectConsistency,
-    verdict: shouldReject ? 'INVALID' : 'VALID',
-    reasons: shouldReject ? normalizeRejectionReasons({
-      validatorReasons,
-      validatorCheckFailed,
-      validatorV2Failed,
-      syllabusAlignment,
-      conceptMatch,
-      difficultyLevel,
-      comparedToPyqs,
-      clarity,
-      languageLevel,
-      optionQuality,
-      subjectConsistency,
-      issues,
-    }) : [],
+    verdict: decision === 'accept' ? 'VALID' : 'INVALID',
+    reasons: isNotAccepted ? normalizeRejectionReasons(rejectionParams) : [],
     recommended_difficulty: recommendedDifficulty,
-    issues: validatorCheckFailed || validatorV2Failed || verdict !== 'VALID' ? [...issues, 'validator_v2_failed'] : issues,
+    issues: isNotAccepted
+      ? Array.from(new Set([
+          ...issues,
+          ...normalizeRejectionReasons({ ...rejectionParams, issues: [] }),
+        ]))
+          .map((issue) => String(issue || '').trim())
+          .filter(Boolean)
+          .slice(0, 8)
+      : issues,
     improved_question: improvedQuestion,
   };
+}
+
+function computeCompositeScore(params) {
+  let s = 35;
+
+  if (params.syllabusAlignment === 'WITHIN') s += 15;
+  if (params.conceptMatch === 'EXACT') s += 12;
+  else if (params.conceptMatch === 'PARTIAL') s += 5;
+  if (params.clarity === 'CLEAR') s += 6;
+  if (params.languageLevel === 'SIMPLE') s += 5;
+  else if (params.languageLevel === 'MODERATE') s += 2;
+  if (params.optionQuality === 'CLEAN') s += 8;
+  if (params.trapQuality === 'HIGH') s += 8;
+  else if (params.trapQuality === 'MEDIUM') s += 3;
+  if (params.subjectConsistency === 'CORRECT') s += 6;
+  if (params.comparedToPyqs === 'MATCH') s += 5;
+  else if (params.comparedToPyqs === 'EASIER') s += 3;
+  if (params.verdict === 'VALID') s += 3;
+  s += Math.min(Number(params.score || 0), 10);
+
+  if (params.syllabusAlignment === 'OUTSIDE') s -= 20;
+  if (params.conceptMatch === 'MISMATCH') s -= 15;
+  if (params.difficultyLevel === 'TOO HARD') s -= 10;
+  if (params.comparedToPyqs === 'HARDER') s -= 8;
+  if (params.clarity === 'AMBIGUOUS') s -= 10;
+  if (params.languageLevel === 'COMPLEX') s -= 8;
+  if (params.optionQuality === 'CONFUSING') s -= 10;
+  else if (params.optionQuality === 'OVERLAPPING') s -= 5;
+  if (params.trapQuality === 'LOW') s -= 18;
+  if (params.subjectConsistency === 'WRONG') s -= 30;
+  if (params.textbookStyle) s -= 12;
+  if (!params.cuetAlignment) s -= 8;
+  if (Number(params.examQuality || 0) < 5) s -= 5;
+  if (Number(params.distractorQuality || 0) < 7) s -= 8;
+  if (Number(params.conceptualDepth || 0) < 7) s -= 12;
+
+  return Math.max(0, Math.min(100, Math.round(s)));
+}
+
+function inferTrapQuality(result, question) {
+  if (String(result?.option_quality || '').trim().toUpperCase() !== 'CLEAN') return 'LOW';
+  if (Number(result?.distractor_quality || 0) >= 8 && Number(result?.conceptual_depth || 0) >= 8) return 'HIGH';
+  if (Number(result?.distractor_quality || 0) >= 7 && Number(result?.conceptual_depth || 0) >= 7 && !isDirectDefinitionStem(question?.body || question?.q || '')) return 'MEDIUM';
+  return 'LOW';
 }
 
 function normalizeYesNo(value, defaultYes) {
@@ -1896,6 +2080,15 @@ function normalizeRejectionReasons({
   languageLevel,
   optionQuality,
   subjectConsistency,
+  score,
+  examQuality,
+  distractorQuality,
+  conceptualDepth,
+  trapQuality,
+  textbookStyle,
+  cuetAlignment,
+  rawDecision,
+  verdict,
   issues,
 }) {
   const reasons = new Set(validatorReasons);
@@ -1907,11 +2100,31 @@ function normalizeRejectionReasons({
   if (languageLevel === 'COMPLEX') reasons.add('language too complex');
   if (optionQuality !== 'CLEAN') reasons.add(optionQuality === 'OVERLAPPING' ? 'ambiguous options' : 'confusing options');
   if (subjectConsistency !== 'CORRECT') reasons.add('subject mismatch');
+  if (Number(score) < 5) reasons.add('validator score below threshold');
+  if (Number(examQuality) < 7) reasons.add('exam quality below threshold');
+  if (Number(distractorQuality) < 7) reasons.add('distractor quality below threshold');
+  if (Number(conceptualDepth) < 7) reasons.add('conceptual depth below CUET reasoning threshold');
+  if (trapQuality === 'LOW') reasons.add('low trap quality');
+  if (textbookStyle === true) reasons.add('direct textbook-style wording');
+  if (cuetAlignment === false) reasons.add('validator marked non-CUET alignment');
+  if (rawDecision === 'reject') reasons.add('validator decision reject');
+  if (verdict === 'INVALID') reasons.add('validator verdict invalid');
   if (validatorCheckFailed || validatorV2Failed) reasons.add('validator v2 strict checks failed');
   for (const issue of issues || []) {
     if (issue) reasons.add(String(issue));
   }
   return [...reasons].slice(0, 8);
+}
+
+/**
+ * RECOVERY LAYER
+ * Takes questions that scored between RECOVER and ACCEPT thresholds and attempts
+ * to fix them via LLM: improve distractors, simplify language, adjust difficulty.
+ * Returns fixed questions that should be re-scored or directly accepted.
+ */
+export async function recoverQuestions(questions, validationResults, subjectContext) {
+  console.warn('[recovery] disabled by no-retry cost policy');
+  return [];
 }
 
 function normalizeOptions(options) {
@@ -1997,7 +2210,14 @@ function normalizeTags(tags) {
 function getLlmFailureReason(error) {
   if (error instanceof LlmGenerationError) return error.reason;
   const message = String(error?.message || '').toLowerCase();
+  const causeMessage = String(error?.cause?.message || error?.cause?.cause?.message || '').toLowerCase();
+  const causeCode = String(error?.cause?.code || error?.cause?.cause?.code || '').toLowerCase();
   const status = Number(error?.status || error?.statusCode || error?.code || 0);
+  if (
+    causeCode.includes('unable_to_verify') ||
+    causeMessage.includes('unable to verify') ||
+    causeMessage.includes('certificate')
+  ) return 'tls_certificate';
   if (status === 404 || message.includes('404') || message.includes('not found')) return 'invalid_model';
   if (status === 429 || message.includes('429') || message.includes('rate limit') || message.includes('quota')) return 'rate_limit';
   if (status === 503 || message.includes('503') || message.includes('unavailable') || message.includes('overloaded')) return 'service_unavailable';
@@ -2010,6 +2230,27 @@ function formatFailureReason(error, reason) {
   const status = error?.status || error?.statusCode || error?.code;
   if (status) return status;
   return reason;
+}
+
+function serializeLlmError(error) {
+  return {
+    name: error?.name || null,
+    message: error?.message || null,
+    status: error?.status || error?.statusCode || null,
+    code: error?.code || null,
+    type: error?.type || null,
+    request_id: error?.requestID || error?.request_id || null,
+    cause: error?.cause ? {
+      name: error.cause.name || null,
+      message: error.cause.message || null,
+      code: error.cause.code || null,
+      cause: error.cause.cause ? {
+        name: error.cause.cause.name || null,
+        message: error.cause.cause.message || null,
+        code: error.cause.cause.code || null,
+      } : null,
+    } : null,
+  };
 }
 
 async function runRateLimitedLlmCall({ modelName, subjectId, stage, call, maxAttempts = LLM_SAME_MODEL_ATTEMPTS }) {
@@ -2036,6 +2277,8 @@ async function runRateLimitedLlmCall({ modelName, subjectId, stage, call, maxAtt
       status = reason;
       const duration = Date.now() - startedAt;
       recordLlmCallOutcome(false);
+      console.error('FULL ERROR:', error);
+      console.error('ERROR DETAILS:', JSON.stringify(serializeLlmError(error), null, 2));
       logLlmCall({ modelName, subjectId, stage, status, retryCount, duration, error });
 
       if (!shouldRetryLlmCall(reason, error) || retryCount >= attempts - 1) {

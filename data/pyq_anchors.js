@@ -209,6 +209,28 @@ export function selectPyqAnchors({ subject, concept_id: conceptId, difficulty = 
   const primary = tieredCandidates.candidates[0];
   logSelection(tieredCandidates.tier, primary, tieredCandidates.candidates);
 
+  if (tieredCandidates.tier >= 3 && primary.concept_id !== conceptId) {
+    console.warn('[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor', {
+      subject: subjectSelection.internalSubject,
+      requested_concept_id: conceptId,
+      source_anchor_id: primary.id,
+      source_anchor_concept_id: primary.concept_id,
+      anchor_tier: tieredCandidates.tier,
+      requested_difficulty: normalizedDifficulty,
+      selected_difficulty: primary.difficulty,
+      requested_question_type: requestedQuestionType,
+      selected_question_type: primary.question_type,
+    });
+    return buildStructureOnlyAnchorSelection({
+      subjectSelection,
+      concept,
+      difficulty: normalizedDifficulty,
+      requestedQuestionType,
+      sourceAnchor: primary,
+      tier: tieredCandidates.tier,
+    });
+  }
+
   return {
     valid: true,
     subject: subjectSelection.subject,
@@ -226,6 +248,46 @@ function getSimpleStructureRank(structureTemplate) {
   return SIMPLE_STRUCTURE_RANK[structureTemplate] ?? 9;
 }
 
+function buildStructureOnlyAnchorSelection({ subjectSelection, concept, difficulty, requestedQuestionType, sourceAnchor, tier }) {
+  const structureAnchor = {
+    id: `structure_only_${sourceAnchor.id}_for_${concept.concept_id.replace(/[^a-z0-9_:-]/gi, '_')}`,
+    subject: subjectSelection.internalSubject,
+    public_subject: subjectSelection.subject,
+    chapter: concept.chapter,
+    topic: concept.topic,
+    concept_id: concept.concept_id,
+    question_type: requestedQuestionType || sourceAnchor.question_type || 'one_step_application',
+    difficulty: normalizeDifficulty(sourceAnchor.difficulty || difficulty),
+    structure_template: sourceAnchor.structure_template || 'statement_based_trap',
+    option_pattern: sourceAnchor.option_pattern || {
+      count: 4,
+      correct_key: 'A',
+      pattern: 'correct_close_confusion_partial_truth_wrong',
+      average_length: 18,
+      roles: ['correct', 'close_confusion', 'partial_truth', 'clearly_wrong'],
+    },
+    question_text: '',
+    options: [],
+    correct_answer: 'A',
+    explanation: '',
+    source: 'STRUCTURE_ONLY_FALLBACK',
+    source_anchor_id: sourceAnchor.id,
+    structure_only: true,
+  };
+
+  return {
+    valid: true,
+    subject: subjectSelection.subject,
+    internalSubject: subjectSelection.internalSubject,
+    concept,
+    anchor_tier: tier,
+    fallback_used: true,
+    concept_mismatch_risk: 'none_structure_only',
+    primary: structureAnchor,
+    backups: [],
+  };
+}
+
 function buildSyntheticAnchorSelection({ subjectSelection, concept, difficulty, requestedQuestionType }) {
   const syntheticAnchor = {
     id: `synthetic_cuet_structure_${subjectSelection.internalSubject}`,
@@ -234,14 +296,15 @@ function buildSyntheticAnchorSelection({ subjectSelection, concept, difficulty, 
     chapter: concept.chapter,
     topic: concept.topic,
     concept_id: concept.concept_id,
-    question_type: requestedQuestionType || 'direct_concept',
+    question_type: requestedQuestionType || 'one_step_application',
     difficulty,
-    structure_template: 'short_direct_mcq',
+    structure_template: 'statement_based_trap',
     option_pattern: {
       count: 4,
       correct_key: 'A',
-      pattern: 'short_plausible_distractors',
-      average_length: 12,
+      pattern: 'correct_close_confusion_partial_truth_wrong',
+      average_length: 18,
+      roles: ['correct', 'close_confusion', 'partial_truth', 'clearly_wrong'],
     },
     question_text: '',
     options: [],

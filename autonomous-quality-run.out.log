@@ -1,0 +1,3145 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5903 concepts across 40 subjects (saved 2026-04-30T13:36:20.476Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  coverage: 4,
+  priority: 90
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Literary Passage',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'gat',
+  chapter: 'General Science and Environment Literacy',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Psychology & Life',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Self & Personality',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Social Influence & Group Processes',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Therapeutic Approaches',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'sociology',
+  chapter: 'Change & Development in Rural Society',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  coverage: 6,
+  priority: 90
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: english → normalized: english → tier: 1
+Subject: english → normalized: english → tier: 1
+Subject: gat → normalized: gat → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+Subject: sociology → normalized: sociology → tier: 1
+Subject: biology → normalized: biology → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Literary Passage',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'gat',
+    expected_chapter: 'General Science and Environment Literacy',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Psychological Disorders',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Psychology & Life',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Self & Personality',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Social Influence & Group Processes',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Therapeutic Approaches',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'sociology',
+    expected_chapter: 'Change & Development in Rural Society',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Human Reproduction',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'english',
+    chapter: 'Literary Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'gat',
+    chapter: 'General Science and Environment Literacy',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Psychological Disorders',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Psychology & Life',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Self & Personality',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Social Influence & Group Processes',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Therapeutic Approaches',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'sociology',
+    chapter: 'Change & Development in Rural Society',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Human Reproduction',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: 'c4290dda-1ff7-4ff6-9056-82bb9df53c24',
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T13:59:23.665756+00:00'
+  },
+  {
+    id: '3d5361a3-5981-4368-8ecd-09552b8474c7',
+    subject_id: 'english',
+    chapter: 'Literary Passage',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T13:59:23.665756+00:00'
+  },
+  {
+    id: '3666f58f-c54e-44b3-b4cf-92af2a445ce3',
+    subject_id: 'gat',
+    chapter: 'General Science and Environment Literacy',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T13:59:23.665756+00:00'
+  },
+  {
+    id: '48d7315b-97f2-4b35-82d0-754f44f14fe7',
+    subject_id: 'psychology',
+    chapter: 'Psychological Disorders',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T13:59:23.665756+00:00'
+  },
+  {
+    id: 'f636cd85-2192-46e1-a9bd-f3636233d066',
+    subject_id: 'psychology',
+    chapter: 'Psychology & Life',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T13:59:23.665756+00:00'
+  },
+  {
+    id: 'b5007e59-593e-468f-908d-c805917e9ec5',
+    subject_id: 'psychology',
+    chapter: 'Self & Personality',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T13:59:23.665756+00:00'
+  },
+  {
+    id: '98bbb088-d1b1-491c-9b8c-b2efb5856335',
+    subject_id: 'psychology',
+    chapter: 'Social Influence & Group Processes',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T13:59:23.665756+00:00'
+  },
+  {
+    id: '7781dc25-e6ab-4faa-927b-bd329201552f',
+    subject_id: 'psychology',
+    chapter: 'Therapeutic Approaches',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T13:59:23.665756+00:00'
+  },
+  {
+    id: 'aa6aef27-f226-46ba-89b2-d63abaa3cd82',
+    subject_id: 'sociology',
+    chapter: 'Change & Development in Rural Society',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T13:59:23.665756+00:00'
+  },
+  {
+    id: '4a5a9b86-4208-4d8c-a65d-d42214f7b2f2',
+    subject_id: 'biology',
+    chapter: 'Human Reproduction',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T13:59:23.665756+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: 'c4290dda-1ff7-4ff6-9056-82bb9df53c24',
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '3d5361a3-5981-4368-8ecd-09552b8474c7',
+    expected_subject: 'english',
+    expected_chapter: 'Literary Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '3666f58f-c54e-44b3-b4cf-92af2a445ce3',
+    expected_subject: 'gat',
+    expected_chapter: 'General Science and Environment Literacy',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '48d7315b-97f2-4b35-82d0-754f44f14fe7',
+    expected_subject: 'psychology',
+    expected_chapter: 'Psychological Disorders',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'f636cd85-2192-46e1-a9bd-f3636233d066',
+    expected_subject: 'psychology',
+    expected_chapter: 'Psychology & Life',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'b5007e59-593e-468f-908d-c805917e9ec5',
+    expected_subject: 'psychology',
+    expected_chapter: 'Self & Personality',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '98bbb088-d1b1-491c-9b8c-b2efb5856335',
+    expected_subject: 'psychology',
+    expected_chapter: 'Social Influence & Group Processes',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '7781dc25-e6ab-4faa-927b-bd329201552f',
+    expected_subject: 'psychology',
+    expected_chapter: 'Therapeutic Approaches',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'aa6aef27-f226-46ba-89b2-d63abaa3cd82',
+    expected_subject: 'sociology',
+    expected_chapter: 'Change & Development in Rural Society',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '4a5a9b86-4208-4d8c-a65d-d42214f7b2f2',
+    expected_subject: 'biology',
+    expected_chapter: 'Human Reproduction',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'c4290dda-1ff7-4ff6-9056-82bb9df53c24',
+    '3d5361a3-5981-4368-8ecd-09552b8474c7',
+    '3666f58f-c54e-44b3-b4cf-92af2a445ce3',
+    '48d7315b-97f2-4b35-82d0-754f44f14fe7',
+    'f636cd85-2192-46e1-a9bd-f3636233d066',
+    'b5007e59-593e-468f-908d-c805917e9ec5',
+    '98bbb088-d1b1-491c-9b8c-b2efb5856335',
+    '7781dc25-e6ab-4faa-927b-bd329201552f',
+    'aa6aef27-f226-46ba-89b2-d63abaa3cd82',
+    '4a5a9b86-4208-4d8c-a65d-d42214f7b2f2'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'c4290dda-1ff7-4ff6-9056-82bb9df53c24',
+  actual_subject: 'english',
+  actual_chapter: 'Narrative Passage',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 4,
+  subject_question_count: 111,
+  created_at: '2026-04-30T13:59:23.665756+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  count: 4,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'english', chapter: 'Narrative Passage', count: 4 }
+
+[JOB c4290dda] Starting: [english] Narrative Passage
+[worker] RECEIVED_JOB: {
+  job_id: 'c4290dda-1ff7-4ff6-9056-82bb9df53c24',
+  expected_subject: 'english',
+  expected_chapter: 'Narrative Passage',
+  raw_subject_id: 'english',
+  raw_chapter: 'Narrative Passage',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T13:59:23.665756+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'c4290dda-1ff7-4ff6-9056-82bb9df53c24',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  chapter: 'Narrative Passage',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=4 existing questions loaded
+[generation] batch adjusted: { chapter: 'Narrative Passage', generate_count: 15 }
+[worker] GENERATION_INPUT: {
+  job_id: 'c4290dda-1ff7-4ff6-9056-82bb9df53c24',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  expected_chapter: 'Narrative Passage',
+  canonical_unit: 'Reading Comprehension',
+  generate_count: 15,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 15 candidates... chapter="Narrative Passage" unit="Reading Comprehension" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'English',
+  expected_chapter: 'Narrative Passage',
+  requested_count: 15,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'english',
+  expected_chapter: 'Narrative Passage',
+  canonical_unit: 'Reading Comprehension',
+  concept_id: 'english::narrative_passage',
+  pyq_anchor_id: 'structure_only_seed_pyq_en3_for_english::narrative_passage',
+  anchor_tier: 3,
+  batch_size: 15,
+  pyq_style_patterns: [ 'reading_comprehension', 'vocabulary', 'correct_word_usage' ],
+  difficulty_override: null
+}
+[llm] gemini_generation active_model=gemini-3.1-pro resolved_model=gemini-3.1-pro-preview
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3.1-pro-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3.1-pro-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  status: 'timeout',
+  retry_count: 0,
+  duration: 45102,
+  error: 'gemini timeout after 45000ms'
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3.1-pro-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm] gemini_generation active_model=gemini-3.1-flash resolved_model=gemini-3-flash-preview
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  status: 'success',
+  retry_count: 0,
+  duration: 33354,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "q": "Based on the passage, where exactly did Arjun find the old parchment?",
+    "o": [
+      "Inside a leather-bound journal in the attic",
+      "Tucked inside a book about lost civilizations",
+      "Under his mattress in his bedroom",
+      "Hidden behind a stack of old newspapers"
+    ],
+    "a": "B",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "direct_factual_retrieval",
+    "explanation": "The passage states he discovered the parchment tucked inside a book about lost civilizations.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_001",
+    "passage_type": "narrative",
+    "passage_text": "Young Arjun often spent his rainy afternoons in the dusty attic of his grandfather’s old Victorian house. The air smelled of aged paper and cedar. One Tuesday, while rummaging through a stack of leather-bound journals, he discovered a yellowed piece of parchment tucked inside a book about lost civilizations. It wasn't just a drawing; it was a hand-drawn map of their very town, but with landmarks that no longer existed—a 'Whispering Well' and a 'Stone Bridge of Echoes'. His heart raced as he realized the map dated back to 1845. He decided to keep it a secret, tucked safely under his mattress, planning his first expedition for the coming Saturday."
+  },
+  {
+    "q": "Why did Arjun's heart race upon examining the map?",
+    "o": [
+      "He realized it was a very expensive antique",
+      "He recognized the age and the lost landmarks on the map",
+      "He was afraid his grandfather would catch him in the attic",
+      "He found the map inside his favorite journal"
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "causal_inference",
+    "explanation": "The text connects his racing heart to the realization of the map's date and the unique, non-existent landmarks.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_001",
+    "passage_type": "narrative",
+    "passage_text": "Young Arjun often spent his rainy afternoons in the dusty attic of his grandfather’s old Victorian house. The air smelled of aged paper and cedar. One Tuesday, while rummaging through a stack of leather-bound journals, he discovered a yellowed piece of parchment tucked inside a book about lost civilizations. It wasn't just a drawing; it was a hand-drawn map of their very town, but with landmarks that no longer existed—a 'Whispering Well' and a 'Stone Bridge of Echoes'. His heart raced as he realized the map dated back to 1845. He decided to keep it a secret, tucked safely under his mattress, planning his first expedition for the coming Saturday."
+  },
+  {
+    "q": "What makes the map different from a modern map of the town?",
+    "o": [
+      "It is drawn on yellowed parchment instead of paper",
+      "It features landmarks like the 'Whispering Well' that are gone",
+      "It was found in a book about lost civilizations",
+      "It only shows the grandfather's Victorian house"
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "comparative_analysis",
+    "explanation": "The passage specifies the map had landmarks that 'no longer existed', differentiating it from current maps.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_001",
+    "passage_type": "narrative",
+    "passage_text": "Young Arjun often spent his rainy afternoons in the dusty attic of his grandfather’s old Victorian house. The air smelled of aged paper and cedar. One Tuesday, while rummaging through a stack of leather-bound journals, he discovered a yellowed piece of parchment tucked inside a book about lost civilizations. It wasn't just a drawing; it was a hand-drawn map of their very town, but with landmarks that no longer existed—a 'Whispering Well' and a 'Stone Bridge of Echoes'. His heart raced as he realized the map dated back to 1845. He decided to keep it a secret, tucked safely under his mattress, planning his first expedition for the coming Saturday."
+  },
+  {
+    "q": "Which word in the passage suggests that the attic was not cleaned frequently?",
+    "o": [
+      "Aged",
+      "Dusty",
+      "Victorian",
+      "Rummaging"
+    ],
+    "a": "B",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "vocabulary_contextual",
+    "explanation": "The word 'dusty' directly implies that the area has not been cleaned or disturbed recently.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_001",
+    "passage_type": "narrative",
+    "passage_text": "Young Arjun often spent his rainy afternoons in the dusty attic of his grandfather’s old Victorian house. The air smelled of aged paper and cedar. One Tuesday, while rummaging through a stack of leather-bound journals, he discovered a yellowed piece of parchment tucked inside a book about lost civilizations. It wasn't just a drawing; it was a hand-drawn map of their very town, but with landmarks that no longer existed—a 'Whispering Well' and a 'Stone Bridge of Echoes'. His heart raced as he realized the map dated back to 1845. He decided to keep it a secret, tucked safely under his mattress, planning his first expedition for the coming Saturday."
+  },
+  {
+    "q": "What is Arjun's immediate reaction regarding the discovery?",
+    "o": [
+      "He shows the map to his grandfather immediately",
+      "He decides to hide the map and plan a trip",
+      "He writes about it in a leather-bound journal",
+      "He starts cleaning the attic to find more maps"
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "character_action_sequence",
+    "explanation": "Arjun decides to keep it a secret under his mattress and plans an expedition for Saturday.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_001",
+    "passage_type": "narrative",
+    "passage_text": "Young Arjun often spent his rainy afternoons in the dusty attic of his grandfather’s old Victorian house. The air smelled of aged paper and cedar. One Tuesday, while rummaging through a stack of leather-bound journals, he discovered a yellowed piece of parchment tucked inside a book about lost civilizations. It wasn't just a drawing; it was a hand-drawn map of their very town, but with landmarks that no longer existed—a 'Whispering Well' and a 'Stone Bridge of Echoes'. His heart raced as he realized the map dated back to 1845. He decided to keep it a secret, tucked safely under his mattress, planning his first expedition for the coming Saturday."
+  },
+  {
+    "q": "Which physical reaction indicates Meera's nervousness at the start of the passage?",
+    "o": [
+      "She was turning back from the iron gates",
+      "Her palms were sweating against her backpack straps",
+      "She was unable to see through the blur of uniforms",
+      "She was shouting loudly in the hallways"
+    ],
+    "a": "B",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "character_trait_physical_evidence",
+    "explanation": "The passage explicitly mentions 'her palms sweating' as she stood at the gates.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_002",
+    "passage_type": "narrative",
+    "passage_text": "Meera stood at the iron gates of St. Jude’s High, her palms sweating against the straps of her new backpack. Moving from a small village to the bustling city of Mumbai was a change she hadn't anticipated would be so daunting. The hallway was a blur of blue uniforms and loud laughter. Just as she felt like turning back, a tall woman with silver hair and a kind smile approached her. 'You must be Meera,' the woman said softly. It was Mrs. D’Souza, the principal. She didn't lead Meera to the office; instead, she walked her to the library, sensing the girl’s need for quiet. That small gesture of understanding changed Meera’s entire perspective on the day."
+  },
+  {
+    "q": "Why did Mrs. D’Souza choose to take Meera to the library instead of the office?",
+    "o": [
+      "Because the office was too far from the iron gates",
+      "Because she realized Meera needed a calm environment",
+      "Because the library was where the blue uniforms were",
+      "Because Meera had asked to go to the library"
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "motive_inference",
+    "explanation": "The text states the principal sensed 'the girl’s need for quiet' and acted accordingly.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_002",
+    "passage_type": "narrative",
+    "passage_text": "Meera stood at the iron gates of St. Jude’s High, her palms sweating against the straps of her new backpack. Moving from a small village to the bustling city of Mumbai was a change she hadn't anticipated would be so daunting. The hallway was a blur of blue uniforms and loud laughter. Just as she felt like turning back, a tall woman with silver hair and a kind smile approached her. 'You must be Meera,' the woman said softly. It was Mrs. D’Souza, the principal. She didn't lead Meera to the office; instead, she walked her to the library, sensing the girl’s need for quiet. That small gesture of understanding changed Meera’s entire perspective on the day."
+  },
+  {
+    "q": "What does the phrase 'a blur of blue uniforms' suggest about Meera’s experience?",
+    "o": [
+      "The students were running very fast past her",
+      "She was feeling overwhelmed and disoriented by the crowd",
+      "She had forgotten to wear her own blue uniform",
+      "The hallway lights were too dim to see clearly"
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "figurative_language_interpretation",
+    "explanation": "The 'blur' indicates that she was overwhelmed and not processing the individual details around her due to anxiety.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_002",
+    "passage_type": "narrative",
+    "passage_text": "Meera stood at the iron gates of St. Jude’s High, her palms sweating against the straps of her new backpack. Moving from a small village to the bustling city of Mumbai was a change she hadn't anticipated would be so daunting. The hallway was a blur of blue uniforms and loud laughter. Just as she felt like turning back, a tall woman with silver hair and a kind smile approached her. 'You must be Meera,' the woman said softly. It was Mrs. D’Souza, the principal. She didn't lead Meera to the office; instead, she walked her to the library, sensing the girl’s need for quiet. That small gesture of understanding changed Meera’s entire perspective on the day."
+  },
+  {
+    "q": "Which city has Meera moved to in the story?",
+    "o": [
+      "St. Jude’s",
+      "Mumbai",
+      "A small village",
+      "The Silver City"
+    ],
+    "a": "B",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "factual_detail",
+    "explanation": "The passage mentions her move to the 'bustling city of Mumbai'.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_002",
+    "passage_type": "narrative",
+    "passage_text": "Meera stood at the iron gates of St. Jude’s High, her palms sweating against the straps of her new backpack. Moving from a small village to the bustling city of Mumbai was a change she hadn't anticipated would be so daunting. The hallway was a blur of blue uniforms and loud laughter. Just as she felt like turning back, a tall woman with silver hair and a kind smile approached her. 'You must be Meera,' the woman said softly. It was Mrs. D’Souza, the principal. She didn't lead Meera to the office; instead, she walked her to the library, sensing the girl’s need for quiet. That small gesture of understanding changed Meera’s entire perspective on the day."
+  },
+  {
+    "q": "What specific action by Mrs. D'Souza changed Meera's outlook?",
+    "o": [
+      "She introduced Meera to all the students",
+      "She showed empathy and recognized Meera's discomfort",
+      "She gave her a new blue uniform to wear",
+      "She opened the iron gates for her"
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "character_impact_analysis",
+    "explanation": "The 'gesture of understanding' (taking her to a quiet library) is what shifted her perspective.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_002",
+    "passage_type": "narrative",
+    "passage_text": "Meera stood at the iron gates of St. Jude’s High, her palms sweating against the straps of her new backpack. Moving from a small village to the bustling city of Mumbai was a change she hadn't anticipated would be so daunting. The hallway was a blur of blue uniforms and loud laughter. Just as she felt like turning back, a tall woman with silver hair and a kind smile approached her. 'You must be Meera,' the woman said softly. It was Mrs. D’Souza, the principal. She didn't lead Meera to the office; instead, she walked her to the library, sensing the girl’s need for quiet. That small gesture of understanding changed Meera’s entire perspective on the day."
+  },
+  {
+    "q": "What does the 'modern, automated beacon' represent in Elias's journey?",
+    "o": [
+      "The safety of technological progress at Blackwood Cove",
+      "The loss of the familiar past and human touch",
+      "A signal for him to return to his vessel",
+      "The town's increased wealth during his absence"
+    ],
+    "a": "B",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "symbolism_interpretation",
+    "explanation": "The contrast between the 'familiar flickering lamp' and the 'automated beacon' symbolizes how the world has moved on without him.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_003",
+    "passage_type": "narrative",
+    "passage_text": "Captain Elias had seen the sunrise over five different oceans, but nothing compared to the dawn breaking over the cliffs of his childhood home, Blackwood Cove. After forty years at sea, the salt had etched deep lines into his face, matching the weathered wood of his vessel. As he stepped onto the creaky pier, the town seemed smaller, the houses huddled closer together than he remembered. He walked toward the old lighthouse, expecting to see the familiar flickering lamp. Instead, he found a modern, automated beacon. The silence of the town was heavy, broken only by the rhythmic crashing of waves—a sound that had been his only constant companion for decades. He felt like a ghost haunting his own past."
+  },
+  {
+    "q": "How long was Captain Elias away from Blackwood Cove?",
+    "o": [
+      "Ten years",
+      "Four decades",
+      "Five years",
+      "A lifetime of centuries"
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "time_frame_identification",
+    "explanation": "The passage specifies he spent 'forty years at sea'.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_003",
+    "passage_type": "narrative",
+    "passage_text": "Captain Elias had seen the sunrise over five different oceans, but nothing compared to the dawn breaking over the cliffs of his childhood home, Blackwood Cove. After forty years at sea, the salt had etched deep lines into his face, matching the weathered wood of his vessel. As he stepped onto the creaky pier, the town seemed smaller, the houses huddled closer together than he remembered. He walked toward the old lighthouse, expecting to see the familiar flickering lamp. Instead, he found a modern, automated beacon. The silence of the town was heavy, broken only by the rhythmic crashing of waves—a sound that had been his only constant companion for decades. He felt like a ghost haunting his own past."
+  },
+  {
+    "q": "What is the 'only constant companion' for Elias mentioned in the text?",
+    "o": [
+      "The creaky pier",
+      "The rhythmic crashing of waves",
+      "The flickering lighthouse lamp",
+      "His weathered vessel"
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "textual_reference",
+    "explanation": "The passage identifies the crashing waves as the sound that had been his 'only constant companion'.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_003",
+    "passage_type": "narrative",
+    "passage_text": "Captain Elias had seen the sunrise over five different oceans, but nothing compared to the dawn breaking over the cliffs of his childhood home, Blackwood Cove. After forty years at sea, the salt had etched deep lines into his face, matching the weathered wood of his vessel. As he stepped onto the creaky pier, the town seemed smaller, the houses huddled closer together than he remembered. He walked toward the old lighthouse, expecting to see the familiar flickering lamp. Instead, he found a modern, automated beacon. The silence of the town was heavy, broken only by the rhythmic crashing of waves—a sound that had been his only constant companion for decades. He felt like a ghost haunting his own past."
+  },
+  {
+    "q": "Which description of the town highlights Elias's inner feeling of disconnection?",
+    "o": [
+      "The town seemed smaller and houses huddled closer",
+      "The sun rose over the cliffs of the cove",
+      "The pier was creaky and old",
+      "The lighthouse was visible from the pier"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "tonal_description_inference",
+    "explanation": "The distorted memory of the town appearing smaller and huddled reflects his psychological distance after being away so long.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_003",
+    "passage_type": "narrative",
+    "passage_text": "Captain Elias had seen the sunrise over five different oceans, but nothing compared to the dawn breaking over the cliffs of his childhood home, Blackwood Cove. After forty years at sea, the salt had etched deep lines into his face, matching the weathered wood of his vessel. As he stepped onto the creaky pier, the town seemed smaller, the houses huddled closer together than he remembered. He walked toward the old lighthouse, expecting to see the familiar flickering lamp. Instead, he found a modern, automated beacon. The silence of the town was heavy, broken only by the rhythmic crashing of waves—a sound that had been his only constant companion for decades. He felt like a ghost haunting his own past."
+  },
+  {
+    "q": "What is the overall tone of the final paragraph regarding Captain Elias's return?",
+    "o": [
+      "Optimistic and celebratory",
+      "Melancholic and reflective",
+      "Angry and resentful",
+      "Fearful and anxious"
+    ],
+    "a": "B",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "mood_tone_analysis",
+    "explanation": "The comparison to a 'ghost haunting his own past' and the focus on silence and changes create a melancholic tone.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "passage_003",
+    "passage_type": "narrative",
+    "passage_text": "Captain Elias had seen the sunrise over five different oceans, but nothing compared to the dawn breaking over the cliffs of his childhood home, Blackwood Cove. After forty years at sea, the salt had etched deep lines into his face, matching the weathered wood of his vessel. As he stepped onto the creaky pier, the town seemed smaller, the houses huddled closer together than he remembered. He walked toward the old lighthouse, expecting to see the familiar flickering lamp. Instead, he found a modern, automated beacon. The silence of the town was heavy, broken only by the rhythmic crashing of waves—a sound that had been his only constant companion for decades. He felt like a ghost haunting his own past."
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 15
+[english-classification] {
+  question_id: 'direct_factual_retrieval',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'causal_inference',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'comparative_analysis',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'vocabulary_contextual',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'character_action_sequence',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'character_trait_physical_evidence',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'motive_inference',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'figurative_language_interpretation',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'factual_detail',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'character_impact_analysis',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'symbolism_interpretation',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'time_frame_identification',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'textual_reference',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'tonal_description_inference',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'mood_tone_analysis',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[llm] gemini_generation success gemini-3.1-flash resolved_model=gemini-3-flash-preview count=1
+[pipeline] RAW_PARSED_COUNT 15
+[pipeline] NORMALIZED_COUNT 1
+[pipeline] generated_count=1 | mix=easy=0, medium=1, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 1
+[pipeline] after_chapter_filter=1 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=1 | sent_for_strict_validation=1
+[pipeline] Starting batch validation for 1 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3.1-flash-lite | resolved_model=gemini-3.1-flash-lite-preview | count=1
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T14:00:42.069Z","model":"gemini-3.1-flash-lite","resolvedModel":"gemini-3.1-flash-lite-preview","subject":"english","questionCount":1}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3.1-flash-lite-preview',
+  subject: 'english',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3.1-flash-lite-preview',
+  subject: 'english',
+  stage: 'batch_validation',
+  status: 'service_unavailable',
+  retry_count: 0,
+  duration: 495,
+  error: '[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent: [503 Service Unavailable] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.'
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3.1-flash-lite-preview',
+  subject: 'english',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3.1-flash-lite-preview',
+  subject: 'english',
+  stage: 'batch_validation',
+  retry_count: 1
+}
+[llm-call] {
+  model: 'gemini-3.1-flash-lite-preview',
+  subject: 'english',
+  stage: 'batch_validation',
+  status: 'service_unavailable',
+  retry_count: 1,
+  duration: 1452,
+  error: '[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent: [503 Service Unavailable] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.'
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3.1-flash-lite-preview',
+  subject: 'english',
+  stage: 'batch_validation',
+  retry_count: 1
+}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3.1-flash-lite-preview',
+  subject: 'english',
+  stage: 'batch_validation',
+  retry_count: 2
+}
+[llm-call] {
+  model: 'gemini-3.1-flash-lite-preview',
+  subject: 'english',
+  stage: 'batch_validation',
+  status: 'service_unavailable',
+  retry_count: 2,
+  duration: 25309,
+  error: '[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent: [503 Service Unavailable] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.'
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3.1-flash-lite-preview',
+  subject: 'english',
+  stage: 'batch_validation',
+  retry_count: 2
+}
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=1
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T14:01:12.094Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"english","questionCount":1}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 4236,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 1
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T14:01:16.332Z","model":"gemini-3-flash","subject":"english","resultCount":1}
+[difficulty distribution] {
+  model: { easy: 0, medium: 1, hard: 0 },
+  system: { easy: 0, medium: 1, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 1
+[pipeline] validated_count=1 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 1
+[pipeline] selected_count=1 | FINAL DISTRIBUTION: {"easy":0,"medium":1,"hard":0}
+✅ Published 899ee931-f17b-4d5f-948e-e34a50a6f7ff | status=live | difficulty=medium | discoverable=true
+[pipeline] METRICS | generated_count=1 | prefiltered_count=1 | strict_validation_count=1 | accepted_count=1 | api_calls_used=2 | cost_efficiency_ratio=0.50
+[pipeline] SUMMARY | subject=english | chapter=Narrative Passage | target=15 | generated_count=1 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=1 | validated_count=1 | accepted_count=1 | shortfall=14 | yield_rate=100.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=1, hard=0
+[pipeline] subject_distribution: {"subject":"english","accepted":1,"rejected":0,"target":15,"met":false}
+[supervisor] COST_REPORT | batch_cost=$0.0043 | cost_per_accepted=$0.0043 | cost_per_1000=$4.33 | total_accepted=1
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  sample_size: 5,
+  direct_definition_count: 0,
+  weak_option_count: 4,
+  repeated_structure_count: 0,
+  easy_count: 1,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '3d5361a3-5981-4368-8ecd-09552b8474c7',
+    '3666f58f-c54e-44b3-b4cf-92af2a445ce3',
+    '48d7315b-97f2-4b35-82d0-754f44f14fe7',
+    'f636cd85-2192-46e1-a9bd-f3636233d066',
+    'b5007e59-593e-468f-908d-c805917e9ec5',
+    '98bbb088-d1b1-491c-9b8c-b2efb5856335',
+    '7781dc25-e6ab-4faa-927b-bd329201552f',
+    'aa6aef27-f226-46ba-89b2-d63abaa3cd82',
+    '4a5a9b86-4208-4d8c-a65d-d42214f7b2f2'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '3d5361a3-5981-4368-8ecd-09552b8474c7',
+  actual_subject: 'english',
+  actual_chapter: 'Literary Passage',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 5,
+  subject_question_count: 112,
+  created_at: '2026-04-30T13:59:23.665756+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'english',
+  chapter: 'Literary Passage',
+  count: 5,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'english', chapter: 'Literary Passage', count: 5 }
+
+[JOB 3d5361a3] Starting: [english] Literary Passage
+[worker] RECEIVED_JOB: {
+  job_id: '3d5361a3-5981-4368-8ecd-09552b8474c7',
+  expected_subject: 'english',
+  expected_chapter: 'Literary Passage',
+  raw_subject_id: 'english',
+  raw_chapter: 'Literary Passage',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T13:59:23.665756+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '3d5361a3-5981-4368-8ecd-09552b8474c7',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  chapter: 'Literary Passage',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=5 existing questions loaded
+[generation] batch adjusted: { chapter: 'Literary Passage', generate_count: 15 }
+[worker] GENERATION_INPUT: {
+  job_id: '3d5361a3-5981-4368-8ecd-09552b8474c7',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  expected_chapter: 'Literary Passage',
+  canonical_unit: 'Reading Comprehension',
+  generate_count: 15,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 15 candidates... chapter="Literary Passage" unit="Reading Comprehension" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'English',
+  expected_chapter: 'Literary Passage',
+  requested_count: 15,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'english',
+  expected_chapter: 'Literary Passage',
+  canonical_unit: 'Reading Comprehension',
+  concept_id: 'english::literary_passage',
+  pyq_anchor_id: 'structure_only_seed_pyq_en3_for_english::literary_passage',
+  anchor_tier: 3,
+  batch_size: 15,
+  pyq_style_patterns: [ 'reading_comprehension', 'vocabulary', 'correct_word_usage' ],
+  difficulty_override: null
+}
+[llm] gemini_generation active_model=gemini-3.1-flash resolved_model=gemini-3-flash-preview
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  status: 'success',
+  retry_count: 0,
+  duration: 45619,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "q": "Based on the passage, the atmosphere of the forest can best be described as:",
+    "o": ["Serene", "Lonely", "Silent", "Boring"],
+    "a": "Serene",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "atmosphere_identification",
+    "explanation": "The passage uses words like 'peace', 'fading dream', and 'slow time' to establish a serene mood, while 'silent' is only a partial description and 'lonely' suggests a negative isolation not present.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "forest_solitude_001",
+    "passage_type": "literary",
+    "passage_text": "The woods were silent, save for the rhythmic drumming of a distant woodpecker and the soft sigh of the wind through the pines. I sat on the mossy bank, feeling the cool dampness seep through my clothes. Here, the world of frantic schedules and ringing bells felt like a fading dream. The sunlight filtered through the canopy in golden shafts, illuminating dust motes that danced in the still air. In this green cathedral, time seemed to stretch and slow, offering a peace I had long forgotten. Every breath felt cleaner, every thought more lucid, as the forest embraced me in its ancient, leafy arms."
+  },
+  {
+    "q": "What does the phrase 'green cathedral' primarily suggest about the narrator's view of the forest?",
+    "o": ["Nature possesses a sacred or spiritual quality", "The trees are exceptionally tall and arched", "The forest is a place for religious gatherings", "The forest is dominated by a single color"],
+    "a": "Nature possesses a sacred or spiritual quality",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "metaphor_interpretation",
+    "explanation": "The metaphor 'cathedral' implies a sense of reverence and sacredness, going beyond just the physical height of the trees.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "forest_solitude_001",
+    "passage_type": "literary",
+    "passage_text": "The woods were silent, save for the rhythmic drumming of a distant woodpecker and the soft sigh of the wind through the pines. I sat on the mossy bank, feeling the cool dampness seep through my clothes. Here, the world of frantic schedules and ringing bells felt like a fading dream. The sunlight filtered through the canopy in golden shafts, illuminating dust motes that danced in the still air. In this green cathedral, time seemed to stretch and slow, offering a peace I had long forgotten. Every breath felt cleaner, every thought more lucid, as the forest embraced me in its ancient, leafy arms."
+  },
+  {
+    "q": "The mention of 'frantic schedules and ringing bells' serves to:",
+    "o": ["Contrast the chaos of modern life with the stillness of the forest", "Show that the narrator is stressed about being late", "Explain why the narrator decided to go for a hike", "Highlight the narrator's preference for urban environments"],
+    "a": "Contrast the chaos of modern life with the stillness of the forest",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "contextual_contrast",
+    "explanation": "These terms represent the busy life the narrator is escaping, creating a sharp contrast with the peaceful forest setting.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "forest_solitude_001",
+    "passage_type": "literary",
+    "passage_text": "The woods were silent, save for the rhythmic drumming of a distant woodpecker and the soft sigh of the wind through the pines. I sat on the mossy bank, feeling the cool dampness seep through my clothes. Here, the world of frantic schedules and ringing bells felt like a fading dream. The sunlight filtered through the canopy in golden shafts, illuminating dust motes that danced in the still air. In this green cathedral, time seemed to stretch and slow, offering a peace I had long forgotten. Every breath felt cleaner, every thought more lucid, as the forest embraced me in its ancient, leafy arms."
+  },
+  {
+    "q": "Which word best describes Elias's state of mind as he stands before the door?",
+    "o": ["Hesitant", "Nostalgic", "Grief-stricken", "Angry"],
+    "a": "Hesitant",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "emotional_state_inference",
+    "explanation": "Elias's hovering hand and the eventual decision to turn away demonstrate hesitation, even though he also feels nostalgia.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "homecoming_conflict_002",
+    "passage_type": "literary",
+    "passage_text": "Elias stood before the heavy oak door, his hand hovering over the iron knocker. For years, he had imagined this homecoming, rehearsing every word and every gesture. Yet now, the silence of the street felt heavy, almost suffocating. He remembered the laughter that once spilled from the windows, now dark and shuttered. Was it pride that kept his hand from falling, or the fear that the ghosts of the past were better left undisturbed? He turned away, the weight of the unspoken still pressing against his chest, realizing that some doors are harder to open from the outside even when the keys are still in one's pocket."
+  },
+  {
+    "q": "The 'shuttered windows' are used in the passage to symbolize:",
+    "o": ["The loss of the house's former warmth and life", "The fact that the residents are currently sleeping", "Elias's inability to see his own future clearly", "The security measures taken by the current owners"],
+    "a": "The loss of the house's former warmth and life",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "symbolic_meaning",
+    "explanation": "The contrast between the remembered laughter and the now dark, shuttered windows symbolizes the decline of the home's vitality.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "homecoming_conflict_002",
+    "passage_type": "literary",
+    "passage_text": "Elias stood before the heavy oak door, his hand hovering over the iron knocker. For years, he had imagined this homecoming, rehearsing every word and every gesture. Yet now, the silence of the street felt heavy, almost suffocating. He remembered the laughter that once spilled from the windows, now dark and shuttered. Was it pride that kept his hand from falling, or the fear that the ghosts of the past were better left undisturbed? He turned away, the weight of the unspoken still pressing against his chest, realizing that some doors are harder to open from the outside even when the keys are still in one's pocket."
+  },
+  {
+    "q": "What does the phrase 'weight of the unspoken' imply in the context of the passage?",
+    "o": ["Unresolved issues and secrets from the past", "A physical burden Elias is carrying to the house", "The difficulty of speaking in a very quiet street", "The memories of the laughter he used to hear"],
+    "a": "Unresolved issues and secrets from the past",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "literary_device_application",
+    "explanation": "The 'unspoken' refers to the things Elias never said or resolved, which now act as a metaphorical weight preventing his return.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "homecoming_conflict_002",
+    "passage_type": "literary",
+    "passage_text": "Elias stood before the heavy oak door, his hand hovering over the iron knocker. For years, he had imagined this homecoming, rehearsing every word and every gesture. Yet now, the silence of the street felt heavy, almost suffocating. He remembered the laughter that once spilled from the windows, now dark and shuttered. Was it pride that kept his hand from falling, or the fear that the ghosts of the past were better left undisturbed? He turned away, the weight of the unspoken still pressing against his chest, realizing that some doors are harder to open from the outside even when the keys are still in one's pocket."
+  },
+  {
+    "q": "The primary focus of the passage is the description of:",
+    "o": ["A house in a state of decay", "A garden full of wild roses", "A family returning to their home", "A storm damaging an old building"],
+    "a": "A house in a state of decay",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "main_subject_identification",
+    "explanation": "The passage centers on the house being a 'skeletal remains' and a 'monument to neglect'.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "decaying_mansion_003",
+    "passage_type": "literary",
+    "passage_text": "The house at the end of the lane was a skeletal remains of its former glory. Vines, like grasping fingers, climbed the crumbling brickwork, choking the life out of the stone. Every gust of wind elicited a mournful groan from the loosened floorboards, as if the structure itself were lamenting the passage of time. Dust lay thick on the windowsills, masking the view of the overgrown garden where roses had once bloomed in riotous color. It stood as a monument to neglect, a silent witness to a family long gone, its roof sagging like a weary shoulder under the burden of years, waiting for a restoration that would likely never arrive."
+  },
+  {
+    "q": "The description 'vines, like grasping fingers... choking the life out of the stone' is an example of:",
+    "o": ["Personification", "Alliteration", "Irony", "Hyperbole"],
+    "a": "Personification",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "literary_device_application",
+    "explanation": "Attributing human actions like 'grasping' and 'choking' to vines is a clear use of personification.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "decaying_mansion_003",
+    "passage_type": "literary",
+    "passage_text": "The house at the end of the lane was a skeletal remains of its former glory. Vines, like grasping fingers, climbed the crumbling brickwork, choking the life out of the stone. Every gust of wind elicited a mournful groan from the loosened floorboards, as if the structure itself were lamenting the passage of time. Dust lay thick on the windowsills, masking the view of the overgrown garden where roses had once bloomed in riotous color. It stood as a monument to neglect, a silent witness to a family long gone, its roof sagging like a weary shoulder under the burden of years, waiting for a restoration that would likely never arrive."
+  },
+  {
+    "q": "The author’s tone toward the house can be described as:",
+    "o": ["Melancholic", "Indifferent", "Joyful", "Resentful"],
+    "a": "Melancholic",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "authorial_attitude",
+    "explanation": "Words like 'mournful groan', 'lamenting', and 'weary' evoke a sense of sadness and reflection characteristic of a melancholic tone.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "decaying_mansion_003",
+    "passage_type": "literary",
+    "passage_text": "The house at the end of the lane was a skeletal remains of its former glory. Vines, like grasping fingers, climbed the crumbling brickwork, choking the life out of the stone. Every gust of wind elicited a mournful groan from the loosened floorboards, as if the structure itself were lamenting the passage of time. Dust lay thick on the windowsills, masking the view of the overgrown garden where roses had once bloomed in riotous color. It stood as a monument to neglect, a silent witness to a family long gone, its roof sagging like a weary shoulder under the burden of years, waiting for a restoration that would likely never arrive."
+  },
+  {
+    "q": "Which of the following is the central theme of the poem?",
+    "o": ["The inevitability of time passing", "The beauty of a summer morning", "The difficulty of manual labor", "The importance of keeping memories"],
+    "a": "The inevitability of time passing",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "central_theme_poetry",
+    "explanation": "The imagery of sand in a glass, lengthening shadows, and vanishing mist all point to the theme of time's relentless movement.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "time_hourglass_004",
+    "passage_type": "literary",
+    "passage_text": "The golden grains of sand slip through the glass, / A steady march that none can ever stay. / The shadows lengthen on the summer grass, / As morning brightness turns to evening gray. / We grasp at moments, fleeting and so fair, / Like morning mist that vanishes in light, / Leaving but a memory in the air, / Before the silent coming of the night. / No hand can hold the river's rushing flow, / Nor call back yesterday from where it fled; / We watch the seasons come and see them go, / Walking the paths where many once have tread. The clock ticks on with cold, indifferent grace, / Marking the lines upon a traveler's face."
+  },
+  {
+    "q": "In the poem, the phrase 'steady march' refers to the movement of:",
+    "o": ["Time", "Shadows", "Soldiers", "Sand"],
+    "a": "Time",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "phrase_contextual_meaning",
+    "explanation": "While 'sand' is the physical object mentioned, 'steady march' metaphorically describes the relentless and rhythmic progression of time.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "time_hourglass_004",
+    "passage_type": "literary",
+    "passage_text": "The golden grains of sand slip through the glass, / A steady march that none can ever stay. / The shadows lengthen on the summer grass, / As morning brightness turns to evening gray. / We grasp at moments, fleeting and so fair, / Like morning mist that vanishes in light, / Leaving but a memory in the air, / Before the silent coming of the night. / No hand can hold the river's rushing flow, / Nor call back yesterday from where it fled; / We watch the seasons come and see them go, / Walking the paths where many once have tread. The clock ticks on with cold, indifferent grace, / Marking the lines upon a traveler's face."
+  },
+  {
+    "q": "The 'morning mist that vanishes in light' is used to illustrate:",
+    "o": ["The temporary and fragile nature of life's moments", "The change in weather as the day progresses", "The confusion one feels when waking up", "The beauty of natural landscapes at dawn"],
+    "a": "The temporary and fragile nature of life's moments",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "imagery_analysis",
+    "explanation": "The mist is a simile for 'moments, fleeting and so fair', highlighting how quickly experiences disappear.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "time_hourglass_004",
+    "passage_type": "literary",
+    "passage_text": "The golden grains of sand slip through the glass, / A steady march that none can ever stay. / The shadows lengthen on the summer grass, / As morning brightness turns to evening gray. / We grasp at moments, fleeting and so fair, / Like morning mist that vanishes in light, / Leaving but a memory in the air, / Before the silent coming of the night. / No hand can hold the river's rushing flow, / Nor call back yesterday from where it fled; / We watch the seasons come and see them go, / Walking the paths where many once have tread. The clock ticks on with cold, indifferent grace, / Marking the lines upon a traveler's face."
+  },
+  {
+    "q": "What is Martha’s primary realization while watching the potter?",
+    "o": ["Art is defined by the connection between creator and material", "Clay is a very difficult substance to master", "The potter is highly skilled and experienced", "Vases are more beautiful when they are slender"],
+    "a": "Art is defined by the connection between creator and material",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "implicit_message",
+    "explanation": "The text explicitly states Martha realized art is about the 'silent dialogue between the creator and the medium'.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "potter_clay_005",
+    "passage_type": "literary",
+    "passage_text": "Martha watched the potter’s hands with a kind of reverent intensity. The clay, initially a stubborn lump, began to yield under his touch, rising and falling in a rhythmic dance. There was no hesitation in his movements, only a deep, intuitive understanding of the material. As the spinning wheel hummed, a slender vase emerged from the chaos, its form graceful and balanced. Martha realized then that art was not just about the final product, but the silent dialogue between the creator and the medium, a language spoken in pressure and patience rather than words or sounds. She felt a sudden urge to reach out and touch the wet earth, to feel the pull of creation herself."
+  },
+  {
+    "q": "The description of the clay as a 'stubborn lump' that 'yields' suggests:",
+    "o": ["The transformative power of the artist’s skill", "The poor quality of the material used", "The potter's initial struggle and frustration", "The speed at which the spinning wheel moves"],
+    "a": "The transformative power of the artist’s skill",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "character_insight",
+    "explanation": "This transition shows how the potter's 'intuitive understanding' and skill change the raw material into art.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "potter_clay_005",
+    "passage_type": "literary",
+    "passage_text": "Martha watched the potter’s hands with a kind of reverent intensity. The clay, initially a stubborn lump, began to yield under his touch, rising and falling in a rhythmic dance. There was no hesitation in his movements, only a deep, intuitive understanding of the material. As the spinning wheel hummed, a slender vase emerged from the chaos, its form graceful and balanced. Martha realized then that art was not just about the final product, but the silent dialogue between the creator and the medium, a language spoken in pressure and patience rather than words or sounds. She felt a sudden urge to reach out and touch the wet earth, to feel the pull of creation herself."
+  },
+  {
+    "q": "In the concluding sentence, Martha's urge to 'feel the pull of creation' implies:",
+    "o": ["A desire to move from being an observer to a participant", "A physical attraction to the wetness of the clay", "A need to help the potter with his heavy work", "A curiosity about how the spinning wheel functions"],
+    "a": "A desire to move from being an observer to a participant",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "concluding_line_interpretation",
+    "explanation": "After observing the 'dialogue' of art, she wants to experience that creative process herself, shifting her role.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "potter_clay_005",
+    "passage_type": "literary",
+    "passage_text": "Martha watched the potter’s hands with a kind of reverent intensity. The clay, initially a stubborn lump, began to yield under his touch, rising and falling in a rhythmic dance. There was no hesitation in his movements, only a deep, intuitive understanding of the material. As the spinning wheel hummed, a slender vase emerged from the chaos, its form graceful and balanced. Martha realized then that art was not just about the final product, but the silent dialogue between the creator and the medium, a language spoken in pressure and patience rather than words or sounds. She felt a sudden urge to reach out and touch the wet earth, to feel the pull of creation herself."
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 15
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '3666f58f-c54e-44b3-b4cf-92af2a445ce3',
+    '48d7315b-97f2-4b35-82d0-754f44f14fe7',
+    'f636cd85-2192-46e1-a9bd-f3636233d066',
+    'b5007e59-593e-468f-908d-c805917e9ec5',
+    '98bbb088-d1b1-491c-9b8c-b2efb5856335',
+    '7781dc25-e6ab-4faa-927b-bd329201552f',
+    'aa6aef27-f226-46ba-89b2-d63abaa3cd82',
+    '4a5a9b86-4208-4d8c-a65d-d42214f7b2f2'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '3666f58f-c54e-44b3-b4cf-92af2a445ce3',
+  actual_subject: 'gat',
+  actual_chapter: 'General Science and Environment Literacy',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 5,
+  subject_question_count: 175,
+  created_at: '2026-04-30T13:59:23.665756+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'gat',
+  chapter: 'General Science and Environment Literacy',
+  count: 5,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'gat',
+  chapter: 'General Science and Environment Literacy',
+  count: 5
+}
+
+[JOB 3666f58f] Starting: [gat] General Science and Environment Literacy
+[worker] RECEIVED_JOB: {
+  job_id: '3666f58f-c54e-44b3-b4cf-92af2a445ce3',
+  expected_subject: 'gat',
+  expected_chapter: 'General Science and Environment Literacy',
+  raw_subject_id: 'gat',
+  raw_chapter: 'General Science and Environment Literacy',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T13:59:23.665756+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '3666f58f-c54e-44b3-b4cf-92af2a445ce3',
+  expected_subject: 'gat',
+  resolved_subject_id: 'gat',
+  resolved_subject_name: 'General Test',
+  chapter: 'General Science and Environment Literacy',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=5 existing questions loaded
+[generation] batch adjusted: {
+  chapter: 'General Science and Environment Literacy',
+  generate_count: 15
+}
+[worker] GENERATION_INPUT: {
+  job_id: '3666f58f-c54e-44b3-b4cf-92af2a445ce3',
+  expected_subject: 'gat',
+  resolved_subject_id: 'gat',
+  resolved_subject_name: 'General Test',
+  expected_chapter: 'General Science and Environment Literacy',
+  canonical_unit: 'General Science and Environment Literacy',
+  generate_count: 15,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 15 candidates... chapter="General Science and Environment Literacy" unit="General Science and Environment Literacy" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'gat',
+  prompt_subject_name: 'General Test',
+  expected_chapter: 'General Science and Environment Literacy',
+  requested_count: 15,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'gat',
+  expected_chapter: 'General Science and Environment Literacy',
+  canonical_unit: 'General Science and Environment Literacy',
+  concept_id: 'gat::general_science_and_environment_literacy',
+  pyq_anchor_id: 'structure_only_seed_pyq_g1_for_gat::general_science_and_environment_literacy',
+  anchor_tier: 3,
+  batch_size: 15,
+  pyq_style_patterns: [ 'simple_arithmetic', 'logical_reasoning', 'data_interpretation' ],
+  difficulty_override: null
+}
+[llm] gemini_generation active_model=gemini-3.1-flash resolved_model=gemini-3-flash-preview
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'gat',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'gat',
+  stage: 'generation_gemini',
+  status: 'success',
+  retry_count: 0,
+  duration: 29040,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'gat',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "q": "If an ecosystem's producer level has 5000 Joules of energy, how much energy will be available at the secondary consumer level, assuming a 10% transfer rate at each step?",
+    "o": [
+      "500 Joules",
+      "50 Joules",
+      "5 Joules",
+      "0.5 Joules"
+    ],
+    "a": "B",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "simple_arithmetic",
+    "concept_pattern": "energy_pyramid_calculation",
+    "explanation": "According to the 10% law, primary consumers get 500J and secondary consumers get 10% of that, which is 50J.",
+    "subject": "gat",
+    "public_subject": "general_test",
+    "chapter": "General Science and Environment Literacy",
+    "topic": "General Science and Environment Literacy",
+    "concept": "General Science and Environment Literacy",
+    "concept_id": "gat::general_science_and_environment_literacy",
+    "pyq_anchor_id": "structure_only_seed_pyq_g1_for_gat::general_science_and_environment_literacy",
+    "anchor_tier": 3
+  },
+  {
+    "q": "A local water body's pH level changed from 7 to 5 after an industrial discharge. This change indicates that the water has become:",
+    "o": [
+      "10 times more acidic",
+      "100 times more acidic",
+      "2 times more acidic",
+      "100 times more alkaline"
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "logical_reasoning",
+    "concept_pattern": "ph_scale_logarithmic_change",
+    "explanation": "The pH scale is logarithmic; a decrease of 2 units means the acidity increases by 10 to the power of 2 (100 times).",
+    "subject": "gat",
+    "public_subject": "general_test",
+    "chapter": "General Science and Environment Literacy",
+    "topic": "General Science and Environment Literacy",
+    "concept": "General Science and Environment Literacy",
+    "concept_id": "gat::general_science_and_environment_literacy",
+    "pyq_anchor_id": "structure_only_seed_pyq_g1_for_gat::general_science_and_environment_literacy",
+    "anchor_tier": 3
+  },
+  {
+    "q": "A city produces 400 tons of waste daily. If 60% of this waste is organic and can be composted, how many tons of waste will still need to go to the landfill if no other recycling is done?",
+    "o": [
+      "240 tons",
+      "160 tons",
+      "60 tons",
+      "340 tons"
+    ],
+    "a": "B",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "simple_arithmetic",
+    "concept_pattern": "waste_management_percentage",
+    "explanation": "If 60% is composted (240 tons), then 40% remains for the landfill (0.40 * 400 = 160 tons).",
+    "subject": "gat",
+    "public_subject": "general_test",
+    "chapter": "General Science and Environment Literacy",
+    "topic": "General Science and Environment Literacy",
+    "concept": "General Science and Environment Literacy",
+    "concept_id": "gat::general_science_and_environment_literacy",
+    "pyq_anchor_id": "structure_only_seed_pyq_g1_for_gat::general_science_and_environment_literacy",
+    "anchor_tier": 3
+  },
+  {
+    "q": "In a village, the birth rate is 25 per 1000 and the death rate is 15 per 1000 annually. What is the annual percentage growth rate of the population?",
+    "o": [
+      "10%",
+      "1%",
+      "0.1%",
+      "2.5%"
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "simple_arithmetic",
+    "concept_pattern": "population_growth_calculation",
+    "explanation": "The growth per 1000 is 25 - 15 = 10. To find the percentage: (10/1000) * 100 = 1%.",
+    "subject": "gat",
+    "public_subject": "general_test",
+    "chapter": "General Science and Environment Literacy",
+    "topic": "General Science and Environment Literacy",
+    "concept": "General Science and Environment Literacy",
+    "concept_id": "gat::general_science_and_environment_literacy",
+    "pyq_anchor_id": "structure_only_seed_pyq_g1_for_gat::general_science_and_environment_literacy",
+    "anchor_tier": 3
+  },
+  {
+    "q": "Which of the following household waste combinations consists entirely of materials that are non-biodegradable?",
+    "o": [
+      "Glass bottles, Plastic bags, Aluminum cans",
+      "Paper bags, Vegetable peels, Glass bottles",
+      "Plastic bottles, Dry leaves, Cotton cloth",
+      "Steel spoons, Wood scraps, Plastic toys"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "logical_reasoning",
+    "concept_pattern": "biodegradability_identification",
+    "explanation": "Glass, plastic, and aluminum do not decompose naturally by biological processes, unlike paper or wood.",
+    "subject": "gat",
+    "public_subject": "general_test",
+    "chapter": "General Science and Environment Literacy",
+    "topic": "General Science and Environment Literacy",
+    "concept": "General Science and Environment Literacy",
+    "concept_id": "gat::general_science_and_environment_literacy",
+    "pyq_anchor_id": "structure_only_seed_pyq_g1_for_gat::general_science_and_environment_literacy",
+    "anchor_tier": 3
+  },
+  {
+    "q": "If a pesticide concentration in water is 0.01 ppm and it increases by a factor of 10 at each successive trophic level, what will be the concentration in a bird (tertiary consumer)?",
+    "o": [
+      "0.1 ppm",
+      "10 ppm",
+      "1 ppm",
+      "100 ppm"
+    ],
+    "a": "B",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "simple_arithmetic",
+    "concept_pattern": "biomagnification_level_calculation",
+    "explanation": "Levels: Water (0.01) -> Plankton (0.1) -> Fish (1) -> Bird (10 ppm).",
+    "subject": "gat",
+    "public_subject": "general_test",
+    "chapter": "General Science and Environment Literacy",
+    "topic": "General Science and Environment Literacy",
+    "concept": "General Science and Environment Literacy",
+    "concept_id": "gat::general_science_and_environment_literacy",
+    "pyq_anchor_id": "structure_only_seed_pyq_g1_for_gat::general_science_and_environment_literacy",
+    "anchor_tier": 3
+  },
+  {
+    "q": "An observer notices that a ray of light passing from a vacuum into a glass slab slows down. Which of the following must also change for the ray?",
+    "o": [
+      "Its frequency",
+      "Its wavelength",
+      "Its color",
+      "Its mass"
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "logical_reasoning",
+    "concept_pattern": "refractive_index_properties",
+    "explanation": "When light enters a medium, its frequency stays constant, so the wavelength must decrease as speed decreases (v = f * lambda).",
+    "subject": "gat",
+    "public_subject": "general_test",
+    "chapter": "General Science and Environment Literacy",
+    "topic": "General Science and Environment Literacy",
+    "concept": "General Science and Environment Literacy",
+    "concept_id": "gat::general_science_and_environment_literacy",
+    "pyq_anchor_id": "structure_only_seed_pyq_g1_for_gat::general_science_and_environment_literacy",
+    "anchor_tier": 3
+  },
+  {
+    "q": "To treat soil that has become too acidic for healthy plant growth, a farmer should apply which of the following substances?",
+    "o": [
+      "Ammonium sulphate",
+      "Quicklime (Calcium oxide)",
+      "Common Salt",
+      "Vinegar"
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "logical_reasoning",
+    "concept_pattern": "acid_base_neutralization_application",
+    "explanation": "Quicklime is basic and neutralizes acidic soil, whereas ammonium sulphate is acidic.",
+    "subject": "gat",
+    "public_subject": "general_test",
+    "chapter": "General Science and Environment Literacy",
+    "topic": "General Science and Environment Literacy",
+    "concept": "General Science and Environment Literacy",
+    "concept_id": "gat::general_science_and_environment_literacy",
+    "pyq_anchor_id": "structure_only_seed_pyq_g1_for_gat::general_science_and_environment_literacy",
+    "anchor_tier": 3
+  },
+  {
+    "q": "In the context of the 'Greenhouse Effect', if the concentration of methane increases while carbon dioxide remains constant, the atmospheric temperature is expected to:",
+    "o": [
+      "Decrease because methane reflects sunlight",
+      "Increase because methane traps heat",
+      "Remain the same as CO2 is the only greenhouse gas",
+      "Decrease due to increased cloud formation"
+    ],
+    "a": "B",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "logical_reasoning",
+    "concept_pattern": "greenhouse_gas_impact",
+    "explanation": "Methane is a potent greenhouse gas that traps infrared radiation, leading to an increase in temperature.",
+    "subject": "gat",
+    "public_subject": "general_test",
+    "chapter": "General Science and Environment Literacy",
+    "topic": "General Science and Environment Literacy",
+    "concept": "General Science and Environment Literacy",
+    "concept_id": "gat::general_science_and_environment_literacy",
+    "pyq_anchor_id": "structure_only_seed_pyq_g1_for_gat::general_science_and_environment_literacy",
+    "anchor_tier": 3
+  },
+  {
+    "q": "If a sample of water is cooled from 10°C to 0°C, its density will:",
+    "o": [
+      "Increase continuously until it reaches 0°C",
+      "Increase until 4°C and then decrease",
+      "Decrease continuously until it reaches 0°C",
+      "Remain constant regardless of temperature"
+    ],
+    "a": "B",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "logical_reasoning",
+    "concept_pattern": "anomalous_expansion_of_water",
+    "explanation": "Water reaches its maximum density at 4°C; cooling it further causes it to expand and its density to decrease.",
+    "subject": "gat",
+    "public_subject": "general_test",
+    "chapter": "General Science and Environment Literacy",
+    "topic": "General Science and Environment Literacy",
+    "concept": "General Science and Environment Literacy",
+    "concept_id": "gat::general_science_and_environment_literacy",
+    "pyq_anchor_id": "structure_only_seed_pyq_g1_for_gat::general_science_and_environment_literacy",
+    "anchor_tier": 3
+  },
+  {
+    "q": "A student places an iron nail in a solution of copper sulphate. After some time, the blue color of the solution turns light green. This scenario is a practical example of:",
+    "o": [
+      "A physical change where color is mixed",
+      "A displacement reaction involving metals",
+      "The evaporation of copper from the solution",
+      "A neutralization reaction between an acid and base"
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "logical_reasoning",
+    "concept_pattern": "chemical_reaction_identification",
+    "explanation": "Iron is more reactive than copper and displaces it from copper sulphate to form iron sulphate (green).",
+    "subject": "gat",
+    "public_subject": "general_test",
+    "chapter": "General Science and Environment Literacy",
+    "topic": "General Science and Environment Literacy",
+    "concept": "General Science and Environment Literacy",
+    "concept_id": "gat::general_science_and_environment_literacy",
+    "pyq_anchor_id": "structure_only_seed_pyq_g1_for_gat::general_science_and_environment_literacy",
+    "anchor_tier": 3
+  },
+  {
+    "q": "Which of the following actions directly helps in reducing the 'Carbon Footprint' of an individual?",
+    "o": [
+      "Switching from plastic bags to paper bags",
+      "Using a bicycle instead of a petrol car for short distances",
+      "Increasing the use of chemical fertilizers in gardens",
+      "Washing clothes with hot water instead of cold water"
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "logical_reasoning",
+    "concept_pattern": "carbon_footprint_reduction",
+    "explanation": "Bicycling reduces the combustion of fossil fuels, directly lowering carbon dioxide emissions.",
+    "subject": "gat",
+    "public_subject": "general_test",
+    "chapter": "General Science and Environment Literacy",
+    "topic": "General Science and Environment Literacy",
+    "concept": "General Science and Environment Literacy",
+    "concept_id": "gat::general_science_and_environment_literacy",
+    "pyq_anchor_id": "structure_only_seed_pyq_g1_for_gat::general_science_and_environment_literacy",
+    "anchor_tier": 3
+  },
+  {
+    "q": "The depletion of the Ozone layer in the upper atmosphere is primarily caused by the reaction of ozone with:",
+    "o": [
+      "Carbon dioxide from vehicle exhaust",
+      "Chlorofluorocarbons (CFCs) from refrigerants",
+      "Nitrogen gas which makes up 78% of air",
+      "Water vapor from large dams"
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "logical_reasoning",
+    "concept_pattern": "ozone_depletion_cause",
+    "explanation": "CFCs release chlorine atoms when exposed to UV radiation, which then break down ozone molecules.",
+    "subject": "gat",
+    "public_subject": "general_test",
+    "chapter": "General Science and Environment Literacy",
+    "topic": "General Science and Environment Literacy",
+    "concept": "General Science and Environment Literacy",
+    "concept_id": "gat::general_science_and_environment_literacy",
+    "pyq_anchor_id": "structure_only_seed_pyq_g1_for_gat::general_science_and_environment_literacy",
+    "anchor_tier": 3
+  },
+  {
+    "q": "If the speed of sound in air is 340 m/s and a person hears an echo from a cliff 2 seconds after shouting, what is the distance of the cliff from the person?",
+    "o": [
+      "680 meters",
+      "340 meters",
+      "170 meters",
+      "1360 meters"
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "simple_arithmetic",
+    "concept_pattern": "echo_distance_calculation",
+    "explanation": "The sound travels to the cliff and back in 2s, so it takes 1s to reach. Distance = speed * time = 340 * 1 = 340m.",
+    "subject": "gat",
+    "public_subject": "general_test",
+    "chapter": "General Science and Environment Literacy",
+    "topic": "General Science and Environment Literacy",
+    "concept": "General Science and Environment Literacy",
+    "concept_id": "gat::general_science_and_environment_literacy",
+    "pyq_anchor_id": "structure_only_seed_pyq_g1_for_gat::general_science_and_environment_literacy",
+    "anchor_tier": 3
+  },
+  {
+    "q": "A historic monument built of marble (calcium carbonate) is corroding in an industrial zone. This is most likely due to the reaction of marble with:",
+    "o": [
+      "Oxygen in the air",
+      "Sulphuric acid present in acid rain",
+      "Argon gas from the atmosphere",
+      "Pure rainwater which is naturally basic"
+    ],
+    "a": "B",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "logical_reasoning",
+    "concept_pattern": "acid_rain_monument_impact",
+    "explanation": "Acid rain contains sulphuric and nitric acids that react with calcium carbonate to cause 'marble cancer' or corrosion.",
+    "subject": "gat",
+    "public_subject": "general_test",
+    "chapter": "General Science and Environment Literacy",
+    "topic": "General Science and Environment Literacy",
+    "concept": "General Science and Environment Literacy",
+    "concept_id": "gat::general_science_and_environment_literacy",
+    "pyq_anchor_id": "structure_only_seed_pyq_g1_for_gat::general_science_and_environment_literacy",
+    "anchor_tier": 3
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 15
+[llm] gemini_generation success gemini-3.1-flash resolved_model=gemini-3-flash-preview count=8
+[pipeline] RAW_PARSED_COUNT 15
+[pipeline] NORMALIZED_COUNT 8
+[pipeline] generated_count=8 | mix=easy=4, medium=2, hard=2
+[pipeline] STRUCTURAL_VALID_COUNT 8
+[pipeline] after_chapter_filter=8 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=8 | sent_for_strict_validation=8
+[pipeline] Starting batch validation for 8 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=8
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T14:03:06.739Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"gat","questionCount":8}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'gat',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'gat',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 37334,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'gat',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "HIGH",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 9,
+    "distractor_quality": 9,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 3,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "HARD",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "AMBIGUOUS",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [
+      "incorrect answer key for the described trophic level",
+      "clarity is ambiguous"
+    ],
+    "score": 4,
+    "exam_quality": 5,
+    "distractor_quality": 7,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "hard",
+    "issues": [
+      "logical inconsistency in trophic level calculation"
+    ],
+    "decision": "reject",
+    "improved_question": "If a pesticide concentration in water is 0.01 ppm and it increases by a factor of 10 at each trophic level (Producer, Primary Consumer, Secondary Consumer, Tertiary Consumer), what will be the concentration in the bird (tertiary consumer)? Options: [0.1 ppm, 1 ppm, 10 ppm, 100 ppm]. Correct: 100 ppm."
+  },
+  {
+    "index": 4,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "HIGH",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 9,
+    "distractor_quality": 9,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 5,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "textbook style",
+      "low trap quality"
+    ],
+    "score": 5,
+    "exam_quality": 5,
+    "distractor_quality": 5,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [
+      "low trap quality",
+      "standard classification question"
+    ],
+    "decision": "reject",
+    "improved_question": "A coastal town is implementing a 'zero-plastic' policy. Which group of items found on a beach would be completely restricted under this policy, assuming they are synthetic polymers? Options: [Cotton nets, Glass shards, Nylon ropes; Plastic straws, Polystyrene cups, PET bottles; Steel cans, Paper plates, Jute bags; Wooden sticks, Rubber bands, Silk thread]. Correct: B."
+  },
+  {
+    "index": 6,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "HARD",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "HIGH",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 9,
+    "distractor_quality": 9,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "hard",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 7,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "direct recall stem",
+      "low conceptual depth",
+      "obvious answer"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 4,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [
+      "direct definition",
+      "low trap quality"
+    ],
+    "decision": "reject",
+    "improved_question": "If an industrial process doubles the atmospheric methane concentration, how would this impact the Earth's radiation balance compared to the same increase in Carbon Dioxide, given methane's higher global warming potential? Options: [Methane will trap significantly more heat per molecule than CO2; Methane will reflect more heat into space than CO2; There will be no difference as both are carbon-based; Methane will only affect the ozone layer]. Correct: A."
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 8
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T14:03:44.075Z","model":"gemini-3-flash","subject":"gat","resultCount":8}
+[reject] {
+  subject: 'gat',
+  chapter: 'General Science and Environment Literacy',
+  reason: 'textbook style; low trap quality; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording; validator decision reject; validator verdict invalid',
+  source: 'validator_normalized',
+  rule: 'textbook style',
+  details: {
+    compositeScore: 47,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'gat',
+  chapter: 'General Science and Environment Literacy',
+  reason: 'direct recall stem; low conceptual depth; obvious answer; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; low trap quality',
+  source: 'validator_normalized',
+  rule: 'direct recall stem',
+  details: {
+    compositeScore: 41,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 2, medium: 2, hard: 2 },
+  system: { easy: 2, medium: 2, hard: 2 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 6
+[pipeline] validated_count=6 | acceptance_rate=75.0%
+[pipeline] FINAL_ACCEPTED_COUNT 6
+[pipeline] selected_count=6 | FINAL DISTRIBUTION: {"easy":2,"medium":2,"hard":2}
+✅ Published fc33f97e-7b23-4998-90bc-ded3b684cfcc | status=live | difficulty=easy | discoverable=true
+✅ Published 6d463895-93c9-4dde-b7ef-19cde5336cdb | status=live | difficulty=easy | discoverable=true
+✅ Published 68c140bb-0968-42dc-9e9f-8eddeaea4386 | status=live | difficulty=medium | discoverable=true
+✅ Published e39ac5c1-cc22-4e9f-8ec5-9fee43c1ce9e | status=live | difficulty=medium | discoverable=true
+✅ Published d5ec83b8-7da9-4424-9d10-c097aadd6ed8 | status=live | difficulty=hard | discoverable=true
+✅ Published 6ae8c839-bf51-455b-a45d-a84746f12752 | status=live | difficulty=hard | discoverable=true
+[pipeline] METRICS | generated_count=8 | prefiltered_count=8 | strict_validation_count=8 | accepted_count=6 | api_calls_used=2 | cost_efficiency_ratio=3.00
+[pipeline] SUMMARY | subject=gat | chapter=General Science and Environment Literacy | target=15 | generated_count=8 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=8 | validated_count=6 | accepted_count=6 | shortfall=9 | yield_rate=75.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=2, medium=2, hard=2
+[pipeline] subject_distribution: {"subject":"gat","accepted":6,"rejected":2,"target":15,"met":false}
+[supervisor] COST_REPORT | batch_cost=$0.0124 | cost_per_accepted=$0.0018 | cost_per_1000=$1.77 | total_accepted=7
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'gat',
+  chapter: 'General Science and Environment Literacy',
+  sample_size: 11,
+  direct_definition_count: 0,
+  weak_option_count: 1,
+  repeated_structure_count: 0,
+  easy_count: 5,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '48d7315b-97f2-4b35-82d0-754f44f14fe7',
+    'f636cd85-2192-46e1-a9bd-f3636233d066',
+    'b5007e59-593e-468f-908d-c805917e9ec5',
+    '98bbb088-d1b1-491c-9b8c-b2efb5856335',
+    '7781dc25-e6ab-4faa-927b-bd329201552f',
+    'aa6aef27-f226-46ba-89b2-d63abaa3cd82',
+    '4a5a9b86-4208-4d8c-a65d-d42214f7b2f2'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '48d7315b-97f2-4b35-82d0-754f44f14fe7',
+  actual_subject: 'psychology',
+  actual_chapter: 'Psychological Disorders',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 5,
+  subject_question_count: 89,
+  created_at: '2026-04-30T13:59:23.665756+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  count: 5,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'psychology', chapter: 'Psychological Disorders', count: 5 }
+
+[JOB 48d7315b] Starting: [psychology] Psychological Disorders
+[worker] RECEIVED_JOB: {
+  job_id: '48d7315b-97f2-4b35-82d0-754f44f14fe7',
+  expected_subject: 'psychology',
+  expected_chapter: 'Psychological Disorders',
+  raw_subject_id: 'psychology',
+  raw_chapter: 'Psychological Disorders',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T13:59:23.665756+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '48d7315b-97f2-4b35-82d0-754f44f14fe7',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  chapter: 'Psychological Disorders',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=5 existing questions loaded
+[generation] batch adjusted: { chapter: 'Psychological Disorders', generate_count: 15 }
+[worker] GENERATION_INPUT: {
+  job_id: '48d7315b-97f2-4b35-82d0-754f44f14fe7',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  expected_chapter: 'Psychological Disorders',
+  canonical_unit: 'Psychological Disorders',
+  generate_count: 15,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 15 candidates... chapter="Psychological Disorders" unit="Psychological Disorders" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'psychology',
+  prompt_subject_name: 'Psychology',
+  expected_chapter: 'Psychological Disorders',
+  requested_count: 15,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'psychology',
+  expected_chapter: 'Psychological Disorders',
+  canonical_unit: 'Psychological Disorders',
+  concept_id: 'psychology::psychological_disorders',
+  pyq_anchor_id: 'synthetic_cuet_structure_psychology',
+  anchor_tier: 4,
+  batch_size: 15,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] gemini_generation active_model=gemini-3.1-flash resolved_model=gemini-3-flash-preview
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'generation_gemini',
+  status: 'success',
+  retry_count: 0,
+  duration: 32954,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "q": "A student finds it difficult to attend classes because they are constantly worried about failing, which leads to physical exhaustion. In the context of the 'Four Ds' of abnormality, which aspect is most represented here?",
+    "o": [
+      "Dysfunction in daily life activities",
+      "Deviance from societal norms",
+      "Danger to self or others",
+      "Distress caused by social isolation"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "four_ds_application",
+    "explanation": "Dysfunction refers to the interference with daily functioning, such as the inability to attend classes.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychological Disorders",
+    "topic": "Psychological Disorders",
+    "concept": "Psychological Disorders",
+    "concept_id": "psychology::psychological_disorders",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "In the historical development of psychological disorders, the 'Organismic Approach' suggests that behavior is caused by:",
+    "o": [
+      "Physical malfunctions in the body",
+      "Supernatural forces or spirits",
+      "Maladaptive learning processes",
+      "Unresolved childhood conflicts"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "historical_models",
+    "explanation": "The Organismic approach (Biological) focuses on physiological or bodily causes for mental illness.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychological Disorders",
+    "topic": "Psychological Disorders",
+    "concept": "Psychological Disorders",
+    "concept_id": "psychology::psychological_disorders",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Which of the following describes the function of the ICD-10 in the field of clinical psychology?",
+    "o": [
+      "A comprehensive manual for classifying all diseases including mental disorders",
+      "A specific handbook used only for diagnosing personality disorders",
+      "A psychological tool used to measure intelligence across cultures",
+      "A treatment guide for psychoanalytic therapy sessions"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "classification_systems",
+    "explanation": "The International Classification of Diseases (ICD) covers both physical and mental health conditions.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychological Disorders",
+    "topic": "Psychological Disorders",
+    "concept": "Psychological Disorders",
+    "concept_id": "psychology::psychological_disorders",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "A child refuses to go to school because they are terrified that something bad will happen to their parents while they are away. This behavior is most characteristic of:",
+    "o": [
+      "Separation Anxiety Disorder",
+      "Generalised Anxiety Disorder",
+      "Social Anxiety Disorder",
+      "Post-Traumatic Stress Disorder"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "one_step_application",
+    "concept_pattern": "anxiety_disorder_types",
+    "explanation": "Separation Anxiety involves excessive fear regarding detachment from major attachment figures.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychological Disorders",
+    "topic": "Psychological Disorders",
+    "concept": "Psychological Disorders",
+    "concept_id": "psychology::psychological_disorders",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Sita experiences sudden, overwhelming episodes of fear where her heart races and she feels she is losing control. In contrast, Gita feels a constant, vague sense of worry about everyday things. Which is true?",
+    "o": [
+      "Sita has Panic Disorder; Gita has GAD",
+      "Sita has GAD; Gita has Panic Disorder",
+      "Both Sita and Gita suffer from Phobias",
+      "Gita has a Panic Disorder; Sita has a Specific Phobia"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "anxiety_discrimination",
+    "explanation": "Panic disorder involves discrete episodes of terror, while GAD involves chronic, non-specific worry.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychological Disorders",
+    "topic": "Psychological Disorders",
+    "concept": "Psychological Disorders",
+    "concept_id": "psychology::psychological_disorders",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "According to the Diathesis-Stress model, a psychological disorder develops when:",
+    "o": [
+      "A biological vulnerability is triggered by environmental stressors",
+      "Environmental stress alone exceeds the person's coping capacity",
+      "Genetic factors completely determine the onset of the disorder",
+      "The individual fails to resolve childhood psychological conflicts"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "diathesis_stress_logic",
+    "explanation": "The model posits that a predisposition (diathesis) and stressful life events are both necessary for a disorder to manifest.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychological Disorders",
+    "topic": "Psychological Disorders",
+    "concept": "Psychological Disorders",
+    "concept_id": "psychology::psychological_disorders",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "A person believes that their internal organs are rotting or that they are turning into stone, despite medical evidence to the contrary. This is an example of:",
+    "o": [
+      "Somatic Delusions",
+      "Hypochondriasis",
+      "Conversion Disorder",
+      "Dissociative Amnesia"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "schizophrenia_symptoms",
+    "explanation": "Somatic delusions are false beliefs about one's body functions or organs, often seen in Schizophrenia.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychological Disorders",
+    "topic": "Psychological Disorders",
+    "concept": "Psychological Disorders",
+    "concept_id": "psychology::psychological_disorders",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Which of the following sets of symptoms identifies the 'Negative Symptoms' of Schizophrenia?",
+    "o": [
+      "Alógia, avolition, and blunted affect",
+      "Hallucinations, delusions, and bizarre behavior",
+      "Racing thoughts, pressured speech, and euphoria",
+      "Flashbacks, night terrors, and hyper-vigilance"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "negative_vs_positive_symptoms",
+    "explanation": "Negative symptoms represent deficits, such as lack of speech (alogia) or lack of motivation (avolition).",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychological Disorders",
+    "topic": "Psychological Disorders",
+    "concept": "Psychological Disorders",
+    "concept_id": "psychology::psychological_disorders",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Karan alternates between periods of deep sadness and periods where he is overly talkative, needs very little sleep, and makes impulsive financial decisions. Karan is most likely experiencing:",
+    "o": [
+      "Bipolar Disorder",
+      "Major Depressive Disorder",
+      "Schizoid Personality Disorder",
+      "Attention Deficit Hyperactivity Disorder"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "mood_disorder_types",
+    "explanation": "Bipolar disorder involves cycles of depression and mania (increased energy and impulsivity).",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychological Disorders",
+    "topic": "Psychological Disorders",
+    "concept": "Psychological Disorders",
+    "concept_id": "psychology::psychological_disorders",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "An individual reports being unable to move their left arm following a traumatic car accident, but medical doctors find no neurological or physical damage to the arm. This condition is known as:",
+    "o": [
+      "Conversion Disorder",
+      "Illness Anxiety Disorder",
+      "Somatic Symptom Disorder",
+      "Panic Disorder"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "somatic_disorder_scenario",
+    "explanation": "Conversion disorder involves the loss of physical function (like paralysis) without a biological cause.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychological Disorders",
+    "topic": "Psychological Disorders",
+    "concept": "Psychological Disorders",
+    "concept_id": "psychology::psychological_disorders",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Identify the behavior that differentiates Bulimia Nervosa from Binge Eating Disorder.",
+    "o": [
+      "The use of compensatory behaviors like purging",
+      "Consumption of large amounts of food in a short time",
+      "A feeling of loss of control during the eating episode",
+      "Extreme distress regarding the eating habit"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "eating_disorder_differentiation",
+    "explanation": "Bulimia includes purging or fasting to compensate for binges, which is absent in Binge Eating Disorder.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychological Disorders",
+    "topic": "Psychological Disorders",
+    "concept": "Psychological Disorders",
+    "concept_id": "psychology::psychological_disorders",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "A child frequently interrupts others, cannot sit still in their chair, and acts without thinking about the consequences. These symptoms are central to which neurodevelopmental disorder?",
+    "o": [
+      "Attention-Deficit/Hyperactivity Disorder (ADHD)",
+      "Autism Spectrum Disorder (ASD)",
+      "Intellectual Disability",
+      "Specific Learning Disorder"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "neurodevelopmental_traits",
+    "explanation": "ADHD is characterized by impulsivity, hyperactivity, and inattention.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychological Disorders",
+    "topic": "Psychological Disorders",
+    "concept": "Psychological Disorders",
+    "concept_id": "psychology::psychological_disorders",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Which statement correctly distinguishes Dissociative Fugue from Dissociative Amnesia?",
+    "o": [
+      "Fugue involves unexpected travel and the assumption of a new identity",
+      "Fugue only involves memory loss for specific traumatic events",
+      "Amnesia is a physical condition while Fugue is purely psychological",
+      "Amnesia always involves multiple personalities, whereas Fugue does not"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "statement_based",
+    "concept_pattern": "dissociative_disorder_logic",
+    "explanation": "Dissociative fugue is characterized by flight and the creation of a new persona, unlike simple amnesia.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychological Disorders",
+    "topic": "Psychological Disorders",
+    "concept": "Psychological Disorders",
+    "concept_id": "psychology::psychological_disorders",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "In Schizophrenia, when a patient maintains a rigid body posture for hours and is completely unresponsive to external stimuli, they are exhibiting:",
+    "o": [
+      "Catatonic Stupor",
+      "Catatonic Rigidity",
+      "Disorganized Thinking",
+      "Negative Avolition"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "direct_concept",
+    "concept_pattern": "schizophrenia_motor_symptoms",
+    "explanation": "Catatonic stupor involves a total lack of movement or responsiveness to the environment.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychological Disorders",
+    "topic": "Psychological Disorders",
+    "concept": "Psychological Disorders",
+    "concept_id": "psychology::psychological_disorders",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "A patient experiences chronic physical symptoms that cause significant distress, but they also spend an excessive amount of time and energy worrying about these symptoms. They are most likely to be diagnosed with:",
+    "o": [
+      "Somatic Symptom Disorder",
+      "Conversion Disorder",
+      "Illness Anxiety Disorder",
+      "Factitious Disorder"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "one_step_application",
+    "concept_pattern": "somatic_subtypes",
+    "explanation": "Somatic Symptom Disorder involves actual physical symptoms with disproportionate concern, whereas Illness Anxiety involves worry without symptoms.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Psychological Disorders",
+    "topic": "Psychological Disorders",
+    "concept": "Psychological Disorders",
+    "concept_id": "psychology::psychological_disorders",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 15
+[llm] gemini_generation success gemini-3.1-flash resolved_model=gemini-3-flash-preview count=5
+[pipeline] RAW_PARSED_COUNT 15
+[pipeline] NORMALIZED_COUNT 5
+[pipeline] generated_count=5 | mix=easy=1, medium=2, hard=2
+[pipeline] STRUCTURAL_VALID_COUNT 5
+[pipeline] after_chapter_filter=5 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=5 | sent_for_strict_validation=5
+[pipeline] Starting batch validation for 5 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=5
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T14:04:37.038Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"psychology","questionCount":5}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 21241,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "HARD",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "HIGH",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 9,
+    "distractor_quality": 9,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "hard",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "conceptual_depth < 7",
+      "obvious answer"
+    ],
+    "score": 5,
+    "exam_quality": 5,
+    "distractor_quality": 4,
+    "conceptual_depth": 5,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "easy",
+    "issues": [
+      "Distractors like Schizoid Personality Disorder are not plausible for the symptoms described, making the correct answer too obvious."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 3,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "obvious answer",
+      "low trap quality",
+      "textbook_style",
+      "conceptual_depth < 7"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 4,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "easy",
+    "issues": [
+      "Direct textbook example for Separation Anxiety Disorder with no logical reasoning required beyond term recall."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 4,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "HARD",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "hard",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T14:04:58.280Z","model":"gemini-3-flash","subject":"psychology","resultCount":5}
+[reject] {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  reason: 'obvious answer; low trap quality; textbook_style; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'obvious answer',
+  details: {
+    compositeScore: 31,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  reason: 'low trap quality; conceptual_depth < 7; obvious answer; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; validator marked non-CUET alignment; validator decision reject',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 49,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 1, hard: 2 },
+  system: { easy: 0, medium: 1, hard: 2 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 3
+[pipeline] validated_count=3 | acceptance_rate=60.0%
+[pipeline] FINAL_ACCEPTED_COUNT 3
+[pipeline] selected_count=3 | FINAL DISTRIBUTION: {"easy":0,"medium":1,"hard":2}
+✅ Published eef80368-a899-497d-bc0d-22eb53a289bb | status=live | difficulty=medium | discoverable=true
+✅ Published 3607f5c0-b720-43c3-9605-e55e1df96951 | status=live | difficulty=hard | discoverable=true
+✅ Published 335b4b3a-b085-4fed-9631-bbb987867af2 | status=live | difficulty=hard | discoverable=true
+[pipeline] METRICS | generated_count=5 | prefiltered_count=5 | strict_validation_count=5 | accepted_count=3 | api_calls_used=2 | cost_efficiency_ratio=1.50
+[pipeline] SUMMARY | subject=psychology | chapter=Psychological Disorders | target=15 | generated_count=5 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=5 | validated_count=3 | accepted_count=3 | shortfall=12 | yield_rate=60.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=1, hard=2
+[pipeline] subject_distribution: {"subject":"psychology","accepted":3,"rejected":2,"target":15,"met":false}
+[supervisor] COST_REPORT | batch_cost=$0.0158 | cost_per_accepted=$0.0016 | cost_per_1000=$1.58 | total_accepted=10
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  sample_size: 8,
+  direct_definition_count: 0,
+  weak_option_count: 3,
+  repeated_structure_count: 0,
+  easy_count: 1,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...

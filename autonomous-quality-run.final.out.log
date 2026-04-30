@@ -1,0 +1,2363 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5910 concepts across 40 subjects (saved 2026-04-30T14:03:52.199Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Literary Passage',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Psychology & Life',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Self & Personality',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Social Influence & Group Processes',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Therapeutic Approaches',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'sociology',
+  chapter: 'Change & Development in Rural Society',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'business_studies',
+  chapter: 'Planning',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  coverage: 6,
+  priority: 90
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: english → normalized: english → tier: 1
+Subject: english → normalized: english → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+Subject: sociology → normalized: sociology → tier: 1
+Subject: biology → normalized: biology → tier: 1
+Subject: business_studies → normalized: business_studies → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Literary Passage',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Psychology & Life',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Self & Personality',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Social Influence & Group Processes',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Therapeutic Approaches',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'sociology',
+    expected_chapter: 'Change & Development in Rural Society',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Human Reproduction',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'business_studies',
+    expected_chapter: 'Planning',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'p-Block Elements',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'english',
+    chapter: 'Literary Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Psychology & Life',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Self & Personality',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Social Influence & Group Processes',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Therapeutic Approaches',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'sociology',
+    chapter: 'Change & Development in Rural Society',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Human Reproduction',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'business_studies',
+    chapter: 'Planning',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'p-Block Elements',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: '6092d3cd-7118-46ab-a835-6a0b6acead18',
+    subject_id: 'english',
+    chapter: 'Literary Passage',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:05:16.644312+00:00'
+  },
+  {
+    id: 'efdb2cf4-2fc5-4ed6-81e1-a13547076d50',
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:05:16.644312+00:00'
+  },
+  {
+    id: '4728d7ba-0201-43b6-a08d-734d398f19f9',
+    subject_id: 'psychology',
+    chapter: 'Psychology & Life',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:05:16.644312+00:00'
+  },
+  {
+    id: 'f15692a2-1011-4086-a82c-a6faf5ca0c22',
+    subject_id: 'psychology',
+    chapter: 'Self & Personality',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:05:16.644312+00:00'
+  },
+  {
+    id: '1c8fc5b9-262c-4a44-bda0-af651a944ab8',
+    subject_id: 'psychology',
+    chapter: 'Social Influence & Group Processes',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:05:16.644312+00:00'
+  },
+  {
+    id: 'b3a3e8dd-058a-4109-8ea5-95d6fe3bf5b4',
+    subject_id: 'psychology',
+    chapter: 'Therapeutic Approaches',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:05:16.644312+00:00'
+  },
+  {
+    id: '5610a1e8-9124-4e89-8308-5ed5f1e2d9c3',
+    subject_id: 'sociology',
+    chapter: 'Change & Development in Rural Society',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:05:16.644312+00:00'
+  },
+  {
+    id: '7a8b1b90-2673-4309-b731-22731d91fb79',
+    subject_id: 'biology',
+    chapter: 'Human Reproduction',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:05:16.644312+00:00'
+  },
+  {
+    id: '13ebd39b-0875-4e21-b0e2-21411cf508ab',
+    subject_id: 'business_studies',
+    chapter: 'Planning',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:05:16.644312+00:00'
+  },
+  {
+    id: '47d34724-9402-4c2e-9351-1a281f51feb4',
+    subject_id: 'chemistry',
+    chapter: 'p-Block Elements',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:05:16.644312+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: '6092d3cd-7118-46ab-a835-6a0b6acead18',
+    expected_subject: 'english',
+    expected_chapter: 'Literary Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'efdb2cf4-2fc5-4ed6-81e1-a13547076d50',
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '4728d7ba-0201-43b6-a08d-734d398f19f9',
+    expected_subject: 'psychology',
+    expected_chapter: 'Psychology & Life',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'f15692a2-1011-4086-a82c-a6faf5ca0c22',
+    expected_subject: 'psychology',
+    expected_chapter: 'Self & Personality',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '1c8fc5b9-262c-4a44-bda0-af651a944ab8',
+    expected_subject: 'psychology',
+    expected_chapter: 'Social Influence & Group Processes',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'b3a3e8dd-058a-4109-8ea5-95d6fe3bf5b4',
+    expected_subject: 'psychology',
+    expected_chapter: 'Therapeutic Approaches',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '5610a1e8-9124-4e89-8308-5ed5f1e2d9c3',
+    expected_subject: 'sociology',
+    expected_chapter: 'Change & Development in Rural Society',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '7a8b1b90-2673-4309-b731-22731d91fb79',
+    expected_subject: 'biology',
+    expected_chapter: 'Human Reproduction',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '13ebd39b-0875-4e21-b0e2-21411cf508ab',
+    expected_subject: 'business_studies',
+    expected_chapter: 'Planning',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '47d34724-9402-4c2e-9351-1a281f51feb4',
+    expected_subject: 'chemistry',
+    expected_chapter: 'p-Block Elements',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '6092d3cd-7118-46ab-a835-6a0b6acead18',
+    'efdb2cf4-2fc5-4ed6-81e1-a13547076d50',
+    '4728d7ba-0201-43b6-a08d-734d398f19f9',
+    'f15692a2-1011-4086-a82c-a6faf5ca0c22',
+    '1c8fc5b9-262c-4a44-bda0-af651a944ab8',
+    'b3a3e8dd-058a-4109-8ea5-95d6fe3bf5b4',
+    '5610a1e8-9124-4e89-8308-5ed5f1e2d9c3',
+    '7a8b1b90-2673-4309-b731-22731d91fb79',
+    '13ebd39b-0875-4e21-b0e2-21411cf508ab',
+    '47d34724-9402-4c2e-9351-1a281f51feb4'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '6092d3cd-7118-46ab-a835-6a0b6acead18',
+  actual_subject: 'english',
+  actual_chapter: 'Literary Passage',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 5,
+  subject_question_count: 112,
+  created_at: '2026-04-30T14:05:16.644312+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'english',
+  chapter: 'Literary Passage',
+  count: 5,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'english', chapter: 'Literary Passage', count: 5 }
+
+[JOB 6092d3cd] Starting: [english] Literary Passage
+[worker] RECEIVED_JOB: {
+  job_id: '6092d3cd-7118-46ab-a835-6a0b6acead18',
+  expected_subject: 'english',
+  expected_chapter: 'Literary Passage',
+  raw_subject_id: 'english',
+  raw_chapter: 'Literary Passage',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T14:05:16.644312+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '6092d3cd-7118-46ab-a835-6a0b6acead18',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  chapter: 'Literary Passage',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=5 existing questions loaded
+[generation] batch adjusted: { chapter: 'Literary Passage', generate_count: 15 }
+[worker] GENERATION_INPUT: {
+  job_id: '6092d3cd-7118-46ab-a835-6a0b6acead18',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  expected_chapter: 'Literary Passage',
+  canonical_unit: 'Reading Comprehension',
+  generate_count: 15,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 15 candidates... chapter="Literary Passage" unit="Reading Comprehension" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'English',
+  expected_chapter: 'Literary Passage',
+  requested_count: 15,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'english',
+  expected_chapter: 'Literary Passage',
+  canonical_unit: 'Reading Comprehension',
+  concept_id: 'english::literary_passage',
+  pyq_anchor_id: 'structure_only_seed_pyq_en3_for_english::literary_passage',
+  anchor_tier: 3,
+  batch_size: 15,
+  pyq_style_patterns: [ 'reading_comprehension', 'vocabulary', 'correct_word_usage' ],
+  difficulty_override: null
+}
+[llm] gemini_generation active_model=gemini-3.1-pro resolved_model=gemini-3.1-pro-preview
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3.1-pro-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3.1-pro-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  status: 'timeout',
+  retry_count: 0,
+  duration: 45136,
+  error: 'gemini timeout after 45000ms'
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3.1-pro-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm] gemini_generation active_model=gemini-3.1-flash resolved_model=gemini-3-flash-preview
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  status: 'success',
+  retry_count: 0,
+  duration: 37194,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "q": "Which literary device is most prominent in the description of the oak tree's branches in the first paragraph?",
+    "o": [
+      "Simile",
+      "Metaphor",
+      "Alliteration",
+      "Onomatopoeia"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "literary_device_identification",
+    "explanation": "The author uses 'like the arthritic fingers of a giant' to compare the branches to fingers using the word 'like'.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "lit_pass_01",
+    "passage_type": "literary",
+    "passage_text": "The ancient oak stood as a silent sentinel at the edge of the sleeping village. Its gnarled branches, like the arthritic fingers of a giant, reached toward the graying sky as if searching for a lost warmth. In the autumn, its leaves did not merely fall; they performed a melancholic dance, swirling in the biting wind before settling into a brittle carpet of bronze and amber. To the townspeople, the tree was a relic of a forgotten era, a witness to the hushed secrets of generations. It whispered stories in the rustle of its canopy, stories of harvests past and winters that had tested the very soul of the land."
+  },
+  {
+    "q": "According to the passage, the 'carpet of bronze and amber' refers to:",
+    "o": [
+      "The fallen autumn leaves",
+      "The actual carpet inside a house",
+      "The roots of the oak tree",
+      "The sunset over the village"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "factual_literary_interpretation",
+    "explanation": "The text describes the leaves settling into a 'brittle carpet of bronze and amber' after falling.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "lit_pass_01",
+    "passage_type": "literary",
+    "passage_text": "The ancient oak stood as a silent sentinel at the edge of the sleeping village. Its gnarled branches, like the arthritic fingers of a giant, reached toward the graying sky as if searching for a lost warmth. In the autumn, its leaves did not merely fall; they performed a melancholic dance, swirling in the biting wind before settling into a brittle carpet of bronze and amber. To the townspeople, the tree was a relic of a forgotten era, a witness to the hushed secrets of generations. It whispered stories in the rustle of its canopy, stories of harvests past and winters that had tested the very soul of the land."
+  },
+  {
+    "q": "How does the author establish a sense of continuity between the past and present?",
+    "o": [
+      "By describing the tree as a witness to multiple generations",
+      "By focusing on the changing colors of the seasons",
+      "By detailing the physical decay of the branches",
+      "By explaining how the village was built around the tree"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "thematic_continuity_inference",
+    "explanation": "The text calls the tree a 'relic of a forgotten era' and a 'witness to the hushed secrets of generations'.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "lit_pass_01",
+    "passage_type": "literary",
+    "passage_text": "The ancient oak stood as a silent sentinel at the edge of the sleeping village. Its gnarled branches, like the arthritic fingers of a giant, reached toward the graying sky as if searching for a lost warmth. In the autumn, its leaves did not merely fall; they performed a melancholic dance, swirling in the biting wind before settling into a brittle carpet of bronze and amber. To the townspeople, the tree was a relic of a forgotten era, a witness to the hushed secrets of generations. It whispered stories in the rustle of its canopy, stories of harvests past and winters that had tested the very soul of the land."
+  },
+  {
+    "q": "The phrase 'melancholic dance' suggests that the falling leaves are:",
+    "o": [
+      "Graceful but evoke a sense of sadness",
+      "Being violently tossed by a storm",
+      "Celebrating the arrival of winter",
+      "Scattered randomly without any pattern"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "contextual_imagery_analysis",
+    "explanation": "'Melancholic' indicates sadness, while 'dance' implies a graceful or structured movement.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "lit_pass_01",
+    "passage_type": "literary",
+    "passage_text": "The ancient oak stood as a silent sentinel at the edge of the sleeping village. Its gnarled branches, like the arthritic fingers of a giant, reached toward the graying sky as if searching for a lost warmth. In the autumn, its leaves did not merely fall; they performed a melancholic dance, swirling in the biting wind before settling into a brittle carpet of bronze and amber. To the townspeople, the tree was a relic of a forgotten era, a witness to the hushed secrets of generations. It whispered stories in the rustle of its canopy, stories of harvests past and winters that had tested the very soul of the land."
+  },
+  {
+    "q": "What is the primary function of the 'wind' as described in the passage?",
+    "o": [
+      "It acts as a force that moves the leaves during autumn",
+      "It represents a destructive force that ruins the harvests",
+      "It is the source of the tree's whispered stories",
+      "It serves as a sign that a winter storm is approaching"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "detail_function_analysis",
+    "explanation": "The text mentions the wind in the context of leaves 'swirling in the biting wind' before settling.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "lit_pass_01",
+    "passage_type": "literary",
+    "passage_text": "The ancient oak stood as a silent sentinel at the edge of the sleeping village. Its gnarled branches, like the arthritic fingers of a giant, reached toward the graying sky as if searching for a lost warmth. In the autumn, its leaves did not merely fall; they performed a melancholic dance, swirling in the biting wind before settling into a brittle carpet of bronze and amber. To the townspeople, the tree was a relic of a forgotten era, a witness to the hushed secrets of generations. It whispered stories in the rustle of its canopy, stories of harvests past and winters that had tested the very soul of the land."
+  },
+  {
+    "q": "Where does the character Evelyn find herself in this passage?",
+    "o": [
+      "In a dusty library",
+      "In a crowded museum",
+      "In an ancient ghost town",
+      "In a modern writing studio"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "setting_identification",
+    "explanation": "The passage explicitly states 'Evelyn moved through the dusty library'.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "lit_pass_02",
+    "passage_type": "literary",
+    "passage_text": "Evelyn moved through the dusty library with the grace of a ghost. The air was thick with the scent of aging parchment and the stillness of unread words. She reached for a leather-bound volume, her touch light as a feather, yet the sound of the spine cracking echoed like a gunshot in the oppressive silence. Here, time seemed to fold upon itself, the past and present merging in the ink-stained margins of forgotten journals. She wasn't just reading history; she was breathing it, feeling the pulse of long-dead authors in the rhythmic scratching of her own pen against the paper."
+  },
+  {
+    "q": "Why does the author use the simile 'like a gunshot' to describe the sound of the book opening?",
+    "o": [
+      "To emphasize the intensity of the silence in the room",
+      "To suggest that Evelyn is in physical danger",
+      "To show that the book is very heavy and metallic",
+      "To imply that the library is located in a war zone"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "figurative_effect_analysis",
+    "explanation": "The contrast between the 'oppressive silence' and the small sound of a book cracking makes the noise feel explosive, like a gunshot.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "lit_pass_02",
+    "passage_type": "literary",
+    "passage_text": "Evelyn moved through the dusty library with the grace of a ghost. The air was thick with the scent of aging parchment and the stillness of unread words. She reached for a leather-bound volume, her touch light as a feather, yet the sound of the spine cracking echoed like a gunshot in the oppressive silence. Here, time seemed to fold upon itself, the past and present merging in the ink-stained margins of forgotten journals. She wasn't just reading history; she was breathing it, feeling the pulse of long-dead authors in the rhythmic scratching of her own pen against the paper."
+  },
+  {
+    "q": "Evelyn’s 'touch light as a feather' suggests that her attitude toward the books is one of:",
+    "o": [
+      "Reverence and care",
+      "Fear and hesitation",
+      "Indifference and boredom",
+      "Clumsiness and haste"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "character_trait_inference",
+    "explanation": "A light touch in a library full of aging parchment suggests a careful, respectful approach to fragile items.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "lit_pass_02",
+    "passage_type": "literary",
+    "passage_text": "Evelyn moved through the dusty library with the grace of a ghost. The air was thick with the scent of aging parchment and the stillness of unread words. She reached for a leather-bound volume, her touch light as a feather, yet the sound of the spine cracking echoed like a gunshot in the oppressive silence. Here, time seemed to fold upon itself, the past and present merging in the ink-stained margins of forgotten journals. She wasn't just reading history; she was breathing it, feeling the pulse of long-dead authors in the rhythmic scratching of her own pen against the paper."
+  },
+  {
+    "q": "The phrase 'time seemed to fold upon itself' primarily conveys that:",
+    "o": [
+      "The past feels immediate and present to the character",
+      "The library is physically collapsing due to age",
+      "Evelyn is confused about the date and time",
+      "Books allow a person to travel to the future"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "abstract_imagery_interpretation",
+    "explanation": "Folding time suggests that the distance between the 'past and present' has disappeared.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "lit_pass_02",
+    "passage_type": "literary",
+    "passage_text": "Evelyn moved through the dusty library with the grace of a ghost. The air was thick with the scent of aging parchment and the stillness of unread words. She reached for a leather-bound volume, her touch light as a feather, yet the sound of the spine cracking echoed like a gunshot in the oppressive silence. Here, time seemed to fold upon itself, the past and present merging in the ink-stained margins of forgotten journals. She wasn't just reading history; she was breathing it, feeling the pulse of long-dead authors in the rhythmic scratching of her own pen against the paper."
+  },
+  {
+    "q": "What is the physical condition of the journals mentioned in the passage?",
+    "o": [
+      "They are ink-stained and forgotten",
+      "They are newly printed and glossy",
+      "They are burned and illegible",
+      "They are kept in air-tight glass cases"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "textual_detail_recognition",
+    "explanation": "The text explicitly mentions 'ink-stained margins of forgotten journals'.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "lit_pass_02",
+    "passage_type": "literary",
+    "passage_text": "Evelyn moved through the dusty library with the grace of a ghost. The air was thick with the scent of aging parchment and the stillness of unread words. She reached for a leather-bound volume, her touch light as a feather, yet the sound of the spine cracking echoed like a gunshot in the oppressive silence. Here, time seemed to fold upon itself, the past and present merging in the ink-stained margins of forgotten journals. She wasn't just reading history; she was breathing it, feeling the pulse of long-dead authors in the rhythmic scratching of her own pen against the paper."
+  },
+  {
+    "q": "By comparing the sea to a 'temperamental deity', the author emphasizes its:",
+    "o": [
+      "Powerful and unpredictable nature",
+      "Religious significance to the townspeople",
+      "Permanent and unchanging color",
+      "Kindness toward the mariners"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "metaphorical_analysis",
+    "explanation": "'Temperamental' suggests mood swings and unpredictability, while 'deity' suggests great power.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "lit_pass_03",
+    "passage_type": "literary",
+    "passage_text": "The sea was not merely a body of water; it was a temperamental deity, shifting from a calm, azure cradle to a churning, charcoal abyss within the span of an afternoon. Mariners spoke of its 'songs,' not as melodies, but as the eerie moaning of the wind through the rigging, a sound that foretold either a bountiful catch or a watery grave. To stand on the shore was to feel one's own insignificance, a grain of sand against the infinite horizon. The waves crashed with a rhythmic violence, reclaiming the land inch by agonizing inch, a reminder that nature remains the ultimate architect of destiny."
+  },
+  {
+    "q": "What do the 'songs' of the sea actually consist of, according to the passage?",
+    "o": [
+      "The moaning of the wind through ship rigging",
+      "Literal music played by the mariners",
+      "The sounds of whales in the distance",
+      "The rhythmic crashing of waves on the shore"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "factual_inference",
+    "explanation": "The text clarifies that 'songs' were 'the eerie moaning of the wind through the rigging'.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "lit_pass_03",
+    "passage_type": "literary",
+    "passage_text": "The sea was not merely a body of water; it was a temperamental deity, shifting from a calm, azure cradle to a churning, charcoal abyss within the span of an afternoon. Mariners spoke of its 'songs,' not as melodies, but as the eerie moaning of the wind through the rigging, a sound that foretold either a bountiful catch or a watery grave. To stand on the shore was to feel one's own insignificance, a grain of sand against the infinite horizon. The waves crashed with a rhythmic violence, reclaiming the land inch by agonizing inch, a reminder that nature remains the ultimate architect of destiny."
+  },
+  {
+    "q": "What is the primary theme regarding the relationship between humans and nature in this passage?",
+    "o": [
+      "The overwhelming power of nature makes human life feel small",
+      "Humans have successfully tamed the sea through technology",
+      "Nature and humanity exist in a peaceful, musical harmony",
+      "The sea provides endless resources for human expansion"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "thematic_synthesis",
+    "explanation": "The passage describes feeling 'insignificance' and nature as the 'ultimate architect of destiny'.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "lit_pass_03",
+    "passage_type": "literary",
+    "passage_text": "The sea was not merely a body of water; it was a temperamental deity, shifting from a calm, azure cradle to a churning, charcoal abyss within the span of an afternoon. Mariners spoke of its 'songs,' not as melodies, but as the eerie moaning of the wind through the rigging, a sound that foretold either a bountiful catch or a watery grave. To stand on the shore was to feel one's own insignificance, a grain of sand against the infinite horizon. The waves crashed with a rhythmic violence, reclaiming the land inch by agonizing inch, a reminder that nature remains the ultimate architect of destiny."
+  },
+  {
+    "q": "The word 'abyss' as used in the context of the sea most likely refers to:",
+    "o": [
+      "A deep and seemingly bottomless space",
+      "A brightly colored coral reef",
+      "A shallow area near the coastline",
+      "A type of ancient sailing vessel"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "vocabulary_in_context",
+    "explanation": "In describing the sea shifting to a 'churning, charcoal abyss', the author implies depth and darkness.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "lit_pass_03",
+    "passage_type": "literary",
+    "passage_text": "The sea was not merely a body of water; it was a temperamental deity, shifting from a calm, azure cradle to a churning, charcoal abyss within the span of an afternoon. Mariners spoke of its 'songs,' not as melodies, but as the eerie moaning of the wind through the rigging, a sound that foretold either a bountiful catch or a watery grave. To stand on the shore was to feel one's own insignificance, a grain of sand against the infinite horizon. The waves crashed with a rhythmic violence, reclaiming the land inch by agonizing inch, a reminder that nature remains the ultimate architect of destiny."
+  },
+  {
+    "q": "What does the phrase 'reclaiming the land inch by agonizing inch' imply about the waves?",
+    "o": [
+      "They are slowly eroding the shoreline over time",
+      "They are depositing new sand on the beach",
+      "They are moving faster than the mariners can sail",
+      "They are being pushed back by human construction"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "connotative_meaning_analysis",
+    "explanation": "'Reclaiming' and 'agonizing inch' suggest a slow, persistent process of taking something back (erosion).",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "lit_pass_03",
+    "passage_type": "literary",
+    "passage_text": "The sea was not merely a body of water; it was a temperamental deity, shifting from a calm, azure cradle to a churning, charcoal abyss within the span of an afternoon. Mariners spoke of its 'songs,' not as melodies, but as the eerie moaning of the wind through the rigging, a sound that foretold either a bountiful catch or a watery grave. To stand on the shore was to feel one's own insignificance, a grain of sand against the infinite horizon. The waves crashed with a rhythmic violence, reclaiming the land inch by agonizing inch, a reminder that nature remains the ultimate architect of destiny."
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 15
+[english-classification] {
+  question_id: 'literary_device_identification',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'factual_literary_interpretation',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'thematic_continuity_inference',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'contextual_imagery_analysis',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'detail_function_analysis',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'setting_identification',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'figurative_effect_analysis',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'character_trait_inference',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'abstract_imagery_interpretation',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'textual_detail_recognition',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'metaphorical_analysis',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'factual_inference',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'thematic_synthesis',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'vocabulary_in_context',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'connotative_meaning_analysis',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'efdb2cf4-2fc5-4ed6-81e1-a13547076d50',
+    '4728d7ba-0201-43b6-a08d-734d398f19f9',
+    'f15692a2-1011-4086-a82c-a6faf5ca0c22',
+    '1c8fc5b9-262c-4a44-bda0-af651a944ab8',
+    'b3a3e8dd-058a-4109-8ea5-95d6fe3bf5b4',
+    '5610a1e8-9124-4e89-8308-5ed5f1e2d9c3',
+    '7a8b1b90-2673-4309-b731-22731d91fb79',
+    '13ebd39b-0875-4e21-b0e2-21411cf508ab',
+    '47d34724-9402-4c2e-9351-1a281f51feb4'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'efdb2cf4-2fc5-4ed6-81e1-a13547076d50',
+  actual_subject: 'english',
+  actual_chapter: 'Narrative Passage',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 5,
+  subject_question_count: 112,
+  created_at: '2026-04-30T14:05:16.644312+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  count: 5,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'english', chapter: 'Narrative Passage', count: 5 }
+
+[JOB efdb2cf4] Starting: [english] Narrative Passage
+[worker] RECEIVED_JOB: {
+  job_id: 'efdb2cf4-2fc5-4ed6-81e1-a13547076d50',
+  expected_subject: 'english',
+  expected_chapter: 'Narrative Passage',
+  raw_subject_id: 'english',
+  raw_chapter: 'Narrative Passage',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T14:05:16.644312+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'efdb2cf4-2fc5-4ed6-81e1-a13547076d50',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  chapter: 'Narrative Passage',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=5 existing questions loaded
+[generation] batch adjusted: { chapter: 'Narrative Passage', generate_count: 15 }
+[worker] GENERATION_INPUT: {
+  job_id: 'efdb2cf4-2fc5-4ed6-81e1-a13547076d50',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  expected_chapter: 'Narrative Passage',
+  canonical_unit: 'Reading Comprehension',
+  generate_count: 15,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 15 candidates... chapter="Narrative Passage" unit="Reading Comprehension" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'English',
+  expected_chapter: 'Narrative Passage',
+  requested_count: 15,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'english',
+  expected_chapter: 'Narrative Passage',
+  canonical_unit: 'Reading Comprehension',
+  concept_id: 'english::narrative_passage',
+  pyq_anchor_id: 'structure_only_seed_pyq_en3_for_english::narrative_passage',
+  anchor_tier: 3,
+  batch_size: 15,
+  pyq_style_patterns: [ 'reading_comprehension', 'vocabulary', 'correct_word_usage' ],
+  difficulty_override: null
+}
+[llm] gemini_generation active_model=gemini-3.1-flash resolved_model=gemini-3-flash-preview
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  status: 'success',
+  retry_count: 0,
+  duration: 54106,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "q": "According to the passage, what is the primary reason Elias chooses to leave Oakhaven?",
+    "o": [
+      "He feels a personal calling to explore his own purpose.",
+      "He wants to escape the exhausting labor of the bakery.",
+      "The mysterious traveler forced him to leave his home.",
+      "His father encouraged him to seek his fortune in the mountains."
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_direct_comprehension",
+    "explanation": "The text explicitly states Elias realized leaving meant finding his own purpose, contrasting it with the comfort of staying.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_01",
+    "passage_type": "narrative",
+    "passage_text": "Elias lived in the small town of Oakhaven, where the scent of fresh bread was the morning’s first greeting. Unlike his father, who found joy in the repetitive kneading of dough, Elias dreamed of the mountains that loomed on the horizon like silent giants. One Tuesday, a traveler wearing a cloak of deep indigo entered the bakery. He didn't ask for bread; instead, he handed Elias a tarnished brass key and a map drawn on parchment that felt like dried skin. 'The mountains are calling for their keeper,' the traveler whispered before vanishing into the morning mist. Elias looked at the heavy key in his palm, then at his father’s tired hands. He realized that staying meant comfort, but leaving meant finding his own purpose. Without a word, he packed a small bag, took one last look at the hearth, and stepped out into the unknown."
+  },
+  {
+    "q": "In the context of the story, what does the 'tarnished brass key' most likely represent?",
+    "o": [
+      "A valuable antique Elias could use to fund his journey.",
+      "A catalyst for change and a gateway to a new life.",
+      "A literal tool required to open a specific gate in the mountains.",
+      "An old family heirloom that had been stolen from the bakery."
+    ],
+    "a": "B",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_symbolism_inference",
+    "explanation": "The key acts as the symbolic object that shifts Elias from his routine life toward his new journey.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_01",
+    "passage_type": "narrative",
+    "passage_text": "Elias lived in the small town of Oakhaven, where the scent of fresh bread was the morning’s first greeting. Unlike his father, who found joy in the repetitive kneading of dough, Elias dreamed of the mountains that loomed on the horizon like silent giants. One Tuesday, a traveler wearing a cloak of deep indigo entered the bakery. He didn't ask for bread; instead, he handed Elias a tarnished brass key and a map drawn on parchment that felt like dried skin. 'The mountains are calling for their keeper,' the traveler whispered before vanishing into the morning mist. Elias looked at the heavy key in his palm, then at his father’s tired hands. He realized that staying meant comfort, but leaving meant finding his own purpose. Without a word, he packed a small bag, took one last look at the hearth, and stepped out into the unknown."
+  },
+  {
+    "q": "Which word best describes the nature of the traveler’s departure from the bakery?",
+    "o": [
+      "Ethereal",
+      "Sudden",
+      "Rude",
+      "Deliberate"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_vocabulary_in_context",
+    "explanation": "The traveler 'vanishes into the morning mist,' suggesting a mysterious, ghost-like or ethereal departure.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_01",
+    "passage_type": "narrative",
+    "passage_text": "Elias lived in the small town of Oakhaven, where the scent of fresh bread was the morning’s first greeting. Unlike his father, who found joy in the repetitive kneading of dough, Elias dreamed of the mountains that loomed on the horizon like silent giants. One Tuesday, a traveler wearing a cloak of deep indigo entered the bakery. He didn't ask for bread; instead, he handed Elias a tarnished brass key and a map drawn on parchment that felt like dried skin. 'The mountains are calling for their keeper,' the traveler whispered before vanishing into the morning mist. Elias looked at the heavy key in his palm, then at his father’s tired hands. He realized that staying meant comfort, but leaving meant finding his own purpose. Without a word, he packed a small bag, took one last look at the hearth, and stepped out into the unknown."
+  },
+  {
+    "q": "How does the passage contrast Elias’s perspective with that of his father?",
+    "o": [
+      "Through their differing attitudes toward repetitive routine.",
+      "By highlighting their physical strength while working in the bakery.",
+      "Through their shared desire to move to the distant mountains.",
+      "By showing their mutual dislike for the mysterious traveler."
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_character_contrast",
+    "explanation": "The father finds joy in repetitive kneading, while Elias dreams of the mountains beyond the horizon.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_01",
+    "passage_type": "narrative",
+    "passage_text": "Elias lived in the small town of Oakhaven, where the scent of fresh bread was the morning’s first greeting. Unlike his father, who found joy in the repetitive kneading of dough, Elias dreamed of the mountains that loomed on the horizon like silent giants. One Tuesday, a traveler wearing a cloak of deep indigo entered the bakery. He didn't ask for bread; instead, he handed Elias a tarnished brass key and a map drawn on parchment that felt like dried skin. 'The mountains are calling for their keeper,' the traveler whispered before vanishing into the morning mist. Elias looked at the heavy key in his palm, then at his father’s tired hands. He realized that staying meant comfort, but leaving meant finding his own purpose. Without a word, he packed a small bag, took one last look at the hearth, and stepped out into the unknown."
+  },
+  {
+    "q": "What is the central conflict Elias experiences in the passage?",
+    "o": [
+      "The tension between family duty and personal ambition.",
+      "The struggle to survive in a town that has become poor.",
+      "The challenge of learning to bake bread without his father.",
+      "The physical difficulty of preparing for a mountain climb."
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_thematic_conflict",
+    "explanation": "The conflict is internal, as Elias weighs the 'comfort' of his father's bakery against his desire to find his own 'purpose'.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_01",
+    "passage_type": "narrative",
+    "passage_text": "Elias lived in the small town of Oakhaven, where the scent of fresh bread was the morning’s first greeting. Unlike his father, who found joy in the repetitive kneading of dough, Elias dreamed of the mountains that loomed on the horizon like silent giants. One Tuesday, a traveler wearing a cloak of deep indigo entered the bakery. He didn't ask for bread; instead, he handed Elias a tarnished brass key and a map drawn on parchment that felt like dried skin. 'The mountains are calling for their keeper,' the traveler whispered before vanishing into the morning mist. Elias looked at the heavy key in his palm, then at his father’s tired hands. He realized that staying meant comfort, but leaving meant finding his own purpose. Without a word, he packed a small bag, took one last look at the hearth, and stepped out into the unknown."
+  },
+  {
+    "q": "What visual cue first attracted Captain Miller’s attention on the shore?",
+    "o": [
+      "A reflection of light from green glass.",
+      "The movement of waves against the sand.",
+      "The sound of a bottle hitting the rocks.",
+      "A trail of footprints leading to the sea."
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_detail_recall",
+    "explanation": "The text states he 'spotted a glint of green glass half-buried in the sand.'",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_02",
+    "passage_type": "narrative",
+    "passage_text": "Captain Miller had spent forty years navigating the treacherous waters of the Atlantic, but retirement in a seaside cottage felt like the roughest storm he had ever faced. The silence of the land was deafening compared to the constant roar of the ocean. One evening, while walking along the shore, he spotted a glint of green glass half-buried in the sand. It was a wine bottle, sealed with wax that had survived years of salt and sun. Inside was a single sheet of paper, yellowed and brittle. As he carefully uncorked it, he expected a desperate plea for help or a map to hidden treasure. Instead, he found a poem about the beauty of the stars seen from the middle of the sea. The poem was signed by a name he hadn't heard in decades—his own brother, who had been lost at sea during a voyage Miller was supposed to lead."
+  },
+  {
+    "q": "How does the author describe Captain Miller’s adjustment to retirement?",
+    "o": [
+      "As an uncomfortable and challenging period of transition.",
+      "As a peaceful and much-needed rest after a long career.",
+      "As a time spent actively searching for missing family members.",
+      "As a period of physical danger due to living near the ocean."
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_character_status",
+    "explanation": "The text compares retirement to 'the roughest storm he had ever faced,' indicating it was a difficult adjustment.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_02",
+    "passage_type": "narrative",
+    "passage_text": "Captain Miller had spent forty years navigating the treacherous waters of the Atlantic, but retirement in a seaside cottage felt like the roughest storm he had ever faced. The silence of the land was deafening compared to the constant roar of the ocean. One evening, while walking along the shore, he spotted a glint of green glass half-buried in the sand. It was a wine bottle, sealed with wax that had survived years of salt and sun. Inside was a single sheet of paper, yellowed and brittle. As he carefully uncorked it, he expected a desperate plea for help or a map to hidden treasure. Instead, he found a poem about the beauty of the stars seen from the middle of the sea. The poem was signed by a name he hadn't heard in decades—his own brother, who had been lost at sea during a voyage Miller was supposed to lead."
+  },
+  {
+    "q": "What was the irony in the content of the letter Miller found?",
+    "o": [
+      "It contained art rather than a plea for survival or riches.",
+      "It was a map leading back to his own seaside cottage.",
+      "It was written by a stranger but addressed to Miller.",
+      "The message was completely blank due to sea damage."
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_situational_irony",
+    "explanation": "Miller expected a plea for help or a treasure map, but instead found a poem about the stars.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_02",
+    "passage_type": "narrative",
+    "passage_text": "Captain Miller had spent forty years navigating the treacherous waters of the Atlantic, but retirement in a seaside cottage felt like the roughest storm he had ever faced. The silence of the land was deafening compared to the constant roar of the ocean. One evening, while walking along the shore, he spotted a glint of green glass half-buried in the sand. It was a wine bottle, sealed with wax that had survived years of salt and sun. Inside was a single sheet of paper, yellowed and brittle. As he carefully uncorked it, he expected a desperate plea for help or a map to hidden treasure. Instead, he found a poem about the beauty of the stars seen from the middle of the sea. The poem was signed by a name he hadn't heard in decades—his own brother, who had been lost at sea during a voyage Miller was supposed to lead."
+  },
+  {
+    "q": "Based on the text, why does the signature on the poem create a sense of guilt?",
+    "o": [
+      "Miller was supposed to have led the voyage where his brother was lost.",
+      "Miller’s brother had accused him of being a poor captain in the past.",
+      "The brother had stolen the wine bottle from Miller years ago.",
+      "Miller had forgotten his brother’s name until he saw the signature."
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_contextual_inference",
+    "explanation": "The text mentions the brother was lost on a voyage Miller was supposed to lead, implying a personal connection and potential guilt.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_02",
+    "passage_type": "narrative",
+    "passage_text": "Captain Miller had spent forty years navigating the treacherous waters of the Atlantic, but retirement in a seaside cottage felt like the roughest storm he had ever faced. The silence of the land was deafening compared to the constant roar of the ocean. One evening, while walking along the shore, he spotted a glint of green glass half-buried in the sand. It was a wine bottle, sealed with wax that had survived years of salt and sun. Inside was a single sheet of paper, yellowed and brittle. As he carefully uncorked it, he expected a desperate plea for help or a map to hidden treasure. Instead, he found a poem about the beauty of the stars seen from the middle of the sea. The poem was signed by a name he hadn't heard in decades—his own brother, who had been lost at sea during a voyage Miller was supposed to lead."
+  },
+  {
+    "q": "What does the phrase 'the silence of the land was deafening' imply about Miller's internal state?",
+    "o": [
+      "He feels overwhelmed and out of place in the absence of the sea's noise.",
+      "He has suffered permanent hearing loss from his time on ships.",
+      "The town he lives in is abandoned and lacks any human activity.",
+      "He prefers the quiet of his cottage to the chaos of the Atlantic."
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_metaphor_interpretation",
+    "explanation": "The paradox 'silence was deafening' highlights Miller's discomfort with the lack of the ocean's familiar roar.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_02",
+    "passage_type": "narrative",
+    "passage_text": "Captain Miller had spent forty years navigating the treacherous waters of the Atlantic, but retirement in a seaside cottage felt like the roughest storm he had ever faced. The silence of the land was deafening compared to the constant roar of the ocean. One evening, while walking along the shore, he spotted a glint of green glass half-buried in the sand. It was a wine bottle, sealed with wax that had survived years of salt and sun. Inside was a single sheet of paper, yellowed and brittle. As he carefully uncorked it, he expected a desperate plea for help or a map to hidden treasure. Instead, he found a poem about the beauty of the stars seen from the middle of the sea. The poem was signed by a name he hadn't heard in decades—his own brother, who had been lost at sea during a voyage Miller was supposed to lead."
+  },
+  {
+    "q": "What specific celestial phenomenon was Maya hoping to witness?",
+    "o": [
+      "A rogue planet passing in front of a distant star.",
+      "A meteor shower originating from the constellation Orion.",
+      "The movement of a comet across the city skyline.",
+      "The alignment of the moon with the heart of a star."
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_factual_identification",
+    "explanation": "The passage defines the 'Shadow Transit' as an event where a rogue planet obscures a distant star.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_03",
+    "passage_type": "narrative",
+    "passage_text": "Maya sat on the roof of her apartment, her telescope pointed toward the constellation Orion. For months, the scientific community had buzzed about the 'Shadow Transit'—an event where a rogue planet would briefly obscure a distant star. Unlike her colleagues who relied on high-powered observatory feeds, Maya wanted to witness it with her own eyes. The city lights were her greatest enemy, a persistent orange haze that threatened to erase the stars. As the predicted hour approached, a sudden power outage plunged the city into darkness. The neighborhood groaned in frustration, but Maya gasped in delight. The sky transformed into a velvet canvas of infinite diamonds. In that moment of total silence and darkness, she saw it—a tiny, perfect black dot crossing the shimmering heart of the star. It was a fleeting alignment, a cosmic coincidence that felt like a personal message."
+  },
+  {
+    "q": "In what way did the city’s power outage serve as a positive event for Maya?",
+    "o": [
+      "It removed the light pollution that obscured her view of the stars.",
+      "It caused the rogue planet to become more visible to the naked eye.",
+      "It allowed her to use her electronic telescope without interference.",
+      "It signaled the exact moment the Shadow Transit was beginning."
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_causal_relationship",
+    "explanation": "The power outage removed the 'orange haze' of city lights, which Maya considered her 'greatest enemy'.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_03",
+    "passage_type": "narrative",
+    "passage_text": "Maya sat on the roof of her apartment, her telescope pointed toward the constellation Orion. For months, the scientific community had buzzed about the 'Shadow Transit'—an event where a rogue planet would briefly obscure a distant star. Unlike her colleagues who relied on high-powered observatory feeds, Maya wanted to witness it with her own eyes. The city lights were her greatest enemy, a persistent orange haze that threatened to erase the stars. As the predicted hour approached, a sudden power outage plunged the city into darkness. The neighborhood groaned in frustration, but Maya gasped in delight. The sky transformed into a velvet canvas of infinite diamonds. In that moment of total silence and darkness, she saw it—a tiny, perfect black dot crossing the shimmering heart of the star. It was a fleeting alignment, a cosmic coincidence that felt like a personal message."
+  },
+  {
+    "q": "Which of the following best describes Maya’s approach to astronomy in this passage?",
+    "o": [
+      "Valuing direct, personal observation over indirect data.",
+      "Relying exclusively on the most advanced city observatories.",
+      "Studying the stars only when accidental outages occur.",
+      "Focusing on constellations rather than individual planetary movements."
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_character_inference",
+    "explanation": "The text states that unlike her colleagues who used feeds, Maya 'wanted to witness it with her own eyes'.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_03",
+    "passage_type": "narrative",
+    "passage_text": "Maya sat on the roof of her apartment, her telescope pointed toward the constellation Orion. For months, the scientific community had buzzed about the 'Shadow Transit'—an event where a rogue planet would briefly obscure a distant star. Unlike her colleagues who relied on high-powered observatory feeds, Maya wanted to witness it with her own eyes. The city lights were her greatest enemy, a persistent orange haze that threatened to erase the stars. As the predicted hour approached, a sudden power outage plunged the city into darkness. The neighborhood groaned in frustration, but Maya gasped in delight. The sky transformed into a velvet canvas of infinite diamonds. In that moment of total silence and darkness, she saw it—a tiny, perfect black dot crossing the shimmering heart of the star. It was a fleeting alignment, a cosmic coincidence that felt like a personal message."
+  },
+  {
+    "q": "What does the contrast between the neighborhood's reaction and Maya's reaction suggest about her character?",
+    "o": [
+      "She has priorities that differ fundamentally from the general public.",
+      "She is more easily frustrated by city life than her neighbors.",
+      "She was unaware that the power outage was a negative event.",
+      "She possesses a better understanding of electrical systems."
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_comparative_characterization",
+    "explanation": "The neighbors groan because they lose utility, while Maya gasps in delight because she gains a clear view of the sky.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_03",
+    "passage_type": "narrative",
+    "passage_text": "Maya sat on the roof of her apartment, her telescope pointed toward the constellation Orion. For months, the scientific community had buzzed about the 'Shadow Transit'—an event where a rogue planet would briefly obscure a distant star. Unlike her colleagues who relied on high-powered observatory feeds, Maya wanted to witness it with her own eyes. The city lights were her greatest enemy, a persistent orange haze that threatened to erase the stars. As the predicted hour approached, a sudden power outage plunged the city into darkness. The neighborhood groaned in frustration, but Maya gasped in delight. The sky transformed into a velvet canvas of infinite diamonds. In that moment of total silence and darkness, she saw it—a tiny, perfect black dot crossing the shimmering heart of the star. It was a fleeting alignment, a cosmic coincidence that felt like a personal message."
+  },
+  {
+    "q": "Based on the concluding sentence, how did the event affect Maya emotionally?",
+    "o": [
+      "It felt like a meaningful and intimate experience.",
+      "It made her feel small and insignificant in the universe.",
+      "It left her frustrated because it was too brief to record.",
+      "It convinced her to join the professional scientific community."
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "narrative_concluding_tone",
+    "explanation": "The text states the event 'felt like a personal message,' indicating an intimate emotional connection.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Narrative Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Narrative Passage",
+    "concept_id": "english::narrative_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::narrative_passage",
+    "anchor_tier": 3,
+    "passage_id": "en_narrative_03",
+    "passage_type": "narrative",
+    "passage_text": "Maya sat on the roof of her apartment, her telescope pointed toward the constellation Orion. For months, the scientific community had buzzed about the 'Shadow Transit'—an event where a rogue planet would briefly obscure a distant star. Unlike her colleagues who relied on high-powered observatory feeds, Maya wanted to witness it with her own eyes. The city lights were her greatest enemy, a persistent orange haze that threatened to erase the stars. As the predicted hour approached, a sudden power outage plunged the city into darkness. The neighborhood groaned in frustration, but Maya gasped in delight. The sky transformed into a velvet canvas of infinite diamonds. In that moment of total silence and darkness, she saw it—a tiny, perfect black dot crossing the shimmering heart of the star. It was a fleeting alignment, a cosmic coincidence that felt like a personal message."
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 15
+[english-classification] {
+  question_id: 'narrative_direct_comprehension',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'narrative_symbolism_inference',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'narrative_vocabulary_in_context',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'narrative_character_contrast',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'narrative_thematic_conflict',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'narrative_detail_recall',
+  detected_type: 'Literary Passage',
+  confidence: 0.95
+}
+[english-classification] {
+  question_id: 'narrative_character_status',
+  detected_type: 'Literary Passage',
+  confidence: 0.95
+}
+[english-classification] {
+  question_id: 'narrative_situational_irony',
+  detected_type: 'Literary Passage',
+  confidence: 0.95
+}
+[english-classification] {
+  question_id: 'narrative_contextual_inference',
+  detected_type: 'Literary Passage',
+  confidence: 0.95
+}
+[english-classification] {
+  question_id: 'narrative_metaphor_interpretation',
+  detected_type: 'Literary Passage',
+  confidence: 0.95
+}
+[english-classification] {
+  question_id: 'narrative_factual_identification',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'narrative_causal_relationship',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'narrative_character_inference',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'narrative_comparative_characterization',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'narrative_concluding_tone',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '4728d7ba-0201-43b6-a08d-734d398f19f9',
+    'f15692a2-1011-4086-a82c-a6faf5ca0c22',
+    '1c8fc5b9-262c-4a44-bda0-af651a944ab8',
+    'b3a3e8dd-058a-4109-8ea5-95d6fe3bf5b4',
+    '5610a1e8-9124-4e89-8308-5ed5f1e2d9c3',
+    '7a8b1b90-2673-4309-b731-22731d91fb79',
+    '13ebd39b-0875-4e21-b0e2-21411cf508ab',
+    '47d34724-9402-4c2e-9351-1a281f51feb4'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '4728d7ba-0201-43b6-a08d-734d398f19f9',
+  actual_subject: 'psychology',
+  actual_chapter: 'Psychology & Life',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 5,
+  subject_question_count: 92,
+  created_at: '2026-04-30T14:05:16.644312+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'psychology',
+  chapter: 'Psychology & Life',
+  count: 5,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'psychology', chapter: 'Psychology & Life', count: 5 }
+
+[JOB 4728d7ba] Starting: [psychology] Psychology & Life
+[worker] RECEIVED_JOB: {
+  job_id: '4728d7ba-0201-43b6-a08d-734d398f19f9',
+  expected_subject: 'psychology',
+  expected_chapter: 'Psychology & Life',
+  raw_subject_id: 'psychology',
+  raw_chapter: 'Psychology & Life',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T14:05:16.644312+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '4728d7ba-0201-43b6-a08d-734d398f19f9',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  chapter: 'Psychology & Life',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=5 existing questions loaded
+[generation] batch adjusted: { chapter: 'Psychology & Life', generate_count: 15 }
+[worker] GENERATION_INPUT: {
+  job_id: '4728d7ba-0201-43b6-a08d-734d398f19f9',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  expected_chapter: 'Psychology & Life',
+  canonical_unit: 'Existing Psychology Coverage',
+  generate_count: 15,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 15 candidates... chapter="Psychology & Life" unit="Existing Psychology Coverage" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'psychology',
+  prompt_subject_name: 'Psychology',
+  expected_chapter: 'Psychology & Life',
+  requested_count: 15,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'psychology',
+  expected_chapter: 'Psychology & Life',
+  canonical_unit: 'Existing Psychology Coverage',
+  concept_id: 'psychology::psychology_and_life',
+  pyq_anchor_id: 'synthetic_cuet_structure_psychology',
+  anchor_tier: 4,
+  batch_size: 15,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] gemini_generation active_model=gemini-3.1-flash resolved_model=gemini-3-flash-preview
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'generation_gemini',
+  status: 'service_unavailable',
+  retry_count: 0,
+  duration: 2184,
+  error: '[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [503 Service Unavailable] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.'
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'f15692a2-1011-4086-a82c-a6faf5ca0c22',
+    '1c8fc5b9-262c-4a44-bda0-af651a944ab8',
+    'b3a3e8dd-058a-4109-8ea5-95d6fe3bf5b4',
+    '5610a1e8-9124-4e89-8308-5ed5f1e2d9c3',
+    '7a8b1b90-2673-4309-b731-22731d91fb79',
+    '13ebd39b-0875-4e21-b0e2-21411cf508ab',
+    '47d34724-9402-4c2e-9351-1a281f51feb4'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'f15692a2-1011-4086-a82c-a6faf5ca0c22',
+  actual_subject: 'psychology',
+  actual_chapter: 'Self & Personality',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 5,
+  subject_question_count: 92,
+  created_at: '2026-04-30T14:05:16.644312+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'psychology',
+  chapter: 'Self & Personality',
+  count: 5,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'psychology', chapter: 'Self & Personality', count: 5 }
+
+[JOB f15692a2] Starting: [psychology] Self & Personality
+[worker] RECEIVED_JOB: {
+  job_id: 'f15692a2-1011-4086-a82c-a6faf5ca0c22',
+  expected_subject: 'psychology',
+  expected_chapter: 'Self & Personality',
+  raw_subject_id: 'psychology',
+  raw_chapter: 'Self & Personality',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T14:05:16.644312+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'f15692a2-1011-4086-a82c-a6faf5ca0c22',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  chapter: 'Self & Personality',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=5 existing questions loaded
+[generation] batch adjusted: { chapter: 'Self & Personality', generate_count: 15 }
+[worker] GENERATION_INPUT: {
+  job_id: 'f15692a2-1011-4086-a82c-a6faf5ca0c22',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  expected_chapter: 'Self & Personality',
+  canonical_unit: 'Self and Personality',
+  generate_count: 15,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 15 candidates... chapter="Self & Personality" unit="Self and Personality" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'psychology',
+  prompt_subject_name: 'Psychology',
+  expected_chapter: 'Self & Personality',
+  requested_count: 15,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'psychology',
+  expected_chapter: 'Self & Personality',
+  canonical_unit: 'Self and Personality',
+  concept_id: 'psychology::self_and_personality',
+  pyq_anchor_id: 'synthetic_cuet_structure_psychology',
+  anchor_tier: 4,
+  batch_size: 15,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] gemini_generation active_model=gemini-3.1-flash resolved_model=gemini-3-flash-preview
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'generation_gemini',
+  status: 'service_unavailable',
+  retry_count: 0,
+  duration: 7716,
+  error: '[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [503 Service Unavailable] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.'
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '1c8fc5b9-262c-4a44-bda0-af651a944ab8',
+    'b3a3e8dd-058a-4109-8ea5-95d6fe3bf5b4',
+    '5610a1e8-9124-4e89-8308-5ed5f1e2d9c3',
+    '7a8b1b90-2673-4309-b731-22731d91fb79',
+    '13ebd39b-0875-4e21-b0e2-21411cf508ab',
+    '47d34724-9402-4c2e-9351-1a281f51feb4'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '1c8fc5b9-262c-4a44-bda0-af651a944ab8',
+  actual_subject: 'psychology',
+  actual_chapter: 'Social Influence & Group Processes',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 5,
+  subject_question_count: 92,
+  created_at: '2026-04-30T14:05:16.644312+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'psychology',
+  chapter: 'Social Influence & Group Processes',
+  count: 5,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'psychology',
+  chapter: 'Social Influence & Group Processes',
+  count: 5
+}
+
+[JOB 1c8fc5b9] Starting: [psychology] Social Influence & Group Processes
+[worker] RECEIVED_JOB: {
+  job_id: '1c8fc5b9-262c-4a44-bda0-af651a944ab8',
+  expected_subject: 'psychology',
+  expected_chapter: 'Social Influence & Group Processes',
+  raw_subject_id: 'psychology',
+  raw_chapter: 'Social Influence & Group Processes',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T14:05:16.644312+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '1c8fc5b9-262c-4a44-bda0-af651a944ab8',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  chapter: 'Social Influence & Group Processes',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=5 existing questions loaded
+[generation] batch adjusted: { chapter: 'Social Influence & Group Processes', generate_count: 15 }
+[worker] GENERATION_INPUT: {
+  job_id: '1c8fc5b9-262c-4a44-bda0-af651a944ab8',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  expected_chapter: 'Social Influence & Group Processes',
+  canonical_unit: 'Social Influence and Group Processes',
+  generate_count: 15,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 15 candidates... chapter="Social Influence & Group Processes" unit="Social Influence and Group Processes" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'psychology',
+  prompt_subject_name: 'Psychology',
+  expected_chapter: 'Social Influence & Group Processes',
+  requested_count: 15,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'psychology',
+  expected_chapter: 'Social Influence & Group Processes',
+  canonical_unit: 'Social Influence and Group Processes',
+  concept_id: 'psychology::social_influence_and_group_processes',
+  pyq_anchor_id: 'synthetic_cuet_structure_psychology',
+  anchor_tier: 4,
+  batch_size: 15,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] gemini_generation active_model=gemini-3.1-flash resolved_model=gemini-3-flash-preview
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'generation_gemini',
+  status: 'success',
+  retry_count: 0,
+  duration: 24765,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "q": "In a group formation process, a team of students is currently experiencing disagreements regarding who should lead the project and how tasks should be divided. According to Tuckman’s model, which stage is the group most likely in?",
+    "o": [
+      "Storming, where conflict arises regarding roles and control",
+      "Forming, where members are getting to know each other",
+      "Norming, where the group develops a sense of unity",
+      "Performing, where the group focuses on task completion"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "tuckman_stages_application",
+    "explanation": "The storming stage is characterized by conflict over leadership and task allocation before the group stabilizes.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Social Influence & Group Processes",
+    "topic": "Social Influence and Group Processes",
+    "concept": "Social Influence & Group Processes",
+    "concept_id": "psychology::social_influence_and_group_processes",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "During a village rope-pulling competition, it is observed that individuals tend to exert less effort when pulling in a large team compared to when they pull alone. Which psychological phenomenon explains this behavior?",
+    "o": [
+      "Social Loafing",
+      "Social Facilitation",
+      "Group Polarization",
+      "Deindividuation"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "social_loafing_identification",
+    "explanation": "Social loafing occurs when individual effort decreases because contributions are pooled and not evaluated separately.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Social Influence & Group Processes",
+    "topic": "Social Influence and Group Processes",
+    "concept": "Social Influence & Group Processes",
+    "concept_id": "psychology::social_influence_and_group_processes",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Which of the following scenarios best illustrates the concept of 'Obedience' as a form of social influence?",
+    "o": [
+      "An employee follows a specific safety protocol because the manager explicitly ordered it.",
+      "A student wears a specific brand of shoes because all their friends are wearing them.",
+      "A person agrees to donate a small amount after first refusing to donate a large sum.",
+      "A group of friends decides to go for a movie after a long discussion."
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "one_step_application",
+    "concept_pattern": "social_influence_types",
+    "explanation": "Obedience involves following direct orders from an authority figure, whereas conformity is about following group norms.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Social Influence & Group Processes",
+    "topic": "Social Influence and Group Processes",
+    "concept": "Social Influence & Group Processes",
+    "concept_id": "psychology::social_influence_and_group_processes",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "A collection of people standing at a railway station waiting for a train is best described as a ________, whereas a sports team working towards a trophy is a ________.",
+    "o": [
+      "crowd; group",
+      "group; crowd",
+      "audience; team",
+      "collective; organization"
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "direct_concept",
+    "concept_pattern": "group_vs_crowd_distinction",
+    "explanation": "A crowd is a collection of people in the same place without a common goal, while a group has interdependent roles and shared objectives.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Social Influence & Group Processes",
+    "topic": "Social Influence and Group Processes",
+    "concept": "Social Influence & Group Processes",
+    "concept_id": "psychology::social_influence_and_group_processes",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "A professional athlete performs much better in a packed stadium than during private practice sessions. This improvement in performance due to the presence of others is known as:",
+    "o": [
+      "Social Facilitation",
+      "Social Loafing",
+      "Evaluation Apprehension",
+      "Co-action effect"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "social_facilitation_performance",
+    "explanation": "Social facilitation is the tendency for performance on simple or well-learned tasks to improve in the presence of others.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Social Influence & Group Processes",
+    "topic": "Social Influence and Group Processes",
+    "concept": "Social Influence & Group Processes",
+    "concept_id": "psychology::social_influence_and_group_processes",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "After a group discussion on environmental protection, members who were already somewhat concerned became even more radical in their views. This phenomenon is called:",
+    "o": [
+      "Group Polarization",
+      "Groupthink",
+      "Social Influence",
+      "Normative Influence"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "group_polarization_outcome",
+    "explanation": "Group polarization occurs when group discussion strengthens the initial leanings of the group members toward a more extreme position.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Social Influence & Group Processes",
+    "topic": "Social Influence and Group Processes",
+    "concept": "Social Influence & Group Processes",
+    "concept_id": "psychology::social_influence_and_group_processes",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "A salesperson first asks a customer to sign a petition for a cause, and once the customer agrees, the salesperson asks them to buy a subscription. Which compliance technique is being used?",
+    "o": [
+      "Foot-in-the-door technique",
+      "The door-in-the-face technique",
+      "The low-ball technique",
+      "The deadline technique"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "compliance_techniques_application",
+    "explanation": "The foot-in-the-door technique involves getting a person to agree to a small request first to increase the likelihood of them agreeing to a larger one later.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Social Influence & Group Processes",
+    "topic": "Social Influence and Group Processes",
+    "concept": "Social Influence & Group Processes",
+    "concept_id": "psychology::social_influence_and_group_processes",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "In which stage of group development do members start developing a sense of 'we-feeling' and establish rules of behavior to achieve group goals?",
+    "o": [
+      "Norming",
+      "Storming",
+      "Forming",
+      "Performing"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "norming_characteristics",
+    "explanation": "During the norming stage, the group develops shared norms, cohesiveness, and a sense of identity.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Social Influence & Group Processes",
+    "topic": "Social Influence and Group Processes",
+    "concept": "Social Influence & Group Processes",
+    "concept_id": "psychology::social_influence_and_group_processes",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "A highly cohesive committee ignores realistic alternatives and suppresses dissenting viewpoints to reach a unanimous decision. This describes which process?",
+    "o": [
+      "Groupthink",
+      "Social Loafing",
+      "Group Polarization",
+      "Brainstorming"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "groupthink_identification",
+    "explanation": "Groupthink is a psychological phenomenon that occurs within a group of people in which the desire for harmony or conformity in the group results in an irrational or dysfunctional decision-making outcome.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Social Influence & Group Processes",
+    "topic": "Social Influence and Group Processes",
+    "concept": "Social Influence & Group Processes",
+    "concept_id": "psychology::social_influence_and_group_processes",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Which of the following conditions is most likely to reduce social loafing in a group project?",
+    "o": [
+      "Increasing the identifiability of each member’s individual contribution.",
+      "Increasing the total number of members in the group.",
+      "Making the task as simple and repetitive as possible.",
+      "Ensuring that the final group product is the only thing evaluated."
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "one_step_application",
+    "concept_pattern": "reducing_social_loafing",
+    "explanation": "Making individual efforts identifiable and evaluable is the primary way to reduce social loafing.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Social Influence & Group Processes",
+    "topic": "Social Influence and Group Processes",
+    "concept": "Social Influence & Group Processes",
+    "concept_id": "psychology::social_influence_and_group_processes",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Two students are solving the same math problems sitting on the same bench but are not helping each other. This situation is an example of:",
+    "o": [
+      "Co-action",
+      "Competition",
+      "Social Loafing",
+      "Group Interaction"
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "direct_concept",
+    "concept_pattern": "coaction_definition",
+    "explanation": "Co-action involves individuals performing the same task side-by-side without interacting or competing directly.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Social Influence & Group Processes",
+    "topic": "Social Influence and Group Processes",
+    "concept": "Social Influence & Group Processes",
+    "concept_id": "psychology::social_influence_and_group_processes",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Identify the statement that correctly distinguishes between Primary and Secondary groups.",
+    "o": [
+      "Primary groups involve face-to-face, emotional bonds; secondary groups are formal and goal-oriented.",
+      "Primary groups are always large in size; secondary groups are always small.",
+      "Secondary groups provide emotional support; primary groups are for professional networking.",
+      "There is no difference between them as both serve the same psychological functions."
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "statement_based",
+    "concept_pattern": "primary_vs_secondary_groups",
+    "explanation": "Primary groups (like family) are based on intimate, personal relationships, whereas secondary groups (like a workspace) are more impersonal and formal.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Social Influence & Group Processes",
+    "topic": "Social Influence and Group Processes",
+    "concept": "Social Influence & Group Processes",
+    "concept_id": "psychology::social_influence_and_group_processes",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "Which of the following is an example of 'Normative Social Influence'?",
+    "o": [
+      "Conforming to a group's behavior to be liked and avoid social rejection.",
+      "Changing one's opinion because the group provided superior information.",
+      "Following an expert's advice because you believe they are correct.",
+      "Agreeing with the majority because you are unsure of your own judgment."
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "direct_concept",
+    "concept_pattern": "normative_vs_informational_influence",
+    "explanation": "Normative influence is based on the desire to be accepted by others, while informational influence is based on the desire to be right.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Social Influence & Group Processes",
+    "topic": "Social Influence and Group Processes",
+    "concept": "Social Influence & Group Processes",
+    "concept_id": "psychology::social_influence_and_group_processes",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "A corporate team has become so cohesive that they have developed a 'mindguard' to protect the leader from contradictory information. This behavior is a symptom of:",
+    "o": [
+      "Groupthink",
+      "Social Facilitation",
+      "Group Polarization",
+      "Informational Influence"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "one_step_application",
+    "concept_pattern": "groupthink_symptoms",
+    "explanation": "Mindguards are a specific symptom of Groupthink where members protect the group from information that might shatter their shared illusions.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Social Influence & Group Processes",
+    "topic": "Social Influence and Group Processes",
+    "concept": "Social Influence & Group Processes",
+    "concept_id": "psychology::social_influence_and_group_processes",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  },
+  {
+    "q": "In a social experiment, a participant is asked to judge the length of lines. Even though the correct answer is obvious, the participant chooses the wrong answer because the rest of the group did. This primarily demonstrates:",
+    "o": [
+      "Conformity based on social pressure",
+      "Obedience to an authority figure",
+      "Compliance due to the door-in-the-face effect",
+      "Social facilitation of an easy task"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "one_step_application",
+    "concept_pattern": "conformity_mechanisms",
+    "explanation": "This describes the classic Asch experiment scenario where individuals conform to the group consensus despite clear evidence to the contrary.",
+    "subject": "psychology",
+    "public_subject": "psychology",
+    "chapter": "Social Influence & Group Processes",
+    "topic": "Social Influence and Group Processes",
+    "concept": "Social Influence & Group Processes",
+    "concept_id": "psychology::social_influence_and_group_processes",
+    "pyq_anchor_id": "synthetic_cuet_structure_psychology",
+    "anchor_tier": 4
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 15
+[llm] gemini_generation success gemini-3.1-flash resolved_model=gemini-3-flash-preview count=2
+[pipeline] RAW_PARSED_COUNT 15
+[pipeline] NORMALIZED_COUNT 2
+[pipeline] generated_count=2 | mix=easy=0, medium=2, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 2
+[pipeline] after_chapter_filter=2 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=2 | sent_for_strict_validation=2
+[pipeline] Starting batch validation for 2 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3.1-flash-lite | resolved_model=gemini-3.1-flash-lite-preview | count=2
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T14:09:15.366Z","model":"gemini-3.1-flash-lite","resolvedModel":"gemini-3.1-flash-lite-preview","subject":"psychology","questionCount":2}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3.1-flash-lite-preview',
+  subject: 'psychology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3.1-flash-lite-preview',
+  subject: 'psychology',
+  stage: 'batch_validation',
+  status: 'service_unavailable',
+  retry_count: 0,
+  duration: 605,
+  error: '[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent: [503 Service Unavailable] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.'
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3.1-flash-lite-preview',
+  subject: 'psychology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3.1-flash-lite-preview',
+  subject: 'psychology',
+  stage: 'batch_validation',
+  retry_count: 1
+}

@@ -184,7 +184,10 @@ export default function ProfilePageClient() {
               <div className="display-md">{averageScore}</div>
             </div>
             <div className="glass p-5">
-              <div className="mono-label mb-2">Subjects</div>
+              <div className="flex items-center justify-between mb-2">
+                <div className="mono-label">Subjects</div>
+                <Link href="/onboarding?edit=true" className="text-volt text-xs font-semibold hover:underline">Edit</Link>
+              </div>
               <div className="display-md">{user?.subjects?.length || 0}</div>
             </div>
             <div className="glass p-5">

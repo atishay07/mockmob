@@ -1,0 +1,1267 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5913 concepts across 40 subjects (saved 2026-04-30T14:14:33.641Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Literary Passage',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Social Influence & Group Processes',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Therapeutic Approaches',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'sociology',
+  chapter: 'Change & Development in Rural Society',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'business_studies',
+  chapter: 'Planning',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Communication Technologies',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'File Handling',
+  coverage: 6,
+  priority: 90
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: english → normalized: english → tier: 1
+Subject: english → normalized: english → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+Subject: sociology → normalized: sociology → tier: 1
+Subject: biology → normalized: biology → tier: 1
+Subject: business_studies → normalized: business_studies → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Literary Passage',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Social Influence & Group Processes',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Therapeutic Approaches',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'sociology',
+    expected_chapter: 'Change & Development in Rural Society',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Human Reproduction',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'business_studies',
+    expected_chapter: 'Planning',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'p-Block Elements',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Communication Technologies',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'File Handling',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'english',
+    chapter: 'Literary Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Social Influence & Group Processes',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Therapeutic Approaches',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'sociology',
+    chapter: 'Change & Development in Rural Society',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Human Reproduction',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'business_studies',
+    chapter: 'Planning',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'p-Block Elements',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Communication Technologies',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'File Handling',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: '9366949a-0847-44bd-94b2-9d40216aaa96',
+    subject_id: 'english',
+    chapter: 'Literary Passage',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:26:09.755798+00:00'
+  },
+  {
+    id: 'cb5b0ac0-a3f4-4666-9143-4acbecd2398d',
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:26:09.755798+00:00'
+  },
+  {
+    id: 'a9ba7cc4-3305-426c-b71a-8ef3a19ef2d8',
+    subject_id: 'psychology',
+    chapter: 'Social Influence & Group Processes',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:26:09.755798+00:00'
+  },
+  {
+    id: 'adbac273-7e0d-47bb-961c-b5bfdab5dfbc',
+    subject_id: 'psychology',
+    chapter: 'Therapeutic Approaches',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:26:09.755798+00:00'
+  },
+  {
+    id: '481a80e1-91b4-4f8f-bcec-5aaaa9b7bbda',
+    subject_id: 'sociology',
+    chapter: 'Change & Development in Rural Society',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:26:09.755798+00:00'
+  },
+  {
+    id: 'f0a3df43-694e-49c0-9eab-b03db7d2e2b6',
+    subject_id: 'biology',
+    chapter: 'Human Reproduction',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:26:09.755798+00:00'
+  },
+  {
+    id: '16114232-12a0-4cc8-afaa-d658dd9f6008',
+    subject_id: 'business_studies',
+    chapter: 'Planning',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:26:09.755798+00:00'
+  },
+  {
+    id: 'a35266e3-ac72-465e-85f1-bd0dc06839d1',
+    subject_id: 'chemistry',
+    chapter: 'p-Block Elements',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:26:09.755798+00:00'
+  },
+  {
+    id: 'ea4a7580-0880-46f8-a4fd-b68075410fbe',
+    subject_id: 'computer_science',
+    chapter: 'Communication Technologies',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:26:09.755798+00:00'
+  },
+  {
+    id: '68fa12bb-7dbb-458a-a73c-1ffcc98a5433',
+    subject_id: 'computer_science',
+    chapter: 'File Handling',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T14:26:09.755798+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: '9366949a-0847-44bd-94b2-9d40216aaa96',
+    expected_subject: 'english',
+    expected_chapter: 'Literary Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'cb5b0ac0-a3f4-4666-9143-4acbecd2398d',
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'a9ba7cc4-3305-426c-b71a-8ef3a19ef2d8',
+    expected_subject: 'psychology',
+    expected_chapter: 'Social Influence & Group Processes',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'adbac273-7e0d-47bb-961c-b5bfdab5dfbc',
+    expected_subject: 'psychology',
+    expected_chapter: 'Therapeutic Approaches',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '481a80e1-91b4-4f8f-bcec-5aaaa9b7bbda',
+    expected_subject: 'sociology',
+    expected_chapter: 'Change & Development in Rural Society',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'f0a3df43-694e-49c0-9eab-b03db7d2e2b6',
+    expected_subject: 'biology',
+    expected_chapter: 'Human Reproduction',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '16114232-12a0-4cc8-afaa-d658dd9f6008',
+    expected_subject: 'business_studies',
+    expected_chapter: 'Planning',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'a35266e3-ac72-465e-85f1-bd0dc06839d1',
+    expected_subject: 'chemistry',
+    expected_chapter: 'p-Block Elements',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'ea4a7580-0880-46f8-a4fd-b68075410fbe',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Communication Technologies',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '68fa12bb-7dbb-458a-a73c-1ffcc98a5433',
+    expected_subject: 'computer_science',
+    expected_chapter: 'File Handling',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '9366949a-0847-44bd-94b2-9d40216aaa96',
+    'cb5b0ac0-a3f4-4666-9143-4acbecd2398d',
+    'a9ba7cc4-3305-426c-b71a-8ef3a19ef2d8',
+    'adbac273-7e0d-47bb-961c-b5bfdab5dfbc',
+    '481a80e1-91b4-4f8f-bcec-5aaaa9b7bbda',
+    'f0a3df43-694e-49c0-9eab-b03db7d2e2b6',
+    '16114232-12a0-4cc8-afaa-d658dd9f6008',
+    'a35266e3-ac72-465e-85f1-bd0dc06839d1',
+    'ea4a7580-0880-46f8-a4fd-b68075410fbe',
+    '68fa12bb-7dbb-458a-a73c-1ffcc98a5433'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '9366949a-0847-44bd-94b2-9d40216aaa96',
+  actual_subject: 'english',
+  actual_chapter: 'Literary Passage',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 5,
+  subject_question_count: 112,
+  created_at: '2026-04-30T14:26:09.755798+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'english',
+  chapter: 'Literary Passage',
+  count: 5,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'english', chapter: 'Literary Passage', count: 5 }
+
+[JOB 9366949a] Starting: [english] Literary Passage
+[worker] RECEIVED_JOB: {
+  job_id: '9366949a-0847-44bd-94b2-9d40216aaa96',
+  expected_subject: 'english',
+  expected_chapter: 'Literary Passage',
+  raw_subject_id: 'english',
+  raw_chapter: 'Literary Passage',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T14:26:09.755798+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '9366949a-0847-44bd-94b2-9d40216aaa96',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  chapter: 'Literary Passage',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=5 existing questions loaded
+[generation] batch adjusted: { chapter: 'Literary Passage', generate_count: 15 }
+[worker] GENERATION_INPUT: {
+  job_id: '9366949a-0847-44bd-94b2-9d40216aaa96',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  expected_chapter: 'Literary Passage',
+  canonical_unit: 'Reading Comprehension',
+  generate_count: 15,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 15 candidates... chapter="Literary Passage" unit="Reading Comprehension" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'English',
+  expected_chapter: 'Literary Passage',
+  requested_count: 15,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'english',
+  expected_chapter: 'Literary Passage',
+  canonical_unit: 'Reading Comprehension',
+  concept_id: 'english::literary_passage',
+  pyq_anchor_id: 'structure_only_seed_pyq_en3_for_english::literary_passage',
+  anchor_tier: 3,
+  batch_size: 15,
+  pyq_style_patterns: [ 'reading_comprehension', 'vocabulary', 'correct_word_usage' ],
+  difficulty_override: null
+}
+[llm] gemini_generation active_model=gemini-3.1-pro resolved_model=gemini-3.1-pro-preview
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3.1-pro-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3.1-pro-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  status: 'timeout',
+  retry_count: 0,
+  duration: 90089,
+  error: 'gemini timeout after 90000ms'
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3.1-pro-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm] gemini_generation active_model=gemini-3.1-flash resolved_model=gemini-3-flash-preview
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  status: 'success',
+  retry_count: 0,
+  duration: 33653,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "q": "In the passage, the phrase 'silent sentinel' is used to describe the house. What does this metaphor primarily suggest about the building's presence?",
+    "o": [
+      "The house is a watchful and enduring presence over the sea.",
+      "The house is abandoned and has become a ruin.",
+      "The house acts as a prison for the main character.",
+      "The house is a noisy and chaotic place near the shore."
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "metaphor_interpretation",
+    "explanation": "The term 'sentinel' implies a guard or watcher, suggesting the house's enduring and watchful nature.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "eng_lit_001",
+    "passage_type": "literary",
+    "passage_text": "The old house stood at the edge of the cliff, a silent sentinel watching over the turbulent sea. Its windows, like tired eyes, caught the fading light of the autumn sun. Inside, the air was thick with the scent of dried lavender and old paper, a testament to years of quiet solitude. Elara walked through the corridors, her footsteps echoing against the polished mahogany floors. Every creak of the wood seemed to whisper a secret from the past, a memory long buried under the weight of time. She reached for the heavy velvet curtains, pulling them back to reveal the churning grey waters below. The salt spray misted against the glass, blurring the boundary between the safe sanctuary of the house and the untamed power of the ocean outside. In that moment, she felt both anchored and adrift, a part of the history she was trying to escape."
+  },
+  {
+    "q": "The author compares the windows to 'tired eyes' mainly to evoke a sense of:",
+    "o": [
+      "Weariness and the passage of long years.",
+      "The house being a literal living creature.",
+      "The brightness of the autumn sun hitting the glass.",
+      "Clear visibility and transparency of the structure."
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "imagery_analysis",
+    "explanation": "The personification of windows as 'tired eyes' conveys a sense of age, fatigue, and the weight of history.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "eng_lit_001",
+    "passage_type": "literary",
+    "passage_text": "The old house stood at the edge of the cliff, a silent sentinel watching over the turbulent sea. Its windows, like tired eyes, caught the fading light of the autumn sun. Inside, the air was thick with the scent of dried lavender and old paper, a testament to years of quiet solitude. Elara walked through the corridors, her footsteps echoing against the polished mahogany floors. Every creak of the wood seemed to whisper a secret from the past, a memory long buried under the weight of time. She reached for the heavy velvet curtains, pulling them back to reveal the churning grey waters below. The salt spray misted against the glass, blurring the boundary between the safe sanctuary of the house and the untamed power of the ocean outside. In that moment, she felt both anchored and adrift, a part of the history she was trying to escape."
+  },
+  {
+    "q": "Based on the passage, what contrast is established between the house and the ocean?",
+    "o": [
+      "The house is a safe sanctuary while the ocean represents untamed power.",
+      "The house is vibrant and new, while the ocean is old and grey.",
+      "The house is located in a city, but the ocean is in a remote area.",
+      "The house is dangerous, whereas the ocean is calm and predictable."
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "literary_contrast",
+    "explanation": "The passage explicitly contrasts the 'safe sanctuary of the house' with the 'untamed power of the ocean'.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "eng_lit_001",
+    "passage_type": "literary",
+    "passage_text": "The old house stood at the edge of the cliff, a silent sentinel watching over the turbulent sea. Its windows, like tired eyes, caught the fading light of the autumn sun. Inside, the air was thick with the scent of dried lavender and old paper, a testament to years of quiet solitude. Elara walked through the corridors, her footsteps echoing against the polished mahogany floors. Every creak of the wood seemed to whisper a secret from the past, a memory long buried under the weight of time. She reached for the heavy velvet curtains, pulling them back to reveal the churning grey waters below. The salt spray misted against the glass, blurring the boundary between the safe sanctuary of the house and the untamed power of the ocean outside. In that moment, she felt both anchored and adrift, a part of the history she was trying to escape."
+  },
+  {
+    "q": "What does the phrase 'anchored and adrift' reveal about Elara's internal state?",
+    "o": [
+      "She feels connected to her past but uncertain about her future.",
+      "She is literally stuck on a boat in the middle of the sea.",
+      "She is happy to be back in her childhood home forever.",
+      "She has completely forgotten her history and feels free."
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "character_internal_state",
+    "explanation": "The oxymoron 'anchored and adrift' suggests a conflict between her ties to the past and her sense of instability.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "eng_lit_001",
+    "passage_type": "literary",
+    "passage_text": "The old house stood at the edge of the cliff, a silent sentinel watching over the turbulent sea. Its windows, like tired eyes, caught the fading light of the autumn sun. Inside, the air was thick with the scent of dried lavender and old paper, a testament to years of quiet solitude. Elara walked through the corridors, her footsteps echoing against the polished mahogany floors. Every creak of the wood seemed to whisper a secret from the past, a memory long buried under the weight of time. She reached for the heavy velvet curtains, pulling them back to reveal the churning grey waters below. The salt spray misted against the glass, blurring the boundary between the safe sanctuary of the house and the untamed power of the ocean outside. In that moment, she felt both anchored and adrift, a part of the history she was trying to escape."
+  },
+  {
+    "q": "Which literary device is most prominent in the sentence: 'Every creak of the wood seemed to whisper a secret from the past'?",
+    "o": [
+      "Personification",
+      "Hyperbole",
+      "Simile",
+      "Alliteration"
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "literary_device_identification",
+    "explanation": "Giving human qualities like 'whispering' to 'creaks of wood' is an example of personification.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "eng_lit_001",
+    "passage_type": "literary",
+    "passage_text": "The old house stood at the edge of the cliff, a silent sentinel watching over the turbulent sea. Its windows, like tired eyes, caught the fading light of the autumn sun. Inside, the air was thick with the scent of dried lavender and old paper, a testament to years of quiet solitude. Elara walked through the corridors, her footsteps echoing against the polished mahogany floors. Every creak of the wood seemed to whisper a secret from the past, a memory long buried under the weight of time. She reached for the heavy velvet curtains, pulling them back to reveal the churning grey waters below. The salt spray misted against the glass, blurring the boundary between the safe sanctuary of the house and the untamed power of the ocean outside. In that moment, she felt both anchored and adrift, a part of the history she was trying to escape."
+  },
+  {
+    "q": "According to the poem, what is the primary role of the clock?",
+    "o": [
+      "It marks the inevitable passage of time and the end of moments.",
+      "It provides entertainment for the people in the room.",
+      "It acts as a physical barrier against the winter wind.",
+      "It brings wealth and stories to the household."
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "thematic_role",
+    "explanation": "The clock 'counts out the hours' and with every tick, 'a moment dies', signifying the passage of time.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "eng_lit_002",
+    "passage_type": "literary",
+    "passage_text": "The clock upon the mantelpiece / Counts out the hours of our peace; / With every tick, a moment dies, / Beneath the watch of evening skies. / The shadows lengthen on the floor, / Like ghosts that tap upon the door; / They bring no grief, they bring no gold, / Just stories that are never told. / We sit within the amber glow, / While winds of winter start to blow; / Though seasons change and years depart, / The song remains within the heart. / So let the silver moonlight fall / On silent room and shadowed wall; / For even when the light is gone, / The echo of the soul lives on."
+  },
+  {
+    "q": "What do the 'shadows' represent in the context of the poem?",
+    "o": [
+      "Untold stories and the lingering presence of the past.",
+      "Evil spirits trying to enter the home.",
+      "The physical objects placed in front of the fireplace.",
+      "A lack of light that makes the speaker fearful."
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "symbolism_analysis",
+    "explanation": "The poem likens shadows to ghosts that bring 'stories that are never told'.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "eng_lit_002",
+    "passage_type": "literary",
+    "passage_text": "The clock upon the mantelpiece / Counts out the hours of our peace; / With every tick, a moment dies, / Beneath the watch of evening skies. / The shadows lengthen on the floor, / Like ghosts that tap upon the door; / They bring no grief, they bring no gold, / Just stories that are never told. / We sit within the amber glow, / While winds of winter start to blow; / Though seasons change and years depart, / The song remains within the heart. / So let the silver moonlight fall / On silent room and shadowed wall; / For even when the light is gone, / The echo of the soul lives on."
+  },
+  {
+    "q": "The use of 'amber glow' creates a mood that is primarily:",
+    "o": [
+      "Warm and comforting.",
+      "Anxious and uncertain.",
+      "Harsh and blinding.",
+      "Melancholy and cold."
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "mood_identification",
+    "explanation": "'Amber glow' suggests the warm light of a fire or lamp, creating a cozy atmosphere inside.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "eng_lit_002",
+    "passage_type": "literary",
+    "passage_text": "The clock upon the mantelpiece / Counts out the hours of our peace; / With every tick, a moment dies, / Beneath the watch of evening skies. / The shadows lengthen on the floor, / Like ghosts that tap upon the door; / They bring no grief, they bring no gold, / Just stories that are never told. / We sit within the amber glow, / While winds of winter start to blow; / Though seasons change and years depart, / The song remains within the heart. / So let the silver moonlight fall / On silent room and shadowed wall; / For even when the light is gone, / The echo of the soul lives on."
+  },
+  {
+    "q": "What is the significance of 'The song remains within the heart' in the third stanza?",
+    "o": [
+      "It suggests that inner feelings and memories persist despite change.",
+      "It means the characters are literally singing a winter carol.",
+      "It implies that the heart is physically capable of making noise.",
+      "It shows that the characters have forgotten the seasons."
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "metaphor_analysis",
+    "explanation": "The 'song' is a metaphor for the enduring nature of human emotion and memory.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "eng_lit_002",
+    "passage_type": "literary",
+    "passage_text": "The clock upon the mantelpiece / Counts out the hours of our peace; / With every tick, a moment dies, / Beneath the watch of evening skies. / The shadows lengthen on the floor, / Like ghosts that tap upon the door; / They bring no grief, they bring no gold, / Just stories that are never told. / We sit within the amber glow, / While winds of winter start to blow; / Though seasons change and years depart, / The song remains within the heart. / So let the silver moonlight fall / On silent room and shadowed wall; / For even when the light is gone, / The echo of the soul lives on."
+  },
+  {
+    "q": "The final lines of the poem suggest that:",
+    "o": [
+      "The essence of a person endures even after physical life ends.",
+      "When the moon sets, everything is completely forgotten.",
+      "The soul is only visible when the moonlight is silver.",
+      "A silent room is the only place where ghosts can live."
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "conclusion_inference",
+    "explanation": "The 'echo of the soul lives on' even when the 'light is gone', implying spiritual or emotional immortality.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "eng_lit_002",
+    "passage_type": "literary",
+    "passage_text": "The clock upon the mantelpiece / Counts out the hours of our peace; / With every tick, a moment dies, / Beneath the watch of evening skies. / The shadows lengthen on the floor, / Like ghosts that tap upon the door; / They bring no grief, they bring no gold, / Just stories that are never told. / We sit within the amber glow, / While winds of winter start to blow; / Though seasons change and years depart, / The song remains within the heart. / So let the silver moonlight fall / On silent room and shadowed wall; / For even when the light is gone, / The echo of the soul lives on."
+  },
+  {
+    "q": "According to the author, literature serves as a 'mirror' because it:",
+    "o": [
+      "Reflects the various aspects of human existence.",
+      "Requires the reader to physically look at themselves.",
+      "Is only interested in describing physical appearances.",
+      "Distorts the truth of the world into something unrecognizable."
+    ],
+    "a": "A",
+    "d": "easy",
+    "difficulty_weight": 1,
+    "concept_pattern": "metaphor_identification",
+    "explanation": "The text states literature is a mirror held up to the human condition, reflecting emotions and experiences.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "eng_lit_003",
+    "passage_type": "literary",
+    "passage_text": "Literature is not merely a collection of words on a page; it is a mirror held up to the human condition. It captures the fleeting emotions that define our existence—the sharp sting of betrayal, the quiet warmth of companionship, and the relentless pursuit of meaning. Through imagery and metaphor, a writer translates the abstract into the tangible, allowing a reader to inhabit a world they have never seen. A well-crafted sentence possesses a rhythmic quality, a cadence that resonates like music in the mind. It is this artistic precision that separates a simple narrative from a literary masterpiece. When we engage with a text, we are not passive observers; we are active participants in a dialogue that spans across generations, connecting the individual experience to the universal truth."
+  },
+  {
+    "q": "What does the phrase 'translates the abstract into the tangible' mean in the passage?",
+    "o": [
+      "It makes complex ideas and emotions feel real and physical.",
+      "It changes the language of a book into a different dialect.",
+      "It turns physical objects into vague and confusing thoughts.",
+      "It describes how writers use ink to put words on paper."
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "contextual_meaning",
+    "explanation": "The text describes how imagery makes emotions (abstract) feel real (tangible) to the reader.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "eng_lit_003",
+    "passage_type": "literary",
+    "passage_text": "Literature is not merely a collection of words on a page; it is a mirror held up to the human condition. It captures the fleeting emotions that define our existence—the sharp sting of betrayal, the quiet warmth of companionship, and the relentless pursuit of meaning. Through imagery and metaphor, a writer translates the abstract into the tangible, allowing a reader to inhabit a world they have never seen. A well-crafted sentence possesses a rhythmic quality, a cadence that resonates like music in the mind. It is this artistic precision that separates a simple narrative from a literary masterpiece. When we engage with a text, we are not passive observers; we are active participants in a dialogue that spans across generations, connecting the individual experience to the universal truth."
+  },
+  {
+    "q": "The author compares a well-crafted sentence to 'music' because of its:",
+    "o": [
+      "Rhythm and resonance.",
+      "Loudness and intensity.",
+      "Ability to be played on instruments.",
+      "Lack of specific meaning."
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "literary_analogy",
+    "explanation": "The passage mentions the 'rhythmic quality' and 'cadence' that resonates like music.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "eng_lit_003",
+    "passage_type": "literary",
+    "passage_text": "Literature is not merely a collection of words on a page; it is a mirror held up to the human condition. It captures the fleeting emotions that define our existence—the sharp sting of betrayal, the quiet warmth of companionship, and the relentless pursuit of meaning. Through imagery and metaphor, a writer translates the abstract into the tangible, allowing a reader to inhabit a world they have never seen. A well-crafted sentence possesses a rhythmic quality, a cadence that resonates like music in the mind. It is this artistic precision that separates a simple narrative from a literary masterpiece. When we engage with a text, we are not passive observers; we are active participants in a dialogue that spans across generations, connecting the individual experience to the universal truth."
+  },
+  {
+    "q": "What is the primary factor that distinguishes a 'literary masterpiece' from a 'simple narrative'?",
+    "o": [
+      "The level of artistic precision and craft used.",
+      "The number of pages and the length of the book.",
+      "Whether the story has a happy or sad ending.",
+      "The popularity of the book among common readers."
+    ],
+    "a": "A",
+    "d": "medium",
+    "difficulty_weight": 2,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "literary_distinction",
+    "explanation": "The text states that 'artistic precision' separates a simple narrative from a masterpiece.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "eng_lit_003",
+    "passage_type": "literary",
+    "passage_text": "Literature is not merely a collection of words on a page; it is a mirror held up to the human condition. It captures the fleeting emotions that define our existence—the sharp sting of betrayal, the quiet warmth of companionship, and the relentless pursuit of meaning. Through imagery and metaphor, a writer translates the abstract into the tangible, allowing a reader to inhabit a world they have never seen. A well-crafted sentence possesses a rhythmic quality, a cadence that resonates like music in the mind. It is this artistic precision that separates a simple narrative from a literary masterpiece. When we engage with a text, we are not passive observers; we are active participants in a dialogue that spans across generations, connecting the individual experience to the universal truth."
+  },
+  {
+    "q": "In the final sentence, the author suggests that reading is a process of:",
+    "o": [
+      "Active engagement and universal connection.",
+      "Memorizing facts and dates from the text.",
+      "Passively accepting the author's point of view.",
+      "Disconnecting from reality to escape the world."
+    ],
+    "a": "A",
+    "d": "hard",
+    "difficulty_weight": 3,
+    "question_type": "reading_comprehension",
+    "concept_pattern": "thematic_synthesis",
+    "explanation": "The passage describes readers as 'active participants' in a 'dialogue' that connects to 'universal truth'.",
+    "subject": "english",
+    "public_subject": "english",
+    "chapter": "Literary Passage",
+    "topic": "Reading Comprehension",
+    "concept": "Literary Passage",
+    "concept_id": "english::literary_passage",
+    "pyq_anchor_id": "structure_only_seed_pyq_en3_for_english::literary_passage",
+    "anchor_tier": 3,
+    "passage_id": "eng_lit_003",
+    "passage_type": "literary",
+    "passage_text": "Literature is not merely a collection of words on a page; it is a mirror held up to the human condition. It captures the fleeting emotions that define our existence—the sharp sting of betrayal, the quiet warmth of companionship, and the relentless pursuit of meaning. Through imagery and metaphor, a writer translates the abstract into the tangible, allowing a reader to inhabit a world they have never seen. A well-crafted sentence possesses a rhythmic quality, a cadence that resonates like music in the mind. It is this artistic precision that separates a simple narrative from a literary masterpiece. When we engage with a text, we are not passive observers; we are active participants in a dialogue that spans across generations, connecting the individual experience to the universal truth."
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 15
+[english-classification] {
+  question_id: 'metaphor_interpretation',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'imagery_analysis',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'literary_contrast',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'character_internal_state',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'literary_device_identification',
+  detected_type: 'Narrative Passage',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'thematic_role',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'symbolism_analysis',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'mood_identification',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'metaphor_analysis',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'conclusion_inference',
+  detected_type: 'Factual Passage',
+  confidence: 0.8
+}
+[english-classification] {
+  question_id: 'metaphor_identification',
+  detected_type: 'Literary Passage',
+  confidence: 0.95
+}
+[english-classification] {
+  question_id: 'contextual_meaning',
+  detected_type: 'Literary Passage',
+  confidence: 0.95
+}
+[english-classification] {
+  question_id: 'literary_analogy',
+  detected_type: 'Literary Passage',
+  confidence: 0.95
+}
+[english-classification] {
+  question_id: 'literary_distinction',
+  detected_type: 'Literary Passage',
+  confidence: 0.95
+}
+[english-classification] {
+  question_id: 'thematic_synthesis',
+  detected_type: 'Literary Passage',
+  confidence: 0.95
+}
+[llm] gemini_generation success gemini-3.1-flash resolved_model=gemini-3-flash-preview count=15
+[pipeline] RAW_PARSED_COUNT 15
+[pipeline] NORMALIZED_COUNT 15
+[pipeline] generated_count=15 | mix=easy=4, medium=8, hard=3
+[pipeline] STRUCTURAL_VALID_COUNT 15
+[pipeline] after_chapter_filter=15 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=15 | sent_for_strict_validation=15
+[pipeline] Starting batch validation for 15 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3.1-flash-lite | resolved_model=gemini-3.1-flash-lite-preview | count=15
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T14:28:13.505Z","model":"gemini-3.1-flash-lite","resolvedModel":"gemini-3.1-flash-lite-preview","subject":"english","questionCount":15}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3.1-flash-lite-preview',
+  subject: 'english',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3.1-flash-lite-preview',
+  subject: 'english',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 14286,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3.1-flash-lite-preview',
+  subject: 'english',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {"index": 0, "syllabus_alignment": "WITHIN", "concept_match": "EXACT", "difficulty_level": "EASY", "compared_to_pyqs": "MATCH", "clarity": "CLEAR", "language_level": "SIMPLE", "option_quality": "CLEAN", "subject_consistency": "CORRECT", "verdict": "VALID", "trap_quality": "HIGH", "reasons": [], "score": 9, "exam_quality": 9, "distractor_quality": 8, "conceptual_depth": 8, "textbook_style": false, "difficulty_correct": true, "cuet_alignment": true, "recommended_difficulty": "medium", "issues": [], "decision": "accept", "improved_question": null},
+  {"index": 1, "syllabus_alignment": "WITHIN", "concept_match": "EXACT", "difficulty_level": "MEDIUM", "compared_to_pyqs": "MATCH", "clarity": "CLEAR", "language_level": "SIMPLE", "option_quality": "CLEAN", "subject_consistency": "CORRECT", "verdict": "VALID", "trap_quality": "HIGH", "reasons": [], "score": 9, "exam_quality": 9, "distractor_quality": 8, "conceptual_depth": 8, "textbook_style": false, "difficulty_correct": true, "cuet_alignment": true, "recommended_difficulty": "medium", "issues": [], "decision": "accept", "improved_question": null},
+  {"index": 2, "syllabus_alignment": "WITHIN", "concept_match": "EXACT", "difficulty_level": "MEDIUM", "compared_to_pyqs": "MATCH", "clarity": "CLEAR", "language_level": "SIMPLE", "option_quality": "CLEAN", "subject_consistency": "CORRECT", "verdict": "VALID", "trap_quality": "MEDIUM", "reasons": [], "score": 8, "exam_quality": 8, "distractor_quality": 7, "conceptual_depth": 8, "textbook_style": false, "difficulty_correct": true, "cuet_alignment": true, "recommended_difficulty": "medium", "issues": [], "decision": "accept", "improved_question": null},
+  {"index": 3, "syllabus_alignment": "WITHIN", "concept_match": "EXACT", "difficulty_level": "MEDIUM", "compared_to_pyqs": "MATCH", "clarity": "CLEAR", "language_level": "SIMPLE", "option_quality": "CLEAN", "subject_consistency": "CORRECT", "verdict": "VALID", "trap_quality": "HIGH", "reasons": [], "score": 9, "exam_quality": 9, "distractor_quality": 8, "conceptual_depth": 8, "textbook_style": false, "difficulty_correct": true, "cuet_alignment": true, "recommended_difficulty": "medium", "issues": [], "decision": "accept", "improved_question": null},
+  {"index": 4, "syllabus_alignment": "WITHIN", "concept_match": "EXACT", "difficulty_level": "MEDIUM", "compared_to_pyqs": "MATCH", "clarity": "CLEAR", "language_level": "SIMPLE", "option_quality": "CLEAN", "subject_consistency": "CORRECT", "verdict": "VALID", "trap_quality": "MEDIUM", "reasons": [], "score": 8, "exam_quality": 8, "distractor_quality": 8, "conceptual_depth": 8, "textbook_style": false, "difficulty_correct": true, "cuet_alignment": true, "recommended_difficulty": "medium", "issues": [], "decision": "accept", "improved_question": null},
+  {"index": 5, "syllabus_alignment": "WITHIN", "concept_match": "EXACT", "difficulty_level": "MEDIUM", "compared_to_pyqs": "MATCH", "clarity": "CLEAR", "language_level": "SIMPLE", "option_quality": "CLEAN", "subject_consistency": "CORRECT", "verdict": "VALID", "trap_quality": "HIGH", "reasons": [], "score": 9, "exam_quality": 9, "distractor_quality": 8, "conceptual_depth": 8, "textbook_style": false, "difficulty_correct": true, "cuet_alignment": true, "recommended_difficulty": "medium", "issues": [], "decision": "accept", "improved_question": null},
+  {"index": 6, "syllabus_alignment": "WITHIN", "concept_match": "EXACT", "difficulty_level": "MEDIUM", "compared_to_pyqs": "MATCH", "clarity": "CLEAR", "language_level": "SIMPLE", "option_quality": "CLEAN", "subject_consistency": "CORRECT", "verdict": "VALID", "trap_quality": "HIGH", "reasons": [], "score": 9, "exam_quality": 9, "distractor_quality": 8, "conceptual_depth": 9, "textbook_style": false, "difficulty_correct": true, "cuet_alignment": true, "recommended_difficulty": "medium", "issues": [], "decision": "accept", "improved_question": null},
+  {"index": 7, "syllabus_alignment": "WITHIN", "concept_match": "EXACT", "difficulty_level": "MEDIUM", "compared_to_pyqs": "MATCH", "clarity": "CLEAR", "language_level": "SIMPLE", "option_quality": "CLEAN", "subject_consistency": "CORRECT", "verdict": "VALID", "trap_quality": "HIGH", "reasons": [], "score": 9, "exam_quality": 9, "distractor_quality": 8, "conceptual_depth": 9, "textbook_style": false, "difficulty_correct": true, "cuet_alignment": true, "recommended_difficulty": "medium", "issues": [], "decision": "accept", "improved_question": null},
+  {"index": 8, "syllabus_alignment": "WITHIN", "concept_match": "EXACT", "difficulty_level": "HARD", "compared_to_pyqs": "MATCH", "clarity": "CLEAR", "language_level": "SIMPLE", "option_quality": "CLEAN", "subject_consistency": "CORRECT", "verdict": "VALID", "trap_quality": "HIGH", "reasons": [], "score": 9, "exam_quality": 9, "distractor_quality": 9, "conceptual_depth": 9, "textbook_style": false, "difficulty_correct": true, "cuet_alignment": true, "recommended_difficulty": "hard", "issues": [], "decision": "accept", "improved_question": null},
+  {"index": 9, "syllabus_alignment": "WITHIN", "concept_match": "EXACT", "difficulty_level": "MEDIUM", "compared_to_pyqs": "MATCH", "clarity": "CLEAR", "language_level": "SIMPLE", "option_quality": "CLEAN", "subject_consistency": "CORRECT", "verdict": "VALID", "trap_quality": "HIGH", "reasons": [], "score": 9, "exam_quality": 9, "distractor_quality": 8, "conceptual_depth": 8, "textbook_style": false, "difficulty_correct": true, "cuet_alignment": true, "recommended_difficulty": "medium", "issues": [], "decision": "accept", "improved_question": null},
+  {"index": 10, "syllabus_alignment": "WITHIN", "concept_match": "EXACT", "difficulty_level": "HARD", "compared_to_pyqs": "MATCH", "clarity": "CLEAR", "language_level": "MODERATE", "option_quality": "CLEAN", "subject_consistency": "CORRECT", "verdict": "VALID", "trap_quality": "HIGH", "reasons": [], "score": 9, "exam_quality": 9, "distractor_quality": 9, "conceptual_depth": 9, "textbook_style": false, "difficulty_correct": true, "cuet_alignment": true, "recommended_difficulty": "hard", "issues": [], "decision": "accept", "improved_question": null},
+  {"index": 11, "syllabus_alignment": "WITHIN", "concept_match": "EXACT", "difficulty_level": "EASY", "compared_to_pyqs": "MATCH", "clarity": "CLEAR", "language_level": "SIMPLE", "option_quality": "CLEAN", "subject_consistency": "CORRECT", "verdict": "VALID", "trap_quality": "MEDIUM", "reasons": [], "score": 8, "exam_quality": 8, "distractor_quality": 8, "conceptual_depth": 7, "textbook_style": false, "difficulty_correct": true, "cuet_alignment": true, "recommended_difficulty": "easy", "issues": [], "decision": "accept", "improved_question": null},
+  {"index": 12, "syllabus_alignment": "WITHIN", "concept_match": "EXACT", "difficulty_level": "EASY", "compared_to_pyqs": "MATCH", "clarity": "CLEAR", "language_level": "SIMPLE", "option_quality": "CLEAN", "subject_consistency": "CORRECT", "verdict": "INVALID", "trap_quality": "LOW", "reasons": ["direct definition", "obvious answer"], "score": 5, "exam_quality": 4, "distractor_quality": 4, "conceptual_depth": 6, "textbook_style": true, "difficulty_correct": true, "cuet_alignment": true, "recommended_difficulty": "medium", "issues": ["direct definition", "obvious answer"], "decision": "reject", "improved_question": "How does the author's metaphor of a 'mirror' effectively characterize the relationship between literature and the human condition in the passage?"},
+  {"index": 13, "syllabus_alignment": "WITHIN", "concept_match": "EXACT", "difficulty_level": "HARD", "compared_to_pyqs": "MATCH", "clarity": "CLEAR", "language_level": "SIMPLE", "option_quality": "CLEAN", "subject_consistency": "CORRECT", "verdict": "VALID", "trap_quality": "HIGH", "reasons": [], "score": 9, "exam_quality": 9, "distractor_quality": 9, "conceptual_depth": 9, "textbook_style": false, "difficulty_correct": true, "cuet_alignment": true, "recommended_difficulty": "hard", "issues": [], "decision": "accept", "improved_question": null},
+  {"index": 14, "syllabus_alignment": "WITHIN", "concept_match": "EXACT", "difficulty_level": "EASY", "compared_to_pyqs": "MATCH", "clarity": "CLEAR", "language_level": "SIMPLE", "option_quality": "CLEAN", "subject_consistency": "CORRECT", "verdict": "VALID", "trap_quality": "MEDIUM", "reasons": [], "score": 8, "exam_quality": 8, "distractor_quality": 7, "conceptual_depth": 7, "textbook_style": false, "difficulty_correct": true, "cuet_alignment": true, "recommended_difficulty": "easy", "issues": [], "decision": "accept", "improved_question": null}
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 15
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T14:28:27.794Z","model":"gemini-3.1-flash-lite","subject":"english","resultCount":15}
+[reject] {
+  subject: 'english',
+  chapter: 'Literary Passage',
+  reason: 'validator marked invalid',
+  source: 'validator_normalized',
+  rule: 'validator marked invalid',
+  details: {
+    compositeScore: 100,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'english',
+  chapter: 'Literary Passage',
+  reason: 'direct definition; obvious answer; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; low trap quality; direct textbook-style wording; validator decision reject',
+  source: 'validator_normalized',
+  rule: 'direct definition',
+  details: {
+    compositeScore: 42,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'english',
+  chapter: 'Literary Passage',
+  reason: 'validator marked invalid',
+  source: 'validator_normalized',
+  rule: 'validator marked invalid',
+  details: {
+    compositeScore: 100,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 3, medium: 6, hard: 3 },
+  system: { easy: 2, medium: 7, hard: 3 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 12
+[pipeline] validated_count=12 | acceptance_rate=80.0%
+[pipeline] FINAL_ACCEPTED_COUNT 12
+[pipeline] selected_count=12 | FINAL DISTRIBUTION: {"easy":2,"medium":7,"hard":3}
+✅ Published e22e188a-4498-473c-8a52-f483889084c8 | status=live | difficulty=easy | discoverable=true
+✅ Published ecd9af8b-1004-4fd4-96da-97ca4d503765 | status=live | difficulty=easy | discoverable=true
+✅ Published 0280e45c-26ff-4144-ae9e-a54277f68290 | status=live | difficulty=medium | discoverable=true
+✅ Published c49feac0-78e8-4a6c-987e-45a8090a97c3 | status=live | difficulty=medium | discoverable=true
+✅ Published cdf4025a-01e4-4020-828c-5c47669d0424 | status=live | difficulty=medium | discoverable=true
+✅ Published b40402a3-b937-459d-aa9e-07cdf11dd0a6 | status=live | difficulty=medium | discoverable=true
+✅ Published 5c5d6408-cdcd-46db-9abd-173323a91fe6 | status=live | difficulty=medium | discoverable=true
+✅ Published 122433cf-be62-4404-9c4d-2edf30ee2de0 | status=live | difficulty=medium | discoverable=true
+✅ Published f5793863-e227-42f9-81a3-89290ac98e64 | status=live | difficulty=hard | discoverable=true
+✅ Published 8621b3d8-d4aa-4c54-b703-af2196be93e3 | status=live | difficulty=hard | discoverable=true
+✅ Published 656bf9a3-559e-409d-8df1-b7af6b95fd49 | status=live | difficulty=hard | discoverable=true
+✅ Published 6dff3694-fb01-4e1a-b3d2-7fb8d616bbae | status=live | difficulty=medium | discoverable=true
+[pipeline] METRICS | generated_count=15 | prefiltered_count=15 | strict_validation_count=15 | accepted_count=12 | api_calls_used=2 | cost_efficiency_ratio=6.00
+[pipeline] SUMMARY | subject=english | chapter=Literary Passage | target=15 | generated_count=15 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=15 | validated_count=12 | accepted_count=12 | shortfall=3 | yield_rate=80.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=2, medium=7, hard=3
+[pipeline] subject_distribution: {"subject":"english","accepted":12,"rejected":3,"target":15,"met":false}
+[supervisor] COST_REPORT | batch_cost=$0.0055 | cost_per_accepted=$0.0005 | cost_per_1000=$0.45 | total_accepted=12
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'english',
+  chapter: 'Literary Passage',
+  sample_size: 17,
+  direct_definition_count: 0,
+  weak_option_count: 14,
+  repeated_structure_count: 0,
+  easy_count: 3,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'cb5b0ac0-a3f4-4666-9143-4acbecd2398d',
+    'a9ba7cc4-3305-426c-b71a-8ef3a19ef2d8',
+    'adbac273-7e0d-47bb-961c-b5bfdab5dfbc',
+    '481a80e1-91b4-4f8f-bcec-5aaaa9b7bbda',
+    'f0a3df43-694e-49c0-9eab-b03db7d2e2b6',
+    '16114232-12a0-4cc8-afaa-d658dd9f6008',
+    'a35266e3-ac72-465e-85f1-bd0dc06839d1',
+    'ea4a7580-0880-46f8-a4fd-b68075410fbe',
+    '68fa12bb-7dbb-458a-a73c-1ffcc98a5433'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'cb5b0ac0-a3f4-4666-9143-4acbecd2398d',
+  actual_subject: 'english',
+  actual_chapter: 'Narrative Passage',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 5,
+  subject_question_count: 124,
+  created_at: '2026-04-30T14:26:09.755798+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  count: 5,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'english', chapter: 'Narrative Passage', count: 5 }
+
+[JOB cb5b0ac0] Starting: [english] Narrative Passage
+[worker] RECEIVED_JOB: {
+  job_id: 'cb5b0ac0-a3f4-4666-9143-4acbecd2398d',
+  expected_subject: 'english',
+  expected_chapter: 'Narrative Passage',
+  raw_subject_id: 'english',
+  raw_chapter: 'Narrative Passage',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T14:26:09.755798+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'cb5b0ac0-a3f4-4666-9143-4acbecd2398d',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  chapter: 'Narrative Passage',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=5 existing questions loaded
+[generation] batch adjusted: { chapter: 'Narrative Passage', generate_count: 15 }
+[worker] GENERATION_INPUT: {
+  job_id: 'cb5b0ac0-a3f4-4666-9143-4acbecd2398d',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  expected_chapter: 'Narrative Passage',
+  canonical_unit: 'Reading Comprehension',
+  generate_count: 15,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 15 candidates... chapter="Narrative Passage" unit="Reading Comprehension" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'English',
+  expected_chapter: 'Narrative Passage',
+  requested_count: 15,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'english',
+  expected_chapter: 'Narrative Passage',
+  canonical_unit: 'Reading Comprehension',
+  concept_id: 'english::narrative_passage',
+  pyq_anchor_id: 'structure_only_seed_pyq_en3_for_english::narrative_passage',
+  anchor_tier: 3,
+  batch_size: 15,
+  pyq_style_patterns: [ 'reading_comprehension', 'vocabulary', 'correct_word_usage' ],
+  difficulty_override: null
+}
+[llm] gemini_generation active_model=gemini-3.1-flash resolved_model=gemini-3-flash-preview
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'generation_gemini',
+  retry_count: 0
+}

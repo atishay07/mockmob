@@ -92,7 +92,10 @@ export function AuthProvider({ children }) {
 
       applyAuthenticated(me);
       return me;
-    } catch {
+    } catch (error) {
+      if (error?.message?.includes('Refresh Token') || error?.name === 'AuthApiError') {
+        supabase.auth.signOut().catch(() => {});
+      }
       if (requestId === requestIdRef.current) {
         applyUnauthenticated();
       }
