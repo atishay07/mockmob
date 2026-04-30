@@ -56,7 +56,7 @@ export default function DashboardPageClient() {
     try {
       if (window.sessionStorage.getItem('mm:postTest') === '1') {
         window.sessionStorage.removeItem('mm:postTest');
-        if (user.plan !== 'premium') {
+        if (!user?.isPremium) {
           setShowCreditsModal(true);
         }
       }
@@ -212,11 +212,13 @@ export default function DashboardPageClient() {
 
   return (
     <div className="flex flex-col gap-6 view">
-      <CreditsRemainingModal
-        open={showCreditsModal}
-        credits={user?.creditBalance ?? 0}
-        onClose={() => setShowCreditsModal(false)}
-      />
+      {!isPremium && (
+        <CreditsRemainingModal
+          open={showCreditsModal}
+          credits={user?.creditBalance ?? 0}
+          onClose={() => setShowCreditsModal(false)}
+        />
+      )}
       <div>
         <div className="eyebrow mb-2">{'// Command centre'}</div>
         <h1 className="display-md">What are we <span className="text-volt italic">grinding</span> today, {user?.name?.split(' ')[0]}?</h1>

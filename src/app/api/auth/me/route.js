@@ -22,7 +22,7 @@ export async function GET() {
       name: dbUser.name || '',
       email: dbUser.email || '',
       image: dbUser.image || null,
-      subjects: dbUser.subjects || [],
+      subjects: [...new Set((dbUser.subjects || []).map((s) => (s === 'GAT' || s === 'gat') ? 'general_test' : s))],
       role: dbUser.role || 'student',
       creditBalance: dbUser.creditBalance || 0,
       subscriptionStatus: dbUser.subscriptionStatus || 'free',
