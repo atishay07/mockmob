@@ -20,6 +20,12 @@ import {
 import { runSelfCheck, summarizeSelfCheckResults } from '../lib/selfCheck.mjs';
 import { deduplicateBatch, deduplicateAgainst } from '../lib/dedupe.mjs';
 import { publishQuestion, publishPassageGroup, saveDraftQuestion } from '../lib/publish.mjs';
+import {
+  buildPassageRefillJobPayload,
+  evaluatePassageChildAcceptance,
+  getPassageGroupPublishDecision,
+  validatePassageQuality,
+} from '../lib/passageQuality.mjs';
 import { getEnglishGenerationMode } from '../lib/englishGenerationMode.mjs';
 import {
   getCuetOverrideConfig,
@@ -49,6 +55,11 @@ const API_SECRET = process.env.INTERNAL_API_SECRET || 'test-secret';
 const MAX_RETRIES = Number(process.env.MAX_GENERATION_RETRIES || 2);
 const MAX_API_CALLS_PER_JOB = Number(process.env.MAX_API_CALLS_PER_JOB || 4);
 const VALIDATOR_FEEDBACK_PREFIX = 'validator_feedback:';
+const PREMIUM_RETRY_REASONS = new Set([
+  'distractor_quality_below_quality_mode_threshold',
+  'quality_band_A_not_allowed',
+  'answer_confidence_below_threshold',
+]);
 const VALIDATION_CANDIDATE_LIMIT = VALIDATION_BATCH_SIZE;
 const STANDARD_VALIDATION_SAMPLE_RATE = 0.30;
 const LOW_COVERAGE_VALIDATION_THRESHOLD = 25;
@@ -1008,6 +1019,10 @@ function buildValidatedQuestion(question, validation, layer) {
     validation_quality_band: band,
     validation_answer_confidence: normalizeUnitScore(validation?.answer_confidence ?? 1),
     validation_factual_accuracy: validation?.factual_accuracy !== false,
+    validation_passage_dependency: validation?.passage_dependency === true,
+    validation_answer_supported_by_passage: validation?.answer_supported_by_passage === true,
+    validation_answerable_without_passage: validation?.answerable_without_passage === true,
+    validation_multiple_correct_risk: validation?.multiple_correct_risk === true,
     validation_pyq_style_match: validation?.pyq_style_match !== false,
     validation_layer: layer,
     validation_model: validation?.model || layer,
@@ -1089,7 +1104,8 @@ function getPublishGateRejectReason(question) {
   if (question?.strict_cuet_validated !== true) return 'not_strictly_validated';
   const anchorSource = getAnchorSourceQuality(question);
   if (!['real_pyq', 'manual_seed'].includes(anchorSource)) return `draft_only_anchor_source_${anchorSource || 'unknown'}`;
-  if (String(question?.validation_decision || '').toLowerCase() !== 'accept') return 'validator_decision_not_accept';
+  const validationDecision = String(question?.validation_decision || '').toLowerCase();
+  if (validationDecision !== 'accept' && validationDecision !== 'accept_passage_child') return 'validator_decision_not_accept';
   if (String(question?.validation_verdict || '').toUpperCase() !== 'VALID') return 'validator_verdict_not_valid';
   if (question?.validation_cuet_alignment !== true) return 'validator_cuet_alignment_failed';
   if (Number(question?.validation_score || 0) < 7) return 'validator_score_below_7';
@@ -1110,7 +1126,26 @@ function collectUniqueFeedbackReasons(reasons) {
     const clean = String(reason || '').trim();
     if (clean) unique.add(clean);
   }
-  return [...unique].slice(0, 8);
+  return [...unique].slice(0, 12);
+}
+
+function shouldUsePremiumFeedbackPrompt(reasons = []) {
+  return QUALITY_MODE === 'premium' && collectUniqueFeedbackReasons(reasons)
+    .some((reason) => PREMIUM_RETRY_REASONS.has(reason));
+}
+
+function withPremiumFeedbackPrompt(reasons = []) {
+  const unique = collectUniqueFeedbackReasons(reasons);
+  if (!shouldUsePremiumFeedbackPrompt(unique)) return unique;
+  return collectUniqueFeedbackReasons([
+    ...unique,
+    'premium_feedback_prompt: make distractors closer',
+    'premium_feedback_prompt: make trap option passage-based when passage is present',
+    'premium_feedback_prompt: make answer_check quote passage evidence',
+    'premium_feedback_prompt: increase passage inferential depth',
+    'premium_feedback_prompt: avoid generic central-theme options',
+    'premium_feedback_prompt: for para jumbles, make options closer and logic stronger',
+  ]);
 }
 
 function normalizePreviousAttempts(attempts) {
@@ -1132,9 +1167,10 @@ function buildPreviousAttemptsFromRejected(entries) {
 }
 
 async function requeueJobWithValidatorFeedback(jobId, attempt, reasons, previousAttempts = []) {
+  const feedbackReasons = withPremiumFeedbackPrompt(reasons);
   const feedback = {
     attempt,
-    reasons: collectUniqueFeedbackReasons(reasons),
+    reasons: feedbackReasons,
     previous_attempts: normalizePreviousAttempts(previousAttempts),
     updatedAt: new Date().toISOString(),
   };
@@ -1901,6 +1937,12 @@ async function processJob(job) {
       chapter: job.chapter,
       generate_count: generateCount,
     });
+    if (shouldUsePremiumFeedbackPrompt(generationContext.validationFeedback)) {
+      console.warn('[premium_feedback_prompt] retry_guidance_enabled', {
+        job_id: job.id,
+        reasons: generationContext.validationFeedback,
+      });
+    }
     console.log('[worker] GENERATION_INPUT:', {
       job_id: job.id,
       expected_subject: job.subject_id,
@@ -2436,6 +2478,10 @@ async function processJob(job) {
       }
 
       const publishDecision = isPublishAllowedByQuality(finalValidation, question, QUALITY_MODE, finalLayer);
+      const passageChildDecision = (question.is_passage_linked === true || question.passage_id || question.temporary_group_key)
+        ? evaluatePassageChildAcceptance(question, finalValidation, QUALITY_MODE)
+        : null;
+      const acceptedByPassagePolicy = passageChildDecision?.accepted === true;
       const qualityBand = publishDecision.band;
       runMetrics.quality_bands[qualityBand] = (runMetrics.quality_bands[qualityBand] || 0) + 1;
       runMetrics.validator_score_sum += toTenPointScore(finalValidation?.score);
@@ -2457,9 +2503,25 @@ async function processJob(job) {
           reasons: publishDecision.reasons,
         });
       }
+      if (passageChildDecision) {
+        console.log('[passage_child_validation]', {
+          candidate_id: question.candidate_id,
+          child_score: passageChildDecision.child_score,
+          passage_dependency: passageChildDecision.passage_dependency,
+          answer_supported_by_passage: passageChildDecision.answer_supported_by_passage,
+          answerable_without_passage: passageChildDecision.answerable_without_passage,
+          accepted_as_passage_child: acceptedByPassagePolicy,
+          reason: passageChildDecision.reason,
+        });
+      }
 
-      if (publishDecision.allowed) {
-        const acceptedQuestion = buildValidatedQuestion(question, finalValidation, finalLayer);
+      if (publishDecision.allowed || acceptedByPassagePolicy) {
+        const acceptedQuestion = {
+          ...buildValidatedQuestion(question, finalValidation, finalLayer),
+          passage_child_policy_accepted: acceptedByPassagePolicy,
+          passage_child_policy_reason: passageChildDecision?.reason || null,
+          validation_decision: acceptedByPassagePolicy && !publishDecision.allowed ? 'accept_passage_child' : 'accept',
+        };
         validatedQuestions.push(acceptedQuestion);
         stats.scores.push(acceptedQuestion.validation_score);
         console.log('[pipeline] validator_accepted', {
@@ -2853,42 +2915,72 @@ async function processJob(job) {
       const validLinkedQuestions = groupQuestions
         .filter((question) => question.passage_text && question.passage_id)
         .sort((a, b) => Number(a.order_index || 0) - Number(b.order_index || 0));
+      const group = {
+        id: groupKey,
+        subject: job.subject_id,
+        chapter: job.chapter,
+        passage_id: validLinkedQuestions[0]?.passage_id || groupQuestions[0]?.passage_id || null,
+        title: validLinkedQuestions[0]?.passage_title || groupQuestions[0]?.passage_title || null,
+        passage_type: validLinkedQuestions[0]?.passage_type || groupQuestions[0]?.passage_type || englishMode?.passage_type || null,
+        passage_text: validLinkedQuestions[0]?.passage_text || groupQuestions[0]?.passage_text || '',
+      };
+      const passageQuality = validatePassageQuality(group, QUALITY_MODE);
+      const groupDecision = getPassageGroupPublishDecision({
+        group,
+        acceptedChildren: validLinkedQuestions,
+        generatedChildren: groupQuestions,
+        mode: QUALITY_MODE,
+        passageQuality,
+      });
       runMetrics.english.passage_groups_generated += 1;
       runMetrics.english.passage_children_generated += groupQuestions.length;
+      console.log('[passage_quality]', {
+        passage_id: group.passage_id,
+        passage_score: passageQuality.passage_score,
+        passage_quality_band: passageQuality.passage_quality_band,
+        passage_verdict: passageQuality.passage_verdict,
+        issues: passageQuality.passage_issues,
+      });
       console.log('[passage_group] publish_decision', {
-        passage_group_id: null,
+        passage_group_id: group.id,
         temporary_group_key: groupKey,
-        passage_id: validLinkedQuestions[0]?.passage_id || groupQuestions[0]?.passage_id || null,
+        passage_id: group.passage_id,
+        passage_score: groupDecision.passage_score,
+        generated_children: groupDecision.generated_children,
+        accepted_children: groupDecision.accepted_children,
+        min_required_children: groupDecision.min_required_children,
+        group_status: groupDecision.group_status,
+        needs_refill: groupDecision.needs_refill,
         linked_generated: groupQuestions.length,
         selfcheck_passed: groupQuestions.filter((question) => question.selfcheck_passed === true).length,
         validator_accepted: validLinkedQuestions.length,
-        published: validLinkedQuestions.length >= 3,
-        draft_reason: validLinkedQuestions.length >= 3 ? null : 'passage_group_fewer_than_3_validated_children',
+        published: groupDecision.published,
+        draft_reason: groupDecision.draft_reason,
       });
-      if (validLinkedQuestions.length >= 3) {
+      if (groupDecision.published) {
         passagePublishGroups.push({
           group: {
-            id: groupKey,
-            subject: job.subject_id,
-            chapter: job.chapter,
-            passage_id: validLinkedQuestions[0].passage_id,
-            title: validLinkedQuestions[0].passage_title || null,
-            passage_type: validLinkedQuestions[0].passage_type || englishMode?.passage_type || null,
-            passage_text: validLinkedQuestions[0].passage_text,
+            ...group,
+            group_status: groupDecision.group_status,
+            needs_refill: groupDecision.needs_refill,
+            refill_target_children: groupDecision.refill_target_children,
+            passage_score: groupDecision.passage_score,
+            passage_quality_band: groupDecision.passage_quality_band,
           },
           questions: validLinkedQuestions,
+          decision: groupDecision,
         });
       } else {
         for (const question of groupQuestions) {
-          draftReady.push({ question, reason: 'passage_group_fewer_than_3_validated_children' });
+          draftReady.push({ question, reason: groupDecision.draft_reason || 'passage_group_not_publishable' });
         }
       }
       console.log('[passage_group_publish]', {
         group_id: groupKey,
-        passage_id: validLinkedQuestions[0]?.passage_id || null,
+        passage_id: group.passage_id,
         valid_linked_questions: validLinkedQuestions.length,
-        published: validLinkedQuestions.length >= 3,
-        draft_reason: validLinkedQuestions.length >= 3 ? null : 'passage_group_fewer_than_3_validated_children',
+        published: groupDecision.published,
+        draft_reason: groupDecision.draft_reason,
       });
     }
     if (draftOnlyFlag) {
@@ -2953,7 +3045,10 @@ async function processJob(job) {
       }
     }
     for (const passageGroup of passagePublishGroups) {
-      const publishRes = await publishPassageGroup(passageGroup.group, passageGroup.questions, API_SECRET, { expectedChapter: job.chapter });
+      const publishRes = await publishPassageGroup(passageGroup.group, passageGroup.questions, API_SECRET, {
+        expectedChapter: job.chapter,
+        minValidatedChildren: passageGroup.decision?.min_required_children || 2,
+      });
       if (publishRes.success) {
         acceptedQuestions.push(...passageGroup.questions);
         stats.accepted += passageGroup.questions.length;
@@ -2965,9 +3060,37 @@ async function processJob(job) {
           group_id: publishRes.group_id,
           passage_id: passageGroup.group.passage_id,
           valid_linked_questions: passageGroup.questions.length,
+          group_status: passageGroup.decision?.group_status || 'complete',
+          needs_refill: passageGroup.decision?.needs_refill === true,
           published: true,
           draft_reason: null,
         });
+        if (passageGroup.decision?.needs_refill === true) {
+          const refillPayload = buildPassageRefillJobPayload({
+            group: { ...passageGroup.group, id: publishRes.group_id, passage_group_id: publishRes.group_id },
+            acceptedChildren: passageGroup.questions,
+            decision: passageGroup.decision,
+            mode: QUALITY_MODE,
+          });
+          const { error: refillError } = await supabase
+            .from('generation_jobs')
+            .insert({
+              subject_id: refillPayload.subject,
+              chapter: refillPayload.chapter,
+              status: 'queued',
+              priority: 2,
+              target_count: refillPayload.target_additional_questions,
+              error_message: `passage_group_refill:${JSON.stringify(refillPayload)}`,
+            });
+          if (refillError) {
+            console.warn('[passage_group_refill] enqueue_failed', {
+              passage_group_id: publishRes.group_id,
+              error: refillError.message,
+            });
+          } else {
+            console.log('[passage_group_refill] queued', refillPayload);
+          }
+        }
       } else {
         for (const question of passageGroup.questions) {
           draftReady.push({ question, reason: `passage_group_publish_failed:${publishRes.error}` });

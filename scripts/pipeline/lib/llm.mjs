@@ -767,6 +767,7 @@ async function generateWithDeepSeekOnly(subject, chapter, count, context = {}) {
           subject: subject.id,
           chapter,
           passage_type: englishMode?.passage_type || null,
+          requires_passage: englishMode?.requires_passage === true,
         }).questions.map((question) => ({
           ...question,
           json_repaired: repairResult.provider !== 'code',
@@ -2085,13 +2086,22 @@ Output ONLY a valid JSON array â€” no markdown, no commentary, no extra key
 }
 
 function formatRetryPromptNotes(validationFeedback = [], previousAttempts = []) {
+  const feedback = Array.isArray(validationFeedback) ? validationFeedback : [];
+  const premiumRetry = feedback.some((reason) => [
+    'distractor_quality_below_quality_mode_threshold',
+    'quality_band_A_not_allowed',
+    'answer_confidence_below_threshold',
+  ].includes(String(reason || '').trim()) || String(reason || '').startsWith('premium_feedback_prompt:'));
   const feedbackLine = Array.isArray(validationFeedback) && validationFeedback.length > 0
     ? `\nPrevious batch failed because:\n${validationFeedback.slice(0, 8).map((reason) => `- ${reason}`).join('\n')}\nAvoid these exact issues.`
+    : '';
+  const premiumLine = premiumRetry
+    ? `\nPREMIUM RETRY INSTRUCTIONS:\n- Make distractors closer and more tempting while keeping one answer unambiguous.\n- If the question is passage-based, make the trap option passage-based, not generic or outside-knowledge based.\n- Make answer_check quote or directly reference passage evidence.\n- Increase passage inferential depth; avoid literal-only central theme items.\n- Avoid generic central-theme options and moral-lesson wording.\n- For para jumbles, make option permutations closer and make the ordering logic depend on pronoun reference, contrast, cause-effect, or idea progression.`
     : '';
   const previousLine = Array.isArray(previousAttempts) && previousAttempts.length > 0
     ? `\nDo not repeat previous rejected stems:\n${previousAttempts.slice(0, 5).map((attempt) => `- ${String(attempt?.question || '').slice(0, 180)}`).join('\n')}`
     : '';
-  return `${feedbackLine}${previousLine}`;
+  return `${feedbackLine}${premiumLine}${previousLine}`;
 }
 
 function buildEnglishParaJumblePrompt({
@@ -2178,7 +2188,7 @@ function buildEnglishPassagePrompt({
   validationFeedback,
   previousAttempts,
 }) {
-  const questionCount = Math.min(6, Math.max(4, count));
+  const questionCount = 6;
   return `You are generating CUET English passage-based MCQs for MockMob.
 
 Subject: ${subject.name}
@@ -2194,7 +2204,7 @@ ${pyqExamples}
 
 ${formatRetryPromptNotes(validationFeedback, previousAttempts)}
 
-Generate one original CUET English passage and ${questionCount} linked MCQs.
+Generate one original CUET English passage and exactly ${questionCount} linked MCQs. If 6 is impossible, return at least 5. Do not return fewer than 5 unless the passage itself is invalid.
 
 The passage should be 300-450 words.
 It must contain enough detail for inference, tone, vocabulary-in-context, central idea, and author purpose questions.
@@ -2214,7 +2224,8 @@ Question mix:
 - 1 inference
 - 1 vocabulary-in-context
 - 1 tone, author attitude, or author purpose
-- 1 detail-based or literary device question if supported
+- 1 author purpose or detail-based question
+- 1 evidence-based title, conclusion, implication, or literary device question if supported
 
 Do NOT create options like generic moral lessons, obviously wrong emotional extremes, unrelated details, outside knowledge, or dictionary-only vocabulary meanings.
 
@@ -2341,6 +2352,7 @@ function generateMockQuestions(subject, chapter, count, difficultyOverride = nul
  */
 export async function validateAndAlign(question, subjectContext) {
   if (process.env.MOCK_AI === 'true') {
+    const isPassageChild = Boolean(question?.is_passage_linked || question?.passage_id || question?.temporary_group_key);
     return {
       score: 9,
       exam_quality: 8,
@@ -2367,6 +2379,14 @@ export async function validateAndAlign(question, subjectContext) {
       verdict: 'VALID',
       reasons: [],
       recommended_difficulty: question.difficulty || 'medium',
+      quality_band: 'A',
+      answer_confidence: 0.96,
+      factual_accuracy: true,
+      passage_dependency: isPassageChild,
+      answer_supported_by_passage: isPassageChild,
+      answerable_without_passage: false,
+      multiple_correct_risk: false,
+      pyq_style_match: true,
       issues: [],
       improved_question: null,
     };
@@ -2471,6 +2491,19 @@ export async function validateAndAlignBatch(questions, subjectContext) {
 
   if (process.env.MOCK_AI === 'true') {
     return questions.map((question) => ({
+      ...(Boolean(question?.is_passage_linked || question?.passage_id || question?.temporary_group_key)
+        ? {
+            passage_dependency: true,
+            answer_supported_by_passage: true,
+            answerable_without_passage: false,
+            multiple_correct_risk: false,
+          }
+        : {
+            passage_dependency: false,
+            answer_supported_by_passage: false,
+            answerable_without_passage: false,
+            multiple_correct_risk: false,
+          }),
       score: 9,
       exam_quality: 8,
       distractor_quality: 8,
@@ -2495,6 +2528,10 @@ export async function validateAndAlignBatch(questions, subjectContext) {
       verdict: 'VALID',
       reasons: [],
       recommended_difficulty: question.difficulty || 'medium',
+      quality_band: 'A',
+      answer_confidence: 0.96,
+      factual_accuracy: true,
+      pyq_style_match: true,
       issues: [],
       improved_question: null,
     }));
@@ -2667,7 +2704,9 @@ export async function validateStrictBatch(questions, subjectContext) {
 async function validateOpenAiLayerBatch(questions, subjectContext, { modelName, layer, temperature, retryMissing = true }) {
   if (!Array.isArray(questions) || questions.length === 0) return [];
   if (process.env.MOCK_AI === 'true') {
-    return questions.map(() => ({
+    return questions.map((question) => {
+      const isPassageChild = Boolean(question?.is_passage_linked || question?.passage_id || question?.temporary_group_key);
+      return {
       verdict: 'accept',
       score: 0.86,
       exam_quality: 0.82,
@@ -2678,13 +2717,18 @@ async function validateOpenAiLayerBatch(questions, subjectContext, { modelName, 
       quality_band: 'A',
       answer_confidence: 0.96,
       factual_accuracy: true,
+      passage_dependency: isPassageChild,
+      answer_supported_by_passage: isPassageChild,
+      answerable_without_passage: false,
+      multiple_correct_risk: false,
       pyq_style_match: true,
       issues: [],
       reasons: [],
       suggested_fix: '',
       layer,
       model: modelName,
-    }));
+      };
+    });
   }
   if (!openai) {
     throw new LlmGenerationError(`no_${layer}_validator_model_available: OPENAI_API_KEY not set`, 'no_api_key');
@@ -2722,6 +2766,7 @@ Evaluate:
 10. passage dependency for passage-linked English questions
 
 For English passage questions, evaluate passage_text with the question. Reject if answer can be chosen without reading the passage, if vocabulary is dictionary-only, or if distractors are not plausible from partial passage reading.
+For every English passage child, return passage_dependency, answer_supported_by_passage, answerable_without_passage, and multiple_correct_risk. answer_check must cite or directly reference passage evidence.
 
 Set quality_band:
 - A_PLUS = 0.90-1.00, premium CUET
@@ -2814,7 +2859,7 @@ function getValidationResponseFormat() {
             items: {
               type: 'object',
               additionalProperties: false,
-              required: ['index', 'candidate_id', 'verdict', 'score', 'exam_quality', 'distractor_quality', 'conceptual_depth', 'trap_quality', 'cuet_alignment', 'quality_band', 'answer_confidence', 'factual_accuracy', 'pyq_style_match', 'issues', 'reasons', 'suggested_fix'],
+              required: ['index', 'candidate_id', 'verdict', 'score', 'exam_quality', 'distractor_quality', 'conceptual_depth', 'trap_quality', 'cuet_alignment', 'quality_band', 'answer_confidence', 'factual_accuracy', 'passage_dependency', 'answer_supported_by_passage', 'answerable_without_passage', 'multiple_correct_risk', 'pyq_style_match', 'issues', 'reasons', 'suggested_fix'],
               properties: {
                 index: { type: 'integer' },
                 candidate_id: { type: 'string' },
@@ -2828,6 +2873,10 @@ function getValidationResponseFormat() {
                 quality_band: { type: 'string', enum: ['A_PLUS', 'A', 'B', 'C'] },
                 answer_confidence: { type: 'number' },
                 factual_accuracy: { type: 'boolean' },
+                passage_dependency: { type: 'boolean' },
+                answer_supported_by_passage: { type: 'boolean' },
+                answerable_without_passage: { type: 'boolean' },
+                multiple_correct_risk: { type: 'boolean' },
                 pyq_style_match: { type: 'boolean' },
                 issues: { type: 'array', items: { type: 'string' } },
                 reasons: { type: 'array', items: { type: 'string' } },
@@ -2873,6 +2922,14 @@ function buildMissingValidationResult(question, layer, modelName, reason) {
     conceptual_depth: 0,
     trap_quality: 'low',
     cuet_alignment: false,
+    quality_band: 'C',
+    answer_confidence: 0,
+    factual_accuracy: false,
+    passage_dependency: false,
+    answer_supported_by_passage: false,
+    answerable_without_passage: true,
+    multiple_correct_risk: true,
+    pyq_style_match: false,
     issues: [reason],
   }, question, layer, modelName);
 }
@@ -2900,6 +2957,10 @@ function normalizeLayeredValidationResult(result, question, layer, modelName) {
       : classifyValidationBand(row.score),
     answer_confidence: normalizeUnitScore(row.answer_confidence ?? row.score),
     factual_accuracy: row.factual_accuracy !== false,
+    passage_dependency: row.passage_dependency === true,
+    answer_supported_by_passage: row.answer_supported_by_passage === true,
+    answerable_without_passage: row.answerable_without_passage === true,
+    multiple_correct_risk: row.multiple_correct_risk === true,
     pyq_style_match: row.pyq_style_match !== false,
     issues: Array.isArray(row.issues) ? row.issues.map(String) : [],
     reasons: Array.isArray(row.reasons) ? row.reasons.map(String) : [],

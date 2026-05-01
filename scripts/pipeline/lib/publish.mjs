@@ -188,8 +188,9 @@ export async function publishPassageGroup(group, questions, apiSecret, options =
   try {
     if (!supabase) return { success: false, error: 'supabase_unavailable' };
     const validQuestions = Array.isArray(questions) ? questions.filter(Boolean) : [];
-    if (validQuestions.length < 3) {
-      return { success: false, error: 'passage_group_requires_3_validated_questions' };
+    const minChildren = Number(options.minValidatedChildren || 2);
+    if (validQuestions.length < minChildren) {
+      return { success: false, error: `passage_group_requires_${minChildren}_validated_questions` };
     }
     const first = validQuestions[0];
     const chapter = String(first?.chapter || group?.chapter || '').trim();

@@ -59,6 +59,33 @@ test('vocabulary-in-context with phrase and evidence passes', () => {
   assert.equal(result.pass, true);
 });
 
+test('central idea stem is not rejected as direct definition in passage mode', () => {
+  const result = runSelfCheck(baseQuestion({
+    q: 'What is the central idea of the passage?',
+    question_type: 'central_idea',
+  }));
+  assert.equal(result.reasons.includes('direct_definition'), false);
+});
+
+test('author purpose stem is not rejected as direct definition in passage mode', () => {
+  const result = runSelfCheck(baseQuestion({
+    q: "What is the author's primary purpose in the passage?",
+    question_type: 'author_purpose',
+    answer_check: 'The passage presents the library change as a balanced response to technology, showing the author’s purpose.',
+  }));
+  assert.equal(result.reasons.includes('direct_definition'), false);
+});
+
+test('vocabulary-in-context fails when quoted phrase is absent from passage', () => {
+  const result = runPassageQuestionSelfCheck(baseQuestion({
+    q: 'As used in the passage, what does the phrase "ornamental silence" most nearly mean?',
+    question_type: 'vocabulary_in_context',
+    answer_check: 'The phrase appears in the passage and points to quiet reflection.',
+  }));
+  assert.equal(result.pass, false);
+  assert.ok(result.reasons.includes('vocabulary_without_passage_context'));
+});
+
 test('passage child without group id cannot pass passage selfCheck', () => {
   const result = runPassageQuestionSelfCheck(baseQuestion({
     temporary_group_key: '',

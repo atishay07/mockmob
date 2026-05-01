@@ -141,7 +141,7 @@ export function runPassageQuestionSelfCheck(question, passageGroup = {}) {
     }
   }
 
-  const answerEvidenceOk = !answerCheck || passageEvidenceOverlap(passageText, answerCheck) || /central idea|tone|attitude|purpose|inference|suggests|implies|passage/i.test(answerCheck);
+  const answerEvidenceOk = Boolean(answerCheck) && (passageEvidenceOverlap(passageText, answerCheck) || /central idea|tone|attitude|purpose|inference|suggests|implies|passage/i.test(answerCheck));
   if (!answerEvidenceOk) reasons.push('answer_check_lacks_passage_evidence');
 
   const passageRelatedOptions = options.filter((option) => passageEvidenceOverlap(passageText, option) || isPassageInterpretiveOption(option)).length;

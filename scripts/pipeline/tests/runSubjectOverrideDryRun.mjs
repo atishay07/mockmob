@@ -1,12 +1,16 @@
-import { getCuetOverrideConfig, getEnglishNtaChapterPlan, isJobAllowedByOverride } from '../lib/overrideConfig.mjs';
+import { getCuetOverrideConfig, getEnglishNtaChapterPlan, isJobAllowedByOverride, logOverrideConfig } from '../lib/overrideConfig.mjs';
 import { getEnglishGenerationMode } from '../lib/englishGenerationMode.mjs';
 import { isPublishAllowedByQuality } from '../lib/qualityMode.mjs';
 
 const override = getCuetOverrideConfig({ argv: process.argv.slice(2), env: process.env });
+logOverrideConfig(override);
 const jobs = [
   { subject_id: 'english', chapter: 'Narrative Passage', status: 'queued', target_count: 4 },
+  { subject_id: 'english', chapter: 'Factual Passage', status: 'queued', target_count: 4 },
+  { subject_id: 'english', chapter: 'Literary Passage', status: 'queued', target_count: 4 },
   { subject_id: 'english', chapter: 'Reading Comprehension', status: 'queued', target_count: 4 },
   { subject_id: 'english', chapter: 'Para Jumbles', status: 'queued', target_count: 8 },
+  { subject_id: 'english', chapter: 'Match the Following', status: 'queued', target_count: 8 },
   { subject_id: 'english', chapter: 'Vocabulary', status: 'queued', target_count: 8 },
   { subject_id: 'physics', chapter: 'Electromagnetic Induction', status: 'queued', target_count: 8 },
   { subject_id: 'sociology', chapter: 'Social Institutions: Continuity and Change', status: 'queued', target_count: 8 },

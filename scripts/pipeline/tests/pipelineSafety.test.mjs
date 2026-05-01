@@ -30,3 +30,14 @@ test('GPT and Gemini are not original generation providers', () => {
   assert.doesNotMatch(llmSource, /genAI\.getGenerativeModel\([^)]*\)[\s\S]{0,300}generateQuestions/);
   assert.match(llmSource, /generateWithDeepSeekOnly/);
 });
+
+test('premium quality rejects trigger explicit retry guidance', () => {
+  assert.match(workerSource, /PREMIUM_RETRY_REASONS/);
+  assert.match(workerSource, /distractor_quality_below_quality_mode_threshold/);
+  assert.match(workerSource, /quality_band_A_not_allowed/);
+  assert.match(workerSource, /answer_confidence_below_threshold/);
+  assert.match(llmSource, /PREMIUM RETRY INSTRUCTIONS/);
+  assert.match(llmSource, /Make distractors closer/);
+  assert.match(llmSource, /answer_check quote/);
+  assert.match(llmSource, /para jumbles/);
+});

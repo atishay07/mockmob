@@ -347,7 +347,8 @@ function applyOverridePriorityBoost(gap, overrideConfig = getCuetOverrideConfig(
   if (!overrideConfig?.active) return gap;
   let boost = 0;
   if (overrideConfig.subjects?.length > 0 && overrideConfig.subjects.includes(gap.subject_id)) boost += 200;
-  if (overrideConfig.chapters?.length > 0 && overrideConfig.chapters.includes(normalizeComparable(gap.chapter))) boost += 100;
+  const overrideChapterKeys = overrideConfig.chapter_keys || (overrideConfig.chapters || []).map(normalizeComparable);
+  if (overrideChapterKeys.length > 0 && overrideChapterKeys.includes(normalizeComparable(gap.chapter))) boost += 100;
   if (overrideConfig.mode === 'nta' && gap.subject_id === 'english') {
     const chapterPlan = getEnglishNtaChapterPlan();
     const planIndex = chapterPlan.findIndex((entry) => normalizeComparable(entry.chapter) === normalizeComparable(gap.chapter));

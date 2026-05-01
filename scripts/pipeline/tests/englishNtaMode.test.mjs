@@ -53,9 +53,9 @@ test('passage groups are excluded from quick practice and included in NTA mode',
   assert.equal(shouldIncludePassageGroupForPracticeMode(normalized.passageGroups[0], 'nta_mode'), true);
 });
 
-test('passage group publish rule requires at least 3 accepted children', () => {
-  const enough = normalizeGenerationPayload(passagePayload(4), { subject: 'english', chapter: 'Narrative Passage' });
-  const tooFew = normalizeGenerationPayload(passagePayload(2), { subject: 'english', chapter: 'Narrative Passage' });
-  assert.equal(enough.questions.filter((question) => question.passage_text && question.passage_id).length >= 3, true);
-  assert.equal(tooFew.questions.filter((question) => question.passage_text && question.passage_id).length >= 3, false);
+test('passage mode requires enough generated children before self-check', () => {
+  const enough = normalizeGenerationPayload(passagePayload(5), { subject: 'english', chapter: 'Narrative Passage', requires_passage: true });
+  const tooFew = normalizeGenerationPayload(passagePayload(4), { subject: 'english', chapter: 'Narrative Passage', requires_passage: true });
+  assert.equal(enough.questions.filter((question) => question.passage_text && question.passage_id).length >= 5, true);
+  assert.equal(tooFew.questions.length, 0);
 });
