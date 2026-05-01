@@ -1,0 +1,48 @@
+{
+  "subject": "economics",
+  "chapter": "Balance of Payments",
+  "source_quality": "manual_seed",
+  "anchor_match_level": "exact_chapter",
+  "questions": [
+    {
+      "id": "economics_bop_anchor_001",
+      "question_type": "statement_based",
+      "pattern_tags": ["statement-based", "bop-accounts", "elimination"],
+      "question": "Read the statements about Balance of Payments:\nStatement I: Export of goods is recorded in the current account.\nStatement II: Foreign investment inflow is recorded in the capital account.\nStatement III: Import of services is never part of the current account.",
+      "options": ["I and II only", "II and III only", "I and III only", "I, II and III"],
+      "correct_answer": "A"
+    },
+    {
+      "id": "economics_bop_anchor_002",
+      "question_type": "comparison_based",
+      "pattern_tags": ["comparison", "current-capital", "close-distractors"],
+      "question": "Which option best distinguishes current account from capital account in BoP?",
+      "options": ["Current account records goods, services and transfers; capital account records asset and liability changes.", "Current account records only loans, while capital account records only exports.", "Both accounts record the same transactions but in opposite signs.", "Capital account records tourism receipts, while current account records foreign direct investment."],
+      "correct_answer": "A"
+    },
+    {
+      "id": "economics_bop_anchor_003",
+      "question_type": "application_based",
+      "pattern_tags": ["application", "deficit", "trap-option"],
+      "question": "A country imports more goods than it exports, but receives large remittances from abroad. Which conclusion is most careful?",
+      "options": ["The goods trade deficit may be partly offset within the current account by transfer receipts.", "The current account must be balanced because remittances are capital receipts.", "The capital account must show deficit because imports exceed exports.", "The BoP cannot record remittances because they are private transfers."],
+      "correct_answer": "A"
+    },
+    {
+      "id": "economics_bop_anchor_004",
+      "question_type": "assertion_reason",
+      "pattern_tags": ["assertion-reason", "foreign-exchange", "close-options"],
+      "question": "Assertion: A current account deficit can put pressure on foreign exchange reserves. Reason: It may require financing through capital inflows or reserve drawdown.",
+      "options": ["Both Assertion and Reason are true, and the Reason explains the Assertion.", "Both are true, but the Reason explains fiscal deficit instead.", "Assertion is true, but Reason treats exports as capital inflows.", "Assertion is false, while Reason is true."],
+      "correct_answer": "A"
+    },
+    {
+      "id": "economics_bop_anchor_005",
+      "question_type": "statement_based",
+      "pattern_tags": ["statement-based", "autonomous-accommodating", "elimination"],
+      "question": "Read the statements about BoP transactions:\nStatement I: Autonomous transactions are undertaken for economic motives.\nStatement II: Accommodating transactions are used to settle BoP imbalance.\nStatement III: Both types are identical because they involve foreign exchange.",
+      "options": ["I and II only", "II and III only", "I and III only", "I, II and III"],
+      "correct_answer": "A"
+    }
+  ]
+}

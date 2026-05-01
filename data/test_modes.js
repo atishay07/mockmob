@@ -72,7 +72,7 @@ export const TEST_MODES = {
     useWeakTopics: false,
     recencyLimit: 8,
     maxPerConcept: 2,
-    requireAnchor: true,               // PYQ-anchored only (anchor_tier 1 or 2)
+    preferAnchor: true,                // Ranking signal only; missing metadata must not block NTA mocks.
   },
 };
 

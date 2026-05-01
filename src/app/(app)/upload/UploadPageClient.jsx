@@ -97,7 +97,7 @@ export default function UploadPageClient() {
       {tab === 'bulk' && (
         <div style={{ maxWidth: '640px', margin: '0 auto' }}>
           <div style={{ marginBottom: '24px' }}>
-            <div className="eyebrow" style={{ marginBottom: '8px' }}>// BULK IMPORT</div>
+            <div className="eyebrow" style={{ marginBottom: '8px' }}>{'// BULK IMPORT'}</div>
             <h1 className="display-md">
               Bulk <span className="text-volt" style={{ fontStyle: 'italic' }}>Upload</span>
             </h1>

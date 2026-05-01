@@ -1,0 +1,197 @@
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The process of roasting is essential'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: The use of carbon in reducing metal oxides is common due to its availability. Reason: Car'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: Electrolytic reduction can extract metals from their ores when other methods fail. Stat'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements below and identify the correct option: Statement I: Concentration by hydraulic w'
+}
+[pipeline] Rejected | compositeScore=66 | source=validator_normalized | rule=direct definition | reasons=direct definition; textbook style; conceptual depth < 7; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording; validator decision reject
+[pipeline] Rejected | compositeScore=66 | source=validator_normalized | rule=textbook style | reasons=textbook style; conceptual depth < 7; low trap quality; anchor phrasing reused; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording
+[pipeline] Rejected | compositeScore=44 | source=validator_normalized | rule=textbook style | reasons=textbook style; conceptual depth < 7; low trap quality; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording
+[pipeline] Rejected | compositeScore=30 | source=validator_normalized | rule=direct definition | reasons=direct definition; low trap quality; textbook style; conceptual depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] Rejected | compositeScore=29 | source=validator_normalized | rule=obvious answer | reasons=obvious answer; textbook style; conceptual depth < 7; low trap quality; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] strict_mode_no_validated_questions_draft_only {
+  job_id: 'f46aa117-eeef-47c3-a2a6-6d370414a4c3',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'direct definition',
+    'textbook style',
+    'conceptual depth < 7',
+    'exam quality below threshold',
+    'distractor quality below threshold',
+    'conceptual depth below CUET reasoning threshold',
+    'direct textbook-style wording',
+    'validator decision reject'
+  ],
+  draft_only_flag: true
+}
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=0.0% | threshold=40% | fallback_or_partial_output_allowed=true
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[pipeline] TARGET_NOT_MET | target=5 | accepted=0 | shortfall=5 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+No questions returned for chemistry/Isolation of Elements
+RAW_PARSED_COUNT=5
+NORMALIZED_COUNT=5
+VALIDATED_COUNT=0
+Drop summary:
+- normalization_failed: 0
+- invalid_options_format: 0
+- missing_required_fields: 0
+- validation_failed: 5
+- low_score: 3
+- difficulty_mismatch: 2
+- cuet_alignment_failed: 2
+- chapter_mismatch: 0
+Sample failed raw question: {"subject":"chemistry","chapter":"Isolation of Elements","body":"Read the statements and choose the correct option: Statement I: The process of roasting is essential for extracting metals from sulfide ores. Statement II: Smelting is a reduction process that often requires a flux to remove impurities. Statement III: Roasting and smelting can occur simultaneously in certain extraction methods.","options":[{"key":"A","text":"I and II mainly"},{"key":"B","text":"II and III mainly"},{"key":"C","text":"I and III mainly"},{"key":"D","text":"I, II and III"}],"correct_answer":"A","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Existing Chemistry Coverage","concept":"Isolation of Elements","concept_id":"chemistry::isolation_of_elements","pyq_anchor_id":"structured_chemistry_isolation_of_elements_1","anchor_tier":1,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"D","strong_distractors":["B","C"],"why_not_textbook":"The statements require understanding of the processes involved in metallurgy rather than mere definitions.","why_cuet_level":"This question tests comprehension of metallurgical processes, which is essential for CUET level.","distractor_rationale":{"A":"Both statements accurately describe distinct steps in metallurgy relevant to sulfide ore processing.","B":"While both statements are true, they do not directly connect to each other as required by the question.","C":"This option incorrectly implies that roasting can happen without smelting, which is not often the case.","D":"This option suggests many statements are interdependent, which overlooks their individual roles."},"anchor_source_quality":"manual_seed","passage_id":"","passage_type":"","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option: Statement I: The process of roasting is essential for extracting metals from sulfide ores. Statement II: Smelting is a reduction process that often requires a flux to remove impurities. Statement III: Roasting and smelting can occur simultaneously in certain extraction methods.","answer":"A"}
+Sample normalized attempt: {"subject":"chemistry","chapter":"Isolation of Elements","body":"Read the statements and choose the correct option: Statement I: The process of roasting is essential for extracting metals from sulfide ores. Statement II: Smelting is a reduction process that often requires a flux to remove impurities. Statement III: Roasting and smelting can occur simultaneously in certain extraction methods.","options":[{"key":"A","text":"I and II mainly"},{"key":"B","text":"II and III mainly"},{"key":"C","text":"I and III mainly"},{"key":"D","text":"I, II and III"}],"correct_answer":"A","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Existing Chemistry Coverage","concept":"Isolation of Elements","concept_id":"chemistry::isolation_of_elements","pyq_anchor_id":"structured_chemistry_isolation_of_elements_1","anchor_tier":1,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"D","strong_distractors":["B","C"],"why_not_textbook":"The statements require understanding of the processes involved in metallurgy rather than mere definitions.","why_cuet_level":"This question tests comprehension of metallurgical processes, which is essential for CUET level.","distractor_rationale":{"A":"Both statements accurately describe distinct steps in metallurgy relevant to sulfide ore processing.","B":"While both statements are true, they do not directly connect to each other as required by the question.","C":"This option incorrectly implies that roasting can happen without smelting, which is not often the case.","D":"This option suggests many statements are interdependent, which overlooks their individual roles."},"anchor_source_quality":"manual_seed","passage_id":"","passage_type":"","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option: Statement I: The process of roasting is essential for extracting metals from sulfide ores. Statement II: Smelting is a reduction process that often requires a flux to remove impurities. Statement III: Roasting and smelting can occur simultaneously in certain extraction methods.","answer":"A"}
+[pipeline] LOW_YIELD=0.0% (threshold=30%) — less than 30 % of generated questions were accepted
+[pyq_anchor] selected_anchor {
+  subject: 'accountancy',
+  requested_concept_id: 'accountancy::change_in_profit_sharing_ratio',
+  selected_anchor_id: 'seed_pyq_a1',
+  selected_anchor_concept_id: 'accountancy::partnership_fundamentals',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'accountancy',
+  requested_concept_id: 'accountancy::change_in_profit_sharing_ratio',
+  source_anchor_id: 'seed_pyq_a1',
+  source_anchor_concept_id: 'accountancy::partnership_fundamentals',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'simple_numerical'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A change in profit-sharing ratio can'
+}
+[llm] generated_extreme_word_repaired {
+  body: "Assertion: A partner's sacrifice in a profit-sharing ratio change must be compensated by the other p"
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following scenarios regarding profit-sharing changes: Scenario I: A partner increases t'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'accountancy',
+  chapter: 'Change in Profit Sharing Ratio',
+  reason: 'obvious_answer_pattern',
+  body: 'Consider the following scenarios regarding profit-sharing changes: Scenario I: A partner increases t',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Evaluate the following statements regarding reconstitution of a partnership due to change in profit-'
+}
+[pipeline] Rejected | compositeScore=24 | source=validator_normalized | rule=concept mismatch | reasons=concept mismatch; low trap quality; contains content from Admission of a Partner rather than purely Change in PSR; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; direct definition; textbook style; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=clarity == AMBIGUOUS | reasons=clarity == AMBIGUOUS; subject_consistency != CORRECT; low trap quality; ambiguous wording; subject mismatch; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] Rejected | compositeScore=29 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; conceptual_depth < 7; obvious answer; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording
+[pipeline] strict_mode_no_validated_questions_draft_only {
+  job_id: 'aef14f1a-7a76-408b-bc3a-ce4e49627c98',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'concept mismatch',
+    'low trap quality',
+    'contains content from Admission of a Partner rather than purely Change in PSR',
+    'validator score below threshold',
+    'exam quality below threshold',
+    'distractor quality below threshold',
+    'conceptual depth below CUET reasoning threshold',
+    'direct textbook-style wording'
+  ],
+  draft_only_flag: true
+}
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=0.0% | threshold=40% | fallback_or_partial_output_allowed=true
+[pipeline] TARGET_NOT_MET | target=5 | accepted=0 | shortfall=5 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+No questions returned for accountancy/Change in Profit Sharing Ratio
+RAW_PARSED_COUNT=5
+NORMALIZED_COUNT=4
+VALIDATED_COUNT=0
+Drop summary:
+- normalization_failed: 0
+- invalid_options_format: 0
+- missing_required_fields: 0
+- validation_failed: 5
+- low_score: 4
+- difficulty_mismatch: 2
+- cuet_alignment_failed: 4
+- chapter_mismatch: 0
+Sample failed raw question: {"q":"Consider the following scenarios regarding profit-sharing changes: Scenario I: A partner increases their share while another decreases theirs. Scenario II: A new partner joins without any existing partners reducing their shares. Scenario III: The total capital remains unchanged after these adjustments. Choose the correct option based on these scenarios:","o":["Only Scenario I represents a typical change in profit-sharing ratio.","Scenarios I and II represent valid changes in profit-sharing ratios while III does not affect it.","All scenarios reflect changes in profit-sharing ratios correctly regardless of capital fluctuations.","Only Scenario II reflects a change as no existing shares are reduced."],"a":"B","question_type":"case_based","concept_id":"accountancy::change_in_profit_sharing_ratio","trap_option":"D","strong_distractors":["A","C"],"why_not_textbook":"This question examines practical applications of concepts rather than definitions or simple recall.","why_cuet_level":"It encourages students to analyze real-life implications of partnership adjustments.","distractor_rationale":{"A":"Scenario I alone does not encompass all types of changes possible in partnerships.","B":"Correct; it captures valid scenarios that illustrate changes effectively.","C":"Not all scenarios involve a change in profit-sharing ratios; capital stability matters too.","D":"Scenario II does reflect a change but does not cover all cases."}}
+Sample normalized attempt: {"subject":"accountancy","chapter":"Change in Profit Sharing Ratio","body":"Consider the following scenarios regarding profit-sharing changes: Scenario I: A partner increases their share while another decreases theirs. Scenario II: A new partner joins without any existing partners reducing their shares. Scenario III: The total capital remains unchanged after these adjustments. Choose the correct option based on these scenarios:","options":[{"key":"A","text":"mainly Scenario I represents a typical change in profit-sharing ratio."},{"key":"B","text":"Scenarios I and II represent valid changes in profit-sharing ratios while III does not affect it."},{"key":"C","text":"many scenarios reflect changes in profit-sharing ratios correctly regardless of capital fluctuations."},{"key":"D","text":"mainly Scenario II reflects a change as no existing shares are reduced."}],"correct_answer":"B","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"case_based","topic":"Reconstitution of a Partnership firm","concept":"Change in Profit Sharing Ratio","concept_id":"accountancy::change_in_profit_sharing_ratio","pyq_anchor_id":"","anchor_tier":0,"concept_pattern":"concept_3","tags":["cuet"],"trap_option":"D","strong_distractors":["A","C"],"why_not_textbook":"This question examines practical applications of concepts rather than definitions or simple recall.","why_cuet_level":"It encourages students to analyze real-life implications of partnership adjustments.","distractor_rationale":{"A":"Scenario I alone does not encompass many types of changes possible in partnerships.","B":"Correct; it captures valid scenarios that illustrate changes effectively.","C":"Not many scenarios involve a change in profit-sharing ratios; capital stability matters too.","D":"Scenario II does reflect a change but does not cover many cases."},"anchor_source_quality":"","passage_id":"","passage_type":"","passage_text":""}
+[pipeline] LOW_YIELD=0.0% (threshold=30%) — less than 30 % of generated questions were accepted
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A chelating ligand can form multiple'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: The geometry of a coordination compound is determined mainly by its coordination number. '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A student claims that many bidentate ligands form five-membered rings with metal ions when coordinat'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the following statements: Statement I: Coordination complexes can exhibit optical activity if t'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion I: Ligand field strength influences the color observed in transition metal complexes. Asse'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Assertion I: Ligand field strength influences the color observed in transition metal complexes. Asse',
+  index: 4
+}
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=ambiguous phrasing in options | reasons=ambiguous phrasing in options; low trap quality; direct recall of definitions; conceptual_depth < 7; ambiguous wording; confusing options; validator score below threshold; exam quality below threshold
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=non-standard assertion-reason option format | reasons=non-standard assertion-reason option format; logic in options is scientifically ambiguous; answer key B contradicts more precise option D; phrasing 'valid/invalid' is non-standard for CUET A/R; ambiguous wording; confusing options; subject mismatch; exam quality below threshold
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=ambiguous phrasing in options | reasons=ambiguous phrasing in options; use of 'mainly' reduces clarity; conceptual_depth < 7; textbook style; ambiguous wording; confusing options; validator score below threshold; exam quality below threshold
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=25.0% | threshold=40% | fallback_or_partial_output_allowed=true
+[pipeline] TARGET_NOT_MET | target=5 | accepted=1 | shortfall=4 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pipeline] LOW_YIELD=25.0% (threshold=30%) — less than 30 % of generated questions were accepted
+[supervisor] COST_ALERT: $6.09/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::communication_technologies',
+  selected_anchor_id: 'structured_computer_science_computer_networks_1',
+  selected_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 4,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::communication_technologies',
+  source_anchor_id: 'structured_computer_science_computer_networks_1',
+  source_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A firewall protects a network by fil'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The role of DNS is to translate huma'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: VoIP technology allows voice communi'
+}

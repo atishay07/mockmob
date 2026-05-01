@@ -1,0 +1,870 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5959 concepts across 40 subjects (saved 2026-04-30T20:22:12.063Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  coverage: 3,
+  priority: 90
+}
+[planner] {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Data Structures',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Python Revision',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Economic Reforms Since 1991',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Indian Economy on the Eve of Independence',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  coverage: 8,
+  priority: 90
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: sociology → normalized: sociology → tier: 1
+Subject: business_studies → normalized: business_studies → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: economics → normalized: economics → tier: 1
+Subject: economics → normalized: economics → tier: 1
+Subject: english → normalized: english → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'sociology',
+    expected_chapter: 'Introducing Indian Society',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'business_studies',
+    expected_chapter: 'Staffing',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Coordination Compounds',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Isolation of Elements',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Computer Networks',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Data Structures',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Python Revision',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Economic Reforms Since 1991',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Indian Economy on the Eve of Independence',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'sociology',
+    chapter: 'Introducing Indian Society',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'business_studies',
+    chapter: 'Staffing',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'Coordination Compounds',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'Isolation of Elements',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Computer Networks',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Data Structures',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Python Revision',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'economics',
+    chapter: 'Economic Reforms Since 1991',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'economics',
+    chapter: 'Indian Economy on the Eve of Independence',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: 'a509cde8-d890-483e-a72e-6abdaef13289',
+    subject_id: 'sociology',
+    chapter: 'Introducing Indian Society',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:06:21.809792+00:00'
+  },
+  {
+    id: '7b649b43-3f46-45ad-9ea2-6bc45220d83f',
+    subject_id: 'business_studies',
+    chapter: 'Staffing',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:06:21.809792+00:00'
+  },
+  {
+    id: 'cb5deda8-1c72-4312-8249-11367c4e834a',
+    subject_id: 'chemistry',
+    chapter: 'Coordination Compounds',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:06:21.809792+00:00'
+  },
+  {
+    id: '0913965d-3d51-4e4d-b518-9fc3e43a8b9a',
+    subject_id: 'chemistry',
+    chapter: 'Isolation of Elements',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:06:21.809792+00:00'
+  },
+  {
+    id: '1c659709-f034-4b95-8e66-fd95dc2a8c19',
+    subject_id: 'computer_science',
+    chapter: 'Computer Networks',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:06:21.809792+00:00'
+  },
+  {
+    id: '23fc0f9d-7961-4eea-aae2-e7e1949684a7',
+    subject_id: 'computer_science',
+    chapter: 'Data Structures',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:06:21.809792+00:00'
+  },
+  {
+    id: 'b2ecb147-7871-43de-a6c3-a43696380b52',
+    subject_id: 'computer_science',
+    chapter: 'Python Revision',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:06:21.809792+00:00'
+  },
+  {
+    id: 'df37942f-7629-417e-bdb1-00e2b23999ad',
+    subject_id: 'economics',
+    chapter: 'Economic Reforms Since 1991',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:06:21.809792+00:00'
+  },
+  {
+    id: '5ed4afaf-75f0-4940-8b90-cfeb38dd62af',
+    subject_id: 'economics',
+    chapter: 'Indian Economy on the Eve of Independence',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:06:21.809792+00:00'
+  },
+  {
+    id: '25b2516c-2ce2-4d1a-85fc-4c9d1b316686',
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:06:21.809792+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: 'a509cde8-d890-483e-a72e-6abdaef13289',
+    expected_subject: 'sociology',
+    expected_chapter: 'Introducing Indian Society',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '7b649b43-3f46-45ad-9ea2-6bc45220d83f',
+    expected_subject: 'business_studies',
+    expected_chapter: 'Staffing',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'cb5deda8-1c72-4312-8249-11367c4e834a',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Coordination Compounds',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '0913965d-3d51-4e4d-b518-9fc3e43a8b9a',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Isolation of Elements',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '1c659709-f034-4b95-8e66-fd95dc2a8c19',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Computer Networks',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '23fc0f9d-7961-4eea-aae2-e7e1949684a7',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Data Structures',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'b2ecb147-7871-43de-a6c3-a43696380b52',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Python Revision',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'df37942f-7629-417e-bdb1-00e2b23999ad',
+    expected_subject: 'economics',
+    expected_chapter: 'Economic Reforms Since 1991',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '5ed4afaf-75f0-4940-8b90-cfeb38dd62af',
+    expected_subject: 'economics',
+    expected_chapter: 'Indian Economy on the Eve of Independence',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '25b2516c-2ce2-4d1a-85fc-4c9d1b316686',
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'a509cde8-d890-483e-a72e-6abdaef13289',
+    '7b649b43-3f46-45ad-9ea2-6bc45220d83f',
+    'cb5deda8-1c72-4312-8249-11367c4e834a',
+    '0913965d-3d51-4e4d-b518-9fc3e43a8b9a',
+    '1c659709-f034-4b95-8e66-fd95dc2a8c19',
+    '23fc0f9d-7961-4eea-aae2-e7e1949684a7',
+    'b2ecb147-7871-43de-a6c3-a43696380b52',
+    'df37942f-7629-417e-bdb1-00e2b23999ad',
+    '5ed4afaf-75f0-4940-8b90-cfeb38dd62af',
+    '25b2516c-2ce2-4d1a-85fc-4c9d1b316686'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '7b649b43-3f46-45ad-9ea2-6bc45220d83f',
+  actual_subject: 'business_studies',
+  actual_chapter: 'Staffing',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 333,
+  created_at: '2026-04-30T21:06:21.809792+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'business_studies', chapter: 'Staffing', count: 8 }
+
+[JOB 7b649b43] Starting: [business_studies] Staffing
+[worker] RECEIVED_JOB: {
+  job_id: '7b649b43-3f46-45ad-9ea2-6bc45220d83f',
+  expected_subject: 'business_studies',
+  expected_chapter: 'Staffing',
+  raw_subject_id: 'business_studies',
+  raw_chapter: 'Staffing',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:06:21.809792+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '7b649b43-3f46-45ad-9ea2-6bc45220d83f',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  chapter: 'Staffing',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Staffing', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '7b649b43-3f46-45ad-9ea2-6bc45220d83f',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  expected_chapter: 'Staffing',
+  canonical_unit: 'Staffing',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Staffing" unit="Staffing" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'business_studies',
+  prompt_subject_name: 'Business Studies',
+  expected_chapter: 'Staffing',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'business_studies',
+  expected_chapter: 'Staffing',
+  canonical_unit: 'Staffing',
+  concept_id: 'business_studies::staffing',
+  pyq_anchor_id: 'structure_only_structured_business_studies_consumer_protection_1_for_business_studies::staffing',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 31791,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {
+  "questions": [
+    {
+      "q": "In a staffing process, which of the following actions can lead to better employee retention?",
+      "o": ["Effective onboarding programs", "Strict performance reviews", "High turnover recruitment strategies", "Flexible working conditions"],
+      "a": "A",
+      "question_type": "case-based",
+      "concept_id": "business_studies::staffing",
+      "trap_option": "C",
+      "strong_distractors": ["B", "D"],
+      "why_not_textbook": "The question requires analysis of staffing impacts rather than recalling definitions.",
+      "why_cuet_level": "It prompts consideration of multiple factors in staffing effectiveness.",
+      "distractor_rationale": {
+        "A": "Onboarding helps new hires adjust and feel valued, increasing retention.",
+        "B": "Performance reviews can motivate but may also lead to dissatisfaction if mismanaged.",
+        "C": "High turnover strategies focus on filling positions quickly, not retaining talent.",
+        "D": "Flexible conditions improve job satisfaction but are not the sole factor in retention."
+      }
+    },
+    {
+      "q": "Which methods are commonly used for assessing candidates during the staffing process?",
+      "o": ["Interviews and reference checks", "Only psychometric testing", "Job simulations and group activities", "Social media evaluations"],
+      "a": "A",
+      "question_type": "elimination",
+      "concept_id": "business_studies::staffing",
+      "trap_option": "B",
+      "strong_distractors": ["C", "D"],
+      "why_not_textbook": "The question encourages evaluation of various methods rather than direct recall.",
+      "why_cuet_level": "Candidates must differentiate between effective assessment methods.",
+      "distractor_rationale": {
+        "A": "Interviews and reference checks are standard practices for assessing candidates.",
+        "B": "Psychometric testing is useful but not the only method employed in staffing.",
+        "C": "Job simulations provide practical insights into candidate capabilities.",
+        "D": "Social media evaluations can be informative but are not universally accepted."
+      }
+    },
+    {
+      "q": "\"Succession planning\" primarily aims to address which aspect of staffing?",
+      "o": ["Preparing for future vacancies", "Reducing recruitment costs", "Enhancing employee morale", "Increasing workforce diversity"],
+      "a": "A",
+      "question_type": "statement-based",
+      "concept_id": "business_studies::staffing",
+      "trap_option": "D",
+      "strong_distractors": ["B", "C"],
+      "why_not_textbook": "\"Succession planning\" is often misunderstood; it’s not just about immediate needs.",
+      "why_cuet_level": "\"Future vacancies\" require strategic thinking, not just knowledge recall.",
+      "distractor_rationale": {
+        "A": "\"Succession planning\" ensures smooth transitions when key roles become vacant.",
+        "B": "\"Reducing recruitment costs\" may be a benefit but isn't the primary goal.",
+        "C": "\"Enhancing employee morale\" can result from succession planning but isn't its main purpose.",
+        "D": "\"Increasing workforce diversity\" is important but secondary to succession objectives."
+      }
+    },
+    {
+      "q": "\"Employee training\" is vital for which of the following reasons?",
+      "o": ["Improving productivity and efficiency", 
+              "\"Training is only required for new hires\"", 
+              "\"Training reduces the need for supervision\"", 
+              "\"Training should be continuous for all employees\""],
+      "a": 1,
+      "question_type": 1,
+      "concept_id": 1,
+      	"trap_option":"B",
+    	"strong_distractors":["C","D"],
+    	"why_not_textbook":"This question assesses understanding of training impacts beyond surface-level knowledge.",
+    	"why_cuet_level":"It encourages critical thinking about ongoing training needs versus misconceptions.",
+    	"distractor_rationale":{
+        	"A":"Training directly enhances skills, leading to better performance.",
+        	"B":"Only new hires need training is a common misconception that limits growth.",
+        	"C":"While training can empower employees, it doesn't eliminate supervision entirely.",
+        	"D":"Continuous training is beneficial but not universally applicable to all roles."
+    	}
+    },
+    {
+      	"q":"What is a potential drawback of internal recruitment?",
+      	"o":["Familiarity with company culture","Limited pool of candidates","Higher chances of conflict","Reduced onboarding time"],
+      	"a":"B",
+      	"question_type":"case-based",
+      	"concept_id":"business_studies::staffing",
+      	"trap_option":"A",
+      	"strong_distractors":["C","D"],
+      	"why_not_textbook":"This question focuses on evaluating internal recruitment's strengths against its weaknesses.",
+      	"why_cuet_level":"It requires analysis rather than simple recall of definitions.",
+      	"distractor_rationale":{
+         	"A":"Familiarity can be beneficial but may also lead to complacency among employees.", 
+         	"B":"Limited candidate pools restrict diversity of thought and skills.", 
+         	"C":"Conflict may arise but isn’t an inherent drawback of internal moves.", 
+         	"D":"Reduced onboarding time can be an advantage, not a drawback."
+      	}
+    }
+  ]
+}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'a509cde8-d890-483e-a72e-6abdaef13289',
+    'cb5deda8-1c72-4312-8249-11367c4e834a',
+    '0913965d-3d51-4e4d-b518-9fc3e43a8b9a',
+    '1c659709-f034-4b95-8e66-fd95dc2a8c19',
+    '23fc0f9d-7961-4eea-aae2-e7e1949684a7',
+    'b2ecb147-7871-43de-a6c3-a43696380b52',
+    'df37942f-7629-417e-bdb1-00e2b23999ad',
+    '5ed4afaf-75f0-4940-8b90-cfeb38dd62af',
+    '25b2516c-2ce2-4d1a-85fc-4c9d1b316686'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'a509cde8-d890-483e-a72e-6abdaef13289',
+  actual_subject: 'sociology',
+  actual_chapter: 'Introducing Indian Society',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 3,
+  subject_question_count: 211,
+  created_at: '2026-04-30T21:06:21.809792+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  count: 3,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  count: 3
+}
+
+[JOB a509cde8] Starting: [sociology] Introducing Indian Society
+[worker] RECEIVED_JOB: {
+  job_id: 'a509cde8-d890-483e-a72e-6abdaef13289',
+  expected_subject: 'sociology',
+  expected_chapter: 'Introducing Indian Society',
+  raw_subject_id: 'sociology',
+  raw_chapter: 'Introducing Indian Society',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:06:21.809792+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'a509cde8-d890-483e-a72e-6abdaef13289',
+  expected_subject: 'sociology',
+  resolved_subject_id: 'sociology',
+  resolved_subject_name: 'Sociology',
+  chapter: 'Introducing Indian Society',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=21 existing questions loaded
+[generation] batch adjusted: { chapter: 'Introducing Indian Society', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'a509cde8-d890-483e-a72e-6abdaef13289',
+  expected_subject: 'sociology',
+  resolved_subject_id: 'sociology',
+  resolved_subject_name: 'Sociology',
+  expected_chapter: 'Introducing Indian Society',
+  canonical_unit: 'Indian Society',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Introducing Indian Society" unit="Indian Society" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'sociology',
+  prompt_subject_name: 'Sociology',
+  expected_chapter: 'Introducing Indian Society',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'sociology',
+  expected_chapter: 'Introducing Indian Society',
+  canonical_unit: 'Indian Society',
+  concept_id: 'sociology::introducing_indian_society',
+  pyq_anchor_id: 'structure_only_structured_sociology_mass_media_and_communications_1_for_sociology::introducing_indian_society',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 27737,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {
+  "questions": [
+    {
+      "q": "In discussing the caste system, which of the following statements correctly highlights its complexity in contemporary India?",
+      "o": [
+        "Caste is solely a traditional institution that has no relevance today.",
+        "Caste identities can intersect with class and religion, influencing social dynamics.",
+        "Caste systems are uniform across all regions of India, leading to similar experiences.",
+        "The caste system has been completely abolished due to legal reforms."
+      ],
+      "a": "B",
+      "question_type": "comparison-based",
+      "concept_id": "sociology::introducing_indian_society",
+      "trap_option": "A",
+      "strong_distractors": ["C", "D"],
+      "why_not_textbook": "The question avoids direct definitions and engages with the nuanced understanding of caste.",
+      "why_cuet_level": "It requires critical thinking to differentiate between oversimplified and accurate views.",
+      "distractor_rationale": {
+        "A": "This statement oversimplifies the current relevance of caste.",
+        "B": "This statement accurately reflects the intersectionality of caste.",
+        "C": "This statement generalizes and ignores regional variations in caste experiences.",
+        "D": "This statement is misleading as it suggests complete eradication of caste."
+      }
+    },
+    {
+      "q": "Which of the following best describes the impact of globalization on Indian society?",
+      "o": [
+        "Globalization has led to a homogenization of cultures across India.",
+        "Globalization has created new economic opportunities but also increased inequalities.",
+        "Globalization has resulted in the complete disappearance of traditional practices.",
+        "Globalization affects urban areas more than rural communities."
+      ],
+      "a": "B",
+      "question_type": "statement-based",
+      "concept_id": "sociology::introducing_indian_society",
+      "trap_option": "A",
+      "strong_distractors": ["C", "D"],
+      "why_not_textbook": "The question encourages analysis rather than recalling definitions.",
+      "why_cuet_level": "It prompts evaluation of complex social changes rather than straightforward facts.",
+      "distractor_rationale": {
+        "A": "This option is partially true but overlooks local variations in culture.",
+        "B": "This statement captures both opportunities and challenges posed by globalization.",
+        "C": "This statement inaccurately suggests that tradition is entirely lost.",
+        "D": "'This option generalizes the effects of globalization without acknowledging mixed impacts."
+      }
+    },
+    {
+      "q": "When examining rituals in Indian society, which assertion reflects their evolving nature?",
+      "o": [
+        "Rituals have remained unchanged over centuries, preserving cultural heritage.",
+        "Rituals adapt over time, often reflecting contemporary social issues and values.",
+        "Rituals are only relevant in rural contexts and not in urban settings.",
+        "Rituals serve only religious purposes and do not influence social cohesion."
+      ],
+      "a": "B",
+      "question_type": "elimination-based",
+      "concept_id": "sociology::introducing_indian_society",
+      "trap_option": "A",
+      "strong_distractors": ["C", "D"],
+      "why_not_textbook": "'The question avoids textbook phrasing by focusing on the dynamics of rituals.",
+      "why_cuet_level": "'It requires students to assess the relevance and adaptability of rituals critically.",
+      "distractor_rationale": {
+        "A": "'This option erroneously claims rituals are static and unchanging.",
+        "B": "'This statement accurately captures the dynamic nature of rituals in society.",
+        "C": "'This option overlooks the presence of rituals in urban contexts as well.",
+        "D": "'This statement misrepresents the multifaceted roles rituals play in society."
+      }
+    },
+    {
+      "q": "'In analyzing family structures in India, which observation recognizes diversity within them?",
+      "o": [
+        "'Nuclear families are becoming more prevalent at the expense of joint families across all regions.",
+        "'Family structures vary significantly based on socio-economic status and cultural background.",
+        "'All families in India follow a patriarchal model without exceptions.",
+        "'Family structures are primarily influenced by urbanization, disregarding rural traditions."
+      ],
+      "a": "'B",
+      "'question_type': 'analysis-based',"
+    	: 
+    	{
+      	"concept_id":"sociology::introducing_indian_society",
+      	"trap_option":"A",
+      	"strong_distractors":["C","D"],
+      	"why_not_textbook":"The question encourages exploration beyond simple definitions or categorizations.",
+      	"why_cuet_level":"It challenges students to think critically about variations in family structures.",
+      	"distractor_rationale":{
+        	"A":"While nuclear families are rising, this statement inaccurately generalizes their impact across regions.",
+        	"B":"This statement correctly emphasizes diversity influenced by various factors within family structures.",
+        	"C":"This option incorrectly assumes uniformity in familial power dynamics across all families.", 
+        	"D":"This statement ignores other significant influences on family structures beyond urbanization."
+      	}
+    	}
+    },
+    {
+    	"q":"'When discussing education's role in social mobility, which perspective offers a comprehensive view?",
+    	"o":[
+         "'Education is solely a means for upward mobility without any drawbacks or barriers.", 
+         "'Education can enhance opportunities for some while reinforcing existing inequalities for others.", 
+         "'All forms of education universally promote equal opportunities regardless of background.", 
+         "'Education's primary function is to prepare individuals for employment, neglecting social context."
+       ],
+      	"a":"B",
+      	"question_type":"evaluation-based", 
+      	"concept_id":"sociology::introducing_indian_society", 
+      	"trap_option":"A", 
+      	"strong_distractors":["C","D"],
+      	"why_not_textbook":"The question avoids simplistic answers by addressing complexities in education's role.", 
+      	"why_cuet_level":"It prompts critical evaluation of education's multifaceted impacts on society.", 
+      	"distractor_rationale":{
+        	"A":"This option is overly simplistic regarding education's role in mobility.", 
+        	"B":"This statement acknowledges both potential benefits and barriers within educational systems.", 
+        	"C":"This option falsely assumes uniformity in educational outcomes for all individuals.", 
+        	"D":"While partially true, this statement neglects broader social implications beyond employment."
+      	}
+    }
+  ]
+}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5

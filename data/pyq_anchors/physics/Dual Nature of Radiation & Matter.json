@@ -1,0 +1,33 @@
+{
+  "subject": "physics",
+  "chapter": "Dual Nature of Radiation & Matter",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "In a photoelectric experiment, increasing light intensity changes the number of emitted electrons but not their maximum kinetic energy. Which interpretation best fits this observation?",
+      "options": [
+        "Intensity affects photon number, while maximum kinetic energy depends on photon frequency.",
+        "Intensity changes photon energy, while frequency mainly controls the number of emitted electrons.",
+        "Both intensity and frequency change only the work function of the metal.",
+        "The observation is impossible because more intense light must give each electron more kinetic energy."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["application-based", "elimination", "close-distractors", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    },
+    {
+      "question": "Assertion: Electrons can show diffraction in suitable experiments. Reason: Moving particles can be associated with de Broglie wavelength. Which option best evaluates this pair?",
+      "options": [
+        "Both Assertion and Reason are correct, and the Reason explains why electron diffraction is possible.",
+        "Both Assertion and Reason are correct, but the Reason applies only to photons.",
+        "Assertion is correct, but Reason is incorrect because wavelength is not associated with matter.",
+        "Assertion is incorrect, but Reason is correct only for particles at rest."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["assertion-reason", "elimination", "close-distractors", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

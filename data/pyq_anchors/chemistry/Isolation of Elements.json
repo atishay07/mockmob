@@ -1,0 +1,33 @@
+{
+  "subject": "chemistry",
+  "chapter": "Isolation of Elements",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "Read the statements and choose the correct option. Statement I: For a sulphide ore, roasting can convert the ore into an oxide before reduction. Statement II: For a highly reactive metal oxide, electrolytic reduction may be preferred because carbon may not reduce it effectively. Statement III: Hydraulic washing completes reduction after removing gangue.",
+      "options": [
+        "I and II only",
+        "II and III only",
+        "I and III only",
+        "I, II and III"
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["statement-based", "elimination", "close-distractors", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    },
+    {
+      "question": "Assertion: The method chosen for extraction depends on the position of the metal in the reactivity series. Reason: Metals near the top often form compounds that are difficult to reduce by common chemical reducing agents.",
+      "options": [
+        "Both Assertion and Reason are true, and the Reason explains the Assertion.",
+        "Both Assertion and Reason are true, but the Reason does not explain the Assertion.",
+        "Assertion is true, but Reason is false.",
+        "Assertion is false, but Reason is true."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["assertion-reason", "comparison", "elimination", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

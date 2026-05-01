@@ -1,0 +1,48 @@
+{
+  "subject": "mathematics",
+  "chapter": "Probability",
+  "source_quality": "manual_seed",
+  "anchor_match_level": "exact_chapter",
+  "questions": [
+    {
+      "id": "mathematics_probability_anchor_001",
+      "question_type": "statement_based",
+      "pattern_tags": ["statement-based", "conditional-probability", "elimination"],
+      "question": "Read the statements about events A and B:\nStatement I: P(A|B) is defined only when P(B) is non-zero.\nStatement II: If A and B are independent, P(A|B) = P(A).\nStatement III: P(A|B) is always equal to P(B|A).",
+      "options": ["I and II only", "II and III only", "I and III only", "I, II and III"],
+      "correct_answer": "A"
+    },
+    {
+      "id": "mathematics_probability_anchor_002",
+      "question_type": "numerical_one_step",
+      "pattern_tags": ["one-step", "conditional-probability", "close-options"],
+      "question": "For two events, P(A ∩ B) = 0.18 and P(B) = 0.30. Which value of P(A|B) follows directly?",
+      "options": ["0.60", "0.48", "0.12", "0.18"],
+      "correct_answer": "A"
+    },
+    {
+      "id": "mathematics_probability_anchor_003",
+      "question_type": "application_based",
+      "pattern_tags": ["application", "independence", "trap-option"],
+      "question": "A student says that two events are independent because they cannot occur together. Which correction is most accurate?",
+      "options": ["Mutually exclusive events with positive probabilities are not independent because occurrence of one rules out the other.", "The statement is correct because no common outcome means no dependence.", "Independence means P(A ∩ B) must be zero for all events.", "Mutual exclusiveness and independence are the same condition written differently."],
+      "correct_answer": "A"
+    },
+    {
+      "id": "mathematics_probability_anchor_004",
+      "question_type": "comparison_based",
+      "pattern_tags": ["comparison", "bayes", "close-distractors"],
+      "question": "Which option best captures why Bayes' theorem is useful?",
+      "options": ["It updates the probability of a cause after observing an effect.", "It replaces conditional probability with simple addition of events.", "It applies only when all events have equal probability.", "It proves that P(A|B) and P(B|A) are identical."],
+      "correct_answer": "A"
+    },
+    {
+      "id": "mathematics_probability_anchor_005",
+      "question_type": "assertion_reason",
+      "pattern_tags": ["assertion-reason", "independence", "elimination"],
+      "question": "Assertion: If A and B are independent, then P(A ∩ B) = P(A)P(B). Reason: Independence means the occurrence of one event does not change the probability of the other.",
+      "options": ["Both Assertion and Reason are true, and the Reason explains the Assertion.", "Both are true, but the Reason applies only to mutually exclusive events.", "Assertion is true, but Reason reverses conditional probability.", "Assertion is false, while Reason is true."],
+      "correct_answer": "A"
+    }
+  ]
+}

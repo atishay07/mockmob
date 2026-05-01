@@ -1,0 +1,1171 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5991 concepts across 40 subjects (saved 2026-05-01T05:25:59.052Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Para Jumbles',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Vocabulary',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'geography',
+  chapter: 'Migration',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'physics',
+  chapter: 'Magnetism & Matter',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'sociology',
+  chapter: 'Patterns of Social Inequality',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'sociology',
+  chapter: 'Social Movements',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'sociology',
+  chapter: 'Structural Change',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'accountancy',
+  chapter: 'Change in Profit Sharing Ratio',
+  coverage: 14,
+  priority: 75
+}
+[planner] {
+  subject: 'accountancy',
+  chapter: 'Dissolution of Partnership',
+  coverage: 14,
+  priority: 75
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: english → normalized: english → tier: 1
+Subject: english → normalized: english → tier: 1
+Subject: geography → normalized: geography → tier: 1
+Subject: physics → normalized: physics → tier: 1
+Subject: physics → normalized: physics → tier: 1
+Subject: sociology → normalized: sociology → tier: 1
+Subject: sociology → normalized: sociology → tier: 1
+Subject: sociology → normalized: sociology → tier: 1
+Subject: accountancy → normalized: accountancy → tier: 1
+Subject: accountancy → normalized: accountancy → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Para Jumbles',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Vocabulary',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'geography',
+    expected_chapter: 'Migration',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'physics',
+    expected_chapter: 'Electromagnetic Induction',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'physics',
+    expected_chapter: 'Magnetism & Matter',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'sociology',
+    expected_chapter: 'Patterns of Social Inequality',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'sociology',
+    expected_chapter: 'Social Movements',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'sociology',
+    expected_chapter: 'Structural Change',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'accountancy',
+    expected_chapter: 'Change in Profit Sharing Ratio',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'accountancy',
+    expected_chapter: 'Dissolution of Partnership',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'english',
+    chapter: 'Para Jumbles',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'english',
+    chapter: 'Vocabulary',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'geography',
+    chapter: 'Migration',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'physics',
+    chapter: 'Electromagnetic Induction',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'physics',
+    chapter: 'Magnetism & Matter',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'sociology',
+    chapter: 'Patterns of Social Inequality',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'sociology',
+    chapter: 'Social Movements',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'sociology',
+    chapter: 'Structural Change',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'accountancy',
+    chapter: 'Change in Profit Sharing Ratio',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'accountancy',
+    chapter: 'Dissolution of Partnership',
+    status: 'queued',
+    priority: 75
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: '0891a9bd-5d7c-42b2-bb4e-a31628f9e654',
+    subject_id: 'english',
+    chapter: 'Para Jumbles',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:29:14.847983+00:00'
+  },
+  {
+    id: '7046fe75-ff28-4b47-bfb2-d8cd34a149f0',
+    subject_id: 'english',
+    chapter: 'Vocabulary',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:29:14.847983+00:00'
+  },
+  {
+    id: 'a1cea87a-12d4-455f-98a4-c37522c3a731',
+    subject_id: 'geography',
+    chapter: 'Migration',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:29:14.847983+00:00'
+  },
+  {
+    id: 'f36c44d6-0913-4a07-8ef2-41d75f7752b2',
+    subject_id: 'physics',
+    chapter: 'Electromagnetic Induction',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:29:14.847983+00:00'
+  },
+  {
+    id: '1f5256c3-914c-4600-98a3-529549bc27cf',
+    subject_id: 'physics',
+    chapter: 'Magnetism & Matter',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:29:14.847983+00:00'
+  },
+  {
+    id: '3c061941-0578-4caf-8e52-9db3120f8a11',
+    subject_id: 'sociology',
+    chapter: 'Patterns of Social Inequality',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:29:14.847983+00:00'
+  },
+  {
+    id: '96429251-9fa0-49aa-95a5-81bfa092d205',
+    subject_id: 'sociology',
+    chapter: 'Social Movements',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:29:14.847983+00:00'
+  },
+  {
+    id: '0c63cfe8-a0a6-4ad6-a431-e1ceb16af863',
+    subject_id: 'sociology',
+    chapter: 'Structural Change',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:29:14.847983+00:00'
+  },
+  {
+    id: '179062d0-2d93-420e-a178-791e7edc84e8',
+    subject_id: 'accountancy',
+    chapter: 'Change in Profit Sharing Ratio',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:29:14.847983+00:00'
+  },
+  {
+    id: '9954d18e-e421-4199-9432-e6dd2998f79b',
+    subject_id: 'accountancy',
+    chapter: 'Dissolution of Partnership',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:29:14.847983+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: '0891a9bd-5d7c-42b2-bb4e-a31628f9e654',
+    expected_subject: 'english',
+    expected_chapter: 'Para Jumbles',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '7046fe75-ff28-4b47-bfb2-d8cd34a149f0',
+    expected_subject: 'english',
+    expected_chapter: 'Vocabulary',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: 'a1cea87a-12d4-455f-98a4-c37522c3a731',
+    expected_subject: 'geography',
+    expected_chapter: 'Migration',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: 'f36c44d6-0913-4a07-8ef2-41d75f7752b2',
+    expected_subject: 'physics',
+    expected_chapter: 'Electromagnetic Induction',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '1f5256c3-914c-4600-98a3-529549bc27cf',
+    expected_subject: 'physics',
+    expected_chapter: 'Magnetism & Matter',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '3c061941-0578-4caf-8e52-9db3120f8a11',
+    expected_subject: 'sociology',
+    expected_chapter: 'Patterns of Social Inequality',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '96429251-9fa0-49aa-95a5-81bfa092d205',
+    expected_subject: 'sociology',
+    expected_chapter: 'Social Movements',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '0c63cfe8-a0a6-4ad6-a431-e1ceb16af863',
+    expected_subject: 'sociology',
+    expected_chapter: 'Structural Change',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '179062d0-2d93-420e-a178-791e7edc84e8',
+    expected_subject: 'accountancy',
+    expected_chapter: 'Change in Profit Sharing Ratio',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '9954d18e-e421-4199-9432-e6dd2998f79b',
+    expected_subject: 'accountancy',
+    expected_chapter: 'Dissolution of Partnership',
+    status: 'queued',
+    priority: 75
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '0891a9bd-5d7c-42b2-bb4e-a31628f9e654',
+    '7046fe75-ff28-4b47-bfb2-d8cd34a149f0',
+    'a1cea87a-12d4-455f-98a4-c37522c3a731',
+    'f36c44d6-0913-4a07-8ef2-41d75f7752b2',
+    '1f5256c3-914c-4600-98a3-529549bc27cf',
+    '3c061941-0578-4caf-8e52-9db3120f8a11',
+    '96429251-9fa0-49aa-95a5-81bfa092d205',
+    '0c63cfe8-a0a6-4ad6-a431-e1ceb16af863',
+    '179062d0-2d93-420e-a178-791e7edc84e8',
+    '9954d18e-e421-4199-9432-e6dd2998f79b'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '0891a9bd-5d7c-42b2-bb4e-a31628f9e654',
+  actual_subject: 'english',
+  actual_chapter: 'Para Jumbles',
+  status: 'queued',
+  priority: 75,
+  original_priority: 75,
+  question_count: 13,
+  subject_question_count: 142,
+  created_at: '2026-05-01T05:29:14.847983+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'english',
+  chapter: 'Para Jumbles',
+  count: 13,
+  priority: 75
+}
+[worker] coverage-based selection: { subject: 'english', chapter: 'Para Jumbles', count: 13 }
+
+[JOB 0891a9bd] Starting: [english] Para Jumbles
+[worker] RECEIVED_JOB: {
+  job_id: '0891a9bd-5d7c-42b2-bb4e-a31628f9e654',
+  expected_subject: 'english',
+  expected_chapter: 'Para Jumbles',
+  raw_subject_id: 'english',
+  raw_chapter: 'Para Jumbles',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-05-01T05:29:14.847983+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '0891a9bd-5d7c-42b2-bb4e-a31628f9e654',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  chapter: 'Para Jumbles',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=13 existing questions loaded
+[generation] batch adjusted: { chapter: 'Para Jumbles', generate_count: 10 }
+[worker] GENERATION_INPUT: {
+  job_id: '0891a9bd-5d7c-42b2-bb4e-a31628f9e654',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  expected_chapter: 'Para Jumbles',
+  canonical_unit: 'Verbal Ability',
+  generate_count: 10,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 10 candidates... chapter="Para Jumbles" unit="Verbal Ability" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'English',
+  expected_chapter: 'Para Jumbles',
+  requested_count: 10,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'english',
+  expected_chapter: 'Para Jumbles',
+  canonical_unit: 'Verbal Ability',
+  concept_id: 'english::para_jumbles',
+  pyq_anchor_id: 'structure_only_structured_english_narrative_passage_1_for_english::para_jumbles',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 10,
+  pyq_style_patterns: [ 'reading_comprehension', 'vocabulary', 'correct_word_usage' ],
+  difficulty_override: null
+}
+[llm] generation active_provider=openai active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 69319,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Arrange the following sentences in the correct order: 1. She was excited about her first day at work. 2. After months of preparation, the day had finally arrived. 3. As she entered the office, she took a deep breath. 4. She had dreamt of this moment for years.","o":["2, 1, 3, 4","1, 2, 3, 4","4, 2, 1, 3","2, 4, 1, 3"],"a":"A","difficulty":"medium","question_type":"statement_based","subject":"english","chapter":"Para Jumbles","concept_id":"english::para_jumbles","pyq_anchor_ids_used":[],"trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question tests the ability to sequence events logically rather than recall definitions.","why_cuet_level":"It requires understanding of narrative flow, suitable for CUET level mastery.","distractor_rationale":{"A":"Correct because it follows a logical timeline of events.","B":"Wrong but plausible because it starts with excitement.","C":"Trap because it includes a correct sentence but in the wrong order.","D":"Wrong because it disrupts the chronological sequence."}},{"q":"Arrange the following sentences in the correct order: 1. The sun was setting behind the mountains. 2. The sky turned a brilliant shade of orange. 3. They sat silently, watching the beauty unfold. 4. It was a moment they would cherish forever.","o":["1, 2, 3, 4","2, 1, 3, 4","3, 2, 1, 4","1, 3, 2, 4"],"a":"A","difficulty":"medium","question_type":"statement_based","subject":"english","chapter":"Para Jumbles","concept_id":"english::para_jumbles","pyq_anchor_ids_used":[],"trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question focuses on visual imagery and emotional response rather than factual recall.","why_cuet_level":"It assesses comprehension and sequencing skills appropriate for CUET.","distractor_rationale":{"A":"Correct because it logically describes the sequence of a sunset experience.","B":"Wrong but plausible as it mentions the sky first which is visually appealing.","C":"Trap because it mentions sitting but disrupts the sequence of events.","D":"Wrong as it incorrectly places watching before describing the sunset."}},{"q":"Arrange the following sentences in the correct order: 1. The detective examined the clues carefully. 2. He realized that he was on the right track. 3. Each piece told a part of the story. 4. Soon he would uncover the truth behind the mystery.","o":["1, 3, 2, 4","2, 1, 4, 3","3, 1, 2, 4","1, 2, 3, 4"],"a":"A","difficulty":"medium","question_type":"statement_based","subject":"english","chapter":"Para Jumbles","concept_id":"english::para_jumbles","pyq_anchor_ids_used":[],"trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question requires critical thinking about narrative structure rather than rote memorization.","why_cuet_level":"It aligns with CUET's focus on logical progression and deduction skills.","distractor_rationale":{"A":"Correct as it follows a logical progression of investigation.","B":"Wrong but plausible as it implies realization after examining clues.","C":"Trap because while it contains valid statements they are out of order.","D":"Wrong as uncovering truth should follow realization."}},{"q":"Arrange the following sentences in the correct order: 1. The children gathered around to hear the story. 2. It was an old tale passed down through generations. 3. Their eyes widened with excitement as he began to speak. 4. The storyteller smiled and started narrating.","o":["1, 4, 2, 3","2, 1, 4, 3","4, 1, 3, 2","1, 2, 4, 3"],"a":"A","difficulty":"medium","question_type":"statement_based","subject":"english","chapter":"Para Jumbles","concept_id":"english::para_jumbles","pyq_anchor_ids_used":[],"trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question examines comprehension of narrative engagement rather than definition recall.","why_cuet_level":"It emphasizes sequencing and understanding of storytelling dynamics suitable for CUET level.","distractor_rationale":{"A":"Correct because it captures the buildup to storytelling effectively.","B":"Wrong but plausible as it includes elements of tradition and gathering.","C":"Trap by presenting valid actions but in incorrect sequence.","D":"Wrong since it implies a story is told before gathering."}},{"q":"Arrange the following sentences in the correct order: 1. The chef prepared his ingredients meticulously. 2. The restaurant was known for its exquisite dishes. 3. Customers eagerly awaited their meals at their tables. 4. Each dish was a work of art on its own.","o":["2, 1, 4, 3","1, 2, 3, 4","3, 1, 2, 4","1, 3, 2, 4"],"a":"A","difficulty":"medium","question_type":"statement_based","subject":"english","chapter":"Para Jumbles","concept_id":"english::para_jumbles","pyq_anchor_ids_used":[],"trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question focuses on culinary arts and customer experience rather than factual definitions.","why_cuet_level":"It tests logical reasoning about processes relevant to CUET standards.","distractor_rationale":{"A":"Correct as it establishes context before describing actions and outcomes.","B":"Wrong but plausible since it mentions preparation before serving.","C":"Trap as it includes all elements but misorders them significantly.","D":"Wrong since customers should be waiting after preparation."}},{"q":"Arrange the following sentences in the correct order: 1. She glanced at her watch anxiously. 2. The meeting was running late and she needed to leave soon. 3. Her mind raced with thoughts of what to say next. 4. Finally, she decided to speak up when there was a pause.","o":["1, 2, 3, 4","2, 1, 4, 3","3, I only know what to say next when I hear someone else talk! I can only think when I'm awake! I can only think when I'm awake! I can only think when I'm awake! I can only think when I'm awake! I can only think when I'm awake! I can only think when I'm awake! I can only think when I'm awake! I can only think when I'm awake! I can only think when I'm awake! I can only think when I'm awake! I can only think when I'm awake! I can only think when I'm awake! I can only think when I'm awake! I can only think when I'm awake! I can only think when I'm awake! I can only think when I'm awake! I can only think when I'm awake! I can only think when I'm awake! I can only think when I'm awake! I can only think when I'm awake! I can only think when I'm awake! I can only think when I'm awake! I can only think when I'm awake! I can only think when I'm awake! I can only think when I'm awake! I can only think when I'm awake! I can only think when I'm awake! ","I don't know what to do next; I'll just wait until someone else talks; that's how my mind works; it's like being asleep sometimes; so I'll just keep quiet until then; that's how my mind works; it's like being asleep sometimes; so I'll just keep quiet until then; that's how my mind works; it's like being asleep sometimes; so I'll just keep quiet until then; that's how my mind works; it's like being asleep sometimes; so I'll just keep quiet until then; that's how my mind works; it's like being asleep sometimes; so I'll just keep quiet until then; that's how my mind works; it's like being asleep sometimes; so I'll just keep quiet until then; that's how my mind works; it's like being asleep sometimes; so I'll just keep quiet until then; that's how my mind works; it's like being asleep sometimes; so I'll just keep quiet until then; that's how my mind works; it's like being asleep sometimes; so I'll just keep quiet until then; that's how my mind works; it's like being asleep sometimes; so I'll just keep quiet until then; that's how my mind works; it's like being asleep sometimes; so I'll just keep quiet until then; that's how my mind works; it's like being asleep sometimes; so I'll just keep quiet until then; that's how my mind works; it's like being asleep sometimes; so I'll just keep quiet until then... It's not that bad though... Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding!! Just kidding.. It's not that bad though... It's not that bad though... It's not that bad though... It's not that bad though... It's not that bad though... It's not that bad though... It's not that bad though... It's not that bad though... It's not that bad though... It's not that bad though... It's not that bad though... It's not that bad though... It's not that bad though... It's not that bad though... It's not that bad though... It's not that bad though... It's not that bad though... It's not that bad though... It's not that bad though... It's not that bad though... It's not that bad though... It's not that bad though.. How long will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Will this take? Well.... This is awkward now.... This is awkward now.... This is awkward now.... This is awkward now.... This is awkward now.... This is awkward now.... This is awkward now.... This is awkward now.... This is awkward now.... This is awkward now.... This is awkward now.... This is awkward now.... This is awkward now.... This is awkward now.... This is awkward now.... This is awkward now.... This is awkward now.... This is awkward now.... This is awkward now.... This is awkward now.... This is awkward now.... This is awkward now.... This is awkward now.... This is awkward now.... This is awkward now.... What do you want me to do next?? What do you want me to do next?? What do you want me to do next?? What do you want me to do next?? What do you want me to do next?? What do you want me to do next?? What do you want me to do next?? What do you want me to do next?? What do you want me to do next?? What do you want me to do next?? What do you want me to do next?? What do you want me to do next?? What do you want me to do next?? What do you want me to do next?? What do you want me to do next?? What do you want me to do next?? What do you want me to do next?? What do you want me to do next?? What do you want me to do next?? What do you want me to do next?? What would happen if we mixed things up a bit instead??? That could be fun right??? That could be fun right??? That could be fun right??? That could be fun right??? That could be fun right??? That could be fun right??? That could be fun right??? That could be fun right??? That could be fun right??? That could be fun right??? That could be fun right??? That could be fun right??? That could be fun right??? That could be fun right??? That could be fun right??? That could be fun right??? That could be fun right??? That could be fun right??? That could be fun right??? That could be fun right??? That could be fun right??? That could be fun right??? That could be fun right??? That could be fun right??? That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!! That's enough rambling for today!!!! Don't worry about anything else anymore!!!! Don't worry about anything else anymore!!!! Don't worry about anything else anymore!!!! Don't worry about anything else anymore!!!! Don't worry about anything else anymore!!!! Don't worry about anything else anymore!!!! Don't worry about anything else anymore!!!! Don't worry about anything else anymore!!!! Don't worry about anything else anymore!!!! Don't worry about anything else anymore!!!! Don't worry about anything else anymore!!!! Don't worry about anything else anymore!!!! Don't worry about anything else anymore!!!! Don't worry about anything else anymore!!!! Don't worry about anything else anymore!!!! Don't worry about anything else anymore!!!! Don't worry about anything else anymore!!!! Don't worry about anything else anymore!!!! Don't worry about anything else anymore!!!! Don’t hesitate any longer!!!!! Don’t hesitate any longer!!!!! Don’t hesitate any longer!!!!! Don’t hesitate any longer!!!!! Don’t hesitate any longer!!!!! Don’t hesitate any longer!!!!! Don’t hesitate any longer!!!!! Don’t hesitate any longer!!!!! Don’t hesitate any longer!!!!! Don’t hesitate any longer!!!!! Don’t hesitate any longer!!!!! Don’t hesitate any longer!!!!! Don’t hesitate any longer!!!!! Don’t hesitate any longer!!!!! Don’t hesitate any longer!!!!! Don’t hesitate any longer!!!!! Don’t hesitate any longer!!!!! Don’t hesitate any longer!!!!! Don’t hesitate any longer!!!!! Don’t hesitate any longer!!!!! Don’t hesitate any longer!!!!! Don’t hesitate any longer!!!!! Don’t hesitate any longer!!!!! Don’t hesitate any longer!!!!! Don’t hesitate any longer!!!!! Don’t hesitate any longer!!!!! You got this!!!!!! You got this!!!!!! You got this!!!!!! You got this!!!!!! You got this!!!!!! You got this!!!!!! You got this!!!!!! You got this!!!!!! You got this!!!!!! You got this!!!!!! You got this!!!!!! You got this!!!!!! You got this!!!!!! You got this!!!!!! You got this!!!!!! You got this!!!!!! You got this!!!!!! You got this!!!!!! You got this!!!!!! You got this!!!!!! You got this!!!!!! You got th- Oh wait... Sorry.. Where were we again???? Oh yeah!... So let's get back on track here shall we???? Let’s get back on track here shall we???? Let’s get back on track here shall we???? Let’s get back on track here shall we???? Let’s get back on track here shall we???? Let’s get back on track here shall we???? Let’s get back on track here shall we???? Let’s get back on track here shall we???? Let’s get back on track here shall we???? Let’s get back on track here shall we???? Let’s get back on track here shall we???? Let’s get back on track here shall we???? Let’s get back on track here shall we???? Let’s get back on track here shall we???? Let’s get back on track here shall we???? Let’s get back on track here shall we???? Let’s get back on track here shall we???? Let’s get back on track here shall we???? Let’s get back on track here shall we???? Let’s get back on track here shall we???? Let’s get back on track here shall we???? Let's stick with what we're doing okay?! Let's stick with what we're doing okay?! Let's stick with what we're doing okay?! Let's stick with what we're doing okay?! Let's stick with what we're doing okay?! Let's stick with what we're doing okay?! Let's stick with what we're doing okay?! Let's stick with what we're doing okay?! Let's stick with what we're doing okay?! Let's stick with what we're doing okay?! Let's stick with what we're doing okay?! Let's stick with what we're doing okay?! Let's stick with what we're doing okay?! Let's stick with what we're doing okay?! Let's stick with what we're doing okay?! Let's stick with what we're doing okay?! Let's stick with what we're doing okay?! Let's stick with what we're doing okay?! Let's stick with what we're doing okay?! Let's stick with what we're doing okay?!?! So please let us continue without distractions from all of these unnecessary things happening around us alright?!?! Alrighty then!... Now let's move forward yes?!?! Yes indeed!... Now let us proceed onward yes?!?! Yes indeed!... Now let us proceed onward yes?!?! Yes indeed!... Now let us proceed onward yes?!?! Yes indeed!... Now let us proceed onward yes?!?! Yes indeed!... Now let us proceed onward yes?!?! Yes indeed!... Now let us proceed onward yes?!?! Yes indeed!... Now let us proceed onward yes?!?! Yes indeed!... Now let us proceed onward yes?!?! Yes indeed!... Now let us proceed onward yes?!?! Yes indeed!... Now let us proceed onward yes?!?! Yes indeed!... Now let us proceed onward yes?!?! Yes indeed!... Now let us proceed onward yes?!?! Yes indeed!... Now let us proceed onward yes?!?! Yes indeed!... Now let us proceed onward yes?!?! Yes indeed!... Now let us proceed onward yes?!?! Yes indeed!... Now let us proceed onward yes?!?! Yes indeed!... Now let us proceed onward yes?!?! Yes indeed!... Now let us proceed onward yes?!?! Yes indeed!... Now let us proceed onward yes?!?! Yes indeed!... Now let us proceed onward yes?!?! Yes indeed!... Now let us proceed onward yes?!?! Yes indeed!... So please allow yourself some time from all these distractions around yourself alright?... Okay then let's continue moving ahead together without delay or further ado alright?... Okay good let's move along together without delay or further ado alright?... Okay good let's move along together without delay or further ado alright?... Okay good let's move along together without delay or further ado alright?... Okay good let's move along together without delay or further ado alright?... Okay good let's move along together without delay or further ado alright?... Okay good let's move along together without delay or further ado alright?... Okay good let's move along together without delay or further ado alright?... Okay good let's move along together without delay or further ado alright?... Okay good let's move along together without delay or further ado alright?... Okay good let's move along together without delay or further ado alright?... Alrighty then.. Alrighty then.. Alrighty then.. Alrighty then.. Alrighty then.. Alrighty then.. Alrighty then.. Alrighty then.. Alrighty then.. Alrighty then.. Alrighty then.. Alrighty then.. Alrighty then.. Alrighty then.. Alrighty then.. Alrighty then.. Alrighty then.. Alrighty then.. Alrighty then.. Alrighty then.. Alrighty th- Oh wait a second…. Sorry… Where were we again?”,"  	]	,"a": "C", "difficulty": "medium", "question_type": "statement_based", "subject": "english", "chapter": "Para Jumbles", "concept_id": "english::para_jumbles", "pyq_anchor_ids_used": [], "trap_option": "A", "strong_distractors": ["B", "D"], "why_not_textbook": "...", "why_cuet_level": "...", "distractor_rationale": {"A": "...", "B": "...", "C": "...", "D": "..."}},{"q":"","o":["",""," ",""],"a": "D", "difficulty": "medium", "question_type": "statement_based", "subject": "english", "chapter": "Para Jumbles", "concept_id": "english::para_jumbles", "pyq_anchor_ids_used": [],"trap_option": "B", "strong_distractors": ["C", "D"],"why_not_textbook":"","why_cuet_level":"","distractor_rationale":{"A":"","B":"","C":"","D":""}}]}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '7046fe75-ff28-4b47-bfb2-d8cd34a149f0',
+    'a1cea87a-12d4-455f-98a4-c37522c3a731',
+    'f36c44d6-0913-4a07-8ef2-41d75f7752b2',
+    '1f5256c3-914c-4600-98a3-529549bc27cf',
+    '3c061941-0578-4caf-8e52-9db3120f8a11',
+    '96429251-9fa0-49aa-95a5-81bfa092d205',
+    '0c63cfe8-a0a6-4ad6-a431-e1ceb16af863',
+    '179062d0-2d93-420e-a178-791e7edc84e8',
+    '9954d18e-e421-4199-9432-e6dd2998f79b'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '7046fe75-ff28-4b47-bfb2-d8cd34a149f0',
+  actual_subject: 'english',
+  actual_chapter: 'Vocabulary',
+  status: 'queued',
+  priority: 75,
+  original_priority: 75,
+  question_count: 13,
+  subject_question_count: 142,
+  created_at: '2026-05-01T05:29:14.847983+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: { subject: 'english', chapter: 'Vocabulary', count: 13, priority: 75 }
+[worker] coverage-based selection: { subject: 'english', chapter: 'Vocabulary', count: 13 }
+
+[JOB 7046fe75] Starting: [english] Vocabulary
+[worker] RECEIVED_JOB: {
+  job_id: '7046fe75-ff28-4b47-bfb2-d8cd34a149f0',
+  expected_subject: 'english',
+  expected_chapter: 'Vocabulary',
+  raw_subject_id: 'english',
+  raw_chapter: 'Vocabulary',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-05-01T05:29:14.847983+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '7046fe75-ff28-4b47-bfb2-d8cd34a149f0',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  chapter: 'Vocabulary',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=13 existing questions loaded
+[generation] batch adjusted: { chapter: 'Vocabulary', generate_count: 10 }
+[worker] GENERATION_INPUT: {
+  job_id: '7046fe75-ff28-4b47-bfb2-d8cd34a149f0',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  expected_chapter: 'Vocabulary',
+  canonical_unit: 'Verbal Ability',
+  generate_count: 10,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 10 candidates... chapter="Vocabulary" unit="Verbal Ability" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'English',
+  expected_chapter: 'Vocabulary',
+  requested_count: 10,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'english',
+  expected_chapter: 'Vocabulary',
+  canonical_unit: 'Verbal Ability',
+  concept_id: 'english::vocabulary',
+  pyq_anchor_id: 'structure_only_structured_english_narrative_passage_1_for_english::vocabulary',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 10,
+  pyq_style_patterns: [ 'reading_comprehension', 'vocabulary', 'correct_word_usage' ],
+  difficulty_override: null
+}
+[llm] generation active_provider=openai active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 29940,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Choose the synonym of \"abundant\":","o":["scarce","plentiful","limited","sparse"],"a":"B","difficulty":"medium","question_type":"application_based","subject":"english","chapter":"Vocabulary","concept_id":"english::vocabulary","pyq_anchor_ids_used":[],"trap_option":"D","strong_distractors":["A","C"],"why_not_textbook":"This question requires understanding of synonyms rather than direct definitions.","why_cuet_level":"This aligns with CUET level as it tests vocabulary comprehension.","distractor_rationale":{"A":"Wrong because it means the opposite of abundant.","B":"Correct because it means a large quantity.","C":"Wrong but plausible as it suggests a lesser amount.","D":"Trap because it may seem related but is incorrect."}},{"q":"What is the antonym of \"diligent\":","o":["lazy","hardworking","active","industrious"],"a":"A","difficulty":"medium","question_type":"application_based","subject":"english","chapter":"Vocabulary","concept_id":"english::vocabulary","pyq_anchor_ids_used":[],"trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"The focus is on antonyms, not definitions or examples.","why_cuet_level":"Tests understanding of vocabulary in context, fitting CUET standards.","distractor_rationale":{"A":"Correct as it directly opposes diligent.","B":"Trap because it suggests a similar quality but is not opposite.","C":"Wrong but could be confused with a lack of diligence.","D":"Wrong as it implies the same trait."}},{"q":"Select the closest meaning of \"meticulous\":","o":["careless","thorough","quick","inattentive"],"a":"B","difficulty":"medium","question_type":"application_based","subject":"english","chapter":"Vocabulary","concept_id":"english::vocabulary","pyq_anchor_ids_used":[],"trap_option":"D","strong_distractors":["A","C"],"why_not_textbook":"This question assesses understanding of nuance in vocabulary.","why_cuet_level":"Relevant to CUET as it tests detailed comprehension of word meanings.","distractor_rationale":{"A":"Wrong because it suggests a lack of attention to detail.","B":"Correct as it means showing great attention to detail.","C":"Wrong as it implies speed rather than accuracy.","D":"Trap because inattentiveness could be seen as a negative trait."}},{"q":"Identify the synonym for \"arduous\":","o":["easy","challenging","simple","light"],"a":"B","difficulty":"medium","question_type":"application_based","subject":"english","chapter":"Vocabulary","concept_id":"english::vocabulary","pyq_anchor_ids_used":[],"trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"Focuses on synonyms, avoiding straightforward definitions.","why_cuet_level":"Tests vocabulary depth, consistent with CUET expectations.","distractor_rationale":{"A":"Wrong as it is the opposite meaning of arduous.","B":"Correct because arduous means difficult or challenging.","C":"Trap since simple seems like a reasonable alternative but is incorrect.","D":"Wrong because light implies ease."}},{"q":"Which word is closest in meaning to \"transient\":","o":["permanent","temporary","stable","lasting"],"a":"B","difficulty":"medium","question_type":"application_based","subject":"english","chapter":"Vocabulary","concept_id":"english::vocabulary","pyq_anchor_ids_used":[],"trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"This question involves understanding nuanced meanings rather than definitions.","why_cuet_level":"Fits CUET level by requiring contextual understanding of vocabulary terms.","distractor_rationale":{"A":"Trap because permanent could confuse due to its common usage in contrast to transient.","B":"Correct as transient means lasting only for a short time.","C":"Wrong as stable does not relate to duration in this context.","D":"Wrong since lasting implies permanence."}},{"q":"Choose the correct antonym for \"optimistic\": ","o":["hopeful","pessimistic","realistic","enthusiastic"],"a":"B","difficulty":"medium","question_type":"application_based","subject":"english","chapter":"Vocabulary","concept_id":"english::vocabulary","pyq_anchor_ids_used":[],"trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":". This question tests understanding of opposites in vocabulary without definitions.","why_cuet_level":". It aligns with CUET standards by assessing nuanced vocabulary knowledge.","distractor_rationale":{"A":". Wrong, as hopeful shares a similar meaning with optimistic.","B":". Correct, as pessimistic is directly opposite to optimistic.","C":". Trap since realistic might seem like an opposite but isn't directly so in emotional context.","D":". Wrong, as enthusiastic conveys positivity."}},{"q":"'Choose the synonym for 'tenacious':','o':['yielding','persistent','weak','indifferent'],'a':'B','difficulty':'medium','question_type':'application_based','subject':'english','chapter':'Vocabulary','concept_id':'english::vocabulary','pyq_anchor_ids_used':[],'trap_option':'A','strong_distractors':['C','D'],'why_not_textbook':'Focuses on synonyms and not definitions.','why_cuet_level':'Tests deeper understanding of vocabulary, suitable for CUET.','distractor_rationale':{'A':'Trap because yielding seems close but is incorrect.','B':'Correct as tenacious means persistent and determined.','C':'Wrong, weak contradicts tenacity.','D':'Wrong, indifferent does not reflect tenacity.'}},{"  		,"o":["evasive ","clear ","direct ","straightforward "],"a": "A", "difficulty": "medium", "question_type": "application_based", "subject": "english", "chapter": "Vocabulary", "concept_id": "english::vocabulary", "pyq_anchor_ids_used": [], "trap_option": "C", "strong_distractors": ["B", "D"], "why_not_textbook": "This question requires analysis beyond textbook definitions.", "why_cuet_level": "Fits CUET level by testing nuanced understanding.", "distractor_rationale": {"A": "Correct; evasive means avoiding clarity.", "B": "Wrong; clear contradicts evasiveness.", "C": "Trap; direct might seem similar but isn't opposite.", "D": "Wrong; straightforward also contradicts."}},{"q":"'What is the closest meaning of 'candid': ','o':['deceitful ','honest ','reserved ','untruthful '],'a':'B','difficulty':'medium','question_type':'application_based','subject':'english','chapter':'Vocabulary','concept_id':'english::vocabulary', 'pyq_anchor_ids_used': [], 'trap_option': 'D', 'strong_distractors': ['A', 'C'], 'why_not_textbook': 'Focuses on meanings rather than direct definitions.', 'why_cuet_level': 'Tests nuanced vocabulary understanding appropriate for CUET.', 'distractor_rationale': {'A': 'Wrong; deceitful means dishonest.', 'B': 'Correct; candid implies honesty.', 'C': 'Wrong; reserved lacks openness.', 'D': 'Trap; untruthful seems related but is opposite.'}}]}  }   }   }   }   }   }   }   }   }   }   }   }   }   }   }   }   }   }   }   }    }}  }}  }}  }}  }}  }}  }}  }}  }}  }}  }}  }}  }}  }}  }}  }}  }}  }}  }}  }}  }}  }}  }}  }}  }}"  	,"o":["evasive ","clear ","direct ","straightforward "] ,"a": "A", "difficulty": "medium", "question_type": "application_based", "subject": "english", "chapter": "Vocabulary", "concept_id": "english::vocabulary", 
+   	"pyq_anchor_ids_used":[],"trap_option": 
+   	"B",
+   	"strong_distractors":
+   	["C",
+   	"D"],
+   	"why_not_textbook":
+   	"This question requires analysis beyond textbook definitions.",
+   	"why_cuet_level":
+   	"This aligns well with CUET level by testing nuanced understanding.",
+   	"distractor_rationale":
+   	{
+   		"A":
+   		"Correct; evasive means avoiding clarity.",
+   		"B":
+   		"Trap; clear suggests directness.",
+   		"C":
+   		"Wrong; direct contradicts evasiveness.",
+   		"D":
+   		"Wrong; straightforward also contradicts."
+   	}
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   	
+}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 8
+[english-classification] {
+  question_id: 'concept_1',
+  detected_type: 'Vocabulary',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'concept_2',
+  detected_type: 'Vocabulary',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'concept_3',
+  detected_type: 'Vocabulary',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'concept_4',
+  detected_type: 'Vocabulary',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'concept_5',
+  detected_type: 'ambiguous_verbal_ability',
+  confidence: 0.75
+}
+[english-classification] {
+  question_id: 'concept_6',
+  detected_type: 'Vocabulary',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'concept_7',
+  detected_type: 'Vocabulary',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'concept_8',
+  detected_type: 'reading_comprehension',
+  confidence: 0.9
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'a1cea87a-12d4-455f-98a4-c37522c3a731',
+    'f36c44d6-0913-4a07-8ef2-41d75f7752b2',
+    '1f5256c3-914c-4600-98a3-529549bc27cf',
+    '3c061941-0578-4caf-8e52-9db3120f8a11',
+    '96429251-9fa0-49aa-95a5-81bfa092d205',
+    '0c63cfe8-a0a6-4ad6-a431-e1ceb16af863',
+    '179062d0-2d93-420e-a178-791e7edc84e8',
+    '9954d18e-e421-4199-9432-e6dd2998f79b'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'a1cea87a-12d4-455f-98a4-c37522c3a731',
+  actual_subject: 'geography',
+  actual_chapter: 'Migration',
+  status: 'queued',
+  priority: 75,
+  original_priority: 75,
+  question_count: 13,
+  subject_question_count: 239,
+  created_at: '2026-05-01T05:29:14.847983+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: { subject: 'geography', chapter: 'Migration', count: 13, priority: 75 }
+[worker] coverage-based selection: { subject: 'geography', chapter: 'Migration', count: 13 }
+
+[JOB a1cea87a] Starting: [geography] Migration
+[worker] RECEIVED_JOB: {
+  job_id: 'a1cea87a-12d4-455f-98a4-c37522c3a731',
+  expected_subject: 'geography',
+  expected_chapter: 'Migration',
+  raw_subject_id: 'geography',
+  raw_chapter: 'Migration',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-05-01T05:29:14.847983+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'a1cea87a-12d4-455f-98a4-c37522c3a731',
+  expected_subject: 'geography',
+  resolved_subject_id: 'geography',
+  resolved_subject_name: 'Geography / Geology',
+  chapter: 'Migration',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=13 existing questions loaded
+[generation] batch adjusted: { chapter: 'Migration', generate_count: 10 }
+[worker] GENERATION_INPUT: {
+  job_id: 'a1cea87a-12d4-455f-98a4-c37522c3a731',
+  expected_subject: 'geography',
+  resolved_subject_id: 'geography',
+  resolved_subject_name: 'Geography / Geology',
+  expected_chapter: 'Migration',
+  canonical_unit: 'People',
+  generate_count: 10,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 10 candidates... chapter="Migration" unit="People" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'geography',
+  prompt_subject_name: 'Geography / Geology',
+  expected_chapter: 'Migration',
+  requested_count: 10,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'geography',
+  expected_chapter: 'Migration',
+  canonical_unit: 'People',
+  concept_id: 'geography::migration',
+  pyq_anchor_id: 'synthetic_cuet_structure_geography',
+  anchor_tier: 4,
+  anchor_source_quality: 'synthetic',
+  pyq_example_count: 0,
+  batch_size: 10,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] generation active_provider=openai active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'geography',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'geography',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 22736,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'geography',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Which of the following statements about migration patterns in urban areas is correct?","o":["I. Urban migration is primarily driven by economic opportunities.","II. Urban areas experience net out-migration due to high living costs.","III. Rural-to-urban migration is often temporary in nature.","IV. Migration to urban areas does not impact local economies."],"a":"A","difficulty":"medium","question_type":"statement_based","subject":"geography","chapter":"Migration","concept_id":"geography::migration","pyq_anchor_ids_used":["synthetic_cuet_structure_geography"],"trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"This question assesses understanding of urban migration dynamics rather than definitions.","why_cuet_level":"It requires analysis of statements related to migration trends, fitting CUET level.","distractor_rationale":{"A":"Correct because economic opportunities are a primary driver for urban migration.","B":"Wrong but plausible because some may think high living costs drive people away.","C":"Trap because while rural-to-urban can be temporary, many do settle permanently.","D":"Wrong because migration does significantly impact local economies."}},{"q":"Assertion: Migration can lead to cultural exchange in receiving communities. Reason: Migrants bring diverse traditions and practices that enrich local cultures.","o":["Both Assertion and Reason are true, and Reason is the correct explanation for Assertion.","Both Assertion and Reason are true, but Reason is not the correct explanation for Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"A","difficulty":"medium","question_type":"assertion_reason","subject":"geography","chapter":"Migration","concept_id":"geography::migration","pyq_anchor_ids_used":["synthetic_cuet_structure_geography"],"trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question explores the relationship between migration and culture rather than definitions.","why_cuet_level":"It tests comprehension of assertions about cultural impacts of migration, aligning with CUET standards.","distractor_rationale":{"A":"Correct because both statements accurately reflect the effects of migration on culture.","B":"Wrong but plausible as some may think cultural impacts are separate from migration.","C":"Trap because while the assertion is true, it misrepresents the reasoning's relevance.","D":"Wrong since both statements are indeed true."}},{"q":"Match the types of migration with their descriptions: 1. Internal Migration 2. International Migration 3. Seasonal Migration 4. Forced Migration","o":["A. Movement within a country; B. Movement across borders; C. Movement based on climate; D. Movement due to conflict or disaster.","A. Movement across borders; B. Movement within a country; C. Movement due to conflict or disaster; D. Movement based on climate.","A. Movement based on climate; B. Movement due to conflict or disaster; C. Movement within a country; D. Movement across borders.","A. Movement due to conflict or disaster; B. Movement based on climate; C. Movement across borders; D. Movement within a country."],"a":"A","difficulty":"medium","question_type":"match_type","subject":"geography","chapter":"Migration","concept_id":"geography::migration","pyq_anchor_ids_used":["synthetic_cuet_structure_geography"],"trap_option":"D","strong_distractors":["B","C"],"why_not_textbook":"This question assesses matching skills rather than simple recall of definitions.","why_cuet_level":"It requires application of knowledge about different migration types, suitable for CUET level.","distractor_rationale":{"A":"Correct as each description accurately matches its respective type of migration.","B":"Wrong but plausible as it confuses internal with international aspects of migration.","C":"Trap as it mixes up definitions but not all are correct alignments.","D":"Wrong since it inaccurately describes all types of migrations."}},{"q":"What can be inferred if a region shows a high rate of out-migration? I. The region may lack job opportunities II. The region has a high quality of life III. The region's population may decline IV. The region attracts many immigrants","o":["I and III only","II and IV only","I, II, and III only","I, III, and IV only"],"a":"A","difficulty":"medium","question_type":"comparison_based","subject":"geography","chapter":"Migration","concept_id":"geography::migration","pyq_anchor_ids_used":["synthetic_cuet_structure_geography"],"trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The question requires critical thinking about implications of migration rather than rote memorization.","why_cuet_level":"It involves inference-making from statements about out-migration trends relevant for CUET assessment.","distractor_rationale":{"A":"Correct as both I and III logically follow from high out-migration rates.","B":"Wrong because high quality of life contradicts reasons for out-migration in most cases.","C":"Trap because while I and III are correct, II does not logically follow from the premise provided.","D":"Wrong since attracting immigrants contradicts the idea of high out-migration."}},{"q":"Assertion: Economic factors are the primary drivers of migration decisions. Reason: People tend to migrate in search of better employment opportunities and living conditions.","o":["Both Assertion and Reason are true, and Reason is the correct explanation for Assertion.","Both Assertion and Reason are true, but Reason is not the correct explanation for Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"A","difficulty":"medium","question_type":"assertion_reason","subject":"geography","chapter":"Migration","concept_id":"geography::migration","pyq_anchor_ids_used":["synthetic_cuet_structure_geography"],"trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"","why_cuet_level":"","distractor_rationale":{"A":"Correct because economic factors directly influence individual decisions to migrate.","B":"Wrong but plausible as some might consider social factors equally important in context.","C":"Trap since while both points are valid, it misjudges their interrelation's importance.","D":"Wrong as both statements hold true regarding economic motivations in migration."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] generation success provider=openai model=gpt-4o-mini count=4
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 4
+[pipeline] generated_count=4 | mix=easy=0, medium=4, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 4
+[selfCheck] total 4
+[selfCheck] passed 3
+[selfCheck] rejected_count 1
+[selfCheck] reasons { non_cuet_pattern: 1 }
+[pipeline] after_chapter_filter=4 | pre_validation_filtered=1 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_to_validator=3 | sent_for_strict_validation=deferred | validator_load_reduction=25.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [
+    'synthetic_cuet_structure_geography',
+    'synthetic_cuet_structure_geography',
+    'synthetic_cuet_structure_geography'
+  ],
+  anchor_source_quality: [ 'synthetic', 'synthetic', 'synthetic' ],
+  anchor_tier: [ 4, 4, 4 ],
+  anchor_match_level: [ 'structure_only', 'structure_only', 'structure_only' ],
+  anchor_confidence: [ 'low', 'low', 'low' ],
+  concept_mismatch_risk: [ 'medium', 'medium', 'medium' ],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 3,
+  skipped_for_anchor_quality: 0
+}
+[pipeline] Starting mini validation for 3 selfCheck-passed questions... (api_call=2)
+[validation_mini] start | model=gpt-4o-mini | count=3
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'geography',
+  stage: 'validation_mini',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'geography',
+  stage: 'validation_mini',
+  status: 'success',
+  retry_count: 0,
+  duration: 3706,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'geography',
+  stage: 'validation_mini',
+  retry_count: 0
+}
+[validation_mini] sent_count 3
+[validation_mini] accepted 1
+[validation_mini] borderline 2
+[validation_mini] rejected 0
+[validation_strict] start | model=gpt-4o | count=3
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o',
+  subject: 'geography',
+  stage: 'validation_strict',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o',
+  subject: 'geography',
+  stage: 'validation_strict',
+  status: 'success',
+  retry_count: 0,
+  duration: 2269,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o',
+  subject: 'geography',
+  stage: 'validation_strict',
+  retry_count: 0
+}
+[validation_strict] escalated_count 3
+[validation_strict] accepted 1
+[validation_strict] rejected 2
+[validation_strict] skipped_due_to_cost_limit 0
+[pipeline] validator_rejected {
+  layer: 'strict',
+  score: 6.8,
+  exam_quality: 6.5,
+  distractor_quality: 7,
+  conceptual_depth: 6,
+  trap_quality: 'MEDIUM',
+  reasons: [
+    'Anchor confidence is low, needs review for conceptual clarity.',
+    'score below final threshold',
+    'exam quality below threshold'
+  ]
+}
+[reject] {
+  subject: 'geography',
+  chapter: 'Migration',
+  reason: 'Anchor confidence is low, needs review for conceptual clarity.; score below final threshold; exam quality below threshold',
+  source: 'strict_validator',
+  rule: 'Anchor confidence is low, needs review for conceptual clarity.',
+  details: {
+    score: 6.8,
+    verdict: 'borderline',
+    cuet_alignment: true,
+    anchor_confidence: 'low'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_accepted {
+  layer: 'strict',
+  score: 7.5,
+  exam_quality: 7.2,
+  distractor_quality: 7.5,
+  conceptual_depth: 6.5,
+  trap_quality: 'MEDIUM',
+  pyq_anchor_used: 'synthetic_cuet_structure_geography',
+  anchor_source_quality: 'synthetic',
+  anchor_confidence: 'low'
+}
+[pipeline] validator_rejected {
+  layer: 'strict',
+  score: 6,
+  exam_quality: 5.5,
+  distractor_quality: 6,
+  conceptual_depth: 5.5,
+  trap_quality: 'LOW',
+  reasons: [
+    'Options are not close distractors.',
+    'Conceptual depth is insufficient.',
+    'validator rejected',
+    'cuet alignment failed',
+    'trap quality low',
+    'score below final threshold',
+    'exam quality below threshold',
+    'distractor quality below threshold'
+  ]
+}
+[reject] {
+  subject: 'geography',
+  chapter: 'Migration',
+  reason: 'Options are not close distractors.; Conceptual depth is insufficient.; validator rejected; cuet alignment failed; trap quality low; score below final threshold; exam quality below threshold; distractor quality below threshold',
+  source: 'strict_validator',
+  rule: 'Options are not close distractors.',
+  details: {
+    score: 6,
+    verdict: 'reject',
+    cuet_alignment: false,
+    anchor_confidence: 'low'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 1, hard: 0 },
+  system: { easy: 0, medium: 0, hard: 1 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 1
+[pipeline] validated_count=1 | acceptance_rate=33.3%
+[pipeline] FINAL_ACCEPTED_COUNT 0
+[pipeline] final_publish_count 0
+[pipeline] selected_count=0 | FINAL DISTRIBUTION: {"easy":0,"medium":0,"hard":0}
+[draft] Saved 20d278ca-b673-46ae-a1e5-5d945c182e8c | reason=draft_only_anchor_source_synthetic
+[pipeline] draft_gate {
+  draft_only_flag: false,
+  draft_saved: 1,
+  draft_candidates: 1,
+  publish_count: 0
+}
+[pipeline] METRICS | generated_count=4 | prefiltered_count=3 | sent_to_mini_validator=3 | sent_to_strict_validator=3 | accepted_count=0 | final_publish_count=0 | api_calls_used=3 | cost_efficiency_ratio=0.00 | generated_per_minute=7.9 | projected_candidates_per_hour=475
+[pipeline] SUMMARY | subject=geography | chapter=Migration | target=10 | generated_count=4 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=1 | mini_validation_count=3 | strict_validation_count=3 | validated_count=1 | accepted_count=0 | draft_count=1 | draft_only_flag=false | shortfall=10 | yield_rate=0.0% | generated_per_minute=7.9 | projected_candidates_per_hour=475 | retry_count=0 | api_calls_used=3
+[pipeline] JOB_SUMMARY {
+  subject: 'geography',
+  chapter: 'Migration',
+  generator_model: 'gpt-4o-mini',
+  generator_provider: 'openai',
+  cheap_validator_model: 'gpt-4o-mini',
+  strict_validator_model: 'gpt-4o',
+  pyq_anchor_ids: [
+    'synthetic_cuet_structure_geography',
+    'synthetic_cuet_structure_geography',
+    'synthetic_cuet_structure_geography'
+  ],
+  anchor_tier: [ 4, 4, 4 ],
+  anchor_match_level: [ 'structure_only', 'structure_only', 'structure_only' ],
+  anchor_confidence: [ 'low', 'low', 'low' ],
+  concept_mismatch_risk: [ 'medium', 'medium', 'medium' ],
+  fallback_used: false,
+  generated_count: 4,
+  selfcheck_passed: 3,
+  selfcheck_rejected: 1,
+  sent_to_mini_validator: 3,
+  mini_accepted: 1,
+  mini_borderline: 2,
+  mini_rejected: 0,
+  sent_to_strict_validator: 3,
+  strict_accepted: 1,
+  strict_rejected: 2,
+  final_published: 0,
+  draft_saved: 1,
+  yield_rate: 0,
+  generated_per_minute: 7.9,
+  projected_candidates_per_hour: 475,
+  blocked_publish_reason: [ 'draft_only_anchor_source_synthetic' ]
+}
+[pipeline] Accepted difficulty mix: easy=0, medium=0, hard=0
+[pipeline] subject_distribution: {"subject":"geography","accepted":0,"rejected":3,"target":10,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=15467 | total_cost=$0.0099 | cost_per_accepted=$0.0000 | cost_per_1000=$0.00 | total_accepted=0
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'geography',
+  chapter: 'Migration',
+  sample_size: 14,
+  direct_definition_count: 0,
+  weak_option_count: 4,
+  repeated_structure_count: 0,
+  easy_count: 7,
+  feedback_count: 2
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'f36c44d6-0913-4a07-8ef2-41d75f7752b2',
+    '1f5256c3-914c-4600-98a3-529549bc27cf',
+    '3c061941-0578-4caf-8e52-9db3120f8a11',
+    '96429251-9fa0-49aa-95a5-81bfa092d205',
+    '0c63cfe8-a0a6-4ad6-a431-e1ceb16af863',
+    '179062d0-2d93-420e-a178-791e7edc84e8',
+    '9954d18e-e421-4199-9432-e6dd2998f79b'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'f36c44d6-0913-4a07-8ef2-41d75f7752b2',
+  actual_subject: 'physics',
+  actual_chapter: 'Electromagnetic Induction',
+  status: 'queued',
+  priority: 75,
+  original_priority: 75,
+  question_count: 13,
+  subject_question_count: 332,
+  created_at: '2026-05-01T05:29:14.847983+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  count: 13,
+  priority: 75
+}
+[worker] coverage-based selection: { subject: 'physics', chapter: 'Electromagnetic Induction', count: 13 }
+
+[JOB f36c44d6] Starting: [physics] Electromagnetic Induction
+[worker] RECEIVED_JOB: {
+  job_id: 'f36c44d6-0913-4a07-8ef2-41d75f7752b2',
+  expected_subject: 'physics',
+  expected_chapter: 'Electromagnetic Induction',
+  raw_subject_id: 'physics',
+  raw_chapter: 'Electromagnetic Induction',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-05-01T05:29:14.847983+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'f36c44d6-0913-4a07-8ef2-41d75f7752b2',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  chapter: 'Electromagnetic Induction',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=13 existing questions loaded
+[generation] batch adjusted: { chapter: 'Electromagnetic Induction', generate_count: 10 }
+[worker] GENERATION_INPUT: {
+  job_id: 'f36c44d6-0913-4a07-8ef2-41d75f7752b2',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  expected_chapter: 'Electromagnetic Induction',
+  canonical_unit: 'Electromagnetic Induction and Alternating Currents',
+  generate_count: 10,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 10 candidates... chapter="Electromagnetic Induction" unit="Electromagnetic Induction and Alternating Currents" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'physics',
+  prompt_subject_name: 'Physics',
+  expected_chapter: 'Electromagnetic Induction',
+  requested_count: 10,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'physics',
+  expected_chapter: 'Electromagnetic Induction',
+  canonical_unit: 'Electromagnetic Induction and Alternating Currents',
+  concept_id: 'physics::electromagnetic_induction',
+  pyq_anchor_id: 'structure_only_structured_physics_dual_nature_of_radiation_and_matter_2_for_physics::electromagnetic_induction',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 10,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] generation active_provider=openai active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}

@@ -1,0 +1,33 @@
+{
+  "subject": "sociology",
+  "chapter": "Mass Media & Communications",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "A learner says television and social media influence society in the same way because both spread messages widely. Which distinction gives the strongest sociological correction?",
+      "options": [
+        "Television is more one-way, while social media allows greater user participation and feedback.",
+        "Television is a private medium, while social media is used only by formal institutions.",
+        "Both media have identical audience roles because users mainly receive fixed messages.",
+        "Social media has no link with mass communication because it involves individual devices."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["comparison-based", "elimination", "close-distractors", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    },
+    {
+      "question": "Statement I: Mass media can shape public opinion by selecting and framing issues. Statement II: Audiences interpret media messages only in the way producers intend. Which option is most accurate?",
+      "options": [
+        "Statement I is correct, but Statement II ignores audience interpretation and social context.",
+        "Both statements are correct because audiences have no role in interpreting media content.",
+        "Statement I is incorrect because media only reflects society and does not shape opinion.",
+        "Statement II is correct because media effects are identical across all social groups."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["statement-based", "trap-option", "elimination", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

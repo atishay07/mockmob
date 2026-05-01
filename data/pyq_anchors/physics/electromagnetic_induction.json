@@ -1,0 +1,21 @@
+{
+  "subject": "physics",
+  "chapter": "Electromagnetic Induction",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "Assertion: The direction of induced current is linked to the change in magnetic flux through a circuit. Reason: The induced current tends to oppose the cause that produces it.",
+      "options": [
+        "Both Assertion and Reason are true, and the Reason explains the Assertion.",
+        "Both Assertion and Reason are true, but the Reason does not explain the Assertion.",
+        "Assertion is true, but Reason confuses induced current with resistance.",
+        "Assertion is false, but Reason correctly states Lenz's law."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["assertion-reason", "ncert-specific", "elimination", "close-distractors"],
+      "difficulty": "medium",
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

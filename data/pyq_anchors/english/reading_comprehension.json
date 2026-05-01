@@ -1,0 +1,21 @@
+{
+  "subject": "english",
+  "chapter": "Factual Passage",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "Passage-based set pattern: An original informational passage on urban water use is followed by linked questions on central idea, inference, vocabulary in context, tone, and detail. Which question best tests inference rather than direct recall from such a passage?",
+      "options": [
+        "A question asking why the author contrasts household savings with city-level planning.",
+        "A question asking the exact year mentioned in the second paragraph.",
+        "A question asking for a dictionary definition unrelated to passage usage.",
+        "A question asking students to identify a grammar rule in one sentence."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["reading-comprehension", "inference", "linked-passage", "close-distractors"],
+      "difficulty": "medium",
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

@@ -92,18 +92,19 @@ export function RazorpayPaymentButton({
     if (typeof window === 'undefined') return;
     const fromUrl = normalizeCodeInput(readRefFromUrl());
     if (fromUrl && CODE_PATTERN.test(fromUrl)) {
-      setCode(fromUrl);
       persistRef(fromUrl);
-      return;
+      const id = window.setTimeout(() => setCode(fromUrl), 0);
+      return () => window.clearTimeout(id);
     }
     const fromStorage = normalizeCodeInput(readRefFromStorage());
     if (fromStorage && CODE_PATTERN.test(fromStorage)) {
-      setCode(fromStorage);
-      return;
+      const id = window.setTimeout(() => setCode(fromStorage), 0);
+      return () => window.clearTimeout(id);
     }
     const fromCookie = normalizeCodeInput(readRefFromCookie());
     if (fromCookie && CODE_PATTERN.test(fromCookie)) {
-      setCode(fromCookie);
+      const id = window.setTimeout(() => setCode(fromCookie), 0);
+      return () => window.clearTimeout(id);
     }
   }, []);
 

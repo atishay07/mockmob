@@ -14,9 +14,10 @@ export default function OnboardingPageClient() {
 
   useEffect(() => {
     if (user?.subjects?.length > 0 && selected.length === 0) {
-      setSelected(user.subjects);
+      const id = window.setTimeout(() => setSelected(user.subjects), 0);
+      return () => window.clearTimeout(id);
     }
-  }, [user]);
+  }, [user, selected.length]);
 
   useEffect(() => {
     fetch('/api/subjects')
@@ -78,10 +79,12 @@ export default function OnboardingPageClient() {
           {subjects.map(s => {
             const isSelected = selected.includes(s.id);
             return (
-              <div 
+              <button
+                type="button"
                 key={s.id} 
                 className={`subject-card ${isSelected ? 'selected' : ''}`}
                 onClick={() => toggleSubject(s.id)}
+                aria-pressed={isSelected}
               >
                 <div className="flex justify-between items-start">
                   <div className="glyph">{s.glyph}</div>
@@ -91,7 +94,7 @@ export default function OnboardingPageClient() {
                 </div>
                 <div className="font-display font-bold text-lg mb-1">{s.name}</div>
                 <div className="text-xs text-zinc-500">{s.chapters.length} chapters</div>
-              </div>
+              </button>
             );
           })}
         </div>

@@ -1,0 +1,351 @@
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'political_science',
+  concept_id: 'political_science::challenges_to_and_restoration_of_the_congress_system',
+  selected_anchor_id: 'synthetic_cuet_structure_political_science',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'statement_based'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'A scholar compares the challenges faced by the Congress Party during the 1960s with those in the 198'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'In a discussion about political parties in India, a student states that during the 1980s, regional p'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "Considering the role of leadership in political parties, how did Indira Gandhi's leadership style im"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'A scholar compares the challenges faced by the Congress Party during the 1960s with those in the 198'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'In a discussion about political parties in India, a student states that during the 1980s, regional p'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "Considering the role of leadership in political parties, how did Indira Gandhi's leadership style im"
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'weak_options',
+    body: 'A scholar compares the challenges faced by the Congress Party during the 1960s with those in the 198'
+  },
+  {
+    reason: 'weak_options',
+    body: 'In a discussion about political parties in India, a student states that during the 1980s, regional p'
+  },
+  {
+    reason: 'weak_options',
+    body: "Considering the role of leadership in political parties, how did Indira Gandhi's leadership style im"
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=confusing options | reasons=confusing options; ambiguous; concept mismatch; outside CUET syllabus; ambiguous wording; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] Rejected | compositeScore=19 | source=validator_normalized | rule=concept mismatch | reasons=concept mismatch; syllabus alignment outside; outside CUET syllabus; exam quality below threshold; distractor quality below threshold; validator marked non-CUET alignment; validator decision reject; validator verdict invalid
+[pipeline] minimum_final_fallback_added {
+  job_id: 'fc1560d9-2685-4918-af73-f2895036c81e',
+  validated_before: 1,
+  fallback_added: 2
+}
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[pipeline] TARGET_NOT_MET | target=5 | accepted=3 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'sociology',
+  concept_id: 'sociology::mass_media_and_communications',
+  selected_anchor_id: 'synthetic_cuet_structure_sociology',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'statement_based'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'In a rural village, a community radio station has been set up to promote local culture and education'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'A new social media platform claims to connect individuals for community development purposes. Which '
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'weak_options',
+    body: 'In a rural village, a community radio station has been set up to promote local culture and education'
+  },
+  {
+    reason: 'weak_options',
+    body: 'A new social media platform claims to connect individuals for community development purposes. Which '
+  }
+]
+[pipeline] Rejected | compositeScore=43 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; conceptual_depth < 7; obvious answer; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; validator marked non-CUET alignment
+[pipeline] Rejected | compositeScore=30 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; conceptual_depth < 7; obvious answer; textbook style; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; conceptual_depth < 7; obvious answer; textbook style; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] strict_mode_no_validated_questions_fallback {
+  job_id: '0cfef12c-754d-425b-9203-e8e16f71573e',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'low trap quality',
+    'conceptual_depth < 7',
+    'obvious answer',
+    'validator score below threshold',
+    'exam quality below threshold',
+    'distractor quality below threshold',
+    'conceptual depth below CUET reasoning threshold',
+    'validator marked non-CUET alignment'
+  ]
+}
+[pipeline] TARGET_NOT_MET | target=5 | accepted=3 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'political_science',
+  concept_id: 'political_science::india_s_external_relations',
+  selected_anchor_id: 'synthetic_cuet_structure_political_science',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'application_based'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'In 2020, India participated in a regional summit aimed at enhancing cooperation with its neighbors. '
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'extreme_qualifier',
+  body: "During a discussion about India's relations with its neighboring countries, a student claims that ec"
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "During a discussion about India's relations with its neighboring countries, a student claims that ec"
+}
+[llm] generated_question_discarded_before_pipeline {
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Statement I: India has consistently advocated for disarmament on international platforms. Statement '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'political_science',
+  chapter: "India's External Relations",
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Statement I: India has consistently advocated for disarmament on international platforms. Statement ',
+  index: 4
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'In 2020, India participated in a regional summit aimed at enhancing cooperation with its neighbors. '
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'extreme_qualifier',
+  body: "During a discussion about India's relations with its neighboring countries, a student claims that ec"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "During a discussion about India's relations with its neighboring countries, a student claims that ec"
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'weak_options',
+    body: 'In 2020, India participated in a regional summit aimed at enhancing cooperation with its neighbors. '
+  },
+  {
+    reason: 'weak_options',
+    body: "During a discussion about India's relations with its neighboring countries, a student claims that ec"
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; direct definition; textbook style; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] minimum_final_fallback_added {
+  job_id: 'cd09fa91-5adb-49f4-9fca-9a795d8b9aa1',
+  validated_before: 2,
+  fallback_added: 1
+}
+[pipeline] TARGET_NOT_MET | target=5 | accepted=3 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[worker] recovered stale processing jobs: [
+  {
+    id: '976c5daf-9288-4b85-81e6-304d0cb3b58a',
+    subject_id: 'computer_science',
+    chapter: 'File Handling',
+    started_at: null
+  }
+]
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'political_science',
+  concept_id: 'political_science::politics_of_planned_development',
+  selected_anchor_id: 'synthetic_cuet_structure_political_science',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'comparison_based'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'extreme_qualifier',
+  body: 'Comparing the objectives of the Green Revolution and the Integrated Rural Development Programme, whi'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'Comparing the objectives of the Green Revolution and the Integrated Rural Development Programme, whi'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'extreme_qualifier',
+  body: 'Statement I: The Politics of Planned Development in India has always prioritized economic growth ove'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'Statement I: The Politics of Planned Development in India has always prioritized economic growth ove'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'extreme_qualifier',
+  body: 'A local government is implementing a new rural development project aimed at improving infrastructure'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'A local government is implementing a new rural development project aimed at improving infrastructure'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'In considering the impact of planned development policies in India, which principle should guide fut'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'extreme_qualifier',
+  body: 'Comparing the objectives of the Green Revolution and the Integrated Rural Development Programme, whi'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'Comparing the objectives of the Green Revolution and the Integrated Rural Development Programme, whi'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'extreme_qualifier',
+  body: 'Statement I: The Politics of Planned Development in India has always prioritized economic growth ove'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'Statement I: The Politics of Planned Development in India has always prioritized economic growth ove'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'extreme_qualifier',
+  body: 'A local government is implementing a new rural development project aimed at improving infrastructure'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'A local government is implementing a new rural development project aimed at improving infrastructure'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'In considering the impact of planned development policies in India, which principle should guide fut'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'weak_options',
+    body: 'Comparing the objectives of the Green Revolution and the Integrated Rural Development Programme, whi'
+  },
+  {
+    reason: 'weak_options',
+    body: 'Statement I: The Politics of Planned Development in India has always prioritized economic growth ove'
+  },
+  {
+    reason: 'weak_options',
+    body: 'A local government is implementing a new rural development project aimed at improving infrastructure'
+  },
+  {
+    reason: 'weak_options',
+    body: 'In considering the impact of planned development policies in India, which principle should guide fut'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] TARGET_NOT_MET | target=5 | accepted=3 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'psychology',
+  concept_id: 'psychology::self_and_personality',
+  selected_anchor_id: 'synthetic_cuet_structure_psychology',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'application_based'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'extreme_qualifier',
+  body: 'A student believes that self-esteem and self-concept refer to the same psychological constructs. Whi'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'A student believes that self-esteem and self-concept refer to the same psychological constructs. Whi'
+}
+[llm] generated_question_discarded_before_pipeline {
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Statement I: High self-esteem can lead to better academic performance. Statement II: Self-concept do'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Self & Personality',
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Statement I: High self-esteem can lead to better academic performance. Statement II: Self-concept do',
+  index: 1
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'In a classroom setting, a student often feels inadequate compared to peers, affecting their particip'
+}
+[llm] curated_generation_repair_added {
+  subject: 'psychology',
+  chapter: 'Self & Personality',
+  existing: 4,
+  added: 3
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'extreme_qualifier',
+  body: 'A student believes that self-esteem and self-concept refer to the same psychological constructs. Whi'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'A student believes that self-esteem and self-concept refer to the same psychological constructs. Whi'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'logically_impossible_option',
+    body: "A student treats self-concept and self-esteem as the same idea while explaining a peer's behaviour. "
+  },
+  {
+    reason: 'weak_options',
+    body: 'A student believes that self-esteem and self-concept refer to the same psychological constructs. Whi'
+  }
+]
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; conceptual_depth < 7; textbook_style; obvious answer; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] minimum_final_fallback_added {
+  job_id: '3836ba57-3888-48bf-8c2d-e80385885001',
+  validated_before: 2,
+  fallback_added: 1
+}
+[pipeline] TARGET_NOT_MET | target=5 | accepted=3 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pyq_anchor] selected_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::consumer_protection',
+  selected_anchor_id: 'seed_pyq_b3',
+  selected_anchor_concept_id: 'business_studies::nature_and_significance_of_management',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::consumer_protection',
+  source_anchor_id: 'seed_pyq_b3',
+  source_anchor_concept_id: 'business_studies::nature_and_significance_of_management',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}

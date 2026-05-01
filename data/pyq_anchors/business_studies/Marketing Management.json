@@ -1,0 +1,33 @@
+{
+  "subject": "business_studies",
+  "chapter": "Marketing Management",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "Read the statements and choose the correct option. Statement I: Marketing begins before production by identifying customer needs. Statement II: Selling mainly focuses on converting goods into cash after production. Statement III: Marketing and selling have the same scope because both end when a product is sold.",
+      "options": [
+        "I and II only",
+        "II and III only",
+        "I and III only",
+        "I, II and III"
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["statement-based", "comparison", "elimination", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    },
+    {
+      "question": "Assertion: Packaging can become part of a product's marketing mix. Reason: Packaging may protect the product, support identification, and influence buyer perception at the point of sale.",
+      "options": [
+        "Both Assertion and Reason are true, and the Reason explains the Assertion.",
+        "Both Assertion and Reason are true, but the Reason does not explain the Assertion.",
+        "Assertion is true, but Reason is false.",
+        "Assertion is false, but Reason is true."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["assertion-reason", "trap-option", "close-distractors", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

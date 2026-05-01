@@ -1,0 +1,100 @@
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'weak_options',
+  body: 'A company decides to promote from within rather than hiring externally. This leads to quicker integr',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'extreme_qualifier',
+  body: 'Statement I: Internal recruitment enhances employee loyalty. Statement II: External recruitment prov',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'extreme_qualifier',
+  body: 'A manager believes that hiring externally will always bring innovative ideas. However, they notice a',
+  index: 2
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'extreme_qualifier',
+  body: 'Statement I: Hiring from outside can rejuvenate a team. Statement II: Relying solely on internal pro',
+  index: 3
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'extreme_qualifier',
+  body: 'In a recent analysis, a firm found that promoting existing staff reduced turnover but limited access',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'extreme_qualifier',
+  body: 'A student asserts that all coordination compounds exhibit octahedral geometry due to the common pres',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'extreme_qualifier',
+  body: 'Consider the following statements: Statement I: Ligands can be classified as strong or weak based on',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'extreme_qualifier',
+  body: 'A learner claims that chelating ligands always form stronger complexes than monodentate ligands. Whi',
+  index: 2
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'extreme_qualifier',
+  body: 'Statement I: The color observed in a transition metal complex arises from d-d transitions. Statement',
+  index: 3
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'extreme_qualifier',
+  body: 'In a laboratory experiment, a student observes that different ligands lead to varying colors in tran',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'extreme_qualifier',
+  body: 'A student claims that social stratification in India is primarily based on wealth. Which response be',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'extreme_qualifier',
+  body: 'Statement I: Gender roles in Indian society are rigid and unchanging. Statement II: These roles can ',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'extreme_qualifier',
+  body: 'Statement I: The caste system has diminished significantly in urban areas. Statement II: Caste conti',
+  index: 3
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'extreme_qualifier',
+  body: 'A student states that modernization erases all cultural practices in Indian society. Which response ',
+  index: 4
+}

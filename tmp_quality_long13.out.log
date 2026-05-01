@@ -1,0 +1,1937 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5983 concepts across 40 subjects (saved 2026-04-30T22:27:37.290Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 220,
+  missing_chapters: 1,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 220
+[planner] missing_chapters: 1
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Meeting Life Challenges',
+  coverage: 0,
+  priority: 100
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Psychology & Life',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Self & Personality',
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  coverage: 10,
+  priority: 75
+}
+[planner] {
+  subject: 'biology',
+  chapter: 'Principles of Inheritance & Variation',
+  coverage: 10,
+  priority: 75
+}
+[planner] {
+  subject: 'business_studies',
+  chapter: 'Consumer Protection',
+  coverage: 10,
+  priority: 75
+}
+[planner] {
+  subject: 'business_studies',
+  chapter: 'Controlling',
+  coverage: 10,
+  priority: 75
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+  coverage: 10,
+  priority: 75
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: psychology → normalized: psychology → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+Subject: physics → normalized: physics → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+Subject: biology → normalized: biology → tier: 1
+Subject: biology → normalized: biology → tier: 1
+Subject: business_studies → normalized: business_studies → tier: 1
+Subject: business_studies → normalized: business_studies → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Meeting Life Challenges',
+    tier: 1,
+    priority: 100,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Psychology & Life',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Psychological Disorders',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'physics',
+    expected_chapter: 'Moving Charges & Magnetism',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Self & Personality',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Human Reproduction',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Principles of Inheritance & Variation',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'business_studies',
+    expected_chapter: 'Consumer Protection',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'business_studies',
+    expected_chapter: 'Controlling',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'psychology',
+    chapter: 'Meeting Life Challenges',
+    status: 'queued',
+    priority: 100
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Psychology & Life',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Psychological Disorders',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'physics',
+    chapter: 'Moving Charges & Magnetism',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Self & Personality',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Human Reproduction',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Principles of Inheritance & Variation',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'business_studies',
+    chapter: 'Consumer Protection',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'business_studies',
+    chapter: 'Controlling',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+    status: 'queued',
+    priority: 75
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: '8094019e-76b9-4775-8292-9579c23e4d4e',
+    subject_id: 'psychology',
+    chapter: 'Meeting Life Challenges',
+    status: 'queued',
+    priority: 100,
+    created_at: '2026-04-30T22:29:43.055672+00:00'
+  },
+  {
+    id: 'f6223e80-4710-4bef-bd7b-6dddb61223e6',
+    subject_id: 'psychology',
+    chapter: 'Psychology & Life',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:29:43.055672+00:00'
+  },
+  {
+    id: 'e6269a75-921d-4659-a02f-e4a5079a7fa2',
+    subject_id: 'psychology',
+    chapter: 'Psychological Disorders',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:29:43.055672+00:00'
+  },
+  {
+    id: '5a7100b3-c423-4acc-a51a-f60ca025e3e6',
+    subject_id: 'physics',
+    chapter: 'Moving Charges & Magnetism',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:29:43.055672+00:00'
+  },
+  {
+    id: '41287fda-899e-4eb1-802e-b188872bae1a',
+    subject_id: 'psychology',
+    chapter: 'Self & Personality',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:29:43.055672+00:00'
+  },
+  {
+    id: '8d45b819-a76c-45ce-9dcc-5ce5fb9951e8',
+    subject_id: 'biology',
+    chapter: 'Human Reproduction',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T22:29:43.055672+00:00'
+  },
+  {
+    id: '3597de70-4ea2-48f4-8d9b-4530e42f8cac',
+    subject_id: 'biology',
+    chapter: 'Principles of Inheritance & Variation',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T22:29:43.055672+00:00'
+  },
+  {
+    id: 'f92c137f-3ddf-4303-9fda-39fc180fd694',
+    subject_id: 'business_studies',
+    chapter: 'Consumer Protection',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T22:29:43.055672+00:00'
+  },
+  {
+    id: '5ce66bcc-5db5-4341-b341-3aaddeb347af',
+    subject_id: 'business_studies',
+    chapter: 'Controlling',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T22:29:43.055672+00:00'
+  },
+  {
+    id: '492e10c4-2256-4c32-a015-f34228c8d452',
+    subject_id: 'chemistry',
+    chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T22:29:43.055672+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: '8094019e-76b9-4775-8292-9579c23e4d4e',
+    expected_subject: 'psychology',
+    expected_chapter: 'Meeting Life Challenges',
+    status: 'queued',
+    priority: 100
+  },
+  {
+    id: 'f6223e80-4710-4bef-bd7b-6dddb61223e6',
+    expected_subject: 'psychology',
+    expected_chapter: 'Psychology & Life',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'e6269a75-921d-4659-a02f-e4a5079a7fa2',
+    expected_subject: 'psychology',
+    expected_chapter: 'Psychological Disorders',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '5a7100b3-c423-4acc-a51a-f60ca025e3e6',
+    expected_subject: 'physics',
+    expected_chapter: 'Moving Charges & Magnetism',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '41287fda-899e-4eb1-802e-b188872bae1a',
+    expected_subject: 'psychology',
+    expected_chapter: 'Self & Personality',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '8d45b819-a76c-45ce-9dcc-5ce5fb9951e8',
+    expected_subject: 'biology',
+    expected_chapter: 'Human Reproduction',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '3597de70-4ea2-48f4-8d9b-4530e42f8cac',
+    expected_subject: 'biology',
+    expected_chapter: 'Principles of Inheritance & Variation',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: 'f92c137f-3ddf-4303-9fda-39fc180fd694',
+    expected_subject: 'business_studies',
+    expected_chapter: 'Consumer Protection',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '5ce66bcc-5db5-4341-b341-3aaddeb347af',
+    expected_subject: 'business_studies',
+    expected_chapter: 'Controlling',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '492e10c4-2256-4c32-a015-f34228c8d452',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+    status: 'queued',
+    priority: 75
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '8094019e-76b9-4775-8292-9579c23e4d4e',
+    'f6223e80-4710-4bef-bd7b-6dddb61223e6',
+    'e6269a75-921d-4659-a02f-e4a5079a7fa2',
+    '5a7100b3-c423-4acc-a51a-f60ca025e3e6',
+    '41287fda-899e-4eb1-802e-b188872bae1a',
+    '8d45b819-a76c-45ce-9dcc-5ce5fb9951e8',
+    '3597de70-4ea2-48f4-8d9b-4530e42f8cac',
+    'f92c137f-3ddf-4303-9fda-39fc180fd694',
+    '5ce66bcc-5db5-4341-b341-3aaddeb347af',
+    '492e10c4-2256-4c32-a015-f34228c8d452'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] FOCUSED_QUALITY_JOB_SELECTED
+[queue] WORKER_SELECTED_JOB: {
+  id: '7c045428-b1d5-472e-a5bb-de0446f75459',
+  actual_subject: 'accountancy',
+  actual_chapter: 'Change in Profit Sharing Ratio',
+  status: 'queued',
+  priority: 75,
+  original_priority: 100,
+  question_count: 13,
+  subject_question_count: 1482,
+  created_at: '2000-01-01T00:00:12+00:00',
+  from_planner_capture: false
+}
+[worker] picking job: {
+  subject: 'accountancy',
+  chapter: 'Change in Profit Sharing Ratio',
+  count: 13,
+  priority: 75
+}
+[worker] coverage-based selection: {
+  subject: 'accountancy',
+  chapter: 'Change in Profit Sharing Ratio',
+  count: 13
+}
+
+[JOB 7c045428] Starting: [accountancy] Change in Profit Sharing Ratio
+[worker] RECEIVED_JOB: {
+  job_id: '7c045428-b1d5-472e-a5bb-de0446f75459',
+  expected_subject: 'accountancy',
+  expected_chapter: 'Change in Profit Sharing Ratio',
+  raw_subject_id: 'accountancy',
+  raw_chapter: 'Change in Profit Sharing Ratio',
+  status: 'queued',
+  priority: 75,
+  created_at: '2000-01-01T00:00:12+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '7c045428-b1d5-472e-a5bb-de0446f75459',
+  expected_subject: 'accountancy',
+  resolved_subject_id: 'accountancy',
+  resolved_subject_name: 'Accountancy',
+  chapter: 'Change in Profit Sharing Ratio',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=13 existing questions loaded
+[generation] batch adjusted: { chapter: 'Change in Profit Sharing Ratio', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '7c045428-b1d5-472e-a5bb-de0446f75459',
+  expected_subject: 'accountancy',
+  resolved_subject_id: 'accountancy',
+  resolved_subject_name: 'Accountancy',
+  expected_chapter: 'Change in Profit Sharing Ratio',
+  canonical_unit: 'Reconstitution of a Partnership firm',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Change in Profit Sharing Ratio" unit="Reconstitution of a Partnership firm" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'accountancy',
+  prompt_subject_name: 'Accountancy',
+  expected_chapter: 'Change in Profit Sharing Ratio',
+  requested_count: 5,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'accountancy',
+  requested_concept_id: 'accountancy::change_in_profit_sharing_ratio',
+  selected_anchor_id: 'structured_accountancy_change_in_profit_sharing_ratio_1',
+  selected_anchor_concept_id: 'accountancy::change_in_profit_sharing_ratio',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'comparison_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'accountancy',
+  expected_chapter: 'Change in Profit Sharing Ratio',
+  canonical_unit: 'Reconstitution of a Partnership firm',
+  concept_id: 'accountancy::change_in_profit_sharing_ratio',
+  pyq_anchor_id: 'structured_accountancy_change_in_profit_sharing_ratio_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'accountancy',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'accountancy',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 28890,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'accountancy',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option. Statement I: When partners change their profit-sharing ratio, it does not affect the total capital of the partnership. Statement II: The gaining partner must compensate the sacrificing partner for the change in profit share. Statement III: The new profit-sharing ratio is always based on the existing capital ratios of the partners.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"B","question_type":"statement_based","concept_id":"accountancy::change_in_profit_sharing_ratio","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"This question requires understanding of implications rather than definitions.","why_cuet_level":"Targets conceptual application and analysis of statements.","distractor_rationale":{"A":"Statement I is misleading as changes in shares can impact capital distribution.","B":"Correct; Statement II is valid while I misrepresents capital impact.","C":"Incorrect; it inaccurately relates to capital ratios without context.","D":"All statements cannot be true due to the inaccuracy in I."}},{"q":"Assertion: A partner sacrificing a share must receive compensation when profit-sharing ratios are adjusted. Reason: The adjustment of profit-sharing ratios is necessary for reflecting partners' contributions accurately.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"accountancy::change_in_profit_sharing_ratio","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question evaluates comprehension of assertion-reason relationships.","why_cuet_level":"Focuses on understanding the rationale behind adjustments in partnerships.","distractor_rationale":{"A":"Both statements align correctly under partnership principles.","B":"The Reason does explain the Assertion, making this option incorrect.","C":"Assertion holds true; however, Reason also validates it, making this wrong.","D":"The Assertion is valid while the Reason supports it."}},{"q":"In a partnership firm, A and B share profits 4:1. If they decide to change this ratio to 3:2, which of the following statements is accurate? Statement I: A will have to compensate B for his loss in profit share. Statement II: The new ratio reflects both partners' contributions equally. Statement III: A's gain will directly correlate with B's sacrifice in profit share.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"accountancy::change_in_profit_sharing_ratio","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"This question involves contextual understanding of partnership dynamics.","why_cuet_level":"Engages with implications of ratio changes rather than definitions.","distractor_rationale":{"A":"Statement II incorrectly implies equal contribution when ratios differ.","B":"Not all gains are linear; this statement misrepresents compensatory dynamics.","C":"Correct; reflects how changes in shares impact partner dynamics correctly.","D":"Not all statements are accurate due to II's misrepresentation."}},{"q":"Read the following assertions regarding profit-sharing adjustments in a partnership firm. Assertion I: When a new partner joins, existing partners must adjust their shares accordingly. Assertion II: The new sharing ratio should always be equal among all partners. Assertion III: Adjustments can involve compensating partners based on their previous contributions. Choose the correct statement combination.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"accountancy::change_in_profit_sharing_ratio","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"This question tests understanding of partnership adjustments rather than definitions or trivial facts.","why_cuet_level":"Focuses on critical evaluation of partnership adjustments' implications.","distractor_rationale":{"A":"II is incorrect as not all partnerships equalize shares post-adjustment.","B":"II misrepresents partnership dynamics regarding sharing ratios.","C":"Correct; both I and III reflect accurate practices during adjustments.","D":"Not all statements hold true as II incorrectly generalizes partnerships."}},{"q":"Assertion: A change in profit-sharing ratio can lead to goodwill adjustments among partners. Reason: Goodwill represents the intangible value of a business which may shift with ownership changes among partners. Evaluate these statements for correctness.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"accountancy::change_in_profit_sharing_ratio","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question requires an understanding of goodwill's role rather than mere definitions or facts.","why_cuet_level":"Examines deeper comprehension of goodwill's relevance to partnerships' financial aspects.","distractor_rationale":{"A":"Both statements accurately describe goodwill's role during changes in partnerships.","B":"The Reason does explain why goodwill adjustments occur, making this incorrect.","C":"Assertion holds true; however, Reason also supports it clearly, making this wrong.","D":"Both statements are valid in context."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=5
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 5
+[pipeline] generated_count=5 | mix=easy=0, medium=5, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 5
+[reject] {
+  subject: 'accountancy',
+  chapter: 'Change in Profit Sharing Ratio',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'accountancy',
+  chapter: 'Change in Profit Sharing Ratio',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'accountancy',
+  chapter: 'Change in Profit Sharing Ratio',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=5 | pre_validation_filtered=3 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=40.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [
+    'structured_accountancy_change_in_profit_sharing_ratio_1',
+    'structured_accountancy_change_in_profit_sharing_ratio_1',
+    'structured_accountancy_change_in_profit_sharing_ratio_1'
+  ],
+  anchor_source_quality: [ 'manual_seed', 'manual_seed', 'manual_seed' ],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 3,
+  skipped_for_anchor_quality: 0
+}
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T22:30:13.804Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"accountancy","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'accountancy',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'accountancy',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 16450,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'accountancy',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "AMBIGUOUS",
+    "language_level": "MODERATE",
+    "option_quality": "CONFUSING",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "Reason does not explain Assertion",
+      "logic error in key",
+      "ambiguous reasoning"
+    ],
+    "score": 5,
+    "exam_quality": 5,
+    "distractor_quality": 4,
+    "conceptual_depth": 6,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The provided reason is a vague generalization and does not technically explain the mechanism of compensation (which is based on future profit share transfer)."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "AMBIGUOUS",
+    "language_level": "MODERATE",
+    "option_quality": "CONFUSING",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "ambiguous statement logic",
+      "incorrect answer key logic",
+      "low trap quality"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 5,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Statement I is generally true in a reconstitution (total capital doesn't change unless specified), yet the key (C) excludes it. Statement III is a subjective generalization and not an accounting rule."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T22:30:30.257Z","model":"gemini-3-flash","subject":"accountancy","resultCount":3}
+[pipeline] validator_rejected {
+  score: 5,
+  exam_quality: 5,
+  distractor_quality: 4,
+  conceptual_depth: 6,
+  trap_quality: 'LOW',
+  rule: 'Reason does not explain Assertion'
+}
+[reject] {
+  subject: 'accountancy',
+  chapter: 'Change in Profit Sharing Ratio',
+  reason: 'Reason does not explain Assertion; logic error in key; ambiguous reasoning; ambiguous wording; confusing options; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'Reason does not explain Assertion',
+  details: {
+    compositeScore: 14,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CONFUSING'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_accepted {
+  score: 8,
+  exam_quality: 8,
+  distractor_quality: 7,
+  conceptual_depth: 7,
+  trap_quality: 'MEDIUM',
+  pyq_anchor_used: 'structured_accountancy_change_in_profit_sharing_ratio_1',
+  anchor_source_quality: 'manual_seed'
+}
+[pipeline] validator_rejected {
+  score: 4,
+  exam_quality: 4,
+  distractor_quality: 3,
+  conceptual_depth: 5,
+  trap_quality: 'LOW',
+  rule: 'ambiguous statement logic'
+}
+[reject] {
+  subject: 'accountancy',
+  chapter: 'Change in Profit Sharing Ratio',
+  reason: 'ambiguous statement logic; incorrect answer key logic; low trap quality; ambiguous wording; confusing options; validator score below threshold; exam quality below threshold; distractor quality below threshold',
+  source: 'validator_normalized',
+  rule: 'ambiguous statement logic',
+  details: {
+    compositeScore: 8,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CONFUSING'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 1, hard: 0 },
+  system: { easy: 0, medium: 1, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 1
+[pipeline] validated_count=1 | acceptance_rate=33.3%
+[pipeline] FINAL_ACCEPTED_COUNT 1
+[pipeline] selected_count=1 | FINAL DISTRIBUTION: {"easy":0,"medium":1,"hard":0}
+✅ Published 9034ddc6-3be0-4fcb-ba7c-044b211f97e5 | status=live | difficulty=medium | discoverable=true
+[pipeline] draft_gate {
+  draft_only_flag: false,
+  draft_saved: 0,
+  draft_candidates: 0,
+  publish_count: 1
+}
+[pipeline] METRICS | generated_count=5 | prefiltered_count=3 | strict_validation_count=3 | accepted_count=1 | api_calls_used=2 | cost_efficiency_ratio=0.50
+[pipeline] SUMMARY | subject=accountancy | chapter=Change in Profit Sharing Ratio | target=5 | generated_count=5 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=3 | strict_validation_count=3 | validated_count=1 | accepted_count=1 | draft_count=0 | draft_only_flag=false | shortfall=4 | yield_rate=20.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=1, hard=0
+[pipeline] subject_distribution: {"subject":"accountancy","accepted":1,"rejected":5,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=5788 | total_cost=$0.0017 | cost_per_accepted=$0.0017 | cost_per_1000=$1.68 | total_accepted=1
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'accountancy',
+  chapter: 'Change in Profit Sharing Ratio',
+  sample_size: 14,
+  direct_definition_count: 0,
+  weak_option_count: 5,
+  repeated_structure_count: 0,
+  easy_count: 0,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '8094019e-76b9-4775-8292-9579c23e4d4e',
+    'f6223e80-4710-4bef-bd7b-6dddb61223e6',
+    'e6269a75-921d-4659-a02f-e4a5079a7fa2',
+    '5a7100b3-c423-4acc-a51a-f60ca025e3e6',
+    '41287fda-899e-4eb1-802e-b188872bae1a',
+    '8d45b819-a76c-45ce-9dcc-5ce5fb9951e8',
+    '3597de70-4ea2-48f4-8d9b-4530e42f8cac',
+    'f92c137f-3ddf-4303-9fda-39fc180fd694',
+    '5ce66bcc-5db5-4341-b341-3aaddeb347af',
+    '492e10c4-2256-4c32-a015-f34228c8d452'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] FOCUSED_QUALITY_JOB_SELECTED
+[queue] WORKER_SELECTED_JOB: {
+  id: 'aca7af38-dd61-4eac-bd8e-3ab92ad043a2',
+  actual_subject: 'sociology',
+  actual_chapter: 'Introducing Indian Society',
+  status: 'queued',
+  priority: 75,
+  original_priority: 100,
+  question_count: 23,
+  subject_question_count: 213,
+  created_at: '2000-01-01T00:00:00+00:00',
+  from_planner_capture: false
+}
+[worker] picking job: {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  count: 23,
+  priority: 75
+}
+[worker] coverage-based selection: {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  count: 23
+}
+
+[JOB aca7af38] Starting: [sociology] Introducing Indian Society
+[worker] RECEIVED_JOB: {
+  job_id: 'aca7af38-dd61-4eac-bd8e-3ab92ad043a2',
+  expected_subject: 'sociology',
+  expected_chapter: 'Introducing Indian Society',
+  raw_subject_id: 'sociology',
+  raw_chapter: 'Introducing Indian Society',
+  status: 'queued',
+  priority: 75,
+  created_at: '2000-01-01T00:00:00+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'aca7af38-dd61-4eac-bd8e-3ab92ad043a2',
+  expected_subject: 'sociology',
+  resolved_subject_id: 'sociology',
+  resolved_subject_name: 'Sociology',
+  chapter: 'Introducing Indian Society',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=23 existing questions loaded
+[generation] batch adjusted: { chapter: 'Introducing Indian Society', generate_count: 3 }
+[worker] GENERATION_INPUT: {
+  job_id: 'aca7af38-dd61-4eac-bd8e-3ab92ad043a2',
+  expected_subject: 'sociology',
+  resolved_subject_id: 'sociology',
+  resolved_subject_name: 'Sociology',
+  expected_chapter: 'Introducing Indian Society',
+  canonical_unit: 'Indian Society',
+  generate_count: 3,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: true
+}
+[pipeline] Generating 3 candidates... chapter="Introducing Indian Society" unit="Indian Society" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'sociology',
+  prompt_subject_name: 'Sociology',
+  expected_chapter: 'Introducing Indian Society',
+  requested_count: 3,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'sociology',
+  requested_concept_id: 'sociology::introducing_indian_society',
+  selected_anchor_id: 'structured_sociology_introducing_indian_society_1',
+  selected_anchor_concept_id: 'sociology::introducing_indian_society',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'sociology',
+  expected_chapter: 'Introducing Indian Society',
+  canonical_unit: 'Indian Society',
+  concept_id: 'sociology::introducing_indian_society',
+  pyq_anchor_id: 'structured_sociology_introducing_indian_society_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 4,
+  batch_size: 3,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 13373,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Statement I: Indian society exhibits a blend of cultural practices that are influenced by various historical factors. Statement II: This blend leads to a uniform cultural identity across the nation. Which option is most accurate?","o":["Statement I is valid, but Statement II overlooks the diversity present in cultural practices.","Both statements are valid as they highlight the significance of history in shaping culture.","Statement I is invalid because historical influences do not affect cultural practices uniformly.","Statement II is valid because cultural identity is primarily shaped by historical factors."],"a":"A","question_type":"statement_based","concept_id":"sociology::introducing_indian_society","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The statements challenge oversimplified views of cultural identity in India.","why_cuet_level":"Encourages critical thinking about the relationship between history and culture.","distractor_rationale":{"A":"Recognizes the complexity of cultural identity in India, acknowledging diversity.","B":"Misinterprets the influence of history as creating uniformity, ignoring regional variations.","C":"Suggests an incorrect notion that history does not impact culture, which is misleading.","D":"Fails to recognize that cultural identity can be multifaceted despite historical influences."}},{"q":"Assertion: The caste system in India has been a significant aspect of social organization. Reason: It strictly defines roles and responsibilities within society. Which option best reflects their relationship?","o":["The assertion is correct, but the reason fails to capture the evolving nature of caste roles.","Both the assertion and reason are correct, as caste significantly impacts social structure today.","The assertion is incorrect, as caste no longer plays a role in contemporary society.","The reason is correct, but it does not explain the full implications of caste in modern times."],"a":"A","question_type":"assertion_reason","concept_id":"sociology::introducing_indian_society","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question examines nuanced views on caste's relevance today.","why_cuet_level":"Tests understanding of social dynamics and critical evaluation of assertions.","distractor_rationale":{"A":"Highlights the dynamic nature of caste roles beyond rigid definitions.","B":"Overstates the current relevance of caste without acknowledging changes over time.","C":"Incorrectly suggests that caste has no relevance in contemporary society, which overlooks its persistence.","D":"Fails to connect the reason adequately with ongoing implications of caste."}},{"q":"Read the statements and choose the correct option: Statement I: Urbanization has led to greater social mobility in Indian society. Statement II: This mobility has uniformly benefited all social groups. Statement III: Urban environments create new opportunities for various communities. Which options are valid?","o":["I only","I and III only","II and III only","I, II and III"],"a":"B","question_type":"statement_based","concept_id":"sociology::introducing_indian_society","trap_option":"D","strong_distractors":["A","C"],"why_not_textbook":"Encourages analysis of urbanization's impacts across different communities.","why_cuet_level":"Promotes evaluation of differing outcomes from urbanization processes.","distractor_rationale":{"A":"Recognizes urbanization's role but misses out on community-specific benefits and limitations.","B":"Correctly identifies both social mobility and opportunities while acknowledging uneven benefits.","C":"Misrepresents mobility as universally beneficial, neglecting disparities among groups.","D":"Incorrectly implies all statements are valid, ignoring nuances in urbanization effects."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] openai_generation success gpt-4o-mini count=2
+[pipeline] RAW_PARSED_COUNT 3
+[pipeline] NORMALIZED_COUNT 2
+[pipeline] generated_count=2 | mix=easy=0, medium=2, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 2
+[reject] {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=2 | pre_validation_filtered=1 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=2 | sent_for_strict_validation=2 | validator_load_reduction=0.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [
+    'structured_sociology_introducing_indian_society_1',
+    'structured_sociology_introducing_indian_society_1'
+  ],
+  anchor_source_quality: [ 'manual_seed', 'manual_seed' ],
+  fallback_used: false,
+  selfcheck_passed: 2,
+  sent_to_validator: 2,
+  skipped_for_anchor_quality: 0
+}
+[pipeline] Starting batch validation for 2 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=2
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T22:31:01.851Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"sociology","questionCount":2}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'sociology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'sociology',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 20306,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'sociology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 9,
+    "distractor_quality": 8,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "HIGH",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 9,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 2
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T22:31:22.158Z","model":"gemini-3-flash","subject":"sociology","resultCount":2}
+[pipeline] validator_accepted {
+  score: 8,
+  exam_quality: 8,
+  distractor_quality: 9,
+  conceptual_depth: 8,
+  trap_quality: 'HIGH',
+  pyq_anchor_used: 'structured_sociology_introducing_indian_society_1',
+  anchor_source_quality: 'manual_seed'
+}
+[pipeline] validator_accepted {
+  score: 8,
+  exam_quality: 9,
+  distractor_quality: 8,
+  conceptual_depth: 7,
+  trap_quality: 'MEDIUM',
+  pyq_anchor_used: 'structured_sociology_introducing_indian_society_1',
+  anchor_source_quality: 'manual_seed'
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 2, hard: 0 },
+  system: { easy: 0, medium: 2, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 2
+[pipeline] validated_count=2 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 2
+[pipeline] selected_count=2 | FINAL DISTRIBUTION: {"easy":0,"medium":2,"hard":0}
+✅ Published 30d354b1-7c35-4c7c-a0fd-d4fcd0762b58 | status=live | difficulty=medium | discoverable=true
+✅ Published 70695725-79bd-4654-9bd6-cb79e1a0e67a | status=live | difficulty=medium | discoverable=true
+[pipeline] draft_gate {
+  draft_only_flag: false,
+  draft_saved: 0,
+  draft_candidates: 0,
+  publish_count: 2
+}
+[pipeline] METRICS | generated_count=2 | prefiltered_count=2 | strict_validation_count=2 | accepted_count=2 | api_calls_used=2 | cost_efficiency_ratio=1.00
+[pipeline] SUMMARY | subject=sociology | chapter=Introducing Indian Society | target=3 | generated_count=2 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=1 | strict_validation_count=2 | validated_count=2 | accepted_count=2 | draft_count=0 | draft_only_flag=false | shortfall=1 | yield_rate=100.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=2, hard=0
+[pipeline] subject_distribution: {"subject":"sociology","accepted":2,"rejected":1,"target":3,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=10549 | total_cost=$0.0029 | cost_per_accepted=$0.0010 | cost_per_1000=$0.96 | total_accepted=3
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  sample_size: 20,
+  direct_definition_count: 0,
+  weak_option_count: 7,
+  repeated_structure_count: 0,
+  easy_count: 9,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '8094019e-76b9-4775-8292-9579c23e4d4e',
+    'f6223e80-4710-4bef-bd7b-6dddb61223e6',
+    'e6269a75-921d-4659-a02f-e4a5079a7fa2',
+    '5a7100b3-c423-4acc-a51a-f60ca025e3e6',
+    '41287fda-899e-4eb1-802e-b188872bae1a',
+    '8d45b819-a76c-45ce-9dcc-5ce5fb9951e8',
+    '3597de70-4ea2-48f4-8d9b-4530e42f8cac',
+    'f92c137f-3ddf-4303-9fda-39fc180fd694',
+    '5ce66bcc-5db5-4341-b341-3aaddeb347af',
+    '492e10c4-2256-4c32-a015-f34228c8d452'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] FOCUSED_QUALITY_JOB_SELECTED
+[queue] WORKER_SELECTED_JOB: {
+  id: 'b212a3e0-861c-4e7f-9eec-03dee8d2ddf9',
+  actual_subject: 'sociology',
+  actual_chapter: 'Mass Media & Communications',
+  status: 'queued',
+  priority: 60,
+  original_priority: 100,
+  question_count: 26,
+  subject_question_count: 215,
+  created_at: '2000-01-01T00:00:01+00:00',
+  from_planner_capture: false
+}
+[worker] picking job: {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  count: 26,
+  priority: 60
+}
+[worker] coverage-based selection: {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  count: 26
+}
+
+[JOB b212a3e0] Starting: [sociology] Mass Media & Communications
+[worker] RECEIVED_JOB: {
+  job_id: 'b212a3e0-861c-4e7f-9eec-03dee8d2ddf9',
+  expected_subject: 'sociology',
+  expected_chapter: 'Mass Media & Communications',
+  raw_subject_id: 'sociology',
+  raw_chapter: 'Mass Media & Communications',
+  status: 'queued',
+  priority: 60,
+  created_at: '2000-01-01T00:00:01+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'b212a3e0-861c-4e7f-9eec-03dee8d2ddf9',
+  expected_subject: 'sociology',
+  resolved_subject_id: 'sociology',
+  resolved_subject_name: 'Sociology',
+  chapter: 'Mass Media & Communications',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=26 existing questions loaded
+[generation] batch adjusted: { chapter: 'Mass Media & Communications', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'b212a3e0-861c-4e7f-9eec-03dee8d2ddf9',
+  expected_subject: 'sociology',
+  resolved_subject_id: 'sociology',
+  resolved_subject_name: 'Sociology',
+  expected_chapter: 'Mass Media & Communications',
+  canonical_unit: 'Social Change and Development in India',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Mass Media & Communications" unit="Social Change and Development in India" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'sociology',
+  prompt_subject_name: 'Sociology',
+  expected_chapter: 'Mass Media & Communications',
+  requested_count: 5,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'sociology',
+  requested_concept_id: 'sociology::mass_media_and_communications',
+  selected_anchor_id: 'structured_sociology_mass_media_and_communications_1',
+  selected_anchor_concept_id: 'sociology::mass_media_and_communications',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'sociology',
+  expected_chapter: 'Mass Media & Communications',
+  canonical_unit: 'Social Change and Development in India',
+  concept_id: 'sociology::mass_media_and_communications',
+  pyq_anchor_id: 'structured_sociology_mass_media_and_communications_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 22509,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: Mass media can influence social change by shaping public perceptions. Statement II: The impact of mass media is uniform across all social groups. Statement III: Media framing can highlight certain issues while downplaying others.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"sociology::mass_media_and_communications","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"The option suggests a uniformity that overlooks social diversity in media impact.","why_cuet_level":"This question engages with critical evaluation of mass media effects.","distractor_rationale":{"A":"This option incorrectly assumes all statements are valid, ignoring Statement II's flaw.","B":"This option wrongly claims uniform impact across social groups, which is not supported.","C":"This option accurately captures the relationship between framing and perception.","D":"This option suggests all statements are valid, which misrepresents the nuances."}},{"q":"A student argues that social media has no significant role in political mobilization because it lacks traditional credibility. Which response provides a more nuanced sociological perspective?","o":["Social media can enhance engagement among younger voters despite traditional credibility issues.","Traditional media remains the primary source of political information for all demographics.","Social media's influence is limited to entertainment rather than serious political discourse.","Credibility in political information is irrelevant when considering voter turnout."],"a":"A","question_type":"application_based","concept_id":"sociology::mass_media_and_communications","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The options overstate the limitations of social media without acknowledging its impact on engagement.","why_cuet_level":"This question requires application of sociological concepts to real-world scenarios.","distractor_rationale":{"A":"This option correctly highlights social media's role in engaging younger demographics.","B":"This option incorrectly generalizes the influence of traditional media across all demographics.","C":"This option misses the importance of social media in serious political contexts.","D":"This option dismisses credibility as a factor, which oversimplifies voter behavior."}},{"q":"Consider the following statements about mass communication: Statement I: Mass communication primarily serves to inform the public. Statement II: The audience passively accepts messages from mass media. Statement III: Mass communication can facilitate dialogue between different social groups. Which combination is most accurate?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"sociology::mass_media_and_communications","trap_option":"A","strong_distractors":["B","D"],"why_not_textbook":"The combination suggested overlooks the active role audiences can play in interpretation.","why_cuet_level":"This question assesses comprehension of mass communication dynamics.","distractor_rationale":{"A":"This option incorrectly includes an assumption about passive audience behavior.","B":"This option misrepresents the relationship between dialogue and mass communication.","C":"This option accurately reflects the dual role of informing and facilitating dialogue.","D":"This option mistakenly claims all statements are valid without acknowledging nuances."}},{"q":"Statement I: The rise of digital media has led to a decline in traditional journalism's authority. Statement II: Digital platforms allow for greater diversity of voices in news dissemination. Statement III: All digital content is equally credible due to audience participation. Which statement contains a flaw?","o":["Only I contains a flaw.","Only II contains a flaw.","Only III contains a flaw.","Both I and III contain flaws."],"a":"C","question_type":"comparison_based","concept_id":"sociology::mass_media_and_communications","trap_option":"A","strong_distractors":["B","D"],"why_not_textbook":"The flawed statement suggests that audience participation guarantees credibility, which is misleading.","why_cuet_level":"This question tests critical thinking regarding credibility in digital contexts.","distractor_rationale":{"A":"This option incorrectly identifies I as flawed when it accurately describes a trend.","B":"This option misinterprets the implications of diversity in news dissemination.","C":"This option correctly identifies the misconception about digital content credibility.","D":"This option mistakenly claims multiple flaws where only one exists."}},{"q":"A researcher claims that advertising through mass media has no effect on consumer behavior because it targets specific demographics. Which response offers a better sociological insight?","o":["Advertising can influence consumer choices across various demographics by creating brand loyalty regardless of targeting.","Targeting specific demographics ensures that advertising messages resonate more effectively with intended audiences, which can shape behavior.","Mass media advertising is primarily about brand awareness with little impact on actual purchasing decisions across demographics.","Consumer behavior is unaffected by advertising if individuals are already predisposed to certain brands."],"a":"B","question_type":"application_based","concept_id":"sociology::mass_media_and_communications","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"The options fail to recognize how targeted advertising can still shape consumer preferences significantly.","why_cuet_level":"This question challenges assumptions about advertising effectiveness based on demographic targeting.","distractor_rationale":{"A":"This option overgeneralizes advertising effects without considering targeting nuances.","B":"This option accurately describes how targeted messaging can effectively shape consumer behavior.","C":"This option minimizes the potential impact of advertising on purchasing decisions too broadly.","D":"This option incorrectly assumes predisposition negates any influence from advertising."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=3
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 3
+[pipeline] generated_count=3 | mix=easy=0, medium=3, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 3
+[reject] {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=3 | pre_validation_filtered=2 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=0.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [
+    'structured_sociology_mass_media_and_communications_1',
+    'structured_sociology_mass_media_and_communications_1',
+    'structured_sociology_mass_media_and_communications_1'
+  ],
+  anchor_source_quality: [ 'manual_seed', 'manual_seed', 'manual_seed' ],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 3,
+  skipped_for_anchor_quality: 0
+}
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T22:32:02.400Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"sociology","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'sociology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'sociology',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 15464,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'sociology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "HIGH",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 9,
+    "distractor_quality": 9,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [],
+    "score": 7,
+    "exam_quality": 7,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T22:32:17.866Z","model":"gemini-3-flash","subject":"sociology","resultCount":3}
+[pipeline] validator_accepted {
+  score: 8,
+  exam_quality: 8,
+  distractor_quality: 7,
+  conceptual_depth: 8,
+  trap_quality: 'MEDIUM',
+  pyq_anchor_used: 'structured_sociology_mass_media_and_communications_1',
+  anchor_source_quality: 'manual_seed'
+}
+[pipeline] validator_accepted {
+  score: 9,
+  exam_quality: 9,
+  distractor_quality: 9,
+  conceptual_depth: 8,
+  trap_quality: 'HIGH',
+  pyq_anchor_used: 'structured_sociology_mass_media_and_communications_1',
+  anchor_source_quality: 'manual_seed'
+}
+[pipeline] validator_accepted {
+  score: 7,
+  exam_quality: 7,
+  distractor_quality: 7,
+  conceptual_depth: 7,
+  trap_quality: 'MEDIUM',
+  pyq_anchor_used: 'structured_sociology_mass_media_and_communications_1',
+  anchor_source_quality: 'manual_seed'
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 3, hard: 0 },
+  system: { easy: 0, medium: 3, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 3
+[pipeline] validated_count=3 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 3
+[pipeline] selected_count=3 | FINAL DISTRIBUTION: {"easy":0,"medium":3,"hard":0}
+✅ Published ddf3897b-eea1-4aaf-90a9-2cc190afabec | status=live | difficulty=medium | discoverable=true
+✅ Published 34f1e368-e4f4-4f45-9f8c-7860e9c19ee9 | status=live | difficulty=medium | discoverable=true
+✅ Published d1cd22d3-f840-486f-bb2d-8997a69fefec | status=live | difficulty=medium | discoverable=true
+[pipeline] draft_gate {
+  draft_only_flag: false,
+  draft_saved: 0,
+  draft_candidates: 0,
+  publish_count: 3
+}
+[pipeline] METRICS | generated_count=3 | prefiltered_count=3 | strict_validation_count=3 | accepted_count=3 | api_calls_used=2 | cost_efficiency_ratio=1.50
+[pipeline] SUMMARY | subject=sociology | chapter=Mass Media & Communications | target=5 | generated_count=3 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=2 | strict_validation_count=3 | validated_count=3 | accepted_count=3 | draft_count=0 | draft_only_flag=false | shortfall=2 | yield_rate=100.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=3, hard=0
+[pipeline] subject_distribution: {"subject":"sociology","accepted":3,"rejected":2,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=16122 | total_cost=$0.0044 | cost_per_accepted=$0.0007 | cost_per_1000=$0.74 | total_accepted=6
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  sample_size: 20,
+  direct_definition_count: 1,
+  weak_option_count: 13,
+  repeated_structure_count: 0,
+  easy_count: 1,
+  feedback_count: 2
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '8094019e-76b9-4775-8292-9579c23e4d4e',
+    'f6223e80-4710-4bef-bd7b-6dddb61223e6',
+    'e6269a75-921d-4659-a02f-e4a5079a7fa2',
+    '5a7100b3-c423-4acc-a51a-f60ca025e3e6',
+    '41287fda-899e-4eb1-802e-b188872bae1a',
+    '8d45b819-a76c-45ce-9dcc-5ce5fb9951e8',
+    '3597de70-4ea2-48f4-8d9b-4530e42f8cac',
+    'f92c137f-3ddf-4303-9fda-39fc180fd694',
+    '5ce66bcc-5db5-4341-b341-3aaddeb347af',
+    '492e10c4-2256-4c32-a015-f34228c8d452'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '8094019e-76b9-4775-8292-9579c23e4d4e',
+  actual_subject: 'psychology',
+  actual_chapter: 'Meeting Life Challenges',
+  status: 'queued',
+  priority: 100,
+  original_priority: 100,
+  question_count: 0,
+  subject_question_count: 126,
+  created_at: '2026-04-30T22:29:43.055672+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'psychology',
+  chapter: 'Meeting Life Challenges',
+  count: 0,
+  priority: 100
+}
+[worker] coverage-based selection: { subject: 'psychology', chapter: 'Meeting Life Challenges', count: 0 }
+
+[JOB 8094019e] Starting: [psychology] Meeting Life Challenges
+[worker] RECEIVED_JOB: {
+  job_id: '8094019e-76b9-4775-8292-9579c23e4d4e',
+  expected_subject: 'psychology',
+  expected_chapter: 'Meeting Life Challenges',
+  raw_subject_id: 'psychology',
+  raw_chapter: 'Meeting Life Challenges',
+  status: 'queued',
+  priority: 100,
+  created_at: '2026-04-30T22:29:43.055672+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '8094019e-76b9-4775-8292-9579c23e4d4e',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  chapter: 'Meeting Life Challenges',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=9 existing questions loaded
+[generation] batch adjusted: { chapter: 'Meeting Life Challenges', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '8094019e-76b9-4775-8292-9579c23e4d4e',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  expected_chapter: 'Meeting Life Challenges',
+  canonical_unit: 'Meeting Life Challenges',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Meeting Life Challenges" unit="Meeting Life Challenges" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'psychology',
+  prompt_subject_name: 'Psychology',
+  expected_chapter: 'Meeting Life Challenges',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'psychology',
+  expected_chapter: 'Meeting Life Challenges',
+  canonical_unit: 'Meeting Life Challenges',
+  concept_id: 'psychology::meeting_life_challenges',
+  pyq_anchor_id: 'structure_only_structured_psychology_self_and_personality_1_for_psychology::meeting_life_challenges',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'psychology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'psychology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 21674,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'psychology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: Effective coping strategies can vary significantly from person to person. Statement II: Coping strategies that work for one individual may not be effective for another due to personal differences. Statement III: All coping strategies are universally applicable regardless of individual circumstances.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"psychology::meeting_life_challenges","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"This question challenges understanding of coping strategies and their applicability across different individuals, rather than providing a straightforward definition.","why_cuet_level":"This question requires evaluation of nuanced statements about coping strategies, aligning with CUET's critical thinking focus.","distractor_rationale":{"A":"Both statements I and II accurately reflect the variability in coping strategies based on personal differences.","B":"While statement II is true, it does not encompass the flaw in statement III, which incorrectly claims universality.","C":"Statement III incorrectly suggests that all coping strategies are applicable, ignoring personal differences in effectiveness.","D":"This option includes all statements; however, statement III presents a flawed view of coping strategy universality."}},{"q":"Assertion: Individuals facing life challenges often utilize a mix of problem-focused and emotion-focused coping strategies. Reason: Problem-focused strategies aim to change the situation, while emotion-focused strategies seek to manage emotional responses.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason overlooks the role of avoidance in coping.","Assertion is false, but Reason correctly describes types of coping."],"a":"A","question_type":"assertion_reason","concept_id":"psychology::meeting_life_challenges","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This assertion-reason format encourages critical evaluation of two interrelated concepts rather than rote memorization.","why_cuet_level":"It assesses understanding of the nuances between different coping strategies, consistent with CUET's analytical approach.","distractor_rationale":{"A":"Both statements accurately describe types of coping strategies and their functions in addressing life challenges.","B":"While both statements are true, B suggests that the reason does not clarify the assertion, which is incorrect.","C":"The trap option misrepresents emotion-focused strategies by introducing avoidance as a primary focus, which is misleading.","D":"This option incorrectly states that the assertion is false; in fact, it is true."}},{"q":"A student claims that resilience solely depends on genetic factors. Which response best corrects this misunderstanding?","o":["Resilience is influenced by both genetic predispositions and environmental factors throughout life.","Genetic factors play no role in resilience; it is entirely learned through experience.","Resilience is determined by social support systems alone without any genetic influence.","Genetic factors are crucial for resilience, overshadowing any environmental contributions."],"a":"A","question_type":"statement_based","concept_id":"psychology::meeting_life_challenges","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"The question tests understanding of resilience as a multifaceted construct rather than a simple genetic trait or learned behavior.","why_cuet_level":"It requires analysis of how multiple influences shape resilience, aligning with CUET's focus on comprehensive understanding.","distractor_rationale":{"A":"This option correctly identifies resilience as shaped by both genetics and environment, addressing the student's claim effectively.","B":"This trap option incorrectly states that genetics play no role at all, which misrepresents the complexity of resilience development.","C":"This option mistakenly attributes resilience solely to social support without recognizing other influences like genetics or personal experiences.","D":"This response inaccurately emphasizes genetic factors while neglecting significant environmental contributions."}},{"q":"Consider the following statements about stress management: Statement I: Avoidance can be an effective long-term strategy for managing stress. Statement II: Problem-solving techniques are generally more effective than avoidance in addressing stressors. Statement III: Emotional expression has no significant impact on stress reduction. Which combination is correct?","o":["I and II only","II only","I and III only","I, II and III"],"a":"B","question_type":"statement_based","concept_id":"psychology::meeting_life_challenges","trap_option":"D","strong_distractors":["A","C"],"why_not_textbook":"This question evaluates understanding of various stress management techniques rather than asking for definitions or direct recall of facts.","why_cuet_level":"It requires critical assessment of stress management methods, fitting well with CUET's analytical expectations.","distractor_rationale":{"A":"While statement II is correct, statement I inaccurately suggests avoidance is effective long-term; thus this combination fails.","B":"Statement II stands alone as valid; it correctly identifies problem-solving as superior compared to avoidance in managing stressors.","C":"This option incorrectly combines a valid statement with two flawed ones regarding stress management effectiveness.","D":"Including all three statements ignores the inaccuracies present in I and III regarding effective stress management."}},{"q":"Assertion: Coping mechanisms should be tailored to fit individual circumstances for maximum effectiveness. Reason: A one-size-fits-all approach often overlooks unique personal experiences that influence coping success.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but they are independent of each other.","Assertion is true; however, Reason misinterprets what tailoring means in practice.","Assertion is false; thus Reason cannot be evaluated."],"a":"A","question_type":"assertion_reason","concept_id":"psychology::meeting_life_challenges","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This assertion-reason format requires comprehension of tailored coping mechanisms instead of relying on memorized definitions or concepts.","why_cuet_level":"It assesses understanding of personalized approaches to coping effectively within life challenges, consistent with CUET's focus on application-based learning.","distractor_rationale":{"A":"Both statements accurately convey that tailoring coping mechanisms enhances their effectiveness based on individual needs.","B":"While both assertions are true individually, this choice wrongly claims independence between them when they are indeed related.","C":"The trap here misrepresents tailoring as a concept by suggesting an incorrect interpretation related to practice versus theory.","D":"Asserting falsehood about the assertion undermines its foundational truth regarding personalized approaches."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=5
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 5
+[pipeline] generated_count=5 | mix=easy=0, medium=5, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 5
+[reject] {
+  subject: 'psychology',
+  chapter: 'Meeting Life Challenges',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'psychology',
+  chapter: 'Meeting Life Challenges',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'psychology',
+  chapter: 'Meeting Life Challenges',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=5 | pre_validation_filtered=3 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 3
+}
+[draft] Saved 6fcacf8f-b06a-453e-8f84-072dd8b6194c | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 301cd65b-a981-4989-954d-933a257df41b | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 00d96914-7457-453b-886e-48843b1b282a | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 3,
+  draft_candidates: 3,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=psychology | chapter=Meeting Life Challenges | target=5 | generated_count=5 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=3 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=3 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'f6223e80-4710-4bef-bd7b-6dddb61223e6',
+    'e6269a75-921d-4659-a02f-e4a5079a7fa2',
+    '5a7100b3-c423-4acc-a51a-f60ca025e3e6',
+    '41287fda-899e-4eb1-802e-b188872bae1a',
+    '8d45b819-a76c-45ce-9dcc-5ce5fb9951e8',
+    '3597de70-4ea2-48f4-8d9b-4530e42f8cac',
+    'f92c137f-3ddf-4303-9fda-39fc180fd694',
+    '5ce66bcc-5db5-4341-b341-3aaddeb347af',
+    '492e10c4-2256-4c32-a015-f34228c8d452'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'e6269a75-921d-4659-a02f-e4a5079a7fa2',
+  actual_subject: 'psychology',
+  actual_chapter: 'Psychological Disorders',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 9,
+  subject_question_count: 129,
+  created_at: '2026-04-30T22:29:43.055672+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  count: 9,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'psychology', chapter: 'Psychological Disorders', count: 9 }
+
+[JOB e6269a75] Starting: [psychology] Psychological Disorders
+[worker] RECEIVED_JOB: {
+  job_id: 'e6269a75-921d-4659-a02f-e4a5079a7fa2',
+  expected_subject: 'psychology',
+  expected_chapter: 'Psychological Disorders',
+  raw_subject_id: 'psychology',
+  raw_chapter: 'Psychological Disorders',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T22:29:43.055672+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'e6269a75-921d-4659-a02f-e4a5079a7fa2',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  chapter: 'Psychological Disorders',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=9 existing questions loaded
+[generation] batch adjusted: { chapter: 'Psychological Disorders', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'e6269a75-921d-4659-a02f-e4a5079a7fa2',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  expected_chapter: 'Psychological Disorders',
+  canonical_unit: 'Psychological Disorders',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Psychological Disorders" unit="Psychological Disorders" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'psychology',
+  prompt_subject_name: 'Psychology',
+  expected_chapter: 'Psychological Disorders',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'psychology',
+  expected_chapter: 'Psychological Disorders',
+  canonical_unit: 'Psychological Disorders',
+  concept_id: 'psychology::psychological_disorders',
+  pyq_anchor_id: 'structure_only_structured_psychology_self_and_personality_1_for_psychology::psychological_disorders',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'psychology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'psychology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 18903,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'psychology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: Anxiety disorders can lead to avoidance behavior, which may seem beneficial in the short term. Statement II: Avoidance behavior is always a healthy coping mechanism for managing anxiety. Statement III: Long-term avoidance can exacerbate anxiety symptoms and lead to further dysfunction.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"psychology::psychological_disorders","trap_option":"B","strong_distractors":["A","B"],"why_not_textbook":"This question requires understanding of the implications of avoidance behavior rather than just definitions.","why_cuet_level":"This aligns with CUET's focus on critical thinking and application of psychological concepts.","distractor_rationale":{"A":"This option incorrectly suggests that both statements are valid without recognizing the flaw in Statement II.","B":"This option falsely claims that avoidance is always healthy, ignoring its long-term effects.","C":"This option correctly identifies the valid statements while noting the flaw in Statement II.","D":"This option inaccurately includes Statement II as valid."}},{"q":"Assertion: Depression can manifest as both emotional and physical symptoms. Reason: Emotional symptoms are more commonly recognized than physical symptoms in diagnosing depression.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason underestimates the importance of physical symptoms.","Assertion is false, but Reason accurately describes diagnostic practices."],"a":"A","question_type":"assertion_reason","concept_id":"psychology::psychological_disorders","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The question requires analysis of both assertions rather than simple recall of definitions.","why_cuet_level":"This aligns with CUET's emphasis on understanding complex psychological conditions.","distractor_rationale":{"A":"Both parts are accurate, making this a correct choice as they complement each other.","B":"While both statements are true, this option fails to acknowledge that the Reason supports the Assertion.","C":"This option mischaracterizes the significance of physical symptoms in depression diagnosis.","D":"This option incorrectly states that the Assertion is false."}},{"q":"In a case study, a teenager exhibits compulsive behaviors that interfere with daily life. Read the statements and choose the correct option: Statement I: Compulsive behaviors can often be linked to obsessive thoughts. Statement II: These behaviors are typically effective at reducing anxiety in the short term. Statement III: Long-term reliance on compulsive actions usually leads to improved mental health outcomes.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"case_based","concept_id":"psychology::psychological_disorders","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"This question focuses on evaluating understanding of OCD-related behaviors rather than definitions or direct recall.","why_cuet_level":"This aligns with CUET's goal of applying psychological concepts in real-world scenarios.","distractor_rationale":{"A":"Both I and II accurately reflect the relationship between compulsive behaviors and anxiety management.","B":"While II is true, it ignores that compulsions do not lead to long-term effective outcomes, making it misleading.","C":"The claim in Statement III is incorrect as it overlooks negative consequences of compulsive behaviors over time.","D":"Statement I is valid while Statements II and III present flawed perspectives."}},{"q":"Assertion: Schizophrenia primarily affects cognitive functions such as memory and reasoning. Reason: Cognitive impairments are secondary to emotional disturbances in schizophrenia diagnosis.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason misrepresents cognitive functions' role in schizophrenia.","Assertion is false, but Reason accurately describes emotional impacts."],"a":"C","question_type":"assertion_reason","concept_id":"psychology::psychological_disorders","trap_option":"A","strong_distractors":["B","D"],"why_not_textbook":"The question tests comprehension of schizophrenia's cognitive aspects rather than rote definitions or facts.","why_cuet_level":"Aligns with CUET's focus on critical analysis of psychological disorders' complexities.","distractor_rationale":{"A":"The assertion misinterprets cognitive impacts; thus this choice cannot be correct as it claims otherwise.","B":"While both statements have some truth, this choice overlooks how cognitive issues can be primary concerns.","C":"Correctly identifies flaws in both statements regarding their relationship; thus it stands as accurate assessment.","D":"Incorrectly dismisses the validity of both statements without justification."}},{"q":"Read the statements regarding bipolar disorder and choose the correct option: Statement I: Individuals with bipolar disorder experience mood swings that can impact their functioning. Statement II: The manic phase is characterized by high energy levels, which can be productive. Statement III: The depressive phase has no significant impact on interpersonal relationships or work performance.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"psychology::psychological_disorders","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The question evaluates understanding of bipolar disorder's phases rather than straightforward definitions or facts about it.","why_cuet_level":"Aligns with CUET's emphasis on understanding complex emotional disorders' dynamics.","distractor_rationale":{"A":"Both I and II correctly describe aspects of bipolar disorder while noting its functional impact during manic phases.","B":"While manic phases can appear productive, this choice fails to recognize potential detrimental effects on functioning overall during such times, making it misleading.","C":"Statement III contains a significant flaw; thus this cannot be correct as it wrongly claims no impact from depressive phases on relationships or performance.","D":"Incorrectly asserts all statements are valid without acknowledging flaws present."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=5
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 5
+[pipeline] generated_count=5 | mix=easy=0, medium=5, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 5
+[reject] {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=5 | pre_validation_filtered=3 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 3
+}
+[draft] Saved d5060e2b-9616-4efe-8c04-a96f1972fb82 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved fd5c5cf1-b2f7-48b9-b309-0ee379f0bba8 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved f3b7e654-d143-4bb6-a979-70d8e1dd4bc6 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 3,
+  draft_candidates: 3,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=psychology | chapter=Psychological Disorders | target=5 | generated_count=5 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=3 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=3 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'f6223e80-4710-4bef-bd7b-6dddb61223e6',
+    '5a7100b3-c423-4acc-a51a-f60ca025e3e6',
+    '41287fda-899e-4eb1-802e-b188872bae1a',
+    '8d45b819-a76c-45ce-9dcc-5ce5fb9951e8',
+    '3597de70-4ea2-48f4-8d9b-4530e42f8cac',
+    'f92c137f-3ddf-4303-9fda-39fc180fd694',
+    '5ce66bcc-5db5-4341-b341-3aaddeb347af',
+    '492e10c4-2256-4c32-a015-f34228c8d452'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '5a7100b3-c423-4acc-a51a-f60ca025e3e6',
+  actual_subject: 'physics',
+  actual_chapter: 'Moving Charges & Magnetism',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 9,
+  subject_question_count: 304,
+  created_at: '2026-04-30T22:29:43.055672+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  count: 9,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'physics', chapter: 'Moving Charges & Magnetism', count: 9 }
+
+[JOB 5a7100b3] Starting: [physics] Moving Charges & Magnetism
+[worker] RECEIVED_JOB: {
+  job_id: '5a7100b3-c423-4acc-a51a-f60ca025e3e6',
+  expected_subject: 'physics',
+  expected_chapter: 'Moving Charges & Magnetism',
+  raw_subject_id: 'physics',
+  raw_chapter: 'Moving Charges & Magnetism',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T22:29:43.055672+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '5a7100b3-c423-4acc-a51a-f60ca025e3e6',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  chapter: 'Moving Charges & Magnetism',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=9 existing questions loaded
+[generation] batch adjusted: { chapter: 'Moving Charges & Magnetism', generate_count: 3 }
+[worker] GENERATION_INPUT: {
+  job_id: '5a7100b3-c423-4acc-a51a-f60ca025e3e6',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  expected_chapter: 'Moving Charges & Magnetism',
+  canonical_unit: 'Magnetic Effects of Current and Magnetism',
+  generate_count: 3,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: true
+}
+[pipeline] Generating 3 candidates... chapter="Moving Charges & Magnetism" unit="Magnetic Effects of Current and Magnetism" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'physics',
+  prompt_subject_name: 'Physics',
+  expected_chapter: 'Moving Charges & Magnetism',
+  requested_count: 3,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'physics',
+  expected_chapter: 'Moving Charges & Magnetism',
+  canonical_unit: 'Magnetic Effects of Current and Magnetism',
+  concept_id: 'physics::moving_charges_and_magnetism',
+  pyq_anchor_id: 'structure_only_structured_physics_dual_nature_of_radiation_and_matter_1_for_physics::moving_charges_and_magnetism',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 3,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 12913,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: A current-carrying conductor experiences a force in a magnetic field. Statement II: The direction of this force can be determined using Fleming's left-hand rule. Statement III: The magnitude of the force is independent of the current flowing through the conductor.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"physics::moving_charges_and_magnetism","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"This question challenges students to analyze multiple statements rather than just recalling facts.","why_cuet_level":"The level is appropriate as it requires understanding of concepts rather than rote memorization.","distractor_rationale":{"A":"Correct, as both statements about force and Fleming's rule are valid while the third is incorrect.","B":"Incorrect because Statement III is flawed; the force depends on the current.","C":"Incorrect because it ignores that Statement II is correct, making this combination invalid.","D":"Incorrect because Statement III is not true, which invalidates this option."}},{"q":"Assertion: The magnetic field due to a straight current-carrying wire decreases with distance from the wire. Reason: The field strength is directly proportional to the current flowing through the wire. Which option best evaluates this pair?","o":["Both Assertion and Reason are correct, and the Reason explains the Assertion.","Both Assertion and Reason are correct, but the Reason does not explain the Assertion.","Assertion is correct, but Reason is incorrect because it suggests an inverse relationship.","Assertion is incorrect, but Reason is correct regarding current dependence."],"a":"A","question_type":"assertion_reason","concept_id":"physics::moving_charges_and_magnetism","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question focuses on evaluating relationships rather than definitions or direct recall.","why_cuet_level":"The difficulty lies in understanding relationships between concepts rather than memorization.","distractor_rationale":{"A":"Correct, as both statements are valid and logically connected in terms of magnetic field behavior.","B":"Incorrect as it misrepresents how the magnetic field strength relates to distance and current.","C":"Incorrect because this option misinterprets the relationship described in the Assertion and Reason.","D":"Incorrect since it incorrectly states that Assertion is wrong when it’s accurate."}},{"q":"Read the statements and choose the correct option: Statement I: A charged particle moving perpendicular to a magnetic field experiences maximum deflection. Statement II: The path taken by such a particle is circular due to the constant magnetic force acting on it. Statement III: If the velocity of the particle increases, its radius of curvature in the magnetic field also increases under constant magnetic field strength.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"physics::moving_charges_and_magnetism","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The question requires students to analyze conditions under which statements hold true rather than recalling facts directly.","why_cuet_level":"This aligns with CUET standards by testing conceptual understanding through elimination.","distractor_rationale":{"A":"Correct; both I and II are valid while III has conditions affecting its truthfulness based on context.","B":"Incorrect as it overlooks that Statement I correctly describes maximum deflection conditions.","C":"Incorrect since it assumes Statement II is flawed which isn’t true; thus making this choice invalid.","D":"Incorrect because it misrepresents Statement I's validity."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+Cooling down for 15s to respect API limits...

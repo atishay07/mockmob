@@ -12,6 +12,7 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { SEED_QUESTIONS } from './questions';
 import { toPublicSubjectId } from './cuet_controls';
 import { getMode, computeDifficultyTargets } from './test_modes';
+import { NTA_DURATION_MINUTES, NTA_QUESTION_COUNT, selectNtaQuestionSet } from './nta_question_selector';
 
 // ---------- id helpers (match legacy formats) ----------
 const rid = () => Math.random().toString(36).substring(2, 9);
@@ -85,6 +86,47 @@ const creatorOut = (r) => r && ({
   updatedAt: r.updated_at ? new Date(r.updated_at).getTime() : null,
 });
 
+const ANSWER_KEY_INDEX = new Map([
+  ['A', 0],
+  ['B', 1],
+  ['C', 2],
+  ['D', 3],
+  ['E', 4],
+]);
+
+function optionLabel(option) {
+  if (typeof option === 'string') return option;
+  return option?.text ?? option?.label ?? option?.value ?? option?.body ?? option?.option ?? '';
+}
+
+function resolveCorrectIndex(r) {
+  if (Number.isInteger(r?.correct_index) && r.correct_index >= 0) return r.correct_index;
+
+  const options = Array.isArray(r?.options) ? r.options : [];
+  const rawAnswer = String(r?.correct_answer ?? '').trim();
+  if (!options.length || !rawAnswer) return -1;
+
+  const upperAnswer = rawAnswer.toUpperCase().replace(/^OPTION[_\s-]*/, '').replace(/[).:]+$/, '');
+  const keyedIndex = options.findIndex((option) => {
+    const key = String(option?.key ?? option?.id ?? '').trim().toUpperCase();
+    return key && key === upperAnswer;
+  });
+  if (keyedIndex >= 0) return keyedIndex;
+
+  if (ANSWER_KEY_INDEX.has(upperAnswer) && ANSWER_KEY_INDEX.get(upperAnswer) < options.length) {
+    return ANSWER_KEY_INDEX.get(upperAnswer);
+  }
+
+  if (/^\d+$/.test(rawAnswer)) {
+    const numeric = Number(rawAnswer);
+    if (numeric === 0 && options.length > 0) return 0;
+    if (numeric >= 1 && numeric <= options.length) return numeric - 1;
+  }
+
+  const textAnswer = rawAnswer.toLowerCase();
+  return options.findIndex((option) => String(optionLabel(option)).trim().toLowerCase() === textAnswer);
+}
+
 const questionOut = (r) => r && ({
   id: r.id,
   subject: toPublicSubjectId(r.subject),
@@ -93,13 +135,7 @@ const questionOut = (r) => r && ({
   body: r.body ?? r.question,
   question: r.question ?? r.body,   // upload route writes `body`; addPendingQuestion writes `question`
   options: r.options || [],
-  correctIndex: Number.isInteger(r.correct_index)
-    ? r.correct_index
-    : Array.isArray(r.options)
-      ? r.options.findIndex((option, index) => (
-        option?.key === r.correct_answer || String(index) === String(r.correct_answer)
-      ))
-      : -1,
+  correctIndex: resolveCorrectIndex(r),
   correctAnswer: r.correct_answer,  // upload route writes `correct_answer`
   explanation: r.explanation,
   difficulty: r.difficulty,
@@ -109,6 +145,14 @@ const questionOut = (r) => r && ({
   conceptId: r.concept_id || null,
   pyqAnchorId: r.pyq_anchor_id || null,
   questionType: r.question_type || null,
+  passageGroupId: r.passage_group_id || r.group_id || null,
+  passageId: r.passage_id || null,
+  passageType: r.passage_type || null,
+  passageText: r.passage_text || r.passageText || null,
+  passageTitle: r.passage_title || r.passageTitle || r.title || null,
+  orderIndex: r.order_index || null,
+  anchorTier: r.anchor_tier ?? null,
+  qualityScore: r.quality_score ?? null,
   source: r.source,
   status: r.status,
   uploadedBy: r.uploaded_by,
@@ -833,10 +877,72 @@ export const Database = {
   // =====================================================================
   async getQuestions(subjectId, count, opts = {}) {
     const mode = getMode(opts.mode || 'quick');
-    const targetCount = Math.max(1, Math.min(100, count || mode.fixedCount || mode.defaultCount || 10));
+    const originalRequestedCount = Math.max(1, Math.min(100, Number(opts.requestedCount || count || mode.fixedCount || mode.defaultCount || 10)));
+    const targetCount = mode.id === 'nta'
+      ? NTA_QUESTION_COUNT
+      : Math.max(1, Math.min(100, count || mode.fixedCount || mode.defaultCount || 10));
+    const returnMeta = opts.returnMeta === true;
+
+    const formatResult = async (rows, meta = {}) => {
+      const selectedRows = Array.isArray(rows) ? rows : [];
+      let rowsWithVotes = selectedRows;
+      if (opts.userId && selectedRows.length > 0) {
+        const voteMap = await this.getUserVotes(opts.userId, selectedRows.map((row) => row.id));
+        rowsWithVotes = selectedRows.map((row) => ({ ...row, user_vote: voteMap.get(row.id) || null }));
+      }
+      const questions = rowsWithVotes.map(questionOut);
+      if (!returnMeta) return questions;
+      return {
+        questions,
+        meta: {
+          mode: mode.id,
+          requestedCount: originalRequestedCount,
+          finalCount: mode.id === 'nta' && questions.length === targetCount ? NTA_QUESTION_COUNT : questions.length,
+          selectedCount: questions.length,
+          durationMinutes: mode.id === 'nta' ? NTA_DURATION_MINUTES : undefined,
+          ...meta,
+        },
+      };
+    };
 
     // Pull a generous candidate pool — enough to survive recency + concept caps.
-    const poolSize = Math.max(60, targetCount * 6);
+    const poolSize = mode.id === 'nta' ? 5000 : Math.max(60, targetCount * 6);
+
+    const fetchNtaPool = async () => {
+      const pageSize = 1000;
+      const rows = [];
+      let useDeletedFilter = true;
+
+      for (let offset = 0; offset < poolSize; offset += pageSize) {
+        const end = Math.min(offset + pageSize - 1, poolSize - 1);
+        let query = supabaseAdmin()
+          .from('questions')
+          .select('*')
+          .eq('subject', subjectId)
+          .order('created_at', { ascending: false })
+          .range(offset, end);
+
+        if (useDeletedFilter) query = query.eq('is_deleted', false);
+
+        let { data, error } = await query;
+        if (error && useDeletedFilter && error.code === '42703') {
+          useDeletedFilter = false;
+          ({ data, error } = await supabaseAdmin()
+            .from('questions')
+            .select('*')
+            .eq('subject', subjectId)
+            .order('created_at', { ascending: false })
+            .range(offset, end));
+        }
+        if (error) throw error;
+
+        const page = Array.isArray(data) ? data : [];
+        rows.push(...page);
+        if (page.length < pageSize) break;
+      }
+
+      return rows;
+    };
 
     const buildQuery = (withScore) => {
       let query = supabaseAdmin()
@@ -850,9 +956,6 @@ export const Database = {
       if (mode.allowDifficultyOverride && ['easy', 'medium', 'hard'].includes(opts.difficulty)) {
         query = query.eq('difficulty', opts.difficulty);
       }
-      if (mode.requireAnchor) {
-        query = query.in('anchor_tier', [1, 2]);
-      }
       if (withScore) {
         query = query
           .gte('score', -2)
@@ -863,12 +966,23 @@ export const Database = {
         .limit(poolSize);
     };
 
-    let { data, error } = await buildQuery(true);
-    if (error && isMissingPhase1VoteSchema(error)) {
-      ({ data, error } = await buildQuery(false));
+    let pool = [];
+    if (mode.id === 'nta') {
+      pool = await fetchNtaPool();
+    } else {
+      let { data, error } = await buildQuery(true);
+      if (error && isMissingPhase1VoteSchema(error)) {
+        ({ data, error } = await buildQuery(false));
+      }
+      if (error) throw error;
+      pool = Array.isArray(data) ? data : [];
     }
-    if (error) throw error;
-    let pool = Array.isArray(data) ? data : [];
+    if (mode.id === 'quick') {
+      pool = pool.filter((row) => !row.passage_group_id && !row.group_id && !row.passage_id);
+    }
+    if (mode.id === 'nta') {
+      pool = await this._attachPassageMetadata(pool);
+    }
 
     // Recency: drop questions seen in the user's last N attempts for this subject.
     if (opts.userId && mode.recencyLimit > 0) {
@@ -876,11 +990,21 @@ export const Database = {
       if (recentIds.size) {
         const trimmed = pool.filter((row) => !recentIds.has(row.id));
         // Only honour recency if we still have a viable pool afterwards.
-        if (trimmed.length >= Math.ceil(targetCount * 0.7)) pool = trimmed;
+        const minimumAfterRecency = mode.id === 'nta' ? targetCount : Math.ceil(targetCount * 0.7);
+        if (trimmed.length >= minimumAfterRecency) pool = trimmed;
       }
     }
 
-    if (pool.length === 0) return [];
+    if (pool.length === 0) {
+      return formatResult([], {
+        totalCandidates: 0,
+        acceptedCandidates: 0,
+        rejectedByReason: {},
+        message: mode.id === 'nta'
+          ? 'The database has fewer than 50 usable NTA questions for this subject.'
+          : undefined,
+      });
+    }
 
     // Per-user signals for the priority stack.
     const progress = opts.userId
@@ -891,6 +1015,21 @@ export const Database = {
       : new Set();
 
     const ranked = rankCandidates(pool, { mode, progress, weakConcepts });
+    if (mode.id === 'nta') {
+      const { selectedRows, diagnostics } = selectNtaQuestionSet(ranked, targetCount, {
+        subjectId,
+        seed: opts.generationKey || opts.seed || '',
+      });
+
+      if (process.env.NODE_ENV !== 'production') {
+        console.info('[nta-selector]', diagnostics);
+      }
+
+      return formatResult(selectedRows, {
+        ...diagnostics,
+      });
+    }
+
     const selected = pickWithConstraints(ranked, targetCount, mode);
 
     const validation = validateMockSet(selected, targetCount);
@@ -898,12 +1037,51 @@ export const Database = {
       console.warn('[mock] pool thin', { subject: subjectId, mode: mode.id, requested: targetCount, got: selected.length });
     }
 
-    if (opts.userId && selected.length > 0) {
-      const voteMap = await this.getUserVotes(opts.userId, selected.map((row) => row.id));
-      return selected.map((row) => questionOut({ ...row, user_vote: voteMap.get(row.id) || null }));
+    return formatResult(selected, {
+      validation,
+    });
+  },
+
+  async _attachPassageMetadata(rows) {
+    const list = Array.isArray(rows) ? rows : [];
+    const groupIds = Array.from(new Set(
+      list
+        .map((row) => row.passage_group_id || row.group_id || null)
+        .filter(Boolean)
+    ));
+    if (groupIds.length === 0) return list;
+
+    const { data, error } = await supabaseAdmin()
+      .from('passage_groups')
+      .select('id, subject, chapter, title, passage_text, passage_type, status, discoverable')
+      .in('id', groupIds);
+
+    if (error) {
+      if (error.code === '42P01' || error.code === '42703' || /passage_groups|schema cache|does not exist/i.test(error.message || '')) {
+        if (process.env.NODE_ENV !== 'production') {
+          console.warn('[nta-selector] passage metadata unavailable:', error.message);
+        }
+        return list;
+      }
+      throw error;
     }
 
-    return selected.map(questionOut);
+    const byId = new Map((data || [])
+      .filter((group) => group?.status === 'live' && group?.discoverable !== false)
+      .map((group) => [group.id, group]));
+
+    return list.map((row) => {
+      const group = byId.get(row.passage_group_id || row.group_id);
+      if (!group) return row;
+      return {
+        ...row,
+        passage_group_id: row.passage_group_id || group.id,
+        passage_id: row.passage_id || group.id,
+        passage_text: row.passage_text || group.passage_text,
+        passage_title: row.passage_title || group.title,
+        passage_type: row.passage_type || group.passage_type,
+      };
+    });
   },
 
   async _recentQuestionIds(userId, subjectId, lastN) {

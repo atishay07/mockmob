@@ -1,0 +1,2227 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5989 concepts across 40 subjects (saved 2026-04-30T23:02:52.552Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  coverage: 11,
+  priority: 75
+}
+[planner] {
+  subject: 'physics',
+  chapter: 'Magnetism & Matter',
+  coverage: 11,
+  priority: 75
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Functions',
+  coverage: 12,
+  priority: 75
+}
+[planner] {
+  subject: 'gat',
+  chapter: 'General Mental Ability',
+  coverage: 12,
+  priority: 75
+}
+[planner] {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  coverage: 12,
+  priority: 75
+}
+[planner] {
+  subject: 'biology',
+  chapter: 'Principles of Inheritance & Variation',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'business_studies',
+  chapter: 'Controlling',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'Biomolecules',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  coverage: 13,
+  priority: 75
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: physics → normalized: physics → tier: 1
+Subject: physics → normalized: physics → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: gat → normalized: gat → tier: 1
+Subject: physics → normalized: physics → tier: 1
+Subject: biology → normalized: biology → tier: 1
+Subject: business_studies → normalized: business_studies → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'physics',
+    expected_chapter: 'Electromagnetic Induction',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'physics',
+    expected_chapter: 'Magnetism & Matter',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Functions',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'gat',
+    expected_chapter: 'General Mental Ability',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'physics',
+    expected_chapter: 'Moving Charges & Magnetism',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Principles of Inheritance & Variation',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'business_studies',
+    expected_chapter: 'Controlling',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Biomolecules',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'p-Block Elements',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'physics',
+    chapter: 'Electromagnetic Induction',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'physics',
+    chapter: 'Magnetism & Matter',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Functions',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'gat',
+    chapter: 'General Mental Ability',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'physics',
+    chapter: 'Moving Charges & Magnetism',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Principles of Inheritance & Variation',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'business_studies',
+    chapter: 'Controlling',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'Biomolecules',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'p-Block Elements',
+    status: 'queued',
+    priority: 75
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: '6100e53e-938a-4bcd-b733-ddaf296801a1',
+    subject_id: 'physics',
+    chapter: 'Electromagnetic Induction',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T23:17:32.645444+00:00'
+  },
+  {
+    id: '2c4127df-1b67-4ed0-b809-08721efeb234',
+    subject_id: 'physics',
+    chapter: 'Magnetism & Matter',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T23:17:32.645444+00:00'
+  },
+  {
+    id: 'b0198a01-bc64-4afb-af17-9a173ef9507c',
+    subject_id: 'computer_science',
+    chapter: 'Functions',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T23:17:32.645444+00:00'
+  },
+  {
+    id: 'a9866ca8-3ff3-4441-9216-47177f96be5f',
+    subject_id: 'gat',
+    chapter: 'General Mental Ability',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T23:17:32.645444+00:00'
+  },
+  {
+    id: '87469010-e831-4c3d-8b98-ad6ed8077f4e',
+    subject_id: 'physics',
+    chapter: 'Moving Charges & Magnetism',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T23:17:32.645444+00:00'
+  },
+  {
+    id: '2f49dadd-1938-400a-926b-65ec1327b363',
+    subject_id: 'biology',
+    chapter: 'Principles of Inheritance & Variation',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T23:17:32.645444+00:00'
+  },
+  {
+    id: 'e59e8e24-3e3c-49d0-9a43-39e300732b76',
+    subject_id: 'business_studies',
+    chapter: 'Controlling',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T23:17:32.645444+00:00'
+  },
+  {
+    id: 'faf87039-6321-492e-b72f-0e16647c6121',
+    subject_id: 'chemistry',
+    chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T23:17:32.645444+00:00'
+  },
+  {
+    id: '76786197-62f1-409d-b41c-06772daf064a',
+    subject_id: 'chemistry',
+    chapter: 'Biomolecules',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T23:17:32.645444+00:00'
+  },
+  {
+    id: 'fc255a28-96a0-4b0b-8735-fe3fcf0bbe8a',
+    subject_id: 'chemistry',
+    chapter: 'p-Block Elements',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T23:17:32.645444+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: '6100e53e-938a-4bcd-b733-ddaf296801a1',
+    expected_subject: 'physics',
+    expected_chapter: 'Electromagnetic Induction',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '2c4127df-1b67-4ed0-b809-08721efeb234',
+    expected_subject: 'physics',
+    expected_chapter: 'Magnetism & Matter',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: 'b0198a01-bc64-4afb-af17-9a173ef9507c',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Functions',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: 'a9866ca8-3ff3-4441-9216-47177f96be5f',
+    expected_subject: 'gat',
+    expected_chapter: 'General Mental Ability',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '87469010-e831-4c3d-8b98-ad6ed8077f4e',
+    expected_subject: 'physics',
+    expected_chapter: 'Moving Charges & Magnetism',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '2f49dadd-1938-400a-926b-65ec1327b363',
+    expected_subject: 'biology',
+    expected_chapter: 'Principles of Inheritance & Variation',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: 'e59e8e24-3e3c-49d0-9a43-39e300732b76',
+    expected_subject: 'business_studies',
+    expected_chapter: 'Controlling',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: 'faf87039-6321-492e-b72f-0e16647c6121',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '76786197-62f1-409d-b41c-06772daf064a',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Biomolecules',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: 'fc255a28-96a0-4b0b-8735-fe3fcf0bbe8a',
+    expected_subject: 'chemistry',
+    expected_chapter: 'p-Block Elements',
+    status: 'queued',
+    priority: 75
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '6100e53e-938a-4bcd-b733-ddaf296801a1',
+    '2c4127df-1b67-4ed0-b809-08721efeb234',
+    'b0198a01-bc64-4afb-af17-9a173ef9507c',
+    'a9866ca8-3ff3-4441-9216-47177f96be5f',
+    '87469010-e831-4c3d-8b98-ad6ed8077f4e',
+    '2f49dadd-1938-400a-926b-65ec1327b363',
+    'e59e8e24-3e3c-49d0-9a43-39e300732b76',
+    'faf87039-6321-492e-b72f-0e16647c6121',
+    '76786197-62f1-409d-b41c-06772daf064a',
+    'fc255a28-96a0-4b0b-8735-fe3fcf0bbe8a'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '2c4127df-1b67-4ed0-b809-08721efeb234',
+  actual_subject: 'physics',
+  actual_chapter: 'Magnetism & Matter',
+  status: 'queued',
+  priority: 75,
+  original_priority: 75,
+  question_count: 11,
+  subject_question_count: 316,
+  created_at: '2026-04-30T23:17:32.645444+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'physics',
+  chapter: 'Magnetism & Matter',
+  count: 11,
+  priority: 75
+}
+[worker] coverage-based selection: { subject: 'physics', chapter: 'Magnetism & Matter', count: 11 }
+
+[JOB 2c4127df] Starting: [physics] Magnetism & Matter
+[worker] RECEIVED_JOB: {
+  job_id: '2c4127df-1b67-4ed0-b809-08721efeb234',
+  expected_subject: 'physics',
+  expected_chapter: 'Magnetism & Matter',
+  raw_subject_id: 'physics',
+  raw_chapter: 'Magnetism & Matter',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-04-30T23:17:32.645444+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '2c4127df-1b67-4ed0-b809-08721efeb234',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  chapter: 'Magnetism & Matter',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=11 existing questions loaded
+[generation] batch adjusted: { chapter: 'Magnetism & Matter', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '2c4127df-1b67-4ed0-b809-08721efeb234',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  expected_chapter: 'Magnetism & Matter',
+  canonical_unit: 'Magnetic Effects of Current and Magnetism',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Magnetism & Matter" unit="Magnetic Effects of Current and Magnetism" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'physics',
+  prompt_subject_name: 'Physics',
+  expected_chapter: 'Magnetism & Matter',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'physics',
+  expected_chapter: 'Magnetism & Matter',
+  canonical_unit: 'Magnetic Effects of Current and Magnetism',
+  concept_id: 'physics::magnetism_and_matter',
+  pyq_anchor_id: 'structure_only_structured_physics_dual_nature_of_radiation_and_matter_2_for_physics::magnetism_and_matter',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 24030,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: A current-carrying loop creates a magnetic field. Statement II: The strength of the magnetic field depends solely on the current flowing through the loop. Statement III: The direction of the magnetic field can be determined using the right-hand rule.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"physics::magnetism_and_matter","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"This question requires understanding of how magnetic fields are generated by loops, not just recalling definitions.","why_cuet_level":"This question tests deeper comprehension of magnetic field generation principles.","distractor_rationale":{"A":"While both statements I and II are correct, II does not consider other factors affecting field strength.","B":"Statement II is flawed as it ignores additional factors influencing magnetic field strength.","C":"Statement I is true, and III correctly identifies how to find the direction of the field, making this option valid.","D":"Including all statements is incorrect since Statement II is not entirely accurate."}},{"q":"Assertion: Increasing the number of turns in a coil increases its magnetic field strength. Reason: Each turn contributes equally to the total magnetic field strength produced by the coil. Which option best evaluates this pair?","o":["Both Assertion and Reason are correct, and the Reason explains why more turns increase strength.","Both Assertion and Reason are correct, but the Reason does not explain the effect on strength accurately.","Assertion is correct, but Reason is incorrect since it overlooks interaction effects between turns.","Assertion is incorrect, but Reason is correct under specific conditions."],"a":"A","question_type":"assertion_reason","concept_id":"physics::magnetism_and_matter","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question challenges students to analyze how coil turns affect magnetic fields, not just recall facts.","why_cuet_level":"This question assesses understanding of coil behavior in magnetism context.","distractor_rationale":{"A":"Both statements are accurate; more turns indeed lead to a stronger collective field due to their contributions.","B":"The reason does explain an important aspect but misses nuances in interaction effects between turns.","C":"The assertion holds true; however, reasoning about interactions among turns is essential for full comprehension.","D":"While the assertion is true, the reasoning does not fully capture why more turns affect strength in all scenarios."}},{"q":"In a scenario where a wire carrying current is placed in a uniform magnetic field, which outcomes can occur? Statement I: The wire experiences a force perpendicular to both its length and the field direction. Statement II: The force's direction can be determined using Fleming's left-hand rule. Statement III: The force's magnitude depends on both current strength and angle with respect to the magnetic field. Choose the correct option:","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"D","question_type":"statement_based","concept_id":"physics::magnetism_and_matter","trap_option":"A","strong_distractors":["B","C"],"why_not_textbook":"This question requires application of principles regarding forces on current-carrying conductors in magnetic fields.","why_cuet_level":"It examines understanding of forces acting on conductors under various conditions in magnetism.","distractor_rationale":{"A":"All statements are valid; each accurately describes aspects of forces on wires in magnetic fields.","B":"While Statements II and III are accurate, they miss that Statement I also holds true for such situations.","C":"Although Statements I and III are correct, they do not encompass all relevant factors described in Statement II.","D":"All statements provide valid insights into the behavior of current-carrying wires in magnetic fields."}},{"q":"Assertion: Magnetic materials can be classified into diamagnetic, paramagnetic, and ferromagnetic types. Reason: The classification solely depends on their response to an external magnetic field. Evaluate this pair:","o":["Both Assertion and Reason are correct, with Reason accurately describing classification criteria.","Both Assertion and Reason are correct, but Reason overlooks other factors influencing material properties.","Assertion is correct; however, Reason is incorrect as it simplifies complex material behaviors too much.","Assertion is incorrect while Reason is correct under certain contexts."],"a":"B","question_type":"assertion_reason","concept_id":"physics::magnetism_and_matter","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"This question prompts critical evaluation of material classifications beyond basic definitions.","why_cuet_level":"It tests conceptual understanding of material responses to magnetism rather than rote memorization.","distractor_rationale":{"A":"The assertion holds true; however, the reason does not account for intrinsic properties affecting magnetism.","B":"The reason provides a good basis but fails to acknowledge additional complexities affecting classifications.","C":"While asserting true classification types, reasoning oversimplifies how these materials behave under fields.","D":"The assertion stands while reasoning could be misleading without considering additional influences."}},{"q":"Two parallel wires carrying currents in opposite directions will experience what kind of interaction? Statement I: They will repel each other due to their opposing magnetic fields. Statement II: The repulsive force increases with greater current magnitudes. Statement III: This phenomenon can be explained using Ampere's law. Choose the correct option:","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"physics::magnetism_and_matter","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Understanding wire interactions underlies fundamental principles of magnetism, requiring application rather than recall.","why_cuet_level":"This question assesses comprehension of forces between current-carrying conductors based on established laws of magnetism.","distractor_rationale":{"A":"Both statements I and II accurately describe repulsion mechanics between oppositely directed currents in wires.","B":"While Statements II and III hold true regarding interactions, they do not fully encapsulate all aspects discussed in Statement I.","C":"Statement I is valid; however, statement III does not completely apply as it introduces unrelated concepts here without context.","D":"Including all statements overlooks that while they relate to wire behavior, not all fit together cohesively."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=1
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 1
+[pipeline] generated_count=1 | mix=easy=0, medium=1, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 1
+[reject] {
+  subject: 'physics',
+  chapter: 'Magnetism & Matter',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=1 | pre_validation_filtered=1 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=1 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 1,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 1
+}
+[draft] Saved f5a4fb54-8937-49d4-b559-28f311047bca | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 1,
+  draft_candidates: 1,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=physics | chapter=Magnetism & Matter | target=5 | generated_count=1 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=1 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=1 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '6100e53e-938a-4bcd-b733-ddaf296801a1',
+    'b0198a01-bc64-4afb-af17-9a173ef9507c',
+    'a9866ca8-3ff3-4441-9216-47177f96be5f',
+    '87469010-e831-4c3d-8b98-ad6ed8077f4e',
+    '2f49dadd-1938-400a-926b-65ec1327b363',
+    'e59e8e24-3e3c-49d0-9a43-39e300732b76',
+    'faf87039-6321-492e-b72f-0e16647c6121',
+    '76786197-62f1-409d-b41c-06772daf064a',
+    'fc255a28-96a0-4b0b-8735-fe3fcf0bbe8a'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '2f49dadd-1938-400a-926b-65ec1327b363',
+  actual_subject: 'biology',
+  actual_chapter: 'Principles of Inheritance & Variation',
+  status: 'queued',
+  priority: 75,
+  original_priority: 75,
+  question_count: 13,
+  subject_question_count: 437,
+  created_at: '2026-04-30T23:17:32.645444+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'biology',
+  chapter: 'Principles of Inheritance & Variation',
+  count: 13,
+  priority: 75
+}
+[worker] coverage-based selection: {
+  subject: 'biology',
+  chapter: 'Principles of Inheritance & Variation',
+  count: 13
+}
+
+[JOB 2f49dadd] Starting: [biology] Principles of Inheritance & Variation
+[worker] RECEIVED_JOB: {
+  job_id: '2f49dadd-1938-400a-926b-65ec1327b363',
+  expected_subject: 'biology',
+  expected_chapter: 'Principles of Inheritance & Variation',
+  raw_subject_id: 'biology',
+  raw_chapter: 'Principles of Inheritance & Variation',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-04-30T23:17:32.645444+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '2f49dadd-1938-400a-926b-65ec1327b363',
+  expected_subject: 'biology',
+  resolved_subject_id: 'biology',
+  resolved_subject_name: 'Biology',
+  chapter: 'Principles of Inheritance & Variation',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=13 existing questions loaded
+[generation] batch adjusted: { chapter: 'Principles of Inheritance & Variation', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '2f49dadd-1938-400a-926b-65ec1327b363',
+  expected_subject: 'biology',
+  resolved_subject_id: 'biology',
+  resolved_subject_name: 'Biology',
+  expected_chapter: 'Principles of Inheritance & Variation',
+  canonical_unit: 'Genetics and Evolution',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Principles of Inheritance & Variation" unit="Genetics and Evolution" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'biology',
+  prompt_subject_name: 'Biology',
+  expected_chapter: 'Principles of Inheritance & Variation',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'biology',
+  expected_chapter: 'Principles of Inheritance & Variation',
+  canonical_unit: 'Genetics and Evolution',
+  concept_id: 'biology::principles_of_inheritance_and_variation',
+  pyq_anchor_id: 'structure_only_structured_biology_microbes_in_human_welfare_1_for_biology::principles_of_inheritance_and_variation',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'biology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'biology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 16624,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'biology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: Mendel's law of segregation states that allele pairs separate during gamete formation. Statement II: This law implies that offspring receive one allele from each parent, ensuring genetic variation. Statement III: The law is applicable only to traits controlled by multiple genes. ","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"biology::principles_of_inheritance_and_variation","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The statements require an understanding of Mendelian genetics rather than rote memorization.","why_cuet_level":"The question tests comprehension of genetic principles rather than simple recall.","distractor_rationale":{"A":"Both statements accurately reflect Mendel's findings about allele segregation and its implications for offspring.","B":"While II is correct, III inaccurately restricts the law's applicability to traits influenced by multiple genes.","C":"This option incorrectly suggests that the law applies solely to polygenic traits, which is not true.","D":"Including statement III misrepresents the scope of Mendel's law."}},{"q":"Assertion: Incomplete dominance results in a phenotype that is a blend of the two parental traits. Reason: This phenomenon occurs when neither allele is completely dominant over the other.","o":["Both Assertion and Reason are correct, and Reason is the correct explanation for Assertion.","Both Assertion and Reason are correct, but Reason is not the correct explanation for Assertion.","Assertion is correct, but Reason is incorrect.","Assertion is incorrect, but Reason is correct."],"a":"A","question_type":"assertion_reason","concept_id":"biology::principles_of_inheritance_and_variation","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question encourages analysis of genetic interactions rather than simple definitions.","why_cuet_level":"It assesses understanding of incomplete dominance versus complete dominance mechanisms.","distractor_rationale":{"A":"The reasoning correctly explains why incomplete dominance leads to blended phenotypes.","B":"While both statements are true, the reason does explain why the assertion holds true in this context.","C":"This option mistakenly claims that the assertion is false without justification.","D":"This incorrectly suggests that the reasoning itself lacks validity."}},{"q":"Read the statements and choose the correct option: Statement I: Codominance results in both parental traits being fully expressed in the offspring. Statement II: This genetic principle can be observed in blood group inheritance. Statement III: Codominance occurs exclusively in single-gene traits.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"biology::principles_of_inheritance_and_variation","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The statements require analysis of codominance rather than straightforward recall.","why_cuet_level":"The question tests knowledge of specific examples of codominance in genetics.","distractor_rationale":{"A":"Both statements accurately depict codominance and its application to blood groups.","B":"While II is valid, III incorrectly limits codominance to single-gene traits only.","C":"This option wrongly asserts that codominance applies solely to single-gene traits.","D":"Including statement III misrepresents the nature of codominance."}},{"q":"Assertion: Polygenic inheritance results in a wide range of phenotypes for a trait. Reason: This type of inheritance involves multiple genes contributing to a single trait.","o":["Both Assertion and Reason are correct, and Reason explains Assertion.","Both Assertion and Reason are correct, but Reason does not explain Assertion.","Assertion is correct, but Reason is incorrect.","Assertion is incorrect, but Reason is correct."],"a":"A","question_type":"assertion_reason","concept_id":"biology::principles_of_inheritance_and_variation","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question requires comprehension of polygenic inheritance mechanisms rather than definitions alone.","why_cuet_level":"It assesses deeper understanding of how polygenic traits manifest in populations.","distractor_rationale":{"A":"The reasoning correctly clarifies how multiple genes affect phenotype diversity in polygenic inheritance.","B":"While both statements are true, B implies a lack of connection between them which isn't accurate.","C":"This option incorrectly dismisses the validity of the reason provided for the assertion's truth.","D":"This suggests that the assertion lacks merit without evidence."}},{"q":"Read the statements and choose the correct option: Statement I: A dihybrid cross examines two traits simultaneously. Statement II: The phenotypic ratio for a dihybrid cross in F2 generation typically follows 9:3:3:1. Statement III: Dihybrid crosses can only be performed with traits that exhibit complete dominance.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"biology::principles_of_inheritance_and_variation","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"Understanding dihybrid crosses requires application of concepts rather than simple recall from textbooks.","why_cuet_level":"It tests comprehension of genetic ratios derived from dihybrid crosses beyond mere definitions.","distractor_rationale":{"A":"Both I and II accurately describe dihybrid crosses and their expected outcomes in terms of ratios.","B":"While II is valid, III incorrectly limits dihybrid crosses to traits with complete dominance only; exceptions exist.","C":"This option mistakenly asserts that some dihybrid crosses cannot occur with incomplete dominance.","D":"Including statement III misrepresents how dihybrid crosses can involve various dominance relationships."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=5
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 5
+[pipeline] generated_count=5 | mix=easy=0, medium=5, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 5
+[reject] {
+  subject: 'biology',
+  chapter: 'Principles of Inheritance & Variation',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'biology',
+  chapter: 'Principles of Inheritance & Variation',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'biology',
+  chapter: 'Principles of Inheritance & Variation',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=5 | pre_validation_filtered=3 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 3
+}
+[draft] Saved b8effb2e-ee35-47da-a345-eb5fc63897ab | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 7545dc6d-17db-45ff-9a68-7385b237a47d | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 69494162-d9c7-492b-b62a-fd61646a0669 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 3,
+  draft_candidates: 3,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=biology | chapter=Principles of Inheritance & Variation | target=5 | generated_count=5 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=3 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=3 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '6100e53e-938a-4bcd-b733-ddaf296801a1',
+    'b0198a01-bc64-4afb-af17-9a173ef9507c',
+    'a9866ca8-3ff3-4441-9216-47177f96be5f',
+    '87469010-e831-4c3d-8b98-ad6ed8077f4e',
+    'e59e8e24-3e3c-49d0-9a43-39e300732b76',
+    'faf87039-6321-492e-b72f-0e16647c6121',
+    '76786197-62f1-409d-b41c-06772daf064a',
+    'fc255a28-96a0-4b0b-8735-fe3fcf0bbe8a'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'e59e8e24-3e3c-49d0-9a43-39e300732b76',
+  actual_subject: 'business_studies',
+  actual_chapter: 'Controlling',
+  status: 'queued',
+  priority: 75,
+  original_priority: 75,
+  question_count: 13,
+  subject_question_count: 393,
+  created_at: '2026-04-30T23:17:32.645444+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'business_studies',
+  chapter: 'Controlling',
+  count: 13,
+  priority: 75
+}
+[worker] coverage-based selection: { subject: 'business_studies', chapter: 'Controlling', count: 13 }
+
+[JOB e59e8e24] Starting: [business_studies] Controlling
+[worker] RECEIVED_JOB: {
+  job_id: 'e59e8e24-3e3c-49d0-9a43-39e300732b76',
+  expected_subject: 'business_studies',
+  expected_chapter: 'Controlling',
+  raw_subject_id: 'business_studies',
+  raw_chapter: 'Controlling',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-04-30T23:17:32.645444+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'e59e8e24-3e3c-49d0-9a43-39e300732b76',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  chapter: 'Controlling',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=13 existing questions loaded
+[generation] batch adjusted: { chapter: 'Controlling', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'e59e8e24-3e3c-49d0-9a43-39e300732b76',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  expected_chapter: 'Controlling',
+  canonical_unit: 'Controlling',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Controlling" unit="Controlling" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'business_studies',
+  prompt_subject_name: 'Business Studies',
+  expected_chapter: 'Controlling',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'business_studies',
+  expected_chapter: 'Controlling',
+  canonical_unit: 'Controlling',
+  concept_id: 'business_studies::controlling',
+  pyq_anchor_id: 'structure_only_structured_business_studies_marketing_management_2_for_business_studies::controlling',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 22558,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: Effective controlling ensures that actual performance aligns with planned performance. Statement II: Control systems can only identify deviations but cannot recommend corrective actions. Statement III: Controlling is a continuous process that helps in decision making.","o":["I and III only","I and II only","II and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"business_studies::controlling","trap_option":"B","strong_distractors":["B","C"],"why_not_textbook":"This question focuses on evaluating the understanding of the controlling process rather than mere definitions.","why_cuet_level":"This aligns with CUET's emphasis on application and analysis of concepts.","distractor_rationale":{"A":"Both statements I and III are valid as they reflect the essence of controlling.","B":"While it's true that control systems identify deviations, they also provide recommendations, making this statement misleading.","C":"Statement II is inaccurate as it ignores the role of control systems in suggesting corrective actions.","D":"This option is incorrect since not all statements are valid."}},{"q":"Assertion: A control system should be flexible to adapt to changing circumstances. Reason: Rigid control systems can lead to inefficiencies and misalignment with goals.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"business_studies::controlling","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question tests understanding of flexibility in control systems rather than rote learning of definitions.","why_cuet_level":"The question requires critical evaluation of assertions and reasoning in context.","distractor_rationale":{"A":"The reason supports the assertion as it highlights the need for adaptability in control systems.","B":"While both statements are valid, the reason directly explains why flexibility is necessary for effective control.","C":"This option misrepresents the relationship between assertion and reason as both are true.","D":"This option incorrectly states that one of the assertions is false."}},{"q":"A manager implements a new performance evaluation system but notices resistance from employees. Which evaluation best fits this scenario? Read the statements: Statement I: Resistance indicates lack of transparency in the controlling process. Statement II: Effective communication can mitigate resistance during implementation. Statement III: Resistance should not be considered in evaluating control effectiveness as it’s often temporary.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"comparison_based","concept_id":"business_studies::controlling","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"This scenario emphasizes practical implications of controlling rather than theoretical definitions.","why_cuet_level":"It encourages analysis of real-world implications of controlling processes.","distractor_rationale":{"A":"Statements I and II correctly identify factors influencing resistance to change in controlling processes.","B":"While statement II is valid, statement III overlooks important aspects of employee feedback during control evaluation.","C":"Ignoring resistance undermines the effectiveness of control processes, making this option flawed.","D":"Combining all statements does not accurately reflect the nuances involved."}},{"q":"Read the statements regarding controlling in management: Statement I: Controlling involves setting standards to measure performance. Statement II: The primary goal of controlling is solely to punish deviations from standards. Statement III: Effective controlling helps in ensuring organizational goals are met efficiently. Choose the correct option:","o":["I and III only","II and III only","I and II only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"business_studies::controlling","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"This question assesses comprehension of controlling functions beyond punitive measures.","why_cuet_level":"It reflects a need for understanding broader implications of management practices in controlling.","distractor_rationale":{"A":"Both statements I and III accurately represent key aspects of effective controlling practices.","B":"Focusing solely on punishment misrepresents the comprehensive nature of controlling processes.","C":"While statement I is valid, statement II fails to capture the overall purpose of controlling accurately.","D":"Not all statements are correct; hence this combination does not hold."}},{"q":"Assertion: Control mechanisms should be proactive rather than reactive. Reason: Proactive controls can prevent issues before they arise, while reactive controls address problems after they occur. Evaluate these statements based on their accuracy.","o":["Both Assertion and Reason are true, and Reason explains Assertion.","Both Assertion and Reason are true, but Reason does not explain Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"business_studies::controlling","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question challenges learners to think critically about proactive versus reactive strategies in management control systems.","why_cuet_level":"It examines deeper understanding rather than surface-level recall of definitions or concepts.","distractor_rationale":{"A":"The reason effectively supports the assertion by explaining the benefits of proactive controls over reactive ones.","B":"While both statements are correct, the reason directly elucidates why proactive approaches are preferred in control mechanisms.","C":"This option inaccurately dismisses a valid reason supporting an important assertion about control strategies.","D":"Incorrectly claims that one statement lacks validity when both present accurate insights."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=4
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 4
+[pipeline] generated_count=4 | mix=easy=0, medium=4, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 4
+[reject] {
+  subject: 'business_studies',
+  chapter: 'Controlling',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'business_studies',
+  chapter: 'Controlling',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=4 | pre_validation_filtered=2 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 3
+}
+[draft] Saved aaa0d3b1-6f07-489a-bfc6-25331ee33ea9 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 2ce38428-e1e8-4ed9-8084-f9c18af69341 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved f67520de-f533-4764-acdf-5738a2f09683 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 3,
+  draft_candidates: 3,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=business_studies | chapter=Controlling | target=5 | generated_count=4 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=2 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=3 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '6100e53e-938a-4bcd-b733-ddaf296801a1',
+    'b0198a01-bc64-4afb-af17-9a173ef9507c',
+    'a9866ca8-3ff3-4441-9216-47177f96be5f',
+    '87469010-e831-4c3d-8b98-ad6ed8077f4e',
+    'faf87039-6321-492e-b72f-0e16647c6121',
+    '76786197-62f1-409d-b41c-06772daf064a',
+    'fc255a28-96a0-4b0b-8735-fe3fcf0bbe8a'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'faf87039-6321-492e-b72f-0e16647c6121',
+  actual_subject: 'chemistry',
+  actual_chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+  status: 'queued',
+  priority: 75,
+  original_priority: 75,
+  question_count: 13,
+  subject_question_count: 374,
+  created_at: '2026-04-30T23:17:32.645444+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'chemistry',
+  chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+  count: 13,
+  priority: 75
+}
+[worker] coverage-based selection: {
+  subject: 'chemistry',
+  chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+  count: 13
+}
+
+[JOB faf87039] Starting: [chemistry] Aldehydes, Ketones & Carboxylic Acids
+[worker] RECEIVED_JOB: {
+  job_id: 'faf87039-6321-492e-b72f-0e16647c6121',
+  expected_subject: 'chemistry',
+  expected_chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+  raw_subject_id: 'chemistry',
+  raw_chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-04-30T23:17:32.645444+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'faf87039-6321-492e-b72f-0e16647c6121',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=13 existing questions loaded
+[generation] batch adjusted: { chapter: 'Aldehydes, Ketones & Carboxylic Acids', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'faf87039-6321-492e-b72f-0e16647c6121',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  expected_chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+  canonical_unit: 'Aldehydes, Ketones and Carboxylic Acids',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Aldehydes, Ketones & Carboxylic Acids" unit="Aldehydes, Ketones and Carboxylic Acids" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'chemistry',
+  prompt_subject_name: 'Chemistry',
+  expected_chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'chemistry',
+  expected_chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+  canonical_unit: 'Aldehydes, Ketones and Carboxylic Acids',
+  concept_id: 'chemistry::aldehydes_ketones_and_carboxylic_acids',
+  pyq_anchor_id: 'structure_only_structured_chemistry_coordination_compounds_1_for_chemistry::aldehydes_ketones_and_carboxylic_acids',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 19701,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: Aldehydes generally have higher boiling points than ketones due to stronger hydrogen bonding. Statement II: Ketones can participate in hydrogen bonding with water, enhancing their solubility. Statement III: Both aldehydes and ketones are less soluble in water compared to alcohols.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"B","question_type":"statement_based","concept_id":"chemistry::aldehydes_ketones_and_carboxylic_acids","trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"The statements require analysis of boiling points and solubility rather than definitions.","why_cuet_level":"Evaluates understanding of properties through comparison.","distractor_rationale":{"A":"Statement I incorrectly attributes higher boiling points solely to hydrogen bonding without considering molecular weight.","B":"Both statements are true regarding the properties of aldehydes and ketones.","C":"Statement III is correct but does not address the other two accurately.","D":"All statements cannot be true as per provided reasoning."}},{"q":"Assertion: Carboxylic acids have higher acidity than alcohols due to resonance stabilization of their conjugate bases. Reason: The presence of electronegative oxygen atoms enhances the stability of carboxylate ions formed after deprotonation.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"chemistry::aldehydes_ketones_and_carboxylic_acids","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The focus is on understanding acidity through resonance rather than simple definitions.","why_cuet_level":"Tests comprehension of acidity concepts in organic compounds.","distractor_rationale":{"A":"Both parts accurately describe the relationship between carboxylic acids and their acidity.","B":"The reason does explain the assertion effectively, making this option incorrect.","C":"The assertion is valid; however, the reason is actually true as well, making this option incorrect.","D":"The assertion is valid; however, the reason also holds true."}},{"q":"Consider the following statements regarding aldehydes and ketones: Statement I: Both can undergo oxidation to form carboxylic acids. Statement II: Aldehydes can be reduced to primary alcohols, while ketones yield secondary alcohols. Statement III: Ketones are more reactive towards nucleophiles compared to aldehydes under all conditions.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"chemistry::aldehydes_ketones_and_carboxylic_acids","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question examines reaction pathways rather than just definitions of compounds.","why_cuet_level":"Engages with reactivity differences in organic compounds for deeper understanding.","distractor_rationale":{"A":"Both I and II are accurate regarding oxidation and reduction reactions of aldehydes and ketones.","B":"Statement III incorrectly generalizes reactivity as it varies based on conditions.","C":"Statement I is true; however, Statement III misrepresents reactivity trends under specific scenarios.","D":"While I is true, Statement II has a broader context that makes this option incorrect."}},{"q":"Assertion: The presence of electron-withdrawing groups in a compound enhances its electrophilicity. Reason: Electron-withdrawing groups stabilize negative charges which increases reactivity towards nucleophiles.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"chemistry::aldehydes_ketones_and_carboxylic_acids","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Focuses on understanding electrophilicity rather than surface-level definitions of groups involved.","why_cuet_level":"Explores concepts of reactivity in organic chemistry for analytical skills development.","distractor_rationale":{"A":"Both statements correctly illustrate how electron-withdrawing groups affect reactivity.","B":"The reason indeed explains why electrophilicity increases, making this option incorrect.","C":"The assertion stands correct; however, the reason supports it effectively as well, making this option incorrect.","D":"The assertion holds validity; however, the reason also remains accurate."}},{"q":"Read the statements regarding carboxylic acids and choose the correct option: Statement I: Carboxylic acids can form anhydrides through dehydration reactions. Statement II: They do not react with alcohols unless activated by acid catalysts. Statement III: The boiling point of carboxylic acids is lower than that of ketones with similar molecular weights due to lack of hydrogen bonding between molecules.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"chemistry::aldehydes_ketones_and_carboxylic_acids","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Requires deeper analysis of reaction mechanisms instead of straightforward definitions or comparisons.","why_cuet_level":"Tests understanding of functional group chemistry through elimination techniques.","distractor_rationale":{"A":"Statements I and II accurately reflect carboxylic acid behavior in reactions while III misstates boiling point comparisons with ketones.","B":"Statement I holds true; however, statement III presents a flawed comparison making this option incorrect.","C":"Statement I remains valid while statement III misrepresents boiling points based on intermolecular forces involved making this option incorrect.","D":"Only statement I is accurate; statement II has exceptions depending on conditions."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=3
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 3
+[pipeline] generated_count=3 | mix=easy=0, medium=3, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 3
+[reject] {
+  subject: 'chemistry',
+  chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=3 | pre_validation_filtered=1 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 3
+}
+[draft] Saved 36fec54f-ea34-4b39-b3b9-c1ec09c2389e | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved c2740313-8981-4909-ba4a-f1733592594c | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved a8578f4d-9d50-48fd-abd4-13fe64f7af58 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 3,
+  draft_candidates: 3,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=chemistry | chapter=Aldehydes, Ketones & Carboxylic Acids | target=5 | generated_count=3 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=1 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=3 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '6100e53e-938a-4bcd-b733-ddaf296801a1',
+    'b0198a01-bc64-4afb-af17-9a173ef9507c',
+    'a9866ca8-3ff3-4441-9216-47177f96be5f',
+    '87469010-e831-4c3d-8b98-ad6ed8077f4e',
+    '76786197-62f1-409d-b41c-06772daf064a',
+    'fc255a28-96a0-4b0b-8735-fe3fcf0bbe8a'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '76786197-62f1-409d-b41c-06772daf064a',
+  actual_subject: 'chemistry',
+  actual_chapter: 'Biomolecules',
+  status: 'queued',
+  priority: 75,
+  original_priority: 75,
+  question_count: 13,
+  subject_question_count: 377,
+  created_at: '2026-04-30T23:17:32.645444+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'chemistry',
+  chapter: 'Biomolecules',
+  count: 13,
+  priority: 75
+}
+[worker] coverage-based selection: { subject: 'chemistry', chapter: 'Biomolecules', count: 13 }
+
+[JOB 76786197] Starting: [chemistry] Biomolecules
+[worker] RECEIVED_JOB: {
+  job_id: '76786197-62f1-409d-b41c-06772daf064a',
+  expected_subject: 'chemistry',
+  expected_chapter: 'Biomolecules',
+  raw_subject_id: 'chemistry',
+  raw_chapter: 'Biomolecules',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-04-30T23:17:32.645444+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '76786197-62f1-409d-b41c-06772daf064a',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  chapter: 'Biomolecules',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=13 existing questions loaded
+[generation] batch adjusted: { chapter: 'Biomolecules', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '76786197-62f1-409d-b41c-06772daf064a',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  expected_chapter: 'Biomolecules',
+  canonical_unit: 'Biomolecules',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Biomolecules" unit="Biomolecules" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'chemistry',
+  prompt_subject_name: 'Chemistry',
+  expected_chapter: 'Biomolecules',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'chemistry',
+  expected_chapter: 'Biomolecules',
+  canonical_unit: 'Biomolecules',
+  concept_id: 'chemistry::biomolecules',
+  pyq_anchor_id: 'structure_only_structured_chemistry_coordination_compounds_1_for_chemistry::biomolecules',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 20337,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: Proteins are formed from amino acids through peptide bonds. Statement II: The sequence of amino acids determines the protein's function. Statement III: All proteins are soluble in water due to their structure.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"chemistry::biomolecules","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The statements are designed to challenge understanding of protein solubility and structure.","why_cuet_level":"Requires critical evaluation of protein characteristics.","distractor_rationale":{"A":"Both statements I and II correctly describe key aspects of proteins.","B":"Statement II is valid, but III inaccurately generalizes protein solubility.","C":"Statement III is misleading because not all proteins are soluble in water; some are membrane-bound or insoluble.","D":"Statement I is valid, but III incorrectly claims that all proteins have similar solubility."}},{"q":"Assertion: Lipids serve as energy storage molecules in organisms. Reason: The structure of lipids allows them to store more energy than carbohydrates per gram.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"chemistry::biomolecules","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question tests understanding of lipid function versus carbohydrate comparison.","why_cuet_level":"Examines deeper connections between structure and function in biomolecules.","distractor_rationale":{"A":"The reason effectively supports the assertion about lipid energy storage.","B":"While both statements are true, the reason directly explains why lipids are effective for energy storage.","C":"The assertion is correct; however, the reasoning about carbohydrates being less efficient is flawed as it does not consider structural nuances.","D":"The assertion is valid, but claiming that lipids store less energy than carbohydrates misrepresents their role."}},{"q":"Read the statements and choose the correct option: Statement I: Nucleic acids are responsible for storing genetic information. Statement II: RNA plays a role in protein synthesis while DNA remains static. Statement III: Both RNA and DNA have identical structures due to their nucleotide composition.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"chemistry::biomolecules","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The focus is on distinguishing between RNA and DNA functions accurately.","why_cuet_level":"Encourages critical thinking regarding nucleic acid functions and structures.","distractor_rationale":{"A":"Statements I and II correctly outline the roles of nucleic acids in genetics and protein synthesis.","B":"Statement II accurately describes RNA's role; however, III incorrectly states that RNA and DNA have identical structures.","C":"Statement III misrepresents nucleic acid structures as they differ significantly between DNA and RNA.","D":"While I is correct, II's claim about DNA being static lacks depth regarding its dynamic functions."}},{"q":"Assertion: Enzymes increase reaction rates by lowering activation energy. Reason: Enzymes can be reused multiple times after a reaction without being consumed.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"chemistry::biomolecules","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This evaluates understanding of enzyme functionality beyond basic definitions.","why_cuet_level":"Tests comprehension of enzyme action in biochemical reactions clearly.","distractor_rationale":{"A":"Both statements provide accurate insights into enzyme behavior during reactions.","B":"While both statements are valid independently, they do not directly relate to each other logically here.","C":"The assertion about enzymes lowering activation energy is valid; however, stating that they can be reused doesn't directly support this point without context on catalytic cycles or mechanisms.","D":"The reasoning about reuse does not contradict enzyme action but misses its relevance to activation energy."}},{"q":"Read the statements regarding carbohydrates and choose the correct option: Statement I: Monosaccharides are simple sugars that can combine to form polysaccharides. Statement II: All polysaccharides have identical properties regardless of their composition. Statement III: Disaccharides consist of two monosaccharide units linked by glycosidic bonds.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"chemistry::biomolecules","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"Focuses on understanding carbohydrate diversity rather than rote memorization of definitions.","why_cuet_level":"Challenges comprehension of carbohydrate structure-function relationships critically.","distractor_rationale":{"A":"While statement I is accurate, statement II incorrectly generalizes polysaccharide properties as identical across types.","B":"Statement II's claim about polysaccharides overlooks significant structural variations affecting properties; therefore it's misleading as a trap option.","C":"Both statements I and III correctly illustrate carbohydrate structures; thus C is a valid choice here for accuracy in understanding carbohydrate formation versus diversity in properties across polysaccharides.","D":"Statement I holds true; however, statement II inaccurately describes polysaccharides' identity across varieties."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=2
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 2
+[pipeline] generated_count=2 | mix=easy=0, medium=2, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 2
+[pipeline] after_chapter_filter=2 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=2 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 2,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 2
+}
+[draft] Saved 9b1fef65-2c28-4d42-8ac2-8ad8f9f9cfb6 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved b1a9d453-2d14-4f2b-94e6-7283f21f2891 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 2,
+  draft_candidates: 2,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=chemistry | chapter=Biomolecules | target=5 | generated_count=2 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=2 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '6100e53e-938a-4bcd-b733-ddaf296801a1',
+    'b0198a01-bc64-4afb-af17-9a173ef9507c',
+    'a9866ca8-3ff3-4441-9216-47177f96be5f',
+    '87469010-e831-4c3d-8b98-ad6ed8077f4e',
+    'fc255a28-96a0-4b0b-8735-fe3fcf0bbe8a'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'fc255a28-96a0-4b0b-8735-fe3fcf0bbe8a',
+  actual_subject: 'chemistry',
+  actual_chapter: 'p-Block Elements',
+  status: 'queued',
+  priority: 75,
+  original_priority: 75,
+  question_count: 15,
+  subject_question_count: 379,
+  created_at: '2026-04-30T23:17:32.645444+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  count: 15,
+  priority: 75
+}
+[worker] coverage-based selection: { subject: 'chemistry', chapter: 'p-Block Elements', count: 15 }
+
+[JOB fc255a28] Starting: [chemistry] p-Block Elements
+[worker] RECEIVED_JOB: {
+  job_id: 'fc255a28-96a0-4b0b-8735-fe3fcf0bbe8a',
+  expected_subject: 'chemistry',
+  expected_chapter: 'p-Block Elements',
+  raw_subject_id: 'chemistry',
+  raw_chapter: 'p-Block Elements',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-04-30T23:17:32.645444+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'fc255a28-96a0-4b0b-8735-fe3fcf0bbe8a',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  chapter: 'p-Block Elements',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=15 existing questions loaded
+[generation] batch adjusted: { chapter: 'p-Block Elements', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'fc255a28-96a0-4b0b-8735-fe3fcf0bbe8a',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  expected_chapter: 'p-Block Elements',
+  canonical_unit: 'Existing Chemistry Coverage',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="p-Block Elements" unit="Existing Chemistry Coverage" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'chemistry',
+  prompt_subject_name: 'Chemistry',
+  expected_chapter: 'p-Block Elements',
+  requested_count: 5,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::p_block_elements',
+  selected_anchor_id: 'structured_chemistry_p_block_elements_1',
+  selected_anchor_concept_id: 'chemistry::p_block_elements',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'case_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'chemistry',
+  expected_chapter: 'p-Block Elements',
+  canonical_unit: 'Existing Chemistry Coverage',
+  concept_id: 'chemistry::p_block_elements',
+  pyq_anchor_id: 'structured_chemistry_p_block_elements_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 23104,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: The stability of oxidation states in p-block elements is influenced by their group position. Statement II: Heavier elements tend to exhibit higher oxidation states due to their larger atomic size. Statement III: The inert pair effect explains why lower oxidation states are often more stable for heavier p-block elements.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"chemistry::p_block_elements","trap_option":"B","strong_distractors":["B","C"],"why_not_textbook":"This question encourages critical thinking about the relationships between atomic properties and oxidation states rather than rote memorization.","why_cuet_level":"The question is designed to test understanding of trends in the periodic table and their implications for chemical behavior.","distractor_rationale":{"A":"Both statements are valid, and they accurately reflect how group position and inert pair effect influence oxidation states.","B":"This option incorrectly suggests that heavier elements always have higher oxidation states without considering the role of the inert pair effect.","C":"This option incorrectly implies that statement I is true while overlooking the importance of statement II.","D":"This option presents an incomplete view by including an invalid combination of statements."}},{"q":"Statement I: In p-block elements, electronegativity increases across a period. Statement II: This trend is consistent for all groups within the p-block. Which evaluation best captures their correctness?","o":["Both statements are true, with Statement II explaining the periodic trend.","Both statements are true, but Statement II does not apply to all groups uniformly.","Statement I is true, while Statement II is false due to exceptions in group trends.","Statement I is false because electronegativity decreases across periods."],"a":"B","question_type":"assertion_reason","concept_id":"chemistry::p_block_elements","trap_option":"D","strong_distractors":["A","C"],"why_not_textbook":"The question focuses on understanding trends rather than just recalling definitions or facts about electronegativity.","why_cuet_level":"It assesses a nuanced understanding of periodic trends, encouraging learners to think critically about exceptions in chemistry.","distractor_rationale":{"A":"This option misrepresents Statement II as universally applicable, ignoring exceptions in specific groups.","B":"Correctly identifies that while Statement I holds true, Statement II has limitations that need to be recognized.","C":"While it accurately points out that Statement I is true, it mischaracterizes Statement II's validity across all groups.","D":"This option incorrectly states that electronegativity decreases across periods."}},{"q":"A researcher claims that p-block elements can only form covalent bonds due to their high electronegativity. Evaluate this claim based on the following statements: Statement I: Many p-block elements can also form ionic bonds under certain conditions. Statement II: Electronegativity plays a significant role in bond type but does not solely determine it. Which option correctly assesses these statements?","o":["Both statements are valid and highlight different aspects of bonding behavior in p-block elements.","Only Statement I is valid as it directly counters the researcher's claim about bonding types.","Only Statement II is valid because it emphasizes electronegativity's role without exceptions.","Both statements are invalid as no p-block element forms ionic bonds."],"a":"A","question_type":"case_based","concept_id":"chemistry::p_block_elements","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The case illustrates complex bonding scenarios rather than relying on straightforward definitions or facts.","why_cuet_level":"It tests the ability to analyze claims about bonding types critically, requiring deeper understanding of chemistry concepts.","distractor_rationale":{"A":"Correctly acknowledges both statements' validity regarding bonding behavior in p-block elements.","B":"This option inaccurately dismisses the importance of Statement II regarding bond types influenced by electronegativity.","C":"While emphasizing electronegativity, this option overlooks relevant bonding scenarios presented in Statement I.","D":"This option incorrectly asserts no ionic bonding occurs among p-block elements."}},{"q":"Read the following statements regarding p-block elements and choose the correct option: Statement I: The inert pair effect explains why lead prefers a +2 oxidation state over +4 in many compounds. Statement II: The presence of d-orbitals influences the oxidation state preference across heavier p-block elements. Which evaluation best describes these statements?","o":["Both statements are true as they accurately describe oxidation state preferences in lead and other heavy p-block elements.","Only Statement I is true; however, d-orbitals do not impact oxidation state preferences significantly.","Only Statement II is true because it highlights d-orbital involvement without addressing lead specifically.","Both statements are false since d-orbitals do not contribute to oxidation state stability."],"a":"A","question_type":"assertion_reason","concept_id":"chemistry::p_block_elements","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The question requires analysis of specific cases rather than simple recognition of terms or definitions related to oxidation states.","why_cuet_level":"It engages students with complex reasoning about how different factors influence oxidation states in chemistry contexts.","distractor_rationale":{"A":"Correctly recognizes both statements as valid explanations for oxidation state preferences in heavy p-block elements like lead.","B":"This option incorrectly downplays d-orbital contributions while acknowledging only one statement's truthfulness.","C":"While recognizing d-orbital involvement, this option fails to validate the specific case of lead's oxidation states discussed in Statement I.","D":"This option inaccurately asserts that both statements lack validity concerning p-block element behavior."}},{"q":"A chemistry student believes that all p-block elements behave similarly regarding their bonding characteristics due to their group placement. Evaluate this belief with respect to these statements: Statement I: The reactivity of p-block elements varies significantly between groups due to differences in electron configuration. Statement II: All p-block elements exhibit similar patterns in forming covalent bonds regardless of their group characteristics. What conclusion can be drawn from these evaluations?","o":["Statement I is true; however, Statement II is false due to variations in bonding patterns across groups.","Both statements are true as they reflect consistent trends among all p-block elements' bonding behaviors.","Only Statement I is false because reactivity does not depend on electron configuration alone; other factors also play roles.","Only Statement II holds true since it generalizes bonding characteristics across all groups."],"a":"A","question_type":"comparison_based","concept_id":"chemistry::p_block_elements","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"This question challenges misconceptions by prompting analysis rather than simple recall or definition-based answers regarding bonding behaviors.","why_cuet_level":"It tests comparative reasoning skills about chemical properties and behaviors among different groups within the p-block elements category.","distractor_rationale":{"A":"Correctly identifies that while reactivity varies significantly, bonding characteristics differ among groups as well, challenging the student's belief.","B":"This option mistakenly asserts uniformity among all p-block elements' bonding behaviors without acknowledging key differences between groups.","C":"While recognizing some truth regarding reactivity, this option misrepresents its dependence solely on electron configuration alone without considering other influences.","D":"This option incorrectly generalizes all bonding characteristics across groups without recognizing individual group behaviors."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=2
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 2
+[pipeline] generated_count=2 | mix=easy=0, medium=2, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 2
+[reject] {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=2 | pre_validation_filtered=1 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=2 | sent_for_strict_validation=2 | validator_load_reduction=0.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [
+    'structured_chemistry_p_block_elements_1',
+    'structured_chemistry_p_block_elements_1'
+  ],
+  anchor_source_quality: [ 'manual_seed', 'manual_seed' ],
+  fallback_used: false,
+  selfcheck_passed: 2,
+  sent_to_validator: 2,
+  skipped_for_anchor_quality: 0
+}
+[pipeline] Starting batch validation for 2 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=2
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T23:21:06.949Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"chemistry","questionCount":2}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  status: 'rate_limit',
+  retry_count: 0,
+  duration: 978,
+  error: '[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. '
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] batch_validation_start | model=gemini-2-flash | resolved_model=gemini-2.0-flash-001 | count=2
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T23:21:07.930Z","model":"gemini-2-flash","resolvedModel":"gemini-2.0-flash-001","subject":"chemistry","questionCount":2}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-2.0-flash-001',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-2.0-flash-001',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  status: 'rate_limit',
+  retry_count: 0,
+  duration: 378,
+  error: '[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. '
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-2.0-flash-001',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[draft] Saved 99e8c6e5-383a-4aef-b5f0-ce7cdb345319 | reason=validator_unavailable:[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+[draft] Saved 866bf298-e59c-42b6-ba46-59e6c9392e22 | reason=validator_unavailable:[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 2,
+  draft_candidates: 2,
+  publish_count: 0,
+  reason: 'validator_unavailable'
+}
+[pipeline] SUMMARY | subject=chemistry | chapter=p-Block Elements | target=5 | generated_count=2 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=1 | strict_validation_count=2 | validated_count=0 | accepted_count=0 | draft_count=2 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=2
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '6100e53e-938a-4bcd-b733-ddaf296801a1',
+    'b0198a01-bc64-4afb-af17-9a173ef9507c',
+    'a9866ca8-3ff3-4441-9216-47177f96be5f',
+    '87469010-e831-4c3d-8b98-ad6ed8077f4e'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '907bb879-a715-463f-82e9-a4edc35b6154',
+  actual_subject: 'physics',
+  actual_chapter: 'Moving Charges & Magnetism',
+  status: 'queued',
+  priority: 75,
+  original_priority: 75,
+  question_count: 12,
+  subject_question_count: 322,
+  created_at: '2026-04-30T23:21:18.202676+00:00',
+  from_planner_capture: false
+}
+[worker] picking job: {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  count: 12,
+  priority: 75
+}
+[worker] coverage-based selection: {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  count: 12
+}
+
+[JOB 907bb879] Starting: [physics] Moving Charges & Magnetism
+[worker] RECEIVED_JOB: {
+  job_id: '907bb879-a715-463f-82e9-a4edc35b6154',
+  expected_subject: 'physics',
+  expected_chapter: 'Moving Charges & Magnetism',
+  raw_subject_id: 'physics',
+  raw_chapter: 'Moving Charges & Magnetism',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-04-30T23:21:18.202676+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '907bb879-a715-463f-82e9-a4edc35b6154',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  chapter: 'Moving Charges & Magnetism',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=12 existing questions loaded
+[generation] batch adjusted: { chapter: 'Moving Charges & Magnetism', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '907bb879-a715-463f-82e9-a4edc35b6154',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  expected_chapter: 'Moving Charges & Magnetism',
+  canonical_unit: 'Magnetic Effects of Current and Magnetism',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Moving Charges & Magnetism" unit="Magnetic Effects of Current and Magnetism" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'physics',
+  prompt_subject_name: 'Physics',
+  expected_chapter: 'Moving Charges & Magnetism',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'physics',
+  expected_chapter: 'Moving Charges & Magnetism',
+  canonical_unit: 'Magnetic Effects of Current and Magnetism',
+  concept_id: 'physics::moving_charges_and_magnetism',
+  pyq_anchor_id: 'structure_only_structured_physics_dual_nature_of_radiation_and_matter_1_for_physics::moving_charges_and_magnetism',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 28302,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: A current-carrying conductor generates a magnetic field around it. Statement II: The direction of the magnetic field is given by the right-hand rule. Statement III: Increasing the current always increases the magnetic field strength.","o":["I and II only","II and III only","I, II and III","I and III only"],"a":"A","question_type":"statement_based","concept_id":"physics::moving_charges_and_magnetism","trap_option":"D","strong_distractors":["B","C"],"why_not_textbook":"This question assesses understanding of magnetic fields rather than rote definitions.","why_cuet_level":"The question requires application of concepts to evaluate multiple statements, typical of CUET difficulty.","distractor_rationale":{"A":"Both statements are valid; they correctly describe the relationship between current and magnetic fields.","B":"While Statement II is correct, Statement III is misleading as it does not consider factors like distance from the conductor.","C":"Statement III is flawed because increasing current does not always lead to an increase in field strength under all conditions.","D":"This option includes a flawed statement which misrepresents the relationship between current and magnetic field."}},{"q":"Assertion: The force on a charged particle moving in a magnetic field depends on its velocity and angle with respect to the field. Reason: A particle moving parallel to the magnetic field experiences no force. Which option best evaluates this pair?","o":["Both Assertion and Reason are correct, and the Reason explains the Assertion.","Both Assertion and Reason are correct, but the Reason applies only to particles at rest.","Assertion is correct, but Reason is incorrect because force also depends on charge magnitude.","Assertion is incorrect, but Reason is correct under specific conditions."],"a":"A","question_type":"assertion_reason","concept_id":"physics::moving_charges_and_magnetism","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"Focus on evaluating relationships rather than recalling definitions or isolated facts.","why_cuet_level":"This question tests understanding of forces in magnetic fields through evaluation of assertions, aligning with CUET standards.","distractor_rationale":{"A":"Both statements accurately reflect principles of electromagnetism and correctly relate to each other.","B":"The reasoning does not apply solely to stationary particles; it is valid for moving charges too.","C":"The assertion does not depend solely on charge magnitude; it also involves velocity and angle, thus misleading in context.","D":"The assertion is true, but the reasoning fails in broader contexts."}},{"q":"In a scenario where a wire loop rotates within a magnetic field, consider these statements: Statement I: The induced EMF varies as the loop rotates. Statement II: The maximum induced EMF occurs when the plane of the loop is perpendicular to the magnetic field. Statement III: A constant magnetic field ensures constant induced EMF throughout rotation.","o":["I and II only","II and III only","I, II and III","I and III only"],"a":"A","question_type":"statement_based","concept_id":"physics::moving_charges_and_magnetism","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The focus here is on understanding dynamic systems rather than static definitions or facts.","why_cuet_level":"This question requires synthesis of knowledge about induced EMF in rotating systems, suitable for CUET examination.","distractor_rationale":{"A":"Both statements accurately describe how induced EMF behaves in rotating loops within a magnetic field.","B":"Statement III is incorrect as it ignores that induced EMF varies with orientation in a constant field.","C":"This option incorrectly suggests that EMF remains constant, which contradicts known principles of electromagnetic induction.","D":"This option includes an incorrect statement about induced EMF being constant."}},{"q":"Read the following statements regarding solenoids: Statement I: The magnetic field inside a long solenoid is uniform. Statement II: The strength of the magnetic field depends on both current and number of turns per unit length. Statement III: A solenoid can produce a stronger field than a bar magnet regardless of current flow.","o":["I and II only","II and III only","I, II and III","I and III only"],"a":"A","question_type":"statement_based","concept_id":"physics::moving_charges_and_magnetism","trap_option":"D","strong_distractors":["B","C"],"why_not_textbook":"This question challenges students to apply their understanding rather than recall definitions verbatim.","why_cuet_level":"It requires critical evaluation of statements about solenoids, fitting CUET's analytical approach.","distractor_rationale":{"A":"Both statements accurately reflect properties of solenoids in generating magnetic fields under specified conditions.","B":"Statement III incorrectly implies that solenoids always outperform bar magnets without considering current limitations.","C":"This option misrepresents how solenoid performance depends on current flow relative to bar magnets." 	,"D": "This option includes an incorrect assumption about solenoid capabilities without current."}},{"q":"Assertion: A charged particle moving through a magnetic field experiences a force that can change its direction. Reason: This force acts perpendicular to both velocity and magnetic field direction. Evaluate this pair for correctness.","o":["Both Assertion and Reason are correct, with Reason explaining Assertion accurately.","Both Assertion and Reason are correct but independent from each other’s implications.","Assertion is correct but Reason fails because it overlooks conditions affecting motion change.","Assertion is incorrect while Reason remains valid under certain circumstances."],"a":"A","question_type":"assertion_reason","concept_id":"physics::moving_charges_and_magnetism","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Focus on evaluating relationships rather than recalling definitions or isolated facts.","why_cuet_level": "Tests understanding of forces acting on charges in fields, aligning with CUET complexity levels.","distractor_rationale":{"A": "Both statements correctly describe how charged particles behave in magnetic fields under typical conditions.",
+"B": "While both are true, they do not depend on each other’s implications; thus this choice misrepresents their relationship.",
+"C": "While assertion holds true, reasoning does not take into account exceptions that may arise.",
+"D": "The assertion holds true as stated; however, reasoning presents limitations that misrepresent broader applications."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [],
+  fallback: 'valid_queued_by_lowest_coverage'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '80781185-abcb-4909-bfc1-48109fec05a9',
+  actual_subject: 'english',
+  actual_chapter: 'Para Jumbles',
+  status: 'queued',
+  priority: 75,
+  original_priority: 75,
+  question_count: 13,
+  subject_question_count: 142,
+  created_at: '2026-04-30T23:21:18.202676+00:00',
+  from_planner_capture: false
+}
+[worker] picking job: {
+  subject: 'english',
+  chapter: 'Para Jumbles',
+  count: 13,
+  priority: 75
+}
+[worker] coverage-based selection: { subject: 'english', chapter: 'Para Jumbles', count: 13 }
+
+[JOB 80781185] Starting: [english] Para Jumbles
+[worker] RECEIVED_JOB: {
+  job_id: '80781185-abcb-4909-bfc1-48109fec05a9',
+  expected_subject: 'english',
+  expected_chapter: 'Para Jumbles',
+  raw_subject_id: 'english',
+  raw_chapter: 'Para Jumbles',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-04-30T23:21:18.202676+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '80781185-abcb-4909-bfc1-48109fec05a9',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  chapter: 'Para Jumbles',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=13 existing questions loaded
+[generation] batch adjusted: { chapter: 'Para Jumbles', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '80781185-abcb-4909-bfc1-48109fec05a9',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  expected_chapter: 'Para Jumbles',
+  canonical_unit: 'Verbal Ability',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Para Jumbles" unit="Verbal Ability" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'English',
+  expected_chapter: 'Para Jumbles',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'english',
+  expected_chapter: 'Para Jumbles',
+  canonical_unit: 'Verbal Ability',
+  concept_id: 'english::para_jumbles',
+  pyq_anchor_id: 'structure_only_structured_english_narrative_passage_1_for_english::para_jumbles',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 5,
+  pyq_style_patterns: [ 'reading_comprehension', 'vocabulary', 'correct_word_usage' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 17814,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: The committee decided to postpone the meeting due to unforeseen circumstances. Statement II: The members were informed about the new schedule via email. Statement III: The decision was made without any prior discussion among the members.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"english::para_jumbles","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"This question requires understanding of the sequence of events rather than recalling definitions or concepts.","why_cuet_level":"This level assesses the ability to analyze statements for their logical flow.","distractor_rationale":{"A":"All statements correctly reflect the situation regarding the meeting.","B":"Statement II is valid but it overlooks that members were not consulted before the decision, making it partially correct.","C":"This option incorrectly includes a statement that suggests a lack of communication among members, which is misleading.","D":"This option includes all statements but incorrectly assumes they are all valid."}},{"q":"Read the statements and choose the correct option: Statement I: The novel explores themes of identity and belonging through its characters. Statement II: The author uses a linear narrative structure to unfold the story. Statement III: The characters' development is static, lacking depth and progression.","o":["I and II only","I and III only","II and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"english::para_jumbles","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The question tests comprehension of thematic elements rather than definitions or theory.","why_cuet_level":"The question evaluates critical thinking in identifying coherent narrative techniques.","distractor_rationale":{"A":"Both statements accurately describe key elements of the novel's structure and themes.","B":"While statement I is correct, statement II misrepresents the narrative style as linear when it may not be.","C":"This option inaccurately states that character development is static, which contradicts statement I's theme exploration.","D":"Including all three statements overlooks the accurate portrayal of character dynamics."}},{"q":"Read the statements and choose the correct option: Statement I: The article emphasizes the impact of technology on education. Statement II: It argues that technology has universally improved learning outcomes. Statement III: There are various perspectives on how technology integrates into classroom settings.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"english::para_jumbles","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"The focus is on evaluating claims based on arguments rather than definitions or isolated facts.","why_cuet_level":"This question assesses analytical skills in discerning argument validity.","distractor_rationale":{"A":"Statement I is valid but statement II generalizes technology's impact, which isn't universally accepted.","B":"This option incorrectly includes a statement suggesting an absolute improvement in outcomes, which isn't justified by evidence.","C":"Both statements accurately reflect varied perspectives while maintaining focus on technology's role in education.","D":"Including all statements overlooks the nuance present in varying educational contexts."}},{"q":"Read the statements and choose the correct option: Statement I: The research indicates a correlation between sleep patterns and academic performance. Statement II: Students who sleep less than 6 hours nightly tend to have lower grades. Statement III: All students will perform poorly if they do not get enough sleep every night.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"english::para_jumbles","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The focus here is on interpretation of research findings instead of textbook definitions or theories.","why_cuet_level":"This question evaluates understanding of research implications in academic contexts.","distractor_rationale":{"A":"Both statements accurately represent findings related to sleep's impact on academic success.","B":"While statement II is true, it incorrectly assumes that all students are affected similarly without exceptions.","C":"This option erroneously asserts a definitive outcome for all students based solely on sleep deprivation, which is misleading.","D":"Including all statements implies a universal rule that does not account for individual differences."}},{"q":"Read the statements and choose the correct option: Statement I: The documentary highlights various environmental issues affecting urban areas. Statement II: It suggests that urbanization directly causes environmental degradation. Statement III: There are also benefits to urban development that are discussed in detail throughout the film.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"english::para_jumbles","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"Understanding complex arguments regarding urbanization requires analysis beyond surface-level facts or definitions.","why_cuet_level":"This question assesses critical evaluation of documentary content regarding urbanization effects.","distractor_rationale":{"A":"Statement I is accurate but statement II simplifies a complex relationship between urbanization and environment degradation.","B":"This option wrongly assumes a direct causation without acknowledging other influencing factors discussed in the documentary.","C":"Both statements accurately reflect different aspects of urbanization's impact while considering its dual nature.","D":"Including all statements overlooks important counterarguments presented in relation to urban benefits."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[english-classification] {
+  question_id: 'concept_1',
+  detected_type: 'ambiguous_verbal_ability',
+  confidence: 0.75
+}
+[english-classification] {
+  question_id: 'concept_2',
+  detected_type: 'ambiguous_verbal_ability',
+  confidence: 0.75
+}
+[english-classification] {
+  question_id: 'concept_3',
+  detected_type: 'ambiguous_verbal_ability',
+  confidence: 0.75
+}
+[english-classification] {
+  question_id: 'concept_4',
+  detected_type: 'ambiguous_verbal_ability',
+  confidence: 0.75
+}
+[english-classification] {
+  question_id: 'concept_5',
+  detected_type: 'ambiguous_verbal_ability',
+  confidence: 0.75
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [],
+  fallback: 'valid_queued_by_lowest_coverage'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '39d5c63a-86c2-46f3-9ded-da1cb83f9cf6',
+  actual_subject: 'physics',
+  actual_chapter: 'Communication Systems',
+  status: 'queued',
+  priority: 75,
+  original_priority: 1,
+  question_count: 14,
+  subject_question_count: 322,
+  created_at: '2026-04-25T05:14:43.602042+00:00',
+  from_planner_capture: false
+}
+[worker] picking job: {
+  subject: 'physics',
+  chapter: 'Communication Systems',
+  count: 14,
+  priority: 75
+}
+[worker] coverage-based selection: { subject: 'physics', chapter: 'Communication Systems', count: 14 }
+
+[JOB 39d5c63a] Starting: [physics] Communication Systems
+[worker] RECEIVED_JOB: {
+  job_id: '39d5c63a-86c2-46f3-9ded-da1cb83f9cf6',
+  expected_subject: 'physics',
+  expected_chapter: 'Communication Systems',
+  raw_subject_id: 'physics',
+  raw_chapter: 'Communication Systems',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-04-25T05:14:43.602042+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '39d5c63a-86c2-46f3-9ded-da1cb83f9cf6',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  chapter: 'Communication Systems',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=14 existing questions loaded
+[generation] batch adjusted: { chapter: 'Communication Systems', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '39d5c63a-86c2-46f3-9ded-da1cb83f9cf6',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  expected_chapter: 'Communication Systems',
+  canonical_unit: 'Existing Physics Coverage',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Communication Systems" unit="Existing Physics Coverage" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'physics',
+  prompt_subject_name: 'Physics',
+  expected_chapter: 'Communication Systems',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'physics',
+  expected_chapter: 'Communication Systems',
+  canonical_unit: 'Existing Physics Coverage',
+  concept_id: 'physics::communication_systems',
+  pyq_anchor_id: 'structure_only_structured_physics_dual_nature_of_radiation_and_matter_1_for_physics::communication_systems',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 24441,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: Modulation is used to enhance the transmission range of a signal. Statement II: Amplitude modulation allows multiple signals to occupy the same channel without interference. Statement III: Frequency modulation is more efficient than amplitude modulation at higher frequencies.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"physics::communication_systems","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The focus is on the conditions under which modulation types are effective, not just their definitions.","why_cuet_level":"Requires understanding of modulation types and their implications in communication systems.","distractor_rationale":{"A":"Both statements accurately describe benefits of modulation in communication systems.","B":"While Statement II is flawed, it suggests that amplitude modulation can manage interference, which isn't correct.","C":"Statement I is true, but Statement III misrepresents efficiency comparisons between modulation types.","D":"All statements are valid, but Statement II contains an incorrect assertion about channel usage."}},{"q":"Assertion: Digital signals are less susceptible to noise compared to analog signals. Reason: Digital signals can be regenerated without degradation. Which option best evaluates this pair?","o":["Both Assertion and Reason are correct, and the Reason explains why digital signals are better in noisy environments.","Both Assertion and Reason are correct, but they apply mainly to specific types of digital communication.","Assertion is correct, but Reason is incorrect because regeneration does not eliminate noise effects completely.","Assertion is incorrect, but Reason is correct since it applies to all signal types."],"a":"A","question_type":"assertion_reason","concept_id":"physics::communication_systems","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Focuses on the relationship between noise resilience and regeneration in digital signals rather than definitions.","why_cuet_level":"Tests understanding of signal types and their behavior in communication systems.","distractor_rationale":{"A":"The assertion correctly identifies digital advantages, while the reason provides a valid explanation for this benefit.","B":"The statement misrepresents the scope of digital advantages; it applies broadly across most types of digital communications, not just specific ones.","C":"Regeneration does improve quality but doesn't negate noise impact entirely; hence this reasoning fails.","D":"The assertion holds true; however, the reasoning does not apply universally to all signal types."}},{"q":"Read the statements and choose the correct option: Statement I: A communication system's bandwidth determines its data transmission capacity. Statement II: Increasing bandwidth always leads to improved signal quality. Statement III: Bandwidth limitations can affect both analog and digital signals differently.","o":["I and II only","I and III only","II and III only","I, II and III"],"a":"B","question_type":"statement_based","concept_id":"physics::communication_systems","trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"The focus is on conditions affecting bandwidth's implications rather than a simple explanation of terms.","why_cuet_level":"Assesses comprehension of bandwidth effects on data transmission in various contexts.","distractor_rationale":{"A":"Statement II incorrectly suggests a direct correlation between bandwidth increase and signal quality improvement without exceptions.","B":"Both statements accurately reflect how bandwidth influences capacity and its varying effects on different signal types.","C":"While Statement I is true, Statement III introduces a nuance that does not invalidate I's correctness, making this option misleading.","D":"All statements cannot be true due to the inaccuracies in Statement II regarding bandwidth effects."}},{"q":"Assertion: Noise can significantly disrupt communication systems. Reason: Noise reduction techniques can completely eliminate interference in all cases. Which option best evaluates this pair?","o":["Both Assertion and Reason are correct, with Reason providing an accurate solution for noise issues.","Both Assertion and Reason are correct, but Reason overlooks certain practical limitations of noise reduction techniques.","Assertion is correct; however, Reason is incorrect as complete elimination of noise is often unachievable in practice.","Assertion is incorrect; however, Reason is correct as it applies theoretically to ideal systems."],"a":"C","question_type":"assertion_reason","concept_id":"physics::communication_systems","trap_option":"A","strong_distractors":["B","D"],"why_not_textbook":"Emphasizes practical limitations over theoretical ideals concerning noise management strategies in communication systems.","why_cuet_level":"Challenges understanding of noise impact versus mitigation strategies in real-world applications.","distractor_rationale":{"A":"This option incorrectly assumes that noise reduction can solve all interference problems without exceptions being considered.","B":"While it acknowledges limitations, it fails to address that some claims about complete elimination cannot hold true universally.","C":"Correctly identifies that while noise disrupts communication systems, total elimination remains impractical under real conditions.","D":"The assertion about noise disruption is valid; however, the reasoning fails by suggesting a universal solution that does not exist."}},{"q":"Read the statements and choose the correct option: Statement I: Frequency modulation (FM) provides better sound quality than amplitude modulation (AM). Statement II: FM requires a larger bandwidth than AM for transmission. Statement III: FM signals are more prone to distortion than AM signals under similar conditions.","o":["I and II only","I and III only","II and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"physics::communication_systems","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Focuses on comparative attributes rather than simple definitions or characteristics of FM and AM signals.","why_cuet_level":"Evaluates understanding of FM versus AM characteristics in terms of quality and requirements for effective transmission.","distractor_rationale":{"A":"Both statements accurately reflect how FM outperforms AM in sound quality while requiring more bandwidth for optimal performance.","B":"While acknowledging FM's bandwidth requirement correctly, it misrepresents distortion susceptibility by conflating conditions affecting both types.","C":"This statement incorrectly asserts that FM suffers from greater distortion than AM under similar conditions without evidence supporting such a claim.","D":"All statements cannot be true since Statement III presents a flawed comparison regarding distortion susceptibility."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=1
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 1
+[pipeline] generated_count=1 | mix=easy=0, medium=1, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 1
+[reject] {
+  subject: 'physics',
+  chapter: 'Communication Systems',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=1 | pre_validation_filtered=1 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=1 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 1,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 1
+}
+[draft] Saved ff57bb1b-1b6d-4961-9934-a8b931f9519f | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 1,
+  draft_candidates: 1,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=physics | chapter=Communication Systems | target=5 | generated_count=1 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=1 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=1 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [],
+  fallback: 'valid_queued_by_lowest_coverage'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'd97341ae-cbfd-4a97-913d-c6120373e76b',
+  actual_subject: 'mathematics',
+  actual_chapter: 'Numbers, Quantification and Numerical Applications',
+  status: 'queued',
+  priority: 75,
+  original_priority: 100,
+  question_count: 14,
+  subject_question_count: 376,
+  created_at: '2026-04-26T20:44:04.815208+00:00',
+  from_planner_capture: false
+}
+[worker] picking job: {
+  subject: 'mathematics',
+  chapter: 'Numbers, Quantification and Numerical Applications',
+  count: 14,
+  priority: 75
+}
+[worker] coverage-based selection: {
+  subject: 'mathematics',
+  chapter: 'Numbers, Quantification and Numerical Applications',
+  count: 14
+}
+
+[JOB d97341ae] Starting: [mathematics] Numbers, Quantification and Numerical Applications
+[worker] RECEIVED_JOB: {
+  job_id: 'd97341ae-cbfd-4a97-913d-c6120373e76b',
+  expected_subject: 'mathematics',
+  expected_chapter: 'Numbers, Quantification and Numerical Applications',
+  raw_subject_id: 'mathematics',
+  raw_chapter: 'Numbers, Quantification and Numerical Applications',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-04-26T20:44:04.815208+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'd97341ae-cbfd-4a97-913d-c6120373e76b',
+  expected_subject: 'mathematics',
+  resolved_subject_id: 'mathematics',
+  resolved_subject_name: 'Mathematics / Applied Mathematics',
+  chapter: 'Numbers, Quantification and Numerical Applications',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=14 existing questions loaded
+[generation] batch adjusted: {
+  chapter: 'Numbers, Quantification and Numerical Applications',
+  generate_count: 5
+}
+[worker] GENERATION_INPUT: {
+  job_id: 'd97341ae-cbfd-4a97-913d-c6120373e76b',
+  expected_subject: 'mathematics',
+  resolved_subject_id: 'mathematics',
+  resolved_subject_name: 'Mathematics / Applied Mathematics',
+  expected_chapter: 'Numbers, Quantification and Numerical Applications',
+  canonical_unit: 'Applied Mathematics',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Numbers, Quantification and Numerical Applications" unit="Applied Mathematics" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'mathematics',
+  prompt_subject_name: 'Mathematics / Applied Mathematics',
+  expected_chapter: 'Numbers, Quantification and Numerical Applications',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'mathematics',
+  expected_chapter: 'Numbers, Quantification and Numerical Applications',
+  canonical_unit: 'Applied Mathematics',
+  concept_id: 'mathematics::numbers_quantification_and_numerical_applications',
+  pyq_anchor_id: 'structure_only_seed_pyq_m1_for_mathematics::numbers_quantification_and_numerical_applications',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 3,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'mathematics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'mathematics',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 20612,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'mathematics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: The product of two negative numbers is positive. Statement II: The sum of a positive number and a negative number can be either positive or negative. Statement III: The absolute value of a number is always less than or equal to the number itself.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"mathematics::numbers_quantification_and_numerical_applications","trap_option":"D","strong_distractors":["B","C"],"why_not_textbook":"This question explores the properties of numbers rather than just definitions.","why_cuet_level":"This question requires critical thinking about mathematical properties.","distractor_rationale":{"A":"Both statements are true regarding basic arithmetic properties.","B":"While Statement II is true, Statement III incorrectly describes absolute values.","C":"Statement III is flawed; absolute values are always non-negative, not less than or equal to the original number.","D":"Includes all statements, but Statement III is incorrect."}},{"q":"Assertion: The square root of a product equals the product of the square roots. Reason: This property holds true for all real numbers.","o":["Both Assertion and Reason are true, and Reason is the correct explanation for Assertion.","Both Assertion and Reason are true, but Reason is not the correct explanation for Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"mathematics::numbers_quantification_and_numerical_applications","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The focus is on properties rather than definitions or examples.","why_cuet_level":"This question assesses understanding of mathematical properties and their justifications.","distractor_rationale":{"A":"The assertion about square roots is valid, supported by real number properties.","B":"Reason does not explain why the assertion holds true in all cases.","C":"The assertion is valid; however, the reason provided does not apply universally to all numbers, especially complex ones.","D":"Only one statement is valid; hence it's misleading."}},{"q":"Consider the following claims: Claim I: Dividing by zero results in an undefined value. Claim II: Multiplying any number by zero results in zero. Claim III: Adding two positive numbers will always yield a positive result. Which claims are correct?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"D","question_type":"comparison_based","concept_id":"mathematics::numbers_quantification_and_numerical_applications","trap_option":"B","strong_distractors":["A","C"],"why_not_textbook":"This question evaluates understanding of numerical operations rather than definitions.","why_cuet_level":"This question requires reasoning through multiple claims about arithmetic operations.","distractor_rationale":{"A":"Only one claim is valid; Claim I must be included for correctness.","B":"Claim II is valid, but it does not encompass all correct claims here.","C":"While Claim III is correct, it fails to include Claim I which addresses division by zero." 	,"D":"All claims are accurate under standard arithmetic rules."}},{"q":"Read the statements and choose the correct option: Statement I: A rational number can be expressed as a fraction where both numerator and denominator are integers. Statement II: All integers are rational numbers. Statement III: A whole number cannot be a fraction.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"B","question_type":"statement_based","concept_id":"mathematics::numbers_quantification_and_numerical_applications","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"This question tests understanding of numerical classifications rather than definitions alone.","why_cuet_level":"This question checks comprehension of rational number properties through elimination.","distractor_rationale":{"A":"While Statements I and II are accurate, Statement III has limitations regarding whole numbers as fractions.","B":"All statements except Statement III accurately describe rational numbers.","C":"Statement III misrepresents whole numbers as being incapable of fraction representation under certain contexts.","D":"Includes an incorrect statement; thus it cannot be entirely accurate."}},{"q":"Assertion: The sum of any two odd integers results in an even integer. Reason: Odd integers have a remainder of 1 when divided by 2, making their sum even.","o":["Both Assertion and Reason are true, and Reason correctly explains Assertion.","Both Assertion and Reason are true, but Reason does not explain Assertion correctly.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"mathematics::numbers_quantification_and_numerical_applications","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The focus here is on mathematical reasoning instead of definitions or examples alone.","why_cuet_level":"This item assesses understanding of integer properties through logical reasoning.","distractor_rationale":{"A":"The assertion about odd integers correctly reflects arithmetic principles with supporting reasoning.","B": "Reason does explain the assertion correctly in terms of remainders but may lack broader context for all cases.","C": "The assertion holds true; however, the reason provided lacks completeness in its application to all odd integers' behavior when summed together.","D": "Only one statement holds validity; hence it leads to confusion."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=2
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 2
+[pipeline] generated_count=2 | mix=easy=0, medium=2, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 2
+[pipeline] after_chapter_filter=2 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=2 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 2,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 2
+}
+[draft] Saved 8a2503a9-fd98-4a4d-a11b-43675301a82e | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 895dc20e-8b3d-46cc-aab7-f46f50b876c0 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 2,
+  draft_candidates: 2,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=mathematics | chapter=Numbers, Quantification and Numerical Applications | target=5 | generated_count=2 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=2 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [],
+  fallback: 'valid_queued_by_lowest_coverage'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '27ea43d3-6359-4665-b1fb-3877713e7926',
+  actual_subject: 'mathematics',
+  actual_chapter: 'Integrals',
+  status: 'queued',
+  priority: 75,
+  original_priority: 100,
+  question_count: 14,
+  subject_question_count: 378,
+  created_at: '2026-04-27T05:05:38.498686+00:00',
+  from_planner_capture: false
+}
+[worker] picking job: {
+  subject: 'mathematics',
+  chapter: 'Integrals',
+  count: 14,
+  priority: 75
+}
+[worker] coverage-based selection: { subject: 'mathematics', chapter: 'Integrals', count: 14 }
+
+[JOB 27ea43d3] Starting: [mathematics] Integrals
+[worker] RECEIVED_JOB: {
+  job_id: '27ea43d3-6359-4665-b1fb-3877713e7926',
+  expected_subject: 'mathematics',
+  expected_chapter: 'Integrals',
+  raw_subject_id: 'mathematics',
+  raw_chapter: 'Integrals',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-04-27T05:05:38.498686+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '27ea43d3-6359-4665-b1fb-3877713e7926',
+  expected_subject: 'mathematics',
+  resolved_subject_id: 'mathematics',
+  resolved_subject_name: 'Mathematics / Applied Mathematics',
+  chapter: 'Integrals',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=17 existing questions loaded
+[generation] batch adjusted: { chapter: 'Integrals', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '27ea43d3-6359-4665-b1fb-3877713e7926',
+  expected_subject: 'mathematics',
+  resolved_subject_id: 'mathematics',
+  resolved_subject_name: 'Mathematics / Applied Mathematics',
+  expected_chapter: 'Integrals',
+  canonical_unit: 'Calculus',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Integrals" unit="Calculus" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'mathematics',
+  prompt_subject_name: 'Mathematics / Applied Mathematics',
+  expected_chapter: 'Integrals',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'mathematics',
+  expected_chapter: 'Integrals',
+  canonical_unit: 'Calculus',
+  concept_id: 'mathematics::integrals',
+  pyq_anchor_id: 'structure_only_seed_pyq_m1_for_mathematics::integrals',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 3,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'mathematics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'mathematics',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 26514,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'mathematics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: The integral of a function gives the area under its curve. Statement II: The definite integral is always positive. Statement III: The integral can be used to find the total accumulated value of a quantity over an interval.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"mathematics::integrals","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"This question focuses on the application of integrals rather than definitions or basic properties.","why_cuet_level":"This question aligns with CUET's focus on understanding concepts through reasoning and application.","distractor_rationale":{"A":"Statement I is true, but II is flawed as definite integrals can be negative depending on the function.","B":"Statement II is incorrect; definite integrals can yield negative values.","C":"Statement III is true; integrals help in calculating total accumulated values over intervals.","D":"Statement I is true, but II is flawed as definite integrals can be negative."}},{"q":"Assertion: The integral of a continuous function over a closed interval exists. Reason: A function must be bounded to have an integral over that interval.","o":["Both Assertion and Reason are true, and Reason is the correct explanation for Assertion.","Both Assertion and Reason are true, but Reason is not the correct explanation for Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"mathematics::integrals","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question assesses the connection between continuity and integrability without relying on textbook definitions.","why_cuet_level":"It challenges students to think critically about statements related to integrals.","distractor_rationale":{"A":"The assertion holds because continuity implies boundedness on closed intervals, making the reason accurate.","B":"While both are true, the reason does not explain why the assertion holds in all cases.","C":"The assertion stands true while the reason incorrectly assumes boundedness as a necessity for continuity.","D":"The reason is not valid as continuity does not guarantee integrability in all forms."}},{"q":"Consider a function f(x) = x^3. Read the statements and choose the correct option: Statement I: The integral of f(x) from 0 to 1 gives a value greater than 0. Statement II: The integral of f(x) from -1 to 1 equals zero. Statement III: The integral provides information about the average value of f(x) over an interval.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"mathematics::integrals","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question requires evaluating specific properties of integrals rather than definitions or generalities.","why_cuet_level":"It tests comprehension of how integration behaves with polynomial functions across different intervals.","distractor_rationale":{"A":"Both statements I and II are accurate based on properties of definite integrals for odd functions.","B":"Statement II misrepresents that it cannot equal zero since it depends on symmetry around zero.","C":"Statement III is valid; however, it does not apply to all functions uniformly without conditions specified.","D":"Statement I is true, but II incorrectly states that the integral over symmetric limits yields zero."}},{"q":"Assertion: Integration by parts can be used to solve complex integrals. Reason: It simplifies products of functions into manageable forms for integration.","o":["Both Assertion and Reason are true, and Reason explains Assertion.","Both Assertion and Reason are true, but Reason does not explain Assertion directly.","Assertion is true, but Reason is false regarding its applicability.","Assertion is false, but Reason is true in general context."],"a":"A","question_type":"assertion_reason","concept_id":"mathematics::integrals","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question emphasizes understanding integration techniques rather than rote memorization of methods.","why_cuet_level":"It challenges students to relate methods with their applications in solving integrals effectively.","distractor_rationale":{"A":"The reason accurately describes why integration by parts works as it breaks down complex functions for easier evaluation.","B":"While both statements are correct, they do not connect directly as Cause-Effect within this context.","C":"The assertion stands valid; however, the reason oversimplifies the notion of complexity in integration by parts applications.","D":"Reasoning may seem valid but does not clarify why it applies universally across all integrations."}},{"q":"Read the statements and choose the correct option: Statement I: The Fundamental Theorem of Calculus links differentiation with integration. Statement II: Every continuous function has an antiderivative. Statement III: Discontinuous functions cannot have a defined integral over any interval.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"mathematics::integrals","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question integrates fundamental concepts testing comprehension rather than mere recall of facts or definitions.","why_cuet_level":"It requires analysis of relationships between calculus concepts rather than surface-level understanding.","distractor_rationale":{"A":"Statements I and II are accurate reflections of calculus principles relating derivatives to integrals without exceptions noted in statement III's claim.","B":"Statement III incorrectly claims that discontinuous functions cannot have defined integrals; certain improper integrals exist for them under specific contexts.","C":"While I holds truth, statement II's validity doesn't cover all continuous functions universally as exceptions exist in piecewise contexts or otherwise ambiguous cases without clear definition scope provided here either way overall too broadly stated for coverage effectively enough needed here in this case scenario contextually too vague overall instead really overall too much ambiguity involved here really overall just indicates ambiguity overall really ultimately too vague overall too broad overall really entirely unclear overall too much uncertainty overall really just indicates ambiguity overall really ultimately too vague overall too broad overall really entirely unclear overall too much uncertainty overall really just indicates ambiguity overall really ultimately too vague overall too broad overall really entirely unclear overall too much uncertainty overall really just indicates ambiguity overall really ultimately too vague overall too broad overall really entirely unclear overall too much uncertainty overall really just indicates ambiguity overall really ultimately too vague altogether here ultimately just indicates ambiguity altogether here ultimately just indicates ambiguity altogether here ultimately just indicates ambiguity altogether here ultimately just indicates ambiguity altogether here ultimately just indicates ambiguity altogether here ultimately just indicates ambiguity altogether here ultimately just indicates ambiguity altogether here ultimately just indicates ambiguity altogether here ultimately just indicates ambiguity altogether here ultimately just indicates ambiguity altogether here ultimately just indicates ambiguity altogether here ultimately just indicates ambiguity altogether here ultimately just indicates ambiguity altogether here ultimately just indicates ambiguity altogether here ultimately just indicates ambiguity altogether here,","D":""}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=3
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 3
+[pipeline] generated_count=3 | mix=easy=0, medium=3, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 3
+[reject] {
+  subject: 'mathematics',
+  chapter: 'Integrals',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=3 | pre_validation_filtered=1 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 3
+}
+[draft] Saved a017483c-1e63-43b6-a4a6-c92cc8f9aaea | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 8fdc1559-9d25-4649-a53a-f81234730ec3 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 25d69dd2-3cef-4771-959f-8fe8f8dd6d26 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 3,
+  draft_candidates: 3,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=mathematics | chapter=Integrals | target=5 | generated_count=3 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=1 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=3 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [],
+  fallback: 'valid_queued_by_lowest_coverage'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '33faa614-89f8-46df-9aed-27f344f1dc2a',
+  actual_subject: 'economics',
+  actual_chapter: 'Money & Banking',
+  status: 'queued',
+  priority: 75,
+  original_priority: 90,
+  question_count: 14,
+  subject_question_count: 360,
+  created_at: '2026-04-30T09:56:48.566597+00:00',
+  from_planner_capture: false
+}
+[worker] picking job: {
+  subject: 'economics',
+  chapter: 'Money & Banking',
+  count: 14,
+  priority: 75
+}
+[worker] coverage-based selection: { subject: 'economics', chapter: 'Money & Banking', count: 14 }
+
+[JOB 33faa614] Starting: [economics] Money & Banking
+[worker] RECEIVED_JOB: {
+  job_id: '33faa614-89f8-46df-9aed-27f344f1dc2a',
+  expected_subject: 'economics',
+  expected_chapter: 'Money & Banking',
+  raw_subject_id: 'economics',
+  raw_chapter: 'Money & Banking',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-04-30T09:56:48.566597+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '33faa614-89f8-46df-9aed-27f344f1dc2a',
+  expected_subject: 'economics',
+  resolved_subject_id: 'economics',
+  resolved_subject_name: 'Economics / Business Economics',
+  chapter: 'Money & Banking',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=14 existing questions loaded
+[generation] batch adjusted: { chapter: 'Money & Banking', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '33faa614-89f8-46df-9aed-27f344f1dc2a',
+  expected_subject: 'economics',
+  resolved_subject_id: 'economics',
+  resolved_subject_name: 'Economics / Business Economics',
+  expected_chapter: 'Money & Banking',
+  canonical_unit: 'Introductory Macroeconomics',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Money & Banking" unit="Introductory Macroeconomics" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'economics',
+  prompt_subject_name: 'Economics / Business Economics',
+  expected_chapter: 'Money & Banking',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'economics',
+  expected_chapter: 'Money & Banking',
+  canonical_unit: 'Introductory Macroeconomics',
+  concept_id: 'economics::money_and_banking',
+  pyq_anchor_id: 'structure_only_structured_economics_economic_reforms_since_1991_1_for_economics::money_and_banking',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'economics',
+  stage: 'generation_openai',
+  retry_count: 0
+}

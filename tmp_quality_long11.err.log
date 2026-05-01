@@ -1,0 +1,511 @@
+[worker] recovered stale processing jobs: [
+  {
+    id: '568069ab-7ef7-4456-a4d0-7397b18190c9',
+    subject_id: 'computer_science',
+    chapter: 'Communication Technologies',
+    started_at: null
+  }
+]
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::moving_charges_and_magnetism',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::moving_charges_and_magnetism',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A charged particle moving in a magne'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'question_too_long',
+  body: 'Read the statements and choose the correct option: Statement I: A charged particle moving in a magne',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Assertion: A current-carrying conductor placed in a magnetic field experiences a force. Reason: This',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The direction of force on a charged '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the statements and choose the correct option: Statement I: The direction of force on a charged ',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: The motion of charged particles in a magnetic field can result in circular paths. Reason:'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Assertion: The motion of charged particles in a magnetic field can result in circular paths. Reason:',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A solenoid generates a uniform magne'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the statements and choose the correct option: Statement I: A solenoid generates a uniform magne',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::wave_optics',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::wave_optics',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: I. Light behaves as a wave when it undergoes inte'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Wave Optics',
+  reason: 'direct_evaluation_stem',
+  body: "Assertion: In Young's double-slit experiment, increasing the slit separation decreases the fringe wi",
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: I. Diffraction patterns arise from wave nature of'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: I. Light can exhibit both particle-like and wave-'
+}
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '7cc6571d-51eb-474c-9ed2-714a402b1b4f',
+  draft_saved: 4,
+  skipped_candidates: 4,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::alternative_centres_of_power',
+  selected_anchor_id: 'structured_political_science_india_s_external_relations_1',
+  selected_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::alternative_centres_of_power',
+  source_anchor_id: 'structured_political_science_india_s_external_relations_1',
+  source_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Regional organizations often challen'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements: Statement I: Transnational corporations (TNCs) play a crucial rol'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the following statements regarding alternative centres of power: Statement I: Global civil soci'
+}
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '6b02b341-3c7d-47ef-91d2-4c850f744f45',
+  draft_saved: 5,
+  skipped_candidates: 5,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::challenges_to_and_restoration_of_the_congress_system',
+  selected_anchor_id: 'structured_political_science_india_s_external_relations_1',
+  selected_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::challenges_to_and_restoration_of_the_congress_system',
+  source_anchor_id: 'structured_political_science_india_s_external_relations_1',
+  source_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The Congress party faced significant'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements regarding the Emergency period in India: Statement I: The Emergenc'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the following assertions about political dynamics post-Congress dominance: Assertion I: Regiona'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: The rise of coalition politics marked a shift from single-party dominance in India. Sta'
+}
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'b48977e3-8934-44ac-a399-bdf159b928dd',
+  draft_saved: 5,
+  skipped_candidates: 5,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::era_of_one_party_dominance',
+  selected_anchor_id: 'structured_political_science_india_s_external_relations_1',
+  selected_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 2,
+  fallback_used: true,
+  concept_mismatch_risk: 'medium',
+  candidates: 1,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The dominance of the Congress Party '
+}
+[llm] generated_extreme_word_repaired {
+  body: "Evaluate the following statements: Statement I: The Congress Party's policies during the one-party d"
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider this scenario: A student claims that one-party dominance in India resulted in the effective'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'political_science',
+  chapter: 'Era of One-Party Dominance',
+  reason: 'weak_options',
+  body: 'Consider this scenario: A student claims that one-party dominance in India resulted in the effective',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements below and determine which are accurate: Statement I: The era of one-party domina'
+}
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '82c1e472-01cb-4a37-af28-df7466b77c16',
+  draft_saved: 4,
+  skipped_candidates: 4,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::security_in_the_contemporary_world',
+  selected_anchor_id: 'structured_political_science_india_s_external_relations_1',
+  selected_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::security_in_the_contemporary_world',
+  source_anchor_id: 'structured_political_science_india_s_external_relations_1',
+  source_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The concept of national security has'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'political_science',
+  chapter: 'Security in the Contemporary World',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: Environmental issues are increasingly recognized as security threats. Reason: Climate cha',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements about cybersecurity: Statement I: Cybersecurity is primarily a tec'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the assertions about terrorism: Assertion I: Terrorism poses unique challenges to traditional n'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'political_science',
+  chapter: 'Security in the Contemporary World',
+  reason: 'obvious_answer_pattern',
+  body: 'Assertion: Human security broadens the understanding of threats beyond military considerations. Reas',
+  index: 4
+}
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '23371b39-36be-4111-b361-b77ffd6856c5',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::politics_of_planned_development',
+  selected_anchor_id: 'structured_political_science_india_s_external_relations_1',
+  selected_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::politics_of_planned_development',
+  source_anchor_id: 'structured_political_science_india_s_external_relations_1',
+  source_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The Green Revolution aimed to increa'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'political_science',
+  chapter: 'Politics of Planned Development',
+  reason: 'direct_evaluation_stem',
+  body: "Assertion: India's planning approach post-independence was primarily focused on self-reliance. Reaso",
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: "Consider the following claims about India's Five-Year Plans: Claim I: The plans have been primarily "
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements regarding the role of public sector in planned development: Statement I: Public '
+}
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '391b0fda-b7f0-422c-926f-9fe6c070d583',
+  draft_saved: 4,
+  skipped_candidates: 4,
+  publish_count: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: "Assertion I: India's non-alignment strategy allowed it to maintain neutrality during the Cold War. A"
+}
+[llm] question_rejected_internal_quality {
+  subject: 'political_science',
+  chapter: "India's External Relations",
+  reason: 'obvious_answer_pattern',
+  body: "Assertion I: India's non-alignment strategy allowed it to maintain neutrality during the Cold War. A",
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: India has consistently advocated for disarmament in international forums. Statement II:'
+}
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: India's foreign policy has evolved w"
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion I: India seeks to enhance its soft power through cultural diplomacy. Assertion II: Soft po'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'political_science',
+  chapter: "India's External Relations",
+  reason: 'obvious_answer_pattern',
+  body: 'Assertion I: India seeks to enhance its soft power through cultural diplomacy. Assertion II: Soft po',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: "Statement I: India's relationship with its neighbors has been shaped by historical conflicts. Statem"
+}
+[pipeline] Rejected | compositeScore=4 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; conceptual_depth < 7; clarity == AMBIGUOUS; subjective content; language too complex; ambiguous wording; confusing options; validator score below threshold
+[pipeline] Rejected | compositeScore=3 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; obvious answer; conceptual_depth < 7; textbook_style; ambiguous wording; confusing options; validator score below threshold; exam quality below threshold
+[pipeline] Rejected | compositeScore=4 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; conceptual_depth < 7; clarity == AMBIGUOUS; textbook_style; ambiguous wording; confusing options; validator score below threshold; exam quality below threshold
+[pipeline] strict_mode_no_validated_questions_draft_only {
+  job_id: '6a337258-0e76-40f8-bc6b-763b536f591d',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'low trap quality',
+    'conceptual_depth < 7',
+    'clarity == AMBIGUOUS',
+    'subjective content',
+    'language too complex',
+    'ambiguous wording',
+    'confusing options',
+    'validator score below threshold'
+  ],
+  draft_only_flag: true
+}
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=0.0% | threshold=40% | fallback_or_partial_output_allowed=true
+[pipeline] TARGET_NOT_MET | target=5 | accepted=0 | shortfall=5 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+No questions returned for political_science/India's External Relations
+RAW_PARSED_COUNT=5
+NORMALIZED_COUNT=3
+VALIDATED_COUNT=0
+Drop summary:
+- normalization_failed: 0
+- invalid_options_format: 0
+- missing_required_fields: 0
+- validation_failed: 5
+- low_score: 3
+- difficulty_mismatch: 0
+- cuet_alignment_failed: 0
+- chapter_mismatch: 0
+Sample failed raw question: {"q":"Assertion I: India's non-alignment strategy allowed it to maintain neutrality during the Cold War. Assertion II: This strategy led to India's isolation from global power dynamics. Which option is correct?","o":["I only","II only","Both I and II","Neither I nor II"],"a":"A","question_type":"assertion_reason","concept_id":"political_science::india_s_external_relations","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"This requires understanding the nuanced impact of non-alignment rather than a straightforward evaluation.","why_cuet_level":"This question assesses critical thinking about foreign policy implications.","distractor_rationale":{"A":"India's non-alignment did not equate to isolation; it facilitated diverse international relationships.","B":"While asserting neutrality, it did not lead to complete detachment from global affairs.","C":"The assertion misinterprets India's strategic positioning in global politics.","D":"This option overlooks the active diplomatic efforts India engaged in despite its non-aligned stance."}}
+Sample normalized attempt: {"subject":"political_science","chapter":"India's External Relations","body":"Assertion I: India's non-alignment strategy allowed it to maintain neutrality during the Cold War. Assertion II: This strategy led to India's isolation from global power dynamics. Which option is correct?","options":[{"key":"A","text":"I mainly"},{"key":"B","text":"II mainly"},{"key":"C","text":"Both I and II"},{"key":"D","text":"Neither I nor II"}],"correct_answer":"A","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"assertion_reason","topic":"Politics in India Since Independence","concept":"India's External Relations","concept_id":"political_science::india_s_external_relations","pyq_anchor_id":"","anchor_tier":0,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"This requires understanding the nuanced impact of non-alignment rather than a straightforward evaluation.","why_cuet_level":"This question assesses critical thinking about foreign policy implications.","distractor_rationale":{"A":"India's non-alignment did not equate to isolation; it facilitated diverse international relationships.","B":"While asserting neutrality, it did not lead to complete detachment from global affairs.","C":"The assertion misinterprets India's strategic positioning in global politics.","D":"This option overlooks the active diplomatic efforts India engaged in despite its non-aligned stance."},"anchor_source_quality":"","passage_id":"","passage_type":"","passage_text":""}
+[pipeline] LOW_YIELD=0.0% (threshold=30%) — less than 30 % of generated questions were accepted
+[pyq_anchor] selected_anchor {
+  subject: 'psychology',
+  requested_concept_id: 'psychology::variations_in_psychological_attributes',
+  selected_anchor_id: 'structured_psychology_self_and_personality_1',
+  selected_anchor_concept_id: 'psychology::self_and_personality',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'psychology',
+  requested_concept_id: 'psychology::variations_in_psychological_attributes',
+  source_anchor_id: 'structured_psychology_self_and_personality_1',
+  source_anchor_concept_id: 'psychology::self_and_personality',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Variations in psychological attribut'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Psychological attributes vary greatly among individuals. Reason: These variations are mai'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider these statements about personality traits: Statement I: Personality traits are static and d'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Cultural background significantly affects psychological attributes. Reason: Psychological'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read these statements regarding intelligence variations: Statement I: Intelligence can be measured u'
+}
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '12092fba-0cac-497a-8a95-efb03c34b71f',
+  draft_saved: 5,
+  skipped_candidates: 5,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'psychology',
+  requested_concept_id: 'psychology::therapeutic_approaches',
+  selected_anchor_id: 'structured_psychology_self_and_personality_1',
+  selected_anchor_concept_id: 'psychology::self_and_personality',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'psychology',
+  requested_concept_id: 'psychology::therapeutic_approaches',
+  source_anchor_id: 'structured_psychology_self_and_personality_1',
+  source_anchor_concept_id: 'psychology::self_and_personality',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Cognitive Behavioral Therapy (CBT) f'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A therapist believes that behavior can be modified by changing environmental factors. Which therapeu'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Therapeutic Approaches',
+  reason: 'question_too_long',
+  body: 'A therapist believes that behavior can be modified by changing environmental factors. Which therapeu',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Group therapy fosters social support'
+}
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '734a7fc7-daac-4aa6-b4fa-fb5de47db415',
+  draft_saved: 4,
+  skipped_candidates: 4,
+  publish_count: 0
+}

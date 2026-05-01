@@ -1,0 +1,234 @@
+[llm] generated_extreme_word_repaired {
+  body: 'A company prefers internal promotions but faces criticism for lack of innovation. Which evaluation b'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'weak_options',
+  body: 'A company prefers internal promotions but faces criticism for lack of innovation. Which evaluation b',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: Employee training is primarily focused on current job skills. Statement II: Development'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'weak_options',
+  body: 'Statement I: Employee training is primarily focused on current job skills. Statement II: Development',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A manager claims that hiring externally is essential for innovation but fails to consider internal t'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'weak_options',
+  body: 'A manager claims that hiring externally is essential for innovation but fails to consider internal t',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: Job analysis provides detailed descriptions of tasks and responsibilities. Statement II'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'weak_options',
+  body: 'Statement I: Job analysis provides detailed descriptions of tasks and responsibilities. Statement II',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A startup uses a mix of internal promotions and external hires but struggles with team cohesion. Wha'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'weak_options',
+  body: 'A startup uses a mix of internal promotions and external hires but struggles with team cohesion. Wha',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[llm] generated_extreme_word_repaired {
+  body: 'A student claims that the stability of a coordination complex is determined mainly by the oxidation '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'obvious_answer_pattern',
+  body: 'A student claims that the stability of a coordination complex is determined mainly by the oxidation ',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: Bidentate ligands form chelate complexes that can stabilize certain metal ions. Stateme'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'weak_options',
+  body: 'Statement I: Bidentate ligands form chelate complexes that can stabilize certain metal ions. Stateme',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A chemist observes that a metal complex exhibits unexpected color changes when exposed to light. Whi'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'weak_options',
+  body: 'A chemist observes that a metal complex exhibits unexpected color changes when exposed to light. Whi',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Two complexes, [Co(NH3)6]Cl3 and [CoCl3(NH3)3], are compared. What distinguishes their properties si'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'weak_options',
+  body: 'Two complexes, [Co(NH3)6]Cl3 and [CoCl3(NH3)3], are compared. What distinguishes their properties si',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A learner states that many transition metals form colored solutions due to their d-orbitals. Which c'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'weak_options',
+  body: 'A learner states that many transition metals form colored solutions due to their d-orbitals. Which c',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[llm] generated_extreme_word_repaired {
+  body: 'A student claims that both roasting and smelting are equally effective in the extraction of metals f'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'obvious_answer_pattern',
+  body: 'A student claims that both roasting and smelting are equally effective in the extraction of metals f',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: Electrolytic reduction is mainly used for highly reactive metals. Statement II: Pyromet'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'weak_options',
+  body: 'Statement I: Electrolytic reduction is mainly used for highly reactive metals. Statement II: Pyromet',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A researcher suggests that using carbon as a reducing agent in metallurgy is often successful due to'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'weak_options',
+  body: 'A researcher suggests that using carbon as a reducing agent in metallurgy is often successful due to',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: Hydrometallurgy involves using aqueous solutions for extracting metals. Statement II: T'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A student states that froth flotation separates minerals based mainly on density differences. Which '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'obvious_answer_pattern',
+  body: 'A student states that froth flotation separates minerals based mainly on density differences. Which ',
+  index: 4
+}
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 429,
+  statusText: 'Too Many Requests',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ",
+  "status": 429,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] batch_validation_failure gemini-3-flash (429)
+[llm] {"event":"batch_validation_failure","timestamp":"2026-04-30T21:42:07.868Z","model":"gemini-3-flash","reason":"rate_limit","message":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ","cooldownUntil":"2026-04-30T21:49:12.139Z"}
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 429,
+  statusText: 'Too Many Requests',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ",
+  "status": 429,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] batch_validation_failure gemini-2-flash (429)
+[llm] {"event":"batch_validation_failure","timestamp":"2026-04-30T21:42:08.289Z","model":"gemini-2-flash","reason":"rate_limit","message":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ","cooldownUntil":"2026-04-30T21:48:10.844Z"}
+[llm] {"event":"batch_validation_all_models_failed","timestamp":"2026-04-30T21:42:08.290Z","subject":"chemistry","questionCount":1,"lastError":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. "}
+[pipeline] Batch validation failed without retry: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. . Saving candidates as draft only; no live publish.
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[draft] save failed: new row for relation "questions" violates check constraint "questions_status_chk"
+[llm] generated_extreme_word_repaired {
+  body: 'A student claims that a router is primarily responsible for connecting devices within the same local'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  reason: 'obvious_answer_pattern',
+  body: 'A student claims that a router is primarily responsible for connecting devices within the same local',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: IP addresses are essential for routing packets across networks. Reason: IP addresses uniq'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'In a scenario where data packets are transmitted over a network, which statement about TCP and UDP b'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  reason: 'weak_options',
+  body: 'In a scenario where data packets are transmitted over a network, which statement about TCP and UDP b',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'When considering network security measures, which approach best balances accessibility and protectio'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  reason: 'weak_options',
+  body: 'When considering network security measures, which approach best balances accessibility and protectio',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: A switch operates at Layer 2 of the OSI model and forwards frames based on MAC addresse'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  reason: 'weak_options',
+  body: 'Statement I: A switch operates at Layer 2 of the OSI model and forwards frames based on MAC addresse',
+  index: 4
+}
+[pipeline] Batch validation failed without retry: all_validation_models_in_cooldown. Saving candidates as draft only; no live publish.
+[draft] save failed: new row for relation "questions" violates check constraint "questions_status_chk"

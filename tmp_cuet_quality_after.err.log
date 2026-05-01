@@ -1,0 +1,1089 @@
+[worker] recovered stale processing jobs: [
+  {
+    id: '4cfd153f-ed28-4018-be41-32fdfe68993c',
+    subject_id: 'psychology',
+    chapter: 'Psychological Disorders',
+    started_at: null
+  }
+]
+[pyq_anchor] selected_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::staffing',
+  selected_anchor_id: 'structured_business_studies_consumer_protection_2',
+  selected_anchor_concept_id: 'business_studies::consumer_protection',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::staffing',
+  source_anchor_id: 'structured_business_studies_consumer_protection_2',
+  source_anchor_concept_id: 'business_studies::consumer_protection',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+FULL ERROR: BadRequestError: 400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.
+    at APIError.generate (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/core/error.mjs:41:20)
+    at OpenAI.makeStatusError (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/client.mjs:208:32)
+    at OpenAI.makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/client.mjs:394:30)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  status: 400,
+  headers: Headers {
+    date: 'Thu, 30 Apr 2026 20:49:06 GMT',
+    'content-type': 'application/json',
+    'content-length': '245',
+    connection: 'keep-alive',
+    'cf-ray': '9f496934fa9a8e8c-DEL',
+    'cf-cache-status': 'DYNAMIC',
+    server: 'cloudflare',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'x-content-type-options': 'nosniff',
+    'access-control-expose-headers': 'X-Request-ID',
+    'openai-organization': 'mockmob',
+    'openai-processing-ms': '23',
+    'openai-project': 'proj_avqwiGmBH9J72looyFhCDHtX',
+    'openai-version': '2020-10-01',
+    'x-openai-proxy-wasm': 'v0.1',
+    'x-ratelimit-limit-requests': '500',
+    'x-ratelimit-limit-tokens': '500000',
+    'x-ratelimit-remaining-requests': '499',
+    'x-ratelimit-remaining-tokens': '498761',
+    'x-ratelimit-reset-requests': '120ms',
+    'x-ratelimit-reset-tokens': '148ms',
+    'x-request-id': 'req_04b0f90740ec415e80f8c85e9f7388df',
+    'set-cookie': '__cf_bm=HLY.s0gndkRrBtDqO0OFq5HEcUap5KxXiqxu1yvTz3M-1777582144.7946162-1.0.1.1-drSijitmLW4l1QvP16TKrVboQNBVqU1X7L3aCe7pfslbmCZJVgQ9emiILDWTgqbUEm7.LpSHccncirfFlVFHBkJKVdGjptmtRtcO3o76k6Ee9c9SF2FcOmL8QmEO4wSr; HttpOnly; Secure; Path=/; Domain=api.openai.com; Expires=Thu, 30 Apr 2026 21:19:06 GMT',
+    'alt-svc': 'h3=":443"; ma=86400'
+  },
+  requestID: 'req_04b0f90740ec415e80f8c85e9f7388df',
+  error: {
+    message: "Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.",
+    type: 'invalid_request_error',
+    param: 'max_tokens',
+    code: 'unsupported_parameter'
+  },
+  code: 'unsupported_parameter',
+  param: 'max_tokens',
+  type: 'invalid_request_error'
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.",
+  "status": 400,
+  "code": "unsupported_parameter",
+  "type": "invalid_request_error",
+  "request_id": "req_04b0f90740ec415e80f8c85e9f7388df",
+  "cause": null
+}
+[llm] openai_generation failure gpt-5.5: 400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'extreme_qualifier',
+  body: 'In the context of staffing, which statement best reflects the role of recruitment in an organization',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'extreme_qualifier',
+  body: 'Which of the following statements about training and development in staffing is most accurate? State',
+  index: 1
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::coordination_compounds',
+  selected_anchor_id: 'structured_chemistry_p_block_elements_1',
+  selected_anchor_concept_id: 'chemistry::p_block_elements',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::coordination_compounds',
+  source_anchor_id: 'structured_chemistry_p_block_elements_1',
+  source_anchor_concept_id: 'chemistry::p_block_elements',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'case_based'
+}
+FULL ERROR: BadRequestError: 400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.
+    at APIError.generate (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/core/error.mjs:41:20)
+    at OpenAI.makeStatusError (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/client.mjs:208:32)
+    at OpenAI.makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/client.mjs:394:30)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  status: 400,
+  headers: Headers {
+    date: 'Thu, 30 Apr 2026 20:49:33 GMT',
+    'content-type': 'application/json',
+    'content-length': '245',
+    connection: 'keep-alive',
+    'cf-ray': '9f4969e2acf6bf12-DEL',
+    'cf-cache-status': 'DYNAMIC',
+    server: 'cloudflare',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'x-content-type-options': 'nosniff',
+    'access-control-expose-headers': 'X-Request-ID',
+    'openai-organization': 'mockmob',
+    'openai-processing-ms': '28',
+    'openai-project': 'proj_avqwiGmBH9J72looyFhCDHtX',
+    'openai-version': '2020-10-01',
+    'x-openai-proxy-wasm': 'v0.1',
+    'x-ratelimit-limit-requests': '500',
+    'x-ratelimit-limit-tokens': '500000',
+    'x-ratelimit-remaining-requests': '499',
+    'x-ratelimit-remaining-tokens': '499113',
+    'x-ratelimit-reset-requests': '120ms',
+    'x-ratelimit-reset-tokens': '106ms',
+    'x-request-id': 'req_9a75780c12b64fc8a2b6d4cc28fc10e1',
+    'set-cookie': '__cf_bm=OU5iqqjTrmMhV6jFtpHyw_cvPeZTSgq.q_Lj1cekQHI-1777582172.5890849-1.0.1.1-SOeLSPp6UIBiy5ydGLknm5k9Fk2dtJl5CYAKCCIC2Y0_NeUmQ.U2aVF2yN_RPS9MkNEosI475wHr9FuvxNEDjLeRi1ip7cRzKZDksHt7FOfvL4Xmudo3axFoYIGKfUFE; HttpOnly; Secure; Path=/; Domain=api.openai.com; Expires=Thu, 30 Apr 2026 21:19:33 GMT',
+    'alt-svc': 'h3=":443"; ma=86400'
+  },
+  requestID: 'req_9a75780c12b64fc8a2b6d4cc28fc10e1',
+  error: {
+    message: "Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.",
+    type: 'invalid_request_error',
+    param: 'max_tokens',
+    code: 'unsupported_parameter'
+  },
+  code: 'unsupported_parameter',
+  param: 'max_tokens',
+  type: 'invalid_request_error'
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.",
+  "status": 400,
+  "code": "unsupported_parameter",
+  "type": "invalid_request_error",
+  "request_id": "req_9a75780c12b64fc8a2b6d4cc28fc10e1",
+  "cause": null
+}
+[llm] openai_generation failure gpt-5.5: 400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'extreme_qualifier',
+  body: 'In a coordination compound, which of the following statements about ligands is accurate? Consider th',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'extreme_qualifier',
+  body: 'Which statement best describes the role of oxidation states in determining the properties of coordin',
+  index: 1
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::isolation_of_elements',
+  selected_anchor_id: 'structured_chemistry_p_block_elements_1',
+  selected_anchor_concept_id: 'chemistry::p_block_elements',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::isolation_of_elements',
+  source_anchor_id: 'structured_chemistry_p_block_elements_1',
+  source_anchor_concept_id: 'chemistry::p_block_elements',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+FULL ERROR: BadRequestError: 400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.
+    at APIError.generate (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/core/error.mjs:41:20)
+    at OpenAI.makeStatusError (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/client.mjs:208:32)
+    at OpenAI.makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/client.mjs:394:30)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  status: 400,
+  headers: Headers {
+    date: 'Thu, 30 Apr 2026 20:50:00 GMT',
+    'content-type': 'application/json',
+    'content-length': '245',
+    connection: 'keep-alive',
+    'cf-ray': '9f496a8dbdb5635a-DEL',
+    'cf-cache-status': 'DYNAMIC',
+    server: 'cloudflare',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'x-content-type-options': 'nosniff',
+    'access-control-expose-headers': 'X-Request-ID',
+    'openai-organization': 'mockmob',
+    'openai-processing-ms': '34',
+    'openai-project': 'proj_avqwiGmBH9J72looyFhCDHtX',
+    'openai-version': '2020-10-01',
+    'x-openai-proxy-wasm': 'v0.1',
+    'x-ratelimit-limit-requests': '500',
+    'x-ratelimit-limit-tokens': '500000',
+    'x-ratelimit-remaining-requests': '499',
+    'x-ratelimit-remaining-tokens': '499113',
+    'x-ratelimit-reset-requests': '120ms',
+    'x-ratelimit-reset-tokens': '106ms',
+    'x-request-id': 'req_5a17a6e370bf4af3a4b824be5dcc5835',
+    'set-cookie': '__cf_bm=PAKVaQEW7Vl6LqzOODT6t828y_9MkNbQZl9IbDFC7mI-1777582199.9597716-1.0.1.1-kh8o31PBYje_xZOzyF5ROmH3oUJVzGkF1QvQ8pw.TyRiaypCKmoByEAOjuvs0msHsSmY9K0ksIq0H0aook.0Yfupmx03ft9P6CCU2UIJE6oWRaAEvK2o1MGF3GPK1CXa; HttpOnly; Secure; Path=/; Domain=api.openai.com; Expires=Thu, 30 Apr 2026 21:20:00 GMT',
+    'alt-svc': 'h3=":443"; ma=86400'
+  },
+  requestID: 'req_5a17a6e370bf4af3a4b824be5dcc5835',
+  error: {
+    message: "Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.",
+    type: 'invalid_request_error',
+    param: 'max_tokens',
+    code: 'unsupported_parameter'
+  },
+  code: 'unsupported_parameter',
+  param: 'max_tokens',
+  type: 'invalid_request_error'
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.",
+  "status": 400,
+  "code": "unsupported_parameter",
+  "type": "invalid_request_error",
+  "request_id": "req_5a17a6e370bf4af3a4b824be5dcc5835",
+  "cause": null
+}
+[llm] openai_generation failure gpt-5.5: 400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'extreme_qualifier',
+  body: 'In the process of isolating metals from their ores, which statements reflect the complexity of the m',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'extreme_qualifier',
+  body: 'When considering the extraction of aluminum from bauxite ore, which statements are accurate? Stateme',
+  index: 1
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'computer_science',
+  concept_id: 'computer_science::computer_networks',
+  selected_anchor_id: 'synthetic_cuet_structure_computer_science',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'statement_based'
+}
+FULL ERROR: BadRequestError: 400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.
+    at APIError.generate (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/core/error.mjs:41:20)
+    at OpenAI.makeStatusError (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/client.mjs:208:32)
+    at OpenAI.makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/client.mjs:394:30)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  status: 400,
+  headers: Headers {
+    date: 'Thu, 30 Apr 2026 20:50:26 GMT',
+    'content-type': 'application/json',
+    'content-length': '245',
+    connection: 'keep-alive',
+    'cf-ray': '9f496b315fe298f2-DEL',
+    'cf-cache-status': 'DYNAMIC',
+    server: 'cloudflare',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'x-content-type-options': 'nosniff',
+    'access-control-expose-headers': 'X-Request-ID',
+    'openai-organization': 'mockmob',
+    'openai-processing-ms': '65',
+    'openai-project': 'proj_avqwiGmBH9J72looyFhCDHtX',
+    'openai-version': '2020-10-01',
+    'x-openai-proxy-wasm': 'v0.1',
+    'x-ratelimit-limit-requests': '500',
+    'x-ratelimit-limit-tokens': '500000',
+    'x-ratelimit-remaining-requests': '499',
+    'x-ratelimit-remaining-tokens': '499610',
+    'x-ratelimit-reset-requests': '120ms',
+    'x-ratelimit-reset-tokens': '46ms',
+    'x-request-id': 'req_fd58accd016348cbaf77a25f2a751401',
+    'set-cookie': '__cf_bm=9d.tUpwHmvD4bFJ5.QYdkcHJqt5JsM.WwsWJTCn5Nl4-1777582226.1381152-1.0.1.1-jd8iP54QbZ2KvxxbUbWhNjMnZ5p7OoeSVOu4q33HwiBjLVwBaPW7M4PdWM__LlwOz9ZGcEVzDWuTRgEIPqtJmTooJ2_yfWvVArKdOyb5mZg0yR87dsgX_QBaLjylIVog; HttpOnly; Secure; Path=/; Domain=api.openai.com; Expires=Thu, 30 Apr 2026 21:20:26 GMT',
+    'alt-svc': 'h3=":443"; ma=86400'
+  },
+  requestID: 'req_fd58accd016348cbaf77a25f2a751401',
+  error: {
+    message: "Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.",
+    type: 'invalid_request_error',
+    param: 'max_tokens',
+    code: 'unsupported_parameter'
+  },
+  code: 'unsupported_parameter',
+  param: 'max_tokens',
+  type: 'invalid_request_error'
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.",
+  "status": 400,
+  "code": "unsupported_parameter",
+  "type": "invalid_request_error",
+  "request_id": "req_fd58accd016348cbaf77a25f2a751401",
+  "cause": null
+}
+[llm] openai_generation failure gpt-5.5: 400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  reason: 'weak_options',
+  body: 'Which of the following protocols is primarily used for email transmission over the internet?',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  reason: 'trap_option_not_in_strong_distractors',
+  body: 'In a client-server model, which statement best describes the role of a server?',
+  index: 1
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'computer_science',
+  concept_id: 'computer_science::data_structures',
+  selected_anchor_id: 'synthetic_cuet_structure_computer_science',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'statement_based'
+}
+FULL ERROR: BadRequestError: 400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.
+    at APIError.generate (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/core/error.mjs:41:20)
+    at OpenAI.makeStatusError (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/client.mjs:208:32)
+    at OpenAI.makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/client.mjs:394:30)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  status: 400,
+  headers: Headers {
+    date: 'Thu, 30 Apr 2026 20:50:50 GMT',
+    'content-type': 'application/json',
+    'content-length': '245',
+    connection: 'keep-alive',
+    'cf-ray': '9f496bca39235976-DEL',
+    'cf-cache-status': 'DYNAMIC',
+    server: 'cloudflare',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'x-content-type-options': 'nosniff',
+    'access-control-expose-headers': 'X-Request-ID',
+    'openai-organization': 'mockmob',
+    'openai-processing-ms': '34',
+    'openai-project': 'proj_avqwiGmBH9J72looyFhCDHtX',
+    'openai-version': '2020-10-01',
+    'x-openai-proxy-wasm': 'v0.1',
+    'x-ratelimit-limit-requests': '500',
+    'x-ratelimit-limit-tokens': '500000',
+    'x-ratelimit-remaining-requests': '499',
+    'x-ratelimit-remaining-tokens': '499611',
+    'x-ratelimit-reset-requests': '120ms',
+    'x-ratelimit-reset-tokens': '46ms',
+    'x-request-id': 'req_d8ef5a8b236247a99ae14b729842e4bf',
+    'set-cookie': '__cf_bm=7tFS.WmQDpZN4IBPYeS0XhU_8kFN94jYf9utY2wOd5Q-1777582250.5982413-1.0.1.1-apdh7rnD4ae47CZBdZWUr9KFDEmhT81awnEu751oPeAgipnRCiK7ABmBVWcncyxMSgGDArJrdfRblmxvao9Xep4lptK0eEMaglAVQkcbZZT3T9NU73drfxfjEbjqIjQx; HttpOnly; Secure; Path=/; Domain=api.openai.com; Expires=Thu, 30 Apr 2026 21:20:50 GMT',
+    'alt-svc': 'h3=":443"; ma=86400'
+  },
+  requestID: 'req_d8ef5a8b236247a99ae14b729842e4bf',
+  error: {
+    message: "Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.",
+    type: 'invalid_request_error',
+    param: 'max_tokens',
+    code: 'unsupported_parameter'
+  },
+  code: 'unsupported_parameter',
+  param: 'max_tokens',
+  type: 'invalid_request_error'
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.",
+  "status": 400,
+  "code": "unsupported_parameter",
+  "type": "invalid_request_error",
+  "request_id": "req_d8ef5a8b236247a99ae14b729842e4bf",
+  "cause": null
+}
+[llm] openai_generation failure gpt-5.5: 400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Data Structures',
+  reason: 'trap_option_not_in_strong_distractors',
+  body: 'In a binary tree, which of the following statements are generally true regarding the traversal metho',
+  index: 0
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::economic_reforms_since_1991',
+  selected_anchor_id: 'seed_pyq_e2',
+  selected_anchor_concept_id: 'economics::national_income_and_related_aggregates',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::economic_reforms_since_1991',
+  source_anchor_id: 'seed_pyq_e2',
+  source_anchor_concept_id: 'economics::national_income_and_related_aggregates',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'simple_numerical'
+}
+FULL ERROR: BadRequestError: 400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.
+    at APIError.generate (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/core/error.mjs:41:20)
+    at OpenAI.makeStatusError (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/client.mjs:208:32)
+    at OpenAI.makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/client.mjs:394:30)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  status: 400,
+  headers: Headers {
+    date: 'Thu, 30 Apr 2026 20:51:14 GMT',
+    'content-type': 'application/json',
+    'content-length': '245',
+    connection: 'keep-alive',
+    'cf-ray': '9f496c5769c68ad6-DEL',
+    'cf-cache-status': 'DYNAMIC',
+    server: 'cloudflare',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'x-content-type-options': 'nosniff',
+    'access-control-expose-headers': 'X-Request-ID',
+    'openai-organization': 'mockmob',
+    'openai-processing-ms': '10',
+    'openai-project': 'proj_avqwiGmBH9J72looyFhCDHtX',
+    'openai-version': '2020-10-01',
+    'x-openai-proxy-wasm': 'v0.1',
+    'x-ratelimit-limit-requests': '500',
+    'x-ratelimit-limit-tokens': '500000',
+    'x-ratelimit-remaining-requests': '499',
+    'x-ratelimit-remaining-tokens': '499266',
+    'x-ratelimit-reset-requests': '120ms',
+    'x-ratelimit-reset-tokens': '88ms',
+    'x-request-id': 'req_836e86d72df4410aac078018b21f6544',
+    'set-cookie': '__cf_bm=vecEDHiQj0M8QPH.22F6lCs05L3LLMvbBzZ1mVdXPAU-1777582273.1882093-1.0.1.1-UEype25s5AdUBN.PG81_yrhVhco4.iQfLIPRvKcIdiayJZxzzxJCZh.drRqAWtRi2gBEl_NhPLzqH2umNxBIQQ9.uWLU931EJjSJARlU7DaIOF8a_zscb3CDigAW9z1E; HttpOnly; Secure; Path=/; Domain=api.openai.com; Expires=Thu, 30 Apr 2026 21:21:14 GMT',
+    'alt-svc': 'h3=":443"; ma=86400'
+  },
+  requestID: 'req_836e86d72df4410aac078018b21f6544',
+  error: {
+    message: "Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.",
+    type: 'invalid_request_error',
+    param: 'max_tokens',
+    code: 'unsupported_parameter'
+  },
+  code: 'unsupported_parameter',
+  param: 'max_tokens',
+  type: 'invalid_request_error'
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.",
+  "status": 400,
+  "code": "unsupported_parameter",
+  "type": "invalid_request_error",
+  "request_id": "req_836e86d72df4410aac078018b21f6544",
+  "cause": null
+}
+[llm] openai_generation failure gpt-5.5: 400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.
+[llm] question_rejected_internal_quality {
+  subject: 'economics',
+  chapter: 'Economic Reforms Since 1991',
+  reason: 'trap_option_not_in_strong_distractors',
+  body: 'Which of the following measures is associated with economic liberalization since 1991?',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'economics',
+  chapter: 'Economic Reforms Since 1991',
+  reason: 'trap_option_not_in_strong_distractors',
+  body: 'Which of the following statements accurately reflects the changes post-1991 economic reforms?',
+  index: 1
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::narrative_passage',
+  selected_anchor_id: 'seed_pyq_en3',
+  selected_anchor_concept_id: 'english::correct_word_usage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'correct_word_usage'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::narrative_passage',
+  source_anchor_id: 'seed_pyq_en3',
+  source_anchor_concept_id: 'english::correct_word_usage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'correct_word_usage'
+}
+FULL ERROR: BadRequestError: 400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.
+    at APIError.generate (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/core/error.mjs:41:20)
+    at OpenAI.makeStatusError (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/client.mjs:208:32)
+    at OpenAI.makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/client.mjs:394:30)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  status: 400,
+  headers: Headers {
+    date: 'Thu, 30 Apr 2026 20:51:44 GMT',
+    'content-type': 'application/json',
+    'content-length': '245',
+    connection: 'keep-alive',
+    'cf-ray': '9f496d19bf7891b6-DEL',
+    'cf-cache-status': 'DYNAMIC',
+    server: 'cloudflare',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'x-content-type-options': 'nosniff',
+    'access-control-expose-headers': 'X-Request-ID',
+    'openai-organization': 'mockmob',
+    'openai-processing-ms': '31',
+    'openai-project': 'proj_avqwiGmBH9J72looyFhCDHtX',
+    'openai-version': '2020-10-01',
+    'x-openai-proxy-wasm': 'v0.1',
+    'x-ratelimit-limit-requests': '500',
+    'x-ratelimit-limit-tokens': '500000',
+    'x-ratelimit-remaining-requests': '499',
+    'x-ratelimit-remaining-tokens': '499279',
+    'x-ratelimit-reset-requests': '120ms',
+    'x-ratelimit-reset-tokens': '86ms',
+    'x-request-id': 'req_e877aa7d2f2b429eb60a41471618799c',
+    'set-cookie': '__cf_bm=oJCR1.G0EJ1ao3IuYGss9tB5Sq32GlvHKWRgBaCudHw-1777582304.2798128-1.0.1.1-fjHtIj3SH2egy4W5haelCh71XVqZnedw5d8jxjJKWDL8YYQhwttiozE7MvY0dRc4YhRQeLefxR80.xw966_x89xt4n3R3ILoLot4L04MA2s9V1O3pYH9.x5hd4HBUUCv; HttpOnly; Secure; Path=/; Domain=api.openai.com; Expires=Thu, 30 Apr 2026 21:21:44 GMT',
+    'alt-svc': 'h3=":443"; ma=86400'
+  },
+  requestID: 'req_e877aa7d2f2b429eb60a41471618799c',
+  error: {
+    message: "Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.",
+    type: 'invalid_request_error',
+    param: 'max_tokens',
+    code: 'unsupported_parameter'
+  },
+  code: 'unsupported_parameter',
+  param: 'max_tokens',
+  type: 'invalid_request_error'
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.",
+  "status": 400,
+  "code": "unsupported_parameter",
+  "type": "invalid_request_error",
+  "request_id": "req_e877aa7d2f2b429eb60a41471618799c",
+  "cause": null
+}
+[llm] openai_generation failure gpt-5.5: 400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.
+[llm] english_classification_warning_log_only {
+  chapter: 'Narrative Passage',
+  reason: 'rc_without_passage_log_only',
+  detected_type: 'Narrative Passage',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'extreme_qualifier',
+  body: "In the context of the narrative, which statement best reflects the protagonist's feelings about chan",
+  index: 0
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Narrative Passage',
+  reason: 'rc_without_passage_log_only',
+  detected_type: 'Narrative Passage',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'trap_option_not_in_strong_distractors',
+  body: 'Which of the following aspects of the setting contributes most to the overall mood of the passage?',
+  index: 1
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::indian_economy_on_the_eve_of_independence',
+  selected_anchor_id: 'seed_pyq_e2',
+  selected_anchor_concept_id: 'economics::national_income_and_related_aggregates',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::indian_economy_on_the_eve_of_independence',
+  source_anchor_id: 'seed_pyq_e2',
+  source_anchor_concept_id: 'economics::national_income_and_related_aggregates',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'simple_numerical'
+}
+FULL ERROR: BadRequestError: 400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.
+    at APIError.generate (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/core/error.mjs:41:20)
+    at OpenAI.makeStatusError (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/client.mjs:208:32)
+    at OpenAI.makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/client.mjs:394:30)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  status: 400,
+  headers: Headers {
+    date: 'Thu, 30 Apr 2026 20:52:10 GMT',
+    'content-type': 'application/json',
+    'content-length': '245',
+    connection: 'keep-alive',
+    'cf-ray': '9f496db98fe05472-DEL',
+    'cf-cache-status': 'DYNAMIC',
+    server: 'cloudflare',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'x-content-type-options': 'nosniff',
+    'access-control-expose-headers': 'X-Request-ID',
+    'openai-organization': 'mockmob',
+    'openai-processing-ms': '30',
+    'openai-project': 'proj_avqwiGmBH9J72looyFhCDHtX',
+    'openai-version': '2020-10-01',
+    'x-openai-proxy-wasm': 'v0.1',
+    'x-ratelimit-limit-requests': '500',
+    'x-ratelimit-limit-tokens': '500000',
+    'x-ratelimit-remaining-requests': '499',
+    'x-ratelimit-remaining-tokens': '499255',
+    'x-ratelimit-reset-requests': '120ms',
+    'x-ratelimit-reset-tokens': '89ms',
+    'x-request-id': 'req_c014561e6be74379b244c4a7425c697a',
+    'set-cookie': '__cf_bm=V7fLoesggyi2u8N5Rp26_ZLnMNMP225SGehcrqHalII-1777582329.8504672-1.0.1.1-XKroF9BCaf16S7n8UhiOf8Z6s8.g5y9DBALNHbY5qkrD5y03QPEGzg2H5LQ2f80dL1tJHrCQt3U9kOoBNm2udLqARTTbqkEghHRnCDGufta.LSBgYxJkHOWTHnumuiJF; HttpOnly; Secure; Path=/; Domain=api.openai.com; Expires=Thu, 30 Apr 2026 21:22:10 GMT',
+    'alt-svc': 'h3=":443"; ma=86400'
+  },
+  requestID: 'req_c014561e6be74379b244c4a7425c697a',
+  error: {
+    message: "Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.",
+    type: 'invalid_request_error',
+    param: 'max_tokens',
+    code: 'unsupported_parameter'
+  },
+  code: 'unsupported_parameter',
+  param: 'max_tokens',
+  type: 'invalid_request_error'
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.",
+  "status": 400,
+  "code": "unsupported_parameter",
+  "type": "invalid_request_error",
+  "request_id": "req_c014561e6be74379b244c4a7425c697a",
+  "cause": null
+}
+[llm] openai_generation failure gpt-5.5: 400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.
+[llm] question_rejected_internal_quality {
+  subject: 'economics',
+  chapter: 'Indian Economy on the Eve of Independence',
+  reason: 'trap_option_not_in_strong_distractors',
+  body: 'Which of the following factors contributed to the economic challenges faced by India on the eve of i',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'economics',
+  chapter: 'Indian Economy on the Eve of Independence',
+  reason: 'trap_option_not_in_strong_distractors',
+  body: "Which statements about India's economy during the late colonial period are accurate?",
+  index: 1
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'computer_science',
+  concept_id: 'computer_science::python_revision',
+  selected_anchor_id: 'synthetic_cuet_structure_computer_science',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'case_based'
+}
+FULL ERROR: BadRequestError: 400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.
+    at APIError.generate (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/core/error.mjs:41:20)
+    at OpenAI.makeStatusError (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/client.mjs:208:32)
+    at OpenAI.makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/client.mjs:394:30)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  status: 400,
+  headers: Headers {
+    date: 'Thu, 30 Apr 2026 20:52:35 GMT',
+    'content-type': 'application/json',
+    'content-length': '245',
+    connection: 'keep-alive',
+    'cf-ray': '9f496e56ac70a5d3-DEL',
+    'cf-cache-status': 'DYNAMIC',
+    server: 'cloudflare',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'x-content-type-options': 'nosniff',
+    'access-control-expose-headers': 'X-Request-ID',
+    'openai-organization': 'mockmob',
+    'openai-processing-ms': '27',
+    'openai-project': 'proj_avqwiGmBH9J72looyFhCDHtX',
+    'openai-version': '2020-10-01',
+    'x-openai-proxy-wasm': 'v0.1',
+    'x-ratelimit-limit-requests': '500',
+    'x-ratelimit-limit-tokens': '500000',
+    'x-ratelimit-remaining-requests': '499',
+    'x-ratelimit-remaining-tokens': '499611',
+    'x-ratelimit-reset-requests': '120ms',
+    'x-ratelimit-reset-tokens': '46ms',
+    'x-request-id': 'req_a1694a7ec8564a12aa9ee36a3818a0dc',
+    'set-cookie': '__cf_bm=9HlPvo6XrSYazlUsMVKU6ez2HMiKWyf6GOUi1VQhMgY-1777582354.9832487-1.0.1.1-.psaj4Li9ZQhHCXropZ2mN.Eo4wgnk35NFYXWkpr3mFiAL1uomD17BdfCM4SH8IJ2MCxRWPTPCD_O4fSlxLF3aJO7tRk6t5lP9Y6Ll2ppsWghvq9_.JBQdZHAdPfeVJg; HttpOnly; Secure; Path=/; Domain=api.openai.com; Expires=Thu, 30 Apr 2026 21:22:35 GMT',
+    'alt-svc': 'h3=":443"; ma=86400'
+  },
+  requestID: 'req_a1694a7ec8564a12aa9ee36a3818a0dc',
+  error: {
+    message: "Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.",
+    type: 'invalid_request_error',
+    param: 'max_tokens',
+    code: 'unsupported_parameter'
+  },
+  code: 'unsupported_parameter',
+  param: 'max_tokens',
+  type: 'invalid_request_error'
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.",
+  "status": 400,
+  "code": "unsupported_parameter",
+  "type": "invalid_request_error",
+  "request_id": "req_a1694a7ec8564a12aa9ee36a3818a0dc",
+  "cause": null
+}
+[llm] openai_generation failure gpt-5.5: 400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Python Revision',
+  reason: 'obvious_answer_pattern',
+  body: 'What will be the output of the following code snippet: \n' +
+    '\n' +
+    'x = [1, 2, 3]\n' +
+    'print(x * 2)',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Python Revision',
+  reason: 'weak_options',
+  body: 'Given the code snippet:\n' +
+    '\n' +
+    'def func(a):\n' +
+    '    return a * a\n' +
+    '\n' +
+    'What will func(5) return?',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Python Revision',
+  reason: 'missing_trap_or_strong_distractors',
+  body: 'What will be the result of executing this code?\n' +
+    '\n' +
+    'for i in range(3):\n' +
+    '    print(i)\n' +
+    'else:\n' +
+    "    print('Do",
+  index: 2
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'sociology',
+  requested_concept_id: 'sociology::introducing_indian_society',
+  selected_anchor_id: 'structured_sociology_mass_media_and_communications_1',
+  selected_anchor_concept_id: 'sociology::mass_media_and_communications',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'sociology',
+  requested_concept_id: 'sociology::introducing_indian_society',
+  source_anchor_id: 'structured_sociology_mass_media_and_communications_1',
+  source_anchor_concept_id: 'sociology::mass_media_and_communications',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'case_based'
+}
+FULL ERROR: BadRequestError: 400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.
+    at APIError.generate (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/core/error.mjs:41:20)
+    at OpenAI.makeStatusError (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/client.mjs:208:32)
+    at OpenAI.makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/client.mjs:394:30)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  status: 400,
+  headers: Headers {
+    date: 'Thu, 30 Apr 2026 20:53:04 GMT',
+    'content-type': 'application/json',
+    'content-length': '245',
+    connection: 'keep-alive',
+    'cf-ray': '9f496f0ca800f4aa-DEL',
+    'cf-cache-status': 'DYNAMIC',
+    server: 'cloudflare',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'x-content-type-options': 'nosniff',
+    'access-control-expose-headers': 'X-Request-ID',
+    'openai-organization': 'mockmob',
+    'openai-processing-ms': '10',
+    'openai-project': 'proj_avqwiGmBH9J72looyFhCDHtX',
+    'openai-version': '2020-10-01',
+    'x-openai-proxy-wasm': 'v0.1',
+    'x-ratelimit-limit-requests': '500',
+    'x-ratelimit-limit-tokens': '500000',
+    'x-ratelimit-remaining-requests': '499',
+    'x-ratelimit-remaining-tokens': '499128',
+    'x-ratelimit-reset-requests': '120ms',
+    'x-ratelimit-reset-tokens': '104ms',
+    'x-request-id': 'req_5ca8e7cb463a499988c65f991f9d95b5',
+    'set-cookie': '__cf_bm=88gYUA9Dlw2IRyyEGdaFUUmBOqOEdftQHHXYTYIh9Vs-1777582384.105516-1.0.1.1-S4nGphqJMxH4zkNF6YRN1M8_O4QPIWszYQ5KV9Dn4bpm3iX2nLc..uJ62pxwclBSSK4gxnzoknDfpR8ylPsJxGSUGFT91e2UAU8yFAhOzdJ1EtN.HiyfkRK2YW77QJfw; HttpOnly; Secure; Path=/; Domain=api.openai.com; Expires=Thu, 30 Apr 2026 21:23:04 GMT',
+    'alt-svc': 'h3=":443"; ma=86400'
+  },
+  requestID: 'req_5ca8e7cb463a499988c65f991f9d95b5',
+  error: {
+    message: "Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.",
+    type: 'invalid_request_error',
+    param: 'max_tokens',
+    code: 'unsupported_parameter'
+  },
+  code: 'unsupported_parameter',
+  param: 'max_tokens',
+  type: 'invalid_request_error'
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.",
+  "status": 400,
+  "code": "unsupported_parameter",
+  "type": "invalid_request_error",
+  "request_id": "req_5ca8e7cb463a499988c65f991f9d95b5",
+  "cause": null
+}
+[llm] openai_generation failure gpt-5.5: 400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'extreme_qualifier',
+  body: 'In discussing the role of caste in Indian society, which of the following statements provides the mo',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'extreme_qualifier',
+  body: 'Which of the following statements about family structures in India best captures their diversity?',
+  index: 1
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'psychology',
+  requested_concept_id: 'psychology::psychological_disorders',
+  selected_anchor_id: 'structured_psychology_self_and_personality_1',
+  selected_anchor_concept_id: 'psychology::self_and_personality',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'psychology',
+  requested_concept_id: 'psychology::psychological_disorders',
+  source_anchor_id: 'structured_psychology_self_and_personality_1',
+  source_anchor_concept_id: 'psychology::self_and_personality',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+FULL ERROR: BadRequestError: 400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.
+    at APIError.generate (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/core/error.mjs:41:20)
+    at OpenAI.makeStatusError (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/client.mjs:208:32)
+    at OpenAI.makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/client.mjs:394:30)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  status: 400,
+  headers: Headers {
+    date: 'Thu, 30 Apr 2026 20:53:30 GMT',
+    'content-type': 'application/json',
+    'content-length': '245',
+    connection: 'keep-alive',
+    'cf-ray': '9f496fb17b54f043-DEL',
+    'cf-cache-status': 'DYNAMIC',
+    server: 'cloudflare',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'x-content-type-options': 'nosniff',
+    'access-control-expose-headers': 'X-Request-ID',
+    'openai-organization': 'mockmob',
+    'openai-processing-ms': '10',
+    'openai-project': 'proj_avqwiGmBH9J72looyFhCDHtX',
+    'openai-version': '2020-10-01',
+    'x-openai-proxy-wasm': 'v0.1',
+    'x-ratelimit-limit-requests': '500',
+    'x-ratelimit-limit-tokens': '500000',
+    'x-ratelimit-remaining-requests': '499',
+    'x-ratelimit-remaining-tokens': '499136',
+    'x-ratelimit-reset-requests': '120ms',
+    'x-ratelimit-reset-tokens': '103ms',
+    'x-request-id': 'req_70a1497f479f42f79c8c55bffa544b5d',
+    'set-cookie': '__cf_bm=HXoJK18qv6Fvsw.eH05oITM.ldXASq8rpVk1pK8.gmk-1777582410.476778-1.0.1.1-rOGySKZ0YabHYw7TFkC_oz3RFMlPhgAjTRH5c1fVF9Ftsbmht33.jk_ulyXh.X6YahsD7080jPxION9Iv2IMebrl593YXhq_NBmDzrFqyVbQwVyBUziRudnE524NVphS; HttpOnly; Secure; Path=/; Domain=api.openai.com; Expires=Thu, 30 Apr 2026 21:23:30 GMT',
+    'alt-svc': 'h3=":443"; ma=86400'
+  },
+  requestID: 'req_70a1497f479f42f79c8c55bffa544b5d',
+  error: {
+    message: "Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.",
+    type: 'invalid_request_error',
+    param: 'max_tokens',
+    code: 'unsupported_parameter'
+  },
+  code: 'unsupported_parameter',
+  param: 'max_tokens',
+  type: 'invalid_request_error'
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.",
+  "status": 400,
+  "code": "unsupported_parameter",
+  "type": "invalid_request_error",
+  "request_id": "req_70a1497f479f42f79c8c55bffa544b5d",
+  "cause": null
+}
+[llm] openai_generation failure gpt-5.5: 400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  reason: 'extreme_qualifier',
+  body: 'A therapist identifies a client exhibiting symptoms of both anxiety and depression. Which of the fol',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  reason: 'extreme_qualifier',
+  body: 'In assessing a patient with obsessive-compulsive disorder (OCD), which statement reflects an accurat',
+  index: 1
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'psychology',
+  requested_concept_id: 'psychology::psychological_disorders',
+  selected_anchor_id: 'structured_psychology_self_and_personality_1',
+  selected_anchor_concept_id: 'psychology::self_and_personality',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'psychology',
+  requested_concept_id: 'psychology::psychological_disorders',
+  source_anchor_id: 'structured_psychology_self_and_personality_1',
+  source_anchor_concept_id: 'psychology::self_and_personality',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+FULL ERROR: BadRequestError: 400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.
+    at APIError.generate (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/core/error.mjs:41:20)
+    at OpenAI.makeStatusError (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/client.mjs:208:32)
+    at OpenAI.makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/openai/client.mjs:394:30)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  status: 400,
+  headers: Headers {
+    date: 'Thu, 30 Apr 2026 20:53:57 GMT',
+    'content-type': 'application/json',
+    'content-length': '245',
+    connection: 'keep-alive',
+    'cf-ray': '9f4970596c2ec0e2-DEL',
+    'cf-cache-status': 'DYNAMIC',
+    server: 'cloudflare',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'x-content-type-options': 'nosniff',
+    'access-control-expose-headers': 'X-Request-ID',
+    'openai-organization': 'mockmob',
+    'openai-processing-ms': '25',
+    'openai-project': 'proj_avqwiGmBH9J72looyFhCDHtX',
+    'openai-version': '2020-10-01',
+    'x-openai-proxy-wasm': 'v0.1',
+    'x-ratelimit-limit-requests': '500',
+    'x-ratelimit-limit-tokens': '500000',
+    'x-ratelimit-remaining-requests': '499',
+    'x-ratelimit-remaining-tokens': '499137',
+    'x-ratelimit-reset-requests': '120ms',
+    'x-ratelimit-reset-tokens': '103ms',
+    'x-request-id': 'req_905c42125546449093ee7e3542c097c9',
+    'set-cookie': '__cf_bm=.UDh9XJZpotKvXJAtUMfGj3h69PWBHYEticFt9s.JxI-1777582437.3426297-1.0.1.1-njcPVNZt5LLg9lYzO8cpxjJBJngL3Ynv8umGl0c7S.oRRR1LxWw.8zafEearn_HV35uJKgxQdjgMyjMsQKJ9SGGPizKOGpBgg2H3QuO9D7itdEAiKdUJ9IGedvkmEmAE; HttpOnly; Secure; Path=/; Domain=api.openai.com; Expires=Thu, 30 Apr 2026 21:23:57 GMT',
+    'alt-svc': 'h3=":443"; ma=86400'
+  },
+  requestID: 'req_905c42125546449093ee7e3542c097c9',
+  error: {
+    message: "Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.",
+    type: 'invalid_request_error',
+    param: 'max_tokens',
+    code: 'unsupported_parameter'
+  },
+  code: 'unsupported_parameter',
+  param: 'max_tokens',
+  type: 'invalid_request_error'
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.",
+  "status": 400,
+  "code": "unsupported_parameter",
+  "type": "invalid_request_error",
+  "request_id": "req_905c42125546449093ee7e3542c097c9",
+  "cause": null
+}
+[llm] openai_generation failure gpt-5.5: 400 Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.

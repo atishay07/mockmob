@@ -1,0 +1,16 @@
+{
+  "subject": "physics",
+  "chapter": "Nuclei",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "Read the statements and choose the correct option. Statement I: Binding energy per nucleon is useful for comparing nuclear stability. Statement II: Mass defect is connected with nuclear binding energy. Statement III: Radioactive decay rate depends on ordinary chemical conditions.",
+      "options": ["I and II only", "II and III only", "I and III only", "I, II and III"],
+      "correct_answer": "A",
+      "pattern_tags": ["statement-based", "ncert-specific", "trap-option", "elimination"],
+      "difficulty": "medium",
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

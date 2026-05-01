@@ -1,0 +1,57 @@
+{
+  "tiers": {
+    "S": {
+      "priority_weight": 1.0,
+      "target_coverage_per_chapter": 80,
+      "planner_share": 0.55,
+      "subjects": ["english", "gat", "general_test", "chemistry", "physics", "mathematics"]
+    },
+    "A": {
+      "priority_weight": 0.75,
+      "target_coverage_per_chapter": 55,
+      "planner_share": 0.25,
+      "subjects": ["hindi", "economics", "business_studies", "accountancy", "biology"]
+    },
+    "B": {
+      "priority_weight": 0.45,
+      "target_coverage_per_chapter": 35,
+      "planner_share": 0.15,
+      "subjects": ["history", "political_science", "computer_science", "geography", "physical_education"]
+    },
+    "C": {
+      "priority_weight": 0.2,
+      "target_coverage_per_chapter": 20,
+      "planner_share": 0.04,
+      "subjects": ["psychology", "sociology", "home_science", "legal_studies", "entrepreneurship"]
+    },
+    "D": {
+      "priority_weight": 0.08,
+      "target_coverage_per_chapter": 10,
+      "planner_share": 0.01,
+      "subjects": ["mass_media", "agriculture", "environmental_studies", "fine_arts", "performing_arts", "knowledge_tradition", "anthropology", "regional_languages_except_hindi"]
+    }
+  },
+  "aliases": {
+    "general test": "general_test",
+    "general_test": "gat",
+    "business studies": "business_studies",
+    "political science": "political_science",
+    "computer science": "computer_science",
+    "physical education": "physical_education",
+    "home science": "home_science",
+    "legal studies": "legal_studies"
+  },
+  "exam_importance_boost": {
+    "english": 20,
+    "gat": 18,
+    "general_test": 18,
+    "chemistry": 15,
+    "physics": 15,
+    "mathematics": 15,
+    "accountancy": 12,
+    "business_studies": 12,
+    "economics": 12,
+    "biology": 10
+  },
+  "default_tier": "C"
+}

@@ -1,0 +1,33 @@
+{
+  "subject": "psychology",
+  "chapter": "Self & Personality",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "A student treats self-concept and self-esteem as the same idea while explaining a peer's behaviour. Which distinction best corrects this confusion?",
+      "options": [
+        "Self-concept is the broader view of oneself, while self-esteem is the evaluative feeling attached to that view.",
+        "Self-esteem is the broader view of oneself, while self-concept is limited to confidence in one task.",
+        "Self-concept depends mainly on social labels, while self-esteem is unrelated to personal evaluation.",
+        "Self-esteem and self-concept differ in wording but refer to the same psychological process."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["comparison-based", "elimination", "close-distractors", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    },
+    {
+      "question": "Assertion: A learner with strong self-efficacy may continue attempting a difficult task after an initial failure. Reason: Self-efficacy concerns belief about one's capability in a specific task situation.",
+      "options": [
+        "Both Assertion and Reason are true, and the Reason explains the Assertion.",
+        "Both Assertion and Reason are true, but the Reason does not explain the Assertion.",
+        "Assertion is true, but Reason confuses self-efficacy with general self-esteem.",
+        "Assertion is false, but Reason correctly describes a task-specific belief."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["assertion-reason", "elimination", "close-distractors", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

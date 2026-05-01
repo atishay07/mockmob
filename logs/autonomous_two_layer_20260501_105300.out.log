@@ -1,0 +1,1178 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5989 concepts across 40 subjects (saved 2026-04-30T23:02:52.552Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  coverage: 11,
+  priority: 75
+}
+[planner] {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  coverage: 12,
+  priority: 75
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Para Jumbles',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Vocabulary',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'geography',
+  chapter: 'Migration',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'physics',
+  chapter: 'Magnetism & Matter',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'sociology',
+  chapter: 'Patterns of Social Inequality',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'sociology',
+  chapter: 'Social Movements',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'sociology',
+  chapter: 'Structural Change',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'accountancy',
+  chapter: 'Change in Profit Sharing Ratio',
+  coverage: 14,
+  priority: 75
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: physics → normalized: physics → tier: 1
+Subject: physics → normalized: physics → tier: 1
+Subject: english → normalized: english → tier: 1
+Subject: english → normalized: english → tier: 1
+Subject: geography → normalized: geography → tier: 1
+Subject: physics → normalized: physics → tier: 1
+Subject: sociology → normalized: sociology → tier: 1
+Subject: sociology → normalized: sociology → tier: 1
+Subject: sociology → normalized: sociology → tier: 1
+Subject: accountancy → normalized: accountancy → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'physics',
+    expected_chapter: 'Electromagnetic Induction',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'physics',
+    expected_chapter: 'Moving Charges & Magnetism',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Para Jumbles',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Vocabulary',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'geography',
+    expected_chapter: 'Migration',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'physics',
+    expected_chapter: 'Magnetism & Matter',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'sociology',
+    expected_chapter: 'Patterns of Social Inequality',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'sociology',
+    expected_chapter: 'Social Movements',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'sociology',
+    expected_chapter: 'Structural Change',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'accountancy',
+    expected_chapter: 'Change in Profit Sharing Ratio',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'physics',
+    chapter: 'Electromagnetic Induction',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'physics',
+    chapter: 'Moving Charges & Magnetism',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'english',
+    chapter: 'Para Jumbles',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'english',
+    chapter: 'Vocabulary',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'geography',
+    chapter: 'Migration',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'physics',
+    chapter: 'Magnetism & Matter',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'sociology',
+    chapter: 'Patterns of Social Inequality',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'sociology',
+    chapter: 'Social Movements',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'sociology',
+    chapter: 'Structural Change',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'accountancy',
+    chapter: 'Change in Profit Sharing Ratio',
+    status: 'queued',
+    priority: 75
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: '7a22b755-db81-472c-82c7-637a80f31a6c',
+    subject_id: 'physics',
+    chapter: 'Electromagnetic Induction',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:23:04.81144+00:00'
+  },
+  {
+    id: 'a9723ff4-7ddb-4bb7-a2fe-c99cb6ed9133',
+    subject_id: 'physics',
+    chapter: 'Moving Charges & Magnetism',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:23:04.81144+00:00'
+  },
+  {
+    id: 'e640b924-b9e7-4270-978c-044b31aaea7b',
+    subject_id: 'english',
+    chapter: 'Para Jumbles',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:23:04.81144+00:00'
+  },
+  {
+    id: '1605cc12-dbe8-452b-9136-9ff6b1347344',
+    subject_id: 'english',
+    chapter: 'Vocabulary',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:23:04.81144+00:00'
+  },
+  {
+    id: 'caa9d4c4-c451-49b7-985c-8fcee8ce348b',
+    subject_id: 'geography',
+    chapter: 'Migration',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:23:04.81144+00:00'
+  },
+  {
+    id: '766a848f-54c4-47b1-8f84-4f02b081047f',
+    subject_id: 'physics',
+    chapter: 'Magnetism & Matter',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:23:04.81144+00:00'
+  },
+  {
+    id: 'd796b17c-1a37-443f-93c3-9d260c04aca9',
+    subject_id: 'sociology',
+    chapter: 'Patterns of Social Inequality',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:23:04.81144+00:00'
+  },
+  {
+    id: 'da118166-30f5-4056-a1bd-371efa376c02',
+    subject_id: 'sociology',
+    chapter: 'Social Movements',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:23:04.81144+00:00'
+  },
+  {
+    id: '6faac838-0e16-4de2-9ea0-46bce1ac8ce5',
+    subject_id: 'sociology',
+    chapter: 'Structural Change',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:23:04.81144+00:00'
+  },
+  {
+    id: '45af5de6-6561-4e0e-8d69-a294c35c4e82',
+    subject_id: 'accountancy',
+    chapter: 'Change in Profit Sharing Ratio',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:23:04.81144+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: '7a22b755-db81-472c-82c7-637a80f31a6c',
+    expected_subject: 'physics',
+    expected_chapter: 'Electromagnetic Induction',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: 'a9723ff4-7ddb-4bb7-a2fe-c99cb6ed9133',
+    expected_subject: 'physics',
+    expected_chapter: 'Moving Charges & Magnetism',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: 'e640b924-b9e7-4270-978c-044b31aaea7b',
+    expected_subject: 'english',
+    expected_chapter: 'Para Jumbles',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '1605cc12-dbe8-452b-9136-9ff6b1347344',
+    expected_subject: 'english',
+    expected_chapter: 'Vocabulary',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: 'caa9d4c4-c451-49b7-985c-8fcee8ce348b',
+    expected_subject: 'geography',
+    expected_chapter: 'Migration',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '766a848f-54c4-47b1-8f84-4f02b081047f',
+    expected_subject: 'physics',
+    expected_chapter: 'Magnetism & Matter',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: 'd796b17c-1a37-443f-93c3-9d260c04aca9',
+    expected_subject: 'sociology',
+    expected_chapter: 'Patterns of Social Inequality',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: 'da118166-30f5-4056-a1bd-371efa376c02',
+    expected_subject: 'sociology',
+    expected_chapter: 'Social Movements',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '6faac838-0e16-4de2-9ea0-46bce1ac8ce5',
+    expected_subject: 'sociology',
+    expected_chapter: 'Structural Change',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '45af5de6-6561-4e0e-8d69-a294c35c4e82',
+    expected_subject: 'accountancy',
+    expected_chapter: 'Change in Profit Sharing Ratio',
+    status: 'queued',
+    priority: 75
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '7a22b755-db81-472c-82c7-637a80f31a6c',
+    'a9723ff4-7ddb-4bb7-a2fe-c99cb6ed9133',
+    'e640b924-b9e7-4270-978c-044b31aaea7b',
+    '1605cc12-dbe8-452b-9136-9ff6b1347344',
+    'caa9d4c4-c451-49b7-985c-8fcee8ce348b',
+    '766a848f-54c4-47b1-8f84-4f02b081047f',
+    'd796b17c-1a37-443f-93c3-9d260c04aca9',
+    'da118166-30f5-4056-a1bd-371efa376c02',
+    '6faac838-0e16-4de2-9ea0-46bce1ac8ce5',
+    '45af5de6-6561-4e0e-8d69-a294c35c4e82'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '7a22b755-db81-472c-82c7-637a80f31a6c',
+  actual_subject: 'physics',
+  actual_chapter: 'Electromagnetic Induction',
+  status: 'queued',
+  priority: 75,
+  original_priority: 75,
+  question_count: 11,
+  subject_question_count: 328,
+  created_at: '2026-05-01T05:23:04.81144+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  count: 11,
+  priority: 75
+}
+[worker] coverage-based selection: { subject: 'physics', chapter: 'Electromagnetic Induction', count: 11 }
+
+[JOB 7a22b755] Starting: [physics] Electromagnetic Induction
+[worker] RECEIVED_JOB: {
+  job_id: '7a22b755-db81-472c-82c7-637a80f31a6c',
+  expected_subject: 'physics',
+  expected_chapter: 'Electromagnetic Induction',
+  raw_subject_id: 'physics',
+  raw_chapter: 'Electromagnetic Induction',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-05-01T05:23:04.81144+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '7a22b755-db81-472c-82c7-637a80f31a6c',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  chapter: 'Electromagnetic Induction',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=11 existing questions loaded
+[generation] batch adjusted: { chapter: 'Electromagnetic Induction', generate_count: 10 }
+[worker] GENERATION_INPUT: {
+  job_id: '7a22b755-db81-472c-82c7-637a80f31a6c',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  expected_chapter: 'Electromagnetic Induction',
+  canonical_unit: 'Electromagnetic Induction and Alternating Currents',
+  generate_count: 10,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 10 candidates... chapter="Electromagnetic Induction" unit="Electromagnetic Induction and Alternating Currents" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'physics',
+  prompt_subject_name: 'Physics',
+  expected_chapter: 'Electromagnetic Induction',
+  requested_count: 10,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'physics',
+  expected_chapter: 'Electromagnetic Induction',
+  canonical_unit: 'Electromagnetic Induction and Alternating Currents',
+  concept_id: 'physics::electromagnetic_induction',
+  pyq_anchor_id: 'structure_only_structured_physics_dual_nature_of_radiation_and_matter_1_for_physics::electromagnetic_induction',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 10,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] generation active_provider=openai active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 21913,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"A coil of wire is placed in a changing magnetic field. Which of the following statements is true regarding the induced electromotive force (emf)?","o":["The induced emf is directly proportional to the rate of change of magnetic flux.","The induced emf is inversely proportional to the area of the coil.","The induced emf depends only on the strength of the magnetic field.","The induced emf is independent of the speed of the change in magnetic field."],"a":"A","difficulty":"medium","question_type":"statement_based","subject":"physics","chapter":"Electromagnetic Induction","concept_id":"physics::electromagnetic_induction","pyq_anchor_ids_used":[],"trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"This question requires understanding Faraday's law rather than recalling definitions.","why_cuet_level":"It tests application of concepts rather than rote memorization.","distractor_rationale":{"A":"Correct because it reflects Faraday's law of electromagnetic induction.","B":"Trap because it may seem plausible that area affects induced emf but it's not direct.","C":"Wrong because the strength of magnetic field alone does not determine emf without considering change rate.","D":"Wrong because the speed of change in magnetic field directly influences induced emf."}},{"q":"Assertion: A current-carrying coil in a magnetic field experiences a torque. Reason: The torque arises due to interaction between magnetic field and current. Evaluate the statements.","o":["Both Assertion and Reason are correct, and the Reason explains the Assertion.","Both Assertion and Reason are correct, but the Reason does not explain the Assertion.","Assertion is correct, but Reason is incorrect as torque does not depend on current direction.","Assertion is incorrect, but Reason is correct as torque exists without current."],"a":"A","difficulty":"medium","question_type":"assertion_reason","subject":"physics","chapter":"Electromagnetic Induction","concept_id":"physics::electromagnetic_induction","pyq_anchor_ids_used":[],"trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question tests understanding of concepts rather than definitions or simple facts.","why_cuet_level":"It evaluates comprehension and reasoning skills relevant to electromagnetic induction phenomena.","distractor_rationale":{"A":"Correct because both statements are true and relate correctly to each other.","B":"Wrong as the reason does indeed explain why torque occurs in this scenario.","C":"Trap because while torque depends on current, it's not solely about direction; it involves interaction too.","D":"Wrong because assertion is true; torque does require current to exist."}},{"q":"A loop moves out of a uniform magnetic field into a region with no magnetic field. What happens to the induced current in the loop?","o":["The induced current increases as it moves out of the field.","The induced current decreases until it becomes zero when fully out of the field.","The induced current remains constant during its exit from the field.","There is no induced current as it exits since it was initially at rest."],"a":"B","difficulty":"medium","question_type":"application_based","subject":"physics","chapter":"Electromagnetic Induction","concept_id":"physics::electromagnetic_induction","pyq_anchor_ids_used":[],"trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"This question requires application of Lenz's Law rather than simple definitions or facts.","why_cuet_level":"It assesses practical understanding of concepts in dynamic scenarios involving magnetic fields.","distractor_rationale":{"A":"Trap because one might think movement generates more current, but exiting reduces it instead.","B":"Correct as per Lenz's Law; current decreases to zero as it exits the field area completely.","C":"Wrong since constant conditions cannot apply when leaving a magnetic influence zone.","D":"Wrong because even at rest, exiting induces a change leading to varying current."}},{"q":"Which statement correctly describes self-inductance? I. It opposes changes in current within itself. II. It only occurs in coils with ferromagnetic cores. III. It generates an emf proportional to the rate of change of current. IV. It can be calculated using Lenz's Law exclusively. Select the correct options.","o":["I and III only","I, II, and III only","II and IV only","I, III, and IV only"],"a":"A","difficulty":"medium","question_type":"match_type","subject":"physics","chapter":"Electromagnetic Induction","concept_id":"physics::electromagnetic_induction","pyq_anchor_ids_used":[],"trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"This question evaluates understanding of self-inductance principles rather than definitions or examples from texts.","why_cuet_level":"It tests critical thinking around multiple statements related to electromagnetic concepts and their implications.","distractor_rationale":{"A":"Correct as both I and III properly describe self-inductance principles accurately.","B":"Wrong as II incorrectly limits self-inductance to ferromagnetic materials which isn't necessary for all coils.","C":"Wrong since IV misrepresents that Lenz's Law alone can yield inductance calculations; other factors matter too.","D":"Wrong because while I and III are true, IV misguides into thinking Lenz's Law suffices for calculating inductance."}},{"q":"In an RL circuit, if the resistance is doubled while keeping inductance constant, what happens to the time constant?","o":["The time constant doubles immediately after resistance change.","The time constant remains unchanged despite resistance increase.","The time constant becomes half due to increased resistance effect on inductance decay.","The time constant increases by a factor related to both resistance and inductance ratio."],"a":"A","difficulty":"medium","question_type":"numerical_one_step","subject":"physics","chapter":"Electromagnetic Induction","concept_id":"physics::electromagnetic_induction","pyq_anchor_ids_used":[],"trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question focuses on applying formula relationships rather than straightforward definition recall or derivation steps.","why_cuet_level":"It assesses understanding of how circuit parameters interact dynamically under changes in resistance specifically related to inductive behavior.","distractor_rationale":{"A":"Correct since time constant τ = L/R means doubling R directly affects τ proportionally by halving its value accordingly.","B":"Wrong as time constant cannot remain static with an increase in resistance affecting flow rate through inductance dynamics involved here.","C":"Trap; while intuitively one might think resistance affects time negatively, it actually leads to increased τ contrary to this assertion here.","D":"Wrong since it inaccurately implies complex ratios when linear relationships govern these parameters simply."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] generation success provider=openai model=gpt-4o-mini count=4
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 4
+[pipeline] generated_count=4 | mix=easy=0, medium=4, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 4
+[selfCheck] total 4
+[selfCheck] passed 4
+[selfCheck] rejected_count 0
+[selfCheck] reasons {}
+[pipeline] after_chapter_filter=4 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=4 | sent_to_validator=4 | sent_for_strict_validation=deferred | validator_load_reduction=0.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [
+    'structure_only_structured_physics_dual_nature_of_radiation_and_matter_1_for_physics::electromagnetic_induction',
+    'structure_only_structured_physics_dual_nature_of_radiation_and_matter_1_for_physics::electromagnetic_induction',
+    'structure_only_structured_physics_dual_nature_of_radiation_and_matter_1_for_physics::electromagnetic_induction',
+    'structure_only_structured_physics_dual_nature_of_radiation_and_matter_1_for_physics::electromagnetic_induction'
+  ],
+  anchor_source_quality: [ 'manual_seed', 'manual_seed', 'manual_seed', 'manual_seed' ],
+  anchor_tier: [ 3, 3, 3, 3 ],
+  anchor_match_level: [
+    'structure_only',
+    'structure_only',
+    'structure_only',
+    'structure_only'
+  ],
+  anchor_confidence: [ 'low', 'low', 'low', 'low' ],
+  concept_mismatch_risk: [ 'medium', 'medium', 'medium', 'medium' ],
+  fallback_used: false,
+  selfcheck_passed: 4,
+  sent_to_validator: 4,
+  skipped_for_anchor_quality: 0
+}
+[pipeline] Starting mini validation for 4 selfCheck-passed questions... (api_call=2)
+[validation_mini] start | model=gpt-4o-mini | count=4
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'validation_mini',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'validation_mini',
+  status: 'success',
+  retry_count: 0,
+  duration: 4649,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'validation_mini',
+  retry_count: 0
+}
+[validation_mini] sent_count 4
+[validation_mini] accepted 2
+[validation_mini] borderline 1
+[validation_mini] rejected 1
+[validation_strict] start | model=gpt-4o | count=3
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o',
+  subject: 'physics',
+  stage: 'validation_strict',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o',
+  subject: 'physics',
+  stage: 'validation_strict',
+  status: 'success',
+  retry_count: 0,
+  duration: 2707,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o',
+  subject: 'physics',
+  stage: 'validation_strict',
+  retry_count: 0
+}
+[validation_strict] escalated_count 3
+[validation_strict] accepted 2
+[validation_strict] rejected 1
+[validation_strict] skipped_due_to_cost_limit 0
+[pipeline] validator_accepted {
+  layer: 'strict',
+  score: 7.3,
+  exam_quality: 7.5,
+  distractor_quality: 7.2,
+  conceptual_depth: 6.5,
+  trap_quality: 'MEDIUM',
+  pyq_anchor_used: 'structure_only_structured_physics_dual_nature_of_radiation_and_matter_1_for_physics::electromagnetic_induction',
+  anchor_source_quality: 'manual_seed',
+  anchor_confidence: 'low'
+}
+[pipeline] validator_accepted {
+  layer: 'strict',
+  score: 7.5,
+  exam_quality: 8,
+  distractor_quality: 7.5,
+  conceptual_depth: 7,
+  trap_quality: 'MEDIUM',
+  pyq_anchor_used: 'structure_only_structured_physics_dual_nature_of_radiation_and_matter_1_for_physics::electromagnetic_induction',
+  anchor_source_quality: 'manual_seed',
+  anchor_confidence: 'low'
+}
+[pipeline] validator_rejected {
+  layer: 'strict',
+  score: 6.8,
+  exam_quality: 6.5,
+  distractor_quality: 7,
+  conceptual_depth: 6,
+  trap_quality: 'MEDIUM',
+  reasons: [
+    'Anchor confidence is low.',
+    'Concept mismatch risk is medium.',
+    'score below final threshold',
+    'exam quality below threshold'
+  ]
+}
+[reject] {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  reason: 'Anchor confidence is low.; Concept mismatch risk is medium.; score below final threshold; exam quality below threshold',
+  source: 'strict_validator',
+  rule: 'Anchor confidence is low.',
+  details: {
+    score: 6.8,
+    verdict: 'borderline',
+    cuet_alignment: true,
+    anchor_confidence: 'low'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_rejected {
+  layer: 'mini',
+  score: 5,
+  exam_quality: 6,
+  distractor_quality: 5,
+  conceptual_depth: 4,
+  trap_quality: 'LOW',
+  reasons: [
+    'Incorrect answer options',
+    'Ambiguous question structure',
+    'validator rejected',
+    'cuet alignment failed',
+    'trap quality low',
+    'score below final threshold',
+    'exam quality below threshold',
+    'distractor quality below threshold'
+  ]
+}
+[reject] {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  reason: 'Incorrect answer options; Ambiguous question structure; validator rejected; cuet alignment failed; trap quality low; score below final threshold; exam quality below threshold; distractor quality below threshold',
+  source: 'mini_validator',
+  rule: 'Incorrect answer options',
+  details: {
+    score: 5,
+    verdict: 'reject',
+    cuet_alignment: false,
+    anchor_confidence: 'low'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 2, hard: 0 },
+  system: { easy: 0, medium: 1, hard: 1 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 2
+[pipeline] validated_count=2 | acceptance_rate=50.0%
+[pipeline] FINAL_ACCEPTED_COUNT 1
+[pipeline] final_publish_count 1
+[pipeline] selected_count=1 | FINAL DISTRIBUTION: {"easy":0,"medium":1,"hard":0}
+✅ Published 20f8ee79-0ad7-4434-8e09-5328bd1218be | status=live | difficulty=medium | discoverable=true
+[draft] Saved 9d03a4bb-4b67-4817-a1f4-c15133136bd0 | reason=validator_conceptual_depth_below_7
+[pipeline] draft_gate {
+  draft_only_flag: false,
+  draft_saved: 1,
+  draft_candidates: 1,
+  publish_count: 1
+}
+[pipeline] METRICS | generated_count=4 | prefiltered_count=4 | sent_to_mini_validator=4 | sent_to_strict_validator=3 | accepted_count=1 | final_publish_count=1 | api_calls_used=3 | cost_efficiency_ratio=0.33 | generated_per_minute=7.6 | projected_candidates_per_hour=457
+[pipeline] SUMMARY | subject=physics | chapter=Electromagnetic Induction | target=10 | generated_count=4 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | mini_validation_count=4 | strict_validation_count=3 | validated_count=2 | accepted_count=1 | draft_count=1 | draft_only_flag=false | shortfall=9 | yield_rate=25.0% | generated_per_minute=7.6 | projected_candidates_per_hour=457 | retry_count=0 | api_calls_used=3
+[pipeline] JOB_SUMMARY {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  generator_model: 'gpt-4o-mini',
+  generator_provider: 'openai',
+  cheap_validator_model: 'gpt-4o-mini',
+  strict_validator_model: 'gpt-4o',
+  pyq_anchor_ids: [
+    'structure_only_structured_physics_dual_nature_of_radiation_and_matter_1_for_physics::electromagnetic_induction',
+    'structure_only_structured_physics_dual_nature_of_radiation_and_matter_1_for_physics::electromagnetic_induction',
+    'structure_only_structured_physics_dual_nature_of_radiation_and_matter_1_for_physics::electromagnetic_induction',
+    'structure_only_structured_physics_dual_nature_of_radiation_and_matter_1_for_physics::electromagnetic_induction'
+  ],
+  anchor_tier: [ 3, 3, 3, 3 ],
+  anchor_match_level: [
+    'structure_only',
+    'structure_only',
+    'structure_only',
+    'structure_only'
+  ],
+  anchor_confidence: [ 'low', 'low', 'low', 'low' ],
+  concept_mismatch_risk: [ 'medium', 'medium', 'medium', 'medium' ],
+  fallback_used: false,
+  generated_count: 4,
+  selfcheck_passed: 4,
+  selfcheck_rejected: 0,
+  sent_to_mini_validator: 4,
+  mini_accepted: 2,
+  mini_borderline: 1,
+  mini_rejected: 1,
+  sent_to_strict_validator: 3,
+  strict_accepted: 2,
+  strict_rejected: 1,
+  final_published: 1,
+  draft_saved: 1,
+  yield_rate: 25,
+  generated_per_minute: 7.6,
+  projected_candidates_per_hour: 457,
+  blocked_publish_reason: [ 'validator_conceptual_depth_below_7' ]
+}
+[pipeline] Accepted difficulty mix: easy=0, medium=1, hard=0
+[pipeline] subject_distribution: {"subject":"physics","accepted":1,"rejected":2,"target":10,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=5779 | total_cost=$0.0060 | cost_per_accepted=$0.0060 | cost_per_1000=$5.97 | total_accepted=1
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  sample_size: 13,
+  direct_definition_count: 0,
+  weak_option_count: 4,
+  repeated_structure_count: 0,
+  easy_count: 4,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'a9723ff4-7ddb-4bb7-a2fe-c99cb6ed9133',
+    'e640b924-b9e7-4270-978c-044b31aaea7b',
+    '1605cc12-dbe8-452b-9136-9ff6b1347344',
+    'caa9d4c4-c451-49b7-985c-8fcee8ce348b',
+    '766a848f-54c4-47b1-8f84-4f02b081047f',
+    'd796b17c-1a37-443f-93c3-9d260c04aca9',
+    'da118166-30f5-4056-a1bd-371efa376c02',
+    '6faac838-0e16-4de2-9ea0-46bce1ac8ce5',
+    '45af5de6-6561-4e0e-8d69-a294c35c4e82'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'a9723ff4-7ddb-4bb7-a2fe-c99cb6ed9133',
+  actual_subject: 'physics',
+  actual_chapter: 'Moving Charges & Magnetism',
+  status: 'queued',
+  priority: 75,
+  original_priority: 75,
+  question_count: 12,
+  subject_question_count: 330,
+  created_at: '2026-05-01T05:23:04.81144+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  count: 12,
+  priority: 75
+}
+[worker] coverage-based selection: {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  count: 12
+}
+
+[JOB a9723ff4] Starting: [physics] Moving Charges & Magnetism
+[worker] RECEIVED_JOB: {
+  job_id: 'a9723ff4-7ddb-4bb7-a2fe-c99cb6ed9133',
+  expected_subject: 'physics',
+  expected_chapter: 'Moving Charges & Magnetism',
+  raw_subject_id: 'physics',
+  raw_chapter: 'Moving Charges & Magnetism',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-05-01T05:23:04.81144+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'a9723ff4-7ddb-4bb7-a2fe-c99cb6ed9133',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  chapter: 'Moving Charges & Magnetism',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=12 existing questions loaded
+[generation] batch adjusted: { chapter: 'Moving Charges & Magnetism', generate_count: 3 }
+[worker] GENERATION_INPUT: {
+  job_id: 'a9723ff4-7ddb-4bb7-a2fe-c99cb6ed9133',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  expected_chapter: 'Moving Charges & Magnetism',
+  canonical_unit: 'Magnetic Effects of Current and Magnetism',
+  generate_count: 3,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: true
+}
+[pipeline] Generating 3 candidates... chapter="Moving Charges & Magnetism" unit="Magnetic Effects of Current and Magnetism" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'physics',
+  prompt_subject_name: 'Physics',
+  expected_chapter: 'Moving Charges & Magnetism',
+  requested_count: 3,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'physics',
+  expected_chapter: 'Moving Charges & Magnetism',
+  canonical_unit: 'Magnetic Effects of Current and Magnetism',
+  concept_id: 'physics::moving_charges_and_magnetism',
+  pyq_anchor_id: 'structure_only_structured_physics_dual_nature_of_radiation_and_matter_1_for_physics::moving_charges_and_magnetism',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 3,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] generation active_provider=openai active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 16330,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"A wire carrying a current is placed in a magnetic field. Which of the following statements is true? I. The force on the wire is dependent on the angle between the wire and the magnetic field. II. The direction of the force is given by Fleming's left-hand rule. III. The magnitude of the force is independent of the current flowing through the wire.","o":["I and II only","II and III only","I, II, and III","I only"],"a":"A","difficulty":"medium","question_type":"statement_based","subject":"physics","chapter":"Moving Charges & Magnetism","concept_id":"physics::moving_charges_and_magnetism","pyq_anchor_ids_used":["structure_only_structured_physics_dual_nature_of_radiation_and_matter_1_for_physics::moving_charges_and_magnetism"],"trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"This question assesses understanding of magnetic forces on current-carrying conductors rather than basic definitions.","why_cuet_level":"Tests application of principles in a practical context with close options.","distractor_rationale":{"A":"Correct because both statements are true and relevant to the situation.","B":"Wrong but plausible because it mixes correct and incorrect ideas about current effects.","C":"Trap because it includes all statements but one is false, misleading students.","D":"Wrong because it overlooks key aspects of how magnetic forces work."}},{"q":"Assertion: A charged particle moving perpendicular to a uniform magnetic field experiences a centripetal force. Reason: The magnetic force acts in the direction of motion of the charged particle.","o":["Both Assertion and Reason are correct, and the Reason explains the Assertion.","Both Assertion and Reason are correct, but the Reason does not explain the Assertion.","Assertion is correct, but Reason is incorrect as magnetic force acts perpendicular to motion.","Assertion is incorrect, but Reason is correct because it describes motion."],"a":"C","difficulty":"medium","question_type":"assertion_reason","subject":"physics","chapter":"Moving Charges & Magnetism","concept_id":"physics::moving_charges_and_magnetism","pyq_anchor_ids_used":["structure_only_structured_physics_dual_nature_of_radiation_and_matter_2_for_physics::moving_charges_and_magnetism"],"trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"This question evaluates comprehension of forces acting on charged particles rather than definitions.","why_cuet_level":"Requires understanding of concepts applied to specific scenarios with logical reasoning.","distractor_rationale":{"A":"Correct because both parts align logically with physics principles.","B":"Wrong but plausible as it suggests reasoning could be valid despite a false assertion.","C":"Trap because it misinterprets the nature of magnetic forces acting on charges.","D":"Wrong since it incorrectly states that both parts can be true."}},{"q":"In a circular motion experiment with charged particles, which observations lead to conclusions about their charge? I. The radius of curvature increases with increasing velocity. II. The radius decreases with increasing magnetic field strength. III. The path remains circular regardless of changes in speed or field strength.","o":["I and II only","II and III only","I, II, and III","I only"],"a":"A","difficulty":"medium","question_type":"statement_based","subject":"physics","chapter":"Moving Charges & Magnetism","concept_id":"physics::moving_charges_and_magnetism","pyq_anchor_ids_used":["structure_only_structured_physics_dual_nature_of_radiation_and_matter_1_for_physics::moving_charges_and_magnetism"],"trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question challenges application of circular motion principles to charged particles rather than basic definitions.","why_cuet_level":"Involves analysis of multiple statements requiring conceptual understanding.","distractor_rationale":{"A":"Correct because both statements accurately reflect physical relationships observed.","B":"Wrong but plausible since it implies some correlations without considering all factors involved.","C":"Trap because it suggests all statements are true when one is false, misleading students' reasoning.","D":"Wrong as it incorrectly claims that varying conditions do not affect motion."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] generation success provider=openai model=gpt-4o-mini count=3
+[pipeline] RAW_PARSED_COUNT 3
+[pipeline] NORMALIZED_COUNT 3
+[pipeline] generated_count=3 | mix=easy=0, medium=3, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 3
+[selfCheck] total 3
+[selfCheck] passed 1
+[selfCheck] rejected_count 2
+[selfCheck] reasons { weak_distractors: 2 }
+[pipeline] after_chapter_filter=3 | pre_validation_filtered=2 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=1 | sent_to_validator=1 | sent_for_strict_validation=deferred | validator_load_reduction=66.7%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [
+    'structure_only_structured_physics_dual_nature_of_radiation_and_matter_1_for_physics::moving_charges_and_magnetism'
+  ],
+  anchor_source_quality: [ 'manual_seed' ],
+  anchor_tier: [ 3 ],
+  anchor_match_level: [ 'structure_only' ],
+  anchor_confidence: [ 'low' ],
+  concept_mismatch_risk: [ 'medium' ],
+  fallback_used: false,
+  selfcheck_passed: 1,
+  sent_to_validator: 1,
+  skipped_for_anchor_quality: 0
+}
+[pipeline] Starting mini validation for 1 selfCheck-passed questions... (api_call=2)
+[validation_mini] start | model=gpt-4o-mini | count=1
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'validation_mini',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'validation_mini',
+  status: 'success',
+  retry_count: 0,
+  duration: 1828,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'validation_mini',
+  retry_count: 0
+}
+[validation_mini] sent_count 1
+[validation_mini] accepted 0
+[validation_mini] borderline 1
+[validation_mini] rejected 0
+[validation_strict] start | model=gpt-4o | count=1
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o',
+  subject: 'physics',
+  stage: 'validation_strict',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o',
+  subject: 'physics',
+  stage: 'validation_strict',
+  status: 'success',
+  retry_count: 0,
+  duration: 1334,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o',
+  subject: 'physics',
+  stage: 'validation_strict',
+  retry_count: 0
+}
+[validation_strict] escalated_count 1
+[validation_strict] accepted 0
+[validation_strict] rejected 1
+[validation_strict] skipped_due_to_cost_limit 0
+[pipeline] validator_rejected {
+  layer: 'strict',
+  score: 6.8,
+  exam_quality: 6.5,
+  distractor_quality: 7,
+  conceptual_depth: 6,
+  trap_quality: 'MEDIUM',
+  reasons: [
+    'Concept mismatch risk is medium',
+    'Anchor confidence is low',
+    'Reason explanation is incorrect',
+    'score below final threshold',
+    'exam quality below threshold'
+  ]
+}
+[reject] {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'Concept mismatch risk is medium; Anchor confidence is low; Reason explanation is incorrect; score below final threshold; exam quality below threshold',
+  source: 'strict_validator',
+  rule: 'Concept mismatch risk is medium',
+  details: {
+    score: 6.8,
+    verdict: 'borderline',
+    cuet_alignment: true,
+    anchor_confidence: 'low'
+  },
+  attemptCount: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'e640b924-b9e7-4270-978c-044b31aaea7b',
+    '1605cc12-dbe8-452b-9136-9ff6b1347344',
+    'caa9d4c4-c451-49b7-985c-8fcee8ce348b',
+    '766a848f-54c4-47b1-8f84-4f02b081047f',
+    'd796b17c-1a37-443f-93c3-9d260c04aca9',
+    'da118166-30f5-4056-a1bd-371efa376c02',
+    '6faac838-0e16-4de2-9ea0-46bce1ac8ce5',
+    '45af5de6-6561-4e0e-8d69-a294c35c4e82'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'e640b924-b9e7-4270-978c-044b31aaea7b',
+  actual_subject: 'english',
+  actual_chapter: 'Para Jumbles',
+  status: 'queued',
+  priority: 75,
+  original_priority: 75,
+  question_count: 13,
+  subject_question_count: 142,
+  created_at: '2026-05-01T05:23:04.81144+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'english',
+  chapter: 'Para Jumbles',
+  count: 13,
+  priority: 75
+}
+[worker] coverage-based selection: { subject: 'english', chapter: 'Para Jumbles', count: 13 }
+
+[JOB e640b924] Starting: [english] Para Jumbles
+[worker] RECEIVED_JOB: {
+  job_id: 'e640b924-b9e7-4270-978c-044b31aaea7b',
+  expected_subject: 'english',
+  expected_chapter: 'Para Jumbles',
+  raw_subject_id: 'english',
+  raw_chapter: 'Para Jumbles',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-05-01T05:23:04.81144+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'e640b924-b9e7-4270-978c-044b31aaea7b',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  chapter: 'Para Jumbles',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=13 existing questions loaded
+[generation] batch adjusted: { chapter: 'Para Jumbles', generate_count: 3 }
+[worker] GENERATION_INPUT: {
+  job_id: 'e640b924-b9e7-4270-978c-044b31aaea7b',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  expected_chapter: 'Para Jumbles',
+  canonical_unit: 'Verbal Ability',
+  generate_count: 3,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: true
+}
+[pipeline] Generating 3 candidates... chapter="Para Jumbles" unit="Verbal Ability" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'English',
+  expected_chapter: 'Para Jumbles',
+  requested_count: 3,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'english',
+  expected_chapter: 'Para Jumbles',
+  canonical_unit: 'Verbal Ability',
+  concept_id: 'english::para_jumbles',
+  pyq_anchor_id: 'structure_only_structured_english_narrative_passage_1_for_english::para_jumbles',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 3,
+  pyq_style_patterns: [ 'reading_comprehension', 'vocabulary', 'correct_word_usage' ],
+  difficulty_override: null
+}
+[llm] generation active_provider=openai active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 13256,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Arrange the following sentences to form a coherent paragraph: 1. The sun began to set, casting a golden hue across the landscape. 2. As dusk approached, the birds chirped their evening songs. 3. The children played in the field, unaware of the beauty surrounding them. 4. Soon, the stars would twinkle in the night sky.","o":["1-2-3-4","3-1-2-4","2-4-3-1","4-3-1-2"],"a":"A","difficulty":"medium","question_type":"statement_based","subject":"english","chapter":"Para Jumbles","concept_id":"english::para_jumbles","pyq_anchor_ids_used":["structured_english_narrative_passage_1"],"trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"This question tests the ability to sequence events logically rather than recalling definitions or concepts.","why_cuet_level":"This question aligns with CUET level as it requires comprehension and logical arrangement of sentences.","distractor_rationale":{"A":"Correct because it logically connects the setting and actions in a coherent flow.","B":"Wrong but plausible because it starts with a relevant sentence but disrupts the logical flow.","C":"Trap because it uses some correct elements but misplaces the sequence significantly.","D":"Wrong because it starts with an unrelated conclusion before establishing context."}},{"q":"Arrange the following sentences to create a meaningful paragraph: 1. She decided to take a different route home. 2. Suddenly, she heard a loud crash behind her. 3. Curiosity got the better of her, and she turned around. 4. To her surprise, a tree had fallen across the road.","o":["1-2-3-4","2-3-1-4","3-4-1-2","4-1-2-3"],"a":"A","difficulty":"medium","question_type":"statement_based","subject":"english","chapter":"Para Jumbles","concept_id":"english::para_jumbles","pyq_anchor_ids_used":["structured_english_narrative_passage_2"],"trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"This question focuses on narrative structure rather than rote memorization of facts.","why_cuet_level":"This question is suitable for CUET level as it requires critical thinking and sequencing skills.","distractor_rationale":{"A":"Correct because it follows a clear sequence of events leading to a conclusion.","B":"Wrong but plausible as it introduces curiosity but fails to maintain a logical sequence.","C":"Trap because it rearranges some elements correctly but does not follow the proper order of events.","D":"Wrong because it misplaces the initial action before establishing context."}},{"q":"Rearrange the following sentences to form a logical sequence: 1. He had planned everything meticulously for weeks. 2. At last, the day of the event arrived. 3. The guests were impressed by his efforts. 4. It was a grand success, exceeding all expectations.","o":["1-2-3-4","2-1-4-3","3-4-1-2","4-2-1-3"],"a":"A","difficulty":"medium","question_type":"statement_based","subject":"english","chapter":"Para Jumbles","concept_id":"english::para_jumbles","pyq_anchor_ids_used":["structured_english_narrative_passage_1"],"trap_option":"D","strong_distractors":["B","C"],"why_not_textbook":"This question assesses logical reasoning and coherence in sequencing rather than mere recall of information.","why_cuet_level":"This question fits CUET level as it involves understanding narrative progression and event correlation.","distractor_rationale":{"A":"Correct because it presents a clear chronological order from planning to success.","B":"Wrong but plausible since it begins with an event but disrupts logical flow after that.","C":"Trap because it includes elements of success but misplaces them in relation to planning and guests' reactions.","D":"Wrong as it starts with an outcome without establishing prior context or actions."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[english-classification] {
+  question_id: 'concept_1',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'concept_2',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'concept_3',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+Cooling down for 15s to respect API limits...

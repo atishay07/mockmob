@@ -1,0 +1,48 @@
+{
+  "subject": "economics",
+  "chapter": "Money & Banking",
+  "source_quality": "manual_seed",
+  "anchor_match_level": "exact_chapter",
+  "questions": [
+    {
+      "id": "economics_money_banking_anchor_001",
+      "question_type": "statement_based",
+      "pattern_tags": ["statement-based", "macro", "close-distractors"],
+      "question": "Read the statements about money supply and choose the correct option:\nStatement I: Currency held by the public is part of money supply.\nStatement II: Cash held by commercial banks is counted in the same way as currency with the public.\nStatement III: Demand deposits with banks are part of money supply.",
+      "options": ["I and III only", "I and II only", "II and III only", "I, II and III"],
+      "correct_answer": "A"
+    },
+    {
+      "id": "economics_money_banking_anchor_002",
+      "question_type": "application_based",
+      "pattern_tags": ["application", "central-bank", "elimination"],
+      "question": "If the central bank wants to reduce excess credit creation, which measure is most consistent with that objective?",
+      "options": ["Raising the cash reserve ratio so banks have less money available for lending.", "Reducing the cash reserve ratio so banks can create more credit.", "Buying securities from the public to inject liquidity.", "Lowering policy rates to encourage cheaper borrowing."],
+      "correct_answer": "A"
+    },
+    {
+      "id": "economics_money_banking_anchor_003",
+      "question_type": "comparison_based",
+      "pattern_tags": ["comparison", "banking", "trap-option"],
+      "question": "Which option best distinguishes a central bank from a commercial bank?",
+      "options": ["A central bank regulates money and credit, while a commercial bank accepts deposits and gives loans to the public.", "A central bank accepts household savings, while a commercial bank issues currency.", "Both mainly earn profit by lending to individual consumers.", "Commercial banks set legal reserve ratios for the entire banking system."],
+      "correct_answer": "A"
+    },
+    {
+      "id": "economics_money_banking_anchor_004",
+      "question_type": "assertion_reason",
+      "pattern_tags": ["assertion-reason", "credit-creation", "close-options"],
+      "question": "Assertion: A commercial bank can create credit beyond its initial cash deposit. Reason: It keeps a fraction as reserves and lends the remaining amount.",
+      "options": ["Both Assertion and Reason are true, and the Reason explains the Assertion.", "Both are true, but the Reason explains currency issue rather than credit creation.", "Assertion is true, but Reason reverses the lending process.", "Assertion is false, while Reason is true."],
+      "correct_answer": "A"
+    },
+    {
+      "id": "economics_money_banking_anchor_005",
+      "question_type": "statement_based",
+      "pattern_tags": ["statement-based", "rbi-functions", "elimination"],
+      "question": "Read the statements about RBI functions:\nStatement I: It acts as banker to the government.\nStatement II: It issues currency notes except one-rupee notes.\nStatement III: It directly decides the profit of every commercial bank.",
+      "options": ["I and II only", "II and III only", "I and III only", "I, II and III"],
+      "correct_answer": "A"
+    }
+  ]
+}

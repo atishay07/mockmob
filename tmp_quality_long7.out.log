@@ -1,0 +1,1677 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5959 concepts across 40 subjects (saved 2026-04-30T20:22:12.063Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Data Structures',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Python Revision',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Indian Economy on the Eve of Independence',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'accountancy',
+  chapter: 'Change in Profit Sharing Ratio',
+  coverage: 9,
+  priority: 90
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: business_studies → normalized: business_studies → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: economics → normalized: economics → tier: 1
+Subject: english → normalized: english → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+Subject: accountancy → normalized: accountancy → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'business_studies',
+    expected_chapter: 'Staffing',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Coordination Compounds',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Isolation of Elements',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Computer Networks',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Data Structures',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Python Revision',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Indian Economy on the Eve of Independence',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Psychological Disorders',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'accountancy',
+    expected_chapter: 'Change in Profit Sharing Ratio',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'business_studies',
+    chapter: 'Staffing',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'Coordination Compounds',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'Isolation of Elements',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Computer Networks',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Data Structures',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Python Revision',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'economics',
+    chapter: 'Indian Economy on the Eve of Independence',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Psychological Disorders',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'accountancy',
+    chapter: 'Change in Profit Sharing Ratio',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: 'c7d3db0e-3f1b-450e-97b2-7a20ec3e6b30',
+    subject_id: 'business_studies',
+    chapter: 'Staffing',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:46:21.947743+00:00'
+  },
+  {
+    id: '702a348e-54ec-427f-b47a-fc37a0843e39',
+    subject_id: 'chemistry',
+    chapter: 'Coordination Compounds',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:46:21.947743+00:00'
+  },
+  {
+    id: '5af6165d-0ff0-400b-a9ae-71a829eb1635',
+    subject_id: 'chemistry',
+    chapter: 'Isolation of Elements',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:46:21.947743+00:00'
+  },
+  {
+    id: 'c4741ae8-ec96-4c30-b769-a0ed7e278518',
+    subject_id: 'computer_science',
+    chapter: 'Computer Networks',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:46:21.947743+00:00'
+  },
+  {
+    id: '34bf4de6-582e-4e22-abed-e15b4bd02a90',
+    subject_id: 'computer_science',
+    chapter: 'Data Structures',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:46:21.947743+00:00'
+  },
+  {
+    id: '6be07d92-0532-49bf-a179-b5ae7f388a34',
+    subject_id: 'computer_science',
+    chapter: 'Python Revision',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:46:21.947743+00:00'
+  },
+  {
+    id: 'e5269e7c-76c9-4fd4-8bf8-8e0d3e3ad9ec',
+    subject_id: 'economics',
+    chapter: 'Indian Economy on the Eve of Independence',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:46:21.947743+00:00'
+  },
+  {
+    id: '3ecbab24-e114-407a-bde0-09ef541655f7',
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:46:21.947743+00:00'
+  },
+  {
+    id: '8e81981d-ecd0-42be-8e00-d320b2fb73e7',
+    subject_id: 'psychology',
+    chapter: 'Psychological Disorders',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:46:21.947743+00:00'
+  },
+  {
+    id: '86f0fe77-fed0-4972-b3aa-947dc06bd757',
+    subject_id: 'accountancy',
+    chapter: 'Change in Profit Sharing Ratio',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:46:21.947743+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: 'c7d3db0e-3f1b-450e-97b2-7a20ec3e6b30',
+    expected_subject: 'business_studies',
+    expected_chapter: 'Staffing',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '702a348e-54ec-427f-b47a-fc37a0843e39',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Coordination Compounds',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '5af6165d-0ff0-400b-a9ae-71a829eb1635',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Isolation of Elements',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'c4741ae8-ec96-4c30-b769-a0ed7e278518',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Computer Networks',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '34bf4de6-582e-4e22-abed-e15b4bd02a90',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Data Structures',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '6be07d92-0532-49bf-a179-b5ae7f388a34',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Python Revision',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'e5269e7c-76c9-4fd4-8bf8-8e0d3e3ad9ec',
+    expected_subject: 'economics',
+    expected_chapter: 'Indian Economy on the Eve of Independence',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '3ecbab24-e114-407a-bde0-09ef541655f7',
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '8e81981d-ecd0-42be-8e00-d320b2fb73e7',
+    expected_subject: 'psychology',
+    expected_chapter: 'Psychological Disorders',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '86f0fe77-fed0-4972-b3aa-947dc06bd757',
+    expected_subject: 'accountancy',
+    expected_chapter: 'Change in Profit Sharing Ratio',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'c7d3db0e-3f1b-450e-97b2-7a20ec3e6b30',
+    '702a348e-54ec-427f-b47a-fc37a0843e39',
+    '5af6165d-0ff0-400b-a9ae-71a829eb1635',
+    'c4741ae8-ec96-4c30-b769-a0ed7e278518',
+    '34bf4de6-582e-4e22-abed-e15b4bd02a90',
+    '6be07d92-0532-49bf-a179-b5ae7f388a34',
+    'e5269e7c-76c9-4fd4-8bf8-8e0d3e3ad9ec',
+    '3ecbab24-e114-407a-bde0-09ef541655f7',
+    '8e81981d-ecd0-42be-8e00-d320b2fb73e7',
+    '86f0fe77-fed0-4972-b3aa-947dc06bd757'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '34bf4de6-582e-4e22-abed-e15b4bd02a90',
+  actual_subject: 'computer_science',
+  actual_chapter: 'Data Structures',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 340,
+  created_at: '2026-04-30T21:46:21.947743+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'computer_science',
+  chapter: 'Data Structures',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'computer_science', chapter: 'Data Structures', count: 8 }
+
+[JOB 34bf4de6] Starting: [computer_science] Data Structures
+[worker] RECEIVED_JOB: {
+  job_id: '34bf4de6-582e-4e22-abed-e15b4bd02a90',
+  expected_subject: 'computer_science',
+  expected_chapter: 'Data Structures',
+  raw_subject_id: 'computer_science',
+  raw_chapter: 'Data Structures',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:46:21.947743+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '34bf4de6-582e-4e22-abed-e15b4bd02a90',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  chapter: 'Data Structures',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Data Structures', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '34bf4de6-582e-4e22-abed-e15b4bd02a90',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Data Structures',
+  canonical_unit: 'Section B1: Computer Science',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Data Structures" unit="Section B1: Computer Science" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'computer_science',
+  prompt_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Data Structures',
+  requested_count: 5,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::data_structures',
+  selected_anchor_id: 'structured_computer_science_data_structures_1',
+  selected_anchor_concept_id: 'computer_science::data_structures',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'application_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'computer_science',
+  expected_chapter: 'Data Structures',
+  canonical_unit: 'Section B1: Computer Science',
+  concept_id: 'computer_science::data_structures',
+  pyq_anchor_id: 'structured_computer_science_data_structures_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 24597,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"A developer claims that using a linked list guarantees efficient memory usage compared to arrays. Which option best addresses this statement?","o":["This claim is valid because linked lists dynamically allocate memory, avoiding wastage.","This claim is misleading since linked lists incur overhead for storing pointers, which can be significant in large datasets.","This claim is incorrect as arrays provide faster access times due to contiguous memory allocation.","This claim is partially true under specific conditions where frequent insertions and deletions occur."],"a":"D","question_type":"statement_based","concept_id":"computer_science::data_structures","trap_option":"B","strong_distractors":["A","C"],"why_not_textbook":"The question focuses on evaluating a developer's claim rather than recalling definitions.","why_cuet_level":"It requires critical thinking about data structure efficiency under varying conditions.","distractor_rationale":{"A":"While linked lists do allocate dynamically, they can still waste memory depending on usage patterns.","B":"Linked lists do have overhead, but the statement does not fully capture the scenario of memory usage efficiency.","C":"Arrays do provide fast access, but this does not negate the potential benefits of linked lists in certain cases.","D":"This option correctly highlights that efficiency can depend on specific use cases."}},{"q":"Statement I: A stack is optimal for backtracking operations. Statement II: A queue is ideal for scheduling tasks in order. Which evaluation is most accurate?","o":["Both statements are correct since they highlight appropriate use cases for each structure.","Only Statement I is valid as queues do not maintain order during task execution.","Only Statement II is valid since stacks are less effective for backtracking in complex scenarios.","Both statements are incorrect because stacks and queues can serve any purpose depending on implementation."],"a":"A","question_type":"comparison_based","concept_id":"computer_science::data_structures","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The question assesses understanding of data structures in practical contexts instead of definitions.","why_cuet_level":"It requires comparison and evaluation of two statements based on their applications.","distractor_rationale":{"A":"Both statements accurately reflect the typical use cases for stacks and queues respectively.","B":"Queues can maintain order but are not primarily designed for task scheduling in all contexts.","C":"Stacks are often used for backtracking, making this assertion misleading about their capabilities.","D":"Both statements have valid contexts; thus, claiming both are incorrect misrepresents their functionality."}},{"q":"In a scenario where a program needs to keep track of tasks with priorities, which data structure would be least effective?","o":["Priority Queue, as it allows tasks to be processed based on their priority level efficiently.","Stack, because it operates on LIFO principles and does not account for task priority effectively.","Queue, since it processes tasks strictly in the order they arrive without considering priority.","Linked List, as it can be manipulated to prioritize tasks dynamically."],"a":"B","question_type":"application_based","concept_id":"computer_science::data_structures","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"The question applies data structure knowledge to a practical problem rather than asking for definitions.","why_cuet_level":"It tests understanding of how data structures handle task management based on priorities.","distractor_rationale":{"A":"Priority Queues are specifically designed for such scenarios, making them effective choices.","B":"Stacks do not consider priority at all, making them least effective for this application.","C":"Queues can handle tasks sequentially but lack priority handling capabilities, making them less suitable than stacks here.","D":"Linked Lists can be adapted for prioritization but require additional complexity to implement."}},{"q":"Consider the following statements: Statement I: Arrays require contiguous memory allocation. Statement II: Linked Lists offer better performance in random access scenarios. Which option assesses these statements correctly?","o":["Both statements are accurate reflecting fundamental differences between these data structures.","Statement I is true while Statement II is false because linked lists do not allow efficient random access due to their structure.","Statement I is false as arrays can be implemented non-contiguously under certain conditions. Statement II is true as linked lists facilitate efficient searching operations.","Both statements are incorrect because neither structure meets the criteria described."],"a":"B","question_type":"assertion_reason","concept_id":"computer_science::data_structures","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"The question challenges learners to evaluate assertions rather than recall definitions verbatim.","why_cuet_level":"It requires critical analysis of two statements based on characteristics of data structures.","distractor_rationale":{"A":"While true, both cannot be correct due to the inaccuracies present in Statement II regarding random access performance.","B":"This option accurately identifies the truthfulness of each statement relative to their characteristics.","C":"Arrays cannot be effectively implemented non-contiguously without losing benefits; thus this assertion misrepresents their nature.","D":"Both statements have merit; however, they cannot be dismissed as incorrect without proper context."}},{"q":"A student asserts that using a hash table ensures unique keys automatically. Which response best critiques this assertion?","o":["The assertion holds true because hash tables manage entries uniquely through hashing functions effectively.","The assertion overlooks situations where hash collisions may occur, leading to non-unique keys under certain conditions.","The assertion is invalid since hash tables do not guarantee any order among stored entries despite key uniqueness being enforced by design.","The assertion fails as hash tables only ensure unique keys if properly managed by the programmer."],"a":"B","question_type":"statement_based","concept_id":"computer_science::data_structures","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"The question evaluates a student's understanding of hash tables beyond basic definitions and mechanics.","why_cuet_level":"It encourages critical thinking about how data structures manage uniqueness and collisions effectively.","distractor_rationale":{"A":"While hash tables aim for unique keys through hashing techniques, collisions can complicate this outcome significantly.","B":"This option accurately highlights the potential issue with collisions that can lead to non-unique keys in practice despite design intentions.","C":"Hash tables inherently manage key uniqueness but do not enforce order among entries; thus this response misrepresents their functionality.","D":"While management matters, the core issue remains that collisions can affect key uniqueness regardless of programmer intervention."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'c7d3db0e-3f1b-450e-97b2-7a20ec3e6b30',
+    '702a348e-54ec-427f-b47a-fc37a0843e39',
+    '5af6165d-0ff0-400b-a9ae-71a829eb1635',
+    'c4741ae8-ec96-4c30-b769-a0ed7e278518',
+    '6be07d92-0532-49bf-a179-b5ae7f388a34',
+    'e5269e7c-76c9-4fd4-8bf8-8e0d3e3ad9ec',
+    '3ecbab24-e114-407a-bde0-09ef541655f7',
+    '8e81981d-ecd0-42be-8e00-d320b2fb73e7',
+    '86f0fe77-fed0-4972-b3aa-947dc06bd757'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '3ecbab24-e114-407a-bde0-09ef541655f7',
+  actual_subject: 'english',
+  actual_chapter: 'Narrative Passage',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 128,
+  created_at: '2026-04-30T21:46:21.947743+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'english', chapter: 'Narrative Passage', count: 8 }
+
+[JOB 3ecbab24] Starting: [english] Narrative Passage
+[worker] RECEIVED_JOB: {
+  job_id: '3ecbab24-e114-407a-bde0-09ef541655f7',
+  expected_subject: 'english',
+  expected_chapter: 'Narrative Passage',
+  raw_subject_id: 'english',
+  raw_chapter: 'Narrative Passage',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:46:21.947743+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '3ecbab24-e114-407a-bde0-09ef541655f7',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  chapter: 'Narrative Passage',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Narrative Passage', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '3ecbab24-e114-407a-bde0-09ef541655f7',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  expected_chapter: 'Narrative Passage',
+  canonical_unit: 'Reading Comprehension',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Narrative Passage" unit="Reading Comprehension" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'English',
+  expected_chapter: 'Narrative Passage',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'english',
+  expected_chapter: 'Narrative Passage',
+  canonical_unit: 'Reading Comprehension',
+  concept_id: 'english::narrative_passage',
+  pyq_anchor_id: 'structure_only_seed_pyq_en3_for_english::narrative_passage',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 3,
+  batch_size: 5,
+  pyq_style_patterns: [ 'reading_comprehension', 'vocabulary', 'correct_word_usage' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 15119,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"In the context of a narrative, if a character's motivation is influenced by external circumstances, it can be said that their actions are:","o":["primarily driven by personal values","shaped by social influences and events","entirely a result of their internal conflicts","mostly determined by fate"],"a":"B","question_type":"statement_based","concept_id":"english::narrative_passage","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"This question requires understanding of character motivation in narratives rather than direct recall.","why_cuet_level":"This assesses comprehension and application of narrative concepts.","distractor_rationale":{"A":"While personal values matter, they are not the sole influence.","B":"Correct, as external circumstances heavily shape character actions.","C":"This option oversimplifies the complexity of motivations.","D":"Fate can be an element but does not account for all influences."}},{"q":"Consider a narrative where the protagonist faces a moral dilemma. The resolution of this dilemma reflects:","o":["the protagonist's growth through experience","the importance of societal norms in decision making","the idea that choices are predetermined by past actions","the insignificance of individual choice in shaping outcomes"],"a":"A","question_type":"case_based","concept_id":"english::narrative_passage","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question focuses on the implications of character choices rather than definitions.","why_cuet_level":"This evaluates critical thinking regarding character development.","distractor_rationale":{"A":"Correct, as growth often results from facing dilemmas.","B":"Societal norms play a role but are not the main focus here.","C":"This option misses the role of agency in character decisions.","D":"Individual choice is crucial to understanding narrative outcomes."}},{"q":"When analyzing a story where multiple viewpoints are presented, one might argue that:","o":["the narrative loses coherence due to conflicting perspectives","it enriches the reader's understanding of the plot and themes","it simplifies the complexity of character motivations","it distracts from the main storyline"],"a":"B","question_type":"comparison_based","concept_id":"english::narrative_passage","trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"This question examines interpretation rather than straightforward recall.","why_cuet_level":"This tests analytical skills in narrative structure.","distractor_rationale":{"A":"While coherence can be challenged, it often enhances depth instead.","B":"Correct, as multiple viewpoints add layers to interpretation.","C":"Complex motivations can still emerge within diverse perspectives.","D":"Distraction may occur but is not a definitive outcome."}},{"q":"In narratives where foreshadowing is effectively used, it typically serves to:","o":["create suspense and anticipation for future events","confuse readers about what will happen next","highlight the unimportance of earlier events in the story","reinforce characters' static nature throughout the plot"],"a":"A","question_type":"assertion_reason","concept_id":"english::narrative_passage","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question requires applying knowledge of narrative techniques rather than definitions.","why_cuet_level":"This assesses understanding of literary devices and their purpose.","distractor_rationale":{"A":"Correct, as foreshadowing builds tension and engages readers.","B":"Confusion is not a primary goal of foreshadowing techniques.","C":"Foreshadowing often emphasizes earlier events rather than dismissing them.","D":"Characters can evolve even when foreshadowing hints at their traits."}},{"q":"If a narrative uses unreliable narration, it suggests that:","o":["the narrator's perspective is always accurate and trustworthy","readers should question the truth behind presented events and motives","all characters are equally unreliable in their accounts of events","the story's outcome is predetermined by the narrator's bias"],"a":"B","question_type":"statement_based","concept_id":"english::narrative_passage","trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"This question explores interpretation and critical reading rather than simple recall.","why_cuet_level":"This evaluates comprehension of narrative reliability concepts.","distractor_rationale":{"A":"An accurate narrator contradicts the concept of unreliability.","B":"Correct, as questioning truth is central to unreliable narration.","C":"Not all characters need to be unreliable for this technique to work.","D":"Predetermination does not apply; bias affects perception instead."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[english-classification] {
+  question_id: 'concept_1',
+  detected_type: 'Narrative Passage',
+  confidence: 0.4
+}
+[english-classification] {
+  question_id: 'concept_2',
+  detected_type: 'Narrative Passage',
+  confidence: 0.4
+}
+[english-classification] {
+  question_id: 'concept_3',
+  detected_type: 'Narrative Passage',
+  confidence: 0.4
+}
+[english-classification] {
+  question_id: 'concept_4',
+  detected_type: 'Narrative Passage',
+  confidence: 0.4
+}
+[english-classification] {
+  question_id: 'concept_5',
+  detected_type: 'Narrative Passage',
+  confidence: 0.4
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'c7d3db0e-3f1b-450e-97b2-7a20ec3e6b30',
+    '702a348e-54ec-427f-b47a-fc37a0843e39',
+    '5af6165d-0ff0-400b-a9ae-71a829eb1635',
+    'c4741ae8-ec96-4c30-b769-a0ed7e278518',
+    '6be07d92-0532-49bf-a179-b5ae7f388a34',
+    'e5269e7c-76c9-4fd4-8bf8-8e0d3e3ad9ec',
+    '8e81981d-ecd0-42be-8e00-d320b2fb73e7',
+    '86f0fe77-fed0-4972-b3aa-947dc06bd757'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '5af6165d-0ff0-400b-a9ae-71a829eb1635',
+  actual_subject: 'chemistry',
+  actual_chapter: 'Isolation of Elements',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 318,
+  created_at: '2026-04-30T21:46:21.947743+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'chemistry', chapter: 'Isolation of Elements', count: 8 }
+
+[JOB 5af6165d] Starting: [chemistry] Isolation of Elements
+[worker] RECEIVED_JOB: {
+  job_id: '5af6165d-0ff0-400b-a9ae-71a829eb1635',
+  expected_subject: 'chemistry',
+  expected_chapter: 'Isolation of Elements',
+  raw_subject_id: 'chemistry',
+  raw_chapter: 'Isolation of Elements',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:46:21.947743+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '5af6165d-0ff0-400b-a9ae-71a829eb1635',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  chapter: 'Isolation of Elements',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Isolation of Elements', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '5af6165d-0ff0-400b-a9ae-71a829eb1635',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  expected_chapter: 'Isolation of Elements',
+  canonical_unit: 'Existing Chemistry Coverage',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Isolation of Elements" unit="Existing Chemistry Coverage" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'chemistry',
+  prompt_subject_name: 'Chemistry',
+  expected_chapter: 'Isolation of Elements',
+  requested_count: 5,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::isolation_of_elements',
+  selected_anchor_id: 'structured_chemistry_isolation_of_elements_1',
+  selected_anchor_concept_id: 'chemistry::isolation_of_elements',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'application_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'chemistry',
+  expected_chapter: 'Isolation of Elements',
+  canonical_unit: 'Existing Chemistry Coverage',
+  concept_id: 'chemistry::isolation_of_elements',
+  pyq_anchor_id: 'structured_chemistry_isolation_of_elements_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 23534,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"A student argues that using carbon for reduction is always effective for extracting metals from oxides. Which option best counters this claim?","o":["Carbon can reduce oxides of some metals effectively depending on temperature and conditions.","Carbon is less effective for metals with higher oxidation states, requiring stronger reducing agents.","Carbon reduction is generally not used because it leaves impurities in the metal.","Carbon works best under all conditions, making it a universal reducing agent."],"a":"B","question_type":"statement_based","concept_id":"chemistry::isolation_of_elements","trap_option":"D","strong_distractors":["A","C"],"why_not_textbook":"This question tests understanding of reduction conditions rather than straightforward definitions.","why_cuet_level":"It challenges students to think critically about the effectiveness of carbon as a reducing agent based on context.","distractor_rationale":{"A":"This option suggests effectiveness but lacks specificity about the conditions needed.","B":"This option correctly highlights the limitation of carbon based on oxidation states, making it correct.","C":"This option incorrectly implies that carbon always leaves impurities, which is misleading.","D":"This option falsely presents carbon as a universal solution without addressing exceptions."}},{"q":"Statement I: Roasting is used primarily for sulfide ores. Statement II: Calcination is preferred for carbonate ores. Which option correctly assesses these statements?","o":["Both statements are correct and describe different processes for ore preparation.","Only Statement I is correct because roasting applies to all types of ores equally.","Statement I is incorrect since calcination can also be used for sulfide ores under certain conditions.","Only Statement II is valid as calcination is not specific to carbonate ores."],"a":"A","question_type":"comparison_based","concept_id":"chemistry::isolation_of_elements","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The question requires evaluation of ore processing methods rather than rote memorization.","why_cuet_level":"It prompts students to apply their knowledge of processes to distinguish between them effectively.","distractor_rationale":{"A":"This option accurately reflects both processes and their applications in metallurgy.","B":"This option misrepresents the versatility of roasting across different ore types.","C":"This option introduces a misconception about calcination's application, making it partially correct but wrong overall.","D":"This option incorrectly restricts calcination's applicability to only one type of ore."}},{"q":"A learner claims that the method of electrolysis is always the best choice for metal extraction. How should this statement be corrected?","o":["Electrolysis is effective but often requires significant energy input, making it less favorable for some metals.","Electrolysis guarantees pure metal extraction regardless of ore composition or type.","Electrolysis should be avoided entirely in favor of other methods due to high costs involved.","Electrolysis is only applicable to non-metals and should not be considered for metal extraction."],"a":"A","question_type":"statement_based","concept_id":"chemistry::isolation_of_elements","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"The question encourages critical thinking about extraction methods rather than simple facts about electrolysis.","why_cuet_level":"It helps assess understanding of when electrolysis is advantageous compared to other methods.","distractor_rationale":{"A":"This option rightly points out the energy cost considerations of using electrolysis for extraction.","B":"This option falsely claims electrolysis as a guaranteed method without acknowledging limitations, making it incorrect.","C":"This option misrepresents electrolysis as entirely unviable, which is misleading but sounds plausible.","D":"This option incorrectly states that electrolysis applies only to non-metals, which is factually incorrect."}},{"q":"Two extraction techniques are discussed: hydrometallurgy and pyrometallurgy. Which statement best clarifies their differences?","o":["Hydrometallurgy utilizes aqueous solutions while pyrometallurgy involves high-temperature processes for metal recovery.","Hydrometallurgy can operate at high temperatures similar to pyrometallurgy, making them interchangeable methods.","Pyrometallurgy focuses on low-energy processes compared to hydrometallurgy's high-energy demands.","Both techniques yield similar purity levels regardless of the method used."],"a":"A","question_type":"comparison_based","concept_id":"chemistry::isolation_of_elements","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"The question distinguishes between two techniques rather than testing direct definitions or terminology.","why_cuet_level":"It encourages evaluation of process characteristics rather than memorization of terms or definitions.","distractor_rationale":{"A":"This option accurately describes the fundamental differences between the two extraction techniques.","B":"This option incorrectly suggests that both techniques can be used interchangeably at high temperatures, which misrepresents their characteristics.","C":"This option inaccurately downplays energy requirements in pyrometallurgy, presenting a misleading comparison.","D":"This option falsely asserts that both methods yield identical results, ignoring key differences in outcomes."}},{"q":"Statement I: Concentration methods enhance the efficiency of subsequent reduction steps. Statement II: All methods are equally effective regardless of ore type. Which analysis best evaluates these statements?","o":["Statement I is accurate while Statement II overlooks how ore type influences method effectiveness during extraction stages.","Both statements are valid and highlight different aspects of metal extraction procedures without contradiction.","Only Statement II holds true because concentration does not significantly impact reduction efficiency overall.","Statement I is invalid since concentration has no effect on recovery rates during reduction."],"a":"A","question_type":"assertion_reason","concept_id":"chemistry::isolation_of_elements","trap_option":"D","strong_distractors":["B","C"],"why_not_textbook":"The question requires an understanding of how concentration affects extraction rather than mere definitions or facts about methods.","why_cuet_level":"It assesses comprehension of the relationship between concentration and reduction efficiency in metallurgy practices effectively.","distractor_rationale":{"A":"This option correctly identifies the importance of concentration while refuting the generalization made in Statement II.","B":"This option mistakenly assumes both statements are valid without recognizing the flaws in Statement II's logic.","C":"This option incorrectly dismisses the role of concentration in improving recovery rates during reduction processes, leading to an inaccurate conclusion.","D":"This option wrongly claims Statement I as invalid, which misrepresents its relevance in metallurgical processes."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'c7d3db0e-3f1b-450e-97b2-7a20ec3e6b30',
+    '702a348e-54ec-427f-b47a-fc37a0843e39',
+    'c4741ae8-ec96-4c30-b769-a0ed7e278518',
+    '6be07d92-0532-49bf-a179-b5ae7f388a34',
+    'e5269e7c-76c9-4fd4-8bf8-8e0d3e3ad9ec',
+    '8e81981d-ecd0-42be-8e00-d320b2fb73e7',
+    '86f0fe77-fed0-4972-b3aa-947dc06bd757'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '6be07d92-0532-49bf-a179-b5ae7f388a34',
+  actual_subject: 'computer_science',
+  actual_chapter: 'Python Revision',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 340,
+  created_at: '2026-04-30T21:46:21.947743+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'computer_science',
+  chapter: 'Python Revision',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'computer_science', chapter: 'Python Revision', count: 8 }
+
+[JOB 6be07d92] Starting: [computer_science] Python Revision
+[worker] RECEIVED_JOB: {
+  job_id: '6be07d92-0532-49bf-a179-b5ae7f388a34',
+  expected_subject: 'computer_science',
+  expected_chapter: 'Python Revision',
+  raw_subject_id: 'computer_science',
+  raw_chapter: 'Python Revision',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:46:21.947743+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '6be07d92-0532-49bf-a179-b5ae7f388a34',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  chapter: 'Python Revision',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Python Revision', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '6be07d92-0532-49bf-a179-b5ae7f388a34',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Python Revision',
+  canonical_unit: 'Section B1: Computer Science',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Python Revision" unit="Section B1: Computer Science" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'computer_science',
+  prompt_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Python Revision',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'computer_science',
+  expected_chapter: 'Python Revision',
+  canonical_unit: 'Section B1: Computer Science',
+  concept_id: 'computer_science::python_revision',
+  pyq_anchor_id: 'structured_computer_science_data_structures_2',
+  anchor_tier: 2,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 20859,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"A student claims that the Python 'for' loop is only used for iterating through lists. Another student argues that it can also iterate through other iterable objects. Which assessment is more accurate?","o":["The first student's claim is valid, as 'for' loops are designed solely for lists.","The second student's assertion is correct, as 'for' loops can iterate through any iterable, like tuples and strings.","Both statements are valid, but they imply the same concept about 'for' loops.","The first statement is invalid because 'for' loops can iterate through dictionaries as well."],"a":"B","question_type":"statement_based","concept_id":"computer_science::python_revision","trap_option":"D","strong_distractors":["A","C"],"why_not_textbook":"This question avoids direct definitions and focuses on common misconceptions.","why_cuet_level":"This question requires understanding of Python's iteration capabilities beyond just lists.","distractor_rationale":{"A":"This option incorrectly limits the use of 'for' loops to lists only.","B":"This option accurately reflects the versatility of 'for' loops in Python.","C":"This option suggests both students are correct, which is misleading since one is not.","D":"This option incorrectly states that 'for' loops cannot iterate through dictionaries."}},{"q":"Consider a scenario where a programmer intends to create a function that returns the square of a number. If the function is defined with a return statement, but the programmer forgets to call it, what can be concluded?","o":["The function will execute when defined and return the square value immediately.","The function must be called to execute and return a result; otherwise, it does nothing.","The function will run automatically upon definition without needing a call.","The return statement guarantees output regardless of whether the function is called."],"a":"B","question_type":"case_based","concept_id":"computer_science::python_revision","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"This scenario emphasizes understanding function execution rather than just syntax.","why_cuet_level":"This question tests knowledge of function behavior in Python, particularly regarding execution and calling.","distractor_rationale":{"A":"This option falsely claims that defining a function executes it immediately.","B":"This option correctly highlights the necessity of calling a function to obtain its return value.","C":"This option misrepresents how functions operate in Python regarding automatic execution.","D":"This option inaccurately implies that return statements work independently of function calls."}},{"q":"Statement I: A variable in Python can change type during its lifetime. Statement II: All variables must be declared with their type before use. Which evaluation accurately reflects these statements?","o":["Both statements are valid as they highlight the dynamic nature of Python variables.","Both statements are valid, but they contradict each other regarding variable declaration requirements.","Statement I is valid while Statement II is invalid because Python allows dynamic typing without declaration.","Statement I is invalid while Statement II is valid because all programming languages require variable declaration."],"a":"C","question_type":"comparison_based","concept_id":"computer_science::python_revision","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"This question requires evaluation of concepts rather than simple recall from definitions.","why_cuet_level":"This question assesses understanding of variable behavior and typing in Python specifically.","distractor_rationale":{"A":"This option incorrectly states both are valid without recognizing the contradiction in declaration needs.","B":"This option inaccurately suggests both statements support each other when they do not.","C":"This option accurately distinguishes between valid and invalid statements based on Python's typing system.","D":"This option incorrectly assumes all programming languages have the same variable rules."}},{"q":"A developer wants to ensure that their code handles exceptions gracefully. They decide to use try-except blocks. What misconception might arise if they assume exceptions can never occur in their code?","o":["Exceptions can occur due to unforeseen errors, making this assumption risky for robust coding practices.","Using try-except blocks prevents all possible exceptions from happening during execution.","Assuming exceptions won't happen means no error handling will be needed in any situation.","Try-except blocks are only useful for syntax errors and not runtime exceptions."],"a":"A","question_type":"assertion_reason","concept_id":"computer_science::python_revision","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The focus here is on understanding error handling rather than rote learning about exceptions.","why_cuet_level":"This question explores misconceptions related to exception handling and coding practices in Python.","distractor_rationale":{"A":"This option correctly identifies the risk associated with underestimating potential exceptions in code.","B":"This option misleadingly implies try-except blocks eliminate all exceptions, which is incorrect.","C":"This option presents a fallacy about exception occurrence which could misguide developers about error handling necessity.","D":"This option wrongly categorizes try-except blocks as ineffective for runtime issues."}},{"q":"When using lists in Python, one user claims that appending an item modifies the original list. Another user argues that this action creates a new list. Which evaluation accurately describes this situation?","o":["The first user's claim is correct; appending changes the existing list directly without creating a new one.","The second user's argument holds true; appending always results in a new list being created each time an item is added.","Both claims are correct as they describe different scenarios when working with lists in Python.","Neither statement is accurate since appending does not affect the list at all."],"a":"A","question_type":"statement_based","concept_id":"computer_science::python_revision","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"The question emphasizes practical understanding over theoretical knowledge about list operations.","why_cuet_level":"It evaluates comprehension of how list methods like append operate within Python's context.","distractor_rationale":{"A":"This option correctly reflects how appending modifies the existing list directly in Python.","B":"This option incorrectly asserts that appending results in creating a new list, which misrepresents functionality.","C":"This option incorrectly validates both claims without addressing their accuracy within list operations.","D":"This option inaccurately states that appending has no effect on the list itself."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=2
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 2
+[pipeline] generated_count=2 | mix=easy=0, medium=2, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 2
+[pipeline] after_chapter_filter=2 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=2 | sent_for_strict_validation=2 | validator_load_reduction=0.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [
+    'structured_computer_science_data_structures_2',
+    'structured_computer_science_data_structures_2'
+  ],
+  anchor_source_quality: [ 'manual_seed', 'manual_seed' ],
+  fallback_used: false,
+  selfcheck_passed: 2,
+  sent_to_validator: 2
+}
+[pipeline] Starting batch validation for 2 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=2
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T21:48:37.861Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"computer_science","questionCount":2}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'computer_science',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'computer_science',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 13573,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'computer_science',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "conceptual_depth < 7",
+      "obvious answer",
+      "textbook_style"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 4,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "easy",
+    "issues": [
+      "Question is too elementary for CUET computer science B1",
+      "Options provide no significant distractors"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "conceptual_depth < 7",
+      "textbook_style",
+      "low trap quality"
+    ],
+    "score": 5,
+    "exam_quality": 5,
+    "distractor_quality": 4,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Statements are based on very basic definitional recall of dynamic vs static typing",
+      "Low reasoning requirement"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 2
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T21:48:51.438Z","model":"gemini-3-flash","subject":"computer_science","resultCount":2}
+[pipeline] validator_rejected {
+  score: 4,
+  exam_quality: 4,
+  distractor_quality: 3,
+  conceptual_depth: 4,
+  trap_quality: 'LOW',
+  rule: 'low trap quality'
+}
+[reject] {
+  subject: 'computer_science',
+  chapter: 'Python Revision',
+  reason: 'low trap quality; conceptual_depth < 7; obvious answer; textbook_style; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 31,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_rejected {
+  score: 5,
+  exam_quality: 5,
+  distractor_quality: 4,
+  conceptual_depth: 5,
+  trap_quality: 'LOW',
+  rule: 'conceptual_depth < 7'
+}
+[reject] {
+  subject: 'computer_science',
+  chapter: 'Python Revision',
+  reason: 'conceptual_depth < 7; textbook_style; low trap quality; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording; validator marked non-CUET alignment',
+  source: 'validator_normalized',
+  rule: 'conceptual_depth < 7',
+  details: {
+    compositeScore: 39,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 0, hard: 0 },
+  system: { easy: 0, medium: 0, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 0
+[pipeline] validated_count=0 | acceptance_rate=0.0%
+[pipeline] FINAL_ACCEPTED_COUNT 0
+[pipeline] selected_count=0 | FINAL DISTRIBUTION: {"easy":0,"medium":0,"hard":0}
+[draft] Saved c4e9ed0d-fb79-4f9e-b694-96c8e3a311a6 | reason=validator_rejected_all:low trap quality;conceptual_depth < 7;obvious answer;textbook_style;validator score below threshold;exam quality below threshold;distractor quality below threshold;conceptual depth below CUET reasoning threshold
+[draft] Saved 76a42759-6916-420a-a545-3b66bcd051d2 | reason=validator_rejected_all:low trap quality;conceptual_depth < 7;obvious answer;textbook_style;validator score below threshold;exam quality below threshold;distractor quality below threshold;conceptual depth below CUET reasoning threshold
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 2,
+  draft_candidates: 2,
+  publish_count: 0
+}
+[pipeline] METRICS | generated_count=2 | prefiltered_count=2 | strict_validation_count=2 | accepted_count=0 | api_calls_used=2 | cost_efficiency_ratio=0.00
+[pipeline] SUMMARY | subject=computer_science | chapter=Python Revision | target=5 | generated_count=2 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=2 | validated_count=0 | accepted_count=0 | draft_count=2 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=0, hard=0
+[pipeline] subject_distribution: {"subject":"computer_science","accepted":0,"rejected":2,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=13760 | total_cost=$0.0045 | cost_per_accepted=$0.0000 | cost_per_1000=$0.00 | total_accepted=0
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'computer_science',
+  chapter: 'Python Revision',
+  sample_size: 10,
+  direct_definition_count: 0,
+  weak_option_count: 2,
+  repeated_structure_count: 0,
+  easy_count: 0,
+  feedback_count: 0
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'c7d3db0e-3f1b-450e-97b2-7a20ec3e6b30',
+    '702a348e-54ec-427f-b47a-fc37a0843e39',
+    'c4741ae8-ec96-4c30-b769-a0ed7e278518',
+    'e5269e7c-76c9-4fd4-8bf8-8e0d3e3ad9ec',
+    '8e81981d-ecd0-42be-8e00-d320b2fb73e7',
+    '86f0fe77-fed0-4972-b3aa-947dc06bd757'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'c7d3db0e-3f1b-450e-97b2-7a20ec3e6b30',
+  actual_subject: 'business_studies',
+  actual_chapter: 'Staffing',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 333,
+  created_at: '2026-04-30T21:46:21.947743+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'business_studies', chapter: 'Staffing', count: 8 }
+
+[JOB c7d3db0e] Starting: [business_studies] Staffing
+[worker] RECEIVED_JOB: {
+  job_id: 'c7d3db0e-3f1b-450e-97b2-7a20ec3e6b30',
+  expected_subject: 'business_studies',
+  expected_chapter: 'Staffing',
+  raw_subject_id: 'business_studies',
+  raw_chapter: 'Staffing',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:46:21.947743+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'c7d3db0e-3f1b-450e-97b2-7a20ec3e6b30',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  chapter: 'Staffing',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Staffing', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'c7d3db0e-3f1b-450e-97b2-7a20ec3e6b30',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  expected_chapter: 'Staffing',
+  canonical_unit: 'Staffing',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Staffing" unit="Staffing" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'business_studies',
+  prompt_subject_name: 'Business Studies',
+  expected_chapter: 'Staffing',
+  requested_count: 5,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::staffing',
+  selected_anchor_id: 'structured_business_studies_staffing_1',
+  selected_anchor_concept_id: 'business_studies::staffing',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'case_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'business_studies',
+  expected_chapter: 'Staffing',
+  canonical_unit: 'Staffing',
+  concept_id: 'business_studies::staffing',
+  pyq_anchor_id: 'structured_business_studies_staffing_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 19632,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"A company believes that hiring from within boosts morale but may overlook critical skills. Which evaluation best captures this perspective?","o":["Internal hiring can enhance motivation but may limit the influx of fresh talent.","Internal hiring is beneficial as it reduces training time for existing employees.","External hiring is preferred because it focuses on diversity and innovation.","Internal hiring gives too much weight to employee loyalty over skill requirements."],"a":"A","question_type":"statement_based","concept_id":"business_studies::staffing","trap_option":"D","strong_distractors":["B","C"],"why_not_textbook":"This question encourages analysis of internal vs external hiring without relying on definitions.","why_cuet_level":"This question requires critical thinking about recruitment strategies.","distractor_rationale":{"A":"Correctly identifies the balance between morale and skill acquisition.","B":"Partially correct as it mentions training time but misses the broader implications.","C":"Incorrect because it misrepresents the focus of external hiring.","D":"Incorrect as it suggests an extreme view of loyalty over skills."}},{"q":"Statement I: A diverse workforce enhances creativity. Statement II: Diversity can complicate team dynamics. How should these statements be evaluated?","o":["Both statements are valid; however, Statement I emphasizes positive outcomes without acknowledging challenges.","Both statements are valid, and Statement II highlights potential downsides of diversity in teams.","Statement I is valid while Statement II is invalid because diversity always improves collaboration.","Statement I is invalid while Statement II is valid as diversity only creates conflict."],"a":"B","question_type":"comparison_based","concept_id":"business_studies::staffing","trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"The question promotes evaluation of complex ideas rather than simple definitions.","why_cuet_level":"This requires discernment of the nuances in team dynamics and diversity effects.","distractor_rationale":{"A":"Misses the complexities involved in team dynamics despite recognizing creativity benefits.","B":"Correctly assesses both sides of the impact of diversity in teams.","C":"Incorrect as it oversimplifies the relationship between diversity and collaboration.","D":"Incorrect since it dismisses the positive aspects of diversity entirely."}},{"q":"A firm opts for external recruitment to bring innovative ideas but faces longer onboarding times. Which analysis best reflects this situation?","o":["External recruitment fosters innovation but may hinder immediate productivity due to onboarding delays.","External recruitment primarily focuses on reducing costs associated with hiring processes.","Internal recruitment avoids onboarding issues but limits new ideas significantly.","External recruitment treats innovation as the main factor, ignoring integration challenges."],"a":"A","question_type":"case_based","concept_id":"business_studies::staffing","trap_option":"D","strong_distractors":["B","C"],"why_not_textbook":"This question illustrates a real-world scenario requiring analysis rather than recall.","why_cuet_level":"It compels students to weigh pros and cons in staffing decisions based on context.","distractor_rationale":{"A":"Correctly captures the trade-off between innovation and productivity during onboarding.","B":"Incorrect; cost reduction isn't the primary concern in this scenario of innovation vs onboarding.","C":"Incorrect as it overlooks the benefits of external ideas despite internal hiring limitations.","D":"Incorrect as it presents an extreme view that disregards practical integration issues."}},{"q":"Statement I: Training enhances job performance. Statement II: Development prepares employees for future roles. What conclusion can be drawn?","o":["Both statements are correct; however, they address different scopes within employee growth strategies.","Both statements are accurate, with Statement II being irrelevant to immediate job performance improvements.","Statement I is true while Statement II is false because development only pertains to current tasks.","Statement I is false while Statement II is true since future roles do not require current job skills."],"a":"A","question_type":"assertion_reason","concept_id":"business_studies::staffing","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"Encourages evaluation of two related but distinct concepts instead of mere definitions.","why_cuet_level":"It requires understanding how training and development serve different purposes in staffing.","distractor_rationale":{"A":"Correctly identifies that both concepts are valid yet distinct in their focus areas.","B":"Incorrect as it misrepresents the relevance of development to performance improvements.","C":"Incorrect; both statements remain true regarding their respective focuses on growth and performance.","D":"Incorrect since it inaccurately states that development does not connect to current job skills."}},{"q":"A manager believes that experience should outweigh formal education in promotions. Which response best assesses this belief?","o":["Experience can provide practical insights, but education often equips employees with theoretical foundations essential for strategic roles.","Experience alone guarantees success in managerial positions, making education less relevant.","Formal education prepares employees better than experience for most managerial tasks, disregarding practical knowledge gained through work.","Experience gives too much weight to past roles while education remains constant across all candidates."],"a":"A","question_type":"statement_based","concept_id":"business_studies::staffing","trap_option":"D","strong_distractors":["B","C"],"why_not_textbook":"This question prompts an evaluation of differing viewpoints on employee qualifications instead of straightforward definitions.","why_cuet_level":"It encourages critical thinking about qualifications in staffing decisions between experience and education.","distractor_rationale":{"A":"Correctly balances experience with education's role in preparing candidates for strategic positions.","B":"Incorrect as it oversimplifies the relationship between experience and success in management roles.","C":"Incorrect; while education is important, practical experience also holds significant value in management.","D":"Incorrect because it presents a misleading view regarding how experience and education interact."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=1
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 1
+[pipeline] generated_count=1 | mix=easy=0, medium=1, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 1
+[pipeline] after_chapter_filter=1 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=1 | sent_for_strict_validation=1 | validator_load_reduction=0.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [ 'structured_business_studies_staffing_1' ],
+  anchor_source_quality: [ 'manual_seed' ],
+  fallback_used: false,
+  selfcheck_passed: 1,
+  sent_to_validator: 1
+}
+[pipeline] Starting batch validation for 1 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=1
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T21:49:30.013Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"business_studies","questionCount":1}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'business_studies',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'business_studies',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 13208,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'business_studies',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "OVERLAPPING",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "textbook style",
+      "low trap quality",
+      "conceptual depth < 7",
+      "overlapping options"
+    ],
+    "score": 5,
+    "exam_quality": 5,
+    "distractor_quality": 4,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Options A and B are logically overlapping and lack definitive distinction",
+      "Format deviates from the standard NTA/CUET Statement I and Statement II evaluation pattern",
+      "Question relies on general logical reasoning rather than specific Business Studies conceptual application"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 1
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T21:49:43.222Z","model":"gemini-3-flash","subject":"business_studies","resultCount":1}
+[pipeline] validator_rejected {
+  score: 5,
+  exam_quality: 5,
+  distractor_quality: 4,
+  conceptual_depth: 5,
+  trap_quality: 'LOW',
+  rule: 'textbook style'
+}
+[reject] {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'textbook style; low trap quality; conceptual depth < 7; overlapping options; ambiguous options; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'textbook style',
+  details: {
+    compositeScore: 23,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'OVERLAPPING'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 0, hard: 0 },
+  system: { easy: 0, medium: 0, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 0
+[pipeline] validated_count=0 | acceptance_rate=0.0%
+[pipeline] FINAL_ACCEPTED_COUNT 0
+[pipeline] selected_count=0 | FINAL DISTRIBUTION: {"easy":0,"medium":0,"hard":0}
+[draft] Saved c8e448be-2278-4c29-bf0c-edd09941c4a2 | reason=validator_rejected_all:textbook style;low trap quality;conceptual depth < 7;overlapping options;ambiguous options;exam quality below threshold;distractor quality below threshold;conceptual depth below CUET reasoning threshold
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 1,
+  draft_candidates: 1,
+  publish_count: 0
+}
+[pipeline] METRICS | generated_count=1 | prefiltered_count=1 | strict_validation_count=1 | accepted_count=0 | api_calls_used=2 | cost_efficiency_ratio=0.00
+[pipeline] SUMMARY | subject=business_studies | chapter=Staffing | target=5 | generated_count=1 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=1 | validated_count=0 | accepted_count=0 | draft_count=1 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=0, hard=0
+[pipeline] subject_distribution: {"subject":"business_studies","accepted":0,"rejected":1,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=18197 | total_cost=$0.0058 | cost_per_accepted=$0.0000 | cost_per_1000=$0.00 | total_accepted=0
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  sample_size: 9,
+  direct_definition_count: 0,
+  weak_option_count: 4,
+  repeated_structure_count: 0,
+  easy_count: 0,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '702a348e-54ec-427f-b47a-fc37a0843e39',
+    'c4741ae8-ec96-4c30-b769-a0ed7e278518',
+    'e5269e7c-76c9-4fd4-8bf8-8e0d3e3ad9ec',
+    '8e81981d-ecd0-42be-8e00-d320b2fb73e7',
+    '86f0fe77-fed0-4972-b3aa-947dc06bd757'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '702a348e-54ec-427f-b47a-fc37a0843e39',
+  actual_subject: 'chemistry',
+  actual_chapter: 'Coordination Compounds',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 318,
+  created_at: '2026-04-30T21:46:21.947743+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'chemistry', chapter: 'Coordination Compounds', count: 8 }
+
+[JOB 702a348e] Starting: [chemistry] Coordination Compounds
+[worker] RECEIVED_JOB: {
+  job_id: '702a348e-54ec-427f-b47a-fc37a0843e39',
+  expected_subject: 'chemistry',
+  expected_chapter: 'Coordination Compounds',
+  raw_subject_id: 'chemistry',
+  raw_chapter: 'Coordination Compounds',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:46:21.947743+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '702a348e-54ec-427f-b47a-fc37a0843e39',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  chapter: 'Coordination Compounds',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Coordination Compounds', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '702a348e-54ec-427f-b47a-fc37a0843e39',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  expected_chapter: 'Coordination Compounds',
+  canonical_unit: 'Coordination Compounds',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Coordination Compounds" unit="Coordination Compounds" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'chemistry',
+  prompt_subject_name: 'Chemistry',
+  expected_chapter: 'Coordination Compounds',
+  requested_count: 5,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::coordination_compounds',
+  selected_anchor_id: 'structured_chemistry_coordination_compounds_1',
+  selected_anchor_concept_id: 'chemistry::coordination_compounds',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'chemistry',
+  expected_chapter: 'Coordination Compounds',
+  canonical_unit: 'Coordination Compounds',
+  concept_id: 'chemistry::coordination_compounds',
+  pyq_anchor_id: 'structured_chemistry_coordination_compounds_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 23049,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"A student claims that the coordination number of a complex is solely determined by the number of ligands. Which statement correctly evaluates this claim?","o":["The coordination number is influenced by both the number of ligands and their bonding modes to the metal.","Coordination number depends mainly on ligand size, ignoring the geometry of the complex.","Coordination number can be misinterpreted when ligands are polydentate, as they can attach multiple times.","Ligands contribute to oxidation state, which is the main factor for determining coordination number."],"a":"A","question_type":"statement_based","concept_id":"chemistry::coordination_compounds","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The concept involves multiple factors affecting coordination number rather than a single aspect.","why_cuet_level":"This question encourages critical thinking about misconceptions in complex geometry.","distractor_rationale":{"A":"This option accurately reflects that both ligands and their bonding modes affect coordination number.","B":"This option incorrectly states that size is the primary factor, overlooking other influences like geometry.","C":"This option presents a misconception about polydentate ligands without clarifying their role in coordination.","D":"This option incorrectly suggests that oxidation state directly determines coordination number."}},{"q":"Statement I: A bidentate ligand forms two bonds with a metal ion. Statement II: The overall charge of a complex ion is determined only by the metal's oxidation state. Which option best assesses these statements?","o":["Both statements are correct, as bidentate ligands always form two bonds regardless of the metal's nature.","Statement I is valid, while Statement II ignores contributions from ligands to overall charge.","Both statements are incorrect because bidentate ligands can form more than two bonds under specific conditions.","Statement I is invalid as it implies bidentate ligands can bond with any metal without restrictions."],"a":"B","question_type":"assertion_reason","concept_id":"chemistry::coordination_compounds","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"Understanding ligands' behavior requires recognizing their diverse interactions with metals.","why_cuet_level":"This question challenges students to differentiate between bonding and charge contributions in complexes.","distractor_rationale":{"A":"This option mistakenly assumes all bidentate ligands behave identically across all complexes.","B":"Correctly identifies that ligand contributions to charge are essential for understanding complex ions.","C":"Incorrectly states that bidentate ligands can exceed two bonds without context, misrepresenting their nature.","D":"Misleadingly claims that bidentate behavior is universal, ignoring specific binding scenarios."}},{"q":"In a scenario where a complex exhibits unusual color changes upon ligand substitution, which explanation best addresses this observation?","o":["The color change results from alterations in d-orbital splitting due to different ligand field strengths affecting electronic transitions.","Color shifts are unrelated to ligand properties and depend solely on the metal's inherent characteristics.","Ligand substitution affects only the physical structure of the complex, not its electronic properties or color perception.","The observed color change is primarily due to temperature variations during the reaction process."],"a":"A","question_type":"case_based","concept_id":"chemistry::coordination_compounds","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The relationship between color and electronic transitions is crucial in understanding coordination chemistry phenomena.","why_cuet_level":"This question tests comprehension of ligand effects on colorimetric properties in complexes.","distractor_rationale":{"A":"Accurately links ligand field theory with observable color changes in transition metal complexes.","B":"Incorrectly attributes color changes solely to metal characteristics, neglecting ligand influence on d-orbitals.","C":"Misrepresents structural changes as unrelated to electronic transitions affecting color perception.","D":"Suggests temperature impacts are responsible for color changes without considering underlying electronic factors."}},{"q":"A student believes that all chelating agents enhance stability in coordination compounds. Which correction best addresses this misconception?","o":["Chelating agents typically enhance stability due to multiple bonding sites, but steric factors can limit effectiveness in some cases.","All chelating agents increase stability irrespective of their size or geometry when coordinating with metals.","Chelating agents do not affect stability; only monodentate ligands provide reliable stabilization in complexes.","Stability is determined solely by the type of metal ion involved, regardless of the ligand's nature."],"a":"A","question_type":"application_based","concept_id":"chemistry::coordination_compounds","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Recognizing exceptions in chelation versus simple coordination enhances understanding of stability factors in complexes.","why_cuet_level":"This question encourages analysis of factors influencing stability beyond generalizations about chelators.","distractor_rationale":{"A":"Correctly highlights that while chelators generally enhance stability, some limitations exist due to sterics or geometry.","B":"Incorrectly asserts that all chelating agents universally increase stability without considering exceptions or context.","C":"Misleadingly states that monodentate ligands are more effective at stabilization than chelators, which contradicts common knowledge.","D":"Oversimplifies stability determinants by attributing them solely to metal types without acknowledging ligand roles."}},{"q":"Statement I: The geometrical arrangement of a complex influences its magnetic properties. Statement II: All octahedral complexes exhibit similar magnetic behavior regardless of their ligands. How should these statements be evaluated?","o":["Both statements are true; geometrical arrangement does affect magnetism uniformly across octahedral complexes.","Statement I is valid as geometry influences magnetism, while Statement II inaccurately generalizes octahedral behavior based on ligand types.","Both statements are false since magnetism depends entirely on electron count and not on geometry or ligand type.","Statement I is incorrect because magnetic properties are dictated solely by the nature of the metal involved."],"a":"B","question_type":"comparison_based","concept_id":"chemistry::coordination_compounds","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"Understanding how geometry and ligand effects interplay within magnetism deepens comprehension of coordination chemistry principles.","why_cuet_level":"This question evaluates understanding of how structural aspects relate to magnetic properties in coordination compounds.","distractor_rationale":{"A":"Incorrectly assumes uniform behavior across all octahedral complexes despite varying ligand influences on magnetism.","B":"Correctly identifies that geometry impacts magnetism while countering overly broad assertions about octahedral complexes' behavior.","C":"Misrepresents both statements as false without acknowledging valid distinctions between geometry and magnetism relationships.","D":"Simplistically suggests that only metal properties dictate magnetism, overlooking significant geometric contributions."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=1
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 1
+[pipeline] generated_count=1 | mix=easy=0, medium=1, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 1
+[reject] {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=1 | pre_validation_filtered=1 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=1 | sent_for_strict_validation=1 | validator_load_reduction=0.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [ 'structured_chemistry_coordination_compounds_1' ],
+  anchor_source_quality: [ 'manual_seed' ],
+  fallback_used: false,
+  selfcheck_passed: 1,
+  sent_to_validator: 1
+}
+[pipeline] Starting batch validation for 1 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=1
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T21:50:23.398Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"chemistry","questionCount":1}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 11788,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 9,
+    "distractor_quality": 8,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 1
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T21:50:35.188Z","model":"gemini-3-flash","subject":"chemistry","resultCount":1}
+[pipeline] validator_accepted {
+  score: 8,
+  exam_quality: 9,
+  distractor_quality: 8,
+  conceptual_depth: 8,
+  trap_quality: 'MEDIUM',
+  pyq_anchor_used: 'structured_chemistry_coordination_compounds_1',
+  anchor_source_quality: 'manual_seed'
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 1, hard: 0 },
+  system: { easy: 0, medium: 1, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 1
+[pipeline] validated_count=1 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 1
+[pipeline] selected_count=1 | FINAL DISTRIBUTION: {"easy":0,"medium":1,"hard":0}
+✅ Published e8619fdd-4bc3-4e5a-82a2-24f8f6909d63 | status=live | difficulty=medium | discoverable=true
+[pipeline] draft_gate {
+  draft_only_flag: false,
+  draft_saved: 0,
+  draft_candidates: 0,
+  publish_count: 1
+}
+[pipeline] METRICS | generated_count=1 | prefiltered_count=1 | strict_validation_count=1 | accepted_count=1 | api_calls_used=2 | cost_efficiency_ratio=0.50
+[pipeline] SUMMARY | subject=chemistry | chapter=Coordination Compounds | target=5 | generated_count=1 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=1 | strict_validation_count=1 | validated_count=1 | accepted_count=1 | draft_count=0 | draft_only_flag=false | shortfall=4 | yield_rate=100.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=1, hard=0
+[pipeline] subject_distribution: {"subject":"chemistry","accepted":1,"rejected":1,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=22873 | total_cost=$0.0072 | cost_per_accepted=$0.0072 | cost_per_1000=$7.18 | total_accepted=1
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  sample_size: 9,
+  direct_definition_count: 0,
+  weak_option_count: 8,
+  repeated_structure_count: 0,
+  easy_count: 0,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...

@@ -1,0 +1,2429 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5935 concepts across 40 subjects (saved 2026-04-30T19:46:45.113Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'File Handling',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Money & Banking',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'mathematics',
+  chapter: 'Differential Equations',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'mathematics',
+  chapter: 'Inverse Trigonometric Functions',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'political_science',
+  chapter: 'Alternative Centres of Power',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'political_science',
+  chapter: 'Challenges to & Restoration of the Congress System',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'political_science',
+  chapter: 'Era of One-Party Dominance',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'political_science',
+  chapter: "India's External Relations",
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'political_science',
+  chapter: 'Politics of Planned Development',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Self & Personality',
+  coverage: 6,
+  priority: 90
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: economics → normalized: economics → tier: 1
+Subject: mathematics → normalized: mathematics → tier: 1
+Subject: mathematics → normalized: mathematics → tier: 1
+Subject: political_science → normalized: political_science → tier: 1
+Subject: political_science → normalized: political_science → tier: 1
+Subject: political_science → normalized: political_science → tier: 1
+Subject: political_science → normalized: political_science → tier: 1
+Subject: political_science → normalized: political_science → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'File Handling',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Money & Banking',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'mathematics',
+    expected_chapter: 'Differential Equations',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'mathematics',
+    expected_chapter: 'Inverse Trigonometric Functions',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'political_science',
+    expected_chapter: 'Alternative Centres of Power',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'political_science',
+    expected_chapter: 'Challenges to & Restoration of the Congress System',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'political_science',
+    expected_chapter: 'Era of One-Party Dominance',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'political_science',
+    expected_chapter: "India's External Relations",
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'political_science',
+    expected_chapter: 'Politics of Planned Development',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Self & Personality',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'computer_science',
+    chapter: 'File Handling',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'economics',
+    chapter: 'Money & Banking',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'mathematics',
+    chapter: 'Differential Equations',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'mathematics',
+    chapter: 'Inverse Trigonometric Functions',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'political_science',
+    chapter: 'Alternative Centres of Power',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'political_science',
+    chapter: 'Challenges to & Restoration of the Congress System',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'political_science',
+    chapter: 'Era of One-Party Dominance',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'political_science',
+    chapter: "India's External Relations",
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'political_science',
+    chapter: 'Politics of Planned Development',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Self & Personality',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: 'd98e91c8-9340-44e5-b46b-af0146f3a79f',
+    subject_id: 'computer_science',
+    chapter: 'File Handling',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:48:08.974899+00:00'
+  },
+  {
+    id: 'dd6ac722-a1a5-4019-b3b6-f17a7486477f',
+    subject_id: 'economics',
+    chapter: 'Money & Banking',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:48:08.974899+00:00'
+  },
+  {
+    id: 'b42daf66-fa68-4d6a-922e-6b52627334e3',
+    subject_id: 'mathematics',
+    chapter: 'Differential Equations',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:48:08.974899+00:00'
+  },
+  {
+    id: '779cb3ff-60f5-4226-a66c-828dbc3d80c8',
+    subject_id: 'mathematics',
+    chapter: 'Inverse Trigonometric Functions',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:48:08.974899+00:00'
+  },
+  {
+    id: '28046209-410c-43d7-98d6-10f4306d1c5f',
+    subject_id: 'political_science',
+    chapter: 'Alternative Centres of Power',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:48:08.974899+00:00'
+  },
+  {
+    id: '10eb278c-0ec8-4324-951e-e3b3cd1ee929',
+    subject_id: 'political_science',
+    chapter: 'Challenges to & Restoration of the Congress System',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:48:08.974899+00:00'
+  },
+  {
+    id: '0043183a-5e3c-4ff8-ad2e-95ba188ab019',
+    subject_id: 'political_science',
+    chapter: 'Era of One-Party Dominance',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:48:08.974899+00:00'
+  },
+  {
+    id: 'd6872c64-c20c-4847-9b0b-755e9533b963',
+    subject_id: 'political_science',
+    chapter: "India's External Relations",
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:48:08.974899+00:00'
+  },
+  {
+    id: '5cc87429-2ccd-4aeb-a7f0-3091157f3c11',
+    subject_id: 'political_science',
+    chapter: 'Politics of Planned Development',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:48:08.974899+00:00'
+  },
+  {
+    id: 'b831f1ca-d943-4aa9-b75e-910f7c32b6ba',
+    subject_id: 'psychology',
+    chapter: 'Self & Personality',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:48:08.974899+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: 'd98e91c8-9340-44e5-b46b-af0146f3a79f',
+    expected_subject: 'computer_science',
+    expected_chapter: 'File Handling',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'dd6ac722-a1a5-4019-b3b6-f17a7486477f',
+    expected_subject: 'economics',
+    expected_chapter: 'Money & Banking',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'b42daf66-fa68-4d6a-922e-6b52627334e3',
+    expected_subject: 'mathematics',
+    expected_chapter: 'Differential Equations',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '779cb3ff-60f5-4226-a66c-828dbc3d80c8',
+    expected_subject: 'mathematics',
+    expected_chapter: 'Inverse Trigonometric Functions',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '28046209-410c-43d7-98d6-10f4306d1c5f',
+    expected_subject: 'political_science',
+    expected_chapter: 'Alternative Centres of Power',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '10eb278c-0ec8-4324-951e-e3b3cd1ee929',
+    expected_subject: 'political_science',
+    expected_chapter: 'Challenges to & Restoration of the Congress System',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '0043183a-5e3c-4ff8-ad2e-95ba188ab019',
+    expected_subject: 'political_science',
+    expected_chapter: 'Era of One-Party Dominance',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'd6872c64-c20c-4847-9b0b-755e9533b963',
+    expected_subject: 'political_science',
+    expected_chapter: "India's External Relations",
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '5cc87429-2ccd-4aeb-a7f0-3091157f3c11',
+    expected_subject: 'political_science',
+    expected_chapter: 'Politics of Planned Development',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'b831f1ca-d943-4aa9-b75e-910f7c32b6ba',
+    expected_subject: 'psychology',
+    expected_chapter: 'Self & Personality',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'd98e91c8-9340-44e5-b46b-af0146f3a79f',
+    'dd6ac722-a1a5-4019-b3b6-f17a7486477f',
+    'b42daf66-fa68-4d6a-922e-6b52627334e3',
+    '779cb3ff-60f5-4226-a66c-828dbc3d80c8',
+    '28046209-410c-43d7-98d6-10f4306d1c5f',
+    '10eb278c-0ec8-4324-951e-e3b3cd1ee929',
+    '0043183a-5e3c-4ff8-ad2e-95ba188ab019',
+    'd6872c64-c20c-4847-9b0b-755e9533b963',
+    '5cc87429-2ccd-4aeb-a7f0-3091157f3c11',
+    'b831f1ca-d943-4aa9-b75e-910f7c32b6ba'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'd98e91c8-9340-44e5-b46b-af0146f3a79f',
+  actual_subject: 'computer_science',
+  actual_chapter: 'File Handling',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 6,
+  subject_question_count: 337,
+  created_at: '2026-04-30T19:48:08.974899+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'computer_science',
+  chapter: 'File Handling',
+  count: 6,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'computer_science', chapter: 'File Handling', count: 6 }
+
+[JOB d98e91c8] Starting: [computer_science] File Handling
+[worker] RECEIVED_JOB: {
+  job_id: 'd98e91c8-9340-44e5-b46b-af0146f3a79f',
+  expected_subject: 'computer_science',
+  expected_chapter: 'File Handling',
+  raw_subject_id: 'computer_science',
+  raw_chapter: 'File Handling',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:48:08.974899+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'd98e91c8-9340-44e5-b46b-af0146f3a79f',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  chapter: 'File Handling',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=6 existing questions loaded
+[generation] batch adjusted: { chapter: 'File Handling', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'd98e91c8-9340-44e5-b46b-af0146f3a79f',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'File Handling',
+  canonical_unit: 'Section B1: Computer Science',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="File Handling" unit="Section B1: Computer Science" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'computer_science',
+  prompt_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'File Handling',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'computer_science',
+  expected_chapter: 'File Handling',
+  canonical_unit: 'Section B1: Computer Science',
+  concept_id: 'computer_science::file_handling',
+  pyq_anchor_id: 'synthetic_cuet_structure_computer_science',
+  anchor_tier: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 19910,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Statement I: Opening a file in read mode allows for both reading and writing operations. Statement II: A file must be closed after operations to ensure data integrity. Which statement is correct?","o":["Statement I is correct, Statement II is correct.","Statement I is incorrect, Statement II is correct.","Both statements are incorrect.","Both statements are correct."],"a":"B","d":"medium|hard","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"unique_snake_case_tag","explanation":"Opening a file in read mode restricts operations to reading only, while closing a file is crucial for data integrity.","subject":"computer_science","public_subject":"computer_science","chapter":"File Handling","topic":"Section B1: Computer Science","concept":"File Handling","concept_id":"computer_science::file_handling","pyq_anchor_id":"synthetic_cuet_structure_computer_science","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"Assertion: Files opened in write mode can overwrite existing data. Reason: Write mode does not allow reading the file content. Identify the validity of the assertion and reason.","o":["Both assertion and reason are true, and the reason explains the assertion.","The assertion is true, but the reason is false.","Both assertion and reason are false.","The assertion is false, but the reason is true."],"a":"A","d":"medium|hard","difficulty_weight":2,"question_type":"assertion_reason","concept_pattern":"unique_snake_case_tag","explanation":"While files in write mode do overwrite data, the reason provided incorrectly states that reading is not allowed, which is misleading.","subject":"computer_science","public_subject":"computer_science","chapter":"File Handling","topic":"Section B1: Computer Science","concept":"File Handling","concept_id":"computer_science::file_handling","pyq_anchor_id":"synthetic_cuet_structure_computer_science","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"In a scenario where a programmer opens a file to log error messages but forgets to close it after writing, what consequence might arise? Which option best describes the situation?","o":["Data might not be saved properly due to unclosed file buffers.","The program will crash immediately after writing.","The error messages will be lost entirely without any record.","There will be no impact on the logging process at all."],"a":"A","d":"medium|hard","difficulty_weight":2,"question_type":"case_based","concept_pattern":"unique_snake_case_tag","explanation":"Not closing a file can lead to issues with buffered data not being written to disk properly, risking loss of information.","subject":"computer_science","public_subject":"computer_science","chapter":"File Handling","topic":"Section B1: Computer Science","concept":"File Handling","concept_id":"computer_science::file_handling","pyq_anchor_id":"synthetic_cuet_structure_computer_science","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"When comparing text files and binary files in terms of data representation, which statement correctly identifies their primary difference?","o":["Text files store data as readable characters while binary files store data in raw binary format.","Binary files can only be opened for reading, while text files can be opened for both reading and writing.","Text files are larger in size compared to binary files for similar content.","Both file types use the same encoding methods for data storage."],"a":"A","d":"medium|hard","difficulty_weight":2,"question_type":"comparison_based","concept_pattern":"unique_snake_case_tag","explanation":"Text files are designed to store human-readable data, while binary files store data in a format that requires specific encoding or decoding processes.","subject":"computer_science","public_subject":"computer_science","chapter":"File Handling","topic":"Section B1: Computer Science","concept":"File Handling","concept_id":"computer_science::file_handling","pyq_anchor_id":"synthetic_cuet_structure_computer_science","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 4
+[llm] openai_generation success gpt-4o-mini count=3
+[pipeline] RAW_PARSED_COUNT 4
+[pipeline] NORMALIZED_COUNT 3
+[pipeline] generated_count=3 | mix=easy=0, medium=3, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 3
+[reject] {
+  subject: 'computer_science',
+  chapter: 'File Handling',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=3 | pre_validation_filtered=1 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=0.0%
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T19:48:30.246Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"computer_science","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'computer_science',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'computer_science',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 11330,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'computer_science',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "HIGH",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 9,
+    "distractor_quality": 8,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "textbook_style",
+      "direct recall stem",
+      "low trap quality",
+      "conceptual_depth < 7"
+    ],
+    "score": 5,
+    "exam_quality": 4,
+    "distractor_quality": 4,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The question is a direct definition of file types",
+      "Lacks competitive depth required for CUET"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "obvious answer",
+      "low trap quality",
+      "conceptual_depth < 7"
+    ],
+    "score": 4,
+    "exam_quality": 3,
+    "distractor_quality": 3,
+    "conceptual_depth": 4,
+    "textbook_style": false,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Statement I is too simple and obviously false",
+      "Statement II is a common-sense fact in programming",
+      "No reasoning required to reach the answer"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T19:48:41.578Z","model":"gemini-3-flash","subject":"computer_science","resultCount":3}
+[reject] {
+  subject: 'computer_science',
+  chapter: 'File Handling',
+  reason: 'obvious answer; low trap quality; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; validator marked non-CUET alignment',
+  source: 'validator_normalized',
+  rule: 'obvious answer',
+  details: {
+    compositeScore: 43,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 3, hard: 0 },
+  system: { easy: 0, medium: 3, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 3
+[pipeline] validated_count=3 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 3
+[pipeline] selected_count=3 | FINAL DISTRIBUTION: {"easy":0,"medium":3,"hard":0}
+✅ Published 6f1d9bde-30f7-4ef3-8d1e-0ef4d491ad7a | status=live | difficulty=medium | discoverable=true
+✅ Published 91cda9db-c3ed-4b66-8e07-b4ea6eef565d | status=live | difficulty=medium | discoverable=true
+✅ Published b84bd2a5-41d2-4929-90d7-b10307f8ca63 | status=live | difficulty=medium | discoverable=true
+[pipeline] METRICS | generated_count=3 | prefiltered_count=3 | strict_validation_count=3 | accepted_count=3 | api_calls_used=2 | cost_efficiency_ratio=1.50
+[pipeline] SUMMARY | subject=computer_science | chapter=File Handling | target=5 | generated_count=3 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=1 | strict_validation_count=3 | validated_count=3 | accepted_count=3 | shortfall=2 | yield_rate=100.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=3, hard=0
+[pipeline] subject_distribution: {"subject":"computer_science","accepted":3,"rejected":2,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=6391 | total_cost=$0.0017 | cost_per_accepted=$0.0006 | cost_per_1000=$0.55 | total_accepted=3
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'computer_science',
+  chapter: 'File Handling',
+  sample_size: 9,
+  direct_definition_count: 0,
+  weak_option_count: 5,
+  repeated_structure_count: 0,
+  easy_count: 0,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'dd6ac722-a1a5-4019-b3b6-f17a7486477f',
+    'b42daf66-fa68-4d6a-922e-6b52627334e3',
+    '779cb3ff-60f5-4226-a66c-828dbc3d80c8',
+    '28046209-410c-43d7-98d6-10f4306d1c5f',
+    '10eb278c-0ec8-4324-951e-e3b3cd1ee929',
+    '0043183a-5e3c-4ff8-ad2e-95ba188ab019',
+    'd6872c64-c20c-4847-9b0b-755e9533b963',
+    '5cc87429-2ccd-4aeb-a7f0-3091157f3c11',
+    'b831f1ca-d943-4aa9-b75e-910f7c32b6ba'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'dd6ac722-a1a5-4019-b3b6-f17a7486477f',
+  actual_subject: 'economics',
+  actual_chapter: 'Money & Banking',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 6,
+  subject_question_count: 303,
+  created_at: '2026-04-30T19:48:08.974899+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'economics',
+  chapter: 'Money & Banking',
+  count: 6,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'economics', chapter: 'Money & Banking', count: 6 }
+
+[JOB dd6ac722] Starting: [economics] Money & Banking
+[worker] RECEIVED_JOB: {
+  job_id: 'dd6ac722-a1a5-4019-b3b6-f17a7486477f',
+  expected_subject: 'economics',
+  expected_chapter: 'Money & Banking',
+  raw_subject_id: 'economics',
+  raw_chapter: 'Money & Banking',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:48:08.974899+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'dd6ac722-a1a5-4019-b3b6-f17a7486477f',
+  expected_subject: 'economics',
+  resolved_subject_id: 'economics',
+  resolved_subject_name: 'Economics / Business Economics',
+  chapter: 'Money & Banking',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=6 existing questions loaded
+[generation] batch adjusted: { chapter: 'Money & Banking', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'dd6ac722-a1a5-4019-b3b6-f17a7486477f',
+  expected_subject: 'economics',
+  resolved_subject_id: 'economics',
+  resolved_subject_name: 'Economics / Business Economics',
+  expected_chapter: 'Money & Banking',
+  canonical_unit: 'Introductory Macroeconomics',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Money & Banking" unit="Introductory Macroeconomics" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'economics',
+  prompt_subject_name: 'Economics / Business Economics',
+  expected_chapter: 'Money & Banking',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'economics',
+  expected_chapter: 'Money & Banking',
+  canonical_unit: 'Introductory Macroeconomics',
+  concept_id: 'economics::money_and_banking',
+  pyq_anchor_id: 'structure_only_seed_pyq_e2_for_economics::money_and_banking',
+  anchor_tier: 3,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'economics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'economics',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 19096,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'economics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"During a discussion on the role of money in an economy, a student states that money serves only as a medium of exchange. Which option best highlights an additional function of money?","o":["Money also acts as a store of value.","Money is solely a unit of account.","Money can be used only for trade.","Money does not have any intrinsic value."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"application_based","concept_pattern":"economics::money_and_banking","subject":"economics","public_subject":"economics","chapter":"Money & Banking","topic":"Introductory Macroeconomics","concept":"Money & Banking","concept_id":"economics::money_and_banking","pyq_anchor_id":"structure_only_seed_pyq_e2_for_economics::money_and_banking","anchor_tier":3},{"q":"Comparing the functions of money and credit, which statement correctly differentiates their roles in an economy?","o":["Money is used for immediate transactions, while credit allows delayed payments.","Both money and credit serve the same function in facilitating trade.","Credit is more valuable than money in all situations.","Money can only be physical currency, while credit is intangible."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"comparison_based","concept_pattern":"economics::money_and_banking","subject":"economics","public_subject":"economics","chapter":"Money & Banking","topic":"Introductory Macroeconomics","concept":"Money & Banking","concept_id":"economics::money_and_banking","pyq_anchor_id":"structure_only_seed_pyq_e2_for_economics::money_and_banking","anchor_tier":3},{"q":"Statement I: Money is essential for the functioning of modern economies. Statement II: Money only facilitates transactions and has no impact on economic growth. Which statement is correct?","o":["Only Statement I is correct.","Only Statement II is correct.","Both statements are correct.","Neither statement is correct."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"economics::money_and_banking","subject":"economics","public_subject":"economics","chapter":"Money & Banking","topic":"Introductory Macroeconomics","concept":"Money & Banking","concept_id":"economics::money_and_banking","pyq_anchor_id":"structure_only_seed_pyq_e2_for_economics::money_and_banking","anchor_tier":3},{"q":"Assertion: The central bank controls the money supply to stabilize the economy. Reason: A higher money supply always leads to inflation. Evaluate the truth of both statements.","o":["Both assertion and reason are true, and the reason explains the assertion.","The assertion is true, but the reason is false.","The assertion is false, but the reason is true.","Both assertion and reason are false."],"a":"B","d":"medium","difficulty_weight":2,"question_type":"assertion_reason","concept_pattern":"economics::money_and_banking","subject":"economics","public_subject":"economics","chapter":"Money & Banking","topic":"Introductory Macroeconomics","concept":"Money & Banking","concept_id":"economics::money_and_banking","pyq_anchor_id":"structure_only_seed_pyq_e2_for_economics::money_and_banking","anchor_tier":3},{"q":"In a case where a small business struggles due to lack of access to banking services, which option best explains how banking can assist in this situation?","o":["Banking provides loans that can help businesses expand operations.","Banking restricts access to funds for small businesses.","Banking services are irrelevant for business growth.","Banking only benefits large corporations."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"case_based","concept_pattern":"economics::money_and_banking","subject":"economics","public_subject":"economics","chapter":"Money & Banking","topic":"Introductory Macroeconomics","concept":"Money & Banking","concept_id":"economics::money_and_banking","pyq_anchor_id":"structure_only_seed_pyq_e2_for_economics::money_and_banking","anchor_tier":3}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=3
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 3
+[pipeline] generated_count=3 | mix=easy=0, medium=3, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 3
+[reject] {
+  subject: 'economics',
+  chapter: 'Money & Banking',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=3 | pre_validation_filtered=1 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=0.0%
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T19:49:19.370Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"economics","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'economics',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'economics',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 9955,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'economics',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "obvious answer",
+      "conceptual depth < 7",
+      "textbook style"
+    ],
+    "score": 3,
+    "exam_quality": 3,
+    "distractor_quality": 2,
+    "conceptual_depth": 4,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Distractors are nonsensical and provide no challenge",
+      "Scenario is too generic for a case-based question"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "obvious answer",
+      "conceptual depth < 7",
+      "textbook style"
+    ],
+    "score": 4,
+    "exam_quality": 3,
+    "distractor_quality": 3,
+    "conceptual_depth": 4,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "hard",
+    "issues": [
+      "Statement II is factually absurd, making the choice obvious",
+      "Lacks the analytical rigor expected in CUET statement-based items"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "obvious answer",
+      "conceptual depth < 7",
+      "textbook style"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 2,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Distractors B and D are too weak to be plausible",
+      "Direct recall of functional definitions rather than application"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T19:49:29.327Z","model":"gemini-3-flash","subject":"economics","resultCount":3}
+[reject] {
+  subject: 'economics',
+  chapter: 'Money & Banking',
+  reason: 'low trap quality; obvious answer; conceptual depth < 7; textbook style; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 31,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'economics',
+  chapter: 'Money & Banking',
+  reason: 'low trap quality; obvious answer; conceptual depth < 7; textbook style; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 31,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'economics',
+  chapter: 'Money & Banking',
+  reason: 'low trap quality; obvious answer; conceptual depth < 7; textbook style; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 30,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 3, hard: 0 },
+  system: { easy: 0, medium: 2, hard: 1 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 3
+[pipeline] validated_count=3 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 3
+[pipeline] selected_count=3 | FINAL DISTRIBUTION: {"easy":0,"medium":2,"hard":1}
+✅ Published 5e657ad7-1902-4173-84fa-c9ee762813c4 | status=live | difficulty=medium | discoverable=true
+✅ Published 5318e49f-ba9a-40fc-af7e-098c6bb58f6d | status=live | difficulty=medium | discoverable=true
+✅ Published ef60fb72-1d5d-453b-aac1-fefdf000bd20 | status=live | difficulty=hard | discoverable=true
+[pipeline] METRICS | generated_count=3 | prefiltered_count=3 | strict_validation_count=3 | accepted_count=3 | api_calls_used=2 | cost_efficiency_ratio=1.50
+[pipeline] SUMMARY | subject=economics | chapter=Money & Banking | target=5 | generated_count=3 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=1 | strict_validation_count=3 | validated_count=3 | accepted_count=3 | shortfall=2 | yield_rate=100.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=2, hard=1
+[pipeline] subject_distribution: {"subject":"economics","accepted":3,"rejected":4,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=12763 | total_cost=$0.0033 | cost_per_accepted=$0.0006 | cost_per_1000=$0.55 | total_accepted=6
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'economics',
+  chapter: 'Money & Banking',
+  sample_size: 9,
+  direct_definition_count: 0,
+  weak_option_count: 3,
+  repeated_structure_count: 0,
+  easy_count: 0,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'b42daf66-fa68-4d6a-922e-6b52627334e3',
+    '779cb3ff-60f5-4226-a66c-828dbc3d80c8',
+    '28046209-410c-43d7-98d6-10f4306d1c5f',
+    '10eb278c-0ec8-4324-951e-e3b3cd1ee929',
+    '0043183a-5e3c-4ff8-ad2e-95ba188ab019',
+    'd6872c64-c20c-4847-9b0b-755e9533b963',
+    '5cc87429-2ccd-4aeb-a7f0-3091157f3c11',
+    'b831f1ca-d943-4aa9-b75e-910f7c32b6ba'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'b42daf66-fa68-4d6a-922e-6b52627334e3',
+  actual_subject: 'mathematics',
+  actual_chapter: 'Differential Equations',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 6,
+  subject_question_count: 316,
+  created_at: '2026-04-30T19:48:08.974899+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'mathematics',
+  chapter: 'Differential Equations',
+  count: 6,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'mathematics', chapter: 'Differential Equations', count: 6 }
+
+[JOB b42daf66] Starting: [mathematics] Differential Equations
+[worker] RECEIVED_JOB: {
+  job_id: 'b42daf66-fa68-4d6a-922e-6b52627334e3',
+  expected_subject: 'mathematics',
+  expected_chapter: 'Differential Equations',
+  raw_subject_id: 'mathematics',
+  raw_chapter: 'Differential Equations',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:48:08.974899+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'b42daf66-fa68-4d6a-922e-6b52627334e3',
+  expected_subject: 'mathematics',
+  resolved_subject_id: 'mathematics',
+  resolved_subject_name: 'Mathematics / Applied Mathematics',
+  chapter: 'Differential Equations',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=6 existing questions loaded
+[generation] batch adjusted: { chapter: 'Differential Equations', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'b42daf66-fa68-4d6a-922e-6b52627334e3',
+  expected_subject: 'mathematics',
+  resolved_subject_id: 'mathematics',
+  resolved_subject_name: 'Mathematics / Applied Mathematics',
+  expected_chapter: 'Differential Equations',
+  canonical_unit: 'Calculus',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Differential Equations" unit="Calculus" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'mathematics',
+  prompt_subject_name: 'Mathematics / Applied Mathematics',
+  expected_chapter: 'Differential Equations',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'mathematics',
+  expected_chapter: 'Differential Equations',
+  canonical_unit: 'Calculus',
+  concept_id: 'mathematics::differential_equations',
+  pyq_anchor_id: 'structure_only_seed_pyq_m1_for_mathematics::differential_equations',
+  anchor_tier: 3,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'mathematics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'mathematics',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 34949,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'mathematics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"A company is analyzing its production rates over time, which can be modeled by a differential equation. If the production rate is expected to increase proportionally to the current output, which type of differential equation best describes this situation?","o":["Linear differential equation","Non-linear differential equation","Homogeneous differential equation","Inhomogeneous differential equation"],"a":"A","d":"medium|hard","difficulty_weight":2,"question_type":"application_based","concept_pattern":"unique_snake_case_tag","explanation":"The situation describes a direct proportionality, indicating a linear relationship in the differential equation.","subject":"mathematics","public_subject":"mathematics","chapter":"Differential Equations","topic":"Calculus","concept":"Differential Equations","concept_id":"mathematics::differential_equations","pyq_anchor_id":"structure_only_seed_pyq_m1_for_mathematics::differential_equations","anchor_tier":3,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"Comparing first-order and second-order differential equations, which statement accurately reflects their primary differences?","o":["First-order equations involve one derivative and are simpler to solve than second-order equations.","Second-order equations can only model physical systems, while first-order cannot.","First-order equations always have unique solutions, whereas second-order do not.","Second-order equations involve two derivatives and can describe more complex behaviors than first-order equations."],"a":"D","d":"medium|hard","difficulty_weight":2,"question_type":"comparison_based","concept_pattern":"unique_snake_case_tag","explanation":"The correct option highlights the complexity and capability of second-order equations over first-order ones.","subject":"mathematics","public_subject":"mathematics","chapter":"Differential Equations","topic":"Calculus","concept":"Differential Equations","concept_id":"mathematics::differential_equations","pyq_anchor_id":"structure_only_seed_pyq_m1_for_mathematics::differential_equations","anchor_tier":3,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"Statement I: Differential equations can be used to model population growth over time. Statement II: All differential equations have solutions that can be expressed in closed form. Which of the following statements is correct?","o":["Only Statement I is correct.","Only Statement II is correct.","Both statements are correct.","Neither statement is correct."],"a":"A","d":"medium|hard","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"unique_snake_case_tag","explanation":"Population growth can indeed be modeled using differential equations, but not all such equations have closed-form solutions.","subject":"mathematics","public_subject":"mathematics","chapter":"Differential Equations","topic":"Calculus","concept":"Differential Equations","concept_id":"mathematics::differential_equations","pyq_anchor_id":"structure_only_seed_pyq_m1_for_mathematics::differential_equations","anchor_tier":3,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"Assertion: The solution to a linear differential equation can always be found using integrating factors. Reason: Integrating factors are applicable only to non-linear equations. Which of the following is true?","o":["Both assertion and reason are true, and the reason correctly explains the assertion.","Both assertion and reason are true, but the reason does not explain the assertion.","The assertion is true, but the reason is false.","The assertion is false, but the reason is true."],"a":"C","d":"medium|hard","difficulty_weight":2,"question_type":"assertion_reason","concept_pattern":"unique_snake_case_tag","explanation":"While the assertion about integrating factors is correct for linear equations, the reasoning provided incorrectly limits their applicability.","subject":"mathematics","public_subject":"mathematics","chapter":"Differential Equations","topic":"Calculus","concept":"Differential Equations","concept_id":"mathematics::differential_equations","pyq_anchor_id":"structure_only_seed_pyq_m1_for_mathematics::differential_equations","anchor_tier":3,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"A researcher models the cooling of a hot object in a room using Newton's Law of Cooling, which involves a first-order linear differential equation. If the room temperature remains constant, what can be inferred about the behavior of the object's temperature over time? Select the best inference from the options below: ","o":["The object's temperature will eventually equal room temperature at some point in time.","The object's temperature will decrease exponentially towards room temperature over time.","The object's temperature will oscillate around room temperature indefinitely.","The object's temperature will remain constant at its initial value."],"a":"B","d":"medium|hard","difficulty_weight":2,"question_type":"case_based","concept_pattern":"unique_snake_case_tag","explanation":"Newton's Law of Cooling indicates that an object's temperature decreases exponentially towards ambient conditions when they are constant.","subject":"mathematics","public_subject":"mathematics","chapter":"Differential Equations","topic":"Calculus","concept":"Differential Equations","concept_id":"mathematics::differential_equations","pyq_anchor_id":"structure_only_seed_pyq_m1_for_mathematics::differential_equations","anchor_tier":3,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=2
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 2
+[pipeline] generated_count=2 | mix=easy=0, medium=2, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 2
+[pipeline] after_chapter_filter=2 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=2 | sent_for_strict_validation=2 | validator_load_reduction=0.0%
+[pipeline] Starting batch validation for 2 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=2
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T19:50:22.736Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"mathematics","questionCount":2}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'mathematics',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'mathematics',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 10318,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'mathematics',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "OVERLAPPING",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "conceptual_depth < 7",
+      "textbook_style",
+      "option_quality != CLEAN"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 4,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "easy",
+    "issues": [
+      "The equation dP/dt = kP is both linear and homogeneous, making options A and C technically correct and confusing."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "HIGH",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 9,
+    "distractor_quality": 9,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 2
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T19:50:33.056Z","model":"gemini-3-flash","subject":"mathematics","resultCount":2}
+[reject] {
+  subject: 'mathematics',
+  chapter: 'Differential Equations',
+  reason: 'low trap quality; conceptual_depth < 7; textbook_style; option_quality != CLEAN; ambiguous options; validator score below threshold; exam quality below threshold; distractor quality below threshold',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 18,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'OVERLAPPING'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 2, hard: 0 },
+  system: { easy: 1, medium: 1, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 2
+[pipeline] validated_count=2 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 2
+[pipeline] selected_count=2 | FINAL DISTRIBUTION: {"easy":1,"medium":1,"hard":0}
+✅ Published 3b2b02e1-2614-4d8f-b666-8daa87c3fbb0 | status=live | difficulty=easy | discoverable=true
+✅ Published 4d577d6d-f4a8-473d-8028-862c325a4ae1 | status=live | difficulty=medium | discoverable=true
+[pipeline] METRICS | generated_count=2 | prefiltered_count=2 | strict_validation_count=2 | accepted_count=2 | api_calls_used=2 | cost_efficiency_ratio=1.00
+[pipeline] SUMMARY | subject=mathematics | chapter=Differential Equations | target=5 | generated_count=2 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=2 | validated_count=2 | accepted_count=2 | shortfall=3 | yield_rate=100.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=1, medium=1, hard=0
+[pipeline] subject_distribution: {"subject":"mathematics","accepted":2,"rejected":1,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=19091 | total_cost=$0.0050 | cost_per_accepted=$0.0006 | cost_per_1000=$0.62 | total_accepted=8
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'mathematics',
+  chapter: 'Differential Equations',
+  sample_size: 8,
+  direct_definition_count: 0,
+  weak_option_count: 1,
+  repeated_structure_count: 0,
+  easy_count: 6,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '779cb3ff-60f5-4226-a66c-828dbc3d80c8',
+    '28046209-410c-43d7-98d6-10f4306d1c5f',
+    '10eb278c-0ec8-4324-951e-e3b3cd1ee929',
+    '0043183a-5e3c-4ff8-ad2e-95ba188ab019',
+    'd6872c64-c20c-4847-9b0b-755e9533b963',
+    '5cc87429-2ccd-4aeb-a7f0-3091157f3c11',
+    'b831f1ca-d943-4aa9-b75e-910f7c32b6ba'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '779cb3ff-60f5-4226-a66c-828dbc3d80c8',
+  actual_subject: 'mathematics',
+  actual_chapter: 'Inverse Trigonometric Functions',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 6,
+  subject_question_count: 318,
+  created_at: '2026-04-30T19:48:08.974899+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'mathematics',
+  chapter: 'Inverse Trigonometric Functions',
+  count: 6,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'mathematics',
+  chapter: 'Inverse Trigonometric Functions',
+  count: 6
+}
+
+[JOB 779cb3ff] Starting: [mathematics] Inverse Trigonometric Functions
+[worker] RECEIVED_JOB: {
+  job_id: '779cb3ff-60f5-4226-a66c-828dbc3d80c8',
+  expected_subject: 'mathematics',
+  expected_chapter: 'Inverse Trigonometric Functions',
+  raw_subject_id: 'mathematics',
+  raw_chapter: 'Inverse Trigonometric Functions',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:48:08.974899+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '779cb3ff-60f5-4226-a66c-828dbc3d80c8',
+  expected_subject: 'mathematics',
+  resolved_subject_id: 'mathematics',
+  resolved_subject_name: 'Mathematics / Applied Mathematics',
+  chapter: 'Inverse Trigonometric Functions',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=6 existing questions loaded
+[generation] batch adjusted: { chapter: 'Inverse Trigonometric Functions', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '779cb3ff-60f5-4226-a66c-828dbc3d80c8',
+  expected_subject: 'mathematics',
+  resolved_subject_id: 'mathematics',
+  resolved_subject_name: 'Mathematics / Applied Mathematics',
+  expected_chapter: 'Inverse Trigonometric Functions',
+  canonical_unit: 'Relations and Functions',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Inverse Trigonometric Functions" unit="Relations and Functions" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'mathematics',
+  prompt_subject_name: 'Mathematics / Applied Mathematics',
+  expected_chapter: 'Inverse Trigonometric Functions',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'mathematics',
+  expected_chapter: 'Inverse Trigonometric Functions',
+  canonical_unit: 'Relations and Functions',
+  concept_id: 'mathematics::inverse_trigonometric_functions',
+  pyq_anchor_id: 'structure_only_seed_pyq_m1_for_mathematics::inverse_trigonometric_functions',
+  anchor_tier: 3,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'mathematics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'mathematics',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 29795,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'mathematics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"A student is trying to find the value of \\( \\sin^{-1}(0.5) \\). Which of the following values correctly represents this inverse trigonometric function?","o":["\\( \\frac{\\pi}{6} \\)","\\( \\frac{\\pi}{3} \\)","\\( \\frac{\\pi}{2} \\)","\\( 0 \\)"],"a":"A","d":"medium|hard","difficulty_weight":2,"question_type":"application_based","concept_pattern":"inverse_trigonometric_functions","explanation":"The correct value of \\( \\sin^{-1}(0.5) \\) is \\( \\frac{\\pi}{6} \\).","subject":"mathematics","public_subject":"mathematics","chapter":"Inverse Trigonometric Functions","topic":"Relations and Functions","concept":"Inverse Trigonometric Functions","concept_id":"mathematics::inverse_trigonometric_functions","pyq_anchor_id":"structure_only_seed_pyq_m1_for_mathematics::inverse_trigonometric_functions","anchor_tier":3,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"When comparing the functions \\( y = \\sin^{-1}(x) \\) and \\( y = \\cos^{-1}(x) \\), which statement remains valid regarding their ranges?","o":["Both have a range from 0 to 1.","Both have a range from 0 to \\( \\frac{\\pi}{2} \\).","The range of \\( y = \\sin^{-1}(x) \\) is from -\\( \\frac{\\pi}{2} \\) to \\( \\frac{\\pi}{2} \\), while that of \\( y = \\cos^{-1}(x) \\) is from 0 to \\( \\pi \\).","The range of both functions is from -\\( 1 \\) to 1."],"a":"C","d":"medium|hard","difficulty_weight":2,"question_type":"comparison_based","concept_pattern":"inverse_trigonometric_functions","explanation":"The ranges differ significantly between these two inverse functions.","subject":"mathematics","public_subject":"mathematics","chapter":"Inverse Trigonometric Functions","topic":"Relations and Functions","concept":"Inverse Trigonometric Functions","concept_id":"mathematics::inverse_trigonometric_functions","pyq_anchor_id":"structure_only_seed_pyq_m1_for_mathematics::inverse_trigonometric_functions","anchor_tier":3,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"Statement I: The function \\( y = tan^{-1}(x) + cot^{-1}(x) = \\frac{\\pi}{2} \\). Statement II: The function is defined for all real numbers. Which of the following statements is correct?","o":["Only Statement I is correct.","Only Statement II is correct.","Both statements are correct.","Neither statement is correct."],"a":"C","d":"medium|hard","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"inverse_trigonometric_functions","explanation":"Both statements accurately describe properties of the inverse trigonometric functions involved.","subject":"mathematics","public_subject":"mathematics","chapter":"Inverse Trigonometric Functions","topic":"Relations and Functions","concept":"Inverse Trigonometric Functions","concept_id":"mathematics::inverse_trigonometric_functions","pyq_anchor_id":"structure_only_seed_pyq_m1_for_mathematics::inverse_trigonometric_functions","anchor_tier":3,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"Assertion: The function \\( y = sin^{-1}(x) + cos^{-1}(x) = 1 \\, radian. \nReason: The sum of inverse sine and cosine functions equals one radian for all x in their domain.","o":["Both assertion and reason are true, and the reason correctly explains the assertion.","Both assertion and reason are true, but the reason does not explain the assertion.","The assertion is true, but the reason is false.","The assertion is false, but the reason is true."],"a":"B","d":"medium|hard","difficulty_weight":2,"question_type":"assertion_reason","concept_pattern":"inverse_trigonometric_functions","explanation":"The assertion about the sum being one radian is incorrect; it should be equal to half pi radians instead.","subject":"mathematics","public_subject":"mathematics","chapter":"Inverse Trigonometric Functions","topic":"Relations and Functions","concept":"Inverse Trigonometric Functions","concept_id":"mathematics::inverse_trigonometric_functions","pyq_anchor_id":"structure_only_seed_pyq_m1_for_mathematics::inverse_trigonometric_functions","anchor_tier":3,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"In a practical scenario, a student calculates the angle whose sine value is 0.707. What would be the best approach for determining this angle using inverse trigonometric functions? Identify the correct procedure from the options below.","o":["Use the formula: angle = sin^{-1}(0.707). Calculate directly without checking ranges.","First check if sine values are in the valid range for inverse functions before applying sin^{-1}. Then calculate accordingly.","Use cosine's property to find the angle without using sine function at all.","Simply assume that the angle must be 45 degrees based on common knowledge."],"a":"B","d":"medium|hard","difficulty_weight":2,"question_type":"case_based","concept_pattern":"inverse_trigonometric_functions","explanation":"'B' emphasizes validating input before computing inverse values, ensuring accuracy in results.","subject":"mathematics","public_subject":"mathematics","chapter":"Inverse Trigonometric Functions","topic":"Relations and Functions","concept":"Inverse Trigonometric Functions","concept_id":"mathematics::inverse_trigonometric_functions","pyq_anchor_id":"structure_only_seed_pyq_m1_for_mathematics::inverse_trigonometric_functions","anchor_tier":3,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=4
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 4
+[pipeline] generated_count=4 | mix=easy=0, medium=4, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 4
+[pipeline] after_chapter_filter=4 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=4 | sent_for_strict_validation=4 | validator_load_reduction=0.0%
+[pipeline] Starting batch validation for 4 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=4
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T19:51:21.333Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"mathematics","questionCount":4}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'mathematics',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'mathematics',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 13111,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'mathematics',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "direct recall stem",
+      "low trap quality",
+      "too easy compared to PYQs",
+      "conceptual_depth < 7"
+    ],
+    "score": 3,
+    "exam_quality": 3,
+    "distractor_quality": 2,
+    "conceptual_depth": 2,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "easy",
+    "issues": [
+      "Too simple for a competitive exam",
+      "Direct calculation without any application"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "obvious answer",
+      "low trap quality",
+      "textbook_style",
+      "conceptual_depth < 7"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 4,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "easy",
+    "issues": [
+      "Scenario is artificial",
+      "Options are not mathematically rigorous distractors"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CONFUSING",
+    "subject_consistency": "WRONG",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "subject_consistency wrong",
+      "factually incorrect",
+      "low trap quality",
+      "conceptual_depth < 7"
+    ],
+    "score": 2,
+    "exam_quality": 2,
+    "distractor_quality": 2,
+    "conceptual_depth": 3,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Mathematical identity is sin^{-1}(x) + cos^{-1}(x) = pi/2, not 1 radian",
+      "Answer key provided contradicts mathematical fact"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 3,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "direct recall",
+      "low trap quality",
+      "obvious answer",
+      "conceptual_depth < 7"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 4,
+    "conceptual_depth": 3,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "easy",
+    "issues": [
+      "Purely a memory-based question on definitions",
+      "Lack of conceptual application"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 4
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T19:51:34.447Z","model":"gemini-3-flash","subject":"mathematics","resultCount":4}
+[reject] {
+  subject: 'mathematics',
+  chapter: 'Inverse Trigonometric Functions',
+  reason: 'direct recall stem; low trap quality; too easy compared to PYQs; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'direct recall stem',
+  details: {
+    compositeScore: 30,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'mathematics',
+  chapter: 'Inverse Trigonometric Functions',
+  reason: 'direct recall; low trap quality; obvious answer; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'direct recall',
+  details: {
+    compositeScore: 31,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'mathematics',
+  chapter: 'Inverse Trigonometric Functions',
+  reason: 'subject_consistency wrong; factually incorrect; low trap quality; conceptual_depth < 7; confusing options; subject mismatch; validator score below threshold; exam quality below threshold',
+  source: 'validator_normalized',
+  rule: 'subject_consistency wrong',
+  details: {
+    compositeScore: 0,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CONFUSING'
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'mathematics',
+  chapter: 'Inverse Trigonometric Functions',
+  reason: 'obvious answer; low trap quality; textbook_style; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'obvious answer',
+  details: {
+    compositeScore: 28,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 4, hard: 0 },
+  system: { easy: 3, medium: 1, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 4
+[pipeline] validated_count=4 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 4
+[pipeline] selected_count=4 | FINAL DISTRIBUTION: {"easy":3,"medium":1,"hard":0}
+✅ Published 4dd4d696-c24e-4cf6-bb17-adb05f6c576c | status=live | difficulty=easy | discoverable=true
+✅ Published 97d47922-f555-4dbf-9ffd-fa3f5c4d308a | status=live | difficulty=easy | discoverable=true
+✅ Published ff432d3b-95ee-4827-808f-7416cf82ffd2 | status=live | difficulty=medium | discoverable=true
+✅ Published 23832365-80bb-44bb-9cce-4dda7056d7d8 | status=live | difficulty=easy | discoverable=true
+[pipeline] METRICS | generated_count=4 | prefiltered_count=4 | strict_validation_count=4 | accepted_count=4 | api_calls_used=2 | cost_efficiency_ratio=2.00
+[pipeline] SUMMARY | subject=mathematics | chapter=Inverse Trigonometric Functions | target=5 | generated_count=4 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=4 | validated_count=4 | accepted_count=4 | shortfall=1 | yield_rate=100.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=3, medium=1, hard=0
+[pipeline] subject_distribution: {"subject":"mathematics","accepted":4,"rejected":4,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=26667 | total_cost=$0.0071 | cost_per_accepted=$0.0006 | cost_per_1000=$0.59 | total_accepted=12
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'mathematics',
+  chapter: 'Inverse Trigonometric Functions',
+  sample_size: 10,
+  direct_definition_count: 0,
+  weak_option_count: 2,
+  repeated_structure_count: 0,
+  easy_count: 4,
+  feedback_count: 0
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '28046209-410c-43d7-98d6-10f4306d1c5f',
+    '10eb278c-0ec8-4324-951e-e3b3cd1ee929',
+    '0043183a-5e3c-4ff8-ad2e-95ba188ab019',
+    'd6872c64-c20c-4847-9b0b-755e9533b963',
+    '5cc87429-2ccd-4aeb-a7f0-3091157f3c11',
+    'b831f1ca-d943-4aa9-b75e-910f7c32b6ba'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '28046209-410c-43d7-98d6-10f4306d1c5f',
+  actual_subject: 'political_science',
+  actual_chapter: 'Alternative Centres of Power',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 6,
+  subject_question_count: 223,
+  created_at: '2026-04-30T19:48:08.974899+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'political_science',
+  chapter: 'Alternative Centres of Power',
+  count: 6,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'political_science',
+  chapter: 'Alternative Centres of Power',
+  count: 6
+}
+
+[JOB 28046209] Starting: [political_science] Alternative Centres of Power
+[worker] RECEIVED_JOB: {
+  job_id: '28046209-410c-43d7-98d6-10f4306d1c5f',
+  expected_subject: 'political_science',
+  expected_chapter: 'Alternative Centres of Power',
+  raw_subject_id: 'political_science',
+  raw_chapter: 'Alternative Centres of Power',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:48:08.974899+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '28046209-410c-43d7-98d6-10f4306d1c5f',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  chapter: 'Alternative Centres of Power',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=6 existing questions loaded
+[generation] batch adjusted: { chapter: 'Alternative Centres of Power', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '28046209-410c-43d7-98d6-10f4306d1c5f',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  expected_chapter: 'Alternative Centres of Power',
+  canonical_unit: 'Contemporary World Politics',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Alternative Centres of Power" unit="Contemporary World Politics" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'political_science',
+  prompt_subject_name: 'Political Science',
+  expected_chapter: 'Alternative Centres of Power',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'political_science',
+  expected_chapter: 'Alternative Centres of Power',
+  canonical_unit: 'Contemporary World Politics',
+  concept_id: 'political_science::alternative_centres_of_power',
+  pyq_anchor_id: 'synthetic_cuet_structure_political_science',
+  anchor_tier: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 18128,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"In a discussion about global power dynamics, a student argues that emerging economies like India and Brazil are reshaping international relations. Which statement best supports this idea?","o":["Emerging economies are becoming significant players in global governance.","Emerging economies do not influence international relations as much as established powers.","Emerging economies rely entirely on foreign aid for their development.","Established powers have no interest in collaborating with emerging economies."],"a":"A","d":"medium|hard","difficulty_weight":2,"question_type":"application_based","concept_pattern":"political_science::alternative_centres_of_power","subject":"political_science","public_subject":"political_science","chapter":"Alternative Centres of Power","topic":"Contemporary World Politics","concept":"Alternative Centres of Power","concept_id":"political_science::alternative_centres_of_power","pyq_anchor_id":"synthetic_cuet_structure_political_science","anchor_tier":4},{"q":"Comparing the roles of regional organizations like the EU and ASEAN, which statement accurately reflects their differences in power dynamics?","o":["The EU has legislative power while ASEAN focuses on consensus-building.","ASEAN has more regulatory authority than the EU in trade agreements.","Both organizations operate under similar governance structures and objectives.","The EU primarily addresses security issues, whereas ASEAN focuses solely on economic cooperation."],"a":"A","d":"medium|hard","difficulty_weight":2,"question_type":"comparison_based","concept_pattern":"political_science::alternative_centres_of_power","subject":"political_science","public_subject":"political_science","chapter":"Alternative Centres of Power","topic":"Contemporary World Politics","concept":"Alternative Centres of Power","concept_id":"political_science::alternative_centres_of_power","pyq_anchor_id":"synthetic_cuet_structure_political_science","anchor_tier":4},{"q":"Statement I: Non-state actors play a crucial role in contemporary global politics. Statement II: State actors are becoming irrelevant in international relations. Which option correctly evaluates these statements?","o":["Both statements are correct and reflect current trends in global politics.","Only Statement I is correct; Statement II exaggerates the decline of state actors.","Both statements are incorrect; state actors remain dominant in global politics.","Only Statement II is correct; non-state actors lack significant influence."],"a":"B","d":"medium|hard","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"political_science::alternative_centres_of_power","subject":"political_science","public_subject":"political_science","chapter":"Alternative Centres of Power","topic":"Contemporary World Politics","concept":"Alternative Centres of Power","concept_id":"political_science::alternative_centres_of_power","pyq_anchor_id":"synthetic_cuet_structure_political_science","anchor_tier":4},{"q":"Assertion: The rise of multiple power centres contributes to a more balanced world order. Reason: This diversity allows for greater representation of various interests. Evaluate the truth of both statements.","o":["Both Assertion and Reason are true, and the Reason correctly explains the Assertion.","The Assertion is true, but the Reason is false as it oversimplifies complex dynamics.","The Assertion is false, but the Reason is true; representation is not necessarily balanced.","Both Assertion and Reason are false; multiple power centres lead to chaos."],"a":"A","d":"medium|hard","difficulty_weight":2,"question_type":"assertion_reason","concept_pattern":"political_science::alternative_centres_of_power","subject":"political_science","public_subject":"political_science","chapter":"Alternative Centres of Power","topic":"Contemporary World Politics","concept":"Alternative Centres of Power","concept_id":"political_science::alternative_centres_of_power","pyq_anchor_id":"synthetic_cuet_structure_political_science","anchor_tier":4},{"q":"In a recent debate on international relations, a participant claims that alternative centres of power disrupt traditional alliances. Which option best supports or contradicts this claim?","o":["Alternative centres can lead to new collaborations beyond traditional alliances.","They only create conflicts without any positive outcomes for international relations.","Traditional alliances remain unaffected by the emergence of alternative centres of power.","They completely replace traditional alliances with no room for cooperation."],"a":"A","d":"medium|hard","difficulty_weight":2,"question_type":"case_based","concept_pattern":"political_science::alternative_centres_of_power","subject":"political_science","public_subject":"political_science","chapter":"Alternative Centres of Power","topic":"Contemporary World Politics","concept":"Alternative Centres of Power","concept_id":"political_science::alternative_centres_of_power","pyq_anchor_id":"synthetic_cuet_structure_political_science","anchor_tier":4}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=2
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 2
+[pipeline] generated_count=2 | mix=easy=0, medium=2, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 2
+[pipeline] after_chapter_filter=2 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=2 | sent_for_strict_validation=2 | validator_load_reduction=0.0%
+[pipeline] Starting batch validation for 2 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=2
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T19:52:11.190Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"political_science","questionCount":2}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'political_science',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'political_science',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 14874,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'political_science',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CONFUSING",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "non-standard option format for assertion-reason",
+      "low trap quality",
+      "anchor phrasing reused",
+      "fewer than 2 options plausibly attractive to a partially prepared student"
+    ],
+    "score": 5,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The Assertion-Reason format in CUET follows a specific 4-point logical relationship structure (Both true/R is explanation, etc.). The provided options mix the logic into the text of the options, which is non-standard.",
+      "The options are not clean and act as prompts themselves."
+    ],
+    "decision": "reject",
+    "improved_question": "Assertion: The European Union transitioned from an economic union to an increasingly political one. Reason: It started to act more like a nation-state by having its own flag, anthem, and common foreign policy. Options: (A) Both A and R are true and R is the correct explanation of A. (B) Both A and R are true but R is NOT the correct explanation of A. (C) A is true but R is false. (D) A is false but R is true."
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CONFUSING",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "non-standard option format for statement-based",
+      "obvious answer",
+      "low trap quality",
+      "textbook style"
+    ],
+    "score": 4,
+    "exam_quality": 3,
+    "distractor_quality": 2,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Statement II contains an extreme word 'irrelevant' which makes the answer too obvious for a competitive exam.",
+      "Option format deviates from the standard CUET Statement I/II structure.",
+      "Conceptual depth is below the required threshold of 7."
+    ],
+    "decision": "reject",
+    "improved_question": "Statement I: The ASEAN Way is a form of interaction that is informal and cooperative. Statement II: The ASEAN Regional Forum (ARF) was established to coordinate security and foreign policy. Options: (A) Both Statement I and Statement II are correct. (B) Both Statement I and Statement II are incorrect. (C) Statement I is correct but Statement II is incorrect. (D) Statement I is incorrect but Statement II is correct."
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 2
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T19:52:26.068Z","model":"gemini-3-flash","subject":"political_science","resultCount":2}
+[reject] {
+  subject: 'political_science',
+  chapter: 'Alternative Centres of Power',
+  reason: 'non-standard option format for statement-based; obvious answer; low trap quality; textbook style; confusing options; validator score below threshold; exam quality below threshold; distractor quality below threshold',
+  source: 'validator_normalized',
+  rule: 'non-standard option format for statement-based',
+  details: {
+    compositeScore: 13,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CONFUSING'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 2, hard: 0 },
+  system: { easy: 0, medium: 2, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 2
+[pipeline] validated_count=2 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 2
+[pipeline] selected_count=2 | FINAL DISTRIBUTION: {"easy":0,"medium":2,"hard":0}
+✅ Published 7d040652-ffc7-4604-831b-6ed12d2c5cba | status=live | difficulty=medium | discoverable=true
+✅ Published 5e77d9bb-e5b3-4552-843f-0859a110e6f3 | status=live | difficulty=medium | discoverable=true
+[pipeline] METRICS | generated_count=2 | prefiltered_count=2 | strict_validation_count=2 | accepted_count=2 | api_calls_used=2 | cost_efficiency_ratio=1.00
+[pipeline] SUMMARY | subject=political_science | chapter=Alternative Centres of Power | target=5 | generated_count=2 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=2 | validated_count=2 | accepted_count=2 | shortfall=3 | yield_rate=100.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=2, hard=0
+[pipeline] subject_distribution: {"subject":"political_science","accepted":2,"rejected":1,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=33174 | total_cost=$0.0089 | cost_per_accepted=$0.0006 | cost_per_1000=$0.63 | total_accepted=14
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'political_science',
+  chapter: 'Alternative Centres of Power',
+  sample_size: 8,
+  direct_definition_count: 0,
+  weak_option_count: 4,
+  repeated_structure_count: 0,
+  easy_count: 3,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '10eb278c-0ec8-4324-951e-e3b3cd1ee929',
+    '0043183a-5e3c-4ff8-ad2e-95ba188ab019',
+    'd6872c64-c20c-4847-9b0b-755e9533b963',
+    '5cc87429-2ccd-4aeb-a7f0-3091157f3c11',
+    'b831f1ca-d943-4aa9-b75e-910f7c32b6ba'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '0043183a-5e3c-4ff8-ad2e-95ba188ab019',
+  actual_subject: 'political_science',
+  actual_chapter: 'Era of One-Party Dominance',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 6,
+  subject_question_count: 225,
+  created_at: '2026-04-30T19:48:08.974899+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'political_science',
+  chapter: 'Era of One-Party Dominance',
+  count: 6,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'political_science',
+  chapter: 'Era of One-Party Dominance',
+  count: 6
+}
+
+[JOB 0043183a] Starting: [political_science] Era of One-Party Dominance
+[worker] RECEIVED_JOB: {
+  job_id: '0043183a-5e3c-4ff8-ad2e-95ba188ab019',
+  expected_subject: 'political_science',
+  expected_chapter: 'Era of One-Party Dominance',
+  raw_subject_id: 'political_science',
+  raw_chapter: 'Era of One-Party Dominance',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:48:08.974899+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '0043183a-5e3c-4ff8-ad2e-95ba188ab019',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  chapter: 'Era of One-Party Dominance',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=6 existing questions loaded
+[generation] batch adjusted: { chapter: 'Era of One-Party Dominance', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '0043183a-5e3c-4ff8-ad2e-95ba188ab019',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  expected_chapter: 'Era of One-Party Dominance',
+  canonical_unit: 'Politics in India Since Independence',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Era of One-Party Dominance" unit="Politics in India Since Independence" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'political_science',
+  prompt_subject_name: 'Political Science',
+  expected_chapter: 'Era of One-Party Dominance',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'political_science',
+  expected_chapter: 'Era of One-Party Dominance',
+  canonical_unit: 'Politics in India Since Independence',
+  concept_id: 'political_science::era_of_one_party_dominance',
+  pyq_anchor_id: 'synthetic_cuet_structure_political_science',
+  anchor_tier: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 23075,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Statement I: The Congress Party dominated Indian politics during the Era of One-Party Dominance. Statement II: This dominance was characterized by the complete absence of opposition parties. Which option correctly identifies the truth of these statements?","o":["Statement I is correct, Statement II is incorrect.","Both statements are correct.","Statement I is incorrect, Statement II is correct.","Both statements are incorrect."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"political_science::era_of_one_party_dominance","subject":"political_science","public_subject":"political_science","chapter":"Era of One-Party Dominance","topic":"Politics in India Since Independence","concept":"Era of One-Party Dominance","concept_id":"political_science::era_of_one_party_dominance","pyq_anchor_id":"synthetic_cuet_structure_political_science","anchor_tier":4},{"q":"Assertion: The Era of One-Party Dominance in India was marked by significant electoral successes for the Congress Party. Reason: This period saw a lack of viable alternatives to Congress in many states. Evaluate the correctness of both the assertion and reason.","o":["Both assertion and reason are true, and the reason supports the assertion.","The assertion is true but the reason is false.","The assertion is false but the reason is true.","Both assertion and reason are false."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"assertion_reason","concept_pattern":"political_science::era_of_one_party_dominance","subject":"political_science","public_subject":"political_science","chapter":"Era of One-Party Dominance","topic":"Politics in India Since Independence","concept":"Era of One-Party Dominance","concept_id":"political_science::era_of_one_party_dominance","pyq_anchor_id":"synthetic_cuet_structure_political_science","anchor_tier":4},{"q":"In a historical analysis, it is noted that during the Era of One-Party Dominance, the Congress Party faced minimal competition. How does this scenario illustrate the concept of political dominance?","o":["It shows that political dominance leads to a stable government without opposition.","It indicates that political dominance can occur even with some level of opposition.","It highlights that political dominance often results in a lack of representation for diverse opinions.","It suggests that political dominance guarantees electoral success without effort."],"a":"C","d":"medium","difficulty_weight":2,"question_type":"case_based","concept_pattern":"political_science::era_of_one_party_dominance","subject":"political_science","public_subject":"political_science","chapter":"Era of One-Party Dominance","topic":"Politics in India Since Independence","concept":"Era of One-Party Dominance","concept_id":"political_science::era_of_one_party_dominance","pyq_anchor_id":"synthetic_cuet_structure_political_science","anchor_tier":4},{"q":"During the Era of One-Party Dominance, some argue that it fostered political stability. However, critics claim it suppressed democratic processes. Which inference aligns best with this debate?","o":["Political stability can exist alongside democratic suppression.","Political dominance inherently leads to instability in governance.","Democratic processes were enhanced during this period despite dominance.","Political stability was achieved without any compromise on democratic values."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"application_based","concept_pattern":"political_science::era_of_one_party_dominance","subject":"political_science","public_subject":"political_science","chapter":"Era of One-Party Dominance","topic":"Politics in India Since Independence","concept":"Era of One-Party Dominance","concept_id":"political_science::era_of_one_party_dominance","pyq_anchor_id":"synthetic_cuet_structure_political_science","anchor_tier":4},{"q":"Comparing the Era of One-Party Dominance to a multi-party system, which statement accurately reflects their differences?","o":["One-party dominance often leads to limited political choices compared to a multi-party system.","Multi-party systems typically result in stronger governmental control than one-party systems.","One-party systems provide greater representation than multi-party systems.","Multi-party systems guarantee more stability than one-party dominance."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"comparison_based","concept_pattern":"political_science::era_of_one_party_dominance","subject":"political_science","public_subject":"political_science","chapter":"Era of One-Party Dominance","topic":"Politics in India Since Independence","concept":"Era of One-Party Dominance","concept_id":"political_science::era_of_one_party_dominance","pyq_anchor_id":"synthetic_cuet_structure_political_science","anchor_tier":4}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=5
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 5
+[pipeline] generated_count=5 | mix=easy=0, medium=5, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 5
+[reject] {
+  subject: 'political_science',
+  chapter: 'Era of One-Party Dominance',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'political_science',
+  chapter: 'Era of One-Party Dominance',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=5 | pre_validation_filtered=2 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=40.0%
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T19:53:06.792Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"political_science","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'political_science',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'political_science',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 12071,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'political_science',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "obvious answer",
+      "conceptual_depth < 7"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 4,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The question attempts to be case-based but is a simple factual inquiry",
+      "Option C is conceptually weak as NCERT highlights Congress was inclusive, not non-representative"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "obvious answer",
+      "too similar to anchor"
+    ],
+    "score": 3,
+    "exam_quality": 3,
+    "distractor_quality": 2,
+    "conceptual_depth": 4,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Assertion and Reason are direct textbook sentences with no cognitive load",
+      "Does not meet the conceptual depth required for competitive screening"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "direct recall",
+      "obvious answer"
+    ],
+    "score": 3,
+    "exam_quality": 3,
+    "distractor_quality": 2,
+    "conceptual_depth": 3,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Statement II contains a hyperbolic distractor (complete absence) making the answer too obvious",
+      "Fails to test the 'Era' nuances like the coalition nature of Congress"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T19:53:18.865Z","model":"gemini-3-flash","subject":"political_science","resultCount":3}
+[reject] {
+  subject: 'political_science',
+  chapter: 'Era of One-Party Dominance',
+  reason: 'low trap quality; direct recall; obvious answer; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 30,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'political_science',
+  chapter: 'Era of One-Party Dominance',
+  reason: 'low trap quality; obvious answer; too similar to anchor; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 30,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'political_science',
+  chapter: 'Era of One-Party Dominance',
+  reason: 'low trap quality; obvious answer; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 31,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 3, hard: 0 },
+  system: { easy: 0, medium: 3, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 3
+[pipeline] validated_count=3 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 3
+[pipeline] selected_count=3 | FINAL DISTRIBUTION: {"easy":0,"medium":3,"hard":0}
+✅ Published ea3c3d4d-cb50-4199-81ba-c48b2fb0e239 | status=live | difficulty=medium | discoverable=true
+✅ Published 01ddc566-d410-417d-bbf0-9daf7a943ada | status=live | difficulty=medium | discoverable=true
+✅ Published 271fefce-4321-4f9f-a148-415a2e165bd3 | status=live | difficulty=medium | discoverable=true
+[pipeline] METRICS | generated_count=5 | prefiltered_count=3 | strict_validation_count=3 | accepted_count=3 | api_calls_used=2 | cost_efficiency_ratio=1.50
+[pipeline] SUMMARY | subject=political_science | chapter=Era of One-Party Dominance | target=5 | generated_count=5 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=2 | strict_validation_count=3 | validated_count=3 | accepted_count=3 | shortfall=2 | yield_rate=60.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=3, hard=0
+[pipeline] subject_distribution: {"subject":"political_science","accepted":3,"rejected":5,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=40000 | total_cost=$0.0107 | cost_per_accepted=$0.0006 | cost_per_1000=$0.63 | total_accepted=17
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'political_science',
+  chapter: 'Era of One-Party Dominance',
+  sample_size: 9,
+  direct_definition_count: 0,
+  weak_option_count: 3,
+  repeated_structure_count: 0,
+  easy_count: 5,
+  feedback_count: 2
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '10eb278c-0ec8-4324-951e-e3b3cd1ee929',
+    'd6872c64-c20c-4847-9b0b-755e9533b963',
+    '5cc87429-2ccd-4aeb-a7f0-3091157f3c11',
+    'b831f1ca-d943-4aa9-b75e-910f7c32b6ba'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '10eb278c-0ec8-4324-951e-e3b3cd1ee929',
+  actual_subject: 'political_science',
+  actual_chapter: 'Challenges to & Restoration of the Congress System',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 6,
+  subject_question_count: 228,
+  created_at: '2026-04-30T19:48:08.974899+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'political_science',
+  chapter: 'Challenges to & Restoration of the Congress System',
+  count: 6,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'political_science',
+  chapter: 'Challenges to & Restoration of the Congress System',
+  count: 6
+}
+
+[JOB 10eb278c] Starting: [political_science] Challenges to & Restoration of the Congress System
+[worker] RECEIVED_JOB: {
+  job_id: '10eb278c-0ec8-4324-951e-e3b3cd1ee929',
+  expected_subject: 'political_science',
+  expected_chapter: 'Challenges to & Restoration of the Congress System',
+  raw_subject_id: 'political_science',
+  raw_chapter: 'Challenges to & Restoration of the Congress System',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:48:08.974899+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '10eb278c-0ec8-4324-951e-e3b3cd1ee929',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  chapter: 'Challenges to & Restoration of the Congress System',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=6 existing questions loaded
+[generation] batch adjusted: {
+  chapter: 'Challenges to & Restoration of the Congress System',
+  generate_count: 5
+}
+[worker] GENERATION_INPUT: {
+  job_id: '10eb278c-0ec8-4324-951e-e3b3cd1ee929',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  expected_chapter: 'Challenges to & Restoration of the Congress System',
+  canonical_unit: 'Politics in India Since Independence',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Challenges to & Restoration of the Congress System" unit="Politics in India Since Independence" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'political_science',
+  prompt_subject_name: 'Political Science',
+  expected_chapter: 'Challenges to & Restoration of the Congress System',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'political_science',
+  expected_chapter: 'Challenges to & Restoration of the Congress System',
+  canonical_unit: 'Politics in India Since Independence',
+  concept_id: 'political_science::challenges_to_and_restoration_of_the_congress_system',
+  pyq_anchor_id: 'synthetic_cuet_structure_political_science',
+  anchor_tier: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}

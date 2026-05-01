@@ -1,0 +1,1924 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5964 concepts across 40 subjects (saved 2026-04-30T21:57:26.353Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'accountancy',
+  chapter: 'Change in Profit Sharing Ratio',
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Communication Technologies',
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'File Handling',
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Money & Banking',
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Vocabulary',
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'geography',
+  chapter: 'Geographical Perspective on Selected Issues and Problems',
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'mathematics',
+  chapter: 'Integrals',
+  coverage: 9,
+  priority: 90
+}
+[planner] { subject: 'physics', chapter: 'Atoms', coverage: 9, priority: 90 }
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: accountancy → normalized: accountancy → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: economics → normalized: economics → tier: 1
+Subject: english → normalized: english → tier: 1
+Subject: geography → normalized: geography → tier: 1
+Subject: mathematics → normalized: mathematics → tier: 1
+Subject: physics → normalized: physics → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Isolation of Elements',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'accountancy',
+    expected_chapter: 'Change in Profit Sharing Ratio',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Coordination Compounds',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Communication Technologies',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'File Handling',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Money & Banking',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Vocabulary',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'geography',
+    expected_chapter: 'Geographical Perspective on Selected Issues and Problems',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'mathematics',
+    expected_chapter: 'Integrals',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'physics',
+    expected_chapter: 'Atoms',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'chemistry',
+    chapter: 'Isolation of Elements',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'accountancy',
+    chapter: 'Change in Profit Sharing Ratio',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'Coordination Compounds',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Communication Technologies',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'File Handling',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'economics',
+    chapter: 'Money & Banking',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'english',
+    chapter: 'Vocabulary',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'geography',
+    chapter: 'Geographical Perspective on Selected Issues and Problems',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'mathematics',
+    chapter: 'Integrals',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'physics',
+    chapter: 'Atoms',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: 'f46aa117-eeef-47c3-a2a6-6d370414a4c3',
+    subject_id: 'chemistry',
+    chapter: 'Isolation of Elements',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:58:27.277007+00:00'
+  },
+  {
+    id: 'aef14f1a-7a76-408b-bc3a-ce4e49627c98',
+    subject_id: 'accountancy',
+    chapter: 'Change in Profit Sharing Ratio',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:58:27.277007+00:00'
+  },
+  {
+    id: '25ba9e17-cd97-4200-9ae4-5118ac9f2257',
+    subject_id: 'chemistry',
+    chapter: 'Coordination Compounds',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:58:27.277007+00:00'
+  },
+  {
+    id: '568069ab-7ef7-4456-a4d0-7397b18190c9',
+    subject_id: 'computer_science',
+    chapter: 'Communication Technologies',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:58:27.277007+00:00'
+  },
+  {
+    id: '7c22239b-89c8-4a71-bf4f-984493dacb57',
+    subject_id: 'computer_science',
+    chapter: 'File Handling',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:58:27.277007+00:00'
+  },
+  {
+    id: '20d07606-e04e-4131-9195-8d7239549b89',
+    subject_id: 'economics',
+    chapter: 'Money & Banking',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:58:27.277007+00:00'
+  },
+  {
+    id: '589311f8-e268-4420-b0de-da5ffe6ddf74',
+    subject_id: 'english',
+    chapter: 'Vocabulary',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:58:27.277007+00:00'
+  },
+  {
+    id: '1fab056d-2ab6-4aa3-ba83-4b3d00942e53',
+    subject_id: 'geography',
+    chapter: 'Geographical Perspective on Selected Issues and Problems',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:58:27.277007+00:00'
+  },
+  {
+    id: '5a6f808f-4323-4604-bf8c-8cba9f11903d',
+    subject_id: 'mathematics',
+    chapter: 'Integrals',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:58:27.277007+00:00'
+  },
+  {
+    id: '7357b503-15a9-4c46-949f-8c4d84ad38a8',
+    subject_id: 'physics',
+    chapter: 'Atoms',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:58:27.277007+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: 'f46aa117-eeef-47c3-a2a6-6d370414a4c3',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Isolation of Elements',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'aef14f1a-7a76-408b-bc3a-ce4e49627c98',
+    expected_subject: 'accountancy',
+    expected_chapter: 'Change in Profit Sharing Ratio',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '25ba9e17-cd97-4200-9ae4-5118ac9f2257',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Coordination Compounds',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '568069ab-7ef7-4456-a4d0-7397b18190c9',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Communication Technologies',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '7c22239b-89c8-4a71-bf4f-984493dacb57',
+    expected_subject: 'computer_science',
+    expected_chapter: 'File Handling',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '20d07606-e04e-4131-9195-8d7239549b89',
+    expected_subject: 'economics',
+    expected_chapter: 'Money & Banking',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '589311f8-e268-4420-b0de-da5ffe6ddf74',
+    expected_subject: 'english',
+    expected_chapter: 'Vocabulary',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '1fab056d-2ab6-4aa3-ba83-4b3d00942e53',
+    expected_subject: 'geography',
+    expected_chapter: 'Geographical Perspective on Selected Issues and Problems',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '5a6f808f-4323-4604-bf8c-8cba9f11903d',
+    expected_subject: 'mathematics',
+    expected_chapter: 'Integrals',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '7357b503-15a9-4c46-949f-8c4d84ad38a8',
+    expected_subject: 'physics',
+    expected_chapter: 'Atoms',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'f46aa117-eeef-47c3-a2a6-6d370414a4c3',
+    'aef14f1a-7a76-408b-bc3a-ce4e49627c98',
+    '25ba9e17-cd97-4200-9ae4-5118ac9f2257',
+    '568069ab-7ef7-4456-a4d0-7397b18190c9',
+    '7c22239b-89c8-4a71-bf4f-984493dacb57',
+    '20d07606-e04e-4131-9195-8d7239549b89',
+    '589311f8-e268-4420-b0de-da5ffe6ddf74',
+    '1fab056d-2ab6-4aa3-ba83-4b3d00942e53',
+    '5a6f808f-4323-4604-bf8c-8cba9f11903d',
+    '7357b503-15a9-4c46-949f-8c4d84ad38a8'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'f46aa117-eeef-47c3-a2a6-6d370414a4c3',
+  actual_subject: 'chemistry',
+  actual_chapter: 'Isolation of Elements',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 319,
+  created_at: '2026-04-30T21:58:27.277007+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'chemistry', chapter: 'Isolation of Elements', count: 8 }
+
+[JOB f46aa117] Starting: [chemistry] Isolation of Elements
+[worker] RECEIVED_JOB: {
+  job_id: 'f46aa117-eeef-47c3-a2a6-6d370414a4c3',
+  expected_subject: 'chemistry',
+  expected_chapter: 'Isolation of Elements',
+  raw_subject_id: 'chemistry',
+  raw_chapter: 'Isolation of Elements',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:58:27.277007+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'f46aa117-eeef-47c3-a2a6-6d370414a4c3',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  chapter: 'Isolation of Elements',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Isolation of Elements', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'f46aa117-eeef-47c3-a2a6-6d370414a4c3',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  expected_chapter: 'Isolation of Elements',
+  canonical_unit: 'Existing Chemistry Coverage',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Isolation of Elements" unit="Existing Chemistry Coverage" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'chemistry',
+  prompt_subject_name: 'Chemistry',
+  expected_chapter: 'Isolation of Elements',
+  requested_count: 5,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::isolation_of_elements',
+  selected_anchor_id: 'structured_chemistry_isolation_of_elements_1',
+  selected_anchor_concept_id: 'chemistry::isolation_of_elements',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'application_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'chemistry',
+  expected_chapter: 'Isolation of Elements',
+  canonical_unit: 'Existing Chemistry Coverage',
+  concept_id: 'chemistry::isolation_of_elements',
+  pyq_anchor_id: 'structured_chemistry_isolation_of_elements_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 19901,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: The process of roasting is essential for extracting metals from sulfide ores. Statement II: Smelting is a reduction process that often requires a flux to remove impurities. Statement III: Roasting and smelting can occur simultaneously in certain extraction methods.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"chemistry::isolation_of_elements","trap_option":"D","strong_distractors":["B","C"],"why_not_textbook":"The statements require understanding of the processes involved in metallurgy rather than mere definitions.","why_cuet_level":"This question tests comprehension of metallurgical processes, which is essential for CUET level.","distractor_rationale":{"A":"Both statements accurately describe distinct steps in metallurgy relevant to sulfide ore processing.","B":"While both statements are true, they do not directly connect to each other as required by the question.","C":"This option incorrectly implies that roasting can happen without smelting, which is not always the case.","D":"This option suggests all statements are interdependent, which overlooks their individual roles."}},{"q":"Assertion: The use of carbon in reducing metal oxides is common due to its availability. Reason: Carbon can effectively reduce metal oxides at high temperatures but may not be suitable for all metals. Which option correctly evaluates these statements?","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, while Reason is false because carbon is universally applicable.","Assertion is false, while Reason is true as carbon's effectiveness varies."],"a":"A","question_type":"assertion_reason","concept_id":"chemistry::isolation_of_elements","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The focus here is on reasoning behind extraction methods rather than definitions or basic facts.","why_cuet_level":"This question assesses critical thinking about metallurgical processes relevant to CUET standards.","distractor_rationale":{"A":"The reason clarifies why carbon's use is conditional based on metal type, supporting the assertion.","B":"This option misinterprets the relationship between assertion and reason; they are indeed connected.","C":"This option inaccurately claims universal applicability of carbon in reduction processes.","D":"This option wrongly states that carbon's role is irrelevant, ignoring its significance in metallurgy."}},{"q":"Statement I: Electrolytic reduction can extract metals from their ores when other methods fail. Statement II: This method requires significant energy input but yields pure metals. Statement III: Electrolytic extraction is less effective for metals with low reactivity compared to traditional methods. Choose the correct evaluation of these statements.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"chemistry::isolation_of_elements","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The evaluation demands an understanding of when electrolytic reduction is preferable over other methods.","why_cuet_level":"This question challenges students' grasp of different extraction techniques in chemistry relevant for CUET.","distractor_rationale":{"A":"Both statements highlight key aspects of electrolytic reduction's effectiveness in metallurgy.","B":"While both statements are true, they incorrectly suggest an interdependence not present in the context given.","C":"This option incorrectly states that electrolytic reduction is less effective for low reactivity metals without context.","D":"This option mistakenly assumes all statements are equally valid without recognizing their specific applications."}},{"q":"Read the statements below and identify the correct option: Statement I: Concentration by hydraulic washing separates ore based on density differences. Statement II: Magnetic separation relies on magnetic properties, which can vary among different ores. Statement III: Both methods are equally effective regardless of ore type. Which combination reflects accurate understanding?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"chemistry::isolation_of_elements","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The focus is on understanding separation techniques rather than simple definitions of terms used.","why_cuet_level":"This question tests comprehension of physical separation methods relevant to CUET standards.","distractor_rationale":{"A":"Both methods utilize distinct principles that apply differently depending on ore characteristics.","B":"This option incorrectly suggests that statement II contradicts statement I without recognizing their contexts.","C":"This option wrongly asserts equivalence between two methods without considering their specific applications in metallurgy.","D":"This option misrepresents statement I as invalid when it accurately describes a valid separation technique."}},{"q":"Assertion: The presence of impurities in ores can significantly affect metal extraction efficiency. Reason: Impurities often require additional processing steps to ensure purity of extracted metals. Choose the best evaluation of these assertions.","o":["Both Assertion and Reason are true, with Reason explaining Assertion effectively.","Both Assertion and Reason are true, but Reason does not explain Assertion well enough.","Assertion is true; however, Reason fails as it suggests unnecessary complexity in extraction processes.","Assertion is false; thus, Reason cannot be evaluated."],"a":"A","question_type":"assertion_reason","concept_id":"chemistry::isolation_of_elements","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The evaluation requires deeper insight into how impurities influence extraction rather than basic definitions or facts.","why_cuet_level":"This question examines students' analytical skills regarding factors affecting metallurgy relevant for CUET level assessment.","distractor_rationale":{"A":"The reasoning provided supports the assertion by highlighting the impact of impurities on processing steps needed for purity.","B":"This response misinterprets the connection between assertion and reason; they relate closely in this context.","C":"This option downplays the significance of impurities by suggesting simpler extraction methods exist without them.","D":"This incorrectly states that assertion cannot be true since it overlooks how impurities genuinely affect extraction efficiency."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=5
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 5
+[pipeline] generated_count=5 | mix=easy=0, medium=5, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 5
+[pipeline] after_chapter_filter=5 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=5 | sent_for_strict_validation=5 | validator_load_reduction=0.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [
+    'structured_chemistry_isolation_of_elements_1',
+    'structured_chemistry_isolation_of_elements_1',
+    'structured_chemistry_isolation_of_elements_1',
+    'structured_chemistry_isolation_of_elements_1',
+    'structured_chemistry_isolation_of_elements_1'
+  ],
+  anchor_source_quality: [
+    'manual_seed',
+    'manual_seed',
+    'manual_seed',
+    'manual_seed',
+    'manual_seed'
+  ],
+  fallback_used: false,
+  selfcheck_passed: 5,
+  sent_to_validator: 5
+}
+[pipeline] Starting batch validation for 5 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=5
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T21:58:48.496Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"chemistry","questionCount":5}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 18640,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [
+      "textbook style",
+      "conceptual depth < 7",
+      "low trap quality",
+      "anchor phrasing reused"
+    ],
+    "score": 5,
+    "exam_quality": 5,
+    "distractor_quality": 5,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The reason provided is a limitation of carbon reduction rather than an explanation for its common usage based on availability."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "direct definition",
+      "low trap quality",
+      "textbook style",
+      "conceptual depth < 7"
+    ],
+    "score": 3,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 3,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Question is a direct recall of basic definitions of hydraulic washing and magnetic separation."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "textbook style",
+      "conceptual depth < 7",
+      "low trap quality"
+    ],
+    "score": 4,
+    "exam_quality": 5,
+    "distractor_quality": 4,
+    "conceptual_depth": 4,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Statements are too generic and lack specific chemical application or numerical constraints found in CUET."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 3,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "obvious answer",
+      "textbook style",
+      "conceptual depth < 7",
+      "low trap quality"
+    ],
+    "score": 2,
+    "exam_quality": 3,
+    "distractor_quality": 2,
+    "conceptual_depth": 2,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The logic is common sense (impurities require cleaning) and does not require subject-specific chemical knowledge."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 4,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [
+      "direct definition",
+      "textbook style",
+      "conceptual depth < 7"
+    ],
+    "score": 5,
+    "exam_quality": 6,
+    "distractor_quality": 5,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Statement I and II are fundamental textbook definitions; Statement III is actually true in copper smelting but excluded from the answer, creating confusion."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T21:59:07.202Z","model":"gemini-3-flash","subject":"chemistry","resultCount":5}
+[pipeline] validator_rejected {
+  score: 5,
+  exam_quality: 6,
+  distractor_quality: 5,
+  conceptual_depth: 5,
+  trap_quality: 'MEDIUM',
+  rule: 'direct definition'
+}
+[reject] {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'direct definition; textbook style; conceptual depth < 7; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording; validator decision reject',
+  source: 'validator_normalized',
+  rule: 'direct definition',
+  details: {
+    compositeScore: 66,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_rejected {
+  score: 5,
+  exam_quality: 5,
+  distractor_quality: 5,
+  conceptual_depth: 5,
+  trap_quality: 'MEDIUM',
+  rule: 'textbook style'
+}
+[reject] {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'textbook style; conceptual depth < 7; low trap quality; anchor phrasing reused; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording',
+  source: 'validator_normalized',
+  rule: 'textbook style',
+  details: {
+    compositeScore: 66,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_rejected {
+  score: 4,
+  exam_quality: 5,
+  distractor_quality: 4,
+  conceptual_depth: 4,
+  trap_quality: 'LOW',
+  rule: 'textbook style'
+}
+[reject] {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'textbook style; conceptual depth < 7; low trap quality; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording',
+  source: 'validator_normalized',
+  rule: 'textbook style',
+  details: {
+    compositeScore: 44,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_rejected {
+  score: 3,
+  exam_quality: 4,
+  distractor_quality: 3,
+  conceptual_depth: 3,
+  trap_quality: 'LOW',
+  rule: 'direct definition'
+}
+[reject] {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'direct definition; low trap quality; textbook style; conceptual depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'direct definition',
+  details: {
+    compositeScore: 30,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_rejected {
+  score: 2,
+  exam_quality: 3,
+  distractor_quality: 2,
+  conceptual_depth: 2,
+  trap_quality: 'LOW',
+  rule: 'obvious answer'
+}
+[reject] {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'obvious answer; textbook style; conceptual depth < 7; low trap quality; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'obvious answer',
+  details: {
+    compositeScore: 29,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 0, hard: 0 },
+  system: { easy: 0, medium: 0, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 0
+[pipeline] validated_count=0 | acceptance_rate=0.0%
+[pipeline] FINAL_ACCEPTED_COUNT 0
+[pipeline] selected_count=0 | FINAL DISTRIBUTION: {"easy":0,"medium":0,"hard":0}
+[draft] Saved 6ca643b2-b4f4-4c8b-a5fe-39b605295cc1 | reason=validator_rejected_all:direct definition;textbook style;conceptual depth < 7;exam quality below threshold;distractor quality below threshold;conceptual depth below CUET reasoning threshold;direct textbook-style wording;validator decision reject
+[draft] Saved 1b20252b-69e2-4afb-9451-e48083e28422 | reason=validator_rejected_all:direct definition;textbook style;conceptual depth < 7;exam quality below threshold;distractor quality below threshold;conceptual depth below CUET reasoning threshold;direct textbook-style wording;validator decision reject
+[draft] Saved 09eec56a-9982-4a78-bc89-cf319d14f0d8 | reason=validator_rejected_all:direct definition;textbook style;conceptual depth < 7;exam quality below threshold;distractor quality below threshold;conceptual depth below CUET reasoning threshold;direct textbook-style wording;validator decision reject
+[draft] Saved b43b7ab6-4c4f-42c4-9636-ba1a4a2fa5a3 | reason=validator_rejected_all:direct definition;textbook style;conceptual depth < 7;exam quality below threshold;distractor quality below threshold;conceptual depth below CUET reasoning threshold;direct textbook-style wording;validator decision reject
+[draft] Saved c7f522c1-3dc0-428f-8e46-60cca15859f9 | reason=validator_rejected_all:direct definition;textbook style;conceptual depth < 7;exam quality below threshold;distractor quality below threshold;conceptual depth below CUET reasoning threshold;direct textbook-style wording;validator decision reject
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 5,
+  draft_candidates: 5,
+  publish_count: 0
+}
+[pipeline] METRICS | generated_count=5 | prefiltered_count=5 | strict_validation_count=5 | accepted_count=0 | api_calls_used=2 | cost_efficiency_ratio=0.00
+[pipeline] SUMMARY | subject=chemistry | chapter=Isolation of Elements | target=5 | generated_count=5 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=5 | validated_count=0 | accepted_count=0 | draft_count=5 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=0, hard=0
+[pipeline] subject_distribution: {"subject":"chemistry","accepted":0,"rejected":5,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=6967 | total_cost=$0.0021 | cost_per_accepted=$0.0000 | cost_per_1000=$0.00 | total_accepted=0
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  sample_size: 13,
+  direct_definition_count: 0,
+  weak_option_count: 6,
+  repeated_structure_count: 0,
+  easy_count: 5,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'aef14f1a-7a76-408b-bc3a-ce4e49627c98',
+    '25ba9e17-cd97-4200-9ae4-5118ac9f2257',
+    '568069ab-7ef7-4456-a4d0-7397b18190c9',
+    '7c22239b-89c8-4a71-bf4f-984493dacb57',
+    '20d07606-e04e-4131-9195-8d7239549b89',
+    '589311f8-e268-4420-b0de-da5ffe6ddf74',
+    '1fab056d-2ab6-4aa3-ba83-4b3d00942e53',
+    '5a6f808f-4323-4604-bf8c-8cba9f11903d',
+    '7357b503-15a9-4c46-949f-8c4d84ad38a8'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'aef14f1a-7a76-408b-bc3a-ce4e49627c98',
+  actual_subject: 'accountancy',
+  actual_chapter: 'Change in Profit Sharing Ratio',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 9,
+  subject_question_count: 1478,
+  created_at: '2026-04-30T21:58:27.277007+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'accountancy',
+  chapter: 'Change in Profit Sharing Ratio',
+  count: 9,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'accountancy',
+  chapter: 'Change in Profit Sharing Ratio',
+  count: 9
+}
+
+[JOB aef14f1a] Starting: [accountancy] Change in Profit Sharing Ratio
+[worker] RECEIVED_JOB: {
+  job_id: 'aef14f1a-7a76-408b-bc3a-ce4e49627c98',
+  expected_subject: 'accountancy',
+  expected_chapter: 'Change in Profit Sharing Ratio',
+  raw_subject_id: 'accountancy',
+  raw_chapter: 'Change in Profit Sharing Ratio',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:58:27.277007+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'aef14f1a-7a76-408b-bc3a-ce4e49627c98',
+  expected_subject: 'accountancy',
+  resolved_subject_id: 'accountancy',
+  resolved_subject_name: 'Accountancy',
+  chapter: 'Change in Profit Sharing Ratio',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=9 existing questions loaded
+[generation] batch adjusted: { chapter: 'Change in Profit Sharing Ratio', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'aef14f1a-7a76-408b-bc3a-ce4e49627c98',
+  expected_subject: 'accountancy',
+  resolved_subject_id: 'accountancy',
+  resolved_subject_name: 'Accountancy',
+  expected_chapter: 'Change in Profit Sharing Ratio',
+  canonical_unit: 'Reconstitution of a Partnership firm',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Change in Profit Sharing Ratio" unit="Reconstitution of a Partnership firm" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'accountancy',
+  prompt_subject_name: 'Accountancy',
+  expected_chapter: 'Change in Profit Sharing Ratio',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'accountancy',
+  expected_chapter: 'Change in Profit Sharing Ratio',
+  canonical_unit: 'Reconstitution of a Partnership firm',
+  concept_id: 'accountancy::change_in_profit_sharing_ratio',
+  pyq_anchor_id: 'structure_only_seed_pyq_a1_for_accountancy::change_in_profit_sharing_ratio',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 3,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'accountancy',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'accountancy',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 20918,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'accountancy',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: A change in profit-sharing ratio can impact the goodwill among partners. Statement II: New partners must always bring in cash for their share of goodwill. Statement III: The old profit-sharing ratio is used to calculate the sacrifice made by existing partners when a new partner is admitted.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"accountancy::change_in_profit_sharing_ratio","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"The statements require evaluation of conditions under which each applies rather than direct definitions.","why_cuet_level":"This question assesses understanding of implications in partnership changes, not just recall.","distractor_rationale":{"A":"While I is true, II is misleading as cash is not always required for goodwill contributions.","B":"II is partially true but ignores non-cash contributions to goodwill.","C":"Correct; it accurately reflects the relationship between profit-sharing changes and goodwill calculations.","D":"I is true but II misrepresents the necessity of cash."}},{"q":"Assertion: A partner's sacrifice in a profit-sharing ratio change must be compensated by the other partners. Reason: The new profit-sharing ratio must reflect all partners' contributions fairly.","o":["Both Assertion and Reason are correct, and Reason is the correct explanation for Assertion.","Both Assertion and Reason are correct, but Reason is not the correct explanation for Assertion.","Assertion is correct, but Reason is incorrect.","Assertion is incorrect, but Reason is correct."],"a":"A","question_type":"assertion_reason","concept_id":"accountancy::change_in_profit_sharing_ratio","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question requires analysis of assertions and reasons rather than definitions or direct recall.","why_cuet_level":"It challenges students to differentiate between cause-and-effect relationships in partnership agreements.","distractor_rationale":{"A":"Both statements hold true with a clear logical connection.","B":"While both statements are true, B fails to connect them logically as required.","C":"Assertion stands true, but the reason does not account for all scenarios of compensation.","D":"Reason holds validity, yet it does not justify the assertion."}},{"q":"Consider the following scenarios regarding profit-sharing changes: Scenario I: A partner increases their share while another decreases theirs. Scenario II: A new partner joins without any existing partners reducing their shares. Scenario III: The total capital remains unchanged after these adjustments. Choose the correct option based on these scenarios:","o":["Only Scenario I represents a typical change in profit-sharing ratio.","Scenarios I and II represent valid changes in profit-sharing ratios while III does not affect it.","All scenarios reflect changes in profit-sharing ratios correctly regardless of capital fluctuations.","Only Scenario II reflects a change as no existing shares are reduced."],"a":"B","question_type":"case_based","concept_id":"accountancy::change_in_profit_sharing_ratio","trap_option":"D","strong_distractors":["A","C"],"why_not_textbook":"This question examines practical applications of concepts rather than definitions or simple recall.","why_cuet_level":"It encourages students to analyze real-life implications of partnership adjustments.","distractor_rationale":{"A":"Scenario I alone does not encompass all types of changes possible in partnerships.","B":"Correct; it captures valid scenarios that illustrate changes effectively.","C":"Not all scenarios involve a change in profit-sharing ratios; capital stability matters too.","D":"Scenario II does reflect a change but does not cover all cases."}},{"q":"Evaluate the following statements regarding reconstitution of a partnership due to change in profit-sharing ratio: Statement I: All partners must agree on the new ratio. Statement II: Changes can occur without affecting existing capital contributions. Statement III: Adjustments to goodwill are mandatory whenever there’s a change in ratio. Select the accurate option:","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"accountancy::change_in_profit_sharing_ratio","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question requires critical thinking about partnership agreements rather than direct definitions or facts.","why_cuet_level":"It tests understanding of collaborative decision-making in partnerships beyond mere facts.","distractor_rationale":{"A":"Correct; both conditions hold true for effective reconstitution processes.","B":"While II may seem plausible, it overlooks potential impacts on capital contributions during adjustments.","C":"III is inaccurate as goodwill adjustments are not universally mandatory in every scenario of change.","D":"While I holds true, neither statement II nor III must apply concurrently."}},{"q":"Assertion: A partner's increased share often leads to higher risks for remaining partners. Reason: Changes in profit-sharing ratios can affect each partner's responsibilities significantly.","o":["Both Assertion and Reason are correct, with Reason explaining Assertion effectively.","Both Assertion and Reason are correct, but Reason does not explain Assertion effectively.","Assertion is correct, but Reason is incorrect.","Assertion is incorrect, but Reason is correct."],"a":"A","question_type":"assertion_reason","concept_id":"accountancy::change_in_profit_sharing_ratio","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The focus here is on analyzing implications rather than recalling definitions or concepts directly.","why_cuet_level":"It encourages deeper comprehension of risk dynamics within partnerships due to structural changes.","distractor_rationale":{"A":"Both points are accurate with a clear logical relationship between them regarding risk management.","B":"While both may be true independently, B fails to establish their connection correctly as required by the assertion-reason format.","C":"The assertion accurately reflects reality while the reason misrepresents certain aspects of responsibility shifts due to ratios changing.","D":"The reason holds validity, yet it does not substantiate why increased shares lead to higher risks."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=4
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 4
+[pipeline] generated_count=4 | mix=easy=0, medium=4, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 4
+[pipeline] after_chapter_filter=4 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=4 | sent_for_strict_validation=4 | validator_load_reduction=0.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [
+    'structure_only_seed_pyq_a1_for_accountancy::change_in_profit_sharing_ratio',
+    'structure_only_seed_pyq_a1_for_accountancy::change_in_profit_sharing_ratio',
+    'structure_only_seed_pyq_a1_for_accountancy::change_in_profit_sharing_ratio',
+    'structure_only_seed_pyq_a1_for_accountancy::change_in_profit_sharing_ratio'
+  ],
+  anchor_source_quality: [ 'manual_seed', 'manual_seed', 'manual_seed', 'manual_seed' ],
+  fallback_used: false,
+  selfcheck_passed: 4,
+  sent_to_validator: 4
+}
+[pipeline] Starting batch validation for 4 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=4
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T21:59:46.469Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"accountancy","questionCount":4}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'accountancy',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'accountancy',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 17912,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'accountancy',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "PARTIAL",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "concept mismatch",
+      "low trap quality",
+      "contains content from Admission of a Partner rather than purely Change in PSR"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The question includes statements about admitting a 'new partner', which falls under Admission of a Partner (a separate concept) rather than the specific 'Change in Profit Sharing Ratio' concept assigned."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "AMBIGUOUS",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "WRONG",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "clarity == AMBIGUOUS",
+      "subject_consistency != CORRECT",
+      "low trap quality"
+    ],
+    "score": 3,
+    "exam_quality": 3,
+    "distractor_quality": 2,
+    "conceptual_depth": 4,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Statement I uses the word 'many' which is technically incorrect as partnership reconstitution requires the consent of ALL partners. This makes the logic flawed for an accountancy exam."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "conceptual_depth < 7",
+      "obvious answer"
+    ],
+    "score": 2,
+    "exam_quality": 2,
+    "distractor_quality": 2,
+    "conceptual_depth": 3,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The assertion and reason are vague management observations rather than testing technical accounting knowledge or the specific mechanism of profit-sharing ratio changes."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 3,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "direct definition",
+      "textbook style"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The question is too simplistic and focuses on a direct ethical/fairness definition rather than the accounting application of sacrifice and compensation in PSR changes."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 4
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T22:00:04.448Z","model":"gemini-3-flash","subject":"accountancy","resultCount":4}
+[pipeline] validator_rejected {
+  score: 4,
+  exam_quality: 4,
+  distractor_quality: 3,
+  conceptual_depth: 5,
+  trap_quality: 'LOW',
+  rule: 'concept mismatch'
+}
+[reject] {
+  subject: 'accountancy',
+  chapter: 'Change in Profit Sharing Ratio',
+  reason: 'concept mismatch; low trap quality; contains content from Admission of a Partner rather than purely Change in PSR; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording',
+  source: 'validator_normalized',
+  rule: 'concept mismatch',
+  details: {
+    compositeScore: 24,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'PARTIAL',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_rejected {
+  score: 4,
+  exam_quality: 4,
+  distractor_quality: 3,
+  conceptual_depth: 5,
+  trap_quality: 'LOW',
+  rule: 'low trap quality'
+}
+[reject] {
+  subject: 'accountancy',
+  chapter: 'Change in Profit Sharing Ratio',
+  reason: 'low trap quality; direct definition; textbook style; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 31,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_rejected {
+  score: 3,
+  exam_quality: 3,
+  distractor_quality: 2,
+  conceptual_depth: 4,
+  trap_quality: 'LOW',
+  rule: 'clarity == AMBIGUOUS'
+}
+[reject] {
+  subject: 'accountancy',
+  chapter: 'Change in Profit Sharing Ratio',
+  reason: 'clarity == AMBIGUOUS; subject_consistency != CORRECT; low trap quality; ambiguous wording; subject mismatch; validator score below threshold; exam quality below threshold; distractor quality below threshold',
+  source: 'validator_normalized',
+  rule: 'clarity == AMBIGUOUS',
+  details: {
+    compositeScore: 0,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_rejected {
+  score: 2,
+  exam_quality: 2,
+  distractor_quality: 2,
+  conceptual_depth: 3,
+  trap_quality: 'LOW',
+  rule: 'low trap quality'
+}
+[reject] {
+  subject: 'accountancy',
+  chapter: 'Change in Profit Sharing Ratio',
+  reason: 'low trap quality; conceptual_depth < 7; obvious answer; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 29,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 0, hard: 0 },
+  system: { easy: 0, medium: 0, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 0
+[pipeline] validated_count=0 | acceptance_rate=0.0%
+[pipeline] FINAL_ACCEPTED_COUNT 0
+[pipeline] selected_count=0 | FINAL DISTRIBUTION: {"easy":0,"medium":0,"hard":0}
+[draft] Saved cbe54602-1d26-426b-af48-7a988f19f3e1 | reason=validator_rejected_all:concept mismatch;low trap quality;contains content from Admission of a Partner rather than purely Change in PSR;validator score below threshold;exam quality below threshold;distractor quality below threshold;conceptual depth below CUET reasoning threshold;direct textbook-style wording
+[draft] Saved bb3c3c57-fe12-45c2-9d0e-6baf3fd1d530 | reason=validator_rejected_all:concept mismatch;low trap quality;contains content from Admission of a Partner rather than purely Change in PSR;validator score below threshold;exam quality below threshold;distractor quality below threshold;conceptual depth below CUET reasoning threshold;direct textbook-style wording
+[draft] Saved 7c361aed-c153-4670-b11f-904c061a21fe | reason=validator_rejected_all:concept mismatch;low trap quality;contains content from Admission of a Partner rather than purely Change in PSR;validator score below threshold;exam quality below threshold;distractor quality below threshold;conceptual depth below CUET reasoning threshold;direct textbook-style wording
+[draft] Saved 03562efd-3998-445d-acf5-ddcf9d73550f | reason=validator_rejected_all:concept mismatch;low trap quality;contains content from Admission of a Partner rather than purely Change in PSR;validator score below threshold;exam quality below threshold;distractor quality below threshold;conceptual depth below CUET reasoning threshold;direct textbook-style wording
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 4,
+  draft_candidates: 4,
+  publish_count: 0
+}
+[pipeline] METRICS | generated_count=4 | prefiltered_count=4 | strict_validation_count=4 | accepted_count=0 | api_calls_used=2 | cost_efficiency_ratio=0.00
+[pipeline] SUMMARY | subject=accountancy | chapter=Change in Profit Sharing Ratio | target=5 | generated_count=4 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=4 | validated_count=0 | accepted_count=0 | draft_count=4 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=0, hard=0
+[pipeline] subject_distribution: {"subject":"accountancy","accepted":0,"rejected":4,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=13174 | total_cost=$0.0040 | cost_per_accepted=$0.0000 | cost_per_1000=$0.00 | total_accepted=0
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'accountancy',
+  chapter: 'Change in Profit Sharing Ratio',
+  sample_size: 13,
+  direct_definition_count: 0,
+  weak_option_count: 5,
+  repeated_structure_count: 0,
+  easy_count: 0,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '25ba9e17-cd97-4200-9ae4-5118ac9f2257',
+    '568069ab-7ef7-4456-a4d0-7397b18190c9',
+    '7c22239b-89c8-4a71-bf4f-984493dacb57',
+    '20d07606-e04e-4131-9195-8d7239549b89',
+    '589311f8-e268-4420-b0de-da5ffe6ddf74',
+    '1fab056d-2ab6-4aa3-ba83-4b3d00942e53',
+    '5a6f808f-4323-4604-bf8c-8cba9f11903d',
+    '7357b503-15a9-4c46-949f-8c4d84ad38a8'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '25ba9e17-cd97-4200-9ae4-5118ac9f2257',
+  actual_subject: 'chemistry',
+  actual_chapter: 'Coordination Compounds',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 9,
+  subject_question_count: 324,
+  created_at: '2026-04-30T21:58:27.277007+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  count: 9,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'chemistry', chapter: 'Coordination Compounds', count: 9 }
+
+[JOB 25ba9e17] Starting: [chemistry] Coordination Compounds
+[worker] RECEIVED_JOB: {
+  job_id: '25ba9e17-cd97-4200-9ae4-5118ac9f2257',
+  expected_subject: 'chemistry',
+  expected_chapter: 'Coordination Compounds',
+  raw_subject_id: 'chemistry',
+  raw_chapter: 'Coordination Compounds',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:58:27.277007+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '25ba9e17-cd97-4200-9ae4-5118ac9f2257',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  chapter: 'Coordination Compounds',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=9 existing questions loaded
+[generation] batch adjusted: { chapter: 'Coordination Compounds', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '25ba9e17-cd97-4200-9ae4-5118ac9f2257',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  expected_chapter: 'Coordination Compounds',
+  canonical_unit: 'Coordination Compounds',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Coordination Compounds" unit="Coordination Compounds" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'chemistry',
+  prompt_subject_name: 'Chemistry',
+  expected_chapter: 'Coordination Compounds',
+  requested_count: 5,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::coordination_compounds',
+  selected_anchor_id: 'structured_chemistry_coordination_compounds_1',
+  selected_anchor_concept_id: 'chemistry::coordination_compounds',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'chemistry',
+  expected_chapter: 'Coordination Compounds',
+  canonical_unit: 'Coordination Compounds',
+  concept_id: 'chemistry::coordination_compounds',
+  pyq_anchor_id: 'structured_chemistry_coordination_compounds_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 21677,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: A chelating ligand can form multiple bonds with a metal ion. Statement II: Chelating ligands always increase the stability of coordination complexes. Statement III: The number of donor atoms in a chelating ligand is equal to its coordination number. Which options are correct?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"chemistry::coordination_compounds","trap_option":"D","strong_distractors":["B","C"],"why_not_textbook":"The misconception about the stability of chelating ligands ignores that not all lead to higher stability under varying conditions.","why_cuet_level":"Requires understanding of ligand behavior in coordination chemistry.","distractor_rationale":{"A":"Both statements are valid as chelating ligands do enhance stability due to multiple bonding.","B":"While II is valid, it overlooks that some conditions may reduce complex stability.","C":"Statement III is incorrect because the coordination number is defined by the total number of bonds, not just donor atoms.","D":"This combination assumes all statements are valid, which is misleading."}},{"q":"Assertion: The geometry of a coordination compound is determined solely by its coordination number. Reason: Different metals exhibit distinct geometries based on their electronic configurations. Choose the best evaluation of these statements.","o":["Both assertion and reason are valid; however, the reason provides an incomplete explanation of geometry.","Both assertion and reason are valid, and the reason correctly explains why different geometries occur.","The assertion is valid, but the reason is invalid as it contradicts basic coordination theory.","The assertion is invalid, while the reason is valid because geometry also depends on ligand arrangement."],"a":"A","question_type":"assertion_reason","concept_id":"chemistry::coordination_compounds","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Relying solely on coordination number oversimplifies the complexities involved in determining geometry in coordination compounds.","why_cuet_level":"Requires critical evaluation of assertion-reason relationships in chemistry concepts.","distractor_rationale":{"A":"The reasoning does not account for how ligands influence overall geometry beyond just the metal's configuration.","B":"While both statements are true, the assertion's claim oversimplifies geometric determination.","C":"This option misrepresents basic principles of coordination chemistry regarding geometry.","D":"This misinterpretation suggests that only one aspect determines geometry."}},{"q":"A student claims that all bidentate ligands form five-membered rings with metal ions when coordinating. Evaluate this student's claim with respect to common misconceptions about bidentate ligands.","o":["The claim is incorrect; bidentate ligands can form rings of varying sizes depending on their structure and metal ion.","The claim is mostly correct; five-membered rings are common but not exclusive to bidentate ligands.","The claim overlooks that bidentate ligands can only form five-membered rings with certain metals and conditions.","The claim assumes all bidentate ligands behave identically regardless of their chemical environment."],"a":"A","question_type":"case_based","concept_id":"chemistry::coordination_compounds","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"The assumption that all bidentate ligands create five-membered rings ignores structural diversity among these ligands.","why_cuet_level":"Assesses understanding of ligand behavior in diverse chemical contexts.","distractor_rationale":{"A":"This response accurately reflects the variability in ring size formation by bidentate ligands.","B":"Misleading as it suggests a commonality that does not apply universally to all bidentate interactions.","C":"Incorrectly focuses on specific metals as limiting factors rather than recognizing broader ligand capabilities.","D":"This option incorrectly generalizes ligand behavior without acknowledging structural differences."}},{"q":"Read the following statements: Statement I: Coordination complexes can exhibit optical activity if they have a chiral arrangement. Statement II: All transition metal complexes are optically active regardless of their structure. Statement III: Optical activity depends on both symmetry and arrangement of ligands around the central atom. Which statements are true?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"chemistry::coordination_compounds","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"The broad statement about transition metals ignores specific conditions required for optical activity in complexes.","why_cuet_level":"Tests understanding of symmetry and optical properties in coordination chemistry.","distractor_rationale":{"A":"Only one statement here correctly identifies optical activity criteria; others misrepresent general properties of transition metals.","B":"This option falsely asserts that all transition metal complexes exhibit optical activity without exception or context.","C":"Correctly aligns with established principles regarding chirality and optical properties in coordination compounds.","D":"This option inaccurately combines valid and invalid statements without acknowledging necessary conditions."}},{"q":"Assertion I: Ligand field strength influences the color observed in transition metal complexes. Assertion II: All colored complexes have high ligand field strength. Which evaluation best fits these assertions?","o":["Both assertions are correct; however, Assertion II overlooks exceptions related to specific metal-ligand combinations.","Assertion I is correct while Assertion II is incorrect since color can arise from various factors beyond ligand field strength.","Both assertions are incorrect as color in complexes depends solely on electronic transitions unrelated to field strength.","Assertion I is incorrect while Assertion II is correct because colors arise only from high energy transitions."],"a":"B","question_type":"assertion_reason","concept_id":"chemistry::coordination_compounds","trap_option":"D","strong_distractors":["A","C"],"why_not_textbook":"Saying all colored complexes have high ligand field strength disregards low-energy transitions leading to observable colors in some cases.","why_cuet_level":"Assesses comprehension of relationships between ligand field theory and observed properties in coordination chemistry.","distractor_rationale":{"A":"While acknowledging some truth, it fails to recognize instances where color arises without high field strength influence.","B":"Accurately reflects complexity in color determination within transition metal complexes under varied conditions.","C":"Incorrectly states that color is unrelated to ligand field strength, missing key electronic interactions at play here.","D":"Misrepresents both assertions by incorrectly aligning them with absolute claims about energy transitions."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=4
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 4
+[pipeline] generated_count=4 | mix=easy=0, medium=4, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 4
+[pipeline] after_chapter_filter=4 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=4 | sent_for_strict_validation=4 | validator_load_reduction=0.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [
+    'structured_chemistry_coordination_compounds_1',
+    'structured_chemistry_coordination_compounds_1',
+    'structured_chemistry_coordination_compounds_1',
+    'structured_chemistry_coordination_compounds_1'
+  ],
+  anchor_source_quality: [ 'manual_seed', 'manual_seed', 'manual_seed', 'manual_seed' ],
+  fallback_used: false,
+  selfcheck_passed: 4,
+  sent_to_validator: 4
+}
+[pipeline] Starting batch validation for 4 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=4
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T22:00:43.934Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"chemistry","questionCount":4}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 26625,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "AMBIGUOUS",
+    "language_level": "MODERATE",
+    "option_quality": "CONFUSING",
+    "subject_consistency": "WRONG",
+    "verdict": "INVALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [
+      "non-standard assertion-reason option format",
+      "logic in options is scientifically ambiguous",
+      "answer key B contradicts more precise option D",
+      "phrasing 'valid/invalid' is non-standard for CUET A/R"
+    ],
+    "score": 5,
+    "exam_quality": 4,
+    "distractor_quality": 5,
+    "conceptual_depth": 6,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The options do not follow the standard CUET Assertion-Reason format (Both A and R true, etc.).",
+      "Scientifically, CN is not the only determinant of geometry, making the 'mainly' qualifier and Option D's counter-point more valid than the intended answer B."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "HARD",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "HIGH",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 9,
+    "distractor_quality": 8,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "AMBIGUOUS",
+    "language_level": "SIMPLE",
+    "option_quality": "CONFUSING",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "ambiguous phrasing in options",
+      "use of 'mainly' reduces clarity",
+      "conceptual_depth < 7",
+      "textbook style"
+    ],
+    "score": 4,
+    "exam_quality": 3,
+    "distractor_quality": 4,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The inclusion of the word 'mainly' in every option choice introduces scientific ambiguity.",
+      "The question is a direct recall of optical activity rules without application."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 3,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "AMBIGUOUS",
+    "language_level": "SIMPLE",
+    "option_quality": "CONFUSING",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "ambiguous phrasing in options",
+      "low trap quality",
+      "direct recall of definitions",
+      "conceptual_depth < 7"
+    ],
+    "score": 4,
+    "exam_quality": 3,
+    "distractor_quality": 3,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The word 'mainly' in the options is non-standard and confusing for definitive logical statements.",
+      "Statement III phrasing is imprecise regarding coordination number vs denticity."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 4
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T22:01:10.562Z","model":"gemini-3-flash","subject":"chemistry","resultCount":4}
+[pipeline] validator_rejected {
+  score: 4,
+  exam_quality: 3,
+  distractor_quality: 3,
+  conceptual_depth: 5,
+  trap_quality: 'LOW',
+  rule: 'ambiguous phrasing in options'
+}
+[reject] {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'ambiguous phrasing in options; low trap quality; direct recall of definitions; conceptual_depth < 7; ambiguous wording; confusing options; validator score below threshold; exam quality below threshold',
+  source: 'validator_normalized',
+  rule: 'ambiguous phrasing in options',
+  details: {
+    compositeScore: 0,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CONFUSING'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_rejected {
+  score: 5,
+  exam_quality: 4,
+  distractor_quality: 5,
+  conceptual_depth: 6,
+  trap_quality: 'MEDIUM',
+  rule: 'non-standard assertion-reason option format'
+}
+[reject] {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: "non-standard assertion-reason option format; logic in options is scientifically ambiguous; answer key B contradicts more precise option D; phrasing 'valid/invalid' is non-standard for CUET A/R; ambiguous wording; confusing options; subject mismatch; exam quality below threshold",
+  source: 'validator_normalized',
+  rule: 'non-standard assertion-reason option format',
+  details: {
+    compositeScore: 0,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CONFUSING'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_accepted {
+  score: 9,
+  exam_quality: 9,
+  distractor_quality: 8,
+  conceptual_depth: 8,
+  trap_quality: 'HIGH',
+  pyq_anchor_used: 'structured_chemistry_coordination_compounds_1',
+  anchor_source_quality: 'manual_seed'
+}
+[pipeline] validator_rejected {
+  score: 4,
+  exam_quality: 3,
+  distractor_quality: 4,
+  conceptual_depth: 5,
+  trap_quality: 'LOW',
+  rule: 'ambiguous phrasing in options'
+}
+[reject] {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: "ambiguous phrasing in options; use of 'mainly' reduces clarity; conceptual_depth < 7; textbook style; ambiguous wording; confusing options; validator score below threshold; exam quality below threshold",
+  source: 'validator_normalized',
+  rule: 'ambiguous phrasing in options',
+  details: {
+    compositeScore: 0,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CONFUSING'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 1, hard: 0 },
+  system: { easy: 0, medium: 1, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 1
+[pipeline] validated_count=1 | acceptance_rate=25.0%
+[pipeline] FINAL_ACCEPTED_COUNT 1
+[pipeline] selected_count=1 | FINAL DISTRIBUTION: {"easy":0,"medium":1,"hard":0}
+✅ Published e2c4394b-aee8-4502-93c7-d303f9ab26fd | status=live | difficulty=medium | discoverable=true
+[pipeline] draft_gate {
+  draft_only_flag: false,
+  draft_saved: 0,
+  draft_candidates: 0,
+  publish_count: 1
+}
+[pipeline] METRICS | generated_count=4 | prefiltered_count=4 | strict_validation_count=4 | accepted_count=1 | api_calls_used=2 | cost_efficiency_ratio=0.50
+[pipeline] SUMMARY | subject=chemistry | chapter=Coordination Compounds | target=5 | generated_count=4 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=4 | validated_count=1 | accepted_count=1 | draft_count=0 | draft_only_flag=false | shortfall=4 | yield_rate=25.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=1, hard=0
+[pipeline] subject_distribution: {"subject":"chemistry","accepted":1,"rejected":3,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=19877 | total_cost=$0.0061 | cost_per_accepted=$0.0061 | cost_per_1000=$6.09 | total_accepted=1
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  sample_size: 10,
+  direct_definition_count: 0,
+  weak_option_count: 8,
+  repeated_structure_count: 0,
+  easy_count: 0,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '568069ab-7ef7-4456-a4d0-7397b18190c9',
+    '7c22239b-89c8-4a71-bf4f-984493dacb57',
+    '20d07606-e04e-4131-9195-8d7239549b89',
+    '589311f8-e268-4420-b0de-da5ffe6ddf74',
+    '1fab056d-2ab6-4aa3-ba83-4b3d00942e53',
+    '5a6f808f-4323-4604-bf8c-8cba9f11903d',
+    '7357b503-15a9-4c46-949f-8c4d84ad38a8'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '568069ab-7ef7-4456-a4d0-7397b18190c9',
+  actual_subject: 'computer_science',
+  actual_chapter: 'Communication Technologies',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 9,
+  subject_question_count: 347,
+  created_at: '2026-04-30T21:58:27.277007+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'computer_science',
+  chapter: 'Communication Technologies',
+  count: 9,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'computer_science',
+  chapter: 'Communication Technologies',
+  count: 9
+}
+
+[JOB 568069ab] Starting: [computer_science] Communication Technologies
+[worker] RECEIVED_JOB: {
+  job_id: '568069ab-7ef7-4456-a4d0-7397b18190c9',
+  expected_subject: 'computer_science',
+  expected_chapter: 'Communication Technologies',
+  raw_subject_id: 'computer_science',
+  raw_chapter: 'Communication Technologies',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:58:27.277007+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '568069ab-7ef7-4456-a4d0-7397b18190c9',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  chapter: 'Communication Technologies',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=9 existing questions loaded
+[generation] batch adjusted: { chapter: 'Communication Technologies', generate_count: 3 }
+[worker] GENERATION_INPUT: {
+  job_id: '568069ab-7ef7-4456-a4d0-7397b18190c9',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Communication Technologies',
+  canonical_unit: 'Section B1: Computer Science',
+  generate_count: 3,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: true
+}
+[pipeline] Generating 3 candidates... chapter="Communication Technologies" unit="Section B1: Computer Science" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'computer_science',
+  prompt_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Communication Technologies',
+  requested_count: 3,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'computer_science',
+  expected_chapter: 'Communication Technologies',
+  canonical_unit: 'Section B1: Computer Science',
+  concept_id: 'computer_science::communication_technologies',
+  pyq_anchor_id: 'structure_only_structured_computer_science_computer_networks_1_for_computer_science::communication_technologies',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 4,
+  batch_size: 3,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 11841,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: A firewall protects a network by filtering incoming and outgoing traffic based on predetermined security rules. Statement II: A proxy server acts as an intermediary for requests from clients seeking resources from other servers. Statement III: A VPN is solely used for encrypting data during transmission without any other functions. ","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"computer_science::communication_technologies","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The statements are framed to test understanding of network security roles.","why_cuet_level":"This question requires critical evaluation of multiple statements regarding networking.","distractor_rationale":{"A":"Both I and II accurately describe essential functions of network security devices.","B":"While II is correct, III incorrectly limits the role of a VPN to encryption alone.","C":"Statement III misrepresents the capabilities of a VPN, which also provides secure remote access.","D":"This option incorrectly suggests that all statements are valid without recognizing the flaw in III."}},{"q":"Read the statements and choose the correct option: Statement I: The role of DNS is to translate human-readable domain names into IP addresses. Statement II: DHCP assigns IP addresses to devices on a network dynamically. Statement III: Static IP addresses are always preferred over dynamic IP addresses in all scenarios.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"computer_science::communication_technologies","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The statements test understanding of networking protocols and their applications.","why_cuet_level":"This question evaluates comprehension of networking concepts rather than mere recall.","distractor_rationale":{"A":"Statements I and II correctly describe the functions of DNS and DHCP.","B":"Statement III incorrectly asserts a preference for static IPs without context; dynamic IPs have their advantages too.","C":"The claim about static IPs ignores scenarios where dynamic addressing is more efficient or necessary.","D":"This option overlooks the flaw in statement III while accepting all statements as valid."}},{"q":"Read the statements and choose the correct option: Statement I: VoIP technology allows voice communication over internet protocol networks. Statement II: Bandwidth requirements for VoIP are significantly lower than traditional telephony systems. Statement III: Latency can affect call quality in VoIP communications under certain conditions.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"computer_science::communication_technologies","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"The statements require analysis of VoIP technology's characteristics versus traditional methods.","why_cuet_level":"This question assesses understanding of VoIP technology implications on communication quality.","distractor_rationale":{"A":"While I is valid, II misrepresents bandwidth needs as being universally lower than traditional systems.","B":"This option fails because statement II inaccurately assesses bandwidth requirements in comparison to traditional telephony.","C":"Statement III correctly identifies latency as a potential issue affecting VoIP quality under specific conditions.","D":"This selection incorrectly assumes all statements are valid without recognizing the flaw in II."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] openai_generation success gpt-4o-mini count=3
+[pipeline] RAW_PARSED_COUNT 3
+[pipeline] NORMALIZED_COUNT 3
+[pipeline] generated_count=3 | mix=easy=0, medium=3, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 3
+[pipeline] after_chapter_filter=3 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=0.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [
+    'structure_only_structured_computer_science_computer_networks_1_for_computer_science::communication_technologies',
+    'structure_only_structured_computer_science_computer_networks_1_for_computer_science::communication_technologies',
+    'structure_only_structured_computer_science_computer_networks_1_for_computer_science::communication_technologies'
+  ],
+  anchor_source_quality: [ 'manual_seed', 'manual_seed', 'manual_seed' ],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 3
+}
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T22:01:39.863Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"computer_science","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'computer_science',
+  stage: 'batch_validation',
+  retry_count: 0
+}

@@ -1,0 +1,1309 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5959 concepts across 40 subjects (saved 2026-04-30T20:22:12.063Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  coverage: 3,
+  priority: 90
+}
+[planner] {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Data Structures',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Python Revision',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Economic Reforms Since 1991',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Indian Economy on the Eve of Independence',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  coverage: 8,
+  priority: 90
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: sociology → normalized: sociology → tier: 1
+Subject: business_studies → normalized: business_studies → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: economics → normalized: economics → tier: 1
+Subject: economics → normalized: economics → tier: 1
+Subject: english → normalized: english → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'sociology',
+    expected_chapter: 'Introducing Indian Society',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'business_studies',
+    expected_chapter: 'Staffing',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Coordination Compounds',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Isolation of Elements',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Computer Networks',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Data Structures',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Python Revision',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Economic Reforms Since 1991',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Indian Economy on the Eve of Independence',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'sociology',
+    chapter: 'Introducing Indian Society',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'business_studies',
+    chapter: 'Staffing',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'Coordination Compounds',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'Isolation of Elements',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Computer Networks',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Data Structures',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Python Revision',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'economics',
+    chapter: 'Economic Reforms Since 1991',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'economics',
+    chapter: 'Indian Economy on the Eve of Independence',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: '3d306d6c-da09-460e-ac44-2190a896b3f9',
+    subject_id: 'sociology',
+    chapter: 'Introducing Indian Society',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T20:55:00.179055+00:00'
+  },
+  {
+    id: 'e64da9be-30e4-456f-bfce-1f88e8e4e3a1',
+    subject_id: 'business_studies',
+    chapter: 'Staffing',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T20:55:00.179055+00:00'
+  },
+  {
+    id: 'b6108327-9502-45ba-8d41-3ea1ed81663c',
+    subject_id: 'chemistry',
+    chapter: 'Coordination Compounds',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T20:55:00.179055+00:00'
+  },
+  {
+    id: '35c8c9b2-5682-4e8e-96da-63fbc561c823',
+    subject_id: 'chemistry',
+    chapter: 'Isolation of Elements',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T20:55:00.179055+00:00'
+  },
+  {
+    id: 'd53f5db0-a35e-4ea0-8afb-d68978b17ddc',
+    subject_id: 'computer_science',
+    chapter: 'Computer Networks',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T20:55:00.179055+00:00'
+  },
+  {
+    id: '044cf4ff-716b-4928-9914-101ae1e35a7b',
+    subject_id: 'computer_science',
+    chapter: 'Data Structures',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T20:55:00.179055+00:00'
+  },
+  {
+    id: 'bbad3b1b-51a6-4365-91e1-0c5af54c2775',
+    subject_id: 'computer_science',
+    chapter: 'Python Revision',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T20:55:00.179055+00:00'
+  },
+  {
+    id: 'ee341ecf-1d1d-4805-8005-7577c08840cd',
+    subject_id: 'economics',
+    chapter: 'Economic Reforms Since 1991',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T20:55:00.179055+00:00'
+  },
+  {
+    id: 'b1fce750-f8a0-4e0e-b86e-f8122f1f4649',
+    subject_id: 'economics',
+    chapter: 'Indian Economy on the Eve of Independence',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T20:55:00.179055+00:00'
+  },
+  {
+    id: 'fc6a1ae2-328c-4bbb-964a-2ac3407999ab',
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T20:55:00.179055+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: '3d306d6c-da09-460e-ac44-2190a896b3f9',
+    expected_subject: 'sociology',
+    expected_chapter: 'Introducing Indian Society',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'e64da9be-30e4-456f-bfce-1f88e8e4e3a1',
+    expected_subject: 'business_studies',
+    expected_chapter: 'Staffing',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'b6108327-9502-45ba-8d41-3ea1ed81663c',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Coordination Compounds',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '35c8c9b2-5682-4e8e-96da-63fbc561c823',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Isolation of Elements',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'd53f5db0-a35e-4ea0-8afb-d68978b17ddc',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Computer Networks',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '044cf4ff-716b-4928-9914-101ae1e35a7b',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Data Structures',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'bbad3b1b-51a6-4365-91e1-0c5af54c2775',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Python Revision',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'ee341ecf-1d1d-4805-8005-7577c08840cd',
+    expected_subject: 'economics',
+    expected_chapter: 'Economic Reforms Since 1991',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'b1fce750-f8a0-4e0e-b86e-f8122f1f4649',
+    expected_subject: 'economics',
+    expected_chapter: 'Indian Economy on the Eve of Independence',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'fc6a1ae2-328c-4bbb-964a-2ac3407999ab',
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '3d306d6c-da09-460e-ac44-2190a896b3f9',
+    'e64da9be-30e4-456f-bfce-1f88e8e4e3a1',
+    'b6108327-9502-45ba-8d41-3ea1ed81663c',
+    '35c8c9b2-5682-4e8e-96da-63fbc561c823',
+    'd53f5db0-a35e-4ea0-8afb-d68978b17ddc',
+    '044cf4ff-716b-4928-9914-101ae1e35a7b',
+    'bbad3b1b-51a6-4365-91e1-0c5af54c2775',
+    'ee341ecf-1d1d-4805-8005-7577c08840cd',
+    'b1fce750-f8a0-4e0e-b86e-f8122f1f4649',
+    'fc6a1ae2-328c-4bbb-964a-2ac3407999ab'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'e64da9be-30e4-456f-bfce-1f88e8e4e3a1',
+  actual_subject: 'business_studies',
+  actual_chapter: 'Staffing',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 333,
+  created_at: '2026-04-30T20:55:00.179055+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'business_studies', chapter: 'Staffing', count: 8 }
+
+[JOB e64da9be] Starting: [business_studies] Staffing
+[worker] RECEIVED_JOB: {
+  job_id: 'e64da9be-30e4-456f-bfce-1f88e8e4e3a1',
+  expected_subject: 'business_studies',
+  expected_chapter: 'Staffing',
+  raw_subject_id: 'business_studies',
+  raw_chapter: 'Staffing',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T20:55:00.179055+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'e64da9be-30e4-456f-bfce-1f88e8e4e3a1',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  chapter: 'Staffing',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Staffing', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'e64da9be-30e4-456f-bfce-1f88e8e4e3a1',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  expected_chapter: 'Staffing',
+  canonical_unit: 'Staffing',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Staffing" unit="Staffing" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'business_studies',
+  prompt_subject_name: 'Business Studies',
+  expected_chapter: 'Staffing',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'business_studies',
+  expected_chapter: 'Staffing',
+  canonical_unit: 'Staffing',
+  concept_id: 'business_studies::staffing',
+  pyq_anchor_id: 'structure_only_structured_business_studies_consumer_protection_1_for_business_studies::staffing',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-5.5
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-5.5',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-5.5',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 63246,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-5.5',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 8555,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {
+  "questions": [
+    {
+      "q": "In the staffing process, which of the following is primarily concerned with matching the right person to the right job?",
+      "o": [
+        "Recruitment, as it focuses on attracting candidates",
+        "Selection, since it evaluates candidates for job fit",
+        "Training, which enhances skills post-hire",
+        "Job analysis, as it defines role requirements"
+      ],
+      "a": "B",
+      "question_type": "case-based",
+      "concept_id": "business_studies::staffing",
+      "trap_option": "D",
+      "strong_distractors": ["A", "C"],
+      "why_not_textbook": "The question avoids direct definitions and prompts critical thinking.",
+      "why_cuet_level": "It requires understanding of staffing processes without being straightforward.",
+      "distractor_rationale": {
+        "A": "While recruitment attracts candidates, it does not ensure they fit the job.",
+        "B": "Correct; selection assesses candidate suitability for specific roles.",
+        "C": "Training improves skills but is not part of the initial staffing process.",
+        "D": "Job analysis is important but focuses on defining job roles rather than matching."
+      }
+    },
+    {
+      "q": "Which of the following statements about employee training is most accurate?",
+      "o": [
+        "Training is essential for all employees regardless of their role.",
+        "On-the-job training is preferred for technical roles but not for managerial positions.",
+        "Training should align with organizational goals to be effective.",
+        "Only new employees require training; experienced staff do not."
+      ],
+      "a": "C",
+      "question_type": "statement-based",
+      "concept_id": "business_studies::staffing",
+      "trap_option": "A",
+      "strong_distractors": ["B", "D"],
+      "why_not_textbook": "The statements prompt analysis rather than recall of definitions.",
+      "why_cuet_level": "It encourages elimination based on understanding of training relevance.",
+      "distractor_rationale": {
+        "A": "While training is beneficial, not every employee needs the same level of training.",
+        "B": "On-the-job training can also be effective for managerial roles in certain contexts.",
+        "C": "Correct; aligning training with goals maximizes its impact on performance.",
+        "D": "Experience does not exempt employees from needing ongoing training."
+      }
+    }
+  ]
+}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 2
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '3d306d6c-da09-460e-ac44-2190a896b3f9',
+    'b6108327-9502-45ba-8d41-3ea1ed81663c',
+    '35c8c9b2-5682-4e8e-96da-63fbc561c823',
+    'd53f5db0-a35e-4ea0-8afb-d68978b17ddc',
+    '044cf4ff-716b-4928-9914-101ae1e35a7b',
+    'bbad3b1b-51a6-4365-91e1-0c5af54c2775',
+    'ee341ecf-1d1d-4805-8005-7577c08840cd',
+    'b1fce750-f8a0-4e0e-b86e-f8122f1f4649',
+    'fc6a1ae2-328c-4bbb-964a-2ac3407999ab'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '3d306d6c-da09-460e-ac44-2190a896b3f9',
+  actual_subject: 'sociology',
+  actual_chapter: 'Introducing Indian Society',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 3,
+  subject_question_count: 211,
+  created_at: '2026-04-30T20:55:00.179055+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  count: 3,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  count: 3
+}
+
+[JOB 3d306d6c] Starting: [sociology] Introducing Indian Society
+[worker] RECEIVED_JOB: {
+  job_id: '3d306d6c-da09-460e-ac44-2190a896b3f9',
+  expected_subject: 'sociology',
+  expected_chapter: 'Introducing Indian Society',
+  raw_subject_id: 'sociology',
+  raw_chapter: 'Introducing Indian Society',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T20:55:00.179055+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '3d306d6c-da09-460e-ac44-2190a896b3f9',
+  expected_subject: 'sociology',
+  resolved_subject_id: 'sociology',
+  resolved_subject_name: 'Sociology',
+  chapter: 'Introducing Indian Society',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=21 existing questions loaded
+[generation] batch adjusted: { chapter: 'Introducing Indian Society', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '3d306d6c-da09-460e-ac44-2190a896b3f9',
+  expected_subject: 'sociology',
+  resolved_subject_id: 'sociology',
+  resolved_subject_name: 'Sociology',
+  expected_chapter: 'Introducing Indian Society',
+  canonical_unit: 'Indian Society',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Introducing Indian Society" unit="Indian Society" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'sociology',
+  prompt_subject_name: 'Sociology',
+  expected_chapter: 'Introducing Indian Society',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'sociology',
+  expected_chapter: 'Introducing Indian Society',
+  canonical_unit: 'Indian Society',
+  concept_id: 'sociology::introducing_indian_society',
+  pyq_anchor_id: 'structure_only_structured_sociology_mass_media_and_communications_1_for_sociology::introducing_indian_society',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-5.5
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-5.5',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-5.5',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 61369,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-5.5',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 12514,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {
+  "questions": [
+    {
+      "q": "In discussing social stratification in India, which of the following statements best captures its complexity?",
+      "o": [
+        "Caste systems are solely based on economic status without any cultural implications.",
+        "Social mobility is limited due to rigid caste structures, but some upward movement is possible.",
+        "The caste system has been completely abolished in modern India, leading to equal social standing.",
+        "All communities experience stratification in the same way, regardless of regional differences."
+      ],
+      "a": "B",
+      "question_type": "elimination",
+      "concept_id": "sociology::introducing_indian_society",
+      "trap_option": "C",
+      "strong_distractors": ["A", "D"],
+      "why_not_textbook": "The question avoids direct definitions and instead focuses on the interpretation of social dynamics.",
+      "why_cuet_level": "Requires understanding of social mobility and stratification nuances in Indian society.",
+      "distractor_rationale": {
+        "A": "This option oversimplifies caste systems by ignoring cultural factors.",
+        "B": "Correct; it acknowledges both limitations and possibilities of mobility within a complex structure.",
+        "C": "Incorrect; the caste system persists in various forms despite legal abolishment.",
+        "D": "This option generalizes experiences across different communities, missing regional variations."
+      }
+    },
+    {
+      "q": "Which of the following statements about urbanization in India provides a nuanced perspective?",
+      "o": [
+        "Urbanization leads to uniform cultural changes across all cities in India.",
+        "Migration from rural areas significantly contributes to urban population growth and cultural diversity.",
+        "Urban areas are entirely disconnected from rural influences, creating isolated cultures.",
+        "Economic opportunities in cities attract a diverse range of communities, impacting social dynamics."
+      ],
+      "a": "B",
+      "question_type": "elimination",
+      "concept_id": "sociology::introducing_indian_society",
+      "trap_option": "C",
+      "strong_distractors": ["A", "D"],
+      "why_not_textbook": "The phrasing encourages critical thinking rather than rote memorization.",
+      "why_cuet_level": "Challenges students to consider the multifaceted nature of urbanization and its effects.",
+      "distractor_rationale": {
+        "A": "This option incorrectly assumes uniformity in urban cultural changes across diverse cities.",
+        "B": "Correct; it highlights the role of migration in enriching urban culture and demographics.",
+        "C": "Incorrect; rural influences often persist in urban settings, affecting cultural integration.",
+        "D": "While partially correct, it overlooks how not all communities experience equal impact from economic opportunities."
+      }
+    }
+  ]
+}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 2
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'b6108327-9502-45ba-8d41-3ea1ed81663c',
+    '35c8c9b2-5682-4e8e-96da-63fbc561c823',
+    'd53f5db0-a35e-4ea0-8afb-d68978b17ddc',
+    '044cf4ff-716b-4928-9914-101ae1e35a7b',
+    'bbad3b1b-51a6-4365-91e1-0c5af54c2775',
+    'ee341ecf-1d1d-4805-8005-7577c08840cd',
+    'b1fce750-f8a0-4e0e-b86e-f8122f1f4649',
+    'fc6a1ae2-328c-4bbb-964a-2ac3407999ab'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'b6108327-9502-45ba-8d41-3ea1ed81663c',
+  actual_subject: 'chemistry',
+  actual_chapter: 'Coordination Compounds',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 318,
+  created_at: '2026-04-30T20:55:00.179055+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'chemistry', chapter: 'Coordination Compounds', count: 8 }
+
+[JOB b6108327] Starting: [chemistry] Coordination Compounds
+[worker] RECEIVED_JOB: {
+  job_id: 'b6108327-9502-45ba-8d41-3ea1ed81663c',
+  expected_subject: 'chemistry',
+  expected_chapter: 'Coordination Compounds',
+  raw_subject_id: 'chemistry',
+  raw_chapter: 'Coordination Compounds',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T20:55:00.179055+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'b6108327-9502-45ba-8d41-3ea1ed81663c',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  chapter: 'Coordination Compounds',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Coordination Compounds', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'b6108327-9502-45ba-8d41-3ea1ed81663c',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  expected_chapter: 'Coordination Compounds',
+  canonical_unit: 'Coordination Compounds',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Coordination Compounds" unit="Coordination Compounds" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'chemistry',
+  prompt_subject_name: 'Chemistry',
+  expected_chapter: 'Coordination Compounds',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'chemistry',
+  expected_chapter: 'Coordination Compounds',
+  canonical_unit: 'Coordination Compounds',
+  concept_id: 'chemistry::coordination_compounds',
+  pyq_anchor_id: 'structure_only_structured_chemistry_p_block_elements_1_for_chemistry::coordination_compounds',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-5.5
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-5.5',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-5.5',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 61903,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-5.5',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 10612,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {
+  "questions": [
+    {
+      "q": "In a coordination compound, which of the following statements about ligand field strength is accurate? Consider the influence of both ligand type and metal ion.",
+      "o": [
+        "Strong field ligands increase the splitting energy, allowing for low spin configurations in transition metals.",
+        "All ligands of the same charge exhibit identical field strengths, regardless of their nature.",
+        "Weak field ligands can also lead to high spin configurations if paired with a low oxidation state metal.",
+        "Ligand field strength has no impact on the stability of coordination complexes."
+      ],
+      "a": "A",
+      "question_type": "comparison-based",
+      "concept_id": "chemistry::coordination_compounds",
+      "trap_option": "B",
+      "strong_distractors": ["C", "D"],
+      "why_not_textbook": "The question avoids direct definitions and instead tests understanding of ligand effects on spin states.",
+      "why_cuet_level": "It requires elimination based on understanding of ligand field theory rather than rote recall.",
+      "distractor_rationale": {
+        "A": "Correct; strong field ligands indeed increase splitting energy, affecting spin state.",
+        "B": "Incorrect; ligands of the same charge can have varying field strengths based on their nature.",
+        "C": "Partially correct; while weak field ligands can lead to high spin, it is not solely dependent on metal oxidation state.",
+        "D": "Incorrect; ligand field strength significantly impacts stability and electronic properties of complexes."
+      }
+    },
+    {
+      "q": "Which statements regarding the geometry of coordination compounds are valid? Analyze the influence of coordination number and ligand arrangement.",
+      "o": [
+        "A coordination number of 4 typically leads to tetrahedral geometry in most complexes.",
+        "Octahedral geometry is favored by coordination numbers higher than 6 due to steric factors.",
+        "Square planar geometry can arise from a coordination number of 4 when involving specific d-block metals.",
+        "Coordination number does not influence the geometric arrangement in coordination compounds."
+      ],
+      "a": "C",
+      "question_type": "assertion-reason",
+      "concept_id": "chemistry::coordination_compounds",
+      "trap_option": "B",
+      "strong_distractors": ["A", "D"],
+      "why_not_textbook": "The question challenges misconceptions about geometry linked to coordination numbers without simple definitions.",
+      "why_cuet_level": "It necessitates analysis and elimination based on understanding geometric arrangements, not just facts.",
+      "distractor_rationale": {
+        "A": "Partially correct; while tetrahedral is common for 4, this may not apply to all complexes.",
+        "B": "Incorrect; octahedral is typically associated with a coordination number of 6, not higher numbers.",
+        "C": "Correct; square planar is indeed a result of specific arrangements in 4-coordinated d-block metals.",
+        "D": "Incorrect; coordination number is crucial for determining geometry in coordination compounds."
+      }
+    }
+  ]
+}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 2
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '35c8c9b2-5682-4e8e-96da-63fbc561c823',
+    'd53f5db0-a35e-4ea0-8afb-d68978b17ddc',
+    '044cf4ff-716b-4928-9914-101ae1e35a7b',
+    'bbad3b1b-51a6-4365-91e1-0c5af54c2775',
+    'ee341ecf-1d1d-4805-8005-7577c08840cd',
+    'b1fce750-f8a0-4e0e-b86e-f8122f1f4649',
+    'fc6a1ae2-328c-4bbb-964a-2ac3407999ab'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '35c8c9b2-5682-4e8e-96da-63fbc561c823',
+  actual_subject: 'chemistry',
+  actual_chapter: 'Isolation of Elements',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 318,
+  created_at: '2026-04-30T20:55:00.179055+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'chemistry', chapter: 'Isolation of Elements', count: 8 }
+
+[JOB 35c8c9b2] Starting: [chemistry] Isolation of Elements
+[worker] RECEIVED_JOB: {
+  job_id: '35c8c9b2-5682-4e8e-96da-63fbc561c823',
+  expected_subject: 'chemistry',
+  expected_chapter: 'Isolation of Elements',
+  raw_subject_id: 'chemistry',
+  raw_chapter: 'Isolation of Elements',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T20:55:00.179055+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '35c8c9b2-5682-4e8e-96da-63fbc561c823',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  chapter: 'Isolation of Elements',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Isolation of Elements', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '35c8c9b2-5682-4e8e-96da-63fbc561c823',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  expected_chapter: 'Isolation of Elements',
+  canonical_unit: 'Existing Chemistry Coverage',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Isolation of Elements" unit="Existing Chemistry Coverage" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'chemistry',
+  prompt_subject_name: 'Chemistry',
+  expected_chapter: 'Isolation of Elements',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'chemistry',
+  expected_chapter: 'Isolation of Elements',
+  canonical_unit: 'Existing Chemistry Coverage',
+  concept_id: 'chemistry::isolation_of_elements',
+  pyq_anchor_id: 'structure_only_structured_chemistry_p_block_elements_1_for_chemistry::isolation_of_elements',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-5.5
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-5.5',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-5.5',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 64846,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-5.5',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 11146,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {
+  "questions": [
+    {
+      "q": "When extracting a metal from its ore, which factors can influence the choice of reduction method? Consider the following statements: 1. The stability of the ore in relation to the desired metal. 2. The availability of reducing agents. Which option best evaluates these statements?",
+      "o": [
+        "Both statements are relevant, as they determine the feasibility and efficiency of extraction methods.",
+        "Only statement 1 is important, as the ore's stability dictates all reduction choices.",
+        "Statement 2 is irrelevant because any reducing agent can be used regardless of cost or availability.",
+        "Only ores with high stability can be reduced effectively, making statement 1 alone sufficient."
+      ],
+      "a": "A",
+      "question_type": "evaluation",
+      "concept_id": "chemistry::isolation_of_elements",
+      "trap_option": "C",
+      "strong_distractors": ["B", "D"],
+      "why_not_textbook": "The question avoids direct definitions and requires application of concepts.",
+      "why_cuet_level": "This question necessitates critical thinking and elimination based on provided statements.",
+      "distractor_rationale": {
+        "A": "Correct, both factors are essential for effective extraction.",
+        "B": "Partially correct but overlooks the importance of reducing agents.",
+        "C": "Misleading; reducing agents' availability does impact extraction choices significantly.",
+        "D": "Incorrect; statement 1 alone cannot dictate effectiveness without considering reducing agents."
+      }
+    },
+    {
+      "q": "In the process of isolating a metal from its compound, which of the following methods can be applied? Consider these techniques: 1. Electrolytic reduction for metals with high reactivity. 2. Thermal reduction for less reactive metals. How do these methods compare?",
+      "o": [
+        "Both methods are applicable, depending on the metal's reactivity and economic considerations.",
+        "Only electrolytic reduction is viable for all metals due to its effectiveness.",
+        "Thermal reduction is only suitable for highly reactive metals, making it less common.",
+        "Electrolytic reduction is inefficient for any metal, while thermal reduction works universally."
+      ],
+      "a": "A",
+      "question_type": "comparison",
+      "concept_id": "chemistry::isolation_of_elements",
+      "trap_option": "D",
+      "strong_distractors": ["B", "C"],
+      "why_not_textbook": "The options require analysis rather than rote memorization of methods.",
+      "why_cuet_level": "The question promotes elimination through comparative reasoning about extraction methods.",
+      "distractor_rationale": {
+        "A": "Correct; both methods are contextually appropriate based on metal properties.",
+        "B": "Incorrect; electrolytic reduction is not universally applicable to all metals.",
+        "C": "Partially correct but misrepresents thermal reduction's applicability to less reactive metals.",
+        "D": "Completely incorrect; both methods have specific utilities based on reactivity."
+      }
+    }
+  ]
+}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 2
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'd53f5db0-a35e-4ea0-8afb-d68978b17ddc',
+    '044cf4ff-716b-4928-9914-101ae1e35a7b',
+    'bbad3b1b-51a6-4365-91e1-0c5af54c2775',
+    'ee341ecf-1d1d-4805-8005-7577c08840cd',
+    'b1fce750-f8a0-4e0e-b86e-f8122f1f4649',
+    'fc6a1ae2-328c-4bbb-964a-2ac3407999ab'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'd53f5db0-a35e-4ea0-8afb-d68978b17ddc',
+  actual_subject: 'computer_science',
+  actual_chapter: 'Computer Networks',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 340,
+  created_at: '2026-04-30T20:55:00.179055+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'computer_science', chapter: 'Computer Networks', count: 8 }
+
+[JOB d53f5db0] Starting: [computer_science] Computer Networks
+[worker] RECEIVED_JOB: {
+  job_id: 'd53f5db0-a35e-4ea0-8afb-d68978b17ddc',
+  expected_subject: 'computer_science',
+  expected_chapter: 'Computer Networks',
+  raw_subject_id: 'computer_science',
+  raw_chapter: 'Computer Networks',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T20:55:00.179055+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'd53f5db0-a35e-4ea0-8afb-d68978b17ddc',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  chapter: 'Computer Networks',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Computer Networks', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'd53f5db0-a35e-4ea0-8afb-d68978b17ddc',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Computer Networks',
+  canonical_unit: 'Section A: Database and Networks',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Computer Networks" unit="Section A: Database and Networks" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'computer_science',
+  prompt_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Computer Networks',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'computer_science',
+  expected_chapter: 'Computer Networks',
+  canonical_unit: 'Section A: Database and Networks',
+  concept_id: 'computer_science::computer_networks',
+  pyq_anchor_id: 'synthetic_cuet_structure_computer_science',
+  anchor_tier: 4,
+  anchor_source_quality: 'synthetic',
+  pyq_example_count: 0,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-5.5
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-5.5',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}

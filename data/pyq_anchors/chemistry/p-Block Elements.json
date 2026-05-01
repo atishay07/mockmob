@@ -1,0 +1,33 @@
+{
+  "subject": "chemistry",
+  "chapter": "p-Block Elements",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "A student compares two p-block elements and claims that group position alone is enough to predict their common oxidation states. Which correction is most consistent with NCERT reasoning?",
+      "options": [
+        "Group position gives a trend, but inert pair effect and element size can change the stability of oxidation states.",
+        "Group position is irrelevant because p-block oxidation states are decided only by atomic mass.",
+        "Oxidation states remain fixed across a group because valence shell configuration is identical.",
+        "Only electronegativity decides oxidation state stability, so group trends are not useful."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["comparison-based", "elimination", "close-distractors", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    },
+    {
+      "question": "Statement I: Down a p-block group, lower oxidation states may become more stable. Statement II: This can be linked to reluctance of s-electrons to participate in bonding. Which option evaluates the reasoning?",
+      "options": [
+        "Both statements are correct, and Statement II explains the trend through inert pair effect.",
+        "Both statements are correct, but Statement II explains only metallic character, not oxidation states.",
+        "Statement I is correct, but Statement II is incorrect because s-electrons always participate equally.",
+        "Statement I is incorrect because higher oxidation states become more stable down every p-block group."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["assertion-reason", "trap-option", "elimination", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "subject": "sociology",
+  "chapter": "Introducing Indian Society",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "A learner says caste matters in India only as an old ritual identity. Which response gives the best sociological correction?",
+      "options": [
+        "Caste can operate as identity, social network, and resource-access marker in different contexts.",
+        "Caste is relevant mainly in religious ceremonies and has little link with social opportunity.",
+        "Caste works in the same way across regions because its rules are fixed everywhere.",
+        "Caste has been removed from public life, so it can be studied only as history."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["misconception-based", "elimination", "close-distractors", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    },
+    {
+      "question": "Statement I: Indian society has unity as well as diversity. Statement II: Diversity means social groups cannot share common institutions. Which option is most accurate?",
+      "options": [
+        "Statement I is valid, but Statement II mistakes diversity for complete separation.",
+        "Both statements are valid because shared institutions disappear in a diverse society.",
+        "Statement I is invalid because diversity prevents any form of social unity.",
+        "Statement II is valid because common institutions make diversity sociologically irrelevant."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["statement-based", "trap-option", "elimination", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

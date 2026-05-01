@@ -1,0 +1,2988 @@
+[worker] recovered stale processing jobs: [
+  {
+    id: 'd53f5db0-a35e-4ea0-8afb-d68978b17ddc',
+    subject_id: 'computer_science',
+    chapter: 'Computer Networks',
+    started_at: null
+  }
+]
+[pyq_anchor] selected_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::staffing',
+  selected_anchor_id: 'structured_business_studies_consumer_protection_1',
+  selected_anchor_concept_id: 'business_studies::consumer_protection',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::staffing',
+  source_anchor_id: 'structured_business_studies_consumer_protection_1',
+  source_anchor_concept_id: 'business_studies::consumer_protection',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'weak_options',
+  body: "When evaluating a candidate's suitability for a position, which of the following factors should be c",
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'extreme_qualifier',
+  body: 'Statement I: Effective staffing leads to higher employee morale. Statement II: Staffing is solely ab',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'weak_options',
+  body: 'In a scenario where an organization is facing high turnover rates, which strategies could effectivel',
+  index: 2
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'extreme_qualifier',
+  body: '"Recruitment strategies can influence the diversity within an organization." Which reasoning support',
+  index: 3
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'extreme_qualifier',
+  body: 'Which factors should be prioritized when developing a succession plan in an organization?',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::coordination_compounds',
+  selected_anchor_id: 'structured_chemistry_p_block_elements_1',
+  selected_anchor_concept_id: 'chemistry::p_block_elements',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::coordination_compounds',
+  source_anchor_id: 'structured_chemistry_p_block_elements_1',
+  source_anchor_concept_id: 'chemistry::p_block_elements',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'extreme_qualifier',
+  body: 'In the context of coordination compounds, which of the following statements about ligands is accurat',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Statement I: The color of a coordination compound is influenced by the nature of the metal ion. Stat',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'extreme_qualifier',
+  body: 'Which of the following pairs correctly match the type of isomerism with its description in coordinat',
+  index: 2
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'extreme_qualifier',
+  body: 'In a reaction involving a coordination compound, which factors primarily determine the stability of ',
+  index: 3
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'extreme_qualifier',
+  body: 'Statement I: Transition metals typically exhibit variable oxidation states. Statement II: This varia',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'sociology',
+  requested_concept_id: 'sociology::introducing_indian_society',
+  selected_anchor_id: 'structured_sociology_mass_media_and_communications_1',
+  selected_anchor_concept_id: 'sociology::mass_media_and_communications',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'sociology',
+  requested_concept_id: 'sociology::introducing_indian_society',
+  source_anchor_id: 'structured_sociology_mass_media_and_communications_1',
+  source_anchor_concept_id: 'sociology::mass_media_and_communications',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'extreme_qualifier',
+  body: 'In the context of Indian society, which of the following statements about caste and class is most ac',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'weak_options',
+  body: 'Which of the following best illustrates the concept of cultural pluralism in India?',
+  index: 2
+}
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 429,
+  statusText: 'Too Many Requests',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ",
+  "status": 429,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] batch_validation_failure gemini-3-flash (429)
+[llm] {"event":"batch_validation_failure","timestamp":"2026-04-30T21:15:29.072Z","model":"gemini-3-flash","reason":"rate_limit","message":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ","cooldownUntil":"2026-04-30T21:23:30.446Z"}
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 429,
+  statusText: 'Too Many Requests',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ",
+  "status": 429,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] batch_validation_failure gemini-2-flash (429)
+[llm] {"event":"batch_validation_failure","timestamp":"2026-04-30T21:15:29.455Z","model":"gemini-2-flash","reason":"rate_limit","message":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ","cooldownUntil":"2026-04-30T21:23:40.580Z"}
+[llm] {"event":"batch_validation_all_models_failed","timestamp":"2026-04-30T21:15:29.455Z","subject":"sociology","questionCount":1,"lastError":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. "}
+[pipeline] Batch validation failed without retry: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. . No structural acceptance fallback used.
+Failed: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+Rate limit hit. Sleeping for 30s...
+[worker] recovered stale processing jobs: [
+  {
+    id: '0b414753-4831-4c92-8aec-b2c6dbeb779b',
+    subject_id: 'economics',
+    chapter: 'Economic Reforms Since 1991',
+    started_at: null
+  }
+]
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::isolation_of_elements',
+  selected_anchor_id: 'structured_chemistry_p_block_elements_1',
+  selected_anchor_concept_id: 'chemistry::p_block_elements',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::isolation_of_elements',
+  source_anchor_id: 'structured_chemistry_p_block_elements_1',
+  source_anchor_concept_id: 'chemistry::p_block_elements',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'extreme_qualifier',
+  body: 'In the process of extracting metals from their ores, which of the following statements is accurate r',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'extreme_qualifier',
+  body: 'Consider the extraction methods for aluminum and iron. Which statement correctly compares their proc',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'extreme_qualifier',
+  body: 'Statement I: The method of extraction for a metal depends on its reactivity. Statement II: Highly re',
+  index: 2
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'extreme_qualifier',
+  body: "'A' and 'B' are two ores containing different metals. If 'A' requires carbon reduction while 'B' nee",
+  index: 3
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'extreme_qualifier',
+  body: 'Which statement accurately reflects the relationship between ore composition and extraction techniqu',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'computer_science',
+  concept_id: 'computer_science::computer_networks',
+  selected_anchor_id: 'synthetic_cuet_structure_computer_science',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'application_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  reason: 'weak_options',
+  body: 'In a network, which of the following protocols is primarily responsible for ensuring reliable data t',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  reason: 'weak_options',
+  body: 'Which of the following statements about IP addressing are correct?',
+  index: 2
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  reason: 'weak_options',
+  body: 'Which factors can influence the performance of a network?',
+  index: 4
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'When comparing LAN and WAN, which of the following statements are true?'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'weak_options',
+    body: 'When comparing LAN and WAN, which of the following statements are true?'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 1, source: 'structural_pool' }
+[pipeline] Batch validation failed without retry: all_validation_models_in_cooldown. No structural acceptance fallback used.
+Failed: all_validation_models_in_cooldown
+[worker] recovered stale processing jobs: [
+  {
+    id: 'a509cde8-d890-483e-a72e-6abdaef13289',
+    subject_id: 'sociology',
+    chapter: 'Introducing Indian Society',
+    started_at: null
+  }
+]
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'computer_science',
+  concept_id: 'computer_science::data_structures',
+  selected_anchor_id: 'synthetic_cuet_structure_computer_science',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'case_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Data Structures',
+  reason: 'weak_options',
+  body: 'In a binary tree, which of the following traversal methods can yield the nodes in sorted order?',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Data Structures',
+  reason: 'weak_options',
+  body: 'Which data structure is most efficient for implementing a priority queue?',
+  index: 1
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::economic_reforms_since_1991',
+  selected_anchor_id: 'seed_pyq_e2',
+  selected_anchor_concept_id: 'economics::national_income_and_related_aggregates',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::economic_reforms_since_1991',
+  source_anchor_id: 'seed_pyq_e2',
+  source_anchor_concept_id: 'economics::national_income_and_related_aggregates',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'simple_numerical'
+}
+JSON_PARSE_FAILED
+JSON_PARSE_FAILED
+[llm] Failed to parse JSON array. Raw response: {
+  "questions": [
+    {
+      "q": "Which of the following statements best describes the impact of liberalization on the Indian economy since 1991?",
+      "o": [
+        "Increased competition among domestic firms",
+        "Reduction in government control over industries",
+        "Complete removal of all trade barriers",
+        "Enhanced foreign investment opportunities"
+      ],
+      "a": "A",
+      "question_type": "statement_based",
+      "concept_id": "economics::economic_reforms_since_1991",
+      "trap_option": "C",
+      "strong_distractors": ["B", "D"],
+      "why_not_textbook": "The question encourages analysis rather than rote memorization.",
+      "why_cuet_level": "It requires understanding the nuanced effects of economic reforms.",
+      "distractor_rationale": {
+        "A": "This reflects a key outcome of liberalization.",
+        "B": "While true, it doesn't capture the full picture.",
+        "C": "This is an exaggeration of trade policy changes.",
+        "D": "Though correct, it doesn't encompass the essence of liberalization."
+      }
+    },
+    {
+      "q": "What role did privatization play in the economic reforms initiated in 1991?",
+      "o": [
+        "Increased efficiency in public sector enterprises",
+        "Reduction in fiscal deficits for the government",
+        "Complete elimination of state-owned enterprises",
+        "Encouragement of foreign direct investment"
+      ],
+      "a": "A",
+      "question_type": "statement_based",
+      "concept_id": "economics::economic_reforms_since_1991",
+      "trap_option": "C",
+      "strong_distractors": ["B", "D"],
+      "why_not_textbook": "Focuses on implications rather than definitions.",
+      "why_cuet_level": "Requires evaluation of privatization's multifaceted impacts.",
+      "distractor_rationale": {
+        "A": "Highlights a significant benefit of privatization.",
+        "B": "Partially correct but too simplistic.",
+        "C": "Incorrect as many state-owned enterprises still exist.",
+        "D": "While true, it does not capture the primary role of privatization."
+      }
+    },
+    {
+      "q": "Which factors contributed to the shift from a closed economy to a market-oriented economy post-1991?",
+      "o": [
+        "Globalization and technological advancements",
+        "Increased foreign exchange reserves",
+        "Total deregulation of all sectors immediately",
+        "Greater integration with global markets"
+      ],
+      "a": "A",
+      "question_type": "statement_based",
+      "concept_id": "economics::economic_reforms_since_1991",
+      "trap_option": "C",
+      "strong_distractors": ["B", "D"],
+      "why_not_textbook": "\"Shift\" implies understanding processes rather than definitions.",
+      "why_cuet_level": "\"Factors\" prompts critical thinking about economic changes.",
+      "distractor_rationale": {
+        "A": "\"Globalization\" is a key driver of economic change.",
+        "B": "\"Reserves\" improved but weren't the sole factor.",
+        "C": "\"Deregulation\" was gradual, not immediate.",
+        "D\": \"Integration is important but not exhaustive of contributing factors."
+     
+    	: {
+    	"q":"How did the introduction of GST reflect the economic reforms post-1991?",
+    	"o":[
+    	"Streamlined tax structure across states",
+    	"Completely replaced all previous taxes",
+    	"Increased complexity in tax compliance",
+    	"Promoted ease of doing business"
+    	],
+    	"a":"A",
+    	"question_type":"statement_based",
+    	"concept_id":"economics::economic_reforms_since_1991",
+    	"trap_option":"B",
+    	"strong_distractors":["C","D"],
+    	"why_not_textbook":"It emphasizes practical implications over theory.",
+    	"why_cuet_level":"Requires understanding the nuances of GST's impact.",
+    	"distractor_rationale":{
+    	"A":"Correctly identifies a major reform outcome.",
+    	"B":"This is an exaggeration; not all taxes were replaced.",
+    	"C":"While some may find it complex, it's not universally true.",
+    	"D":"Although partially true, it doesn't capture the full intent."
+    	}
+    },
+   	"q":"What has been one of the significant outcomes of economic reforms in India since 1991?",
+   	   	 	 	 	 	 	 	 	 	 	 	 	 	  	   	  	   	   	   	   	   	   	 	 	 	 	 	 	 	
+   	   	 	 	 	   	  	   	  	   	  	   	  	   	  	   	  			  
+   	     	
+  	
+   	
+   	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+ 		
+ 	 
+ 	 
+ 	 
+ 	 
+ 	 
+   
+  		
+   	 
+
+     
+      		
+      		
+      		
+      		
+      		
+      		
+      		
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+  
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+   
+   
+   
+  
+   
+  
+   
+  
+   
+  
+   
+  
+   
+  
+   
+  
+   
+  
+   
+  
+   
+  
+   
+  
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+    
+ 
+  
+ 
+  
+ 
+  
+ 
+  
+ 
+  
+ 
+  
+ 
+  
+ 
+  
+ 
+  
+ 
+  
+ 
+  
+ 
+  
+ 
+  
+ 
+  
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+    
+  
+
+    
+    
+
+    
+        
+         
+
+    
+        
+         
+
+    
+        
+         
+
+    
+        
+         
+
+    
+        
+         
+
+    
+        
+         
+
+    
+        
+         
+
+    
+        
+         
+
+    
+        
+         
+
+    
+        
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+        
+
+
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		 
+
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+
+		 
+
+		 
+
+		 
+
+		 
+
+		 
+
+		 
+
+		 
+
+		 
+
+		 
+
+		 
+
+		 
+
+		 
+
+		 
+
+		 
+
+		 
+
+		 
+
+		 
+
+		 
+
+		 
+
+		 
+
+		 
+
+		 
+
+		 
+
+		 
+
+ 		
+
+ 		
+
+ 		
+
+ 		
+
+ 		
+
+ 		
+
+ 		
+
+ 		
+
+ 		
+
+ 		
+
+ 		
+
+ 		
+
+ 		
+
+ 		
+
+ 		
+
+ 		
+
+ 		
+
+ 		
+
+ 		
+
+ 		
+
+ 		  
+
+
+
+
+ 
+ 
+
+
+ 
+ 
+
+
+ 
+ 
+
+
+ 
+ 
+
+
+ 
+ 
+
+
+ 
+ 
+
+
+ 
+ 
+
+
+ 
+ 
+
+
+ 
+ 
+
+
+ 
+ 
+
+
+ 
+ 
+
+
+ 
+ 
+
+
+ 
+ 
+
+
+ 
+ 
+
+
+ 
+ 
+
+
+ 
+ 
+
+
+ 
+ 
+
+
+ 
+ 
+
+
+ 
+ 
+
+
+ 
+ 
+
+
+
+  
+
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+  
+
+  
+
+
+  
+
+  
+
+
+  
+
+  
+
+
+  
+
+  
+
+
+  
+
+  
+
+
+  
+
+  
+
+
+  
+
+  
+
+
+  
+
+  
+
+
+  
+
+  
+
+
+  
+
+  
+
+
+  
+
+  
+
+
+  
+
+  
+
+
+  
+
+  
+
+
+  
+
+  
+
+
+  
+
+
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+ 
+  
+
+
+
+
+  
+ 
+
+
+
+
+  
+ 
+
+
+
+
+  
+ 
+
+
+
+
+  
+ 
+
+
+
+
+  
+ 
+
+
+
+
+  
+ 
+
+
+
+
+  
+ 
+
+
+
+
+  
+ 
+
+
+
+
+  
+ 
+
+
+
+
+  
+ 
+
+
+
+
+  
+ 
+
+
+
+
+  
+ 
+
+
+
+
+  
+ 
+
+
+
+
+  
+ 
+
+
+
+
+  
+ 
+
+
+
+
+  
+ 
+
+
+
+
+  
+    
+ 
+    
+ 
+    
+ 
+    
+ 
+    
+ 
+    
+ 
+    
+ 
+    
+ 
+    
+ 
+    
+ 
+    
+ 
+    
+ 
+    
+ 
+    
+ 
+    
+ 
+    
+ 
+    
+ 
+    
+ 
+    
+ 
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+
+    
+  
+    
+  
+    
+  
+    
+
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+   
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+
+    
+            
+           
+    
+            
+           
+    
+            
+           
+    
+            
+           
+    
+            
+           
+    
+            
+           
+    
+            
+           
+    
+            
+           
+    
+            
+           
+    
+            
+           
+    
+            
+           
+    
+            
+           
+    
+            
+           
+    
+            
+           
+    
+            
+           
+    
+    
+          
+    
+    
+          
+    
+    
+          
+    
+    
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+
+     
+
+     
+
+     
+
+     
+
+     
+
+     
+
+     
+
+     
+
+     
+
+     
+
+     
+
+     
+
+     
+
+     
+
+     
+
+     
+
+     
+
+     
+
+     
+
+     
+
+     
+
+     
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+       
+
+       
+
+       
+
+       
+
+       
+
+       
+
+       
+
+       
+
+       
+
+       
+
+       
+
+       
+
+       
+
+       
+
+       
+
+       
+
+       
+
+       
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+
+
+        
+
+
+
+        
+
+
+
+        
+
+
+
+        
+
+
+
+        
+
+
+
+        
+
+
+
+        
+
+
+
+        
+
+
+
+        
+
+
+
+        
+
+
+
+        
+
+
+
+        
+
+
+
+        
+
+
+
+        
+
+
+
+        
+
+
+
+        
+
+
+
+        
+
+
+
+        
+
+
+
+        
+
+
+
+         
+
+
+
+
+   
+   
+   
+
+
+
+
+   
+   
+   
+
+
+
+
+   
+   
+   
+
+
+
+
+   
+   
+   
+
+
+
+
+   
+   
+   
+
+
+
+
+   
+   
+   
+
+
+
+
+   
+   
+   
+
+
+
+
+   
+   
+   
+
+
+
+
+   
+   
+
+
+
+
+    
+ 
+        
+ 
+        
+ 
+        
+ 
+        
+ 
+        
+ 
+        
+ 
+        
+ 
+        
+ 
+        
+ 
+        
+ 
+        
+ 
+        
+ 
+        
+ 
+        
+ 
+        
+ 
+        
+ 
+        
+ 
+        
+ 
+        
+ 
+        
+ 
+        
+ 
+        
+ 
+        
+ 
+        
+        
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+          
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+          
+        
+        
+        
+
+        
+
+        
+
+        
+
+        
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+             
+             
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                   
+        
+        
+                
+             
+            
+            
+
+
+
+
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+            
+            
+
+
+
+
+            
+
+
+
+
+             
+            
+            
+
+
+
+
+
+
+             
+            
+             
+            
+            
+
+
+
+
+
+
+             
+            
+            
+
+
+
+
+             
+            
+             
+            
+            
+
+
+
+
+
+
+             
+            
+            
+
+
+
+
+             
+            
+            
+
+
+
+
+
+
+             
+            
+            
+
+
+
+
+             
+            
+            
+
+
+
+
+
+              
+        
+        
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+        
+              
+        
+              
+        
+              
+        
+              
+        
+              
+        
+              
+        
+              
+        
+              
+        
+              
+        
+              
+        
+              
+        
+              
+		
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	         
+	
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+		
+			
+			 
+		
+			
+			 
+		
+			
+			 
+		
+			
+			 
+		
+			
+			 
+		
+			
+			 
+		
+			
+			 
+		
+			
+			 
+		
+			
+			 
+		
+			
+			 
+		
+			
+			 
+		
+			
+			 
+		
+			
+			 
+		
+			
+			 
+		
+			
+			 
+		
+			
+			 
+		
+			
+			 
+		
+			
+				 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 				
+ 
+					
+ 
+					
+ 
+					
+ 
+					
+ 
+					
+ 
+					
+ 
+					
+ 
+					
+ 
+					
+ 
+					
+ 
+					
+ 
+					
+ 
+					
+ 
+					
+ 
+					
+ 
+					
+ 
+					 					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+				 
+	
+				 
+	
+				 
+	
+				 
+	
+				 
+	
+				 
+	
+				 
+	
+				 
+	
+				 
+	
+				 
+	
+				 
+	
+				 
+	
+				 
+	
+				 
+	
+				 
+	
+				 
+	
+				 
+	
+				 
+	
+				 
+	
+				 
+	
+				
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+									
+	
+								
+	
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+								
+								
+								
+								
+								
+								
+								
+								
+								
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+	
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+	
+						
+	
+						
+	
+						
+	
+						
+	
+						
+	
+						
+	
+						
+	
+						
+	
+						
+	
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+
+ 
+                         
+                    
+                    
+
+ 
+                    
+
+ 
+                    
+
+ 
+                    
+
+ 
+                    
+
+ 
+                    
+
+ 
+                    
+
+ 
+                    
+
+ 
+                    
+
+ 
+                    
+
+ 
+                    
+
+ 
+                    
+
+ 
+                    
+
+ 
+                    
+
+ 
+                    
+
+ 
+                    
+
+ 
+                     
+                     
+  
+                     
+                     
+  
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+
+[llm] openai_generation failure gpt-4o-mini: invalid JSON or empty question array
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::narrative_passage',
+  selected_anchor_id: 'seed_pyq_en3',
+  selected_anchor_concept_id: 'english::correct_word_usage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'correct_word_usage'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::narrative_passage',
+  source_anchor_id: 'seed_pyq_en3',
+  source_anchor_concept_id: 'english::correct_word_usage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'correct_word_usage'
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Narrative Passage',
+  reason: 'rc_without_passage_log_only',
+  detected_type: 'Narrative Passage',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: 'In the context of the story, which character shows the most significant change throughout the narrat',
+  index: 0
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Narrative Passage',
+  reason: 'rc_without_passage_log_only',
+  detected_type: 'Narrative Passage',
+  index: 1
+}
+[llm] generated_question_discarded_before_pipeline {
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'What is the primary conflict presented in the narrative?'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'What is the primary conflict presented in the narrative?',
+  index: 1
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Narrative Passage',
+  reason: 'rc_without_passage_log_only',
+  detected_type: 'Narrative Passage',
+  index: 2
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: '"Which element best illustrates the theme of resilience in the text?"',
+  index: 2
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Narrative Passage',
+  reason: 'rc_without_passage_log_only',
+  detected_type: 'Narrative Passage',
+  index: 3
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: '"How does the setting contribute to the overall mood of the passage?"',
+  index: 3
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Narrative Passage',
+  reason: 'rc_without_passage_log_only',
+  detected_type: 'Narrative Passage',
+  index: 4
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: 'Which narrative technique is employed to reveal character motivations?',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization

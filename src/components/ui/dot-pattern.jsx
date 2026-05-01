@@ -1,8 +1,13 @@
 "use client";
 
-import React, { useEffect, useId, useRef, useState } from "react";
+import React, { useEffect, useId, useMemo, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
+
+function seededUnit(seed) {
+  const value = Math.sin(seed * 12.9898) * 43758.5453;
+  return value - Math.floor(value);
+}
 
 export function DotPattern({
   width = 16,
@@ -33,23 +38,24 @@ export function DotPattern({
     return () => window.removeEventListener("resize", updateDimensions);
   }, []);
 
-  const dots = Array.from(
-    {
-      length:
-        Math.ceil(dimensions.width / width) *
-        Math.ceil(dimensions.height / height),
-    },
-    (_, i) => {
-      const col = i % Math.ceil(dimensions.width / width);
-      const row = Math.floor(i / Math.ceil(dimensions.width / width));
+  const dots = useMemo(() => {
+    const columns = Math.ceil(dimensions.width / width);
+    const rows = Math.ceil(dimensions.height / height);
+
+    if (!columns || !rows) return [];
+
+    return Array.from({ length: columns * rows }, (_, i) => {
+      const col = i % columns;
+      const row = Math.floor(i / columns);
+      const seed = i + columns * 31 + rows * 17;
       return {
         x: col * width + cx + x,
         y: row * height + cy + y,
-        delay: Math.random() * 5,
-        duration: Math.random() * 3 + 2,
+        delay: seededUnit(seed) * 5,
+        duration: seededUnit(seed + 0.37) * 3 + 2,
       };
-    }
-  );
+    });
+  }, [dimensions.height, dimensions.width, width, height, cx, cy, x, y]);
 
   return (
     <svg

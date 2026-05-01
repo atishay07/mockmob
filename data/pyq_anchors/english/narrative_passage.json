@@ -1,0 +1,21 @@
+{
+  "subject": "english",
+  "chapter": "Narrative Passage",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "Passage-based set pattern: A mature original narrative passage is followed by linked questions on motive, inference, tone, and detail. Which option describes a strong CUET narrative distractor?",
+      "options": [
+        "It follows one visible action but misses the character's implied motive.",
+        "It introduces a new event not present in the passage.",
+        "It turns the passage into a grammar rule question.",
+        "It repeats a name from the passage without answering the question."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["narrative-passage", "inference", "tone", "close-distractors"],
+      "difficulty": "medium",
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

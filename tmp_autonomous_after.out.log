@@ -1,0 +1,1525 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5932 concepts across 40 subjects (saved 2026-04-30T19:37:22.525Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'business_studies',
+  chapter: 'Planning',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Communication Technologies',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'File Handling',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Money & Banking',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'mathematics',
+  chapter: 'Differential Equations',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'mathematics',
+  chapter: 'Inverse Trigonometric Functions',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'political_science',
+  chapter: 'Alternative Centres of Power',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'political_science',
+  chapter: 'Challenges to & Restoration of the Congress System',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'political_science',
+  chapter: 'Era of One-Party Dominance',
+  coverage: 6,
+  priority: 90
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: biology → normalized: biology → tier: 1
+Subject: business_studies → normalized: business_studies → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: economics → normalized: economics → tier: 1
+Subject: mathematics → normalized: mathematics → tier: 1
+Subject: mathematics → normalized: mathematics → tier: 1
+Subject: political_science → normalized: political_science → tier: 1
+Subject: political_science → normalized: political_science → tier: 1
+Subject: political_science → normalized: political_science → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Human Reproduction',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'business_studies',
+    expected_chapter: 'Planning',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Communication Technologies',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'File Handling',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Money & Banking',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'mathematics',
+    expected_chapter: 'Differential Equations',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'mathematics',
+    expected_chapter: 'Inverse Trigonometric Functions',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'political_science',
+    expected_chapter: 'Alternative Centres of Power',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'political_science',
+    expected_chapter: 'Challenges to & Restoration of the Congress System',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'political_science',
+    expected_chapter: 'Era of One-Party Dominance',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'biology',
+    chapter: 'Human Reproduction',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'business_studies',
+    chapter: 'Planning',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Communication Technologies',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'File Handling',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'economics',
+    chapter: 'Money & Banking',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'mathematics',
+    chapter: 'Differential Equations',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'mathematics',
+    chapter: 'Inverse Trigonometric Functions',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'political_science',
+    chapter: 'Alternative Centres of Power',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'political_science',
+    chapter: 'Challenges to & Restoration of the Congress System',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'political_science',
+    chapter: 'Era of One-Party Dominance',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: '34f9baa8-4ac0-4bdd-b881-7615e9d1979b',
+    subject_id: 'biology',
+    chapter: 'Human Reproduction',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:44:22.126177+00:00'
+  },
+  {
+    id: 'c586238c-8922-4507-b212-8d9a32920e3e',
+    subject_id: 'business_studies',
+    chapter: 'Planning',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:44:22.126177+00:00'
+  },
+  {
+    id: '3c4779d8-990f-48af-bf1a-2786e527ffdc',
+    subject_id: 'computer_science',
+    chapter: 'Communication Technologies',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:44:22.126177+00:00'
+  },
+  {
+    id: '976c5daf-9288-4b85-81e6-304d0cb3b58a',
+    subject_id: 'computer_science',
+    chapter: 'File Handling',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:44:22.126177+00:00'
+  },
+  {
+    id: '10eda56a-0405-4600-bed4-7f6cd03be8eb',
+    subject_id: 'economics',
+    chapter: 'Money & Banking',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:44:22.126177+00:00'
+  },
+  {
+    id: '43448dd9-aa03-4d61-bf8f-d6a75e9dd53f',
+    subject_id: 'mathematics',
+    chapter: 'Differential Equations',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:44:22.126177+00:00'
+  },
+  {
+    id: 'dca6c3d8-4a56-4edb-9f1b-cdd25332416d',
+    subject_id: 'mathematics',
+    chapter: 'Inverse Trigonometric Functions',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:44:22.126177+00:00'
+  },
+  {
+    id: '8bd2c3d1-ddaa-4097-a5e5-1be730fbb666',
+    subject_id: 'political_science',
+    chapter: 'Alternative Centres of Power',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:44:22.126177+00:00'
+  },
+  {
+    id: 'ea03e7f5-9f65-4084-a709-227a03084733',
+    subject_id: 'political_science',
+    chapter: 'Challenges to & Restoration of the Congress System',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:44:22.126177+00:00'
+  },
+  {
+    id: '7ca17508-2d2d-4393-802f-48cd5d6e0ee4',
+    subject_id: 'political_science',
+    chapter: 'Era of One-Party Dominance',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:44:22.126177+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: '34f9baa8-4ac0-4bdd-b881-7615e9d1979b',
+    expected_subject: 'biology',
+    expected_chapter: 'Human Reproduction',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'c586238c-8922-4507-b212-8d9a32920e3e',
+    expected_subject: 'business_studies',
+    expected_chapter: 'Planning',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '3c4779d8-990f-48af-bf1a-2786e527ffdc',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Communication Technologies',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '976c5daf-9288-4b85-81e6-304d0cb3b58a',
+    expected_subject: 'computer_science',
+    expected_chapter: 'File Handling',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '10eda56a-0405-4600-bed4-7f6cd03be8eb',
+    expected_subject: 'economics',
+    expected_chapter: 'Money & Banking',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '43448dd9-aa03-4d61-bf8f-d6a75e9dd53f',
+    expected_subject: 'mathematics',
+    expected_chapter: 'Differential Equations',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'dca6c3d8-4a56-4edb-9f1b-cdd25332416d',
+    expected_subject: 'mathematics',
+    expected_chapter: 'Inverse Trigonometric Functions',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '8bd2c3d1-ddaa-4097-a5e5-1be730fbb666',
+    expected_subject: 'political_science',
+    expected_chapter: 'Alternative Centres of Power',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'ea03e7f5-9f65-4084-a709-227a03084733',
+    expected_subject: 'political_science',
+    expected_chapter: 'Challenges to & Restoration of the Congress System',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '7ca17508-2d2d-4393-802f-48cd5d6e0ee4',
+    expected_subject: 'political_science',
+    expected_chapter: 'Era of One-Party Dominance',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '34f9baa8-4ac0-4bdd-b881-7615e9d1979b',
+    'c586238c-8922-4507-b212-8d9a32920e3e',
+    '3c4779d8-990f-48af-bf1a-2786e527ffdc',
+    '976c5daf-9288-4b85-81e6-304d0cb3b58a',
+    '10eda56a-0405-4600-bed4-7f6cd03be8eb',
+    '43448dd9-aa03-4d61-bf8f-d6a75e9dd53f',
+    'dca6c3d8-4a56-4edb-9f1b-cdd25332416d',
+    '8bd2c3d1-ddaa-4097-a5e5-1be730fbb666',
+    'ea03e7f5-9f65-4084-a709-227a03084733',
+    '7ca17508-2d2d-4393-802f-48cd5d6e0ee4'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '34f9baa8-4ac0-4bdd-b881-7615e9d1979b',
+  actual_subject: 'biology',
+  actual_chapter: 'Human Reproduction',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 6,
+  subject_question_count: 407,
+  created_at: '2026-04-30T19:44:22.126177+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  count: 6,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'biology', chapter: 'Human Reproduction', count: 6 }
+
+[JOB 34f9baa8] Starting: [biology] Human Reproduction
+[worker] RECEIVED_JOB: {
+  job_id: '34f9baa8-4ac0-4bdd-b881-7615e9d1979b',
+  expected_subject: 'biology',
+  expected_chapter: 'Human Reproduction',
+  raw_subject_id: 'biology',
+  raw_chapter: 'Human Reproduction',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:44:22.126177+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '34f9baa8-4ac0-4bdd-b881-7615e9d1979b',
+  expected_subject: 'biology',
+  resolved_subject_id: 'biology',
+  resolved_subject_name: 'Biology',
+  chapter: 'Human Reproduction',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=6 existing questions loaded
+[generation] batch adjusted: { chapter: 'Human Reproduction', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '34f9baa8-4ac0-4bdd-b881-7615e9d1979b',
+  expected_subject: 'biology',
+  resolved_subject_id: 'biology',
+  resolved_subject_name: 'Biology',
+  expected_chapter: 'Human Reproduction',
+  canonical_unit: 'Reproduction',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Human Reproduction" unit="Reproduction" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'biology',
+  prompt_subject_name: 'Biology',
+  expected_chapter: 'Human Reproduction',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'biology',
+  expected_chapter: 'Human Reproduction',
+  canonical_unit: 'Reproduction',
+  concept_id: 'biology::human_reproduction',
+  pyq_anchor_id: 'synthetic_cuet_structure_biology',
+  anchor_tier: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'biology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'biology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 21241,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'biology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"In a recent biology class, students discussed the process of fertilization. They debated whether external factors can influence the success of fertilization in humans. Which statement best addresses their discussion?","o":["Fertilization can be influenced by factors such as hormonal balance and environmental conditions.","Fertilization is solely determined by genetic compatibility between sperm and egg.","Fertilization occurs independently of any external conditions.","Hormonal levels have no impact on the fertilization process."],"a":"A","d":"medium|hard","difficulty_weight":2,"question_type":"case_based","concept_pattern":"unique_snake_case_tag","explanation":"This question evaluates understanding of the factors influencing fertilization.","subject":"biology","public_subject":"biology","chapter":"Human Reproduction","topic":"Reproduction","concept":"Human Reproduction","concept_id":"biology::human_reproduction","pyq_anchor_id":"synthetic_cuet_structure_biology","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"During a health class, students learned about the importance of reproductive health. One student argued that reproductive health only involves physical aspects, while another emphasized psychological well-being as well. Which perspective is more accurate?","o":["Reproductive health encompasses both physical and psychological aspects, making it a holistic concept.","Reproductive health is primarily focused on physical health and reproductive functions only.","Psychological aspects are secondary to physical conditions in reproductive health.","Reproductive health is mainly concerned with social issues rather than individual well-being."],"a":"A","d":"medium|hard","difficulty_weight":2,"question_type":"application_based","concept_pattern":"unique_snake_case_tag","explanation":"This question tests the application of reproductive health concepts in a real-world context.","subject":"biology","public_subject":"biology","chapter":"Human Reproduction","topic":"Reproduction","concept":"Human Reproduction","concept_id":"biology::human_reproduction","pyq_anchor_id":"synthetic_cuet_structure_biology","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"Comparing sexual reproduction and asexual reproduction, which statement correctly highlights their differences in human contexts?","o":["Sexual reproduction involves genetic mixing, while asexual reproduction results in identical offspring.","Asexual reproduction allows for genetic variation, whereas sexual reproduction does not.","Both processes involve the same mechanisms for producing offspring in humans.","Sexual reproduction does not require gametes, unlike asexual reproduction."],"a":"A","d":"medium|hard","difficulty_weight":2,"question_type":"comparison_based","concept_pattern":"unique_snake_case_tag","explanation":"This question assesses the understanding of reproductive methods in humans.","subject":"biology","public_subject":"biology","chapter":"Human Reproduction","topic":"Reproduction","concept":"Human Reproduction","concept_id":"biology::human_reproduction","pyq_anchor_id":"synthetic_cuet_structure_biology","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"Statement I: The menstrual cycle is regulated by hormones including estrogen and progesterone. Statement II: Hormonal fluctuations have no effect on mood or behavior during the menstrual cycle. Which statements are correct?","o":["Statement I is correct; Statement II is incorrect.","Both statements are correct, as hormones do not affect mood.","Statement I is incorrect; Statement II is correct.","Both statements are incorrect regarding hormonal influence."],"a":"A","d":"medium|hard","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"unique_snake_case_tag","explanation":"This question evaluates comprehension of hormonal roles in the menstrual cycle.","subject":"biology","public_subject":"biology","chapter":"Human Reproduction","topic":"Reproduction","concept":"Human Reproduction","concept_id":"biology::human_reproduction","pyq_anchor_id":"synthetic_cuet_structure_biology","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"Assertion: Male and female reproductive systems function independently without interaction. Reason: The male reproductive system produces sperm without any influence from the female system. Evaluate the validity of the assertion and reason provided.","o":["Both assertion and reason are false, as interaction exists between systems during reproduction.","The assertion is true but the reason is false; both systems interact during reproduction.","The assertion is false but the reason is true; sperm production involves female influence.","Both assertion and reason are true; they do not affect each other."],"a":"A","d":"medium|hard","difficulty_weight":2,"question_type":"assertion_reason","concept_pattern":"unique_snake_case_tag","explanation":"This question assesses understanding of reproductive system interactions.","subject":"biology","public_subject":"biology","chapter":"Human Reproduction","topic":"Reproduction","concept":"Human Reproduction","concept_id":"biology::human_reproduction","pyq_anchor_id":"synthetic_cuet_structure_biology","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=4
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 4
+[pipeline] generated_count=4 | mix=easy=0, medium=4, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 4
+[pipeline] after_chapter_filter=4 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=4 | sent_for_strict_validation=4 | validator_load_reduction=0.0%
+[pipeline] Starting batch validation for 4 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=4
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T19:44:44.733Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"biology","questionCount":4}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'biology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'biology',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 10436,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'biology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "too simple compared to PYQs",
+      "low trap quality",
+      "obvious answer",
+      "conceptual_depth below 7"
+    ],
+    "score": 3,
+    "exam_quality": 3,
+    "distractor_quality": 2,
+    "conceptual_depth": 3,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Question is too basic for CUET assertion-reason level",
+      "Options do not follow standard CUET Assertion-Reason format"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "MISMATCH",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "concept mismatch",
+      "obvious answer",
+      "textbook style",
+      "too simple compared to PYQs"
+    ],
+    "score": 2,
+    "exam_quality": 2,
+    "distractor_quality": 1,
+    "conceptual_depth": 2,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "hard",
+    "issues": [
+      "Question targets Reproductive Health chapter/concept rather than Human Reproduction (anatomy/physiology)",
+      "Answer is common sense and lacks biological rigor"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "too simple compared to PYQs",
+      "low trap quality",
+      "obvious answer",
+      "conceptual_depth below 7"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 4,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Statement II is a simplistic negative statement that provides no challenge",
+      "Lacks the multi-step reasoning found in CUET statement-based questions"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 3,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "too simple compared to PYQs",
+      "textbook style",
+      "obvious answer",
+      "direct definition"
+    ],
+    "score": 3,
+    "exam_quality": 3,
+    "distractor_quality": 2,
+    "conceptual_depth": 3,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Question is a basic definition check of sexual vs asexual reproduction",
+      "Human context is irrelevant to the options provided which are generic biology facts"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 4
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T19:44:55.181Z","model":"gemini-3-flash","subject":"biology","resultCount":4}
+[reject] {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  reason: 'concept mismatch; obvious answer; textbook style; too simple compared to PYQs; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'concept mismatch',
+  details: {
+    compositeScore: 2,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'MISMATCH',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  reason: 'too simple compared to PYQs; textbook style; obvious answer; direct definition; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'too simple compared to PYQs',
+  details: {
+    compositeScore: 30,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  reason: 'too simple compared to PYQs; low trap quality; obvious answer; conceptual_depth below 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'too simple compared to PYQs',
+  details: {
+    compositeScore: 31,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  reason: 'too simple compared to PYQs; low trap quality; obvious answer; conceptual_depth below 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'too simple compared to PYQs',
+  details: {
+    compositeScore: 30,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 4, hard: 0 },
+  system: { easy: 0, medium: 3, hard: 1 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 4
+[pipeline] validated_count=4 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 4
+[pipeline] selected_count=4 | FINAL DISTRIBUTION: {"easy":0,"medium":3,"hard":1}
+✅ Published d8f90a96-d05d-4acf-8dce-8f2f423a29ad | status=live | difficulty=medium | discoverable=true
+✅ Published 6015efd2-771f-4c0b-9b6b-9d985937c2e4 | status=live | difficulty=medium | discoverable=true
+✅ Published ffa26458-d89b-45c9-8be5-95fa5179d61f | status=live | difficulty=hard | discoverable=true
+✅ Published a531b5b7-1a35-462a-8def-be9377d87ddb | status=live | difficulty=medium | discoverable=true
+[pipeline] METRICS | generated_count=4 | prefiltered_count=4 | strict_validation_count=4 | accepted_count=8 | api_calls_used=2 | cost_efficiency_ratio=4.00
+[pipeline] SUMMARY | subject=biology | chapter=Human Reproduction | target=5 | generated_count=4 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=4 | validated_count=4 | accepted_count=8 | shortfall=1 | yield_rate=200.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=3, hard=1
+[pipeline] subject_distribution: {"subject":"biology","accepted":8,"rejected":4,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=7207 | total_cost=$0.0020 | cost_per_accepted=$0.0003 | cost_per_1000=$0.25 | total_accepted=8
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  sample_size: 10,
+  direct_definition_count: 0,
+  weak_option_count: 4,
+  repeated_structure_count: 0,
+  easy_count: 4,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'c586238c-8922-4507-b212-8d9a32920e3e',
+    '3c4779d8-990f-48af-bf1a-2786e527ffdc',
+    '976c5daf-9288-4b85-81e6-304d0cb3b58a',
+    '10eda56a-0405-4600-bed4-7f6cd03be8eb',
+    '43448dd9-aa03-4d61-bf8f-d6a75e9dd53f',
+    'dca6c3d8-4a56-4edb-9f1b-cdd25332416d',
+    '8bd2c3d1-ddaa-4097-a5e5-1be730fbb666',
+    'ea03e7f5-9f65-4084-a709-227a03084733',
+    '7ca17508-2d2d-4393-802f-48cd5d6e0ee4'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'c586238c-8922-4507-b212-8d9a32920e3e',
+  actual_subject: 'business_studies',
+  actual_chapter: 'Planning',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 6,
+  subject_question_count: 322,
+  created_at: '2026-04-30T19:44:22.126177+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'business_studies',
+  chapter: 'Planning',
+  count: 6,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'business_studies', chapter: 'Planning', count: 6 }
+
+[JOB c586238c] Starting: [business_studies] Planning
+[worker] RECEIVED_JOB: {
+  job_id: 'c586238c-8922-4507-b212-8d9a32920e3e',
+  expected_subject: 'business_studies',
+  expected_chapter: 'Planning',
+  raw_subject_id: 'business_studies',
+  raw_chapter: 'Planning',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:44:22.126177+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'c586238c-8922-4507-b212-8d9a32920e3e',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  chapter: 'Planning',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=6 existing questions loaded
+[generation] batch adjusted: { chapter: 'Planning', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'c586238c-8922-4507-b212-8d9a32920e3e',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  expected_chapter: 'Planning',
+  canonical_unit: 'Planning',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Planning" unit="Planning" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'business_studies',
+  prompt_subject_name: 'Business Studies',
+  expected_chapter: 'Planning',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'business_studies',
+  expected_chapter: 'Planning',
+  canonical_unit: 'Planning',
+  concept_id: 'business_studies::planning',
+  pyq_anchor_id: 'structure_only_seed_pyq_b3_for_business_studies::planning',
+  anchor_tier: 3,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 18399,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"A company is planning its annual marketing strategy and is considering various factors such as budget allocation and target audience. Which option best illustrates an important aspect of the planning process?","o":["It focuses solely on the budget without considering market trends.","It incorporates both budget and target audience analysis into the strategy.","It emphasizes only the target audience while ignoring budget constraints.","It treats past performance as the only factor in planning."],"a":"B","d":"medium","difficulty_weight":2,"question_type":"case_based","concept_pattern":"business_studies::planning","subject":"business_studies","public_subject":"business_studies","chapter":"Planning","topic":"Planning","concept":"Planning","concept_id":"business_studies::planning","pyq_anchor_id":"structure_only_seed_pyq_b3_for_business_studies::planning","anchor_tier":3},{"q":"In a recent business meeting, a manager stated that effective planning must adapt to changing circumstances. Which principle of planning does this statement align with?","o":["Planning should remain static to ensure consistency.","Planning must be flexible to accommodate unforeseen changes.","Planning is primarily focused on long-term goals without adjustments.","Planning disregards external factors influencing decisions."],"a":"B","d":"medium","difficulty_weight":2,"question_type":"application_based","concept_pattern":"business_studies::planning","subject":"business_studies","public_subject":"business_studies","chapter":"Planning","topic":"Planning","concept":"Planning","concept_id":"business_studies::planning","pyq_anchor_id":"structure_only_seed_pyq_b3_for_business_studies::planning","anchor_tier":3},{"q":"Comparing strategic planning and operational planning, which statement accurately captures their main distinction?","o":["Strategic planning is focused on day-to-day operations, while operational planning is about long-term objectives.","Strategic planning involves high-level goals, whereas operational planning deals with specific tasks and processes.","Both types of planning are identical in purpose and execution.","Operational planning is less important than strategic planning in decision-making."],"a":"B","d":"medium","difficulty_weight":2,"question_type":"comparison_based","concept_pattern":"business_studies::planning","subject":"business_studies","public_subject":"business_studies","chapter":"Planning","topic":"Planning","concept":"Planning","concept_id":"business_studies::planning","pyq_anchor_id":"structure_only_seed_pyq_b3_for_business_studies::planning","anchor_tier":3},{"q":"Statement I: Planning requires setting objectives before developing strategies. Statement II: Planning can be done without assessing resources. Which of the following statements is correct?","o":["Only Statement I is correct as objectives are crucial for effective planning.","Only Statement II is correct because resource assessment is optional.","Both statements are correct and equally important in the planning process.","Neither statement is correct since both are essential for proper planning."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"business_studies::planning","subject":"business_studies","public_subject":"business_studies","chapter":"Planning","topic":"Planning","concept":"Planning","concept_id":"business_studies::planning","pyq_anchor_id":"structure_only_seed_pyq_b3_for_business_studies::planning","anchor_tier":3},{"q":"Assertion: Effective planning leads to better resource utilization. Reason: Planning helps in identifying potential challenges beforehand. Which of the following options correctly evaluates the assertion and reason? ","o":["Both assertion and reason are true, and the reason explains the assertion.","The assertion is true, but the reason is false as it does not relate to resource utilization.","The assertion is false, but the reason is true since challenges do not impact resource use.","Both assertion and reason are false as they misrepresent the role of planning."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"assertion_reason","concept_pattern":"business_studies::planning","subject":"business_studies","public_subject":"business_studies","chapter":"Planning","topic":"Planning","concept":"Planning","concept_id":"business_studies::planning","pyq_anchor_id":"structure_only_seed_pyq_b3_for_business_studies::planning","anchor_tier":3}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=2
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 2
+[pipeline] generated_count=2 | mix=easy=0, medium=2, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 2
+[reject] {
+  subject: 'business_studies',
+  chapter: 'Planning',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=2 | pre_validation_filtered=1 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=2 | sent_for_strict_validation=2 | validator_load_reduction=0.0%
+[pipeline] Starting batch validation for 2 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=2
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T19:45:32.542Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"business_studies","questionCount":2}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'business_studies',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'business_studies',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 15859,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'business_studies',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "obvious answer",
+      "conceptual depth low"
+    ],
+    "score": 4,
+    "exam_quality": 5,
+    "distractor_quality": 3,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The distractors contain internal contradictory logic making them too easy to eliminate",
+      "Conceptual depth is below the threshold for a competitive exam"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "textbook style",
+      "direct recall stem",
+      "low trap quality"
+    ],
+    "score": 5,
+    "exam_quality": 4,
+    "distractor_quality": 5,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Question is a standard textbook distinction with low reasoning required",
+      "Two distractors are not plausibly attractive"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 2
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T19:45:48.403Z","model":"gemini-3-flash","subject":"business_studies","resultCount":2}
+[difficulty distribution] {
+  model: { easy: 0, medium: 2, hard: 0 },
+  system: { easy: 0, medium: 2, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 2
+[pipeline] validated_count=2 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 2
+[pipeline] selected_count=2 | FINAL DISTRIBUTION: {"easy":0,"medium":2,"hard":0}
+✅ Published 69afabaa-b8a9-4495-8cb9-6da361b9e037 | status=live | difficulty=medium | discoverable=true
+✅ Published 4d79f765-3b5b-4709-b075-a36d605685bc | status=live | difficulty=medium | discoverable=true
+[pipeline] METRICS | generated_count=2 | prefiltered_count=2 | strict_validation_count=2 | accepted_count=2 | api_calls_used=2 | cost_efficiency_ratio=1.00
+[pipeline] SUMMARY | subject=business_studies | chapter=Planning | target=5 | generated_count=2 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=1 | strict_validation_count=2 | validated_count=2 | accepted_count=2 | shortfall=3 | yield_rate=100.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=2, hard=0
+[pipeline] subject_distribution: {"subject":"business_studies","accepted":2,"rejected":1,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=13068 | total_cost=$0.0035 | cost_per_accepted=$0.0003 | cost_per_1000=$0.35 | total_accepted=10
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'business_studies',
+  chapter: 'Planning',
+  sample_size: 8,
+  direct_definition_count: 0,
+  weak_option_count: 4,
+  repeated_structure_count: 0,
+  easy_count: 0,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '3c4779d8-990f-48af-bf1a-2786e527ffdc',
+    '976c5daf-9288-4b85-81e6-304d0cb3b58a',
+    '10eda56a-0405-4600-bed4-7f6cd03be8eb',
+    '43448dd9-aa03-4d61-bf8f-d6a75e9dd53f',
+    'dca6c3d8-4a56-4edb-9f1b-cdd25332416d',
+    '8bd2c3d1-ddaa-4097-a5e5-1be730fbb666',
+    'ea03e7f5-9f65-4084-a709-227a03084733',
+    '7ca17508-2d2d-4393-802f-48cd5d6e0ee4'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '3c4779d8-990f-48af-bf1a-2786e527ffdc',
+  actual_subject: 'computer_science',
+  actual_chapter: 'Communication Technologies',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 6,
+  subject_question_count: 334,
+  created_at: '2026-04-30T19:44:22.126177+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'computer_science',
+  chapter: 'Communication Technologies',
+  count: 6,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'computer_science',
+  chapter: 'Communication Technologies',
+  count: 6
+}
+
+[JOB 3c4779d8] Starting: [computer_science] Communication Technologies
+[worker] RECEIVED_JOB: {
+  job_id: '3c4779d8-990f-48af-bf1a-2786e527ffdc',
+  expected_subject: 'computer_science',
+  expected_chapter: 'Communication Technologies',
+  raw_subject_id: 'computer_science',
+  raw_chapter: 'Communication Technologies',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:44:22.126177+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '3c4779d8-990f-48af-bf1a-2786e527ffdc',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  chapter: 'Communication Technologies',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=6 existing questions loaded
+[generation] batch adjusted: { chapter: 'Communication Technologies', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '3c4779d8-990f-48af-bf1a-2786e527ffdc',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Communication Technologies',
+  canonical_unit: 'Section B1: Computer Science',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Communication Technologies" unit="Section B1: Computer Science" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'computer_science',
+  prompt_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Communication Technologies',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'computer_science',
+  expected_chapter: 'Communication Technologies',
+  canonical_unit: 'Section B1: Computer Science',
+  concept_id: 'computer_science::communication_technologies',
+  pyq_anchor_id: 'synthetic_cuet_structure_computer_science',
+  anchor_tier: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 17847,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"A company is deciding between using wired and wireless communication technologies for their internal network. They believe that wired connections are always more secure than wireless ones. Which option best addresses this misconception?","o":["Wired connections generally offer better security than wireless due to physical access limitations.","Wireless technologies can be secured with encryption, making them safe for sensitive data.","Both wired and wireless technologies can be secure if properly implemented, but each has unique vulnerabilities.","Wired connections are not prone to any security threats, unlike wireless technologies."],"a":"C","d":"medium|hard","difficulty_weight":2,"question_type":"case_based","concept_pattern":"unique_snake_case_tag","explanation":"This option highlights that both technologies can be secure under certain conditions while acknowledging their vulnerabilities.","subject":"computer_science","public_subject":"computer_science","chapter":"Communication Technologies","topic":"Section B1: Computer Science","concept":"Communication Technologies","concept_id":"computer_science::communication_technologies","pyq_anchor_id":"synthetic_cuet_structure_computer_science","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"In a scenario where a student is using both fiber optics and copper cables for data transmission, which technology is likely to provide higher bandwidth?","o":["Fiber optics provide higher bandwidth compared to copper cables due to lower signal loss.","Copper cables are known for higher bandwidth capabilities in most applications.","Both fiber optics and copper cables can deliver similar bandwidth under optimal conditions.","Fiber optics are less affected by distance, which enhances bandwidth over longer transmissions."],"a":"A","d":"medium|hard","difficulty_weight":2,"question_type":"application_based","concept_pattern":"unique_snake_case_tag","explanation":"This option correctly identifies the superior bandwidth capabilities of fiber optics compared to copper cables.","subject":"computer_science","public_subject":"computer_science","chapter":"Communication Technologies","topic":"Section B1: Computer Science","concept":"Communication Technologies","concept_id":"computer_science::communication_technologies","pyq_anchor_id":"synthetic_cuet_structure_computer_science","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"Comparing satellite communication and terrestrial communication systems, which statement highlights a valid distinction between them?","o":["Satellite communication requires line-of-sight, while terrestrial does not.","Terrestrial communication typically has lower latency compared to satellite communication.","Satellite systems are limited by geographical location, whereas terrestrial systems are not affected.","Both systems operate on similar principles but differ in transmission methods."],"a":"B","d":"medium|hard","difficulty_weight":2,"question_type":"comparison_based","concept_pattern":"unique_snake_case_tag","explanation":"This option correctly points out the difference in latency between the two communication types.","subject":"computer_science","public_subject":"computer_science","chapter":"Communication Technologies","topic":"Section B1: Computer Science","concept":"Communication Technologies","concept_id":"computer_science::communication_technologies","pyq_anchor_id":"synthetic_cuet_structure_computer_science","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"Statement I: Fiber optic cables are immune to electromagnetic interference. Statement II: Copper cables provide faster data transmission than fiber optic cables. Which of these statements is correct?","o":["Only Statement I is correct as fiber optics do not suffer from EMI issues unlike copper cables.","Only Statement II is correct since copper has better data rates in all scenarios.","Both statements are correct as they highlight different advantages of each technology.","Neither statement is correct because both have unique benefits depending on the application."],"a":"A","d":"medium|hard","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"unique_snake_case_tag","explanation":"This option accurately reflects the immunity of fiber optics to electromagnetic interference, contrasting it with copper's limitations.","subject":"computer_science","public_subject":"computer_science","chapter":"Communication Technologies","topic":"Section B1: Computer Science","concept":"Communication Technologies","concept_id":"computer_science::communication_technologies","pyq_anchor_id":"synthetic_cuet_structure_computer_science","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"Assertion: Wireless networks are less reliable than wired networks. Reason: Wireless signals can be affected by environmental factors. Is the assertion true and does the reason correctly explain it? ","o":["Both assertion and reason are true, and the reason correctly explains the assertion.","The assertion is true, but the reason does not explain why reliability is compromised.","The assertion is false, but the reason is true as environmental factors do impact signal quality.","Both assertion and reason are false because wireless networks have improved significantly."],"a":"A","d":"medium|hard","difficulty_weight":2,"question_type":"assertion_reason","concept_pattern":"unique_snake_case_tag","explanation":"This option correctly identifies that both the assertion and reason are valid, with the reason explaining the assertion appropriately.","subject":"computer_science","public_subject":"computer_science","chapter":"Communication Technologies","topic":"Section B1: Computer Science","concept":"Communication Technologies","concept_id":"computer_science::communication_technologies","pyq_anchor_id":"synthetic_cuet_structure_computer_science","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=4
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 4
+[pipeline] generated_count=4 | mix=easy=0, medium=4, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 4
+[reject] {
+  subject: 'computer_science',
+  chapter: 'Communication Technologies',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=4 | pre_validation_filtered=1 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=25.0%
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T19:46:24.537Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"computer_science","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'computer_science',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'computer_science',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 14381,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'computer_science',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "textbook_style",
+      "low trap quality",
+      "conceptual_depth < 7",
+      "direct definition"
+    ],
+    "score": 5,
+    "exam_quality": 5,
+    "distractor_quality": 4,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The assertion and reason are very basic comparisons between wired and wireless networks.",
+      "The reasoning is a direct textbook property rather than requiring logical deduction.",
+      "Standard CUET Assertion-Reason options should follow the A/B/C/D convention (Both true/R is correct explanation, etc.) rather than descriptive text."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "conceptual_depth < 7",
+      "direct definition",
+      "textbook_style"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 4,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Question is a direct recall of the property of fiber optics vs copper.",
+      "Options C and D are not plausible to a student with basic computer science knowledge.",
+      "Lacks the application-based complexity expected in CUET."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "textbook_style",
+      "low trap quality",
+      "conceptual_depth < 7",
+      "direct definition"
+    ],
+    "score": 5,
+    "exam_quality": 5,
+    "distractor_quality": 4,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Statement II is a glaringly obvious falsehood, making the question too easy for an entrance exam.",
+      "Direct definition style for Statement I reduces conceptual depth.",
+      "Options do not provide a high level of competition."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T19:46:38.922Z","model":"gemini-3-flash","subject":"computer_science","resultCount":3}
+[reject] {
+  subject: 'computer_science',
+  chapter: 'Communication Technologies',
+  reason: 'low trap quality; conceptual_depth < 7; direct definition; textbook_style; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 31,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 3, hard: 0 },
+  system: { easy: 0, medium: 3, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 3
+[pipeline] validated_count=3 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 3
+[pipeline] selected_count=3 | FINAL DISTRIBUTION: {"easy":0,"medium":3,"hard":0}
+✅ Published fbf181ac-d4a3-47e8-b99c-cc9eafa12ef3 | status=live | difficulty=medium | discoverable=true
+✅ Published d0423ea0-1238-4633-87d0-1cf69f813c9a | status=live | difficulty=medium | discoverable=true
+✅ Published a321ef66-403d-41e5-b834-0d11bdc9e489 | status=live | difficulty=medium | discoverable=true
+[pipeline] METRICS | generated_count=4 | prefiltered_count=3 | strict_validation_count=3 | accepted_count=4 | api_calls_used=2 | cost_efficiency_ratio=2.00
+[pipeline] SUMMARY | subject=computer_science | chapter=Communication Technologies | target=5 | generated_count=4 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=1 | strict_validation_count=3 | validated_count=3 | accepted_count=4 | shortfall=2 | yield_rate=100.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=3, hard=0
+[pipeline] subject_distribution: {"subject":"computer_science","accepted":4,"rejected":2,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=20127 | total_cost=$0.0054 | cost_per_accepted=$0.0004 | cost_per_1000=$0.39 | total_accepted=14
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'computer_science',
+  chapter: 'Communication Technologies',
+  sample_size: 9,
+  direct_definition_count: 0,
+  weak_option_count: 2,
+  repeated_structure_count: 0,
+  easy_count: 0,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '976c5daf-9288-4b85-81e6-304d0cb3b58a',
+    '10eda56a-0405-4600-bed4-7f6cd03be8eb',
+    '43448dd9-aa03-4d61-bf8f-d6a75e9dd53f',
+    'dca6c3d8-4a56-4edb-9f1b-cdd25332416d',
+    '8bd2c3d1-ddaa-4097-a5e5-1be730fbb666',
+    'ea03e7f5-9f65-4084-a709-227a03084733',
+    '7ca17508-2d2d-4393-802f-48cd5d6e0ee4'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '976c5daf-9288-4b85-81e6-304d0cb3b58a',
+  actual_subject: 'computer_science',
+  actual_chapter: 'File Handling',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 6,
+  subject_question_count: 337,
+  created_at: '2026-04-30T19:44:22.126177+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'computer_science',
+  chapter: 'File Handling',
+  count: 6,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'computer_science', chapter: 'File Handling', count: 6 }
+
+[JOB 976c5daf] Starting: [computer_science] File Handling
+[worker] RECEIVED_JOB: {
+  job_id: '976c5daf-9288-4b85-81e6-304d0cb3b58a',
+  expected_subject: 'computer_science',
+  expected_chapter: 'File Handling',
+  raw_subject_id: 'computer_science',
+  raw_chapter: 'File Handling',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:44:22.126177+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '976c5daf-9288-4b85-81e6-304d0cb3b58a',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  chapter: 'File Handling',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=6 existing questions loaded
+[generation] batch adjusted: { chapter: 'File Handling', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '976c5daf-9288-4b85-81e6-304d0cb3b58a',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'File Handling',
+  canonical_unit: 'Section B1: Computer Science',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="File Handling" unit="Section B1: Computer Science" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'computer_science',
+  prompt_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'File Handling',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'computer_science',
+  expected_chapter: 'File Handling',
+  canonical_unit: 'Section B1: Computer Science',
+  concept_id: 'computer_science::file_handling',
+  pyq_anchor_id: 'synthetic_cuet_structure_computer_science',
+  anchor_tier: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 19999,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"A software developer is working on a project that involves reading and writing data to files. They are unsure about the correct mode to use for opening a file for both reading and writing. Which option best describes the correct approach for this situation?","o":["Use 'r+' mode to open the file for both reading and writing without truncating it.","Use 'w+' mode, which allows reading and writing but truncates the file if it exists.","Use 'a+' mode to append data while also allowing reading from the file.","Use 'r' mode, as it is sufficient for both reading and writing operations."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"case_based","concept_pattern":"file_handling","subject":"computer_science","public_subject":"computer_science","chapter":"File Handling","topic":"Section B1: Computer Science","concept":"File Handling","concept_id":"computer_science::file_handling","pyq_anchor_id":"synthetic_cuet_structure_computer_science","anchor_tier":4},{"q":"In a program that processes user data, a programmer needs to ensure that they correctly handle file exceptions when trying to access a file. Which principle should they apply in this scenario?","o":["Implement try-except blocks to catch potential file access errors during execution.","Open files without exception handling, as errors are rare when accessing files.","Always check if a file exists before attempting to open it, regardless of error handling.","Use only read modes, as they do not raise exceptions for missing files."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"application_based","concept_pattern":"file_handling","subject":"computer_science","public_subject":"computer_science","chapter":"File Handling","topic":"Section B1: Computer Science","concept":"File Handling","concept_id":"computer_science::file_handling","pyq_anchor_id":"synthetic_cuet_structure_computer_science","anchor_tier":4},{"q":"When comparing text files and binary files in terms of data storage and manipulation, which distinction is valid?","o":["Text files store data as readable characters, while binary files store data in a format specific to the application.","Binary files can only be opened in write mode, while text files can be opened in any mode.","Text files are less efficient for storage compared to binary files due to their character encoding.","Binary files cannot be read by standard text editors, while text files can be."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"comparison_based","concept_pattern":"file_handling","subject":"computer_science","public_subject":"computer_science","chapter":"File Handling","topic":"Section B1: Computer Science","concept":"File Handling","concept_id":"computer_science::file_handling","pyq_anchor_id":"synthetic_cuet_structure_computer_science","anchor_tier":4},{"q":"Statement I: Opening a file in 'w' mode will overwrite any existing content. \nStatement II: A file opened in 'a' mode allows for appending data without removing existing content. \nWhich statements are correct?","o":["Only Statement I is correct.","Both Statement I and Statement II are correct.","Only Statement II is correct.","Neither Statement I nor Statement II is correct."],"a":"B","d":"medium","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"file_handling","subject":"computer_science","public_subject":"computer_science","chapter":"File Handling","topic":"Section B1: Computer Science","concept":"File Handling","concept_id":"computer_science::file_handling","pyq_anchor_id":"synthetic_cuet_structure_computer_science","anchor_tier":4},{"q":"Assertion: Using the correct file mode is essential for proper data handling in programming. \nReason: Different modes determine how data can be accessed or modified within a file. \nIs the assertion true, and does the reason explain it? ","o":["Yes, both assertion and reason are true, and the reason explains the assertion.","Yes, the assertion is true, but the reason is not directly related to it.","No, the assertion is false, but the reason is true.","No, both assertion and reason are false."],"a":"A","d":"medium|hard","difficulty_weight":3,"question_type":"assertion_reason","concept_pattern":"file_handling","subject":"computer_science","public_subject":"computer_science","chapter":"File Handling","topic":"Section B1: Computer Science","concept":"File Handling","concept_id":"computer_science::file_handling","pyq_anchor_id":"synthetic_cuet_structure_computer_science","anchor_tier":4}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=4
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 4
+[pipeline] generated_count=4 | mix=easy=0, medium=4, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 4
+[reject] {
+  subject: 'computer_science',
+  chapter: 'File Handling',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=4 | pre_validation_filtered=1 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=25.0%
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T19:47:16.929Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"computer_science","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'computer_science',
+  stage: 'batch_validation',
+  retry_count: 0
+}

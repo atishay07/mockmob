@@ -1,0 +1,324 @@
+[llm] generated_extreme_word_repaired {
+  body: 'A student claims that the economic reforms of 1991 mainly focused on liberalisation. Which statement'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'economics',
+  chapter: 'Economic Reforms Since 1991',
+  reason: 'weak_options',
+  body: 'A student claims that the economic reforms of 1991 mainly focused on liberalisation. Which statement',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: The 1991 reforms aimed to integrate India into the global economy. Reason: Liberalisation'
+}
+[llm] generated_extreme_word_repaired {
+  body: "In discussing India's economic growth post-1991, a learner states that foreign investments were not "
+}
+[llm] question_rejected_internal_quality {
+  subject: 'economics',
+  chapter: 'Economic Reforms Since 1991',
+  reason: 'obvious_answer_pattern',
+  body: "In discussing India's economic growth post-1991, a learner states that foreign investments were not ",
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: Economic reforms led to an increase in competition among Indian industries. Statement I'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'An economist argues that deregulation post-1991 was sufficient for sustained economic growth. Which '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'economics',
+  chapter: 'Economic Reforms Since 1991',
+  reason: 'obvious_answer_pattern',
+  body: 'An economist argues that deregulation post-1991 was sufficient for sustained economic growth. Which ',
+  index: 4
+}
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 429,
+  statusText: 'Too Many Requests',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ",
+  "status": 429,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] batch_validation_failure gemini-3-flash (429)
+[llm] {"event":"batch_validation_failure","timestamp":"2026-04-30T21:44:04.419Z","model":"gemini-3-flash","reason":"rate_limit","message":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ","cooldownUntil":"2026-04-30T21:52:20.582Z"}
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 429,
+  statusText: 'Too Many Requests',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ",
+  "status": 429,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] batch_validation_failure gemini-2-flash (429)
+[llm] {"event":"batch_validation_failure","timestamp":"2026-04-30T21:44:04.833Z","model":"gemini-2-flash","reason":"rate_limit","message":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ","cooldownUntil":"2026-04-30T21:51:01.345Z"}
+[llm] {"event":"batch_validation_all_models_failed","timestamp":"2026-04-30T21:44:04.833Z","subject":"economics","questionCount":2,"lastError":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. "}
+[pipeline] Batch validation failed without retry: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. . Saving candidates as draft only; no live publish.
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::narrative_passage',
+  selected_anchor_id: 'seed_pyq_en3',
+  selected_anchor_concept_id: 'english::correct_word_usage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'correct_word_usage'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::narrative_passage',
+  source_anchor_id: 'seed_pyq_en3',
+  source_anchor_concept_id: 'english::correct_word_usage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'correct_word_usage'
+}
+[llm] generated_extreme_word_repaired {
+  body: "A character's journey often reveals deeper themes. If a character overcomes personal struggles, it s"
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Narrative Passage',
+  reason: 'rc_without_passage_log_only',
+  detected_type: 'Narrative Passage',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: "A character's journey often reveals deeper themes. If a character overcomes personal struggles, it s",
+  index: 0
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Narrative Passage',
+  reason: 'rc_without_passage_log_only',
+  detected_type: 'Narrative Passage',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: 'In a narrative, symbolism can convey themes effectively. If a recurring object represents hope, but ',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: "When evaluating a story's climax, one might argue it is where tension peaks. However, if characters "
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Narrative Passage',
+  reason: 'rc_without_passage_log_only',
+  detected_type: 'Narrative Passage',
+  index: 2
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: "When evaluating a story's climax, one might argue it is where tension peaks. However, if characters ",
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'In narratives, foreshadowing hints at future events. If an author uses subtle hints about betrayal b'
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Narrative Passage',
+  reason: 'rc_without_passage_log_only',
+  detected_type: 'Narrative Passage',
+  index: 3
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: 'In narratives, foreshadowing hints at future events. If an author uses subtle hints about betrayal b',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: "When analyzing a character's motivations, one might consider their background. If a character's deci"
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Narrative Passage',
+  reason: 'rc_without_passage_log_only',
+  detected_type: 'Narrative Passage',
+  index: 4
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: "When analyzing a character's motivations, one might consider their background. If a character's deci",
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[llm] generated_extreme_word_repaired {
+  body: 'A student claims that a switch and a router perform the same function in a network. Which option bes'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  reason: 'weak_options',
+  body: 'A student claims that a switch and a router perform the same function in a network. Which option bes',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  reason: 'obvious_answer_pattern',
+  body: 'Statement I: A network bridge can connect two different network segments. Statement II: A hub can in',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A teacher states that IP addressing is sufficient for ensuring data integrity during transmission. W'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  reason: 'weak_options',
+  body: 'A teacher states that IP addressing is sufficient for ensuring data integrity during transmission. W',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'In a scenario where multiple devices share bandwidth, a student claims that this setup suggests equa'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  reason: 'weak_options',
+  body: 'In a scenario where multiple devices share bandwidth, a student claims that this setup suggests equa',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: Firewalls protect networks by filtering incoming traffic based on predefined rules. Sta'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  reason: 'weak_options',
+  body: 'Statement I: Firewalls protect networks by filtering incoming traffic based on predefined rules. Sta',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::alternative_centres_of_power',
+  selected_anchor_id: 'structured_political_science_india_s_external_relations_2',
+  selected_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::alternative_centres_of_power',
+  source_anchor_id: 'structured_political_science_india_s_external_relations_2',
+  source_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: The rise of regional powers has influenced global governance structures. Statement II: '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A scholar claims that globalization has diminished state sovereignty. Which correction best addresse'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'political_science',
+  chapter: 'Alternative Centres of Power',
+  reason: 'obvious_answer_pattern',
+  body: 'A scholar claims that globalization has diminished state sovereignty. Which correction best addresse',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider a case where a state collaborates with non-state actors for humanitarian purposes. How does'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'political_science',
+  chapter: 'Alternative Centres of Power',
+  reason: 'weak_options',
+  body: 'Consider a case where a state collaborates with non-state actors for humanitarian purposes. How does',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A political analyst argues that international organizations have become more powerful than nation-st'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'political_science',
+  chapter: 'Alternative Centres of Power',
+  reason: 'weak_options',
+  body: 'A political analyst argues that international organizations have become more powerful than nation-st',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: The emergence of transnational networks has altered diplomatic practices. Statement II:'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'political_science',
+  chapter: 'Alternative Centres of Power',
+  reason: 'obvious_answer_pattern',
+  body: 'Statement I: The emergence of transnational networks has altered diplomatic practices. Statement II:',
+  index: 4
+}
+[pipeline] Batch validation failed without retry: all_validation_models_in_cooldown. Saving candidates as draft only; no live publish.
+[pyq_anchor] selected_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::indian_economy_on_the_eve_of_independence',
+  selected_anchor_id: 'structured_economics_economic_reforms_since_1991_1',
+  selected_anchor_concept_id: 'economics::economic_reforms_since_1991',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::indian_economy_on_the_eve_of_independence',
+  source_anchor_id: 'structured_economics_economic_reforms_since_1991_1',
+  source_anchor_concept_id: 'economics::economic_reforms_since_1991',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}

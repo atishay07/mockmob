@@ -1,0 +1,142 @@
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::electromagnetic_induction',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'numerical_one_step',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::electromagnetic_induction',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'numerical_one_step',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A coil of wire is placed in a changing magnetic field. Which of the following statements is true reg'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: A current-carrying coil in a magnetic field experiences a torque. Reason: The torque aris'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A loop moves out of a uniform magnetic field into a region with no magnetic field. What happens to t'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Which statement correctly describes self-inductance? I. It opposes changes in current within itself.'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  reason: 'obvious_answer_pattern',
+  body: 'Which statement correctly describes self-inductance? I. It opposes changes in current within itself.',
+  index: 3
+}
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[pipeline] TARGET_NOT_MET | target=10 | accepted=1 | shortfall=9 | api_calls_used=3 | reason=accepted_lower_count_without_retry
+[pipeline] LOW_YIELD=25.0% (threshold=30%) — less than 30 % of generated questions were accepted
+[supervisor] COST_ALERT: $5.97/1000 accepted exceeds $1 budget — next batch uses batch_size=3; non-focused validation pauses as draft-only; no unvalidated publish
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::moving_charges_and_magnetism',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'numerical_one_step',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::moving_charges_and_magnetism',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'numerical_one_step',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A wire carrying a current is placed in a magnetic field. Which of the following statements is true? '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'In a circular motion experiment with charged particles, which observations lead to conclusions about'
+}
+[validator-feedback] requeueing_job_with_feedback {
+  job_id: 'a9723ff4-7ddb-4bb7-a2fe-c99cb6ed9133',
+  next_attempt: 2,
+  max_attempts: 2,
+  reasons: [
+    'Concept mismatch risk is medium',
+    'Anchor confidence is low',
+    'Reason explanation is incorrect',
+    'score below final threshold',
+    'exam quality below threshold'
+  ],
+  previous_attempts: 1
+}
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  selected_anchor_id: 'structured_english_narrative_passage_1',
+  selected_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  source_anchor_id: 'structured_english_narrative_passage_1',
+  source_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Para Jumbles',
+  reason: 'obvious_answer_pattern',
+  body: 'Arrange the following sentences to form a coherent paragraph: 1. The sun began to set, casting a gol',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Para Jumbles',
+  reason: 'obvious_answer_pattern',
+  body: 'Arrange the following sentences to create a meaningful paragraph: 1. She decided to take a different',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Rearrange the following sentences to form a logical sequence: 1. He had planned everything meticulou'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Para Jumbles',
+  reason: 'obvious_answer_pattern',
+  body: 'Rearrange the following sentences to form a logical sequence: 1. He had planned everything meticulou',
+  index: 2
+}
+[llm] generation failure gpt-4o-mini: empty question array after normalization

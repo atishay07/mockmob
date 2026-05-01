@@ -1,0 +1,16 @@
+{
+  "subject": "english",
+  "chapter": "Vocabulary",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "In the sentence, 'The committee adopted a cautious stance after reviewing the evidence,' which option is closest to 'cautious' in context?",
+      "options": ["Careful", "Fearful", "Slow", "Doubtful"],
+      "correct_answer": "A",
+      "pattern_tags": ["vocabulary", "context-usage", "close-distractors"],
+      "difficulty": "medium",
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

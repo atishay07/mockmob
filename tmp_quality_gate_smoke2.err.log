@@ -1,0 +1,112 @@
+[pyq_anchor] selected_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::staffing',
+  selected_anchor_id: 'structured_business_studies_consumer_protection_1',
+  selected_anchor_concept_id: 'business_studies::consumer_protection',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::staffing',
+  source_anchor_id: 'structured_business_studies_consumer_protection_1',
+  source_anchor_concept_id: 'business_studies::consumer_protection',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'weak_options',
+  body: 'In a staffing process, which of the following actions can lead to better employee retention?',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'extreme_qualifier',
+  body: 'Which methods are commonly used for assessing candidates during the staffing process?',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'weak_options',
+  body: '"Succession planning" primarily aims to address which aspect of staffing?',
+  index: 2
+}
+[llm] generated_question_discarded_before_pipeline {
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'What is a potential drawback of internal recruitment?'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'What is a potential drawback of internal recruitment?',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'sociology',
+  requested_concept_id: 'sociology::introducing_indian_society',
+  selected_anchor_id: 'structured_sociology_mass_media_and_communications_1',
+  selected_anchor_concept_id: 'sociology::mass_media_and_communications',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'sociology',
+  requested_concept_id: 'sociology::introducing_indian_society',
+  source_anchor_id: 'structured_sociology_mass_media_and_communications_1',
+  source_anchor_concept_id: 'sociology::mass_media_and_communications',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'case_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'extreme_qualifier',
+  body: 'In discussing the caste system, which of the following statements correctly highlights its complexit',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'weak_options',
+  body: 'Which of the following best describes the impact of globalization on Indian society?',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'extreme_qualifier',
+  body: 'When examining rituals in Indian society, which assertion reflects their evolving nature?',
+  index: 2
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'extreme_qualifier',
+  body: "'When discussing education's role in social mobility, which perspective offers a comprehensive view?",
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization

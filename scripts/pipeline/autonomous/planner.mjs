@@ -1,250 +1,252 @@
 import { createClient } from '@supabase/supabase-js';
+import { readFileSync } from 'node:fs';
 import { CANONICAL_SYLLABUS, TOP_SUBJECTS, isValidTopSyllabusPair } from '../../../data/canonical_syllabus.js';
+import {
+  getCuetOverrideConfig,
+  getEnglishNtaChapterPlan,
+  isJobAllowedByOverride,
+  logOverrideConfig,
+} from '../lib/overrideConfig.mjs';
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
-
-function normalizeId(id) {
-  return String(id)
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '_')
-    .replace(/^_|_$/g, '');
-}
+const supabase = process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY
+  ? createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
+  : null;
 
 const MAX_JOBS_PER_RUN = 10;
 const MAX_JOBS_PER_CHAPTER = 2;
 const TOP_SUBJECT_SET = new Set(TOP_SUBJECTS);
-
-// ── Tier definitions ──────────────────────────────────────────────────────────
-// Every subject in the codebase is explicitly placed in a tier.
-// Nothing falls through silently — unlisted subjects emit a warning and land
-// in Tier 3 so the operator can triage.
-const VALID_SUBJECTS = new Set(CANONICAL_SYLLABUS.map((subject) => subject.subject_id).filter((subjectId) => TOP_SUBJECT_SET.has(subjectId)));
+const VALID_SUBJECTS = new Set(
+  CANONICAL_SYLLABUS
+    .map((subject) => subject.subject_id)
+    .filter((subjectId) => TOP_SUBJECT_SET.has(subjectId))
+);
 const SYLLABUS_MAP = new Map(
-  CANONICAL_SYLLABUS.filter((subject) => TOP_SUBJECT_SET.has(subject.subject_id)).map((subject) => [
-    subject.subject_id,
-    new Set(subject.units.flatMap((unit) => unit.chapters)),
-  ])
+  CANONICAL_SYLLABUS
+    .filter((subject) => TOP_SUBJECT_SET.has(subject.subject_id))
+    .map((subject) => [
+      subject.subject_id,
+      new Set(subject.units.flatMap((unit) => unit.chapters)),
+    ])
 );
 
-const TIER_1 = new Set([
-  ...TOP_SUBJECTS,
-]);
+const SUBJECT_PRIORITY_CONFIG = loadJsonConfig('../../../data/cuet_subject_priorities.json', {
+  tiers: {},
+  aliases: {},
+  exam_importance_boost: {},
+  default_tier: 'C',
+});
+const CHAPTER_PRIORITY_CONFIG = loadJsonConfig('../../../data/cuet_chapter_priorities.json', {});
+const TIER_ORDER = ['S', 'A', 'B', 'C', 'D'];
+const TIER_TARGET_COUNTS = { S: 6, A: 3, B: 1, C: 0, D: 0 };
 
-const TIER_2 = new Set([]);
-
-const SUBJECT_TIERS = {
-  1: TIER_1,
-  2: TIER_2,
-  3: new Set([...VALID_SUBJECTS].filter((subject) => !TIER_1.has(subject) && !TIER_2.has(subject))),
-};
-
-/**
- * Returns synthetic gap entries for EVERY chapter of every Tier-1 subject.
- * Used as a fallback when the analyzer reports zero Tier-1 gaps (all chapters
- * have already crossed the Tier-1 coverage threshold).  The planner will still
- * create jobs so the 90 / 10 distribution is maintained.
- */
-function getAllTier1Chapters() {
-  const fallbackGaps = [];
-  for (const [subjectId, chapters] of SYLLABUS_MAP) {
-    if (!TIER_1.has(normalizeId(subjectId))) continue;
-    for (const chapter of chapters) {
-      fallbackGaps.push({
-        subject_id: subjectId,
-        chapter,
-        count: 0,
-        question_count: 0,
-        priority: 100,
-        type: 'TIER1_FALLBACK',
-      });
-    }
+function loadJsonConfig(relativePath, fallback) {
+  try {
+    return JSON.parse(readFileSync(new URL(relativePath, import.meta.url), 'utf8'));
+  } catch (error) {
+    console.warn('[planner] priority_config_load_failed', {
+      file: relativePath,
+      error: error.message,
+    });
+    return fallback;
   }
-  return fallbackGaps;
+}
+
+function normalizeId(id) {
+  return String(id)
+    .toLowerCase()
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_|_$/g, '');
+}
+
+function canonicalPrioritySubject(subject) {
+  const id = normalizeId(subject);
+  return SUBJECT_PRIORITY_CONFIG.aliases?.[id] || id;
 }
 
 function getGapSubject(gap) {
   return normalizeId(gap?.subject || gap?.subject_id || '');
 }
 
-function getSubjectWeight(subject) {
-  const normalizedSubject = normalizeId(subject);
-  if (TIER_1.has(normalizedSubject)) return 1.0;
-  return 0;
+export function getSubjectPriority(subject) {
+  const canonical = canonicalPrioritySubject(subject);
+  for (const tier of TIER_ORDER) {
+    const tierConfig = SUBJECT_PRIORITY_CONFIG.tiers?.[tier];
+    const subjects = new Set((tierConfig?.subjects || []).map(canonicalPrioritySubject));
+    if (subjects.has(canonical)) {
+      return {
+        tier,
+        priority_weight: Number(tierConfig.priority_weight || 0),
+        target_coverage_per_chapter: Number(tierConfig.target_coverage_per_chapter || 20),
+        planner_share: Number(tierConfig.planner_share || 0),
+        exam_importance_boost: getExamImportanceBoost(canonical),
+      };
+    }
+  }
+
+  const defaultTier = SUBJECT_PRIORITY_CONFIG.default_tier || 'C';
+  const defaultConfig = SUBJECT_PRIORITY_CONFIG.tiers?.[defaultTier] || {};
+  return {
+    tier: defaultTier,
+    priority_weight: Number(defaultConfig.priority_weight || 0.2),
+    target_coverage_per_chapter: Number(defaultConfig.target_coverage_per_chapter || 20),
+    planner_share: Number(defaultConfig.planner_share || 0.04),
+    exam_importance_boost: getExamImportanceBoost(canonical),
+  };
+}
+
+function getExamImportanceBoost(subject) {
+  const canonical = canonicalPrioritySubject(subject);
+  return Number(SUBJECT_PRIORITY_CONFIG.exam_importance_boost?.[canonical] || 0);
+}
+
+function getChapterPriorityBoost(subject, chapter) {
+  const canonical = canonicalPrioritySubject(subject);
+  const chapters = CHAPTER_PRIORITY_CONFIG[canonical] || [];
+  const chapterId = normalizeComparable(chapter);
+  return chapters.some((entry) => normalizeComparable(entry) === chapterId) ? 10 : 0;
+}
+
+function normalizeComparable(value) {
+  return String(value || '')
+    .toLowerCase()
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
 }
 
 function isValidSyllabusGap(gap) {
   const subjectId = getGapSubject(gap);
-  const chapter = gap?.chapter;
-  return isValidTopSyllabusPair(subjectId, chapter);
+  return VALID_SUBJECTS.has(subjectId) && isValidTopSyllabusPair(subjectId, gap?.chapter);
 }
 
-/**
- * PLANNER (Intelligence Layer)
- * Prioritises gaps and creates generation_jobs with strict 90 / 10 Tier-1 / other
- * distribution.  Tier filtering happens BEFORE candidate selection — not after.
- */
-export async function planGeneration(gaps) {
-  console.log('📅 Planning generation jobs...');
+export function scorePlannerGap(gap) {
+  const subjectId = getGapSubject(gap);
+  const priority = getSubjectPriority(subjectId);
+  const currentChapterCount = Number(gap?.question_count ?? gap?.count ?? 0);
+  const targetCoverage = priority.target_coverage_per_chapter;
+  const coverageGap = Math.max(0, targetCoverage - currentChapterCount);
+  const recentQualityNeedScore = Number(gap?.recent_quality_need_score || 0);
+  const saturationPenalty = currentChapterCount >= targetCoverage ? 100 : 0;
+  const recentYieldRate = Number(gap?.recent_yield_rate ?? gap?.yield_rate ?? 1);
+  const lowYieldPenalty = recentYieldRate < 0.2 && !['S', 'A'].includes(priority.tier) ? 20 : 0;
+  const chapterPriorityBoost = getChapterPriorityBoost(subjectId, gap?.chapter);
+  const finalScore =
+    priority.priority_weight * 100 +
+    coverageGap +
+    recentQualityNeedScore +
+    priority.exam_importance_boost +
+    chapterPriorityBoost -
+    saturationPenalty -
+    lowYieldPenalty;
 
-  // Active queued/processing jobs are intentionally ignored in local planning.
-  const plannerPool = (gaps || [])
+  return {
+    ...gap,
+    subject_id: subjectId,
+    subject: subjectId,
+    priority_tier: priority.tier,
+    priority_weight: priority.priority_weight,
+    current_chapter_count: currentChapterCount,
+    target_coverage: targetCoverage,
+    coverage_gap: coverageGap,
+    recent_quality_need_score: recentQualityNeedScore,
+    exam_importance_boost: priority.exam_importance_boost,
+    saturation_penalty: saturationPenalty,
+    low_yield_penalty: lowYieldPenalty,
+    chapter_priority_boost: chapterPriorityBoost,
+    final_score: Number(finalScore.toFixed(2)),
+    priority: Number(finalScore.toFixed(2)),
+  };
+}
+
+export function rankPlannerGapsForTests(gaps, override = null) {
+  const overrideConfig = override || getCuetOverrideConfig();
+  return (gaps || [])
     .filter(isValidSyllabusGap)
-    .map((gap) => ({
-      ...gap,
-      subject_id: getGapSubject(gap),
-      subject: getGapSubject(gap),
-      priority: Number(gap.priority || 0) * getSubjectWeight(getGapSubject(gap)),
-    }));
-  const syllabusTotal = plannerPool.length;
-  const coveredChapters = plannerPool.filter((gap) => (gap.question_count ?? gap.count ?? 0) > 0).length;
-  const missingCount = plannerPool.filter((gap) => (gap.question_count ?? gap.count ?? 0) === 0).length;
-  const tier1GapCount = plannerPool.filter((gap) => getSubjectTier(gap.subject_id) === 1).length;
+    .filter((gap) => isJobAllowedByOverride(gap, overrideConfig).allowed)
+    .map(scorePlannerGap)
+    .map((gap) => applyOverridePriorityBoost(gap, overrideConfig))
+    .sort(compareGaps);
+}
+
+export function selectPlannerJobsForTests(gaps, limit = MAX_JOBS_PER_RUN, override = null) {
+  return selectPlannerJobs(rankPlannerGapsForTests(gaps, override), limit);
+}
+
+export async function planGeneration(gaps) {
+  console.log('Planning generation jobs...');
+  const overrideConfig = getCuetOverrideConfig();
+  logOverrideConfig(overrideConfig);
+  const rankedPool = rankPlannerGapsForTests(gaps, overrideConfig);
+  const syllabusTotal = rankedPool.length;
+  const coveredChapters = rankedPool.filter((gap) => gap.current_chapter_count > 0).length;
+  const missingCount = rankedPool.filter((gap) => gap.current_chapter_count === 0).length;
 
   console.log('[planner] syllabus_total:', syllabusTotal);
   console.log('[planner] db_covered:', coveredChapters);
   console.log('[planner] missing_chapters:', missingCount);
 
-  // ── 2. Split gaps into tier buckets BEFORE any other processing ─────────────
-  // This is the key structural change: tier assignment is the FIRST filter,
-  // not something applied after a mixed candidate list is built.
-  const tierGaps = { 1: [], 2: [], 3: [] };
-
-  for (const gap of plannerPool) {
-    const tier = getSubjectTier(gap.subject_id);
-
-    tierGaps[tier].push(gap);
-  }
-
-  const tier1AvailableBeforeOverride = tierGaps[1].length;
-
-  if (tierGaps[1].length === 0 && tier1GapCount > 0) {
-    console.warn('[planner] FORCING Tier 1 override: tier1_gaps exist but tier1_available is 0');
-    tierGaps[1] = getAllTier1Chapters();
-  } else if (tierGaps[1].length === 0) {
-    const allTier1 = getAllTier1Chapters();
-    if (allTier1.length > 0) {
-      console.warn(`[planner] Zero Tier-1 gaps from analyzer; falling back to full Tier-1 roster (${allTier1.length} chapters).`);
-      tierGaps[1] = allTier1;
+  if (rankedPool.length === 0) {
+    const fallbackPool = getFallbackPriorityChapters(overrideConfig)
+      .filter((gap) => isJobAllowedByOverride(gap, overrideConfig).allowed)
+      .map(scorePlannerGap)
+      .map((gap) => applyOverridePriorityBoost(gap, overrideConfig))
+      .sort(compareGaps);
+    if (fallbackPool.length === 0) {
+      console.log('[planner] No new jobs needed across any tier.');
+      return [];
     }
+    rankedPool.push(...fallbackPool);
   }
 
-  console.log('[planner] tier_pool_before_selection:', {
-    tier1_available: tier1AvailableBeforeOverride,
-    tier1_gaps: tier1GapCount,
-    tier1_after_override: tierGaps[1].length,
-    tier2_available: tierGaps[2].length,
-    tier3_available: tierGaps[3].length,
-    subjects_in_pool: getSubjectsInPool(tierGaps),
-  });
-  const totalCandidates =
-    tierGaps[1].length + tierGaps[2].length + tierGaps[3].length;
-  if (totalCandidates === 0) {
-    console.log('[planner] No new jobs needed across any tier.');
-    return [];
+  for (const gap of rankedPool.slice(0, 30)) {
+    console.log('[planner_priority]', {
+      subject: gap.subject_id,
+      tier: gap.priority_tier,
+      priority_weight: gap.priority_weight,
+      current_chapter_count: gap.current_chapter_count,
+      target_coverage: gap.target_coverage,
+      coverage_gap: gap.coverage_gap,
+      final_score: gap.final_score,
+    });
   }
 
-  // ── 5. Sort each tier independently by priority (highest first) ─────────────
-  for (const tier of [1, 2, 3]) {
-    tierGaps[tier].sort(compareGaps);
-  }
-
-  // ── 6. Hard-enforce 90 / 10 distribution ────────────────────────────────────
-  const TIER1_TARGET = MAX_JOBS_PER_RUN;
-  const TIER2_TARGET = 0;
-  const TIER3_TARGET = 0;
-
-  const chapterCounts = new Map();
-  const tier1Picked = pickTop(tierGaps[1], TIER1_TARGET, chapterCounts);
-  const tier2Picked = pickTop(tierGaps[2], TIER2_TARGET, chapterCounts);
-  const tier3Picked = pickTop(tierGaps[3], TIER3_TARGET, chapterCounts);
-  const alreadyPicked = new Set([...tier1Picked, ...tier2Picked, ...tier3Picked]);
-  const pickedCount = tier1Picked.length + tier2Picked.length + tier3Picked.length;
-  const overflowPicked = pickTop(
-    [...tierGaps[1], ...tierGaps[2], ...tierGaps[3]]
-      .filter((gap) => !alreadyPicked.has(gap))
-      .sort(compareGaps),
-    MAX_JOBS_PER_RUN - pickedCount,
-    chapterCounts,
-  );
-
-  const topJobs = [...tier1Picked, ...tier2Picked, ...tier3Picked, ...overflowPicked].map((gap) => ({
-    subject_id: gap.subject_id,
-    chapter: gap.chapter,
-    target_count: 15,
-    priority: gap.priority,
-    _coverage: gap.question_count ?? gap.count ?? 0,
-    status: 'queued',
-  }));
-
-  if (topJobs.length === 0) {
+  const selected = selectPlannerJobs(rankedPool, overrideConfig.max_jobs || MAX_JOBS_PER_RUN);
+  if (selected.length === 0) {
     console.log('[planner] No new jobs to insert.');
     return [];
   }
 
-  for (const job of topJobs) {
-    const coverage = job._coverage ?? 0;
-    console.log('[planner]', {
-      subject: job.subject_id,
-      chapter: job.chapter,
-      coverage,
-      priority: job.priority,
-    });
-  }
+  const topJobs = selected.map((gap) => ({
+    subject_id: gap.subject_id,
+    chapter: gap.chapter,
+    target_count: overrideConfig.target_count || 15,
+    priority: gap.final_score,
+    _coverage: gap.current_chapter_count,
+    status: 'queued',
+  }));
 
-  // ── 7. Post-selection debug log ──────────────────────────────────────────────
-  const finalMix = countTierMix(topJobs);
-  const tier1Pct = topJobs.length > 0
-    ? Math.round((finalMix.tier1 / topJobs.length) * 100)
-    : 0;
-
-  const distributionMet = tier1Pct >= Math.round(TIER1_TARGET / MAX_JOBS_PER_RUN * 100) || tierGaps[1].length === 0;
-  console.log('[planner] tier_selection:', {
-    tier1_selected: finalMix.tier1,
-    tier2_selected: finalMix.tier2,
-    tier3_selected: finalMix.tier3,
-    other_selected: finalMix.tier2 + finalMix.tier3,
-    total_jobs: topJobs.length,
-    tier1_pct: `${tier1Pct}%`,
-    target_pct: `${Math.round(TIER1_TARGET / MAX_JOBS_PER_RUN * 100)}%`,
-    distribution_met: distributionMet,
-  });
-
-  if (!distributionMet) {
-    console.warn(
-      `[planner] TIER_DISTRIBUTION_FAILED: Tier-1 is only ${tier1Pct}% of planned jobs (target ≥ ${Math.round(TIER1_TARGET / MAX_JOBS_PER_RUN * 100)}%). ` +
-      'Check that Tier-1 subjects are present in the syllabus-driven gap list.'
-    );
-  }
-
-  // Per-job tier log (matches original output format)
-  for (const job of topJobs) {
-    console.log(
-      'Subject:', job.subject_id,
-      '→ normalized:', normalizeId(job.subject_id),
-      '→ tier:', getSubjectTier(job.subject_id)
-    );
-  }
-
-  console.log('SUBJECT TIERS:');
-  console.log(finalMix);
+  const distribution = countTierMix(topJobs);
+  console.log('[planner_distribution]', distribution);
   console.log('[planner] OUTPUT_JOBS:', topJobs.map((job) => ({
     expected_subject: job.subject_id,
     expected_chapter: job.chapter,
-    tier: getSubjectTier(job.subject_id),
+    tier: getSubjectPriority(job.subject_id).tier,
     priority: job.priority,
     target_count: job.target_count,
   })));
 
-  // ── 8. Insert jobs ───────────────────────────────────────────────────────────
   console.log('[queue] INSERT_GENERATION_JOBS_REQUEST:', topJobs.map((job) => ({
     subject_id: job.subject_id,
     chapter: job.chapter,
     status: job.status,
     priority: job.priority,
   })));
+
+  if (!supabase) {
+    console.warn('[planner] supabase_unavailable_returning_uninserted_jobs');
+    return topJobs;
+  }
 
   const { data, error } = await supabase
     .from('generation_jobs')
@@ -269,50 +271,118 @@ export async function planGeneration(gaps) {
   return data || [];
 }
 
-function getSubjectTier(subjectId) {
-  const id = normalizeId(subjectId);
-  if (SUBJECT_TIERS[1].has(id)) return 1;
-  if (SUBJECT_TIERS[2].has(id)) return 2;
-  return 3; // explicit Tier-3 entries + unlisted subjects
+function selectPlannerJobs(rankedPool, limit) {
+  const buckets = Object.fromEntries(TIER_ORDER.map((tier) => [tier, []]));
+  for (const gap of rankedPool) {
+    buckets[gap.priority_tier || getSubjectPriority(gap.subject_id).tier]?.push(gap);
+  }
+
+  const selected = [];
+  const selectedKeys = new Set();
+  const chapterCounts = new Map();
+
+  for (const tier of TIER_ORDER) {
+    const unsaturated = (buckets[tier] || []).filter((gap) => gap.current_chapter_count < gap.target_coverage);
+    pickInto(selected, unsaturated, Math.min(TIER_TARGET_COUNTS[tier] || 0, limit - selected.length), chapterCounts, selectedKeys);
+  }
+
+  const overflow = rankedPool.filter((gap) => !selectedKeys.has(getGapKey(gap)));
+  pickInto(selected, overflow, limit - selected.length, chapterCounts, selectedKeys);
+  return selected;
+}
+
+function pickInto(selected, candidates, limit, chapterCounts, selectedKeys) {
+  if (limit <= 0) return;
+  for (const candidate of candidates || []) {
+    if (limit <= 0) break;
+    const key = getGapKey(candidate);
+    if (selectedKeys.has(key)) continue;
+    const chapterKey = `${candidate.subject_id}::${candidate.chapter}`;
+    if ((chapterCounts.get(chapterKey) || 0) >= MAX_JOBS_PER_CHAPTER) continue;
+    selected.push(candidate);
+    selectedKeys.add(key);
+    chapterCounts.set(chapterKey, (chapterCounts.get(chapterKey) || 0) + 1);
+    limit -= 1;
+  }
+}
+
+function getGapKey(gap) {
+  return `${gap.subject_id || getGapSubject(gap)}::${gap.chapter}`;
+}
+
+function getFallbackPriorityChapters(overrideConfig = getCuetOverrideConfig()) {
+  const fallback = [];
+  const subjects = overrideConfig.subjects?.length > 0
+    ? overrideConfig.subjects
+    : ['english', 'gat', 'chemistry', 'physics', 'mathematics', 'economics', 'business_studies', 'accountancy', 'biology'];
+  if (overrideConfig.mode === 'nta' && overrideConfig.subjects?.length === 1 && overrideConfig.subjects[0] === 'english') {
+    return getEnglishNtaChapterPlan().map((entry, index) => ({
+      subject_id: 'english',
+      subject: 'english',
+      chapter: entry.chapter,
+      count: 0,
+      question_count: 0,
+      recent_quality_need_score: 20 - index,
+      type: 'ENGLISH_NTA_OVERRIDE_FALLBACK',
+    })).filter((gap) => isJobAllowedByOverride(gap, overrideConfig).allowed);
+  }
+  for (const subjectId of subjects) {
+    const chapters = SYLLABUS_MAP.get(subjectId);
+    if (!chapters) continue;
+    for (const chapter of chapters) {
+      fallback.push({
+        subject_id: subjectId,
+        subject: subjectId,
+        chapter,
+        count: 0,
+        question_count: 0,
+        type: 'PRIORITY_FALLBACK',
+      });
+    }
+  }
+  return fallback;
+}
+
+function applyOverridePriorityBoost(gap, overrideConfig = getCuetOverrideConfig()) {
+  if (!overrideConfig?.active) return gap;
+  let boost = 0;
+  if (overrideConfig.subjects?.length > 0 && overrideConfig.subjects.includes(gap.subject_id)) boost += 200;
+  if (overrideConfig.chapters?.length > 0 && overrideConfig.chapters.includes(normalizeComparable(gap.chapter))) boost += 100;
+  if (overrideConfig.mode === 'nta' && gap.subject_id === 'english') {
+    const chapterPlan = getEnglishNtaChapterPlan();
+    const planIndex = chapterPlan.findIndex((entry) => normalizeComparable(entry.chapter) === normalizeComparable(gap.chapter));
+    if (planIndex >= 0) boost += 80 - planIndex * 10;
+  }
+  if (boost <= 0) return gap;
+  const finalScore = Number((Number(gap.final_score || 0) + boost).toFixed(2));
+  return {
+    ...gap,
+    override_priority_boost: boost,
+    final_score: finalScore,
+    priority: finalScore,
+  };
 }
 
 function compareGaps(a, b) {
-  return (a.question_count ?? a.count ?? 0) - (b.question_count ?? b.count ?? 0) ||
-    b.priority - a.priority ||
+  return b.final_score - a.final_score ||
+    a.current_chapter_count - b.current_chapter_count ||
     String(a.subject_id).localeCompare(String(b.subject_id)) ||
     String(a.chapter).localeCompare(String(b.chapter));
 }
 
-function pickTop(candidates, limit, chapterCounts) {
-  if (limit <= 0 || !Array.isArray(candidates) || candidates.length === 0) return [];
-
-  const selected = [];
-  for (const candidate of candidates) {
-    if (selected.length >= limit) break;
-    if (!isValidSyllabusGap(candidate)) continue;
-
-    const chapterKey = `${candidate.subject_id}::${candidate.chapter}`;
-    if ((chapterCounts.get(chapterKey) || 0) >= MAX_JOBS_PER_CHAPTER) continue;
-
-    selected.push(candidate);
-    chapterCounts.set(chapterKey, (chapterCounts.get(chapterKey) || 0) + 1);
-  }
-
-  return selected;
-}
-
-function getSubjectsInPool(tierGaps) {
-  return {
-    tier1: [...new Set(tierGaps[1].map((gap) => gap.subject_id))],
-    tier2: [...new Set(tierGaps[2].map((gap) => gap.subject_id))],
-    tier3: [...new Set(tierGaps[3].map((gap) => gap.subject_id))],
-  };
-}
-
 function countTierMix(jobs) {
-  return {
-    tier1: jobs.filter((job) => getSubjectTier(job.subject_id) === 1).length,
-    tier2: jobs.filter((job) => getSubjectTier(job.subject_id) === 2).length,
-    tier3: jobs.filter((job) => getSubjectTier(job.subject_id) === 3).length,
+  const counts = {
+    tier_s_selected: 0,
+    tier_a_selected: 0,
+    tier_b_selected: 0,
+    tier_c_selected: 0,
+    tier_d_selected: 0,
+    total_jobs: jobs.length,
   };
+  for (const job of jobs) {
+    const tier = getSubjectPriority(job.subject_id).tier.toLowerCase();
+    const key = `tier_${tier}_selected`;
+    if (key in counts) counts[key] += 1;
+  }
+  return counts;
 }

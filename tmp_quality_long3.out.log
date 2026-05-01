@@ -1,0 +1,852 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5959 concepts across 40 subjects (saved 2026-04-30T20:22:12.063Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  coverage: 3,
+  priority: 90
+}
+[planner] {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Data Structures',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Python Revision',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Economic Reforms Since 1991',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Indian Economy on the Eve of Independence',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  coverage: 8,
+  priority: 90
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: sociology → normalized: sociology → tier: 1
+Subject: business_studies → normalized: business_studies → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: economics → normalized: economics → tier: 1
+Subject: economics → normalized: economics → tier: 1
+Subject: english → normalized: english → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'sociology',
+    expected_chapter: 'Introducing Indian Society',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'business_studies',
+    expected_chapter: 'Staffing',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Coordination Compounds',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Isolation of Elements',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Computer Networks',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Data Structures',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Python Revision',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Economic Reforms Since 1991',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Indian Economy on the Eve of Independence',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'sociology',
+    chapter: 'Introducing Indian Society',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'business_studies',
+    chapter: 'Staffing',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'Coordination Compounds',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'Isolation of Elements',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Computer Networks',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Data Structures',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Python Revision',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'economics',
+    chapter: 'Economic Reforms Since 1991',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'economics',
+    chapter: 'Indian Economy on the Eve of Independence',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: 'b6d30092-f781-4199-9f43-8c05a840f24a',
+    subject_id: 'sociology',
+    chapter: 'Introducing Indian Society',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:35:14.288765+00:00'
+  },
+  {
+    id: '51e107dc-bc47-4c52-9ded-9e00e960d18d',
+    subject_id: 'business_studies',
+    chapter: 'Staffing',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:35:14.288765+00:00'
+  },
+  {
+    id: '82d643a3-24d5-4e1e-96a1-9c7e9ea518e3',
+    subject_id: 'chemistry',
+    chapter: 'Coordination Compounds',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:35:14.288765+00:00'
+  },
+  {
+    id: '1d0ad721-fd82-4bcc-9651-fcd98d194bd4',
+    subject_id: 'chemistry',
+    chapter: 'Isolation of Elements',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:35:14.288765+00:00'
+  },
+  {
+    id: '1f8a071f-9559-4bbf-b110-d9d3ffcb5dd9',
+    subject_id: 'computer_science',
+    chapter: 'Computer Networks',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:35:14.288765+00:00'
+  },
+  {
+    id: 'dcbfe4a6-2ff8-4d72-b117-70c698579ce0',
+    subject_id: 'computer_science',
+    chapter: 'Data Structures',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:35:14.288765+00:00'
+  },
+  {
+    id: 'd065652f-2dd5-497f-ad6f-93855dc8f245',
+    subject_id: 'computer_science',
+    chapter: 'Python Revision',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:35:14.288765+00:00'
+  },
+  {
+    id: 'ba82777f-b178-4241-9ba5-b74e2238fab4',
+    subject_id: 'economics',
+    chapter: 'Economic Reforms Since 1991',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:35:14.288765+00:00'
+  },
+  {
+    id: 'c1b576b1-7d3b-484d-a024-3c58d2d65d91',
+    subject_id: 'economics',
+    chapter: 'Indian Economy on the Eve of Independence',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:35:14.288765+00:00'
+  },
+  {
+    id: 'f8b4d375-056d-414b-9292-56fa33979f2a',
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:35:14.288765+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: 'b6d30092-f781-4199-9f43-8c05a840f24a',
+    expected_subject: 'sociology',
+    expected_chapter: 'Introducing Indian Society',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '51e107dc-bc47-4c52-9ded-9e00e960d18d',
+    expected_subject: 'business_studies',
+    expected_chapter: 'Staffing',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '82d643a3-24d5-4e1e-96a1-9c7e9ea518e3',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Coordination Compounds',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '1d0ad721-fd82-4bcc-9651-fcd98d194bd4',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Isolation of Elements',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '1f8a071f-9559-4bbf-b110-d9d3ffcb5dd9',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Computer Networks',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'dcbfe4a6-2ff8-4d72-b117-70c698579ce0',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Data Structures',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'd065652f-2dd5-497f-ad6f-93855dc8f245',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Python Revision',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'ba82777f-b178-4241-9ba5-b74e2238fab4',
+    expected_subject: 'economics',
+    expected_chapter: 'Economic Reforms Since 1991',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'c1b576b1-7d3b-484d-a024-3c58d2d65d91',
+    expected_subject: 'economics',
+    expected_chapter: 'Indian Economy on the Eve of Independence',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'f8b4d375-056d-414b-9292-56fa33979f2a',
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'b6d30092-f781-4199-9f43-8c05a840f24a',
+    '51e107dc-bc47-4c52-9ded-9e00e960d18d',
+    '82d643a3-24d5-4e1e-96a1-9c7e9ea518e3',
+    '1d0ad721-fd82-4bcc-9651-fcd98d194bd4',
+    '1f8a071f-9559-4bbf-b110-d9d3ffcb5dd9',
+    'dcbfe4a6-2ff8-4d72-b117-70c698579ce0',
+    'd065652f-2dd5-497f-ad6f-93855dc8f245',
+    'ba82777f-b178-4241-9ba5-b74e2238fab4',
+    'c1b576b1-7d3b-484d-a024-3c58d2d65d91',
+    'f8b4d375-056d-414b-9292-56fa33979f2a'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '51e107dc-bc47-4c52-9ded-9e00e960d18d',
+  actual_subject: 'business_studies',
+  actual_chapter: 'Staffing',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 333,
+  created_at: '2026-04-30T21:35:14.288765+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'business_studies', chapter: 'Staffing', count: 8 }
+
+[JOB 51e107dc] Starting: [business_studies] Staffing
+[worker] RECEIVED_JOB: {
+  job_id: '51e107dc-bc47-4c52-9ded-9e00e960d18d',
+  expected_subject: 'business_studies',
+  expected_chapter: 'Staffing',
+  raw_subject_id: 'business_studies',
+  raw_chapter: 'Staffing',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:35:14.288765+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '51e107dc-bc47-4c52-9ded-9e00e960d18d',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  chapter: 'Staffing',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Staffing', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '51e107dc-bc47-4c52-9ded-9e00e960d18d',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  expected_chapter: 'Staffing',
+  canonical_unit: 'Staffing',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Staffing" unit="Staffing" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'business_studies',
+  prompt_subject_name: 'Business Studies',
+  expected_chapter: 'Staffing',
+  requested_count: 5,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::staffing',
+  selected_anchor_id: 'structured_business_studies_staffing_1',
+  selected_anchor_concept_id: 'business_studies::staffing',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'business_studies',
+  expected_chapter: 'Staffing',
+  canonical_unit: 'Staffing',
+  concept_id: 'business_studies::staffing',
+  pyq_anchor_id: 'structured_business_studies_staffing_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 21228,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"A company decides to promote from within rather than hiring externally. This leads to quicker integration but may limit diversity in ideas. Which assessment best captures this approach?","o":["Promoting internally can enhance motivation but might restrict fresh perspectives.","Hiring externally guarantees a wider range of ideas but increases onboarding time.","Promoting internally is less risky since existing employees are already familiar with the culture.","Both approaches equally affect employee morale and innovation."],"a":"A","question_type":"case_based","concept_id":"business_studies::staffing","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The focus is on evaluating strategic staffing choices rather than definitions.","why_cuet_level":"Requires understanding of implications of staffing strategies.","distractor_rationale":{"A":"This option correctly identifies the trade-off between internal promotion and idea diversity.","B":"Although it mentions external hiring, it misunderstands the impact on onboarding time as a guarantee.","C":"This option incorrectly assumes that familiarity negates all risks associated with internal promotion.","D":"This suggests equal effects without considering the distinct nature of each approach."}},{"q":"Statement I: Internal recruitment enhances employee loyalty. Statement II: External recruitment provides new skills and perspectives. Which evaluation correctly reflects these statements?","o":["Both statements are valid, highlighting different benefits of recruitment methods.","Only Statement I is valid, as external recruitment does not contribute to loyalty.","Only Statement II is valid because internal recruitment limits skills development.","Both statements are invalid since neither method impacts employee engagement."],"a":"A","question_type":"statement_based","concept_id":"business_studies::staffing","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"The question focuses on evaluating the implications of recruitment methods instead of definitions.","why_cuet_level":"Encourages critical thinking about recruitment strategies' impact.","distractor_rationale":{"A":"Both statements accurately reflect the benefits of their respective recruitment methods.","B":"This option wrongly dismisses external recruitment's contributions to loyalty and engagement.","C":"This claim inaccurately limits the scope of internal recruitment's benefits to loyalty alone.","D":"This option incorrectly negates both statements, overlooking their valid points."}},{"q":"A manager believes that hiring externally will always bring innovative ideas. However, they notice a lack of cultural fit among new recruits. What does this scenario highlight?","o":["External hiring can enrich innovation but may lead to integration challenges within teams.","Cultural fit is irrelevant when prioritizing innovation through external hires.","Innovation from external hires guarantees long-term success in all cases.","Internal candidates are always a better choice for maintaining team cohesion."],"a":"A","question_type":"application_based","concept_id":"business_studies::staffing","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The focus is on analyzing real-world implications rather than textbook definitions.","why_cuet_level":"Encourages evaluation of practical outcomes of staffing decisions.","distractor_rationale":{"A":"This option correctly identifies the balance needed between innovation and cultural fit.","B":"This statement incorrectly asserts that cultural fit has no importance in hiring decisions.","C":"This claim inaccurately presents external hiring as a guaranteed solution without acknowledging potential issues.","D":"This option wrongly suggests that internal candidates are superior without considering context."}},{"q":"Statement I: Hiring from outside can rejuvenate a team. Statement II: Relying solely on internal promotions can lead to stagnation. Which option best evaluates these statements?","o":["Both statements are valid, recognizing the need for balance in staffing strategies.","Only Statement I is valid, as internal promotions do not affect team dynamics significantly.","Only Statement II is valid since external hires do not guarantee rejuvenation of teams.","Both statements are invalid because all teams benefit equally from either approach."],"a":"A","question_type":"comparison_based","concept_id":"business_studies::staffing","trap_option":"D","strong_distractors":["B","C"],"why_not_textbook":"The question emphasizes critical evaluation rather than rote learning of concepts.","why_cuet_level":"Encourages understanding of the dynamics between staffing strategies.","distractor_rationale":{"A":"Both statements highlight important aspects of staffing that need consideration for effective management.","B":"This option incorrectly minimizes the impact that internal promotions can have on team dynamics and growth.","C":"This statement fails to recognize that external hires could also lead to stagnation if not managed well.","D":"This option erroneously dismisses both claims without acknowledging their validity."}},{"q":"In a recent analysis, a firm found that promoting existing staff reduced turnover but limited access to new skills. How does this scenario reflect on their staffing strategy?","o":["Promoting from within fosters loyalty but may narrow skill diversity in the organization.","Hiring externally always ensures skill enhancement regardless of retention rates.","Maintaining a high turnover rate improves overall team performance in the long run.","Internal promotions are more effective in boosting innovation compared to external hires."],"a":"A","question_type":"case_based","concept_id":"business_studies::staffing","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The focus is on analyzing outcomes rather than simply recalling definitions or concepts.","why_cuet_level":"Requires application of concepts to evaluate staffing outcomes critically.","distractor_rationale":{"A":"This option correctly identifies the trade-off between retention and skill diversity in staffing strategy.","B":"This claim inaccurately presents external hiring as an absolute solution for skill enhancement without context.","C":"This statement wrongly assumes turnover improves performance universally, ignoring potential downsides.","D":"This option incorrectly equates internal promotions with higher innovation without evidence."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'b6d30092-f781-4199-9f43-8c05a840f24a',
+    '82d643a3-24d5-4e1e-96a1-9c7e9ea518e3',
+    '1d0ad721-fd82-4bcc-9651-fcd98d194bd4',
+    '1f8a071f-9559-4bbf-b110-d9d3ffcb5dd9',
+    'dcbfe4a6-2ff8-4d72-b117-70c698579ce0',
+    'd065652f-2dd5-497f-ad6f-93855dc8f245',
+    'ba82777f-b178-4241-9ba5-b74e2238fab4',
+    'c1b576b1-7d3b-484d-a024-3c58d2d65d91',
+    'f8b4d375-056d-414b-9292-56fa33979f2a'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '82d643a3-24d5-4e1e-96a1-9c7e9ea518e3',
+  actual_subject: 'chemistry',
+  actual_chapter: 'Coordination Compounds',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 318,
+  created_at: '2026-04-30T21:35:14.288765+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'chemistry', chapter: 'Coordination Compounds', count: 8 }
+
+[JOB 82d643a3] Starting: [chemistry] Coordination Compounds
+[worker] RECEIVED_JOB: {
+  job_id: '82d643a3-24d5-4e1e-96a1-9c7e9ea518e3',
+  expected_subject: 'chemistry',
+  expected_chapter: 'Coordination Compounds',
+  raw_subject_id: 'chemistry',
+  raw_chapter: 'Coordination Compounds',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:35:14.288765+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '82d643a3-24d5-4e1e-96a1-9c7e9ea518e3',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  chapter: 'Coordination Compounds',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Coordination Compounds', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '82d643a3-24d5-4e1e-96a1-9c7e9ea518e3',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  expected_chapter: 'Coordination Compounds',
+  canonical_unit: 'Coordination Compounds',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Coordination Compounds" unit="Coordination Compounds" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'chemistry',
+  prompt_subject_name: 'Chemistry',
+  expected_chapter: 'Coordination Compounds',
+  requested_count: 5,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::coordination_compounds',
+  selected_anchor_id: 'structured_chemistry_coordination_compounds_1',
+  selected_anchor_concept_id: 'chemistry::coordination_compounds',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'case_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'chemistry',
+  expected_chapter: 'Coordination Compounds',
+  canonical_unit: 'Coordination Compounds',
+  concept_id: 'chemistry::coordination_compounds',
+  pyq_anchor_id: 'structured_chemistry_coordination_compounds_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 31073,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"A student asserts that all coordination compounds exhibit octahedral geometry due to the common presence of six ligands. Which evaluation of this claim is most accurate?","o":["The statement is valid because octahedral geometry is predominant in coordination compounds.","The statement is partially true, but other geometries also exist depending on ligand arrangement and metal type.","The statement is incorrect; coordination compounds can only have tetrahedral or square planar geometries.","The statement is misleading because octahedral geometry applies exclusively to complexes with high oxidation states."],"a":"B","question_type":"statement_based","concept_id":"chemistry::coordination_compounds","trap_option":"D","strong_distractors":["A","C"],"why_not_textbook":"This question encourages critical thinking about geometric diversity in coordination compounds rather than rote memorization.","why_cuet_level":"It challenges students to differentiate between generalizations and specific cases in coordination chemistry.","distractor_rationale":{"A":"While octahedral geometry is common, it's not universally applicable to all coordination compounds.","B":"This option correctly acknowledges the existence of multiple geometries based on various factors.","C":"This option incorrectly limits the geometries to two types, ignoring others like trigonal bipyramidal or square pyramidal.","D":"This option wrongly claims that octahedral geometry is only linked to high oxidation states."}},{"q":"Consider the following statements: Statement I: Ligands can be classified as strong or weak based on their ability to donate electron pairs. Statement II: The classification impacts the stability of the resulting complex. How should these statements be evaluated?","o":["Both statements are accurate, with Statement II reflecting the consequence of ligand strength on complex stability.","Statement I is correct, but Statement II incorrectly implies that stability solely depends on ligand strength without considering metal properties.","Both statements are invalid, as ligand classification does not affect complex formation at all.","Statement I is valid, while Statement II misrepresents stability as a factor solely determined by coordination number."],"a":"A","question_type":"assertion_reason","concept_id":"chemistry::coordination_compounds","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question prompts examination of the relationship between ligand characteristics and complex stability rather than simple definitions.","why_cuet_level":"It requires understanding of concepts and their implications in coordination chemistry, aligning with higher-order thinking skills.","distractor_rationale":{"A":"Both statements accurately reflect the relationship between ligands and complex stability.","B":"This option misinterprets the influence of metal properties as irrelevant when discussing ligand effects on stability.","C":"This option dismisses the well-established connection between ligand types and complex formation outcomes, which is misleading.","D":"This option incorrectly separates the concepts of ligand strength and coordination number from their impact on stability."}},{"q":"A learner claims that chelating ligands always form stronger complexes than monodentate ligands. Which response best addresses this misconception?","o":["Chelating ligands generally enhance stability due to multiple binding sites, but exceptions exist depending on specific metal-ligand interactions.","Monodentate ligands can form stronger complexes when they bind more effectively than chelating ligands under certain conditions.","The strength of complexes is unrelated to ligand type; it solely depends on overall molecular structure and size.","Chelating ligands are always superior to monodentate ligands in forming stable complexes regardless of the metal involved."],"a":"A","question_type":"comparison_based","concept_id":"chemistry::coordination_compounds","trap_option":"D","strong_distractors":["B","C"],"why_not_textbook":"This question invites scrutiny of generalizations about ligand effectiveness rather than relying on definitions or examples alone.","why_cuet_level":"It encourages critical evaluation of common beliefs about ligand behavior in coordination chemistry contexts.","distractor_rationale":{"A":"This option correctly identifies that while chelating ligands often provide enhanced stability, exceptions can arise based on specific circumstances.","B":"This option suggests a comparative aspect but oversimplifies the relationship between ligand types and overall stability by ignoring other factors.","C":"This option inaccurately states that ligand type has no bearing on complex strength, which contradicts established principles.","D":"This option presents an absolute claim that fails to acknowledge potential exceptions in metal-ligand interactions."}},{"q":"Statement I: The color observed in a transition metal complex arises from d-d transitions. Statement II: The intensity of color depends solely on the nature of the metal ion. Which assessment best evaluates these statements?","o":["Both statements are true, with Statement II correctly indicating that color intensity varies only with metal ion identity.","Statement I is accurate; however, Statement II overlooks the role of ligand field strength in influencing color intensity.","Both statements are false; color perception in complexes does not relate to d-d transitions at all.","Statement I is valid while Statement II inaccurately claims that only metal ion identity affects color intensity."],"a":"B","question_type":"assertion_reason","concept_id":"chemistry::coordination_compounds","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"This question assesses understanding of color theory in coordination compounds beyond basic definitions or memorization.","why_cuet_level":"It tests comprehension of both electronic transitions and their implications for observed properties in complexes, fitting CUET standards for analytical reasoning.","distractor_rationale":{"A":"While both statements touch upon relevant concepts, Statement II incorrectly simplifies factors affecting color intensity to just metal identity without considering ligands.","B":"This option accurately reflects the complexity behind color intensity related to both metal ions and surrounding ligands' influence.","C":"This option mistakenly denies any link between color and d-d transitions, misrepresenting fundamental principles in coordination chemistry.","D":"This option correctly identifies Statement I but fails to recognize the additional factors impacting color intensity beyond just metal identity."}},{"q":"In a laboratory experiment, a student observes that different ligands lead to varying colors in transition metal complexes. What reasoning best explains this observation?","o":["Different ligands affect the energy differences between d-orbitals, leading to distinct colors observed due to varying d-d transitions.","Ligand differences influence only solubility and not color changes since all transition metals produce similar colors regardless of ligand type.","Color variations arise exclusively from temperature changes during complex formation rather than from ligand interactions with metals.","All transition metals produce identical colors irrespective of ligand differences; thus, observations are coincidental."],"a":"A","question_type":"case_based","concept_id":"chemistry::coordination_compounds","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question encourages students to connect experimental observations with theoretical concepts rather than just recalling definitions or facts.","why_cuet_level":"It engages students in applying their knowledge of ligands and electronic transitions to interpret real-world observations in chemistry experiments effectively.","distractor_rationale":{"A":"This explanation accurately ties observed colors to changes in d-orbital energy levels influenced by different ligands' field strengths.","B":"This option incorrectly states that ligands do not affect color perception at all, disregarding fundamental principles of coordination chemistry.","C":"This option misattributes color changes solely to temperature fluctuations without recognizing electronic reasons behind them.","D":"This option falsely claims uniformity among transition metals' colors irrespective of ligand interactions, which contradicts observable data."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'b6d30092-f781-4199-9f43-8c05a840f24a',
+    '1d0ad721-fd82-4bcc-9651-fcd98d194bd4',
+    '1f8a071f-9559-4bbf-b110-d9d3ffcb5dd9',
+    'dcbfe4a6-2ff8-4d72-b117-70c698579ce0',
+    'd065652f-2dd5-497f-ad6f-93855dc8f245',
+    'ba82777f-b178-4241-9ba5-b74e2238fab4',
+    'c1b576b1-7d3b-484d-a024-3c58d2d65d91',
+    'f8b4d375-056d-414b-9292-56fa33979f2a'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'b6d30092-f781-4199-9f43-8c05a840f24a',
+  actual_subject: 'sociology',
+  actual_chapter: 'Introducing Indian Society',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 3,
+  subject_question_count: 211,
+  created_at: '2026-04-30T21:35:14.288765+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  count: 3,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  count: 3
+}
+
+[JOB b6d30092] Starting: [sociology] Introducing Indian Society
+[worker] RECEIVED_JOB: {
+  job_id: 'b6d30092-f781-4199-9f43-8c05a840f24a',
+  expected_subject: 'sociology',
+  expected_chapter: 'Introducing Indian Society',
+  raw_subject_id: 'sociology',
+  raw_chapter: 'Introducing Indian Society',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:35:14.288765+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'b6d30092-f781-4199-9f43-8c05a840f24a',
+  expected_subject: 'sociology',
+  resolved_subject_id: 'sociology',
+  resolved_subject_name: 'Sociology',
+  chapter: 'Introducing Indian Society',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=21 existing questions loaded
+[generation] batch adjusted: { chapter: 'Introducing Indian Society', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'b6d30092-f781-4199-9f43-8c05a840f24a',
+  expected_subject: 'sociology',
+  resolved_subject_id: 'sociology',
+  resolved_subject_name: 'Sociology',
+  expected_chapter: 'Introducing Indian Society',
+  canonical_unit: 'Indian Society',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Introducing Indian Society" unit="Indian Society" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'sociology',
+  prompt_subject_name: 'Sociology',
+  expected_chapter: 'Introducing Indian Society',
+  requested_count: 5,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'sociology',
+  requested_concept_id: 'sociology::introducing_indian_society',
+  selected_anchor_id: 'structured_sociology_introducing_indian_society_1',
+  selected_anchor_concept_id: 'sociology::introducing_indian_society',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'case_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'sociology',
+  expected_chapter: 'Introducing Indian Society',
+  canonical_unit: 'Indian Society',
+  concept_id: 'sociology::introducing_indian_society',
+  pyq_anchor_id: 'structured_sociology_introducing_indian_society_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 18943,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"A student claims that social stratification in India is primarily based on wealth. Which response best clarifies this misconception?","o":["Social stratification is influenced by a combination of caste, class, and other factors.","Wealth is the only determinant of social status in contemporary Indian society.","Caste hierarchy plays a significant role in shaping social relationships and opportunities.","Class mobility has diminished the relevance of caste in social dynamics."],"a":"A","question_type":"statement_based","concept_id":"sociology::introducing_indian_society","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"The question encourages critical thinking about multiple influences on social stratification rather than recalling definitions.","why_cuet_level":"This question requires analysis of sociological concepts and their interrelations.","distractor_rationale":{"A":"Correctly identifies the multifaceted nature of social stratification.","B":"Incorrect because it oversimplifies the issue by stating wealth alone determines status.","C":"Partially correct but overlooks the broader context of class and other factors.","D":"Misleading as it implies caste is irrelevant, which is not entirely true."}},{"q":"Statement I: Gender roles in Indian society are rigid and unchanging. Statement II: These roles can adapt to modern influences. Which option is most accurate?","o":["Both statements are valid, indicating a complete lack of flexibility in gender roles.","Statement I is valid, but Statement II fails to recognize the persistence of traditional roles.","Statement I is invalid as gender roles have been evolving due to various factors.","Both statements are incorrect because gender roles are solely determined by cultural traditions."],"a":"C","question_type":"assertion_reason","concept_id":"sociology::introducing_indian_society","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"This question tests understanding of gender dynamics rather than rote knowledge.","why_cuet_level":"It assesses comprehension of changing societal norms regarding gender roles.","distractor_rationale":{"A":"Incorrect as it suggests an absolute condition without allowance for change.","B":"Partially correct but too dismissive of evolving gender norms.","C":"Correctly reflects the dynamic nature of gender roles in society.","D":"Incorrect since it implies traditions are the only influence on gender roles."}},{"q":"A learner argues that urbanization leads to the complete dissolution of traditional values in Indian society. What is the best sociological correction?","o":["Urbanization can lead to changes in values, but many traditional practices persist alongside modernity.","Urbanization results in a total shift from traditional to modern values without any overlap.","Traditional values are irrelevant in urban settings and do not influence behavior anymore.","Urbanization reinforces traditional values by creating more rigid community structures."],"a":"A","question_type":"case_based","concept_id":"sociology::introducing_indian_society","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"This question challenges misconceptions about urbanization's effects rather than asking for definitions.","why_cuet_level":"It requires analysis of urbanization's impact on cultural values within Indian society.","distractor_rationale":{"A":"Correctly acknowledges the coexistence of traditional and modern values.","B":"Incorrect as it exaggerates the impact of urbanization on value systems.","C":"Misleading since some traditional values can still play a role even in urban contexts.","D":"Partially correct but fails to recognize that communities can adapt rather than reinforce rigidity."}},{"q":"Statement I: The caste system has diminished significantly in urban areas. Statement II: Caste continues to influence social interactions even in cities. Which option best summarizes these statements?","o":["Both statements are accurate; caste has little relevance in urban settings now.","Statement I is valid, while Statement II highlights its continued relevance despite urbanization.","Statement I is invalid as caste completely disappears in urban contexts.","Both statements are incorrect because caste has no impact on modern social life."],"a":"B","question_type":"comparison_based","concept_id":"sociology::introducing_indian_society","trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"This question evaluates understanding of caste dynamics rather than recalling definitions or facts directly.","why_cuet_level":"It requires critical thinking about the complexities of caste relations today.","distractor_rationale":{"A":"Incorrect as it overlooks ongoing influences of caste in urban life.","B":"Correctly balances both perspectives on caste's role today.","C":"Incorrect; while some aspects may diminish, complete disappearance isn't accurate.","D":"Misleading as it suggests an absolute absence of caste effects."}},{"q":"A student states that modernization erases all cultural practices in Indian society. Which response provides the best sociological insight?","o":["Modernization often leads to cultural hybridization rather than complete erasure of practices.","All cultural practices become irrelevant with modernization, leading to uniformity across societies.","Modernization only enhances traditional practices without introducing new elements at all.","Cultural practices are preserved entirely regardless of modernization influences."],"a":"A","question_type":"statement_based","concept_id":"sociology::introducing_indian_society","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"The focus is on understanding cultural change instead of merely identifying terms or definitions.","why_cuet_level":"This question assesses comprehension of cultural dynamics under modernization pressures.","distractor_rationale":{"A":"Correctly captures the complexity of cultural changes due to modernization.","B":"Incorrect as it suggests an absolute outcome which doesn't reflect reality.","C":"Partially correct but misrepresents the relationship between tradition and modernization.","D":"Incorrect because it ignores how modernization can lead to both preservation and change."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=1
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 1
+[pipeline] generated_count=1 | mix=easy=0, medium=1, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 1
+[pipeline] after_chapter_filter=1 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=1 | sent_for_strict_validation=1 | validator_load_reduction=0.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [ 'structured_sociology_introducing_indian_society_1' ],
+  anchor_source_quality: [ 'manual_seed' ],
+  fallback_used: false,
+  selfcheck_passed: 1,
+  sent_to_validator: 1
+}
+[pipeline] Starting batch validation for 1 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=1
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T21:37:00.445Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"sociology","questionCount":1}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'sociology',
+  stage: 'batch_validation',
+  retry_count: 0
+}

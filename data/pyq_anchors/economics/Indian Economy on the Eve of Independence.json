@@ -1,0 +1,33 @@
+{
+  "subject": "economics",
+  "chapter": "Indian Economy on the Eve of Independence",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "Read the statements and choose the correct option. Statement I: The colonial economy showed low agricultural productivity partly because of exploitative land revenue systems. Statement II: Railways helped connect markets, but their development mainly served colonial commercial and administrative interests. Statement III: Colonial foreign trade made India a major exporter of finished manufactured goods.",
+      "options": [
+        "I and II only",
+        "II and III only",
+        "I and III only",
+        "I, II and III"
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["statement-based", "elimination", "close-distractors", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    },
+    {
+      "question": "Assertion: Occupational structure in colonial India showed heavy dependence on agriculture. Reason: Industrial growth was limited and a large section of the population remained engaged in the primary sector.",
+      "options": [
+        "Both Assertion and Reason are true, and the Reason explains the Assertion.",
+        "Both Assertion and Reason are true, but the Reason does not explain the Assertion.",
+        "Assertion is true, but Reason is false.",
+        "Assertion is false, but Reason is true."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["assertion-reason", "trap-option", "elimination", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

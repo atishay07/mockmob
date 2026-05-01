@@ -1,0 +1,361 @@
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Self-concept plays a crucial role in'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Self-efficacy influences how individ'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A well-developed sense of identity c'
+}
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; obvious answer; too simple compared to PYQs; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=subject_consistency | reasons=subject_consistency; ambiguous; wrong answer key logic; ambiguous wording; confusing options; subject mismatch; validator score below threshold; exam quality below threshold
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[pipeline] TARGET_NOT_MET | target=5 | accepted=3 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A router directs data packets betwee'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: TCP ensures reliable communication by establishing a connection between sender and receiv',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: The OSI model has seven layers that describe different aspects of networking. Statement'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Network security involves protecting'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: Local Area Networks (LANs) are limited to small geographic areas like homes or offices. R',
+  index: 4
+}
+[pipeline] TARGET_NOT_MET | target=5 | accepted=3 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Ligands can be classified based on t'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements regarding coordination compounds: Statement I: The color of a comp'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Consider the following statements regarding coordination compounds: Statement I: The color of a comp',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements regarding chelation in coordination compounds: Statement I: Chelating agents enh'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Assertion: The presence of strong field ligands leads to low-spin configurations in transition metal',
+  index: 4
+}
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; obvious answer; textbook style; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording
+[pipeline] TARGET_NOT_MET | target=5 | accepted=2 | shortfall=3 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Effective staffing enhances organisa'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: External recruitment often brings fr'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Staffing involves not just hiring but also developing employees for future roles. Reason:'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Job analysis plays a crucial role in'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Certain bacteria are involved in the'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements regarding microbes in sewage treatment: Statement I: Microbes deco'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A student claims that probiotics are beneficial because they contain mainly health-promoting bacteri'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'biology',
+  chapter: 'Microbes in Human Welfare',
+  reason: 'question_too_long',
+  body: 'A student claims that probiotics are beneficial because they contain mainly health-promoting bacteri',
+  index: 3
+}
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=too easy compared to PYQs | reasons=too easy compared to PYQs; obvious answer; textbook style; low trap quality; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] Rejected | compositeScore=30 | source=validator_normalized | rule=direct recall | reasons=direct recall; low trap quality; too easy compared to PYQs; obvious answer; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] Rejected | compositeScore=32 | source=validator_normalized | rule=textbook style | reasons=textbook style; low trap quality; conceptual depth low; lacks technical specificity regarding BOD or flocs; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; textbook style; obvious answer; conceptual depth low; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] strict_mode_no_validated_questions_draft_only {
+  job_id: 'ebb2940a-90dd-4f9c-8fcd-7e763b8bb800',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'too easy compared to PYQs',
+    'obvious answer',
+    'textbook style',
+    'low trap quality',
+    'validator score below threshold',
+    'exam quality below threshold',
+    'distractor quality below threshold',
+    'conceptual depth below CUET reasoning threshold'
+  ],
+  draft_only_flag: true
+}
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=0.0% | threshold=40% | fallback_or_partial_output_allowed=true
+[pipeline] TARGET_NOT_MET | target=5 | accepted=0 | shortfall=5 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+No questions returned for biology/Microbes in Human Welfare
+RAW_PARSED_COUNT=5
+NORMALIZED_COUNT=4
+VALIDATED_COUNT=0
+Drop summary:
+- normalization_failed: 0
+- invalid_options_format: 0
+- missing_required_fields: 0
+- validation_failed: 5
+- low_score: 3
+- difficulty_mismatch: 4
+- cuet_alignment_failed: 4
+- chapter_mismatch: 0
+Sample failed raw question: {"q":"A student claims that probiotics are beneficial because they contain only health-promoting bacteria. Evaluate the following statements related to this claim: Statement I: Probiotics can improve gut health by balancing intestinal flora. Statement II: All bacteria in probiotics are necessarily beneficial under all conditions. Statement III: Some probiotic strains have been shown to enhance digestion. Which option best evaluates these statements? ","o":["I and III only","I and II only","II and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"biology::microbes_in_human_welfare","trap_option":"B","strong_distractors":["B","C"],"why_not_textbook":"This requires a nuanced understanding of probiotics rather than outright definitions or blanket assumptions about benefits.","why_cuet_level":"Students must critically assess claims about probiotics beyond surface-level benefits.","distractor_rationale":{"A":"Statements I and III accurately depict the positive roles of specific probiotic strains while maintaining clarity on their functions.","B":"Statement II incorrectly asserts all bacteria in probiotics are beneficial without context, which could mislead students.","C":"While statement III is true, it lacks the necessary context provided by statement I for a complete evaluation.","D":"This suggests all statements can be simultaneously valid, which contradicts the flawed nature of statement II."}}
+Sample normalized attempt: {"subject":"biology","chapter":"Microbes in Human Welfare","body":"A student claims that probiotics are beneficial because they contain mainly health-promoting bacteria. Evaluate the following statements related to this claim: Statement I: Probiotics can improve gut health by balancing intestinal flora. Statement II: many bacteria in probiotics are necessarily beneficial under many conditions. Statement III: Some probiotic strains have been shown to enhance digestion. Which option best evaluates these statements?","options":[{"key":"A","text":"I and III mainly"},{"key":"B","text":"I and II mainly"},{"key":"C","text":"II and III mainly"},{"key":"D","text":"I, II and III"}],"correct_answer":"A","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Biology and Human Welfare","concept":"Microbes in Human Welfare","concept_id":"biology::microbes_in_human_welfare","pyq_anchor_id":"","anchor_tier":0,"concept_pattern":"concept_4","tags":["cuet"],"trap_option":"B","strong_distractors":["B","C"],"why_not_textbook":"This requires a nuanced understanding of probiotics rather than outright definitions or blanket assumptions about benefits.","why_cuet_level":"Students must critically assess claims about probiotics beyond surface-level benefits.","distractor_rationale":{"A":"Statements I and III accurately depict the positive roles of specific probiotic strains while maintaining clarity on their functions.","B":"Statement II incorrectly asserts many bacteria in probiotics are beneficial without context, which could mislead students.","C":"While statement III is true, it lacks the necessary context provided by statement I for a complete evaluation.","D":"This suggests many statements can be simultaneously valid, which contradicts the flawed nature of statement II."},"anchor_source_quality":"","passage_id":"","passage_type":"","passage_text":""}
+[pipeline] LOW_YIELD=0.0% (threshold=30%) — less than 30 % of generated questions were accepted
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A stack allows data to be added and '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Arrays allow random access to elemen'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: In a circular linked list, the last '
+}
+[pipeline] Rejected | compositeScore=30 | source=validator_normalized | rule=direct definition | reasons=direct definition; textbook style; low trap quality; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=direct definition | reasons=direct definition; textbook style; low trap quality; subject consistency wrong (Reason does not explain Assertion logic); conceptual_depth < 7; subject mismatch; validator score below threshold; exam quality below threshold
+[pipeline] Rejected | compositeScore=13 | source=validator_normalized | rule=direct definition | reasons=direct definition; textbook style; low trap quality; conceptual_depth < 7; confusing options; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=direct definition | reasons=direct definition; textbook style; low trap quality; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=direct definition | reasons=direct definition; option phrasing is non-standard; clarity == AMBIGUOUS; low trap quality; ambiguous wording; confusing options; validator score below threshold; exam quality below threshold
+[pipeline] strict_mode_no_validated_questions_draft_only {
+  job_id: 'fea2e203-5c24-4740-a946-04e9a55b7ab5',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'direct definition',
+    'textbook style',
+    'low trap quality',
+    'conceptual_depth < 7',
+    'validator score below threshold',
+    'exam quality below threshold',
+    'distractor quality below threshold',
+    'conceptual depth below CUET reasoning threshold'
+  ],
+  draft_only_flag: true
+}
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=0.0% | threshold=40% | fallback_or_partial_output_allowed=true
+[pipeline] TARGET_NOT_MET | target=5 | accepted=0 | shortfall=5 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+No questions returned for computer_science/Data Structures
+RAW_PARSED_COUNT=5
+NORMALIZED_COUNT=5
+VALIDATED_COUNT=0
+Drop summary:
+- normalization_failed: 0
+- invalid_options_format: 0
+- missing_required_fields: 0
+- validation_failed: 5
+- low_score: 5
+- difficulty_mismatch: 4
+- cuet_alignment_failed: 5
+- chapter_mismatch: 0
+Sample failed raw question: {"subject":"computer_science","chapter":"Data Structures","body":"Read the statements and choose the correct option: Statement I: A stack allows data to be added and removed in a last-in-first-out manner. Statement II: A queue allows data to be added in any order but removes it in a first-in-first-out manner. Statement III: In a linked list, each element is connected to the next by pointers, facilitating dynamic memory allocation.","options":[{"key":"A","text":"I and II mainly"},{"key":"B","text":"I and III mainly"},{"key":"C","text":"II and III mainly"},{"key":"D","text":"I, II and III"}],"correct_answer":"B","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Section B1: Computer Science","concept":"Data Structures","concept_id":"computer_science::data_structures","pyq_anchor_id":"structured_computer_science_data_structures_1","anchor_tier":1,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"C","strong_distractors":["A","C"],"why_not_textbook":"The statements emphasize operational characteristics rather than just definitions.","why_cuet_level":"Requires understanding of data structure behaviors for elimination.","distractor_rationale":{"A":"Both statements I and II are valid, but II incorrectly describes queue behavior.","B":"many statements are valid and accurately describe their respective structures.","C":"Statement II incorrectly states that a queue can add data in any order.","D":"Statement III is true, but does not affect the validity of the other statements."},"anchor_source_quality":"manual_seed","passage_id":"","passage_type":"","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option: Statement I: A stack allows data to be added and removed in a last-in-first-out manner. Statement II: A queue allows data to be added in any order but removes it in a first-in-first-out manner. Statement III: In a linked list, each element is connected to the next by pointers, facilitating dynamic memory allocation.","answer":"B"}
+Sample normalized attempt: {"subject":"computer_science","chapter":"Data Structures","body":"Read the statements and choose the correct option: Statement I: A stack allows data to be added and removed in a last-in-first-out manner. Statement II: A queue allows data to be added in any order but removes it in a first-in-first-out manner. Statement III: In a linked list, each element is connected to the next by pointers, facilitating dynamic memory allocation.","options":[{"key":"A","text":"I and II mainly"},{"key":"B","text":"I and III mainly"},{"key":"C","text":"II and III mainly"},{"key":"D","text":"I, II and III"}],"correct_answer":"B","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Section B1: Computer Science","concept":"Data Structures","concept_id":"computer_science::data_structures","pyq_anchor_id":"structured_computer_science_data_structures_1","anchor_tier":1,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"C","strong_distractors":["A","C"],"why_not_textbook":"The statements emphasize operational characteristics rather than just definitions.","why_cuet_level":"Requires understanding of data structure behaviors for elimination.","distractor_rationale":{"A":"Both statements I and II are valid, but II incorrectly describes queue behavior.","B":"many statements are valid and accurately describe their respective structures.","C":"Statement II incorrectly states that a queue can add data in any order.","D":"Statement III is true, but does not affect the validity of the other statements."},"anchor_source_quality":"manual_seed","passage_id":"","passage_type":"","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option: Statement I: A stack allows data to be added and removed in a last-in-first-out manner. Statement II: A queue allows data to be added in any order but removes it in a first-in-first-out manner. Statement III: In a linked list, each element is connected to the next by pointers, facilitating dynamic memory allocation.","answer":"B"}
+[pipeline] LOW_YIELD=0.0% (threshold=30%) — less than 30 % of generated questions were accepted
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The economic policies during colonia'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The Indian economy in 1947 was marke'
+}
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: India's foreign trade under British "
+}
+[pipeline] Rejected | compositeScore=5 | source=validator_normalized | rule=subject consistency wrong | reasons=subject consistency wrong; incorrect answer key; statement I is historically inaccurate but marked as correct; subject mismatch; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] TARGET_NOT_MET | target=5 | accepted=4 | shortfall=1 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[llm] generated_extreme_word_repaired {
+  body: 'Passage: On a rainy afternoon, Sam sat at his desk, staring out the window as droplets raced down th'
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Narrative Passage',
+  reason: 'incorrect_passage_classification_log_only',
+  detected_type: 'Factual Passage',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Passage: On a rainy afternoon, Sam sat at his desk, staring out the window as droplets raced down th'
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Narrative Passage',
+  reason: 'incorrect_passage_classification_log_only',
+  detected_type: 'Factual Passage',
+  index: 1
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Narrative Passage',
+  reason: 'incorrect_passage_classification_log_only',
+  detected_type: 'Factual Passage',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Passage: On a rainy afternoon, Sam sat at his desk, staring out the window as droplets raced down th'
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Narrative Passage',
+  reason: 'incorrect_passage_classification_log_only',
+  detected_type: 'Factual Passage',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Passage: On a rainy afternoon, Sam sat at his desk, staring out the window as droplets raced down th'
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Narrative Passage',
+  reason: 'incorrect_passage_classification_log_only',
+  detected_type: 'Factual Passage',
+  index: 4
+}
+[pipeline] Rejected | compositeScore=8 | source=validator_normalized | rule=ambiguous options | reasons=ambiguous options; use of subjective 'mainly' in options; low trap quality; ambiguous wording; confusing options; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] Rejected | compositeScore=8 | source=validator_normalized | rule=ambiguous options | reasons=ambiguous options; use of subjective 'mainly' in options; low trap quality; ambiguous wording; confusing options; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] Rejected | compositeScore=8 | source=validator_normalized | rule=ambiguous options | reasons=ambiguous options; use of subjective 'mainly' in options; low trap quality; ambiguous wording; confusing options; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] Rejected | compositeScore=8 | source=validator_normalized | rule=ambiguous options | reasons=ambiguous options; use of subjective 'mainly' in options; low trap quality; irregular option format; ambiguous wording; confusing options; validator score below threshold; exam quality below threshold
+[pipeline] Rejected | compositeScore=7 | source=validator_normalized | rule=ambiguous options | reasons=ambiguous options; irregular option format for CUET; question type mismatch; use of subjective 'mainly' and 'or' in options; ambiguous wording; confusing options; validator score below threshold; exam quality below threshold
+[pipeline] strict_mode_no_validated_questions_draft_only {
+  job_id: 'd25b2309-6f4f-4ea3-b163-76b343b1c52f',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'ambiguous options',
+    "use of subjective 'mainly' in options",
+    'low trap quality',
+    'ambiguous wording',
+    'confusing options',
+    'validator score below threshold',
+    'exam quality below threshold',
+    'distractor quality below threshold'
+  ],
+  draft_only_flag: true
+}
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=0.0% | threshold=40% | fallback_or_partial_output_allowed=true
+[pipeline] TARGET_NOT_MET | target=5 | accepted=0 | shortfall=5 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+No questions returned for english/Narrative Passage
+RAW_PARSED_COUNT=5
+NORMALIZED_COUNT=5
+VALIDATED_COUNT=0
+Drop summary:
+- normalization_failed: 0
+- invalid_options_format: 0
+- missing_required_fields: 0
+- validation_failed: 5
+- low_score: 5
+- difficulty_mismatch: 0
+- cuet_alignment_failed: 5
+- chapter_mismatch: 0
+Sample failed raw question: {"subject":"english","chapter":"Narrative Passage","body":"Passage: On a rainy afternoon, Sam sat at his desk, staring out the window as droplets raced down the glass. He had just received a letter from his friend who had moved far away, and he was eager to write back. The letter spoke of new adventures and friendships, but it also hinted at loneliness. As he penned his response, he felt a mix of excitement and melancholy. He wanted to share his own experiences but feared they would not be as thrilling. Read the statements and choose the correct option. Statement I: Sam feels a sense of competition with his friend's experiences. Statement II: The weather influences Sam's mood while writing back. Statement III: Sam's eagerness to respond shows he values their friendship.","options":[{"key":"A","text":"I and II mainly"},{"key":"B","text":"II and III mainly"},{"key":"C","text":"I and III mainly"},{"key":"D","text":"I, II and III"}],"correct_answer":"B","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Reading Comprehension","concept":"Narrative Passage","concept_id":"english::narrative_passage","pyq_anchor_id":"structured_english_narrative_passage_1","anchor_tier":1,"concept_pattern":"concept_1","tags":["cuet","english","reading_comprehension","narrative passage","rc_classification_warning"],"trap_option":"A","strong_distractors":["A","C"],"why_not_textbook":"The statements are designed to reflect emotional nuances rather than straightforward facts.","why_cuet_level":"This question tests comprehension of character emotions and motivations.","distractor_rationale":{"A":"This interpretation overlooks Sam's appreciation for friendship.","B":"This option accurately reflects the emotional complexity of Sam's feelings.","C":"This statement misrepresents the nature of Sam's thoughts on competition.","D":"This statement inaccurately combines many elements without nuance."},"anchor_source_quality":"manual_seed","passage_id":"narrative_passage_1","passage_type":"narrative","passage_text":"On a rainy afternoon, Sam sat at his desk, staring out the window as droplets raced down the glass. He had just received a letter from his friend who had moved far away, and he was eager to write back. The letter spoke of new adventures and friendships, but it also hinted at loneliness. As he penned his response, he felt a mix of excitement and melancholy. He wanted to share his own experiences but feared they would not be as thrilling. Read the statements and choose the correct option. Statement I: Sam feels a sense of competition with his friend's experiences. Statement II: The weather influences Sam's mood while writing back. Statement III: Sam's eagerness to respond shows he values their friendship.","anchor_live_publish_allowed":true,"question":"Passage: On a rainy afternoon, Sam sat at his desk, staring out the window as droplets raced down the glass. He had just received a letter from his friend who had moved far away, and he was eager to write back. The letter spoke of new adventures and friendships, but it also hinted at loneliness. As he penned his response, he felt a mix of excitement and melancholy. He wanted to share his own experiences but feared they would not be as thrilling. Read the statements and choose the correct option. Statement I: Sam feels a sense of competition with his friend's experiences. Statement II: The weather influences Sam's mood while writing back. Statement III: Sam's eagerness to respond shows he values their friendship.","answer":"B"}
+Sample normalized attempt: {"subject":"english","chapter":"Narrative Passage","body":"Passage: On a rainy afternoon, Sam sat at his desk, staring out the window as droplets raced down the glass. He had just received a letter from his friend who had moved far away, and he was eager to write back. The letter spoke of new adventures and friendships, but it also hinted at loneliness. As he penned his response, he felt a mix of excitement and melancholy. He wanted to share his own experiences but feared they would not be as thrilling. Read the statements and choose the correct option. Statement I: Sam feels a sense of competition with his friend's experiences. Statement II: The weather influences Sam's mood while writing back. Statement III: Sam's eagerness to respond shows he values their friendship.","options":[{"key":"A","text":"I and II mainly"},{"key":"B","text":"II and III mainly"},{"key":"C","text":"I and III mainly"},{"key":"D","text":"I, II and III"}],"correct_answer":"B","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Reading Comprehension","concept":"Narrative Passage","concept_id":"english::narrative_passage","pyq_anchor_id":"structured_english_narrative_passage_1","anchor_tier":1,"concept_pattern":"concept_1","tags":["cuet","english","reading_comprehension","narrative passage","rc_classification_warning"],"trap_option":"A","strong_distractors":["A","C"],"why_not_textbook":"The statements are designed to reflect emotional nuances rather than straightforward facts.","why_cuet_level":"This question tests comprehension of character emotions and motivations.","distractor_rationale":{"A":"This interpretation overlooks Sam's appreciation for friendship.","B":"This option accurately reflects the emotional complexity of Sam's feelings.","C":"This statement misrepresents the nature of Sam's thoughts on competition.","D":"This statement inaccurately combines many elements without nuance."},"anchor_source_quality":"manual_seed","passage_id":"narrative_passage_1","passage_type":"narrative","passage_text":"On a rainy afternoon, Sam sat at his desk, staring out the window as droplets raced down the glass. He had just received a letter from his friend who had moved far away, and he was eager to write back. The letter spoke of new adventures and friendships, but it also hinted at loneliness. As he penned his response, he felt a mix of excitement and melancholy. He wanted to share his own experiences but feared they would not be as thrilling. Read the statements and choose the correct option. Statement I: Sam feels a sense of competition with his friend's experiences. Statement II: The weather influences Sam's mood while writing back. Statement III: Sam's eagerness to respond shows he values their friendship.","anchor_live_publish_allowed":true,"question":"Passage: On a rainy afternoon, Sam sat at his desk, staring out the window as droplets raced down the glass. He had just received a letter from his friend who had moved far away, and he was eager to write back. The letter spoke of new adventures and friendships, but it also hinted at loneliness. As he penned his response, he felt a mix of excitement and melancholy. He wanted to share his own experiences but feared they would not be as thrilling. Read the statements and choose the correct option. Statement I: Sam feels a sense of competition with his friend's experiences. Statement II: The weather influences Sam's mood while writing back. Statement III: Sam's eagerness to respond shows he values their friendship.","answer":"B"}
+[pipeline] LOW_YIELD=0.0% (threshold=30%) — less than 30 % of generated questions were accepted
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option. Statement I: Market segmentation allows businesse'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Effective marketing management requires continuous analysis of market trends. Reason: Mar'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements regarding product life cycle management: Statement I: The introduc'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements regarding branding strategy: Statement I: A strong brand can create customer loy'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Digital marketing allows for more precise targeting of consumer segments compared to trad'
+}
+[pipeline] Rejected | compositeScore=18 | source=validator_normalized | rule=clarity | reasons=clarity; option_quality; textbook_style; conceptual_depth < 7; ambiguous wording; confusing options; exam quality below threshold; distractor quality below threshold
+[pipeline] Rejected | compositeScore=41 | source=validator_normalized | rule=obvious answer | reasons=obvious answer; low trap quality; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; validator marked non-CUET alignment
+[pipeline] Rejected | compositeScore=4 | source=validator_normalized | rule=syllabus_alignment | reasons=syllabus_alignment; concept_match; outside CUET syllabus; concept mismatch; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] Rejected | compositeScore=18 | source=validator_normalized | rule=clarity | reasons=clarity; option_quality; textbook_style; conceptual_depth < 7; ambiguous wording; confusing options; exam quality below threshold; distractor quality below threshold
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=not in NCERT syllabus | reasons=not in NCERT syllabus; low trap quality; conceptual_depth < 7; outside CUET syllabus; concept mismatch; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] strict_mode_no_validated_questions_draft_only {
+  job_id: '0e7f9e7f-9028-4afa-a2f6-14156f427881',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'clarity',
+    'option_quality',
+    'textbook_style',
+    'conceptual_depth < 7',
+    'ambiguous wording',
+    'confusing options',
+    'exam quality below threshold',
+    'distractor quality below threshold'
+  ],
+  draft_only_flag: true
+}
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=0.0% | threshold=40% | fallback_or_partial_output_allowed=true
+[pipeline] TARGET_NOT_MET | target=5 | accepted=0 | shortfall=5 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+No questions returned for business_studies/Marketing Management
+RAW_PARSED_COUNT=5
+NORMALIZED_COUNT=5
+VALIDATED_COUNT=0
+Drop summary:
+- normalization_failed: 0
+- invalid_options_format: 0
+- missing_required_fields: 0
+- validation_failed: 5
+- low_score: 3
+- difficulty_mismatch: 2
+- cuet_alignment_failed: 5
+- chapter_mismatch: 0
+Sample failed raw question: {"subject":"business_studies","chapter":"Marketing Management","body":"Read the statements and choose the correct option. Statement I: Market segmentation allows businesses to tailor their marketing strategies to specific consumer groups. Statement II: Targeting focuses mainly on maximizing sales volume without considering customer needs. Statement III: Positioning involves creating a distinct image of a product in the consumer's mind.","options":[{"key":"A","text":"I and II mainly"},{"key":"B","text":"II and III mainly"},{"key":"C","text":"I and III mainly"},{"key":"D","text":"I, II and III"}],"correct_answer":"C","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Marketing","concept":"Marketing Management","concept_id":"business_studies::marketing_management","pyq_anchor_id":"structured_business_studies_marketing_management_1","anchor_tier":1,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"This question requires understanding of marketing concepts rather than direct definitions.","why_cuet_level":"It tests the ability to discern between correct and misleading statements about marketing strategies.","distractor_rationale":{"A":"While I is true, II misrepresents targeting by ignoring customer needs, making A incorrect.","B":"II is false because targeting should consider customer needs, thus making B not valid.","C":"I is valid as it accurately reflects market segmentation, and III correctly describes positioning.","D":"many statements cannot be true as II contradicts fundamental targeting principles."},"anchor_source_quality":"manual_seed","passage_id":"","passage_type":"","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option. Statement I: Market segmentation allows businesses to tailor their marketing strategies to specific consumer groups. Statement II: Targeting focuses mainly on maximizing sales volume without considering customer needs. Statement III: Positioning involves creating a distinct image of a product in the consumer's mind.","answer":"C"}
+Sample normalized attempt: {"subject":"business_studies","chapter":"Marketing Management","body":"Read the statements and choose the correct option. Statement I: Market segmentation allows businesses to tailor their marketing strategies to specific consumer groups. Statement II: Targeting focuses mainly on maximizing sales volume without considering customer needs. Statement III: Positioning involves creating a distinct image of a product in the consumer's mind.","options":[{"key":"A","text":"I and II mainly"},{"key":"B","text":"II and III mainly"},{"key":"C","text":"I and III mainly"},{"key":"D","text":"I, II and III"}],"correct_answer":"C","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Marketing","concept":"Marketing Management","concept_id":"business_studies::marketing_management","pyq_anchor_id":"structured_business_studies_marketing_management_1","anchor_tier":1,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"This question requires understanding of marketing concepts rather than direct definitions.","why_cuet_level":"It tests the ability to discern between correct and misleading statements about marketing strategies.","distractor_rationale":{"A":"While I is true, II misrepresents targeting by ignoring customer needs, making A incorrect.","B":"II is false because targeting should consider customer needs, thus making B not valid.","C":"I is valid as it accurately reflects market segmentation, and III correctly describes positioning.","D":"many statements cannot be true as II contradicts fundamental targeting principles."},"anchor_source_quality":"manual_seed","passage_id":"","passage_type":"","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option. Statement I: Market segmentation allows businesses to tailor their marketing strategies to specific consumer groups. Statement II: Targeting focuses mainly on maximizing sales volume without considering customer needs. Statement III: Positioning involves creating a distinct image of a product in the consumer's mind.","answer":"C"}
+[pipeline] LOW_YIELD=0.0% (threshold=30%) — less than 30 % of generated questions were accepted
+[supervisor] COST_ALERT: $1.03/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: India's foreign policy has often bee"
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The introduction of economic reforms'
+}
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=textbook style | reasons=textbook style; low trap quality; questionable answer logic; direct recall stem; conceptual_depth below 7; confusing options; subject mismatch; validator score below threshold
+[pipeline] TARGET_NOT_MET | target=3 | accepted=2 | shortfall=1 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option. Statement I: The extraction of metals from their '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: Hydrometallurgy involves using aqueous solutions for extracting metals from ores. State'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'obvious_answer_pattern',
+  body: 'A student claims that roasting sulfide ores primarily converts them into sulfates before reduction. ',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements regarding extraction techniques and identify the correct option. Statement I: El'
+}
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=clarity == AMBIGUOUS | reasons=clarity == AMBIGUOUS; option_quality != CLEAN; language too complex; ambiguous wording; confusing options; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] TARGET_NOT_MET | target=5 | accepted=3 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A partner sacrificing their share ma'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'In a partnership firm, if partners A, B, and C decide to change their profit-sharing ratio from 4:3:'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the following assertions about partnership changes and select the correct option: Assertion I: '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'In a partnership where A and B initially share profits equally but later adjust to a 1:3 ratio, whic'
+}

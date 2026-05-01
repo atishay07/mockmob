@@ -246,7 +246,12 @@ export default function MyUploadsPageClient() {
     }
   }, []);
 
-  useEffect(() => { load(); }, [load]);
+  useEffect(() => {
+    const id = window.setTimeout(() => {
+      load();
+    }, 0);
+    return () => window.clearTimeout(id);
+  }, [load]);
 
   const filtered = filter === 'all' ? questions : questions.filter(q => q.status === filter);
 
@@ -261,12 +266,12 @@ export default function MyUploadsPageClient() {
     <div style={{ maxWidth: '680px', margin: '0 auto', width: '100%' }}>
       {/* ── Header ── */}
       <div style={{ marginBottom: '28px' }}>
-        <div className="eyebrow" style={{ marginBottom: '8px' }}>// MY UPLOADS</div>
+        <div className="eyebrow" style={{ marginBottom: '8px' }}>{'// MY UPLOADS'}</div>
         <h1 className="display-md">
           Your <span className="text-volt" style={{ fontStyle: 'italic' }}>Contributions</span>
         </h1>
         <p style={{ color: '#71717a', fontSize: '13px', marginTop: '6px' }}>
-          Track the status of every question you've submitted to the community bank.
+          Track the status of every question you&apos;ve submitted to the community bank.
         </p>
       </div>
 

@@ -1,0 +1,205 @@
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  selected_anchor_id: 'structured_english_narrative_passage_1',
+  selected_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  source_anchor_id: 'structured_english_narrative_passage_1',
+  source_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Para Jumbles',
+  reason: 'obvious_answer_pattern',
+  body: 'Rearrange the following sentences to form a coherent paragraph: 1. She decided to paint her room. 2.',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Para Jumbles',
+  reason: 'obvious_answer_pattern',
+  body: 'Rearrange the following sentences: 1. The sun was setting beautifully. 2. He took a deep breath and ',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Para Jumbles',
+  reason: 'obvious_answer_pattern',
+  body: 'Rearrange these sentences: 1. She felt nervous about the interview. 2. After preparing for weeks, sh',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Rearrange these sentences: 1. The cake was deliciously moist and fluffy. 2. Everyone praised her bak'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Para Jumbles',
+  reason: 'obvious_answer_pattern',
+  body: 'Rearrange these sentences: 1. The cake was deliciously moist and fluffy. 2. Everyone praised her bak',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Rearrange these sentences: 1. She finally made a decision after much thought. 2. The options were ov'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Para Jumbles',
+  reason: 'obvious_answer_pattern',
+  body: 'Rearrange these sentences: 1. She finally made a decision after much thought. 2. The options were ov',
+  index: 4
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Rearrange these sentences: 1. He had often dreamed of traveling abroad since childhood.   2. Finally'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Para Jumbles',
+  reason: 'obvious_answer_pattern',
+  body: 'Rearrange these sentences: 1. He had often dreamed of traveling abroad since childhood.   2. Finally',
+  index: 5
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Para Jumbles',
+  reason: 'obvious_answer_pattern',
+  body: 'Rearrange these sentences: 1. The day began with rain pouring heavily outside  2. Despite this setba',
+  index: 6
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Para Jumbles',
+  reason: 'obvious_answer_pattern',
+  body: 'Rearrange these sentences:  1 .She loved reading books about adventure stories  2 .One day she disco',
+  index: 7
+}
+[llm] generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::vocabulary',
+  selected_anchor_id: 'structured_english_narrative_passage_1',
+  selected_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::vocabulary',
+  source_anchor_id: 'structured_english_narrative_passage_1',
+  source_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] english_question_rejected {
+  chapter: 'Vocabulary',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 0
+}
+[llm] generated_question_discarded_before_pipeline {
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'What is the antonym of "arduous"?'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Vocabulary',
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'What is the antonym of "arduous"?',
+  index: 1
+}
+[llm] english_question_rejected {
+  chapter: 'Vocabulary',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 2
+}
+[llm] english_question_rejected {
+  chapter: 'Vocabulary',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 3
+}
+[llm] generated_extreme_word_repaired { body: 'Identify the closest synonym for "ephemeral": ' }
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Vocabulary',
+  reason: 'weak_options',
+  body: 'Identify the closest synonym for "ephemeral":',
+  index: 4
+}
+[llm] english_question_rejected {
+  chapter: 'Vocabulary',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 5
+}
+[llm] generated_extreme_word_repaired { body: "'Obsolete' can be best described as: " }
+[llm] english_question_rejected {
+  chapter: 'Vocabulary',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 6
+}
+[llm] english_question_rejected {
+  chapter: 'Vocabulary',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 7
+}
+[llm] generated_extreme_word_repaired { body: "'Pragmatic' refers to someone who is: " }
+[llm] english_question_rejected {
+  chapter: 'Vocabulary',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 8
+}
+[llm] generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::electromagnetic_induction',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::electromagnetic_induction',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}

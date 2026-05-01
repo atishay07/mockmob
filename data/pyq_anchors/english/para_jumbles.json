@@ -1,0 +1,16 @@
+{
+  "subject": "english",
+  "chapter": "Para Jumbles",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "Rearrange the following sentences to form a coherent paragraph:\nA. This shift has made access easier, but it has also made sustained attention harder to protect.\nB. Schools therefore need to teach students how to pause, verify, and connect information before using it.\nC. Digital platforms now place large amounts of reading material before students at very low cost.\nD. Without such habits, abundance of information can become a reason for shallow understanding.",
+      "options": ["CABD", "CADB", "ACBD", "CBAD"],
+      "correct_answer": "A",
+      "pattern_tags": ["para-jumble", "sentence-reordering", "elimination", "close-permutations"],
+      "difficulty": "medium",
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

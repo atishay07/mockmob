@@ -1,0 +1,33 @@
+{
+  "subject": "accountancy",
+  "chapter": "Change in Profit Sharing Ratio",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "Read the statements and choose the correct option. Statement I: In a change among existing partners, sacrificing ratio compares old share with new share. Statement II: Gaining ratio compares new share with old share for partners whose share increases. Statement III: A new partner must be admitted before sacrificing ratio can be calculated.",
+      "options": [
+        "I and II only",
+        "II and III only",
+        "I and III only",
+        "I, II and III"
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["statement-based", "elimination", "close-distractors", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    },
+    {
+      "question": "Assertion: Goodwill adjustment may be needed when existing partners change their profit-sharing ratio. Reason: A partner gaining a share can compensate a partner sacrificing a share without admitting a new partner.",
+      "options": [
+        "Both Assertion and Reason are true, and the Reason explains the Assertion.",
+        "Both Assertion and Reason are true, but the Reason does not explain the Assertion.",
+        "Assertion is true, but Reason is false.",
+        "Assertion is false, but Reason is true."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["assertion-reason", "trap-option", "elimination", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

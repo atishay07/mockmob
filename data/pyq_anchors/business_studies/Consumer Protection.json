@@ -1,0 +1,33 @@
+{
+  "subject": "business_studies",
+  "chapter": "Consumer Protection",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "A customer receives a product with incomplete safety information and later argues that the seller should have disclosed proper usage conditions. Which right is most directly involved, and why?",
+      "options": [
+        "Right to be informed, because the issue concerns access to accurate product information before use.",
+        "Right to safety, because every complaint about product use is handled only under protection from hazards.",
+        "Right to choose, because incomplete information mainly reduces the number of brands available.",
+        "Right to be heard, because the buyer has already raised a complaint after purchase."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["case-based", "elimination", "close-distractors", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    },
+    {
+      "question": "Statement I: Consumer protection benefits consumers by giving them legal safeguards. Statement II: It also benefits businesses because fair practices can build trust. Which option best reflects the NCERT position?",
+      "options": [
+        "Both statements are valid, and Statement II prevents treating consumer protection as only a consumer-side issue.",
+        "Both statements are valid, but Statement II is unrelated because businesses gain only through advertising.",
+        "Statement I is valid, while Statement II is invalid because consumer protection only creates legal pressure.",
+        "Statement I is invalid, while Statement II is valid because law protects business reputation first."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["statement-based", "trap-option", "elimination", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

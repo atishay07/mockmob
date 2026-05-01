@@ -1,0 +1,21 @@
+{
+  "subject": "physics",
+  "chapter": "Moving Charges & Magnetism",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "A charged particle enters a uniform magnetic field with velocity perpendicular to the field. Which statement best connects the force and motion?",
+      "options": [
+        "The magnetic force changes the direction of velocity but does no work on the particle.",
+        "The magnetic force increases the speed because it acts perpendicular to the field.",
+        "The particle moves in a straight line because magnetic force is along velocity.",
+        "The force vanishes because the charge is already moving."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["one-step-application", "conceptual", "close-distractors"],
+      "difficulty": "medium",
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

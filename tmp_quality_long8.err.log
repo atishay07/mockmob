@@ -1,0 +1,442 @@
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: Electrolysis is often used for the extraction of metals from their ores. Statement II: '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'weak_options',
+  body: 'Statement I: Electrolysis is often used for the extraction of metals from their ores. Statement II: ',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Roasting is a key step in metal extraction that often involves heating ores in the presen'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: Roasting is a key step in metal extraction that often involves heating ores in the presen',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A student claims that electrolytic refining can be used for many metals equally well. Statement I: T'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'weak_options',
+  body: 'A student claims that electrolytic refining can be used for many metals equally well. Statement I: T',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Crushing and grinding ore increases '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'weak_options',
+  body: 'Read the statements and choose the correct option: Statement I: Crushing and grinding ore increases ',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Leaching is often used to extract metals from low-grade ores. Reason: This method involve'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'weak_options',
+  body: 'Assertion: Leaching is often used to extract metals from low-grade ores. Reason: This method involve',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Social stratification in India is in'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: Indian society is characterized by both unity and diversity. Reason: Diversity ensures th',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A student claims that globalization has homogenized Indian culture largely. Evaluate this claim base'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'question_too_long',
+  body: 'A student claims that globalization has homogenized Indian culture largely. Evaluate this claim base',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read these assertions: Assertion I: The caste system in India is rigid and unchanging. Assertion II:'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'weak_options',
+  body: 'Read these assertions: Assertion I: The caste system in India is rigid and unchanging. Assertion II:',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider these statements about gender roles in Indian society: Statement I: Traditional gender role'
+}
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[pipeline] TARGET_NOT_MET | target=5 | accepted=2 | shortfall=3 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[supervisor] COST_ALERT: $1.31/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped
+[worker] recovered stale processing jobs: [
+  {
+    id: '6b74a696-9b42-49e3-adfe-8cfc1f2556ad',
+    subject_id: 'computer_science',
+    chapter: 'Data Structures',
+    started_at: null
+  }
+]
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A firewall can filter traffic based '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements about network topologies: Statement I: A star topology requires a '
+}
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=option_quality confusing | reasons=option_quality confusing; factually ambiguous; low trap quality; ambiguous wording; confusing options; subject mismatch; validator score below threshold; exam quality below threshold
+[pipeline] TARGET_NOT_MET | target=3 | accepted=2 | shortfall=1 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[supervisor] COST_ALERT: $1.00/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A linked list allows for dynamic mem'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A binary tree can have at most two c'
+}
+[pipeline] Rejected | compositeScore=15 | source=validator_normalized | rule=textbook_style true | reasons=textbook_style true; low trap quality; direct definition; option_quality CONFUSING; confusing options; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=subject_consistency WRONG | reasons=subject_consistency WRONG; reason is factually incorrect regarding space complexity; logic of assertion is flawed; low trap quality; ambiguous wording; confusing options; subject mismatch; validator score below threshold
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=language too complex | reasons=language too complex; option_quality CONFUSING; textbook_style true; typo in statement; ambiguous wording; confusing options; validator score below threshold; exam quality below threshold
+[pipeline] strict_mode_no_validated_questions_draft_only {
+  job_id: 'ab820fde-a148-40af-a3cc-757d597da116',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'textbook_style true',
+    'low trap quality',
+    'direct definition',
+    'option_quality CONFUSING',
+    'confusing options',
+    'validator score below threshold',
+    'exam quality below threshold',
+    'distractor quality below threshold'
+  ],
+  draft_only_flag: true
+}
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=0.0% | threshold=40% | fallback_or_partial_output_allowed=true
+[pipeline] TARGET_NOT_MET | target=3 | accepted=0 | shortfall=3 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+No questions returned for computer_science/Data Structures
+RAW_PARSED_COUNT=3
+NORMALIZED_COUNT=3
+VALIDATED_COUNT=0
+Drop summary:
+- normalization_failed: 0
+- invalid_options_format: 0
+- missing_required_fields: 0
+- validation_failed: 3
+- low_score: 3
+- difficulty_mismatch: 0
+- cuet_alignment_failed: 3
+- chapter_mismatch: 0
+Sample failed raw question: {"subject":"computer_science","chapter":"Data Structures","body":"Read the statements and choose the correct option: Statement I: A linked list allows for dynamic memory allocation and efficient insertions. Statement II: An array is more suitable for frequent additions and deletions as it provides direct access to elements. Statement III: A stack can be implemented using a linked list to manage function calls efficiently.","options":[{"key":"A","text":"I and II mainly"},{"key":"B","text":"I and III mainly"},{"key":"C","text":"II and III mainly"},{"key":"D","text":"I, II and III"}],"correct_answer":"B","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Section B1: Computer Science","concept":"Data Structures","concept_id":"computer_science::data_structures","pyq_anchor_id":"structured_computer_science_data_structures_1","anchor_tier":1,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"The statements evaluate practical uses of data structures rather than definitions.","why_cuet_level":"Requires understanding of data structures' characteristics in different contexts.","distractor_rationale":{"A":"While I is true, II misrepresents arrays as suitable for frequent modifications.","B":"This option correctly identifies the valid statements regarding linked lists and stacks.","C":"Statement II incorrectly claims arrays are suitable for frequent changes, which is misleading.","D":"This option incorrectly suggests many statements are valid, ignoring the flaw in II."},"anchor_source_quality":"manual_seed","passage_id":"","passage_type":"","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option: Statement I: A linked list allows for dynamic memory allocation and efficient insertions. Statement II: An array is more suitable for frequent additions and deletions as it provides direct access to elements. Statement III: A stack can be implemented using a linked list to manage function calls efficiently.","answer":"B"}
+Sample normalized attempt: {"subject":"computer_science","chapter":"Data Structures","body":"Read the statements and choose the correct option: Statement I: A linked list allows for dynamic memory allocation and efficient insertions. Statement II: An array is more suitable for frequent additions and deletions as it provides direct access to elements. Statement III: A stack can be implemented using a linked list to manage function calls efficiently.","options":[{"key":"A","text":"I and II mainly"},{"key":"B","text":"I and III mainly"},{"key":"C","text":"II and III mainly"},{"key":"D","text":"I, II and III"}],"correct_answer":"B","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Section B1: Computer Science","concept":"Data Structures","concept_id":"computer_science::data_structures","pyq_anchor_id":"structured_computer_science_data_structures_1","anchor_tier":1,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"The statements evaluate practical uses of data structures rather than definitions.","why_cuet_level":"Requires understanding of data structures' characteristics in different contexts.","distractor_rationale":{"A":"While I is true, II misrepresents arrays as suitable for frequent modifications.","B":"This option correctly identifies the valid statements regarding linked lists and stacks.","C":"Statement II incorrectly claims arrays are suitable for frequent changes, which is misleading.","D":"This option incorrectly suggests many statements are valid, ignoring the flaw in II."},"anchor_source_quality":"manual_seed","passage_id":"","passage_type":"","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option: Statement I: A linked list allows for dynamic memory allocation and efficient insertions. Statement II: An array is more suitable for frequent additions and deletions as it provides direct access to elements. Statement III: A stack can be implemented using a linked list to manage function calls efficiently.","answer":"B"}
+[pipeline] LOW_YIELD=0.0% (threshold=30%) — less than 30 % of generated questions were accepted
+[supervisor] COST_ALERT: $1.36/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped
+[pyq_anchor] selected_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::indian_economy_on_the_eve_of_independence',
+  selected_anchor_id: 'structured_economics_economic_reforms_since_1991_1',
+  selected_anchor_concept_id: 'economics::economic_reforms_since_1991',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::indian_economy_on_the_eve_of_independence',
+  source_anchor_id: 'structured_economics_economic_reforms_since_1991_1',
+  source_anchor_concept_id: 'economics::economic_reforms_since_1991',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The British colonial policies led to'
+}
+[llm] generated_extreme_word_repaired {
+  body: "Consider the following statements regarding India's economy on the eve of independence: Statement I:"
+}
+[pipeline] Rejected | compositeScore=55 | source=validator_normalized | rule=textbook style | reasons=textbook style; low conceptual depth; no reasoning required; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording; validator marked non-CUET alignment
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=textbook style | reasons=textbook style; low conceptual depth; low trap quality; easier than pyqs; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=subject consistency | reasons=subject consistency; factually incorrect answer key; ambiguous; low trap quality; ambiguous wording; confusing options; subject mismatch; validator score below threshold
+[pipeline] strict_mode_no_validated_questions_draft_only {
+  job_id: '25422710-6591-4a88-9da0-7b571fde86d8',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'textbook style',
+    'low conceptual depth',
+    'no reasoning required',
+    'exam quality below threshold',
+    'distractor quality below threshold',
+    'conceptual depth below CUET reasoning threshold',
+    'direct textbook-style wording',
+    'validator marked non-CUET alignment'
+  ],
+  draft_only_flag: true
+}
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=0.0% | threshold=40% | fallback_or_partial_output_allowed=true
+[pipeline] TARGET_NOT_MET | target=3 | accepted=0 | shortfall=3 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+No questions returned for economics/Indian Economy on the Eve of Independence
+RAW_PARSED_COUNT=3
+NORMALIZED_COUNT=3
+VALIDATED_COUNT=0
+Drop summary:
+- normalization_failed: 0
+- invalid_options_format: 0
+- missing_required_fields: 0
+- validation_failed: 3
+- low_score: 2
+- difficulty_mismatch: 1
+- cuet_alignment_failed: 3
+- chapter_mismatch: 0
+Sample failed raw question: {"subject":"economics","chapter":"Indian Economy on the Eve of Independence","body":"Read the statements and choose the correct option: Statement I: The British colonial policies led to the deindustrialization of India. Statement II: The introduction of railways primarily benefited British trade interests. Statement III: The impact of British policies was uniformly negative across many sectors of the economy.","options":[{"key":"A","text":"I and II mainly"},{"key":"B","text":"II and III mainly"},{"key":"C","text":"I and III mainly"},{"key":"D","text":"I, II and III"}],"correct_answer":"A","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Indian Economic Development","concept":"Indian Economy on the Eve of Independence","concept_id":"economics::indian_economy_on_the_eve_of_independence","pyq_anchor_id":"structure_only_structured_economics_economic_reforms_since_1991_1_for_economics::indian_economy_on_the_eve_of_independence","anchor_tier":3,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The statements reflect nuanced impacts rather than a blanket negative assessment.","why_cuet_level":"This question assesses understanding of complex historical impacts rather than mere recall.","distractor_rationale":{"A":"Both statements highlight critical aspects of colonial policy effects on India's economy.","B":"While II is true, it overlooks other benefits railways provided to local economies.","C":"This statement incorrectly generalizes the impact without recognizing exceptions in certain sectors.","D":"I and II are valid, but III wrongly asserts a uniform impact across many sectors."},"anchor_source_quality":"manual_seed","passage_id":"","passage_type":"","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option: Statement I: The British colonial policies led to the deindustrialization of India. Statement II: The introduction of railways primarily benefited British trade interests. Statement III: The impact of British policies was uniformly negative across many sectors of the economy.","answer":"A"}
+Sample normalized attempt: {"subject":"economics","chapter":"Indian Economy on the Eve of Independence","body":"Read the statements and choose the correct option: Statement I: The British colonial policies led to the deindustrialization of India. Statement II: The introduction of railways primarily benefited British trade interests. Statement III: The impact of British policies was uniformly negative across many sectors of the economy.","options":[{"key":"A","text":"I and II mainly"},{"key":"B","text":"II and III mainly"},{"key":"C","text":"I and III mainly"},{"key":"D","text":"I, II and III"}],"correct_answer":"A","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Indian Economic Development","concept":"Indian Economy on the Eve of Independence","concept_id":"economics::indian_economy_on_the_eve_of_independence","pyq_anchor_id":"structure_only_structured_economics_economic_reforms_since_1991_1_for_economics::indian_economy_on_the_eve_of_independence","anchor_tier":3,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The statements reflect nuanced impacts rather than a blanket negative assessment.","why_cuet_level":"This question assesses understanding of complex historical impacts rather than mere recall.","distractor_rationale":{"A":"Both statements highlight critical aspects of colonial policy effects on India's economy.","B":"While II is true, it overlooks other benefits railways provided to local economies.","C":"This statement incorrectly generalizes the impact without recognizing exceptions in certain sectors.","D":"I and II are valid, but III wrongly asserts a uniform impact across many sectors."},"anchor_source_quality":"manual_seed","passage_id":"","passage_type":"","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option: Statement I: The British colonial policies led to the deindustrialization of India. Statement II: The introduction of railways primarily benefited British trade interests. Statement III: The impact of British policies was uniformly negative across many sectors of the economy.","answer":"A"}
+[pipeline] LOW_YIELD=0.0% (threshold=30%) — less than 30 % of generated questions were accepted
+[supervisor] COST_ALERT: $1.71/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped
+[pyq_anchor] selected_anchor {
+  subject: 'psychology',
+  requested_concept_id: 'psychology::psychological_disorders',
+  selected_anchor_id: 'structured_psychology_self_and_personality_1',
+  selected_anchor_concept_id: 'psychology::self_and_personality',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'psychology',
+  requested_concept_id: 'psychology::psychological_disorders',
+  source_anchor_id: 'structured_psychology_self_and_personality_1',
+  source_anchor_concept_id: 'psychology::self_and_personality',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Cognitive Behavioral Therapy is ofte'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Depression can manifest with physical symptoms like fatigue and pain. Reason: Physical sy'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Schizophrenia is characterized by a '
+}
+[pipeline] Rejected | compositeScore=18 | source=validator_normalized | rule=concept mismatch | reasons=concept mismatch; low trap quality; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; validator marked non-CUET alignment; validator decision reject
+[pipeline] Rejected | compositeScore=35 | source=validator_normalized | rule=non-standard assertion-reason options | reasons=non-standard assertion-reason options; option_quality is confusing; clarity is ambiguous; ambiguous wording; confusing options; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=33.3% | threshold=40% | fallback_or_partial_output_allowed=true
+[pipeline] TARGET_NOT_MET | target=3 | accepted=1 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[supervisor] COST_ALERT: $1.63/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::narrative_passage',
+  selected_anchor_id: 'seed_pyq_en3',
+  selected_anchor_concept_id: 'english::correct_word_usage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'correct_word_usage'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::narrative_passage',
+  source_anchor_id: 'seed_pyq_en3',
+  source_anchor_concept_id: 'english::correct_word_usage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'correct_word_usage'
+}
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: The protagonist's journey reflects i"
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Narrative Passage',
+  reason: 'rc_without_passage_log_only',
+  detected_type: 'Narrative Passage',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following assertions regarding narrative themes: Assertion I: Themes in narratives ofte'
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Narrative Passage',
+  reason: 'rc_without_passage_log_only',
+  detected_type: 'Narrative Passage',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: "Analyze the following statements about a narrative's climax: Statement I: The climax serves as a tur"
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Narrative Passage',
+  reason: 'rc_without_passage_log_only',
+  detected_type: 'Narrative Passage',
+  index: 2
+}
+[pipeline] Rejected | compositeScore=30 | source=validator_normalized | rule=textbook style | reasons=textbook style; direct recall; no passage provided for reading comprehension concept; low trap quality; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] Rejected | compositeScore=30 | source=validator_normalized | rule=textbook style | reasons=textbook style; direct recall; no passage provided for reading comprehension concept; low trap quality; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] Rejected | compositeScore=30 | source=validator_normalized | rule=textbook style | reasons=textbook style; direct recall; no passage provided for reading comprehension concept; low trap quality; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] strict_mode_no_validated_questions_draft_only {
+  job_id: 'dae6f613-66eb-4120-812d-22429a1b717a',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'textbook style',
+    'direct recall',
+    'no passage provided for reading comprehension concept',
+    'low trap quality',
+    'conceptual_depth < 7',
+    'validator score below threshold',
+    'exam quality below threshold',
+    'distractor quality below threshold'
+  ],
+  draft_only_flag: true
+}
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=0.0% | threshold=40% | fallback_or_partial_output_allowed=true
+[pipeline] TARGET_NOT_MET | target=3 | accepted=0 | shortfall=3 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+No questions returned for english/Narrative Passage
+RAW_PARSED_COUNT=3
+NORMALIZED_COUNT=3
+VALIDATED_COUNT=0
+Drop summary:
+- normalization_failed: 0
+- invalid_options_format: 0
+- missing_required_fields: 0
+- validation_failed: 3
+- low_score: 3
+- difficulty_mismatch: 0
+- cuet_alignment_failed: 3
+- chapter_mismatch: 0
+Sample failed raw question: {"subject":"english","chapter":"Narrative Passage","body":"Read the statements and choose the correct option: Statement I: The protagonist's journey reflects internal conflicts that shape their character. Statement II: The supporting characters serve mainly as obstacles for the protagonist's growth. Statement III: The resolution of the narrative highlights the importance of self-discovery in overcoming challenges.","options":[{"key":"A","text":"I and II mainly"},{"key":"B","text":"II and III mainly"},{"key":"C","text":"I and III mainly"},{"key":"D","text":"I, II and III"}],"correct_answer":"C","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Reading Comprehension","concept":"Narrative Passage","concept_id":"english::narrative_passage","pyq_anchor_id":"structure_only_seed_pyq_en3_for_english::narrative_passage","anchor_tier":3,"concept_pattern":"concept_1","tags":["cuet","english","reading_comprehension","narrative passage","rc_classification_warning"],"trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"This question encourages analysis of character roles rather than mere recall.","why_cuet_level":"This level of questioning requires deeper understanding of narrative elements.","distractor_rationale":{"A":"This option incorrectly assumes many statements are valid, missing the flawed role of supporting characters.","B":"This option suggests that supporting characters are mainly obstacles, which ignores their multifaceted roles in narratives.","C":"This option correctly identifies the valid statements about character development and self-discovery.","D":"This option includes an invalid statement about supporting characters, leading to confusion."},"anchor_source_quality":"manual_seed","passage_id":"narrative_passage_1","passage_type":"narrative","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option: Statement I: The protagonist's journey reflects internal conflicts that shape their character. Statement II: The supporting characters serve mainly as obstacles for the protagonist's growth. Statement III: The resolution of the narrative highlights the importance of self-discovery in overcoming challenges.","answer":"C"}
+Sample normalized attempt: {"subject":"english","chapter":"Narrative Passage","body":"Read the statements and choose the correct option: Statement I: The protagonist's journey reflects internal conflicts that shape their character. Statement II: The supporting characters serve mainly as obstacles for the protagonist's growth. Statement III: The resolution of the narrative highlights the importance of self-discovery in overcoming challenges.","options":[{"key":"A","text":"I and II mainly"},{"key":"B","text":"II and III mainly"},{"key":"C","text":"I and III mainly"},{"key":"D","text":"I, II and III"}],"correct_answer":"C","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Reading Comprehension","concept":"Narrative Passage","concept_id":"english::narrative_passage","pyq_anchor_id":"structure_only_seed_pyq_en3_for_english::narrative_passage","anchor_tier":3,"concept_pattern":"concept_1","tags":["cuet","english","reading_comprehension","narrative passage","rc_classification_warning"],"trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"This question encourages analysis of character roles rather than mere recall.","why_cuet_level":"This level of questioning requires deeper understanding of narrative elements.","distractor_rationale":{"A":"This option incorrectly assumes many statements are valid, missing the flawed role of supporting characters.","B":"This option suggests that supporting characters are mainly obstacles, which ignores their multifaceted roles in narratives.","C":"This option correctly identifies the valid statements about character development and self-discovery.","D":"This option includes an invalid statement about supporting characters, leading to confusion."},"anchor_source_quality":"manual_seed","passage_id":"narrative_passage_1","passage_type":"narrative","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option: Statement I: The protagonist's journey reflects internal conflicts that shape their character. Statement II: The supporting characters serve mainly as obstacles for the protagonist's growth. Statement III: The resolution of the narrative highlights the importance of self-discovery in overcoming challenges.","answer":"C"}
+[pipeline] LOW_YIELD=0.0% (threshold=30%) — less than 30 % of generated questions were accepted
+[supervisor] COST_ALERT: $1.90/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped
+[worker] recovered stale processing jobs: [
+  {
+    id: '3ddae436-5dcc-4f77-a5fe-c5b2e8e4d038',
+    subject_id: 'economics',
+    chapter: 'Indian Economy on the Eve of Independence',
+    started_at: null
+  }
+]
+[pyq_anchor] selected_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::marketing_management',
+  selected_anchor_id: 'structured_business_studies_consumer_protection_1',
+  selected_anchor_concept_id: 'business_studies::consumer_protection',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 7,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::marketing_management',
+  source_anchor_id: 'structured_business_studies_consumer_protection_1',
+  source_anchor_concept_id: 'business_studies::consumer_protection',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A market-oriented approach focuses p'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider these statements: Statement I: Digital marketing allows for targeted advertising based on c'
+}
+[pipeline] Rejected | compositeScore=45 | source=validator_normalized | rule=textbook style | reasons=textbook style; conceptual depth < 7; low trap quality; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording; validator decision reject
+[pipeline] Rejected | compositeScore=48 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; conceptual depth < 7; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording; validator decision reject; validator verdict invalid
+[pipeline] Rejected | compositeScore=37 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; conceptual depth < 7; obvious answer; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording; validator marked non-CUET alignment
+[pipeline] strict_mode_no_validated_questions_draft_only {
+  job_id: '11242120-5dc8-400c-b729-2c127258c3c3',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'textbook style',
+    'conceptual depth < 7',
+    'low trap quality',
+    'exam quality below threshold',
+    'distractor quality below threshold',
+    'conceptual depth below CUET reasoning threshold',
+    'direct textbook-style wording',
+    'validator decision reject'
+  ],
+  draft_only_flag: true
+}
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=0.0% | threshold=40% | fallback_or_partial_output_allowed=true
+[pipeline] TARGET_NOT_MET | target=3 | accepted=0 | shortfall=3 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+No questions returned for business_studies/Marketing Management
+RAW_PARSED_COUNT=3
+NORMALIZED_COUNT=3
+VALIDATED_COUNT=0
+Drop summary:
+- normalization_failed: 0
+- invalid_options_format: 0
+- missing_required_fields: 0
+- validation_failed: 3
+- low_score: 0
+- difficulty_mismatch: 1
+- cuet_alignment_failed: 1
+- chapter_mismatch: 0
+Sample failed raw question: {"subject":"business_studies","chapter":"Marketing Management","body":"Read the statements and choose the correct option: Statement I: A market-oriented approach focuses primarily on customer needs. Statement II: A product-oriented strategy ignores customer preferences to prioritize innovation. Statement III: A mixed strategy can balance customer needs with product development. Which combination is accurate?","options":[{"key":"A","text":"I and II mainly"},{"key":"B","text":"II and III mainly"},{"key":"C","text":"I and III mainly"},{"key":"D","text":"I, II and III"}],"correct_answer":"C","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Marketing","concept":"Marketing Management","concept_id":"business_studies::marketing_management","pyq_anchor_id":"structure_only_structured_business_studies_consumer_protection_1_for_business_studies::marketing_management","anchor_tier":3,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"The statements are designed to highlight the nuances of marketing strategies rather than just definitions.","why_cuet_level":"This question requires understanding of strategic approaches in marketing management, not just recall.","distractor_rationale":{"A":"This suggests that both I and II are true, but II inaccurately describes product-oriented strategies.","B":"This implies that II is correct, which misrepresents product orientation as largely ignoring customers.","C":"This accurately identifies the balance in strategies, aligning with marketing principles.","D":"This includes many three statements, but II is flawed in its assertion."},"anchor_source_quality":"manual_seed","passage_id":"","passage_type":"","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option: Statement I: A market-oriented approach focuses primarily on customer needs. Statement II: A product-oriented strategy ignores customer preferences to prioritize innovation. Statement III: A mixed strategy can balance customer needs with product development. Which combination is accurate?","answer":"C"}
+Sample normalized attempt: {"subject":"business_studies","chapter":"Marketing Management","body":"Read the statements and choose the correct option: Statement I: A market-oriented approach focuses primarily on customer needs. Statement II: A product-oriented strategy ignores customer preferences to prioritize innovation. Statement III: A mixed strategy can balance customer needs with product development. Which combination is accurate?","options":[{"key":"A","text":"I and II mainly"},{"key":"B","text":"II and III mainly"},{"key":"C","text":"I and III mainly"},{"key":"D","text":"I, II and III"}],"correct_answer":"C","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Marketing","concept":"Marketing Management","concept_id":"business_studies::marketing_management","pyq_anchor_id":"structure_only_structured_business_studies_consumer_protection_1_for_business_studies::marketing_management","anchor_tier":3,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"The statements are designed to highlight the nuances of marketing strategies rather than just definitions.","why_cuet_level":"This question requires understanding of strategic approaches in marketing management, not just recall.","distractor_rationale":{"A":"This suggests that both I and II are true, but II inaccurately describes product-oriented strategies.","B":"This implies that II is correct, which misrepresents product orientation as largely ignoring customers.","C":"This accurately identifies the balance in strategies, aligning with marketing principles.","D":"This includes many three statements, but II is flawed in its assertion."},"anchor_source_quality":"manual_seed","passage_id":"","passage_type":"","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option: Statement I: A market-oriented approach focuses primarily on customer needs. Statement II: A product-oriented strategy ignores customer preferences to prioritize innovation. Statement III: A mixed strategy can balance customer needs with product development. Which combination is accurate?","answer":"C"}
+[pipeline] LOW_YIELD=0.0% (threshold=30%) — less than 30 % of generated questions were accepted
+[supervisor] COST_ALERT: $2.18/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Internal staffing can lead to better'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Promoting from within can improve morale among employees. Reason: Employees feel valued w'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: Promoting from within can improve morale among employees. Reason: Employees feel valued w',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the case where a company implements a policy to hire mainly externally for managerial posit'
+}
+[pipeline] Rejected | compositeScore=13 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; obvious answer; textbook style; answer key mismatch; confusing options; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] TARGET_NOT_MET | target=3 | accepted=1 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[supervisor] COST_ALERT: $2.02/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped

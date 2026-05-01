@@ -25,6 +25,7 @@ export async function GET(request) {
     const modeId = isValidModeId(modeIdRaw) ? modeIdRaw : 'quick';
     const mode = getMode(modeId);
     const count = resolveCount(mode, requestedCount);
+    const includeMeta = searchParams.get('includeMeta') === '1';
 
     const subjectSelection = normalizeSubjectSelection({ subject: subjectId });
     if (!subjectSelection.valid && subjectSelection.error === 'SUBJECT_REQUIRED') {
@@ -126,10 +127,13 @@ export async function GET(request) {
 
     const questions = await Database.getQuestions(subjectSelection.internalSubject, count, {
       mode: mode.id,
+      requestedCount,
       chapter: chapter || undefined,
       chapters: chapters.length > 0 ? chapters : undefined,
       difficulty: effectiveDifficulty || undefined,
       userId: session.user.id,
+      generationKey,
+      returnMeta: includeMeta,
     });
     return NextResponse.json(questions);
   } catch (e) {

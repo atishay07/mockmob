@@ -1,0 +1,2307 @@
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Consumer protection laws ensure that'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider these statements regarding consumer rights: Statement I: The right to choose empowers consu'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the following assertions about consumer protection: Assertion I: Consumer protection helps main'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider these statements regarding consumer complaints: Statement I: Consumers must often report is'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Consumer protection laws ensure that'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider these statements regarding consumer rights: Statement I: The right to choose empowers consu'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider these statements regarding consumer complaints: Statement I: Consumers must often report is'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=30 | source=validator_normalized | rule=direct definition | reasons=direct definition; obvious answer; low trap quality; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording
+[pipeline] Rejected | compositeScore=30 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; textbook style; conceptual depth low; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=ambiguous | reasons=ambiguous; subject_consistency issues; obvious answer; ambiguous wording; confusing options; subject mismatch; validator score below threshold; exam quality below threshold
+[pipeline] strict_mode_no_validated_questions_draft_only {
+  job_id: 'ab5237b0-5668-487d-92f9-6aab85c7a592',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'direct definition',
+    'obvious answer',
+    'low trap quality',
+    'validator score below threshold',
+    'exam quality below threshold',
+    'distractor quality below threshold',
+    'conceptual depth below CUET reasoning threshold',
+    'direct textbook-style wording'
+  ],
+  draft_only_flag: true
+}
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=0.0% | threshold=40% | fallback_or_partial_output_allowed=true
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[pipeline] TARGET_NOT_MET | target=5 | accepted=0 | shortfall=5 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+No questions returned for business_studies/Consumer Protection
+RAW_PARSED_COUNT=5
+NORMALIZED_COUNT=5
+VALIDATED_COUNT=0
+Drop summary:
+- normalization_failed: 0
+- invalid_options_format: 0
+- missing_required_fields: 0
+- validation_failed: 6
+- low_score: 3
+- difficulty_mismatch: 0
+- cuet_alignment_failed: 3
+- chapter_mismatch: 0
+Sample failed raw question: {"subject":"business_studies","chapter":"Consumer Protection","body":"Read the statements and choose the correct option: Statement I: Consumer protection laws ensure that consumers have access to reliable information. Statement II: These laws primarily protect consumers from misleading advertisements. Statement III: Consumer protection is mainly about ensuring that businesses do not exploit customers.","options":[{"key":"A","text":"I and II only"},{"key":"B","text":"II and III only"},{"key":"C","text":"I and III only"},{"key":"D","text":"I, II and III"}],"correct_answer":"A","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Consumer Protection","concept":"Consumer Protection","concept_id":"business_studies::consumer_protection","pyq_anchor_id":"structured_business_studies_consumer_protection_1","anchor_tier":1,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"This question focuses on the nuances of consumer protection laws rather than basic definitions.","why_cuet_level":"This question requires critical analysis of the statements rather than recall of definitions.","distractor_rationale":{"A":"Both statements correctly highlight key aspects of consumer protection laws.","B":"While Statement II is true, it ignores the broader scope of Statement I.","C":"Statement III simplifies consumer protection too much by overlooking legal safeguards.","D":"This option incorrectly combines most statements without recognizing the flaws."},"anchor_source_quality":"manual_seed","passage_id":"","passage_type":"","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option: Statement I: Consumer protection laws ensure that consumers have access to reliable information. Statement II: These laws primarily protect consumers from misleading advertisements. Statement III: Consumer protection is mainly about ensuring that businesses do not exploit customers.","answer":"A"}
+Sample normalized attempt: {"subject":"business_studies","chapter":"Consumer Protection","body":"Read the statements and choose the correct option: Statement I: Consumer protection laws ensure that consumers have access to reliable information. Statement II: These laws primarily protect consumers from misleading advertisements. Statement III: Consumer protection is mainly about ensuring that businesses do not exploit customers.","options":[{"key":"A","text":"I and II only"},{"key":"B","text":"II and III only"},{"key":"C","text":"I and III only"},{"key":"D","text":"I, II and III"}],"correct_answer":"A","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Consumer Protection","concept":"Consumer Protection","concept_id":"business_studies::consumer_protection","pyq_anchor_id":"structured_business_studies_consumer_protection_1","anchor_tier":1,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"This question focuses on the nuances of consumer protection laws rather than basic definitions.","why_cuet_level":"This question requires critical analysis of the statements rather than recall of definitions.","distractor_rationale":{"A":"Both statements correctly highlight key aspects of consumer protection laws.","B":"While Statement II is true, it ignores the broader scope of Statement I.","C":"Statement III simplifies consumer protection too much by overlooking legal safeguards.","D":"This option incorrectly combines most statements without recognizing the flaws."},"anchor_source_quality":"manual_seed","passage_id":"","passage_type":"","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option: Statement I: Consumer protection laws ensure that consumers have access to reliable information. Statement II: These laws primarily protect consumers from misleading advertisements. Statement III: Consumer protection is mainly about ensuring that businesses do not exploit customers.","answer":"A"}
+[pipeline] LOW_YIELD=0.0% (threshold=30%) — less than 30 % of generated questions were accepted
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A router connects multiple networks '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: In a client-server model, clients re'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Network security protocols are essential for protecting data integrity during transmissio'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A VLAN allows logical segmentation o'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: A router connects multiple networks '
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: In a client-server model, clients re'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: A VLAN allows logical segmentation o'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=direct definition | reasons=direct definition; logic link incorrect between assertion and reason; too similar to anchor; low trap quality; subject mismatch; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=subject_consistency wrong | reasons=subject_consistency wrong; factually inaccurate reason; low trap quality; ambiguous reasoning logic; ambiguous wording; subject mismatch; validator score below threshold; exam quality below threshold
+[pipeline] Rejected | compositeScore=30 | source=validator_normalized | rule=subject_consistency wrong | reasons=subject_consistency wrong; factually incorrect statement; incorrect answer key; subject mismatch; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] strict_mode_no_validated_questions_draft_only {
+  job_id: 'cf0b69c1-4bdd-4415-8568-8c9ccf0f09fc',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'direct definition',
+    'logic link incorrect between assertion and reason',
+    'too similar to anchor',
+    'low trap quality',
+    'subject mismatch',
+    'validator score below threshold',
+    'exam quality below threshold',
+    'distractor quality below threshold'
+  ],
+  draft_only_flag: true
+}
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=0.0% | threshold=40% | fallback_or_partial_output_allowed=true
+[pipeline] TARGET_NOT_MET | target=5 | accepted=0 | shortfall=5 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+No questions returned for computer_science/Computer Networks
+RAW_PARSED_COUNT=5
+NORMALIZED_COUNT=5
+VALIDATED_COUNT=0
+Drop summary:
+- normalization_failed: 0
+- invalid_options_format: 0
+- missing_required_fields: 0
+- validation_failed: 6
+- low_score: 3
+- difficulty_mismatch: 1
+- cuet_alignment_failed: 3
+- chapter_mismatch: 0
+Sample failed raw question: {"subject":"computer_science","chapter":"Computer Networks","body":"Read the statements and choose the correct option: Statement I: A router connects multiple networks and directs data packets between them. Statement II: A switch operates at the network layer and routes packets to their destination. Statement III: A modem modulates and demodulates signals for internet access.","options":[{"key":"A","text":"I and II only"},{"key":"B","text":"II and III only"},{"key":"C","text":"I and III only"},{"key":"D","text":"I, II and III"}],"correct_answer":"A","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Section A: Database and Networks","concept":"Computer Networks","concept_id":"computer_science::computer_networks","pyq_anchor_id":"structured_computer_science_computer_networks_1","anchor_tier":1,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"The statements are designed to test understanding of network devices and their functions, not just definitions.","why_cuet_level":"This question requires knowledge of device functions and their relationships, suitable for CUET level.","distractor_rationale":{"A":"Both statements I and II accurately describe the roles of a router and a switch in networking.","B":"Statement II is incorrect as switches operate at the data link layer, not the network layer.","C":"Statement I is valid while Statement III contains a flaw regarding modem function scope.","D":"most statements cannot be correct as Statement II misrepresents switch functionality."},"anchor_source_quality":"manual_seed","passage_id":"","passage_type":"","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option: Statement I: A router connects multiple networks and directs data packets between them. Statement II: A switch operates at the network layer and routes packets to their destination. Statement III: A modem modulates and demodulates signals for internet access.","answer":"A"}
+Sample normalized attempt: {"subject":"computer_science","chapter":"Computer Networks","body":"Read the statements and choose the correct option: Statement I: A router connects multiple networks and directs data packets between them. Statement II: A switch operates at the network layer and routes packets to their destination. Statement III: A modem modulates and demodulates signals for internet access.","options":[{"key":"A","text":"I and II only"},{"key":"B","text":"II and III only"},{"key":"C","text":"I and III only"},{"key":"D","text":"I, II and III"}],"correct_answer":"A","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Section A: Database and Networks","concept":"Computer Networks","concept_id":"computer_science::computer_networks","pyq_anchor_id":"structured_computer_science_computer_networks_1","anchor_tier":1,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"The statements are designed to test understanding of network devices and their functions, not just definitions.","why_cuet_level":"This question requires knowledge of device functions and their relationships, suitable for CUET level.","distractor_rationale":{"A":"Both statements I and II accurately describe the roles of a router and a switch in networking.","B":"Statement II is incorrect as switches operate at the data link layer, not the network layer.","C":"Statement I is valid while Statement III contains a flaw regarding modem function scope.","D":"most statements cannot be correct as Statement II misrepresents switch functionality."},"anchor_source_quality":"manual_seed","passage_id":"","passage_type":"","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option: Statement I: A router connects multiple networks and directs data packets between them. Statement II: A switch operates at the network layer and routes packets to their destination. Statement III: A modem modulates and demodulates signals for internet access.","answer":"A"}
+[pipeline] LOW_YIELD=0.0% (threshold=30%) — less than 30 % of generated questions were accepted
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Staffing primarily aims to fill vaca'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: A well-structured staffing process can lead to higher employee satisfaction. Reason: Empl'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Staffing involves not just hiring bu'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Succession planning is an essential '
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Staffing primarily aims to fill vaca'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Staffing involves not just hiring bu'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Succession planning is an essential '
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=52 | source=validator_normalized | rule=non-standard assertion-reason options | reasons=non-standard assertion-reason options; option provides reasoning logic; conceptual_depth < 7; confusing options; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; validator marked non-CUET alignment
+[pipeline] Rejected | compositeScore=13 | source=validator_normalized | rule=non-standard assertion-reason options | reasons=non-standard assertion-reason options; low conceptual depth; generic management concept; conceptual_depth < 7; confusing options; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] Rejected | compositeScore=38 | source=validator_normalized | rule=direct definition | reasons=direct definition; low trap quality; too easy; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] strict_mode_no_validated_questions_draft_only {
+  job_id: 'd0256d21-9576-44a9-8272-6a4d4ad6b462',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'non-standard assertion-reason options',
+    'option provides reasoning logic',
+    'conceptual_depth < 7',
+    'confusing options',
+    'exam quality below threshold',
+    'distractor quality below threshold',
+    'conceptual depth below CUET reasoning threshold',
+    'validator marked non-CUET alignment'
+  ],
+  draft_only_flag: true
+}
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=0.0% | threshold=40% | fallback_or_partial_output_allowed=true
+[pipeline] TARGET_NOT_MET | target=5 | accepted=0 | shortfall=5 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+No questions returned for business_studies/Staffing
+RAW_PARSED_COUNT=5
+NORMALIZED_COUNT=5
+VALIDATED_COUNT=0
+Drop summary:
+- normalization_failed: 0
+- invalid_options_format: 0
+- missing_required_fields: 0
+- validation_failed: 6
+- low_score: 2
+- difficulty_mismatch: 2
+- cuet_alignment_failed: 2
+- chapter_mismatch: 0
+Sample failed raw question: {"subject":"business_studies","chapter":"Staffing","body":"Read the statements and choose the correct option: Statement I: Staffing primarily aims to fill vacancies with qualified individuals. Statement II: Effective staffing enhances organizational performance by aligning skills with job requirements. Statement III: Staffing is mainly focused on employee retention rather than recruitment.","options":[{"key":"A","text":"I and II only"},{"key":"B","text":"II and III only"},{"key":"C","text":"I and III only"},{"key":"D","text":"I, II and III"}],"correct_answer":"A","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Staffing","concept":"Staffing","concept_id":"business_studies::staffing","pyq_anchor_id":"structured_business_studies_staffing_1","anchor_tier":1,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The focus of staffing extends beyond just filling vacancies to improving overall performance.","why_cuet_level":"Requires understanding of staffing functions and implications in organizations.","distractor_rationale":{"A":"Both statements accurately reflect key aspects of staffing.","B":"While effective staffing is crucial, it does not ignore the importance of recruitment.","C":"This statement wrongly emphasizes retention as the primary focus of staffing.","D":"This option incorrectly combines most three statements without considering their validity."},"anchor_source_quality":"manual_seed","passage_id":"","passage_type":"","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option: Statement I: Staffing primarily aims to fill vacancies with qualified individuals. Statement II: Effective staffing enhances organizational performance by aligning skills with job requirements. Statement III: Staffing is mainly focused on employee retention rather than recruitment.","answer":"A"}
+Sample normalized attempt: {"subject":"business_studies","chapter":"Staffing","body":"Read the statements and choose the correct option: Statement I: Staffing primarily aims to fill vacancies with qualified individuals. Statement II: Effective staffing enhances organizational performance by aligning skills with job requirements. Statement III: Staffing is mainly focused on employee retention rather than recruitment.","options":[{"key":"A","text":"I and II only"},{"key":"B","text":"II and III only"},{"key":"C","text":"I and III only"},{"key":"D","text":"I, II and III"}],"correct_answer":"A","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Staffing","concept":"Staffing","concept_id":"business_studies::staffing","pyq_anchor_id":"structured_business_studies_staffing_1","anchor_tier":1,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The focus of staffing extends beyond just filling vacancies to improving overall performance.","why_cuet_level":"Requires understanding of staffing functions and implications in organizations.","distractor_rationale":{"A":"Both statements accurately reflect key aspects of staffing.","B":"While effective staffing is crucial, it does not ignore the importance of recruitment.","C":"This statement wrongly emphasizes retention as the primary focus of staffing.","D":"This option incorrectly combines most three statements without considering their validity."},"anchor_source_quality":"manual_seed","passage_id":"","passage_type":"","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option: Statement I: Staffing primarily aims to fill vacancies with qualified individuals. Statement II: Effective staffing enhances organizational performance by aligning skills with job requirements. Statement III: Staffing is mainly focused on employee retention rather than recruitment.","answer":"A"}
+[pipeline] LOW_YIELD=0.0% (threshold=30%) — less than 30 % of generated questions were accepted
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: The caste system in India is mainly a social hierarchy based on birth. Statement II: Th'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'obvious_answer_pattern',
+  body: 'Statement I: The caste system in India is mainly a social hierarchy based on birth. Statement II: Th',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Indian society exhibits both unity and diversity. Reason: Unity implies that most social '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: Indian society exhibits both unity and diversity. Reason: Unity implies that most social ',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Urbanization leads to a breakdown of'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'weak_options',
+  body: 'Assertion: Social stratification in India is primarily influenced by economic factors. Reason: Econo',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: Religion plays a crucial role in shaping community identities within India. Statement I'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'weak_options',
+  body: 'Statement I: Religion plays a crucial role in shaping community identities within India. Statement I',
+  index: 4
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Urbanization leads to a breakdown of'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 1, source: 'structural_pool' }
+[pipeline] TARGET_NOT_MET | target=5 | accepted=1 | shortfall=4 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[supervisor] COST_ALERT: $6.76/1000 accepted exceeds $1 budget — next batch uses batch_size=3; non-focused validation pauses as draft-only; no unvalidated publish
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::electromagnetic_induction',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::electromagnetic_induction',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: An increasing magnetic field through'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the statements and choose the correct option: Statement I: An increasing magnetic field through',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: A coil moving through a magnetic field generates an induced current. Reason: The motion o'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Assertion: A coil moving through a magnetic field generates an induced current. Reason: The motion o',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A transformer operates on the princi'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: A transformer operates on the princi'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '1d474462-f010-4bf1-8de0-a30d83ebb719',
+  draft_saved: 1,
+  skipped_candidates: 1,
+  publish_count: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The Indian economy during colonial r'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Colonial policies led to increased u'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The Indian economy during colonial r'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Colonial policies led to increased u'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[supervisor] COST_ALERT: $2.23/1000 accepted exceeds $1 budget — next batch uses batch_size=3; non-focused validation pauses as draft-only; no unvalidated publish
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: India's foreign policy has been shap"
+}
+[llm] generated_extreme_word_repaired {
+  body: "Consider the following statements about India's approach to international relations: Statement I: In"
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: "Read the statements and choose the correct option: Statement I: India's foreign policy has been shap"
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: "Consider the following statements about India's approach to international relations: Statement I: In"
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; textbook style; obvious answer; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=ambiguous | reasons=ambiguous; subject consistency issue; textbook style; ambiguous wording; confusing options; subject mismatch; exam quality below threshold; distractor quality below threshold
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=33.3% | threshold=40% | fallback_or_partial_output_allowed=true
+[pipeline] TARGET_NOT_MET | target=3 | accepted=1 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[supervisor] COST_ALERT: $2.06/1000 accepted exceeds $1 budget — next batch uses batch_size=3; non-focused validation pauses as draft-only; no unvalidated publish
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Mass media can create a shared cultu'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Mass media plays a crucial role in shaping public opinion. Reason: Media messages are gen'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Digital media has transformed tradit'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Mass media can create a shared cultu'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Digital media has transformed tradit'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[supervisor] COST_ALERT: $1.46/1000 accepted exceeds $1 budget — next batch uses batch_size=3; non-focused validation pauses as draft-only; no unvalidated publish
+[pyq_anchor] selected_anchor {
+  subject: 'biology',
+  requested_concept_id: 'biology::molecular_basis_of_inheritance',
+  selected_anchor_id: 'structured_biology_microbes_in_human_welfare_1',
+  selected_anchor_concept_id: 'biology::microbes_in_human_welfare',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'biology',
+  requested_concept_id: 'biology::molecular_basis_of_inheritance',
+  source_anchor_id: 'structured_biology_microbes_in_human_welfare_1',
+  source_anchor_concept_id: 'biology::microbes_in_human_welfare',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: DNA replication is a semi-conservati'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Mutations can occur during DNA replication, leading to genetic variation. Reason: Mutatio'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'biology',
+  chapter: 'Molecular Basis of Inheritance',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: Mutations can occur during DNA replication, leading to genetic variation. Reason: Mutatio',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Genetic recombination during meiosis'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: DNA replication is a semi-conservati'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Genetic recombination during meiosis'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '0354b2e7-cd99-43c5-bf36-aad7fdd98133',
+  draft_saved: 2,
+  skipped_candidates: 2,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::business_environment',
+  selected_anchor_id: 'structured_business_studies_consumer_protection_1',
+  selected_anchor_concept_id: 'business_studies::consumer_protection',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 9,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::business_environment',
+  source_anchor_id: 'structured_business_studies_consumer_protection_1',
+  source_anchor_concept_id: 'business_studies::consumer_protection',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The business environment is influenc'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: Technological advancements can influence shifts in consumer behavior. Statement II: A c'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The business environment is influenc'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Statement I: Technological advancements can influence shifts in consumer behavior. Statement II: A c'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '26470cc1-f91d-4e5d-b2ae-d4b46a4c9f5a',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::financial_markets',
+  selected_anchor_id: 'structured_business_studies_consumer_protection_2',
+  selected_anchor_concept_id: 'business_studies::consumer_protection',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 9,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::financial_markets',
+  source_anchor_id: 'structured_business_studies_consumer_protection_2',
+  source_anchor_concept_id: 'business_studies::consumer_protection',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Financial markets provide a platform'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The bond market allows for fixed-inc'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Financial markets provide a platform'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The bond market allows for fixed-inc'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '33076682-bde8-4c7e-83c8-6838fa1a9456',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: India's foreign policy post-independ"
+}
+[llm] generated_extreme_word_repaired {
+  body: "Consider the following statements regarding India's relations with neighboring countries after indep"
+}
+[llm] question_rejected_internal_quality {
+  subject: 'political_science',
+  chapter: "India's External Relations",
+  reason: 'question_too_long',
+  body: "Consider the following statements regarding India's relations with neighboring countries after indep",
+  index: 2
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: "Read the statements and choose the correct option: Statement I: India's foreign policy post-independ"
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 1, source: 'structural_pool' }
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 429,
+  statusText: 'Too Many Requests',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ",
+  "status": 429,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] batch_validation_failure gemini-3-flash (429)
+[llm] {"event":"batch_validation_failure","timestamp":"2026-04-30T23:04:46.615Z","model":"gemini-3-flash","reason":"rate_limit","message":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ","cooldownUntil":"2026-04-30T23:11:17.035Z"}
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 429,
+  statusText: 'Too Many Requests',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ",
+  "status": 429,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] batch_validation_failure gemini-2-flash (429)
+[llm] {"event":"batch_validation_failure","timestamp":"2026-04-30T23:04:46.992Z","model":"gemini-2-flash","reason":"rate_limit","message":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ","cooldownUntil":"2026-04-30T23:12:31.220Z"}
+[llm] {"event":"batch_validation_all_models_failed","timestamp":"2026-04-30T23:04:46.992Z","subject":"political_science","questionCount":2,"lastError":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. "}
+[pipeline] Batch validation failed without retry: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. . Saving candidates as draft only; no live publish.
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::moving_charges_and_magnetism',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::moving_charges_and_magnetism',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the statements and choose the correct option: Statement I: The magnetic field around a current-',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: A charged particle moving in a magnetic field experiences a force. Reason: This force act'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Assertion: A charged particle moving in a magnetic field experiences a force. Reason: This force act',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The force on a charged particle in a'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the statements and choose the correct option: Statement I: The force on a charged particle in a',
+  index: 2
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Photons are massless particles that '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Matter exhibits wave-like properties at a quantum level. Reason: De Broglie proposed that'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Dual Nature of Radiation & Matter',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: Matter exhibits wave-like properties at a quantum level. Reason: De Broglie proposed that',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Electrons can exhibit diffraction pa'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Photons are massless particles that '
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Electrons can exhibit diffraction pa'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 2, source: 'structural_pool' }
+[pipeline] validation_paused_cost_guard {
+  job_id: 'a72f24bb-3bcc-4335-bb0c-9553161bcccf',
+  cost_per_1000: 2.04,
+  threshold: 0.9,
+  draft_saved: 2,
+  skipped_validator_candidates: 2,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::financial_management',
+  selected_anchor_id: 'structured_business_studies_staffing_2',
+  selected_anchor_concept_id: 'business_studies::staffing',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 9,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'comparison_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::financial_management',
+  source_anchor_id: 'structured_business_studies_staffing_2',
+  source_anchor_concept_id: 'business_studies::staffing',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'comparison_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Financial Management',
+  reason: 'question_too_long',
+  body: 'Read the statements and choose the correct option: Statement I: Effective financial management ensur',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Financial planning helps businesses '
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Financial planning helps businesses '
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'cde55c6c-96df-435a-b35b-0ff866d1ac0b',
+  draft_saved: 2,
+  skipped_candidates: 2,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::alcohols_phenols_and_ethers',
+  selected_anchor_id: 'structured_chemistry_isolation_of_elements_2',
+  selected_anchor_concept_id: 'chemistry::isolation_of_elements',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 6,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::alcohols_phenols_and_ethers',
+  source_anchor_id: 'structured_chemistry_isolation_of_elements_2',
+  source_anchor_concept_id: 'chemistry::isolation_of_elements',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Alcohols can exhibit both hydrogen b'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Ethers can be hydrolyzed under acidi'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Alcohols can exhibit both hydrogen b'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Ethers can be hydrolyzed under acidi'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'e3713711-71b1-4a88-a91c-525935af51eb',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'sociology',
+  requested_concept_id: 'sociology::change_and_development_in_rural_society',
+  selected_anchor_id: 'structured_sociology_introducing_indian_society_1',
+  selected_anchor_concept_id: 'sociology::introducing_indian_society',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 4,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'sociology',
+  requested_concept_id: 'sociology::change_and_development_in_rural_society',
+  source_anchor_id: 'structured_sociology_introducing_indian_society_1',
+  source_anchor_concept_id: 'sociology::introducing_indian_society',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Economic development in rural areas '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Migration from rural to urban areas significantly impacts social structures. Reason: Urba'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Technological advancements in agricu'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Economic development in rural areas '
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Technological advancements in agricu'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '633e1f48-8742-4ae7-a21d-ae415a31c727',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::planning',
+  selected_anchor_id: 'structured_business_studies_marketing_management_2',
+  selected_anchor_concept_id: 'business_studies::marketing_management',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 9,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::planning',
+  source_anchor_id: 'structured_business_studies_marketing_management_2',
+  source_anchor_concept_id: 'business_studies::marketing_management',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Effective planning involves setting '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Strategic planning focuses on long-t'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Effective planning involves setting '
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Strategic planning focuses on long-t'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'f5086ba6-f158-4f61-b020-c886129740e6',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  selected_anchor_id: 'structured_english_narrative_passage_1',
+  selected_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  source_anchor_id: 'structured_english_narrative_passage_1',
+  source_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The research highlights that social '
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Effective teamwork often relies on c'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Regular exercise contributes positiv'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 2
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  selected_anchor_id: 'structured_english_narrative_passage_1',
+  selected_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  source_anchor_id: 'structured_english_narrative_passage_1',
+  source_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The cat chased the mouse around the '
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The team celebrated their victory wi'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The artist began painting early in t'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 2
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  selected_anchor_id: 'structured_english_narrative_passage_1',
+  selected_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  source_anchor_id: 'structured_english_narrative_passage_1',
+  source_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The arrangement of words can signifi'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Rearranging sentences can enhance na'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Effective paragraph structure requir'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 2
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The arrangement of words can signifi'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'c242edbc-2ca6-4628-99bc-fc09726beb97',
+  draft_saved: 1,
+  skipped_candidates: 1,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'psychology',
+  requested_concept_id: 'psychology::social_influence_and_group_processes',
+  selected_anchor_id: 'structured_psychology_self_and_personality_1',
+  selected_anchor_concept_id: 'psychology::self_and_personality',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'psychology',
+  requested_concept_id: 'psychology::social_influence_and_group_processes',
+  source_anchor_id: 'structured_psychology_self_and_personality_1',
+  source_anchor_concept_id: 'psychology::self_and_personality',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Social facilitation occurs when indi'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Social influence can significantly a'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Social facilitation occurs when indi'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '88bdbb5a-ac96-4d95-8639-be828fda9c39',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::electromagnetic_induction',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::electromagnetic_induction',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A changing magnetic field can induce'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the statements and choose the correct option: Statement I: A changing magnetic field can induce',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Assertion: A loop of wire moving through a magnetic field experiences an induced current. Reason: Th',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Electromagnetic induction can occur '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the statements and choose the correct option: Statement I: Electromagnetic induction can occur ',
+  index: 2
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::moving_charges_and_magnetism',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::moving_charges_and_magnetism',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A charged particle moving in a magne'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'question_too_long',
+  body: 'Read the statements and choose the correct option: Statement I: A charged particle moving in a magne',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements below and determine which options are true: Statement I: A circular loop carryin'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the statements below and determine which options are true: Statement I: A circular loop carryin',
+  index: 2
+}
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '2497c80c-00d2-4c85-8bb8-1dd487e467c6',
+  draft_saved: 1,
+  skipped_candidates: 1,
+  publish_count: 0
+}
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'history',
+  concept_id: 'history::thinkers_beliefs_and_buildings',
+  selected_anchor_id: 'synthetic_cuet_structure_history',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The architectural styles of temples '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements regarding ancient Indian thinkers: Statement I: They primarily foc'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The architectural styles of temples '
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider the following statements regarding ancient Indian thinkers: Statement I: They primarily foc'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '51eeef25-1538-4c29-b06f-35c21fae8615',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'history',
+  concept_id: 'history::kings_and_chronicles',
+  selected_anchor_id: 'synthetic_cuet_structure_history',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'assertion_reason'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The role of local chieftains in the '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Many rulers employed skilled artisan'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The role of local chieftains in the '
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Many rulers employed skilled artisan'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The establishment of trade routes si'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 3, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'adbda7c1-f4cb-4c16-86a2-6fa81a4e1fcd',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::financial_mathematics',
+  selected_anchor_id: 'seed_pyq_m1',
+  selected_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::financial_mathematics',
+  source_anchor_id: 'seed_pyq_m1',
+  source_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'simple_numerical'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: I. The present value of an investment decreases a'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: I. An annuity pays a fixed amount at regular inte'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: I. The net present value (NPV) method accounts fo'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: I. The present value of an investment decreases a'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: I. An annuity pays a fixed amount at regular inte'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: I. The net present value (NPV) method accounts fo'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 3, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '2603683e-785e-43bc-b156-cc17edad6494',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::boolean_algebra',
+  selected_anchor_id: 'structured_computer_science_data_structures_2',
+  selected_anchor_concept_id: 'computer_science::data_structures',
+  anchor_tier: 2,
+  fallback_used: true,
+  concept_mismatch_risk: 'medium',
+  candidates: 1,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The expression NOT (A AND B) simplif'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Boolean Algebra',
+  reason: 'weak_options',
+  body: 'Read the statements and choose the correct option: Statement I: The expression NOT (A AND B) simplif',
+  index: 2
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The expression A AND (B OR C) can be'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '160a3b79-8793-40c8-9d97-03da0c772b12',
+  draft_saved: 2,
+  skipped_candidates: 2,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  selected_anchor_id: 'structured_english_narrative_passage_1',
+  selected_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  source_anchor_id: 'structured_english_narrative_passage_1',
+  source_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The committee decided to postpone th'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The research indicates that increase'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Urbanization leads to improved econo'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 2
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::vector_algebra',
+  selected_anchor_id: 'seed_pyq_m1',
+  selected_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::vector_algebra',
+  source_anchor_id: 'seed_pyq_m1',
+  source_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'simple_numerical'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The dot product of two non-zero vect'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The dot product of two non-zero vect'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Two vectors can be added in any orde'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'ecce0432-dd4a-4319-8a80-8f5142106717',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The liberalisation of the Indian eco'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The economic liberalisation process '
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The liberalisation of the Indian eco'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The economic liberalisation process '
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_paused_cost_guard {
+  job_id: '0b414753-4831-4c92-8aec-b2c6dbeb779b',
+  cost_per_1000: 3.73,
+  threshold: 0.9,
+  draft_saved: 3,
+  skipped_validator_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'geography',
+  concept_id: 'geography::manufacturing_industries',
+  selected_anchor_id: 'synthetic_cuet_structure_geography',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The growth of manufacturing industri'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The growth of manufacturing industri'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider the following statements regarding the impact of technology on manufacturing industries: St'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '1501fe69-7846-433a-a77d-11fad0e3ee39',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::electromagnetic_waves',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::electromagnetic_waves',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Electromagnetic waves can travel thr'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Electromagnetic waves exhibit both wave-like and particle-like properties. Reason: This d'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Electromagnetic Waves',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: Electromagnetic waves exhibit both wave-like and particle-like properties. Reason: This d',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The energy of electromagnetic radiat'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Electromagnetic waves can travel thr'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The energy of electromagnetic radiat'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '8ca58216-3eb6-44cf-9020-6f6abdefa3a9',
+  draft_saved: 2,
+  skipped_candidates: 2,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::crisis_of_the_democratic_order',
+  selected_anchor_id: 'structured_political_science_india_s_external_relations_1',
+  selected_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::crisis_of_the_democratic_order',
+  source_anchor_id: 'structured_political_science_india_s_external_relations_1',
+  source_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The emergency period in India is oft'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'political_science',
+  chapter: 'Crisis of the Democratic Order',
+  reason: 'question_too_long',
+  body: 'Read the statements and choose the correct option: Statement I: The emergency period in India is oft',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: The rise of regional parties in India has been attributed to growing local identities. '
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Statement I: The rise of regional parties in India has been attributed to growing local identities. '
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '306eb04f-3ca2-4ce9-8e49-d79a02202d99',
+  draft_saved: 2,
+  skipped_candidates: 2,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  selected_anchor_id: 'structured_english_narrative_passage_1',
+  selected_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  source_anchor_id: 'structured_english_narrative_passage_1',
+  source_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The introduction of the topic sets t'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Each sentence should logically follo'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A well-structured paragraph begins w'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 2
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::electromagnetic_induction',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_2',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::electromagnetic_induction',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_2',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A changing magnetic field can induce'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the statements and choose the correct option: Statement I: A changing magnetic field can induce',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Electromagnetic induction can occur in a coil when a magnet is moved towards it. Reason: '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: Electromagnetic induction can occur in a coil when a magnet is moved towards it. Reason: ',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A coil placed in a varying magnetic '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the statements and choose the correct option: Statement I: A coil placed in a varying magnetic ',
+  index: 2
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::functions',
+  selected_anchor_id: 'structured_computer_science_data_structures_2',
+  selected_anchor_concept_id: 'computer_science::data_structures',
+  anchor_tier: 2,
+  fallback_used: true,
+  concept_mismatch_risk: 'medium',
+  candidates: 1,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Functions in programming can return '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A recursive function calls itself to'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Functions in programming can return '
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: A recursive function calls itself to'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'b0198a01-bc64-4afb-af17-9a173ef9507c',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::inverse_trigonometric_functions',
+  selected_anchor_id: 'seed_pyq_m1',
+  selected_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::inverse_trigonometric_functions',
+  source_anchor_id: 'seed_pyq_m1',
+  source_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'simple_numerical'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The function f(x) = sin^(-1)(x) is d'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'mathematics',
+  chapter: 'Inverse Trigonometric Functions',
+  reason: 'weak_options',
+  body: 'Read the statements and choose the correct option: Statement I: The function f(x) = sin^(-1)(x) is d',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: tan^(-1)(x) approaches π/2 as x appr'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: tan^(-1)(x) approaches π/2 as x appr'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'ca59edc4-eeb7-4ed9-ac65-a4c40b4a52ba',
+  draft_saved: 2,
+  skipped_candidates: 2,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::python_revision',
+  selected_anchor_id: 'structured_computer_science_computer_networks_1',
+  selected_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 4,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::python_revision',
+  source_anchor_id: 'structured_computer_science_computer_networks_1',
+  source_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: In Python, a list is mutable, allowi'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A set in Python automatically remove'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: In Python, a list is mutable, allowi'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: A set in Python automatically remove'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'bbad3b1b-51a6-4365-91e1-0c5af54c2775',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::atoms',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::atoms',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: I. Atoms consist of a nucleus surrounded by elect'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: The atomic number determines the identity of an element. Reason: Atomic mass is primarily'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Atoms',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: The atomic number determines the identity of an element. Reason: Atomic mass is primarily',
+  index: 1
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: I. Atoms consist of a nucleus surrounded by elect'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: I. Isotopes have the same number of protons but d'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '7357b503-15a9-4c46-949f-8c4d84ad38a8',
+  draft_saved: 2,
+  skipped_candidates: 2,
+  publish_count: 0
+}
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'geography',
+  concept_id: 'geography::tertiary_and_quaternary_activities',
+  selected_anchor_id: 'synthetic_cuet_structure_geography',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'application_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'geography',
+  chapter: 'Tertiary & Quaternary Activities',
+  reason: 'question_too_long',
+  body: 'Read the statements and choose the correct option: Statement I: Quaternary activities often provide ',
+  index: 2
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Tertiary activities primarily focus '
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '346b99f3-9746-4411-a11f-e9c436a03ddf',
+  draft_saved: 2,
+  skipped_candidates: 2,
+  publish_count: 0
+}
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'history',
+  concept_id: 'history::through_the_eyes_of_travellers',
+  selected_anchor_id: 'synthetic_cuet_structure_history',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'assertion_reason'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: European travellers often recorded t'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Travellers from different regions of'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: European travellers often recorded t'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Travellers from different regions of'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'fe2bdd6c-76aa-4905-b06c-1fe71183a960',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: India's foreign policy emphasizes no"
+}
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: India's relations with its neighbors"
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: "Read the statements and choose the correct option: Statement I: India's foreign policy emphasizes no"
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: "Read the statements and choose the correct option: Statement I: India's relations with its neighbors"
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 429,
+  statusText: 'Too Many Requests',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ",
+  "status": 429,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] batch_validation_failure gemini-3-flash (429)
+[llm] {"event":"batch_validation_failure","timestamp":"2026-04-30T23:21:32.050Z","model":"gemini-3-flash","reason":"rate_limit","message":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ","cooldownUntil":"2026-04-30T23:29:09.985Z"}
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 429,
+  statusText: 'Too Many Requests',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ",
+  "status": 429,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] batch_validation_failure gemini-2-flash (429)
+[llm] {"event":"batch_validation_failure","timestamp":"2026-04-30T23:21:32.572Z","model":"gemini-2-flash","reason":"rate_limit","message":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ","cooldownUntil":"2026-04-30T23:29:41.809Z"}
+[llm] {"event":"batch_validation_all_models_failed","timestamp":"2026-04-30T23:21:32.572Z","subject":"political_science","questionCount":3,"lastError":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. "}
+[pipeline] Batch validation failed without retry: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. . Saving candidates as draft only; no live publish.
+[pyq_anchor] selected_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::infrastructure',
+  selected_anchor_id: 'structured_economics_economic_reforms_since_1991_1',
+  selected_anchor_concept_id: 'economics::economic_reforms_since_1991',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 7,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::infrastructure',
+  source_anchor_id: 'structured_economics_economic_reforms_since_1991_1',
+  source_anchor_concept_id: 'economics::economic_reforms_since_1991',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Infrastructure development in India '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Investment in transportation infrast'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Infrastructure development in India '
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Investment in transportation infrast'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'b11916fd-a521-46c4-ba9e-3aea947862bb',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'history',
+  concept_id: 'history::partition',
+  selected_anchor_id: 'synthetic_cuet_structure_history',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'comparison_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The partition of India was influence'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider these statements about the partition of India: Statement I: The British decision to partiti'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The partition of India was influence'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider these statements about the partition of India: Statement I: The British decision to partiti'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'f09abcda-3547-494c-a736-a33e615862a5',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::market_equilibrium_and_simple_applications',
+  selected_anchor_id: 'structured_economics_economic_reforms_since_1991_1',
+  selected_anchor_concept_id: 'economics::economic_reforms_since_1991',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 7,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::market_equilibrium_and_simple_applications',
+  source_anchor_id: 'structured_economics_economic_reforms_since_1991_1',
+  source_anchor_concept_id: 'economics::economic_reforms_since_1991',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Market equilibrium occurs when the q'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Market equilibrium occurs when the q'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: A shift in demand affects both equil'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'b0094315-024e-4642-81e9-d23d1b0d93ed',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::globalisation',
+  selected_anchor_id: 'structured_political_science_india_s_external_relations_1',
+  selected_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::globalisation',
+  source_anchor_id: 'structured_political_science_india_s_external_relations_1',
+  source_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Globalisation has led to increased e'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Global trade agreements are designed'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Globalisation has led to increased e'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Global trade agreements are designed'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '646088c1-8959-47c1-a442-55e89e9e30a2',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::integrals',
+  selected_anchor_id: 'seed_pyq_m1',
+  selected_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::integrals',
+  source_anchor_id: 'seed_pyq_m1',
+  source_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'simple_numerical'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The integral of a constant function '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements regarding integration: Statement I: The Fundamental Theorem of Cal'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The integral of a constant function '
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider the following statements regarding integration: Statement I: The Fundamental Theorem of Cal'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'aa62ddf0-5c9d-4ac2-a138-361b54770b23',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::mysql',
+  selected_anchor_id: 'structured_computer_science_data_structures_2',
+  selected_anchor_concept_id: 'computer_science::data_structures',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 4,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::mysql',
+  source_anchor_id: 'structured_computer_science_data_structures_2',
+  source_anchor_concept_id: 'computer_science::data_structures',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: MySQL supports ACID properties to en'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: MySQL can handle large datasets effi'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: MySQL supports ACID properties to en'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: MySQL can handle large datasets effi'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '00c90c52-e00a-489b-8cfd-243ce86fa3ce',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::file_handling',
+  selected_anchor_id: 'structured_computer_science_data_structures_2',
+  selected_anchor_concept_id: 'computer_science::data_structures',
+  anchor_tier: 2,
+  fallback_used: true,
+  concept_mismatch_risk: 'medium',
+  candidates: 1,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason'
+}

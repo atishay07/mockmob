@@ -1,0 +1,33 @@
+{
+  "subject": "political_science",
+  "chapter": "India's External Relations",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "A student explains non-alignment as staying away from every international issue. Which correction best reflects India's external relations after independence?",
+      "options": [
+        "Non-alignment meant retaining independent judgement, not avoiding all international engagement.",
+        "Non-alignment meant joining both power blocs whenever military help was needed.",
+        "Non-alignment meant refusing diplomatic relations with neighbouring countries.",
+        "Non-alignment meant accepting the policy preferences of the nearest major power."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["misconception-based", "elimination", "close-distractors", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    },
+    {
+      "question": "Statement I: India's foreign policy after independence reflected concern for sovereignty and autonomy. Statement II: This concern prevented India from taking positions on global conflicts. Which evaluation is strongest?",
+      "options": [
+        "Statement I is correct, but Statement II misreads autonomy as silence on global issues.",
+        "Both statements are correct because autonomy required withdrawal from international politics.",
+        "Statement I is incorrect because sovereignty was not linked to foreign policy choices.",
+        "Statement II is correct because India accepted bloc politics as the main foreign policy method."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["statement-based", "trap-option", "elimination", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

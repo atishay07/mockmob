@@ -1,0 +1,174 @@
+[pyq_anchor] selected_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::staffing',
+  selected_anchor_id: 'structured_business_studies_consumer_protection_1',
+  selected_anchor_concept_id: 'business_studies::consumer_protection',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::staffing',
+  source_anchor_id: 'structured_business_studies_consumer_protection_1',
+  source_anchor_concept_id: 'business_studies::consumer_protection',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[llm] openai_generation failure gpt-5.5: empty openai response
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'trap_option_not_in_strong_distractors',
+  body: 'In the staffing process, which of the following is primarily concerned with matching the right perso',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'extreme_qualifier',
+  body: 'Which of the following statements about employee training is most accurate?',
+  index: 1
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'sociology',
+  requested_concept_id: 'sociology::introducing_indian_society',
+  selected_anchor_id: 'structured_sociology_mass_media_and_communications_1',
+  selected_anchor_concept_id: 'sociology::mass_media_and_communications',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'sociology',
+  requested_concept_id: 'sociology::introducing_indian_society',
+  source_anchor_id: 'structured_sociology_mass_media_and_communications_1',
+  source_anchor_concept_id: 'sociology::mass_media_and_communications',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[llm] openai_generation failure gpt-5.5: empty openai response
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'extreme_qualifier',
+  body: 'In discussing social stratification in India, which of the following statements best captures its co',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'extreme_qualifier',
+  body: 'Which of the following statements about urbanization in India provides a nuanced perspective?',
+  index: 1
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::coordination_compounds',
+  selected_anchor_id: 'structured_chemistry_p_block_elements_1',
+  selected_anchor_concept_id: 'chemistry::p_block_elements',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::coordination_compounds',
+  source_anchor_id: 'structured_chemistry_p_block_elements_1',
+  source_anchor_concept_id: 'chemistry::p_block_elements',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[llm] openai_generation failure gpt-5.5: empty openai response
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'In a coordination compound, which of the following statements about ligand field strength is accurat',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'trap_option_not_in_strong_distractors',
+  body: 'Which statements regarding the geometry of coordination compounds are valid? Analyze the influence o',
+  index: 1
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::isolation_of_elements',
+  selected_anchor_id: 'structured_chemistry_p_block_elements_1',
+  selected_anchor_concept_id: 'chemistry::p_block_elements',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::isolation_of_elements',
+  source_anchor_id: 'structured_chemistry_p_block_elements_1',
+  source_anchor_concept_id: 'chemistry::p_block_elements',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] openai_generation failure gpt-5.5: empty openai response
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'extreme_qualifier',
+  body: 'When extracting a metal from its ore, which factors can influence the choice of reduction method? Co',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'extreme_qualifier',
+  body: 'In the process of isolating a metal from its compound, which of the following methods can be applied',
+  index: 1
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'computer_science',
+  concept_id: 'computer_science::computer_networks',
+  selected_anchor_id: 'synthetic_cuet_structure_computer_science',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'application_based'
+}

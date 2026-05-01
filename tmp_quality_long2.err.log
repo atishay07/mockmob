@@ -1,0 +1,212 @@
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'weak_options',
+  body: 'A company opts for internal promotions over external hiring and experiences better morale but strugg',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'extreme_qualifier',
+  body: 'Statement I: Effective staffing leads to higher productivity. Statement II: Staffing is primarily ab',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'weak_options',
+  body: '"Increased diversity in the workplace can lead to better problem-solving outcomes." Which option bes',
+  index: 2
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'extreme_qualifier',
+  body: '"Recruitment strategies should align with organizational goals." Which evaluation best reflects this',
+  index: 3
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'weak_options',
+  body: '"Job descriptions play a critical role in attracting suitable candidates." How does this statement h',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'extreme_qualifier',
+  body: 'In a coordination compound, the geometry often influences the color observed. Which statements corre',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'extreme_qualifier',
+  body: 'Statement I: Ligands can influence the magnetic properties of a coordination complex. Statement II: ',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'When comparing different ligands in a coordination compound, which statements hold true regarding th',
+  index: 2
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'extreme_qualifier',
+  body: 'Consider a complex formed with a transition metal and various ligands. Which assertions accurately r',
+  index: 3
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'extreme_qualifier',
+  body: 'Which statement best differentiates between monodentate and polydentate ligands in terms of their ef',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'extreme_qualifier',
+  body: 'A student claims that social stratification in India only results from economic differences. Which r',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'extreme_qualifier',
+  body: 'Statement I: The caste system in India is solely a relic of the past. Statement II: The caste system',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'extreme_qualifier',
+  body: 'A learner argues that urbanization leads to the complete breakdown of traditional social structures.',
+  index: 2
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'extreme_qualifier',
+  body: 'When extracting a metal from its ore, which methods are typically employed for effective reduction?',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'weak_options',
+  body: 'Which statements correctly describe the processes involved in the extraction of metals from their or',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'extreme_qualifier',
+  body: 'In the context of metallurgy, how do different methods impact the extraction efficiency of metals?',
+  index: 2
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  reason: 'weak_options',
+  body: 'In a network, which of the following devices can be used to extend the range of a Wi-Fi signal?',
+  index: 0
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Data Structures',
+  reason: 'weak_options',
+  body: 'In a scenario where data needs to be accessed in a last-in, first-out manner, which data structure i',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Data Structures',
+  reason: 'extreme_qualifier',
+  body: 'Given two statements: Statement I - A queue is effective for handling tasks in the order they are re',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Data Structures',
+  reason: 'extreme_qualifier',
+  body: 'A developer needs to implement a system that requires frequent additions and deletions from both end',
+  index: 2
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[llm] question_rejected_internal_quality {
+  subject: 'economics',
+  chapter: 'Economic Reforms Since 1991',
+  reason: 'extreme_qualifier',
+  body: 'The economic reforms initiated in 1991 led to various changes in the Indian economy. Which of the fo',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'economics',
+  chapter: 'Economic Reforms Since 1991',
+  reason: 'extreme_qualifier',
+  body: 'Which of the following best illustrates a challenge faced by the Indian government post-1991 economi',
+  index: 2
+}
+[llm] question_rejected_traceability {
+  subject: 'economics',
+  chapter: 'Economic Reforms Since 1991',
+  reason: 'concept_not_traceable_to_cuet_syllabus',
+  concept_id: null,
+  concept: null,
+  index: 3
+}
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 429,
+  statusText: 'Too Many Requests',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ",
+  "status": 429,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] batch_validation_failure gemini-3-flash (429)
+[llm] {"event":"batch_validation_failure","timestamp":"2026-04-30T21:34:00.297Z","model":"gemini-3-flash","reason":"rate_limit","message":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ","cooldownUntil":"2026-04-30T21:40:12.093Z"}
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 429,
+  statusText: 'Too Many Requests',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ",
+  "status": 429,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] batch_validation_failure gemini-2-flash (429)
+[llm] {"event":"batch_validation_failure","timestamp":"2026-04-30T21:34:00.764Z","model":"gemini-2-flash","reason":"rate_limit","message":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ","cooldownUntil":"2026-04-30T21:42:51.811Z"}
+[llm] {"event":"batch_validation_all_models_failed","timestamp":"2026-04-30T21:34:00.764Z","subject":"economics","questionCount":1,"lastError":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. "}
+[pipeline] Batch validation failed without retry: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. . Saving candidates as draft only; no live publish.
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[draft] save failed: new row for relation "questions" violates check constraint "questions_status_chk"

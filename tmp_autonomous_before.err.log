@@ -1,0 +1,236 @@
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'sociology',
+  concept_id: 'sociology::change_and_development_in_rural_society',
+  selected_anchor_id: 'synthetic_cuet_structure_sociology',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'case_based'
+}
+[llm] generated_question_discarded_before_pipeline {
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Statement I: Economic development in rural areas often leads to social changes in family structures.'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Change & Development in Rural Society',
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Statement I: Economic development in rural areas often leads to social changes in family structures.',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Change & Development in Rural Society',
+  reason: 'extreme_qualifier',
+  body: 'In a rural village, a new government policy aims to improve education access for girls. As a result,',
+  index: 2
+}
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[pipeline] TARGET_NOT_MET | target=5 | accepted=2 | shortfall=3 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'biology',
+  concept_id: 'biology::human_reproduction',
+  selected_anchor_id: 'synthetic_cuet_structure_biology',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'application_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  reason: 'extreme_qualifier',
+  body: 'In distinguishing between internal and external fertilization, which of the following statements rem',
+  index: 0
+}
+[llm] generated_question_discarded_before_pipeline {
+  reason: 'weak_options',
+  body: 'A couple has been trying to conceive for several months without success. They consult a doctor who i'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  reason: 'weak_options',
+  body: 'A couple has been trying to conceive for several months without success. They consult a doctor who i',
+  index: 3
+}
+[llm] question_rejected_internal_quality {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  reason: 'extreme_qualifier',
+  body: 'In discussing human reproductive strategies, which statement best reflects a key difference between ',
+  index: 4
+}
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=direct definition | reasons=direct definition; low trap quality; obvious answer; textbook style; conceptual depth < 7; ambiguous wording; subject mismatch; validator score below threshold
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; obvious answer; textbook style; conceptual depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] strict_mode_no_validated_questions
+[pipeline] strict_mode_no_validated_questions_final {
+  job_id: '9def7061-a1d8-41a5-8078-b51957f77f84',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'direct definition',
+    'low trap quality',
+    'obvious answer',
+    'textbook style',
+    'conceptual depth < 7',
+    'ambiguous wording',
+    'subject mismatch',
+    'validator score below threshold'
+  ]
+}
+No questions returned for biology/Human Reproduction
+RAW_PARSED_COUNT=5
+NORMALIZED_COUNT=2
+VALIDATED_COUNT=0
+Drop summary:
+- normalization_failed: 0
+- invalid_options_format: 0
+- missing_required_fields: 0
+- validation_failed: 5
+- low_score: 2
+- difficulty_mismatch: 2
+- cuet_alignment_failed: 2
+- chapter_mismatch: 0
+Sample failed raw question: {"q":"In distinguishing between internal and external fertilization, which of the following statements remains valid?","o":["Internal fertilization typically occurs in terrestrial animals, while external fertilization is common in aquatic species.","External fertilization is solely dependent on environmental conditions, whereas internal fertilization can occur in any habitat.","Both internal and external fertilization methods ensure genetic diversity among offspring, but they differ in gamete protection.","Internal fertilization requires a complex reproductive system, while external fertilization is simpler and less energy-intensive."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"comparison_based","concept_pattern":"biology::human_reproduction","subject":"biology","public_subject":"biology","chapter":"Human Reproduction","topic":"Reproduction","concept":"Human Reproduction","concept_id":"biology::human_reproduction","pyq_anchor_id":"synthetic_cuet_structure_biology","anchor_tier":4}
+Sample normalized attempt: {"subject":"biology","chapter":"Human Reproduction","body":"In distinguishing between internal and external fertilization, which of the following statements remains valid?","options":[{"key":"A","text":"Internal fertilization requires a complex reproductive system, while external fertilization is simpler and less energy-intensive."},{"key":"B","text":"Both internal and external fertilization methods ensure genetic diversity among offspring, but they differ in gamete protection."},{"key":"C","text":"External fertilization is solely dependent on environmental conditions, whereas internal fertilization can occur in any habitat."},{"key":"D","text":"Internal fertilization typically occurs in terrestrial animals, while external fertilization is common in aquatic species."}],"correct_answer":"D","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"comparison_based","topic":"Reproduction","concept":"Human Reproduction","concept_id":"biology::human_reproduction","pyq_anchor_id":"synthetic_cuet_structure_biology","anchor_tier":4,"concept_pattern":"biology::human_reproduction","tags":["cuet"],"passage_id":"","passage_type":"","passage_text":""}
+[pyq_anchor] selected_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::planning',
+  selected_anchor_id: 'seed_pyq_b3',
+  selected_anchor_concept_id: 'business_studies::nature_and_significance_of_management',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::planning',
+  source_anchor_id: 'seed_pyq_b3',
+  source_anchor_concept_id: 'business_studies::nature_and_significance_of_management',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_question_discarded_before_pipeline {
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Statement I: Effective planning is essential for achieving organizational goals. Statement II: Plann'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Planning',
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Statement I: Effective planning is essential for achieving organizational goals. Statement II: Plann',
+  index: 0
+}
+[llm] generated_question_discarded_before_pipeline {
+  reason: 'weak_options',
+  body: 'In a recent business meeting, a manager argued that having a detailed plan can reduce flexibility in'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Planning',
+  reason: 'weak_options',
+  body: 'In a recent business meeting, a manager argued that having a detailed plan can reduce flexibility in',
+  index: 2
+}
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; conceptual_depth < 7; textbook style; logical inconsistency in answer key; direct recall stem; ambiguous wording; confusing options; subject mismatch
+[pipeline] strict_mode_no_validated_questions
+[pipeline] strict_mode_no_validated_questions_final {
+  job_id: 'a57a9bd7-30ee-4a11-b28f-5263370600f2',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'low trap quality',
+    'conceptual_depth < 7',
+    'textbook style',
+    'logical inconsistency in answer key',
+    'direct recall stem',
+    'ambiguous wording',
+    'confusing options',
+    'subject mismatch'
+  ]
+}
+No questions returned for business_studies/Planning
+RAW_PARSED_COUNT=3
+NORMALIZED_COUNT=1
+VALIDATED_COUNT=0
+Drop summary:
+- normalization_failed: 0
+- invalid_options_format: 0
+- missing_required_fields: 0
+- validation_failed: 3
+- low_score: 1
+- difficulty_mismatch: 1
+- cuet_alignment_failed: 1
+- chapter_mismatch: 0
+Sample failed raw question: {"q":"Statement I: Effective planning is essential for achieving organizational goals. Statement II: Planning eliminates the need for decision-making in an organization. Which of the following statements is correct?","o":["Only Statement I is correct.","Only Statement II is correct.","Both Statement I and Statement II are correct.","Neither Statement I nor Statement II is correct."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"business_studies::planning","subject":"business_studies","public_subject":"business_studies","chapter":"Planning","topic":"Planning","concept":"Planning","concept_id":"business_studies::planning","pyq_anchor_id":"structure_only_seed_pyq_b3_for_business_studies::planning","anchor_tier":3}
+Sample normalized attempt: {"subject":"business_studies","chapter":"Planning","body":"Statement I: Effective planning is essential for achieving organizational goals. Statement II: Planning eliminates the need for decision-making in an organization. Which of the following statements is correct?","options":[{"key":"A","text":"Only Statement I is correct."},{"key":"B","text":"Only Statement II is correct."},{"key":"C","text":"Both Statement I and Statement II are correct."},{"key":"D","text":"Neither Statement I nor Statement II is correct."}],"correct_answer":"A","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Planning","concept":"Planning","concept_id":"business_studies::planning","pyq_anchor_id":"structure_only_seed_pyq_b3_for_business_studies::planning","anchor_tier":3,"concept_pattern":"business_studies::planning","tags":["cuet"],"passage_id":"","passage_type":"","passage_text":""}
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'chemistry',
+  concept_id: 'chemistry::p_block_elements',
+  selected_anchor_id: 'synthetic_cuet_structure_chemistry',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'assertion_reason'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  reason: 'extreme_qualifier',
+  body: 'In a laboratory, a student observes that the elements in group 13 of the p-block exhibit varying oxi',
+  index: 0
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'Comparing the reactivity of halogens with alkali metals, which statement correctly distinguishes the'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'weak_options',
+    body: 'Comparing the reactivity of halogens with alkali metals, which statement correctly distinguishes the'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 1, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=8 | source=validator_normalized | rule=subject_consistency is WRONG | reasons=subject_consistency is WRONG; incorrect scientific fact in answer key; trap_quality is LOW; halogens reactivity decreases down the group; subject mismatch; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] TARGET_NOT_MET | target=3 | accepted=1 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[supervisor] COST_ALERT: $1.84/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'computer_science',
+  concept_id: 'computer_science::communication_technologies',
+  selected_anchor_id: 'synthetic_cuet_structure_computer_science',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'comparison_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Communication Technologies',
+  reason: 'extreme_qualifier',
+  body: 'In the context of communication technologies, comparing wired and wireless communication, which stat',
+  index: 0
+}
+[llm] generated_question_discarded_before_pipeline {
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Statement I: Digital communication allows for faster data transmission compared to analog. Statement'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Communication Technologies',
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Statement I: Digital communication allows for faster data transmission compared to analog. Statement',
+  index: 1
+}

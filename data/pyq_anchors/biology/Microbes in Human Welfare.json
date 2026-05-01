@@ -1,0 +1,33 @@
+{
+  "subject": "biology",
+  "chapter": "Microbes in Human Welfare",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "A student argues that curd formation and antibiotic production show the same role of microbes because both are useful to humans. Which distinction is most useful for evaluating this claim?",
+      "options": [
+        "Curd formation uses microbial metabolic activity in food, while antibiotic production uses microbial products against other microbes.",
+        "Curd formation depends on viruses, while antibiotic production depends only on bacteria used in food.",
+        "Both processes are identical because microbes only convert milk sugar into acids.",
+        "Antibiotic production is a household process, while curd formation is mainly an industrial process."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["comparison-based", "elimination", "close-distractors", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    },
+    {
+      "question": "Statement I: Some microbes are useful in sewage treatment because they help reduce organic matter. Statement II: The same role proves that all microbes in sewage are beneficial. Which option best evaluates the statements?",
+      "options": [
+        "Statement I is correct, but Statement II overgeneralises the useful role of selected microbial communities.",
+        "Both statements are correct because sewage treatment depends on every microbe present in sewage.",
+        "Statement I is incorrect because organic matter is removed only by mechanical filtration.",
+        "Statement II is correct because harmful microbes are removed before treatment begins."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["statement-based", "trap-option", "elimination", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

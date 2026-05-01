@@ -1,0 +1,3136 @@
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: A chelating ligand can form multiple bonds with a central metal ion. Statement II: Chel'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Bidentate ligands can form two bonds'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: Coordination compounds can exhibit different colors due to d-d transitions. Statement I'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'obvious_answer_pattern',
+  body: 'Statement I: Coordination compounds can exhibit different colors due to d-d transitions. Statement I',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: The presence of strong field ligands increases the splitting of d-orbitals. Reason: Stron'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Assertion: The presence of strong field ligands increases the splitting of d-orbitals. Reason: Stron',
+  index: 4
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Bidentate ligands can form two bonds'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=obvious answer | reasons=obvious answer; direct definition; clarity is ambiguous; low trap quality; ambiguous wording; subject mismatch; validator score below threshold; exam quality below threshold
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[pipeline] TARGET_NOT_MET | target=5 | accepted=2 | shortfall=3 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Self-awareness can lead to improved '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: A person with a strong self-concept will likely exhibit confidence in social situations. '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Self-identity is formed mainly through internal reflection. Reason: Social interactions p'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Self-awareness can lead to improved '
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Personality traits are stable over t'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Self-actualization represents reachi'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=13 | source=validator_normalized | rule=non-standard assertion-reason options | reasons=non-standard assertion-reason options; low trap quality; textbook style; conceptual_depth < 7; confusing options; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] Rejected | compositeScore=37 | source=validator_normalized | rule=too similar to anchor | reasons=too similar to anchor; low trap quality; textbook style; conceptual_depth < 7; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=incorrect answer key | reasons=incorrect answer key; subject_consistency is WRONG; low conceptual depth; conceptual_depth < 7; ambiguous wording; subject mismatch; validator score below threshold; exam quality below threshold
+[pipeline] strict_mode_no_validated_questions_draft_only {
+  job_id: '73549139-b283-41eb-af7a-2b6b24786011',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'non-standard assertion-reason options',
+    'low trap quality',
+    'textbook style',
+    'conceptual_depth < 7',
+    'confusing options',
+    'validator score below threshold',
+    'exam quality below threshold',
+    'distractor quality below threshold'
+  ],
+  draft_only_flag: true
+}
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=0.0% | threshold=40% | fallback_or_partial_output_allowed=true
+[pipeline] TARGET_NOT_MET | target=5 | accepted=0 | shortfall=5 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+No questions returned for psychology/Self & Personality
+RAW_PARSED_COUNT=5
+NORMALIZED_COUNT=5
+VALIDATED_COUNT=0
+Drop summary:
+- normalization_failed: 0
+- invalid_options_format: 0
+- missing_required_fields: 0
+- validation_failed: 6
+- low_score: 2
+- difficulty_mismatch: 1
+- cuet_alignment_failed: 3
+- chapter_mismatch: 0
+Sample failed raw question: {"subject":"psychology","chapter":"Self & Personality","body":"Read the statements and choose the correct option: Statement I: Self-awareness can lead to improved emotional regulation. Statement II: High self-esteem is often linked to better mental health outcomes. Statement III: Self-reflection is essential for personal growth.","options":[{"key":"A","text":"I and II only"},{"key":"B","text":"II and III only"},{"key":"C","text":"I and III only"},{"key":"D","text":"I, II and III"}],"correct_answer":"C","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Self and Personality","concept":"Self & Personality","concept_id":"psychology::self_and_personality","pyq_anchor_id":"structured_psychology_self_and_personality_1","anchor_tier":1,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"The link between high self-esteem and mental health is not absolute; other factors play a role.","why_cuet_level":"Requires understanding of self-awareness versus self-esteem dynamics.","distractor_rationale":{"A":"Self-awareness does enhance emotional regulation, but the claim about self-esteem is flawed.","B":"High self-esteem might not often correlate with mental health, making this statement misleading.","C":"Self-reflection indeed fosters growth, making this option valid with the first statement.","D":"The inclusion of Statement II makes this option incorrect."},"anchor_source_quality":"manual_seed","passage_id":"","passage_type":"","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option: Statement I: Self-awareness can lead to improved emotional regulation. Statement II: High self-esteem is often linked to better mental health outcomes. Statement III: Self-reflection is essential for personal growth.","answer":"C"}
+Sample normalized attempt: {"subject":"psychology","chapter":"Self & Personality","body":"Read the statements and choose the correct option: Statement I: Self-awareness can lead to improved emotional regulation. Statement II: High self-esteem is often linked to better mental health outcomes. Statement III: Self-reflection is essential for personal growth.","options":[{"key":"A","text":"I and II only"},{"key":"B","text":"II and III only"},{"key":"C","text":"I and III only"},{"key":"D","text":"I, II and III"}],"correct_answer":"C","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Self and Personality","concept":"Self & Personality","concept_id":"psychology::self_and_personality","pyq_anchor_id":"structured_psychology_self_and_personality_1","anchor_tier":1,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"The link between high self-esteem and mental health is not absolute; other factors play a role.","why_cuet_level":"Requires understanding of self-awareness versus self-esteem dynamics.","distractor_rationale":{"A":"Self-awareness does enhance emotional regulation, but the claim about self-esteem is flawed.","B":"High self-esteem might not often correlate with mental health, making this statement misleading.","C":"Self-reflection indeed fosters growth, making this option valid with the first statement.","D":"The inclusion of Statement II makes this option incorrect."},"anchor_source_quality":"manual_seed","passage_id":"","passage_type":"","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option: Statement I: Self-awareness can lead to improved emotional regulation. Statement II: High self-esteem is often linked to better mental health outcomes. Statement III: Self-reflection is essential for personal growth.","answer":"C"}
+[pipeline] LOW_YIELD=0.0% (threshold=30%) — less than 30 % of generated questions were accepted
+[supervisor] COST_ALERT: $1.70/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Network latency refers to delays in '
+}
+[llm] generated_question_discarded_before_pipeline {
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Read the statements and choose the correct option: Statement I: Network latency refers to delays in '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Read the statements and choose the correct option: Statement I: Network latency refers to delays in ',
+  index: 2
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: A router is responsible for directin'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 1, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=36 | source=validator_normalized | rule=textbook style | reasons=textbook style; low trap quality; direct definition; conceptual depth < 7; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording
+[pipeline] TARGET_NOT_MET | target=3 | accepted=1 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[supervisor] COST_ALERT: $1.54/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: India's foreign policy has often pri"
+}
+[llm] generated_extreme_word_repaired {
+  body: "Consider the following statements regarding India's relations with its neighbors: Statement I: India"
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: "Read the statements and choose the correct option: Statement I: India's foreign policy has often pri"
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: "Consider the following statements regarding India's relations with its neighbors: Statement I: India"
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option. Statement I: The agricultural sector in India dur'
+}
+[llm] generated_extreme_word_repaired {
+  body: "Consider the following statements about India's economy before independence: Statement I: The econom"
+}
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements regarding India's economic conditions pre-independence: Statement I: The structu"
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option. Statement I: The agricultural sector in India dur'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: "Consider the following statements about India's economy before independence: Statement I: The econom"
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: "Read the statements regarding India's economic conditions pre-independence: Statement I: The structu"
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=2 | source=validator_normalized | rule=subject consistency | reasons=subject consistency; incorrect answer key; factual inaccuracy; confusing options; subject mismatch; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] TARGET_NOT_MET | target=5 | accepted=2 | shortfall=3 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Effective staffing can significantly'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Staffing is a continuous process that evolves with organizational needs. Reason: Staffing'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Internal recruitment enhances morale'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: The selection process in staffing determines candidate suitability for roles. Reason: The',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Effective onboarding improves employ'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Effective staffing can significantly'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Internal recruitment enhances morale'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Effective onboarding improves employ'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; obvious answer; textbook style; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording
+[pipeline] Rejected | compositeScore=32 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; obvious answer; textbook style; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording; validator marked non-CUET alignment
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=33.3% | threshold=40% | fallback_or_partial_output_allowed=true
+[pipeline] TARGET_NOT_MET | target=5 | accepted=1 | shortfall=4 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pipeline] LOW_YIELD=25.0% (threshold=30%) — less than 30 % of generated questions were accepted
+[supervisor] COST_ALERT: $1.03/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The caste system in India reflects b'
+}
+[llm] generated_extreme_word_repaired {
+  body: "A learner claims that Indian society's diversity leads to conflict among groups. Assess the followin"
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following assertions regarding social stratification: Assertion I: Social stratificatio'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The caste system in India reflects b'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: "A learner claims that Indian society's diversity leads to conflict among groups. Assess the followin"
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider the following assertions regarding social stratification: Assertion I: Social stratificatio'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 3, source: 'structural_pool' }
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Mass media plays a crucial role in s'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Social media has transformed communication patterns in India. Reason: This transformation'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  reason: 'obvious_answer_pattern',
+  body: 'Assertion: Social media has transformed communication patterns in India. Reason: This transformation',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: Television has a significant impact on shaping cultural norms in India. Statement II: T'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A learner claims that mass media primarily serves entertainment purposes in contemporary society. Wh'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Digital communication enhances parti'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'A learner claims that mass media primarily serves entertainment purposes in contemporary society. Wh'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Mass media plays a crucial role in s'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Statement I: Television has a significant impact on shaping cultural norms in India. Statement II: T'
+  },
+  {
+    reason: 'weak_options',
+    body: 'A learner claims that mass media primarily serves entertainment purposes in contemporary society. Wh'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Digital communication enhances parti'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 3, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; obvious answer; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording
+[pipeline] TARGET_NOT_MET | target=5 | accepted=2 | shortfall=3 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[worker] recovered stale processing jobs: [
+  {
+    id: '4cb82e53-8783-4e85-87cd-f96d48d21afc',
+    subject_id: 'business_studies',
+    chapter: 'Consumer Protection',
+    started_at: null
+  }
+]
+[pyq_anchor] selected_anchor {
+  subject: 'psychology',
+  requested_concept_id: 'psychology::psychology_and_life',
+  selected_anchor_id: 'structured_psychology_self_and_personality_1',
+  selected_anchor_concept_id: 'psychology::self_and_personality',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'psychology',
+  requested_concept_id: 'psychology::psychology_and_life',
+  source_anchor_id: 'structured_psychology_self_and_personality_1',
+  source_anchor_concept_id: 'psychology::self_and_personality',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following scenarios regarding stress management strategies: Scenario I: A student uses '
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Individuals often perceive their lif'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider the following scenarios regarding stress management strategies: Scenario I: A student uses '
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements about social support systems: Statement I: Emotional support can enhance resilie'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'e23af487-14c6-422c-b149-4b3e6cb938f9',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The right to be informed ensures con'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Consumer Protection',
+  reason: 'weak_options',
+  body: 'Consider this case: A customer buys a product that later fails to meet safety standards due to a man',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and assess their validity: Statement I: Consumer protection primarily benefits c'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: The right to be heard empowers consumers by giving them a voice in disputes. Reason: This'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The right to be informed ensures con'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and assess their validity: Statement I: Consumer protection primarily benefits c'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=5 | source=validator_normalized | rule=subject_consistency WRONG | reasons=subject_consistency WRONG; incorrect answer key; logic mismatch in Reason; subject mismatch; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] TARGET_NOT_MET | target=5 | accepted=2 | shortfall=3 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pyq_anchor] selected_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::controlling',
+  selected_anchor_id: 'structured_business_studies_consumer_protection_1',
+  selected_anchor_concept_id: 'business_studies::consumer_protection',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 9,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::controlling',
+  source_anchor_id: 'structured_business_studies_consumer_protection_1',
+  source_anchor_concept_id: 'business_studies::consumer_protection',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Effective controlling helps in ident'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Controlling focuses mainly on post-i'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The primary purpose of controlling i'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Effective controlling helps in ident'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Controlling focuses mainly on post-i'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The primary purpose of controlling i'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'ef890eca-94c7-4bc2-b890-d1ead4b0b4a1',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::aldehydes_ketones_and_carboxylic_acids',
+  selected_anchor_id: 'structured_chemistry_coordination_compounds_1',
+  selected_anchor_concept_id: 'chemistry::coordination_compounds',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 6,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::aldehydes_ketones_and_carboxylic_acids',
+  source_anchor_id: 'structured_chemistry_coordination_compounds_1',
+  source_anchor_concept_id: 'chemistry::coordination_compounds',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Ketones can be reduced to alcohols u'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Aldehydes can undergo oxidation to f'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Ketones can be reduced to alcohols u'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '2d4937ee-5023-433e-b846-c1721abc0d10',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: In group 14 of p-block elements, the'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: The reactivity of p-block elements increases down the group due to atomic size. Reason: L'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider these statements about group 15 elements: Statement I: Nitrogen shows unique behavior compa'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: In group 14 of p-block elements, the'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider these statements about group 15 elements: Statement I: Nitrogen shows unique behavior compa'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=clarity == AMBIGUOUS | reasons=clarity == AMBIGUOUS; low trap quality; assertion is a broad generalization that is false for non-metals in the p-block; ambiguous wording; subject mismatch; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] Rejected | compositeScore=41 | source=validator_normalized | rule=subject_consistency != CORRECT | reasons=subject_consistency != CORRECT; statement II contradicts the chemical principle of the inert pair effect; answer key error; subject mismatch; validator score below threshold; exam quality below threshold; distractor quality below threshold; validator marked non-CUET alignment
+[pipeline] Rejected | compositeScore=29 | source=validator_normalized | rule=subject_consistency != CORRECT | reasons=subject_consistency != CORRECT; statement II is factually incorrect as Nitrogen exhibits +5 oxidation state; answer key mismatch; subject mismatch; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] strict_mode_no_validated_questions_draft_only {
+  job_id: '6a80d289-ab39-4787-b2f0-1fb0db7fdac2',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'clarity == AMBIGUOUS',
+    'low trap quality',
+    'assertion is a broad generalization that is false for non-metals in the p-block',
+    'ambiguous wording',
+    'subject mismatch',
+    'validator score below threshold',
+    'exam quality below threshold',
+    'distractor quality below threshold'
+  ],
+  draft_only_flag: true
+}
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=0.0% | threshold=40% | fallback_or_partial_output_allowed=true
+[pipeline] TARGET_NOT_MET | target=3 | accepted=0 | shortfall=3 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+No questions returned for chemistry/p-Block Elements
+RAW_PARSED_COUNT=3
+NORMALIZED_COUNT=3
+VALIDATED_COUNT=0
+Drop summary:
+- normalization_failed: 0
+- invalid_options_format: 0
+- missing_required_fields: 0
+- validation_failed: 5
+- low_score: 3
+- difficulty_mismatch: 0
+- cuet_alignment_failed: 3
+- chapter_mismatch: 0
+Sample failed raw question: {"subject":"chemistry","chapter":"p-Block Elements","body":"Read the statements and choose the correct option: Statement I: In group 14 of p-block elements, the stability of +4 oxidation state decreases down the group. Statement II: This decrease is primarily due to increased s-electron participation in bonding. Statement III: The inert pair effect can explain why lower oxidation states become more stable in heavier elements.","options":[{"key":"A","text":"I and II only"},{"key":"B","text":"II and III only"},{"key":"C","text":"I and III only"},{"key":"D","text":"I, II and III"}],"correct_answer":"B","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Existing Chemistry Coverage","concept":"p-Block Elements","concept_id":"chemistry::p_block_elements","pyq_anchor_id":"structured_chemistry_p_block_elements_1","anchor_tier":1,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"The statements focus on specific trends rather than general definitions.","why_cuet_level":"Requires understanding of oxidation state trends and electron participation.","distractor_rationale":{"A":"The claim about s-electron participation is misleading as it oversimplifies the factors involved.","B":"Both statements are valid, with Statement II correctly linking electron participation to oxidation states.","C":"Statement I is true, but Statement III is misleading as it doesn't address the role of s-electrons accurately.","D":"most statements cannot be true since Statement II introduces an incorrect reasoning."},"anchor_source_quality":"manual_seed","passage_id":"","passage_type":"","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option: Statement I: In group 14 of p-block elements, the stability of +4 oxidation state decreases down the group. Statement II: This decrease is primarily due to increased s-electron participation in bonding. Statement III: The inert pair effect can explain why lower oxidation states become more stable in heavier elements.","answer":"B"}
+Sample normalized attempt: {"subject":"chemistry","chapter":"p-Block Elements","body":"Read the statements and choose the correct option: Statement I: In group 14 of p-block elements, the stability of +4 oxidation state decreases down the group. Statement II: This decrease is primarily due to increased s-electron participation in bonding. Statement III: The inert pair effect can explain why lower oxidation states become more stable in heavier elements.","options":[{"key":"A","text":"I and II only"},{"key":"B","text":"II and III only"},{"key":"C","text":"I and III only"},{"key":"D","text":"I, II and III"}],"correct_answer":"B","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Existing Chemistry Coverage","concept":"p-Block Elements","concept_id":"chemistry::p_block_elements","pyq_anchor_id":"structured_chemistry_p_block_elements_1","anchor_tier":1,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"The statements focus on specific trends rather than general definitions.","why_cuet_level":"Requires understanding of oxidation state trends and electron participation.","distractor_rationale":{"A":"The claim about s-electron participation is misleading as it oversimplifies the factors involved.","B":"Both statements are valid, with Statement II correctly linking electron participation to oxidation states.","C":"Statement I is true, but Statement III is misleading as it doesn't address the role of s-electrons accurately.","D":"most statements cannot be true since Statement II introduces an incorrect reasoning."},"anchor_source_quality":"manual_seed","passage_id":"","passage_type":"","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option: Statement I: In group 14 of p-block elements, the stability of +4 oxidation state decreases down the group. Statement II: This decrease is primarily due to increased s-electron participation in bonding. Statement III: The inert pair effect can explain why lower oxidation states become more stable in heavier elements.","answer":"B"}
+[pipeline] LOW_YIELD=0.0% (threshold=30%) — less than 30 % of generated questions were accepted
+[supervisor] COST_ALERT: $1.16/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'geography',
+  concept_id: 'geography::manufacturing_industries',
+  selected_anchor_id: 'synthetic_cuet_structure_geography',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'comparison_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Manufacturing industries contribute '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Globalization has led to increased c'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Manufacturing industries contribute '
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Globalization has led to increased c'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '2761f856-d753-4403-ae3e-b983da4f0053',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The economic reforms of 1991 led to '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'economics',
+  chapter: 'Economic Reforms Since 1991',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: The economic reforms since 1991 have encouraged foreign investment in India. Reason: The ',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Globalisation has been a key outcome'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The economic reforms of 1991 led to '
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Globalisation has been a key outcome'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 2, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=wrong answer key | reasons=wrong answer key; textbook style; low trap quality; conceptual depth below 7; subject mismatch; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] Rejected | compositeScore=34 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; textbook style; obvious answer; conceptual depth below 7; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording
+[pipeline] strict_mode_no_validated_questions_draft_only {
+  job_id: '6c1a1985-9e85-40cd-bed7-85ea07ab9d10',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'wrong answer key',
+    'textbook style',
+    'low trap quality',
+    'conceptual depth below 7',
+    'subject mismatch',
+    'validator score below threshold',
+    'exam quality below threshold',
+    'distractor quality below threshold'
+  ],
+  draft_only_flag: true
+}
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=0.0% | threshold=40% | fallback_or_partial_output_allowed=true
+[pipeline] TARGET_NOT_MET | target=3 | accepted=0 | shortfall=3 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+No questions returned for economics/Economic Reforms Since 1991
+RAW_PARSED_COUNT=3
+NORMALIZED_COUNT=2
+VALIDATED_COUNT=0
+Drop summary:
+- normalization_failed: 0
+- invalid_options_format: 0
+- missing_required_fields: 0
+- validation_failed: 5
+- low_score: 1
+- difficulty_mismatch: 0
+- cuet_alignment_failed: 2
+- chapter_mismatch: 0
+Sample failed raw question: {"q":"Assertion: The economic reforms since 1991 have encouraged foreign investment in India. Reason: The introduction of new policies reduced regulatory hurdles for foreign companies. Which option best evaluates the Assertion and Reason?","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"economics::economic_reforms_since_1991","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This requires analysis of the relationship between assertion and reason rather than simple identification.","why_cuet_level":"It tests comprehension of policy implications post-reform.","distractor_rationale":{"A":"The reason provides a clear explanation for the assertion made about reforms.","B":"The reason is indeed true but does not fully address why foreign investment increased.","C":"The assertion is accurate while this reason misrepresents the impact of reforms on foreign investment.","D":"This option incorrectly claims that the assertion is false."}}
+Sample normalized attempt: {"subject":"economics","chapter":"Economic Reforms Since 1991","body":"Assertion: The economic reforms since 1991 have encouraged foreign investment in India. Reason: The introduction of new policies reduced regulatory hurdles for foreign companies. Which option best evaluates the Assertion and Reason?","options":[{"key":"A","text":"Both Assertion and Reason are true, and the Reason explains the Assertion."},{"key":"B","text":"Both Assertion and Reason are true, but the Reason does not explain the Assertion."},{"key":"C","text":"Assertion is true, but Reason is false."},{"key":"D","text":"Assertion is false, but Reason is true."}],"correct_answer":"A","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"assertion_reason","topic":"Indian Economic Development","concept":"Economic Reforms Since 1991","concept_id":"economics::economic_reforms_since_1991","pyq_anchor_id":"","anchor_tier":0,"concept_pattern":"concept_2","tags":["cuet"],"trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This requires analysis of the relationship between assertion and reason rather than simple identification.","why_cuet_level":"It tests comprehension of policy implications post-reform.","distractor_rationale":{"A":"The reason provides a clear explanation for the assertion made about reforms.","B":"The reason is indeed true but does not fully address why foreign investment increased.","C":"The assertion is accurate while this reason misrepresents the impact of reforms on foreign investment.","D":"This option incorrectly claims that the assertion is false."},"anchor_source_quality":"","passage_id":"","passage_type":"","passage_text":""}
+[pipeline] LOW_YIELD=0.0% (threshold=30%) — less than 30 % of generated questions were accepted
+[supervisor] COST_ALERT: $1.28/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::vocabulary',
+  selected_anchor_id: 'structured_english_narrative_passage_1',
+  selected_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::vocabulary',
+  source_anchor_id: 'structured_english_narrative_passage_1',
+  source_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: The word 'benevolent' implies a disp"
+}
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: 'Eloquent' refers to someone who spe"
+}
+[llm] generated_question_discarded_before_pipeline {
+  reason: 'direct_definition_or_textbook_stem',
+  body: "Read the statements and choose the correct option: Statement I: 'Eloquent' refers to someone who spe"
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Vocabulary',
+  reason: 'direct_definition_or_textbook_stem',
+  body: "Read the statements and choose the correct option: Statement I: 'Eloquent' refers to someone who spe",
+  index: 1
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: "Read the statements and choose the correct option: Statement I: The word 'benevolent' implies a disp"
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: "Read the statements and choose the correct option: Statement I: The term 'meticulous' describes some"
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '9594476c-f911-4fcc-b8fb-2786906c70ed',
+  draft_saved: 2,
+  skipped_candidates: 2,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::python_revision',
+  selected_anchor_id: 'structured_computer_science_computer_networks_1',
+  selected_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 4,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::python_revision',
+  source_anchor_id: 'structured_computer_science_computer_networks_1',
+  source_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: The 'for' loop in Python can iterate"
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: In Python, lists can store elements '
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: "Read the statements and choose the correct option: Statement I: The 'for' loop in Python can iterate"
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'b064e1bf-f190-44d2-ac76-0e8b7a424870',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'psychology',
+  requested_concept_id: 'psychology::meeting_life_challenges',
+  selected_anchor_id: 'structured_psychology_self_and_personality_1',
+  selected_anchor_concept_id: 'psychology::self_and_personality',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'psychology',
+  requested_concept_id: 'psychology::meeting_life_challenges',
+  source_anchor_id: 'structured_psychology_self_and_personality_1',
+  source_anchor_concept_id: 'psychology::self_and_personality',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Coping strategies can be categorized'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Social support can mitigate stress d'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Coping strategies can be categorized'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Social support can mitigate stress d'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '7e087173-481b-4d8d-a9fa-b465c684c4c3',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'geography',
+  concept_id: 'geography::migration',
+  selected_anchor_id: 'synthetic_cuet_structure_geography',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements regarding international migration and select the correct option: Statement I: In'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Migration can significantly impact b'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements regarding international migration and select the correct option: Statement I: In'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '118b09c8-3318-4016-b7d7-1dfacaffa053',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::inverse_trigonometric_functions',
+  selected_anchor_id: 'seed_pyq_m1',
+  selected_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::inverse_trigonometric_functions',
+  source_anchor_id: 'seed_pyq_m1',
+  source_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'simple_numerical'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The range of the inverse sine functi'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements regarding inverse trigonometric functions. Statement I: The invers'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The range of the inverse sine functi'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider the following statements regarding inverse trigonometric functions. Statement I: The invers'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'a55c6cc6-e30d-48b0-b231-41a3668cc788',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::moving_charges_and_magnetism',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::moving_charges_and_magnetism',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A current-carrying conductor experie'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the statements and choose the correct option: Statement I: A current-carrying conductor experie',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Assertion: When a charged particle moves through a magnetic field, it experiences a force. Reason: T',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements concerning Lorentz force experienced by a moving charge in a magnetic field: Sta'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'question_too_long',
+  body: 'Read the statements concerning Lorentz force experienced by a moving charge in a magnetic field: Sta',
+  index: 2
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The dual nature of matter implies th'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Photons exhibit both particle-like and wave-like properties. Reason: The energy of a phot'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Dual Nature of Radiation & Matter',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: Photons exhibit both particle-like and wave-like properties. Reason: The energy of a phot',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Electrons can demonstrate interferen'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The dual nature of matter implies th'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Electrons can demonstrate interferen'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 2, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=40 | source=validator_normalized | rule=too similar to index 0 | reasons=too similar to index 0; low trap quality; obvious answer; conceptual_depth < 7; textbook style; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] TARGET_NOT_MET | target=3 | accepted=1 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[supervisor] COST_ALERT: $1.55/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: In a coordination compound, the liga'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: The geometry of a coordination compound is determined by its ligands. Reason: Coordinatio'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A chelating ligand forms multiple bo'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: In a coordination compound, the liga'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: A chelating ligand forms multiple bo'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=Reason is factually incorrect as geometry depends on the central metal ion's electronic configuration | reasons=Reason is factually incorrect as geometry depends on the central metal ion's electronic configuration; Assertion is a misleading oversimplification; subject_consistency is wrong; incorrect answer key logic provided; ambiguous wording; subject mismatch; validator score below threshold; exam quality below threshold
+[pipeline] Rejected | compositeScore=2 | source=validator_normalized | rule=Statement II is not universally true as CN depends on size not just oxidation state | reasons=Statement II is not universally true as CN depends on size not just oxidation state; Statement III is phrased ambiguously regarding the contribution to coordination number; subject_consistency is wrong; clarity is ambiguous; ambiguous wording; subject mismatch; validator score below threshold; exam quality below threshold
+[pipeline] Rejected | compositeScore=28 | source=validator_normalized | rule=Statement II is scientifically incorrect as chelation increases entropy | reasons=Statement II is scientifically incorrect as chelation increases entropy; Statement III is too vague for competitive exams; subject_consistency is wrong; conceptual_depth below threshold due to flawed premises; subject mismatch; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] strict_mode_no_validated_questions_draft_only {
+  job_id: '85911739-e16a-439c-bc14-769ce4e217ae',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    "Reason is factually incorrect as geometry depends on the central metal ion's electronic configuration",
+    'Assertion is a misleading oversimplification',
+    'subject_consistency is wrong',
+    'incorrect answer key logic provided',
+    'ambiguous wording',
+    'subject mismatch',
+    'validator score below threshold',
+    'exam quality below threshold'
+  ],
+  draft_only_flag: true
+}
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=0.0% | threshold=40% | fallback_or_partial_output_allowed=true
+[pipeline] TARGET_NOT_MET | target=3 | accepted=0 | shortfall=3 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+No questions returned for chemistry/Coordination Compounds
+RAW_PARSED_COUNT=3
+NORMALIZED_COUNT=3
+VALIDATED_COUNT=0
+Drop summary:
+- normalization_failed: 0
+- invalid_options_format: 0
+- missing_required_fields: 0
+- validation_failed: 5
+- low_score: 3
+- difficulty_mismatch: 0
+- cuet_alignment_failed: 3
+- chapter_mismatch: 0
+Sample failed raw question: {"subject":"chemistry","chapter":"Coordination Compounds","body":"Read the statements and choose the correct option: Statement I: In a coordination compound, the ligands can influence the color observed in solution. Statement II: The oxidation state of the central metal ion determines the number of possible ligands that can coordinate to it. Statement III: Ligands that are neutral do not affect the coordination number of the complex.","options":[{"key":"A","text":"I and II only"},{"key":"B","text":"II and III only"},{"key":"C","text":"I and III only"},{"key":"D","text":"I, II and III"}],"correct_answer":"A","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Coordination Compounds","concept":"Coordination Compounds","concept_id":"chemistry::coordination_compounds","pyq_anchor_id":"structured_chemistry_coordination_compounds_1","anchor_tier":1,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The incorrect statement about neutral ligands suggests a misunderstanding of their role in coordination chemistry.","why_cuet_level":"This question tests understanding of ligand behavior in coordination compounds, aligning with CUET complexity.","distractor_rationale":{"A":"Both statements are valid, as ligands affect color and oxidation state influences ligand coordination.","B":"Statement II is misleading; while oxidation state is important, it does not mainly determine ligand types.","C":"Neutral ligands can actually contribute to the coordination number, making this statement flawed.","D":"This option incorrectly suggests that most statements are correct without recognizing the flaw in III."},"anchor_source_quality":"manual_seed","passage_id":"","passage_type":"","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option: Statement I: In a coordination compound, the ligands can influence the color observed in solution. Statement II: The oxidation state of the central metal ion determines the number of possible ligands that can coordinate to it. Statement III: Ligands that are neutral do not affect the coordination number of the complex.","answer":"A"}
+Sample normalized attempt: {"subject":"chemistry","chapter":"Coordination Compounds","body":"Read the statements and choose the correct option: Statement I: In a coordination compound, the ligands can influence the color observed in solution. Statement II: The oxidation state of the central metal ion determines the number of possible ligands that can coordinate to it. Statement III: Ligands that are neutral do not affect the coordination number of the complex.","options":[{"key":"A","text":"I and II only"},{"key":"B","text":"II and III only"},{"key":"C","text":"I and III only"},{"key":"D","text":"I, II and III"}],"correct_answer":"A","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Coordination Compounds","concept":"Coordination Compounds","concept_id":"chemistry::coordination_compounds","pyq_anchor_id":"structured_chemistry_coordination_compounds_1","anchor_tier":1,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The incorrect statement about neutral ligands suggests a misunderstanding of their role in coordination chemistry.","why_cuet_level":"This question tests understanding of ligand behavior in coordination compounds, aligning with CUET complexity.","distractor_rationale":{"A":"Both statements are valid, as ligands affect color and oxidation state influences ligand coordination.","B":"Statement II is misleading; while oxidation state is important, it does not mainly determine ligand types.","C":"Neutral ligands can actually contribute to the coordination number, making this statement flawed.","D":"This option incorrectly suggests that most statements are correct without recognizing the flaw in III."},"anchor_source_quality":"manual_seed","passage_id":"","passage_type":"","passage_text":"","anchor_live_publish_allowed":true,"question":"Read the statements and choose the correct option: Statement I: In a coordination compound, the ligands can influence the color observed in solution. Statement II: The oxidation state of the central metal ion determines the number of possible ligands that can coordinate to it. Statement III: Ligands that are neutral do not affect the coordination number of the complex.","answer":"A"}
+[pipeline] LOW_YIELD=0.0% (threshold=30%) — less than 30 % of generated questions were accepted
+[supervisor] COST_ALERT: $1.64/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The method of extraction of metals f'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: The extraction process for a particular metal can vary significantly depending on its che'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: For extracting aluminum, electrolysi'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The method of extraction of metals f'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: For extracting aluminum, electrolysi'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[supervisor] COST_ALERT: $1.46/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The British colonial policies signif'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The British colonial government prom'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The British colonial policies signif'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The British colonial government prom'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; textbook style; direct definition; conceptual depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=subject inconsistency | reasons=subject inconsistency; incorrect answer key; clarity == AMBIGUOUS; ambiguous wording; subject mismatch; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=33.3% | threshold=40% | fallback_or_partial_output_allowed=true
+[pipeline] TARGET_NOT_MET | target=3 | accepted=1 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[supervisor] COST_ALERT: $1.46/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: India's foreign policy has often aim"
+}
+[llm] generated_extreme_word_repaired {
+  body: "Consider the following statements about India's international relations: Statement I: India has play"
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: "Read the statements and choose the correct option: Statement I: India's foreign policy has often aim"
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: "Consider the following statements about India's international relations: Statement I: India has play"
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[supervisor] COST_ALERT: $1.33/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Mass media can significantly influen'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Mass media plays a crucial role in shaping public discourse. Reason: Media outlets often '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements: Statement I: Social media has transformed how individuals engage '
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Mass media can significantly influen'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider the following statements: Statement I: Social media has transformed how individuals engage '
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[supervisor] COST_ALERT: $1.23/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Chelating ligands can form more stab'
+}
+[llm] generated_extreme_word_repaired {
+  body: "Assertion: A coordination compound's color can change depending on the ligands attached to the centr"
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements regarding coordination compounds and choose the correct option: Statement I: Coo'
+}
+[llm] generated_question_discarded_before_pipeline {
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Read the statements regarding coordination compounds and choose the correct option: Statement I: Coo'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Read the statements regarding coordination compounds and choose the correct option: Statement I: Coo',
+  index: 2
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Chelating ligands can form more stab'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 1, source: 'structural_pool' }
+[pipeline] TARGET_NOT_MET | target=3 | accepted=2 | shortfall=1 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[supervisor] COST_ALERT: $1.19/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Training is a key component of staff'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Effective staffing ensures that the '
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Training is a key component of staff'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: A diverse workforce enhances creativ'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 3, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=91 | source=validator_normalized | rule=conceptual depth below CUET reasoning threshold | reasons=conceptual depth below CUET reasoning threshold; Statement II is somewhat an obvious false statement
+[pipeline] TARGET_NOT_MET | target=3 | accepted=2 | shortfall=1 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[supervisor] COST_ALERT: $1.16/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Indian society is characterized by b'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Indian society features a complex interplay of tradition and modernity. Reason: Modernity'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Urbanization in India has resulted i'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Indian society is characterized by b'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Urbanization in India has resulted i'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[supervisor] COST_ALERT: $1.09/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped
+[pyq_anchor] selected_anchor {
+  subject: 'sociology',
+  requested_concept_id: 'sociology::change_and_development_in_rural_society',
+  selected_anchor_id: 'structured_sociology_mass_media_and_communications_1',
+  selected_anchor_concept_id: 'sociology::mass_media_and_communications',
+  anchor_tier: 2,
+  fallback_used: true,
+  concept_mismatch_risk: 'medium',
+  candidates: 1,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Economic development in rural areas '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Rural development programs often pri'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Change & Development in Rural Society',
+  reason: 'question_too_long',
+  body: 'Read the statements and choose the correct option: Statement I: Rural development programs often pri',
+  index: 2
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Economic development in rural areas '
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '3b162979-fe2f-4687-b231-86aec2cc2c7c',
+  draft_saved: 2,
+  skipped_candidates: 2,
+  publish_count: 0
+}
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'geography',
+  concept_id: 'geography::resources_and_development',
+  selected_anchor_id: 'synthetic_cuet_structure_geography',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'comparison_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Sustainable development of resources'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Renewable resources can be replenish'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Sustainable development of resources'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Renewable resources can be replenish'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '7adec124-b83d-46ae-81b5-7520d3a221bd',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::magnetism_and_matter',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::magnetism_and_matter',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Magnetism & Matter',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the statements and choose the correct option: Statement I: A current-carrying loop in a magneti',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Magnetism & Matter',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Assertion: A solenoid generates a uniform magnetic field inside it when current flows. Reason: The m',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The magnetic field around a straight'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Magnetism & Matter',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the statements and choose the correct option: Statement I: The magnetic field around a straight',
+  index: 2
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Consumer protection laws aim to empo'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The right to safety ensures consumer'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Consumer protection laws aim to empo'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The right to safety ensures consumer'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 429,
+  statusText: 'Too Many Requests',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ",
+  "status": 429,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] batch_validation_failure gemini-3-flash (429)
+[llm] {"event":"batch_validation_failure","timestamp":"2026-04-30T23:04:33.164Z","model":"gemini-3-flash","reason":"rate_limit","message":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ","cooldownUntil":"2026-04-30T23:11:05.401Z"}
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 429,
+  statusText: 'Too Many Requests',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ",
+  "status": 429,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] batch_validation_failure gemini-2-flash (429)
+[llm] {"event":"batch_validation_failure","timestamp":"2026-04-30T23:04:33.656Z","model":"gemini-2-flash","reason":"rate_limit","message":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ","cooldownUntil":"2026-04-30T23:13:52.650Z"}
+[llm] {"event":"batch_validation_all_models_failed","timestamp":"2026-04-30T23:04:33.656Z","subject":"business_studies","questionCount":3,"lastError":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. "}
+[pipeline] Batch validation failed without retry: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. . Saving candidates as draft only; no live publish.
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: The caste system in India continues to influence social dynamics today. Reason: The caste'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Urbanization affects traditional soc'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: "Read the statements and choose the correct option: Statement I: Indian society's identity is shaped "
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Urbanization affects traditional soc'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] Batch validation failed without retry: all_validation_models_in_cooldown. Saving candidates as draft only; no live publish.
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::nuclei',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::nuclei',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The binding energy per nucleon incre'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Neutrons contribute significantly to the stability of a nucleus. Reason: Neutrons do not '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Nuclei',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: Neutrons contribute significantly to the stability of a nucleus. Reason: Neutrons do not ',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Alpha decay results in a decrease in'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The binding energy per nucleon incre'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Alpha decay results in a decrease in'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '26870901-6240-4a1c-a2d6-42d13bad56ba',
+  draft_saved: 2,
+  skipped_candidates: 2,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::rise_of_popular_movements',
+  selected_anchor_id: 'structured_political_science_india_s_external_relations_1',
+  selected_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::rise_of_popular_movements',
+  source_anchor_id: 'structured_political_science_india_s_external_relations_1',
+  source_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Popular movements in India have ofte'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider these statements regarding popular movements in India: Statement I: Popular movements have '
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Popular movements in India have ofte'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider these statements regarding popular movements in India: Statement I: Popular movements have '
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '45cd398d-be9f-4d65-a34d-c04eaa7f3ee4',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::alternative_centres_of_power',
+  selected_anchor_id: 'structured_political_science_india_s_external_relations_1',
+  selected_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::alternative_centres_of_power',
+  source_anchor_id: 'structured_political_science_india_s_external_relations_1',
+  source_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The emergence of regional powers has'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: The rise of alternative centres of power can challenge traditional hegemonic structures. '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements regarding non-state actors in global politics: Statement I: Non-st'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The emergence of regional powers has'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider the following statements regarding non-state actors in global politics: Statement I: Non-st'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'f940ce1e-8490-4e7c-b0b5-9a7c7413ce4e',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::regional_aspirations',
+  selected_anchor_id: 'structured_political_science_india_s_external_relations_2',
+  selected_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 2,
+  fallback_used: true,
+  concept_mismatch_risk: 'medium',
+  candidates: 1,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Regional aspirations in India often '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider these statements about regional aspirations: Statement I: Ethnic identity plays a crucial r'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Regional aspirations in India often '
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider these statements about regional aspirations: Statement I: Ethnic identity plays a crucial r'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'f0706ae6-12ba-4829-9d47-8222e72bf7ea',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[worker] SUBJECT_LOOP_GUARD: "political_science" ran 3 times in a row — switching to "mathematics" for variety.
+[worker] SUBJECT_OVERRIDE_BY_LOOP_GUARD: {
+  original_job_id: '5ef6527f-6911-41e0-9f75-ac91fb11af8e',
+  original_subject: 'political_science',
+  original_chapter: 'Cold War Era',
+  override_job_id: 'ef33b78e-348d-44b3-a065-ef20f38f35a5',
+  override_subject: 'mathematics',
+  override_chapter: 'Differential Equations',
+  override_question_count: 11
+}
+[pyq_anchor] selected_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::differential_equations',
+  selected_anchor_id: 'seed_pyq_m1',
+  selected_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::differential_equations',
+  source_anchor_id: 'seed_pyq_m1',
+  source_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'simple_numerical'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The general solution of the differen'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: A linear first-order differential equation can be solved using an integrating factor. Rea'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements about the homogeneous differential equation: Statement I: Homogene'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The general solution of the differen'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider the following statements about the homogeneous differential equation: Statement I: Homogene'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'ef33b78e-348d-44b3-a065-ef20f38f35a5',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::cold_war_era',
+  selected_anchor_id: 'structured_political_science_india_s_external_relations_1',
+  selected_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::cold_war_era',
+  source_anchor_id: 'structured_political_science_india_s_external_relations_1',
+  source_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The Cold War was characterized by di'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The Cold War was characterized by di'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The Cuban Missile Crisis marked a pe'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '5ef6527f-6911-41e0-9f75-ac91fb11af8e',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  selected_anchor_id: 'structured_english_narrative_passage_1',
+  selected_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  source_anchor_id: 'structured_english_narrative_passage_1',
+  source_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 0
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Climate change impacts are being fel'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 2
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  selected_anchor_id: 'structured_english_narrative_passage_1',
+  selected_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  source_anchor_id: 'structured_english_narrative_passage_1',
+  source_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The assembly of the new device was c'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The new policy aims to enhance emplo'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The research findings suggest a corr'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 2
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  selected_anchor_id: 'structured_english_narrative_passage_1',
+  selected_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  source_anchor_id: 'structured_english_narrative_passage_1',
+  source_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The author emphasizes the importance'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Technology has revolutionized commun'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Climate change effects are increasin'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 2
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'psychology',
+  requested_concept_id: 'psychology::social_influence_and_group_processes',
+  selected_anchor_id: 'structured_psychology_self_and_personality_1',
+  selected_anchor_concept_id: 'psychology::self_and_personality',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'psychology',
+  requested_concept_id: 'psychology::social_influence_and_group_processes',
+  source_anchor_id: 'structured_psychology_self_and_personality_1',
+  source_anchor_concept_id: 'psychology::self_and_personality',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Social influence can shape individua'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Social loafing occurs when individua'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Social influence can shape individua'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Social loafing occurs when individua'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '5f8f861f-508c-4523-9837-f8bd116b49d3',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::moving_charges_and_magnetism',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::moving_charges_and_magnetism',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option:  I. A current-carrying conductor produces a magne'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the statements and choose the correct option:  I. A current-carrying conductor produces a magne',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Assertion: A charged particle moving in a magnetic field experiences a force. Reason: The force depe',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option:  I. The magnetic field inside a solenoid is unifo'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the statements and choose the correct option:  I. The magnetic field inside a solenoid is unifo',
+  index: 2
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::employment',
+  selected_anchor_id: 'structured_economics_economic_reforms_since_1991_2',
+  selected_anchor_concept_id: 'economics::economic_reforms_since_1991',
+  anchor_tier: 2,
+  fallback_used: true,
+  concept_mismatch_risk: 'medium',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The increasing informalization of em'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Rural employment schemes have improv'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The increasing informalization of em'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Rural employment schemes have improv'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '9b2fdff9-9c89-4cc0-9877-7324ca91488f',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'history',
+  concept_id: 'history::peasants_zamindars_and_the_state',
+  selected_anchor_id: 'synthetic_cuet_structure_history',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The zamindars played a crucial role '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements about peasant uprisings in colonial India: Statement I: Peasant up'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The zamindars played a crucial role '
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider the following statements about peasant uprisings in colonial India: Statement I: Peasant up'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '90c2e30f-d485-4411-a28e-843ef3deacf7',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'history',
+  concept_id: 'history::colonialism_and_the_countryside',
+  selected_anchor_id: 'synthetic_cuet_structure_history',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The introduction of cash crops durin'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The introduction of zamindari system'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The introduction of cash crops durin'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The introduction of zamindari system'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '480ba121-92fa-40dd-b454-a4add0761af2',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::democratic_upsurge_and_coalition_politics',
+  selected_anchor_id: 'structured_political_science_india_s_external_relations_1',
+  selected_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 2,
+  fallback_used: true,
+  concept_mismatch_risk: 'medium',
+  candidates: 1,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The rise of coalition politics in In'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Coalition governments in India have '
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The rise of coalition politics in In'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Coalition governments in India have '
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '3e77ace3-9b22-4b5c-9d78-df70d6bbe8bb',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::probability',
+  selected_anchor_id: 'seed_pyq_m1',
+  selected_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::probability',
+  source_anchor_id: 'seed_pyq_m1',
+  source_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'simple_numerical'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The probability of rolling a sum of '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements regarding independent events: Statement I: If two events A and B a'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The probability of rolling a sum of '
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider the following statements regarding independent events: Statement I: If two events A and B a'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '42cb335a-b0a9-4f26-8c7a-9407c3627bd4',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  selected_anchor_id: 'structured_english_narrative_passage_1',
+  selected_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  source_anchor_id: 'structured_english_narrative_passage_1',
+  source_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The rain fell heavily, causing the s'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The committee proposed new regulatio'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The teacher explained the lesson cle'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 2
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'psychology',
+  requested_concept_id: 'psychology::psychological_disorders',
+  selected_anchor_id: 'structured_psychology_self_and_personality_2',
+  selected_anchor_concept_id: 'psychology::self_and_personality',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'psychology',
+  requested_concept_id: 'psychology::psychological_disorders',
+  source_anchor_id: 'structured_psychology_self_and_personality_2',
+  source_anchor_concept_id: 'psychology::self_and_personality',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Anxiety disorders are characterized '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Depression can manifest in various forms including major depressive disorder and dysthymi'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Schizophrenia involves distortions i'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Anxiety disorders are characterized '
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Schizophrenia involves distortions i'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'c4f97cfe-289a-416f-8fa9-f5fb201b8eba',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Economic reforms initiated in 1991 p'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The 1991 reforms led to an increase '
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Economic reforms initiated in 1991 p'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The 1991 reforms led to an increase '
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 429,
+  statusText: 'Too Many Requests',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ",
+  "status": 429,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] batch_validation_failure gemini-3-flash (429)
+[llm] {"event":"batch_validation_failure","timestamp":"2026-04-30T23:15:15.007Z","model":"gemini-3-flash","reason":"rate_limit","message":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ","cooldownUntil":"2026-04-30T23:24:53.697Z"}
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 429,
+  statusText: 'Too Many Requests',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ",
+  "status": 429,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] batch_validation_failure gemini-2-flash (429)
+[llm] {"event":"batch_validation_failure","timestamp":"2026-04-30T23:15:15.384Z","model":"gemini-2-flash","reason":"rate_limit","message":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ","cooldownUntil":"2026-04-30T23:21:05.263Z"}
+[llm] {"event":"batch_validation_all_models_failed","timestamp":"2026-04-30T23:15:15.384Z","subject":"economics","questionCount":3,"lastError":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. "}
+[pipeline] Batch validation failed without retry: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. . Saving candidates as draft only; no live publish.
+[pyq_anchor] selected_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::application_of_derivatives',
+  selected_anchor_id: 'seed_pyq_m1',
+  selected_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::application_of_derivatives',
+  source_anchor_id: 'seed_pyq_m1',
+  source_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'simple_numerical'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option:  I. The derivative of a function gives the slope '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option:  I. The second derivative test can confirm if a c'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option:  I. The first derivative test helps identify loca'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option:  I. The derivative of a function gives the slope '
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option:  I. The second derivative test can confirm if a c'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option:  I. The first derivative test helps identify loca'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 3, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '8eca1c67-3de1-40d8-8b01-a22f8f73dca6',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::end_of_bipolarity',
+  selected_anchor_id: 'structured_political_science_india_s_external_relations_1',
+  selected_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::end_of_bipolarity',
+  source_anchor_id: 'structured_political_science_india_s_external_relations_1',
+  source_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The end of bipolarity has led to a m'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements regarding the end of bipolarity: Statement I: The decline of super'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The end of bipolarity has led to a m'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider the following statements regarding the end of bipolarity: Statement I: The decline of super'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'e2a422c8-bfb7-489d-a2fa-c1d408441fc2',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::haloalkanes_and_haloarenes',
+  selected_anchor_id: 'structured_chemistry_coordination_compounds_1',
+  selected_anchor_concept_id: 'chemistry::coordination_compounds',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 6,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::haloalkanes_and_haloarenes',
+  source_anchor_id: 'structured_chemistry_coordination_compounds_1',
+  source_anchor_concept_id: 'chemistry::coordination_compounds',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Haloalkanes can be synthesized throu'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Haloalkanes are generally more react'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Haloalkanes can be synthesized throu'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'dd4d7cb5-5e16-42a0-8ac8-abdccc66dabd',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'biology',
+  requested_concept_id: 'biology::human_reproduction',
+  selected_anchor_id: 'structured_biology_microbes_in_human_welfare_1',
+  selected_anchor_concept_id: 'biology::microbes_in_human_welfare',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'biology',
+  requested_concept_id: 'biology::human_reproduction',
+  source_anchor_id: 'structured_biology_microbes_in_human_welfare_1',
+  source_anchor_concept_id: 'biology::microbes_in_human_welfare',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The human reproductive system is des'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: The menstrual cycle is regulated by hormonal changes. Reason: Hormones control both ovula',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Fertilization typically occurs in th'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The human reproductive system is des'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Fertilization typically occurs in th'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'fce72fef-d49d-409b-8575-39db5d6ea90f',
+  draft_saved: 2,
+  skipped_candidates: 2,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::moving_charges_and_magnetism',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::moving_charges_and_magnetism',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A current-carrying conductor creates'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the statements and choose the correct option: Statement I: A current-carrying conductor creates',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: A charged particle moving in a magnetic field experiences a force. Reason: The force on t'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Assertion: A charged particle moving in a magnetic field experiences a force. Reason: The force on t',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Consider the following statements regarding electromagnetism: Statement I: Increasing current throug',
+  index: 2
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::communication_technologies',
+  selected_anchor_id: 'structured_computer_science_computer_networks_1',
+  selected_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 4,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::communication_technologies',
+  source_anchor_id: 'structured_computer_science_computer_networks_1',
+  source_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: In a client-server model, clients re'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: A modem modulates and demodulates si'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'ea4a7580-0880-46f8-a4fd-b68075410fbe',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::inverse_trigonometric_functions',
+  selected_anchor_id: 'seed_pyq_m1',
+  selected_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::inverse_trigonometric_functions',
+  source_anchor_id: 'seed_pyq_m1',
+  source_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'simple_numerical'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The range of the function f(x) = arc'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'mathematics',
+  chapter: 'Inverse Trigonometric Functions',
+  reason: 'weak_options',
+  body: 'Read the statements and choose the correct option: Statement I: The range of the function f(x) = arc',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Assertion: The function f(x) = arcsin(x) is an in'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The function f(x) = arctan(x) approa'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The function f(x) = arctan(x) approa'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'ec794f74-6519-46a2-82d4-fb94a71421ae',
+  draft_saved: 2,
+  skipped_candidates: 2,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::python_revision',
+  selected_anchor_id: 'structured_computer_science_data_structures_2',
+  selected_anchor_concept_id: 'computer_science::data_structures',
+  anchor_tier: 2,
+  fallback_used: true,
+  concept_mismatch_risk: 'medium',
+  candidates: 1,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: In Python, a dictionary is an unorde'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A tuple is immutable, meaning its co'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: In Python, a dictionary is an unorde'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: A tuple is immutable, meaning its co'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '4fe3d4a8-2345-4c8c-9b82-a8e14eea4a43',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::atoms',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::atoms',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The atomic model proposed by Rutherf'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Atoms',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: Electrons can occupy specific energy levels in an atom. Reason: The quantization of energ',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The emission spectrum of hydrogen co'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The atomic model proposed by Rutherf'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The emission spectrum of hydrogen co'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '7357b503-15a9-4c46-949f-8c4d84ad38a8',
+  draft_saved: 2,
+  skipped_candidates: 2,
+  publish_count: 0
+}
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'geography',
+  concept_id: 'geography::transport_and_communication',
+  selected_anchor_id: 'synthetic_cuet_structure_geography',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The development of transport infrast'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Air transport is often preferred for'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The development of transport infrast'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Air transport is often preferred for'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '4ef564ee-4cc4-4afe-a90c-e1cb304af6cf',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'history',
+  concept_id: 'history::through_the_eyes_of_travellers',
+  selected_anchor_id: 'synthetic_cuet_structure_history',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'comparison_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The accounts of foreign travellers o'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements regarding the travel accounts of various explorers in India: State'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The accounts of foreign travellers o'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider the following statements regarding the travel accounts of various explorers in India: State'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'fe2bdd6c-76aa-4905-b06c-1fe71183a960',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::electromagnetic_induction',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::electromagnetic_induction',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the statements and choose the correct option: Statement I: A changing magnetic field induces an',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: An alternating current (AC) can induce a magnetic field. Reason: The strength of the indu'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Assertion: An alternating current (AC) can induce a magnetic field. Reason: The strength of the indu',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider a wire loop placed in a varying magnetic field. Statement I: The induced current will flow '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  reason: 'question_too_long',
+  body: 'Consider a wire loop placed in a varying magnetic field. Statement I: The induced current will flow ',
+  index: 2
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::plotting_data_using_matplotlib',
+  selected_anchor_id: 'structured_computer_science_computer_networks_1',
+  selected_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 4,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::plotting_data_using_matplotlib',
+  source_anchor_id: 'structured_computer_science_computer_networks_1',
+  source_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Matplotlib allows for customization '
+}
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: The 'plt.plot()' function can be use"
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Matplotlib allows for customization '
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: "Read the statements and choose the correct option: Statement I: The 'plt.plot()' function can be use"
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '64a89dac-e9ce-4bcb-8235-705b2d904f8a',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'gat',
+  requested_concept_id: 'gat::quantitative_reasoning',
+  selected_anchor_id: 'seed_pyq_g1',
+  selected_anchor_concept_id: 'gat::general_knowledge',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'easy',
+  requested_question_type: 'case_based',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'gat',
+  requested_concept_id: 'gat::quantitative_reasoning',
+  source_anchor_id: 'seed_pyq_g1',
+  source_anchor_concept_id: 'gat::general_knowledge',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'easy',
+  requested_question_type: 'case_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The mean is sensitive to extreme val'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following assertions: Assertion I: A higher range indicates a wider spread in data. Ass'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Evaluate the following statements: Statement I: A histogram can effectively show the distribution sh'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The mean is sensitive to extreme val'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider the following assertions: Assertion I: A higher range indicates a wider spread in data. Ass'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Evaluate the following statements: Statement I: A histogram can effectively show the distribution sh'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 3, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '1fe50ec5-913b-4781-9133-c4686810db80',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::inferential_statistics',
+  selected_anchor_id: 'seed_pyq_m1',
+  selected_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::inferential_statistics',
+  source_anchor_id: 'seed_pyq_m1',
+  source_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'simple_numerical'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A sample mean is an unbiased estimat'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A confidence interval provides a ran'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: A sample mean is an unbiased estimat'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: A confidence interval provides a ran'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '7d079165-d7cd-4b26-bdec-9fbfc60c0f09',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'sociology',
+  requested_concept_id: 'sociology::cultural_change',
+  selected_anchor_id: 'structured_sociology_introducing_indian_society_1',
+  selected_anchor_concept_id: 'sociology::introducing_indian_society',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 4,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'sociology',
+  requested_concept_id: 'sociology::cultural_change',
+  source_anchor_id: 'structured_sociology_introducing_indian_society_1',
+  source_anchor_concept_id: 'sociology::introducing_indian_society',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Cultural change in India is often dr'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A student claims that modernization in India mainly erases traditional cultures. Evaluate the follow'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following assertions about cultural change in India: Assertion I: Cultural practices ev'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Cultural change in India is often dr'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'A student claims that modernization in India mainly erases traditional cultures. Evaluate the follow'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider the following assertions about cultural change in India: Assertion I: Cultural practices ev'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 3, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '19fc1f48-779c-4cec-b8db-e6b6cef4fdfa',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::integrals',
+  selected_anchor_id: 'seed_pyq_m1',
+  selected_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::integrals',
+  source_anchor_id: 'seed_pyq_m1',
+  source_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'simple_numerical'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: I. The integral of a constant function over an in'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: The Fundamental Theorem of Calculus connects differentiation and integration. Reason: It '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements about improper integrals: I. An improper integral can converge or '
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: I. The integral of a constant function over an in'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider the following statements about improper integrals: I. An improper integral can converge or '
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '37273bcf-95e1-49c5-aa9e-d0f5ab1de2a2',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::mysql',
+  selected_anchor_id: 'structured_computer_science_computer_networks_1',
+  selected_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 4,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::mysql',
+  source_anchor_id: 'structured_computer_science_computer_networks_1',
+  source_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: MySQL allows multiple users to acces'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: MySQL supports both structured and u'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: MySQL allows multiple users to acces'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: MySQL supports both structured and u'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '39ac13b2-be1b-4a03-85d8-c8ee8ee9a827',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::money_and_banking',
+  selected_anchor_id: 'structured_economics_economic_reforms_since_1991_1',
+  selected_anchor_concept_id: 'economics::economic_reforms_since_1991',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 7,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::money_and_banking',
+  source_anchor_id: 'structured_economics_economic_reforms_since_1991_1',
+  source_anchor_concept_id: 'economics::economic_reforms_since_1991',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}

@@ -24,9 +24,9 @@ export const metadata = seoMetadata({
 
 export default function LandingPage() {
   const stats = [
-    { v: 48210, l: 'Active Mobbers', i: 'users' },
-    { v: 100, l: 'Questions Live', i: 'book', plus: true },
-    { v: 213, l: 'Avg Rank Jump', i: 'trend', plus: true },
+    { v: 1000, l: 'Active Mobbers', i: 'users', plus: true },
+    { v: 10000, l: 'Questions Live', i: 'book', plus: true },
+    { v: 7, l: 'Exam tracks', i: 'route', plus: true },
     { v: 'LIVE', l: 'Mock Sprint', i: 'flame', live: true },
   ];
   
@@ -122,9 +122,8 @@ export default function LandingPage() {
                 <div className="display-md mb-1" style={{ color: s.live ? 'var(--volt)' : '#fff' }}>
                   {typeof s.v === 'number' ? (
                     <>
-                      {s.plus && '+'}
                       <NumberTicker value={s.v} />
-                      {s.v === 100 && '+'}
+                      {s.plus && '+'}
                     </>
                   ) : (
                     s.v
@@ -246,6 +245,104 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* DU COMPASS */}
+      <section className="px-5 mb-24">
+        <div className="container-std">
+          <div className="compass-card glass relative overflow-hidden border-volt/20">
+            <DotPattern
+              width={22}
+              height={22}
+              cx={1}
+              cy={1}
+              cr={1.2}
+              className="text-volt/20 opacity-40"
+              glow={true}
+              style={{ maskImage: 'radial-gradient(ellipse at top left, white, transparent 65%)', WebkitMaskImage: 'radial-gradient(ellipse at top left, white, transparent 65%)' }}
+            />
+            <div className="compass-grid">
+              <div className="compass-copy">
+                <div className="eyebrow mb-3">{'// DU Compass · AI guidance'}</div>
+                <h2 className="display-md mb-3 leading-[1.05]">
+                  DU Compass,<br className="hidden sm:block" /> powered by <span className="text-volt italic">AI.</span>
+                </h2>
+                <p className="text-zinc-400 leading-relaxed">
+                  A guidance layer for CUET-based admissions. Compass reads your mock score, selected subjects, and category to map realistic Delhi University college and course options, with the marks gap and the next move spelled out.
+                </p>
+                <ul className="compass-features">
+                  {[
+                    ['Score band predictor', 'Mock scores into CUET confidence tiers.'],
+                    ['Course-subject fit', 'DU eligibility checked before shortlist.'],
+                    ['Category-aware targets', 'Cutoffs adjusted by category and campus.'],
+                    ['Next-move analysis', 'The subject that moves rank the fastest.'],
+                  ].map(([title, body]) => (
+                    <li key={title}>
+                      <span className="compass-feature-dot" aria-hidden="true" />
+                      <div>
+                        <div className="compass-feature-title">{title}</div>
+                        <div className="compass-feature-body">{body}</div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+                <Link href="/features" className="compass-cta">
+                  See how Compass works
+                  <Icon name="arrow" style={{ width: '14px', height: '14px' }} />
+                </Link>
+              </div>
+              <div className="compass-shot" aria-label="DU Compass preview">
+                <div className="shot-top">
+                  <div>
+                    <div className="mono-label">Mock CUET score</div>
+                    <div className="shot-score">872<span>/1000</span></div>
+                  </div>
+                  <span className="pill volt shot-band">High · 850-1000</span>
+                </div>
+                <div className="shot-bars">
+                  {[
+                    ['Economics', 178],
+                    ['Accountancy', 184],
+                    ['English', 178],
+                  ].map(([subject, marks]) => (
+                    <div key={subject}>
+                      <div className="flex items-center justify-between text-[11px] text-zinc-400 mb-1.5">
+                        <span>{subject}</span>
+                        <span className="font-mono tabular-nums">{marks}/200</span>
+                      </div>
+                      <div className="bar"><div className="fill fill-volt" style={{ width: `${Math.round((marks / 200) * 100)}%` }} /></div>
+                    </div>
+                  ))}
+                </div>
+                <div className="shot-insights">
+                  <div>
+                    <span>Eligibility</span>
+                    <strong>5/5 subjects fit</strong>
+                  </div>
+                  <div>
+                    <span>Next move</span>
+                    <strong>Push Maths +12</strong>
+                  </div>
+                </div>
+                <div className="shot-list">
+                  {[
+                    ['SRCC', 'B.Com (Hons)', 'Aspirational'],
+                    ['Hansraj', 'Economics (Hons)', 'Moderate'],
+                    ['Sri Venkateswara', 'B.Com (Hons)', 'High'],
+                  ].map(([college, course, chance]) => (
+                    <div key={`${college}-${course}`} className="shot-row">
+                      <div>
+                        <b>{college}</b>
+                        <span>{course}</span>
+                      </div>
+                      <em>{chance}</em>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* TESTIMONIALS */}
       <section className="px-5 mb-24">
         <div className="container-std">
@@ -255,8 +352,8 @@ export default function LandingPage() {
               <h2 className="display-lg">The mob <span className="text-volt" style={{ fontStyle: 'italic' }}>speaks.</span></h2>
             </div>
             <div className="flex items-center justify-center gap-2">
-              <button className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5"><Icon name="chevL" /></button>
-              <button className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5"><Icon name="chevR" /></button>
+              <button type="button" aria-label="Previous testimonial" className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5"><Icon name="chevL" /></button>
+              <button type="button" aria-label="Next testimonial" className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5"><Icon name="chevR" /></button>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -312,6 +409,209 @@ export default function LandingPage() {
       </section>
 
       <MarketingFooter />
+      <style>{`
+        .compass-card {
+          padding: clamp(20px, 3vw, 32px);
+          background:
+            radial-gradient(circle at 0% 0%, rgba(210,240,0,0.06), transparent 55%),
+            rgba(255,255,255,0.015);
+        }
+        .compass-grid {
+          position: relative;
+          z-index: 1;
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 22px;
+          align-items: start;
+        }
+        @media (min-width: 960px) {
+          .compass-grid {
+            grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.95fr);
+            gap: 36px;
+          }
+        }
+        .compass-copy {
+          padding: 4px 2px;
+          max-width: 560px;
+        }
+        .compass-features {
+          margin-top: 22px;
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 14px;
+          padding: 0;
+          list-style: none;
+        }
+        @media (min-width: 480px) {
+          .compass-features {
+            grid-template-columns: 1fr 1fr;
+            gap: 14px 22px;
+          }
+        }
+        .compass-features li {
+          display: flex;
+          align-items: flex-start;
+          gap: 11px;
+        }
+        .compass-feature-dot {
+          margin-top: 7px;
+          width: 6px;
+          height: 6px;
+          flex-shrink: 0;
+          border-radius: 999px;
+          background: var(--volt);
+          box-shadow: 0 0 8px rgba(210,240,0,.7);
+        }
+        .compass-feature-title {
+          font-family: var(--font-display);
+          font-size: 14px;
+          font-weight: 800;
+          color: #fff;
+          line-height: 1.3;
+        }
+        .compass-feature-body {
+          color: #a1a1aa;
+          font-size: 12.5px;
+          line-height: 1.45;
+          margin-top: 2px;
+        }
+        .compass-cta {
+          margin-top: 24px;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          color: var(--volt);
+          font-family: var(--font-display);
+          font-weight: 800;
+          font-size: 13.5px;
+          letter-spacing: .01em;
+          transition: gap .2s cubic-bezier(.2,.8,.2,1);
+        }
+        .compass-cta:hover { gap: 12px; }
+        .compass-shot {
+          border: 1px solid rgba(255,255,255,.09);
+          border-radius: 14px;
+          background:
+            linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01)),
+            rgba(0,0,0,.32);
+          padding: 18px;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+          width: 100%;
+        }
+        @media (min-width: 960px) {
+          .compass-shot {
+            position: sticky;
+            top: 96px;
+            padding: 20px;
+          }
+        }
+        .compass-shot .shot-top {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 12px;
+          margin-bottom: 16px;
+        }
+        .compass-shot .shot-band {
+          flex-shrink: 0;
+          align-self: center;
+          font-size: 10px;
+          letter-spacing: .04em;
+        }
+        .compass-shot .shot-score {
+          font-family: var(--font-display);
+          font-weight: 900;
+          font-size: clamp(40px, 5.4vw, 56px);
+          line-height: .92;
+          color: var(--volt);
+          font-variant-numeric: tabular-nums;
+          margin-top: 2px;
+        }
+        .compass-shot .shot-score span {
+          color: #71717a;
+          font-size: 16px;
+          font-weight: 700;
+        }
+        .compass-shot .shot-bars {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 9px;
+          margin-bottom: 14px;
+        }
+        .compass-shot .shot-insights {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 8px;
+          margin-bottom: 4px;
+        }
+        .compass-shot .shot-insights div {
+          border: 1px solid rgba(255,255,255,.07);
+          border-radius: 10px;
+          background: rgba(255,255,255,.025);
+          padding: 9px 10px;
+        }
+        .compass-shot .shot-insights span,
+        .compass-shot .shot-insights strong {
+          display: block;
+        }
+        .compass-shot .shot-insights span {
+          color: #71717a;
+          font-family: var(--font-mono);
+          font-size: 9px;
+          font-weight: 800;
+          letter-spacing: .12em;
+          text-transform: uppercase;
+        }
+        .compass-shot .shot-insights strong {
+          color: #f4f4f5;
+          font-size: 12px;
+          margin-top: 4px;
+        }
+        .compass-shot .shot-list {
+          margin-top: 6px;
+        }
+        .compass-shot .shot-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          padding: 11px 0;
+          border-top: 1px solid rgba(255,255,255,.06);
+        }
+        .compass-shot .shot-row b,
+        .compass-shot .shot-row span {
+          display: block;
+        }
+        .compass-shot .shot-row b {
+          font-family: var(--font-display);
+          color: #fff;
+          font-size: 14px;
+        }
+        .compass-shot .shot-row span {
+          color: #71717a;
+          font-size: 11.5px;
+          margin-top: 1px;
+        }
+        .compass-shot .shot-row em {
+          color: var(--volt);
+          font-size: 11px;
+          font-style: normal;
+          font-weight: 800;
+          font-family: var(--font-mono);
+          letter-spacing: .04em;
+          text-transform: uppercase;
+          flex-shrink: 0;
+        }
+        @media (max-width: 380px) {
+          .compass-shot .shot-top {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          .compass-shot .shot-band {
+            align-self: flex-start;
+          }
+        }
+      `}</style>
     </div>
   );
 }

@@ -1,0 +1,2108 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5965 concepts across 40 subjects (saved 2026-04-30T22:01:16.118Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 220,
+  missing_chapters: 1,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 220
+[planner] missing_chapters: 1
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Variations in Psychological Attributes',
+  coverage: 0,
+  priority: 100
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Therapeutic Approaches',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'physics',
+  chapter: 'Wave Optics',
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'political_science',
+  chapter: 'Alternative Centres of Power',
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'political_science',
+  chapter: 'Challenges to & Restoration of the Congress System',
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'political_science',
+  chapter: 'Era of One-Party Dominance',
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'political_science',
+  chapter: "India's External Relations",
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'political_science',
+  chapter: 'Politics of Planned Development',
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'political_science',
+  chapter: 'Security in the Contemporary World',
+  coverage: 9,
+  priority: 90
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: psychology → normalized: psychology → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+Subject: physics → normalized: physics → tier: 1
+Subject: physics → normalized: physics → tier: 1
+Subject: political_science → normalized: political_science → tier: 1
+Subject: political_science → normalized: political_science → tier: 1
+Subject: political_science → normalized: political_science → tier: 1
+Subject: political_science → normalized: political_science → tier: 1
+Subject: political_science → normalized: political_science → tier: 1
+Subject: political_science → normalized: political_science → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Variations in Psychological Attributes',
+    tier: 1,
+    priority: 100,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Therapeutic Approaches',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'physics',
+    expected_chapter: 'Moving Charges & Magnetism',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'physics',
+    expected_chapter: 'Wave Optics',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'political_science',
+    expected_chapter: 'Alternative Centres of Power',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'political_science',
+    expected_chapter: 'Challenges to & Restoration of the Congress System',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'political_science',
+    expected_chapter: 'Era of One-Party Dominance',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'political_science',
+    expected_chapter: "India's External Relations",
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'political_science',
+    expected_chapter: 'Politics of Planned Development',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'political_science',
+    expected_chapter: 'Security in the Contemporary World',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'psychology',
+    chapter: 'Variations in Psychological Attributes',
+    status: 'queued',
+    priority: 100
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Therapeutic Approaches',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'physics',
+    chapter: 'Moving Charges & Magnetism',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'physics',
+    chapter: 'Wave Optics',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'political_science',
+    chapter: 'Alternative Centres of Power',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'political_science',
+    chapter: 'Challenges to & Restoration of the Congress System',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'political_science',
+    chapter: 'Era of One-Party Dominance',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'political_science',
+    chapter: "India's External Relations",
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'political_science',
+    chapter: 'Politics of Planned Development',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'political_science',
+    chapter: 'Security in the Contemporary World',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: '12092fba-0cac-497a-8a95-efb03c34b71f',
+    subject_id: 'psychology',
+    chapter: 'Variations in Psychological Attributes',
+    status: 'queued',
+    priority: 100,
+    created_at: '2026-04-30T22:11:30.909131+00:00'
+  },
+  {
+    id: '734a7fc7-daac-4aa6-b4fa-fb5de47db415',
+    subject_id: 'psychology',
+    chapter: 'Therapeutic Approaches',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:11:30.909131+00:00'
+  },
+  {
+    id: '53c66ce3-f900-4813-b92c-5ad5b42c3d55',
+    subject_id: 'physics',
+    chapter: 'Moving Charges & Magnetism',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:11:30.909131+00:00'
+  },
+  {
+    id: '7cc6571d-51eb-474c-9ed2-714a402b1b4f',
+    subject_id: 'physics',
+    chapter: 'Wave Optics',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:11:30.909131+00:00'
+  },
+  {
+    id: '6b02b341-3c7d-47ef-91d2-4c850f744f45',
+    subject_id: 'political_science',
+    chapter: 'Alternative Centres of Power',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:11:30.909131+00:00'
+  },
+  {
+    id: 'b48977e3-8934-44ac-a399-bdf159b928dd',
+    subject_id: 'political_science',
+    chapter: 'Challenges to & Restoration of the Congress System',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:11:30.909131+00:00'
+  },
+  {
+    id: '82c1e472-01cb-4a37-af28-df7466b77c16',
+    subject_id: 'political_science',
+    chapter: 'Era of One-Party Dominance',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:11:30.909131+00:00'
+  },
+  {
+    id: '6a337258-0e76-40f8-bc6b-763b536f591d',
+    subject_id: 'political_science',
+    chapter: "India's External Relations",
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:11:30.909131+00:00'
+  },
+  {
+    id: '391b0fda-b7f0-422c-926f-9fe6c070d583',
+    subject_id: 'political_science',
+    chapter: 'Politics of Planned Development',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:11:30.909131+00:00'
+  },
+  {
+    id: '23371b39-36be-4111-b361-b77ffd6856c5',
+    subject_id: 'political_science',
+    chapter: 'Security in the Contemporary World',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:11:30.909131+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: '12092fba-0cac-497a-8a95-efb03c34b71f',
+    expected_subject: 'psychology',
+    expected_chapter: 'Variations in Psychological Attributes',
+    status: 'queued',
+    priority: 100
+  },
+  {
+    id: '734a7fc7-daac-4aa6-b4fa-fb5de47db415',
+    expected_subject: 'psychology',
+    expected_chapter: 'Therapeutic Approaches',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '53c66ce3-f900-4813-b92c-5ad5b42c3d55',
+    expected_subject: 'physics',
+    expected_chapter: 'Moving Charges & Magnetism',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '7cc6571d-51eb-474c-9ed2-714a402b1b4f',
+    expected_subject: 'physics',
+    expected_chapter: 'Wave Optics',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '6b02b341-3c7d-47ef-91d2-4c850f744f45',
+    expected_subject: 'political_science',
+    expected_chapter: 'Alternative Centres of Power',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'b48977e3-8934-44ac-a399-bdf159b928dd',
+    expected_subject: 'political_science',
+    expected_chapter: 'Challenges to & Restoration of the Congress System',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '82c1e472-01cb-4a37-af28-df7466b77c16',
+    expected_subject: 'political_science',
+    expected_chapter: 'Era of One-Party Dominance',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '6a337258-0e76-40f8-bc6b-763b536f591d',
+    expected_subject: 'political_science',
+    expected_chapter: "India's External Relations",
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '391b0fda-b7f0-422c-926f-9fe6c070d583',
+    expected_subject: 'political_science',
+    expected_chapter: 'Politics of Planned Development',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '23371b39-36be-4111-b361-b77ffd6856c5',
+    expected_subject: 'political_science',
+    expected_chapter: 'Security in the Contemporary World',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '12092fba-0cac-497a-8a95-efb03c34b71f',
+    '734a7fc7-daac-4aa6-b4fa-fb5de47db415',
+    '53c66ce3-f900-4813-b92c-5ad5b42c3d55',
+    '7cc6571d-51eb-474c-9ed2-714a402b1b4f',
+    '6b02b341-3c7d-47ef-91d2-4c850f744f45',
+    'b48977e3-8934-44ac-a399-bdf159b928dd',
+    '82c1e472-01cb-4a37-af28-df7466b77c16',
+    '6a337258-0e76-40f8-bc6b-763b536f591d',
+    '391b0fda-b7f0-422c-926f-9fe6c070d583',
+    '23371b39-36be-4111-b361-b77ffd6856c5'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '53c66ce3-f900-4813-b92c-5ad5b42c3d55',
+  actual_subject: 'physics',
+  actual_chapter: 'Moving Charges & Magnetism',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 9,
+  subject_question_count: 300,
+  created_at: '2026-04-30T22:11:30.909131+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  count: 9,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'physics', chapter: 'Moving Charges & Magnetism', count: 9 }
+
+[JOB 53c66ce3] Starting: [physics] Moving Charges & Magnetism
+[worker] RECEIVED_JOB: {
+  job_id: '53c66ce3-f900-4813-b92c-5ad5b42c3d55',
+  expected_subject: 'physics',
+  expected_chapter: 'Moving Charges & Magnetism',
+  raw_subject_id: 'physics',
+  raw_chapter: 'Moving Charges & Magnetism',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T22:11:30.909131+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '53c66ce3-f900-4813-b92c-5ad5b42c3d55',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  chapter: 'Moving Charges & Magnetism',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=9 existing questions loaded
+[generation] batch adjusted: { chapter: 'Moving Charges & Magnetism', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '53c66ce3-f900-4813-b92c-5ad5b42c3d55',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  expected_chapter: 'Moving Charges & Magnetism',
+  canonical_unit: 'Magnetic Effects of Current and Magnetism',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Moving Charges & Magnetism" unit="Magnetic Effects of Current and Magnetism" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'physics',
+  prompt_subject_name: 'Physics',
+  expected_chapter: 'Moving Charges & Magnetism',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'physics',
+  expected_chapter: 'Moving Charges & Magnetism',
+  canonical_unit: 'Magnetic Effects of Current and Magnetism',
+  concept_id: 'physics::moving_charges_and_magnetism',
+  pyq_anchor_id: 'structure_only_structured_physics_dual_nature_of_radiation_and_matter_1_for_physics::moving_charges_and_magnetism',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 17018,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: A charged particle moving in a magnetic field experiences a force that is perpendicular to both its velocity and the magnetic field direction. Statement II: The magnitude of the magnetic force on a charged particle increases with the speed of the particle. Statement III: A charged particle moving parallel to the magnetic field experiences no magnetic force.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"physics::moving_charges_and_magnetism","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The statements focus on understanding the effects of magnetic fields on moving charges, which is not simply definitional but involves reasoning through conditions.","why_cuet_level":"This question requires comprehension of multiple interrelated concepts rather than straightforward recall.","distractor_rationale":{"A":"All statements are correct based on the principles of electromagnetism.","B":"Statement II is correct, but it overlooks that a parallel motion results in zero force, making it misleading.","C":"This option incorrectly states that all three statements are valid; however, Statement III is flawed.","D":"Statement III being incorrect does not invalidate Statements I or II."}},{"q":"Assertion: A current-carrying conductor placed in a magnetic field experiences a force. Reason: This force arises because of the interaction between the magnetic field and the electric field created by moving charges in the conductor. Which option best evaluates this pair?","o":["Both Assertion and Reason are correct, and the Reason explains why the Assertion is true.","Both Assertion and Reason are correct, but the Reason does not explain why the Assertion holds true.","Assertion is correct, but Reason is incorrect because electric fields do not interact with magnetic fields in this manner.","Assertion is incorrect, but Reason is correct as it describes a general principle."],"a":"A","question_type":"assertion_reason","concept_id":"physics::moving_charges_and_magnetism","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question merges concepts of current, forces, and fields requiring deeper understanding rather than rote definitions.","why_cuet_level":"It tests comprehension of fundamental principles rather than simple recall of definitions.","distractor_rationale":{"A":"Both statements correctly describe electromagnetic interactions involving moving charges.","B":"The reasoning does not fully explain the assertion's basis, leading to misinterpretation of their relationship.","C":"This option misrepresents the interaction between electric fields and magnetic forces as irrelevant here.","D":"While this statement about Reason may seem plausible, it does not accurately reflect its correctness."}},{"q":"Read the statements and choose the correct option: Statement I: The direction of force on a charged particle in a magnetic field can be determined using the right-hand rule. Statement II: Increasing current through a coil in a magnetic field always increases torque. Statement III: Torque can be zero under certain orientations of the coil relative to the magnetic field.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"physics::moving_charges_and_magnetism","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"The question requires evaluating conditions for torque which introduces nuances beyond basic definitions.","why_cuet_level":"It assesses understanding through elimination based on conditions rather than simple fact recall.","distractor_rationale":{"A":"Statement I is accurate, but Statement II lacks context about orientation affecting torque despite increased current.","B":"This option incorrectly assumes that both statements are true without considering exceptions in torque behavior.","C":"Statement I is accurate while acknowledging valid conditions for torque being zero makes this option correct.","D":"This option fails as it suggests all statements are valid while ignoring conditions that affect torque."}},{"q":"Assertion: The motion of charged particles in a magnetic field can result in circular paths. Reason: The centripetal force needed for circular motion comes from the magnetic force acting on charged particles. Which option best evaluates this pair?","o":["Both Assertion and Reason are correct, and the Reason explains why circular motion occurs.","Both Assertion and Reason are correct, but they apply under specific conditions only.","Assertion is correct, but Reason is incorrect as centripetal force can arise from other sources too.","Assertion is incorrect while Reason is correct regarding forces acting on particles."],"a":"A","question_type":"assertion_reason","concept_id":"physics::moving_charges_and_magnetism","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question requires synthesizing knowledge about forces in motion rather than mere definitions or isolated facts.","why_cuet_level":"It challenges learners to connect concepts effectively rather than just recalling facts about forces or motions.","distractor_rationale":{"A":"The reasoning logically follows from established physics principles regarding motion in fields.","B":"While true that conditions matter, this doesn't negate their general applicability in many scenarios involving charged particles.","C":"This response incorrectly dismisses valid explanations for centripetal forces derived from magnetic interactions as irrelevant here.","D":"This option misrepresents both statements' validity by placing them out of context."}},{"q":"Read the statements and choose the correct option: Statement I: A solenoid generates a uniform magnetic field inside when current flows through it. Statement II: The strength of this field depends solely on the number of turns per unit length. Statement III: The direction of this field can be determined using Ampere's right-hand grip rule. ","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"physics::moving_charges_and_magnetism","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"The evaluation requires understanding how multiple factors influence magnetic field strength beyond just turn density alone.","why_cuet_level":"This question tests deeper comprehension of solenoids rather than surface-level recall about them or their functions.","distractor_rationale":{"A":"This selection ignores that while turns per unit length matter, other factors like current also play significant roles in determining strength.","B":"This choice incorrectly asserts uniformity based solely on turns without acknowledging variations with current strength or wire properties.","C":"Correctly identifies how Ampere's rule helps determine direction while accurately reflecting solenoid behavior under current flow conditions.","D":"Incorrectly claims all statements are true without recognizing limitations inherent to Statement II."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '12092fba-0cac-497a-8a95-efb03c34b71f',
+    '734a7fc7-daac-4aa6-b4fa-fb5de47db415',
+    '7cc6571d-51eb-474c-9ed2-714a402b1b4f',
+    '6b02b341-3c7d-47ef-91d2-4c850f744f45',
+    'b48977e3-8934-44ac-a399-bdf159b928dd',
+    '82c1e472-01cb-4a37-af28-df7466b77c16',
+    '6a337258-0e76-40f8-bc6b-763b536f591d',
+    '391b0fda-b7f0-422c-926f-9fe6c070d583',
+    '23371b39-36be-4111-b361-b77ffd6856c5'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '7cc6571d-51eb-474c-9ed2-714a402b1b4f',
+  actual_subject: 'physics',
+  actual_chapter: 'Wave Optics',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 9,
+  subject_question_count: 300,
+  created_at: '2026-04-30T22:11:30.909131+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: { subject: 'physics', chapter: 'Wave Optics', count: 9, priority: 90 }
+[worker] coverage-based selection: { subject: 'physics', chapter: 'Wave Optics', count: 9 }
+
+[JOB 7cc6571d] Starting: [physics] Wave Optics
+[worker] RECEIVED_JOB: {
+  job_id: '7cc6571d-51eb-474c-9ed2-714a402b1b4f',
+  expected_subject: 'physics',
+  expected_chapter: 'Wave Optics',
+  raw_subject_id: 'physics',
+  raw_chapter: 'Wave Optics',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T22:11:30.909131+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '7cc6571d-51eb-474c-9ed2-714a402b1b4f',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  chapter: 'Wave Optics',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=9 existing questions loaded
+[generation] batch adjusted: { chapter: 'Wave Optics', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '7cc6571d-51eb-474c-9ed2-714a402b1b4f',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  expected_chapter: 'Wave Optics',
+  canonical_unit: 'Optics',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Wave Optics" unit="Optics" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'physics',
+  prompt_subject_name: 'Physics',
+  expected_chapter: 'Wave Optics',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'physics',
+  expected_chapter: 'Wave Optics',
+  canonical_unit: 'Optics',
+  concept_id: 'physics::wave_optics',
+  pyq_anchor_id: 'structure_only_structured_physics_dual_nature_of_radiation_and_matter_1_for_physics::wave_optics',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 18219,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: I. Light behaves as a wave when it undergoes interference. II. The fringe width in a double-slit experiment is independent of the wavelength of light used. III. The condition for constructive interference is that the path difference must be an integer multiple of the wavelength.","o":["I and III only","II and III only","I, II and III","I and II only"],"a":"A","question_type":"statement_based","concept_id":"physics::wave_optics","trap_option":"B","strong_distractors":["B","C"],"why_not_textbook":"The statements are designed to test understanding of wave behavior in optics, not definitions or simple recall.","why_cuet_level":"This question requires critical analysis of wave optics principles rather than rote memorization.","distractor_rationale":{"A":"Both statements I and III correctly describe wave behavior in light.","B":"Statement II incorrectly suggests fringe width is independent of wavelength, which is not true.","C":"Statement II is incorrect, hence this combination cannot be correct.","D":"This option includes a false statement, making it invalid."}},{"q":"Assertion: In Young's double-slit experiment, increasing the slit separation decreases the fringe width. Reason: Fringe width is directly proportional to wavelength and inversely proportional to slit separation. Which option best evaluates this pair?","o":["Both Assertion and Reason are correct, and the Reason explains the Assertion.","Both Assertion and Reason are correct, but the Reason does not explain the Assertion.","Assertion is correct, but Reason is incorrect due to misunderstanding of fringe width relation.","Assertion is incorrect, but Reason is correct regarding fringe width."],"a":"A","question_type":"assertion_reason","concept_id":"physics::wave_optics","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question tests the understanding of relationships in wave optics, focusing on reasoning rather than definitions.","why_cuet_level":"It challenges students to analyze assertions and reasons critically.","distractor_rationale":{"A":"Both statements are accurate; the reason clarifies why fringe width changes with slit distance.","B":"The reason does not clarify the assertion properly despite its truthfulness.","C":"The assertion is valid; however, this reasoning misrepresents fringe width relations.","D":"Although this states a fact about fringe width, it misrepresents the assertion."}},{"q":"Read the statements and choose the correct option: I. Diffraction patterns arise from wave nature of light. II. The central maximum in a single-slit diffraction pattern is wider than other maxima. III. All maxima in diffraction patterns occur at equal distances from each other regardless of slit width.","o":["I and II only","II and III only","I, II and III","I and III only"],"a":"A","question_type":"statement_based","concept_id":"physics::wave_optics","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The focus here is on application of concepts rather than recalling definitions or basic principles.","why_cuet_level":"This question requires understanding of diffraction rather than simple recall.","distractor_rationale":{"A":"Statements I and II accurately describe diffraction phenomena in optics.","B":"Statement III misrepresents how slit width affects maxima spacing in diffraction patterns.","C":"Since statement III is incorrect, this combination cannot be right.","D":"This includes a false statement about maxima distances."}},{"q":"Assertion: The phenomenon of interference can occur with any type of waves. Reason: Interference requires coherent sources that maintain a constant phase difference. Evaluate this pair:","o":["Both Assertion and Reason are correct; Reason explains why interference occurs.","Both Assertion and Reason are correct; however, interference mainly applies to sound waves.","Assertion is correct; however, Reason incorrectly limits interference to specific waves.","Assertion is incorrect; however, Reason is valid for coherent sources."],"a":"A","question_type":"assertion_reason","concept_id":"physics::wave_optics","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question focuses on interference conditions rather than definitions or basic properties of waves.","why_cuet_level":"It challenges students to differentiate between general claims about waves versus specific conditions for interference.","distractor_rationale":{"A":"Both statements are accurate; the reason clarifies necessary conditions for interference.","B":"Interference can occur with various wave types, not just sound waves as implied here.","C":"While true that coherence is essential, it doesn't negate other types of waves capable of interference.","D":"The assertion incorrectly states the nature of waves relevant to interference."}},{"q":"Read the statements and choose the correct option: I. Light can exhibit both particle-like and wave-like properties under different conditions. II. Young’s experiment demonstrates particle nature through discrete photon impacts on a screen. III. Wave-particle duality suggests that light behaves as waves unless measured otherwise.","o":["I and II only","II and III only","I, II and III","I and III only"],"a":"D","question_type":"statement_based","concept_id":"physics::wave_optics","trap_option":"B","strong_distractors":["A","C"],"why_not_textbook":"The focus here is on analyzing duality rather than recalling definitions or basic facts about light behavior.","why_cuet_level":"This question tests comprehension of duality versus specific experimental interpretations rather than mere recall of facts.","distractor_rationale":{"A":"While I seems valid, II inaccurately describes Young's experiment focusing solely on particle aspects.","B":"Statement II misrepresents Young's experiment by ignoring its wave interpretation altogether, thus being misleading as a trap option.","C":"This combination fails because statement II inaccurately describes Young’s findings.","D":"Statement I accurately describes duality while statement III captures wave behavior contextually."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=4
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 4
+[pipeline] generated_count=4 | mix=easy=0, medium=4, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 4
+[pipeline] after_chapter_filter=4 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=4 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 4,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 4
+}
+[draft] Saved 6288224e-32ee-499a-b330-2fe4cb269d00 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 80349359-05e3-4841-9b40-a0ef769a5fc6 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 836e6255-ea01-4c5c-9a2e-d2704a41e5e3 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved ae842560-c5ca-48f0-8a2f-a14478ef5f91 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 4,
+  draft_candidates: 4,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=physics | chapter=Wave Optics | target=5 | generated_count=4 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=4 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '12092fba-0cac-497a-8a95-efb03c34b71f',
+    '734a7fc7-daac-4aa6-b4fa-fb5de47db415',
+    '6b02b341-3c7d-47ef-91d2-4c850f744f45',
+    'b48977e3-8934-44ac-a399-bdf159b928dd',
+    '82c1e472-01cb-4a37-af28-df7466b77c16',
+    '6a337258-0e76-40f8-bc6b-763b536f591d',
+    '391b0fda-b7f0-422c-926f-9fe6c070d583',
+    '23371b39-36be-4111-b361-b77ffd6856c5'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '6b02b341-3c7d-47ef-91d2-4c850f744f45',
+  actual_subject: 'political_science',
+  actual_chapter: 'Alternative Centres of Power',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 9,
+  subject_question_count: 238,
+  created_at: '2026-04-30T22:11:30.909131+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'political_science',
+  chapter: 'Alternative Centres of Power',
+  count: 9,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'political_science',
+  chapter: 'Alternative Centres of Power',
+  count: 9
+}
+
+[JOB 6b02b341] Starting: [political_science] Alternative Centres of Power
+[worker] RECEIVED_JOB: {
+  job_id: '6b02b341-3c7d-47ef-91d2-4c850f744f45',
+  expected_subject: 'political_science',
+  expected_chapter: 'Alternative Centres of Power',
+  raw_subject_id: 'political_science',
+  raw_chapter: 'Alternative Centres of Power',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T22:11:30.909131+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '6b02b341-3c7d-47ef-91d2-4c850f744f45',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  chapter: 'Alternative Centres of Power',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=9 existing questions loaded
+[generation] batch adjusted: { chapter: 'Alternative Centres of Power', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '6b02b341-3c7d-47ef-91d2-4c850f744f45',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  expected_chapter: 'Alternative Centres of Power',
+  canonical_unit: 'Contemporary World Politics',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Alternative Centres of Power" unit="Contemporary World Politics" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'political_science',
+  prompt_subject_name: 'Political Science',
+  expected_chapter: 'Alternative Centres of Power',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'political_science',
+  expected_chapter: 'Alternative Centres of Power',
+  canonical_unit: 'Contemporary World Politics',
+  concept_id: 'political_science::alternative_centres_of_power',
+  pyq_anchor_id: 'structure_only_structured_political_science_india_s_external_relations_1_for_political_science::alternative_centres_of_power',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 17153,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: Regional organizations often challenge the dominance of superpowers in international politics. Statement II: The influence of these organizations is limited to economic cooperation. Statement III: The rise of regional powers can lead to a multipolar world order. Which option is correct?","o":["I and III only","I and II only","II and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"political_science::alternative_centres_of_power","trap_option":"B","strong_distractors":["B","C"],"why_not_textbook":"This question engages with contemporary interpretations of power dynamics rather than static definitions.","why_cuet_level":"This question aligns with CUET's focus on critical analysis of political structures.","distractor_rationale":{"A":"Both statements I and III accurately reflect the role of regional organizations.","B":"Statement II misrepresents the scope of regional organizations by limiting their influence to economic aspects only.","C":"Statement II ignores that regional organizations can also engage in political and security matters, not just economics.","D":"Statement III is not entirely incorrect, as it acknowledges the potential for a multipolar world."}},{"q":"Assertion: The emergence of non-state actors has reshaped traditional power dynamics in global politics. Reason: Non-state actors often operate independently of state control and can influence policy decisions. Choose the correct answer.","o":["Both Assertion and Reason are correct, and Reason is the correct explanation for Assertion.","Both Assertion and Reason are correct, but Reason is not the correct explanation for Assertion.","Assertion is correct, but Reason is incorrect.","Assertion is incorrect, but Reason is correct."],"a":"A","question_type":"assertion_reason","concept_id":"political_science::alternative_centres_of_power","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The question focuses on analyzing the implications of non-state actors rather than defining them.","why_cuet_level":"It challenges students to evaluate the relationship between assertions and reasons in political contexts.","distractor_rationale":{"A":"The reasoning explains how non-state actors impact traditional power structures effectively.","B":"While both statements are true, B fails to show that the reason directly supports the assertion's claim regarding influence.","C":"The assertion holds true; however, stating that reason is incorrect overlooks its validity in explaining influence.","D":"The assertion cannot be deemed incorrect as it accurately reflects contemporary political changes."}},{"q":"Consider the following statements: Statement I: Transnational corporations (TNCs) play a crucial role in shaping global economic policies. Statement II: TNCs are primarily concerned with local community welfare. Statement III: The power of TNCs can challenge state sovereignty. Which combination of statements is accurate?","o":["I and III only","I and II only","II and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"political_science::alternative_centres_of_power","trap_option":"B","strong_distractors":["B","C"],"why_not_textbook":"The question encourages analysis of TNCs' roles rather than their definitions or simplistic views.","why_cuet_level":"It requires critical thinking about the implications of TNC activities on state sovereignty.","distractor_rationale":{"A":"Statements I and III correctly portray TNCs' influence on global policies and state power dynamics.","B":"Statement II inaccurately suggests TNCs prioritize local welfare over profit motives, which oversimplifies their role.","C":"Statement II fails to recognize that TNCs often prioritize profits over community concerns, weakening its validity.","D":"Statement III's claim about sovereignty lacks nuance as it does not consider varying contexts."}},{"q":"Assertion: The concept of soft power has become increasingly relevant in contemporary politics. Reason: Soft power relies on attraction rather than coercion to influence other states. Identify the most accurate response.","o":["Both Assertion and Reason are true, with Reason justifying Assertion.","Both Assertion and Reason are true, but Reason does not justify Assertion.","Assertion is true; however, Reason is false.","Assertion is false; however, Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"political_science::alternative_centres_of_power","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question requires understanding beyond simple definitions by exploring implications of soft power today.","why_cuet_level":"It tests comprehension of key concepts in international relations relevant to current issues.","distractor_rationale":{"A":"The reason provides a valid basis for understanding why soft power is significant in modern politics.","B":"While both assertions stand true, B neglects how reason supports assertion about soft power's relevance today.","C":"Claiming reason as false misinterprets its foundational role in defining soft power's nature effectively.","D":"The assertion cannot be false since soft power remains a pivotal element in diplomatic strategies."}},{"q":"Read the following statements regarding alternative centres of power: Statement I: Global civil society has negligible impact on international relations. Statement II: Non-governmental organizations (NGOs) can mobilize public opinion across borders. Statement III: The rise of digital communication has empowered grassroots movements globally. Which option correctly identifies the statements?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"B","question_type":"statement_based","concept_id":"political_science::alternative_centres_of_power","trap_option":"A","strong_distractors":["A","C"],"why_not_textbook":"This question prompts evaluation rather than mere recall about civil society's role in politics.","why_cuet_level":"It engages with modern dynamics affecting global governance structures critically.","distractor_rationale":{"A":"Statement I inaccurately minimizes civil society's impact, leading to its classification as a trap option.","B":"Statements II and III accurately reflect how NGOs leverage public sentiment through digital means effectively.","C":"While statement II is valid, statement I undermines the importance of civil society movements.","D":"Statement I’s claim overlooks significant evidence showing civil society's growing influence globally."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=5
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 5
+[pipeline] generated_count=5 | mix=easy=0, medium=5, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 5
+[pipeline] after_chapter_filter=5 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=5 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 5,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 5
+}
+[draft] Saved 3597da36-f200-4c5c-8b8c-6efda3baa99e | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 6bbdb8a7-d0e0-41be-983a-2f69c0ea33f5 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved b86470fc-e1bd-40e7-8679-7e419b39dde1 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 5afe321c-0b96-464a-8fd5-576ca74801f1 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 6218da3a-c63e-4fb2-9ad5-33069043ff60 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 5,
+  draft_candidates: 5,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=political_science | chapter=Alternative Centres of Power | target=5 | generated_count=5 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=5 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '12092fba-0cac-497a-8a95-efb03c34b71f',
+    '734a7fc7-daac-4aa6-b4fa-fb5de47db415',
+    'b48977e3-8934-44ac-a399-bdf159b928dd',
+    '82c1e472-01cb-4a37-af28-df7466b77c16',
+    '6a337258-0e76-40f8-bc6b-763b536f591d',
+    '391b0fda-b7f0-422c-926f-9fe6c070d583',
+    '23371b39-36be-4111-b361-b77ffd6856c5'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'b48977e3-8934-44ac-a399-bdf159b928dd',
+  actual_subject: 'political_science',
+  actual_chapter: 'Challenges to & Restoration of the Congress System',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 9,
+  subject_question_count: 243,
+  created_at: '2026-04-30T22:11:30.909131+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'political_science',
+  chapter: 'Challenges to & Restoration of the Congress System',
+  count: 9,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'political_science',
+  chapter: 'Challenges to & Restoration of the Congress System',
+  count: 9
+}
+
+[JOB b48977e3] Starting: [political_science] Challenges to & Restoration of the Congress System
+[worker] RECEIVED_JOB: {
+  job_id: 'b48977e3-8934-44ac-a399-bdf159b928dd',
+  expected_subject: 'political_science',
+  expected_chapter: 'Challenges to & Restoration of the Congress System',
+  raw_subject_id: 'political_science',
+  raw_chapter: 'Challenges to & Restoration of the Congress System',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T22:11:30.909131+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'b48977e3-8934-44ac-a399-bdf159b928dd',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  chapter: 'Challenges to & Restoration of the Congress System',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=9 existing questions loaded
+[generation] batch adjusted: {
+  chapter: 'Challenges to & Restoration of the Congress System',
+  generate_count: 5
+}
+[worker] GENERATION_INPUT: {
+  job_id: 'b48977e3-8934-44ac-a399-bdf159b928dd',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  expected_chapter: 'Challenges to & Restoration of the Congress System',
+  canonical_unit: 'Politics in India Since Independence',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Challenges to & Restoration of the Congress System" unit="Politics in India Since Independence" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'political_science',
+  prompt_subject_name: 'Political Science',
+  expected_chapter: 'Challenges to & Restoration of the Congress System',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'political_science',
+  expected_chapter: 'Challenges to & Restoration of the Congress System',
+  canonical_unit: 'Politics in India Since Independence',
+  concept_id: 'political_science::challenges_to_and_restoration_of_the_congress_system',
+  pyq_anchor_id: 'structure_only_structured_political_science_india_s_external_relations_1_for_political_science::challenges_to_and_restoration_of_the_congress_system',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 16365,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: The Congress party faced significant challenges during the 1960s due to internal divisions. Statement II: These divisions were primarily caused by differences in ideology and leadership styles. Statement III: The Congress party remained united despite these challenges and did not suffer electoral losses. Which option is correct?","o":["I and II only","II and III only","I, II and III","I only"],"a":"A","question_type":"statement_based","concept_id":"political_science::challenges_to_and_restoration_of_the_congress_system","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"This question emphasizes analysis of historical events rather than definitions or basic facts.","why_cuet_level":"It requires critical thinking to evaluate historical claims about the Congress party's performance.","distractor_rationale":{"A":"Correct; internal divisions indeed affected the Congress party's unity and electoral success.","B":"Incorrect; while ideology played a role, it does not acknowledge the extent of electoral losses faced.","C":"Incorrect; this statement is misleading as it contradicts the historical context of that period.","D":"Incorrect; it does not capture the complexity of the Congress party's challenges."}},{"q":"Assertion: The decline of the Congress party in the 1970s was influenced by socio-economic factors. Reason: Economic challenges led to widespread discontent among various social groups. Evaluate the relationship between Assertion and Reason.","o":["Both Assertion and Reason are correct, with Reason supporting Assertion.","Assertion is correct, but Reason is incorrect.","Assertion is incorrect, but Reason is correct.","Both Assertion and Reason are incorrect."],"a":"A","question_type":"assertion_reason","concept_id":"political_science::challenges_to_and_restoration_of_the_congress_system","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"This question requires understanding of causal relationships rather than mere recall.","why_cuet_level":"It assesses the ability to analyze assertions in light of socio-political contexts.","distractor_rationale":{"A":"Correct; economic factors indeed contributed to discontent impacting Congress's popularity.","B":"Incorrect; both statements are supported by historical evidence regarding socio-economic impacts.","C":"Incorrect; socio-economic factors were a significant reason for decline, contradicting this choice.","D":"Incorrect; both statements have valid points in historical analysis."}},{"q":"Consider the following statements regarding the Emergency period in India: Statement I: The Emergency was declared in response to political unrest. Statement II: It resulted in significant suppression of civil liberties. Statement III: The Congress party maintained its popularity during this time. Which combination is accurate?","o":["I and II only","II and III only","I, II and III","I only"],"a":"A","question_type":"statement_based","concept_id":"political_science::challenges_to_and_restoration_of_the_congress_system","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The focus on evaluating statements encourages deeper engagement with historical events rather than simple recall.","why_cuet_level":"This question tests comprehension of complex political dynamics during a critical period in Indian history.","distractor_rationale":{"A":"Correct; both statements I and II reflect factual events during the Emergency period.","B":"Incorrect; while civil liberties were suppressed, it overlooks public sentiment towards Congress post-Emergency.","C":"Incorrect; this misrepresents public perception as Congress faced backlash post-Emergency.","D":"Incorrect; it fails to recognize that Statement I is accurate."}},{"q":"Read the following assertions about political dynamics post-Congress dominance: Assertion I: Regional parties began to emerge as significant players in Indian politics. Assertion II: This emergence was solely due to failures of the Congress party. How would you assess these statements?","o":["Both assertions are true, but Assertion II misrepresents causes.","Assertion I is true, Assertion II is false.","Both assertions are false due to oversimplification.","Assertion I is false, Assertion II is true."],"a":"A","question_type":"assertion_reason","concept_id":"political_science::challenges_to_and_restoration_of_the_congress_system","trap_option":"D","strong_distractors":["B","C"],"why_not_textbook":"This format requires critical evaluation rather than rote learning of facts about political shifts.","why_cuet_level":"It engages learners in analyzing multiple factors influencing political changes beyond a single narrative.","distractor_rationale":{"A":"Correct; while regional parties grew partly due to Congress failures, other factors also played a role.","B":"Incorrect; it oversimplifies the emergence of regional parties as being solely attributed to one cause.","C":"Incorrect; at least one assertion holds true based on historical developments post-Congress dominance.","D":"Incorrect; this reverses the truth regarding regional emergence."}},{"q":"Statement I: The rise of coalition politics marked a shift from single-party dominance in India. Statement II: This shift was primarily driven by changing voter preferences and social dynamics. Statement III: Coalition governments have consistently been stable throughout their tenure. Evaluate these statements for accuracy.","o":["I and II are correct, but III is incorrect.","II and III are correct, but I is incorrect.","All statements are correct as they reflect political trends accurately.","All statements are incorrect due to misleading generalizations."],"a":"A","question_type":"statement_based","concept_id":"political_science::challenges_to_and_restoration_of_the_congress_system","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question promotes critical thinking about political trends rather than straightforward definitions or concepts.","why_cuet_level":"It assesses understanding of complex political shifts over time with an emphasis on critical evaluation.","distractor_rationale":{"A":"Correct; Statements I and II accurately capture trends while III misrepresents coalition stability history.","B":"Incorrect; while II holds true, it fails to recognize that I is also accurate based on historical context.","C":"Incorrect; coalition governments have faced instability at various times contradicting this option's claim.","D":"Incorrect; at least one statement has merit based on historical evidence."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=5
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 5
+[pipeline] generated_count=5 | mix=easy=0, medium=5, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 5
+[pipeline] after_chapter_filter=5 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=5 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 5,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 5
+}
+[draft] Saved 95c1caab-2da8-4304-9d35-38ed85045b3b | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 7b4a4715-4ef7-4d4f-bdfb-b100ff78d97e | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 3d2b7589-47ec-4839-83fd-71f5ee161ab5 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 42b6456b-2018-4f2a-b2dd-acfe5c7af4bd | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved e3e28cca-5c8a-4a44-97cc-ed8e76b68758 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 5,
+  draft_candidates: 5,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=political_science | chapter=Challenges to & Restoration of the Congress System | target=5 | generated_count=5 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=5 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '12092fba-0cac-497a-8a95-efb03c34b71f',
+    '734a7fc7-daac-4aa6-b4fa-fb5de47db415',
+    '82c1e472-01cb-4a37-af28-df7466b77c16',
+    '6a337258-0e76-40f8-bc6b-763b536f591d',
+    '391b0fda-b7f0-422c-926f-9fe6c070d583',
+    '23371b39-36be-4111-b361-b77ffd6856c5'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '82c1e472-01cb-4a37-af28-df7466b77c16',
+  actual_subject: 'political_science',
+  actual_chapter: 'Era of One-Party Dominance',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 9,
+  subject_question_count: 248,
+  created_at: '2026-04-30T22:11:30.909131+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'political_science',
+  chapter: 'Era of One-Party Dominance',
+  count: 9,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'political_science',
+  chapter: 'Era of One-Party Dominance',
+  count: 9
+}
+
+[JOB 82c1e472] Starting: [political_science] Era of One-Party Dominance
+[worker] RECEIVED_JOB: {
+  job_id: '82c1e472-01cb-4a37-af28-df7466b77c16',
+  expected_subject: 'political_science',
+  expected_chapter: 'Era of One-Party Dominance',
+  raw_subject_id: 'political_science',
+  raw_chapter: 'Era of One-Party Dominance',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T22:11:30.909131+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '82c1e472-01cb-4a37-af28-df7466b77c16',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  chapter: 'Era of One-Party Dominance',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=9 existing questions loaded
+[generation] batch adjusted: { chapter: 'Era of One-Party Dominance', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '82c1e472-01cb-4a37-af28-df7466b77c16',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  expected_chapter: 'Era of One-Party Dominance',
+  canonical_unit: 'Politics in India Since Independence',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Era of One-Party Dominance" unit="Politics in India Since Independence" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'political_science',
+  prompt_subject_name: 'Political Science',
+  expected_chapter: 'Era of One-Party Dominance',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'political_science',
+  expected_chapter: 'Era of One-Party Dominance',
+  canonical_unit: 'Politics in India Since Independence',
+  concept_id: 'political_science::era_of_one_party_dominance',
+  pyq_anchor_id: 'structured_political_science_india_s_external_relations_1',
+  anchor_tier: 2,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 15349,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: The dominance of the Congress Party in Indian politics after independence was primarily due to its historical legacy. Statement II: This dominance limited the emergence of alternative political ideologies during the early years. Statement III: The Congress Party's policies were universally accepted by all sections of society. ","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"political_science::era_of_one_party_dominance","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The statements require analysis of political dynamics rather than simple recall.","why_cuet_level":"This question tests understanding of political history and implications of party dominance.","distractor_rationale":{"A":"Both statements highlight key reasons for Congress's dominance.","B":"While II is valid, it overlooks other factors influencing political diversity.","C":"This statement inaccurately suggests universal acceptance, missing dissenting voices.","D":"Combining I and II presents a clearer picture of political trends."}},{"q":"Assertion: The era of one-party dominance in India fostered a sense of stability in governance. Reason: This stability allowed for consistent policy implementation without major opposition challenges. Which option is correct?","o":["Assertion is true, Reason is true, and Reason is the correct explanation for Assertion.","Assertion is true, Reason is true, but Reason is not the correct explanation for Assertion.","Assertion is false, but Reason is true.","Both Assertion and Reason are false."],"a":"A","question_type":"assertion_reason","concept_id":"political_science::era_of_one_party_dominance","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"This question examines the relationship between stability and governance rather than mere definitions.","why_cuet_level":"It assesses comprehension of political stability in historical context.","distractor_rationale":{"A":"The reasoning supports the assertion about governance stability.","B":"This option incorrectly separates the assertion from its rationale.","C":"The assertion about stability contradicts the historical context of opposition movements.","D":"Both components are historically inaccurate regarding governance."}},{"q":"Evaluate the following statements: Statement I: The Congress Party's policies during the one-party dominance phase were often criticized for being elitist. Statement II: This criticism encouraged a more pluralistic political environment over time. Statement III: The criticism was largely ignored by the Congress leadership throughout this period. Which evaluation holds?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"political_science::era_of_one_party_dominance","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"This question probes deeper into political critiques rather than surface-level facts.","why_cuet_level":"It encourages critical thinking about political responses to criticism.","distractor_rationale":{"A":"Both statements accurately reflect critiques and their outcomes.","B":"While II has merit, it misrepresents the timeline of pluralism's rise.","C":"Ignoring criticism oversimplifies Congress's interactions with dissenting voices.","D":"Combining I and II fails to address important nuances in political dynamics."}},{"q":"Consider this scenario: A student claims that one-party dominance in India resulted in the effective marginalization of regional parties. Which response best challenges this claim?","o":["Regional parties began gaining strength due to specific regional issues being overlooked by Congress.","The dominance of Congress led to a uniformity that stifled regional voices entirely.","Regional parties were always seen as extensions of national parties during this era.","The focus on national development neglected regional aspirations completely."],"a":"A","question_type":"application_based","concept_id":"political_science::era_of_one_party_dominance","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"This scenario requires contextual understanding rather than simple acknowledgment of facts.","why_cuet_level":"It evaluates application of knowledge to real-world political dynamics.","distractor_rationale":{"A":"This response highlights how regional dynamics emerged despite dominance.","B":"This statement incorrectly generalizes regional marginalization without nuance.","C":"This option misrepresents regional parties' identities during this period.","D":"Neglecting aspirations does not clarify their influence on party dynamics."}},{"q":"Read the statements below and determine which are accurate: Statement I: The era of one-party dominance led to a reduction in electoral competition. Statement II: Voter apathy increased as a result of unchallenged electoral outcomes. Statement III: This apathy was countered by emerging social movements challenging established norms. Which option is correct?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"B","question_type":"statement_based","concept_id":"political_science::era_of_one_party_dominance","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"The question focuses on analyzing complex relationships rather than superficial knowledge.","why_cuet_level":"It tests understanding of political changes during a specific era.","distractor_rationale":{"A":"While I and II are valid, they do not address social movements' role clearly.","B":"Statement III introduces important counterpoints to voter behavior during this period.","C":"This option ignores significant shifts brought by social movements in politics.","D":"Combining all three overlooks essential context regarding electoral dynamics."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=4
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 4
+[pipeline] generated_count=4 | mix=easy=0, medium=4, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 4
+[pipeline] after_chapter_filter=4 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=4 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 4,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 4
+}
+[draft] Saved 7881c853-af68-4f14-9f17-9a3ec62f1b6a | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 4d49d3ed-c579-43b0-8c63-8a94ab2cbb58 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved a0d06c6e-9501-4b13-8031-89e85c31547f | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 33774fff-6e5b-46fe-8b5f-2f333782c374 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 4,
+  draft_candidates: 4,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=political_science | chapter=Era of One-Party Dominance | target=5 | generated_count=4 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=4 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '12092fba-0cac-497a-8a95-efb03c34b71f',
+    '734a7fc7-daac-4aa6-b4fa-fb5de47db415',
+    '6a337258-0e76-40f8-bc6b-763b536f591d',
+    '391b0fda-b7f0-422c-926f-9fe6c070d583',
+    '23371b39-36be-4111-b361-b77ffd6856c5'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '23371b39-36be-4111-b361-b77ffd6856c5',
+  actual_subject: 'political_science',
+  actual_chapter: 'Security in the Contemporary World',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 9,
+  subject_question_count: 252,
+  created_at: '2026-04-30T22:11:30.909131+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'political_science',
+  chapter: 'Security in the Contemporary World',
+  count: 9,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'political_science',
+  chapter: 'Security in the Contemporary World',
+  count: 9
+}
+
+[JOB 23371b39] Starting: [political_science] Security in the Contemporary World
+[worker] RECEIVED_JOB: {
+  job_id: '23371b39-36be-4111-b361-b77ffd6856c5',
+  expected_subject: 'political_science',
+  expected_chapter: 'Security in the Contemporary World',
+  raw_subject_id: 'political_science',
+  raw_chapter: 'Security in the Contemporary World',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T22:11:30.909131+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '23371b39-36be-4111-b361-b77ffd6856c5',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  chapter: 'Security in the Contemporary World',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=9 existing questions loaded
+[generation] batch adjusted: { chapter: 'Security in the Contemporary World', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '23371b39-36be-4111-b361-b77ffd6856c5',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  expected_chapter: 'Security in the Contemporary World',
+  canonical_unit: 'Contemporary World Politics',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Security in the Contemporary World" unit="Contemporary World Politics" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'political_science',
+  prompt_subject_name: 'Political Science',
+  expected_chapter: 'Security in the Contemporary World',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'political_science',
+  expected_chapter: 'Security in the Contemporary World',
+  canonical_unit: 'Contemporary World Politics',
+  concept_id: 'political_science::security_in_the_contemporary_world',
+  pyq_anchor_id: 'structure_only_structured_political_science_india_s_external_relations_1_for_political_science::security_in_the_contemporary_world',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 16168,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: The concept of national security has evolved in response to global changes. Statement II: Economic stability is now considered a key component of national security. Statement III: Military strength remains the only measure of a nation's security. Which evaluation is strongest?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"political_science::security_in_the_contemporary_world","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The question reflects contemporary views on security instead of traditional definitions.","why_cuet_level":"This question tests understanding of evolving security concepts beyond mere military aspects.","distractor_rationale":{"A":"Correct, as it acknowledges the evolution and inclusion of economic factors in security.","B":"Partially correct, but it misrepresents military strength as the sole measure of security.","C":"Incorrect, as it ignores the broader context of security that includes economic factors.","D":"Incorrect, as it suggests an outdated view that does not align with contemporary security assessments."}},{"q":"Assertion: Environmental issues are increasingly recognized as security threats. Reason: Climate change impacts food security, which can lead to conflict. Which option best evaluates the relationship between Assertion and Reason?","o":["Both Assertion and Reason are correct, and Reason explains Assertion well.","Assertion is correct, but Reason does not adequately support it.","Both Assertion and Reason are incorrect due to lack of evidence.","Reason is correct, but Assertion is misleading."],"a":"A","question_type":"assertion_reason","concept_id":"political_science::security_in_the_contemporary_world","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question emphasizes the interconnectedness of environmental issues with security rather than basic definitions.","why_cuet_level":"This question challenges students to think critically about modern security issues involving environment and conflict.","distractor_rationale":{"A":"Correct, as the reason clearly supports the assertion regarding environmental threats.","B":"Incorrect, as both statements are valid and related; it misinterprets their connection.","C":"Incorrect because both statements reflect current understandings in security studies.","D":"Incorrect since it overlooks how environmental concerns have been integrated into security discourse."}},{"q":"Consider the following statements about cybersecurity: Statement I: Cybersecurity is primarily a technical issue. Statement II: Threats in cyber domains can affect national security. Statement III: Cybersecurity measures are solely dependent on government actions. Which combination is accurate?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"political_science::security_in_the_contemporary_world","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The focus on cybersecurity illustrates its multifaceted role in national security rather than a narrow technical view.","why_cuet_level":"This question encourages evaluation of cybersecurity's impact beyond just technical aspects or government roles.","distractor_rationale":{"A":"Correct, as it highlights the importance of recognizing cyber threats while not limiting them to technical issues.","B":"Partially correct; although threats affect national security, it misrepresents cybersecurity's broader implications.","C":"Incorrect because it overly simplifies cybersecurity by suggesting it's solely a governmental responsibility.","D":"Incorrect as it fails to acknowledge the collaborative nature of cybersecurity involving multiple stakeholders."}},{"q":"Read the assertions about terrorism: Assertion I: Terrorism poses unique challenges to traditional notions of state sovereignty. Assertion II: The rise of non-state actors complicates international responses to terrorism. Assertion III: State actors are always the primary perpetrators of terrorist acts. Which evaluation is most accurate?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"assertion_reason","concept_id":"political_science::security_in_the_contemporary_world","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question examines modern complexities in terrorism's relationship with state sovereignty rather than just basic definitions.","why_cuet_level":"This question assesses understanding of terrorism's impact on state sovereignty and international relations.","distractor_rationale":{"A":"Correct, as both assertions accurately capture the complexities surrounding terrorism today.","B":"Incorrect because while non-state actors complicate responses, it mischaracterizes state involvement in terrorism.","C":"Incorrect as it completely misrepresents who can be involved in terrorist acts beyond state actors.","D":"Incorrect since it overlooks how terrorism interacts with state sovereignty in nuanced ways."}},{"q":"Assertion: Human security broadens the understanding of threats beyond military considerations. Reason: It emphasizes individual welfare as central to national stability. Evaluate their relationship.","o":["Both Assertion and Reason are correct, with Reason supporting Assertion effectively.","Assertion is valid; however, Reason does not fully explain its importance.","Both statements are incorrect due to lack of relevance in current discourse.","Reason correctly identifies an aspect but misinterprets its relation to Assertion."],"a":"A","question_type":"assertion_reason","concept_id":"political_science::security_in_the_contemporary_world","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question promotes an understanding of human security that transcends traditional military-focused narratives instead of rote learning.","why_cuet_level":"This question encourages critical thinking about human versus traditional security frameworks in contemporary discussions.","distractor_rationale":{"A":"Correct, as Reason directly supports the broader implications presented in Assertion regarding human security.","B":"Incorrect because while Assertion is valid, it fails to recognize how closely related they truly are.","C":"Incorrect since both statements are relevant in today's discussions surrounding human versus traditional security frameworks.","D":"Incorrect because it misunderstands how individual welfare ties into national stability within this context."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=3
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 3
+[pipeline] generated_count=3 | mix=easy=0, medium=3, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 3
+[pipeline] after_chapter_filter=3 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 3
+}
+[draft] Saved 15ea0b1a-4d4a-42b9-b4fd-9b5459e84726 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 4c265bfb-4752-46ac-8c1e-b76f6dccfa04 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved cb8b2c73-8588-427a-a17a-113c016bb3d4 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 3,
+  draft_candidates: 3,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=political_science | chapter=Security in the Contemporary World | target=5 | generated_count=3 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=3 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '12092fba-0cac-497a-8a95-efb03c34b71f',
+    '734a7fc7-daac-4aa6-b4fa-fb5de47db415',
+    '6a337258-0e76-40f8-bc6b-763b536f591d',
+    '391b0fda-b7f0-422c-926f-9fe6c070d583'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '391b0fda-b7f0-422c-926f-9fe6c070d583',
+  actual_subject: 'political_science',
+  actual_chapter: 'Politics of Planned Development',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 9,
+  subject_question_count: 255,
+  created_at: '2026-04-30T22:11:30.909131+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'political_science',
+  chapter: 'Politics of Planned Development',
+  count: 9,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'political_science',
+  chapter: 'Politics of Planned Development',
+  count: 9
+}
+
+[JOB 391b0fda] Starting: [political_science] Politics of Planned Development
+[worker] RECEIVED_JOB: {
+  job_id: '391b0fda-b7f0-422c-926f-9fe6c070d583',
+  expected_subject: 'political_science',
+  expected_chapter: 'Politics of Planned Development',
+  raw_subject_id: 'political_science',
+  raw_chapter: 'Politics of Planned Development',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T22:11:30.909131+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '391b0fda-b7f0-422c-926f-9fe6c070d583',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  chapter: 'Politics of Planned Development',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=9 existing questions loaded
+[generation] batch adjusted: { chapter: 'Politics of Planned Development', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '391b0fda-b7f0-422c-926f-9fe6c070d583',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  expected_chapter: 'Politics of Planned Development',
+  canonical_unit: 'Politics in India Since Independence',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Politics of Planned Development" unit="Politics in India Since Independence" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'political_science',
+  prompt_subject_name: 'Political Science',
+  expected_chapter: 'Politics of Planned Development',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'political_science',
+  expected_chapter: 'Politics of Planned Development',
+  canonical_unit: 'Politics in India Since Independence',
+  concept_id: 'political_science::politics_of_planned_development',
+  pyq_anchor_id: 'structure_only_structured_political_science_india_s_external_relations_1_for_political_science::politics_of_planned_development',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 17341,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: The Green Revolution aimed to increase agricultural productivity in India through technological advancement. Statement II: While it improved food security, it also led to increased inequalities among farmers. Statement III: The Green Revolution was uniformly beneficial for all agricultural regions in India.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"political_science::politics_of_planned_development","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"These statements reflect nuanced outcomes rather than straightforward definitions.","why_cuet_level":"Requires critical assessment of multiple effects of a policy.","distractor_rationale":{"A":"Both statements accurately reflect the complex outcomes of the Green Revolution.","B":"This option suggests that inequalities were not a significant issue, which overlooks key criticisms.","C":"This option implies uniform benefit, ignoring regional disparities in agricultural success.","D":"This option fails to recognize that not all regions benefited equally from the Green Revolution."}},{"q":"Assertion: India's planning approach post-independence was primarily focused on self-reliance. Reason: This emphasis was due to the historical context of colonial economic exploitation. Which option best evaluates these statements?","o":["The assertion is correct, and the reason is a valid explanation.","The assertion is correct, but the reason is not valid.","The assertion is incorrect, but the reason is valid.","Both assertion and reason are incorrect."],"a":"A","question_type":"assertion_reason","concept_id":"political_science::politics_of_planned_development","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The relationship between assertion and reason requires deeper contextual understanding.","why_cuet_level":"Evaluates understanding of policy motivations based on historical context.","distractor_rationale":{"A":"The assertion aligns with India's policy direction influenced by its history.","B":"This implies that there was no need for self-reliance, which contradicts historical evidence.","C":"Suggests that historical exploitation did not influence post-colonial policies, which is misleading.","D":"This misrepresents both statements without acknowledging their validity."}},{"q":"Consider the following claims about India's Five-Year Plans: Claim I: The plans have been primarily focused on economic growth. Claim II: They have also aimed at reducing poverty and improving social welfare. Claim III: The plans have been uniformly successful across all sectors. Which assessment is most accurate?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"political_science::politics_of_planned_development","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"These statements reflect evaluations of planning outcomes rather than definitions.","why_cuet_level":"Requires analysis of both economic focus and social objectives in planning.","distractor_rationale":{"A":"Both claims accurately depict the dual focus of India's planning strategy.","B":"This option ignores the broader goals of social welfare embedded in the plans.","C":"This suggests success across all sectors, which does not consider sectoral disparities.","D":"This overlooks critical evaluations of planning effectiveness."}},{"q":"Read the statements regarding the role of public sector in planned development: Statement I: Public sector enterprises were established to drive industrialization. Statement II: They played a dominant role in addressing regional disparities in development. Statement III: Public sector enterprises faced no challenges in operational efficiency. What is the correct evaluation?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"political_science::politics_of_planned_development","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"These statements require an evaluation of public sector effectiveness rather than definitions.","why_cuet_level":"Analyzes multiple dimensions of public sector roles in development.","distractor_rationale":{"A":"Both statements correctly identify key roles of public enterprises in development.","B":"This implies that operational efficiency issues were negligible, which is misleading.","C":"Suggests that public enterprises faced no challenges, ignoring historical criticisms.","D":"This fails to recognize that while they aimed for regional equity, challenges existed."}},{"q":"Assertion: Economic planning in India has prioritized heavy industries since independence. Reason: This focus has been crucial for achieving self-sufficiency. Evaluate these statements critically.","o":["Both assertion and reason are true; reason justifies assertion.","The assertion is true, but the reason is false.","The assertion is false, but the reason is true.","Both assertion and reason are false."],"a":"A","question_type":"assertion_reason","concept_id":"political_science::politics_of_planned_development","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"These require an understanding of policy priorities rather than simple definitions.","why_cuet_level":"Tests comprehension of strategic choices made in economic planning.","distractor_rationale":{"A":"Both statements reflect accurate assessments of India's planning priorities post-independence.","B":"Incorrectly suggests that self-sufficiency was not a goal linked to heavy industry focus.","C":"Misrepresents both assertions without acknowledging their validity based on historical context.","D":"This overlooks genuine strategic choices made within economic planning."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=4
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 4
+[pipeline] generated_count=4 | mix=easy=0, medium=4, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 4
+[pipeline] after_chapter_filter=4 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=4 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 4,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 4
+}
+[draft] Saved ba43df8a-025f-4617-a6bc-596c47293db3 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 47093ce3-58f1-414b-9028-a21ab177dc41 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved fc173bef-3039-4066-8df2-2622c79287b7 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 40b63b12-0cf5-475d-9d5e-ae7606b00251 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 4,
+  draft_candidates: 4,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=political_science | chapter=Politics of Planned Development | target=5 | generated_count=4 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=4 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '12092fba-0cac-497a-8a95-efb03c34b71f',
+    '734a7fc7-daac-4aa6-b4fa-fb5de47db415',
+    '6a337258-0e76-40f8-bc6b-763b536f591d'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '6a337258-0e76-40f8-bc6b-763b536f591d',
+  actual_subject: 'political_science',
+  actual_chapter: "India's External Relations",
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 9,
+  subject_question_count: 259,
+  created_at: '2026-04-30T22:11:30.909131+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'political_science',
+  chapter: "India's External Relations",
+  count: 9,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'political_science',
+  chapter: "India's External Relations",
+  count: 9
+}
+
+[JOB 6a337258] Starting: [political_science] India's External Relations
+[worker] RECEIVED_JOB: {
+  job_id: '6a337258-0e76-40f8-bc6b-763b536f591d',
+  expected_subject: 'political_science',
+  expected_chapter: "India's External Relations",
+  raw_subject_id: 'political_science',
+  raw_chapter: "India's External Relations",
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T22:11:30.909131+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '6a337258-0e76-40f8-bc6b-763b536f591d',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  chapter: "India's External Relations",
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=9 existing questions loaded
+[generation] batch adjusted: { chapter: "India's External Relations", generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '6a337258-0e76-40f8-bc6b-763b536f591d',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  expected_chapter: "India's External Relations",
+  canonical_unit: 'Politics in India Since Independence',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="India's External Relations" unit="Politics in India Since Independence" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'political_science',
+  prompt_subject_name: 'Political Science',
+  expected_chapter: "India's External Relations",
+  requested_count: 5,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::india_s_external_relations',
+  selected_anchor_id: 'structured_political_science_india_s_external_relations_1',
+  selected_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'case_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'political_science',
+  expected_chapter: "India's External Relations",
+  canonical_unit: 'Politics in India Since Independence',
+  concept_id: 'political_science::india_s_external_relations',
+  pyq_anchor_id: 'structured_political_science_india_s_external_relations_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 16199,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Assertion I: India's non-alignment strategy allowed it to maintain neutrality during the Cold War. Assertion II: This strategy led to India's isolation from global power dynamics. Which option is correct?","o":["I only","II only","Both I and II","Neither I nor II"],"a":"A","question_type":"assertion_reason","concept_id":"political_science::india_s_external_relations","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"This requires understanding the nuanced impact of non-alignment rather than a straightforward evaluation.","why_cuet_level":"This question assesses critical thinking about foreign policy implications.","distractor_rationale":{"A":"India's non-alignment did not equate to isolation; it facilitated diverse international relationships.","B":"While asserting neutrality, it did not lead to complete detachment from global affairs.","C":"The assertion misinterprets India's strategic positioning in global politics.","D":"This option overlooks the active diplomatic efforts India engaged in despite its non-aligned stance."}},{"q":"Statement I: India has consistently advocated for disarmament in international forums. Statement II: This advocacy has significantly influenced global nuclear policies. Statement III: India's position on disarmament is solely based on its historical experiences. Choose the correct option.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"political_science::india_s_external_relations","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Understanding the complexity of India's disarmament stance requires deeper analysis of motivations beyond history.","why_cuet_level":"This question tests comprehension of India's multifaceted approach to disarmament.","distractor_rationale":{"A":"India's advocacy is rooted in both ethical principles and strategic considerations.","B":"The second statement overstates the influence without acknowledging other factors at play.","C":"Historical context is important but not the sole reason for India's position.","D":"This option incorrectly suggests that all statements are equally valid without considering nuances."}},{"q":"Read the statements and choose the correct option: Statement I: India's foreign policy has evolved with changing global dynamics. Statement II: The shift towards economic diplomacy reflects a reaction to globalization. Statement III: Economic diplomacy only benefits developed nations. What is the best evaluation?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"political_science::india_s_external_relations","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The evaluation requires understanding India's adaptive strategies rather than a simplistic view of benefits.","why_cuet_level":"This question encourages analysis of foreign policy evolution in response to external pressures.","distractor_rationale":{"A":"India's adaptation shows a nuanced understanding of both challenges and opportunities in globalization.","B":"The assertion inaccurately implies that globalization's benefits are exclusive to developed nations.","C":"Economic diplomacy has implications beyond merely benefiting developed countries, which this statement ignores.","D":"This option fails to recognize that not all statements can be deemed valid simultaneously."}},{"q":"Assertion I: India seeks to enhance its soft power through cultural diplomacy. Assertion II: Soft power alone can determine international relations outcomes. Which option correctly evaluates these assertions?","o":["I only","II only","Both I and II","Neither I nor II"],"a":"A","question_type":"assertion_reason","concept_id":"political_science::india_s_external_relations","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"The evaluation requires distinguishing between different sources of power in international relations, not just soft power alone.","why_cuet_level":"This question tests understanding of various elements influencing international relations beyond soft power alone.","distractor_rationale":{"A":"Soft power plays a significant role but cannot solely dictate outcomes in complex international scenarios.","B":"This assertion incorrectly elevates soft power as the singular determinant of international relations.","C":"While both assertions have merit, they do not hold equally when assessing their impact on outcomes.","D":"This option fails as it dismisses the significant role soft power plays within a broader context."}},{"q":"Statement I: India's relationship with its neighbors has been shaped by historical conflicts. Statement II: Economic cooperation has been secondary in these relationships. Statement III: Recent initiatives reflect a shift towards prioritizing economic ties over historical grievances. Assess these statements and choose correctly.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"political_science::india_s_external_relations","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"Evaluating these statements demands an understanding of evolving diplomatic strategies rather than static historical perspectives.","why_cuet_level":"This question assesses comprehension of shifts in diplomatic focus over time between conflict and cooperation.","distractor_rationale":{"A":"While historical conflicts are relevant, they are increasingly being addressed through economic initiatives as well.","B":"Economic cooperation is not merely secondary; it is becoming central to India's regional strategy now more than before.","C":"Recent trends indicate a clear prioritization of economic ties, countering previous narratives focused solely on conflict.","D":"All statements cannot be true together as they present conflicting views on current diplomatic trends."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=3
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 3
+[pipeline] generated_count=3 | mix=easy=0, medium=3, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 3
+[pipeline] after_chapter_filter=3 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=0.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [
+    'structured_political_science_india_s_external_relations_1',
+    'structured_political_science_india_s_external_relations_1',
+    'structured_political_science_india_s_external_relations_1'
+  ],
+  anchor_source_quality: [ 'manual_seed', 'manual_seed', 'manual_seed' ],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 3,
+  skipped_for_anchor_quality: 0
+}
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T22:15:47.460Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"political_science","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'political_science',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'political_science',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 24229,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'political_science',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "AMBIGUOUS",
+    "language_level": "MODERATE",
+    "option_quality": "CONFUSING",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "conceptual_depth < 7",
+      "clarity == AMBIGUOUS",
+      "subjective content",
+      "language too complex"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 4,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The use of 'mainly' in options and statements makes the question logically fuzzy and non-standard for CUET.",
+      "Statement II is a subjective historical interpretation rather than a testable fact."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "AMBIGUOUS",
+    "language_level": "MODERATE",
+    "option_quality": "CONFUSING",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "obvious answer",
+      "conceptual_depth < 7",
+      "textbook_style"
+    ],
+    "score": 3,
+    "exam_quality": 3,
+    "distractor_quality": 4,
+    "conceptual_depth": 3,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Statement III is an ideological opinion rather than a political science fact tested in the CUET syllabus.",
+      "The question is too generic and lacks specific policy references like the 1991 reforms or the Look East policy."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "AMBIGUOUS",
+    "language_level": "MODERATE",
+    "option_quality": "CONFUSING",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "conceptual_depth < 7",
+      "clarity == AMBIGUOUS",
+      "textbook_style"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Phrasing such as 'secondary' or 'recent' is too vague for a strict MCQ; it requires more specific markers (e.g., SAFTA, Gujral Doctrine).",
+      "The options format 'I and II mainly' is non-standard for competitive exams."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T22:16:11.691Z","model":"gemini-3-flash","subject":"political_science","resultCount":3}
+[pipeline] validator_rejected {
+  score: 4,
+  exam_quality: 4,
+  distractor_quality: 3,
+  conceptual_depth: 4,
+  trap_quality: 'LOW',
+  rule: 'low trap quality'
+}
+[reject] {
+  subject: 'political_science',
+  chapter: "India's External Relations",
+  reason: 'low trap quality; conceptual_depth < 7; clarity == AMBIGUOUS; subjective content; language too complex; ambiguous wording; confusing options; validator score below threshold',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 4,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CONFUSING'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_rejected {
+  score: 3,
+  exam_quality: 3,
+  distractor_quality: 4,
+  conceptual_depth: 3,
+  trap_quality: 'LOW',
+  rule: 'low trap quality'
+}
+[reject] {
+  subject: 'political_science',
+  chapter: "India's External Relations",
+  reason: 'low trap quality; obvious answer; conceptual_depth < 7; textbook_style; ambiguous wording; confusing options; validator score below threshold; exam quality below threshold',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 3,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CONFUSING'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_rejected {
+  score: 4,
+  exam_quality: 4,
+  distractor_quality: 3,
+  conceptual_depth: 5,
+  trap_quality: 'LOW',
+  rule: 'low trap quality'
+}
+[reject] {
+  subject: 'political_science',
+  chapter: "India's External Relations",
+  reason: 'low trap quality; conceptual_depth < 7; clarity == AMBIGUOUS; textbook_style; ambiguous wording; confusing options; validator score below threshold; exam quality below threshold',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 4,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CONFUSING'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 0, hard: 0 },
+  system: { easy: 0, medium: 0, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 0
+[pipeline] validated_count=0 | acceptance_rate=0.0%
+[pipeline] FINAL_ACCEPTED_COUNT 0
+[pipeline] selected_count=0 | FINAL DISTRIBUTION: {"easy":0,"medium":0,"hard":0}
+[draft] Saved be3d41a2-e239-4742-8e44-9315d57d8f1f | reason=validator_rejected_all:low trap quality;conceptual_depth < 7;clarity == AMBIGUOUS;subjective content;language too complex;ambiguous wording;confusing options;validator score below threshold
+[draft] Saved dcc03f9c-ff7d-4cbd-83ee-049d98321f59 | reason=validator_rejected_all:low trap quality;conceptual_depth < 7;clarity == AMBIGUOUS;subjective content;language too complex;ambiguous wording;confusing options;validator score below threshold
+[draft] Saved d57604d6-694f-476f-a955-a3794ad2e528 | reason=validator_rejected_all:low trap quality;conceptual_depth < 7;clarity == AMBIGUOUS;subjective content;language too complex;ambiguous wording;confusing options;validator score below threshold
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 3,
+  draft_candidates: 3,
+  publish_count: 0
+}
+[pipeline] METRICS | generated_count=3 | prefiltered_count=3 | strict_validation_count=3 | accepted_count=0 | api_calls_used=2 | cost_efficiency_ratio=0.00
+[pipeline] SUMMARY | subject=political_science | chapter=India's External Relations | target=5 | generated_count=3 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=3 | validated_count=0 | accepted_count=0 | draft_count=3 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=0, hard=0
+[pipeline] subject_distribution: {"subject":"political_science","accepted":0,"rejected":3,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=28099 | total_cost=$0.0090 | cost_per_accepted=$0.0000 | cost_per_1000=$0.00 | total_accepted=0
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'political_science',
+  chapter: "India's External Relations",
+  sample_size: 12,
+  direct_definition_count: 0,
+  weak_option_count: 4,
+  repeated_structure_count: 0,
+  easy_count: 4,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '12092fba-0cac-497a-8a95-efb03c34b71f',
+    '734a7fc7-daac-4aa6-b4fa-fb5de47db415'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '12092fba-0cac-497a-8a95-efb03c34b71f',
+  actual_subject: 'psychology',
+  actual_chapter: 'Variations in Psychological Attributes',
+  status: 'queued',
+  priority: 100,
+  original_priority: 100,
+  question_count: 0,
+  subject_question_count: 114,
+  created_at: '2026-04-30T22:11:30.909131+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'psychology',
+  chapter: 'Variations in Psychological Attributes',
+  count: 0,
+  priority: 100
+}
+[worker] coverage-based selection: {
+  subject: 'psychology',
+  chapter: 'Variations in Psychological Attributes',
+  count: 0
+}
+
+[JOB 12092fba] Starting: [psychology] Variations in Psychological Attributes
+[worker] RECEIVED_JOB: {
+  job_id: '12092fba-0cac-497a-8a95-efb03c34b71f',
+  expected_subject: 'psychology',
+  expected_chapter: 'Variations in Psychological Attributes',
+  raw_subject_id: 'psychology',
+  raw_chapter: 'Variations in Psychological Attributes',
+  status: 'queued',
+  priority: 100,
+  created_at: '2026-04-30T22:11:30.909131+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '12092fba-0cac-497a-8a95-efb03c34b71f',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  chapter: 'Variations in Psychological Attributes',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=15 existing questions loaded
+[generation] batch adjusted: {
+  chapter: 'Variations in Psychological Attributes',
+  generate_count: 5
+}
+[worker] GENERATION_INPUT: {
+  job_id: '12092fba-0cac-497a-8a95-efb03c34b71f',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  expected_chapter: 'Variations in Psychological Attributes',
+  canonical_unit: 'Variations in Psychological Attributes',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Variations in Psychological Attributes" unit="Variations in Psychological Attributes" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'psychology',
+  prompt_subject_name: 'Psychology',
+  expected_chapter: 'Variations in Psychological Attributes',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'psychology',
+  expected_chapter: 'Variations in Psychological Attributes',
+  canonical_unit: 'Variations in Psychological Attributes',
+  concept_id: 'psychology::variations_in_psychological_attributes',
+  pyq_anchor_id: 'structure_only_structured_psychology_self_and_personality_1_for_psychology::variations_in_psychological_attributes',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'psychology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'psychology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 17176,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'psychology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: Variations in psychological attributes can be influenced by environmental factors. Statement II: Genetic predispositions have no significant impact on psychological traits. Statement III: Cultural context shapes the expression of psychological attributes.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"psychology::variations_in_psychological_attributes","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"This question emphasizes the interplay between genetics and environment in shaping psychological attributes.","why_cuet_level":"This question tests understanding of both genetic and environmental influences on psychology.","distractor_rationale":{"A":"Statement I is true, but II is incorrect as genetics do influence traits.","B":"Statement II incorrectly states that genetics have no impact, which is misleading.","C":"This option correctly identifies the valid statements about psychology variations.","D":"Includes an incorrect statement about genetic influence."}},{"q":"Assertion: Psychological attributes vary greatly among individuals. Reason: These variations are solely due to personal experiences and not influenced by biological factors.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason is misleading as it ignores biological influences.","Assertion is false, but Reason correctly describes individual experiences."],"a":"C","question_type":"assertion_reason","concept_id":"psychology::variations_in_psychological_attributes","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"The question challenges misconceptions about the origins of psychological variation by highlighting biological influences.","why_cuet_level":"This evaluates critical thinking regarding assertion-reason relationships in psychology.","distractor_rationale":{"A":"While both statements are relevant, the Reason does not fully explain the Assertion due to biological factors.","B":"Misleading as it suggests personal experience is the only factor influencing psychological attributes.","C":"Correctly identifies that biological factors play a crucial role in psychological variations.","D":"Incorrectly states that the Assertion is false."}},{"q":"Consider these statements about personality traits: Statement I: Personality traits are static and do not change over time. Statement II: External situations can lead to variations in personality expression. Statement III: Personality assessments are entirely reliable indicators of traits across contexts.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"psychology::variations_in_psychological_attributes","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question assesses understanding of personality traits' stability versus situational variability.","why_cuet_level":"It requires evaluation of common misconceptions about personality assessments and their reliability.","distractor_rationale":{"A":"Correctly identifies that while I is static, II acknowledges situational influences on personality.","B":"Incorrect as it overlooks the importance of trait stability stated in I.","C":"Suggests an incorrect interpretation of personality assessments' reliability across contexts.","D":"Includes a statement about reliability that is misleading."}},{"q":"Assertion: Cultural background significantly affects psychological attributes. Reason: Psychological traits are universal across all cultures regardless of context.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason incorrectly generalizes psychological traits across cultures.","Assertion is false, but Reason correctly describes cultural influences."],"a":"C","question_type":"assertion_reason","concept_id":"psychology::variations_in_psychological_attributes","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"This question tests understanding of cultural influences on psychology while challenging misconceptions about universality.","why_cuet_level":"It evaluates comprehension of cultural impacts on psychological attributes versus universal claims.","distractor_rationale":{"A":"While both statements address cultural factors, the Reason fails to align with current understanding of psychology.","B":"Misleading as it suggests all psychological traits are universal without regard to culture-specific variations.","C":"Correctly identifies that cultural background significantly varies psychological attributes while noting a flaw in universality claim.","D":"Incorrectly states that both assertions are valid."}},{"q":"Read these statements regarding intelligence variations: Statement I: Intelligence can be measured uniformly across different populations. Statement II: Socioeconomic status can influence cognitive development. Statement III: Intelligence tests account for cultural differences effectively.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"B","question_type":"statement_based","concept_id":"psychology::variations_in_psychological_attributes","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"This question engages with common assumptions about intelligence measurement across diverse populations while considering socioeconomic factors' impact on development.","why_cuet_level":"It examines critical thinking around intelligence assessment validity in varying contexts.","distractor_rationale":{"A":"Incorrect because statement I overlooks variability in intelligence measurements across cultures.","B":"Correctly identifies that while II is true, I fails to acknowledge measurement limitations across populations. ","C":"Suggests an incorrect assumption regarding cultural considerations in intelligence tests' effectiveness.","D":"Includes an invalid assertion about uniform measurements."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=5
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 5
+[pipeline] generated_count=5 | mix=easy=0, medium=5, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 5
+[pipeline] after_chapter_filter=5 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=5 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 5,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 5
+}
+[draft] Saved 2bd962a9-dc66-4b45-87d4-e501d387b74e | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved fb722591-c537-4247-9842-bb7677d89b38 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved b7ac1678-1516-4084-b744-ed72d2a28fc5 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 9142b724-259e-45c4-960c-f1943c8ed1a2 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved fea2a16c-280a-4f97-ac05-0c20fea56d06 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 5,
+  draft_candidates: 5,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=psychology | chapter=Variations in Psychological Attributes | target=5 | generated_count=5 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=5 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [ '734a7fc7-daac-4aa6-b4fa-fb5de47db415' ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '734a7fc7-daac-4aa6-b4fa-fb5de47db415',
+  actual_subject: 'psychology',
+  actual_chapter: 'Therapeutic Approaches',
+  status: 'queued',
+  priority: 75,
+  original_priority: 90,
+  question_count: 11,
+  subject_question_count: 119,
+  created_at: '2026-04-30T22:11:30.909131+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'psychology',
+  chapter: 'Therapeutic Approaches',
+  count: 11,
+  priority: 75
+}
+[worker] coverage-based selection: { subject: 'psychology', chapter: 'Therapeutic Approaches', count: 11 }
+
+[JOB 734a7fc7] Starting: [psychology] Therapeutic Approaches
+[worker] RECEIVED_JOB: {
+  job_id: '734a7fc7-daac-4aa6-b4fa-fb5de47db415',
+  expected_subject: 'psychology',
+  expected_chapter: 'Therapeutic Approaches',
+  raw_subject_id: 'psychology',
+  raw_chapter: 'Therapeutic Approaches',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-04-30T22:11:30.909131+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '734a7fc7-daac-4aa6-b4fa-fb5de47db415',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  chapter: 'Therapeutic Approaches',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=11 existing questions loaded
+[generation] batch adjusted: { chapter: 'Therapeutic Approaches', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '734a7fc7-daac-4aa6-b4fa-fb5de47db415',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  expected_chapter: 'Therapeutic Approaches',
+  canonical_unit: 'Therapeutic Approaches',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Therapeutic Approaches" unit="Therapeutic Approaches" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'psychology',
+  prompt_subject_name: 'Psychology',
+  expected_chapter: 'Therapeutic Approaches',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'psychology',
+  expected_chapter: 'Therapeutic Approaches',
+  canonical_unit: 'Therapeutic Approaches',
+  concept_id: 'psychology::therapeutic_approaches',
+  pyq_anchor_id: 'structure_only_structured_psychology_self_and_personality_1_for_psychology::therapeutic_approaches',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'psychology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'psychology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 19527,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'psychology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: Cognitive Behavioral Therapy (CBT) focuses on changing negative thought patterns. Statement II: CBT is only effective for anxiety disorders. Statement III: The therapeutic alliance is important in all psychotherapeutic approaches. ","o":["I and III only","I and II only","II and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"psychology::therapeutic_approaches","trap_option":"B","strong_distractors":["B","C"],"why_not_textbook":"Focuses on application of therapeutic approaches rather than definitions.","why_cuet_level":"Requires understanding of CBT and its applications.","distractor_rationale":{"A":"Both statements are valid; CBT does focus on thoughts and the therapeutic alliance is crucial.","B":"CBT is not limited to anxiety disorders; it applies to various conditions, making this statement incorrect.","C":"While the therapeutic alliance is important, it does not imply that CBT is ineffective without it, creating a misleading interpretation.","D":"Statement II incorrectly limits the effectiveness of CBT, highlighting a misunderstanding of its broader applications."}},{"q":"Assertion: Humanistic therapy emphasizes personal growth and self-actualization. Reason: This approach treats individuals as inherently good and capable of change.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason implies a deterministic view of human nature.","Assertion is false, but Reason correctly describes humanistic therapy."],"a":"A","question_type":"assertion_reason","concept_id":"psychology::therapeutic_approaches","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Encourages critical thinking about therapeutic approaches instead of simple recall.","why_cuet_level":"Tests comprehension of humanistic therapy principles.","distractor_rationale":{"A":"The reason supports the assertion by explaining the foundational beliefs of humanistic therapy.","B":"The reason does explain the assertion, making this option incorrect as both are true and connected.","C":"This option misrepresents humanistic therapy by suggesting a deterministic view, which contradicts its core principles.","D":"While the reason is accurate, asserting the falsity of the assertion misrepresents humanistic values."}},{"q":"A therapist believes that behavior can be modified by changing environmental factors. Which therapeutic approach does this belief most closely align with? Read the statements and choose the correct option: Statement I: Behavioral therapy focuses on observable behavior modification. Statement II: Cognitive therapy emphasizes internal thought processes over behavior. Statement III: Environmental influences play a minor role in behavior according to behavioral therapy.","o":["I only","I and II only","II and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"psychology::therapeutic_approaches","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Focuses on understanding behavioral modification through environmental context rather than definitions.","why_cuet_level":"Evaluates understanding of behavioral versus cognitive approaches.","distractor_rationale":{"A":"Statement I accurately describes behavioral therapy's focus on observable behavior changes influenced by environment.","B":"Cognitive therapy does emphasize thought processes but does not negate behavioral approaches, making this option misleading.","C":"Behavioral therapy fundamentally recognizes environmental influences as crucial, rendering this statement incorrect.","D":"Not all statements can be true simultaneously; thus this option misrepresents their relationships."}},{"q":"Assertion: Psychodynamic therapy primarily addresses unconscious conflicts influencing behavior. Reason: This approach dismisses early childhood experiences as irrelevant to adult issues.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason incorrectly simplifies psychodynamic therapy's focus on childhood experiences.","Assertion is false, but Reason correctly identifies a flaw in psychodynamic theory."],"a":"C","question_type":"assertion_reason","concept_id":"psychology::therapeutic_approaches","trap_option":"D","strong_distractors":["A","B"],"why_not_textbook":"Challenges misconceptions regarding psychodynamic principles rather than recalling definitions or direct content.","why_cuet_level":"Tests deeper understanding of psychodynamic theory's emphasis on childhood experiences.","distractor_rationale":{"A":"The reason incorrectly states that early experiences are dismissed; they are actually central to psychodynamic theory's understanding of adult behavior.","B":"Although both statements are true independently, they do not connect properly in terms of explanation leading to this being an incorrect choice.","C":"Correctly identifies that while assertion is true, reason contradicts core psychodynamic principles regarding childhood influence on behavior.","D":"This option mischaracterizes both statements as false when one is indeed valid."}},{"q":"Read the statements and choose the correct option: Statement I: Group therapy fosters social support among participants. Statement II: Group therapy lacks effectiveness for individual issues compared to one-on-one sessions. Statement III: Participants in group therapy can learn from each other's experiences which enhances personal growth. ","o":["I and III only","I and II only","II and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"psychology::therapeutic_approaches","trap_option":"B","strong_distractors":["B","C"],"why_not_textbook":"Emphasizes practical implications of group dynamics over rote definitions or generalizations about effectiveness.","why_cuet_level":"Assesses understanding of group therapy dynamics compared to individual approaches.","distractor_rationale":{"A":"Both statements I and III reflect key advantages of group therapy in fostering support and learning among members.","B":"Group therapy can be effective for many individual issues; thus limiting its effectiveness creates a misunderstanding of its purpose.","C":"While individual experiences matter in group settings, stating that learning from others enhances personal growth makes statement III valid too; hence this choice fails.","D":""}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=4
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 4
+[pipeline] generated_count=4 | mix=easy=0, medium=4, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 4
+[pipeline] after_chapter_filter=4 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=4 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 4,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 4
+}
+[draft] Saved b15c410d-d4cd-4002-a83f-7794c54cf232 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 406b2695-4716-4fd1-8200-f1f3efc4fc8e | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 39f589c1-7a6c-496d-bdf9-6df12c2f6248 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved a3adc43b-2fc9-4cff-be30-f74fea3f019c | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 4,
+  draft_candidates: 4,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=psychology | chapter=Therapeutic Approaches | target=5 | generated_count=4 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=4 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...

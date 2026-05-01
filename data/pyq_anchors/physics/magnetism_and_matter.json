@@ -1,0 +1,16 @@
+{
+  "subject": "physics",
+  "chapter": "Magnetism & Matter",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "Read the statements and choose the correct option. Statement I: A bar magnet has no isolated magnetic pole. Statement II: Magnetic field lines form closed curves. Statement III: A diamagnetic material is strongly attracted by an external magnetic field.",
+      "options": ["I and II only", "II and III only", "I and III only", "I, II and III"],
+      "correct_answer": "A",
+      "pattern_tags": ["statement-based", "elimination", "ncert-specific", "trap-option"],
+      "difficulty": "medium",
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

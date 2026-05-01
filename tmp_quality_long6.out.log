@@ -1,0 +1,1179 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5959 concepts across 40 subjects (saved 2026-04-30T20:22:12.063Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Data Structures',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Python Revision',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Economic Reforms Since 1991',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Indian Economy on the Eve of Independence',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'political_science',
+  chapter: 'Alternative Centres of Power',
+  coverage: 8,
+  priority: 90
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: business_studies → normalized: business_studies → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: economics → normalized: economics → tier: 1
+Subject: economics → normalized: economics → tier: 1
+Subject: english → normalized: english → tier: 1
+Subject: political_science → normalized: political_science → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'business_studies',
+    expected_chapter: 'Staffing',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Coordination Compounds',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Isolation of Elements',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Computer Networks',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Data Structures',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Python Revision',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Economic Reforms Since 1991',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Indian Economy on the Eve of Independence',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'political_science',
+    expected_chapter: 'Alternative Centres of Power',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'business_studies',
+    chapter: 'Staffing',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'Coordination Compounds',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'Isolation of Elements',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Computer Networks',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Data Structures',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Python Revision',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'economics',
+    chapter: 'Economic Reforms Since 1991',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'economics',
+    chapter: 'Indian Economy on the Eve of Independence',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'political_science',
+    chapter: 'Alternative Centres of Power',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: '8a6cee4e-f483-4266-bf01-4ccff5ae9555',
+    subject_id: 'business_studies',
+    chapter: 'Staffing',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:43:42.927465+00:00'
+  },
+  {
+    id: 'a86b4f4d-1b23-428f-9a14-7a4c5a85c583',
+    subject_id: 'chemistry',
+    chapter: 'Coordination Compounds',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:43:42.927465+00:00'
+  },
+  {
+    id: 'a7129ae3-4882-4060-9ccf-c3176a50342e',
+    subject_id: 'chemistry',
+    chapter: 'Isolation of Elements',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:43:42.927465+00:00'
+  },
+  {
+    id: '2442556c-6cb0-4b56-86ae-311019e54fbc',
+    subject_id: 'computer_science',
+    chapter: 'Computer Networks',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:43:42.927465+00:00'
+  },
+  {
+    id: '5a4b9cc2-353e-4cf6-85d6-4110162a3b25',
+    subject_id: 'computer_science',
+    chapter: 'Data Structures',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:43:42.927465+00:00'
+  },
+  {
+    id: '459ef96c-8fc2-4c8d-bf56-0ee2f540372d',
+    subject_id: 'computer_science',
+    chapter: 'Python Revision',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:43:42.927465+00:00'
+  },
+  {
+    id: '089d9827-2f94-4082-81e1-08841fda8c34',
+    subject_id: 'economics',
+    chapter: 'Economic Reforms Since 1991',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:43:42.927465+00:00'
+  },
+  {
+    id: '3ddae436-5dcc-4f77-a5fe-c5b2e8e4d038',
+    subject_id: 'economics',
+    chapter: 'Indian Economy on the Eve of Independence',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:43:42.927465+00:00'
+  },
+  {
+    id: '243be324-7a62-4d61-92ae-a42fbdb77a7c',
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:43:42.927465+00:00'
+  },
+  {
+    id: '3c98c358-eba1-4a13-8f4c-e59762cdad96',
+    subject_id: 'political_science',
+    chapter: 'Alternative Centres of Power',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:43:42.927465+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: '8a6cee4e-f483-4266-bf01-4ccff5ae9555',
+    expected_subject: 'business_studies',
+    expected_chapter: 'Staffing',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'a86b4f4d-1b23-428f-9a14-7a4c5a85c583',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Coordination Compounds',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'a7129ae3-4882-4060-9ccf-c3176a50342e',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Isolation of Elements',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '2442556c-6cb0-4b56-86ae-311019e54fbc',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Computer Networks',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '5a4b9cc2-353e-4cf6-85d6-4110162a3b25',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Data Structures',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '459ef96c-8fc2-4c8d-bf56-0ee2f540372d',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Python Revision',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '089d9827-2f94-4082-81e1-08841fda8c34',
+    expected_subject: 'economics',
+    expected_chapter: 'Economic Reforms Since 1991',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '3ddae436-5dcc-4f77-a5fe-c5b2e8e4d038',
+    expected_subject: 'economics',
+    expected_chapter: 'Indian Economy on the Eve of Independence',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '243be324-7a62-4d61-92ae-a42fbdb77a7c',
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '3c98c358-eba1-4a13-8f4c-e59762cdad96',
+    expected_subject: 'political_science',
+    expected_chapter: 'Alternative Centres of Power',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '8a6cee4e-f483-4266-bf01-4ccff5ae9555',
+    'a86b4f4d-1b23-428f-9a14-7a4c5a85c583',
+    'a7129ae3-4882-4060-9ccf-c3176a50342e',
+    '2442556c-6cb0-4b56-86ae-311019e54fbc',
+    '5a4b9cc2-353e-4cf6-85d6-4110162a3b25',
+    '459ef96c-8fc2-4c8d-bf56-0ee2f540372d',
+    '089d9827-2f94-4082-81e1-08841fda8c34',
+    '3ddae436-5dcc-4f77-a5fe-c5b2e8e4d038',
+    '243be324-7a62-4d61-92ae-a42fbdb77a7c',
+    '3c98c358-eba1-4a13-8f4c-e59762cdad96'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '089d9827-2f94-4082-81e1-08841fda8c34',
+  actual_subject: 'economics',
+  actual_chapter: 'Economic Reforms Since 1991',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 306,
+  created_at: '2026-04-30T21:43:42.927465+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'economics',
+  chapter: 'Economic Reforms Since 1991',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'economics',
+  chapter: 'Economic Reforms Since 1991',
+  count: 8
+}
+
+[JOB 089d9827] Starting: [economics] Economic Reforms Since 1991
+[worker] RECEIVED_JOB: {
+  job_id: '089d9827-2f94-4082-81e1-08841fda8c34',
+  expected_subject: 'economics',
+  expected_chapter: 'Economic Reforms Since 1991',
+  raw_subject_id: 'economics',
+  raw_chapter: 'Economic Reforms Since 1991',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:43:42.927465+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '089d9827-2f94-4082-81e1-08841fda8c34',
+  expected_subject: 'economics',
+  resolved_subject_id: 'economics',
+  resolved_subject_name: 'Economics / Business Economics',
+  chapter: 'Economic Reforms Since 1991',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Economic Reforms Since 1991', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '089d9827-2f94-4082-81e1-08841fda8c34',
+  expected_subject: 'economics',
+  resolved_subject_id: 'economics',
+  resolved_subject_name: 'Economics / Business Economics',
+  expected_chapter: 'Economic Reforms Since 1991',
+  canonical_unit: 'Indian Economic Development',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Economic Reforms Since 1991" unit="Indian Economic Development" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'economics',
+  prompt_subject_name: 'Economics / Business Economics',
+  expected_chapter: 'Economic Reforms Since 1991',
+  requested_count: 5,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::economic_reforms_since_1991',
+  selected_anchor_id: 'structured_economics_economic_reforms_since_1991_1',
+  selected_anchor_concept_id: 'economics::economic_reforms_since_1991',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'case_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'economics',
+  expected_chapter: 'Economic Reforms Since 1991',
+  canonical_unit: 'Indian Economic Development',
+  concept_id: 'economics::economic_reforms_since_1991',
+  pyq_anchor_id: 'structured_economics_economic_reforms_since_1991_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'economics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'economics',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 19058,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'economics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"A student claims that the economic reforms of 1991 solely focused on liberalisation. Which statement best evaluates this claim?","o":["The reforms included significant elements of both liberalisation and privatisation.","The reforms were mainly about reducing tariffs and not about ownership changes.","The reforms primarily aimed at enhancing public sector efficiency through deregulation.","The reforms treated globalisation as a secondary factor in the economic strategy."],"a":"A","question_type":"statement_based","concept_id":"economics::economic_reforms_since_1991","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question assesses understanding beyond basic definitions, focusing on the integration of multiple reform aspects.","why_cuet_level":"Encourages analysis of reform components and their interrelations.","distractor_rationale":{"A":"Correctly identifies the dual focus of the reforms.","B":"Incorrect, as it overlooks privatisation's role in the reforms.","C":"Incorrect because it suggests a narrow view of reform goals.","D":"Incorrect, as it misrepresents the importance of globalisation."}},{"q":"Assertion: The 1991 reforms aimed to integrate India into the global economy. Reason: Liberalisation was the only strategy employed for this integration.","o":["Both Assertion and Reason are correct, and Reason is a valid explanation for Assertion.","Assertion is correct, but Reason is incorrect because multiple strategies were used.","Assertion is incorrect while Reason is correct due to the emphasis on trade barriers.","Both Assertion and Reason are incorrect regarding the objectives of the reforms."],"a":"B","question_type":"assertion_reason","concept_id":"economics::economic_reforms_since_1991","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"This question challenges students to differentiate between concepts and evaluate their relationships critically.","why_cuet_level":"Tests understanding of reform strategies and their implications in context.","distractor_rationale":{"A":"Incorrect as it assumes a singular strategy was sufficient for integration.","B":"Correctly identifies the use of multiple strategies in integration efforts.","C":"Incorrect because it misrepresents the focus on trade barriers alone.","D":"Incorrect since it dismisses the validity of the assertion."}},{"q":"In discussing India's economic growth post-1991, a learner states that foreign investments were not a significant factor. Which option best counters this claim?","o":["Foreign investments provided essential capital that stimulated various sectors of the economy.","The growth was primarily driven by domestic enterprises without external influence.","Foreign investments were only relevant in technology sectors, not in manufacturing or services.","Post-reform growth relied heavily on government spending rather than private investment."],"a":"A","question_type":"case_based","concept_id":"economics::economic_reforms_since_1991","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question examines misconceptions about investment impacts on economic growth post-reforms.","why_cuet_level":"Encourages evaluation of evidence regarding growth factors in a real-world scenario.","distractor_rationale":{"A":"Correctly highlights the role of foreign investments in diverse sectors.","B":"Incorrect as it ignores the crucial role of foreign capital in stimulating growth.","C":"Incorrect because it inaccurately limits foreign investment relevance to specific sectors.","D":"Incorrect since it overlooks private investment's contribution to growth."}},{"q":"Statement I: Economic reforms led to an increase in competition among Indian industries. Statement II: These reforms resulted in reduced consumer choices. Evaluate these statements based on their validity.","o":["Both statements are valid; increased competition inherently reduces choices for consumers.","Statement I is valid, but Statement II is invalid because competition typically increases choices for consumers.","Statement I is invalid while Statement II is valid due to market restrictions post-reform.","Both statements are invalid as reforms had no impact on competition or consumer choices."],"a":"B","question_type":"comparison_based","concept_id":"economics::economic_reforms_since_1991","trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"This question challenges students to assess the outcomes of reforms critically rather than recalling definitions or facts.","why_cuet_level":"Promotes critical thinking about economic outcomes and their implications for consumers and industries.","distractor_rationale":{"A":"Incorrect as it misinterprets competition's effect on consumer choice.","B":"Correctly identifies the positive correlation between competition and consumer options.","C":"Incorrect since it falsely claims that competition diminishes market options entirely.","D":"Incorrect as it dismisses any impact from reforms altogether."}},{"q":"An economist argues that deregulation post-1991 was sufficient for sustained economic growth. Which option best critiques this viewpoint?","o":["While deregulation played a crucial role, sustained growth also depended significantly on structural changes and foreign investments.","Deregulation alone can lead to unstable markets without proper regulatory frameworks in place.","Sustained growth was mainly due to increased public sector investments rather than deregulation efforts.","Deregulation should be viewed as a temporary measure rather than a long-term solution for growth."],"a":"A","question_type":"statement_based","concept_id":"economics::economic_reforms_since_1991","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question requires analysis of various factors contributing to economic growth beyond deregulation alone, promoting deeper understanding of interconnected influences.","why_cuet_level":"Encourages critical evaluation of simplistic economic arguments regarding policy impacts.","distractor_rationale":{"A":"Correctly acknowledges multiple factors contributing to sustained growth beyond deregulation alone.","B":"Incorrect as it presents deregulation as entirely negative without considering its benefits alongside other factors.","C":"Incorrect because it misattributes sustained growth solely to public sector investment without recognizing other influences.","D":"Incorrect since it reduces deregulation's significance without acknowledging its role in broader reform."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=2
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 2
+[pipeline] generated_count=2 | mix=easy=0, medium=2, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 2
+[pipeline] after_chapter_filter=2 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=2 | sent_for_strict_validation=2 | validator_load_reduction=0.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [
+    'structured_economics_economic_reforms_since_1991_1',
+    'structured_economics_economic_reforms_since_1991_1'
+  ],
+  anchor_source_quality: [ 'manual_seed', 'manual_seed' ],
+  fallback_used: false,
+  selfcheck_passed: 2,
+  sent_to_validator: 2
+}
+[pipeline] Starting batch validation for 2 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=2
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T21:44:03.387Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"economics","questionCount":2}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'economics',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'economics',
+  stage: 'batch_validation',
+  status: 'rate_limit',
+  retry_count: 0,
+  duration: 1029,
+  error: '[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. '
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'economics',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] batch_validation_start | model=gemini-2-flash | resolved_model=gemini-2.0-flash-001 | count=2
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T21:44:04.419Z","model":"gemini-2-flash","resolvedModel":"gemini-2.0-flash-001","subject":"economics","questionCount":2}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-2.0-flash-001',
+  subject: 'economics',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-2.0-flash-001',
+  subject: 'economics',
+  stage: 'batch_validation',
+  status: 'rate_limit',
+  retry_count: 0,
+  duration: 412,
+  error: '[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. '
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-2.0-flash-001',
+  subject: 'economics',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[draft] Saved 268f8e15-9040-4d5b-a1a4-2e495bd494d9 | reason=validator_unavailable:[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+[draft] Saved 1b4da6fc-32f4-4b41-a8c1-6b994018ac38 | reason=validator_unavailable:[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 2,
+  draft_candidates: 2,
+  publish_count: 0,
+  reason: 'validator_unavailable'
+}
+[pipeline] SUMMARY | subject=economics | chapter=Economic Reforms Since 1991 | target=5 | generated_count=2 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=2 | validated_count=0 | accepted_count=0 | draft_count=2 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=2
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '8a6cee4e-f483-4266-bf01-4ccff5ae9555',
+    'a86b4f4d-1b23-428f-9a14-7a4c5a85c583',
+    'a7129ae3-4882-4060-9ccf-c3176a50342e',
+    '2442556c-6cb0-4b56-86ae-311019e54fbc',
+    '5a4b9cc2-353e-4cf6-85d6-4110162a3b25',
+    '459ef96c-8fc2-4c8d-bf56-0ee2f540372d',
+    '3ddae436-5dcc-4f77-a5fe-c5b2e8e4d038',
+    '243be324-7a62-4d61-92ae-a42fbdb77a7c',
+    '3c98c358-eba1-4a13-8f4c-e59762cdad96'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '243be324-7a62-4d61-92ae-a42fbdb77a7c',
+  actual_subject: 'english',
+  actual_chapter: 'Narrative Passage',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 128,
+  created_at: '2026-04-30T21:43:42.927465+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'english', chapter: 'Narrative Passage', count: 8 }
+
+[JOB 243be324] Starting: [english] Narrative Passage
+[worker] RECEIVED_JOB: {
+  job_id: '243be324-7a62-4d61-92ae-a42fbdb77a7c',
+  expected_subject: 'english',
+  expected_chapter: 'Narrative Passage',
+  raw_subject_id: 'english',
+  raw_chapter: 'Narrative Passage',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:43:42.927465+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '243be324-7a62-4d61-92ae-a42fbdb77a7c',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  chapter: 'Narrative Passage',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Narrative Passage', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '243be324-7a62-4d61-92ae-a42fbdb77a7c',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  expected_chapter: 'Narrative Passage',
+  canonical_unit: 'Reading Comprehension',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Narrative Passage" unit="Reading Comprehension" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'English',
+  expected_chapter: 'Narrative Passage',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'english',
+  expected_chapter: 'Narrative Passage',
+  canonical_unit: 'Reading Comprehension',
+  concept_id: 'english::narrative_passage',
+  pyq_anchor_id: 'structure_only_seed_pyq_en3_for_english::narrative_passage',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 3,
+  batch_size: 5,
+  pyq_style_patterns: [ 'reading_comprehension', 'vocabulary', 'correct_word_usage' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 19807,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"A character's journey often reveals deeper themes. If a character overcomes personal struggles, it suggests they grow. However, if the focus shifts solely to external conflicts, it might indicate a lack of character development. Which of the following best supports this assertion?","o":["The character's growth is evident through their interactions with others.","The external conflicts distract from the internal struggles, which are crucial for development.","Focusing on external conflicts enhances the plot without affecting character depth.","Internal struggles are secondary to the storyline."],"a":"B","question_type":"assertion_reason","concept_id":"english::narrative_passage","trap_option":"D","strong_distractors":["A","C"],"why_not_textbook":"This question encourages critical thinking about character development versus plot focus.","why_cuet_level":"This aligns with CUET's emphasis on analysis and inference in narrative texts.","distractor_rationale":{"A":"While interactions can show growth, they may not be central to character development.","B":"Correct; it highlights how external conflicts can overshadow internal growth.","C":"Enhancing the plot does not guarantee deeper character exploration.","D":"This option overlooks the importance of internal struggles."}},{"q":"In a narrative, symbolism can convey themes effectively. If a recurring object represents hope, but in one instance it represents despair, how should this be interpreted?","o":["The object serves as a versatile symbol that adapts to context.","It indicates inconsistency in the narrative’s message regarding hope.","Symbolism is fixed and should not change meaning throughout the story.","Contextual shifts in symbolism enrich the narrative complexity."],"a":"A","question_type":"comparison_based","concept_id":"english::narrative_passage","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question requires analysis of symbolism in varying contexts rather than definitions.","why_cuet_level":"It tests understanding of complex literary devices and their implications.","distractor_rationale":{"A":"Correct; symbols can have multiple meanings based on context.","B":"This interpretation overlooks the nuances of symbolic representation.","C":"Symbols often evolve in literature, making this interpretation too rigid.","D":"While contextual shifts are significant, they must also align with overall themes."}},{"q":"When evaluating a story’s climax, one might argue it is where tension peaks. However, if characters resolve their issues too quickly afterward, it may undermine this tension. What conclusion can be drawn from this perspective?","o":["The climax must lead to a prolonged resolution to maintain tension.","Quick resolutions can enhance surprise but may reduce dramatic impact.","Tension can fluctuate even after the climax without damaging the narrative flow.","A well-structured climax ensures lasting tension until the end."],"a":"C","question_type":"statement_based","concept_id":"english::narrative_passage","trap_option":"A","strong_distractors":["B","D"],"why_not_textbook":"This question examines narrative structure rather than providing straightforward definitions or examples.","why_cuet_level":"It challenges students to think critically about narrative techniques and their effects.","distractor_rationale":{"A":"While prolonged resolution may maintain tension, it's not always necessary for effectiveness.","B":"Quick resolutions can indeed surprise readers but need careful execution to avoid confusion.","C":"Correct; narratives can play with tension dynamics post-climax effectively.","D":"Not every climax requires sustained tension; some narratives thrive on varied pacing."}},{"q":"In narratives, foreshadowing hints at future events. If an author uses subtle hints about betrayal but later reveals it differently than expected, what does this suggest about the author's technique?","o":["The author employs misdirection to enhance surprise and engagement.","Subtle hints are ineffective unless they lead directly to expected outcomes.","Foreshadowing is only impactful when outcomes are predictable and clear-cut.","Misdirection in foreshadowing can confuse readers about underlying themes."],"a":"A","question_type":"application_based","concept_id":"english::narrative_passage","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The question explores authorial intent and technique rather than just definitions of terms or concepts.","why_cuet_level":"It assesses comprehension of literary techniques and their implications for reader experience.","distractor_rationale":{"A":"Correct; engaging readers through unexpected twists is a valid technique in storytelling.","B":"Hints can serve various purposes beyond leading to predictable outcomes; this view is narrow-minded.","C":"Foreshadowing often thrives on ambiguity and surprises rather than strict predictability.","D":"While misdirection can confuse, it also serves artistic purposes that enrich narratives."}},{"q":"When analyzing a character's motivations, one might consider their background. If a character's decisions appear inconsistent with their past experiences, what could this indicate about their development?","o":["The character may have undergone significant changes that justify new behaviors.","Inconsistencies suggest poor writing and lack of depth in characterization.","Character development should always align with past experiences for credibility.","Backgrounds are irrelevant if the plot drives character decisions."],"a":"A","question_type":"case_based","concept_id":"english::narrative_passage","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question prompts evaluation of character consistency versus narrative evolution instead of mere definitions or labels.","why_cuet_level":"It encourages deeper analysis of character arcs and motivations within narratives.","distractor_rationale":{"A":"Correct; significant changes can lead to new motivations that diverge from previous patterns.","B":"Poor writing is too simplistic an explanation for complex character changes or growth paths.","C":"Character development can indeed diverge from background due to various narrative factors; this view is limiting.","D":"Background influences decisions but should not restrict character evolution entirely."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[english-classification] {
+  question_id: 'concept_1',
+  detected_type: 'Narrative Passage',
+  confidence: 0.4
+}
+[english-classification] {
+  question_id: 'concept_2',
+  detected_type: 'Narrative Passage',
+  confidence: 0.4
+}
+[english-classification] {
+  question_id: 'concept_3',
+  detected_type: 'Narrative Passage',
+  confidence: 0.4
+}
+[english-classification] {
+  question_id: 'concept_4',
+  detected_type: 'Narrative Passage',
+  confidence: 0.4
+}
+[english-classification] {
+  question_id: 'concept_5',
+  detected_type: 'Narrative Passage',
+  confidence: 0.4
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '8a6cee4e-f483-4266-bf01-4ccff5ae9555',
+    'a86b4f4d-1b23-428f-9a14-7a4c5a85c583',
+    'a7129ae3-4882-4060-9ccf-c3176a50342e',
+    '2442556c-6cb0-4b56-86ae-311019e54fbc',
+    '5a4b9cc2-353e-4cf6-85d6-4110162a3b25',
+    '459ef96c-8fc2-4c8d-bf56-0ee2f540372d',
+    '3ddae436-5dcc-4f77-a5fe-c5b2e8e4d038',
+    '3c98c358-eba1-4a13-8f4c-e59762cdad96'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '2442556c-6cb0-4b56-86ae-311019e54fbc',
+  actual_subject: 'computer_science',
+  actual_chapter: 'Computer Networks',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 340,
+  created_at: '2026-04-30T21:43:42.927465+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'computer_science', chapter: 'Computer Networks', count: 8 }
+
+[JOB 2442556c] Starting: [computer_science] Computer Networks
+[worker] RECEIVED_JOB: {
+  job_id: '2442556c-6cb0-4b56-86ae-311019e54fbc',
+  expected_subject: 'computer_science',
+  expected_chapter: 'Computer Networks',
+  raw_subject_id: 'computer_science',
+  raw_chapter: 'Computer Networks',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:43:42.927465+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '2442556c-6cb0-4b56-86ae-311019e54fbc',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  chapter: 'Computer Networks',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Computer Networks', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '2442556c-6cb0-4b56-86ae-311019e54fbc',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Computer Networks',
+  canonical_unit: 'Section A: Database and Networks',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Computer Networks" unit="Section A: Database and Networks" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'computer_science',
+  prompt_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Computer Networks',
+  requested_count: 5,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::computer_networks',
+  selected_anchor_id: 'structured_computer_science_computer_networks_1',
+  selected_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'case_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'computer_science',
+  expected_chapter: 'Computer Networks',
+  canonical_unit: 'Section A: Database and Networks',
+  concept_id: 'computer_science::computer_networks',
+  pyq_anchor_id: 'structured_computer_science_computer_networks_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 23595,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"A student claims that a switch and a router perform the same function in a network. Which option best evaluates this claim?","o":["The student is correct because both devices manage data traffic within networks.","The student is incorrect because a switch operates at the data link layer while a router works at the network layer.","The student is partially correct as both can connect devices but differ in their primary roles.","The student is wrong since routers are only used for internet access, while switches are solely for local connections."],"a":"B","question_type":"statement_based","concept_id":"computer_science::computer_networks","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"This question avoids direct definitions and requires understanding of networking roles.","why_cuet_level":"This question aligns with CUET's focus on application and understanding of concepts, not mere recall.","distractor_rationale":{"A":"This option overlooks the distinct functions of each device in data communication.","B":"Correct, as it highlights the fundamental differences in operation layers between devices.","C":"This option misrepresents the roles by suggesting they have similar functions under all contexts.","D":"This statement inaccurately restricts the use of routers and switches to specific scenarios."}},{"q":"Statement I: A network bridge can connect two different network segments. Statement II: A hub can intelligently forward data to specific devices. What can be inferred about these statements?","o":["Both statements are valid as they describe different methods of connecting networks.","Statement I is valid, but Statement II is invalid because hubs broadcast data without filtering.","Both statements are invalid as bridges cannot connect different types of networks.","Statement I is invalid, while Statement II is valid since hubs operate based on MAC addresses."],"a":"A","question_type":"assertion_reason","concept_id":"computer_science::computer_networks","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The question prompts evaluation of functionality rather than definitions or direct identification.","why_cuet_level":"It tests understanding through reasoning about network devices, suitable for CUET standards.","distractor_rationale":{"A":"Correct, as it accurately distinguishes between the functions of bridges and hubs.","B":"This option incorrectly states that hubs cannot forward data intelligently, which misrepresents their function.","C":"This statement misunderstands the operational capabilities of bridges regarding network types.","D":"This option falsely attributes functionalities to hubs that do not align with their actual behavior."}},{"q":"A teacher states that IP addressing is sufficient for ensuring data integrity during transmission. Which response best critiques this assertion?","o":["The teacher's statement is valid; IP addresses ensure packets reach their destination correctly.","The teacher's assertion ignores the role of protocols like TCP in providing reliability during transmission.","The teacher's view is partially correct as IP addresses help but do not guarantee integrity alone.","The teacher's claim is invalid; no addressing scheme can ever ensure data integrity."],"a":"B","question_type":"statement_based","concept_id":"computer_science::computer_networks","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"This format encourages critical thinking about network protocols rather than rote memorization.","why_cuet_level":"It reflects CUET's emphasis on evaluating claims within computer networking principles.","distractor_rationale":{"A":"This option fails to consider the need for additional protocols to ensure reliable delivery beyond addressing.","B":"Correct, as it emphasizes TCP's essential role in ensuring data integrity during transmission processes.","C":"While partially true, it does not fully address the importance of TCP alongside IP for reliability.","D":"This extreme view dismisses all addressing schemes without considering their actual purpose."}},{"q":"In a scenario where multiple devices share bandwidth, a student claims that this setup guarantees equal distribution among them. Which evaluation best addresses this claim?","o":["The student's claim is accurate; all devices receive an equal share regardless of usage patterns.","The student's assertion overlooks that bandwidth allocation often depends on device priority and usage conditions.","The student is partially correct since some protocols may aim for equitable sharing under certain conditions.","The student's view fails because bandwidth distribution does not depend on device configuration."],"a":"B","question_type":"case_based","concept_id":"computer_science::computer_networks","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"This question examines misconceptions about bandwidth sharing rather than asking for definitions or direct facts.","why_cuet_level":"Aligns with CUET’s focus on practical applications and critical evaluations in computer networking contexts.","distractor_rationale":{"A":"This option incorrectly assumes uniform distribution irrespective of device behavior or protocol used.","B":"Correct, highlighting that actual distribution can vary based on specific conditions and configurations involved.","C":"While partially true, it does not capture the full complexity of how bandwidth could be allocated differently based on context.","D":"This response misinterprets how device configurations influence bandwidth sharing."}},{"q":"Statement I: Firewalls protect networks by filtering incoming traffic based on predefined rules. Statement II: All firewalls are equally effective against all types of cyber threats. How should these statements be assessed?","o":["Both statements are true since firewalls inherently protect against threats regardless of type or configuration.","Statement I holds true; however, Statement II is misleading as firewall effectiveness varies by design and context.","Both statements are false since firewalls do not filter traffic effectively under any circumstances.","Statement I is invalid while Statement II is valid because firewalls can handle all security threats."],"a":"B","question_type":"comparison_based","concept_id":"computer_science::computer_networks","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"Encourages critical assessment of firewall functions rather than simple recollection of definitions or features.","why_cuet_level":"Fits within CUET’s objective to analyze cybersecurity measures through comparative reasoning and understanding implications.","distractor_rationale":{"A":"This option overlooks the variability in firewall capabilities across different threat landscapes and designs.","B":"Correct, as it accurately identifies the truth in Statement I while critiquing the generalization in Statement II.","C":"Both statements being false misrepresents the basic function and limitations of firewalls in practice.","D":"This option incorrectly asserts all firewalls handle threats uniformly without regard for their specific design features."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '8a6cee4e-f483-4266-bf01-4ccff5ae9555',
+    'a86b4f4d-1b23-428f-9a14-7a4c5a85c583',
+    'a7129ae3-4882-4060-9ccf-c3176a50342e',
+    '5a4b9cc2-353e-4cf6-85d6-4110162a3b25',
+    '459ef96c-8fc2-4c8d-bf56-0ee2f540372d',
+    '3ddae436-5dcc-4f77-a5fe-c5b2e8e4d038',
+    '3c98c358-eba1-4a13-8f4c-e59762cdad96'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '3c98c358-eba1-4a13-8f4c-e59762cdad96',
+  actual_subject: 'political_science',
+  actual_chapter: 'Alternative Centres of Power',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 237,
+  created_at: '2026-04-30T21:43:42.927465+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'political_science',
+  chapter: 'Alternative Centres of Power',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'political_science',
+  chapter: 'Alternative Centres of Power',
+  count: 8
+}
+
+[JOB 3c98c358] Starting: [political_science] Alternative Centres of Power
+[worker] RECEIVED_JOB: {
+  job_id: '3c98c358-eba1-4a13-8f4c-e59762cdad96',
+  expected_subject: 'political_science',
+  expected_chapter: 'Alternative Centres of Power',
+  raw_subject_id: 'political_science',
+  raw_chapter: 'Alternative Centres of Power',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:43:42.927465+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '3c98c358-eba1-4a13-8f4c-e59762cdad96',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  chapter: 'Alternative Centres of Power',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Alternative Centres of Power', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '3c98c358-eba1-4a13-8f4c-e59762cdad96',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  expected_chapter: 'Alternative Centres of Power',
+  canonical_unit: 'Contemporary World Politics',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Alternative Centres of Power" unit="Contemporary World Politics" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'political_science',
+  prompt_subject_name: 'Political Science',
+  expected_chapter: 'Alternative Centres of Power',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'political_science',
+  expected_chapter: 'Alternative Centres of Power',
+  canonical_unit: 'Contemporary World Politics',
+  concept_id: 'political_science::alternative_centres_of_power',
+  pyq_anchor_id: 'structure_only_structured_political_science_india_s_external_relations_2_for_political_science::alternative_centres_of_power',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 21693,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Statement I: The rise of regional powers has influenced global governance structures. Statement II: This influence is often overstated in analyses of international relations. Which evaluation is the most accurate?","o":["Statement I is correct, but Statement II overlooks the significant role of regional powers.","Both statements are correct because regional powers have minimal impact on global governance.","Statement I is incorrect as regional powers do not affect international relations significantly.","Statement II is correct as regional influences are often temporary and context-dependent."],"a":"A","question_type":"statement_based","concept_id":"political_science::alternative_centres_of_power","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The focus on regional powers requires nuanced understanding rather than generalizations.","why_cuet_level":"This question challenges students to critically assess statements rather than recall facts.","distractor_rationale":{"A":"Recognizes the importance of regional powers while critiquing the common perception.","B":"Fails to acknowledge the actual influence of regional powers in shaping policies.","C":"Assumes that regional powers are irrelevant, which ignores specific cases of influence.","D":"Suggests that context always diminishes their role, which is not universally true."}},{"q":"A scholar claims that globalization has diminished state sovereignty. Which correction best addresses this claim?","o":["Globalization can enhance state sovereignty by increasing economic interdependence.","Globalization has led to a reconfiguration of state power rather than its reduction.","Globalization solely undermines state sovereignty without any positive effects.","Globalization treats economic factors as the only determinants of sovereignty."],"a":"B","question_type":"assertion_reason","concept_id":"political_science::alternative_centres_of_power","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"This prompts analysis of globalization's multifaceted impact on state sovereignty.","why_cuet_level":"It encourages evaluation of complex relationships instead of simple cause-effect reasoning.","distractor_rationale":{"A":"Incorrectly simplifies the relationship between globalization and sovereignty.","B":"Correctly identifies that globalization can lead to changes in state dynamics.","C":"Suggests a one-sided view that overlooks potential benefits from globalization.","D":"Misrepresents the factors influencing sovereignty by narrowing it down."}},{"q":"Consider a case where a state collaborates with non-state actors for humanitarian purposes. How does this scenario challenge traditional notions of power?","o":["It suggests that state-centric views are outdated in addressing global issues.","It reinforces the idea that states are the only legitimate actors in international relations.","This collaboration indicates that power is exclusively held by non-state actors.","It implies that humanitarian actions should be managed solely by states."],"a":"A","question_type":"case_based","concept_id":"political_science::alternative_centres_of_power","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The case illustrates evolving power dynamics beyond conventional frameworks.","why_cuet_level":"It requires students to analyze real-world implications rather than theoretical concepts.","distractor_rationale":{"A":"Highlights the need to rethink traditional power structures in light of new collaborations.","B":"Fails to recognize the changing landscape where non-state actors play crucial roles.","C":"Overstates the dominance of non-state actors, neglecting state contributions to humanitarian efforts.","D":"Assumes states should monopolize humanitarian work, ignoring collaborative benefits."}},{"q":"A political analyst argues that international organizations have become more powerful than nation-states. Which response best evaluates this argument?","o":["International organizations enhance cooperation but do not replace state authority overall.","Their power varies significantly depending on member states' willingness to cooperate and comply.","They completely overshadow nation-states in all aspects of governance and policy-making.","International organizations treat all nation-states equally, which is often not the case."],"a":"B","question_type":"comparison_based","concept_id":"political_science::alternative_centres_of_power","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"This question assesses understanding of relative power dynamics between entities.","why_cuet_level":"It challenges students to weigh perspectives rather than accept a single narrative about power distribution.","distractor_rationale":{"A":"Acknowledges some influence but underestimates the complexities involved in state authority.","B":"Correctly identifies that organizational power is contingent on state engagement and context.","C":"Exaggerates the role of organizations while dismissing important limitations of their power.","D":"Misconstrues equality among nations, ignoring disparities in influence and capacity."}},{"q":"Statement I: The emergence of transnational networks has altered diplomatic practices. Statement II: These networks have no real impact on traditional diplomacy. Which assessment is most accurate?","o":["Statement I is correct, while Statement II disregards significant shifts in diplomatic engagement.","Both statements hold true as traditional diplomacy remains unchanged despite networks' presence.","Statement I is incorrect because transnational networks have limited relevance to diplomacy.","Statement II is correct since traditional methods still dominate diplomatic interactions."],"a":"A","question_type":"statement_based","concept_id":"political_science::alternative_centres_of_power","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Evaluating these statements requires critical thinking about modern diplomacy's evolution.","why_cuet_level":"This question tests students' ability to analyze contrasting views on diplomatic practices.","distractor_rationale":{"A":"Recognizes the transformative effect while critiquing misconceptions about traditional methods' stability.","B":"Overgeneralizes by suggesting no change has occurred due to new networks being active in diplomacy.","C":"Understates the relevance of transnational networks, missing their influence on diplomatic strategies and outcomes.","D":"Incorrectly asserts that traditional methods dominate entirely, ignoring adaptations made in response to new dynamics."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=1
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 1
+[pipeline] generated_count=1 | mix=easy=0, medium=1, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 1
+[pipeline] after_chapter_filter=1 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=1 | sent_for_strict_validation=1 | validator_load_reduction=0.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [
+    'structure_only_structured_political_science_india_s_external_relations_2_for_political_science::alternative_centres_of_power'
+  ],
+  anchor_source_quality: [ 'manual_seed' ],
+  fallback_used: false,
+  selfcheck_passed: 1,
+  sent_to_validator: 1
+}
+[pipeline] Starting batch validation for 1 ranked questions... (api_call=2)
+[draft] Saved 7867d00a-19d5-4ae2-bfd4-309785fa7337 | reason=validator_unavailable:all_validation_models_in_cooldown
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 1,
+  draft_candidates: 1,
+  publish_count: 0,
+  reason: 'validator_unavailable'
+}
+[pipeline] SUMMARY | subject=political_science | chapter=Alternative Centres of Power | target=5 | generated_count=1 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=1 | validated_count=0 | accepted_count=0 | draft_count=1 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=2
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '8a6cee4e-f483-4266-bf01-4ccff5ae9555',
+    'a86b4f4d-1b23-428f-9a14-7a4c5a85c583',
+    'a7129ae3-4882-4060-9ccf-c3176a50342e',
+    '5a4b9cc2-353e-4cf6-85d6-4110162a3b25',
+    '459ef96c-8fc2-4c8d-bf56-0ee2f540372d',
+    '3ddae436-5dcc-4f77-a5fe-c5b2e8e4d038'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '3ddae436-5dcc-4f77-a5fe-c5b2e8e4d038',
+  actual_subject: 'economics',
+  actual_chapter: 'Indian Economy on the Eve of Independence',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 308,
+  created_at: '2026-04-30T21:43:42.927465+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'economics',
+  chapter: 'Indian Economy on the Eve of Independence',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'economics',
+  chapter: 'Indian Economy on the Eve of Independence',
+  count: 8
+}
+
+[JOB 3ddae436] Starting: [economics] Indian Economy on the Eve of Independence
+[worker] RECEIVED_JOB: {
+  job_id: '3ddae436-5dcc-4f77-a5fe-c5b2e8e4d038',
+  expected_subject: 'economics',
+  expected_chapter: 'Indian Economy on the Eve of Independence',
+  raw_subject_id: 'economics',
+  raw_chapter: 'Indian Economy on the Eve of Independence',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:43:42.927465+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '3ddae436-5dcc-4f77-a5fe-c5b2e8e4d038',
+  expected_subject: 'economics',
+  resolved_subject_id: 'economics',
+  resolved_subject_name: 'Economics / Business Economics',
+  chapter: 'Indian Economy on the Eve of Independence',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: {
+  chapter: 'Indian Economy on the Eve of Independence',
+  generate_count: 5
+}
+[worker] GENERATION_INPUT: {
+  job_id: '3ddae436-5dcc-4f77-a5fe-c5b2e8e4d038',
+  expected_subject: 'economics',
+  resolved_subject_id: 'economics',
+  resolved_subject_name: 'Economics / Business Economics',
+  expected_chapter: 'Indian Economy on the Eve of Independence',
+  canonical_unit: 'Indian Economic Development',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Indian Economy on the Eve of Independence" unit="Indian Economic Development" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'economics',
+  prompt_subject_name: 'Economics / Business Economics',
+  expected_chapter: 'Indian Economy on the Eve of Independence',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'economics',
+  expected_chapter: 'Indian Economy on the Eve of Independence',
+  canonical_unit: 'Indian Economic Development',
+  concept_id: 'economics::indian_economy_on_the_eve_of_independence',
+  pyq_anchor_id: 'structure_only_structured_economics_economic_reforms_since_1991_1_for_economics::indian_economy_on_the_eve_of_independence',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'economics',
+  stage: 'generation_openai',
+  retry_count: 0
+}

@@ -1,0 +1,1671 @@
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The agricultural sector in colonial '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'economics',
+  chapter: 'Indian Economy on the Eve of Independence',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: The agricultural sector in colonial ',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: "Consider the following statements regarding India's economy before independence: Statement I: The ec"
+}
+[llm] question_rejected_internal_quality {
+  subject: 'economics',
+  chapter: 'Indian Economy on the Eve of Independence',
+  reason: 'question_too_long',
+  body: "Consider the following statements regarding India's economy before independence: Statement I: The ec",
+  index: 2
+}
+[llm] question_rejected_internal_quality {
+  subject: 'economics',
+  chapter: 'Indian Economy on the Eve of Independence',
+  reason: 'question_too_long',
+  body: "Read the statements about pre-independence India's economic structure: Statement I: The majority of ",
+  index: 4
+}
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 429,
+  statusText: 'Too Many Requests',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ",
+  "status": 429,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] batch_validation_failure gemini-3-flash (429)
+[llm] {"event":"batch_validation_failure","timestamp":"2026-04-30T23:04:56.078Z","model":"gemini-3-flash","reason":"rate_limit","message":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ","cooldownUntil":"2026-04-30T23:13:49.309Z"}
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 429,
+  statusText: 'Too Many Requests',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ",
+  "status": 429,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] batch_validation_failure gemini-2-flash (429)
+[llm] {"event":"batch_validation_failure","timestamp":"2026-04-30T23:04:56.551Z","model":"gemini-2-flash","reason":"rate_limit","message":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ","cooldownUntil":"2026-04-30T23:10:54.763Z"}
+[llm] {"event":"batch_validation_all_models_failed","timestamp":"2026-04-30T23:04:56.551Z","subject":"economics","questionCount":2,"lastError":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. "}
+[pipeline] Batch validation failed without retry: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. . Saving candidates as draft only; no live publish.
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: National income includes most income'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Net National Product (NNP) accounts '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: Disposable Income refers to income available after taxes have been deducted. Statement '
+}
+[llm] generated_question_discarded_before_pipeline {
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Statement I: Disposable Income refers to income available after taxes have been deducted. Statement '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'economics',
+  chapter: 'National Income & Related Aggregates',
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Statement I: Disposable Income refers to income available after taxes have been deducted. Statement ',
+  index: 4
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: National income includes most income'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Net National Product (NNP) accounts '
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] Batch validation failed without retry: all_validation_models_in_cooldown. Saving candidates as draft only; no live publish.
+[pyq_anchor] selected_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::financial_management',
+  selected_anchor_id: 'structured_business_studies_consumer_protection_2',
+  selected_anchor_concept_id: 'business_studies::consumer_protection',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 9,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::financial_management',
+  source_anchor_id: 'structured_business_studies_consumer_protection_2',
+  source_anchor_concept_id: 'business_studies::consumer_protection',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Financial Management',
+  reason: 'weak_options',
+  body: 'A company has decided to finance a new project through debt rather than equity. Which of the followi',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Short-term financing options are gen'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Financial Management',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: Short-term financing options are gen',
+  index: 3
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Financial management focuses on the '
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '2e318db4-58d3-43b5-8356-51b40625956a',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::alcohols_phenols_and_ethers',
+  selected_anchor_id: 'structured_chemistry_coordination_compounds_1',
+  selected_anchor_concept_id: 'chemistry::coordination_compounds',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 6,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::alcohols_phenols_and_ethers',
+  source_anchor_id: 'structured_chemistry_coordination_compounds_1',
+  source_anchor_concept_id: 'chemistry::coordination_compounds',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Alcohols can act as both acids and b'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Alcohols, Phenols & Ethers',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: Alcohols can act as both acids and b',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Alcohols, Phenols & Ethers',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Assertion: Phenols are more acidic than alcohols due to resonance stabilization. Reason: The negativ',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A student claims that most alcohols are soluble in water regardless of structure. Which correction b'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Alcohols, Phenols & Ethers',
+  reason: 'weak_options',
+  body: 'A student claims that most alcohols are soluble in water regardless of structure. Which correction b',
+  index: 3
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Ethers have higher boiling points th'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '4852617c-e67c-48ea-94a0-3262696b7b26',
+  draft_saved: 2,
+  skipped_candidates: 2,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::searching',
+  selected_anchor_id: 'structured_computer_science_computer_networks_1',
+  selected_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 4,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::searching',
+  source_anchor_id: 'structured_computer_science_computer_networks_1',
+  source_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Searching',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: Linear search is effective for small',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: A binary search algorithm can mainly be applied to sorted arrays. Reason: Sorting allows '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Searching algorithms can vary in eff'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Depth-first search (DFS) explores as far as possible along each branch before backtrackin'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A linear search examines each elemen'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Searching algorithms can vary in eff'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: A linear search examines each elemen'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'f50256a4-7e76-4a87-b7f1-7b985c2492e7',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::electromagnetic_induction',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_2',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::electromagnetic_induction',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_2',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A changing magnetic field can induce'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the statements and choose the correct option: Statement I: A changing magnetic field can induce',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Assertion: Electromagnetic induction occurs when a conductor moves through a magnetic field. Reason:',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  reason: 'question_too_long',
+  body: 'In a situation where a coil is rotated in a magnetic field, three observations are made: Observation',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: "Assertion: Faraday's law states that the induced emf is proportional to the rate of change of magnet"
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: "Assertion: Faraday's law states that the induced emf is proportional to the rate of change of magnet",
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider three scenarios involving electromagnetic induction: Scenario I: A stationary conductor in '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Consider three scenarios involving electromagnetic induction: Scenario I: A stationary conductor in ',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'gat',
+  requested_concept_id: 'gat::general_science_and_environment_literacy',
+  selected_anchor_id: 'seed_pyq_g1',
+  selected_anchor_concept_id: 'gat::general_knowledge',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'easy',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'gat',
+  requested_concept_id: 'gat::general_science_and_environment_literacy',
+  source_anchor_id: 'seed_pyq_g1',
+  source_anchor_concept_id: 'gat::general_knowledge',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'easy',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The greenhouse effect is essential f'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'gat',
+  chapter: 'General Science and Environment Literacy',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: The greenhouse effect is essential f',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'gat',
+  chapter: 'General Science and Environment Literacy',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'A recent study shows that urban areas experience higher temperatures than rural areas. Read the stat',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Eutrophication leads to increased al'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'gat',
+  chapter: 'General Science and Environment Literacy',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: Eutrophication leads to increased al',
+  index: 4
+}
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'e0f62e24-eafa-4a2a-96da-4684ac32d411',
+  draft_saved: 2,
+  skipped_candidates: 2,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  selected_anchor_id: 'structured_english_narrative_passage_1',
+  selected_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  source_anchor_id: 'structured_english_narrative_passage_1',
+  source_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The components of a good paragraph i'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A cohesive text flows logically from'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A well-structured essay typically fo'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: Sentence variety enhances a writer's"
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Effective transitions guide readers '
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The photoelectric effect demonstrate'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Dual Nature of Radiation & Matter',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: The photoelectric effect demonstrate',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Matter can exhibit wave-like properties under certain conditions. Reason: most particles '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Dual Nature of Radiation & Matter',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: Matter can exhibit wave-like properties under certain conditions. Reason: most particles ',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'In an experiment demonstrating electron diffraction, which conditions must be satisfied for wave-lik'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Dual Nature of Radiation & Matter',
+  reason: 'weak_options',
+  body: 'In an experiment demonstrating electron diffraction, which conditions must be satisfied for wave-lik',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements about radiation and choose the correct option: Statement I: Photons have zero re'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Dual Nature of Radiation & Matter',
+  reason: 'weak_options',
+  body: 'Read the statements about radiation and choose the correct option: Statement I: Photons have zero re',
+  index: 3
+}
+[pipeline] Batch validation failed without retry: all_validation_models_in_cooldown. Saving candidates as draft only; no live publish.
+[pyq_anchor] selected_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::differential_equations',
+  selected_anchor_id: 'seed_pyq_m1',
+  selected_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::differential_equations',
+  source_anchor_id: 'seed_pyq_m1',
+  source_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'simple_numerical'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The general solution of a first-orde'
+}
+[llm] generated_extreme_word_repaired {
+  body: "Consider the case where y'' + p(x)y' + q(x)y = 0. If p(x) and q(x) are continuous functions on an in"
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the following assertions about first-order separable equations: Assertion I: These equations ca'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The general solution of a first-orde'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: "Consider the case where y'' + p(x)y' + q(x)y = 0. If p(x) and q(x) are continuous functions on an in"
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the following assertions about first-order separable equations: Assertion I: These equations ca'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '5ba4cf19-133b-4c4c-8888-81016df58b03',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::electrochemistry',
+  selected_anchor_id: 'structured_chemistry_coordination_compounds_1',
+  selected_anchor_concept_id: 'chemistry::coordination_compounds',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 6,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::electrochemistry',
+  source_anchor_id: 'structured_chemistry_coordination_compounds_1',
+  source_anchor_concept_id: 'chemistry::coordination_compounds',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: In an electrochemical cell, the anod'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Electrochemistry',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: In an electrochemical cell, the anod',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A student claims that increasing temperature often increases the rate of a redox reaction in an elec'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Electrochemistry',
+  reason: 'weak_options',
+  body: 'A student claims that increasing temperature often increases the rate of a redox reaction in an elec',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A galvanic cell produces electrical '
+}
+[llm] generated_extreme_word_repaired {
+  body: "Assertion: The standard electrode potential indicates a substance's tendency to gain electrons. Reas"
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: A galvanic cell produces electrical '
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'f0d83f8c-9269-4c35-84ab-d5847bd919fa',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::probability_distributions',
+  selected_anchor_id: 'seed_pyq_m1',
+  selected_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::probability_distributions',
+  source_anchor_id: 'seed_pyq_m1',
+  source_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'simple_numerical'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The probability distribution of a di'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'mathematics',
+  chapter: 'Probability Distributions',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: The probability distribution of a di',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'In a certain experiment, the outcomes are represented by a random variable X which follows a uniform'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'mathematics',
+  chapter: 'Probability Distributions',
+  reason: 'question_too_long',
+  body: 'In a certain experiment, the outcomes are represented by a random variable X which follows a uniform',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements regarding normal distributions and choose the correct option: Statement I: In a '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: The cumulative distribution function (CDF) provides the probability that a random variabl'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements regarding normal distributions and choose the correct option: Statement I: In a '
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '4e5acf0d-e9b0-404d-a29d-73fbac84db3c',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'sociology',
+  requested_concept_id: 'sociology::change_and_development_in_industrial_society',
+  selected_anchor_id: 'structured_sociology_mass_media_and_communications_2',
+  selected_anchor_concept_id: 'sociology::mass_media_and_communications',
+  anchor_tier: 2,
+  fallback_used: true,
+  concept_mismatch_risk: 'medium',
+  candidates: 1,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Industrialization in India has led t'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Economic development in India has transformed traditional roles within households. Reason'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A learner claims that globalization has homogenized Indian culture largely. Which response provides '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Change & Development in Industrial Society',
+  reason: 'weak_options',
+  body: 'A learner claims that globalization has homogenized Indian culture largely. Which response provides ',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The rise of technology in industries'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Change & Development in Industrial Society',
+  reason: 'logically_impossible_option',
+  body: 'Assertion: Social stratification has been influenced by industrial growth in India. Reason: Industri',
+  index: 4
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Industrialization in India has led t'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The rise of technology in industries'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'ee82dbcb-bf62-4286-a6b1-f175f2b30f14',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  selected_anchor_id: 'structured_english_narrative_passage_1',
+  selected_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  source_anchor_id: 'structured_english_narrative_passage_1',
+  source_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The first step in solving a para jum'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The logical flow in a para jumble ca'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Identifying transition words aids in'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Para Jumbles',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: Identifying transition words aids in',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Each sentence must logically lead to'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Contextual clues within sentences ca'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The 1991 economic reforms led to an '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'economics',
+  chapter: 'Economic Reforms Since 1991',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: The 1991 economic reforms led to an ',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider these statements: Statement I: Economic reforms post-1991 have significantly increased comp'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider these statements: Statement I: Economic reforms post-1991 have significantly increased comp'
+  }
+]
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 429,
+  statusText: 'Too Many Requests',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ",
+  "status": 429,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] batch_validation_failure gemini-3-flash (429)
+[llm] {"event":"batch_validation_failure","timestamp":"2026-04-30T23:15:03.236Z","model":"gemini-3-flash","reason":"rate_limit","message":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ","cooldownUntil":"2026-04-30T23:21:57.990Z"}
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 429,
+  statusText: 'Too Many Requests',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ",
+  "status": 429,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] batch_validation_failure gemini-2-flash (429)
+[llm] {"event":"batch_validation_failure","timestamp":"2026-04-30T23:15:03.655Z","model":"gemini-2-flash","reason":"rate_limit","message":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ","cooldownUntil":"2026-04-30T23:24:20.751Z"}
+[llm] {"event":"batch_validation_all_models_failed","timestamp":"2026-04-30T23:15:03.655Z","subject":"economics","questionCount":3,"lastError":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. "}
+[pipeline] Batch validation failed without retry: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. . Saving candidates as draft only; no live publish.
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::surface_chemistry',
+  selected_anchor_id: 'structured_chemistry_isolation_of_elements_1',
+  selected_anchor_concept_id: 'chemistry::isolation_of_elements',
+  anchor_tier: 2,
+  fallback_used: true,
+  concept_mismatch_risk: 'medium',
+  candidates: 1,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The adsorption process can be influe'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Surface Chemistry',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: The adsorption process can be influe',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The Langmuir isotherm assumes monola'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Surface Chemistry',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: The Langmuir isotherm assumes monola',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Colloidal systems can exhibit unique'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Surface Chemistry',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: Colloidal systems can exhibit unique',
+  index: 4
+}
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '40e1ecc2-0cc2-470a-8cc3-24fc302ebb89',
+  draft_saved: 2,
+  skipped_candidates: 2,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::era_of_one_party_dominance',
+  selected_anchor_id: 'structured_political_science_india_s_external_relations_2',
+  selected_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 2,
+  fallback_used: true,
+  concept_mismatch_risk: 'medium',
+  candidates: 1,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The dominance of a single party in I'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements regarding one-party dominance in India: Statement I: It led to sig'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'political_science',
+  chapter: 'Era of One-Party Dominance',
+  reason: 'statement_answer_rationale_mismatch',
+  body: "Evaluate these statements about India's political landscape during one-party dominance: Statement I:",
+  index: 4
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The dominance of a single party in I'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider the following statements regarding one-party dominance in India: Statement I: It led to sig'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '558b5f01-9505-4aff-8a10-23fe06e9bfd7',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::haloalkanes_and_haloarenes',
+  selected_anchor_id: 'structured_chemistry_isolation_of_elements_2',
+  selected_anchor_concept_id: 'chemistry::isolation_of_elements',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 6,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::haloalkanes_and_haloarenes',
+  source_anchor_id: 'structured_chemistry_isolation_of_elements_2',
+  source_anchor_concept_id: 'chemistry::isolation_of_elements',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Haloalkanes are generally less solub'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Haloalkanes & Haloarenes',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: Haloalkanes are generally less solub',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Haloalkanes can act as alkylating agents in organic synthesis. Reason: Their high reactiv'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The boiling points of haloalkanes in'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Haloalkanes & Haloarenes',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: The boiling points of haloalkanes in',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Haloarenes have lower reactivity tha'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Haloalkanes & Haloarenes',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the statements and choose the correct option: Statement I: Haloarenes have lower reactivity tha',
+  index: 4
+}
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '04725d08-6402-4b62-b05c-4ccb60caefeb',
+  draft_saved: 2,
+  skipped_candidates: 2,
+  publish_count: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The stability of higher oxidation st'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: The stability of higher oxidation st',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: The inert pair effect leads to a preference for lower oxidation states in heavier p-block'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: In p-block elements, electronegativi'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: In p-block elements, electronegativi',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Boron forms covalent compounds due t'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: Boron forms covalent compounds due t',
+  index: 4
+}
+[pipeline] Batch validation failed without retry: all_validation_models_in_cooldown. Saving candidates as draft only; no live publish.
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::communication_technologies',
+  selected_anchor_id: 'structured_computer_science_computer_networks_1',
+  selected_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 4,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::communication_technologies',
+  source_anchor_id: 'structured_computer_science_computer_networks_1',
+  source_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Communication Technologies',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: A modem converts digital data from a',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements regarding data transmission: Statement I: Data packets can be lost'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements regarding wireless communication technologies: Statement I: Wi-Fi uses radio wav'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider the following statements regarding data transmission: Statement I: Data packets can be lost'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements regarding wireless communication technologies: Statement I: Wi-Fi uses radio wav'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '8bfbf4ee-1120-4f6d-b250-a74be7e5c4c3',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::inverse_trigonometric_functions',
+  selected_anchor_id: 'seed_pyq_m1',
+  selected_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::inverse_trigonometric_functions',
+  source_anchor_id: 'seed_pyq_m1',
+  source_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'simple_numerical'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The function sin^(-1)(x) is defined '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'mathematics',
+  chapter: 'Inverse Trigonometric Functions',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: The function sin^(-1)(x) is defined ',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the function f(x) = cos^(-1)(x). Read the statements and choose the correct option: Stateme'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The inverse sine function can yield '
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider the function f(x) = cos^(-1)(x). Read the statements and choose the correct option: Stateme'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The inverse sine function can yield '
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '3bd3b073-cead-463e-8851-b4a039923044',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::python_revision',
+  selected_anchor_id: 'structured_computer_science_computer_networks_1',
+  selected_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 4,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::python_revision',
+  source_anchor_id: 'structured_computer_science_computer_networks_1',
+  source_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements: Statement I: A dictionary in Python maps keys to values. Statemen'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Python Revision',
+  reason: 'weak_options',
+  body: 'Consider the following statements: Statement I: A dictionary in Python maps keys to values. Statemen',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: In Python, a function can return multiple values as a tuple. Reason: Functions must often'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Python Revision',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read these statements regarding loops in Python: Statement I: A for loop iterates over items of a se',
+  index: 4
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: In Python, a list is mutable, allowi'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'b2ecb147-7871-43de-a6c3-a43696380b52',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::human_capital_formation',
+  selected_anchor_id: 'structured_economics_indian_economy_on_the_eve_of_independence_2',
+  selected_anchor_concept_id: 'economics::indian_economy_on_the_eve_of_independence',
+  anchor_tier: 2,
+  fallback_used: true,
+  concept_mismatch_risk: 'medium',
+  candidates: 1,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Human capital formation is essential'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'economics',
+  chapter: 'Human Capital Formation',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: Human capital formation is essential',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'economics',
+  chapter: 'Human Capital Formation',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: Human capital contributes to economi',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Education plays a crucial role in en'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Education plays a crucial role in en'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '32543090-94cf-4e9a-9c32-0f753d40b458',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'geography',
+  concept_id: 'geography::india_people_and_economy',
+  selected_anchor_id: 'synthetic_cuet_structure_geography',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'application_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'geography',
+  chapter: 'India — People & Economy',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: Urbanization in India is primarily d',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements below and select the correct option: Statement I: Literacy rates have improved s'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider the following statements: Statement I: Migration significantly influences population distri'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements below and select the correct option: Statement I: Literacy rates have improved s'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '8f014db7-505b-4655-b69a-4e7cc0f7ff98',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::magnetism_and_matter',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::magnetism_and_matter',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A solenoid generates a magnetic fiel'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Magnetism & Matter',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the statements and choose the correct option: Statement I: A solenoid generates a magnetic fiel',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: The magnetic field produced by a current-carrying wire decreases with distance from the w'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Magnetism & Matter',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Assertion: The magnetic field produced by a current-carrying wire decreases with distance from the w',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A permanent magnet can repel another'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Magnetism & Matter',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: Current loops create a magnetic dipole moment. Reason: Magnetic dipole moments arise from',
+  index: 3
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Magnetism & Matter',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the statements and choose the correct option: Statement I: Ferromagnetic materials retain magne',
+  index: 4
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: A permanent magnet can repel another'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '0a9949f7-1800-4401-957e-c1f0b1c77c5d',
+  draft_saved: 1,
+  skipped_candidates: 1,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::vocabulary',
+  selected_anchor_id: 'structured_english_narrative_passage_1',
+  selected_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::vocabulary',
+  source_anchor_id: 'structured_english_narrative_passage_1',
+  source_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: The word 'benevolent' suggests a kin"
+}
+[llm] english_question_rejected {
+  chapter: 'Vocabulary',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: The word 'ambiguous' refers to somet"
+}
+[llm] english_question_rejected {
+  chapter: 'Vocabulary',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 1
+}
+[llm] english_question_rejected {
+  chapter: 'Vocabulary',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 2
+}
+[llm] english_question_rejected {
+  chapter: 'Vocabulary',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: The term 'candid' refers to someone "
+}
+[llm] english_question_rejected {
+  chapter: 'Vocabulary',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::theory_of_firms_under_perfect_competition',
+  selected_anchor_id: 'structured_economics_indian_economy_on_the_eve_of_independence_2',
+  selected_anchor_concept_id: 'economics::indian_economy_on_the_eve_of_independence',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 7,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::theory_of_firms_under_perfect_competition',
+  source_anchor_id: 'structured_economics_indian_economy_on_the_eve_of_independence_2',
+  source_anchor_concept_id: 'economics::indian_economy_on_the_eve_of_independence',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: In a perfectly competitive market, f'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements: Statement I: In perfect competition, firms face a perfectly elast'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'economics',
+  chapter: 'Theory of Firms under Perfect Competition',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Consider the following statements: Statement I: In perfect competition, firms face a perfectly elast',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements below: Statement I: Perfectly competitive firms will shut down if they cannot co'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'economics',
+  chapter: 'Theory of Firms under Perfect Competition',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements below: Statement I: Perfectly competitive firms will shut down if they cannot co',
+  index: 4
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: In a perfectly competitive market, f'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '7be31602-cb7d-4162-aa01-25cdb2815ecb',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'sociology',
+  requested_concept_id: 'sociology::challenges_of_cultural_diversity',
+  selected_anchor_id: 'structured_sociology_introducing_indian_society_2',
+  selected_anchor_concept_id: 'sociology::introducing_indian_society',
+  anchor_tier: 2,
+  fallback_used: true,
+  concept_mismatch_risk: 'medium',
+  candidates: 1,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Cultural diversity in India enhances'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements regarding challenges of cultural diversity: I. Language barriers c'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A sociologist argues that cultural diversity contributes to innovation in society. Another suggests '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Challenges of Cultural Diversity',
+  reason: 'weak_options',
+  body: 'A sociologist argues that cultural diversity contributes to innovation in society. Another suggests ',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the following assertions: I. Cultural festivals promote unity among diverse groups. II. Such fe'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Challenges of Cultural Diversity',
+  reason: 'weak_options',
+  body: 'Read the following assertions: I. Cultural festivals promote unity among diverse groups. II. Such fe',
+  index: 4
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Cultural diversity in India enhances'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider the following statements regarding challenges of cultural diversity: I. Language barriers c'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '6a022711-e6f6-4b2f-b69d-1c59d73ba103',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Photons exhibit both wave-like and p'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Dual Nature of Radiation & Matter',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: Photons exhibit both wave-like and p',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Electrons can exhibit wave-particle duality. Reason: most particles have an associated wa'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Dual Nature of Radiation & Matter',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: Electrons can exhibit wave-particle duality. Reason: most particles have an associated wa',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Dual Nature of Radiation & Matter',
+  reason: 'weak_options',
+  body: 'In a double-slit experiment with electrons, increasing the intensity of the electron beam affects th',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Wave-particle duality applies to bot'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Dual Nature of Radiation & Matter',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: Wave-particle duality applies to bot',
+  index: 3
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Dual Nature of Radiation & Matter',
+  reason: 'logically_impossible_option',
+  body: 'Assertion: Photons cannot be deflected by electric fields. Reason: Photons have no charge. Evaluate ',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::money_and_banking',
+  selected_anchor_id: 'structured_economics_economic_reforms_since_1991_1',
+  selected_anchor_concept_id: 'economics::economic_reforms_since_1991',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 7,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::money_and_banking',
+  source_anchor_id: 'structured_economics_economic_reforms_since_1991_1',
+  source_anchor_concept_id: 'economics::economic_reforms_since_1991',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'case_based'
+}

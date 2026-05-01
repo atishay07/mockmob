@@ -1,0 +1,21 @@
+{
+  "subject": "english",
+  "chapter": "Literary Passage",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "Passage-based set pattern: A short original prose passage is followed by questions on tone, inference, and author purpose. Which option best represents a close distractor in a prose question?",
+      "options": [
+        "It captures the surface event but misses the narrator's implied attitude.",
+        "It gives a random moral not present in the prose.",
+        "It repeats a character's name without explaining the tone.",
+        "It changes the passage into a grammar exercise."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["prose", "tone", "inference", "close-distractors"],
+      "difficulty": "medium",
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

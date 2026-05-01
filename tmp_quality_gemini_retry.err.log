@@ -1,0 +1,784 @@
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::magnetism_and_matter',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_2',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::magnetism_and_matter',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_2',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A current-carrying loop creates a ma'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Magnetism & Matter',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the statements and choose the correct option: Statement I: A current-carrying loop creates a ma',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Increasing the number of turns in a coil increases its magnetic field strength. Reason: E'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Magnetism & Matter',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Assertion: Increasing the number of turns in a coil increases its magnetic field strength. Reason: E',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'In a scenario where a wire carrying current is placed in a uniform magnetic field, which outcomes ca'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Magnetism & Matter',
+  reason: 'question_too_long',
+  body: 'In a scenario where a wire carrying current is placed in a uniform magnetic field, which outcomes ca',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Magnetic materials can be classified into diamagnetic, paramagnetic, and ferromagnetic ty'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Magnetism & Matter',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Assertion: Magnetic materials can be classified into diamagnetic, paramagnetic, and ferromagnetic ty',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Two parallel wires carrying currents in opposite directions will experience what kind of interaction'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Two parallel wires carrying currents in opposite directions will experience what kind of interaction'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 1, source: 'structural_pool' }
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '2c4127df-1b67-4ed0-b809-08721efeb234',
+  draft_saved: 1,
+  skipped_candidates: 1,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'biology',
+  requested_concept_id: 'biology::principles_of_inheritance_and_variation',
+  selected_anchor_id: 'structured_biology_microbes_in_human_welfare_1',
+  selected_anchor_concept_id: 'biology::microbes_in_human_welfare',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'biology',
+  requested_concept_id: 'biology::principles_of_inheritance_and_variation',
+  source_anchor_id: 'structured_biology_microbes_in_human_welfare_1',
+  source_anchor_concept_id: 'biology::microbes_in_human_welfare',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: Mendel's law of segregation states t"
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Incomplete dominance results in a phenotype that is a blend of the two parental traits. R'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Codominance results in both parental'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A dihybrid cross examines two traits'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: "Read the statements and choose the correct option: Statement I: Mendel's law of segregation states t"
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Codominance results in both parental'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: A dihybrid cross examines two traits'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '2f49dadd-1938-400a-926b-65ec1327b363',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::controlling',
+  selected_anchor_id: 'structured_business_studies_marketing_management_2',
+  selected_anchor_concept_id: 'business_studies::marketing_management',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 9,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::controlling',
+  source_anchor_id: 'structured_business_studies_marketing_management_2',
+  source_anchor_concept_id: 'business_studies::marketing_management',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Effective controlling ensures that a'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A manager implements a new performance evaluation system but notices resistance from employees. Whic'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Controlling',
+  reason: 'question_too_long',
+  body: 'A manager implements a new performance evaluation system but notices resistance from employees. Whic',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements regarding controlling in management: Statement I: Controlling involves setting s'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Effective controlling ensures that a'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements regarding controlling in management: Statement I: Controlling involves setting s'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'e59e8e24-3e3c-49d0-9a43-39e300732b76',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::aldehydes_ketones_and_carboxylic_acids',
+  selected_anchor_id: 'structured_chemistry_coordination_compounds_1',
+  selected_anchor_concept_id: 'chemistry::coordination_compounds',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 6,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::aldehydes_ketones_and_carboxylic_acids',
+  source_anchor_id: 'structured_chemistry_coordination_compounds_1',
+  source_anchor_concept_id: 'chemistry::coordination_compounds',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Aldehydes generally have higher boil'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements regarding aldehydes and ketones: Statement I: Both can undergo oxi'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Consider the following statements regarding aldehydes and ketones: Statement I: Both can undergo oxi',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements regarding carboxylic acids and choose the correct option: Statement I: Carboxyli'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements regarding carboxylic acids and choose the correct option: Statement I: Carboxyli',
+  index: 4
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Aldehydes generally have higher boil'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'faf87039-6321-492e-b72f-0e16647c6121',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::biomolecules',
+  selected_anchor_id: 'structured_chemistry_coordination_compounds_1',
+  selected_anchor_concept_id: 'chemistry::coordination_compounds',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 6,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::biomolecules',
+  source_anchor_id: 'structured_chemistry_coordination_compounds_1',
+  source_anchor_concept_id: 'chemistry::coordination_compounds',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Proteins are formed from amino acids'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Biomolecules',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: Proteins are formed from amino acids',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Biomolecules',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: Nucleic acids are responsible for st',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements regarding carbohydrates and choose the correct option: Statement I: Monosacchari'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Biomolecules',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements regarding carbohydrates and choose the correct option: Statement I: Monosacchari',
+  index: 4
+}
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '76786197-62f1-409d-b41c-06772daf064a',
+  draft_saved: 2,
+  skipped_candidates: 2,
+  publish_count: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The stability of oxidation states in'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: In p-block elements, electronegativity increases across a period. Statement II: This tr'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  reason: 'obvious_answer_pattern',
+  body: 'Statement I: In p-block elements, electronegativity increases across a period. Statement II: This tr',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A researcher claims that p-block elements can mainly form covalent bonds due to their high electrone'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  reason: 'obvious_answer_pattern',
+  body: 'A researcher claims that p-block elements can mainly form covalent bonds due to their high electrone',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the following statements regarding p-block elements and choose the correct option: Statement I:'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A chemistry student believes that most p-block elements behave similarly regarding their bonding cha'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  reason: 'question_too_long',
+  body: 'A chemistry student believes that most p-block elements behave similarly regarding their bonding cha',
+  index: 4
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The stability of oxidation states in'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 1, source: 'structural_pool' }
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 429,
+  statusText: 'Too Many Requests',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ",
+  "status": 429,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] batch_validation_failure gemini-3-flash (429)
+[llm] {"event":"batch_validation_failure","timestamp":"2026-04-30T23:21:07.930Z","model":"gemini-3-flash","reason":"rate_limit","message":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ","cooldownUntil":"2026-04-30T23:29:22.654Z"}
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 429,
+  statusText: 'Too Many Requests',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ",
+  "status": 429,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] batch_validation_failure gemini-2-flash (429)
+[llm] {"event":"batch_validation_failure","timestamp":"2026-04-30T23:21:08.310Z","model":"gemini-2-flash","reason":"rate_limit","message":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ","cooldownUntil":"2026-04-30T23:28:38.715Z"}
+[llm] {"event":"batch_validation_all_models_failed","timestamp":"2026-04-30T23:21:08.310Z","subject":"chemistry","questionCount":2,"lastError":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. "}
+[pipeline] Batch validation failed without retry: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. . Saving candidates as draft only; no live publish.
+[queue] PREFERRED_PLANNED_JOBS_EMPTY_OR_ALREADY_CLAIMED: falling back to valid queued jobs by lowest coverage
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::moving_charges_and_magnetism',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::moving_charges_and_magnetism',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A current-carrying conductor generat'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the statements and choose the correct option: Statement I: A current-carrying conductor generat',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: The force on a charged particle moving in a magnetic field depends on its velocity and an'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Assertion: The force on a charged particle moving in a magnetic field depends on its velocity and an',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'In a scenario where a wire loop rotates within a magnetic field, consider these statements: Statemen',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the following statements regarding solenoids: Statement I: The magnetic field inside a long sol'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the following statements regarding solenoids: Statement I: The magnetic field inside a long sol',
+  index: 3
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Assertion: A charged particle moving through a magnetic field experiences a force that can change it',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  selected_anchor_id: 'structured_english_narrative_passage_1',
+  selected_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  source_anchor_id: 'structured_english_narrative_passage_1',
+  source_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The committee decided to postpone th'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The novel explores themes of identit'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The article emphasizes the impact of'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The research indicates a correlation'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The documentary highlights various e'
+}
+[llm] english_question_rejected {
+  chapter: 'Para Jumbles',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::communication_systems',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::communication_systems',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Modulation is used to enhance the tr'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Communication Systems',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: Modulation is used to enhance the tr',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Digital signals are less susceptible to noise compared to analog signals. Reason: Digital'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Communication Systems',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: Digital signals are less susceptible to noise compared to analog signals. Reason: Digital',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: A communication system's bandwidth d"
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Communication Systems',
+  reason: 'statement_answer_rationale_mismatch',
+  body: "Read the statements and choose the correct option: Statement I: A communication system's bandwidth d",
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Noise can significantly disrupt communication systems. Reason: Noise reduction techniques'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Communication Systems',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: Noise can significantly disrupt communication systems. Reason: Noise reduction techniques',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Frequency modulation (FM) provides b'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Frequency modulation (FM) provides b'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '39d5c63a-86c2-46f3-9ded-da1cb83f9cf6',
+  draft_saved: 1,
+  skipped_candidates: 1,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::numbers_quantification_and_numerical_applications',
+  selected_anchor_id: 'seed_pyq_m1',
+  selected_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::numbers_quantification_and_numerical_applications',
+  source_anchor_id: 'seed_pyq_m1',
+  source_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'simple_numerical'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The product of two negative numbers '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'mathematics',
+  chapter: 'Numbers, Quantification and Numerical Applications',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: The product of two negative numbers ',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: The square root of a product equals the product of the square roots. Reason: This propert'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following claims: Claim I: Dividing by zero results in an undefined value. Claim II: Mu'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'mathematics',
+  chapter: 'Numbers, Quantification and Numerical Applications',
+  reason: 'weak_options',
+  body: 'Consider the following claims: Claim I: Dividing by zero results in an undefined value. Claim II: Mu',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A rational number can be expressed a'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'mathematics',
+  chapter: 'Numbers, Quantification and Numerical Applications',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: A rational number can be expressed a',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: The sum of any two odd integers results in an even integer. Reason: Odd integers have a r'
+}
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'd97341ae-cbfd-4a97-913d-c6120373e76b',
+  draft_saved: 2,
+  skipped_candidates: 2,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::integrals',
+  selected_anchor_id: 'seed_pyq_m1',
+  selected_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::integrals',
+  source_anchor_id: 'seed_pyq_m1',
+  source_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'simple_numerical'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The integral of a function gives the'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'mathematics',
+  chapter: 'Integrals',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: The integral of a function gives the',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: The integral of a continuous function over a closed interval exists. Reason: A function m'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider a function f(x) = x^3. Read the statements and choose the correct option: Statement I: The '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'mathematics',
+  chapter: 'Integrals',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Consider a function f(x) = x^3. Read the statements and choose the correct option: Statement I: The ',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Integration by parts can be used to solve complex integrals. Reason: It simplifies produc'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The Fundamental Theorem of Calculus '
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The Fundamental Theorem of Calculus '
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '27ea43d3-6359-4665-b1fb-3877713e7926',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::money_and_banking',
+  selected_anchor_id: 'structured_economics_economic_reforms_since_1991_1',
+  selected_anchor_concept_id: 'economics::economic_reforms_since_1991',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 7,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::money_and_banking',
+  source_anchor_id: 'structured_economics_economic_reforms_since_1991_1',
+  source_anchor_concept_id: 'economics::economic_reforms_since_1991',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}

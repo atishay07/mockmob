@@ -1,0 +1,170 @@
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'biology',
+  concept_id: 'biology::human_reproduction',
+  selected_anchor_id: 'synthetic_cuet_structure_biology',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'comparison_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  reason: 'extreme_qualifier',
+  body: 'In a recent biology class, students discussed the process of fertilization. They debated whether ext',
+  index: 0
+}
+[pipeline] Rejected | compositeScore=2 | source=validator_normalized | rule=concept mismatch | reasons=concept mismatch; obvious answer; textbook style; too simple compared to PYQs; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] Rejected | compositeScore=30 | source=validator_normalized | rule=too simple compared to PYQs | reasons=too simple compared to PYQs; textbook style; obvious answer; direct definition; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=too simple compared to PYQs | reasons=too simple compared to PYQs; low trap quality; obvious answer; conceptual_depth below 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] Rejected | compositeScore=30 | source=validator_normalized | rule=too simple compared to PYQs | reasons=too simple compared to PYQs; low trap quality; obvious answer; conceptual_depth below 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] strict_mode_no_validated_questions_fallback {
+  job_id: '34f9baa8-4ac0-4bdd-b881-7615e9d1979b',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'concept mismatch',
+    'obvious answer',
+    'textbook style',
+    'too simple compared to PYQs',
+    'validator score below threshold',
+    'exam quality below threshold',
+    'distractor quality below threshold',
+    'conceptual depth below CUET reasoning threshold'
+  ]
+}
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[pipeline] TARGET_NOT_MET | target=5 | accepted=4 | shortfall=1 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pyq_anchor] selected_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::planning',
+  selected_anchor_id: 'seed_pyq_b3',
+  selected_anchor_concept_id: 'business_studies::nature_and_significance_of_management',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::planning',
+  source_anchor_id: 'seed_pyq_b3',
+  source_anchor_concept_id: 'business_studies::nature_and_significance_of_management',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'statement_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Planning',
+  reason: 'extreme_qualifier',
+  body: 'A company is planning its annual marketing strategy and is considering various factors such as budge',
+  index: 0
+}
+[llm] generated_question_discarded_before_pipeline {
+  reason: 'weak_options',
+  body: 'In a recent business meeting, a manager stated that effective planning must adapt to changing circum'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Planning',
+  reason: 'weak_options',
+  body: 'In a recent business meeting, a manager stated that effective planning must adapt to changing circum',
+  index: 1
+}
+[llm] generated_question_discarded_before_pipeline {
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Statement I: Planning requires setting objectives before developing strategies. Statement II: Planni'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Planning',
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Statement I: Planning requires setting objectives before developing strategies. Statement II: Planni',
+  index: 3
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'Comparing strategic planning and operational planning, which statement accurately captures their mai'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'weak_options',
+    body: 'Comparing strategic planning and operational planning, which statement accurately captures their mai'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 1, source: 'structural_pool' }
+[pipeline] validation_signal_mismatch_accepted {
+  source: 'validator_normalized',
+  mismatches: [ 'score_below_threshold_but_accepted' ],
+  compositeScore: 38
+}
+[pipeline] TARGET_NOT_MET | target=5 | accepted=2 | shortfall=3 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'computer_science',
+  concept_id: 'computer_science::communication_technologies',
+  selected_anchor_id: 'synthetic_cuet_structure_computer_science',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'case_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Communication Technologies',
+  reason: 'extreme_qualifier',
+  body: 'A company is deciding between using wired and wireless communication technologies for their internal',
+  index: 0
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'Comparing satellite communication and terrestrial communication systems, which statement highlights '
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'weak_options',
+    body: 'Comparing satellite communication and terrestrial communication systems, which statement highlights '
+  }
+]
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; conceptual_depth < 7; direct definition; textbook_style; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] minimum_final_fallback_added {
+  job_id: '3c4779d8-990f-48af-bf1a-2786e527ffdc',
+  validated_before: 2,
+  fallback_added: 1
+}
+[pipeline] TARGET_NOT_MET | target=5 | accepted=3 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'computer_science',
+  concept_id: 'computer_science::file_handling',
+  selected_anchor_id: 'synthetic_cuet_structure_computer_science',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'comparison_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'File Handling',
+  reason: 'extreme_qualifier',
+  body: 'In a program that processes user data, a programmer needs to ensure that they correctly handle file ',
+  index: 1
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'When comparing text files and binary files in terms of data storage and manipulation, which distinct'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'weak_options',
+    body: 'When comparing text files and binary files in terms of data storage and manipulation, which distinct'
+  }
+]

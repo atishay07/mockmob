@@ -1,0 +1,335 @@
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Social media platforms have a role i'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A learner claims that broadcast news has become irrelevant due to the rise of digital platforms. Whi'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  reason: 'direct_evaluation_stem',
+  body: 'A learner claims that broadcast news has become irrelevant due to the rise of digital platforms. Whi',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements regarding advertising in mass media: Statement I: Advertising prim'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A case study highlights that local news outlets often struggle to compete with national networks for'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Social media platforms have a role i'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider the following statements regarding advertising in mass media: Statement I: Advertising prim'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'A case study highlights that local news outlets often struggle to compete with national networks for'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 429,
+  statusText: 'Too Many Requests',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ",
+  "status": 429,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] batch_validation_failure gemini-3-flash (429)
+[llm] {"event":"batch_validation_failure","timestamp":"2026-04-30T23:21:47.957Z","model":"gemini-3-flash","reason":"rate_limit","message":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ","cooldownUntil":"2026-04-30T23:29:02.338Z"}
+FULL ERROR: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+    at handleResponseNotOk (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:432:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async makeRequest (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:401:9)
+    at async generateContent (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/node_modules/@google/generative-ai/dist/index.mjs:865:22) {
+  status: 429,
+  statusText: 'Too Many Requests',
+  errorDetails: undefined
+}
+ERROR DETAILS: {
+  "name": "Error",
+  "message": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ",
+  "status": 429,
+  "code": null,
+  "type": null,
+  "request_id": null,
+  "cause": null
+}
+[llm] batch_validation_failure gemini-2-flash (429)
+[llm] {"event":"batch_validation_failure","timestamp":"2026-04-30T23:21:48.464Z","model":"gemini-2-flash","reason":"rate_limit","message":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ","cooldownUntil":"2026-04-30T23:27:16.350Z"}
+[llm] {"event":"batch_validation_all_models_failed","timestamp":"2026-04-30T23:21:48.464Z","subject":"sociology","questionCount":3,"lastError":"[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. "}
+[pipeline] Batch validation failed without retry: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. . Saving candidates as draft only; no live publish.
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::stack',
+  selected_anchor_id: 'structured_computer_science_data_structures_1',
+  selected_anchor_concept_id: 'computer_science::data_structures',
+  anchor_tier: 2,
+  fallback_used: true,
+  concept_mismatch_risk: 'medium',
+  candidates: 1,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A stack allows elements to be added '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Stack',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: A stack allows elements to be added ',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: A stack can be implemented using an array or a linked list. Reason: Both implementations '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: In recursive programming, stacks are'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Stack',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: In recursive programming, stacks are',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: The push operation adds an element to the top of a stack. Reason: The pop operation remov'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Stack overflow occurs when trying to'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Stack overflow occurs when trying to'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'f78a1d67-4022-466a-ab60-64705297e3c2',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[queue] PREFERRED_PLANNED_JOBS_EMPTY_OR_ALREADY_CLAIMED: falling back to valid queued jobs by lowest coverage
+[pyq_anchor] selected_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::determinants',
+  selected_anchor_id: 'seed_pyq_m1',
+  selected_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::determinants',
+  source_anchor_id: 'seed_pyq_m1',
+  source_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'simple_numerical'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: A square matrix with a determinant of zero cannot be inverted. Reason: This is because th'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: A matrix with most elements equal to zero has a determinant of zero. Reason: This means t'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The determinant of a matrix can be z'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider a 3x3 matrix A with |A| = 5. If we multiply each element of A by 2, what will be the new de'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The determinant of a product of two '
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'd9f1b0c3-86ef-48fd-8e9a-ef5331bce3fa',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'political_science',
+  requested_concept_id: 'political_science::challenges_to_and_restoration_of_the_congress_system',
+  selected_anchor_id: 'structured_political_science_india_s_external_relations_2',
+  selected_anchor_concept_id: 'political_science::india_s_external_relations',
+  anchor_tier: 2,
+  fallback_used: true,
+  concept_mismatch_risk: 'medium',
+  candidates: 1,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The Congress party faced significant'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read these statements about post-1977 politics in India: Statement I: The Congress party re-emerged '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'political_science',
+  chapter: 'Challenges to & Restoration of the Congress System',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read these statements about post-1977 politics in India: Statement I: The Congress party re-emerged ',
+  index: 4
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: The Congress party faced significant'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider these statements regarding the restoration of Congress in the late 1970s: Statement I: The '
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'db9d537c-3182-446c-acb1-b788f65aeeca',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::integrals',
+  selected_anchor_id: 'seed_pyq_m1',
+  selected_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::integrals',
+  source_anchor_id: 'seed_pyq_m1',
+  source_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'simple_numerical'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The integral of a constant function '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'mathematics',
+  chapter: 'Integrals',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: The integral of a constant function ',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the following case: A student claims that integrating an odd function over a symmetric interval'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider two functions f(x) = x^2 and g(x) = 2x. Read the statements and choose the correct option: '
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the following case: A student claims that integrating an odd function over a symmetric interval'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '37273bcf-95e1-49c5-aa9e-d0f5ab1de2a2',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::mysql',
+  selected_anchor_id: 'structured_computer_science_computer_networks_2',
+  selected_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 2,
+  fallback_used: true,
+  concept_mismatch_risk: 'medium',
+  candidates: 1,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A primary key in MySQL must contain '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'MySQL',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: A primary key in MySQL must contain ',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: MySQL uses SQL language for querying'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'MySQL',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: MySQL uses SQL language for querying',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: MySQL can handle large volumes of da'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'MySQL',
+  reason: 'statement_answer_rationale_mismatch',
+  body: 'Read the statements and choose the correct option: Statement I: MySQL can handle large volumes of da',
+  index: 4
+}
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '4d0758d6-4492-4c44-895e-2c55afe9c390',
+  draft_saved: 2,
+  skipped_candidates: 2,
+  publish_count: 0
+}

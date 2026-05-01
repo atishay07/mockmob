@@ -1,0 +1,152 @@
+[worker] recovered stale processing jobs: [
+  {
+    id: '8b023bdb-72a4-4a90-9882-6a4337f38588',
+    subject_id: 'computer_science',
+    chapter: 'Data Structures',
+    started_at: null
+  }
+]
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'extreme_qualifier',
+  body: 'A manager believes that internal recruitment is always the best option for staffing. Which evaluatio',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'extreme_qualifier',
+  body: 'Statement I: Hiring from within promotes loyalty. Statement II: It is ineffective in addressing skil',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'extreme_qualifier',
+  body: 'In a recent review, a company found that its high turnover rate was linked to poor staffing choices.',
+  index: 2
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'extreme_qualifier',
+  body: "A firm's policy states that all positions must be filled internally first. Which critique reflects a",
+  index: 3
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'extreme_qualifier',
+  body: 'An HR manager claims that performance appraisals should focus solely on past performance when decidi',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'extreme_qualifier',
+  body: 'A student asserts that the stability of a coordination complex is solely determined by the metal ion',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'extreme_qualifier',
+  body: 'Statement I: Chelating ligands enhance stability through multiple bonding sites. Statement II: All l',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'extreme_qualifier',
+  body: 'When comparing octahedral complexes, a student claims that all will exhibit identical magnetic prope',
+  index: 2
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'extreme_qualifier',
+  body: 'A learner suggests that all bidentate ligands create stronger complexes than monodentate ligands due',
+  index: 3
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'extreme_qualifier',
+  body: 'Statement I: The color observed in coordination compounds arises from d-d transitions. Statement II:',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'extreme_qualifier',
+  body: 'A student believes that the process of roasting is sufficient for extracting metals from their ores.',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'extreme_qualifier',
+  body: 'Statement I: Electrolytic reduction is preferred for highly reactive metals. Statement II: This meth',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'extreme_qualifier',
+  body: 'In a discussion about methods of extracting metals, a student claims that hydrometallurgy is only us',
+  index: 2
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'extreme_qualifier',
+  body: 'When comparing pyrometallurgy and hydrometallurgy, a learner states that both processes are equally ',
+  index: 3
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'extreme_qualifier',
+  body: 'A learner argues that concentration processes are unnecessary if reduction follows directly after or',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  reason: 'extreme_qualifier',
+  body: 'A student claims that a firewall is solely responsible for preventing unauthorized access to a netwo',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  reason: 'extreme_qualifier',
+  body: 'Statement I: NAT helps in conserving IP addresses. Statement II: NAT can introduce latency in data t',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  reason: 'extreme_qualifier',
+  body: 'A developer states that using a VPN guarantees complete anonymity online. What is the best assessmen',
+  index: 2
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  reason: 'extreme_qualifier',
+  body: 'An IT specialist argues that LANs are always faster than WANs due to their design. How should this a',
+  index: 3
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  reason: 'extreme_qualifier',
+  body: 'Statement I: A switch operates by forwarding packets based on MAC addresses. Statement II: A hub for',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization

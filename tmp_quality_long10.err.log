@@ -1,0 +1,400 @@
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::communication_technologies',
+  selected_anchor_id: 'structured_computer_science_computer_networks_1',
+  selected_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 4,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::communication_technologies',
+  source_anchor_id: 'structured_computer_science_computer_networks_1',
+  source_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Bandwidth refers to the maximum data'
+}
+[llm] generated_question_discarded_before_pipeline {
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Read the statements and choose the correct option: Statement I: Bandwidth refers to the maximum data'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Communication Technologies',
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Read the statements and choose the correct option: Statement I: Bandwidth refers to the maximum data',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read these statements regarding network security: Statement I: Firewalls mainly block incoming traff'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read these statements regarding wireless communication technologies: Statement I: Wi-Fi uses radio w'
+}
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'e76a5f3d-c635-47ef-92f3-794e137d55be',
+  draft_saved: 4,
+  skipped_candidates: 4,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::file_handling',
+  selected_anchor_id: 'structured_computer_science_computer_networks_1',
+  selected_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 4,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::file_handling',
+  source_anchor_id: 'structured_computer_science_computer_networks_1',
+  source_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A file can be opened in different mo'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Closing a file is essential for ensuring that many data is saved properly. Reason: When a'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A text file can be read as binary da'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: File handling operations must often check if a file exists before performing actions on i'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A buffer temporarily holds data duri'
+}
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'a815dc43-f586-488f-a840-b293330675f6',
+  draft_saved: 5,
+  skipped_candidates: 5,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::money_and_banking',
+  selected_anchor_id: 'structured_economics_economic_reforms_since_1991_1',
+  selected_anchor_concept_id: 'economics::economic_reforms_since_1991',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 7,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::money_and_banking',
+  source_anchor_id: 'structured_economics_economic_reforms_since_1991_1',
+  source_anchor_concept_id: 'economics::economic_reforms_since_1991',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Central banks primarily regulate the'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Inflation can erode purchasing power'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The liquidity trap limits monetary p'
+}
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'ff713f88-5169-4b7e-b98d-5a136f9f647a',
+  draft_saved: 5,
+  skipped_candidates: 5,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::vocabulary',
+  selected_anchor_id: 'structured_english_narrative_passage_1',
+  selected_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::vocabulary',
+  source_anchor_id: 'structured_english_narrative_passage_1',
+  source_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: The word 'benevolent' means kind and"
+}
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: The term 'arduous' refers to somethi"
+}
+[llm] english_question_rejected {
+  chapter: 'Vocabulary',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: 'Eloquent' is often used to describe"
+}
+[llm] english_question_rejected {
+  chapter: 'Vocabulary',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: The word 'meticulous' implies a high"
+}
+[llm] english_question_rejected {
+  chapter: 'Vocabulary',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: 'Ambiguous' refers to something that"
+}
+[llm] english_question_rejected {
+  chapter: 'Vocabulary',
+  reason: 'verbal_classification_mismatch',
+  detected_type: 'ambiguous_verbal_ability',
+  index: 4
+}
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'a15b76e1-bf9f-48b1-87bf-032983fde186',
+  draft_saved: 1,
+  skipped_candidates: 1,
+  publish_count: 0
+}
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'geography',
+  concept_id: 'geography::geographical_perspective_on_selected_issues_and_problems',
+  selected_anchor_id: 'synthetic_cuet_structure_geography',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'statement_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Urbanization leads to increased econ'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements regarding climate change impacts on coastal regions: Statement I: '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the following assertions about sustainable urban development: Assertion I: Sustainable practice'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Analyze the following claims regarding rural development initiatives: Claim I: Community participati'
+}
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'af876133-aca4-473f-8915-35595a97d1e8',
+  draft_saved: 5,
+  skipped_candidates: 5,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::integrals',
+  selected_anchor_id: 'seed_pyq_m1',
+  selected_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::integrals',
+  source_anchor_id: 'seed_pyq_m1',
+  source_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'simple_numerical'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The integral of a constant function '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: The area under a curve can be found using definite integrals. Reason: The definite integr'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider a continuous function f(x) defined on [a,b]. Statement I: If f(x) is non-negative on [a,b],'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: The Fundamental Theorem of Calculus '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: The process of finding an antiderivative is essential for computing definite integrals. R'
+}
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '2efd7da4-f025-4489-adf9-8638c4777eeb',
+  draft_saved: 5,
+  skipped_candidates: 5,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::atoms',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::atoms',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements and choose the correct option: Statement I: An atom's stability is primarily det"
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Atoms',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: The energy levels of electrons in an atom can be quantized. Reason: Electrons can occupy ',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following claims about atomic mass: Claim I: The atomic mass of an element reflects bot'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the following statements regarding electron configurations: Statement I: many electrons fill lo'
+}
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '509fb864-d6c1-4cbe-b165-bda10dbb5f29',
+  draft_saved: 4,
+  skipped_candidates: 4,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::electromagnetic_induction',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::electromagnetic_induction',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: A changing magnetic field can induce'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the statements and choose the correct option: Statement I: A changing magnetic field can induce',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: Electromagnetic induction is utilized in electric generators. Reason: Electric generators',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: "Read the statements about Faraday's law and choose the correct option: Statement I: Faraday's law st"
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: "Read the statements about Faraday's law and choose the correct option: Statement I: Faraday's law st",
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: A transformer operates on the principle of electromagnetic induction. Reason: Transformer'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: A transformer operates on the principle of electromagnetic induction. Reason: Transformer',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the following statements regarding inductance and choose the correct option: Statement I: Induc'
+}
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '8faee620-a202-4eba-9f44-b4cc5aefdd11',
+  draft_saved: 1,
+  skipped_candidates: 1,
+  publish_count: 0
+}

@@ -21,7 +21,7 @@ const TOUR_STEPS = [
   { title: 'My Uploads', target: 'nav-my-uploads', body: 'Watch your submitted questions move through moderation.' },
   { title: 'Profile', target: 'nav-profile', body: 'Manage account details, subjects, credits, and plan status.' },
   { title: 'Credits', target: 'credits-pill', body: 'Free users spend credits to generate mocks. Premium removes that friction.' },
-  { title: 'Mobile menu', target: 'mobile-menu-toggle', body: 'This menu opens by default on phones. Tap the three lines to hide or show it anytime.' },
+  { title: 'Mobile menu', target: 'mobile-menu-toggle', body: 'Tap the three lines to show or hide navigation on phones.' },
   { title: 'Premium', target: 'guide-button', body: 'Use Premium for unlimited mocks, advanced Radar, Compass, fast-lane generation, and advanced filters.' },
 ];
 
@@ -30,11 +30,12 @@ export default function AppLayoutClient({ children }) {
   const router = useRouter();
   const { user, status, signOut } = useAuth();
   const { role, isModerator } = useRole();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(true);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [tourOpen, setTourOpen] = useState(false);
   const [tourStep, setTourStep] = useState(0);
   const [tourTarget, setTourTarget] = useState(null);
   const tourSeenKey = user?.id ? `mockmob_app_tour_seen_${user.id}` : 'mockmob_app_tour_seen';
+  const isTestRoute = pathname.startsWith('/test');
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -55,10 +56,11 @@ export default function AppLayoutClient({ children }) {
 
   useEffect(() => {
     if (status !== 'authenticated' || typeof window === 'undefined') return;
+    if (isTestRoute) return;
     if (window.localStorage.getItem(tourSeenKey)) return;
     const id = window.setTimeout(() => setTourOpen(true), 250);
     return () => window.clearTimeout(id);
-  }, [status, tourSeenKey]);
+  }, [status, tourSeenKey, isTestRoute]);
 
   useEffect(() => {
     if (!tourOpen || typeof window === 'undefined') {
@@ -162,7 +164,7 @@ export default function AppLayoutClient({ children }) {
   }
 
   return (
-    <div className="view" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <div className={`view app-shell ${isTestRoute ? 'app-shell--test' : ''}`} style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <aside className="desktop-sidebar">
         <Logo />
         <div className="sidebar-links">
@@ -180,6 +182,7 @@ export default function AppLayoutClient({ children }) {
         </div>
       </aside>
 
+      {!isTestRoute && (
       <nav className="top-nav" style={{
         position: 'sticky', top: 0, zIndex: 40,
         background: 'rgba(10,10,10,.85)',
@@ -192,7 +195,7 @@ export default function AppLayoutClient({ children }) {
           <button
             type="button"
             data-tour="mobile-menu-toggle"
-            className="md:hidden ml-auto inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-zinc-200"
+            className="md:hidden ml-auto inline-flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-zinc-200"
             onClick={() => setMobileMenuOpen((open) => !open)}
             aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
             aria-expanded={mobileMenuOpen}
@@ -353,7 +356,7 @@ export default function AppLayoutClient({ children }) {
                 <button
                   onClick={async () => { await signOut(); router.push('/'); }}
                   title="Sign out"
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 text-zinc-400"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-white/10 text-zinc-300"
                 >
                   <Icon name="logout" style={{ width: '14px', height: '14px' }} />
                 </button>
@@ -387,14 +390,15 @@ export default function AppLayoutClient({ children }) {
           </div>
         )}
       </nav>
+      )}
 
-      <main className="app-main px-4 py-6 md:px-5 md:py-8" style={{ flex: 1, position: 'relative' }}>
+      <main className={`app-main ${isTestRoute ? 'app-main--test' : 'px-4 py-6 md:px-5 md:py-8'}`} style={{ flex: 1, position: 'relative' }}>
         <DotPattern className="fixed inset-0 opacity-20 pointer-events-none" width={24} height={24} />
-        <div className="container-std relative z-10">
+        <div className={`${isTestRoute ? 'test-content-host' : 'container-std'} relative z-10`}>
           {children}
         </div>
       </main>
-      {tourOpen && (
+      {!isTestRoute && tourOpen && (
         <div className="pointer-events-none fixed inset-0 z-[80]">
           {tourTarget ? (
             <>
@@ -506,6 +510,22 @@ export default function AppLayoutClient({ children }) {
           .top-nav .nav-link { display: none; }
           .top-nav .container-std { padding-left: 244px; }
           .app-main { padding-left: 244px !important; }
+          .app-shell--test .app-main {
+            padding-left: 224px !important;
+          }
+        }
+        .app-shell--test .app-main--test {
+          padding: 0;
+        }
+        .app-shell--test .test-content-host {
+          width: 100%;
+          max-width: none;
+          margin: 0;
+        }
+        @media (min-width: 1024px) {
+          .app-shell--test .app-main--test {
+            padding-left: 224px !important;
+          }
         }
       `}</style>
     </div>

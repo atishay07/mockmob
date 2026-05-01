@@ -1,0 +1,33 @@
+{
+  "subject": "computer_science",
+  "chapter": "Computer Networks",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "A school network uses a device to connect its local network to the internet while directing packets between networks. Which device best fits this role?",
+      "options": [
+        "Router, because it forwards data between different networks using addressing information.",
+        "Switch, because it mainly connects devices within the same local network segment.",
+        "Modem, because it converts signals but does not decide packet routes between networks.",
+        "Repeater, because it regenerates signals without selecting network paths."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["case-based", "elimination", "close-distractors", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    },
+    {
+      "question": "Statement I: TCP is concerned with reliable delivery of data. Statement II: IP is concerned with addressing and routing packets. Which option best evaluates the pair?",
+      "options": [
+        "Both statements are valid, and they describe different responsibilities in networking.",
+        "Both statements are valid, but IP provides reliability while TCP provides addressing.",
+        "Statement I is valid, while Statement II is invalid because IP works only inside one device.",
+        "Statement I is invalid, while Statement II is valid because TCP is used only for web pages."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["statement-based", "trap-option", "elimination", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

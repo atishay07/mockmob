@@ -1,10 +1,9 @@
 import { createClient } from '@supabase/supabase-js';
 import { CANONICAL_SYLLABUS, TOP_SUBJECTS, isValidTopSyllabusPair } from '../../../data/canonical_syllabus.js';
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+const supabase = process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY
+  ? createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
+  : null;
 
 const GAP_THRESHOLD = 50;
 const TOP_SUBJECT_SET = new Set(TOP_SUBJECTS);
@@ -58,6 +57,11 @@ function getPriority(count, threshold) {
  */
 export async function analyzeCoverage() {
   console.log('🧐 Analyzing database coverage...');
+
+  if (!supabase) {
+    console.warn('[analyzer] supabase_unavailable_returning_empty_coverage');
+    return { gaps: [], summary: { unavailable: true } };
+  }
 
   const counts = [];
   const pageSize = 1000;

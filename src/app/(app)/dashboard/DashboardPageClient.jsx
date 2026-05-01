@@ -57,7 +57,8 @@ export default function DashboardPageClient() {
       if (window.sessionStorage.getItem('mm:postTest') === '1') {
         window.sessionStorage.removeItem('mm:postTest');
         if (!user?.isPremium) {
-          setShowCreditsModal(true);
+          const id = window.setTimeout(() => setShowCreditsModal(true), 0);
+          return () => window.clearTimeout(id);
         }
       }
     } catch { /* private mode — non-fatal */ }

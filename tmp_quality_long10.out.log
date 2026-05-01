@@ -1,0 +1,1598 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5965 concepts across 40 subjects (saved 2026-04-30T22:01:16.118Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'sociology',
+  chapter: 'Change & Development in Rural Society',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Communication Technologies',
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'File Handling',
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Money & Banking',
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Vocabulary',
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'geography',
+  chapter: 'Geographical Perspective on Selected Issues and Problems',
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'mathematics',
+  chapter: 'Integrals',
+  coverage: 9,
+  priority: 90
+}
+[planner] { subject: 'physics', chapter: 'Atoms', coverage: 9, priority: 90 }
+[planner] {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  coverage: 9,
+  priority: 90
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: sociology → normalized: sociology → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: economics → normalized: economics → tier: 1
+Subject: english → normalized: english → tier: 1
+Subject: geography → normalized: geography → tier: 1
+Subject: mathematics → normalized: mathematics → tier: 1
+Subject: physics → normalized: physics → tier: 1
+Subject: physics → normalized: physics → tier: 1
+Subject: physics → normalized: physics → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'sociology',
+    expected_chapter: 'Change & Development in Rural Society',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Communication Technologies',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'File Handling',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Money & Banking',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Vocabulary',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'geography',
+    expected_chapter: 'Geographical Perspective on Selected Issues and Problems',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'mathematics',
+    expected_chapter: 'Integrals',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'physics',
+    expected_chapter: 'Atoms',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'physics',
+    expected_chapter: 'Electromagnetic Induction',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'physics',
+    expected_chapter: 'Moving Charges & Magnetism',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'sociology',
+    chapter: 'Change & Development in Rural Society',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Communication Technologies',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'File Handling',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'economics',
+    chapter: 'Money & Banking',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'english',
+    chapter: 'Vocabulary',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'geography',
+    chapter: 'Geographical Perspective on Selected Issues and Problems',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'mathematics',
+    chapter: 'Integrals',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'physics',
+    chapter: 'Atoms',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'physics',
+    chapter: 'Electromagnetic Induction',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'physics',
+    chapter: 'Moving Charges & Magnetism',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: 'bef40b85-2b65-4f42-a3a1-da8a8ffb09b9',
+    subject_id: 'sociology',
+    chapter: 'Change & Development in Rural Society',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:05:39.043994+00:00'
+  },
+  {
+    id: 'e76a5f3d-c635-47ef-92f3-794e137d55be',
+    subject_id: 'computer_science',
+    chapter: 'Communication Technologies',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:05:39.043994+00:00'
+  },
+  {
+    id: 'a815dc43-f586-488f-a840-b293330675f6',
+    subject_id: 'computer_science',
+    chapter: 'File Handling',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:05:39.043994+00:00'
+  },
+  {
+    id: 'ff713f88-5169-4b7e-b98d-5a136f9f647a',
+    subject_id: 'economics',
+    chapter: 'Money & Banking',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:05:39.043994+00:00'
+  },
+  {
+    id: 'a15b76e1-bf9f-48b1-87bf-032983fde186',
+    subject_id: 'english',
+    chapter: 'Vocabulary',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:05:39.043994+00:00'
+  },
+  {
+    id: 'af876133-aca4-473f-8915-35595a97d1e8',
+    subject_id: 'geography',
+    chapter: 'Geographical Perspective on Selected Issues and Problems',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:05:39.043994+00:00'
+  },
+  {
+    id: '2efd7da4-f025-4489-adf9-8638c4777eeb',
+    subject_id: 'mathematics',
+    chapter: 'Integrals',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:05:39.043994+00:00'
+  },
+  {
+    id: '509fb864-d6c1-4cbe-b165-bda10dbb5f29',
+    subject_id: 'physics',
+    chapter: 'Atoms',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:05:39.043994+00:00'
+  },
+  {
+    id: '8faee620-a202-4eba-9f44-b4cc5aefdd11',
+    subject_id: 'physics',
+    chapter: 'Electromagnetic Induction',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:05:39.043994+00:00'
+  },
+  {
+    id: 'f893dc8a-6f64-425d-bc7a-a104072236ac',
+    subject_id: 'physics',
+    chapter: 'Moving Charges & Magnetism',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:05:39.043994+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: 'bef40b85-2b65-4f42-a3a1-da8a8ffb09b9',
+    expected_subject: 'sociology',
+    expected_chapter: 'Change & Development in Rural Society',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'e76a5f3d-c635-47ef-92f3-794e137d55be',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Communication Technologies',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'a815dc43-f586-488f-a840-b293330675f6',
+    expected_subject: 'computer_science',
+    expected_chapter: 'File Handling',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'ff713f88-5169-4b7e-b98d-5a136f9f647a',
+    expected_subject: 'economics',
+    expected_chapter: 'Money & Banking',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'a15b76e1-bf9f-48b1-87bf-032983fde186',
+    expected_subject: 'english',
+    expected_chapter: 'Vocabulary',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'af876133-aca4-473f-8915-35595a97d1e8',
+    expected_subject: 'geography',
+    expected_chapter: 'Geographical Perspective on Selected Issues and Problems',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '2efd7da4-f025-4489-adf9-8638c4777eeb',
+    expected_subject: 'mathematics',
+    expected_chapter: 'Integrals',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '509fb864-d6c1-4cbe-b165-bda10dbb5f29',
+    expected_subject: 'physics',
+    expected_chapter: 'Atoms',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '8faee620-a202-4eba-9f44-b4cc5aefdd11',
+    expected_subject: 'physics',
+    expected_chapter: 'Electromagnetic Induction',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'f893dc8a-6f64-425d-bc7a-a104072236ac',
+    expected_subject: 'physics',
+    expected_chapter: 'Moving Charges & Magnetism',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'bef40b85-2b65-4f42-a3a1-da8a8ffb09b9',
+    'e76a5f3d-c635-47ef-92f3-794e137d55be',
+    'a815dc43-f586-488f-a840-b293330675f6',
+    'ff713f88-5169-4b7e-b98d-5a136f9f647a',
+    'a15b76e1-bf9f-48b1-87bf-032983fde186',
+    'af876133-aca4-473f-8915-35595a97d1e8',
+    '2efd7da4-f025-4489-adf9-8638c4777eeb',
+    '509fb864-d6c1-4cbe-b165-bda10dbb5f29',
+    '8faee620-a202-4eba-9f44-b4cc5aefdd11',
+    'f893dc8a-6f64-425d-bc7a-a104072236ac'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'e76a5f3d-c635-47ef-92f3-794e137d55be',
+  actual_subject: 'computer_science',
+  actual_chapter: 'Communication Technologies',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 9,
+  subject_question_count: 347,
+  created_at: '2026-04-30T22:05:39.043994+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'computer_science',
+  chapter: 'Communication Technologies',
+  count: 9,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'computer_science',
+  chapter: 'Communication Technologies',
+  count: 9
+}
+
+[JOB e76a5f3d] Starting: [computer_science] Communication Technologies
+[worker] RECEIVED_JOB: {
+  job_id: 'e76a5f3d-c635-47ef-92f3-794e137d55be',
+  expected_subject: 'computer_science',
+  expected_chapter: 'Communication Technologies',
+  raw_subject_id: 'computer_science',
+  raw_chapter: 'Communication Technologies',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T22:05:39.043994+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'e76a5f3d-c635-47ef-92f3-794e137d55be',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  chapter: 'Communication Technologies',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=9 existing questions loaded
+[generation] batch adjusted: { chapter: 'Communication Technologies', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'e76a5f3d-c635-47ef-92f3-794e137d55be',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Communication Technologies',
+  canonical_unit: 'Section B1: Computer Science',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Communication Technologies" unit="Section B1: Computer Science" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'computer_science',
+  prompt_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Communication Technologies',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'computer_science',
+  expected_chapter: 'Communication Technologies',
+  canonical_unit: 'Section B1: Computer Science',
+  concept_id: 'computer_science::communication_technologies',
+  pyq_anchor_id: 'structure_only_structured_computer_science_computer_networks_1_for_computer_science::communication_technologies',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 15699,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: Bandwidth refers to the maximum data transfer rate of a network. Statement II: Latency is the time taken for data to travel from source to destination. Statement III: A higher bandwidth always guarantees lower latency.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"computer_science::communication_technologies","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The statements focus on practical networking concepts rather than definitions.","why_cuet_level":"It requires understanding of both bandwidth and latency in networking contexts.","distractor_rationale":{"A":"Both statements I and II correctly describe aspects of network performance.","B":"Latency does not depend on bandwidth; they are separate metrics.","C":"Higher bandwidth does not always mean lower latency due to other factors like routing delays.","D":"This statement is incorrect as it treats bandwidth as the sole factor influencing latency."}},{"q":"Assertion: Network protocols are essential for communication between devices. Reason: Protocols define rules that govern data transmission over networks, ensuring proper formatting and delivery.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"computer_science::communication_technologies","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Focuses on practical application of protocols rather than theoretical definitions.","why_cuet_level":"Requires comprehension of both assertion and reasoning about protocols.","distractor_rationale":{"A":"Both are accurate; the reason clarifies why protocols are crucial.","B":"The reason does explain the assertion, making this option incorrect.","C":"The assertion is valid; however, the reasoning accurately describes its importance.","D":"The assertion is valid while the reasoning accurately describes its role."}},{"q":"Read these statements regarding network security: Statement I: Firewalls only block incoming traffic. Statement II: Intrusion Detection Systems (IDS) monitor network traffic for suspicious activity. Statement III: A firewall can also log traffic for analysis purposes under certain configurations.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"B","question_type":"statement_based","concept_id":"computer_science::communication_technologies","trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"Focuses on practical applications of security measures rather than definitions.","why_cuet_level":"Involves analyzing different aspects of network security solutions.","distractor_rationale":{"A":"Firewalls do more than just block incoming traffic; they can also allow outgoing traffic based on rules.","B":"Statement II is accurate while Statement I is flawed; hence this option is correct.","C":"Statement I is misleading; firewalls can manage both incoming and outgoing traffic under certain conditions.","D":"Statement I ignores the capabilities of firewalls in logging traffic."}},{"q":"Assertion: The Internet Protocol (IP) ensures that data packets reach their destination accurately. Reason: IP operates at the transport layer of the OSI model, which handles reliable data delivery between devices.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"C","question_type":"assertion_reason","concept_id":"computer_science::communication_technologies","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"Focuses on practical understanding rather than just definitions or roles in models.","why_cuet_level":"Requires knowledge of protocol layers in networking contexts.","distractor_rationale":{"A":"While both may seem valid, IP operates at a different layer than stated; this makes option A incorrect.","B":"The reason fails to accurately describe IP's function within the OSI model; it operates at a lower layer than transport.","C":"The assertion about IP's role is correct while its stated layer in the reasoning is incorrect; thus this option holds true.","D":"The assertion about IP's role is valid but incorrectly attributes its function to the transport layer."}},{"q":"Read these statements regarding wireless communication technologies: Statement I: Wi-Fi uses radio waves to transmit data. Statement II: Bluetooth has a longer range compared to Wi-Fi. Statement III: Both technologies require specific standards for operation in their respective frequency bands.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"computer_science::communication_technologies","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"Focuses on practical applications rather than basic definitions or descriptions of technology types.","why_cuet_level":"Requires understanding of operational principles behind wireless technologies.","distractor_rationale":{"A":"Only one statement here accurately describes aspects of each technology's characteristics; thus this option fails to hold up against others.","B":"Bluetooth's range generally does not surpass Wi-Fi's capabilities, making this statement misleading.","C":"Both I and III accurately reflect essential features of wireless technologies while II misrepresents their ranges; hence this option stands correct.","D":"This statement inaccurately combines elements that misrepresent operational ranges."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=4
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 4
+[pipeline] generated_count=4 | mix=easy=0, medium=4, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 4
+[pipeline] after_chapter_filter=4 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=4 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 4,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 4
+}
+[draft] Saved bd81a43b-bcec-4e85-b6db-e782758f6d4d | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved c68b3f36-9bea-4367-bae3-367b4e170682 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved a7c60d72-b2dc-48cc-b341-ce1b49ab043d | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 4fe170b9-a432-4c78-9464-02bab8a2f249 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 4,
+  draft_candidates: 4,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=computer_science | chapter=Communication Technologies | target=5 | generated_count=4 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=4 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'bef40b85-2b65-4f42-a3a1-da8a8ffb09b9',
+    'a815dc43-f586-488f-a840-b293330675f6',
+    'ff713f88-5169-4b7e-b98d-5a136f9f647a',
+    'a15b76e1-bf9f-48b1-87bf-032983fde186',
+    'af876133-aca4-473f-8915-35595a97d1e8',
+    '2efd7da4-f025-4489-adf9-8638c4777eeb',
+    '509fb864-d6c1-4cbe-b165-bda10dbb5f29',
+    '8faee620-a202-4eba-9f44-b4cc5aefdd11',
+    'f893dc8a-6f64-425d-bc7a-a104072236ac'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'a815dc43-f586-488f-a840-b293330675f6',
+  actual_subject: 'computer_science',
+  actual_chapter: 'File Handling',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 9,
+  subject_question_count: 351,
+  created_at: '2026-04-30T22:05:39.043994+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'computer_science',
+  chapter: 'File Handling',
+  count: 9,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'computer_science', chapter: 'File Handling', count: 9 }
+
+[JOB a815dc43] Starting: [computer_science] File Handling
+[worker] RECEIVED_JOB: {
+  job_id: 'a815dc43-f586-488f-a840-b293330675f6',
+  expected_subject: 'computer_science',
+  expected_chapter: 'File Handling',
+  raw_subject_id: 'computer_science',
+  raw_chapter: 'File Handling',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T22:05:39.043994+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'a815dc43-f586-488f-a840-b293330675f6',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  chapter: 'File Handling',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=9 existing questions loaded
+[generation] batch adjusted: { chapter: 'File Handling', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'a815dc43-f586-488f-a840-b293330675f6',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'File Handling',
+  canonical_unit: 'Section B1: Computer Science',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="File Handling" unit="Section B1: Computer Science" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'computer_science',
+  prompt_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'File Handling',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'computer_science',
+  expected_chapter: 'File Handling',
+  canonical_unit: 'Section B1: Computer Science',
+  concept_id: 'computer_science::file_handling',
+  pyq_anchor_id: 'structure_only_structured_computer_science_computer_networks_1_for_computer_science::file_handling',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 15668,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: A file can be opened in different modes, such as read, write, or append. Statement II: The append mode allows data to be added without altering existing content. Statement III: Opening a file in write mode automatically deletes its current contents.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"computer_science::file_handling","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The question challenges understanding of file modes rather than definitions.","why_cuet_level":"Requires application of knowledge about file handling modes.","distractor_rationale":{"A":"Both statements I and II accurately describe file modes.","B":"Statement II is valid, but statement III incorrectly states the behavior of write mode.","C":"This statement misrepresents how write mode functions by suggesting it deletes content without context.","D":"This option incorrectly claims all statements are valid, while III is flawed."}},{"q":"Assertion: Closing a file is essential for ensuring that all data is saved properly. Reason: When a file is open, data may be lost if not saved before closing. Choose the correct option.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"computer_science::file_handling","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Focuses on practical implications of file handling rather than definitions.","why_cuet_level":"Tests understanding of file management practices.","distractor_rationale":{"A":"Both statements correctly reflect the importance of closing files.","B":"While both statements are true, the reason fails to clarify why closing is crucial for saving.","C":"The assertion about closing being essential is valid, but this reason misrepresents data loss conditions.","D":"This option incorrectly claims that the assertion is false."}},{"q":"Read the statements and choose the correct option: Statement I: A text file can be read as binary data without any conversions. Statement II: Binary files store data in a format that is not readable by humans. Statement III: Text files can contain images when encoded correctly.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"B","question_type":"statement_based","concept_id":"computer_science::file_handling","trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"Encourages critical thinking about file types beyond definitions.","why_cuet_level":"Requires analysis of file characteristics and formats.","distractor_rationale":{"A":"This combination incorrectly assumes that reading text files as binary is straightforward without conversion.","B":"Statement II accurately describes binary files while statement I misrepresents text files' compatibility with binary reads.","C":"This option incorrectly combines valid statements with an inaccurate claim about text files containing images without context.","D":"This option incorrectly states all statements are valid."}},{"q":"Assertion: File handling operations must always check if a file exists before performing actions on it. Reason: Failing to check can lead to runtime errors or exceptions during execution. Evaluate the correctness of these statements.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"computer_science::file_handling","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Focuses on practical programming concepts rather than definitions of terms.","why_cuet_level":"Tests understanding of error handling in programming practices involving files.","distractor_rationale":{"A":"Both statements correctly highlight the importance of pre-checks in file operations.","B":"While both statements are accurate, the reason does explain why pre-checks matter for avoiding errors.","C":"The reasoning here misrepresents conditions under which errors occur with file operations without prior checks.","D":"This option incorrectly claims that the assertion is false."}},{"q":"Read the statements and choose the correct option: Statement I: A buffer temporarily holds data during input/output operations to enhance performance. Statement II: Buffering can lead to data loss if not managed properly. Statement III: Using larger buffers always results in better performance regardless of context.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"computer_science::file_handling","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Encourages evaluation of buffer management rather than simple definitions.","why_cuet_level":"Tests understanding of buffering concepts in file handling practices.","distractor_rationale":{"A":"Both statements I and II accurately describe buffering characteristics in file handling processes.","B":"This combination incorrectly assumes that statement III accurately reflects buffering benefits without exceptions or conditions involved.","C":"The statement implies an absolute benefit from larger buffers without considering specific scenarios where smaller buffers may be more effective.","D":"This option incorrectly states all statements are valid."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=5
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 5
+[pipeline] generated_count=5 | mix=easy=0, medium=5, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 5
+[pipeline] after_chapter_filter=5 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=5 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 5,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 5
+}
+[draft] Saved 38e60fba-3e7d-4d00-a5d2-622644b02d15 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 3f3d5c99-bcec-45f1-b3e2-d4268c62ee7e | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved e0b3a03f-e935-44be-a337-5e54786b51c1 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 6c64289f-6496-4fcb-b11f-7718963b7911 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved eefcb501-9f80-405b-b096-f2fbb9cc11c0 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 5,
+  draft_candidates: 5,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=computer_science | chapter=File Handling | target=5 | generated_count=5 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=5 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'bef40b85-2b65-4f42-a3a1-da8a8ffb09b9',
+    'ff713f88-5169-4b7e-b98d-5a136f9f647a',
+    'a15b76e1-bf9f-48b1-87bf-032983fde186',
+    'af876133-aca4-473f-8915-35595a97d1e8',
+    '2efd7da4-f025-4489-adf9-8638c4777eeb',
+    '509fb864-d6c1-4cbe-b165-bda10dbb5f29',
+    '8faee620-a202-4eba-9f44-b4cc5aefdd11',
+    'f893dc8a-6f64-425d-bc7a-a104072236ac'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'ff713f88-5169-4b7e-b98d-5a136f9f647a',
+  actual_subject: 'economics',
+  actual_chapter: 'Money & Banking',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 9,
+  subject_question_count: 311,
+  created_at: '2026-04-30T22:05:39.043994+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'economics',
+  chapter: 'Money & Banking',
+  count: 9,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'economics', chapter: 'Money & Banking', count: 9 }
+
+[JOB ff713f88] Starting: [economics] Money & Banking
+[worker] RECEIVED_JOB: {
+  job_id: 'ff713f88-5169-4b7e-b98d-5a136f9f647a',
+  expected_subject: 'economics',
+  expected_chapter: 'Money & Banking',
+  raw_subject_id: 'economics',
+  raw_chapter: 'Money & Banking',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T22:05:39.043994+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'ff713f88-5169-4b7e-b98d-5a136f9f647a',
+  expected_subject: 'economics',
+  resolved_subject_id: 'economics',
+  resolved_subject_name: 'Economics / Business Economics',
+  chapter: 'Money & Banking',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=9 existing questions loaded
+[generation] batch adjusted: { chapter: 'Money & Banking', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'ff713f88-5169-4b7e-b98d-5a136f9f647a',
+  expected_subject: 'economics',
+  resolved_subject_id: 'economics',
+  resolved_subject_name: 'Economics / Business Economics',
+  expected_chapter: 'Money & Banking',
+  canonical_unit: 'Introductory Macroeconomics',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Money & Banking" unit="Introductory Macroeconomics" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'economics',
+  prompt_subject_name: 'Economics / Business Economics',
+  expected_chapter: 'Money & Banking',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'economics',
+  expected_chapter: 'Money & Banking',
+  canonical_unit: 'Introductory Macroeconomics',
+  concept_id: 'economics::money_and_banking',
+  pyq_anchor_id: 'structure_only_structured_economics_economic_reforms_since_1991_1_for_economics::money_and_banking',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'economics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'economics',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 16897,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'economics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: Central banks primarily regulate the money supply to control inflation. Statement II: Money supply adjustments can influence economic growth by affecting interest rates. Statement III: Central banks only focus on stabilizing the currency value without considering employment levels.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"economics::money_and_banking","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"Focus on the interplay between money supply, inflation, and economic growth.","why_cuet_level":"Requires understanding of central bank functions and monetary policy implications.","distractor_rationale":{"A":"Both statements are valid, showing the dual role of central banks in managing inflation and growth.","B":"Statement II is valid, but Statement III incorrectly assumes a lack of concern for employment.","C":"This statement misrepresents central banks' broader focus on economic stability, not just currency value.","D":"This option overstates the isolation of central banks from employment considerations."}},{"q":"Assertion: An increase in the reserve requirement ratio can lead to a decrease in the money supply. Reason: Higher reserve requirements mean banks must hold more funds in reserve, limiting their lending capacity.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"economics::money_and_banking","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Explores the implications of reserve requirements on lending and money supply dynamics.","why_cuet_level":"Tests comprehension of monetary policy mechanisms through assertion-reason evaluation.","distractor_rationale":{"A":"Both statements accurately reflect how reserve requirements affect lending and money supply.","B":"The reason does explain the assertion; hence this option is incorrect.","C":"The assertion is true; however, the reason provided is accurate as well, making this option incorrect.","D":"The assertion is correct while the reason accurately supports it."}},{"q":"Read the statements and choose the correct option: Statement I: Inflation can erode purchasing power but may also stimulate spending if consumers anticipate rising prices. Statement II: A deflationary environment encourages consumers to spend more due to expectations of falling prices. Statement III: Moderate inflation can help reduce unemployment rates by encouraging investment and consumption.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"economics::money_and_banking","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"Examines how inflation influences consumer behavior and economic activity under different conditions.","why_cuet_level":"Requires analysis of economic concepts related to inflation's effects on spending behavior.","distractor_rationale":{"A":"Statement I is valid; however, Statement II incorrectly assumes deflation leads to increased spending without context.","B":"This statement misrepresents how deflation typically discourages spending due to price expectations.","C":"Both statements are valid showcasing how moderate inflation can stimulate economic activity positively.","D":"This option incorrectly suggests all statements are valid without recognizing flaws in Statement II."}},{"q":"Assertion: Open market operations are a tool used by central banks to regulate liquidity in the economy. Reason: By buying government securities, central banks inject liquidity into the banking system, promoting lending activities.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"economics::money_and_banking","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Focuses on understanding monetary policy tools used by central banks effectively.","why_cuet_level":"Tests comprehension of monetary policy mechanisms through assertion-reason evaluation.","distractor_rationale":{"A":"Both statements correctly describe open market operations' role in liquidity regulation.","B":"The reason does explain why open market operations are effective; thus this option is incorrect.","C":"The assertion is accurate regarding open market operations; however, it aligns with the reason provided too closely making this incorrect.","D":"The assertion about open market operations being a regulatory tool is true while the reason also holds validity."}},{"q":"Read the statements and choose the correct option: Statement I: The liquidity trap limits monetary policy effectiveness when interest rates are close to zero. Statement II: In a liquidity trap, increased money supply does not lead to lower interest rates or increased spending. Statement III: Liquidity traps are commonly addressed through fiscal policy rather than monetary measures alone during recession periods.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"economics::money_and_banking","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Analyzes how liquidity traps challenge traditional monetary policy approaches during downturns.","why_cuet_level":"Requires critical assessment of economic conditions affecting monetary policy effectiveness.","distractor_rationale":{"A":"Both statements accurately reflect characteristics of liquidity traps impacting monetary policy efficacy.","B":"Statement III mischaracterizes fiscal policy's role as solely addressing liquidity traps without considering monetary interactions.","C":"This statement inaccurately suggests that one statement lacks validity while both hold relevance to liquidity trap discussions.","D":"This option inaccurately claims all statements are valid without acknowledging issues in Statement III."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=5
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 5
+[pipeline] generated_count=5 | mix=easy=0, medium=5, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 5
+[pipeline] after_chapter_filter=5 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=5 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 5,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 5
+}
+[draft] Saved fcfdcec9-81d0-4b7b-953d-609c2fe06b6d | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 42b1afd1-4a61-49ae-9335-9016720812de | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved c67ee1bb-1d91-4eb9-ae3d-f271f5458ccc | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 666194d7-460b-434b-8703-82da579640e3 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved b8001753-fad6-4558-af18-49cabd75d147 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 5,
+  draft_candidates: 5,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=economics | chapter=Money & Banking | target=5 | generated_count=5 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=5 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'bef40b85-2b65-4f42-a3a1-da8a8ffb09b9',
+    'a15b76e1-bf9f-48b1-87bf-032983fde186',
+    'af876133-aca4-473f-8915-35595a97d1e8',
+    '2efd7da4-f025-4489-adf9-8638c4777eeb',
+    '509fb864-d6c1-4cbe-b165-bda10dbb5f29',
+    '8faee620-a202-4eba-9f44-b4cc5aefdd11',
+    'f893dc8a-6f64-425d-bc7a-a104072236ac'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'a15b76e1-bf9f-48b1-87bf-032983fde186',
+  actual_subject: 'english',
+  actual_chapter: 'Vocabulary',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 9,
+  subject_question_count: 131,
+  created_at: '2026-04-30T22:05:39.043994+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: { subject: 'english', chapter: 'Vocabulary', count: 9, priority: 90 }
+[worker] coverage-based selection: { subject: 'english', chapter: 'Vocabulary', count: 9 }
+
+[JOB a15b76e1] Starting: [english] Vocabulary
+[worker] RECEIVED_JOB: {
+  job_id: 'a15b76e1-bf9f-48b1-87bf-032983fde186',
+  expected_subject: 'english',
+  expected_chapter: 'Vocabulary',
+  raw_subject_id: 'english',
+  raw_chapter: 'Vocabulary',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T22:05:39.043994+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'a15b76e1-bf9f-48b1-87bf-032983fde186',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  chapter: 'Vocabulary',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=9 existing questions loaded
+[generation] batch adjusted: { chapter: 'Vocabulary', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'a15b76e1-bf9f-48b1-87bf-032983fde186',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  expected_chapter: 'Vocabulary',
+  canonical_unit: 'Verbal Ability',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Vocabulary" unit="Verbal Ability" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'English',
+  expected_chapter: 'Vocabulary',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'english',
+  expected_chapter: 'Vocabulary',
+  canonical_unit: 'Verbal Ability',
+  concept_id: 'english::vocabulary',
+  pyq_anchor_id: 'structure_only_structured_english_narrative_passage_1_for_english::vocabulary',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 5,
+  pyq_style_patterns: [ 'reading_comprehension', 'vocabulary', 'correct_word_usage' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 15317,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: The word 'benevolent' means kind and generous. Statement II: A benevolent person is often seen as selfish. Statement III: Benevolent actions generally promote goodwill among others.","o":["I and III only","II and III only","I and II only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"english::vocabulary","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"The focus on vocabulary nuances requires understanding beyond definitions.","why_cuet_level":"This question tests nuanced understanding of vocabulary meaning and context.","distractor_rationale":{"A":"Correctly identifies the meaning of 'benevolent' and its implications.","B":"Incorrectly claims that a benevolent person is selfish, which contradicts the definition.","C":"While true about statement I, it overlooks the flawed nature of statement II.","D":"Includes an incorrect statement, making it invalid."}},{"q":"Read the statements and choose the correct option: Statement I: The term 'arduous' refers to something that is difficult or requires a lot of effort. Statement II: An arduous task can be completed easily with minimal effort. Statement III: People often feel a sense of accomplishment after completing arduous tasks.","o":["I and III only","II and III only","I and II only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"english::vocabulary","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"The question avoids direct definitions to explore contextual usage.","why_cuet_level":"This evaluates understanding of vocabulary in practical scenarios.","distractor_rationale":{"A":"Correctly describes the meaning of 'arduous' and its emotional impact after completion.","B":"Misrepresents the nature of arduous tasks by suggesting they are easy to complete.","C":"While statement I is accurate, it ignores the inaccuracy in statement II.","D":"Combines accurate and inaccurate statements, making it invalid."}},{"q":"Read the statements and choose the correct option: Statement I: 'Eloquent' is often used to describe someone who speaks very clearly and effectively. Statement II: Eloquent speech usually lacks emotional appeal. Statement III: An eloquent speaker can persuade their audience more effectively than one who is not eloquent.","o":["I and III only","II and III only","I and II only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"english::vocabulary","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"Focuses on comprehension rather than rote memorization of definitions.","why_cuet_level":"Tests understanding of vocabulary's impact in communication contexts.","distractor_rationale":{"A":"Accurately reflects the definition of 'eloquent' along with its implications in communication.","B":"Incorrectly states that eloquent speech lacks emotional appeal, which is misleading.","C":"While statement I is true, it fails due to the inaccuracy in statement II.","D":"Combines a mix of truths and inaccuracies, rendering it invalid."}},{"q":"Read the statements and choose the correct option: Statement I: The word 'meticulous' implies a high level of attention to detail. Statement II: Meticulous individuals often overlook important aspects due to their focus on details. Statement III: Being meticulous can lead to higher quality outcomes in work or projects.","o":["I and III only","II and III only","I and II only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"english::vocabulary","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"Encourages critical thinking about vocabulary rather than simple recall.","why_cuet_level":"Assesses understanding of vocabulary in terms of benefits versus drawbacks.","distractor_rationale":{"A":"Correctly identifies meaning while recognizing positive implications of being meticulous.","B":"Suggests a flaw in meticulousness that contradicts its generally positive connotation.","C":"Though statement I is accurate, it misrepresents the implications in statement II.","D":"Contains both accurate and misleading statements, making it invalid."}},{"q":"Read the statements and choose the correct option: Statement I: 'Ambiguous' refers to something that can be understood in more than one way. Statement II: Ambiguous language typically enhances clarity in communication. Statement III: Clarity can be compromised when information is ambiguous.","o":["I and III only","II and III only","I and II only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"english::vocabulary","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"Focuses on practical implications rather than just definitions for deeper understanding.","why_cuet_level":"Tests comprehension of vocabulary's role in effective communication.","distractor_rationale":{"A":"Correctly defines 'ambiguous' while recognizing its negative impact on clarity.","B":"'Ambiguous language enhances clarity' contradicts the definition, making it incorrect.","C":"Although statement I is correct, it dismisses flaws in statement II's claim about clarity.","D":"Combines valid points with inaccuracies, leading to an invalid choice."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[english-classification] {
+  question_id: 'concept_1',
+  detected_type: 'Vocabulary',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'concept_2',
+  detected_type: 'ambiguous_verbal_ability',
+  confidence: 0.75
+}
+[english-classification] {
+  question_id: 'concept_3',
+  detected_type: 'ambiguous_verbal_ability',
+  confidence: 0.75
+}
+[english-classification] {
+  question_id: 'concept_4',
+  detected_type: 'ambiguous_verbal_ability',
+  confidence: 0.75
+}
+[english-classification] {
+  question_id: 'concept_5',
+  detected_type: 'ambiguous_verbal_ability',
+  confidence: 0.75
+}
+[llm] openai_generation success gpt-4o-mini count=1
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 1
+[pipeline] generated_count=1 | mix=easy=0, medium=1, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 1
+[pipeline] after_chapter_filter=1 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=1 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 1,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 1
+}
+[draft] Saved 9f294438-a5de-4909-942a-f0ad91f4b472 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 1,
+  draft_candidates: 1,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=english | chapter=Vocabulary | target=5 | generated_count=1 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=1 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'bef40b85-2b65-4f42-a3a1-da8a8ffb09b9',
+    'af876133-aca4-473f-8915-35595a97d1e8',
+    '2efd7da4-f025-4489-adf9-8638c4777eeb',
+    '509fb864-d6c1-4cbe-b165-bda10dbb5f29',
+    '8faee620-a202-4eba-9f44-b4cc5aefdd11',
+    'f893dc8a-6f64-425d-bc7a-a104072236ac'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'af876133-aca4-473f-8915-35595a97d1e8',
+  actual_subject: 'geography',
+  actual_chapter: 'Geographical Perspective on Selected Issues and Problems',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 9,
+  subject_question_count: 208,
+  created_at: '2026-04-30T22:05:39.043994+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'geography',
+  chapter: 'Geographical Perspective on Selected Issues and Problems',
+  count: 9,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'geography',
+  chapter: 'Geographical Perspective on Selected Issues and Problems',
+  count: 9
+}
+
+[JOB af876133] Starting: [geography] Geographical Perspective on Selected Issues and Problems
+[worker] RECEIVED_JOB: {
+  job_id: 'af876133-aca4-473f-8915-35595a97d1e8',
+  expected_subject: 'geography',
+  expected_chapter: 'Geographical Perspective on Selected Issues and Problems',
+  raw_subject_id: 'geography',
+  raw_chapter: 'Geographical Perspective on Selected Issues and Problems',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T22:05:39.043994+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'af876133-aca4-473f-8915-35595a97d1e8',
+  expected_subject: 'geography',
+  resolved_subject_id: 'geography',
+  resolved_subject_name: 'Geography / Geology',
+  chapter: 'Geographical Perspective on Selected Issues and Problems',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=9 existing questions loaded
+[generation] batch adjusted: {
+  chapter: 'Geographical Perspective on Selected Issues and Problems',
+  generate_count: 5
+}
+[worker] GENERATION_INPUT: {
+  job_id: 'af876133-aca4-473f-8915-35595a97d1e8',
+  expected_subject: 'geography',
+  resolved_subject_id: 'geography',
+  resolved_subject_name: 'Geography / Geology',
+  expected_chapter: 'Geographical Perspective on Selected Issues and Problems',
+  canonical_unit: 'Geographical Perspective on Selected Issues and Problems',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Geographical Perspective on Selected Issues and Problems" unit="Geographical Perspective on Selected Issues and Problems" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'geography',
+  prompt_subject_name: 'Geography / Geology',
+  expected_chapter: 'Geographical Perspective on Selected Issues and Problems',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'geography',
+  expected_chapter: 'Geographical Perspective on Selected Issues and Problems',
+  canonical_unit: 'Geographical Perspective on Selected Issues and Problems',
+  concept_id: 'geography::geographical_perspective_on_selected_issues_and_problems',
+  pyq_anchor_id: 'synthetic_cuet_structure_geography',
+  anchor_tier: 4,
+  anchor_source_quality: 'synthetic',
+  pyq_example_count: 0,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'geography',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'geography',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 14532,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'geography',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: Urbanization leads to increased economic opportunities. Statement II: Urban areas often experience environmental degradation. Statement III: Economic opportunities in urban areas are uniformly distributed across all demographics.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"geography::geographical_perspective_on_selected_issues_and_problems","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The statements focus on the complexities of urbanization rather than straightforward definitions.","why_cuet_level":"Requires analysis of statements for socio-economic implications.","distractor_rationale":{"A":"Both statements highlight valid aspects of urbanization's impact.","B":"While II is correct, III inaccurately generalizes economic distribution.","C":"This option incorrectly assumes economic opportunities are equally shared.","D":"This option includes a correct statement but fails to address the flawed one."}},{"q":"Assertion: Rural-to-urban migration significantly alters the demographic landscape of cities. Reason: This migration often results in a surplus of labor in urban areas, affecting job availability and wages.","o":["Both Assertion and Reason are true, and Reason explains Assertion.","Both Assertion and Reason are true, but Reason does not explain Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"geography::geographical_perspective_on_selected_issues_and_problems","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The question requires understanding of migration effects rather than definitions.","why_cuet_level":"Demands comprehension of socio-economic interactions within migration contexts.","distractor_rationale":{"A":"The reasoning directly supports the assertion made about migration.","B":"While both are valid, the reasoning lacks direct causation for the assertion.","C":"This option misrepresents the truth of the assertion regarding migration effects.","D":"Incorrectly states that the assertion is false when it is valid."}},{"q":"Consider the following statements regarding climate change impacts on coastal regions: Statement I: Rising sea levels threaten coastal settlements. Statement II: Climate change affects agricultural productivity in inland areas only. Statement III: Coastal ecosystems are at risk due to changing weather patterns. Identify the correct option.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"geography::geographical_perspective_on_selected_issues_and_problems","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"Focuses on specific impacts rather than broad definitions or explanations.","why_cuet_level":"Engages critical thinking about climate change's diverse impacts.","distractor_rationale":{"A":"Statement I is valid, but II incorrectly limits impacts to inland areas.","B":"This option wrongly includes an incorrect statement about climate effects.","C":"Both statements I and III accurately reflect climate change impacts on coasts.","D":"While I is correct, including II leads to an incorrect conclusion."}},{"q":"Read the following assertions about sustainable urban development: Assertion I: Sustainable practices can mitigate urban heat islands. Assertion II: Urban planning must prioritize green spaces to enhance livability. Assertion III: Economic growth should be prioritized over sustainability in urban settings for development.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"assertion_reason","concept_id":"geography::geographical_perspective_on_selected_issues_and_problems","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Examines practical implications rather than theoretical concepts or definitions.","why_cuet_level":"Requires evaluation of sustainability versus economic growth priorities.","distractor_rationale":{"A":"Both assertions highlight essential aspects of sustainable urban practices.","B":"This option incorrectly suggests that prioritizing growth aligns with sustainability principles.","C":"Mischaracterizes sustainability as less important than economic growth in urban settings.","D":"While II is valid, it does not support a misrepresented assertion about priorities."}},{"q":"Analyze the following claims regarding rural development initiatives: Claim I: Community participation enhances project success rates. Claim II: All rural development projects yield positive outcomes for local populations. Claim III: Tailoring projects to local contexts increases their effectiveness. What is the most accurate assessment?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"geography::geographical_perspective_on_selected_issues_and_problems","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"Focuses on nuanced outcomes rather than basic project definitions or labels.","why_cuet_level":"Involves critical analysis of claims related to rural development effectiveness.","distractor_rationale":{"A":"While I is valid, II inaccurately states universal positive outcomes for projects.","B":"This option incorrectly includes an invalid claim regarding project outcomes.","C":"Both claims I and III correctly reflect factors influencing project effectiveness.","D":"While I is true, it does not support a claim that all projects are successful."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=5
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 5
+[pipeline] generated_count=5 | mix=easy=0, medium=5, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 5
+[pipeline] after_chapter_filter=5 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=5 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 5,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 5
+}
+[draft] Saved 1b3f1e51-4bfe-43ff-95c6-eb78fca8873d | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 3e0cf319-4d8f-4e6a-b2d1-b4ffdcb430aa | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 3efa1c1b-a1ee-4058-8c20-78d1d4a1e769 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved fa57b0c0-9f8d-4486-8376-149c75fac916 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved f119b065-4790-4690-88b8-6b13834b2e3d | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 5,
+  draft_candidates: 5,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=geography | chapter=Geographical Perspective on Selected Issues and Problems | target=5 | generated_count=5 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=5 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'bef40b85-2b65-4f42-a3a1-da8a8ffb09b9',
+    '2efd7da4-f025-4489-adf9-8638c4777eeb',
+    '509fb864-d6c1-4cbe-b165-bda10dbb5f29',
+    '8faee620-a202-4eba-9f44-b4cc5aefdd11',
+    'f893dc8a-6f64-425d-bc7a-a104072236ac'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '2efd7da4-f025-4489-adf9-8638c4777eeb',
+  actual_subject: 'mathematics',
+  actual_chapter: 'Integrals',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 9,
+  subject_question_count: 325,
+  created_at: '2026-04-30T22:05:39.043994+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'mathematics',
+  chapter: 'Integrals',
+  count: 9,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'mathematics', chapter: 'Integrals', count: 9 }
+
+[JOB 2efd7da4] Starting: [mathematics] Integrals
+[worker] RECEIVED_JOB: {
+  job_id: '2efd7da4-f025-4489-adf9-8638c4777eeb',
+  expected_subject: 'mathematics',
+  expected_chapter: 'Integrals',
+  raw_subject_id: 'mathematics',
+  raw_chapter: 'Integrals',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T22:05:39.043994+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '2efd7da4-f025-4489-adf9-8638c4777eeb',
+  expected_subject: 'mathematics',
+  resolved_subject_id: 'mathematics',
+  resolved_subject_name: 'Mathematics / Applied Mathematics',
+  chapter: 'Integrals',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=9 existing questions loaded
+[generation] batch adjusted: { chapter: 'Integrals', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '2efd7da4-f025-4489-adf9-8638c4777eeb',
+  expected_subject: 'mathematics',
+  resolved_subject_id: 'mathematics',
+  resolved_subject_name: 'Mathematics / Applied Mathematics',
+  expected_chapter: 'Integrals',
+  canonical_unit: 'Calculus',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Integrals" unit="Calculus" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'mathematics',
+  prompt_subject_name: 'Mathematics / Applied Mathematics',
+  expected_chapter: 'Integrals',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'mathematics',
+  expected_chapter: 'Integrals',
+  canonical_unit: 'Calculus',
+  concept_id: 'mathematics::integrals',
+  pyq_anchor_id: 'structure_only_seed_pyq_m1_for_mathematics::integrals',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 3,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'mathematics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'mathematics',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 17266,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'mathematics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: The integral of a constant function over any interval is equal to the product of the constant and the length of the interval. Statement II: The definite integral can be interpreted as the net area under the curve between two points. Statement III: The integral of a function does not depend on the limits of integration.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"mathematics::integrals","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question requires understanding of integral properties rather than mere definitions.","why_cuet_level":"This question tests comprehension of key concepts in integrals, suitable for CUET level.","distractor_rationale":{"A":"Both statements correctly describe properties of integrals.","B":"Statement III incorrectly suggests that limits do not affect the integral's value.","C":"Statement III is misleading because the limits are crucial for determining the definite integral.","D":"All statements cannot be true since Statement III contradicts fundamental properties."}},{"q":"Assertion: The area under a curve can be found using definite integrals. Reason: The definite integral gives a positive value for any function over its interval.","o":["Both Assertion and Reason are correct, and Reason is the correct explanation for Assertion.","Both Assertion and Reason are correct, but Reason is not the correct explanation for Assertion.","Assertion is correct but Reason is incorrect.","Assertion is incorrect but Reason is correct."],"a":"A","question_type":"assertion_reason","concept_id":"mathematics::integrals","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question evaluates understanding of assertions in calculus rather than basic definitions.","why_cuet_level":"It challenges students to differentiate between assertions and reasoning in calculus context.","distractor_rationale":{"A":"The reason supports the assertion, as definite integrals indeed calculate area under curves.","B":"While both statements are true, the reason does not correctly explain how areas are computed in all cases.","C":"The assertion stands true, but the reasoning fails since negative areas can occur with certain functions.","D":"The assertion is valid; however, the reasoning about positivity overlooks negative contributions."}},{"q":"Consider a continuous function f(x) defined on [a,b]. Statement I: If f(x) is non-negative on [a,b], then its integral from a to b represents the total area under f(x). Statement II: If f(x) has points where it is negative, then its integral from a to b cannot represent an area. Statement III: Changing limits from [a,b] to [b,a] changes the sign of the integral.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"mathematics::integrals","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"This question focuses on integral properties rather than definitions or direct applications.","why_cuet_level":"It requires critical thinking about properties of integrals relevant to CUET standards.","distractor_rationale":{"A":"While I is true, II misrepresents how integrals can still yield meaningful results despite negatives.","B":"Statement II incorrectly implies that negatives invalidate area representation entirely, which isn't accurate.","C":"This option correctly identifies valid properties of integrals concerning area representation and sign change.","D":"Statement I holds true; however, II incorrectly generalizes about negatives affecting area interpretation."}},{"q":"Read the statements and choose the correct option: Statement I: The Fundamental Theorem of Calculus links differentiation with integration. Statement II: An indefinite integral results in a family of functions differing by a constant. Statement III: The definite integral can yield multiple values depending on its limits regardless of how they are chosen.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"mathematics::integrals","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question tests understanding of foundational calculus concepts rather than definitions alone.","why_cuet_level":"It aligns with CUET expectations by requiring nuanced comprehension of calculus relationships.","distractor_rationale":{"A":"Both I and II accurately describe core principles of calculus regarding integrals and derivatives.","B":"Statement III falsely claims that values can vary with limit choices, contradicting fundamental properties.","C":"Statement III incorrectly suggests variability in values based on limits without considering function behavior.","D":"While I is valid, statement II misrepresents indefinite integrals concerning their outputs."}},{"q":"Assertion: The process of finding an antiderivative is essential for computing definite integrals. Reason: Antiderivatives provide values that are independent of limits used during integration.","o":["Both Assertion and Reason are correct, and Reason explains Assertion effectively.","Both Assertion and Reason are correct, but Reason does not explain Assertion effectively.","Assertion is correct but Reason is incorrect.","Assertion is incorrect but Reason is correct."],"a":"B","question_type":"assertion_reason","concept_id":"mathematics::integrals","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"The question aims at deeper understanding rather than straightforward identification or definitions.","why_cuet_level":"It challenges students' grasp of integration processes relevant to CUET standards.","distractor_rationale":{"A":"The assertion correctly states importance; however, antiderivatives depend on specific limits for definite integrals' outcomes.","B":"While both statements hold truth, reason fails to capture dependency on limits in definite integrations' contexts accurately.","C":"This suggests an incorrect relationship between antiderivatives and their role in defining definite integrals' outcomes based solely on independence from limits.","D":"The assertion stands true; however, reasoning misrepresents how antiderivatives relate to limit-dependent calculations."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=5
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 5
+[pipeline] generated_count=5 | mix=easy=0, medium=5, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 5
+[pipeline] after_chapter_filter=5 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=5 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 5,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 5
+}
+[draft] Saved 98aacd18-aa8c-458e-a59a-e044adfa5234 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 593208ae-ee33-46d4-9d5d-6d6f8890053d | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 3826ce23-eb9b-4103-9641-a5ab6eba8c97 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 322dd7c6-a497-43c0-907e-ca193a8b962d | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved fa9da6ed-1afb-4de7-90ea-35cd1aba3b82 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 5,
+  draft_candidates: 5,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=mathematics | chapter=Integrals | target=5 | generated_count=5 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=5 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'bef40b85-2b65-4f42-a3a1-da8a8ffb09b9',
+    '509fb864-d6c1-4cbe-b165-bda10dbb5f29',
+    '8faee620-a202-4eba-9f44-b4cc5aefdd11',
+    'f893dc8a-6f64-425d-bc7a-a104072236ac'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '509fb864-d6c1-4cbe-b165-bda10dbb5f29',
+  actual_subject: 'physics',
+  actual_chapter: 'Atoms',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 9,
+  subject_question_count: 295,
+  created_at: '2026-04-30T22:05:39.043994+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: { subject: 'physics', chapter: 'Atoms', count: 9, priority: 90 }
+[worker] coverage-based selection: { subject: 'physics', chapter: 'Atoms', count: 9 }
+
+[JOB 509fb864] Starting: [physics] Atoms
+[worker] RECEIVED_JOB: {
+  job_id: '509fb864-d6c1-4cbe-b165-bda10dbb5f29',
+  expected_subject: 'physics',
+  expected_chapter: 'Atoms',
+  raw_subject_id: 'physics',
+  raw_chapter: 'Atoms',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T22:05:39.043994+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '509fb864-d6c1-4cbe-b165-bda10dbb5f29',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  chapter: 'Atoms',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=9 existing questions loaded
+[generation] batch adjusted: { chapter: 'Atoms', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '509fb864-d6c1-4cbe-b165-bda10dbb5f29',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  expected_chapter: 'Atoms',
+  canonical_unit: 'Atoms and Nuclei',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Atoms" unit="Atoms and Nuclei" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'physics',
+  prompt_subject_name: 'Physics',
+  expected_chapter: 'Atoms',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'physics',
+  expected_chapter: 'Atoms',
+  canonical_unit: 'Atoms and Nuclei',
+  concept_id: 'physics::atoms',
+  pyq_anchor_id: 'structure_only_structured_physics_dual_nature_of_radiation_and_matter_1_for_physics::atoms',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 16333,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: An atom's stability is primarily determined by the balance between protons and neutrons. Statement II: Electrons in higher energy levels contribute more to an atom's reactivity. Statement III: Increasing the number of protons without a corresponding increase in neutrons always leads to instability.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"physics::atoms","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The statements are framed to encourage critical evaluation rather than mere recall of definitions.","why_cuet_level":"This question assesses understanding of atomic structure and stability concepts relevant to the syllabus.","distractor_rationale":{"A":"Both statements accurately reflect the concepts of atomic stability and reactivity.","B":"This option incorrectly suggests that Statement I is invalid, which is not true.","C":"This option misinterprets the relationship between protons and neutrons, missing context about stable isotopes.","D":"This option incorrectly implies all statements are valid without recognizing the flaw in Statement III."}},{"q":"Assertion: The energy levels of electrons in an atom can be quantized. Reason: Electrons can occupy any energy level within an atom based on external energy input. Which option best evaluates this pair?","o":["Both Assertion and Reason are correct, but Reason is misleading about electron transitions.","Both Assertion and Reason are correct, with Reason supporting the Assertion.","Assertion is correct, but Reason is incorrect due to its generalization about energy levels.","Assertion is incorrect while Reason is correct under specific conditions."],"a":"A","question_type":"assertion_reason","concept_id":"physics::atoms","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The question focuses on evaluating relationships rather than defining terms directly.","why_cuet_level":"This question challenges students to analyze concepts of quantization in atomic structure critically.","distractor_rationale":{"A":"The Reason misrepresents how electrons transition between quantized levels, hence misleading.","B":"While both statements are true, the reasoning does not accurately support the assertion regarding quantization.","C":"Reason incorrectly suggests a broader applicability of energy levels than what is typically observed in quantum mechanics.","D":"This option wrongly states that Assertion is incorrect, which contradicts established atomic theory."}},{"q":"Consider the following claims about atomic mass: Claim I: The atomic mass of an element reflects both protons and neutrons. Claim II: Isotopes of an element have different atomic masses due to varying neutron counts. Claim III: Atomic mass directly affects chemical reactivity of elements. Which claims are valid?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"physics::atoms","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The question prompts analysis and judgement rather than straightforward identification of facts.","why_cuet_level":"It requires understanding of atomic mass implications while discerning misconceptions about reactivity.","distractor_rationale":{"A":"Claims I and II correctly describe atomic mass properties; Claim III introduces a misconception about direct effects on reactivity.","B":"This option incorrectly includes Claim III as valid, which misrepresents the relationship between mass and reactivity.","C":"Claim III is misleading; atomic mass influences stability more than direct chemical reactivity.","D":"Including Claim III misrepresents how atomic mass functions in relation to chemical properties."}},{"q":"Read the following statements regarding electron configurations: Statement I: All electrons fill lower energy orbitals before moving to higher ones. Statement II: Half-filled orbitals provide additional stability due to symmetry. Statement III: The outermost electrons determine an atom's chemical behavior regardless of inner electrons. Choose the correct option:","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"physics::atoms","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The focus on electron configurations requires critical thinking rather than rote memorization.","why_cuet_level":"This question evaluates understanding of stability principles in electron configurations against common misconceptions.","distractor_rationale":{"A":"Statements I and II are accurate reflections of electron behavior; Statement III oversimplifies chemical behavior dependencies.","B":"Incorrectly includes Statement III as valid, which misunderstands electron interaction roles in chemistry.","C":"Statement III's assertion overlooks the importance of inner electrons in determining overall atom behavior.","D":"This option falsely presents all statements as valid without acknowledging flaws in Statement III."}},{"q":"Assertion: The periodic table's structure reflects periodic trends in atomic properties. Reason: Elements in the same group share similar valence electron configurations. Select the most accurate evaluation of this pair.","o":["Both Assertion and Reason are correct, with Reason supporting Assertion effectively.","Both Assertion and Reason are correct, but they address different aspects of periodicity.","Assertion is correct while Reason is incorrect due to its vagueness about configurations.","Assertion is incorrect while Reason is correct for specific groups."],"a":"A","question_type":"assertion_reason","concept_id":"physics::atoms","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The question encourages evaluation of relationships rather than simple factual recall from textbooks.","why_cuet_level":"It tests understanding of periodic trends alongside reasoning behind elemental behavior in groups effectively.","distractor_rationale":{"A":"The reasoning provided directly supports why periodic trends exist based on electron configurations across groups.","B":"While both statements are true, this option fails to connect how they relate to each other meaningfully.","C":"Reason accurately describes group characteristics; thus, it's not vague but crucial for understanding trends' basis.","D":"Incorrectly states that Assertion lacks validity when it fundamentally describes a core aspect of periodicity."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=4
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 4
+[pipeline] generated_count=4 | mix=easy=0, medium=4, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 4
+[pipeline] after_chapter_filter=4 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=4 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 4,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 4
+}
+[draft] Saved d30c6eea-ec84-4b5d-9e5f-b5ba7b155270 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved cf802723-bb6e-45f3-b624-c3cc92e60ba9 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 70b823b8-7b35-4a90-83f0-0a26ba8a5003 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 09df92e2-beea-4607-8ffa-9b0ce6a3560e | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 4,
+  draft_candidates: 4,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=physics | chapter=Atoms | target=5 | generated_count=4 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=4 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'bef40b85-2b65-4f42-a3a1-da8a8ffb09b9',
+    '8faee620-a202-4eba-9f44-b4cc5aefdd11',
+    'f893dc8a-6f64-425d-bc7a-a104072236ac'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '8faee620-a202-4eba-9f44-b4cc5aefdd11',
+  actual_subject: 'physics',
+  actual_chapter: 'Electromagnetic Induction',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 9,
+  subject_question_count: 299,
+  created_at: '2026-04-30T22:05:39.043994+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  count: 9,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'physics', chapter: 'Electromagnetic Induction', count: 9 }
+
+[JOB 8faee620] Starting: [physics] Electromagnetic Induction
+[worker] RECEIVED_JOB: {
+  job_id: '8faee620-a202-4eba-9f44-b4cc5aefdd11',
+  expected_subject: 'physics',
+  expected_chapter: 'Electromagnetic Induction',
+  raw_subject_id: 'physics',
+  raw_chapter: 'Electromagnetic Induction',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T22:05:39.043994+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '8faee620-a202-4eba-9f44-b4cc5aefdd11',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  chapter: 'Electromagnetic Induction',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=9 existing questions loaded
+[generation] batch adjusted: { chapter: 'Electromagnetic Induction', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '8faee620-a202-4eba-9f44-b4cc5aefdd11',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  expected_chapter: 'Electromagnetic Induction',
+  canonical_unit: 'Electromagnetic Induction and Alternating Currents',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Electromagnetic Induction" unit="Electromagnetic Induction and Alternating Currents" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'physics',
+  prompt_subject_name: 'Physics',
+  expected_chapter: 'Electromagnetic Induction',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'physics',
+  expected_chapter: 'Electromagnetic Induction',
+  canonical_unit: 'Electromagnetic Induction and Alternating Currents',
+  concept_id: 'physics::electromagnetic_induction',
+  pyq_anchor_id: 'structure_only_structured_physics_dual_nature_of_radiation_and_matter_1_for_physics::electromagnetic_induction',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 19603,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: A changing magnetic field can induce an electromotive force in a closed loop. Statement II: The direction of the induced current is given by Lenz's law, which states it opposes the change in magnetic flux. Statement III: Induced current can flow in a single direction regardless of the rate of change of magnetic field.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"physics::electromagnetic_induction","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"This question requires understanding of electromagnetic induction principles rather than memorization.","why_cuet_level":"This aligns with CUET's emphasis on application of concepts rather than rote learning.","distractor_rationale":{"A":"Correctly identifies the principles of induced electromotive force and Lenz's law.","B":"Misinterprets the role of induced current, making a claim about its direction disregarding Lenz's law context.","C":"Incorrectly states that induced current flows in one direction without considering changes in magnetic flux.","D":"Includes all statements but fails to recognize the flaw in Statement III."}},{"q":"Assertion: Electromagnetic induction is utilized in electric generators. Reason: Electric generators convert mechanical energy directly into electrical energy without any intermediate processes. Which option best evaluates this pair?","o":["Both Assertion and Reason are correct, and the Reason explains how generators work.","Both Assertion and Reason are correct, but the Reason oversimplifies generator operation.","Assertion is correct, but Reason is incorrect because it ignores energy conversion steps involved.","Assertion is incorrect, but Reason is correct regarding energy forms."],"a":"B","question_type":"assertion_reason","concept_id":"physics::electromagnetic_induction","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"The question tests comprehension of generator functionality rather than definitions or direct facts.","why_cuet_level":"This question requires analysis of concepts rather than straightforward recall.","distractor_rationale":{"A":"Correctly identifies that electromagnetic induction is involved, but oversimplifies how energy conversion happens in generators.","B":"Correctly distinguishes between assertion and reason while maintaining relevance to electromagnetic induction.","C":"Misrepresents generator operation by claiming no intermediate processes exist, which is inaccurate.","D":"Misstates that the assertion is incorrect when it is valid."}},{"q":"Read the statements about Faraday's law and choose the correct option: Statement I: Faraday's law states that induced electromotive force is proportional to the rate of change of magnetic flux. Statement II: This law applies only to stationary magnetic fields. Statement III: The induced emf can be increased by increasing the number of turns in the coil through which the magnetic field lines pass.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"physics::electromagnetic_induction","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"The focus is on application of Faraday's law rather than simple definitions or facts.","why_cuet_level":"This question assesses understanding of Faraday's law through elimination rather than recall.","distractor_rationale":{"A":"Correctly states Faraday's law but incorrectly claims that it applies only to stationary fields, which limits its scope.","B":"Incorrectly assumes all statements are valid without recognizing flaws in Statement II.","C":"Accurately identifies valid applications of Faraday's law while recognizing limitations in Statement II.","D":"Fails to recognize that Statement II presents a flawed condition."}},{"q":"Assertion: A transformer operates on the principle of electromagnetic induction. Reason: Transformers can increase or decrease voltage levels based solely on their design without any loss of energy. Which option best evaluates this pair?","o":["Both Assertion and Reason are correct, and Reason accurately describes transformer function.","Both Assertion and Reason are correct, but Reason overlooks energy losses during transformation.","Assertion is correct, but Reason is incorrect due to ignoring practical inefficiencies in transformers.","Assertion is incorrect, but Reason correctly describes transformers' operational principle."],"a":"B","question_type":"assertion_reason","concept_id":"physics::electromagnetic_induction","trap_option":"D","strong_distractors":["A","C"],"why_not_textbook":"This question challenges students to analyze transformer operations beyond basic definitions.","why_cuet_level":"Evaluates understanding of transformer principles through critical reasoning rather than memorization.","distractor_rationale":{"A":"Misrepresents transformer operation by suggesting no energy loss occurs, which contradicts real-world applications.","B":"Acknowledges both assertion and reason while correctly identifying an oversight regarding efficiency losses.","C":"Recognizes an error in reasoning about efficiency but misstates the validity of the assertion itself as incorrect.","D":"Claims both statements are incorrect, which does not align with fundamental principles."}},{"q":"Read the following statements regarding inductance and choose the correct option: Statement I: Inductance measures a coil's ability to oppose changes in current. Statement II: A higher inductance results in a slower rate of current change for a given voltage. Statement III: Inductance has no dependency on physical dimensions or material properties of the coil used.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"physics::electromagnetic_induction","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Focuses on understanding inductance principles rather than rote memorization or definitions.","why_cuet_level":"Encourages analysis of inductance effects instead of recalling basic terms or concepts directly.","distractor_rationale":{"A":"Correct interpretation of inductance effects based on established principles related to current change opposition.","B":"Incorrectly states that inductance does not depend on physical properties when it actually does influence behavior significantly.","C":"Misrepresents inductance by claiming independence from coil characteristics, which contradicts fundamental electromagnetic principles.","D":"Fails to identify flaws within Statement III regarding dependence on material properties."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=1
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 1
+[pipeline] generated_count=1 | mix=easy=0, medium=1, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 1
+[pipeline] after_chapter_filter=1 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=1 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 1,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 1
+}
+[draft] Saved 23853870-87c8-4f49-bc56-f8ad967b0951 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 1,
+  draft_candidates: 1,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=physics | chapter=Electromagnetic Induction | target=5 | generated_count=1 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=1 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...

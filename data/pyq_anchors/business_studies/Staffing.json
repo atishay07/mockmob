@@ -1,0 +1,33 @@
+{
+  "subject": "business_studies",
+  "chapter": "Staffing",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "A firm fills senior posts from within the organisation and notices faster adjustment but fewer fresh ideas. Which evaluation best fits this staffing choice?",
+      "options": [
+        "Internal recruitment can improve continuity, but it may restrict the entry of new perspectives.",
+        "Internal recruitment mainly reduces continuity because existing employees need complete retraining.",
+        "External recruitment is avoided because it gives no chance to bring specialised talent.",
+        "Internal recruitment and external recruitment have the same effect on motivation and innovation."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["case-based", "elimination", "close-distractors", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    },
+    {
+      "question": "Statement I: Training improves an employee's ability to perform the present job. Statement II: Development is wider because it prepares employees for future roles. Which option best evaluates the two statements?",
+      "options": [
+        "Both statements are valid, and Statement II correctly separates development from present-job training.",
+        "Both statements are valid, but Statement II is about recruitment rather than employee growth.",
+        "Statement I is valid, while Statement II is invalid because development is limited to the current job.",
+        "Statement I is invalid, while Statement II is valid because training is done before selection."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["statement-based", "comparison", "elimination", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

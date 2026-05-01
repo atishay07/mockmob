@@ -65,7 +65,10 @@ export function UploadForm() {
 
   // Load chapters when subject changes
   useEffect(() => {
-    if (!form.subject) { setChapters([]); return; }
+    if (!form.subject) {
+      const id = window.setTimeout(() => setChapters([]), 0);
+      return () => window.clearTimeout(id);
+    }
     fetch(`/api/chapters?subject=${encodeURIComponent(form.subject)}`)
       .then(r => r.json())
       .then(setChapters)
@@ -174,7 +177,7 @@ export function UploadForm() {
     <div style={{ maxWidth: '640px', margin: '0 auto', width: '100%' }}>
       {/* ── Header ── */}
       <div style={{ marginBottom: '32px' }}>
-        <div className="eyebrow" style={{ marginBottom: '8px' }}>// CONTRIBUTE</div>
+        <div className="eyebrow" style={{ marginBottom: '8px' }}>{'// CONTRIBUTE'}</div>
         <h1 className="display-md">
           Upload a <span className="text-volt" style={{ fontStyle: 'italic' }}>Question</span>
         </h1>
@@ -266,8 +269,10 @@ export function UploadForm() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {options.map((opt, idx) => (
               <div key={opt.key} style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                <span style={{
-                  width: '32px', height: '32px', borderRadius: '6px', flexShrink: 0,
+                <button
+                  type="button"
+                  style={{
+                  width: '44px', height: '44px', borderRadius: '8px', flexShrink: 0,
                   background: form.correct_answer === opt.key ? 'var(--volt)' : 'rgba(255,255,255,0.05)',
                   color: form.correct_answer === opt.key ? '#000' : '#71717a',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -276,10 +281,13 @@ export function UploadForm() {
                   border: '1px solid rgba(255,255,255,0.08)',
                 }}
                   title={`Mark ${opt.key} as correct`}
+                  aria-label={`Mark option ${opt.key} as the correct answer`}
+                  aria-pressed={form.correct_answer === opt.key}
                   onClick={() => !isLoading && set('correct_answer', opt.key)}
+                  disabled={isLoading}
                 >
                   {opt.key}
-                </span>
+                </button>
                 <input
                   className="input"
                   value={opt.text}

@@ -8,6 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "nta:diagnose": "node --use-system-ca scripts/nta-diagnose.mjs",
+    "test:nta": "node --test data/tests/nta_question_selector.test.mjs",
     "db:seed": "node scripts/seed.mjs",
     "autonomous": "node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start",
     "validate:sample": "node --use-system-ca --env-file=.env.local scripts/pipeline/validate-existing.mjs --mode=sample --sample-size=50",

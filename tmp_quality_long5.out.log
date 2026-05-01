@@ -1,0 +1,1173 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5959 concepts across 40 subjects (saved 2026-04-30T20:22:12.063Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  coverage: 3,
+  priority: 90
+}
+[planner] {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Data Structures',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Python Revision',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Economic Reforms Since 1991',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Indian Economy on the Eve of Independence',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  coverage: 8,
+  priority: 90
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: sociology → normalized: sociology → tier: 1
+Subject: business_studies → normalized: business_studies → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: economics → normalized: economics → tier: 1
+Subject: economics → normalized: economics → tier: 1
+Subject: english → normalized: english → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'sociology',
+    expected_chapter: 'Introducing Indian Society',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'business_studies',
+    expected_chapter: 'Staffing',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Coordination Compounds',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Isolation of Elements',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Computer Networks',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Data Structures',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Python Revision',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Economic Reforms Since 1991',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Indian Economy on the Eve of Independence',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'sociology',
+    chapter: 'Introducing Indian Society',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'business_studies',
+    chapter: 'Staffing',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'Coordination Compounds',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'Isolation of Elements',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Computer Networks',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Data Structures',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Python Revision',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'economics',
+    chapter: 'Economic Reforms Since 1991',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'economics',
+    chapter: 'Indian Economy on the Eve of Independence',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: 'c74af2e2-8c79-4004-82b0-179af66a8c4c',
+    subject_id: 'sociology',
+    chapter: 'Introducing Indian Society',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:40:27.972971+00:00'
+  },
+  {
+    id: '14722b15-c954-43e3-9e57-902ba4ac2046',
+    subject_id: 'business_studies',
+    chapter: 'Staffing',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:40:27.972971+00:00'
+  },
+  {
+    id: '0030e043-953e-43f9-82c5-17a3e9022e35',
+    subject_id: 'chemistry',
+    chapter: 'Coordination Compounds',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:40:27.972971+00:00'
+  },
+  {
+    id: '703d13b9-9c0b-4c48-991f-2f61349135e7',
+    subject_id: 'chemistry',
+    chapter: 'Isolation of Elements',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:40:27.972971+00:00'
+  },
+  {
+    id: '435cb4f5-e172-4365-be29-451d58e4202f',
+    subject_id: 'computer_science',
+    chapter: 'Computer Networks',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:40:27.972971+00:00'
+  },
+  {
+    id: '6b74a696-9b42-49e3-adfe-8cfc1f2556ad',
+    subject_id: 'computer_science',
+    chapter: 'Data Structures',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:40:27.972971+00:00'
+  },
+  {
+    id: '863df291-4825-40ec-a6cc-ec0747419e4c',
+    subject_id: 'computer_science',
+    chapter: 'Python Revision',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:40:27.972971+00:00'
+  },
+  {
+    id: '08a2309f-f228-4967-bb86-e1c9460b101c',
+    subject_id: 'economics',
+    chapter: 'Economic Reforms Since 1991',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:40:27.972971+00:00'
+  },
+  {
+    id: '96e772b6-2b0f-4b5e-be2b-918407312bdb',
+    subject_id: 'economics',
+    chapter: 'Indian Economy on the Eve of Independence',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:40:27.972971+00:00'
+  },
+  {
+    id: 'd3832c2e-cea1-45cb-8125-bd264cdab213',
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:40:27.972971+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: 'c74af2e2-8c79-4004-82b0-179af66a8c4c',
+    expected_subject: 'sociology',
+    expected_chapter: 'Introducing Indian Society',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '14722b15-c954-43e3-9e57-902ba4ac2046',
+    expected_subject: 'business_studies',
+    expected_chapter: 'Staffing',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '0030e043-953e-43f9-82c5-17a3e9022e35',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Coordination Compounds',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '703d13b9-9c0b-4c48-991f-2f61349135e7',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Isolation of Elements',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '435cb4f5-e172-4365-be29-451d58e4202f',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Computer Networks',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '6b74a696-9b42-49e3-adfe-8cfc1f2556ad',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Data Structures',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '863df291-4825-40ec-a6cc-ec0747419e4c',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Python Revision',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '08a2309f-f228-4967-bb86-e1c9460b101c',
+    expected_subject: 'economics',
+    expected_chapter: 'Economic Reforms Since 1991',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '96e772b6-2b0f-4b5e-be2b-918407312bdb',
+    expected_subject: 'economics',
+    expected_chapter: 'Indian Economy on the Eve of Independence',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'd3832c2e-cea1-45cb-8125-bd264cdab213',
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'c74af2e2-8c79-4004-82b0-179af66a8c4c',
+    '14722b15-c954-43e3-9e57-902ba4ac2046',
+    '0030e043-953e-43f9-82c5-17a3e9022e35',
+    '703d13b9-9c0b-4c48-991f-2f61349135e7',
+    '435cb4f5-e172-4365-be29-451d58e4202f',
+    '6b74a696-9b42-49e3-adfe-8cfc1f2556ad',
+    '863df291-4825-40ec-a6cc-ec0747419e4c',
+    '08a2309f-f228-4967-bb86-e1c9460b101c',
+    '96e772b6-2b0f-4b5e-be2b-918407312bdb',
+    'd3832c2e-cea1-45cb-8125-bd264cdab213'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '14722b15-c954-43e3-9e57-902ba4ac2046',
+  actual_subject: 'business_studies',
+  actual_chapter: 'Staffing',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 333,
+  created_at: '2026-04-30T21:40:27.972971+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'business_studies', chapter: 'Staffing', count: 8 }
+
+[JOB 14722b15] Starting: [business_studies] Staffing
+[worker] RECEIVED_JOB: {
+  job_id: '14722b15-c954-43e3-9e57-902ba4ac2046',
+  expected_subject: 'business_studies',
+  expected_chapter: 'Staffing',
+  raw_subject_id: 'business_studies',
+  raw_chapter: 'Staffing',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:40:27.972971+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '14722b15-c954-43e3-9e57-902ba4ac2046',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  chapter: 'Staffing',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Staffing', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '14722b15-c954-43e3-9e57-902ba4ac2046',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  expected_chapter: 'Staffing',
+  canonical_unit: 'Staffing',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Staffing" unit="Staffing" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'business_studies',
+  prompt_subject_name: 'Business Studies',
+  expected_chapter: 'Staffing',
+  requested_count: 5,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::staffing',
+  selected_anchor_id: 'structured_business_studies_staffing_1',
+  selected_anchor_concept_id: 'business_studies::staffing',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'case_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'business_studies',
+  expected_chapter: 'Staffing',
+  canonical_unit: 'Staffing',
+  concept_id: 'business_studies::staffing',
+  pyq_anchor_id: 'structured_business_studies_staffing_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 19717,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"A company prefers internal promotions but faces criticism for lack of innovation. Which evaluation best describes this approach?","o":["Internal promotions enhance loyalty and reduce turnover, but may limit fresh ideas.","External hiring is essential for innovation, even if it disrupts existing team dynamics.","Promoting from within fosters a strong culture, although it can ignore new perspectives.","Internal promotions are ideal as they ensure employees understand the company's values."],"a":"A","question_type":"case_based","concept_id":"business_studies::staffing","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The question encourages critical thinking about recruitment strategies rather than simple definitions.","why_cuet_level":"This question aligns with CUET's focus on applied understanding in business studies.","distractor_rationale":{"A":"Valid as it recognizes both benefits and drawbacks of internal promotions.","B":"Incorrect because external hiring does not always guarantee innovation; it can also lead to cultural clashes.","C":"Misleading as it suggests internal promotions disregard the importance of new ideas, which is not necessarily true.","D":"Invalid since promoting from within does not inherently ensure understanding of company values over time."}},{"q":"Statement I: Employee training is primarily focused on current job skills. Statement II: Development encompasses broader skills for future roles. How do these statements relate?","o":["Both statements are accurate, highlighting the distinction between training and development.","Only Statement I is valid since development should focus on immediate job requirements.","Statement II is correct while Statement I overlooks the potential for future skill enhancement.","Both statements are flawed as they fail to consider the role of experience in skill application."],"a":"A","question_type":"statement_based","concept_id":"business_studies::staffing","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The question tests comprehension of training versus development rather than rote definitions.","why_cuet_level":"It fits CUET's requirement for evaluating conceptual understanding in staffing practices.","distractor_rationale":{"A":"Correctly identifies that both statements address different aspects of employee growth.","B":"Incorrect as it misinterprets the purpose of development; it's not limited to immediate needs.","C":"Misleading because while Statement I focuses on current skills, it does not negate future potential.","D":"Invalid since experience does play a role but isn’t the main focus of the statements."}},{"q":"A manager claims that hiring externally is essential for innovation but fails to consider internal talent. Which assessment critiques this viewpoint?","o":["Hiring externally can bring new ideas, but neglecting internal talent may overlook valuable insights.","Relying solely on external hires guarantees fresh perspectives without disrupting existing teams.","Internal talent can stifle innovation if they become too comfortable in their roles over time.","External hiring should be prioritized as it always leads to better outcomes in creative fields."],"a":"A","question_type":"assertion_reason","concept_id":"business_studies::staffing","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Focuses on evaluating managerial perspectives rather than definitions or straightforward concepts.","why_cuet_level":"Encourages critical analysis of staffing strategies relevant to business dynamics.","distractor_rationale":{"A":"Valid as it acknowledges both sides of the staffing strategy debate regarding innovation.","B":"Incorrect because external hires do not always provide better results and may disrupt existing dynamics.","C":"Misleading as it implies internal talent is only a hindrance, ignoring their potential contributions.","D":"Invalid since prioritizing external hires does not guarantee improved outcomes; context matters."}},{"q":"Statement I: Job analysis provides detailed descriptions of tasks and responsibilities. Statement II: It solely focuses on employee performance metrics. Which option accurately evaluates these statements?","o":["Only Statement I is correct because job analysis includes various aspects beyond performance metrics.","Both statements are correct, emphasizing different facets of job analysis importance in staffing processes.","Statement II is valid while Statement I simplifies job analysis to just task descriptions without context.","Both statements are incorrect; job analysis does not concern itself with performance at all."],"a":"A","question_type":"comparison_based","concept_id":"business_studies::staffing","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question challenges understanding of job analysis beyond basic definitions or descriptions.","why_cuet_level":"It aligns with CUET's goal to assess nuanced understanding within business studies topics.","distractor_rationale":{"A":"Correctly highlights that job analysis encompasses more than just performance metrics; it's comprehensive.","B":"Incorrect as it misrepresents the scope of job analysis; it's not limited to just one aspect.","C":"Flawed reasoning as it suggests that performance metrics are irrelevant to job analysis, which isn't true.","D":"Invalid since job analysis indeed considers performance but also involves other critical elements."}},{"q":"A startup uses a mix of internal promotions and external hires but struggles with team cohesion. What conclusion can be drawn about their staffing strategy?","o":["Balancing both approaches can enhance diversity, yet may challenge team unity if not managed well.","Exclusively hiring externally ensures diverse skills but risks a lack of teamwork among employees.","Promoting from within guarantees team cohesion and should be prioritized over external hiring decisions.","Using only internal promotions limits skill diversity and could hinder overall team performance."],"a":"A","question_type":"case_based","concept_id":"business_studies::staffing","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This scenario requires evaluation of staffing strategies in real-world contexts rather than simple recall questions.","why_cuet_level":"It meets CUET standards by assessing practical applications in staffing choices and their implications.","distractor_rationale":{"A":"Valid as it acknowledges the complexity of managing diverse teams with mixed hiring strategies.","B":"Incorrect because while diversity is important, teamwork issues can arise from poor integration practices, not just hiring type alone.","C":"Misleading as it suggests internal promotion alone suffices for cohesion without considering other factors at play.","D":"Invalid since limiting to internal promotions neglects the benefits that external hires can bring to a team's skill set."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'c74af2e2-8c79-4004-82b0-179af66a8c4c',
+    '0030e043-953e-43f9-82c5-17a3e9022e35',
+    '703d13b9-9c0b-4c48-991f-2f61349135e7',
+    '435cb4f5-e172-4365-be29-451d58e4202f',
+    '6b74a696-9b42-49e3-adfe-8cfc1f2556ad',
+    '863df291-4825-40ec-a6cc-ec0747419e4c',
+    '08a2309f-f228-4967-bb86-e1c9460b101c',
+    '96e772b6-2b0f-4b5e-be2b-918407312bdb',
+    'd3832c2e-cea1-45cb-8125-bd264cdab213'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '0030e043-953e-43f9-82c5-17a3e9022e35',
+  actual_subject: 'chemistry',
+  actual_chapter: 'Coordination Compounds',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 318,
+  created_at: '2026-04-30T21:40:27.972971+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'chemistry', chapter: 'Coordination Compounds', count: 8 }
+
+[JOB 0030e043] Starting: [chemistry] Coordination Compounds
+[worker] RECEIVED_JOB: {
+  job_id: '0030e043-953e-43f9-82c5-17a3e9022e35',
+  expected_subject: 'chemistry',
+  expected_chapter: 'Coordination Compounds',
+  raw_subject_id: 'chemistry',
+  raw_chapter: 'Coordination Compounds',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:40:27.972971+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '0030e043-953e-43f9-82c5-17a3e9022e35',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  chapter: 'Coordination Compounds',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Coordination Compounds', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '0030e043-953e-43f9-82c5-17a3e9022e35',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  expected_chapter: 'Coordination Compounds',
+  canonical_unit: 'Coordination Compounds',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Coordination Compounds" unit="Coordination Compounds" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'chemistry',
+  prompt_subject_name: 'Chemistry',
+  expected_chapter: 'Coordination Compounds',
+  requested_count: 5,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::coordination_compounds',
+  selected_anchor_id: 'structured_chemistry_coordination_compounds_1',
+  selected_anchor_concept_id: 'chemistry::coordination_compounds',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'case_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'chemistry',
+  expected_chapter: 'Coordination Compounds',
+  canonical_unit: 'Coordination Compounds',
+  concept_id: 'chemistry::coordination_compounds',
+  pyq_anchor_id: 'structured_chemistry_coordination_compounds_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 21256,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"A student claims that the stability of a coordination complex is determined solely by the oxidation state of the central metal. Which response best addresses this claim?","o":["The oxidation state influences stability, but ligand field strength and sterics also play significant roles.","Stability is primarily dictated by the geometry of the complex rather than oxidation state alone.","Oxidation state is irrelevant because all complexes are stable regardless of metal charge.","Ligand types do not affect stability, so oxidation state is the main factor."],"a":"A","question_type":"statement_based","concept_id":"chemistry::coordination_compounds","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question encourages understanding of multiple factors influencing complex stability instead of just recalling definitions.","why_cuet_level":"This question challenges students to analyze claims about coordination complexes and their stability.","distractor_rationale":{"A":"Acknowledges that multiple factors influence stability, including ligand properties and sterics.","B":"Suggests an important factor (geometry) but overlooks oxidation state's relevance in some contexts.","C":"Misconception that oxidation state is the sole determinant, ignoring other influences.","D":"Ignores the role of ligands entirely, presenting an incomplete view."}},{"q":"Statement I: Bidentate ligands form chelate complexes that can stabilize certain metal ions. Statement II: All chelate complexes have higher stability compared to monodentate complexes. Which evaluation best describes these statements?","o":["Both statements are true; however, some exceptions exist where monodentate complexes may be more stable.","Statement I is valid while Statement II is invalid since not all chelates are more stable than monodentates under every condition.","Both statements are false because chelation does not affect stability at all.","Statement I is invalid; it applies only to specific metals."],"a":"B","question_type":"assertion_reason","concept_id":"chemistry::coordination_compounds","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"This question requires evaluation of conditions affecting complex stability rather than simple fact recall.","why_cuet_level":"Students must critically assess the relationship between ligand type and complex stability in different scenarios.","distractor_rationale":{"A":"Correctly notes exceptions but fails to fully address conditions affecting stability.","B":"Accurately identifies a true statement but acknowledges exceptions in Statement II.","C":"Incorrectly suggests no relationship between chelation and stability exists, which is misleading.","D":"Misunderstands the applicability of bidentate ligands to different metals."}},{"q":"A chemist observes that a metal complex exhibits unexpected color changes when exposed to light. Which explanation best rationalizes this observation?","o":["The color change suggests a transition between different oxidation states of the metal due to light absorption.","Ligands can influence the electronic arrangement around the metal, altering its color perception under light exposure.","Color changes result from temperature fluctuations affecting complex geometry during light exposure.","Only specific metals can exhibit color changes under light; this one does not fall into that category."],"a":"B","question_type":"application_based","concept_id":"chemistry::coordination_compounds","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"The question connects real observations with theoretical concepts, encouraging application rather than memorization.","why_cuet_level":"It tests students' ability to apply concepts of ligand influence on color changes in coordination compounds.","distractor_rationale":{"A":"While possible, this explanation oversimplifies by suggesting only oxidation states cause color changes without considering ligands.","B":"Correctly identifies how ligands can affect electronic configurations and thus color perception.","C":"Misleadingly attributes changes to geometry without recognizing ligand involvement in electronic structure changes.","D":"Incorrectly asserts that only certain metals can show color variation, ignoring broader principles."}},{"q":"Two complexes, [Co(NH3)6]Cl3 and [CoCl3(NH3)3], are compared. What distinguishes their properties significantly?","o":["The first complex has higher overall charge neutrality compared to the second, affecting solubility in water.","Different ligand types lead to varied geometries and electronic properties despite similar cobalt centers.","Both complexes exhibit identical properties since they contain cobalt and ammonia as ligands regardless of arrangement.","The second complex has a lower coordination number due to fewer ammonia ligands compared to the first."],"a":"B","question_type":"comparison_based","concept_id":"chemistry::coordination_compounds","trap_option":"D","strong_distractors":["A","C"],"why_not_textbook":"This question promotes critical thinking about how ligand arrangement affects properties beyond just composition or charge.","why_cuet_level":"It challenges students to analyze how structural differences impact chemical behavior in coordination compounds.","distractor_rationale":{"A":"While charge differences exist, they do not directly explain property variation as effectively as ligand influence does.","B":"Correctly highlights how variations in ligand arrangements significantly impact properties beyond mere composition.","C":"Incorrectly assumes identical properties based solely on common elements without considering structural implications.","D":"Misunderstands coordination numbers; both complexes maintain a coordination number of six."}},{"q":"A learner states that all transition metals form colored solutions due to their d-orbitals. Which correction best addresses this claim?","o":["Color formation depends not just on d-orbitals but also on ligand interactions and field strength around the metal center.","Only specific transition metals exhibit color due to certain electronic transitions within their d-orbitals under specific conditions.","The statement is valid as all transition metals inherently display colors due to their electron configurations in d-orbitals regardless of context.","Ligand types do not influence color; therefore, any transition metal must produce colored solutions."],"a":"A","question_type":"statement_based","concept_id":"chemistry::coordination_compounds","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question requires students to evaluate misconceptions regarding color formation in transition metal complexes rather than rote memorization of facts.","why_cuet_level":"It tests understanding of how various factors contribute to color in transition metal solutions rather than just electron configuration alone.","distractor_rationale":{"A":"Correctly emphasizes the role of ligands in influencing color through their interactions with d-orbitals and field strength effects.","B":"Notes context-specific behavior but doesn’t fully acknowledge the importance of ligands in general cases for coloring effects on solutions.","C":"Incorrectly asserts universal behavior for all transition metals without addressing nuances related to ligands and conditions involved in coloration effects.","D":"Misconception that ignores ligand influence entirely, suggesting an overly simplistic view on transition metal chemistry."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'c74af2e2-8c79-4004-82b0-179af66a8c4c',
+    '703d13b9-9c0b-4c48-991f-2f61349135e7',
+    '435cb4f5-e172-4365-be29-451d58e4202f',
+    '6b74a696-9b42-49e3-adfe-8cfc1f2556ad',
+    '863df291-4825-40ec-a6cc-ec0747419e4c',
+    '08a2309f-f228-4967-bb86-e1c9460b101c',
+    '96e772b6-2b0f-4b5e-be2b-918407312bdb',
+    'd3832c2e-cea1-45cb-8125-bd264cdab213'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '703d13b9-9c0b-4c48-991f-2f61349135e7',
+  actual_subject: 'chemistry',
+  actual_chapter: 'Isolation of Elements',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 318,
+  created_at: '2026-04-30T21:40:27.972971+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'chemistry', chapter: 'Isolation of Elements', count: 8 }
+
+[JOB 703d13b9] Starting: [chemistry] Isolation of Elements
+[worker] RECEIVED_JOB: {
+  job_id: '703d13b9-9c0b-4c48-991f-2f61349135e7',
+  expected_subject: 'chemistry',
+  expected_chapter: 'Isolation of Elements',
+  raw_subject_id: 'chemistry',
+  raw_chapter: 'Isolation of Elements',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:40:27.972971+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '703d13b9-9c0b-4c48-991f-2f61349135e7',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  chapter: 'Isolation of Elements',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Isolation of Elements', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '703d13b9-9c0b-4c48-991f-2f61349135e7',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  expected_chapter: 'Isolation of Elements',
+  canonical_unit: 'Existing Chemistry Coverage',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Isolation of Elements" unit="Existing Chemistry Coverage" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'chemistry',
+  prompt_subject_name: 'Chemistry',
+  expected_chapter: 'Isolation of Elements',
+  requested_count: 5,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::isolation_of_elements',
+  selected_anchor_id: 'structured_chemistry_isolation_of_elements_1',
+  selected_anchor_concept_id: 'chemistry::isolation_of_elements',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'application_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'chemistry',
+  expected_chapter: 'Isolation of Elements',
+  canonical_unit: 'Existing Chemistry Coverage',
+  concept_id: 'chemistry::isolation_of_elements',
+  pyq_anchor_id: 'structured_chemistry_isolation_of_elements_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 22514,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"A student claims that both roasting and smelting are equally effective in the extraction of metals from their ores. Which option best addresses this misconception?","o":["Roasting is primarily for sulfide ores, while smelting applies to oxide ores with a reducing agent.","Both processes are interchangeable, depending on the metal's properties and ore type.","Smelting involves only the use of heat, while roasting requires chemical reactions with oxygen.","Roasting is less efficient than smelting because it does not produce pure metals."],"a":"A","question_type":"comparison_based","concept_id":"chemistry::isolation_of_elements","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The question encourages critical thinking about the processes rather than rote definitions.","why_cuet_level":"This question aligns with NCERT standards by challenging students' understanding of metallurgical processes.","distractor_rationale":{"A":"Correctly distinguishes between the specific applications of each process based on ore type.","B":"While partially true, it suggests an equivalence that oversimplifies extraction methods.","C":"Incorrectly simplifies smelting to just heat application, ignoring its chemical reduction aspect.","D":"Misrepresents roasting's efficiency by stating it cannot yield pure metals."}},{"q":"Statement I: Electrolytic reduction is only used for highly reactive metals. Statement II: Pyrometallurgy can be applied to both non-ferrous and ferrous metals. Which assessment is most accurate?","o":["Both statements are valid, highlighting different extraction methods for various metal types.","Only Statement I is valid because electrolytic reduction applies exclusively to reactive metals.","Both statements are incorrect as pyrometallurgy does not apply to non-ferrous metals at all.","Only Statement II is valid since electrolytic reduction is too complex for common use."],"a":"A","question_type":"statement_based","concept_id":"chemistry::isolation_of_elements","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The focus is on evaluating statements rather than direct definitions, fostering deeper understanding.","why_cuet_level":"This question meets CUET standards by requiring learners to analyze statements critically.","distractor_rationale":{"A":"Accurately reflects the applicability of each method based on metal reactivity and type.","B":"Overstates the exclusivity of electrolytic reduction's use in reactive metals.","C":"Incorrectly states that pyrometallurgy cannot be used for non-ferrous metals at all.","D":"Misrepresents the complexity of electrolytic reduction as a barrier to its use."}},{"q":"A researcher suggests that using carbon as a reducing agent in metallurgy is always successful due to its abundance. What correction should be made regarding this claim?","o":["Carbon is effective but may not reduce all metal oxides, particularly those of very reactive metals.","The abundance of carbon guarantees successful reduction in every case without exceptions.","Carbon's role as a reducing agent depends solely on temperature and pressure conditions during reaction.","Using carbon is ineffective as it produces unwanted by-products in all metallurgical processes."],"a":"A","question_type":"application_based","concept_id":"chemistry::isolation_of_elements","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"This scenario prompts learners to consider conditions affecting reduction efficacy rather than just facts.","why_cuet_level":"The question encourages practical application of knowledge regarding reducing agents in metallurgy.","distractor_rationale":{"A":"Correctly identifies limitations in carbon's effectiveness based on metal reactivity.","B":"Incorrectly implies that abundance alone ensures success in reduction processes.","C":"While context matters, it overlooks specific reactivity issues with certain metal oxides.","D":"Misleadingly generalizes about by-products without considering specific cases."}},{"q":"Statement I: Hydrometallurgy involves using aqueous solutions for extracting metals. Statement II: This method can be applied exclusively to precious metals like gold and silver. How do these statements compare?","o":["Both statements are valid, but Statement II incorrectly limits hydrometallurgy's application scope.","Only Statement I is valid as hydrometallurgy can also extract base metals under appropriate conditions.","Both statements are incorrect because hydrometallurgy does not involve any liquid solutions at all.","Only Statement II is valid since hydrometallurgy is mainly for precious metal recovery."],"a":"A","question_type":"statement_based","concept_id":"chemistry::isolation_of_elements","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question evaluates understanding through comparison rather than memorization of definitions.","why_cuet_level":"It aligns with CUET guidelines by challenging students to differentiate between concepts effectively.","distractor_rationale":{"A":"Correctly points out that hydrometallurgy has broader applications beyond precious metals.","B":"Misrepresents the scope of hydrometallurgy by suggesting it cannot extract base metals at all.","C":"Incorrectly states that hydrometallurgy lacks any aqueous component or involvement of liquids.","D":"Oversimplifies the method’s application by limiting it solely to precious metals."}},{"q":"A student states that froth flotation separates minerals based solely on density differences. Which option correctly addresses this misunderstanding?","o":["Froth flotation separates minerals primarily based on their surface properties rather than density alone.","Density plays a role, but froth flotation depends significantly on the mineral's hydrophobic characteristics as well.","Froth flotation ignores density entirely, focusing instead on chemical composition for separation purposes.","Density differences alone determine efficiency in froth flotation, making it a straightforward process."],"a":"A","question_type":"comparison_based","concept_id":"chemistry::isolation_of_elements","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question prompts critical evaluation of froth flotation principles rather than simple recognition of facts.","why_cuet_level":"The query aligns with CUET standards by requiring analysis beyond basic definitions or concepts.","distractor_rationale":{"A":"Correctly identifies the primary mechanism behind froth flotation as surface property-based separation.","B":"While partially correct, it overemphasizes density’s role without addressing surface interactions adequately.","C":"Incorrectly states that density has no relevance in froth flotation processes at all.","D":"Misrepresents froth flotation as a purely density-driven method without considering other factors."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=1
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 1
+[pipeline] generated_count=1 | mix=easy=0, medium=1, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 1
+[pipeline] after_chapter_filter=1 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=1 | sent_for_strict_validation=1 | validator_load_reduction=0.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [ 'structured_chemistry_isolation_of_elements_1' ],
+  anchor_source_quality: [ 'manual_seed' ],
+  fallback_used: false,
+  selfcheck_passed: 1,
+  sent_to_validator: 1
+}
+[pipeline] Starting batch validation for 1 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=1
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T21:42:06.887Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"chemistry","questionCount":1}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  status: 'rate_limit',
+  retry_count: 0,
+  duration: 978,
+  error: '[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. '
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] batch_validation_start | model=gemini-2-flash | resolved_model=gemini-2.0-flash-001 | count=1
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T21:42:07.868Z","model":"gemini-2-flash","resolvedModel":"gemini-2.0-flash-001","subject":"chemistry","questionCount":1}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-2.0-flash-001',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-2.0-flash-001',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  status: 'rate_limit',
+  retry_count: 0,
+  duration: 419,
+  error: '[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. '
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-2.0-flash-001',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 0,
+  draft_candidates: 1,
+  publish_count: 0,
+  reason: 'validator_unavailable'
+}
+[pipeline] SUMMARY | subject=chemistry | chapter=Isolation of Elements | target=5 | generated_count=1 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=1 | validated_count=0 | accepted_count=0 | draft_count=0 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=2
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'c74af2e2-8c79-4004-82b0-179af66a8c4c',
+    '435cb4f5-e172-4365-be29-451d58e4202f',
+    '6b74a696-9b42-49e3-adfe-8cfc1f2556ad',
+    '863df291-4825-40ec-a6cc-ec0747419e4c',
+    '08a2309f-f228-4967-bb86-e1c9460b101c',
+    '96e772b6-2b0f-4b5e-be2b-918407312bdb',
+    'd3832c2e-cea1-45cb-8125-bd264cdab213'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '435cb4f5-e172-4365-be29-451d58e4202f',
+  actual_subject: 'computer_science',
+  actual_chapter: 'Computer Networks',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 340,
+  created_at: '2026-04-30T21:40:27.972971+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'computer_science', chapter: 'Computer Networks', count: 8 }
+
+[JOB 435cb4f5] Starting: [computer_science] Computer Networks
+[worker] RECEIVED_JOB: {
+  job_id: '435cb4f5-e172-4365-be29-451d58e4202f',
+  expected_subject: 'computer_science',
+  expected_chapter: 'Computer Networks',
+  raw_subject_id: 'computer_science',
+  raw_chapter: 'Computer Networks',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:40:27.972971+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '435cb4f5-e172-4365-be29-451d58e4202f',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  chapter: 'Computer Networks',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Computer Networks', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '435cb4f5-e172-4365-be29-451d58e4202f',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Computer Networks',
+  canonical_unit: 'Section A: Database and Networks',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Computer Networks" unit="Section A: Database and Networks" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'computer_science',
+  prompt_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Computer Networks',
+  requested_count: 5,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::computer_networks',
+  selected_anchor_id: 'structured_computer_science_computer_networks_1',
+  selected_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'case_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'computer_science',
+  expected_chapter: 'Computer Networks',
+  canonical_unit: 'Section A: Database and Networks',
+  concept_id: 'computer_science::computer_networks',
+  pyq_anchor_id: 'structured_computer_science_computer_networks_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 28884,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"A student claims that a router is primarily responsible for connecting devices within the same local network. What is the best evaluation of this claim?","o":["The claim is incorrect because a router connects different networks, not just local devices.","The claim is partially correct as routers can connect local devices under certain configurations.","The claim is valid because routers manage all device connections in a network.","The claim is correct since routers also facilitate local data transfer."],"a":"A","question_type":"statement_based","concept_id":"computer_science::computer_networks","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"This question tests understanding of router functionality rather than definitions.","why_cuet_level":"This question requires analysis of statements rather than simple recall.","distractor_rationale":{"A":"Routers are indeed used to connect multiple networks and direct traffic between them.","B":"While routers can be configured in certain ways, their primary role is not limited to local connections.","C":"This statement misrepresents the fundamental purpose of routers in networking.","D":"Routers do not primarily facilitate local data transfer as their main function."}},{"q":"Assertion: IP addresses are essential for routing packets across networks. Reason: IP addresses uniquely identify devices on a network. How should these statements be evaluated?","o":["Both the assertion and reason are true, and the reason correctly explains the assertion.","The assertion is true, but the reason is false as IP addresses do not uniquely identify devices.","Both statements are true, but the reason does not adequately support the assertion.","The assertion is false, while the reason is true because IP addresses are only for local identification."],"a":"A","question_type":"assertion_reason","concept_id":"computer_science::computer_networks","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question evaluates comprehension of IP address functions rather than definitions.","why_cuet_level":"It challenges students to analyze relationships between two statements instead of recalling facts.","distractor_rationale":{"A":"The reason effectively explains why IP addresses are crucial for routing.","B":"IP addresses do uniquely identify devices; therefore, this reasoning is incorrect.","C":"While both statements are true, the reason does indeed support the assertion's validity.","D":"IP addresses play a role in both local and broader network identification."}},{"q":"In a scenario where data packets are transmitted over a network, which statement about TCP and UDP best reflects their operational differences?","o":["TCP ensures reliable delivery and maintains order, while UDP allows faster transmission without guarantees.","TCP and UDP both guarantee delivery but differ in speed due to protocol overhead.","UDP provides reliability similar to TCP but operates at a faster pace under specific conditions.","TCP does not handle error checking, while UDP is designed for reliable transfers."],"a":"A","question_type":"comparison_based","concept_id":"computer_science::computer_networks","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question assesses understanding of protocol functions rather than definitions or simple comparisons.","why_cuet_level":"It requires critical thinking to distinguish between two protocols based on their characteristics.","distractor_rationale":{"A":"Correctly identifies the strengths and weaknesses of both protocols in terms of delivery and speed.","B":"Both protocols do not guarantee delivery; this statement misrepresents their functions.","C":"UDP does not provide reliability like TCP; this statement misrepresents their operational principles.","D":"TCP does handle error checking; thus, this statement is incorrect."}},{"q":"When considering network security measures, which approach best balances accessibility and protection from unauthorized access?","o":["Implementing firewalls that restrict traffic based on predefined rules while allowing necessary communications through whitelisting.","Using open networks that allow all traffic to promote ease of access without security measures in place.","Relying solely on antivirus software to protect against external threats while ignoring network configurations.","Establishing complex password policies that prevent access but may hinder user experience."],"a":"A","question_type":"application_based","concept_id":"computer_science::computer_networks","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This scenario evaluates practical application of security strategies rather than theoretical knowledge.","why_cuet_level":"It requires applying knowledge to find an optimal solution rather than recalling definitions or concepts directly.","distractor_rationale":{"A":"This option effectively balances security needs with user accessibility requirements.","B":"Open networks pose significant risks without any protective measures; hence it's inappropriate for security.","C":"Antivirus software alone cannot secure a network; effective configurations are also necessary for protection.","D":"Complex password policies can hinder usability if they are overly restrictive without proper training."}},{"q":"Statement I: A switch operates at Layer 2 of the OSI model and forwards frames based on MAC addresses. Statement II: A hub operates similarly but uses IP addresses for forwarding. Which evaluation is most accurate?","o":["Both statements are valid as they describe how each device functions within networking layers.","Statement I is valid; however, Statement II incorrectly describes hub functionality based on layer operations.","Both statements are invalid since switches do not use MAC addresses for forwarding frames at Layer 2.","Statement I is invalid while Statement II is valid because hubs are more advanced than switches."],"a":"B","question_type":"statement_based","concept_id":"computer_science::computer_networks","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"This question focuses on understanding device functionalities rather than mere definitions or labels.","why_cuet_level":"It challenges students to critically assess technical descriptions rather than simply recall facts about devices' roles in networking.","distractor_rationale":{"A":"Only one statement correctly describes device functionality; hence both cannot be valid together.","B":"Correctly identifies the error in describing hub functionality related to layer operations and addressing methods used by each device type.","C":"Switches do utilize MAC addresses at Layer 2; therefore this statement misrepresents their operation principles.","D":"Hubs are less advanced compared to switches regarding operational capabilities; hence this statement is inaccurate."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=1
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 1
+[pipeline] generated_count=1 | mix=easy=0, medium=1, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 1
+[pipeline] after_chapter_filter=1 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=1 | sent_for_strict_validation=1 | validator_load_reduction=0.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [ 'structured_computer_science_computer_networks_1' ],
+  anchor_source_quality: [ 'manual_seed' ],
+  fallback_used: false,
+  selfcheck_passed: 1,
+  sent_to_validator: 1
+}
+[pipeline] Starting batch validation for 1 ranked questions... (api_call=2)
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 0,
+  draft_candidates: 1,
+  publish_count: 0,
+  reason: 'validator_unavailable'
+}
+[pipeline] SUMMARY | subject=computer_science | chapter=Computer Networks | target=5 | generated_count=1 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=1 | validated_count=0 | accepted_count=0 | draft_count=0 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=2
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'c74af2e2-8c79-4004-82b0-179af66a8c4c',
+    '6b74a696-9b42-49e3-adfe-8cfc1f2556ad',
+    '863df291-4825-40ec-a6cc-ec0747419e4c',
+    '08a2309f-f228-4967-bb86-e1c9460b101c',
+    '96e772b6-2b0f-4b5e-be2b-918407312bdb',
+    'd3832c2e-cea1-45cb-8125-bd264cdab213'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '6b74a696-9b42-49e3-adfe-8cfc1f2556ad',
+  actual_subject: 'computer_science',
+  actual_chapter: 'Data Structures',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 340,
+  created_at: '2026-04-30T21:40:27.972971+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'computer_science',
+  chapter: 'Data Structures',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'computer_science', chapter: 'Data Structures', count: 8 }
+
+[JOB 6b74a696] Starting: [computer_science] Data Structures
+[worker] RECEIVED_JOB: {
+  job_id: '6b74a696-9b42-49e3-adfe-8cfc1f2556ad',
+  expected_subject: 'computer_science',
+  expected_chapter: 'Data Structures',
+  raw_subject_id: 'computer_science',
+  raw_chapter: 'Data Structures',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:40:27.972971+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '6b74a696-9b42-49e3-adfe-8cfc1f2556ad',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  chapter: 'Data Structures',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Data Structures', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '6b74a696-9b42-49e3-adfe-8cfc1f2556ad',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Data Structures',
+  canonical_unit: 'Section B1: Computer Science',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Data Structures" unit="Section B1: Computer Science" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'computer_science',
+  prompt_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Data Structures',
+  requested_count: 5,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::data_structures',
+  selected_anchor_id: 'structured_computer_science_data_structures_1',
+  selected_anchor_concept_id: 'computer_science::data_structures',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'application_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'computer_science',
+  expected_chapter: 'Data Structures',
+  canonical_unit: 'Section B1: Computer Science',
+  concept_id: 'computer_science::data_structures',
+  pyq_anchor_id: 'structured_computer_science_data_structures_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}

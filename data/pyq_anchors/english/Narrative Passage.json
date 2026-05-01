@@ -1,0 +1,33 @@
+{
+  "subject": "english",
+  "chapter": "Narrative Passage",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "Passage: Meera reached the station before sunrise, carrying the letter she had rewritten through the night. Her father believed she was leaving to accept the scholarship, but she had decided to meet him first. As the train whistle grew louder, she folded the letter again and watched the platform fill with strangers. When he finally arrived, breathless and silent, she did not hand him the letter. She simply said, 'I wanted you to hear it from me.' Read the statements and choose the correct option. Statement I: Meera's action suggests a wish to resolve conflict directly. Statement II: The letter mainly shows that she wants to avoid speaking to her father. Statement III: The station setting increases the pressure of decision.",
+      "options": [
+        "I and III only",
+        "I and II only",
+        "II and III only",
+        "I, II and III"
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["reading-comprehension", "statement-based", "elimination", "close-distractors"],
+      "year": 2024,
+      "source": "manual_seed"
+    },
+    {
+      "question": "Passage: The old shopkeeper counted the coins twice, not because he doubted the child, but because the boy looked ready to run. Outside, rain gathered in the broken street. The boy pointed to the blue notebook and whispered that his sister needed it for school. The shopkeeper pushed the notebook across the counter and returned two coins. 'You counted wrong,' he said, though both of them knew the counting had been exact. Which inference is best supported by the passage?",
+      "options": [
+        "The shopkeeper quietly helps the boy without making him feel ashamed.",
+        "The boy tries to cheat the shopkeeper by giving fewer coins.",
+        "The rain is the main reason the shopkeeper changes the price.",
+        "The notebook is returned because it is damaged."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["reading-comprehension", "inference", "trap-option", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

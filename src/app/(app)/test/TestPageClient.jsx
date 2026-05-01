@@ -11,23 +11,8 @@ import { useAuth } from '@/components/AuthProvider';
 import { VoteControls } from '@/components/questions/VoteControls';
 import { getMode, isValidModeId, resolveCount, resolveDurationSec } from '@/../data/test_modes';
 
-/**
- * Test Runner
- * -----------
- * Design notes:
- *  - Timer is derived from a persisted `endsAt` timestamp. We never
- *    count down with a counter variable — every tick compares `Date.now()`
- *    against `endsAt`, so there is zero drift even if the tab throttles
- *    or the user switches tabs.
- *  - Answers + `endsAt` + question IDs are autosaved to localStorage under
- *    an attempt key. Refresh or accidental navigation doesn't lose progress.
- *  - `answersRef` mirrors state so the auto-submit path (timer expiry, tab
- *    close) always reads the latest answers without needing effect re-wiring.
- *  - The palette lives in a right rail on desktop, a bottom bar on mobile.
- */
+const OPTION_LETTERS = ['A', 'B', 'C', 'D', 'E'];
 
-// A stable localStorage key per (user, subject, chapter, count, mode) — distinct
-// tests get distinct keys so two subjects' progress don't collide.
 const storageKey = (uid, subject, chapter, count, difficulty = 'auto', modeId = 'quick') =>
   `mm:test:${uid || 'anon'}:${subject}:${chapter || '*'}:${count}:${difficulty || 'auto'}:${modeId}`;
 
@@ -45,35 +30,104 @@ function correctOptionIndex(question) {
   ));
 }
 
+function displayLabel(value) {
+  return String(value || '')
+    .replace(/_/g, ' ')
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function passageKeyFor(question) {
+  return question?.passageGroupId || question?.passage_group_id || question?.group_id || question?.passageId || question?.passage_id || '';
+}
+
+function passageTextFor(question) {
+  return question?.passageText || question?.passage_text || '';
+}
+
+function passageTitleFor(question) {
+  return question?.passageTitle || question?.passage_title || question?.passageType || question?.passage_type || 'Reading Comprehension';
+}
+
+function getQuestionBlock(questions, index) {
+  const current = questions[index];
+  const key = passageKeyFor(current);
+  const passageText = passageTextFor(current);
+  if (!key || !passageText) {
+    return {
+      isPassage: false,
+      passageKey: '',
+      passageText: '',
+      passageTitle: '',
+      startIdx: index,
+      endIdx: index,
+      entries: current ? [{ question: current, index }] : [],
+    };
+  }
+
+  const entries = questions
+    .map((question, questionIndex) => ({ question, index: questionIndex }))
+    .filter((entry) => passageKeyFor(entry.question) === key)
+    .sort((a, b) => Number(a.question.orderIndex || 0) - Number(b.question.orderIndex || 0) || a.index - b.index);
+
+  const indices = entries.map((entry) => entry.index);
+  return {
+    isPassage: true,
+    passageKey: key,
+    passageText,
+    passageTitle: passageTitleFor(current),
+    startIdx: Math.min(...indices),
+    endIdx: Math.max(...indices),
+    entries,
+  };
+}
+
+function visitedForBlock(questions, index) {
+  const block = getQuestionBlock(questions, index);
+  return Object.fromEntries(block.entries.filter((entry) => entry.question?.id).map((entry) => [entry.question.id, true]));
+}
+
+function normalizeQuestionPayload(payload) {
+  if (Array.isArray(payload)) return { questions: payload, meta: null };
+  if (payload && Array.isArray(payload.questions)) {
+    return { questions: payload.questions, meta: payload.meta || null };
+  }
+  return { questions: [], meta: payload?.meta || null };
+}
+
+function resolveRunnerDurationSec(mode, questions) {
+  return resolveDurationSec(mode, questions);
+}
+
 function TestRunner() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { user, status: authStatus, refreshSession } = useAuth();
 
   const subjectId = searchParams.get('subject');
-  const chapter   = searchParams.get('chapter') || null;
-  const chapters  = searchParams.get('chapters') || null;
+  const chapter = searchParams.get('chapter') || null;
+  const chapters = searchParams.get('chapters') || null;
   const difficulty = searchParams.get('difficulty') || null;
   const modeIdRaw = searchParams.get('mode') || 'quick';
-  const modeId    = isValidModeId(modeIdRaw) ? modeIdRaw : 'quick';
-  const mode      = getMode(modeId);
+  const modeId = isValidModeId(modeIdRaw) ? modeIdRaw : 'quick';
+  const mode = getMode(modeId);
   const requestedCount = parseInt(searchParams.get('count') || '10', 10);
-  const count     = resolveCount(mode, requestedCount);
+  const count = resolveCount(mode, requestedCount);
   const generationKey = searchParams.get('generationKey');
+  const isNtaMode = modeId === 'nta';
 
   const [questions, setQuestions] = useState([]);
   const [idx, setIdx] = useState(0);
   const [answers, setAnswers] = useState({});
-  // Per-question state. visited[qid]=true when the user lands on it.
-  // marked[qid]=true when the user toggles "Mark for review".
   const [visited, setVisited] = useState({});
   const [marked, setMarked] = useState({});
   const [endsAt, setEndsAt] = useState(null);
   const [now, setNow] = useState(() => Date.now());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectionMeta, setSelectionMeta] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [showVoteCoach, setShowVoteCoach] = useState(false);
+  const [mobilePaletteOpen, setMobilePaletteOpen] = useState(false);
 
   const userId = user?.id;
   const key = useMemo(
@@ -81,23 +135,21 @@ function TestRunner() {
     [userId, subjectId, chapter, chapters, count, difficulty, modeId],
   );
 
-  // Keep latest answers/questions in refs so timer-triggered submit sees them.
-  const answersRef   = useRef(answers);
+  const answersRef = useRef(answers);
   const questionsRef = useRef(questions);
   const submittedRef = useRef(false);
   useEffect(() => { answersRef.current = answers; }, [answers]);
   useEffect(() => { questionsRef.current = questions; }, [questions]);
 
-  // ------------------------------------------------------------------
-  // Load: restore from localStorage if it matches, else fetch fresh.
-  // ------------------------------------------------------------------
   useEffect(() => {
     if (authStatus === 'loading') return;
     if (!subjectId) return;
 
     let alive = true;
     async function load() {
-      setLoading(true); setError(null);
+      setLoading(true);
+      setError(null);
+      setSelectionMeta(null);
       if (!generationKey || generationKey.length < 12) {
         if (!alive) return;
         setError('Missing generation key. Start a fresh test from the dashboard.');
@@ -105,68 +157,68 @@ function TestRunner() {
         return;
       }
 
-      // Attempt restore from localStorage
       if (typeof window !== 'undefined') {
         try {
           const raw = window.localStorage.getItem(key);
           if (raw) {
             const saved = JSON.parse(raw);
-            if (
-              saved?.questions?.length &&
-              typeof saved.endsAt === 'number' &&
-              saved.endsAt > Date.now()
-            ) {
+            if (saved?.questions?.length && typeof saved.endsAt === 'number' && saved.endsAt > Date.now()) {
               if (!alive) return;
               setQuestions(saved.questions);
               setAnswers(saved.answers || {});
               setVisited(saved.visited || {});
               setMarked(saved.marked || {});
+              setSelectionMeta(saved.selectionMeta || null);
               setEndsAt(saved.endsAt);
-              const restoredIdx = typeof saved.idx === 'number' ? Math.min(saved.idx, saved.questions.length - 1) : 0;
-              setIdx(restoredIdx);
-              const initial = saved.questions[restoredIdx];
-              if (initial?.id) setVisited((prev) => ({ ...prev, [initial.id]: true }));
+              setIdx(typeof saved.idx === 'number' ? Math.min(saved.idx, saved.questions.length - 1) : 0);
               setLoading(false);
               return;
             }
-            // Stale / expired: drop it
             window.localStorage.removeItem(key);
           }
-        } catch { /* ignore corrupted state */ }
+        } catch {
+          // Corrupted local progress should not block a fresh test load.
+        }
       }
 
       try {
-        const qs = new URLSearchParams({ subject: subjectId, count: String(count), mode: modeId });
+        const qs = new URLSearchParams({ subject: subjectId, count: String(count), mode: modeId, includeMeta: '1' });
         if (chapters) qs.set('chapters', chapters);
         else if (chapter) qs.set('chapter', chapter);
         if (difficulty) qs.set('difficulty', difficulty);
         qs.set('generationKey', generationKey);
-        const data = await apiGet(`/api/questions?${qs.toString()}`);
+        const payload = await apiGet(`/api/questions?${qs.toString()}`);
         if (!alive) return;
-        if (!Array.isArray(data) || data.length === 0) {
-          setError('No questions available for this selection.');
+
+        const { questions: loadedQuestions, meta } = normalizeQuestionPayload(payload);
+        setSelectionMeta(meta);
+        if (!loadedQuestions.length) {
+          setError(meta?.message || 'No verified questions are available for this selection.');
           setLoading(false);
           return;
         }
-        // Adaptive timing: when the mode uses adaptiveDurationByDifficulty,
-        // pass the actual question array so the duration reflects the mix.
-        const ends = Date.now() + resolveDurationSec(mode, data) * 1000;
-        setQuestions(data);
+
+        if (isNtaMode && loadedQuestions.length !== 50) {
+          setError(meta?.message || `The database returned ${loadedQuestions.length} usable NTA questions for this subject; 50 are required.`);
+          setLoading(false);
+          return;
+        }
+
+        const ends = Date.now() + resolveRunnerDurationSec(mode, loadedQuestions) * 1000;
+        setQuestions(loadedQuestions);
         setAnswers({});
-        setVisited(data[0]?.id ? { [data[0].id]: true } : {});
+        setVisited(visitedForBlock(loadedQuestions, 0));
         setMarked({});
         setIdx(0);
         setEndsAt(ends);
         setLoading(false);
-        if (typeof window !== 'undefined' && !window.localStorage.getItem('mm_vote_coach_seen')) {
+        if (!isNtaMode && typeof window !== 'undefined' && !window.localStorage.getItem('mm_vote_coach_seen')) {
           setShowVoteCoach(true);
         }
         refreshSession({ silent: true });
       } catch (e) {
         if (!alive) return;
         if (e?.status === 402 && e?.body?.upgrade) {
-          // Insufficient credits at start. Block the test, refresh balance
-          // so the dashboard reflects truth, and bounce to pricing.
           try { await refreshSession({ silent: true }); } catch {}
           setError('Insufficient credits. Upgrade to Premium for unlimited mocks.');
           setLoading(false);
@@ -179,48 +231,44 @@ function TestRunner() {
     }
     load();
     return () => { alive = false; };
-  // mode is a stable object reference for a given modeId (TEST_MODES lookup),
-  // so omitting it from deps would be safe — but include it for the linter.
-  }, [subjectId, chapter, chapters, difficulty, count, mode, modeId, generationKey, key, authStatus, refreshSession]);
+  }, [subjectId, chapter, chapters, difficulty, count, mode, modeId, generationKey, key, authStatus, refreshSession, router, isNtaMode]);
 
-  // ------------------------------------------------------------------
-  // Persist progress on every answer/idx change.
-  // ------------------------------------------------------------------
   useEffect(() => {
     if (loading || !endsAt || typeof window === 'undefined') return;
     try {
       window.localStorage.setItem(key, JSON.stringify({
-        questions, answers, visited, marked, endsAt, idx,
+        questions,
+        answers,
+        visited,
+        marked,
+        selectionMeta,
+        endsAt,
+        idx,
       }));
-    } catch { /* quota full / private mode — non-fatal */ }
-  }, [questions, answers, visited, marked, endsAt, idx, key, loading]);
+    } catch {
+      // Private mode or quota pressure should not interrupt the attempt.
+    }
+  }, [questions, answers, visited, marked, selectionMeta, endsAt, idx, key, loading]);
 
-  // gotoQuestion is the single funnel for changing the active question. It
-  // updates idx AND records the visit in one shot, so the palette state never
-  // drifts from reality. Used by the palette chips, Next/Prev buttons, and
-  // the keyboard shortcuts.
   const gotoQuestion = useCallback((nextIdx) => {
     const safe = Math.max(0, Math.min(questionsRef.current.length - 1, nextIdx));
     setIdx(safe);
-    const q = questionsRef.current[safe];
-    if (q?.id) setVisited((prev) => (prev[q.id] ? prev : { ...prev, [q.id]: true }));
+    const patch = visitedForBlock(questionsRef.current, safe);
+    setVisited((prev) => ({ ...prev, ...patch }));
   }, []);
 
-  // ------------------------------------------------------------------
-  // Timer: tick 4x/sec, derive seconds from endsAt.
-  // ------------------------------------------------------------------
   useEffect(() => {
     if (!endsAt) return;
     const tick = () => setNow(Date.now());
     const h = setInterval(tick, 250);
-    const onVis = () => tick(); // re-sync immediately when tab regains focus
+    const onVis = () => tick();
     document.addEventListener('visibilitychange', onVis);
-    return () => { clearInterval(h); document.removeEventListener('visibilitychange', onVis); };
+    return () => {
+      clearInterval(h);
+      document.removeEventListener('visibilitychange', onVis);
+    };
   }, [endsAt]);
 
-  // ------------------------------------------------------------------
-  // Warn on refresh/close while test is live.
-  // ------------------------------------------------------------------
   useEffect(() => {
     if (loading || submittedRef.current) return;
     const onBeforeUnload = (e) => {
@@ -232,9 +280,6 @@ function TestRunner() {
     return () => window.removeEventListener('beforeunload', onBeforeUnload);
   }, [loading]);
 
-  // ------------------------------------------------------------------
-  // Submit — shared by button, last-question, and timer expiry.
-  // ------------------------------------------------------------------
   const submitTest = useCallback(async () => {
     if (submittedRef.current) return;
     if (!user) return;
@@ -244,28 +289,36 @@ function TestRunner() {
     const qs = questionsRef.current;
     const ans = answersRef.current;
 
-    let correct = 0, wrong = 0, unattempted = 0;
-    const details = qs.map((q) => {
-      const given = ans[q.id];
-      if (given === undefined) { unattempted++; return { qid: q.id, givenIndex: null, isCorrect: null }; }
-      const isCorrect = given === correctOptionIndex(q);
-      if (isCorrect) correct++; else wrong++;
-      return { qid: q.id, givenIndex: given, isCorrect };
+    let correct = 0;
+    let wrong = 0;
+    let unattempted = 0;
+    const details = qs.map((question) => {
+      const given = ans[question.id];
+      if (given === undefined) {
+        unattempted += 1;
+        return { qid: question.id, givenIndex: null, isCorrect: null };
+      }
+      const isCorrect = given === correctOptionIndex(question);
+      if (isCorrect) correct += 1;
+      else wrong += 1;
+      return { qid: question.id, givenIndex: given, isCorrect };
     });
 
     const max = qs.length * 5;
     const raw = (correct * 5) - (wrong * 1);
     const score = Math.max(0, Math.round((raw / max) * 100));
 
-    const payload = {
-      subject: subjectId,
-      score, correct, wrong, unattempted, total: qs.length,
-      details,
-      questionsSnapshot: qs,
-    };
-
     try {
-      const data = await apiPost('/api/attempts', payload);
+      const data = await apiPost('/api/attempts', {
+        subject: subjectId,
+        score,
+        correct,
+        wrong,
+        unattempted,
+        total: qs.length,
+        details,
+        questionsSnapshot: qs,
+      });
       try { window.localStorage.removeItem(key); } catch {}
       try { window.sessionStorage.setItem('mm:postTest', '1'); } catch {}
       try { await refreshSession({ silent: true }); } catch {}
@@ -273,22 +326,38 @@ function TestRunner() {
     } catch (e) {
       submittedRef.current = false;
       setSubmitting(false);
-      setError(`Submit failed: ${e.message}. Your answers are saved — press Submit again.`);
+      setError(`Submit failed: ${e.message}. Your answers are saved. Press Submit again.`);
     }
-  }, [user, subjectId, key, router]);
+  }, [user, subjectId, key, router, refreshSession]);
 
-  // Auto-submit when time reaches zero.
   const timeLeft = endsAt ? Math.max(0, Math.floor((endsAt - now) / 1000)) : 0;
   useEffect(() => {
     if (!endsAt) return;
-    if (timeLeft <= 0 && !submittedRef.current && !loading) {
-      submitTest();
-    }
+    if (timeLeft <= 0 && !submittedRef.current && !loading) submitTest();
   }, [timeLeft, endsAt, loading, submitTest]);
 
-  // ------------------------------------------------------------------
-  // Render
-  // ------------------------------------------------------------------
+  useEffect(() => {
+    if (loading || !questions.length) return;
+    const onKeyDown = (event) => {
+      const tag = event.target?.tagName;
+      if (event.defaultPrevented || ['INPUT', 'TEXTAREA', 'SELECT'].includes(tag)) return;
+      const block = getQuestionBlock(questionsRef.current, idx);
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        gotoQuestion(block.startIdx - 1);
+      } else if (event.key === 'ArrowRight' && block.endIdx < questionsRef.current.length - 1) {
+        event.preventDefault();
+        gotoQuestion(block.endIdx + 1);
+      } else if (/^[1-4]$/.test(event.key)) {
+        event.preventDefault();
+        const active = questionsRef.current[idx];
+        if (active?.id) setAnswers((prev) => ({ ...prev, [active.id]: Number(event.key) - 1 }));
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [loading, questions.length, idx, gotoQuestion]);
+
   if (!subjectId) return (
     <div className="container-narrow max-w-3xl pt-10">
       <ErrorState message="No subject selected" />
@@ -299,9 +368,11 @@ function TestRunner() {
       </div>
     </div>
   );
-  if (authStatus === 'loading' || loading) return <PageSpinner label="Loading arena…" />;
+
+  if (authStatus === 'loading' || loading) return <PageSpinner label="Loading test..." />;
+
   if (error) return (
-    <div className="container-narrow max-w-3xl pt-10">
+    <div className="container-narrow max-w-3xl px-4 pt-10">
       <ErrorState message={error} onRetry={() => router.refresh()} />
       <div className="mt-4">
         <Button variant="outline" onClick={() => router.push('/dashboard')}>
@@ -310,19 +381,23 @@ function TestRunner() {
       </div>
     </div>
   );
+
   if (!questions.length) return <ErrorState message="No questions available." />;
 
   const q = questions[idx];
+  const block = getQuestionBlock(questions, idx);
   const mins = Math.floor(timeLeft / 60);
   const secs = timeLeft % 60;
   const progress = ((idx + 1) / questions.length) * 100;
-  const answered = Object.keys(answers).filter(k => answers[k] !== undefined).length;
+  const answered = Object.keys(answers).filter((answerId) => answers[answerId] !== undefined).length;
   const markedCount = Object.values(marked).filter(Boolean).length;
+  const notVisitedCount = questions.filter((question) => !visited[question.id]).length;
+  const pendingCount = questions.length - answered;
   const lowTime = timeLeft < 60;
+  const isLastBlock = block.endIdx >= questions.length - 1;
+  const attemptLabel = isNtaMode ? 'NTA Mode' : mode.label;
+  const subjectLabel = displayLabel(subjectId);
 
-  // Single source of truth for palette chip state. Order of precedence
-  // matches NTA's official palette: marked beats answered for color, but
-  // answered+marked has its own state.
   const chipStateFor = (qid) => {
     const isAnswered = answers[qid] !== undefined;
     const isMarked = !!marked[qid];
@@ -337,39 +412,127 @@ function TestRunner() {
   const toggleMarked = (qid) => {
     setMarked((prev) => {
       const next = { ...prev };
-      if (next[qid]) delete next[qid]; else next[qid] = true;
+      if (next[qid]) delete next[qid];
+      else next[qid] = true;
       return next;
     });
   };
 
+  const clearAnswer = (qid) => {
+    setAnswers((prev) => {
+      const next = { ...prev };
+      delete next[qid];
+      return next;
+    });
+  };
+
+  const confirmAndSubmit = () => {
+    if (pendingCount > 0 || markedCount > 0) {
+      const markedText = markedCount ? ` and ${markedCount} marked for review` : '';
+      if (!confirm(`You have ${pendingCount} unanswered question${pendingCount === 1 ? '' : 's'}${markedText}. Submit anyway?`)) return;
+    }
+    submitTest();
+  };
+
+  const goNext = () => {
+    if (isLastBlock) confirmAndSubmit();
+    else gotoQuestion(block.endIdx + 1);
+  };
+
+  const renderQuestion = (question, questionIndex) => (
+    <section
+      key={question.id}
+      className={`nta-question-block ${question.id === q.id ? 'is-active' : ''}`}
+      aria-labelledby={`question-title-${question.id}`}
+    >
+      <div className="nta-question-meta">
+        <div>
+          <span className="nta-question-number">Question {questionIndex + 1}</span>
+          <span className={`nta-chip nta-chip--${chipStateFor(question.id)}`}>
+            {chipStateFor(question.id).replace('-', ' + ')}
+          </span>
+        </div>
+        <div className="nta-question-actions">
+          <button type="button" className="nta-text-button" onClick={() => toggleMarked(question.id)}>
+            <Icon name="flag" /> {marked[question.id] ? 'Unmark' : 'Mark'}
+          </button>
+          <button type="button" className="nta-text-button" onClick={() => clearAnswer(question.id)}>
+            Clear
+          </button>
+          {!isNtaMode && (
+            <VoteControls
+              questionId={question.id}
+              initialScore={question.score}
+              initialUserVote={question.userVote}
+              compact
+              onVoteApplied={(vote) => {
+                setQuestions((prev) => prev.map((item) => (
+                  item.id === question.id
+                    ? { ...item, score: vote.score, upvotes: vote.upvotes, downvotes: vote.downvotes, userVote: vote.userVote }
+                    : item
+                )));
+              }}
+            />
+          )}
+        </div>
+      </div>
+
+      <h2 id={`question-title-${question.id}`} className="nta-question-text">
+        {question.question}
+      </h2>
+
+      <div className="nta-options" role="group" aria-label={`Options for question ${questionIndex + 1}`}>
+        {question.options.map((opt, optionIndex) => {
+          const selected = answers[question.id] === optionIndex;
+          return (
+            <button
+              key={`${question.id}-${optionIndex}`}
+              type="button"
+              className={`nta-option ${selected ? 'is-selected' : ''}`}
+              onClick={() => setAnswers((prev) => ({ ...prev, [question.id]: optionIndex }))}
+              aria-pressed={selected}
+            >
+              <span className="nta-option-letter">{OPTION_LETTERS[optionIndex] || optionIndex + 1}</span>
+              <span className="nta-option-text">{optionLabel(opt)}</span>
+            </button>
+          );
+        })}
+      </div>
+    </section>
+  );
+
+  const renderPalette = (compact = false) => (
+    <div className={compact ? 'nta-palette-grid is-compact' : 'nta-palette-grid'}>
+      {questions.map((question, questionIndex) => {
+        const state = chipStateFor(question.id);
+        return (
+          <button
+            key={question.id}
+            type="button"
+            className={`nta-palette-chip nta-palette-chip--${state} ${questionIndex === idx ? 'is-current' : ''}`}
+            onClick={() => {
+              gotoQuestion(questionIndex);
+              setMobilePaletteOpen(false);
+            }}
+            aria-label={`Question ${questionIndex + 1}, ${state.replace('-', ' and ')}`}
+          >
+            {questionIndex + 1}
+          </button>
+        );
+      })}
+    </div>
+  );
+
   return (
-    <div className="container-std pb-28 relative">
+    <div className="nta-runner">
       {showVoteCoach && (
         <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/70 backdrop-blur-sm px-4">
           <div className="glass volt-soft max-w-lg w-full p-5 md:p-6 relative overflow-hidden">
-            <div className="vote-cursor-demo" aria-hidden="true">
-              <span className="vote-cursor">⌁</span>
-              <span className="vote-target">▼</span>
-            </div>
             <div className="eyebrow mb-3">{'// Quality loop'}</div>
             <h2 className="heading text-[24px] mb-3">Help clean the question bank</h2>
             <p className="text-sm text-zinc-300 leading-relaxed mb-4">
-              If a question feels out of syllabus, wrongly keyed, or unfairly hard, downvote it. Repeated downvotes push weak questions out of active mocks so the system gets sharper for everyone.
+              If a question feels out of syllabus, wrongly keyed, or unfairly hard, downvote it. Repeated downvotes push weak questions out of active mocks.
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-5">
-              <div className="glass p-3">
-                <div className="mono-label mb-1">1</div>
-                <div className="text-sm text-white">Spot the issue</div>
-              </div>
-              <div className="glass p-3">
-                <div className="mono-label mb-1">2</div>
-                <div className="text-sm text-white">Tap downvote</div>
-              </div>
-              <div className="glass p-3">
-                <div className="mono-label mb-1">3</div>
-                <div className="text-sm text-white">Bank improves</div>
-              </div>
-            </div>
             <Button
               variant="volt"
               className="w-full"
@@ -384,320 +547,798 @@ function TestRunner() {
         </div>
       )}
 
-      <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" onClick={() => {
-            if (confirm('Exit test? Your progress is saved — you can resume from the same URL.')) {
-              router.push('/dashboard');
-            }
-          }}>
-            <Icon name="x" /> Exit
-          </Button>
-          <div className="w-px h-4 bg-white/20" />
-          <div className="mono-label" style={{ color: '#fff' }}>Q {idx + 1} / {questions.length}</div>
-          <div className="w-px h-4 bg-white/20 mobile-hide" />
-          <div className="mono-label mobile-hide">{answered} answered</div>
-        </div>
-        <div
-          className="pill"
-          style={{
-            background: lowTime ? 'rgba(248,113,113,0.12)' : 'rgba(255,255,255,0.05)',
-            color: lowTime ? '#f87171' : '#fff',
-            fontVariantNumeric: 'tabular-nums',
-          }}
-          aria-live="polite"
-        >
-          <Icon name="clock" style={{ marginRight: '6px' }} />
-          {mins}:{secs.toString().padStart(2, '0')}
-        </div>
-      </div>
-
-      <ProgressBar value={progress} className="mb-6" />
-
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-6">
-        {/* ------------------------- Question card ------------------------- */}
-        <div>
-          <div className="glass p-6 md:p-8 mb-6 view" key={q.id}>
-            <div className="flex gap-2 mb-4">
-              <span className="pill volt">{q.chapter}</span>
-              {q.difficulty && <span className="pill subtle">{q.difficulty}</span>}
-              <span className="ml-auto">
-                <VoteControls
-                  questionId={q.id}
-                  initialScore={q.score}
-                  initialUserVote={q.userVote}
-                  compact
-                  onVoteApplied={(vote) => {
-                    setQuestions((prev) => prev.map((item) => (
-                      item.id === q.id
-                        ? { ...item, score: vote.score, upvotes: vote.upvotes, downvotes: vote.downvotes, userVote: vote.userVote }
-                        : item
-                    )));
-                  }}
-                />
-              </span>
-            </div>
-            <h2 className="heading text-xl md:text-2xl leading-relaxed mb-8">{q.question}</h2>
-            <div className="flex flex-col gap-3">
-              {q.options.map((opt, i) => (
-                <button
-                  key={i}
-                  className={`q-option ${answers[q.id] === i ? 'selected' : ''}`}
-                  onClick={() => setAnswers(prev => ({ ...prev, [q.id]: i }))}
-                >
-                  <span className="letter">{['A','B','C','D','E'][i] || (i + 1)}</span>
-                  <span>{optionLabel(opt)}</span>
-                </button>
-              ))}
-            </div>
+      <header className="nta-test-header">
+        <div className="nta-header-left">
+          <button
+            type="button"
+            className="nta-icon-button"
+            onClick={() => {
+              if (confirm('Exit test? Your progress is saved and you can resume from the same URL.')) {
+                router.push('/dashboard');
+              }
+            }}
+            aria-label="Exit test"
+          >
+            <Icon name="x" />
+          </button>
+          <div className="nta-title-stack">
+            <span>{attemptLabel}</span>
+            <strong>{subjectLabel}</strong>
           </div>
+        </div>
 
-          <div className="flex items-center justify-between gap-3 flex-wrap">
-            <Button variant="outline" disabled={idx === 0} onClick={() => gotoQuestion(idx - 1)}>
-              <Icon name="chevL" /> Previous
-            </Button>
-            <div className="flex items-center gap-2">
-              <Button
-                variant={marked[q.id] ? 'volt' : 'ghost'}
-                onClick={() => toggleMarked(q.id)}
-                title="Toggle 'Mark for review'"
+        <div className="nta-header-progress">
+          <div className="nta-progress-row">
+            <span>Question {idx + 1} of {questions.length}</span>
+            <span>{answered} answered</span>
+          </div>
+          <ProgressBar value={progress} />
+        </div>
+
+        <div className={`nta-timer ${lowTime ? 'is-low' : ''}`} aria-live="polite">
+          <Icon name="clock" />
+          <span>{mins}:{secs.toString().padStart(2, '0')}</span>
+        </div>
+      </header>
+
+      <main className="nta-shell">
+        {selectionMeta?.insufficientHighQualityPool && (
+          <div className="nta-alert" role="status">
+            <Icon name="alert" />
+            <span>{selectionMeta.message || `Only ${questions.length} verified questions passed the NTA quality gate for this selection.`}</span>
+          </div>
+        )}
+
+        <div className="nta-grid">
+          <div className="nta-paper">
+            <div className="nta-paper-head">
+              <div>
+                <span className="nta-kicker">MockMob CUET Test Console</span>
+                <h1>{block.isPassage ? 'Passage Set' : `Question ${idx + 1}`}</h1>
+              </div>
+              <div className="nta-paper-tags">
+                <span>{q.chapter}</span>
+                {q.difficulty && <span>{q.difficulty}</span>}
+              </div>
+            </div>
+
+            {block.isPassage && (
+              <article className="nta-passage" aria-label="Passage">
+                <div className="nta-passage-head">
+                  <span>Passage</span>
+                  <strong>{block.passageTitle}</strong>
+                </div>
+                <p>{block.passageText}</p>
+              </article>
+            )}
+
+            <div className="nta-question-list">
+              {block.entries.map((entry) => renderQuestion(entry.question, entry.index))}
+            </div>
+
+            <div className="nta-navigation">
+              <button
+                type="button"
+                className="nta-nav-button"
+                disabled={block.startIdx === 0}
+                onClick={() => gotoQuestion(block.startIdx - 1)}
               >
-                {marked[q.id] ? 'Unmark' : 'Mark for review'}
-              </Button>
-              <Button variant="ghost" onClick={() => {
-                setAnswers(prev => { const n = { ...prev }; delete n[q.id]; return n; });
-              }}>Clear</Button>
-              {idx === questions.length - 1 ? (
-                <Button variant="volt" onClick={submitTest} disabled={submitting}>
-                  {submitting ? 'Submitting…' : <>Submit Test <Icon name="check" /></>}
-                </Button>
-              ) : (
-                <Button variant="outline" onClick={() => gotoQuestion(idx + 1)}>
-                  Next <Icon name="chevR" />
-                </Button>
-              )}
+                <Icon name="chevL" /> Previous
+              </button>
+              <button
+                type="button"
+                className={`nta-nav-button ${isLastBlock ? 'is-primary' : ''}`}
+                onClick={goNext}
+                disabled={submitting}
+              >
+                {isLastBlock ? (submitting ? 'Submitting...' : 'Submit Test') : 'Next'}
+                {!isLastBlock && <Icon name="chevR" />}
+              </button>
             </div>
           </div>
-        </div>
 
-        {/* ------------------------- Palette (desktop rail) ------------------------- */}
-        <aside className="glass p-4 h-max sticky top-24 mobile-hide">
-          <div className="eyebrow no-dot mb-3">{'// Palette'}</div>
-          <div className="palette-summary mb-3">
-            <div><strong>{answered}</strong><span>Answered</span></div>
-            <div><strong>{markedCount}</strong><span>Marked</span></div>
-            <div><strong>{questions.length - answered}</strong><span>Pending</span></div>
-          </div>
-          <div className="q-palette mb-4">
-            {questions.map((qq, i) => {
-              const state = chipStateFor(qq.id);
-              return (
-                <button
-                  key={qq.id}
-                  className={`q-chip q-chip--${state} ${i === idx ? 'current' : ''}`}
-                  onClick={() => gotoQuestion(i)}
-                  aria-label={`Question ${i + 1}, ${state.replace('-', ' and ')}`}
-                >
-                  {i + 1}
-                </button>
-              );
-            })}
-          </div>
-          <div className="palette-legend">
-            <div><span className="legend-dot legend-answered" /> Answered</div>
-            <div><span className="legend-dot legend-marked-answered" /> Answered &amp; marked</div>
-            <div><span className="legend-dot legend-marked" /> Marked for review</div>
-            <div><span className="legend-dot legend-visited" /> Not answered</div>
-            <div><span className="legend-dot legend-notvisited" /> Not visited</div>
-          </div>
-          {!submitting && (
-            <Button
-              variant="volt"
-              className="mt-4 w-full"
-              onClick={() => {
-                const remaining = questions.length - answered;
-                if (remaining > 0) {
-                  if (!confirm(`You have ${remaining} unanswered question${remaining === 1 ? '' : 's'}${markedCount ? ` and ${markedCount} marked for review` : ''}. Submit anyway?`)) return;
-                }
-                submitTest();
-              }}
-            >
-              Submit test
-            </Button>
-          )}
-        </aside>
-      </div>
-
-      {/* Palette (mobile bottom bar) */}
-      <div className="fixed bottom-0 left-0 right-0 px-3 py-3 bg-ink/85 backdrop-blur-md border-t border-white/8 md:hidden flex gap-2 overflow-x-auto no-scrollbar">
-        {questions.map((qq, i) => {
-          const state = chipStateFor(qq.id);
-          return (
-            <button
-              key={qq.id}
-              className={`q-chip q-chip--${state} shrink-0 ${i === idx ? 'current' : ''}`}
-              onClick={() => gotoQuestion(i)}
-            >
-              {i + 1}
+          <aside className="nta-review-panel" aria-label="Question review panel">
+            <div className="nta-panel-section">
+              <span className="nta-kicker">Review</span>
+              <div className="nta-summary-grid">
+                <div><strong>{answered}</strong><span>Answered</span></div>
+                <div><strong>{markedCount}</strong><span>Marked</span></div>
+                <div><strong>{pendingCount}</strong><span>Pending</span></div>
+                <div><strong>{notVisitedCount}</strong><span>Not visited</span></div>
+              </div>
+            </div>
+            {renderPalette()}
+            <div className="nta-legend">
+              <span><i className="legend answered" /> Answered</span>
+              <span><i className="legend marked" /> Marked</span>
+              <span><i className="legend visited" /> Not answered</span>
+              <span><i className="legend notvisited" /> Not visited</span>
+            </div>
+            <button type="button" className="nta-submit-button" onClick={confirmAndSubmit} disabled={submitting}>
+              {submitting ? 'Submitting...' : 'Submit test'}
             </button>
-          );
-        })}
+          </aside>
+        </div>
+      </main>
+
+      <div className="nta-mobile-actions">
+        <button type="button" disabled={block.startIdx === 0} onClick={() => gotoQuestion(block.startIdx - 1)}>
+          <Icon name="chevL" /> Prev
+        </button>
+        <button type="button" onClick={() => setMobilePaletteOpen(true)}>
+          Palette
+        </button>
+        <button type="button" className="is-primary" onClick={goNext} disabled={submitting}>
+          {isLastBlock ? 'Submit' : 'Next'} {!isLastBlock && <Icon name="chevR" />}
+        </button>
       </div>
+
+      {mobilePaletteOpen && (
+        <div className="nta-mobile-sheet" role="dialog" aria-modal="true" aria-label="Question palette">
+          <button className="nta-sheet-backdrop" type="button" aria-label="Close palette" onClick={() => setMobilePaletteOpen(false)} />
+          <div className="nta-sheet-panel">
+            <div className="nta-sheet-head">
+              <div>
+                <span className="nta-kicker">Review Palette</span>
+                <strong>{answered}/{questions.length} answered</strong>
+              </div>
+              <button type="button" className="nta-icon-button" onClick={() => setMobilePaletteOpen(false)} aria-label="Close palette">
+                <Icon name="x" />
+              </button>
+            </div>
+            <div className="nta-summary-grid">
+              <div><strong>{answered}</strong><span>Answered</span></div>
+              <div><strong>{markedCount}</strong><span>Marked</span></div>
+              <div><strong>{pendingCount}</strong><span>Pending</span></div>
+              <div><strong>{notVisitedCount}</strong><span>Not visited</span></div>
+            </div>
+            {renderPalette(true)}
+            <button type="button" className="nta-submit-button" onClick={confirmAndSubmit} disabled={submitting}>
+              {submitting ? 'Submitting...' : 'Submit test'}
+            </button>
+          </div>
+        </div>
+      )}
+
       <style>{`
-        /* ── Palette summary ── */
-        .palette-summary {
+        .nta-runner {
+          min-height: 100vh;
+          background:
+            radial-gradient(circle at 20% 0%, rgba(210,240,0,.055), transparent 30%),
+            linear-gradient(180deg, #0a0a0a, #0d0e0b 58%, #090a08);
+          color: var(--text-primary);
+        }
+        .nta-test-header {
+          position: sticky;
+          top: 0;
+          z-index: 35;
+          min-height: 74px;
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 6px;
+          grid-template-columns: minmax(230px, .8fr) minmax(260px, 1fr) auto;
+          align-items: center;
+          gap: 18px;
+          padding: 12px clamp(18px, 2vw, 28px);
+          border-bottom: 1px solid rgba(255,255,255,.08);
+          background: rgba(8,9,7,.92);
+          backdrop-filter: blur(18px);
         }
-        .palette-summary > div {
+        .nta-header-left {
           display: flex;
-          flex-direction: column;
-          padding: 8px;
-          border-radius: 8px;
-          background: rgba(255,255,255,.03);
-          border: 1px solid rgba(255,255,255,.06);
-          text-align: center;
+          align-items: center;
+          gap: 12px;
+          min-width: 0;
         }
-        .palette-summary strong {
-          font-family: var(--font-display);
-          font-size: 18px;
-          color: #fff;
-          font-variant-numeric: tabular-nums;
+        .nta-title-stack {
+          display: grid;
+          gap: 1px;
+          min-width: 0;
         }
-        .palette-summary span {
+        .nta-title-stack span,
+        .nta-kicker {
           font-family: var(--font-mono);
-          font-size: 9px;
-          color: #71717a;
+          font-size: 10px;
+          font-weight: 800;
+          letter-spacing: .14em;
+          text-transform: uppercase;
+          color: var(--text-subtle);
+        }
+        .nta-title-stack strong {
+          font-family: var(--font-display);
+          font-size: 17px;
+          line-height: 1.15;
+          color: #f4f6ed;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .nta-icon-button {
+          width: 44px;
+          height: 44px;
+          border-radius: 8px;
+          border: 1px solid rgba(255,255,255,.1);
+          background: rgba(255,255,255,.035);
+          color: #d4d4d8;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+        }
+        .nta-icon-button:hover { border-color: rgba(255,255,255,.22); color: #fff; }
+        .nta-header-progress {
+          display: grid;
+          gap: 8px;
+          min-width: 0;
+        }
+        .nta-progress-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          font-family: var(--font-mono);
+          font-size: 10px;
+          font-weight: 800;
           letter-spacing: .12em;
           text-transform: uppercase;
-          margin-top: 2px;
+          color: var(--text-subtle);
         }
-
-        /* ── Palette chip states (NTA-style) ──
-           Built on top of the existing .q-chip class in globals.css; these
-           overrides set the colors for each state. */
-        .q-chip { transition: transform .12s ease, background .12s, border-color .12s, color .12s; }
-        .q-chip:hover { transform: translateY(-1px); }
-        .q-chip.current {
+        .nta-timer {
+          min-width: 122px;
+          min-height: 44px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          border-radius: 8px;
+          border: 1px solid rgba(255,255,255,.1);
+          background: rgba(255,255,255,.035);
+          color: #f4f6ed;
+          font-family: var(--font-mono);
+          font-weight: 900;
+          font-variant-numeric: tabular-nums;
+        }
+        .nta-timer.is-low {
+          border-color: rgba(248,113,113,.45);
+          background: rgba(248,113,113,.1);
+          color: #fca5a5;
+        }
+        .nta-shell {
+          width: min(100%, 1340px);
+          margin: 0 auto;
+          padding: 22px clamp(16px, 2.2vw, 30px) 116px;
+        }
+        .nta-alert {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin: 0 0 16px;
+          padding: 12px 14px;
+          border-radius: 8px;
+          border: 1px solid rgba(251,191,36,.28);
+          background: rgba(251,191,36,.08);
+          color: #fde68a;
+          font-size: 13px;
+          line-height: 1.5;
+        }
+        .nta-grid {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) 292px;
+          gap: 22px;
+          align-items: start;
+        }
+        .nta-paper {
+          width: 100%;
+          max-width: 930px;
+          justify-self: end;
+          border: 1px solid rgba(255,255,255,.1);
+          border-radius: 8px;
+          background: rgba(15,16,13,.94);
+          box-shadow: 0 18px 70px rgba(0,0,0,.28);
+          overflow: hidden;
+        }
+        .nta-paper-head {
+          min-height: 76px;
+          display: flex;
+          justify-content: space-between;
+          gap: 18px;
+          align-items: center;
+          padding: 20px 22px;
+          border-bottom: 1px solid rgba(255,255,255,.08);
+          background: rgba(255,255,255,.025);
+        }
+        .nta-paper-head h1 {
+          margin: 4px 0 0;
+          font-family: var(--font-display);
+          font-size: 22px;
+          line-height: 1.15;
+          color: #f8faf0;
+        }
+        .nta-paper-tags {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: flex-end;
+          gap: 8px;
+        }
+        .nta-paper-tags span {
+          border: 1px solid rgba(255,255,255,.1);
+          border-radius: 6px;
+          color: #d4d4d8;
+          padding: 6px 8px;
+          font-family: var(--font-mono);
+          font-size: 10px;
+          font-weight: 800;
+          letter-spacing: .1em;
+          text-transform: uppercase;
+        }
+        .nta-passage {
+          margin: 22px;
+          padding: 18px;
+          border: 1px solid rgba(210,240,0,.18);
+          border-radius: 8px;
+          background: rgba(210,240,0,.035);
+        }
+        .nta-passage-head {
+          display: flex;
+          justify-content: space-between;
+          gap: 12px;
+          margin-bottom: 12px;
+          font-family: var(--font-mono);
+          font-size: 10px;
+          font-weight: 900;
+          letter-spacing: .12em;
+          text-transform: uppercase;
+          color: var(--volt);
+        }
+        .nta-passage-head strong {
+          color: #f4f6ed;
+          letter-spacing: .08em;
+        }
+        .nta-passage p {
+          margin: 0;
+          color: #d4d4d8;
+          font-size: 15px;
+          line-height: 1.8;
+          max-width: 72ch;
+        }
+        .nta-question-list {
+          display: grid;
+        }
+        .nta-question-block {
+          padding: 22px;
+          border-top: 1px solid rgba(255,255,255,.08);
+        }
+        .nta-passage + .nta-question-list .nta-question-block:first-child {
+          border-top: 0;
+        }
+        .nta-question-block.is-active {
+          background: linear-gradient(90deg, rgba(210,240,0,.035), transparent 36%);
+        }
+        .nta-question-meta {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          margin-bottom: 14px;
+        }
+        .nta-question-meta > div:first-child,
+        .nta-question-actions {
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+        .nta-question-number {
+          font-family: var(--font-mono);
+          font-size: 10px;
+          font-weight: 900;
+          letter-spacing: .14em;
+          text-transform: uppercase;
+          color: var(--volt);
+        }
+        .nta-chip {
+          border-radius: 6px;
+          border: 1px solid rgba(255,255,255,.1);
+          padding: 4px 7px;
+          font-family: var(--font-mono);
+          font-size: 9px;
+          font-weight: 900;
+          letter-spacing: .09em;
+          text-transform: uppercase;
+          color: #a1a1aa;
+        }
+        .nta-chip--answered { color: #86efac; border-color: rgba(74,222,128,.38); background: rgba(74,222,128,.08); }
+        .nta-chip--marked,
+        .nta-chip--marked-answered { color: #c4b5fd; border-color: rgba(168,85,247,.42); background: rgba(168,85,247,.1); }
+        .nta-chip--visited { color: #fca5a5; border-color: rgba(248,113,113,.34); background: rgba(248,113,113,.08); }
+        .nta-text-button {
+          min-height: 34px;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          border: 1px solid rgba(255,255,255,.1);
+          border-radius: 8px;
+          background: rgba(255,255,255,.025);
+          color: #d4d4d8;
+          padding: 0 10px;
+          font-family: var(--font-display);
+          font-size: 12px;
+          font-weight: 800;
+          cursor: pointer;
+        }
+        .nta-text-button:hover { border-color: rgba(255,255,255,.24); color: #fff; }
+        .nta-question-text {
+          margin: 0 0 18px;
+          max-width: 74ch;
+          color: #f8faf0;
+          font-family: var(--font-display);
+          font-size: 21px;
+          font-weight: 750;
+          line-height: 1.55;
+          letter-spacing: 0;
+        }
+        .nta-options {
+          display: grid;
+          gap: 10px;
+        }
+        .nta-option {
+          width: 100%;
+          min-height: 54px;
+          display: grid;
+          grid-template-columns: 34px minmax(0, 1fr);
+          align-items: start;
+          gap: 12px;
+          border: 1px solid rgba(255,255,255,.11);
+          border-radius: 8px;
+          background: rgba(255,255,255,.018);
+          color: #e4e4e7;
+          padding: 12px;
+          text-align: left;
+          cursor: pointer;
+        }
+        .nta-option:hover {
+          border-color: rgba(255,255,255,.26);
+          background: rgba(255,255,255,.035);
+        }
+        .nta-option.is-selected {
+          border-color: rgba(210,240,0,.72);
+          background: rgba(210,240,0,.08);
+        }
+        .nta-option-letter {
+          width: 32px;
+          height: 32px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 7px;
+          background: rgba(255,255,255,.06);
+          color: #a1a1aa;
+          font-family: var(--font-display);
+          font-weight: 900;
+        }
+        .nta-option.is-selected .nta-option-letter {
+          background: var(--volt);
+          color: #050600;
+        }
+        .nta-option-text {
+          min-width: 0;
+          font-size: 14px;
+          line-height: 1.55;
+        }
+        .nta-navigation {
+          display: flex;
+          justify-content: space-between;
+          gap: 12px;
+          padding: 18px 22px 22px;
+          border-top: 1px solid rgba(255,255,255,.08);
+        }
+        .nta-nav-button,
+        .nta-submit-button,
+        .nta-mobile-actions button {
+          min-height: 44px;
+          border: 1px solid rgba(255,255,255,.12);
+          border-radius: 8px;
+          background: rgba(255,255,255,.03);
+          color: #f4f6ed;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          padding: 0 16px;
+          font-family: var(--font-display);
+          font-size: 13px;
+          font-weight: 900;
+          letter-spacing: .04em;
+          text-transform: uppercase;
+          cursor: pointer;
+        }
+        .nta-nav-button:disabled,
+        .nta-mobile-actions button:disabled,
+        .nta-submit-button:disabled {
+          opacity: .35;
+          cursor: not-allowed;
+        }
+        .nta-nav-button.is-primary,
+        .nta-submit-button,
+        .nta-mobile-actions button.is-primary {
+          border-color: var(--volt);
+          background: var(--volt);
+          color: #050600;
+        }
+        .nta-review-panel {
+          position: sticky;
+          top: 96px;
+          display: grid;
+          gap: 14px;
+          border: 1px solid rgba(255,255,255,.1);
+          border-radius: 8px;
+          background: rgba(15,16,13,.94);
+          padding: 14px;
+          box-shadow: 0 18px 70px rgba(0,0,0,.22);
+        }
+        .nta-panel-section {
+          display: grid;
+          gap: 10px;
+        }
+        .nta-summary-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 8px;
+        }
+        .nta-summary-grid div {
+          min-height: 58px;
+          display: grid;
+          align-content: center;
+          gap: 4px;
+          border: 1px solid rgba(255,255,255,.08);
+          border-radius: 8px;
+          background: rgba(255,255,255,.025);
+          padding: 9px;
+        }
+        .nta-summary-grid strong {
+          color: #f8faf0;
+          font-family: var(--font-display);
+          font-size: 22px;
+          line-height: 1;
+          font-variant-numeric: tabular-nums;
+        }
+        .nta-summary-grid span {
+          color: var(--text-subtle);
+          font-family: var(--font-mono);
+          font-size: 9px;
+          font-weight: 900;
+          letter-spacing: .11em;
+          text-transform: uppercase;
+        }
+        .nta-palette-grid {
+          display: grid;
+          grid-template-columns: repeat(5, minmax(0, 1fr));
+          gap: 8px;
+        }
+        .nta-palette-grid.is-compact {
+          grid-template-columns: repeat(6, minmax(0, 1fr));
+        }
+        .nta-palette-chip {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 1;
+          min-height: 42px;
+          border-radius: 7px;
+          border: 1px solid rgba(255,255,255,.1);
+          background: rgba(255,255,255,.04);
+          color: #a1a1aa;
+          font-family: var(--font-display);
+          font-size: 12px;
+          font-weight: 900;
+          cursor: pointer;
+        }
+        .nta-palette-chip.is-current {
           outline: 2px solid var(--volt);
           outline-offset: 2px;
         }
-        .q-chip--notvisited {
-          background: rgba(255,255,255,.04);
-          border: 1px solid rgba(255,255,255,.1);
-          color: #a1a1aa;
+        .nta-palette-chip--answered {
+          background: rgba(74,222,128,.16);
+          border-color: rgba(74,222,128,.5);
+          color: #86efac;
         }
-        .q-chip--visited {
+        .nta-palette-chip--visited {
           background: rgba(248,113,113,.1);
-          border: 1px solid rgba(248,113,113,.4);
-          color: #f87171;
+          border-color: rgba(248,113,113,.42);
+          color: #fca5a5;
         }
-        .q-chip--answered {
-          background: rgba(74,222,128,.18);
-          border: 1px solid rgba(74,222,128,.55);
-          color: #4ade80;
+        .nta-palette-chip--marked,
+        .nta-palette-chip--marked-answered {
+          background: rgba(168,85,247,.14);
+          border-color: rgba(168,85,247,.5);
+          color: #c4b5fd;
         }
-        .q-chip--marked {
-          background: rgba(168,85,247,.16);
-          border: 1px solid rgba(168,85,247,.55);
-          color: #c084fc;
-        }
-        .q-chip--marked-answered {
-          background: rgba(168,85,247,.16);
-          border: 1px solid rgba(168,85,247,.55);
-          color: #c084fc;
-          position: relative;
-        }
-        .q-chip--marked-answered::after {
+        .nta-palette-chip--marked-answered::after {
           content: '';
           position: absolute;
-          right: 4px;
-          bottom: 4px;
+          right: 5px;
+          bottom: 5px;
           width: 7px;
           height: 7px;
           border-radius: 999px;
-          background: #4ade80;
-          box-shadow: 0 0 0 1px rgba(0,0,0,.6);
+          background: #86efac;
+          box-shadow: 0 0 0 1px rgba(0,0,0,.65);
         }
-
-        /* ── Legend ── */
-        .palette-legend {
-          display: flex;
-          flex-direction: column;
-          gap: 5px;
+        .nta-legend {
+          display: grid;
+          gap: 6px;
+          color: var(--text-subtle);
           font-family: var(--font-mono);
           font-size: 10px;
-          color: #71717a;
-          letter-spacing: .04em;
+          font-weight: 800;
+          letter-spacing: .05em;
         }
-        .palette-legend > div {
+        .nta-legend span {
           display: flex;
           align-items: center;
           gap: 8px;
         }
-        .legend-dot {
+        .legend {
           width: 10px;
           height: 10px;
           border-radius: 3px;
+          border: 1px solid rgba(255,255,255,.14);
           display: inline-block;
-          border: 1px solid;
         }
-        .legend-answered { background: rgba(74,222,128,.18); border-color: rgba(74,222,128,.55); }
-        .legend-marked-answered {
-          background: rgba(168,85,247,.16);
-          border-color: rgba(168,85,247,.55);
-          position: relative;
+        .legend.answered { background: rgba(74,222,128,.16); border-color: rgba(74,222,128,.5); }
+        .legend.marked { background: rgba(168,85,247,.14); border-color: rgba(168,85,247,.5); }
+        .legend.visited { background: rgba(248,113,113,.1); border-color: rgba(248,113,113,.42); }
+        .legend.notvisited { background: rgba(255,255,255,.04); }
+        .nta-mobile-actions,
+        .nta-mobile-sheet {
+          display: none;
         }
-        .legend-marked-answered::after {
-          content: '';
-          position: absolute;
-          right: -2px; bottom: -2px;
-          width: 5px; height: 5px;
-          border-radius: 999px;
-          background: #4ade80;
-          box-shadow: 0 0 0 1px rgba(0,0,0,.6);
+        @media (max-width: 1180px) {
+          .nta-grid {
+            grid-template-columns: minmax(0, 1fr) 270px;
+          }
+          .nta-paper {
+            max-width: none;
+          }
         }
-        .legend-marked { background: rgba(168,85,247,.16); border-color: rgba(168,85,247,.55); }
-        .legend-visited { background: rgba(248,113,113,.1); border-color: rgba(248,113,113,.4); }
-        .legend-notvisited { background: rgba(255,255,255,.04); border-color: rgba(255,255,255,.18); }
-
-        .vote-cursor-demo {
-          position: absolute;
-          top: 18px;
-          right: 18px;
-          width: 86px;
-          height: 58px;
-          border: 1px solid rgba(255,255,255,.08);
-          border-radius: 12px;
-          background: rgba(0,0,0,.24);
+        @media (max-width: 1023px) {
+          .nta-test-header {
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+            min-height: auto;
+            padding: 10px 12px;
+          }
+          .nta-header-progress {
+            grid-column: 1 / -1;
+            order: 3;
+          }
+          .nta-title-stack strong {
+            max-width: 48vw;
+          }
+          .nta-timer {
+            min-width: 108px;
+          }
+          .nta-shell {
+            padding: 14px 12px 96px;
+          }
+          .nta-grid {
+            display: block;
+          }
+          .nta-review-panel {
+            display: none;
+          }
+          .nta-paper-head {
+            align-items: flex-start;
+            flex-direction: column;
+            padding: 16px;
+          }
+          .nta-paper-head h1 {
+            font-size: 20px;
+          }
+          .nta-paper-tags {
+            justify-content: flex-start;
+          }
+          .nta-passage {
+            margin: 16px;
+            padding: 14px;
+          }
+          .nta-passage p {
+            font-size: 14px;
+            line-height: 1.75;
+          }
+          .nta-question-block {
+            padding: 16px;
+          }
+          .nta-question-meta {
+            align-items: flex-start;
+            flex-direction: column;
+          }
+          .nta-question-text {
+            font-size: 18px;
+            line-height: 1.55;
+          }
+          .nta-option {
+            min-height: 48px;
+          }
+          .nta-navigation {
+            display: none;
+          }
+          .nta-mobile-actions {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 42;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            padding: 10px;
+            border-top: 1px solid rgba(255,255,255,.1);
+            background: rgba(8,9,7,.94);
+            backdrop-filter: blur(16px);
+          }
+          .nta-mobile-actions button {
+            min-width: 0;
+            padding: 0 10px;
+            font-size: 12px;
+          }
+          .nta-mobile-sheet {
+            display: block;
+            position: fixed;
+            inset: 0;
+            z-index: 80;
+          }
+          .nta-sheet-backdrop {
+            position: absolute;
+            inset: 0;
+            border: 0;
+            background: rgba(0,0,0,.62);
+          }
+          .nta-sheet-panel {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            max-height: min(78vh, 620px);
+            overflow: auto;
+            border-radius: 14px 14px 0 0;
+            border: 1px solid rgba(255,255,255,.12);
+            background: #0f100d;
+            padding: 16px;
+            display: grid;
+            gap: 14px;
+          }
+          .nta-sheet-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+          }
+          .nta-sheet-head strong {
+            display: block;
+            margin-top: 3px;
+            font-family: var(--font-display);
+            font-size: 18px;
+            color: #fff;
+          }
         }
-        .vote-target {
-          position: absolute;
-          right: 16px;
-          bottom: 12px;
-          width: 30px;
-          height: 30px;
-          border-radius: 999px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #f87171;
-          background: rgba(248,113,113,.16);
-          font-family: var(--font-mono);
+        @media (max-width: 520px) {
+          .nta-palette-grid.is-compact {
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+          }
+          .nta-question-actions {
+            width: 100%;
+          }
+          .nta-text-button {
+            flex: 1;
+            justify-content: center;
+            min-height: 40px;
+          }
         }
-        .vote-cursor {
-          position: absolute;
-          left: 12px;
-          top: 8px;
-          color: var(--volt);
-          font-size: 28px;
-          transform: rotate(-25deg);
-          animation: coach-cursor 1.5s ease-in-out infinite;
-        }
-        @keyframes coach-cursor {
-          0%, 100% { transform: translate(0, 0) rotate(-25deg); opacity: .72; }
-          55% { transform: translate(33px, 20px) rotate(-25deg); opacity: 1; }
+        @media (prefers-reduced-motion: reduce) {
+          .nta-option,
+          .nta-icon-button,
+          .nta-nav-button,
+          .nta-submit-button {
+            transition: none !important;
+          }
         }
       `}</style>
     </div>
@@ -706,7 +1347,7 @@ function TestRunner() {
 
 export default function TestPageClient() {
   return (
-    <Suspense fallback={<PageSpinner label="Loading arena…" />}>
+    <Suspense fallback={<PageSpinner label="Loading test..." />}>
       <TestRunner />
     </Suspense>
   );

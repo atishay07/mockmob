@@ -1,0 +1,48 @@
+{
+  "subject": "biology",
+  "chapter": "Molecular Basis of Inheritance",
+  "source_quality": "manual_seed",
+  "anchor_match_level": "exact_chapter",
+  "questions": [
+    {
+      "id": "biology_molecular_basis_anchor_001",
+      "question_type": "statement_based",
+      "pattern_tags": ["statement-based", "ncert-specific", "elimination"],
+      "question": "Read the statements about DNA replication and choose the correct option:\nStatement I: Replication is semi-conservative.\nStatement II: DNA polymerase can initiate synthesis without a primer.\nStatement III: Okazaki fragments form on the lagging strand.",
+      "options": ["I and III only", "I and II only", "II and III only", "I, II and III"],
+      "correct_answer": "A"
+    },
+    {
+      "id": "biology_molecular_basis_anchor_002",
+      "question_type": "comparison_based",
+      "pattern_tags": ["comparison", "transcription-translation", "trap-option"],
+      "question": "Which option best separates transcription from translation?",
+      "options": ["Transcription forms RNA from DNA, while translation uses mRNA codons to build a polypeptide.", "Transcription reads mRNA on ribosomes, while translation copies DNA inside the nucleus.", "Both processes use ribosomes because both arrange amino acids directly.", "Translation forms DNA from RNA, while transcription forms proteins from DNA."],
+      "correct_answer": "A"
+    },
+    {
+      "id": "biology_molecular_basis_anchor_003",
+      "question_type": "assertion_reason",
+      "pattern_tags": ["assertion-reason", "genetic-code", "close-options"],
+      "question": "Assertion: The genetic code is degenerate. Reason: More than one codon can code for the same amino acid.",
+      "options": ["Both Assertion and Reason are true, and the Reason explains the Assertion.", "Both are true, but the Reason explains universality rather than degeneracy.", "Assertion is true, but Reason describes mutation rather than coding.", "Assertion is false, while Reason is true."],
+      "correct_answer": "A"
+    },
+    {
+      "id": "biology_molecular_basis_anchor_004",
+      "question_type": "application_based",
+      "pattern_tags": ["application", "lac-operon", "elimination"],
+      "question": "In a bacterial culture, lactose is present but glucose is absent. Which lac operon response is most likely?",
+      "options": ["The operon is induced because lactose inactivates the repressor and absence of glucose favours transcription.", "The operon stays permanently off because lactose acts as a corepressor.", "The operon is induced only when both lactose and glucose are absent.", "The operon produces DNA polymerase because lactose signals replication."],
+      "correct_answer": "A"
+    },
+    {
+      "id": "biology_molecular_basis_anchor_005",
+      "question_type": "statement_based",
+      "pattern_tags": ["statement-based", "central-dogma", "close-distractors"],
+      "question": "Read the statements about information flow:\nStatement I: In most cells, DNA is transcribed into RNA.\nStatement II: Reverse transcription uses RNA as a template to form DNA.\nStatement III: Translation directly copies DNA into mRNA.",
+      "options": ["I and II only", "I and III only", "II and III only", "I, II and III"],
+      "correct_answer": "A"
+    }
+  ]
+}

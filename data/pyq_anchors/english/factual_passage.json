@@ -1,0 +1,21 @@
+{
+  "subject": "english",
+  "chapter": "Factual Passage",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "Passage-based set pattern: A 250-450 word original factual passage is followed by grouped questions. Which option describes a CUET-level factual-passage distractor?",
+      "options": [
+        "It is partly supported by one sentence but ignores the author's larger point.",
+        "It is unrelated to the passage and can be removed instantly.",
+        "It copies the passage title and is therefore automatically correct.",
+        "It asks a definition without requiring passage reading."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["factual-passage", "trap-option", "passage-linked", "elimination"],
+      "difficulty": "medium",
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

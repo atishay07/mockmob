@@ -1,0 +1,48 @@
+{
+  "subject": "computer_science",
+  "chapter": "Boolean Algebra",
+  "source_quality": "manual_seed",
+  "anchor_match_level": "exact_chapter",
+  "questions": [
+    {
+      "id": "computer_science_boolean_algebra_anchor_001",
+      "question_type": "statement_based",
+      "pattern_tags": ["statement-based", "identity-check", "close-options"],
+      "question": "Read the statements about Boolean simplification and choose the correct option:\nStatement I: A + AB simplifies to A.\nStatement II: A(A + B) simplifies to A + B.\nStatement III: A + A'B simplifies to A + B.",
+      "options": ["I and III only", "I and II only", "II and III only", "I, II and III"],
+      "correct_answer": "A"
+    },
+    {
+      "id": "computer_science_boolean_algebra_anchor_002",
+      "question_type": "match_type",
+      "pattern_tags": ["match-type", "boolean-laws", "elimination"],
+      "question": "Match each Boolean expression with the law mainly used in its simplification.",
+      "options": ["A + AB -> Absorption; A + A' -> Complement", "A + AB -> Distributive; A + A' -> Idempotent", "A + AB -> Complement; A + A' -> Absorption", "A + AB -> De Morgan; A + A' -> Identity"],
+      "correct_answer": "A"
+    },
+    {
+      "id": "computer_science_boolean_algebra_anchor_003",
+      "question_type": "application_based",
+      "pattern_tags": ["application", "truth-table", "trap-option"],
+      "question": "A learner gets the same truth-table output for X and X + XY. Which conclusion is most accurate?",
+      "options": ["The second term is absorbed because X already covers the cases where XY is 1.", "The expressions match because Y is ignored in every Boolean expression.", "The expressions match only when Y is permanently 1.", "The second expression is invalid because a variable repeats."],
+      "correct_answer": "A"
+    },
+    {
+      "id": "computer_science_boolean_algebra_anchor_004",
+      "question_type": "comparison_based",
+      "pattern_tags": ["comparison", "de-morgan", "close-distractors"],
+      "question": "Which option correctly distinguishes (A + B)' from A' + B'?",
+      "options": ["(A + B)' equals A'B', while A' + B' is true in more input cases.", "Both expressions are equal because complement distributes without changing the operator.", "(A + B)' equals A' + B', while A'B' belongs only to product-of-sums.", "The two expressions differ only when A and B are both 0."],
+      "correct_answer": "A"
+    },
+    {
+      "id": "computer_science_boolean_algebra_anchor_005",
+      "question_type": "assertion_reason",
+      "pattern_tags": ["assertion-reason", "ncert-specific", "close-options"],
+      "question": "Assertion: A + A'B can be reduced to A + B. Reason: The complement term A'B covers the case where A is 0 and B is 1.",
+      "options": ["Both Assertion and Reason are true, and the Reason supports the simplification.", "Both are true, but the Reason is unrelated to the simplification.", "Assertion is true, but Reason wrongly treats B as redundant.", "Assertion is false, though the Reason describes one truth-table case correctly."],
+      "correct_answer": "A"
+    }
+  ]
+}

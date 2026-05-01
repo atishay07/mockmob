@@ -1,0 +1,906 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5991 concepts across 40 subjects (saved 2026-05-01T05:32:05.300Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Para Jumbles',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Vocabulary',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'physics',
+  chapter: 'Magnetism & Matter',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'sociology',
+  chapter: 'Patterns of Social Inequality',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'sociology',
+  chapter: 'Social Movements',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'sociology',
+  chapter: 'Structural Change',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'accountancy',
+  chapter: 'Change in Profit Sharing Ratio',
+  coverage: 14,
+  priority: 75
+}
+[planner] {
+  subject: 'accountancy',
+  chapter: 'Dissolution of Partnership',
+  coverage: 14,
+  priority: 75
+}
+[planner] {
+  subject: 'biology',
+  chapter: 'Microbes in Human Welfare',
+  coverage: 14,
+  priority: 75
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: english → normalized: english → tier: 1
+Subject: english → normalized: english → tier: 1
+Subject: physics → normalized: physics → tier: 1
+Subject: physics → normalized: physics → tier: 1
+Subject: sociology → normalized: sociology → tier: 1
+Subject: sociology → normalized: sociology → tier: 1
+Subject: sociology → normalized: sociology → tier: 1
+Subject: accountancy → normalized: accountancy → tier: 1
+Subject: accountancy → normalized: accountancy → tier: 1
+Subject: biology → normalized: biology → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Para Jumbles',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Vocabulary',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'physics',
+    expected_chapter: 'Electromagnetic Induction',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'physics',
+    expected_chapter: 'Magnetism & Matter',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'sociology',
+    expected_chapter: 'Patterns of Social Inequality',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'sociology',
+    expected_chapter: 'Social Movements',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'sociology',
+    expected_chapter: 'Structural Change',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'accountancy',
+    expected_chapter: 'Change in Profit Sharing Ratio',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'accountancy',
+    expected_chapter: 'Dissolution of Partnership',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Microbes in Human Welfare',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'english',
+    chapter: 'Para Jumbles',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'english',
+    chapter: 'Vocabulary',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'physics',
+    chapter: 'Electromagnetic Induction',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'physics',
+    chapter: 'Magnetism & Matter',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'sociology',
+    chapter: 'Patterns of Social Inequality',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'sociology',
+    chapter: 'Social Movements',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'sociology',
+    chapter: 'Structural Change',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'accountancy',
+    chapter: 'Change in Profit Sharing Ratio',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'accountancy',
+    chapter: 'Dissolution of Partnership',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Microbes in Human Welfare',
+    status: 'queued',
+    priority: 75
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: '56347993-a836-4706-abcd-3f44938a23bb',
+    subject_id: 'english',
+    chapter: 'Para Jumbles',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:32:53.744466+00:00'
+  },
+  {
+    id: 'b7378064-5edf-4c24-acde-a2f8aa321a8d',
+    subject_id: 'english',
+    chapter: 'Vocabulary',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:32:53.744466+00:00'
+  },
+  {
+    id: '8a4aa105-4cfe-41e5-b856-f202caf9712b',
+    subject_id: 'physics',
+    chapter: 'Electromagnetic Induction',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:32:53.744466+00:00'
+  },
+  {
+    id: '09e92f61-de8a-4cad-a36f-f4f0436e6085',
+    subject_id: 'physics',
+    chapter: 'Magnetism & Matter',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:32:53.744466+00:00'
+  },
+  {
+    id: 'e912939c-0972-4189-b60c-c78a77d8a53d',
+    subject_id: 'sociology',
+    chapter: 'Patterns of Social Inequality',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:32:53.744466+00:00'
+  },
+  {
+    id: '32e61d90-0afb-442c-aac5-3bd843821bce',
+    subject_id: 'sociology',
+    chapter: 'Social Movements',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:32:53.744466+00:00'
+  },
+  {
+    id: '37bb84dd-d059-4b45-a93f-d73898c7656d',
+    subject_id: 'sociology',
+    chapter: 'Structural Change',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:32:53.744466+00:00'
+  },
+  {
+    id: 'c9304945-892d-4518-a9c4-528f5f6484d9',
+    subject_id: 'accountancy',
+    chapter: 'Change in Profit Sharing Ratio',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:32:53.744466+00:00'
+  },
+  {
+    id: 'dbe8e2e4-58a9-4b10-a766-77996bc29313',
+    subject_id: 'accountancy',
+    chapter: 'Dissolution of Partnership',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:32:53.744466+00:00'
+  },
+  {
+    id: 'b5d2ab35-9d31-4fde-9220-3e657e69a731',
+    subject_id: 'biology',
+    chapter: 'Microbes in Human Welfare',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-05-01T05:32:53.744466+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: '56347993-a836-4706-abcd-3f44938a23bb',
+    expected_subject: 'english',
+    expected_chapter: 'Para Jumbles',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: 'b7378064-5edf-4c24-acde-a2f8aa321a8d',
+    expected_subject: 'english',
+    expected_chapter: 'Vocabulary',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '8a4aa105-4cfe-41e5-b856-f202caf9712b',
+    expected_subject: 'physics',
+    expected_chapter: 'Electromagnetic Induction',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '09e92f61-de8a-4cad-a36f-f4f0436e6085',
+    expected_subject: 'physics',
+    expected_chapter: 'Magnetism & Matter',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: 'e912939c-0972-4189-b60c-c78a77d8a53d',
+    expected_subject: 'sociology',
+    expected_chapter: 'Patterns of Social Inequality',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '32e61d90-0afb-442c-aac5-3bd843821bce',
+    expected_subject: 'sociology',
+    expected_chapter: 'Social Movements',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '37bb84dd-d059-4b45-a93f-d73898c7656d',
+    expected_subject: 'sociology',
+    expected_chapter: 'Structural Change',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: 'c9304945-892d-4518-a9c4-528f5f6484d9',
+    expected_subject: 'accountancy',
+    expected_chapter: 'Change in Profit Sharing Ratio',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: 'dbe8e2e4-58a9-4b10-a766-77996bc29313',
+    expected_subject: 'accountancy',
+    expected_chapter: 'Dissolution of Partnership',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: 'b5d2ab35-9d31-4fde-9220-3e657e69a731',
+    expected_subject: 'biology',
+    expected_chapter: 'Microbes in Human Welfare',
+    status: 'queued',
+    priority: 75
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '56347993-a836-4706-abcd-3f44938a23bb',
+    'b7378064-5edf-4c24-acde-a2f8aa321a8d',
+    '8a4aa105-4cfe-41e5-b856-f202caf9712b',
+    '09e92f61-de8a-4cad-a36f-f4f0436e6085',
+    'e912939c-0972-4189-b60c-c78a77d8a53d',
+    '32e61d90-0afb-442c-aac5-3bd843821bce',
+    '37bb84dd-d059-4b45-a93f-d73898c7656d',
+    'c9304945-892d-4518-a9c4-528f5f6484d9',
+    'dbe8e2e4-58a9-4b10-a766-77996bc29313',
+    'b5d2ab35-9d31-4fde-9220-3e657e69a731'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '56347993-a836-4706-abcd-3f44938a23bb',
+  actual_subject: 'english',
+  actual_chapter: 'Para Jumbles',
+  status: 'queued',
+  priority: 75,
+  original_priority: 75,
+  question_count: 13,
+  subject_question_count: 142,
+  created_at: '2026-05-01T05:32:53.744466+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'english',
+  chapter: 'Para Jumbles',
+  count: 13,
+  priority: 75
+}
+[worker] coverage-based selection: { subject: 'english', chapter: 'Para Jumbles', count: 13 }
+
+[JOB 56347993] Starting: [english] Para Jumbles
+[worker] RECEIVED_JOB: {
+  job_id: '56347993-a836-4706-abcd-3f44938a23bb',
+  expected_subject: 'english',
+  expected_chapter: 'Para Jumbles',
+  raw_subject_id: 'english',
+  raw_chapter: 'Para Jumbles',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-05-01T05:32:53.744466+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '56347993-a836-4706-abcd-3f44938a23bb',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  chapter: 'Para Jumbles',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=13 existing questions loaded
+[generation] batch adjusted: { chapter: 'Para Jumbles', generate_count: 10 }
+[worker] GENERATION_INPUT: {
+  job_id: '56347993-a836-4706-abcd-3f44938a23bb',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  expected_chapter: 'Para Jumbles',
+  canonical_unit: 'Verbal Ability',
+  generate_count: 10,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 10 candidates... chapter="Para Jumbles" unit="Verbal Ability" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'English',
+  expected_chapter: 'Para Jumbles',
+  requested_count: 10,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'english',
+  expected_chapter: 'Para Jumbles',
+  canonical_unit: 'Verbal Ability',
+  concept_id: 'english::para_jumbles',
+  pyq_anchor_id: 'structure_only_structured_english_narrative_passage_1_for_english::para_jumbles',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 10,
+  pyq_style_patterns: [ 'reading_comprehension', 'vocabulary', 'correct_word_usage' ],
+  difficulty_override: null
+}
+[llm] generation active_provider=openai active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 39376,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Rearrange the following sentences to form a coherent paragraph: 1. She decided to paint her room. 2. The colors were bright and cheerful. 3. After weeks of contemplation, she finally bought the paint. 4. The transformation made her feel happier.","o":["1, 2, 3, 4","3, 1, 2, 4","1, 3, 2, 4","4, 3, 1, 2"],"a":"B","difficulty":"medium","question_type":"statement_based","subject":"english","chapter":"Para Jumbles","concept_id":"english::para_jumbles","pyq_anchor_ids_used":[],"trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"This question requires logical arrangement rather than recalling definitions or facts.","why_cuet_level":"It tests the ability to logically sequence events based on given statements.","distractor_rationale":{"A":"Trap because it seems logical but does not flow as well as B.","B":"Correct because it provides a clear chronological order of actions.","C":"Wrong because it disrupts the flow of thought by placing the conclusion first.","D":"Wrong because it starts with the outcome rather than the decision-making process."}},{"q":"Rearrange the following sentences: 1. The sun was setting beautifully. 2. He took a deep breath and stepped outside. 3. It was his favorite time of day. 4. The cool breeze welcomed him as he walked.","o":["2, 3, 1, 4","1, 2, 3, 4","3, 1, 2, 4","4, 2, 1, 3"],"a":"A","difficulty":"medium","question_type":"statement_based","subject":"english","chapter":"Para Jumbles","concept_id":"english::para_jumbles","pyq_anchor_ids_used":[],"trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question assesses the ability to organize thoughts rather than factual recall.","why_cuet_level":"It evaluates understanding of narrative flow and coherence in sequencing.","distractor_rationale":{"A":"Correct because it establishes context before describing the scene.","B":"Wrong because it jumps to description before introducing action.","C":"Trap because it starts with a feeling but lacks logical progression.","D":"Wrong because it misplaces the sequence of actions and reactions."}},{"q":"Rearrange these sentences: 1. She felt nervous about the interview. 2. After preparing for weeks, she arrived at the venue early. 3. Her friend calmed her down with encouraging words. 4. The moment she stepped inside, she felt a wave of anxiety.","o":["1, 2, 3, 4","2, 1, 3, 4","3, 2, 1, 4","4, 3, 2, 1"],"a":"B","difficulty":"medium","question_type":"statement_based","subject":"english","chapter":"Para Jumbles","concept_id":"english::para_jumbles","pyq_anchor_ids_used":[],"trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"This question focuses on narrative structure rather than definitions or basic concepts.","why_cuet_level":"It challenges students to synthesize information into a coherent sequence.","distractor_rationale":{"A":"Trap because it presents a plausible order but lacks clarity in emotional progression.","B":"Correct as it logically follows her preparation leading to her feelings.","C":"Wrong because it starts with reassurance instead of her initial feelings.","D":"Wrong since it places anxiety before context and preparation."}},{"q":"Rearrange these sentences: 1. The cake was deliciously moist and fluffy. 2. Everyone praised her baking skills at the party. 3. She had spent hours perfecting the recipe beforehand. 4. It was a special occasion for all of them.","o":["2, 1, 3, 4","4, 3, 2, 1","1, 2, 3, 4","3, 4, 2, 1"],"a":"D","difficulty":"medium","question_type":"statement_based","subject":"english","chapter":"Para Jumbles","concept_id":"english::para_jumbles","pyq_anchor_ids_used":[],"trap_option":"A","strong_distractors":["B","C"],"why_not_textbook":"This question tests logical arrangement rather than direct knowledge recall.","why_cuet_level":"It assesses understanding of cause and effect in events leading up to a celebration.","distractor_rationale":{"A":"Trap since it seems logical but misplaces the order of praise and preparation.","B":"Wrong as it disrupts the flow by placing praise before context and effort put in.","C":"Wrong because it fails to connect the occasion with her efforts appropriately."		,"D": "Correct as it sets up context before detailing her efforts and their results."}},{"q":"Rearrange these sentences: 1. She finally made a decision after much thought. 2. The options were overwhelming at first glance. 3. With clarity in mind now, she felt relieved. 4. It took her days to weigh all possibilities carefully.","o":["1,2 ,3 ,4 ","4 ,2 ,1 ,3 ","2 ,4 ,3 ,1 ","3 ,1 ,4 ,2 "],"a": "C", "difficulty": "medium", "question_type": "statement_based", "subject": "english", "chapter": "Para Jumbles", "concept_id": "english::para_jumbles", "pyq_anchor_ids_used": [], "trap_option": "A", "strong_distractors": ["B", "D"], "why_not_textbook": "This question requires critical thinking regarding decision-making processes rather than simple recall.", "why_cuet_level": "It evaluates logical reasoning through structured narrative organization.", "distractor_rationale": {"A": "Trap as it seems sequential but does not reflect her emotional journey accurately.", "B": "Wrong since it misplaces emotional clarity before decision-making context.", "C": "Correct as it presents a clear sequence from confusion to resolution.", "D": "Wrong as it disrupts chronological order by starting with relief."}},{"q": "Rearrange these sentences: 1. He had always dreamed of traveling abroad since childhood.   2. Finally saving enough money took him years of hard work and dedication.   3. His first destination was Paris which he had longed to see for years.   4. He booked his flight excitedly when he could afford it.", "o": ["1 ,3 ,4 ,2 ", "2 ,1 ,3 ,4 ", "1 ,2 ,4 ,3 ", "1 ,4 ,3 ,2"],"a": "C", "difficulty": "medium", "question_type": "statement_based", "subject": "english", "chapter": "Para Jumbles", "concept_id": "english::para_jumbles", "pyq_anchor_ids_used":[],"trap_option": "B", "strong_distractors":["A", "D"],"why_not_textbook":"This question evaluates narrative structure rather than theoretical knowledge.", "why_cuet_level": "It checks for comprehension through sequencing life events logically.", "distractor_rationale":{"A": "Trap because while plausible it does not follow his journey accurately.", 
+"B": "Wrong as it puts financial success before his dream's inception.",
+"C": "Correct as it follows his dream from beginning to realization.",
+"D": "Wrong since it places excitement after planning rather than before."}},{"q": "Rearrange these sentences: 1. The day began with rain pouring heavily outside  2. Despite this setback they decided to continue with their picnic plans  3. They packed their bags quickly  4. Eventually they found shelter under a large tree.", 
+"o":["1 ,2 ,3 ,4 ", 
+"2 ,1 ,3 ,4 ",
+"1 ,3 ,2 ,4 ",
+"3 ,1 ,4 ,2"], 
+"a": "B", 
+"difficulty": "medium", 
+"question_type": "statement_based", 
+"subject": "english", 
+"chapter": "Para Jumbles", 
+"concept_id": "english::para_jumbles", 
+"pyq_anchor_ids_used":[],"trap_option": 
+"A",
+"strong_distractors":["C", 
+"D"],
+"why_not_textbook":
+"This question focuses on event sequencing rather than definitions.",
+"why_cuet_level":
+"It tests logical reasoning through structured event organization.",
+"distractor_rationale":{
+"A":
+"Trap since while plausible does not reflect their decision-making process accurately.",
+"B":
+"Correct as it logically flows from weather conditions to their response.",
+"C":
+"Wrong because packing should follow their decision to continue.",
+"D":
+"Wrong as finding shelter should come after packing bags."}},{"q": 
+"Rearrange these sentences:  1 .She loved reading books about adventure stories  2 .One day she discovered an old library nearby  3 .Her passion for stories grew even stronger after that  4 .The library had countless titles waiting for her.", 
+"o":[
+"1 ,2 ,4 ,3 ", 
+"1 ,3 ,2 ,4 ", 
+"2 ,4 ,3 ,1 ", 
+"3 ,1 ,2 ,4"
+], 
+"a":
+"A",
+"difficulty":
+"medium",
+"question_type":
+"statement_based",
+"subject":
+"english",
+"chapter":
+"Para Jumbles",
+"concept_id":
+"english::para_jumbles",
+"pyq_anchor_ids_used":[
+],
+"trap_option":
+"D",
+"strong_distractors":["B",
+"C"],
+"why_not_textbook":
+"This question assesses narrative development rather than recalling definitions.",
+"why_cuet_level":
+"It evaluates comprehension through sequencing events logically.",
+"distractor_rationale":{
+"A":
+"Correct as it presents a clear progression from interest to discovery.",
+"B":
+"Wrong since it disrupts emotional connection by placing discovery last.",
+"C":
+"Trap because while plausible does not follow her growth chronologically.",
+"D":
+	"Wong since growing passion should follow discovery of new resources."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 8
+[english-classification] {
+  question_id: 'concept_1',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'concept_2',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'concept_3',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'concept_4',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'concept_5',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'concept_6',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'concept_7',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'concept_8',
+  detected_type: 'Para Jumbles',
+  confidence: 0.9
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'b7378064-5edf-4c24-acde-a2f8aa321a8d',
+    '8a4aa105-4cfe-41e5-b856-f202caf9712b',
+    '09e92f61-de8a-4cad-a36f-f4f0436e6085',
+    'e912939c-0972-4189-b60c-c78a77d8a53d',
+    '32e61d90-0afb-442c-aac5-3bd843821bce',
+    '37bb84dd-d059-4b45-a93f-d73898c7656d',
+    'c9304945-892d-4518-a9c4-528f5f6484d9',
+    'dbe8e2e4-58a9-4b10-a766-77996bc29313',
+    'b5d2ab35-9d31-4fde-9220-3e657e69a731'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'b7378064-5edf-4c24-acde-a2f8aa321a8d',
+  actual_subject: 'english',
+  actual_chapter: 'Vocabulary',
+  status: 'queued',
+  priority: 75,
+  original_priority: 75,
+  question_count: 13,
+  subject_question_count: 142,
+  created_at: '2026-05-01T05:32:53.744466+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: { subject: 'english', chapter: 'Vocabulary', count: 13, priority: 75 }
+[worker] coverage-based selection: { subject: 'english', chapter: 'Vocabulary', count: 13 }
+
+[JOB b7378064] Starting: [english] Vocabulary
+[worker] RECEIVED_JOB: {
+  job_id: 'b7378064-5edf-4c24-acde-a2f8aa321a8d',
+  expected_subject: 'english',
+  expected_chapter: 'Vocabulary',
+  raw_subject_id: 'english',
+  raw_chapter: 'Vocabulary',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-05-01T05:32:53.744466+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'b7378064-5edf-4c24-acde-a2f8aa321a8d',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  chapter: 'Vocabulary',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=13 existing questions loaded
+[generation] batch adjusted: { chapter: 'Vocabulary', generate_count: 10 }
+[worker] GENERATION_INPUT: {
+  job_id: 'b7378064-5edf-4c24-acde-a2f8aa321a8d',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  expected_chapter: 'Vocabulary',
+  canonical_unit: 'Verbal Ability',
+  generate_count: 10,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 10 candidates... chapter="Vocabulary" unit="Verbal Ability" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'English',
+  expected_chapter: 'Vocabulary',
+  requested_count: 10,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'english',
+  expected_chapter: 'Vocabulary',
+  canonical_unit: 'Verbal Ability',
+  concept_id: 'english::vocabulary',
+  pyq_anchor_id: 'structure_only_structured_english_narrative_passage_1_for_english::vocabulary',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 10,
+  pyq_style_patterns: [ 'reading_comprehension', 'vocabulary', 'correct_word_usage' ],
+  difficulty_override: null
+}
+[llm] generation active_provider=openai active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 30407,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Choose the word that is closest in meaning to \"benevolent\":","o":["malevolent","generous","indifferent","greedy"],"a":"B","difficulty":"medium","question_type":"comparison_based","subject":"english","chapter":"Vocabulary","concept_id":"english::vocabulary","pyq_anchor_ids_used":[],"trap_option":"D","strong_distractors":["A","C"],"why_not_textbook":"The question tests understanding of vocabulary in context, not just definitions.","why_cuet_level":"It aligns with CUET's focus on vocabulary application and synonym recognition.","distractor_rationale":{"A":"Wrong because it means the opposite of benevolent.","B":"Correct because it accurately reflects the meaning of benevolent.","C":"Wrong but plausible because it suggests a lack of care.","D":"Trap because it is related but does not convey kindness."}},{"q":"What is the antonym of \"arduous\"?","o":["easy","difficult","challenging","strenuous"],"a":"A","difficulty":"medium","question_type":"comparison_based","subject":"english","chapter":"Vocabulary","concept_id":"english::vocabulary","pyq_anchor_ids_used":[],"trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Focuses on comparative vocabulary rather than rote definitions.","why_cuet_level":"Tests knowledge of opposites in a contextual manner.","distractor_rationale":{"A":"Correct because it means not difficult.","B":"Wrong but plausible as it relates to effort.","C":"Trap because it suggests some challenge but not as intense.","D":"Wrong because it implies high effort, similar to arduous."}},{"q":"Select the word that is most similar in meaning to \"meticulous\":","o":["careless","thorough","hasty","sloppy"],"a":"B","difficulty":"medium","question_type":"comparison_based","subject":"english","chapter":"Vocabulary","concept_id":"english::vocabulary","pyq_anchor_ids_used":[],"trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"Encourages understanding of nuanced vocabulary rather than memorization.","why_cuet_level":"Requires discernment in word meaning and usage.","distractor_rationale":{"A":"Trap because it implies lack of attention, which is the opposite.","B":"Correct as it describes attention to detail.","C":"Wrong but plausible since hasty implies quickness, not detail-oriented.","D":"Wrong as it suggests carelessness, opposing meticulous."}},{"q":"What does \"ubiquitous\" mean? Choose the best option: ","o":["rarely found","widely encountered","extremely valuable","hard to find"],"a":"B","difficulty":"medium","question_type":"statement_based","subject":"english","chapter":"Vocabulary","concept_id":"english::vocabulary","pyq_anchor_ids_used":[],"trap_option":"D","strong_distractors":["A","C"],"why_not_textbook":"Focuses on application of vocabulary meaning rather than simple recall.","why_cuet_level":"Tests comprehension of word usage in various contexts.","distractor_rationale":{"A":"Wrong because it means not common, opposite of ubiquitous.","B":"Correct as it defines something found everywhere.","C":"Wrong as value is unrelated to its commonality.","D":"Trap because it suggests scarcity, which contradicts ubiquitous."}},{"q":"Identify the closest synonym for \"ephemeral\": ","o":["permanent","temporary","lasting","enduring"],"a":"B","difficulty":"medium","question_type":"comparison_based","subject":"english","chapter":"Vocabulary","concept_id":"english::vocabulary","pyq_anchor_ids_used":[],"trap_option":"D","strong_distractors":["A","C"],"why_not_textbook":"","why_cuet_level":"","distractor_rationale":{"A":"Wrong because ephemeral means not lasting at all, opposite of permanent.","B":"Correct as it indicates something short-lived or transient.","C":"Wrong as lasting suggests endurance contrary to ephemeral's meaning.","D":"Trap since enduring suggests longevity, conflicting with ephemeral."}},{"q":"Choose the word that best describes someone who is \"loquacious\": ","o":["silent","talkative","reserved","shy"],"a":"B","difficulty":"medium","question_type":"comparison_based","subject":"english","chapter":"Vocabulary","concept_id":"english::vocabulary","pyq_anchor_ids_used":[],"trap_option":"D","strong_distractors":["A","C"],"why_not_textbook":"","why_cuet_level":"","distractor_rationale":{"A":"Wrong as loquacious refers to being very talkative, opposite of silent.","B":"Correct as it accurately describes someone who talks a lot.","C":"Wrong since reserved indicates a tendency to be quiet or restrained, opposite of loquacious.","D":"Trap because shy implies a reluctance to speak, which contrasts with loquacious."}},{"q":"'Obsolete' can be best described as: ","o":["current","outdated","popular","trendy"],"a":"B","difficulty":"medium","question_type":"comparison_based","subject":"english","chapter":"Vocabulary","concept_id":"english::vocabulary","pyq_anchor_ids_used":[],"trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"","why_cuet_level":"","distractor_rationale":{"A": "Wrong since obsolete means no longer in use, not current at all.","B": "Correct as it signifies something that is no longer relevant or used.","C": "Trap because popular might suggest something was once widely accepted but isn't now. ","D": "Wrong since trendy implies something new and fashionable, opposite of obsolete."}},{"q":"'Eloquent' best describes someone who is: ","o":["inarticulate", "persuasive", "confusing", "quiet"],"a": "B", "difficulty": "medium", "question_type": "comparison_based", "subject": "english", "chapter": "Vocabulary", "concept_id": "english::vocabulary", "pyq_anchor_ids_used": [], "trap_option": "C", "strong_distractors": ["A", "D"], "why_not_textbook": "", "why_cuet_level": "", "distractor_rationale": {"A": "Wrong since inarticulate means unable to express oneself clearly; opposite of eloquent.", "B": "Correct as eloquent denotes persuasive and articulate speech.", "C": "Trap because confusing implies difficulty in understanding but doesn't directly contradict eloquence.", "D": "Wrong since quietness does not relate to speaking ability."}},{"q":"'Pragmatic' refers to someone who is: ","o":["idealistic", "practical", "theoretical", "impractical"],"a": "B", "difficulty": "medium", "question_type": "comparison_based", "subject": "english", "chapter": "Vocabulary", "concept_id": "english::vocabulary", "pyq_anchor_ids_used": [], "trap_option": "A", "strong_distractors": ["C", "D"], "why_not_textbook": "", "why_cuet_level": "",  "distractor_rationale": {"A":  "Trap since idealistic suggests a focus on ideals rather than practicalities but isn't entirely wrong.",  "B":  "Correct as pragmatic emphasizes practicality and realism.",  "C":  "Wrong because theoretical focuses on concepts rather than practical application.",  "D":  "Wrong since impractical means lacking practicality, opposing pragmatic."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 9
+[english-classification] {
+  question_id: 'concept_1',
+  detected_type: 'ambiguous_verbal_ability',
+  confidence: 0.75
+}
+[english-classification] {
+  question_id: 'concept_2',
+  detected_type: 'Vocabulary',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'concept_3',
+  detected_type: 'ambiguous_verbal_ability',
+  confidence: 0.75
+}
+[english-classification] {
+  question_id: 'concept_4',
+  detected_type: 'ambiguous_verbal_ability',
+  confidence: 0.75
+}
+[english-classification] {
+  question_id: 'concept_5',
+  detected_type: 'Vocabulary',
+  confidence: 0.9
+}
+[english-classification] {
+  question_id: 'concept_6',
+  detected_type: 'ambiguous_verbal_ability',
+  confidence: 0.75
+}
+[english-classification] {
+  question_id: 'concept_7',
+  detected_type: 'ambiguous_verbal_ability',
+  confidence: 0.75
+}
+[english-classification] {
+  question_id: 'concept_8',
+  detected_type: 'ambiguous_verbal_ability',
+  confidence: 0.75
+}
+[english-classification] {
+  question_id: 'concept_9',
+  detected_type: 'ambiguous_verbal_ability',
+  confidence: 0.75
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '8a4aa105-4cfe-41e5-b856-f202caf9712b',
+    '09e92f61-de8a-4cad-a36f-f4f0436e6085',
+    'e912939c-0972-4189-b60c-c78a77d8a53d',
+    '32e61d90-0afb-442c-aac5-3bd843821bce',
+    '37bb84dd-d059-4b45-a93f-d73898c7656d',
+    'c9304945-892d-4518-a9c4-528f5f6484d9',
+    'dbe8e2e4-58a9-4b10-a766-77996bc29313',
+    'b5d2ab35-9d31-4fde-9220-3e657e69a731'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '8a4aa105-4cfe-41e5-b856-f202caf9712b',
+  actual_subject: 'physics',
+  actual_chapter: 'Electromagnetic Induction',
+  status: 'queued',
+  priority: 75,
+  original_priority: 75,
+  question_count: 13,
+  subject_question_count: 332,
+  created_at: '2026-05-01T05:32:53.744466+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  count: 13,
+  priority: 75
+}
+[worker] coverage-based selection: { subject: 'physics', chapter: 'Electromagnetic Induction', count: 13 }
+
+[JOB 8a4aa105] Starting: [physics] Electromagnetic Induction
+[worker] RECEIVED_JOB: {
+  job_id: '8a4aa105-4cfe-41e5-b856-f202caf9712b',
+  expected_subject: 'physics',
+  expected_chapter: 'Electromagnetic Induction',
+  raw_subject_id: 'physics',
+  raw_chapter: 'Electromagnetic Induction',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-05-01T05:32:53.744466+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '8a4aa105-4cfe-41e5-b856-f202caf9712b',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  chapter: 'Electromagnetic Induction',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=13 existing questions loaded
+[generation] batch adjusted: { chapter: 'Electromagnetic Induction', generate_count: 10 }
+[worker] GENERATION_INPUT: {
+  job_id: '8a4aa105-4cfe-41e5-b856-f202caf9712b',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  expected_chapter: 'Electromagnetic Induction',
+  canonical_unit: 'Electromagnetic Induction and Alternating Currents',
+  generate_count: 10,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 10 candidates... chapter="Electromagnetic Induction" unit="Electromagnetic Induction and Alternating Currents" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'physics',
+  prompt_subject_name: 'Physics',
+  expected_chapter: 'Electromagnetic Induction',
+  requested_count: 10,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'physics',
+  expected_chapter: 'Electromagnetic Induction',
+  canonical_unit: 'Electromagnetic Induction and Alternating Currents',
+  concept_id: 'physics::electromagnetic_induction',
+  pyq_anchor_id: 'structure_only_structured_physics_dual_nature_of_radiation_and_matter_1_for_physics::electromagnetic_induction',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 10,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] generation active_provider=openai active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}

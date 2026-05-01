@@ -1,0 +1,33 @@
+{
+  "subject": "computer_science",
+  "chapter": "Data Structures",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "Read the statements and choose the correct option. Statement I: A stack is useful when the latest saved state must be restored first. Statement II: A queue is useful when requests should be processed in their arrival order. Statement III: An array changes its access rule from indexed access to FIFO when elements are inserted sequentially.",
+      "options": [
+        "I and II only",
+        "II and III only",
+        "I and III only",
+        "I, II and III"
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["statement-based", "elimination", "close-distractors", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    },
+    {
+      "question": "Assertion: A linked list can be preferable when frequent insertions are needed between existing elements. Reason: A linked list stores elements in nodes connected by links, so insertion does not require shifting a contiguous block as in an array.",
+      "options": [
+        "Both Assertion and Reason are true, and the Reason explains the Assertion.",
+        "Both Assertion and Reason are true, but the Reason does not explain the Assertion.",
+        "Assertion is true, but Reason is false.",
+        "Assertion is false, but Reason is true."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["assertion-reason", "trap-option", "elimination", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

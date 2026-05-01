@@ -1,0 +1,414 @@
+[llm] generated_extreme_word_repaired {
+  body: 'A developer claims that using a linked list suggests efficient memory usage compared to arrays. Whic'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Data Structures',
+  reason: 'weak_options',
+  body: 'A developer claims that using a linked list suggests efficient memory usage compared to arrays. Whic',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: A stack is optimal for backtracking operations. Statement II: A queue is ideal for sche'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Data Structures',
+  reason: 'weak_options',
+  body: 'Statement I: A stack is optimal for backtracking operations. Statement II: A queue is ideal for sche',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'In a scenario where a program needs to keep track of tasks with priorities, which data structure wou'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Data Structures',
+  reason: 'weak_options',
+  body: 'In a scenario where a program needs to keep track of tasks with priorities, which data structure wou',
+  index: 2
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Data Structures',
+  reason: 'obvious_answer_pattern',
+  body: 'Consider the following statements: Statement I: Arrays require contiguous memory allocation. Stateme',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A student asserts that using a hash table ensures unique keys automatically. Which response best cri'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Data Structures',
+  reason: 'obvious_answer_pattern',
+  body: 'A student asserts that using a hash table ensures unique keys automatically. Which response best cri',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[worker] recovered stale processing jobs: [
+  {
+    id: 'b6d30092-f781-4199-9f43-8c05a840f24a',
+    subject_id: 'sociology',
+    chapter: 'Introducing Indian Society',
+    started_at: null
+  }
+]
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::narrative_passage',
+  selected_anchor_id: 'seed_pyq_en3',
+  selected_anchor_concept_id: 'english::correct_word_usage',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'correct_word_usage'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::narrative_passage',
+  source_anchor_id: 'seed_pyq_en3',
+  source_anchor_concept_id: 'english::correct_word_usage',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'correct_word_usage'
+}
+[llm] generated_extreme_word_repaired {
+  body: "In the context of a narrative, if a character's motivation is influenced by external circumstances, "
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Narrative Passage',
+  reason: 'rc_without_passage_log_only',
+  detected_type: 'Narrative Passage',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: "In the context of a narrative, if a character's motivation is influenced by external circumstances, ",
+  index: 0
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Narrative Passage',
+  reason: 'rc_without_passage_log_only',
+  detected_type: 'Narrative Passage',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: 'Consider a narrative where the protagonist faces a moral dilemma. The resolution of this dilemma ref',
+  index: 1
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Narrative Passage',
+  reason: 'rc_without_passage_log_only',
+  detected_type: 'Narrative Passage',
+  index: 2
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: 'When analyzing a story where multiple viewpoints are presented, one might argue that:',
+  index: 2
+}
+[llm] english_classification_warning_log_only {
+  chapter: 'Narrative Passage',
+  reason: 'rc_without_passage_log_only',
+  detected_type: 'Narrative Passage',
+  index: 3
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: 'In narratives where foreshadowing is effectively used, it typically serves to:',
+  index: 3
+}
+[llm] generated_extreme_word_repaired { body: 'If a narrative uses unreliable narration, it suggests that:' }
+[llm] english_classification_warning_log_only {
+  chapter: 'Narrative Passage',
+  reason: 'rc_without_passage_log_only',
+  detected_type: 'Narrative Passage',
+  index: 4
+}
+[llm] question_rejected_internal_quality {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'weak_options',
+  body: 'If a narrative uses unreliable narration, it suggests that:',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[llm] generated_extreme_word_repaired {
+  body: 'A student argues that using carbon for reduction is often effective for extracting metals from oxide'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'weak_options',
+  body: 'A student argues that using carbon for reduction is often effective for extracting metals from oxide',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: Roasting is used primarily for sulfide ores. Statement II: Calcination is preferred for'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'weak_options',
+  body: 'Statement I: Roasting is used primarily for sulfide ores. Statement II: Calcination is preferred for',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A learner claims that the method of electrolysis is often the best choice for metal extraction. How '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'weak_options',
+  body: 'A learner claims that the method of electrolysis is often the best choice for metal extraction. How ',
+  index: 2
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'obvious_answer_pattern',
+  body: 'Two extraction techniques are discussed: hydrometallurgy and pyrometallurgy. Which statement best cl',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: Concentration methods enhance the efficiency of subsequent reduction steps. Statement I'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  reason: 'weak_options',
+  body: 'Statement I: Concentration methods enhance the efficiency of subsequent reduction steps. Statement I',
+  index: 4
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::python_revision',
+  selected_anchor_id: 'structured_computer_science_data_structures_2',
+  selected_anchor_concept_id: 'computer_science::data_structures',
+  anchor_tier: 2,
+  fallback_used: true,
+  concept_mismatch_risk: 'medium',
+  candidates: 1,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'comparison_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: "A student claims that the Python 'for' loop is mainly used for iterating through lists. Another stud"
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Python Revision',
+  reason: 'obvious_answer_pattern',
+  body: "A student claims that the Python 'for' loop is mainly used for iterating through lists. Another stud",
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider a scenario where a programmer intends to create a function that returns the square of a num'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: A variable in Python can change type during its lifetime. Statement II: many variables '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A developer wants to ensure that their code handles exceptions gracefully. They decide to use try-ex'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Python Revision',
+  reason: 'weak_options',
+  body: 'A developer wants to ensure that their code handles exceptions gracefully. They decide to use try-ex',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'When using lists in Python, one user claims that appending an item modifies the original list. Anoth'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'Python Revision',
+  reason: 'weak_options',
+  body: 'When using lists in Python, one user claims that appending an item modifies the original list. Anoth',
+  index: 4
+}
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; conceptual_depth < 7; obvious answer; textbook_style; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] Rejected | compositeScore=39 | source=validator_normalized | rule=conceptual_depth < 7 | reasons=conceptual_depth < 7; textbook_style; low trap quality; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording; validator marked non-CUET alignment
+[pipeline] strict_mode_no_validated_questions_draft_only {
+  job_id: '6be07d92-0532-49bf-a179-b5ae7f388a34',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'low trap quality',
+    'conceptual_depth < 7',
+    'obvious answer',
+    'textbook_style',
+    'validator score below threshold',
+    'exam quality below threshold',
+    'distractor quality below threshold',
+    'conceptual depth below CUET reasoning threshold'
+  ],
+  draft_only_flag: true
+}
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=0.0% | threshold=40% | fallback_or_partial_output_allowed=true
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[pipeline] TARGET_NOT_MET | target=5 | accepted=0 | shortfall=5 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+No questions returned for computer_science/Python Revision
+RAW_PARSED_COUNT=5
+NORMALIZED_COUNT=2
+VALIDATED_COUNT=0
+Drop summary:
+- normalization_failed: 0
+- invalid_options_format: 0
+- missing_required_fields: 0
+- validation_failed: 5
+- low_score: 1
+- difficulty_mismatch: 1
+- cuet_alignment_failed: 2
+- chapter_mismatch: 0
+Sample failed raw question: {"q":"A student claims that the Python 'for' loop is only used for iterating through lists. Another student argues that it can also iterate through other iterable objects. Which assessment is more accurate?","o":["The first student's claim is valid, as 'for' loops are designed solely for lists.","The second student's assertion is correct, as 'for' loops can iterate through any iterable, like tuples and strings.","Both statements are valid, but they imply the same concept about 'for' loops.","The first statement is invalid because 'for' loops can iterate through dictionaries as well."],"a":"B","question_type":"statement_based","concept_id":"computer_science::python_revision","trap_option":"D","strong_distractors":["A","C"],"why_not_textbook":"This question avoids direct definitions and focuses on common misconceptions.","why_cuet_level":"This question requires understanding of Python's iteration capabilities beyond just lists.","distractor_rationale":{"A":"This option incorrectly limits the use of 'for' loops to lists only.","B":"This option accurately reflects the versatility of 'for' loops in Python.","C":"This option suggests both students are correct, which is misleading since one is not.","D":"This option incorrectly states that 'for' loops cannot iterate through dictionaries."}}
+Sample normalized attempt: {"subject":"computer_science","chapter":"Python Revision","body":"A student claims that the Python 'for' loop is mainly used for iterating through lists. Another student argues that it can also iterate through other iterable objects. Which assessment is more accurate?","options":[{"key":"A","text":"The first student's claim is valid, as 'for' loops are designed mainly for lists."},{"key":"B","text":"The second student's assertion is correct, as 'for' loops can iterate through any iterable, like tuples and strings."},{"key":"C","text":"Both statements are valid, but they imply the same concept about 'for' loops."},{"key":"D","text":"The first statement is invalid because 'for' loops can iterate through dictionaries as well."}],"correct_answer":"B","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Section B1: Computer Science","concept":"Python Revision","concept_id":"computer_science::python_revision","pyq_anchor_id":"","anchor_tier":0,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"D","strong_distractors":["A","C"],"why_not_textbook":"This question avoids direct definitions and focuses on common misconceptions.","why_cuet_level":"This question requires understanding of Python's iteration capabilities beyond just lists.","distractor_rationale":{"A":"This option incorrectly limits the use of 'for' loops to lists mainly.","B":"This option accurately reflects the versatility of 'for' loops in Python.","C":"This option suggests both students are correct, which is misleading since one is not.","D":"This option incorrectly states that 'for' loops cannot iterate through dictionaries."},"anchor_source_quality":"","passage_id":"","passage_type":"","passage_text":""}
+[pipeline] LOW_YIELD=0.0% (threshold=30%) — less than 30 % of generated questions were accepted
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'weak_options',
+  body: 'A company believes that hiring from within boosts morale but may overlook critical skills. Which eva',
+  index: 0
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: A diverse workforce enhances creativity. Statement II: Diversity can complicate team dy'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'obvious_answer_pattern',
+  body: 'A firm opts for external recruitment to bring innovative ideas but faces longer onboarding times. Wh',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: Training enhances job performance. Statement II: Development prepares employees for fut'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'weak_options',
+  body: 'Statement I: Training enhances job performance. Statement II: Development prepares employees for fut',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A manager believes that experience should outweigh formal education in promotions. Which response be'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'weak_options',
+  body: 'A manager believes that experience should outweigh formal education in promotions. Which response be',
+  index: 4
+}
+[pipeline] Rejected | compositeScore=23 | source=validator_normalized | rule=textbook style | reasons=textbook style; low trap quality; conceptual depth < 7; overlapping options; ambiguous options; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] strict_mode_no_validated_questions_draft_only {
+  job_id: 'c7d3db0e-3f1b-450e-97b2-7a20ec3e6b30',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'textbook style',
+    'low trap quality',
+    'conceptual depth < 7',
+    'overlapping options',
+    'ambiguous options',
+    'exam quality below threshold',
+    'distractor quality below threshold',
+    'conceptual depth below CUET reasoning threshold'
+  ],
+  draft_only_flag: true
+}
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=0.0% | threshold=40% | fallback_or_partial_output_allowed=true
+[pipeline] TARGET_NOT_MET | target=5 | accepted=0 | shortfall=5 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+No questions returned for business_studies/Staffing
+RAW_PARSED_COUNT=5
+NORMALIZED_COUNT=1
+VALIDATED_COUNT=0
+Drop summary:
+- normalization_failed: 0
+- invalid_options_format: 0
+- missing_required_fields: 0
+- validation_failed: 5
+- low_score: 0
+- difficulty_mismatch: 0
+- cuet_alignment_failed: 1
+- chapter_mismatch: 0
+Sample failed raw question: {"q":"A company believes that hiring from within boosts morale but may overlook critical skills. Which evaluation best captures this perspective?","o":["Internal hiring can enhance motivation but may limit the influx of fresh talent.","Internal hiring is beneficial as it reduces training time for existing employees.","External hiring is preferred because it focuses on diversity and innovation.","Internal hiring gives too much weight to employee loyalty over skill requirements."],"a":"A","question_type":"statement_based","concept_id":"business_studies::staffing","trap_option":"D","strong_distractors":["B","C"],"why_not_textbook":"This question encourages analysis of internal vs external hiring without relying on definitions.","why_cuet_level":"This question requires critical thinking about recruitment strategies.","distractor_rationale":{"A":"Correctly identifies the balance between morale and skill acquisition.","B":"Partially correct as it mentions training time but misses the broader implications.","C":"Incorrect because it misrepresents the focus of external hiring.","D":"Incorrect as it suggests an extreme view of loyalty over skills."}}
+Sample normalized attempt: {"subject":"business_studies","chapter":"Staffing","body":"A company believes that hiring from within boosts morale but may overlook critical skills. Which evaluation best captures this perspective?","options":[{"key":"A","text":"Internal hiring can enhance motivation but may limit the influx of fresh talent."},{"key":"B","text":"Internal hiring is beneficial as it reduces training time for existing employees."},{"key":"C","text":"External hiring is preferred because it focuses on diversity and innovation."},{"key":"D","text":"Internal hiring gives too much weight to employee loyalty over skill requirements."}],"correct_answer":"A","explanation":"","difficulty":"medium","difficulty_weight":2,"question_type":"statement_based","topic":"Staffing","concept":"Staffing","concept_id":"business_studies::staffing","pyq_anchor_id":"","anchor_tier":0,"concept_pattern":"concept_1","tags":["cuet"],"trap_option":"D","strong_distractors":["B","C"],"why_not_textbook":"This question encourages analysis of internal vs external hiring without relying on definitions.","why_cuet_level":"This question requires critical thinking about recruitment strategies.","distractor_rationale":{"A":"Correctly identifies the balance between morale and skill acquisition.","B":"Partially correct as it mentions training time but misses the broader implications.","C":"Incorrect because it misrepresents the focus of external hiring.","D":"Incorrect as it suggests an extreme view of loyalty over skills."},"anchor_source_quality":"","passage_id":"","passage_type":"","passage_text":""}
+[pipeline] LOW_YIELD=0.0% (threshold=30%) — less than 30 % of generated questions were accepted
+[llm] generated_extreme_word_repaired {
+  body: 'A student claims that the coordination number of a complex is mainly determined by the number of lig'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: A bidentate ligand forms two bonds with a metal ion. Statement II: The overall charge o'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'weak_options',
+  body: 'Statement I: A bidentate ligand forms two bonds with a metal ion. Statement II: The overall charge o',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'In a scenario where a complex exhibits unusual color changes upon ligand substitution, which explana'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'logically_impossible_option',
+  body: 'In a scenario where a complex exhibits unusual color changes upon ligand substitution, which explana',
+  index: 2
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A student believes that many chelating agents enhance stability in coordination compounds. Which cor'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'weak_options',
+  body: 'A student believes that many chelating agents enhance stability in coordination compounds. Which cor',
+  index: 3
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Statement I: The geometrical arrangement of a complex influences its magnetic properties. Statement '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'chemistry',
+  chapter: 'Coordination Compounds',
+  reason: 'weak_options',
+  body: 'Statement I: The geometrical arrangement of a complex influences its magnetic properties. Statement ',
+  index: 4
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'A student claims that the coordination number of a complex is mainly determined by the number of lig'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'weak_options',
+    body: 'A student claims that the coordination number of a complex is mainly determined by the number of lig'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 0, added: 1, source: 'structural_pool' }
+[pipeline] TARGET_NOT_MET | target=5 | accepted=1 | shortfall=4 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[supervisor] COST_ALERT: $7.18/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped

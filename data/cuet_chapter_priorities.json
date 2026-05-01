@@ -1,0 +1,70 @@
+{
+  "english": [
+    "Reading Comprehension",
+    "Vocabulary",
+    "Para Jumbles",
+    "Grammar",
+    "Error Detection"
+  ],
+  "gat": [
+    "Current Affairs",
+    "General Knowledge",
+    "Quantitative Aptitude",
+    "Logical Reasoning",
+    "Data Interpretation"
+  ],
+  "general_test": [
+    "Current Affairs",
+    "General Knowledge",
+    "Quantitative Aptitude",
+    "Logical Reasoning",
+    "Data Interpretation"
+  ],
+  "accountancy": [
+    "Partnership",
+    "Company Accounts",
+    "Financial Statements",
+    "Dissolution"
+  ],
+  "business_studies": [
+    "Principles of Management",
+    "Marketing",
+    "Financial Management",
+    "Consumer Protection"
+  ],
+  "economics": [
+    "Money and Banking",
+    "National Income",
+    "Government Budget",
+    "Balance of Payments",
+    "Demand/Supply"
+  ],
+  "physics": [
+    "Electromagnetic Induction",
+    "Moving Charges and Magnetism",
+    "Wave Optics",
+    "Nuclei",
+    "Ray Optics and Optical Instruments"
+  ],
+  "chemistry": [
+    "Solutions",
+    "Electrochemistry",
+    "Chemical Kinetics",
+    "Coordination Compounds",
+    "Aldehydes Ketones and Carboxylic Acids"
+  ],
+  "mathematics": [
+    "Matrices",
+    "Determinants",
+    "Integrals",
+    "Differential Equations",
+    "Probability"
+  ],
+  "biology": [
+    "Biotechnology and its Applications",
+    "Human Health and Disease",
+    "Molecular Basis of Inheritance",
+    "Evolution",
+    "Ecosystem"
+  ]
+}

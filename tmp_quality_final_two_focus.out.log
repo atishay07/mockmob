@@ -1,0 +1,1460 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5989 concepts across 40 subjects (saved 2026-04-30T23:02:52.552Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  coverage: 11,
+  priority: 75
+}
+[planner] {
+  subject: 'physics',
+  chapter: 'Magnetism & Matter',
+  coverage: 12,
+  priority: 75
+}
+[planner] {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  coverage: 12,
+  priority: 75
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Plotting Data using Matplotlib',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Stack',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Infrastructure',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Para Jumbles',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Vocabulary',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'gat',
+  chapter: 'Numerical Ability',
+  coverage: 13,
+  priority: 75
+}
+[planner] {
+  subject: 'gat',
+  chapter: 'Quantitative Reasoning',
+  coverage: 13,
+  priority: 75
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: physics → normalized: physics → tier: 1
+Subject: physics → normalized: physics → tier: 1
+Subject: physics → normalized: physics → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: economics → normalized: economics → tier: 1
+Subject: english → normalized: english → tier: 1
+Subject: english → normalized: english → tier: 1
+Subject: gat → normalized: gat → tier: 1
+Subject: gat → normalized: gat → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'physics',
+    expected_chapter: 'Electromagnetic Induction',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'physics',
+    expected_chapter: 'Magnetism & Matter',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'physics',
+    expected_chapter: 'Moving Charges & Magnetism',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Plotting Data using Matplotlib',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Stack',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Infrastructure',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Para Jumbles',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Vocabulary',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'gat',
+    expected_chapter: 'Numerical Ability',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'gat',
+    expected_chapter: 'Quantitative Reasoning',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'physics',
+    chapter: 'Electromagnetic Induction',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'physics',
+    chapter: 'Magnetism & Matter',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'physics',
+    chapter: 'Moving Charges & Magnetism',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Plotting Data using Matplotlib',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Stack',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'economics',
+    chapter: 'Infrastructure',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'english',
+    chapter: 'Para Jumbles',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'english',
+    chapter: 'Vocabulary',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'gat',
+    chapter: 'Numerical Ability',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'gat',
+    chapter: 'Quantitative Reasoning',
+    status: 'queued',
+    priority: 75
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: '20430f37-021b-4ce7-aebe-61073748ec21',
+    subject_id: 'physics',
+    chapter: 'Electromagnetic Induction',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T23:21:18.202676+00:00'
+  },
+  {
+    id: '0a9949f7-1800-4401-957e-c1f0b1c77c5d',
+    subject_id: 'physics',
+    chapter: 'Magnetism & Matter',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T23:21:18.202676+00:00'
+  },
+  {
+    id: '907bb879-a715-463f-82e9-a4edc35b6154',
+    subject_id: 'physics',
+    chapter: 'Moving Charges & Magnetism',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T23:21:18.202676+00:00'
+  },
+  {
+    id: '64a89dac-e9ce-4bcb-8235-705b2d904f8a',
+    subject_id: 'computer_science',
+    chapter: 'Plotting Data using Matplotlib',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T23:21:18.202676+00:00'
+  },
+  {
+    id: 'f78a1d67-4022-466a-ab60-64705297e3c2',
+    subject_id: 'computer_science',
+    chapter: 'Stack',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T23:21:18.202676+00:00'
+  },
+  {
+    id: 'b11916fd-a521-46c4-ba9e-3aea947862bb',
+    subject_id: 'economics',
+    chapter: 'Infrastructure',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T23:21:18.202676+00:00'
+  },
+  {
+    id: '80781185-abcb-4909-bfc1-48109fec05a9',
+    subject_id: 'english',
+    chapter: 'Para Jumbles',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T23:21:18.202676+00:00'
+  },
+  {
+    id: 'c4e3979c-393e-47f5-a85f-a28e165865d7',
+    subject_id: 'english',
+    chapter: 'Vocabulary',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T23:21:18.202676+00:00'
+  },
+  {
+    id: '8bce333c-4118-47ae-b06b-51574dd72ca4',
+    subject_id: 'gat',
+    chapter: 'Numerical Ability',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T23:21:18.202676+00:00'
+  },
+  {
+    id: '1fe50ec5-913b-4781-9133-c4686810db80',
+    subject_id: 'gat',
+    chapter: 'Quantitative Reasoning',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T23:21:18.202676+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: '20430f37-021b-4ce7-aebe-61073748ec21',
+    expected_subject: 'physics',
+    expected_chapter: 'Electromagnetic Induction',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '0a9949f7-1800-4401-957e-c1f0b1c77c5d',
+    expected_subject: 'physics',
+    expected_chapter: 'Magnetism & Matter',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '907bb879-a715-463f-82e9-a4edc35b6154',
+    expected_subject: 'physics',
+    expected_chapter: 'Moving Charges & Magnetism',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '64a89dac-e9ce-4bcb-8235-705b2d904f8a',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Plotting Data using Matplotlib',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: 'f78a1d67-4022-466a-ab60-64705297e3c2',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Stack',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: 'b11916fd-a521-46c4-ba9e-3aea947862bb',
+    expected_subject: 'economics',
+    expected_chapter: 'Infrastructure',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '80781185-abcb-4909-bfc1-48109fec05a9',
+    expected_subject: 'english',
+    expected_chapter: 'Para Jumbles',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: 'c4e3979c-393e-47f5-a85f-a28e165865d7',
+    expected_subject: 'english',
+    expected_chapter: 'Vocabulary',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '8bce333c-4118-47ae-b06b-51574dd72ca4',
+    expected_subject: 'gat',
+    expected_chapter: 'Numerical Ability',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '1fe50ec5-913b-4781-9133-c4686810db80',
+    expected_subject: 'gat',
+    expected_chapter: 'Quantitative Reasoning',
+    status: 'queued',
+    priority: 75
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '20430f37-021b-4ce7-aebe-61073748ec21',
+    '0a9949f7-1800-4401-957e-c1f0b1c77c5d',
+    '907bb879-a715-463f-82e9-a4edc35b6154',
+    '64a89dac-e9ce-4bcb-8235-705b2d904f8a',
+    'f78a1d67-4022-466a-ab60-64705297e3c2',
+    'b11916fd-a521-46c4-ba9e-3aea947862bb',
+    '80781185-abcb-4909-bfc1-48109fec05a9',
+    'c4e3979c-393e-47f5-a85f-a28e165865d7',
+    '8bce333c-4118-47ae-b06b-51574dd72ca4',
+    '1fe50ec5-913b-4781-9133-c4686810db80'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] FOCUSED_QUALITY_JOB_SELECTED
+[queue] WORKER_SELECTED_JOB: {
+  id: '18d22459-350e-471e-b631-1295818c8d0e',
+  actual_subject: 'sociology',
+  actual_chapter: 'Mass Media & Communications',
+  status: 'queued',
+  priority: 60,
+  original_priority: 199,
+  question_count: 40,
+  subject_question_count: 250,
+  created_at: '2026-04-30T23:21:09.98856+00:00',
+  from_planner_capture: false
+}
+[worker] picking job: {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  count: 40,
+  priority: 60
+}
+[worker] coverage-based selection: {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  count: 40
+}
+
+[JOB 18d22459] Starting: [sociology] Mass Media & Communications
+[worker] RECEIVED_JOB: {
+  job_id: '18d22459-350e-471e-b631-1295818c8d0e',
+  expected_subject: 'sociology',
+  expected_chapter: 'Mass Media & Communications',
+  raw_subject_id: 'sociology',
+  raw_chapter: 'Mass Media & Communications',
+  status: 'queued',
+  priority: 60,
+  created_at: '2026-04-30T23:21:09.98856+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '18d22459-350e-471e-b631-1295818c8d0e',
+  expected_subject: 'sociology',
+  resolved_subject_id: 'sociology',
+  resolved_subject_name: 'Sociology',
+  chapter: 'Mass Media & Communications',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=40 existing questions loaded
+[generation] batch adjusted: { chapter: 'Mass Media & Communications', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '18d22459-350e-471e-b631-1295818c8d0e',
+  expected_subject: 'sociology',
+  resolved_subject_id: 'sociology',
+  resolved_subject_name: 'Sociology',
+  expected_chapter: 'Mass Media & Communications',
+  canonical_unit: 'Social Change and Development in India',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Mass Media & Communications" unit="Social Change and Development in India" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'sociology',
+  prompt_subject_name: 'Sociology',
+  expected_chapter: 'Mass Media & Communications',
+  requested_count: 5,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'sociology',
+  requested_concept_id: 'sociology::mass_media_and_communications',
+  selected_anchor_id: 'structured_sociology_mass_media_and_communications_1',
+  selected_anchor_concept_id: 'sociology::mass_media_and_communications',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'case_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'sociology',
+  expected_chapter: 'Mass Media & Communications',
+  canonical_unit: 'Social Change and Development in India',
+  concept_id: 'sociology::mass_media_and_communications',
+  pyq_anchor_id: 'structured_sociology_mass_media_and_communications_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 27477,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: Social media platforms have a role in shaping political opinions among youth. Statement II: Youth engagement in social media solely reflects their pre-existing beliefs. Statement III: Social media can mobilize youth for activism under certain conditions.","o":["I and III only","I and II only","II and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"sociology::mass_media_and_communications","trap_option":"B","strong_distractors":["B","C"],"why_not_textbook":"The statements are designed to challenge misconceptions about social media's influence on political beliefs.","why_cuet_level":"This question assesses understanding of the nuanced impacts of social media on political engagement.","distractor_rationale":{"A":"Both statements explore the role of social media in shaping political views, particularly among youth.","B":"This option overlooks the potential for social media to actively influence opinions rather than just reflect them.","C":"While true that social media can mobilize, this option does not address the influence on opinions as effectively as A.","D":"This option combines all statements but includes a flawed assumption about the nature of engagement."}},{"q":"Assertion: Mass media can facilitate social change by highlighting issues that affect marginalized communities. Reason: Media representation influences public perception and policy decisions regarding these communities. Choose the correct option.","o":["Assertion is true, but Reason is false.","Both Assertion and Reason are true, and Reason is the correct explanation for Assertion.","Assertion is false, but Reason is true.","Both Assertion and Reason are false."],"a":"B","question_type":"assertion_reason","concept_id":"sociology::mass_media_and_communications","trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"The question prompts evaluation of the relationship between media representation and social change, which is often misunderstood.","why_cuet_level":"This tests comprehension of how mass media impacts social dynamics and policy-making.","distractor_rationale":{"A":"While the assertion is valid, the reason accurately explains how mass media operates in this context.","B":"Correct; both are true with a clear link between representation and its effects on society.","C":"The assertion stands firm; however, the reason accurately describes its impact, making this option misleading.","D":"Both statements are incorrect, overlooking significant roles of mass media in society."}},{"q":"A learner claims that broadcast news has become irrelevant due to the rise of digital platforms. Which response best addresses this misconception?","o":["Broadcast news still plays a crucial role in providing verified information during crises.","Digital platforms have completely replaced traditional news formats without exceptions.","Broadcast news only caters to older audiences with no impact on younger viewers' perceptions.","Digital platforms diminish broadcast news's credibility across all demographics."],"a":"A","question_type":"comparison_based","concept_id":"sociology::mass_media_and_communications","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"This question challenges assumptions about the relevance of traditional media in a digital age, prompting critical thinking.","why_cuet_level":"It evaluates understanding of mass media's evolving role amid technological advancements.","distractor_rationale":{"A":"Correct; it highlights that broadcast news remains essential for reliable information dissemination during critical times.","B":"This statement inaccurately suggests a complete replacement without recognizing ongoing relevance of broadcast news.","C":"This option misrepresents audience demographics and their engagement with broadcast news formats.","D":"It incorrectly generalizes about credibility across demographics, ignoring variances in media consumption."}},{"q":"Consider the following statements regarding advertising in mass media: Statement I: Advertising primarily reinforces existing consumer behaviors. Statement II: Advertising can also create new consumer needs through strategic messaging. Statement III: The effectiveness of advertising depends solely on its creative elements. Choose the correct option.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"sociology::mass_media_and_communications","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The question prompts analysis of advertising's multifaceted role rather than simple recall of definitions or concepts.","why_cuet_level":"It assesses understanding of how advertising functions within mass media to influence consumer behavior.","distractor_rationale":{"A":"Both statements recognize advertising's dual role in reinforcing behaviors while also creating new needs among consumers.","B":"This option overlooks the foundational role of existing behaviors in consumer decision-making processes outlined in I.","C":"While creative elements matter, this statement wrongly asserts they are the sole determinant of advertising effectiveness.","D":"Combining all statements misses nuances in advertising's impact on consumer behavior."}},{"q":"A case study highlights that local news outlets often struggle to compete with national networks for viewership. Consider these statements: Statement I: Local outlets provide more relevant content for community issues. Statement II: National networks dominate due to broader resource access and visibility. Statement III: All local outlets fail to adapt to digital trends. What is the best conclusion?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"case_based","concept_id":"sociology::mass_media_and_communications","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This case study encourages evaluation of local versus national news dynamics rather than straightforward identification or recall questions.","why_cuet_level":"It tests understanding of competition within mass media landscapes, particularly between local and national entities.","distractor_rationale":{"A":"Correct; both statements highlight strengths of local outlets alongside challenges posed by national networks' resources.","B":"This statement fails to address the unique advantages local outlets possess despite competitive pressures from national networks.","C":"Assuming all local outlets struggle ignores successful adaptations seen in some contexts within local journalism.","D":"Combining all fails as it overgeneralizes challenges faced by local outlets without acknowledging their relevance."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=4
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 4
+[pipeline] generated_count=4 | mix=easy=0, medium=4, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 4
+[reject] {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=4 | pre_validation_filtered=3 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=25.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [
+    'structured_sociology_mass_media_and_communications_1',
+    'structured_sociology_mass_media_and_communications_1',
+    'structured_sociology_mass_media_and_communications_1'
+  ],
+  anchor_source_quality: [ 'manual_seed', 'manual_seed', 'manual_seed' ],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 3,
+  skipped_for_anchor_quality: 0
+}
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T23:21:46.969Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"sociology","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'sociology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'sociology',
+  stage: 'batch_validation',
+  status: 'rate_limit',
+  retry_count: 0,
+  duration: 985,
+  error: '[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. '
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'sociology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] batch_validation_start | model=gemini-2-flash | resolved_model=gemini-2.0-flash-001 | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T23:21:47.957Z","model":"gemini-2-flash","resolvedModel":"gemini-2.0-flash-001","subject":"sociology","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-2.0-flash-001',
+  subject: 'sociology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-2.0-flash-001',
+  subject: 'sociology',
+  stage: 'batch_validation',
+  status: 'rate_limit',
+  retry_count: 0,
+  duration: 503,
+  error: '[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. '
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-2.0-flash-001',
+  subject: 'sociology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[draft] Saved 6f9cc896-b5ca-41a2-85aa-89ac947cc03b | reason=validator_unavailable:[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+[draft] Saved f6427658-7da9-4d37-9db0-a514ca24350c | reason=validator_unavailable:[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+[draft] Saved bb3a18af-c55d-4634-970d-731c74493987 | reason=validator_unavailable:[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent: [429 Too Many Requests] Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. 
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 3,
+  draft_candidates: 3,
+  publish_count: 0,
+  reason: 'validator_unavailable'
+}
+[pipeline] SUMMARY | subject=sociology | chapter=Mass Media & Communications | target=5 | generated_count=4 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=3 | strict_validation_count=3 | validated_count=0 | accepted_count=0 | draft_count=3 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=2
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '20430f37-021b-4ce7-aebe-61073748ec21',
+    '0a9949f7-1800-4401-957e-c1f0b1c77c5d',
+    '907bb879-a715-463f-82e9-a4edc35b6154',
+    '64a89dac-e9ce-4bcb-8235-705b2d904f8a',
+    'f78a1d67-4022-466a-ab60-64705297e3c2',
+    'b11916fd-a521-46c4-ba9e-3aea947862bb',
+    '80781185-abcb-4909-bfc1-48109fec05a9',
+    'c4e3979c-393e-47f5-a85f-a28e165865d7',
+    '8bce333c-4118-47ae-b06b-51574dd72ca4',
+    '1fe50ec5-913b-4781-9133-c4686810db80'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'f78a1d67-4022-466a-ab60-64705297e3c2',
+  actual_subject: 'computer_science',
+  actual_chapter: 'Stack',
+  status: 'queued',
+  priority: 75,
+  original_priority: 75,
+  question_count: 13,
+  subject_question_count: 400,
+  created_at: '2026-04-30T23:21:18.202676+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'computer_science',
+  chapter: 'Stack',
+  count: 13,
+  priority: 75
+}
+[worker] coverage-based selection: { subject: 'computer_science', chapter: 'Stack', count: 13 }
+
+[JOB f78a1d67] Starting: [computer_science] Stack
+[worker] RECEIVED_JOB: {
+  job_id: 'f78a1d67-4022-466a-ab60-64705297e3c2',
+  expected_subject: 'computer_science',
+  expected_chapter: 'Stack',
+  raw_subject_id: 'computer_science',
+  raw_chapter: 'Stack',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-04-30T23:21:18.202676+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'f78a1d67-4022-466a-ab60-64705297e3c2',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  chapter: 'Stack',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=13 existing questions loaded
+[generation] batch adjusted: { chapter: 'Stack', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'f78a1d67-4022-466a-ab60-64705297e3c2',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Stack',
+  canonical_unit: 'Section B1: Computer Science',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Stack" unit="Section B1: Computer Science" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'computer_science',
+  prompt_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Stack',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'computer_science',
+  expected_chapter: 'Stack',
+  canonical_unit: 'Section B1: Computer Science',
+  concept_id: 'computer_science::stack',
+  pyq_anchor_id: 'structured_computer_science_data_structures_1',
+  anchor_tier: 2,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 17633,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: A stack allows elements to be added or removed in a last-in, first-out manner. Statement II: In a stack, the first element added is the first one to be removed. Statement III: Stacks are commonly used for managing function calls in programming languages.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"computer_science::stack","trap_option":"B","strong_distractors":["B","C"],"why_not_textbook":"This question focuses on evaluating understanding of stack operations rather than simple definitions.","why_cuet_level":"This aligns with CUET's analytical approach to data structures.","distractor_rationale":{"A":"Both statements accurately describe stack properties and usage.","B":"While II describes a queue, it incorrectly applies to stacks, leading to confusion.","C":"Statement II is incorrect regarding stack behavior, making this option invalid.","D":"All statements cannot be true due to the flaw in Statement II."}},{"q":"Assertion: A stack can be implemented using an array or a linked list. Reason: Both implementations allow dynamic resizing of the stack's size as needed.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"B","question_type":"assertion_reason","concept_id":"computer_science::stack","trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"This question tests understanding of data structure implementations rather than straightforward definitions.","why_cuet_level":"This reflects CUET's emphasis on conceptual clarity in data structures.","distractor_rationale":{"A":"The reason does not accurately reflect how arrays handle resizing compared to linked lists.","B":"Both statements are accurate concerning stack implementations.","C":"The assertion is valid; however, the reason misrepresents array behavior during resizing.","D":"Only the assertion holds true; the reason fails to explain it properly."}},{"q":"Read the statements and choose the correct option: Statement I: In recursive programming, stacks are essential for tracking function calls. Statement II: A stack can only store one data type at a time. Statement III: The maximum size of a stack is fixed in an array-based implementation.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"computer_science::stack","trap_option":"A","strong_distractors":["B","D"],"why_not_textbook":"The focus here is on practical implications of stack use in recursion rather than definitions alone.","why_cuet_level":"This aligns with CUET's critical thinking approach to data structures.","distractor_rationale":{"A":"Statement I correctly emphasizes recursion; however, II incorrectly limits stack functionality.","B":"Statement II presents a misconception about stacks that must be addressed for clarity.","C":"Both I and III accurately describe recursion and implementation constraints respectively.","D":"Not all statements can be true due to the inaccuracy of Statement II."}},{"q":"Assertion: The push operation adds an element to the top of a stack. Reason: The pop operation removes an element from the bottom of a stack.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"C","question_type":"assertion_reason","concept_id":"computer_science::stack","trap_option":"A","strong_distractors":["B","D"],"why_not_textbook":"This question assesses understanding of fundamental operations rather than definitions alone.","why_cuet_level":"It reflects CUET's focus on operational comprehension in data structures.","distractor_rationale":{"A":"The reason inaccurately describes how elements are removed from a stack.","B":"While both terms relate to stacks, only one assertion holds true here due to flaws in reasoning.","C":"The assertion correctly describes push while reasoning misrepresents pop functionality.","D":"Only one statement accurately describes stack operations."}},{"q":"Read the statements and choose the correct option: Statement I: Stack overflow occurs when trying to add an element to a full stack. Statement II: Underflow happens when trying to remove an element from an empty stack. Statement III: Stacks can dynamically grow in size without limitations in all implementations.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"computer_science::stack","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question evaluates understanding of error states in stacks rather than simple definitions or examples.","why_cuet_level":"It matches CUET's analytical requirements for data structures errors and behaviors.","distractor_rationale":{"A":"Both statements accurately depict conditions leading to overflow and underflow errors in stacks.","B":"While underflow is correct, statement III incorrectly suggests unlimited size growth for stacks in all cases.","C":"The trap option misrepresents limitations present in certain implementations of stacks.","D":"Not all statements can be correct due to inaccuracies present in statement III."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=3
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 3
+[pipeline] generated_count=3 | mix=easy=0, medium=3, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 3
+[reject] {
+  subject: 'computer_science',
+  chapter: 'Stack',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=3 | pre_validation_filtered=1 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 3
+}
+[draft] Saved 8f4ffd42-bc60-4f96-9954-82cb945f528e | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved c95c8b25-d62d-4405-bcca-f1fcd2895f8a | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 141510bf-d3ac-4e60-a19a-09f7a7c44196 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 3,
+  draft_candidates: 3,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=computer_science | chapter=Stack | target=5 | generated_count=3 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=1 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=3 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '20430f37-021b-4ce7-aebe-61073748ec21',
+    '0a9949f7-1800-4401-957e-c1f0b1c77c5d',
+    '907bb879-a715-463f-82e9-a4edc35b6154',
+    '64a89dac-e9ce-4bcb-8235-705b2d904f8a',
+    'b11916fd-a521-46c4-ba9e-3aea947862bb',
+    '80781185-abcb-4909-bfc1-48109fec05a9',
+    'c4e3979c-393e-47f5-a85f-a28e165865d7',
+    '8bce333c-4118-47ae-b06b-51574dd72ca4',
+    '1fe50ec5-913b-4781-9133-c4686810db80'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'd9f1b0c3-86ef-48fd-8e9a-ef5331bce3fa',
+  actual_subject: 'mathematics',
+  actual_chapter: 'Determinants',
+  status: 'queued',
+  priority: 75,
+  original_priority: 1,
+  question_count: 14,
+  subject_question_count: 370,
+  created_at: '2026-04-24T20:27:34.622231+00:00',
+  from_planner_capture: false
+}
+[worker] picking job: {
+  subject: 'mathematics',
+  chapter: 'Determinants',
+  count: 14,
+  priority: 75
+}
+[worker] coverage-based selection: { subject: 'mathematics', chapter: 'Determinants', count: 14 }
+
+[JOB d9f1b0c3] Starting: [mathematics] Determinants
+[worker] RECEIVED_JOB: {
+  job_id: 'd9f1b0c3-86ef-48fd-8e9a-ef5331bce3fa',
+  expected_subject: 'mathematics',
+  expected_chapter: 'Determinants',
+  raw_subject_id: 'mathematics',
+  raw_chapter: 'Determinants',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-04-24T20:27:34.622231+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'd9f1b0c3-86ef-48fd-8e9a-ef5331bce3fa',
+  expected_subject: 'mathematics',
+  resolved_subject_id: 'mathematics',
+  resolved_subject_name: 'Mathematics / Applied Mathematics',
+  chapter: 'Determinants',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=14 existing questions loaded
+[generation] batch adjusted: { chapter: 'Determinants', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'd9f1b0c3-86ef-48fd-8e9a-ef5331bce3fa',
+  expected_subject: 'mathematics',
+  resolved_subject_id: 'mathematics',
+  resolved_subject_name: 'Mathematics / Applied Mathematics',
+  expected_chapter: 'Determinants',
+  canonical_unit: 'Algebra',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Determinants" unit="Algebra" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'mathematics',
+  prompt_subject_name: 'Mathematics / Applied Mathematics',
+  expected_chapter: 'Determinants',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'mathematics',
+  expected_chapter: 'Determinants',
+  canonical_unit: 'Algebra',
+  concept_id: 'mathematics::determinants',
+  pyq_anchor_id: 'structure_only_seed_pyq_m1_for_mathematics::determinants',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 3,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'mathematics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'mathematics',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 19671,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'mathematics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: The determinant of a matrix can be zero if the rows are linearly dependent. Statement II: A non-zero determinant indicates that the matrix is invertible. Statement III: The determinant is unaffected by row operations such as adding a multiple of one row to another.","o":["I and II only","II and III only","I, II and III","I and III only"],"a":"A","question_type":"statement_based","concept_id":"mathematics::determinants","trap_option":"D","strong_distractors":["B","C"],"why_not_textbook":"This question tests the understanding of determinant properties rather than simple definitions.","why_cuet_level":"This question aligns with CUET's focus on conceptual understanding and application of determinants.","distractor_rationale":{"A":"Both statements accurately reflect properties of determinants.","B":"While II is correct, I is also valid but does not invalidate this option.","C":"I is valid, but III misrepresents the effect of row operations on determinants.","D":"This option incorrectly states that row operations do not affect determinants."}},{"q":"Assertion: A square matrix with a determinant of zero cannot be inverted. Reason: This is because the rows of such a matrix are linearly dependent, leading to loss of rank.","o":["Both Assertion and Reason are true and Reason is the correct explanation for Assertion.","Both Assertion and Reason are true but Reason is not the correct explanation for Assertion.","Assertion is true but Reason is false.","Assertion is false but Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"mathematics::determinants","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question requires critical thinking about linear dependence and its implications for invertibility.","why_cuet_level":"This question reflects CUET's approach to evaluating students' understanding of determinants in practical scenarios.","distractor_rationale":{"A":"The reason correctly explains why the assertion holds true.","B":"While both statements are true, this does not accurately connect them logically.","C":"The assertion is correct, but the reason provided does not hold in all contexts.","D":"The assertion is true; however, the reason given does not support it."}},{"q":"Consider a 3x3 matrix A with |A| = 5. If we multiply each element of A by 2, what will be the new determinant? Read the statements and choose the correct option: Statement I: The new determinant will be |2A| = 10. Statement II: The new determinant will be |2A| = 40. Statement III: The determinant changes based on how many times each element is multiplied.","o":["I only","II only","I and II only","II and III only"],"a":"B","question_type":"case_based","concept_id":"mathematics::determinants","trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"This question focuses on understanding how scalar multiplication affects determinants rather than recalling definitions.","why_cuet_level":"This aligns with CUET's goal of assessing deeper comprehension through applied scenarios involving determinants.","distractor_rationale":{"A":"This option ignores the scaling property of determinants related to matrices.","B":"Correctly applies the property that |kA| = k^n * |A| for n-dimensional matrices.","C":"While I is incorrect, II accurately reflects the determinant calculation under scaling rules.","D":"Statement III misinterprets how determinants respond to scalar multiplication."}},{"q":"Read the statements and choose the correct option: Statement I: The determinant of a product of two matrices equals the product of their determinants. Statement II: If one matrix has a zero determinant, then their product also has a zero determinant. Statement III: The determinant can be calculated using any row or column interchange without changing its value.","o":["I and II only","II and III only","I, II and III","I and III only"],"a":"A","question_type":"statement_based","concept_id":"mathematics::determinants","trap_option":"D","strong_distractors":["B","C"],"why_not_textbook":"This question evaluates understanding of fundamental properties of determinants rather than rote memorization.","why_cuet_level":"It tests students' ability to apply properties in combination rather than in isolation as per CUET standards.","distractor_rationale":{"A":"Both statements are foundational truths about determinants in matrix algebra.","B":"II holds true, but I also applies which makes this option incomplete.","C":"While both I and II are accurate, III misrepresents how interchanges affect determinants' values.","D":"Incorrectly suggests that interchanging rows or columns does not affect the determinant."}},{"q":"Assertion: A matrix with all elements equal to zero has a determinant of zero. Reason: This means that there are no independent rows or columns in such a matrix, confirming linear dependence among them.","o":["Both Assertion and Reason are true and Reason is the correct explanation for Assertion.","Both Assertion and Reason are true but Reason is not the correct explanation for Assertion.","Assertion is true but Reason is false.","Assertion is false but Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"mathematics::determinants","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question challenges students to connect linear dependence with determinant values rather than just recalling properties.","why_cuet_level":"It aligns well with CUET's focus on conceptual relationships within mathematical properties of matrices and determinants.","distractor_rationale":{"A":"The reasoning supports why a zero matrix results in a zero determinant effectively.","B":"While both statements hold truth, this option fails to establish their logical connection clearly.","C":"Assertion holds true; however, reasoning lacks depth regarding broader implications for other matrices' determinants.","D":"This misrepresents both statements as they actually describe valid conditions."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=5
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 5
+[pipeline] generated_count=5 | mix=easy=0, medium=5, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 5
+[reject] {
+  subject: 'mathematics',
+  chapter: 'Determinants',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'mathematics',
+  chapter: 'Determinants',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'mathematics',
+  chapter: 'Determinants',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=5 | pre_validation_filtered=3 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 3
+}
+[draft] Saved bad4ccdc-e76c-4f8c-a5e0-b1ef43164156 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 6b137026-3f3d-4a71-ae6d-114bc2ba5a88 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 77de5bff-3430-4a8c-b189-a016703f07d7 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 3,
+  draft_candidates: 3,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=mathematics | chapter=Determinants | target=5 | generated_count=5 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=3 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=3 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [],
+  fallback: 'valid_queued_by_lowest_coverage'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'db9d537c-3182-446c-acb1-b788f65aeeca',
+  actual_subject: 'political_science',
+  actual_chapter: 'Challenges to & Restoration of the Congress System',
+  status: 'queued',
+  priority: 75,
+  original_priority: 1,
+  question_count: 14,
+  subject_question_count: 305,
+  created_at: '2026-04-25T17:46:10.749017+00:00',
+  from_planner_capture: false
+}
+[worker] picking job: {
+  subject: 'political_science',
+  chapter: 'Challenges to & Restoration of the Congress System',
+  count: 14,
+  priority: 75
+}
+[worker] coverage-based selection: {
+  subject: 'political_science',
+  chapter: 'Challenges to & Restoration of the Congress System',
+  count: 14
+}
+
+[JOB db9d537c] Starting: [political_science] Challenges to & Restoration of the Congress System
+[worker] RECEIVED_JOB: {
+  job_id: 'db9d537c-3182-446c-acb1-b788f65aeeca',
+  expected_subject: 'political_science',
+  expected_chapter: 'Challenges to & Restoration of the Congress System',
+  raw_subject_id: 'political_science',
+  raw_chapter: 'Challenges to & Restoration of the Congress System',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-04-25T17:46:10.749017+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'db9d537c-3182-446c-acb1-b788f65aeeca',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  chapter: 'Challenges to & Restoration of the Congress System',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=14 existing questions loaded
+[generation] batch adjusted: {
+  chapter: 'Challenges to & Restoration of the Congress System',
+  generate_count: 5
+}
+[worker] GENERATION_INPUT: {
+  job_id: 'db9d537c-3182-446c-acb1-b788f65aeeca',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  expected_chapter: 'Challenges to & Restoration of the Congress System',
+  canonical_unit: 'Politics in India Since Independence',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Challenges to & Restoration of the Congress System" unit="Politics in India Since Independence" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'political_science',
+  prompt_subject_name: 'Political Science',
+  expected_chapter: 'Challenges to & Restoration of the Congress System',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'political_science',
+  expected_chapter: 'Challenges to & Restoration of the Congress System',
+  canonical_unit: 'Politics in India Since Independence',
+  concept_id: 'political_science::challenges_to_and_restoration_of_the_congress_system',
+  pyq_anchor_id: 'structured_political_science_india_s_external_relations_2',
+  anchor_tier: 2,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 20146,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: The Congress party faced significant challenges during the 1960s due to internal dissent and external pressures. Statement II: These challenges led to a temporary decline in the party's political dominance. Statement III: The decline was solely due to the rise of regional parties. Which evaluation is strongest?","o":["I and II only","II and III only","I, II and III","I only"],"a":"A","question_type":"statement_based","concept_id":"political_science::challenges_to_and_restoration_of_the_congress_system","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"This question assesses understanding of the multifaceted challenges faced by the Congress party, rather than a single cause.","why_cuet_level":"This aligns with higher-level comprehension of political dynamics in India post-independence.","distractor_rationale":{"A":"Both statements I and II accurately reflect the context of the Congress party's challenges.","B":"This option incorrectly includes Statement III, suggesting a singular cause for decline.","C":"This option incorrectly implies that regional parties were the sole reason for decline, ignoring other factors.","D":"Statement I is valid, but this option does not capture the complete picture."}},{"q":"Assertion: The Emergency period (1975-77) represented a crucial challenge to the Congress system. Reason: It led to significant public discontent and loss of electoral support for Congress. Choose the correct option:","o":["Assertion is true, but Reason is false.","Both Assertion and Reason are true and Reason is a correct explanation.","Assertion is false, but Reason is true.","Both Assertion and Reason are false."],"a":"B","question_type":"assertion_reason","concept_id":"political_science::challenges_to_and_restoration_of_the_congress_system","trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"This question evaluates understanding of historical events' consequences on political systems rather than mere definitions.","why_cuet_level":"It tests comprehension of significant historical events impacting political stability in India.","distractor_rationale":{"A":"While the assertion is true, this choice misrepresents the relationship between the two statements.","B":"Correctly identifies both statements as true with a valid connection between them.","C":"The assertion is valid; however, this option mistakenly claims it is false.","D":"Both statements have factual basis, making this option inaccurate."}},{"q":"Consider these statements regarding the restoration of Congress in the late 1970s: Statement I: The Janata Party's coalition government was unstable due to internal conflicts. Statement II: This instability allowed Congress to regain power in 1980. Statement III: The Janata Party's policies were widely accepted by voters during its tenure. Which combination correctly identifies valid statements?","o":["I and II only","II only","I, II and III","I only"],"a":"A","question_type":"statement_based","concept_id":"political_science::challenges_to_and_restoration_of_the_congress_system","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question encourages analysis of political dynamics rather than simple recall of facts.","why_cuet_level":"It examines students' ability to connect events leading to shifts in power.","distractor_rationale":{"A":"Both statements I and II are accurate reflections of political events during that period.","B":"This option ignores the relevance of Statement I regarding instability contributing to Congress's return.","C":"Including Statement III misrepresents voter sentiment towards Janata Party policies at that time.","D":"Statement I is valid, but this option fails to recognize its importance."}},{"q":"Assertion: The split in Congress during 1969 weakened its political structure. Reason: This division was primarily driven by ideological differences over leadership styles. Select the correct evaluation:","o":["Assertion is true; Reason is false.","Both Assertion and Reason are true; Reason explains Assertion.","Assertion is false; Reason is true.","Both Assertion and Reason are false."],"a":"B","question_type":"assertion_reason","concept_id":"political_science::challenges_to_and_restoration_of_the_congress_system","trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"This question explores deeper insights into political fragmentation rather than basic definitions or facts.","why_cuet_level":"It assesses understanding of ideological divisions within major political parties in India.","distractor_rationale":{"A":"While the assertion holds true, this choice incorrectly dismisses the reasoning provided as false.","B":"Accurately reflects both statements as true with an appropriate link between them.","C":"Denies the validity of the assertion which accurately describes historical context.","D":"Both assertions have merit, making this choice incorrect."}},{"q":"Read these statements about post-1977 politics in India: Statement I: The Congress party re-emerged by capitalizing on opposition weaknesses. Statement II: Economic challenges faced during this time had little impact on public perception of Congress. Statement III: Political instability benefitted Congress's electoral strategy. Identify which statements are correct:","o":["I only","I and III only","II only","I, II, and III"],"a":"B","question_type":"statement_based","concept_id":"political_science::challenges_to_and_restoration_of_the_congress_system","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"This question requires analysis of multiple influences on party success rather than straightforward recall.","why_cuet_level":"It encourages critical thinking about factors influencing electoral outcomes in Indian politics post-independence.","distractor_rationale":{"A":"While Statement I is correct, it overlooks additional relevant factors indicated in statement III.","B":"Correctly captures both relevant statements about Congress's resurgence post-1977 with strategic insight.","C":"Suggesting that economic challenges had no impact misrepresents their role in shaping voter sentiment at that time.","D":"All three statements cannot be simultaneously accurate given their conflicting implications."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=4
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 4
+[pipeline] generated_count=4 | mix=easy=0, medium=4, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 4
+[reject] {
+  subject: 'political_science',
+  chapter: 'Challenges to & Restoration of the Congress System',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'political_science',
+  chapter: 'Challenges to & Restoration of the Congress System',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=4 | pre_validation_filtered=2 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 3
+}
+[draft] Saved 7bacf774-ccf9-47f5-a5e8-ca585ab54fa8 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 8b4ddfbc-7bee-4091-87f4-29383c8f5558 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved e4a8adc5-24d4-4690-a117-6da43a58e8bc | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 3,
+  draft_candidates: 3,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=political_science | chapter=Challenges to & Restoration of the Congress System | target=5 | generated_count=4 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=2 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=3 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [],
+  fallback: 'valid_queued_by_lowest_coverage'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '37273bcf-95e1-49c5-aa9e-d0f5ab1de2a2',
+  actual_subject: 'mathematics',
+  actual_chapter: 'Integrals',
+  status: 'queued',
+  priority: 75,
+  original_priority: 100,
+  question_count: 14,
+  subject_question_count: 378,
+  created_at: '2026-04-27T05:00:03.937452+00:00',
+  from_planner_capture: false
+}
+[worker] picking job: {
+  subject: 'mathematics',
+  chapter: 'Integrals',
+  count: 14,
+  priority: 75
+}
+[worker] coverage-based selection: { subject: 'mathematics', chapter: 'Integrals', count: 14 }
+
+[JOB 37273bcf] Starting: [mathematics] Integrals
+[worker] RECEIVED_JOB: {
+  job_id: '37273bcf-95e1-49c5-aa9e-d0f5ab1de2a2',
+  expected_subject: 'mathematics',
+  expected_chapter: 'Integrals',
+  raw_subject_id: 'mathematics',
+  raw_chapter: 'Integrals',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-04-27T05:00:03.937452+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '37273bcf-95e1-49c5-aa9e-d0f5ab1de2a2',
+  expected_subject: 'mathematics',
+  resolved_subject_id: 'mathematics',
+  resolved_subject_name: 'Mathematics / Applied Mathematics',
+  chapter: 'Integrals',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=14 existing questions loaded
+[generation] batch adjusted: { chapter: 'Integrals', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '37273bcf-95e1-49c5-aa9e-d0f5ab1de2a2',
+  expected_subject: 'mathematics',
+  resolved_subject_id: 'mathematics',
+  resolved_subject_name: 'Mathematics / Applied Mathematics',
+  expected_chapter: 'Integrals',
+  canonical_unit: 'Calculus',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Integrals" unit="Calculus" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'mathematics',
+  prompt_subject_name: 'Mathematics / Applied Mathematics',
+  expected_chapter: 'Integrals',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'mathematics',
+  expected_chapter: 'Integrals',
+  canonical_unit: 'Calculus',
+  concept_id: 'mathematics::integrals',
+  pyq_anchor_id: 'structure_only_seed_pyq_m1_for_mathematics::integrals',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 3,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'mathematics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'mathematics',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 26114,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'mathematics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: The integral of a constant function over a closed interval gives the area of a rectangle. Statement II: The definite integral of a function can be interpreted as the net area between the function and the x-axis. Statement III: The integral of a positive function over any interval is always positive.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"mathematics::integrals","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"Focus on understanding interpretations rather than definitions.","why_cuet_level":"This question assesses understanding of integral properties through elimination.","distractor_rationale":{"A":"Both statements accurately describe properties of integrals.","B":"While Statement II is true, Statement III is not necessarily true for all intervals.","C":"This option overlooks that Statement I is correct, making it misleading.","D":"All statements cannot be true since III has exceptions."}},{"q":"Assertion: The Fundamental Theorem of Calculus links differentiation and integration. Reason: It states that if a function is continuous on an interval, then its integral can be evaluated using its antiderivative.","o":["Both Assertion and Reason are true, and Reason is the correct explanation for Assertion.","Both Assertion and Reason are true, but Reason is not the correct explanation for Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"mathematics::integrals","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Emphasizes conceptual connections rather than rote definitions.","why_cuet_level":"This question requires understanding of the theorem's implications for integrals and derivatives.","distractor_rationale":{"A":"The reason correctly explains the assertion as it reflects the theorem's essence.","B":"Reason does explain Assertion but lacks completeness in context.","C":"While Assertion holds, this reasoning does not apply correctly to its context.","D":"Both components are misaligned with fundamental principles."}},{"q":"Consider two functions f(x) = x^2 and g(x) = 2x. Read the statements and choose the correct option: Statement I: The area under f(x) from 0 to 2 can be computed using integration. Statement II: The area under g(x) from 0 to 1 can be computed without integration. Statement III: Both areas are equal to their respective integrals over these intervals.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"mathematics::integrals","trap_option":"A","strong_distractors":["B","D"],"why_not_textbook":"Focuses on computation methods rather than just definitions or examples.","why_cuet_level":"This question tests understanding of area computations through integration concepts.","distractor_rationale":{"A":"This option mistakenly claims that both areas can be computed without integration.","B":"Statement II is misleading as certain conditions apply to its evaluation without integration.","C":"The equality of areas under f(x) and g(x) can be established through their integrals for given ranges.","D":"This option implies that both statements hold true without verifying their conditions."}},{"q":"Read the following case: A student claims that integrating an odd function over a symmetric interval results in zero area. Evaluate the following statements: Statement I: This property holds true for all odd functions. Statement II: The area calculated will always be non-negative. Statement III: This claim assumes continuity of the function over the interval.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"case_based","concept_id":"mathematics::integrals","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"Encourages critical evaluation rather than simple recall or definition matching.","why_cuet_level":"This question assesses reasoning about properties of odd functions in relation to integrals.","distractor_rationale":{"A":"Both statements correctly reflect properties related to odd functions over symmetric intervals.","B":"The claim about non-negativity ignores specific conditions of odd functions in certain cases.","C":"Continuity does play a role but isn't universally required for all cases presented here.","D":"This option wrongly asserts that all statements hold without considering exceptions."}},{"q":"Assertion: The integral of a product of two functions can often be simplified using integration by parts. Reason: This technique transforms the product into simpler forms which are easier to integrate separately.","o":["Both Assertion and Reason are true, and Reason provides a valid explanation for Assertion.","Both Assertion and Reason are true, but Reason does not explain Assertion properly.","Assertion is true, but Reason is false regarding simplification techniques.","Assertion is false, but Reason is true about integration techniques."],"a":"A","question_type":"assertion_reason","concept_id":"mathematics::integrals","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Focuses on application rather than definitions or theoretical explanations alone.","why_cuet_level":"This question examines understanding of integration techniques through reasoning about their application.","distractor_rationale":{"A":"The reasoning directly supports why integration by parts simplifies product integrals effectively.","B":"While both statements are valid, this reasoning lacks depth in explaining practical applications clearly.","C":"The assertion stands true while this reasoning might mislead if not contextualized properly in practice scenarios.","D":"The assertion remains valid within integration contexts while reason aligns with common practices."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=4
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 4
+[pipeline] generated_count=4 | mix=easy=0, medium=4, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 4
+[reject] {
+  subject: 'mathematics',
+  chapter: 'Integrals',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'mathematics',
+  chapter: 'Integrals',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=4 | pre_validation_filtered=2 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 3
+}
+[draft] Saved e5615341-3a98-4f1f-b56b-593965ba3b58 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved cff0fbd8-25a8-45eb-966b-d65e8c100c67 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 55236aaa-f723-4db7-8f98-5b20ef85d2f9 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 3,
+  draft_candidates: 3,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=mathematics | chapter=Integrals | target=5 | generated_count=4 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=2 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=3 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [],
+  fallback: 'valid_queued_by_lowest_coverage'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '4d0758d6-4492-4c44-895e-2c55afe9c390',
+  actual_subject: 'computer_science',
+  actual_chapter: 'MySQL',
+  status: 'queued',
+  priority: 75,
+  original_priority: 90,
+  question_count: 14,
+  subject_question_count: 406,
+  created_at: '2026-04-30T09:36:33.425781+00:00',
+  from_planner_capture: false
+}
+[worker] picking job: {
+  subject: 'computer_science',
+  chapter: 'MySQL',
+  count: 14,
+  priority: 75
+}
+[worker] coverage-based selection: { subject: 'computer_science', chapter: 'MySQL', count: 14 }
+
+[JOB 4d0758d6] Starting: [computer_science] MySQL
+[worker] RECEIVED_JOB: {
+  job_id: '4d0758d6-4492-4c44-895e-2c55afe9c390',
+  expected_subject: 'computer_science',
+  expected_chapter: 'MySQL',
+  raw_subject_id: 'computer_science',
+  raw_chapter: 'MySQL',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-04-30T09:36:33.425781+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '4d0758d6-4492-4c44-895e-2c55afe9c390',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  chapter: 'MySQL',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=18 existing questions loaded
+[generation] batch adjusted: { chapter: 'MySQL', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '4d0758d6-4492-4c44-895e-2c55afe9c390',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'MySQL',
+  canonical_unit: 'Section A: Database and Networks',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="MySQL" unit="Section A: Database and Networks" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'computer_science',
+  prompt_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'MySQL',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'computer_science',
+  expected_chapter: 'MySQL',
+  canonical_unit: 'Section A: Database and Networks',
+  concept_id: 'computer_science::mysql',
+  pyq_anchor_id: 'structured_computer_science_computer_networks_2',
+  anchor_tier: 2,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 20380,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: A primary key in MySQL must contain unique values for each record. Statement II: A foreign key in MySQL allows duplicate values in the referencing table. Statement III: A unique index is necessary for defining a primary key constraint.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"computer_science::mysql","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"This question assesses understanding of key constraints in MySQL rather than definitions.","why_cuet_level":"This aligns with the CUET focus on practical application of database concepts.","distractor_rationale":{"A":"Both statements are true as they accurately describe the characteristics of primary and foreign keys.","B":"While Statement II is true, it does not explain the role of foreign keys accurately, leading to misunderstanding.","C":"Statement I is true, but Statement III incorrectly implies that a unique index is always mandatory for primary keys.","D":"All statements cannot be true since Statement II misrepresents foreign key behavior."}},{"q":"Assertion: In MySQL, normalization helps reduce redundancy in database tables. Reason: Normalization involves organizing data into multiple tables while ensuring relationships among them are maintained.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"computer_science::mysql","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question tests comprehension of normalization principles rather than definitions.","why_cuet_level":"It reflects CUET's emphasis on understanding structural database concepts.","distractor_rationale":{"A":"The Reason clarifies how normalization functions to achieve the goal stated in the Assertion.","B":"The Reason is indeed correct, but it does not fully clarify why normalization reduces redundancy.","C":"While the Assertion is valid, the Reason correctly describes normalization's process, making this option incorrect.","D":"The Assertion about normalization is true; however, the Reason accurately explains its purpose."}},{"q":"Read the statements and choose the correct option: Statement I: MySQL uses SQL language for querying databases. Statement II: MySQL supports both transactional and non-transactional storage engines. Statement III: The default storage engine for MySQL does not support transactions at all.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"computer_science::mysql","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question evaluates understanding of MySQL features rather than direct recall of facts.","why_cuet_level":"It aligns with CUET's focus on practical application of database management concepts.","distractor_rationale":{"A":"Both statements are accurate in describing MySQL's capabilities regarding SQL usage and storage engines.","B":"Statement II is accurate; however, Statement III misrepresents default engine capabilities regarding transactions.","C":"Statement I is true; yet Statement III incorrectly states transaction support limitations of default engines.","D":"Statement I holds true while Statement III inaccurately describes transaction support in MySQL's default engine."}},{"q":"Assertion: In MySQL, an index can speed up query performance significantly. Reason: An index creates a separate data structure that allows faster access to rows in a table without scanning every row sequentially.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"computer_science::mysql","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question aims to assess knowledge of indexing efficiency instead of definitions or basic principles.","why_cuet_level":"It reflects CUET's approach to understanding performance optimization in databases.","distractor_rationale":{"A":"The Reason effectively clarifies how indexing improves performance as stated in the Assertion.","B":"While both statements are correct individually, this option fails to connect their relationship adequately.","C":"The Assertion about indexing benefits is valid; however, it explains its function correctly, making this choice inaccurate.","D":"The Assertion correctly identifies indexing advantages while the Reason accurately describes how it functions."}},{"q":"Read the statements and choose the correct option: Statement I: MySQL can handle large volumes of data efficiently due to its architecture. Statement II: Using too many indexes can slow down write operations in MySQL. Statement III: The InnoDB engine in MySQL does not support foreign key constraints at all under any circumstances.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"computer_science::mysql","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question tests understanding of performance impacts related to indexing rather than mere definitions or facts about MySQL capabilities.","why_cuet_level":"It aligns with CUET’s emphasis on practical implications of database design choices.","distractor_rationale":{"A":"Both statements are valid as they accurately reflect data handling capabilities and indexing effects on performance.","B":"Statement II holds true; however, Statement III incorrectly states InnoDB's capabilities regarding foreign keys which can lead to misconceptions.","C":"While Statement I is accurate about data handling efficiency; Statement III incorrectly claims InnoDB's limitations on foreign keys which isn't factual under certain conditions.","D":"All statements cannot be correct since Statement III misrepresents InnoDB's support for foreign keys."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=2
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 2
+[pipeline] generated_count=2 | mix=easy=0, medium=2, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 2
+[pipeline] after_chapter_filter=2 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=2 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 2,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 2
+}
+[draft] Saved 3c34beac-6939-4b54-9c58-4f80e5d766df | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 58f8bebf-51bb-43b3-be73-9e31c98ac154 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 2,
+  draft_candidates: 2,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=computer_science | chapter=MySQL | target=5 | generated_count=2 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=2 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...

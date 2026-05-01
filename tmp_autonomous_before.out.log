@@ -1,0 +1,1537 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5930 concepts across 40 subjects (saved 2026-04-30T15:17:52.203Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'sociology',
+  chapter: 'Change & Development in Rural Society',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'business_studies',
+  chapter: 'Planning',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Communication Technologies',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'File Handling',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Money & Banking',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'mathematics',
+  chapter: 'Differential Equations',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'mathematics',
+  chapter: 'Inverse Trigonometric Functions',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'political_science',
+  chapter: 'Alternative Centres of Power',
+  coverage: 6,
+  priority: 90
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: sociology → normalized: sociology → tier: 1
+Subject: biology → normalized: biology → tier: 1
+Subject: business_studies → normalized: business_studies → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: economics → normalized: economics → tier: 1
+Subject: mathematics → normalized: mathematics → tier: 1
+Subject: mathematics → normalized: mathematics → tier: 1
+Subject: political_science → normalized: political_science → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'sociology',
+    expected_chapter: 'Change & Development in Rural Society',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Human Reproduction',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'business_studies',
+    expected_chapter: 'Planning',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'p-Block Elements',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Communication Technologies',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'File Handling',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Money & Banking',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'mathematics',
+    expected_chapter: 'Differential Equations',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'mathematics',
+    expected_chapter: 'Inverse Trigonometric Functions',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'political_science',
+    expected_chapter: 'Alternative Centres of Power',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'sociology',
+    chapter: 'Change & Development in Rural Society',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Human Reproduction',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'business_studies',
+    chapter: 'Planning',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'p-Block Elements',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Communication Technologies',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'File Handling',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'economics',
+    chapter: 'Money & Banking',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'mathematics',
+    chapter: 'Differential Equations',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'mathematics',
+    chapter: 'Inverse Trigonometric Functions',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'political_science',
+    chapter: 'Alternative Centres of Power',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: 'e2aaa54f-be1e-4a71-9d4d-342849fa3586',
+    subject_id: 'sociology',
+    chapter: 'Change & Development in Rural Society',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:34:29.851217+00:00'
+  },
+  {
+    id: '9def7061-a1d8-41a5-8078-b51957f77f84',
+    subject_id: 'biology',
+    chapter: 'Human Reproduction',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:34:29.851217+00:00'
+  },
+  {
+    id: 'a57a9bd7-30ee-4a11-b28f-5263370600f2',
+    subject_id: 'business_studies',
+    chapter: 'Planning',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:34:29.851217+00:00'
+  },
+  {
+    id: 'd0f05c6b-b0b1-496c-bfe1-45d67fce682d',
+    subject_id: 'chemistry',
+    chapter: 'p-Block Elements',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:34:29.851217+00:00'
+  },
+  {
+    id: 'ec46a6bb-93c0-4e7f-9487-7eaa4f7ae8f2',
+    subject_id: 'computer_science',
+    chapter: 'Communication Technologies',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:34:29.851217+00:00'
+  },
+  {
+    id: '9d71cfc0-b5b8-4733-889e-43fc17dd6c7b',
+    subject_id: 'computer_science',
+    chapter: 'File Handling',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:34:29.851217+00:00'
+  },
+  {
+    id: '755fe466-d5f0-49d0-8f7c-bea75bfd2326',
+    subject_id: 'economics',
+    chapter: 'Money & Banking',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:34:29.851217+00:00'
+  },
+  {
+    id: 'a6656e46-5970-4931-a894-6a386521ef7b',
+    subject_id: 'mathematics',
+    chapter: 'Differential Equations',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:34:29.851217+00:00'
+  },
+  {
+    id: 'f80b5e8c-71fd-435d-93a6-05b9c9b89d77',
+    subject_id: 'mathematics',
+    chapter: 'Inverse Trigonometric Functions',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:34:29.851217+00:00'
+  },
+  {
+    id: 'c6d75488-c8b1-4563-8c13-195481403d18',
+    subject_id: 'political_science',
+    chapter: 'Alternative Centres of Power',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:34:29.851217+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: 'e2aaa54f-be1e-4a71-9d4d-342849fa3586',
+    expected_subject: 'sociology',
+    expected_chapter: 'Change & Development in Rural Society',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '9def7061-a1d8-41a5-8078-b51957f77f84',
+    expected_subject: 'biology',
+    expected_chapter: 'Human Reproduction',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'a57a9bd7-30ee-4a11-b28f-5263370600f2',
+    expected_subject: 'business_studies',
+    expected_chapter: 'Planning',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'd0f05c6b-b0b1-496c-bfe1-45d67fce682d',
+    expected_subject: 'chemistry',
+    expected_chapter: 'p-Block Elements',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'ec46a6bb-93c0-4e7f-9487-7eaa4f7ae8f2',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Communication Technologies',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '9d71cfc0-b5b8-4733-889e-43fc17dd6c7b',
+    expected_subject: 'computer_science',
+    expected_chapter: 'File Handling',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '755fe466-d5f0-49d0-8f7c-bea75bfd2326',
+    expected_subject: 'economics',
+    expected_chapter: 'Money & Banking',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'a6656e46-5970-4931-a894-6a386521ef7b',
+    expected_subject: 'mathematics',
+    expected_chapter: 'Differential Equations',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'f80b5e8c-71fd-435d-93a6-05b9c9b89d77',
+    expected_subject: 'mathematics',
+    expected_chapter: 'Inverse Trigonometric Functions',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'c6d75488-c8b1-4563-8c13-195481403d18',
+    expected_subject: 'political_science',
+    expected_chapter: 'Alternative Centres of Power',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'e2aaa54f-be1e-4a71-9d4d-342849fa3586',
+    '9def7061-a1d8-41a5-8078-b51957f77f84',
+    'a57a9bd7-30ee-4a11-b28f-5263370600f2',
+    'd0f05c6b-b0b1-496c-bfe1-45d67fce682d',
+    'ec46a6bb-93c0-4e7f-9487-7eaa4f7ae8f2',
+    '9d71cfc0-b5b8-4733-889e-43fc17dd6c7b',
+    '755fe466-d5f0-49d0-8f7c-bea75bfd2326',
+    'a6656e46-5970-4931-a894-6a386521ef7b',
+    'f80b5e8c-71fd-435d-93a6-05b9c9b89d77',
+    'c6d75488-c8b1-4563-8c13-195481403d18'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'e2aaa54f-be1e-4a71-9d4d-342849fa3586',
+  actual_subject: 'sociology',
+  actual_chapter: 'Change & Development in Rural Society',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 5,
+  subject_question_count: 194,
+  created_at: '2026-04-30T19:34:29.851217+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'sociology',
+  chapter: 'Change & Development in Rural Society',
+  count: 5,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'sociology',
+  chapter: 'Change & Development in Rural Society',
+  count: 5
+}
+
+[JOB e2aaa54f] Starting: [sociology] Change & Development in Rural Society
+[worker] RECEIVED_JOB: {
+  job_id: 'e2aaa54f-be1e-4a71-9d4d-342849fa3586',
+  expected_subject: 'sociology',
+  expected_chapter: 'Change & Development in Rural Society',
+  raw_subject_id: 'sociology',
+  raw_chapter: 'Change & Development in Rural Society',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:34:29.851217+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'e2aaa54f-be1e-4a71-9d4d-342849fa3586',
+  expected_subject: 'sociology',
+  resolved_subject_id: 'sociology',
+  resolved_subject_name: 'Sociology',
+  chapter: 'Change & Development in Rural Society',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=5 existing questions loaded
+[generation] batch adjusted: { chapter: 'Change & Development in Rural Society', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'e2aaa54f-be1e-4a71-9d4d-342849fa3586',
+  expected_subject: 'sociology',
+  resolved_subject_id: 'sociology',
+  resolved_subject_name: 'Sociology',
+  expected_chapter: 'Change & Development in Rural Society',
+  canonical_unit: 'Social Change and Development in India',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Change & Development in Rural Society" unit="Social Change and Development in India" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'sociology',
+  prompt_subject_name: 'Sociology',
+  expected_chapter: 'Change & Development in Rural Society',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'sociology',
+  expected_chapter: 'Change & Development in Rural Society',
+  canonical_unit: 'Social Change and Development in India',
+  concept_id: 'sociology::change_and_development_in_rural_society',
+  pyq_anchor_id: 'synthetic_cuet_structure_sociology',
+  anchor_tier: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 19026,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Statement I: Economic development in rural areas often leads to social changes in family structures. Statement II: Social changes in rural societies are always a result of external influences such as globalization. Which of the following statements is correct?","o":["Statement I is correct, Statement II is incorrect.","Statement I is incorrect, Statement II is correct.","Both statements are correct.","Both statements are incorrect."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"unique_snake_case_tag","explanation":"Economic development can lead to social changes, but not all social changes stem from external influences.","subject":"sociology","public_subject":"sociology","chapter":"Change & Development in Rural Society","topic":"Social Change and Development in India","concept":"Change & Development in Rural Society","concept_id":"sociology::change_and_development_in_rural_society","pyq_anchor_id":"synthetic_cuet_structure_sociology","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"Assertion: The migration of youth from rural to urban areas significantly impacts rural development. Reason: Migration leads to a decrease in the local workforce which hinders agricultural productivity. Evaluate the truth of the assertion and reason.","o":["Both assertion and reason are true, and the reason explains the assertion.","Both assertion and reason are true, but the reason does not explain the assertion.","Assertion is true, but reason is false.","Assertion is false, but reason is true."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"assertion_reason","concept_pattern":"unique_snake_case_tag","explanation":"Migration affects rural development, but the decrease in workforce doesn't solely hinder agriculture as other factors may also play a role.","subject":"sociology","public_subject":"sociology","chapter":"Change & Development in Rural Society","topic":"Social Change and Development in India","concept":"Change & Development in Rural Society","concept_id":"sociology::change_and_development_in_rural_society","pyq_anchor_id":"synthetic_cuet_structure_sociology","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"In a rural village, a new government policy aims to improve education access for girls. As a result, more girls enroll in school. What can be inferred about this situation?","o":["The policy effectively promotes gender equality in education.","The increase in enrollment is solely due to the new policy without any other influencing factors.","The policy may have positive effects, but cultural barriers still influence attendance rates.","Education access has improved for boys as well due to this policy."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"case_based","concept_pattern":"unique_snake_case_tag","explanation":"The policy promotes gender equality, but cultural factors may still affect attendance rates for girls.","subject":"sociology","public_subject":"sociology","chapter":"Change & Development in Rural Society","topic":"Social Change and Development in India","concept":"Change & Development in Rural Society","concept_id":"sociology::change_and_development_in_rural_society","pyq_anchor_id":"synthetic_cuet_structure_sociology","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"Comparing traditional agricultural practices and modern farming techniques, which statement remains valid regarding their impact on rural society?","o":["Modern farming techniques generally reduce the labor force needed compared to traditional practices.","Traditional agricultural practices promote sustainable development more effectively than modern techniques.","Modern farming techniques do not affect social structures within rural communities.","Both practices have equal impacts on rural economic growth."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"comparison_based","concept_pattern":"unique_snake_case_tag","explanation":"Modern techniques typically require less labor than traditional methods, impacting the rural workforce structure.","subject":"sociology","public_subject":"sociology","chapter":"Change & Development in Rural Society","topic":"Social Change and Development in India","concept":"Change & Development in Rural Society","concept_id":"sociology::change_and_development_in_rural_society","pyq_anchor_id":"synthetic_cuet_structure_sociology","anchor_tier":4}] }
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 4
+[llm] openai_generation success gpt-4o-mini count=2
+[pipeline] RAW_PARSED_COUNT 4
+[pipeline] NORMALIZED_COUNT 2
+[pipeline] generated_count=2 | mix=easy=0, medium=2, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 2
+[pipeline] after_chapter_filter=2 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=2 | sent_for_strict_validation=2 | validator_load_reduction=0.0%
+[pipeline] Starting batch validation for 2 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=2
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T19:34:50.259Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"sociology","questionCount":2}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'sociology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'sociology',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 8223,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'sociology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 2
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T19:34:58.484Z","model":"gemini-3-flash","subject":"sociology","resultCount":2}
+[difficulty distribution] {
+  model: { easy: 0, medium: 2, hard: 0 },
+  system: { easy: 0, medium: 2, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 2
+[pipeline] validated_count=2 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 2
+[pipeline] selected_count=2 | FINAL DISTRIBUTION: {"easy":0,"medium":2,"hard":0}
+✅ Published b894bb4b-5a95-48c4-b172-422f3df7da69 | status=live | difficulty=medium | discoverable=true
+✅ Published e63a3b8b-b712-4f5b-a6f9-d21165c35abe | status=live | difficulty=medium | discoverable=true
+[pipeline] METRICS | generated_count=2 | prefiltered_count=2 | strict_validation_count=2 | accepted_count=2 | api_calls_used=2 | cost_efficiency_ratio=1.00
+[pipeline] SUMMARY | subject=sociology | chapter=Change & Development in Rural Society | target=5 | generated_count=2 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=2 | validated_count=2 | accepted_count=2 | shortfall=3 | yield_rate=100.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=2, hard=0
+[pipeline] subject_distribution: {"subject":"sociology","accepted":2,"rejected":0,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=6111 | total_cost=$0.0015 | cost_per_accepted=$0.0007 | cost_per_1000=$0.75 | total_accepted=2
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'sociology',
+  chapter: 'Change & Development in Rural Society',
+  sample_size: 7,
+  direct_definition_count: 0,
+  weak_option_count: 5,
+  repeated_structure_count: 0,
+  easy_count: 1,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '9def7061-a1d8-41a5-8078-b51957f77f84',
+    'a57a9bd7-30ee-4a11-b28f-5263370600f2',
+    'd0f05c6b-b0b1-496c-bfe1-45d67fce682d',
+    'ec46a6bb-93c0-4e7f-9487-7eaa4f7ae8f2',
+    '9d71cfc0-b5b8-4733-889e-43fc17dd6c7b',
+    '755fe466-d5f0-49d0-8f7c-bea75bfd2326',
+    'a6656e46-5970-4931-a894-6a386521ef7b',
+    'f80b5e8c-71fd-435d-93a6-05b9c9b89d77',
+    'c6d75488-c8b1-4563-8c13-195481403d18'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '9def7061-a1d8-41a5-8078-b51957f77f84',
+  actual_subject: 'biology',
+  actual_chapter: 'Human Reproduction',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 6,
+  subject_question_count: 407,
+  created_at: '2026-04-30T19:34:29.851217+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  count: 6,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'biology', chapter: 'Human Reproduction', count: 6 }
+
+[JOB 9def7061] Starting: [biology] Human Reproduction
+[worker] RECEIVED_JOB: {
+  job_id: '9def7061-a1d8-41a5-8078-b51957f77f84',
+  expected_subject: 'biology',
+  expected_chapter: 'Human Reproduction',
+  raw_subject_id: 'biology',
+  raw_chapter: 'Human Reproduction',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:34:29.851217+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '9def7061-a1d8-41a5-8078-b51957f77f84',
+  expected_subject: 'biology',
+  resolved_subject_id: 'biology',
+  resolved_subject_name: 'Biology',
+  chapter: 'Human Reproduction',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=6 existing questions loaded
+[generation] batch adjusted: { chapter: 'Human Reproduction', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '9def7061-a1d8-41a5-8078-b51957f77f84',
+  expected_subject: 'biology',
+  resolved_subject_id: 'biology',
+  resolved_subject_name: 'Biology',
+  expected_chapter: 'Human Reproduction',
+  canonical_unit: 'Reproduction',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Human Reproduction" unit="Reproduction" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'biology',
+  prompt_subject_name: 'Biology',
+  expected_chapter: 'Human Reproduction',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'biology',
+  expected_chapter: 'Human Reproduction',
+  canonical_unit: 'Reproduction',
+  concept_id: 'biology::human_reproduction',
+  pyq_anchor_id: 'synthetic_cuet_structure_biology',
+  anchor_tier: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'biology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'biology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 16669,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'biology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"In distinguishing between internal and external fertilization, which of the following statements remains valid?","o":["Internal fertilization typically occurs in terrestrial animals, while external fertilization is common in aquatic species.","External fertilization is solely dependent on environmental conditions, whereas internal fertilization can occur in any habitat.","Both internal and external fertilization methods ensure genetic diversity among offspring, but they differ in gamete protection.","Internal fertilization requires a complex reproductive system, while external fertilization is simpler and less energy-intensive."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"comparison_based","concept_pattern":"biology::human_reproduction","subject":"biology","public_subject":"biology","chapter":"Human Reproduction","topic":"Reproduction","concept":"Human Reproduction","concept_id":"biology::human_reproduction","pyq_anchor_id":"synthetic_cuet_structure_biology","anchor_tier":4},{"q":"Statement I: In humans, the male reproductive system produces sperm continuously. Statement II: The female reproductive system has a fixed number of eggs at birth. Which statement is correct?","o":["Only Statement I is correct.","Both statements are incorrect.","Only Statement II is correct.","Both statements are correct."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"biology::human_reproduction","subject":"biology","public_subject":"biology","chapter":"Human Reproduction","topic":"Reproduction","concept":"Human Reproduction","concept_id":"biology::human_reproduction","pyq_anchor_id":"synthetic_cuet_structure_biology","anchor_tier":4},{"q":"Assertion: Sperm production in males is regulated by hormones. Reason: Hormonal levels fluctuate significantly throughout a male's life. Which of the following is true?","o":["Both assertion and reason are true, and the reason explains the assertion.","The assertion is true but the reason is false.","The assertion is false but the reason is true.","Both assertion and reason are false."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"assertion_reason","concept_pattern":"biology::human_reproduction","subject":"biology","public_subject":"biology","chapter":"Human Reproduction","topic":"Reproduction","concept":"Human Reproduction","concept_id":"biology::human_reproduction","pyq_anchor_id":"synthetic_cuet_structure_biology","anchor_tier":4},{"q":"A couple has been trying to conceive for several months without success. They consult a doctor who informs them about different reproductive technologies available. Which option best describes an assisted reproductive technology that involves combining eggs and sperm outside the body?","o":["Intrauterine insemination (IUI) involves placing sperm directly into the uterus to facilitate fertilization.","In vitro fertilization (IVF) allows for fertilization to occur outside the body before implantation into the uterus.","Artificial insemination uses donor sperm to achieve pregnancy without any medical assistance.","Gamete intrafallopian transfer (GIFT) combines sperm and eggs within the fallopian tubes."],"a":"B","d":"medium","difficulty_weight":2,"question_type":"case_based","concept_pattern":"biology::human_reproduction","subject":"biology","public_subject":"biology","chapter":"Human Reproduction","topic":"Reproduction","concept":"Human Reproduction","concept_id":"biology::human_reproduction","pyq_anchor_id":"synthetic_cuet_structure_biology","anchor_tier":4},{"q":"In discussing human reproductive strategies, which statement best reflects a key difference between sexual and asexual reproduction?","o":["Sexual reproduction involves genetic contribution from two parents, enhancing diversity, while asexual reproduction produces genetically identical offspring from one parent.","Asexual reproduction requires more energy than sexual reproduction due to mating behaviors involved.","Sexual reproduction can occur without a mate under certain conditions, unlike asexual reproduction which always requires one parent.","Asexual reproduction leads to greater genetic variation compared to sexual reproduction."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"application_based","concept_pattern":"biology::human_reproduction","subject":"biology","public_subject":"biology","chapter":"Human Reproduction","topic":"Reproduction","concept":"Human Reproduction","concept_id":"biology::human_reproduction","pyq_anchor_id":"synthetic_cuet_structure_biology","anchor_tier":4}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=2
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 2
+[pipeline] generated_count=2 | mix=easy=0, medium=2, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 2
+[pipeline] after_chapter_filter=2 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=2 | sent_for_strict_validation=2 | validator_load_reduction=0.0%
+[pipeline] Starting batch validation for 2 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=2
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T19:35:33.448Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"biology","questionCount":2}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'biology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'biology',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 10590,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'biology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "obvious answer",
+      "textbook style",
+      "conceptual depth < 7"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 4,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The logic linking assertion and reason is weak and doesn't test actual physiological mechanisms.",
+      "Below target conceptual depth for CUET."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "AMBIGUOUS",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "WRONG",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "direct definition",
+      "low trap quality",
+      "obvious answer",
+      "textbook style",
+      "conceptual depth < 7"
+    ],
+    "score": 3,
+    "exam_quality": 3,
+    "distractor_quality": 2,
+    "conceptual_depth": 3,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Answer key 'A' suggests Statement II is incorrect, whereas biological consensus and NCERT state females are born with a finite number of primary oocytes.",
+      "Question is a direct recall of basic facts with no application."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 2
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T19:35:44.041Z","model":"gemini-3-flash","subject":"biology","resultCount":2}
+[reject] {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  reason: 'direct definition; low trap quality; obvious answer; textbook style; conceptual depth < 7; ambiguous wording; subject mismatch; validator score below threshold',
+  source: 'validator_normalized',
+  rule: 'direct definition',
+  details: {
+    compositeScore: 0,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  reason: 'low trap quality; obvious answer; textbook style; conceptual depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 31,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'a57a9bd7-30ee-4a11-b28f-5263370600f2',
+    'd0f05c6b-b0b1-496c-bfe1-45d67fce682d',
+    'ec46a6bb-93c0-4e7f-9487-7eaa4f7ae8f2',
+    '9d71cfc0-b5b8-4733-889e-43fc17dd6c7b',
+    '755fe466-d5f0-49d0-8f7c-bea75bfd2326',
+    'a6656e46-5970-4931-a894-6a386521ef7b',
+    'f80b5e8c-71fd-435d-93a6-05b9c9b89d77',
+    'c6d75488-c8b1-4563-8c13-195481403d18'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'a57a9bd7-30ee-4a11-b28f-5263370600f2',
+  actual_subject: 'business_studies',
+  actual_chapter: 'Planning',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 6,
+  subject_question_count: 322,
+  created_at: '2026-04-30T19:34:29.851217+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'business_studies',
+  chapter: 'Planning',
+  count: 6,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'business_studies', chapter: 'Planning', count: 6 }
+
+[JOB a57a9bd7] Starting: [business_studies] Planning
+[worker] RECEIVED_JOB: {
+  job_id: 'a57a9bd7-30ee-4a11-b28f-5263370600f2',
+  expected_subject: 'business_studies',
+  expected_chapter: 'Planning',
+  raw_subject_id: 'business_studies',
+  raw_chapter: 'Planning',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:34:29.851217+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'a57a9bd7-30ee-4a11-b28f-5263370600f2',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  chapter: 'Planning',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=6 existing questions loaded
+[generation] batch adjusted: { chapter: 'Planning', generate_count: 3 }
+[worker] GENERATION_INPUT: {
+  job_id: 'a57a9bd7-30ee-4a11-b28f-5263370600f2',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  expected_chapter: 'Planning',
+  canonical_unit: 'Planning',
+  generate_count: 3,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: true
+}
+[pipeline] Generating 3 candidates... chapter="Planning" unit="Planning" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'business_studies',
+  prompt_subject_name: 'Business Studies',
+  expected_chapter: 'Planning',
+  requested_count: 3,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'business_studies',
+  expected_chapter: 'Planning',
+  canonical_unit: 'Planning',
+  concept_id: 'business_studies::planning',
+  pyq_anchor_id: 'structure_only_seed_pyq_b3_for_business_studies::planning',
+  anchor_tier: 3,
+  batch_size: 3,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 8747,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Statement I: Effective planning is essential for achieving organizational goals. Statement II: Planning eliminates the need for decision-making in an organization. Which of the following statements is correct?","o":["Only Statement I is correct.","Only Statement II is correct.","Both Statement I and Statement II are correct.","Neither Statement I nor Statement II is correct."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"business_studies::planning","subject":"business_studies","public_subject":"business_studies","chapter":"Planning","topic":"Planning","concept":"Planning","concept_id":"business_studies::planning","pyq_anchor_id":"structure_only_seed_pyq_b3_for_business_studies::planning","anchor_tier":3},{"q":"Assertion: Planning is often seen as a waste of time by some managers. Reason: They believe that plans are likely to change and become irrelevant. Which of the following options is true?","o":["Both Assertion and Reason are true, and Reason explains Assertion.","Both Assertion and Reason are true, but Reason does not explain Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"B","d":"medium","difficulty_weight":2,"question_type":"assertion_reason","concept_pattern":"business_studies::planning","subject":"business_studies","public_subject":"business_studies","chapter":"Planning","topic":"Planning","concept":"Planning","concept_id":"business_studies::planning","pyq_anchor_id":"structure_only_seed_pyq_b3_for_business_studies::planning","anchor_tier":3},{"q":"In a recent business meeting, a manager argued that having a detailed plan can reduce flexibility in responding to market changes. Another manager countered that planning provides a framework for making informed decisions. Which argument best supports the role of planning in business?","o":["Detailed plans hinder quick responses to changes.","Planning creates a structured approach for decision-making.","Plans should be avoided to maintain flexibility.","Flexibility is not important in business planning."],"a":"B","d":"medium|hard","difficulty_weight":3,"question_type":"case_based","concept_pattern":"business_studies::planning","subject":"business_studies","public_subject":"business_studies","chapter":"Planning","topic":"Planning","concept":"Planning","concept_id":"business_studies::planning","pyq_anchor_id":"structure_only_seed_pyq_b3_for_business_studies::planning","anchor_tier":3}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] openai_generation success gpt-4o-mini count=1
+[pipeline] RAW_PARSED_COUNT 3
+[pipeline] NORMALIZED_COUNT 1
+[pipeline] generated_count=1 | mix=easy=0, medium=1, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 1
+[pipeline] after_chapter_filter=1 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=1 | sent_for_strict_validation=1 | validator_load_reduction=0.0%
+[pipeline] Starting batch validation for 1 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=1
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T19:36:09.744Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"business_studies","questionCount":1}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'business_studies',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'business_studies',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 8979,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'business_studies',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "AMBIGUOUS",
+    "language_level": "SIMPLE",
+    "option_quality": "CONFUSING",
+    "subject_consistency": "WRONG",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "conceptual_depth < 7",
+      "textbook style",
+      "logical inconsistency in answer key",
+      "direct recall stem"
+    ],
+    "score": 3,
+    "exam_quality": 3,
+    "distractor_quality": 2,
+    "conceptual_depth": 4,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The Reason logically explains the Assertion (it describes a specific rationale for the waste-of-time perception), yet the answer key 'A' suggests it does not explain it.",
+      "Low conceptual depth; simply restates a textbook limitation of planning.",
+      "The mapping of options is non-standard compared to CUET PYQs."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 1
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T19:36:18.725Z","model":"gemini-3-flash","subject":"business_studies","resultCount":1}
+[reject] {
+  subject: 'business_studies',
+  chapter: 'Planning',
+  reason: 'low trap quality; conceptual_depth < 7; textbook style; logical inconsistency in answer key; direct recall stem; ambiguous wording; confusing options; subject mismatch',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 0,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CONFUSING'
+  },
+  attemptCount: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'd0f05c6b-b0b1-496c-bfe1-45d67fce682d',
+    'ec46a6bb-93c0-4e7f-9487-7eaa4f7ae8f2',
+    '9d71cfc0-b5b8-4733-889e-43fc17dd6c7b',
+    '755fe466-d5f0-49d0-8f7c-bea75bfd2326',
+    'a6656e46-5970-4931-a894-6a386521ef7b',
+    'f80b5e8c-71fd-435d-93a6-05b9c9b89d77',
+    'c6d75488-c8b1-4563-8c13-195481403d18'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'd0f05c6b-b0b1-496c-bfe1-45d67fce682d',
+  actual_subject: 'chemistry',
+  actual_chapter: 'p-Block Elements',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 6,
+  subject_question_count: 314,
+  created_at: '2026-04-30T19:34:29.851217+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  count: 6,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'chemistry', chapter: 'p-Block Elements', count: 6 }
+
+[JOB d0f05c6b] Starting: [chemistry] p-Block Elements
+[worker] RECEIVED_JOB: {
+  job_id: 'd0f05c6b-b0b1-496c-bfe1-45d67fce682d',
+  expected_subject: 'chemistry',
+  expected_chapter: 'p-Block Elements',
+  raw_subject_id: 'chemistry',
+  raw_chapter: 'p-Block Elements',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:34:29.851217+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'd0f05c6b-b0b1-496c-bfe1-45d67fce682d',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  chapter: 'p-Block Elements',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=6 existing questions loaded
+[generation] batch adjusted: { chapter: 'p-Block Elements', generate_count: 3 }
+[worker] GENERATION_INPUT: {
+  job_id: 'd0f05c6b-b0b1-496c-bfe1-45d67fce682d',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  expected_chapter: 'p-Block Elements',
+  canonical_unit: 'Existing Chemistry Coverage',
+  generate_count: 3,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: true
+}
+[pipeline] Generating 3 candidates... chapter="p-Block Elements" unit="Existing Chemistry Coverage" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'chemistry',
+  prompt_subject_name: 'Chemistry',
+  expected_chapter: 'p-Block Elements',
+  requested_count: 3,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'chemistry',
+  expected_chapter: 'p-Block Elements',
+  canonical_unit: 'Existing Chemistry Coverage',
+  concept_id: 'chemistry::p_block_elements',
+  pyq_anchor_id: 'synthetic_cuet_structure_chemistry',
+  anchor_tier: 4,
+  batch_size: 3,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 12384,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"In a laboratory, a student observes that the elements in group 13 of the p-block exhibit varying oxidation states. Which statement best explains this observation?","o":["Elements in group 13 can exhibit multiple oxidation states due to their ability to lose different numbers of electrons.","The oxidation states of group 13 elements are fixed and do not vary under any conditions.","Group 13 elements only show a +3 oxidation state, which is their only property.","Oxidation states in group 13 are determined solely by the atomic size of the elements."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"case_based","concept_pattern":"unique_snake_case_tag","explanation":"Group 13 elements can lose different numbers of electrons, leading to various oxidation states.","subject":"chemistry","public_subject":"chemistry","chapter":"p-Block Elements","topic":"Existing Chemistry Coverage","concept":"p-Block Elements","concept_id":"chemistry::p_block_elements","pyq_anchor_id":"synthetic_cuet_structure_chemistry","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"When studying the trends in the p-block elements, a student notes that certain properties change across a period. Considering electronegativity and atomic radius, which inference is most accurate?","o":["Electronegativity increases while atomic radius decreases across a period in p-block elements.","Both electronegativity and atomic radius increase across a period for p-block elements.","Electronegativity decreases while atomic radius remains constant across a period.","Atomic radius increases while electronegativity remains constant across a period."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"application_based","concept_pattern":"unique_snake_case_tag","explanation":"As you move across a period, the increase in nuclear charge pulls electrons closer, decreasing atomic radius and increasing electronegativity.","subject":"chemistry","public_subject":"chemistry","chapter":"p-Block Elements","topic":"Existing Chemistry Coverage","concept":"p-Block Elements","concept_id":"chemistry::p_block_elements","pyq_anchor_id":"synthetic_cuet_structure_chemistry","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"Comparing the reactivity of halogens with alkali metals, which statement correctly distinguishes their behaviors?","o":["Halogens are more reactive than alkali metals because they have higher ionization energies.","Alkali metals are less reactive than halogens due to their larger atomic radii and lower electronegativities.","Both halogens and alkali metals increase in reactivity down their respective groups, but for different reasons.","Halogens react vigorously with alkali metals to form salts, while alkali metals do not react at all."],"a":"C","d":"medium","difficulty_weight":2,"question_type":"comparison_based","concept_pattern":"unique_snake_case_tag","explanation":"While both groups show increased reactivity down the group, halogens gain electrons while alkali metals lose them during reactions.","subject":"chemistry","public_subject":"chemistry","chapter":"p-Block Elements","topic":"Existing Chemistry Coverage","concept":"p-Block Elements","concept_id":"chemistry::p_block_elements","pyq_anchor_id":"synthetic_cuet_structure_chemistry","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] openai_generation success gpt-4o-mini count=2
+[pipeline] RAW_PARSED_COUNT 3
+[pipeline] NORMALIZED_COUNT 2
+[pipeline] generated_count=2 | mix=easy=0, medium=2, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 2
+[reject] {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=2 | pre_validation_filtered=1 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=2 | sent_for_strict_validation=2 | validator_load_reduction=0.0%
+[pipeline] Starting batch validation for 2 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=2
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T19:36:47.646Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"chemistry","questionCount":2}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 29271,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "WRONG",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "subject_consistency is WRONG",
+      "incorrect scientific fact in answer key",
+      "trap_quality is LOW",
+      "halogens reactivity decreases down the group"
+    ],
+    "score": 3,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 5,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The answer key (B) states that halogens increase in reactivity down the group, which is chemically incorrect (F > Cl > Br > I)."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 2
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T19:37:16.918Z","model":"gemini-3-flash","subject":"chemistry","resultCount":2}
+[reject] {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  reason: 'subject_consistency is WRONG; incorrect scientific fact in answer key; trap_quality is LOW; halogens reactivity decreases down the group; subject mismatch; validator score below threshold; exam quality below threshold; distractor quality below threshold',
+  source: 'validator_normalized',
+  rule: 'subject_consistency is WRONG',
+  details: {
+    compositeScore: 8,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 1, hard: 0 },
+  system: { easy: 0, medium: 1, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 1
+[pipeline] validated_count=1 | acceptance_rate=50.0%
+[pipeline] FINAL_ACCEPTED_COUNT 1
+[pipeline] selected_count=1 | FINAL DISTRIBUTION: {"easy":0,"medium":1,"hard":0}
+✅ Published 7c4ac5c5-f0e6-462d-b886-b0d46710d3d4 | status=live | difficulty=medium | discoverable=true
+[pipeline] METRICS | generated_count=2 | prefiltered_count=2 | strict_validation_count=2 | accepted_count=1 | api_calls_used=2 | cost_efficiency_ratio=0.50
+[pipeline] SUMMARY | subject=chemistry | chapter=p-Block Elements | target=3 | generated_count=2 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=1 | strict_validation_count=2 | validated_count=1 | accepted_count=1 | shortfall=2 | yield_rate=50.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=1, hard=0
+[pipeline] subject_distribution: {"subject":"chemistry","accepted":1,"rejected":2,"target":3,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=22980 | total_cost=$0.0055 | cost_per_accepted=$0.0018 | cost_per_1000=$1.84 | total_accepted=3
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  sample_size: 7,
+  direct_definition_count: 0,
+  weak_option_count: 4,
+  repeated_structure_count: 0,
+  easy_count: 3,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'ec46a6bb-93c0-4e7f-9487-7eaa4f7ae8f2',
+    '9d71cfc0-b5b8-4733-889e-43fc17dd6c7b',
+    '755fe466-d5f0-49d0-8f7c-bea75bfd2326',
+    'a6656e46-5970-4931-a894-6a386521ef7b',
+    'f80b5e8c-71fd-435d-93a6-05b9c9b89d77',
+    'c6d75488-c8b1-4563-8c13-195481403d18'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'ec46a6bb-93c0-4e7f-9487-7eaa4f7ae8f2',
+  actual_subject: 'computer_science',
+  actual_chapter: 'Communication Technologies',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 6,
+  subject_question_count: 334,
+  created_at: '2026-04-30T19:34:29.851217+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'computer_science',
+  chapter: 'Communication Technologies',
+  count: 6,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'computer_science',
+  chapter: 'Communication Technologies',
+  count: 6
+}
+
+[JOB ec46a6bb] Starting: [computer_science] Communication Technologies
+[worker] RECEIVED_JOB: {
+  job_id: 'ec46a6bb-93c0-4e7f-9487-7eaa4f7ae8f2',
+  expected_subject: 'computer_science',
+  expected_chapter: 'Communication Technologies',
+  raw_subject_id: 'computer_science',
+  raw_chapter: 'Communication Technologies',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:34:29.851217+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'ec46a6bb-93c0-4e7f-9487-7eaa4f7ae8f2',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  chapter: 'Communication Technologies',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=6 existing questions loaded
+[generation] batch adjusted: { chapter: 'Communication Technologies', generate_count: 3 }
+[worker] GENERATION_INPUT: {
+  job_id: 'ec46a6bb-93c0-4e7f-9487-7eaa4f7ae8f2',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Communication Technologies',
+  canonical_unit: 'Section B1: Computer Science',
+  generate_count: 3,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: true
+}
+[pipeline] Generating 3 candidates... chapter="Communication Technologies" unit="Section B1: Computer Science" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'computer_science',
+  prompt_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Communication Technologies',
+  requested_count: 3,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'computer_science',
+  expected_chapter: 'Communication Technologies',
+  canonical_unit: 'Section B1: Computer Science',
+  concept_id: 'computer_science::communication_technologies',
+  pyq_anchor_id: 'synthetic_cuet_structure_computer_science',
+  anchor_tier: 4,
+  batch_size: 3,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 11463,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"In the context of communication technologies, comparing wired and wireless communication, which statement remains valid regarding their respective advantages?","o":["Wired communication offers higher bandwidth and lower latency than wireless communication.","Wireless communication requires more physical infrastructure than wired communication.","Wired communication is less secure compared to wireless communication in all scenarios.","Wireless communication is always more reliable than wired communication."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"comparison_based","concept_pattern":"computer_science::communication_technologies","subject":"computer_science","public_subject":"computer_science","chapter":"Communication Technologies","topic":"Section B1: Computer Science","concept":"Communication Technologies","concept_id":"computer_science::communication_technologies","pyq_anchor_id":"synthetic_cuet_structure_computer_science","anchor_tier":4},{"q":"Statement I: Digital communication allows for faster data transmission compared to analog. Statement II: Analog signals are less susceptible to noise than digital signals. Which of the following statements is correct?","o":["Only Statement I is correct.","Only Statement II is correct.","Both statements are correct but have limitations.","Neither statement is correct."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"computer_science::communication_technologies","subject":"computer_science","public_subject":"computer_science","chapter":"Communication Technologies","topic":"Section B1: Computer Science","concept":"Communication Technologies","concept_id":"computer_science::communication_technologies","pyq_anchor_id":"synthetic_cuet_structure_computer_science","anchor_tier":4},{"q":"Assertion: Fiber optic communication can transmit data over longer distances without loss. Reason: Fiber optics use light signals which are less prone to interference compared to electrical signals. Evaluate the statement's validity.","o":["Both assertion and reason are true, and the reason correctly explains the assertion.","The assertion is true, but the reason is false because fiber optics can still experience interference.","The assertion is false, while the reason is true as light signals can be affected by environmental factors.","Both assertion and reason are false, as fiber optics do not work on light signals."],"a":"A","d":"medium|hard","difficulty_weight":2,"question_type":"assertion_reason","concept_pattern":"computer_science::communication_technologies","subject":"computer_science","public_subject":"computer_science","chapter":"Communication Technologies","topic":"Section B1: Computer Science","concept":"Communication Technologies","concept_id":"computer_science::communication_technologies","pyq_anchor_id":"synthetic_cuet_structure_computer_science","anchor_tier":4}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] openai_generation success gpt-4o-mini count=1
+[pipeline] RAW_PARSED_COUNT 3
+[pipeline] NORMALIZED_COUNT 1
+[pipeline] generated_count=1 | mix=easy=0, medium=1, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 1
+[pipeline] after_chapter_filter=1 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=1 | sent_for_strict_validation=1 | validator_load_reduction=0.0%
+[pipeline] Starting batch validation for 1 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=1
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T19:37:45.976Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"computer_science","questionCount":1}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'computer_science',
+  stage: 'batch_validation',
+  retry_count: 0
+}

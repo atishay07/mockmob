@@ -1,0 +1,3366 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5959 concepts across 40 subjects (saved 2026-04-30T21:49:48.460Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  coverage: 3,
+  priority: 90
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'computer_science',
+  chapter: 'Data Structures',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'economics',
+  chapter: 'Indian Economy on the Eve of Independence',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  coverage: 8,
+  priority: 90
+}
+[planner] {
+  subject: 'accountancy',
+  chapter: 'Change in Profit Sharing Ratio',
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'business_studies',
+  chapter: 'Marketing Management',
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  coverage: 9,
+  priority: 90
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: sociology → normalized: sociology → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: computer_science → normalized: computer_science → tier: 1
+Subject: economics → normalized: economics → tier: 1
+Subject: english → normalized: english → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+Subject: accountancy → normalized: accountancy → tier: 1
+Subject: business_studies → normalized: business_studies → tier: 1
+Subject: business_studies → normalized: business_studies → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'sociology',
+    expected_chapter: 'Introducing Indian Society',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Isolation of Elements',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Computer Networks',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'computer_science',
+    expected_chapter: 'Data Structures',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'economics',
+    expected_chapter: 'Indian Economy on the Eve of Independence',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Psychological Disorders',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'accountancy',
+    expected_chapter: 'Change in Profit Sharing Ratio',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'business_studies',
+    expected_chapter: 'Marketing Management',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'business_studies',
+    expected_chapter: 'Staffing',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'sociology',
+    chapter: 'Introducing Indian Society',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'Isolation of Elements',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Computer Networks',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'computer_science',
+    chapter: 'Data Structures',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'economics',
+    chapter: 'Indian Economy on the Eve of Independence',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Psychological Disorders',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'accountancy',
+    chapter: 'Change in Profit Sharing Ratio',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'business_studies',
+    chapter: 'Marketing Management',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'business_studies',
+    chapter: 'Staffing',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: 'c84ff71f-9dde-4697-83d6-1674723ad469',
+    subject_id: 'sociology',
+    chapter: 'Introducing Indian Society',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:51:34.582336+00:00'
+  },
+  {
+    id: '7fd20a96-2f04-4876-9c65-7ed35b603f65',
+    subject_id: 'chemistry',
+    chapter: 'Isolation of Elements',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:51:34.582336+00:00'
+  },
+  {
+    id: '6effe234-f799-4b35-891b-c6c4a2b5401a',
+    subject_id: 'computer_science',
+    chapter: 'Computer Networks',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:51:34.582336+00:00'
+  },
+  {
+    id: 'ab820fde-a148-40af-a3cc-757d597da116',
+    subject_id: 'computer_science',
+    chapter: 'Data Structures',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:51:34.582336+00:00'
+  },
+  {
+    id: '25422710-6591-4a88-9da0-7b571fde86d8',
+    subject_id: 'economics',
+    chapter: 'Indian Economy on the Eve of Independence',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:51:34.582336+00:00'
+  },
+  {
+    id: 'dae6f613-66eb-4120-812d-22429a1b717a',
+    subject_id: 'english',
+    chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:51:34.582336+00:00'
+  },
+  {
+    id: 'c55ca2f9-d558-4787-842b-78296c81f3e6',
+    subject_id: 'psychology',
+    chapter: 'Psychological Disorders',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:51:34.582336+00:00'
+  },
+  {
+    id: 'c732990e-60dd-4846-a86f-c687e60e1758',
+    subject_id: 'accountancy',
+    chapter: 'Change in Profit Sharing Ratio',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:51:34.582336+00:00'
+  },
+  {
+    id: '11242120-5dc8-400c-b729-2c127258c3c3',
+    subject_id: 'business_studies',
+    chapter: 'Marketing Management',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:51:34.582336+00:00'
+  },
+  {
+    id: '19f7c2d2-38ea-4570-b8b0-57e3b8edfd39',
+    subject_id: 'business_studies',
+    chapter: 'Staffing',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T21:51:34.582336+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: 'c84ff71f-9dde-4697-83d6-1674723ad469',
+    expected_subject: 'sociology',
+    expected_chapter: 'Introducing Indian Society',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '7fd20a96-2f04-4876-9c65-7ed35b603f65',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Isolation of Elements',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '6effe234-f799-4b35-891b-c6c4a2b5401a',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Computer Networks',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'ab820fde-a148-40af-a3cc-757d597da116',
+    expected_subject: 'computer_science',
+    expected_chapter: 'Data Structures',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '25422710-6591-4a88-9da0-7b571fde86d8',
+    expected_subject: 'economics',
+    expected_chapter: 'Indian Economy on the Eve of Independence',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'dae6f613-66eb-4120-812d-22429a1b717a',
+    expected_subject: 'english',
+    expected_chapter: 'Narrative Passage',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'c55ca2f9-d558-4787-842b-78296c81f3e6',
+    expected_subject: 'psychology',
+    expected_chapter: 'Psychological Disorders',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'c732990e-60dd-4846-a86f-c687e60e1758',
+    expected_subject: 'accountancy',
+    expected_chapter: 'Change in Profit Sharing Ratio',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '11242120-5dc8-400c-b729-2c127258c3c3',
+    expected_subject: 'business_studies',
+    expected_chapter: 'Marketing Management',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '19f7c2d2-38ea-4570-b8b0-57e3b8edfd39',
+    expected_subject: 'business_studies',
+    expected_chapter: 'Staffing',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'c84ff71f-9dde-4697-83d6-1674723ad469',
+    '7fd20a96-2f04-4876-9c65-7ed35b603f65',
+    '6effe234-f799-4b35-891b-c6c4a2b5401a',
+    'ab820fde-a148-40af-a3cc-757d597da116',
+    '25422710-6591-4a88-9da0-7b571fde86d8',
+    'dae6f613-66eb-4120-812d-22429a1b717a',
+    'c55ca2f9-d558-4787-842b-78296c81f3e6',
+    'c732990e-60dd-4846-a86f-c687e60e1758',
+    '11242120-5dc8-400c-b729-2c127258c3c3',
+    '19f7c2d2-38ea-4570-b8b0-57e3b8edfd39'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '7fd20a96-2f04-4876-9c65-7ed35b603f65',
+  actual_subject: 'chemistry',
+  actual_chapter: 'Isolation of Elements',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 319,
+  created_at: '2026-04-30T21:51:34.582336+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'chemistry',
+  chapter: 'Isolation of Elements',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'chemistry', chapter: 'Isolation of Elements', count: 8 }
+
+[JOB 7fd20a96] Starting: [chemistry] Isolation of Elements
+[worker] RECEIVED_JOB: {
+  job_id: '7fd20a96-2f04-4876-9c65-7ed35b603f65',
+  expected_subject: 'chemistry',
+  expected_chapter: 'Isolation of Elements',
+  raw_subject_id: 'chemistry',
+  raw_chapter: 'Isolation of Elements',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:51:34.582336+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '7fd20a96-2f04-4876-9c65-7ed35b603f65',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  chapter: 'Isolation of Elements',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Isolation of Elements', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '7fd20a96-2f04-4876-9c65-7ed35b603f65',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  expected_chapter: 'Isolation of Elements',
+  canonical_unit: 'Existing Chemistry Coverage',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Isolation of Elements" unit="Existing Chemistry Coverage" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'chemistry',
+  prompt_subject_name: 'Chemistry',
+  expected_chapter: 'Isolation of Elements',
+  requested_count: 5,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::isolation_of_elements',
+  selected_anchor_id: 'structured_chemistry_isolation_of_elements_1',
+  selected_anchor_concept_id: 'chemistry::isolation_of_elements',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'case_based',
+  selected_question_type: 'application_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'chemistry',
+  expected_chapter: 'Isolation of Elements',
+  canonical_unit: 'Existing Chemistry Coverage',
+  concept_id: 'chemistry::isolation_of_elements',
+  pyq_anchor_id: 'structured_chemistry_isolation_of_elements_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 32485,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Statement I: Electrolysis is often used for the extraction of metals from their ores. Statement II: The efficiency of electrolysis can depend on the purity of the electrolyte used. Which option correctly analyzes these statements?","o":["Both statements are accurate and refer to different aspects of electrolysis.","Only Statement I is correct, as the electrolyte's purity does not affect efficiency.","Both statements are valid, but Statement II incorrectly suggests that impurities always lower efficiency.","Only Statement II is correct, as electrolysis is not commonly used for metal extraction."],"a":"A","question_type":"statement_based","concept_id":"chemistry::isolation_of_elements","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question encourages understanding of electrolysis and its variables rather than just definitions.","why_cuet_level":"This level requires deeper analysis of concepts rather than simple recall.","distractor_rationale":{"A":"Both statements accurately reflect principles of electrolysis in metallurgy.","B":"Statement I is valid, but Statement II overlooks that some impurities can enhance conductivity.","C":"Statement II has a flaw; impurities do not universally decrease efficiency in electrolysis.","D":"Statement I is valid; however, electrolysis is indeed a common method for extraction."}},{"q":"Assertion: Roasting is a key step in metal extraction that often involves heating ores in the presence of oxygen. Reason: This process primarily aims to convert sulfide ores into oxides. Which option best evaluates the relationship between these statements?","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","The Assertion is true, but the Reason is false because roasting does not always involve sulfide ores.","Both statements are false; roasting does not require oxygen and only removes impurities.","The Assertion is false, while the Reason is true as it describes a different process."],"a":"A","question_type":"assertion_reason","concept_id":"chemistry::isolation_of_elements","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"This question tests understanding of roasting as a metallurgical process, not mere definitions.","why_cuet_level":"It assesses logical reasoning about processes in metal extraction rather than recall.","distractor_rationale":{"A":"Both statements are accurate and connected logically regarding roasting processes.","B":"The Reason does apply to roasting but fails to acknowledge other types of ores involved.","C":"Roasting does involve oxygen; this option misrepresents its purpose in metallurgy.","D":"Roasting is indeed a key step; however, it pertains mainly to sulfide ores."}},{"q":"A student claims that electrolytic refining can be used for all metals equally well. Statement I: The method works well for reactive metals. Statement II: It fails for metals with low reactivity. How should this claim be corrected?","o":["The claim is valid; electrolytic refining applies universally to all metals without exception.","Only Statement I is true, while Statement II suggests limitations that do not exist in practice.","Both statements are correct; however, some exceptions exist based on metal properties.","The claim is incorrect since electrolytic refining can only be applied to noble metals."],"a":"C","question_type":"statement_based","concept_id":"chemistry::isolation_of_elements","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"This question challenges misconceptions about electrolytic refining's applicability across metals.","why_cuet_level":"It requires understanding specific conditions under which refining methods operate effectively.","distractor_rationale":{"A":"The method has limitations; this option misrepresents the versatility of electrolytic refining.","B":"The claim ignores important exceptions in metal extraction practices; it lacks nuance.","C":"Both statements indicate that while effective for reactive metals, limitations do exist based on reactivity.","D":"Electrolytic refining can apply to various metals but has restrictions based on their characteristics."}},{"q":"Read the statements and choose the correct option: Statement I: Crushing and grinding ore increases surface area for reactions. Statement II: This process also separates valuable minerals from gangue effectively. Which option captures the accuracy of these claims?","o":["Both statements are true and correctly describe the initial steps in ore processing.","Only Statement I holds true, while Statement II overstates separation effectiveness without further treatment.","Statement I is invalid because crushing does not influence subsequent chemical reactions significantly.","Only Statement II is correct, as crushing does not play a role in mineral separation."],"a":"A","question_type":"statement_based","concept_id":"chemistry::isolation_of_elements","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question evaluates understanding of ore processing techniques beyond basic definitions or facts.","why_cuet_level":"It assesses comprehension of initial steps in metallurgy rather than rote memorization of terms.","distractor_rationale":{"A":"Both statements accurately reflect the importance of size reduction in processing ores effectively.","B":"Statement II may seem overstated; however, crushing does aid mineral separation before further processing occurs.","C":"Crushing significantly influences reaction rates by increasing surface area; thus, this statement misrepresents its role.","D":"Crushing plays an essential role in both reactions and separations during ore processing."}},{"q":"Assertion: Leaching is often used to extract metals from low-grade ores. Reason: This method involves dissolving soluble metal compounds from ores using suitable solvents. Which option evaluates these statements accurately?","o":["Both Assertion and Reason are true, with Reason providing a valid explanation for Assertion's application.","The Assertion is incorrect since leaching applies primarily to high-grade ores under specific conditions.","Only the Reason is correct because leaching does not involve any solvents during extraction processes.","The Assertion is true, but leaching mainly targets non-metallic minerals rather than metallic ores."],"a":"A","question_type":"assertion_reason","concept_id":"chemistry::isolation_of_elements","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"This question focuses on leaching’s applicability and methodology rather than simple definitions or facts about extraction methods.","why_cuet_level":"It examines comprehension of metallurgical processes rather than mere recall of terms or concepts involved in leaching.","distractor_rationale":{"A":"Both statements are accurate and relate directly to the process of extracting metals from low-grade ores through leaching techniques.","B":"Leaching indeed applies to low-grade ores; thus this statement misrepresents its common usage context in metallurgy.","C":"Leaching typically employs solvents to dissolve metal compounds; therefore this statement misrepresents its operational process entirely.","D":"Leaching primarily targets metallic compounds within low-grade ores; thus this option inaccurately describes its focus."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'c84ff71f-9dde-4697-83d6-1674723ad469',
+    '6effe234-f799-4b35-891b-c6c4a2b5401a',
+    'ab820fde-a148-40af-a3cc-757d597da116',
+    '25422710-6591-4a88-9da0-7b571fde86d8',
+    'dae6f613-66eb-4120-812d-22429a1b717a',
+    'c55ca2f9-d558-4787-842b-78296c81f3e6',
+    'c732990e-60dd-4846-a86f-c687e60e1758',
+    '11242120-5dc8-400c-b729-2c127258c3c3',
+    '19f7c2d2-38ea-4570-b8b0-57e3b8edfd39'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'c84ff71f-9dde-4697-83d6-1674723ad469',
+  actual_subject: 'sociology',
+  actual_chapter: 'Introducing Indian Society',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 3,
+  subject_question_count: 211,
+  created_at: '2026-04-30T21:51:34.582336+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  count: 3,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  count: 3
+}
+
+[JOB c84ff71f] Starting: [sociology] Introducing Indian Society
+[worker] RECEIVED_JOB: {
+  job_id: 'c84ff71f-9dde-4697-83d6-1674723ad469',
+  expected_subject: 'sociology',
+  expected_chapter: 'Introducing Indian Society',
+  raw_subject_id: 'sociology',
+  raw_chapter: 'Introducing Indian Society',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:51:34.582336+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'c84ff71f-9dde-4697-83d6-1674723ad469',
+  expected_subject: 'sociology',
+  resolved_subject_id: 'sociology',
+  resolved_subject_name: 'Sociology',
+  chapter: 'Introducing Indian Society',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=21 existing questions loaded
+[generation] batch adjusted: { chapter: 'Introducing Indian Society', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'c84ff71f-9dde-4697-83d6-1674723ad469',
+  expected_subject: 'sociology',
+  resolved_subject_id: 'sociology',
+  resolved_subject_name: 'Sociology',
+  expected_chapter: 'Introducing Indian Society',
+  canonical_unit: 'Indian Society',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Introducing Indian Society" unit="Indian Society" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'sociology',
+  prompt_subject_name: 'Sociology',
+  expected_chapter: 'Introducing Indian Society',
+  requested_count: 5,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'sociology',
+  requested_concept_id: 'sociology::introducing_indian_society',
+  selected_anchor_id: 'structured_sociology_introducing_indian_society_1',
+  selected_anchor_concept_id: 'sociology::introducing_indian_society',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'sociology',
+  expected_chapter: 'Introducing Indian Society',
+  canonical_unit: 'Indian Society',
+  concept_id: 'sociology::introducing_indian_society',
+  pyq_anchor_id: 'structured_sociology_introducing_indian_society_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 19530,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: Social stratification in India is influenced by both caste and class. Statement II: Class mobility is unaffected by caste identity. Statement III: Caste can sometimes limit access to economic opportunities. Which option is most accurate?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"sociology::introducing_indian_society","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"This question requires analyzing the interaction between caste and class rather than recalling definitions.","why_cuet_level":"It challenges students to evaluate multiple statements for accuracy.","distractor_rationale":{"A":"While I is valid, II overlooks how caste can influence class mobility.","B":"Class mobility can sometimes be hindered by caste identity, making this statement misleading.","C":"This correctly identifies a nuanced relationship between caste and economic opportunities.","D":"The inclusion of all statements misrepresents their interconnections."}},{"q":"Assertion: Indian society is characterized by both unity and diversity. Reason: Diversity ensures that social groups have distinct cultural practices that do not overlap. Which option best captures their relationship?","o":["Assertion is true, but Reason fails to recognize shared cultural elements.","Both Assertion and Reason are true; however, Reason does not explain Assertion adequately.","Assertion is false, while Reason is true because distinct practices eliminate unity.","Both Assertion and Reason are false as they ignore the complexity of social interactions."],"a":"A","question_type":"assertion_reason","concept_id":"sociology::introducing_indian_society","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"This question assesses the understanding of sociological concepts rather than just definitions.","why_cuet_level":"It requires critical thinking about the relationship between unity and diversity in society.","distractor_rationale":{"A":"This correctly explains the limitation of the Reason in relation to the Assertion.","B":"While both are true, the reason provided does not support the assertion accurately.","C":"This misrepresents the assertion's validity regarding cultural overlap.","D":"This incorrectly claims both are false without considering their sociological context."}},{"q":"A student claims that globalization has homogenized Indian culture entirely. Evaluate this claim based on the following statements: Statement I: Globalization promotes cultural exchange but also reinforces local traditions. Statement II: Globalization leads to a loss of cultural identity in all regions equally. Statement III: Globalization can create hybrid cultures that blend local and global elements. Which option reflects the best evaluation?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"sociology::introducing_indian_society","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"The question focuses on evaluating complex relationships rather than simple definitions or facts.","why_cuet_level":"It requires analysis of multiple perspectives on globalization's impact on culture.","distractor_rationale":{"A":"Statement II incorrectly generalizes the effects of globalization across all regions.","B":"This overlooks how globalization can coexist with local traditions, making it misleading.","C":"This accurately captures the nuanced impacts of globalization on Indian culture.","D":"Including all statements misrepresents their individual contributions to understanding globalization."}},{"q":"Read these assertions: Assertion I: The caste system in India is rigid and unchanging. Assertion II: Modernization has led to a decline in caste-based discrimination. Which option provides the best insight into their validity?","o":["Both assertions are true; however, they contradict each other completely.","Assertion I is true, while Assertion II gives too much weight to modernization's effects.","Assertion I is false because it ignores instances of change within the caste system.","Both assertions are false as they overlook complexities of societal change."],"a":"C","question_type":"assertion_reason","concept_id":"sociology::introducing_indian_society","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"This question tests comprehension of social change rather than rote memorization of facts.","why_cuet_level":"It evaluates understanding of societal dynamics through assertions that require analysis.","distractor_rationale":{"A":"While both may contain elements of truth, they do not fully represent current realities.","B":"This misrepresents how modernization interacts with traditional structures like caste.","C":"This correctly identifies that change exists within the caste system despite its historical rigidity.","D":"Claiming both are false disregards significant ongoing discussions about caste."}},{"q":"Consider these statements about gender roles in Indian society: Statement I: Traditional gender roles are being challenged by modern educational opportunities. Statement II: Gender roles remain fixed despite changes in economic conditions. Statement III: Women's participation in the workforce has increased due to changing societal norms. Which option best evaluates these claims?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"sociology::introducing_indian_society","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"The question examines shifts in societal roles rather than static definitions or concepts.","why_cuet_level":"It requires students to analyze multiple statements for accuracy regarding gender roles.","distractor_rationale":{"A":"Statement II undermines evidence showing shifts in gender roles due to education and economy.","B":"This underestimates how societal norms evolve alongside economic changes affecting gender roles.","C":"This correctly highlights progressive changes in gender roles influenced by education and norms.","D":"Including all statements inaccurately suggests uniformity in gender role experiences."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=2
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 2
+[pipeline] generated_count=2 | mix=easy=0, medium=2, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 2
+[pipeline] after_chapter_filter=2 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=2 | sent_for_strict_validation=2 | validator_load_reduction=0.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [
+    'structured_sociology_introducing_indian_society_1',
+    'structured_sociology_introducing_indian_society_1'
+  ],
+  anchor_source_quality: [ 'manual_seed', 'manual_seed' ],
+  fallback_used: false,
+  selfcheck_passed: 2,
+  sent_to_validator: 2
+}
+[pipeline] Starting batch validation for 2 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=2
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T21:52:45.523Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"sociology","questionCount":2}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'sociology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'sociology',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 11109,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'sociology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 9,
+    "distractor_quality": 8,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 2
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T21:52:56.635Z","model":"gemini-3-flash","subject":"sociology","resultCount":2}
+[pipeline] validator_accepted {
+  score: 8,
+  exam_quality: 9,
+  distractor_quality: 8,
+  conceptual_depth: 8,
+  trap_quality: 'MEDIUM',
+  pyq_anchor_used: 'structured_sociology_introducing_indian_society_1',
+  anchor_source_quality: 'manual_seed'
+}
+[pipeline] validator_accepted {
+  score: 8,
+  exam_quality: 8,
+  distractor_quality: 7,
+  conceptual_depth: 8,
+  trap_quality: 'MEDIUM',
+  pyq_anchor_used: 'structured_sociology_introducing_indian_society_1',
+  anchor_source_quality: 'manual_seed'
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 2, hard: 0 },
+  system: { easy: 0, medium: 2, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 2
+[pipeline] validated_count=2 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 2
+[pipeline] selected_count=2 | FINAL DISTRIBUTION: {"easy":0,"medium":2,"hard":0}
+✅ Published ae697fe9-1e61-47e6-bfe9-7071832b0391 | status=live | difficulty=medium | discoverable=true
+✅ Published f7ebf164-661a-4c01-b34e-076289b275b1 | status=live | difficulty=medium | discoverable=true
+[pipeline] draft_gate {
+  draft_only_flag: false,
+  draft_saved: 0,
+  draft_candidates: 0,
+  publish_count: 2
+}
+[pipeline] METRICS | generated_count=2 | prefiltered_count=2 | strict_validation_count=2 | accepted_count=2 | api_calls_used=2 | cost_efficiency_ratio=1.00
+[pipeline] SUMMARY | subject=sociology | chapter=Introducing Indian Society | target=5 | generated_count=2 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=2 | validated_count=2 | accepted_count=2 | draft_count=0 | draft_only_flag=false | shortfall=3 | yield_rate=100.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=2, hard=0
+[pipeline] subject_distribution: {"subject":"sociology","accepted":2,"rejected":0,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=8678 | total_cost=$0.0026 | cost_per_accepted=$0.0013 | cost_per_1000=$1.31 | total_accepted=2
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  sample_size: 20,
+  direct_definition_count: 0,
+  weak_option_count: 7,
+  repeated_structure_count: 0,
+  easy_count: 11,
+  feedback_count: 2
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '6effe234-f799-4b35-891b-c6c4a2b5401a',
+    'ab820fde-a148-40af-a3cc-757d597da116',
+    '25422710-6591-4a88-9da0-7b571fde86d8',
+    'dae6f613-66eb-4120-812d-22429a1b717a',
+    'c55ca2f9-d558-4787-842b-78296c81f3e6',
+    'c732990e-60dd-4846-a86f-c687e60e1758',
+    '11242120-5dc8-400c-b729-2c127258c3c3',
+    '19f7c2d2-38ea-4570-b8b0-57e3b8edfd39'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '6effe234-f799-4b35-891b-c6c4a2b5401a',
+  actual_subject: 'computer_science',
+  actual_chapter: 'Computer Networks',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 342,
+  created_at: '2026-04-30T21:51:34.582336+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'computer_science', chapter: 'Computer Networks', count: 8 }
+
+[JOB 6effe234] Starting: [computer_science] Computer Networks
+[worker] RECEIVED_JOB: {
+  job_id: '6effe234-f799-4b35-891b-c6c4a2b5401a',
+  expected_subject: 'computer_science',
+  expected_chapter: 'Computer Networks',
+  raw_subject_id: 'computer_science',
+  raw_chapter: 'Computer Networks',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:51:34.582336+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '6effe234-f799-4b35-891b-c6c4a2b5401a',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  chapter: 'Computer Networks',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Computer Networks', generate_count: 3 }
+[worker] GENERATION_INPUT: {
+  job_id: '6effe234-f799-4b35-891b-c6c4a2b5401a',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Computer Networks',
+  canonical_unit: 'Section A: Database and Networks',
+  generate_count: 3,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: true
+}
+[pipeline] Generating 3 candidates... chapter="Computer Networks" unit="Section A: Database and Networks" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'computer_science',
+  prompt_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Computer Networks',
+  requested_count: 3,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::computer_networks',
+  selected_anchor_id: 'structured_computer_science_computer_networks_1',
+  selected_anchor_concept_id: 'computer_science::computer_networks',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'computer_science',
+  expected_chapter: 'Computer Networks',
+  canonical_unit: 'Section A: Database and Networks',
+  concept_id: 'computer_science::computer_networks',
+  pyq_anchor_id: 'structured_computer_science_computer_networks_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 4,
+  batch_size: 3,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 14425,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: A firewall can filter traffic based on predefined rules. Statement II: A router connects different networks and can also provide security features. Statement III: A switch operates at the application layer and can analyze packet contents for security. Which combination is correct?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"computer_science::computer_networks","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The statements focus on functions rather than definitions, encouraging deeper understanding.","why_cuet_level":"This question requires analysis of network device functions.","distractor_rationale":{"A":"Both statements accurately describe functions of firewall and router.","B":"While routers have some security features, they do not primarily focus on filtering like firewalls.","C":"Switches operate at the data link layer, not the application layer, which is incorrect.","D":"Including all three statements overlooks the specific roles of each device."}},{"q":"Assertion: Network Address Translation (NAT) enables multiple devices to share a single public IP address. Reason: NAT modifies the source IP address in outgoing packets to hide internal IP addresses. Evaluate the validity of both statements.","o":["Both Assertion and Reason are valid and Reason correctly explains Assertion.","Both Assertion and Reason are valid but Reason does not explain Assertion accurately.","Assertion is valid but Reason is invalid because NAT does not modify IP addresses.","Assertion is invalid while Reason is valid because NAT is not used for IP sharing."],"a":"A","question_type":"assertion_reason","concept_id":"computer_science::computer_networks","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The question requires evaluation of concepts rather than simple recall of definitions.","why_cuet_level":"This tests understanding of NAT's function and its mechanisms.","distractor_rationale":{"A":"Both statements accurately reflect how NAT operates in networks.","B":"Reason does explain Assertion, but it has a minor flaw in its detail about modification.","C":"NAT does modify source addresses, so this statement misrepresents its function.","D":"Assertion correctly describes sharing but misses the role of NAT in IP management."}},{"q":"Consider the following statements about network topologies: Statement I: A star topology requires a central device to connect all nodes. Statement II: Mesh topology provides redundancy by allowing multiple paths between devices. Statement III: Bus topology is less efficient due to signal reflection issues. Choose the correct option based on these statements.","o":["I and II are true, while III is false due to misunderstanding of bus efficiency.","I and III are true, while II is false because mesh does not enhance redundancy effectively.","II and III are true, while I is false as star topologies do not require a central device under certain conditions.","All statements are true but III gives too much weight to bus limitations."],"a":"A","question_type":"comparison_based","concept_id":"computer_science::computer_networks","trap_option":"D","strong_distractors":["B","C"],"why_not_textbook":"The statements test comprehension of topology characteristics instead of definitions or labels.","why_cuet_level":"It challenges students to analyze efficiency and structure within network designs.","distractor_rationale":{"A":"Star and mesh topologies are accurately described; bus topology has specific efficiency issues that aren't universal.","B":"This option incorrectly states that mesh topology lacks redundancy benefits when it actually enhances network resilience.","C":"Star topologies fundamentally depend on a central device for their structure, making this statement incorrect under standard definitions.","D":"While all statements have truth, the trap misrepresents bus topology's efficiency issues by overstating their impact."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] openai_generation success gpt-4o-mini count=3
+[pipeline] RAW_PARSED_COUNT 3
+[pipeline] NORMALIZED_COUNT 3
+[pipeline] generated_count=3 | mix=easy=0, medium=3, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 3
+[pipeline] after_chapter_filter=3 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=0.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [
+    'structured_computer_science_computer_networks_1',
+    'structured_computer_science_computer_networks_1',
+    'structured_computer_science_computer_networks_1'
+  ],
+  anchor_source_quality: [ 'manual_seed', 'manual_seed', 'manual_seed' ],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 3
+}
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T21:53:29.842Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"computer_science","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'computer_science',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'computer_science',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 8810,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'computer_science',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "HIGH",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 9,
+    "distractor_quality": 8,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "AMBIGUOUS",
+    "language_level": "MODERATE",
+    "option_quality": "CONFUSING",
+    "subject_consistency": "WRONG",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "option_quality confusing",
+      "factually ambiguous",
+      "low trap quality"
+    ],
+    "score": 4,
+    "exam_quality": 3,
+    "distractor_quality": 2,
+    "conceptual_depth": 5,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The phrasing of options like 'many statements are true but III gives too much weight' is non-standard for CUET.",
+      "Statement III regarding signal reflection is technically a true characteristic of bus topology, making the answer key 'C' (which claims III is false) factually problematic."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T21:53:38.654Z","model":"gemini-3-flash","subject":"computer_science","resultCount":3}
+[pipeline] validator_accepted {
+  score: 8,
+  exam_quality: 8,
+  distractor_quality: 7,
+  conceptual_depth: 7,
+  trap_quality: 'MEDIUM',
+  pyq_anchor_used: 'structured_computer_science_computer_networks_1',
+  anchor_source_quality: 'manual_seed'
+}
+[pipeline] validator_accepted {
+  score: 8,
+  exam_quality: 9,
+  distractor_quality: 8,
+  conceptual_depth: 8,
+  trap_quality: 'HIGH',
+  pyq_anchor_used: 'structured_computer_science_computer_networks_1',
+  anchor_source_quality: 'manual_seed'
+}
+[pipeline] validator_rejected {
+  score: 4,
+  exam_quality: 3,
+  distractor_quality: 2,
+  conceptual_depth: 5,
+  trap_quality: 'LOW',
+  rule: 'option_quality confusing'
+}
+[reject] {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  reason: 'option_quality confusing; factually ambiguous; low trap quality; ambiguous wording; confusing options; subject mismatch; validator score below threshold; exam quality below threshold',
+  source: 'validator_normalized',
+  rule: 'option_quality confusing',
+  details: {
+    compositeScore: 0,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CONFUSING'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 2, hard: 0 },
+  system: { easy: 0, medium: 2, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 2
+[pipeline] validated_count=2 | acceptance_rate=66.7%
+[pipeline] FINAL_ACCEPTED_COUNT 2
+[pipeline] selected_count=2 | FINAL DISTRIBUTION: {"easy":0,"medium":2,"hard":0}
+✅ Published 805fdc96-cf49-4f05-933b-1c75232cd0a5 | status=live | difficulty=medium | discoverable=true
+✅ Published d6574ac2-4d00-4fbc-bd2d-106a28449b9a | status=live | difficulty=medium | discoverable=true
+[pipeline] draft_gate {
+  draft_only_flag: false,
+  draft_saved: 0,
+  draft_candidates: 0,
+  publish_count: 2
+}
+[pipeline] METRICS | generated_count=3 | prefiltered_count=3 | strict_validation_count=3 | accepted_count=2 | api_calls_used=2 | cost_efficiency_ratio=1.00
+[pipeline] SUMMARY | subject=computer_science | chapter=Computer Networks | target=3 | generated_count=3 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=3 | validated_count=2 | accepted_count=2 | draft_count=0 | draft_only_flag=false | shortfall=1 | yield_rate=66.7% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=2, hard=0
+[pipeline] subject_distribution: {"subject":"computer_science","accepted":2,"rejected":1,"target":3,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=13821 | total_cost=$0.0040 | cost_per_accepted=$0.0010 | cost_per_1000=$1.00 | total_accepted=4
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'computer_science',
+  chapter: 'Computer Networks',
+  sample_size: 10,
+  direct_definition_count: 0,
+  weak_option_count: 6,
+  repeated_structure_count: 0,
+  easy_count: 0,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'ab820fde-a148-40af-a3cc-757d597da116',
+    '25422710-6591-4a88-9da0-7b571fde86d8',
+    'dae6f613-66eb-4120-812d-22429a1b717a',
+    'c55ca2f9-d558-4787-842b-78296c81f3e6',
+    'c732990e-60dd-4846-a86f-c687e60e1758',
+    '11242120-5dc8-400c-b729-2c127258c3c3',
+    '19f7c2d2-38ea-4570-b8b0-57e3b8edfd39'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'ab820fde-a148-40af-a3cc-757d597da116',
+  actual_subject: 'computer_science',
+  actual_chapter: 'Data Structures',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 344,
+  created_at: '2026-04-30T21:51:34.582336+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'computer_science',
+  chapter: 'Data Structures',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'computer_science', chapter: 'Data Structures', count: 8 }
+
+[JOB ab820fde] Starting: [computer_science] Data Structures
+[worker] RECEIVED_JOB: {
+  job_id: 'ab820fde-a148-40af-a3cc-757d597da116',
+  expected_subject: 'computer_science',
+  expected_chapter: 'Data Structures',
+  raw_subject_id: 'computer_science',
+  raw_chapter: 'Data Structures',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:51:34.582336+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'ab820fde-a148-40af-a3cc-757d597da116',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  chapter: 'Data Structures',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Data Structures', generate_count: 3 }
+[worker] GENERATION_INPUT: {
+  job_id: 'ab820fde-a148-40af-a3cc-757d597da116',
+  expected_subject: 'computer_science',
+  resolved_subject_id: 'computer_science',
+  resolved_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Data Structures',
+  canonical_unit: 'Section B1: Computer Science',
+  generate_count: 3,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: true
+}
+[pipeline] Generating 3 candidates... chapter="Data Structures" unit="Section B1: Computer Science" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'computer_science',
+  prompt_subject_name: 'Computer Science / Informatics Practices',
+  expected_chapter: 'Data Structures',
+  requested_count: 3,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::data_structures',
+  selected_anchor_id: 'structured_computer_science_data_structures_1',
+  selected_anchor_concept_id: 'computer_science::data_structures',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'comparison_based',
+  selected_question_type: 'application_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'computer_science',
+  expected_chapter: 'Data Structures',
+  canonical_unit: 'Section B1: Computer Science',
+  concept_id: 'computer_science::data_structures',
+  pyq_anchor_id: 'structured_computer_science_data_structures_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 4,
+  batch_size: 3,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 12590,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'computer_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: A linked list allows for dynamic memory allocation and efficient insertions. Statement II: An array is more suitable for frequent additions and deletions as it provides direct access to elements. Statement III: A stack can be implemented using a linked list to manage function calls efficiently.","o":["I and II only","I and III only","II and III only","I, II and III"],"a":"B","question_type":"statement_based","concept_id":"computer_science::data_structures","trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"The statements evaluate practical uses of data structures rather than definitions.","why_cuet_level":"Requires understanding of data structures' characteristics in different contexts.","distractor_rationale":{"A":"While I is true, II misrepresents arrays as suitable for frequent modifications.","B":"This option correctly identifies the valid statements regarding linked lists and stacks.","C":"Statement II incorrectly claims arrays are suitable for frequent changes, which is misleading.","D":"This option incorrectly suggests all statements are valid, ignoring the flaw in II."}},{"q":"Assertion: A queue can be implemented using two stacks to reverse the order of elements. Reason: This approach allows efficient access to the front element of the queue without using additional space.","o":["Both assertion and reason are true, and the reason explains why the assertion is correct.","Both assertion and reason are true, but the reason does not explain why the assertion is correct.","The assertion is true, but the reason is false because it ignores space complexity.","The assertion is false, while the reason is true because stacks can manage elements effectively."],"a":"B","question_type":"assertion_reason","concept_id":"computer_science::data_structures","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"This question tests understanding of data structure implementations rather than definitions or basic facts.","why_cuet_level":"Involves analysis of data structure properties and their implications.","distractor_rationale":{"A":"While both parts are true, the reason does not justify the assertion's correctness directly.","B":"This option accurately assesses both parts' validity and their relationship.","C":"This option misinterprets the space implications of using two stacks for a queue implementation.","D":"This option incorrectly dismisses the assertion about queue implementation using stacks."}},{"q":"Read the statements and choose the correct option: Statement I: A binary tree can have at most two children per node. Statement II: A binary search tree maintains sorted order by ensuring that left child nodes contain lesser values than their parent node. Statement III: A complete binary tree must be balanced, meaning all levels except possibly for the last one are fully filled.","o":["I and II only","I and III only","II and III only","I, II and III"],"a":"A","question_type":"comparison_based","concept_id":"computer_science::data_structures","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The statements compare properties of different tree types rather than offering definitions.","why_cuet_level":"Requires understanding of tree structures and their specific properties.","distractor_rationale":{"A":"Both I and II are valid statements about binary trees and search trees respectively.","B":"While I is correct, III incorrectly states that complete trees must be balanced in this manner.","C":"Statement II contains a flaw regarding how binary search trees maintain order under certain conditions.","D":"This option incorrectly suggests all statements are valid without recognizing flaws in III."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] openai_generation success gpt-4o-mini count=3
+[pipeline] RAW_PARSED_COUNT 3
+[pipeline] NORMALIZED_COUNT 3
+[pipeline] generated_count=3 | mix=easy=0, medium=3, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 3
+[pipeline] after_chapter_filter=3 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=0.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [
+    'structured_computer_science_data_structures_1',
+    'structured_computer_science_data_structures_1',
+    'structured_computer_science_data_structures_1'
+  ],
+  anchor_source_quality: [ 'manual_seed', 'manual_seed', 'manual_seed' ],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 3
+}
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T21:54:09.011Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"computer_science","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'computer_science',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'computer_science',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 15910,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'computer_science',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "AMBIGUOUS",
+    "language_level": "MODERATE",
+    "option_quality": "CONFUSING",
+    "subject_consistency": "WRONG",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "subject_consistency WRONG",
+      "reason is factually incorrect regarding space complexity",
+      "logic of assertion is flawed",
+      "low trap quality"
+    ],
+    "score": 3,
+    "exam_quality": 3,
+    "distractor_quality": 2,
+    "conceptual_depth": 4,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The claim that implementing a queue with two stacks uses no additional space is factually false (it requires O(n) space)",
+      "Assertion phrasing 'to reverse the order' is technically incorrect as the queue maintains FIFO order"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "AMBIGUOUS",
+    "language_level": "MODERATE",
+    "option_quality": "CONFUSING",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "language too complex",
+      "option_quality CONFUSING",
+      "textbook_style true",
+      "typo in statement"
+    ],
+    "score": 4,
+    "exam_quality": 3,
+    "distractor_quality": 3,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Typo in Statement III ('many levels' instead of 'all levels')",
+      "Use of the word 'mainly' in options is non-standard and ambiguous for a competitive exam"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CONFUSING",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "textbook_style true",
+      "low trap quality",
+      "direct definition",
+      "option_quality CONFUSING"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 4,
+    "conceptual_depth": 4,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Textbook style recall of basic properties",
+      "Use of 'mainly' suffix in options is unprofessional",
+      "Low conceptual depth"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T21:54:24.924Z","model":"gemini-3-flash","subject":"computer_science","resultCount":3}
+[pipeline] validator_rejected {
+  score: 4,
+  exam_quality: 4,
+  distractor_quality: 4,
+  conceptual_depth: 4,
+  trap_quality: 'LOW',
+  rule: 'textbook_style true'
+}
+[reject] {
+  subject: 'computer_science',
+  chapter: 'Data Structures',
+  reason: 'textbook_style true; low trap quality; direct definition; option_quality CONFUSING; confusing options; validator score below threshold; exam quality below threshold; distractor quality below threshold',
+  source: 'validator_normalized',
+  rule: 'textbook_style true',
+  details: {
+    compositeScore: 15,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CONFUSING'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_rejected {
+  score: 3,
+  exam_quality: 3,
+  distractor_quality: 2,
+  conceptual_depth: 4,
+  trap_quality: 'LOW',
+  rule: 'subject_consistency WRONG'
+}
+[reject] {
+  subject: 'computer_science',
+  chapter: 'Data Structures',
+  reason: 'subject_consistency WRONG; reason is factually incorrect regarding space complexity; logic of assertion is flawed; low trap quality; ambiguous wording; confusing options; subject mismatch; validator score below threshold',
+  source: 'validator_normalized',
+  rule: 'subject_consistency WRONG',
+  details: {
+    compositeScore: 0,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CONFUSING'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_rejected {
+  score: 4,
+  exam_quality: 3,
+  distractor_quality: 3,
+  conceptual_depth: 5,
+  trap_quality: 'LOW',
+  rule: 'language too complex'
+}
+[reject] {
+  subject: 'computer_science',
+  chapter: 'Data Structures',
+  reason: 'language too complex; option_quality CONFUSING; textbook_style true; typo in statement; ambiguous wording; confusing options; validator score below threshold; exam quality below threshold',
+  source: 'validator_normalized',
+  rule: 'language too complex',
+  details: {
+    compositeScore: 0,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CONFUSING'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 0, hard: 0 },
+  system: { easy: 0, medium: 0, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 0
+[pipeline] validated_count=0 | acceptance_rate=0.0%
+[pipeline] FINAL_ACCEPTED_COUNT 0
+[pipeline] selected_count=0 | FINAL DISTRIBUTION: {"easy":0,"medium":0,"hard":0}
+[draft] Saved dc99ffdc-2a01-43b0-9ce5-aca7daa90460 | reason=validator_rejected_all:textbook_style true;low trap quality;direct definition;option_quality CONFUSING;confusing options;validator score below threshold;exam quality below threshold;distractor quality below threshold
+[draft] Saved 2439bea7-a4e4-4cbc-8f21-754a8da6279e | reason=validator_rejected_all:textbook_style true;low trap quality;direct definition;option_quality CONFUSING;confusing options;validator score below threshold;exam quality below threshold;distractor quality below threshold
+[draft] Saved 8f188cf3-de4c-49fe-8793-84acd4c75813 | reason=validator_rejected_all:textbook_style true;low trap quality;direct definition;option_quality CONFUSING;confusing options;validator score below threshold;exam quality below threshold;distractor quality below threshold
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 3,
+  draft_candidates: 3,
+  publish_count: 0
+}
+[pipeline] METRICS | generated_count=3 | prefiltered_count=3 | strict_validation_count=3 | accepted_count=0 | api_calls_used=2 | cost_efficiency_ratio=0.00
+[pipeline] SUMMARY | subject=computer_science | chapter=Data Structures | target=3 | generated_count=3 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=3 | validated_count=0 | accepted_count=0 | draft_count=3 | draft_only_flag=true | shortfall=3 | yield_rate=0.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=0, hard=0
+[pipeline] subject_distribution: {"subject":"computer_science","accepted":0,"rejected":3,"target":3,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=18983 | total_cost=$0.0055 | cost_per_accepted=$0.0014 | cost_per_1000=$1.36 | total_accepted=4
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'computer_science',
+  chapter: 'Data Structures',
+  sample_size: 11,
+  direct_definition_count: 0,
+  weak_option_count: 4,
+  repeated_structure_count: 0,
+  easy_count: 0,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '25422710-6591-4a88-9da0-7b571fde86d8',
+    'dae6f613-66eb-4120-812d-22429a1b717a',
+    'c55ca2f9-d558-4787-842b-78296c81f3e6',
+    'c732990e-60dd-4846-a86f-c687e60e1758',
+    '11242120-5dc8-400c-b729-2c127258c3c3',
+    '19f7c2d2-38ea-4570-b8b0-57e3b8edfd39'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '25422710-6591-4a88-9da0-7b571fde86d8',
+  actual_subject: 'economics',
+  actual_chapter: 'Indian Economy on the Eve of Independence',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 308,
+  created_at: '2026-04-30T21:51:34.582336+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'economics',
+  chapter: 'Indian Economy on the Eve of Independence',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'economics',
+  chapter: 'Indian Economy on the Eve of Independence',
+  count: 8
+}
+
+[JOB 25422710] Starting: [economics] Indian Economy on the Eve of Independence
+[worker] RECEIVED_JOB: {
+  job_id: '25422710-6591-4a88-9da0-7b571fde86d8',
+  expected_subject: 'economics',
+  expected_chapter: 'Indian Economy on the Eve of Independence',
+  raw_subject_id: 'economics',
+  raw_chapter: 'Indian Economy on the Eve of Independence',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:51:34.582336+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '25422710-6591-4a88-9da0-7b571fde86d8',
+  expected_subject: 'economics',
+  resolved_subject_id: 'economics',
+  resolved_subject_name: 'Economics / Business Economics',
+  chapter: 'Indian Economy on the Eve of Independence',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: {
+  chapter: 'Indian Economy on the Eve of Independence',
+  generate_count: 3
+}
+[worker] GENERATION_INPUT: {
+  job_id: '25422710-6591-4a88-9da0-7b571fde86d8',
+  expected_subject: 'economics',
+  resolved_subject_id: 'economics',
+  resolved_subject_name: 'Economics / Business Economics',
+  expected_chapter: 'Indian Economy on the Eve of Independence',
+  canonical_unit: 'Indian Economic Development',
+  generate_count: 3,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: true
+}
+[pipeline] Generating 3 candidates... chapter="Indian Economy on the Eve of Independence" unit="Indian Economic Development" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'economics',
+  prompt_subject_name: 'Economics / Business Economics',
+  expected_chapter: 'Indian Economy on the Eve of Independence',
+  requested_count: 3,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'economics',
+  expected_chapter: 'Indian Economy on the Eve of Independence',
+  canonical_unit: 'Indian Economic Development',
+  concept_id: 'economics::indian_economy_on_the_eve_of_independence',
+  pyq_anchor_id: 'structure_only_structured_economics_economic_reforms_since_1991_1_for_economics::indian_economy_on_the_eve_of_independence',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 3,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'economics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'economics',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 13214,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'economics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: The British colonial policies led to the deindustrialization of India. Statement II: The introduction of railways primarily benefited British trade interests. Statement III: The impact of British policies was uniformly negative across all sectors of the economy.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"economics::indian_economy_on_the_eve_of_independence","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The statements reflect nuanced impacts rather than a blanket negative assessment.","why_cuet_level":"This question assesses understanding of complex historical impacts rather than mere recall.","distractor_rationale":{"A":"Both statements highlight critical aspects of colonial policy effects on India's economy.","B":"While II is true, it overlooks other benefits railways provided to local economies.","C":"This statement incorrectly generalizes the impact without recognizing exceptions in certain sectors.","D":"I and II are valid, but III wrongly asserts a uniform impact across all sectors."}},{"q":"Assertion: The Indian economy before independence was characterized by heavy reliance on agriculture. Reason: A significant portion of the population was engaged in farming and related activities due to lack of industrial development. Which option is correct?","o":["Both Assertion and Reason are true, and Reason explains Assertion.","Both Assertion and Reason are true, but Reason does not explain Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"economics::indian_economy_on_the_eve_of_independence","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This evaluation requires critical thinking about economic structure, not simple fact recall.","why_cuet_level":"It tests comprehension of economic conditions and their interrelations rather than rote learning.","distractor_rationale":{"A":"The reasoning directly supports the assertion regarding agricultural reliance.","B":"While both are true, this option fails to connect them meaningfully as required.","C":"This option misrepresents the reality of agricultural dependence before independence.","D":"The assertion is accurate; however, the reasoning correctly reflects the context."}},{"q":"Consider the following statements regarding India's economy on the eve of independence: Statement I: The British economic policies facilitated the growth of indigenous industries. Statement II: The economy was largely agrarian with subsistence farming prevalent. Statement III: Urban centers experienced significant industrial growth during this period. Identify the correct option.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"B","question_type":"statement_based","concept_id":"economics::indian_economy_on_the_eve_of_independence","trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"The statements require analysis of economic trends rather than surface-level facts.","why_cuet_level":"This question evaluates understanding of contradictory economic narratives rather than memorization.","distractor_rationale":{"A":"While I is incorrect, it misleads as it suggests that some industries thrived when they did not.","B":"Statement II accurately describes the agrarian nature while III highlights urban challenges correctly without contradiction.","C":"This option incorrectly suggests industrial growth when evidence points to stagnation in urban centers under colonial rule.","D":"This option inaccurately combines statements that do not coexist in reality."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] openai_generation success gpt-4o-mini count=3
+[pipeline] RAW_PARSED_COUNT 3
+[pipeline] NORMALIZED_COUNT 3
+[pipeline] generated_count=3 | mix=easy=0, medium=3, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 3
+[pipeline] after_chapter_filter=3 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=0.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [
+    'structure_only_structured_economics_economic_reforms_since_1991_1_for_economics::indian_economy_on_the_eve_of_independence',
+    'structure_only_structured_economics_economic_reforms_since_1991_1_for_economics::indian_economy_on_the_eve_of_independence',
+    'structure_only_structured_economics_economic_reforms_since_1991_1_for_economics::indian_economy_on_the_eve_of_independence'
+  ],
+  anchor_source_quality: [ 'manual_seed', 'manual_seed', 'manual_seed' ],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 3
+}
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T21:54:55.792Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"economics","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'economics',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'economics',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 15539,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'economics',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "textbook style",
+      "low conceptual depth",
+      "low trap quality",
+      "easier than pyqs"
+    ],
+    "score": 4,
+    "exam_quality": 3,
+    "distractor_quality": 3,
+    "conceptual_depth": 4,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "textbook_style",
+      "low_conceptual_depth"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "AMBIGUOUS",
+    "language_level": "SIMPLE",
+    "option_quality": "CONFUSING",
+    "subject_consistency": "WRONG",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "subject consistency",
+      "factually incorrect answer key",
+      "ambiguous",
+      "low trap quality"
+    ],
+    "score": 2,
+    "exam_quality": 2,
+    "distractor_quality": 2,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "factually_incorrect",
+      "ambiguous_statement"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [
+      "textbook style",
+      "low conceptual depth",
+      "no reasoning required"
+    ],
+    "score": 5,
+    "exam_quality": 4,
+    "distractor_quality": 5,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "textbook_style"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T21:55:11.334Z","model":"gemini-3-flash","subject":"economics","resultCount":3}
+[pipeline] validator_rejected {
+  score: 5,
+  exam_quality: 4,
+  distractor_quality: 5,
+  conceptual_depth: 5,
+  trap_quality: 'MEDIUM',
+  rule: 'textbook style'
+}
+[reject] {
+  subject: 'economics',
+  chapter: 'Indian Economy on the Eve of Independence',
+  reason: 'textbook style; low conceptual depth; no reasoning required; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording; validator marked non-CUET alignment',
+  source: 'validator_normalized',
+  rule: 'textbook style',
+  details: {
+    compositeScore: 55,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_rejected {
+  score: 4,
+  exam_quality: 3,
+  distractor_quality: 3,
+  conceptual_depth: 4,
+  trap_quality: 'LOW',
+  rule: 'textbook style'
+}
+[reject] {
+  subject: 'economics',
+  chapter: 'Indian Economy on the Eve of Independence',
+  reason: 'textbook style; low conceptual depth; low trap quality; easier than pyqs; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'textbook style',
+  details: {
+    compositeScore: 31,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_rejected {
+  score: 2,
+  exam_quality: 2,
+  distractor_quality: 2,
+  conceptual_depth: 5,
+  trap_quality: 'LOW',
+  rule: 'subject consistency'
+}
+[reject] {
+  subject: 'economics',
+  chapter: 'Indian Economy on the Eve of Independence',
+  reason: 'subject consistency; factually incorrect answer key; ambiguous; low trap quality; ambiguous wording; confusing options; subject mismatch; validator score below threshold',
+  source: 'validator_normalized',
+  rule: 'subject consistency',
+  details: {
+    compositeScore: 0,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CONFUSING'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 0, hard: 0 },
+  system: { easy: 0, medium: 0, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 0
+[pipeline] validated_count=0 | acceptance_rate=0.0%
+[pipeline] FINAL_ACCEPTED_COUNT 0
+[pipeline] selected_count=0 | FINAL DISTRIBUTION: {"easy":0,"medium":0,"hard":0}
+[draft] Saved 679e55d4-763f-4481-808c-2a05e0c6c3e8 | reason=validator_rejected_all:textbook style;low conceptual depth;no reasoning required;exam quality below threshold;distractor quality below threshold;conceptual depth below CUET reasoning threshold;direct textbook-style wording;validator marked non-CUET alignment
+[draft] Saved 64e5d5cf-da2c-4921-af02-ce547e06e7af | reason=validator_rejected_all:textbook style;low conceptual depth;no reasoning required;exam quality below threshold;distractor quality below threshold;conceptual depth below CUET reasoning threshold;direct textbook-style wording;validator marked non-CUET alignment
+[draft] Saved f3132c35-8dfa-49ed-b305-bc16d027db8c | reason=validator_rejected_all:textbook style;low conceptual depth;no reasoning required;exam quality below threshold;distractor quality below threshold;conceptual depth below CUET reasoning threshold;direct textbook-style wording;validator marked non-CUET alignment
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 3,
+  draft_candidates: 3,
+  publish_count: 0
+}
+[pipeline] METRICS | generated_count=3 | prefiltered_count=3 | strict_validation_count=3 | accepted_count=0 | api_calls_used=2 | cost_efficiency_ratio=0.00
+[pipeline] SUMMARY | subject=economics | chapter=Indian Economy on the Eve of Independence | target=3 | generated_count=3 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=3 | validated_count=0 | accepted_count=0 | draft_count=3 | draft_only_flag=true | shortfall=3 | yield_rate=0.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=0, hard=0
+[pipeline] subject_distribution: {"subject":"economics","accepted":0,"rejected":3,"target":3,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=24242 | total_cost=$0.0069 | cost_per_accepted=$0.0017 | cost_per_1000=$1.71 | total_accepted=4
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'economics',
+  chapter: 'Indian Economy on the Eve of Independence',
+  sample_size: 11,
+  direct_definition_count: 0,
+  weak_option_count: 5,
+  repeated_structure_count: 0,
+  easy_count: 0,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'dae6f613-66eb-4120-812d-22429a1b717a',
+    'c55ca2f9-d558-4787-842b-78296c81f3e6',
+    'c732990e-60dd-4846-a86f-c687e60e1758',
+    '11242120-5dc8-400c-b729-2c127258c3c3',
+    '19f7c2d2-38ea-4570-b8b0-57e3b8edfd39'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'c55ca2f9-d558-4787-842b-78296c81f3e6',
+  actual_subject: 'psychology',
+  actual_chapter: 'Psychological Disorders',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 113,
+  created_at: '2026-04-30T21:51:34.582336+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'psychology', chapter: 'Psychological Disorders', count: 8 }
+
+[JOB c55ca2f9] Starting: [psychology] Psychological Disorders
+[worker] RECEIVED_JOB: {
+  job_id: 'c55ca2f9-d558-4787-842b-78296c81f3e6',
+  expected_subject: 'psychology',
+  expected_chapter: 'Psychological Disorders',
+  raw_subject_id: 'psychology',
+  raw_chapter: 'Psychological Disorders',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:51:34.582336+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'c55ca2f9-d558-4787-842b-78296c81f3e6',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  chapter: 'Psychological Disorders',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Psychological Disorders', generate_count: 3 }
+[worker] GENERATION_INPUT: {
+  job_id: 'c55ca2f9-d558-4787-842b-78296c81f3e6',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  expected_chapter: 'Psychological Disorders',
+  canonical_unit: 'Psychological Disorders',
+  generate_count: 3,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: true
+}
+[pipeline] Generating 3 candidates... chapter="Psychological Disorders" unit="Psychological Disorders" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'psychology',
+  prompt_subject_name: 'Psychology',
+  expected_chapter: 'Psychological Disorders',
+  requested_count: 3,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'psychology',
+  expected_chapter: 'Psychological Disorders',
+  canonical_unit: 'Psychological Disorders',
+  concept_id: 'psychology::psychological_disorders',
+  pyq_anchor_id: 'structure_only_structured_psychology_self_and_personality_1_for_psychology::psychological_disorders',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 3,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'psychology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'psychology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 11418,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'psychology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: Cognitive Behavioral Therapy is often effective for treating anxiety disorders. Statement II: The success of therapy can depend on the therapist's experience and the patient's engagement. Statement III: Cognitive Behavioral Therapy ignores the role of medication in treatment outcomes.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"psychology::psychological_disorders","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"The focus should be on therapy effectiveness rather than medication exclusion.","why_cuet_level":"Requires understanding of therapy dynamics.","distractor_rationale":{"A":"Both statements about therapy effectiveness are true and relevant.","B":"While II is true, it incorrectly suggests that I is not valid without considering III.","C":"This traps by suggesting CBT completely disregards medication, which isn't accurate.","D":"This option incorrectly asserts all statements are valid without recognizing the flaw."}},{"q":"Assertion: Depression can manifest with physical symptoms like fatigue and pain. Reason: Physical symptoms of depression are always caused by underlying medical issues.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason assumes a direct causation that is often not established.","Assertion is false, but Reason correctly discusses physical manifestations."],"a":"C","question_type":"assertion_reason","concept_id":"psychology::psychological_disorders","trap_option":"D","strong_distractors":["A","B"],"why_not_textbook":"Depression's physical symptoms can arise independently from medical issues.","why_cuet_level":"Evaluating assertion-reason relationships requires deeper insight.","distractor_rationale":{"A":"Both statements are valid, but the reason misrepresents causation in depression.","B":"This option fails to acknowledge that while both may be true, they don't relate as claimed.","C":"Correctly identifies a common misconception in understanding depression's symptoms.","D":"This suggests a complete falsity in Assertion which isn't accurate."}},{"q":"Read the statements and choose the correct option: Statement I: Schizophrenia is characterized by a range of symptoms including delusions and hallucinations. Statement II: The onset of schizophrenia can occur in late adolescence or early adulthood. Statement III: Schizophrenia treatments focus solely on medication without considering psychosocial interventions.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"psychology::psychological_disorders","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"Treatment approaches for schizophrenia incorporate various methods beyond medication.","why_cuet_level":"Understanding treatment dynamics requires critical evaluation of approaches.","distractor_rationale":{"A":"Both statements accurately describe aspects of schizophrenia.","B":"This wrongly implies that Statement I lacks validity due to Statement III's error.","C":"Treating schizophrenia relies too heavily on medication as per this flawed statement.","D":"This misstates that all statements are valid without recognizing the trap."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] openai_generation success gpt-4o-mini count=3
+[pipeline] RAW_PARSED_COUNT 3
+[pipeline] NORMALIZED_COUNT 3
+[pipeline] generated_count=3 | mix=easy=0, medium=3, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 3
+[pipeline] after_chapter_filter=3 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=0.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [
+    'structure_only_structured_psychology_self_and_personality_1_for_psychology::psychological_disorders',
+    'structure_only_structured_psychology_self_and_personality_1_for_psychology::psychological_disorders',
+    'structure_only_structured_psychology_self_and_personality_1_for_psychology::psychological_disorders'
+  ],
+  anchor_source_quality: [ 'manual_seed', 'manual_seed', 'manual_seed' ],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 3
+}
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T21:55:40.112Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"psychology","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 15615,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "AMBIGUOUS",
+    "language_level": "MODERATE",
+    "option_quality": "CONFUSING",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [
+      "non-standard assertion-reason options",
+      "option_quality is confusing",
+      "clarity is ambiguous"
+    ],
+    "score": 5,
+    "exam_quality": 5,
+    "distractor_quality": 4,
+    "conceptual_depth": 6,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The options for the Assertion-Reason question do not follow the standard CUET format (A, R, Explanation check)."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 9,
+    "distractor_quality": 8,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "MISMATCH",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "concept mismatch",
+      "low trap quality"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 5,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "easy",
+    "issues": [
+      "Concept refers to Therapeutic Approaches (CBT) rather than Psychological Disorders.",
+      "Statement III is an obvious/weak distractor."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T21:55:55.729Z","model":"gemini-3-flash","subject":"psychology","resultCount":3}
+[pipeline] validator_rejected {
+  score: 4,
+  exam_quality: 4,
+  distractor_quality: 3,
+  conceptual_depth: 5,
+  trap_quality: 'LOW',
+  rule: 'concept mismatch'
+}
+[reject] {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  reason: 'concept mismatch; low trap quality; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; validator marked non-CUET alignment; validator decision reject',
+  source: 'validator_normalized',
+  rule: 'concept mismatch',
+  details: {
+    compositeScore: 18,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'MISMATCH',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_rejected {
+  score: 5,
+  exam_quality: 5,
+  distractor_quality: 4,
+  conceptual_depth: 6,
+  trap_quality: 'MEDIUM',
+  rule: 'non-standard assertion-reason options'
+}
+[reject] {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  reason: 'non-standard assertion-reason options; option_quality is confusing; clarity is ambiguous; ambiguous wording; confusing options; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'non-standard assertion-reason options',
+  details: {
+    compositeScore: 35,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CONFUSING'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_accepted {
+  score: 9,
+  exam_quality: 9,
+  distractor_quality: 8,
+  conceptual_depth: 7,
+  trap_quality: 'MEDIUM',
+  pyq_anchor_used: 'structure_only_structured_psychology_self_and_personality_1_for_psychology::psychological_disorders',
+  anchor_source_quality: 'manual_seed'
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 1, hard: 0 },
+  system: { easy: 0, medium: 1, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 1
+[pipeline] validated_count=1 | acceptance_rate=33.3%
+[pipeline] FINAL_ACCEPTED_COUNT 1
+[pipeline] selected_count=1 | FINAL DISTRIBUTION: {"easy":0,"medium":1,"hard":0}
+✅ Published 945d9bf0-9a96-4668-a339-726d29d7ff2b | status=live | difficulty=medium | discoverable=true
+[pipeline] draft_gate {
+  draft_only_flag: false,
+  draft_saved: 0,
+  draft_candidates: 0,
+  publish_count: 1
+}
+[pipeline] METRICS | generated_count=3 | prefiltered_count=3 | strict_validation_count=3 | accepted_count=1 | api_calls_used=2 | cost_efficiency_ratio=0.50
+[pipeline] SUMMARY | subject=psychology | chapter=Psychological Disorders | target=3 | generated_count=3 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=3 | validated_count=1 | accepted_count=1 | draft_count=0 | draft_only_flag=false | shortfall=2 | yield_rate=33.3% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=1, hard=0
+[pipeline] subject_distribution: {"subject":"psychology","accepted":1,"rejected":2,"target":3,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=28912 | total_cost=$0.0081 | cost_per_accepted=$0.0016 | cost_per_1000=$1.63 | total_accepted=5
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'psychology',
+  chapter: 'Psychological Disorders',
+  sample_size: 9,
+  direct_definition_count: 0,
+  weak_option_count: 4,
+  repeated_structure_count: 0,
+  easy_count: 1,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'dae6f613-66eb-4120-812d-22429a1b717a',
+    'c732990e-60dd-4846-a86f-c687e60e1758',
+    '11242120-5dc8-400c-b729-2c127258c3c3',
+    '19f7c2d2-38ea-4570-b8b0-57e3b8edfd39'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'dae6f613-66eb-4120-812d-22429a1b717a',
+  actual_subject: 'english',
+  actual_chapter: 'Narrative Passage',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 8,
+  subject_question_count: 128,
+  created_at: '2026-04-30T21:51:34.582336+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  count: 8,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'english', chapter: 'Narrative Passage', count: 8 }
+
+[JOB dae6f613] Starting: [english] Narrative Passage
+[worker] RECEIVED_JOB: {
+  job_id: 'dae6f613-66eb-4120-812d-22429a1b717a',
+  expected_subject: 'english',
+  expected_chapter: 'Narrative Passage',
+  raw_subject_id: 'english',
+  raw_chapter: 'Narrative Passage',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:51:34.582336+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'dae6f613-66eb-4120-812d-22429a1b717a',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  chapter: 'Narrative Passage',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=8 existing questions loaded
+[generation] batch adjusted: { chapter: 'Narrative Passage', generate_count: 3 }
+[worker] GENERATION_INPUT: {
+  job_id: 'dae6f613-66eb-4120-812d-22429a1b717a',
+  expected_subject: 'english',
+  resolved_subject_id: 'english',
+  resolved_subject_name: 'English',
+  expected_chapter: 'Narrative Passage',
+  canonical_unit: 'Reading Comprehension',
+  generate_count: 3,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: true
+}
+[pipeline] Generating 3 candidates... chapter="Narrative Passage" unit="Reading Comprehension" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'English',
+  expected_chapter: 'Narrative Passage',
+  requested_count: 3,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'english',
+  expected_chapter: 'Narrative Passage',
+  canonical_unit: 'Reading Comprehension',
+  concept_id: 'english::narrative_passage',
+  pyq_anchor_id: 'structure_only_seed_pyq_en3_for_english::narrative_passage',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 3,
+  batch_size: 3,
+  pyq_style_patterns: [ 'reading_comprehension', 'vocabulary', 'correct_word_usage' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 13977,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'english',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: The protagonist's journey reflects internal conflicts that shape their character. Statement II: The supporting characters serve only as obstacles for the protagonist's growth. Statement III: The resolution of the narrative highlights the importance of self-discovery in overcoming challenges.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"english::narrative_passage","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"This question encourages analysis of character roles rather than mere recall.","why_cuet_level":"This level of questioning requires deeper understanding of narrative elements.","distractor_rationale":{"A":"This option incorrectly assumes all statements are valid, missing the flawed role of supporting characters.","B":"This option suggests that supporting characters are solely obstacles, which ignores their multifaceted roles in narratives.","C":"This option correctly identifies the valid statements about character development and self-discovery.","D":"This option includes an invalid statement about supporting characters, leading to confusion."}},{"q":"Consider the following assertions regarding narrative themes: Assertion I: Themes in narratives often evolve alongside character development. Assertion II: A narrative's theme is solely determined by its plot structure. Assertion III: The interplay between theme and character can create deeper meanings in a story.","o":["I is true; II is false; III is true","I is false; II is true; III is false","I is true; II is true; III is false","I and II are false; III is true"],"a":"A","question_type":"assertion_reason","concept_id":"english::narrative_passage","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question requires evaluating assertions rather than simple definitions or examples.","why_cuet_level":"It challenges students to analyze relationships between narrative elements.","distractor_rationale":{"A":"This option accurately assesses the truth of each assertion based on narrative analysis.","B":"This option incorrectly claims that theme is determined solely by plot, neglecting character influence.","C":"This option erroneously states that both assertions I and II are true, which misrepresents narrative complexity.","D":"This option incorrectly claims that both I and II are false, which overlooks their validity."}},{"q":"Analyze the following statements about a narrative's climax: Statement I: The climax serves as a turning point in the story where tensions peak. Statement II: The climax can be predicted based on earlier events without any context. Statement III: A well-crafted climax often leads to a resolution that ties up key plot points.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"comparison_based","concept_id":"english::narrative_passage","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"The question prompts critical thinking about narrative structure beyond basic definitions.","why_cuet_level":"It emphasizes understanding narrative dynamics rather than rote recall.","distractor_rationale":{"A":"This option incorrectly assumes all statements are valid, missing the flaw in predicting climaxes without context.","B":"This option suggests that climaxes can be predicted universally, which oversimplifies narrative complexity.","C":"This option correctly identifies valid statements about climax function and significance in narratives.","D":"This option includes an incorrect assertion about prediction, leading to misunderstanding."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[english-classification] {
+  question_id: 'concept_1',
+  detected_type: 'Narrative Passage',
+  confidence: 0.4
+}
+[english-classification] {
+  question_id: 'concept_2',
+  detected_type: 'Narrative Passage',
+  confidence: 0.4
+}
+[english-classification] {
+  question_id: 'concept_3',
+  detected_type: 'Narrative Passage',
+  confidence: 0.4
+}
+[llm] openai_generation success gpt-4o-mini count=3
+[pipeline] RAW_PARSED_COUNT 3
+[pipeline] NORMALIZED_COUNT 3
+[pipeline] generated_count=3 | mix=easy=0, medium=3, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 3
+[pipeline] after_chapter_filter=3 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=0.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [
+    'structure_only_seed_pyq_en3_for_english::narrative_passage',
+    'structure_only_seed_pyq_en3_for_english::narrative_passage',
+    'structure_only_seed_pyq_en3_for_english::narrative_passage'
+  ],
+  anchor_source_quality: [ 'manual_seed', 'manual_seed', 'manual_seed' ],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 3
+}
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T21:56:26.965Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"english","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 16182,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'english',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "textbook style",
+      "direct recall",
+      "no passage provided for reading comprehension concept",
+      "low trap quality",
+      "conceptual_depth < 7"
+    ],
+    "score": 4,
+    "exam_quality": 3,
+    "distractor_quality": 4,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Question asks for general literary theory rather than comprehension of a specific text",
+      "Concept 'Narrative Passage' requires a passage context"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "textbook style",
+      "direct recall",
+      "no passage provided for reading comprehension concept",
+      "low trap quality",
+      "conceptual_depth < 7"
+    ],
+    "score": 4,
+    "exam_quality": 3,
+    "distractor_quality": 4,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Generic statements about story structure without a narrative to analyze",
+      "Does not test reading comprehension skills"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "textbook style",
+      "direct recall",
+      "no passage provided for reading comprehension concept",
+      "low trap quality",
+      "conceptual_depth < 7"
+    ],
+    "score": 4,
+    "exam_quality": 3,
+    "distractor_quality": 4,
+    "conceptual_depth": 4,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Theoretical question about protagonists and supporting characters",
+      "Missing passage text necessary for the Narrative Passage subtopic"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T21:56:43.150Z","model":"gemini-3-flash","subject":"english","resultCount":3}
+[pipeline] validator_rejected {
+  score: 4,
+  exam_quality: 3,
+  distractor_quality: 4,
+  conceptual_depth: 4,
+  trap_quality: 'LOW',
+  rule: 'textbook style'
+}
+[reject] {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'textbook style; direct recall; no passage provided for reading comprehension concept; low trap quality; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold',
+  source: 'validator_normalized',
+  rule: 'textbook style',
+  details: {
+    compositeScore: 30,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_rejected {
+  score: 4,
+  exam_quality: 3,
+  distractor_quality: 4,
+  conceptual_depth: 5,
+  trap_quality: 'LOW',
+  rule: 'textbook style'
+}
+[reject] {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'textbook style; direct recall; no passage provided for reading comprehension concept; low trap quality; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold',
+  source: 'validator_normalized',
+  rule: 'textbook style',
+  details: {
+    compositeScore: 30,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_rejected {
+  score: 4,
+  exam_quality: 3,
+  distractor_quality: 4,
+  conceptual_depth: 5,
+  trap_quality: 'LOW',
+  rule: 'textbook style'
+}
+[reject] {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  reason: 'textbook style; direct recall; no passage provided for reading comprehension concept; low trap quality; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold',
+  source: 'validator_normalized',
+  rule: 'textbook style',
+  details: {
+    compositeScore: 30,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 0, hard: 0 },
+  system: { easy: 0, medium: 0, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 0
+[pipeline] validated_count=0 | acceptance_rate=0.0%
+[pipeline] FINAL_ACCEPTED_COUNT 0
+[pipeline] selected_count=0 | FINAL DISTRIBUTION: {"easy":0,"medium":0,"hard":0}
+[draft] Saved 1b33bf3c-59fd-4994-a741-f453277cfdaa | reason=validator_rejected_all:textbook style;direct recall;no passage provided for reading comprehension concept;low trap quality;conceptual_depth < 7;validator score below threshold;exam quality below threshold;distractor quality below threshold
+[draft] Saved 1789e9a9-7240-4112-b081-4b0c97f860fd | reason=validator_rejected_all:textbook style;direct recall;no passage provided for reading comprehension concept;low trap quality;conceptual_depth < 7;validator score below threshold;exam quality below threshold;distractor quality below threshold
+[draft] Saved 90429495-0748-4ac9-bd6c-ab5e0dd669a2 | reason=validator_rejected_all:textbook style;direct recall;no passage provided for reading comprehension concept;low trap quality;conceptual_depth < 7;validator score below threshold;exam quality below threshold;distractor quality below threshold
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 3,
+  draft_candidates: 3,
+  publish_count: 0
+}
+[pipeline] METRICS | generated_count=3 | prefiltered_count=3 | strict_validation_count=3 | accepted_count=0 | api_calls_used=2 | cost_efficiency_ratio=0.00
+[pipeline] SUMMARY | subject=english | chapter=Narrative Passage | target=3 | generated_count=3 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=3 | validated_count=0 | accepted_count=0 | draft_count=3 | draft_only_flag=true | shortfall=3 | yield_rate=0.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=0, hard=0
+[pipeline] subject_distribution: {"subject":"english","accepted":0,"rejected":3,"target":3,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=33611 | total_cost=$0.0095 | cost_per_accepted=$0.0019 | cost_per_1000=$1.90 | total_accepted=5
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'english',
+  chapter: 'Narrative Passage',
+  sample_size: 11,
+  direct_definition_count: 0,
+  weak_option_count: 7,
+  repeated_structure_count: 0,
+  easy_count: 1,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'c732990e-60dd-4846-a86f-c687e60e1758',
+    '11242120-5dc8-400c-b729-2c127258c3c3',
+    '19f7c2d2-38ea-4570-b8b0-57e3b8edfd39'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '11242120-5dc8-400c-b729-2c127258c3c3',
+  actual_subject: 'business_studies',
+  actual_chapter: 'Marketing Management',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 9,
+  subject_question_count: 334,
+  created_at: '2026-04-30T21:51:34.582336+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'business_studies',
+  chapter: 'Marketing Management',
+  count: 9,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'business_studies',
+  chapter: 'Marketing Management',
+  count: 9
+}
+
+[JOB 11242120] Starting: [business_studies] Marketing Management
+[worker] RECEIVED_JOB: {
+  job_id: '11242120-5dc8-400c-b729-2c127258c3c3',
+  expected_subject: 'business_studies',
+  expected_chapter: 'Marketing Management',
+  raw_subject_id: 'business_studies',
+  raw_chapter: 'Marketing Management',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:51:34.582336+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '11242120-5dc8-400c-b729-2c127258c3c3',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  chapter: 'Marketing Management',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=9 existing questions loaded
+[generation] batch adjusted: { chapter: 'Marketing Management', generate_count: 3 }
+[worker] GENERATION_INPUT: {
+  job_id: '11242120-5dc8-400c-b729-2c127258c3c3',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  expected_chapter: 'Marketing Management',
+  canonical_unit: 'Marketing',
+  generate_count: 3,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: true
+}
+[pipeline] Generating 3 candidates... chapter="Marketing Management" unit="Marketing" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'business_studies',
+  prompt_subject_name: 'Business Studies',
+  expected_chapter: 'Marketing Management',
+  requested_count: 3,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'business_studies',
+  expected_chapter: 'Marketing Management',
+  canonical_unit: 'Marketing',
+  concept_id: 'business_studies::marketing_management',
+  pyq_anchor_id: 'structure_only_structured_business_studies_consumer_protection_1_for_business_studies::marketing_management',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 3,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 9511,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: A market-oriented approach focuses primarily on customer needs. Statement II: A product-oriented strategy ignores customer preferences to prioritize innovation. Statement III: A mixed strategy can balance customer needs with product development. Which combination is accurate?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"business_studies::marketing_management","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"The statements are designed to highlight the nuances of marketing strategies rather than just definitions.","why_cuet_level":"This question requires understanding of strategic approaches in marketing management, not just recall.","distractor_rationale":{"A":"This suggests that both I and II are true, but II inaccurately describes product-oriented strategies.","B":"This implies that II is correct, which misrepresents product orientation as entirely ignoring customers.","C":"This accurately identifies the balance in strategies, aligning with marketing principles.","D":"This includes all three statements, but II is flawed in its assertion."}},{"q":"Assertion: A brand's equity is built through consistent customer experiences. Reason: Strong brand equity leads to customer loyalty, which enhances profitability. Evaluate their relationship.","o":["Both Assertion and Reason are true, and Reason correctly explains Assertion.","Both Assertion and Reason are true, but Reason does not explain Assertion.","Assertion is true, while Reason is false because equity does not guarantee loyalty.","Assertion is false, while Reason is true as profitability can come from various factors."],"a":"A","question_type":"assertion_reason","concept_id":"business_studies::marketing_management","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The focus is on the connection between equity and loyalty rather than mere definitions or facts.","why_cuet_level":"Understanding the causal relationship between branding concepts is key to marketing management success.","distractor_rationale":{"A":"This correctly identifies both statements' truth and their interrelation in branding.","B":"This claims both are true but misses the connection between them.","C":"This inaccurately claims that brand equity does not lead to loyalty, which contradicts established marketing theory.","D":"This suggests that assertion is false without justification."}},{"q":"Consider these statements: Statement I: Digital marketing allows for targeted advertising based on consumer behavior. Statement II: Traditional marketing methods provide more accurate customer insights than digital methods. Statement III: The effectiveness of marketing strategies depends on how well they adapt to market changes. Which statements are valid?","o":["I only","I and III only","II and III only","I, II and III"],"a":"B","question_type":"comparison_based","concept_id":"business_studies::marketing_management","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"The statements require evaluation of modern versus traditional marketing effectiveness rather than simple definitions.","why_cuet_level":"The question assesses understanding of marketing dynamics in a changing environment.","distractor_rationale":{"A":"This dismisses the importance of adaptability despite recognizing digital advantages.","B":"This accurately identifies that both I and III are valid, supporting modern marketing perspectives.","C":"This incorrectly validates traditional methods over digital ones without context or evidence.","D":"This suggests all statements hold truth, which misrepresents traditional marketing's limitations."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] openai_generation success gpt-4o-mini count=3
+[pipeline] RAW_PARSED_COUNT 3
+[pipeline] NORMALIZED_COUNT 3
+[pipeline] generated_count=3 | mix=easy=0, medium=3, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 3
+[pipeline] after_chapter_filter=3 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=0.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [
+    'structure_only_structured_business_studies_consumer_protection_1_for_business_studies::marketing_management',
+    'structure_only_structured_business_studies_consumer_protection_1_for_business_studies::marketing_management',
+    'structure_only_structured_business_studies_consumer_protection_1_for_business_studies::marketing_management'
+  ],
+  anchor_source_quality: [ 'manual_seed', 'manual_seed', 'manual_seed' ],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 3
+}
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T21:57:10.229Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"business_studies","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'business_studies',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'business_studies',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 10677,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'business_studies',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "conceptual depth < 7"
+    ],
+    "score": 6,
+    "exam_quality": 6,
+    "distractor_quality": 5,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Low conceptual depth",
+      "The relationship between assertion and reason is too linear/standard for competitive screening"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "conceptual depth < 7",
+      "obvious answer"
+    ],
+    "score": 5,
+    "exam_quality": 5,
+    "distractor_quality": 4,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Statement II is factually incorrect in an overly obvious manner",
+      "Lacks the nuance required for comparison-based questions in CUET"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "textbook style",
+      "conceptual depth < 7",
+      "low trap quality"
+    ],
+    "score": 5,
+    "exam_quality": 5,
+    "distractor_quality": 5,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Question mimics textbook definitions too closely",
+      "Fails to provide a scenario-based application of the orientations"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T21:57:20.908Z","model":"gemini-3-flash","subject":"business_studies","resultCount":3}
+[pipeline] validator_rejected {
+  score: 5,
+  exam_quality: 5,
+  distractor_quality: 5,
+  conceptual_depth: 6,
+  trap_quality: 'LOW',
+  rule: 'textbook style'
+}
+[reject] {
+  subject: 'business_studies',
+  chapter: 'Marketing Management',
+  reason: 'textbook style; conceptual depth < 7; low trap quality; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording; validator decision reject',
+  source: 'validator_normalized',
+  rule: 'textbook style',
+  details: {
+    compositeScore: 45,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_rejected {
+  score: 6,
+  exam_quality: 6,
+  distractor_quality: 5,
+  conceptual_depth: 6,
+  trap_quality: 'LOW',
+  rule: 'low trap quality'
+}
+[reject] {
+  subject: 'business_studies',
+  chapter: 'Marketing Management',
+  reason: 'low trap quality; conceptual depth < 7; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording; validator decision reject; validator verdict invalid',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 48,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_rejected {
+  score: 5,
+  exam_quality: 5,
+  distractor_quality: 4,
+  conceptual_depth: 5,
+  trap_quality: 'LOW',
+  rule: 'low trap quality'
+}
+[reject] {
+  subject: 'business_studies',
+  chapter: 'Marketing Management',
+  reason: 'low trap quality; conceptual depth < 7; obvious answer; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording; validator marked non-CUET alignment',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 37,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 0, hard: 0 },
+  system: { easy: 0, medium: 0, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 0
+[pipeline] validated_count=0 | acceptance_rate=0.0%
+[pipeline] FINAL_ACCEPTED_COUNT 0
+[pipeline] selected_count=0 | FINAL DISTRIBUTION: {"easy":0,"medium":0,"hard":0}
+[draft] Saved 77f84bb4-24cc-40b1-9576-920915e89325 | reason=validator_rejected_all:textbook style;conceptual depth < 7;low trap quality;exam quality below threshold;distractor quality below threshold;conceptual depth below CUET reasoning threshold;direct textbook-style wording;validator decision reject
+[draft] Saved 853be39f-c083-401b-b3fd-45b5657730d9 | reason=validator_rejected_all:textbook style;conceptual depth < 7;low trap quality;exam quality below threshold;distractor quality below threshold;conceptual depth below CUET reasoning threshold;direct textbook-style wording;validator decision reject
+[draft] Saved 2dacc828-bac4-4129-99e9-706c1e7d6abf | reason=validator_rejected_all:textbook style;conceptual depth < 7;low trap quality;exam quality below threshold;distractor quality below threshold;conceptual depth below CUET reasoning threshold;direct textbook-style wording;validator decision reject
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 3,
+  draft_candidates: 3,
+  publish_count: 0
+}
+[pipeline] METRICS | generated_count=3 | prefiltered_count=3 | strict_validation_count=3 | accepted_count=0 | api_calls_used=2 | cost_efficiency_ratio=0.00
+[pipeline] SUMMARY | subject=business_studies | chapter=Marketing Management | target=3 | generated_count=3 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=3 | validated_count=0 | accepted_count=0 | draft_count=3 | draft_only_flag=true | shortfall=3 | yield_rate=0.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=0, hard=0
+[pipeline] subject_distribution: {"subject":"business_studies","accepted":0,"rejected":3,"target":3,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=38865 | total_cost=$0.0109 | cost_per_accepted=$0.0022 | cost_per_1000=$2.18 | total_accepted=5
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'business_studies',
+  chapter: 'Marketing Management',
+  sample_size: 12,
+  direct_definition_count: 0,
+  weak_option_count: 6,
+  repeated_structure_count: 0,
+  easy_count: 0,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'c732990e-60dd-4846-a86f-c687e60e1758',
+    '19f7c2d2-38ea-4570-b8b0-57e3b8edfd39'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '19f7c2d2-38ea-4570-b8b0-57e3b8edfd39',
+  actual_subject: 'business_studies',
+  actual_chapter: 'Staffing',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 9,
+  subject_question_count: 337,
+  created_at: '2026-04-30T21:51:34.582336+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  count: 9,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'business_studies', chapter: 'Staffing', count: 9 }
+
+[JOB 19f7c2d2] Starting: [business_studies] Staffing
+[worker] RECEIVED_JOB: {
+  job_id: '19f7c2d2-38ea-4570-b8b0-57e3b8edfd39',
+  expected_subject: 'business_studies',
+  expected_chapter: 'Staffing',
+  raw_subject_id: 'business_studies',
+  raw_chapter: 'Staffing',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T21:51:34.582336+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '19f7c2d2-38ea-4570-b8b0-57e3b8edfd39',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  chapter: 'Staffing',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=9 existing questions loaded
+[generation] batch adjusted: { chapter: 'Staffing', generate_count: 3 }
+[worker] GENERATION_INPUT: {
+  job_id: '19f7c2d2-38ea-4570-b8b0-57e3b8edfd39',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  expected_chapter: 'Staffing',
+  canonical_unit: 'Staffing',
+  generate_count: 3,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: true
+}
+[pipeline] Generating 3 candidates... chapter="Staffing" unit="Staffing" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'business_studies',
+  prompt_subject_name: 'Business Studies',
+  expected_chapter: 'Staffing',
+  requested_count: 3,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::staffing',
+  selected_anchor_id: 'structured_business_studies_staffing_1',
+  selected_anchor_concept_id: 'business_studies::staffing',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'case_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'business_studies',
+  expected_chapter: 'Staffing',
+  canonical_unit: 'Staffing',
+  concept_id: 'business_studies::staffing',
+  pyq_anchor_id: 'structured_business_studies_staffing_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 3,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 9089,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: Internal staffing can lead to better employee retention due to familiarity with the company culture. Statement II: External staffing is often preferred because it brings fresh skills and perspectives. Statement III: Relying solely on external staffing can hinder the development of internal talent. Which options are correct?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"business_studies::staffing","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"It emphasizes a balanced view without overestimating either approach.","why_cuet_level":"Requires careful evaluation of the implications of staffing choices.","distractor_rationale":{"A":"This option overlooks the impact of external hires on internal talent development.","B":"External staffing does bring new skills but doesn't negate the benefits of internal retention.","C":"This option correctly identifies the limitations of relying only on external sources for staffing.","D":"This option incorrectly states that all statements are valid without recognizing the nuances."}},{"q":"Assertion: Promoting from within can improve morale among employees. Reason: Employees feel valued when they see opportunities for advancement. Which option best evaluates the assertion and reason?","o":["Both assertion and reason are true, and the reason supports the assertion.","The assertion is true, but the reason is false as it doesn't always apply to all organizations.","The assertion is false, while the reason is true, as not every employee seeks advancement.","Both assertion and reason are false because promotion does not affect morale."],"a":"A","question_type":"assertion_reason","concept_id":"business_studies::staffing","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"It focuses on specific organizational dynamics rather than general truths.","why_cuet_level":"Involves understanding how promotions impact employee perceptions.","distractor_rationale":{"A":"This option accurately connects morale with career advancement opportunities.","B":"This option misrepresents how promotions generally affect employee morale in most contexts.","C":"This option overlooks that many employees do value advancement opportunities regardless of context.","D":"This option fails to recognize that promotions typically have a positive effect on morale."}},{"q":"Consider the case where a company implements a policy to hire only externally for managerial positions. Statement I: This can lead to innovative ideas being introduced. Statement II: This might create dissatisfaction among current employees who seek growth. Statement III: Hiring externally ensures that no existing biases influence decision-making. Which statements are valid?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"case_based","concept_id":"business_studies::staffing","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"It emphasizes potential drawbacks without oversimplifying the hiring strategy's benefits.","why_cuet_level":"Requires analysis of both positive and negative outcomes of hiring practices.","distractor_rationale":{"A":"This choice correctly identifies both innovative potential and employee dissatisfaction risks.","B":"This overlooks that external hiring can also lead to internal discontent among current staff.","C":"While this statement has merit, it ignores how biases can still exist regardless of hiring source.","D":"This incorrectly states that all three statements are valid without considering their implications."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] openai_generation success gpt-4o-mini count=2
+[pipeline] RAW_PARSED_COUNT 3
+[pipeline] NORMALIZED_COUNT 2
+[pipeline] generated_count=2 | mix=easy=0, medium=2, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 2
+[pipeline] after_chapter_filter=2 | pre_validation_filtered=0 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=2 | sent_for_strict_validation=2 | validator_load_reduction=0.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [
+    'structured_business_studies_staffing_1',
+    'structured_business_studies_staffing_1'
+  ],
+  anchor_source_quality: [ 'manual_seed', 'manual_seed' ],
+  fallback_used: false,
+  selfcheck_passed: 2,
+  sent_to_validator: 2
+}
+[pipeline] Starting batch validation for 2 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=2
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T21:57:47.336Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"business_studies","questionCount":2}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'business_studies',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'business_studies',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 11173,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'business_studies',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "HIGH",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 9,
+    "distractor_quality": 9,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CONFUSING",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "obvious answer",
+      "textbook style",
+      "answer key mismatch"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Statement II is a standard factual advantage of external recruitment in Business Studies, yet the answer key 'A' excludes it, making the logic inconsistent with the subject matter."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 2
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T21:57:58.511Z","model":"gemini-3-flash","subject":"business_studies","resultCount":2}
+[pipeline] validator_rejected {
+  score: 4,
+  exam_quality: 4,
+  distractor_quality: 3,
+  conceptual_depth: 5,
+  trap_quality: 'LOW',
+  rule: 'low trap quality'
+}
+[reject] {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  reason: 'low trap quality; obvious answer; textbook style; answer key mismatch; confusing options; validator score below threshold; exam quality below threshold; distractor quality below threshold',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 13,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CONFUSING'
+  },
+  attemptCount: 1
+}
+[pipeline] validator_accepted {
+  score: 9,
+  exam_quality: 9,
+  distractor_quality: 9,
+  conceptual_depth: 8,
+  trap_quality: 'HIGH',
+  pyq_anchor_used: 'structured_business_studies_staffing_1',
+  anchor_source_quality: 'manual_seed'
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 1, hard: 0 },
+  system: { easy: 0, medium: 1, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 1
+[pipeline] validated_count=1 | acceptance_rate=50.0%
+[pipeline] FINAL_ACCEPTED_COUNT 1
+[pipeline] selected_count=1 | FINAL DISTRIBUTION: {"easy":0,"medium":1,"hard":0}
+✅ Published 2970a303-c5f9-4fb4-9d4f-a7bfd470a3d3 | status=live | difficulty=medium | discoverable=true
+[pipeline] draft_gate {
+  draft_only_flag: false,
+  draft_saved: 0,
+  draft_candidates: 0,
+  publish_count: 1
+}
+[pipeline] METRICS | generated_count=2 | prefiltered_count=2 | strict_validation_count=2 | accepted_count=1 | api_calls_used=2 | cost_efficiency_ratio=0.50
+[pipeline] SUMMARY | subject=business_studies | chapter=Staffing | target=3 | generated_count=2 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=0 | strict_validation_count=2 | validated_count=1 | accepted_count=1 | draft_count=0 | draft_only_flag=false | shortfall=2 | yield_rate=50.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=1, hard=0
+[pipeline] subject_distribution: {"subject":"business_studies","accepted":1,"rejected":1,"target":3,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=43483 | total_cost=$0.0121 | cost_per_accepted=$0.0020 | cost_per_1000=$2.02 | total_accepted=6
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'business_studies',
+  chapter: 'Staffing',
+  sample_size: 10,
+  direct_definition_count: 0,
+  weak_option_count: 4,
+  repeated_structure_count: 0,
+  easy_count: 0,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...

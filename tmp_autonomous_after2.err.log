@@ -1,0 +1,329 @@
+[worker] recovered stale processing jobs: [
+  {
+    id: 'ec46a6bb-93c0-4e7f-9487-7eaa4f7ae8f2',
+    subject_id: 'computer_science',
+    chapter: 'Communication Technologies',
+    started_at: null
+  }
+]
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'computer_science',
+  concept_id: 'computer_science::file_handling',
+  selected_anchor_id: 'synthetic_cuet_structure_computer_science',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'case_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'computer_science',
+  chapter: 'File Handling',
+  reason: 'extreme_qualifier',
+  body: 'In a scenario where a programmer opens a file to log error messages but forgets to close it after wr',
+  index: 2
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'When comparing text files and binary files in terms of data representation, which statement correctl'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'weak_options',
+    body: 'When comparing text files and binary files in terms of data representation, which statement correctl'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=43 | source=validator_normalized | rule=obvious answer | reasons=obvious answer; low trap quality; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; validator marked non-CUET alignment
+[pipeline] minimum_final_fallback_added {
+  job_id: 'd98e91c8-9340-44e5-b46b-af0146f3a79f',
+  validated_before: 2,
+  fallback_added: 1
+}
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[pipeline] TARGET_NOT_MET | target=5 | accepted=3 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pyq_anchor] selected_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::money_and_banking',
+  selected_anchor_id: 'seed_pyq_e2',
+  selected_anchor_concept_id: 'economics::national_income_and_related_aggregates',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::money_and_banking',
+  source_anchor_id: 'seed_pyq_e2',
+  source_anchor_concept_id: 'economics::national_income_and_related_aggregates',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'simple_numerical'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'economics',
+  chapter: 'Money & Banking',
+  reason: 'extreme_qualifier',
+  body: 'During a discussion on the role of money in an economy, a student states that money serves only as a',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'economics',
+  chapter: 'Money & Banking',
+  reason: 'extreme_qualifier',
+  body: 'Assertion: The central bank controls the money supply to stabilize the economy. Reason: A higher mon',
+  index: 3
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'In a case where a small business struggles due to lack of access to banking services, which option b'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'In a case where a small business struggles due to lack of access to banking services, which option b'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'weak_options',
+    body: 'In a case where a small business struggles due to lack of access to banking services, which option b'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; obvious answer; conceptual depth < 7; textbook style; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; obvious answer; conceptual depth < 7; textbook style; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] Rejected | compositeScore=30 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; obvious answer; conceptual depth < 7; textbook style; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] strict_mode_no_validated_questions_fallback {
+  job_id: 'dd6ac722-a1a5-4019-b3b6-f17a7486477f',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'low trap quality',
+    'obvious answer',
+    'conceptual depth < 7',
+    'textbook style',
+    'validator score below threshold',
+    'exam quality below threshold',
+    'distractor quality below threshold',
+    'conceptual depth below CUET reasoning threshold'
+  ]
+}
+[pipeline] TARGET_NOT_MET | target=5 | accepted=3 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pyq_anchor] selected_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::differential_equations',
+  selected_anchor_id: 'seed_pyq_m1',
+  selected_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::differential_equations',
+  source_anchor_id: 'seed_pyq_m1',
+  source_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'simple_numerical'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'mathematics',
+  chapter: 'Differential Equations',
+  reason: 'extreme_qualifier',
+  body: 'Comparing first-order and second-order differential equations, which statement accurately reflects t',
+  index: 1
+}
+[llm] generated_question_discarded_before_pipeline {
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Statement I: Differential equations can be used to model population growth over time. Statement II: '
+}
+[llm] question_rejected_internal_quality {
+  subject: 'mathematics',
+  chapter: 'Differential Equations',
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Statement I: Differential equations can be used to model population growth over time. Statement II: ',
+  index: 2
+}
+[llm] question_rejected_internal_quality {
+  subject: 'mathematics',
+  chapter: 'Differential Equations',
+  reason: 'extreme_qualifier',
+  body: 'Assertion: The solution to a linear differential equation can always be found using integrating fact',
+  index: 3
+}
+[pipeline] Rejected | compositeScore=18 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; conceptual_depth < 7; textbook_style; option_quality != CLEAN; ambiguous options; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] minimum_final_fallback_added {
+  job_id: 'b42daf66-fa68-4d6a-922e-6b52627334e3',
+  validated_before: 1,
+  fallback_added: 1
+}
+[pipeline] TARGET_NOT_MET | target=5 | accepted=2 | shortfall=3 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pyq_anchor] selected_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::inverse_trigonometric_functions',
+  selected_anchor_id: 'seed_pyq_m1',
+  selected_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'simple_numerical'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'mathematics',
+  requested_concept_id: 'mathematics::inverse_trigonometric_functions',
+  source_anchor_id: 'seed_pyq_m1',
+  source_anchor_concept_id: 'mathematics::relations_and_functions',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'simple_numerical'
+}
+[llm] generated_question_discarded_before_pipeline {
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Statement I: The function \\( y = tan^{-1}(x) + cot^{-1}(x) = \\frac{\\pi}{2} \\). Statement II: The fun'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'mathematics',
+  chapter: 'Inverse Trigonometric Functions',
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Statement I: The function \\( y = tan^{-1}(x) + cot^{-1}(x) = \\frac{\\pi}{2} \\). Statement II: The fun',
+  index: 2
+}
+[pipeline] Rejected | compositeScore=30 | source=validator_normalized | rule=direct recall stem | reasons=direct recall stem; low trap quality; too easy compared to PYQs; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=direct recall | reasons=direct recall; low trap quality; obvious answer; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=subject_consistency wrong | reasons=subject_consistency wrong; factually incorrect; low trap quality; conceptual_depth < 7; confusing options; subject mismatch; validator score below threshold; exam quality below threshold
+[pipeline] Rejected | compositeScore=28 | source=validator_normalized | rule=obvious answer | reasons=obvious answer; low trap quality; textbook_style; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] strict_mode_no_validated_questions_fallback {
+  job_id: '779cb3ff-60f5-4226-a66c-828dbc3d80c8',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'direct recall stem',
+    'low trap quality',
+    'too easy compared to PYQs',
+    'conceptual_depth < 7',
+    'validator score below threshold',
+    'exam quality below threshold',
+    'distractor quality below threshold',
+    'conceptual depth below CUET reasoning threshold'
+  ]
+}
+[pipeline] TARGET_NOT_MET | target=5 | accepted=4 | shortfall=1 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'political_science',
+  concept_id: 'political_science::alternative_centres_of_power',
+  selected_anchor_id: 'synthetic_cuet_structure_political_science',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'statement_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'political_science',
+  chapter: 'Alternative Centres of Power',
+  reason: 'extreme_qualifier',
+  body: 'In a discussion about global power dynamics, a student argues that emerging economies like India and',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'political_science',
+  chapter: 'Alternative Centres of Power',
+  reason: 'extreme_qualifier',
+  body: 'Comparing the roles of regional organizations like the EU and ASEAN, which statement accurately refl',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'political_science',
+  chapter: 'Alternative Centres of Power',
+  reason: 'extreme_qualifier',
+  body: 'In a recent debate on international relations, a participant claims that alternative centres of powe',
+  index: 4
+}
+[pipeline] Rejected | compositeScore=13 | source=validator_normalized | rule=non-standard option format for statement-based | reasons=non-standard option format for statement-based; obvious answer; low trap quality; textbook style; confusing options; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] minimum_final_fallback_added {
+  job_id: '28046209-410c-43d7-98d6-10f4306d1c5f',
+  validated_before: 1,
+  fallback_added: 1
+}
+[pipeline] TARGET_NOT_MET | target=5 | accepted=2 | shortfall=3 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'political_science',
+  concept_id: 'political_science::era_of_one_party_dominance',
+  selected_anchor_id: 'synthetic_cuet_structure_political_science',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'application_based'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'During the Era of One-Party Dominance, some argue that it fostered political stability. However, cri'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'During the Era of One-Party Dominance, some argue that it fostered political stability. However, cri'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'Comparing the Era of One-Party Dominance to a multi-party system, which statement accurately reflect'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'weak_options',
+    body: 'During the Era of One-Party Dominance, some argue that it fostered political stability. However, cri'
+  },
+  {
+    reason: 'weak_options',
+    body: 'Comparing the Era of One-Party Dominance to a multi-party system, which statement accurately reflect'
+  }
+]
+[pipeline] Rejected | compositeScore=30 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; direct recall; obvious answer; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording
+[pipeline] Rejected | compositeScore=30 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; obvious answer; too similar to anchor; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; obvious answer; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording
+[pipeline] strict_mode_no_validated_questions_fallback {
+  job_id: '0043183a-5e3c-4ff8-ad2e-95ba188ab019',
+  attempts: 1,
+  max_attempts: 0,
+  reasons: [
+    'low trap quality',
+    'direct recall',
+    'obvious answer',
+    'validator score below threshold',
+    'exam quality below threshold',
+    'distractor quality below threshold',
+    'conceptual depth below CUET reasoning threshold',
+    'direct textbook-style wording'
+  ]
+}
+[pipeline] TARGET_NOT_MET | target=5 | accepted=3 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'political_science',
+  concept_id: 'political_science::challenges_to_and_restoration_of_the_congress_system',
+  selected_anchor_id: 'synthetic_cuet_structure_political_science',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'statement_based'
+}

@@ -1,0 +1,384 @@
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'biology',
+  concept_id: 'biology::microbes_in_human_welfare',
+  selected_anchor_id: 'synthetic_cuet_structure_biology',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'statement_based'
+}
+[llm] generated_question_discarded_before_pipeline {
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'In a community garden, a gardener notices that certain plants are thriving while others are wilting.'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'biology',
+  chapter: 'Microbes in Human Welfare',
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'In a community garden, a gardener notices that certain plants are thriving while others are wilting.',
+  index: 0
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'Comparing the roles of bacteria and fungi in composting, which statement best highlights their disti'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'Comparing the roles of bacteria and fungi in composting, which statement best highlights their disti'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'weak_options',
+    body: 'Comparing the roles of bacteria and fungi in composting, which statement best highlights their disti'
+  }
+]
+[pipeline] Rejected | compositeScore=30 | source=validator_normalized | rule=obvious answer | reasons=obvious answer; low trap quality; fewer than 2 options plausibly attractive; textbook style; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; obvious answer; textbook style; conceptual_depth < 7; direct recall stem; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] minimum_final_fallback_added {
+  job_id: '7c33c9a0-08f6-4642-a5d1-9d798802adcd',
+  validated_before: 1,
+  fallback_added: 2
+}
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[pipeline] TARGET_NOT_MET | target=5 | accepted=3 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'sociology',
+  concept_id: 'sociology::mass_media_and_communications',
+  selected_anchor_id: 'synthetic_cuet_structure_sociology',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'statement_based'
+}
+[llm] generated_question_discarded_before_pipeline {
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Assertion: Mass media significantly influences social change in India. Reason: It acts as a tool for'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Assertion: Mass media significantly influences social change in India. Reason: It acts as a tool for',
+  index: 0
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'extreme_qualifier',
+  body: 'In a recent community meeting, residents discussed how local news channels have changed perceptions '
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'In a recent community meeting, residents discussed how local news channels have changed perceptions '
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'extreme_qualifier',
+  body: 'A social worker uses social media to raise awareness about health issues in rural areas. This indica'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'A social worker uses social media to raise awareness about health issues in rural areas. This indica'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'extreme_qualifier',
+  body: 'In a recent community meeting, residents discussed how local news channels have changed perceptions '
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'In a recent community meeting, residents discussed how local news channels have changed perceptions '
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'extreme_qualifier',
+  body: 'A social worker uses social media to raise awareness about health issues in rural areas. This indica'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'A social worker uses social media to raise awareness about health issues in rural areas. This indica'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'weak_options',
+    body: 'In a recent community meeting, residents discussed how local news channels have changed perceptions '
+  },
+  {
+    reason: 'weak_options',
+    body: 'A social worker uses social media to raise awareness about health issues in rural areas. This indica'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=non-standard statement-based options | reasons=non-standard statement-based options; low trap quality; obvious answer; conceptual_depth < 7; ambiguous wording; confusing options; validator score below threshold; exam quality below threshold
+[pipeline] minimum_final_fallback_added {
+  job_id: '58189390-92a0-49a5-9359-f88449ed66f3',
+  validated_before: 2,
+  fallback_added: 1
+}
+[pipeline] TARGET_NOT_MET | target=5 | accepted=3 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'biology',
+  concept_id: 'biology::principles_of_inheritance_and_variation',
+  selected_anchor_id: 'synthetic_cuet_structure_biology',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'statement_based'
+}
+[llm] generated_question_discarded_before_pipeline {
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Statement I: Incomplete dominance results in a phenotype that is a blend of the parental traits. Sta'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'biology',
+  chapter: 'Principles of Inheritance & Variation',
+  reason: 'direct_definition_or_textbook_stem',
+  body: 'Statement I: Incomplete dominance results in a phenotype that is a blend of the parental traits. Sta',
+  index: 0
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'In a classroom experiment, students observe that certain pea plants exhibit yellow seeds while other'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'In a genetic study, two traits are analyzed: flower color (purple vs. white) and seed shape (round v'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'extreme_qualifier',
+  body: 'Comparing dominance and codominance in inheritance patterns, which statement accurately reflects the'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'Comparing dominance and codominance in inheritance patterns, which statement accurately reflects the'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'In a classroom experiment, students observe that certain pea plants exhibit yellow seeds while other'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'In a genetic study, two traits are analyzed: flower color (purple vs. white) and seed shape (round v'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'extreme_qualifier',
+  body: 'Comparing dominance and codominance in inheritance patterns, which statement accurately reflects the'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'Comparing dominance and codominance in inheritance patterns, which statement accurately reflects the'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'weak_options',
+    body: 'In a classroom experiment, students observe that certain pea plants exhibit yellow seeds while other'
+  },
+  {
+    reason: 'weak_options',
+    body: 'In a genetic study, two traits are analyzed: flower color (purple vs. white) and seed shape (round v'
+  },
+  {
+    reason: 'weak_options',
+    body: 'Comparing dominance and codominance in inheritance patterns, which statement accurately reflects the'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; obvious answer; conceptual_depth < 7; textbook style; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] minimum_final_fallback_added {
+  job_id: '95ae6528-fd3b-443e-b10e-55870a992b16',
+  validated_before: 2,
+  fallback_added: 1
+}
+[pipeline] TARGET_NOT_MET | target=5 | accepted=3 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pyq_anchor] selected_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::consumer_protection',
+  selected_anchor_id: 'seed_pyq_b3',
+  selected_anchor_concept_id: 'business_studies::nature_and_significance_of_management',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'statement_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::consumer_protection',
+  source_anchor_id: 'seed_pyq_b3',
+  source_anchor_concept_id: 'business_studies::nature_and_significance_of_management',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'statement_based'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'In a recent case, a consumer received a defective product but was unaware of their rights to seek a '
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'A student believes that consumer protection primarily focuses on preventing fraud. Which principle d'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'In a recent case, a consumer received a defective product but was unaware of their rights to seek a '
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'A student believes that consumer protection primarily focuses on preventing fraud. Which principle d'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'weak_options',
+    body: 'In a recent case, a consumer received a defective product but was unaware of their rights to seek a '
+  },
+  {
+    reason: 'weak_options',
+    body: 'A student believes that consumer protection primarily focuses on preventing fraud. Which principle d'
+  }
+]
+[pipeline] Rejected | compositeScore=30 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; obvious answer; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=low trap quality | reasons=low trap quality; conceptual_depth < 7; textbook style; obvious answer; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] minimum_final_fallback_added {
+  job_id: 'f39d7f97-7198-4390-af1c-7c9c81ae4f24',
+  validated_before: 1,
+  fallback_added: 2
+}
+[pipeline] TARGET_NOT_MET | target=5 | accepted=3 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[worker] recovered stale processing jobs: [
+  {
+    id: '10eb278c-0ec8-4324-951e-e3b3cd1ee929',
+    subject_id: 'political_science',
+    chapter: 'Challenges to & Restoration of the Congress System',
+    started_at: null
+  }
+]
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'chemistry',
+  concept_id: 'chemistry::p_block_elements',
+  selected_anchor_id: 'synthetic_cuet_structure_chemistry',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'assertion_reason'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'extreme_qualifier',
+  body: 'When considering the reactivity of p-block elements, which statement best reflects their behavior in'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'When considering the reactivity of p-block elements, which statement best reflects their behavior in'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'In a laboratory, a student observes that aluminum reacts with chlorine to form aluminum chloride. Th'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'extreme_qualifier',
+  body: 'When considering the reactivity of p-block elements, which statement best reflects their behavior in'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'When considering the reactivity of p-block elements, which statement best reflects their behavior in'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'Comparing nitrogen and phosphorus from the p-block elements, which statement remains valid regarding'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'weak_options',
+    body: 'In a laboratory, a student observes that aluminum reacts with chlorine to form aluminum chloride. Th'
+  },
+  {
+    reason: 'weak_options',
+    body: 'When considering the reactivity of p-block elements, which statement best reflects their behavior in'
+  },
+  {
+    reason: 'weak_options',
+    body: 'Comparing nitrogen and phosphorus from the p-block elements, which statement remains valid regarding'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=clarity == AMBIGUOUS | reasons=clarity == AMBIGUOUS; textbook style; option_quality != CLEAN; ambiguous wording; confusing options; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] Rejected | compositeScore=30 | source=validator_normalized | rule=obvious answer | reasons=obvious answer; low trap quality; textbook style; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording
+[pipeline] minimum_final_fallback_added {
+  job_id: 'ccb02ba3-ef96-4d88-9736-b7eec8572df3',
+  validated_before: 1,
+  fallback_added: 2
+}
+[pipeline] TARGET_NOT_MET | target=5 | accepted=3 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'physics',
+  concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  selected_anchor_id: 'synthetic_cuet_structure_physics',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'application_based'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'extreme_qualifier',
+  body: 'In a laboratory experiment, a student observes electron diffraction patterns and concludes that elec'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'In a laboratory experiment, a student observes electron diffraction patterns and concludes that elec'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'extreme_qualifier',
+  body: 'When considering the photoelectric effect, which principle best explains why light can eject electro'
+}
+[llm] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'When considering the photoelectric effect, which principle best explains why light can eject electro'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'extreme_qualifier',
+  body: 'In a laboratory experiment, a student observes electron diffraction patterns and concludes that elec'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'In a laboratory experiment, a student observes electron diffraction patterns and concludes that elec'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'extreme_qualifier',
+  body: 'When considering the photoelectric effect, which principle best explains why light can eject electro'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'When considering the photoelectric effect, which principle best explains why light can eject electro'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'weak_options',
+    body: 'In a laboratory experiment, a student observes electron diffraction patterns and concludes that elec'
+  },
+  {
+    reason: 'weak_options',
+    body: 'When considering the photoelectric effect, which principle best explains why light can eject electro'
+  }
+]
+[pipeline] Rejected | compositeScore=0 | source=validator_normalized | rule=direct definition | reasons=direct definition; textbook style; low conceptual depth; reason does not explain assertion; low trap quality; ambiguous wording; confusing options; subject mismatch
+[pipeline] Rejected | compositeScore=31 | source=validator_normalized | rule=obvious answer | reasons=obvious answer; textbook style; low conceptual depth; too similar to anchor; low trap quality; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] minimum_final_fallback_added {
+  job_id: '01fdad24-1869-4cbb-9f2f-d0615e214706',
+  validated_before: 1,
+  fallback_added: 2
+}
+[pipeline] TARGET_NOT_MET | target=5 | accepted=3 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pyq_anchor] no_subject_anchors_available_using_synthetic_fallback {
+  subject: 'physics',
+  concept_id: 'physics::moving_charges_and_magnetism',
+  selected_anchor_id: 'synthetic_cuet_structure_physics',
+  anchor_tier: 4,
+  fallback_used: true,
+  concept_mismatch_risk: 'none_no_real_anchor',
+  requested_difficulty: 'medium',
+  requested_question_type: 'assertion_reason'
+}

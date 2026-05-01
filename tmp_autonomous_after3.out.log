@@ -1,0 +1,2130 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5940 concepts across 40 subjects (saved 2026-04-30T19:53:25.028Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 220,
+  missing_chapters: 1,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 220
+[planner] missing_chapters: 1
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  coverage: 0,
+  priority: 100
+}
+[planner] {
+  subject: 'political_science',
+  chapter: 'Challenges to & Restoration of the Congress System',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'political_science',
+  chapter: "India's External Relations",
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'political_science',
+  chapter: 'Politics of Planned Development',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Self & Personality',
+  coverage: 6,
+  priority: 90
+}
+[planner] {
+  subject: 'biology',
+  chapter: 'Microbes in Human Welfare',
+  coverage: 7,
+  priority: 90
+}
+[planner] {
+  subject: 'biology',
+  chapter: 'Principles of Inheritance & Variation',
+  coverage: 7,
+  priority: 90
+}
+[planner] {
+  subject: 'business_studies',
+  chapter: 'Consumer Protection',
+  coverage: 7,
+  priority: 90
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  coverage: 7,
+  priority: 90
+}
+[planner] {
+  subject: 'geography',
+  chapter: 'Manufacturing Industries',
+  coverage: 7,
+  priority: 90
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: sociology → normalized: sociology → tier: 1
+Subject: political_science → normalized: political_science → tier: 1
+Subject: political_science → normalized: political_science → tier: 1
+Subject: political_science → normalized: political_science → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+Subject: biology → normalized: biology → tier: 1
+Subject: biology → normalized: biology → tier: 1
+Subject: business_studies → normalized: business_studies → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: geography → normalized: geography → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'sociology',
+    expected_chapter: 'Mass Media & Communications',
+    tier: 1,
+    priority: 100,
+    target_count: 15
+  },
+  {
+    expected_subject: 'political_science',
+    expected_chapter: 'Challenges to & Restoration of the Congress System',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'political_science',
+    expected_chapter: "India's External Relations",
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'political_science',
+    expected_chapter: 'Politics of Planned Development',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Self & Personality',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Microbes in Human Welfare',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Principles of Inheritance & Variation',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'business_studies',
+    expected_chapter: 'Consumer Protection',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'p-Block Elements',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'geography',
+    expected_chapter: 'Manufacturing Industries',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'sociology',
+    chapter: 'Mass Media & Communications',
+    status: 'queued',
+    priority: 100
+  },
+  {
+    subject_id: 'political_science',
+    chapter: 'Challenges to & Restoration of the Congress System',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'political_science',
+    chapter: "India's External Relations",
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'political_science',
+    chapter: 'Politics of Planned Development',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Self & Personality',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Microbes in Human Welfare',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Principles of Inheritance & Variation',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'business_studies',
+    chapter: 'Consumer Protection',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'p-Block Elements',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'geography',
+    chapter: 'Manufacturing Industries',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: '0cfef12c-754d-425b-9203-e8e16f71573e',
+    subject_id: 'sociology',
+    chapter: 'Mass Media & Communications',
+    status: 'queued',
+    priority: 100,
+    created_at: '2026-04-30T19:54:41.458985+00:00'
+  },
+  {
+    id: 'fc1560d9-2685-4918-af73-f2895036c81e',
+    subject_id: 'political_science',
+    chapter: 'Challenges to & Restoration of the Congress System',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:54:41.458985+00:00'
+  },
+  {
+    id: 'cd09fa91-5adb-49f4-9fca-9a795d8b9aa1',
+    subject_id: 'political_science',
+    chapter: "India's External Relations",
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:54:41.458985+00:00'
+  },
+  {
+    id: '33bcb087-8e85-4f29-9224-9a56b9a91399',
+    subject_id: 'political_science',
+    chapter: 'Politics of Planned Development',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:54:41.458985+00:00'
+  },
+  {
+    id: '3836ba57-3888-48bf-8c2d-e80385885001',
+    subject_id: 'psychology',
+    chapter: 'Self & Personality',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:54:41.458985+00:00'
+  },
+  {
+    id: '7d3e1f10-38c6-45af-8bd9-9ff28154ec9f',
+    subject_id: 'biology',
+    chapter: 'Microbes in Human Welfare',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:54:41.458985+00:00'
+  },
+  {
+    id: 'fda00650-710b-4e85-aef9-e88078daa3ec',
+    subject_id: 'biology',
+    chapter: 'Principles of Inheritance & Variation',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:54:41.458985+00:00'
+  },
+  {
+    id: '2687ce01-90bb-40bb-a180-f65a22ab0516',
+    subject_id: 'business_studies',
+    chapter: 'Consumer Protection',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:54:41.458985+00:00'
+  },
+  {
+    id: 'badf6886-de56-4b2b-9539-e9dd130e2da0',
+    subject_id: 'chemistry',
+    chapter: 'p-Block Elements',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:54:41.458985+00:00'
+  },
+  {
+    id: '4516a987-4b23-4819-ba3e-e252af6f661d',
+    subject_id: 'geography',
+    chapter: 'Manufacturing Industries',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:54:41.458985+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: '0cfef12c-754d-425b-9203-e8e16f71573e',
+    expected_subject: 'sociology',
+    expected_chapter: 'Mass Media & Communications',
+    status: 'queued',
+    priority: 100
+  },
+  {
+    id: 'fc1560d9-2685-4918-af73-f2895036c81e',
+    expected_subject: 'political_science',
+    expected_chapter: 'Challenges to & Restoration of the Congress System',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'cd09fa91-5adb-49f4-9fca-9a795d8b9aa1',
+    expected_subject: 'political_science',
+    expected_chapter: "India's External Relations",
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '33bcb087-8e85-4f29-9224-9a56b9a91399',
+    expected_subject: 'political_science',
+    expected_chapter: 'Politics of Planned Development',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '3836ba57-3888-48bf-8c2d-e80385885001',
+    expected_subject: 'psychology',
+    expected_chapter: 'Self & Personality',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '7d3e1f10-38c6-45af-8bd9-9ff28154ec9f',
+    expected_subject: 'biology',
+    expected_chapter: 'Microbes in Human Welfare',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'fda00650-710b-4e85-aef9-e88078daa3ec',
+    expected_subject: 'biology',
+    expected_chapter: 'Principles of Inheritance & Variation',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '2687ce01-90bb-40bb-a180-f65a22ab0516',
+    expected_subject: 'business_studies',
+    expected_chapter: 'Consumer Protection',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'badf6886-de56-4b2b-9539-e9dd130e2da0',
+    expected_subject: 'chemistry',
+    expected_chapter: 'p-Block Elements',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '4516a987-4b23-4819-ba3e-e252af6f661d',
+    expected_subject: 'geography',
+    expected_chapter: 'Manufacturing Industries',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '0cfef12c-754d-425b-9203-e8e16f71573e',
+    'fc1560d9-2685-4918-af73-f2895036c81e',
+    'cd09fa91-5adb-49f4-9fca-9a795d8b9aa1',
+    '33bcb087-8e85-4f29-9224-9a56b9a91399',
+    '3836ba57-3888-48bf-8c2d-e80385885001',
+    '7d3e1f10-38c6-45af-8bd9-9ff28154ec9f',
+    'fda00650-710b-4e85-aef9-e88078daa3ec',
+    '2687ce01-90bb-40bb-a180-f65a22ab0516',
+    'badf6886-de56-4b2b-9539-e9dd130e2da0',
+    '4516a987-4b23-4819-ba3e-e252af6f661d'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'fc1560d9-2685-4918-af73-f2895036c81e',
+  actual_subject: 'political_science',
+  actual_chapter: 'Challenges to & Restoration of the Congress System',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 6,
+  subject_question_count: 228,
+  created_at: '2026-04-30T19:54:41.458985+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'political_science',
+  chapter: 'Challenges to & Restoration of the Congress System',
+  count: 6,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'political_science',
+  chapter: 'Challenges to & Restoration of the Congress System',
+  count: 6
+}
+
+[JOB fc1560d9] Starting: [political_science] Challenges to & Restoration of the Congress System
+[worker] RECEIVED_JOB: {
+  job_id: 'fc1560d9-2685-4918-af73-f2895036c81e',
+  expected_subject: 'political_science',
+  expected_chapter: 'Challenges to & Restoration of the Congress System',
+  raw_subject_id: 'political_science',
+  raw_chapter: 'Challenges to & Restoration of the Congress System',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:54:41.458985+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'fc1560d9-2685-4918-af73-f2895036c81e',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  chapter: 'Challenges to & Restoration of the Congress System',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=6 existing questions loaded
+[generation] batch adjusted: {
+  chapter: 'Challenges to & Restoration of the Congress System',
+  generate_count: 5
+}
+[worker] GENERATION_INPUT: {
+  job_id: 'fc1560d9-2685-4918-af73-f2895036c81e',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  expected_chapter: 'Challenges to & Restoration of the Congress System',
+  canonical_unit: 'Politics in India Since Independence',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Challenges to & Restoration of the Congress System" unit="Politics in India Since Independence" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'political_science',
+  prompt_subject_name: 'Political Science',
+  expected_chapter: 'Challenges to & Restoration of the Congress System',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'political_science',
+  expected_chapter: 'Challenges to & Restoration of the Congress System',
+  canonical_unit: 'Politics in India Since Independence',
+  concept_id: 'political_science::challenges_to_and_restoration_of_the_congress_system',
+  pyq_anchor_id: 'synthetic_cuet_structure_political_science',
+  anchor_tier: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 24254,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"A scholar compares the challenges faced by the Congress Party during the 1960s with those in the 1980s. Which distinction accurately reflects their differing contexts?","o":["The 1960s faced internal dissent while the 1980s were marked by external threats.","Both decades saw a decline in public support for the Congress Party due to economic issues.","The 1980s had more significant regional movements compared to the 1960s.","The primary challenge in both decades was leadership conflicts within the party."],"a":"C","d":"medium","difficulty_weight":2,"question_type":"comparison_based","concept_pattern":"political_science::challenges_to_and_restoration_of_the_congress_system","subject":"political_science","public_subject":"political_science","chapter":"Challenges to & Restoration of the Congress System","topic":"Politics in India Since Independence","concept":"Challenges to & Restoration of the Congress System","concept_id":"political_science::challenges_to_and_restoration_of_the_congress_system","pyq_anchor_id":"synthetic_cuet_structure_political_science","anchor_tier":4},{"q":"Statement I: The Emergency period (1975-1977) strengthened the Congress's hold on power. Statement II: The Emergency led to widespread political dissent and opposition against the Congress.","o":["Both statements are correct and related.","Only Statement I is correct, as it ignores dissent.","Only Statement II is correct; it overemphasizes dissent.","Both statements are incorrect regarding their implications."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"political_science::challenges_to_and_restoration_of_the_congress_system","subject":"political_science","public_subject":"political_science","chapter":"Challenges to & Restoration of the Congress System","topic":"Politics in India Since Independence","concept":"Challenges to & Restoration of the Congress System","concept_id":"political_science::challenges_to_and_restoration_of_the_congress_system","pyq_anchor_id":"synthetic_cuet_structure_political_science","anchor_tier":4},{"q":"Assertion: The split in the Congress Party in 1969 was primarily due to ideological differences. Reason: The factionalism within the party was a response to changing political dynamics in India.","o":["Both assertion and reason are true, and reason explains assertion.","Assertion is true, but reason is false; factionalism was not primarily ideological.","Assertion is false, but reason is true; changes were not ideological but personal.","Both assertion and reason are false; there was no significant split."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"assertion_reason","concept_pattern":"political_science::challenges_to_and_restoration_of_the_congress_system","subject":"political_science","public_subject":"political_science","chapter":"Challenges to & Restoration of the Congress System","topic":"Politics in India Since Independence","concept":"Challenges to & Restoration of the Congress System","concept_id":"political_science::challenges_to_and_restoration_of_the_congress_system","pyq_anchor_id":"synthetic_cuet_structure_political_science","anchor_tier":4},{"q":"In a discussion about political parties in India, a student states that during the 1980s, regional parties overshadowed the Congress. Given this context, which inference can be drawn?","o":["Regional parties gained prominence due to local issues being ignored by Congress.","Congress adapted its strategies effectively to counter regional influences.","The rise of regional parties led to a significant decline in democracy overall.","Congress maintained its dominance despite regional challenges."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"case_based","concept_pattern":"political_science::challenges_to_and_restoration_of_the_congress_system","subject":"political_science","public_subject":"political_science","chapter":"Challenges to & Restoration of the Congress System","topic":"Politics in India Since Independence","concept":"Challenges to & Restoration of the Congress System","concept_id":"political_science::challenges_to_and_restoration_of_the_congress_system","pyq_anchor_id":"synthetic_cuet_structure_political_science","anchor_tier":4},{"q":"Considering the role of leadership in political parties, how did Indira Gandhi’s leadership style impact the Congress Party during her tenure? Select the best inference based on historical events.","o":["Her authoritative style consolidated power but alienated many party members.","Her consensus-driven approach unified diverse factions within the party.","Her leadership had no significant effect on party dynamics during her tenure.","Her focus on grassroots mobilization decreased party influence at higher levels."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"application_based","concept_pattern":"political_science::challenges_to_and_restoration_of_the_congress_system","subject":"political_science","public_subject":"political_science","chapter":"Challenges to & Restoration of the Congress System","topic":"Politics in India Since Independence","concept":"Challenges to & Restoration of the Congress System","concept_id":"political_science::challenges_to_and_restoration_of_the_congress_system","pyq_anchor_id":"synthetic_cuet_structure_political_science","anchor_tier":4}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=5
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 5
+[pipeline] generated_count=5 | mix=easy=0, medium=5, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 5
+[reject] {
+  subject: 'political_science',
+  chapter: 'Challenges to & Restoration of the Congress System',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'political_science',
+  chapter: 'Challenges to & Restoration of the Congress System',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'political_science',
+  chapter: 'Challenges to & Restoration of the Congress System',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=5 | pre_validation_filtered=3 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=40.0%
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T19:55:07.175Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"political_science","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'political_science',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'political_science',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 20759,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'political_science',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "HIGH",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 9,
+    "distractor_quality": 8,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "OUTSIDE",
+    "concept_match": "MISMATCH",
+    "difficulty_level": "HARD",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [
+      "concept mismatch",
+      "syllabus alignment outside"
+    ],
+    "score": 5,
+    "exam_quality": 6,
+    "distractor_quality": 6,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "hard",
+    "issues": [
+      "The question includes references to the 1980s which is outside the scope of the atomic concept ID provided."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "OUTSIDE",
+    "concept_match": "MISMATCH",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "AMBIGUOUS",
+    "language_level": "MODERATE",
+    "option_quality": "CONFUSING",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "confusing options",
+      "ambiguous",
+      "concept mismatch"
+    ],
+    "score": 3,
+    "exam_quality": 3,
+    "distractor_quality": 2,
+    "conceptual_depth": 5,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Options contain self-contained justifications and interpretations (e.g., 'ignores dissent') which is not standard MCQ practice.",
+      "The assertion that the Emergency strengthened the hold is historically contested and often considered false in the context of the 1977 collapse.",
+      "Emergency content belongs to the next chapter 'Crisis of the Democratic Order'."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T19:55:27.953Z","model":"gemini-3-flash","subject":"political_science","resultCount":3}
+[reject] {
+  subject: 'political_science',
+  chapter: 'Challenges to & Restoration of the Congress System',
+  reason: 'confusing options; ambiguous; concept mismatch; outside CUET syllabus; ambiguous wording; validator score below threshold; exam quality below threshold; distractor quality below threshold',
+  source: 'validator_normalized',
+  rule: 'confusing options',
+  details: {
+    compositeScore: 0,
+    verdict: 'INVALID',
+    syllabus_alignment: 'OUTSIDE',
+    concept_match: 'MISMATCH',
+    option_quality: 'CONFUSING'
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'political_science',
+  chapter: 'Challenges to & Restoration of the Congress System',
+  reason: 'concept mismatch; syllabus alignment outside; outside CUET syllabus; exam quality below threshold; distractor quality below threshold; validator marked non-CUET alignment; validator decision reject; validator verdict invalid',
+  source: 'validator_normalized',
+  rule: 'concept mismatch',
+  details: {
+    compositeScore: 19,
+    verdict: 'INVALID',
+    syllabus_alignment: 'OUTSIDE',
+    concept_match: 'MISMATCH',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 3, hard: 0 },
+  system: { easy: 0, medium: 2, hard: 1 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 3
+[pipeline] validated_count=3 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 3
+[pipeline] selected_count=3 | FINAL DISTRIBUTION: {"easy":0,"medium":2,"hard":1}
+✅ Published 6b103633-584a-4563-bd0b-9ea2782c67be | status=live | difficulty=medium | discoverable=true
+✅ Published 1148747e-f8f1-4701-aa39-30960e8b4c5b | status=live | difficulty=medium | discoverable=true
+✅ Published 99bc285b-1d97-4d67-b02a-d609ce7818e4 | status=live | difficulty=hard | discoverable=true
+[pipeline] METRICS | generated_count=5 | prefiltered_count=3 | strict_validation_count=3 | accepted_count=3 | api_calls_used=2 | cost_efficiency_ratio=1.50
+[pipeline] SUMMARY | subject=political_science | chapter=Challenges to & Restoration of the Congress System | target=5 | generated_count=5 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=3 | strict_validation_count=3 | validated_count=3 | accepted_count=3 | shortfall=2 | yield_rate=60.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=2, hard=1
+[pipeline] subject_distribution: {"subject":"political_science","accepted":3,"rejected":5,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=6997 | total_cost=$0.0018 | cost_per_accepted=$0.0006 | cost_per_1000=$0.61 | total_accepted=3
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'political_science',
+  chapter: 'Challenges to & Restoration of the Congress System',
+  sample_size: 9,
+  direct_definition_count: 0,
+  weak_option_count: 5,
+  repeated_structure_count: 0,
+  easy_count: 1,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '0cfef12c-754d-425b-9203-e8e16f71573e',
+    'cd09fa91-5adb-49f4-9fca-9a795d8b9aa1',
+    '33bcb087-8e85-4f29-9224-9a56b9a91399',
+    '3836ba57-3888-48bf-8c2d-e80385885001',
+    '7d3e1f10-38c6-45af-8bd9-9ff28154ec9f',
+    'fda00650-710b-4e85-aef9-e88078daa3ec',
+    '2687ce01-90bb-40bb-a180-f65a22ab0516',
+    'badf6886-de56-4b2b-9539-e9dd130e2da0',
+    '4516a987-4b23-4819-ba3e-e252af6f661d'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '0cfef12c-754d-425b-9203-e8e16f71573e',
+  actual_subject: 'sociology',
+  actual_chapter: 'Mass Media & Communications',
+  status: 'queued',
+  priority: 100,
+  original_priority: 100,
+  question_count: 0,
+  subject_question_count: 196,
+  created_at: '2026-04-30T19:54:41.458985+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  count: 0,
+  priority: 100
+}
+[worker] coverage-based selection: {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  count: 0
+}
+
+[JOB 0cfef12c] Starting: [sociology] Mass Media & Communications
+[worker] RECEIVED_JOB: {
+  job_id: '0cfef12c-754d-425b-9203-e8e16f71573e',
+  expected_subject: 'sociology',
+  expected_chapter: 'Mass Media & Communications',
+  raw_subject_id: 'sociology',
+  raw_chapter: 'Mass Media & Communications',
+  status: 'queued',
+  priority: 100,
+  created_at: '2026-04-30T19:54:41.458985+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '0cfef12c-754d-425b-9203-e8e16f71573e',
+  expected_subject: 'sociology',
+  resolved_subject_id: 'sociology',
+  resolved_subject_name: 'Sociology',
+  chapter: 'Mass Media & Communications',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=17 existing questions loaded
+[generation] batch adjusted: { chapter: 'Mass Media & Communications', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '0cfef12c-754d-425b-9203-e8e16f71573e',
+  expected_subject: 'sociology',
+  resolved_subject_id: 'sociology',
+  resolved_subject_name: 'Sociology',
+  expected_chapter: 'Mass Media & Communications',
+  canonical_unit: 'Social Change and Development in India',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Mass Media & Communications" unit="Social Change and Development in India" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'sociology',
+  prompt_subject_name: 'Sociology',
+  expected_chapter: 'Mass Media & Communications',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'sociology',
+  expected_chapter: 'Mass Media & Communications',
+  canonical_unit: 'Social Change and Development in India',
+  concept_id: 'sociology::mass_media_and_communications',
+  pyq_anchor_id: 'synthetic_cuet_structure_sociology',
+  anchor_tier: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 19904,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"In a rural village, a community radio station has been set up to promote local culture and education. Which inference can be drawn about the role of mass media in this scenario?","o":["Mass media fosters local identity and education.","Mass media is primarily focused on entertainment.","Mass media disrupts traditional community structures.","Mass media neglects local issues in favor of global news."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"case_based","concept_pattern":"sociology::mass_media_and_communications","subject":"sociology","public_subject":"sociology","chapter":"Mass Media & Communications","topic":"Social Change and Development in India","concept":"Mass Media & Communications","concept_id":"sociology::mass_media_and_communications","pyq_anchor_id":"synthetic_cuet_structure_sociology","anchor_tier":4},{"q":"A new social media platform claims to connect individuals for community development purposes. Which principle does this scenario best illustrate regarding mass media?","o":["Mass media can enhance social connectivity for development.","Mass media primarily serves commercial interests over community needs.","Mass media is ineffective in fostering real-world connections.","Mass media exclusively focuses on urban audiences."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"application_based","concept_pattern":"sociology::mass_media_and_communications","subject":"sociology","public_subject":"sociology","chapter":"Mass Media & Communications","topic":"Social Change and Development in India","concept":"Mass Media & Communications","concept_id":"sociology::mass_media_and_communications","pyq_anchor_id":"synthetic_cuet_structure_sociology","anchor_tier":4},{"q":"Comparing traditional newspapers and digital news platforms, which statement accurately reflects their impact on public awareness?","o":["Digital platforms often provide faster updates than newspapers, enhancing public awareness.","Traditional newspapers offer more comprehensive coverage than digital platforms.","Both formats equally contribute to misinformation among the public.","Digital platforms are less influential than traditional newspapers in shaping opinions."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"comparison_based","concept_pattern":"sociology::mass_media_and_communications","subject":"sociology","public_subject":"sociology","chapter":"Mass Media & Communications","topic":"Social Change and Development in India","concept":"Mass Media & Communications","concept_id":"sociology::mass_media_and_communications","pyq_anchor_id":"synthetic_cuet_structure_sociology","anchor_tier":4},{"q":"Statement I: Mass media significantly influences social change in society. Statement II: Mass media only reflects existing societal norms without causing change. Which statements are correct?","o":["Only Statement I is correct.","Only Statement II is correct.","Both statements are correct but contradictory.","Neither statement is correct."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"sociology::mass_media_and_communications","subject":"sociology","public_subject":"sociology","chapter":"Mass Media & Communications","topic":"Social Change and Development in India","concept":"Mass Media & Communications","concept_id":"sociology::mass_media_and_communications","pyq_anchor_id":"synthetic_cuet_structure_sociology","anchor_tier":4},{"q":"Assertion: Mass media plays a crucial role in shaping public opinion. Reason: Mass media has the power to influence perceptions through selective reporting. Evaluate the truth of both statements.","o":["Both the assertion and reason are true, and the reason explains the assertion.","The assertion is true, but the reason is false.","The assertion is false, but the reason is true.","Both the assertion and reason are false."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"assertion_reason","concept_pattern":"sociology::mass_media_and_communications","subject":"sociology","public_subject":"sociology","chapter":"Mass Media & Communications","topic":"Social Change and Development in India","concept":"Mass Media & Communications","concept_id":"sociology::mass_media_and_communications","pyq_anchor_id":"synthetic_cuet_structure_sociology","anchor_tier":4}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=5
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 5
+[pipeline] generated_count=5 | mix=easy=0, medium=5, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 5
+[reject] {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=5 | pre_validation_filtered=2 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=40.0%
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T19:56:07.049Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"sociology","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'sociology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'sociology',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 12765,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'sociology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "conceptual_depth < 7",
+      "obvious answer",
+      "textbook style"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 4,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The relationship between assertion and reason is overly simplistic and lacks specific sociological theory.",
+      "Generic content does not meet CUET competitive standards."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "conceptual_depth < 7",
+      "obvious answer",
+      "textbook style"
+    ],
+    "score": 3,
+    "exam_quality": 3,
+    "distractor_quality": 2,
+    "conceptual_depth": 3,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Statement II uses an absolute qualifier 'only', making it an obvious distractor.",
+      "Lacks the conceptual rigor required for Sociology higher-order thinking."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "conceptual_depth < 7",
+      "obvious answer"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 4,
+    "textbook_style": false,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Question relies on general common sense rather than sociological analysis of media platforms.",
+      "Options are not sufficiently competitive for a screening exam."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T19:56:19.816Z","model":"gemini-3-flash","subject":"sociology","resultCount":3}
+[reject] {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  reason: 'low trap quality; conceptual_depth < 7; obvious answer; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; validator marked non-CUET alignment',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 43,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  reason: 'low trap quality; conceptual_depth < 7; obvious answer; textbook style; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 30,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  reason: 'low trap quality; conceptual_depth < 7; obvious answer; textbook style; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 31,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 3, hard: 0 },
+  system: { easy: 0, medium: 3, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 3
+[pipeline] validated_count=3 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 3
+[pipeline] selected_count=3 | FINAL DISTRIBUTION: {"easy":0,"medium":3,"hard":0}
+✅ Published ca3345df-4395-49e7-85c9-680539cb9268 | status=live | difficulty=medium | discoverable=true
+✅ Published 721cca3d-e164-4fac-bb46-69a340879d7f | status=live | difficulty=medium | discoverable=true
+✅ Published c8095b25-00b5-4553-90a6-2d2d63bce7e7 | status=live | difficulty=medium | discoverable=true
+[pipeline] METRICS | generated_count=5 | prefiltered_count=3 | strict_validation_count=3 | accepted_count=3 | api_calls_used=2 | cost_efficiency_ratio=1.50
+[pipeline] SUMMARY | subject=sociology | chapter=Mass Media & Communications | target=5 | generated_count=5 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=2 | strict_validation_count=3 | validated_count=3 | accepted_count=3 | shortfall=2 | yield_rate=60.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=3, hard=0
+[pipeline] subject_distribution: {"subject":"sociology","accepted":3,"rejected":5,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=13520 | total_cost=$0.0035 | cost_per_accepted=$0.0006 | cost_per_1000=$0.59 | total_accepted=6
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  sample_size: 20,
+  direct_definition_count: 3,
+  weak_option_count: 14,
+  repeated_structure_count: 0,
+  easy_count: 6,
+  feedback_count: 2
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'cd09fa91-5adb-49f4-9fca-9a795d8b9aa1',
+    '33bcb087-8e85-4f29-9224-9a56b9a91399',
+    '3836ba57-3888-48bf-8c2d-e80385885001',
+    '7d3e1f10-38c6-45af-8bd9-9ff28154ec9f',
+    'fda00650-710b-4e85-aef9-e88078daa3ec',
+    '2687ce01-90bb-40bb-a180-f65a22ab0516',
+    'badf6886-de56-4b2b-9539-e9dd130e2da0',
+    '4516a987-4b23-4819-ba3e-e252af6f661d'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'cd09fa91-5adb-49f4-9fca-9a795d8b9aa1',
+  actual_subject: 'political_science',
+  actual_chapter: "India's External Relations",
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 6,
+  subject_question_count: 231,
+  created_at: '2026-04-30T19:54:41.458985+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'political_science',
+  chapter: "India's External Relations",
+  count: 6,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'political_science',
+  chapter: "India's External Relations",
+  count: 6
+}
+
+[JOB cd09fa91] Starting: [political_science] India's External Relations
+[worker] RECEIVED_JOB: {
+  job_id: 'cd09fa91-5adb-49f4-9fca-9a795d8b9aa1',
+  expected_subject: 'political_science',
+  expected_chapter: "India's External Relations",
+  raw_subject_id: 'political_science',
+  raw_chapter: "India's External Relations",
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:54:41.458985+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'cd09fa91-5adb-49f4-9fca-9a795d8b9aa1',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  chapter: "India's External Relations",
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=6 existing questions loaded
+[generation] batch adjusted: { chapter: "India's External Relations", generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'cd09fa91-5adb-49f4-9fca-9a795d8b9aa1',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  expected_chapter: "India's External Relations",
+  canonical_unit: 'Politics in India Since Independence',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="India's External Relations" unit="Politics in India Since Independence" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'political_science',
+  prompt_subject_name: 'Political Science',
+  expected_chapter: "India's External Relations",
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'political_science',
+  expected_chapter: "India's External Relations",
+  canonical_unit: 'Politics in India Since Independence',
+  concept_id: 'political_science::india_s_external_relations',
+  pyq_anchor_id: 'synthetic_cuet_structure_political_science',
+  anchor_tier: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 23710,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Assertion: India's foreign policy has focused on non-alignment since independence. Reason: This approach allows India to maintain independence from superpower blocs.","o":["Both assertion and reason are true, and the reason correctly explains the assertion.","Assertion is true, but the reason is false because India has shifted towards alliances.","Assertion is false, but the reason is true as it highlights India's strategy.","Both assertion and reason are false, as India's policy has been pro-Western. "],"a":"A","d":"medium","difficulty_weight":2,"question_type":"assertion_reason","concept_pattern":"political_science::india_s_external_relations","explanation":"India's non-alignment has been a core principle, allowing flexibility in foreign relations.","subject":"political_science","public_subject":"political_science","chapter":"India's External Relations","topic":"Politics in India Since Independence","concept":"India's External Relations","concept_id":"political_science::india_s_external_relations","pyq_anchor_id":"synthetic_cuet_structure_political_science","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"In 2020, India participated in a regional summit aimed at enhancing cooperation with its neighbors. Which of the following best explains this action?","o":["It reflects India's commitment to regional stability and economic integration.","It indicates India's isolationist policy during global tensions.","It shows India's disregard for bilateral relations with major powers.","It demonstrates India's focus on military alliances over diplomatic engagement."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"case_based","concept_pattern":"political_science::india_s_external_relations","explanation":"Participating in regional summits indicates a proactive approach towards cooperation.","subject":"political_science","public_subject":"political_science","chapter":"India's External Relations","topic":"Politics in India Since Independence","concept":"India's External Relations","concept_id":"political_science::india_s_external_relations","pyq_anchor_id":"synthetic_cuet_structure_political_science","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"During a discussion about India's relations with its neighboring countries, a student claims that economic ties are less significant than military alliances. Which option best supports or refutes this claim?","o":["Economic cooperation often leads to stronger diplomatic relations and security collaboration.","Military alliances provide immediate security but can limit trade opportunities.","Economic ties are only relevant during times of conflict, not peace.","Military alliances are always prioritized over economic agreements in foreign policy."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"application_based","concept_pattern":"political_science::india_s_external_relations","explanation":"Economic ties typically enhance overall relations, including security dimensions.","subject":"political_science","public_subject":"political_science","chapter":"India's External Relations","topic":"Politics in India Since Independence","concept":"India's External Relations","concept_id":"political_science::india_s_external_relations","pyq_anchor_id":"synthetic_cuet_structure_political_science","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"Comparing India's relations with China and Pakistan, which statement remains valid regarding their diplomatic interactions?","o":["India seeks peaceful resolution with both nations despite historical tensions.","India prioritizes military engagement with China over diplomatic talks with Pakistan.","India maintains equal trade relations with both China and Pakistan as a strategy.","India's approach to Pakistan is purely military, while China is seen as an economic partner."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"comparison_based","concept_pattern":"political_science::india_s_external_relations","explanation":"India aims for peace with both nations despite ongoing tensions, highlighting diplomatic efforts.","subject":"political_science","public_subject":"political_science","chapter":"India's External Relations","topic":"Politics in India Since Independence","concept":"India's External Relations","concept_id":"political_science::india_s_external_relations","pyq_anchor_id":"synthetic_cuet_structure_political_science","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"Statement I: India has consistently advocated for disarmament on international platforms. Statement II: India's foreign policy has often been influenced by its colonial past. Which of the following statements is correct? ","o":["Only Statement I is correct as India focuses solely on disarmament issues.","Only Statement II is correct due to historical influences on policy-making.","Both statements are correct but highlight different aspects of India's foreign policy.","Neither statement is correct as India has shifted focus away from these issues."],"a":"C","d":"medium","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"political_science::india_s_external_relations","explanation": "Both statements reflect significant aspects of India's approach to foreign policy based on its history and advocacy for peace.","subject":"political_science","public_subject":"political_science","chapter":"India's External Relations","topic":"Politics in India Since Independence","concept":"India's External Relations","concept_id":"political_science::india_s_external_relations","pyq_anchor_id":"synthetic_cuet_structure_political_science","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type':'optional_for_english_rc','passage_text':'optional_for_english_rc'}]}  END JSON OUTPUT.  No additional text or formatting.  The output must be valid JSON only.  No extra comments or explanations.  No markdown formatting.  No other outputs.  Just the pure JSON structure.   The JSON structure must be valid as per the requirements stated above.   Please strictly adhere to all guidelines while generating the output.   Thank you.  END JSON OUTPUT.   {"   	:  	"}   END JSON OUTPUT.   {"  	}  	]  	}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=4
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 4
+[pipeline] generated_count=4 | mix=easy=0, medium=4, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 4
+[reject] {
+  subject: 'political_science',
+  chapter: "India's External Relations",
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'political_science',
+  chapter: "India's External Relations",
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=4 | pre_validation_filtered=2 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=25.0%
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T19:57:01.663Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"political_science","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'political_science',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'political_science',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 11357,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'political_science',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "direct definition",
+      "textbook style",
+      "conceptual_depth < 7"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Question is too fundamental and lacks the analytical depth typical of CUET assertion-reason pairs"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "obvious answer",
+      "conceptual_depth < 7"
+    ],
+    "score": 5,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 5,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The distractors are too extreme and illogical, making the correct answer obvious without specific knowledge"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T19:57:13.021Z","model":"gemini-3-flash","subject":"political_science","resultCount":3}
+[reject] {
+  subject: 'political_science',
+  chapter: "India's External Relations",
+  reason: 'low trap quality; direct definition; textbook style; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 31,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 3, hard: 0 },
+  system: { easy: 0, medium: 3, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 3
+[pipeline] validated_count=3 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 3
+[pipeline] selected_count=3 | FINAL DISTRIBUTION: {"easy":0,"medium":3,"hard":0}
+✅ Published fe714433-6c02-441a-a6c0-cdfe44ae03e6 | status=live | difficulty=medium | discoverable=true
+✅ Published c0ad8ef7-220c-49f4-b0f0-f14c8762a4c4 | status=live | difficulty=medium | discoverable=true
+✅ Published f4ce3b5b-2635-4793-9911-4fd89e4257e9 | status=live | difficulty=medium | discoverable=true
+[pipeline] METRICS | generated_count=4 | prefiltered_count=3 | strict_validation_count=3 | accepted_count=3 | api_calls_used=2 | cost_efficiency_ratio=1.50
+[pipeline] SUMMARY | subject=political_science | chapter=India's External Relations | target=5 | generated_count=4 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=2 | strict_validation_count=3 | validated_count=3 | accepted_count=3 | shortfall=2 | yield_rate=75.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=3, hard=0
+[pipeline] subject_distribution: {"subject":"political_science","accepted":3,"rejected":3,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=20539 | total_cost=$0.0054 | cost_per_accepted=$0.0006 | cost_per_1000=$0.60 | total_accepted=9
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'political_science',
+  chapter: "India's External Relations",
+  sample_size: 9,
+  direct_definition_count: 0,
+  weak_option_count: 4,
+  repeated_structure_count: 0,
+  easy_count: 4,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '33bcb087-8e85-4f29-9224-9a56b9a91399',
+    '3836ba57-3888-48bf-8c2d-e80385885001',
+    '7d3e1f10-38c6-45af-8bd9-9ff28154ec9f',
+    'fda00650-710b-4e85-aef9-e88078daa3ec',
+    '2687ce01-90bb-40bb-a180-f65a22ab0516',
+    'badf6886-de56-4b2b-9539-e9dd130e2da0',
+    '4516a987-4b23-4819-ba3e-e252af6f661d'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '33bcb087-8e85-4f29-9224-9a56b9a91399',
+  actual_subject: 'political_science',
+  actual_chapter: 'Politics of Planned Development',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 6,
+  subject_question_count: 234,
+  created_at: '2026-04-30T19:54:41.458985+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'political_science',
+  chapter: 'Politics of Planned Development',
+  count: 6,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'political_science',
+  chapter: 'Politics of Planned Development',
+  count: 6
+}
+
+[JOB 33bcb087] Starting: [political_science] Politics of Planned Development
+[worker] RECEIVED_JOB: {
+  job_id: '33bcb087-8e85-4f29-9224-9a56b9a91399',
+  expected_subject: 'political_science',
+  expected_chapter: 'Politics of Planned Development',
+  raw_subject_id: 'political_science',
+  raw_chapter: 'Politics of Planned Development',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:54:41.458985+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '33bcb087-8e85-4f29-9224-9a56b9a91399',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  chapter: 'Politics of Planned Development',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=6 existing questions loaded
+[generation] batch adjusted: { chapter: 'Politics of Planned Development', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '33bcb087-8e85-4f29-9224-9a56b9a91399',
+  expected_subject: 'political_science',
+  resolved_subject_id: 'political_science',
+  resolved_subject_name: 'Political Science',
+  expected_chapter: 'Politics of Planned Development',
+  canonical_unit: 'Politics in India Since Independence',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Politics of Planned Development" unit="Politics in India Since Independence" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'political_science',
+  prompt_subject_name: 'Political Science',
+  expected_chapter: 'Politics of Planned Development',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'political_science',
+  expected_chapter: 'Politics of Planned Development',
+  canonical_unit: 'Politics in India Since Independence',
+  concept_id: 'political_science::politics_of_planned_development',
+  pyq_anchor_id: 'synthetic_cuet_structure_political_science',
+  anchor_tier: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 24582,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'political_science',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Comparing the objectives of the Green Revolution and the Integrated Rural Development Programme, which statement accurately reflects their primary focus?","o":["The Green Revolution aimed at increasing agricultural productivity through technology, while the Integrated Rural Development Programme focuses on overall rural development.","Both initiatives primarily target agricultural productivity but differ in their implementation strategies.","The Integrated Rural Development Programme emphasizes technological advancement similar to the Green Revolution.","Both programs are solely aimed at enhancing urban development."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"comparison_based","concept_pattern":"politics_of_planned_development","subject":"political_science","public_subject":"political_science","chapter":"Politics of Planned Development","topic":"Politics in India Since Independence","concept":"Politics of Planned Development","concept_id":"political_science::politics_of_planned_development","pyq_anchor_id":"synthetic_cuet_structure_political_science","anchor_tier":4},{"q":"Statement I: The Politics of Planned Development in India has always prioritized economic growth over social equity. Statement II: Economic growth and social equity are often considered competing priorities in India's developmental policies.","o":["Both statements are correct and reflect a common view in political discourse.","Only Statement I is correct; Statement II is misleading in its implications.","Only Statement II is correct; Statement I overlooks important social policies.","Both statements are incorrect as they ignore the holistic approach of Indian planning."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"politics_of_planned_development","subject":"political_science","public_subject":"political_science","chapter":"Politics of Planned Development","topic":"Politics in India Since Independence","concept":"Politics of Planned Development","concept_id":"political_science::politics_of_planned_development","pyq_anchor_id":"synthetic_cuet_structure_political_science","anchor_tier":4},{"q":"Assertion: The emphasis on planned development has led to significant economic inequalities in India. Reason: Planned development often benefits certain regions over others, leading to disparities.","o":["Both assertion and reason are true, and the reason correctly explains the assertion.","The assertion is true, but the reason is false as it oversimplifies regional disparities.","The assertion is false, but the reason is true; many regions have benefited equally from planning.","Both assertion and reason are false, as planned development has reduced inequalities."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"assertion_reason","concept_pattern":"politics_of_planned_development","subject":"political_science","public_subject":"political_science","chapter":"Politics of Planned Development","topic":"Politics in India Since Independence","concept":"Politics of Planned Development","concept_id":"political_science::politics_of_planned_development","pyq_anchor_id":"synthetic_cuet_structure_political_science","anchor_tier":4},{"q":"A local government is implementing a new rural development project aimed at improving infrastructure. Given this context, which aspect should be prioritized to ensure effective outcomes?","o":["Engaging local communities in the planning process to address their specific needs.","Focusing solely on constructing roads and buildings without community input.","Prioritizing funding over community engagement to expedite project completion.","Implementing a top-down approach that disregards local needs."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"case_based","concept_pattern":"politics_of_planned_development","subject":"political_science","public_subject":"political_science","chapter":"Politics of Planned Development","topic":"Politics in India Since Independence","concept":"Politics of Planned Development","concept_id":"political_science::politics_of_planned_development","pyq_anchor_id":"synthetic_cuet_structure_political_science","anchor_tier":4},{"q":"In considering the impact of planned development policies in India, which principle should guide future initiatives for better outcomes? ","o":["Incorporating sustainable practices to balance economic growth with environmental concerns.","Focusing primarily on rapid industrialization without regard for social implications.","Emphasizing urban development at the expense of rural areas to drive national progress.","Adopting a one-size-fits-all approach for all regions regardless of their unique challenges."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"application_based","concept_pattern":"politics_of_planned_development","subject":"political_science","public_subject":"political_science","chapter":"Politics of Planned Development","topic":"Politics in India Since Independence","concept":"Politics of Planned Development","concept_id":"political_science::politics_of_planned_development","pyq_anchor_id":"synthetic_cuet_structure_political_science","anchor_tier":4}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=5
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 5
+[pipeline] generated_count=5 | mix=easy=0, medium=5, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 5
+[reject] {
+  subject: 'political_science',
+  chapter: 'Politics of Planned Development',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'political_science',
+  chapter: 'Politics of Planned Development',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'political_science',
+  chapter: 'Politics of Planned Development',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'political_science',
+  chapter: 'Politics of Planned Development',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=5 | pre_validation_filtered=4 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=40.0%
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T19:57:55.927Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"political_science","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'political_science',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'political_science',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 16627,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'political_science',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "HIGH",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 9,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T19:58:12.556Z","model":"gemini-3-flash","subject":"political_science","resultCount":3}
+[difficulty distribution] {
+  model: { easy: 0, medium: 3, hard: 0 },
+  system: { easy: 0, medium: 3, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 3
+[pipeline] validated_count=3 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 3
+[pipeline] selected_count=3 | FINAL DISTRIBUTION: {"easy":0,"medium":3,"hard":0}
+✅ Published 276fb9e4-76b8-47cc-ad99-1699ad43cc6d | status=live | difficulty=medium | discoverable=true
+✅ Published bc99de7a-fce8-4047-bc2b-d5b4921d23c6 | status=live | difficulty=medium | discoverable=true
+✅ Published 21b55219-0f91-4cde-a2d9-4c5745f7416a | status=live | difficulty=medium | discoverable=true
+[pipeline] METRICS | generated_count=5 | prefiltered_count=3 | strict_validation_count=3 | accepted_count=3 | api_calls_used=2 | cost_efficiency_ratio=1.50
+[pipeline] SUMMARY | subject=political_science | chapter=Politics of Planned Development | target=5 | generated_count=5 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=4 | strict_validation_count=3 | validated_count=3 | accepted_count=3 | shortfall=2 | yield_rate=60.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=3, hard=0
+[pipeline] subject_distribution: {"subject":"political_science","accepted":3,"rejected":4,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=27191 | total_cost=$0.0071 | cost_per_accepted=$0.0006 | cost_per_1000=$0.59 | total_accepted=12
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'political_science',
+  chapter: 'Politics of Planned Development',
+  sample_size: 9,
+  direct_definition_count: 0,
+  weak_option_count: 7,
+  repeated_structure_count: 0,
+  easy_count: 4,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '3836ba57-3888-48bf-8c2d-e80385885001',
+    '7d3e1f10-38c6-45af-8bd9-9ff28154ec9f',
+    'fda00650-710b-4e85-aef9-e88078daa3ec',
+    '2687ce01-90bb-40bb-a180-f65a22ab0516',
+    'badf6886-de56-4b2b-9539-e9dd130e2da0',
+    '4516a987-4b23-4819-ba3e-e252af6f661d'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '3836ba57-3888-48bf-8c2d-e80385885001',
+  actual_subject: 'psychology',
+  actual_chapter: 'Self & Personality',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 6,
+  subject_question_count: 101,
+  created_at: '2026-04-30T19:54:41.458985+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'psychology',
+  chapter: 'Self & Personality',
+  count: 6,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'psychology', chapter: 'Self & Personality', count: 6 }
+
+[JOB 3836ba57] Starting: [psychology] Self & Personality
+[worker] RECEIVED_JOB: {
+  job_id: '3836ba57-3888-48bf-8c2d-e80385885001',
+  expected_subject: 'psychology',
+  expected_chapter: 'Self & Personality',
+  raw_subject_id: 'psychology',
+  raw_chapter: 'Self & Personality',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:54:41.458985+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '3836ba57-3888-48bf-8c2d-e80385885001',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  chapter: 'Self & Personality',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=6 existing questions loaded
+[generation] batch adjusted: { chapter: 'Self & Personality', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '3836ba57-3888-48bf-8c2d-e80385885001',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  expected_chapter: 'Self & Personality',
+  canonical_unit: 'Self and Personality',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Self & Personality" unit="Self and Personality" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'psychology',
+  prompt_subject_name: 'Psychology',
+  expected_chapter: 'Self & Personality',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'psychology',
+  expected_chapter: 'Self & Personality',
+  canonical_unit: 'Self and Personality',
+  concept_id: 'psychology::self_and_personality',
+  pyq_anchor_id: 'synthetic_cuet_structure_psychology',
+  anchor_tier: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'psychology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'psychology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 17389,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'psychology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"A student believes that self-esteem and self-concept refer to the same psychological constructs. Which statement best distinguishes these two concepts?","o":["Self-esteem relates to one's overall sense of worth, while self-concept is about how one perceives oneself in different domains.","Self-concept is a measure of self-worth, whereas self-esteem is the perception of one's abilities in specific areas.","Both self-concept and self-esteem are interchangeable terms used to describe an individual's identity.","Self-esteem is solely influenced by external validation, while self-concept is formed independently of others' opinions."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"comparison_based","concept_pattern":"psychology::self_and_personality","subject":"psychology","public_subject":"psychology","chapter":"Self & Personality","topic":"Self and Personality","concept":"Self & Personality","concept_id":"psychology::self_and_personality","pyq_anchor_id":"synthetic_cuet_structure_psychology","anchor_tier":4},{"q":"Statement I: High self-esteem can lead to better academic performance. Statement II: Self-concept does not influence motivation levels. Which of the following statements is correct?","o":["Only Statement I is correct.","Both Statement I and Statement II are correct.","Only Statement II is correct.","Neither Statement I nor Statement II is correct."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"psychology::self_and_personality","subject":"psychology","public_subject":"psychology","chapter":"Self & Personality","topic":"Self and Personality","concept":"Self & Personality","concept_id":"psychology::self_and_personality","pyq_anchor_id":"synthetic_cuet_structure_psychology","anchor_tier":4},{"q":"Assertion: A positive self-concept contributes to higher levels of motivation. Reason: Individuals with a positive self-concept view challenges as opportunities for growth. Which of the following options is true?","o":["Both assertion and reason are true, and the reason explains the assertion.","The assertion is true, but the reason is false.","The assertion is false, but the reason is true.","Both assertion and reason are false."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"assertion_reason","concept_pattern":"psychology::self_and_personality","subject":"psychology","public_subject":"psychology","chapter":"Self & Personality","topic":"Self and Personality","concept":"Self & Personality","concept_id":"psychology::self_and_personality","pyq_anchor_id":"synthetic_cuet_structure_psychology","anchor_tier":4},{"q":"In a classroom setting, a student often feels inadequate compared to peers, affecting their participation. This situation illustrates which concept's impact on behavior?","o":["The influence of low self-esteem on engagement in activities.","The role of self-concept in shaping social interactions.","The relationship between personality traits and academic performance.","The effect of external validation on personal growth."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"case_based","concept_pattern":"psychology::self_and_personality","subject":"psychology","public_subject":"psychology","chapter":"Self & Personality","topic":"Self and Personality","concept":"Self & Personality","concept_id":"psychology::self_and_personality","pyq_anchor_id":"synthetic_cuet_structure_psychology","anchor_tier":4},{"q":"When comparing individuals with high self-esteem to those with low self-esteem, which statement remains valid regarding their social interactions?","o":["Individuals with high self-esteem are generally more assertive in social situations than those with low self-esteem.","Low self-esteem leads to more positive social interactions due to increased empathy.","High self-esteem individuals often avoid social interactions out of fear of judgment.","There is no significant difference in social interactions between high and low self-esteem individuals."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"comparison_based","concept_pattern":"psychology::self_and_personality","subject":"psychology","public_subject":"psychology","chapter":"Self & Personality","topic":"Self and Personality","concept":"Self & Personality","concept_id":"psychology::self_and_personality","pyq_anchor_id":"synthetic_cuet_structure_psychology","anchor_tier":4}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=5
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 5
+[pipeline] generated_count=5 | mix=easy=0, medium=5, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 5
+[reject] {
+  subject: 'psychology',
+  chapter: 'Self & Personality',
+  reason: 'logically_impossible_option',
+  source: 'pre_validation_internal_quality',
+  rule: 'logically_impossible_option',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'psychology',
+  chapter: 'Self & Personality',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=5 | pre_validation_filtered=2 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=40.0%
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T19:58:48.183Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"psychology","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 11923,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'psychology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 8,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "conceptual_depth < 7",
+      "textbook_style",
+      "obvious answer"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "too simple",
+      "lacks depth"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "MODERATE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "HIGH",
+    "reasons": [],
+    "score": 9,
+    "exam_quality": 9,
+    "distractor_quality": 9,
+    "conceptual_depth": 9,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T19:59:00.112Z","model":"gemini-3-flash","subject":"psychology","resultCount":3}
+[reject] {
+  subject: 'psychology',
+  chapter: 'Self & Personality',
+  reason: 'low trap quality; conceptual_depth < 7; textbook_style; obvious answer; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 31,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 3, hard: 0 },
+  system: { easy: 0, medium: 3, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 3
+[pipeline] validated_count=3 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 3
+[pipeline] selected_count=3 | FINAL DISTRIBUTION: {"easy":0,"medium":3,"hard":0}
+✅ Published a675822f-bc4d-45f1-a8ad-0afc2ac83dec | status=live | difficulty=medium | discoverable=true
+✅ Published 768419f2-0ed9-420d-af59-b52076137070 | status=live | difficulty=medium | discoverable=true
+✅ Published 582f938a-1985-4cf9-a123-bd42c82e5ecc | status=live | difficulty=medium | discoverable=true
+[pipeline] METRICS | generated_count=5 | prefiltered_count=3 | strict_validation_count=3 | accepted_count=3 | api_calls_used=2 | cost_efficiency_ratio=1.50
+[pipeline] SUMMARY | subject=psychology | chapter=Self & Personality | target=5 | generated_count=5 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=2 | strict_validation_count=3 | validated_count=3 | accepted_count=3 | shortfall=2 | yield_rate=60.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=3, hard=0
+[pipeline] subject_distribution: {"subject":"psychology","accepted":3,"rejected":3,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=33516 | total_cost=$0.0087 | cost_per_accepted=$0.0006 | cost_per_1000=$0.58 | total_accepted=15
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'psychology',
+  chapter: 'Self & Personality',
+  sample_size: 9,
+  direct_definition_count: 0,
+  weak_option_count: 2,
+  repeated_structure_count: 0,
+  easy_count: 1,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '7d3e1f10-38c6-45af-8bd9-9ff28154ec9f',
+    'fda00650-710b-4e85-aef9-e88078daa3ec',
+    '2687ce01-90bb-40bb-a180-f65a22ab0516',
+    'badf6886-de56-4b2b-9539-e9dd130e2da0',
+    '4516a987-4b23-4819-ba3e-e252af6f661d'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '2687ce01-90bb-40bb-a180-f65a22ab0516',
+  actual_subject: 'business_studies',
+  actual_chapter: 'Consumer Protection',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 7,
+  subject_question_count: 324,
+  created_at: '2026-04-30T19:54:41.458985+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'business_studies',
+  chapter: 'Consumer Protection',
+  count: 7,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'business_studies',
+  chapter: 'Consumer Protection',
+  count: 7
+}
+
+[JOB 2687ce01] Starting: [business_studies] Consumer Protection
+[worker] RECEIVED_JOB: {
+  job_id: '2687ce01-90bb-40bb-a180-f65a22ab0516',
+  expected_subject: 'business_studies',
+  expected_chapter: 'Consumer Protection',
+  raw_subject_id: 'business_studies',
+  raw_chapter: 'Consumer Protection',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:54:41.458985+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '2687ce01-90bb-40bb-a180-f65a22ab0516',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  chapter: 'Consumer Protection',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=7 existing questions loaded
+[generation] batch adjusted: { chapter: 'Consumer Protection', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '2687ce01-90bb-40bb-a180-f65a22ab0516',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  expected_chapter: 'Consumer Protection',
+  canonical_unit: 'Consumer Protection',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Consumer Protection" unit="Consumer Protection" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'business_studies',
+  prompt_subject_name: 'Business Studies',
+  expected_chapter: 'Consumer Protection',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'business_studies',
+  expected_chapter: 'Consumer Protection',
+  canonical_unit: 'Consumer Protection',
+  concept_id: 'business_studies::consumer_protection',
+  pyq_anchor_id: 'structure_only_seed_pyq_b3_for_business_studies::consumer_protection',
+  anchor_tier: 3,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}

@@ -1,0 +1,33 @@
+{
+  "subject": "economics",
+  "chapter": "Economic Reforms Since 1991",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "A student treats liberalisation and privatisation as the same reform because both reduce direct state control. Which distinction is most useful?",
+      "options": [
+        "Liberalisation reduces restrictions on economic activity, while privatisation shifts ownership or control toward the private sector.",
+        "Privatisation reduces trade barriers, while liberalisation transfers ownership of public enterprises.",
+        "Both reforms mean the government stops regulating the economy in every sector.",
+        "Liberalisation applies to agriculture, while privatisation applies only to foreign trade."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["comparison-based", "elimination", "close-distractors", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    },
+    {
+      "question": "Statement I: Economic reforms of 1991 aimed to make the economy more competitive. Statement II: Globalisation linked the Indian economy more closely with the world economy. Which option best evaluates the statements?",
+      "options": [
+        "Both statements are valid, and Statement II reflects one route through which competition increased.",
+        "Both statements are valid, but globalisation reduced international economic interaction.",
+        "Statement I is valid, while Statement II is invalid because reforms focused only on domestic licensing.",
+        "Statement I is invalid, while Statement II is valid because competition was not part of reform thinking."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["statement-based", "trap-option", "elimination", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

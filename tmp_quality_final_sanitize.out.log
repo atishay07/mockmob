@@ -1,0 +1,1349 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5986 concepts across 40 subjects (saved 2026-04-30T22:32:24.301Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 221,
+  missing_chapters: 0,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 221
+[planner] missing_chapters: 0
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Meeting Life Challenges',
+  coverage: 3,
+  priority: 90
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Psychology & Life',
+  coverage: 5,
+  priority: 90
+}
+[planner] {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Self & Personality',
+  coverage: 9,
+  priority: 90
+}
+[planner] {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  coverage: 10,
+  priority: 75
+}
+[planner] {
+  subject: 'biology',
+  chapter: 'Principles of Inheritance & Variation',
+  coverage: 10,
+  priority: 75
+}
+[planner] {
+  subject: 'business_studies',
+  chapter: 'Consumer Protection',
+  coverage: 10,
+  priority: 75
+}
+[planner] {
+  subject: 'business_studies',
+  chapter: 'Controlling',
+  coverage: 10,
+  priority: 75
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+  coverage: 10,
+  priority: 75
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  coverage: 10,
+  priority: 75
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: psychology → normalized: psychology → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+Subject: physics → normalized: physics → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+Subject: biology → normalized: biology → tier: 1
+Subject: biology → normalized: biology → tier: 1
+Subject: business_studies → normalized: business_studies → tier: 1
+Subject: business_studies → normalized: business_studies → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Meeting Life Challenges',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Psychology & Life',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'physics',
+    expected_chapter: 'Moving Charges & Magnetism',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Self & Personality',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Human Reproduction',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Principles of Inheritance & Variation',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'business_studies',
+    expected_chapter: 'Consumer Protection',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'business_studies',
+    expected_chapter: 'Controlling',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'p-Block Elements',
+    tier: 1,
+    priority: 75,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'psychology',
+    chapter: 'Meeting Life Challenges',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Psychology & Life',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'physics',
+    chapter: 'Moving Charges & Magnetism',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Self & Personality',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Human Reproduction',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Principles of Inheritance & Variation',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'business_studies',
+    chapter: 'Consumer Protection',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'business_studies',
+    chapter: 'Controlling',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'p-Block Elements',
+    status: 'queued',
+    priority: 75
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: 'c5cac30a-74f6-4982-bdf4-737c319750a7',
+    subject_id: 'psychology',
+    chapter: 'Meeting Life Challenges',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:35:16.410334+00:00'
+  },
+  {
+    id: '39301c0c-62f3-4dd7-b4a8-0b095205b593',
+    subject_id: 'psychology',
+    chapter: 'Psychology & Life',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:35:16.410334+00:00'
+  },
+  {
+    id: '6ad4f771-4093-4f79-93eb-b1a8d6356b03',
+    subject_id: 'physics',
+    chapter: 'Moving Charges & Magnetism',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:35:16.410334+00:00'
+  },
+  {
+    id: '54cd33be-6ded-4836-ab5b-50f28521c65d',
+    subject_id: 'psychology',
+    chapter: 'Self & Personality',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T22:35:16.410334+00:00'
+  },
+  {
+    id: '2be3a4c9-3bc5-4be1-a98f-5ee0dd40ff42',
+    subject_id: 'biology',
+    chapter: 'Human Reproduction',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T22:35:16.410334+00:00'
+  },
+  {
+    id: 'b75ef7b0-25e2-4411-b58c-7203bc5133a5',
+    subject_id: 'biology',
+    chapter: 'Principles of Inheritance & Variation',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T22:35:16.410334+00:00'
+  },
+  {
+    id: '4cb82e53-8783-4e85-87cd-f96d48d21afc',
+    subject_id: 'business_studies',
+    chapter: 'Consumer Protection',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T22:35:16.410334+00:00'
+  },
+  {
+    id: 'dfd66875-9d31-45cc-a7e5-3408347668a1',
+    subject_id: 'business_studies',
+    chapter: 'Controlling',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T22:35:16.410334+00:00'
+  },
+  {
+    id: '92730d94-5295-4c6f-8ecd-b41f33cabaeb',
+    subject_id: 'chemistry',
+    chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T22:35:16.410334+00:00'
+  },
+  {
+    id: 'b1810819-5f34-482b-ae1d-6c012ca65266',
+    subject_id: 'chemistry',
+    chapter: 'p-Block Elements',
+    status: 'queued',
+    priority: 75,
+    created_at: '2026-04-30T22:35:16.410334+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: 'c5cac30a-74f6-4982-bdf4-737c319750a7',
+    expected_subject: 'psychology',
+    expected_chapter: 'Meeting Life Challenges',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '39301c0c-62f3-4dd7-b4a8-0b095205b593',
+    expected_subject: 'psychology',
+    expected_chapter: 'Psychology & Life',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '6ad4f771-4093-4f79-93eb-b1a8d6356b03',
+    expected_subject: 'physics',
+    expected_chapter: 'Moving Charges & Magnetism',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '54cd33be-6ded-4836-ab5b-50f28521c65d',
+    expected_subject: 'psychology',
+    expected_chapter: 'Self & Personality',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '2be3a4c9-3bc5-4be1-a98f-5ee0dd40ff42',
+    expected_subject: 'biology',
+    expected_chapter: 'Human Reproduction',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: 'b75ef7b0-25e2-4411-b58c-7203bc5133a5',
+    expected_subject: 'biology',
+    expected_chapter: 'Principles of Inheritance & Variation',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '4cb82e53-8783-4e85-87cd-f96d48d21afc',
+    expected_subject: 'business_studies',
+    expected_chapter: 'Consumer Protection',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: 'dfd66875-9d31-45cc-a7e5-3408347668a1',
+    expected_subject: 'business_studies',
+    expected_chapter: 'Controlling',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: '92730d94-5295-4c6f-8ecd-b41f33cabaeb',
+    expected_subject: 'chemistry',
+    expected_chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+    status: 'queued',
+    priority: 75
+  },
+  {
+    id: 'b1810819-5f34-482b-ae1d-6c012ca65266',
+    expected_subject: 'chemistry',
+    expected_chapter: 'p-Block Elements',
+    status: 'queued',
+    priority: 75
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'c5cac30a-74f6-4982-bdf4-737c319750a7',
+    '39301c0c-62f3-4dd7-b4a8-0b095205b593',
+    '6ad4f771-4093-4f79-93eb-b1a8d6356b03',
+    '54cd33be-6ded-4836-ab5b-50f28521c65d',
+    '2be3a4c9-3bc5-4be1-a98f-5ee0dd40ff42',
+    'b75ef7b0-25e2-4411-b58c-7203bc5133a5',
+    '4cb82e53-8783-4e85-87cd-f96d48d21afc',
+    'dfd66875-9d31-45cc-a7e5-3408347668a1',
+    '92730d94-5295-4c6f-8ecd-b41f33cabaeb',
+    'b1810819-5f34-482b-ae1d-6c012ca65266'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] FOCUSED_QUALITY_JOB_SELECTED
+[queue] WORKER_SELECTED_JOB: {
+  id: '5aaac7c4-e491-4952-b64a-9ee452388e37',
+  actual_subject: 'sociology',
+  actual_chapter: 'Mass Media & Communications',
+  status: 'queued',
+  priority: 60,
+  original_priority: 100,
+  question_count: 29,
+  subject_question_count: 218,
+  created_at: '2000-01-01T00:00:14+00:00',
+  from_planner_capture: false
+}
+[worker] picking job: {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  count: 29,
+  priority: 60
+}
+[worker] coverage-based selection: {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  count: 29
+}
+
+[JOB 5aaac7c4] Starting: [sociology] Mass Media & Communications
+[worker] RECEIVED_JOB: {
+  job_id: '5aaac7c4-e491-4952-b64a-9ee452388e37',
+  expected_subject: 'sociology',
+  expected_chapter: 'Mass Media & Communications',
+  raw_subject_id: 'sociology',
+  raw_chapter: 'Mass Media & Communications',
+  status: 'queued',
+  priority: 60,
+  created_at: '2000-01-01T00:00:14+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '5aaac7c4-e491-4952-b64a-9ee452388e37',
+  expected_subject: 'sociology',
+  resolved_subject_id: 'sociology',
+  resolved_subject_name: 'Sociology',
+  chapter: 'Mass Media & Communications',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=29 existing questions loaded
+[generation] batch adjusted: { chapter: 'Mass Media & Communications', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '5aaac7c4-e491-4952-b64a-9ee452388e37',
+  expected_subject: 'sociology',
+  resolved_subject_id: 'sociology',
+  resolved_subject_name: 'Sociology',
+  expected_chapter: 'Mass Media & Communications',
+  canonical_unit: 'Social Change and Development in India',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Mass Media & Communications" unit="Social Change and Development in India" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'sociology',
+  prompt_subject_name: 'Sociology',
+  expected_chapter: 'Mass Media & Communications',
+  requested_count: 5,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'sociology',
+  requested_concept_id: 'sociology::mass_media_and_communications',
+  selected_anchor_id: 'structured_sociology_mass_media_and_communications_1',
+  selected_anchor_concept_id: 'sociology::mass_media_and_communications',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'case_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'sociology',
+  expected_chapter: 'Mass Media & Communications',
+  canonical_unit: 'Social Change and Development in India',
+  concept_id: 'sociology::mass_media_and_communications',
+  pyq_anchor_id: 'structured_sociology_mass_media_and_communications_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 20915,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: The rise of digital media has changed how information is disseminated in India. Statement II: Traditional media remains unaffected by the emergence of online platforms. Which option is most accurate?","o":["Both statements are correct, as traditional media still holds significant influence.","Statement I is valid, but Statement II overlooks the impact of digital media on traditional formats.","Statement I is incorrect because digital media has not significantly altered information flow.","Both statements are incorrect because neither has a lasting effect on society."],"a":"B","question_type":"statement_based","concept_id":"sociology::mass_media_and_communications","trap_option":"C","strong_distractors":["A","D"],"why_not_textbook":"The statements require analysis of the relationship between digital and traditional media.","why_cuet_level":"The question assesses comprehension of media dynamics in India.","distractor_rationale":{"A":"This option incorrectly assumes that traditional media's influence remains unchanged.","B":"This option accurately captures the evolving landscape of media in India.","C":"This option incorrectly dismisses the significant changes brought by digital platforms.","D":"This option inaccurately claims that both statements lack societal impact."}},{"q":"A learner claims that mass media only serves to entertain and distract the public from serious issues. Which response provides the best sociological correction?","o":["Mass media also plays a crucial role in informing and educating audiences about social issues.","Mass media mainly focuses on entertainment, which overshadows its educational role entirely.","Mass media has no impact on serious societal issues, as it primarily serves commercial interests.","Mass media can sometimes highlight issues but rarely influences public opinion."],"a":"A","question_type":"application_based","concept_id":"sociology::mass_media_and_communications","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"The response addresses misconceptions about the role of mass media in society.","why_cuet_level":"The question evaluates understanding of mass media functions beyond entertainment.","distractor_rationale":{"A":"This response correctly identifies the informative role of mass media alongside entertainment.","B":"This option misrepresents mass media's educational potential by suggesting it only entertains.","C":"This option overlooks the significant influence of mass media on public discourse and issues.","D":"This option inaccurately suggests that mass media does not affect societal issues."}},{"q":"Statement I: The internet has democratized access to information in India. Statement II: The digital divide does not affect how different social groups engage with online content. Which option is most accurate?","o":["Statement I is correct; however, Statement II ignores existing inequalities in access to technology.","Both statements are correct because all social groups now have equal access to information online.","Statement I is incorrect as the internet has not changed information access significantly.","Statement II is correct as all groups engage equally with online content."],"a":"A","question_type":"statement_based","concept_id":"sociology::mass_media_and_communications","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"The statements explore the complexities of digital access and its implications for society.","why_cuet_level":"The question challenges understanding of access disparities in digital engagement.","distractor_rationale":{"A":"This response accurately reflects the impact of the internet while acknowledging inequality.","B":"This option mistakenly assumes equality in digital access across all social groups.","C":"This option incorrectly asserts that internet access has had no transformative effect on society.","D":"This option wrongly claims that all groups have similar online engagement experiences."}},{"q":"A learner states that social media primarily enhances community engagement among users. Which critique provides a deeper sociological perspective?","o":["Social media can foster community ties but may also lead to echo chambers limiting diverse views.","Social media solely enhances engagement without any negative implications for community dynamics.","Social media does not influence community engagement since it caters only to individual interests.","Social media has no significant role in shaping community interactions among users."],"a":"A","question_type":"case_based","concept_id":"sociology::mass_media_and_communications","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"The critique requires an evaluation of both positive and negative aspects of social media's impact on communities.","why_cuet_level":"The question assesses critical thinking regarding social media's dual roles in society.","distractor_rationale":{"A":"This critique highlights both benefits and limitations of social media in community dynamics.","B":"This option inaccurately suggests that social media's effects are solely positive without drawbacks.","C":"This option fails to recognize social media's potential impact on community engagement dynamics.","D":"This option dismisses any significance social media may have on community interactions."}},{"q":"Read the statements and choose the correct option: Statement I: Media representation shapes public perceptions of social issues. Statement II: Media portrayal does not influence people's attitudes toward marginalized communities. Which option is most accurate?","o":["Statement I is valid, while Statement II mistakenly underestimates the power of representation in shaping attitudes.","Both statements are valid because public perception is formed independently from media influence.","Statement I is incorrect as representation has little effect on societal perceptions and attitudes.","Statement II is correct since most people form their views based solely on personal experiences."],"a":"A","question_type":"assertion_reason","concept_id":"sociology::mass_media_and_communications","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"The statements explore the relationship between media representation and public perception critically.","why_cuet_level":"The question evaluates understanding of how media influences societal attitudes toward communities.","distractor_rationale":{"A":"This response accurately reflects the significant role of representation in shaping perceptions.","B":"This option incorrectly assumes that personal experiences outweigh all forms of media influence.","C":"This option wrongly claims that representation has no substantial impact on perceptions or attitudes.","D":"This option inaccurately suggests that personal experiences are wholly separate from mediated representations."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'c5cac30a-74f6-4982-bdf4-737c319750a7',
+    '39301c0c-62f3-4dd7-b4a8-0b095205b593',
+    '6ad4f771-4093-4f79-93eb-b1a8d6356b03',
+    '54cd33be-6ded-4836-ab5b-50f28521c65d',
+    '2be3a4c9-3bc5-4be1-a98f-5ee0dd40ff42',
+    'b75ef7b0-25e2-4411-b58c-7203bc5133a5',
+    '4cb82e53-8783-4e85-87cd-f96d48d21afc',
+    'dfd66875-9d31-45cc-a7e5-3408347668a1',
+    '92730d94-5295-4c6f-8ecd-b41f33cabaeb',
+    'b1810819-5f34-482b-ae1d-6c012ca65266'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '6ad4f771-4093-4f79-93eb-b1a8d6356b03',
+  actual_subject: 'physics',
+  actual_chapter: 'Moving Charges & Magnetism',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 9,
+  subject_question_count: 304,
+  created_at: '2026-04-30T22:35:16.410334+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  count: 9,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'physics', chapter: 'Moving Charges & Magnetism', count: 9 }
+
+[JOB 6ad4f771] Starting: [physics] Moving Charges & Magnetism
+[worker] RECEIVED_JOB: {
+  job_id: '6ad4f771-4093-4f79-93eb-b1a8d6356b03',
+  expected_subject: 'physics',
+  expected_chapter: 'Moving Charges & Magnetism',
+  raw_subject_id: 'physics',
+  raw_chapter: 'Moving Charges & Magnetism',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T22:35:16.410334+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '6ad4f771-4093-4f79-93eb-b1a8d6356b03',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  chapter: 'Moving Charges & Magnetism',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=9 existing questions loaded
+[generation] batch adjusted: { chapter: 'Moving Charges & Magnetism', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '6ad4f771-4093-4f79-93eb-b1a8d6356b03',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  expected_chapter: 'Moving Charges & Magnetism',
+  canonical_unit: 'Magnetic Effects of Current and Magnetism',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Moving Charges & Magnetism" unit="Magnetic Effects of Current and Magnetism" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'physics',
+  prompt_subject_name: 'Physics',
+  expected_chapter: 'Moving Charges & Magnetism',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'physics',
+  expected_chapter: 'Moving Charges & Magnetism',
+  canonical_unit: 'Magnetic Effects of Current and Magnetism',
+  concept_id: 'physics::moving_charges_and_magnetism',
+  pyq_anchor_id: 'structure_only_structured_physics_dual_nature_of_radiation_and_matter_1_for_physics::moving_charges_and_magnetism',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 21370,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: A charged particle moving in a magnetic field experiences a force that is perpendicular to both its velocity and the magnetic field. Statement II: The direction of this force can be determined using the right-hand rule. Statement III: The magnitude of the force is independent of the speed of the charged particle.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"physics::moving_charges_and_magnetism","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"This question focuses on understanding the relationship between magnetic forces and charged particle motion, rather than definitions.","why_cuet_level":"This level encourages critical reasoning about electromagnetic principles.","distractor_rationale":{"A":"Both statements are valid as they accurately describe the behavior of charged particles in magnetic fields.","B":"While Statement II is correct, Statement III incorrectly states that force magnitude does not depend on speed.","C":"Statement I is true, but Statement III is incorrect regarding force dependency on speed.","D":"All statements cannot be true since Statement III contradicts established principles."}},{"q":"Assertion: A current-carrying conductor experiences a force when placed in a magnetic field. Reason: This force is proportional to both the current and the magnetic field strength. Which option best evaluates this pair?","o":["Both Assertion and Reason are correct, and the Reason explains why the Assertion is true.","Both Assertion and Reason are correct, but the Reason does not explain the Assertion.","Assertion is correct, but Reason is incorrect because it ignores temperature effects.","Assertion is incorrect, but Reason is correct under certain conditions."],"a":"A","question_type":"assertion_reason","concept_id":"physics::moving_charges_and_magnetism","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The question assesses deeper understanding rather than basic recall of definitions.","why_cuet_level":"This level requires application of concepts to evaluate relationships in physics.","distractor_rationale":{"A":"Both statements are valid as they accurately reflect electromagnetic principles.","B":"The reason given does explain the assertion correctly; thus, this option misrepresents their relationship.","C":"Temperature does affect resistance but not directly related to this fundamental principle of electromagnetism.","D":"The assertion stands true; however, reasoning is not context-dependent in this case."}},{"q":"Read the statements and choose the correct option: Statement I: The magnetic field inside a long straight solenoid is uniform. Statement II: The strength of the magnetic field depends on the number of turns per unit length and current. Statement III: The magnetic field outside the solenoid is stronger than inside it due to edge effects.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"physics::moving_charges_and_magnetism","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question emphasizes critical thinking about magnetic fields rather than rote memorization.","why_cuet_level":"The level challenges students to apply knowledge of solenoids' properties.","distractor_rationale":{"A":"Statements I and II accurately describe characteristics of solenoids in magnetism.","B":"Statement II is true, but Statement III incorrectly states external field strength compared to internal fields.","C":"Statement I is true, but Statement III misrepresents the nature of magnetic fields around solenoids.","D":"Including all statements leads to an incorrect conclusion about external versus internal field strengths."}},{"q":"Assertion: A charged particle moving perpendicular to a uniform magnetic field will undergo circular motion. Reason: The magnetic force acts as a centripetal force in this scenario. Which option best evaluates this pair?","o":["Both Assertion and Reason are correct, and the Reason explains why circular motion occurs.","Both Assertion and Reason are correct, but they refer to different aspects of motion.","Assertion is correct, but Reason is incorrect because centripetal forces do not apply here.","Assertion is incorrect, but Reason is correct under different conditions."],"a":"A","question_type":"assertion_reason","concept_id":"physics::moving_charges_and_magnetism","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The question tests understanding of motion dynamics rather than basic definitions.","why_cuet_level":"This level requires synthesis of concepts regarding forces acting on moving charges.","distractor_rationale":{"A":"Both statements correctly illustrate how magnetic forces influence charged particles' motion.","B":"While both statements may appear related, they do not directly address each other's implications here.","C":"Centripetal forces are indeed applicable; hence this reasoning fails to recognize established physics principles.","D":"The assertion holds true; however, reasoning applies generally without exceptions noted."}},{"q":"Read the statements and choose the correct option: Statement I: Electromagnetic induction can occur due to changing magnetic fields or moving conductors. Statement II: Faraday's law states that induced EMF depends on both rate of change of magnetic flux and number of loops. Statement III: Induction effects are always immediate regardless of changes in conditions or materials used.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"physics::moving_charges_and_magnetism","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question encourages analytical thinking about induction rather than simple recall of laws or definitions.","why_cuet_level":"Level demands understanding nuances in electromagnetic induction principles.","distractor_rationale":{"A":"Statements I and II correctly describe principles governing electromagnetic induction processes.","B":"Statement II accurately reflects Faraday's law; however, statement III presents an incorrect assumption about immediacy in induction effects.","C":"Statement I accurately describes induction methods but misses crucial timing aspects addressed in other statements.","D":"Including all statements leads to an inaccurate portrayal of induction dynamics."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=1
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 1
+[pipeline] generated_count=1 | mix=easy=0, medium=1, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 1
+[reject] {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=1 | pre_validation_filtered=1 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=1 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 1,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 1
+}
+[draft] Saved c2e2132e-2056-42b3-bedd-2ff2ebf38af4 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 1,
+  draft_candidates: 1,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=physics | chapter=Moving Charges & Magnetism | target=5 | generated_count=1 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=1 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=1 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'c5cac30a-74f6-4982-bdf4-737c319750a7',
+    '39301c0c-62f3-4dd7-b4a8-0b095205b593',
+    '54cd33be-6ded-4836-ab5b-50f28521c65d',
+    '2be3a4c9-3bc5-4be1-a98f-5ee0dd40ff42',
+    'b75ef7b0-25e2-4411-b58c-7203bc5133a5',
+    '4cb82e53-8783-4e85-87cd-f96d48d21afc',
+    'dfd66875-9d31-45cc-a7e5-3408347668a1',
+    '92730d94-5295-4c6f-8ecd-b41f33cabaeb',
+    'b1810819-5f34-482b-ae1d-6c012ca65266'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '39301c0c-62f3-4dd7-b4a8-0b095205b593',
+  actual_subject: 'psychology',
+  actual_chapter: 'Psychology & Life',
+  status: 'queued',
+  priority: 75,
+  original_priority: 90,
+  question_count: 10,
+  subject_question_count: 132,
+  created_at: '2026-04-30T22:35:16.410334+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'psychology',
+  chapter: 'Psychology & Life',
+  count: 10,
+  priority: 75
+}
+[worker] coverage-based selection: { subject: 'psychology', chapter: 'Psychology & Life', count: 10 }
+
+[JOB 39301c0c] Starting: [psychology] Psychology & Life
+[worker] RECEIVED_JOB: {
+  job_id: '39301c0c-62f3-4dd7-b4a8-0b095205b593',
+  expected_subject: 'psychology',
+  expected_chapter: 'Psychology & Life',
+  raw_subject_id: 'psychology',
+  raw_chapter: 'Psychology & Life',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-04-30T22:35:16.410334+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '39301c0c-62f3-4dd7-b4a8-0b095205b593',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  chapter: 'Psychology & Life',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=10 existing questions loaded
+[generation] batch adjusted: { chapter: 'Psychology & Life', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '39301c0c-62f3-4dd7-b4a8-0b095205b593',
+  expected_subject: 'psychology',
+  resolved_subject_id: 'psychology',
+  resolved_subject_name: 'Psychology',
+  expected_chapter: 'Psychology & Life',
+  canonical_unit: 'Existing Psychology Coverage',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Psychology & Life" unit="Existing Psychology Coverage" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'psychology',
+  prompt_subject_name: 'Psychology',
+  expected_chapter: 'Psychology & Life',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'psychology',
+  expected_chapter: 'Psychology & Life',
+  canonical_unit: 'Existing Psychology Coverage',
+  concept_id: 'psychology::psychology_and_life',
+  pyq_anchor_id: 'structure_only_structured_psychology_self_and_personality_1_for_psychology::psychology_and_life',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'psychology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'psychology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 21998,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'psychology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: Emotional intelligence is solely about recognizing one's own emotions. Statement II: Individuals with high emotional intelligence can manage their emotions effectively in social situations. Statement III: Emotional intelligence impacts interpersonal relationships positively.","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"B","question_type":"statement_based","concept_id":"psychology::psychology_and_life","trap_option":"A","strong_distractors":["A","C"],"why_not_textbook":"This question encourages critical analysis rather than simple recall of definitions.","why_cuet_level":"This question aligns with CUET's focus on understanding concepts in context.","distractor_rationale":{"A":"This option incorrectly suggests that emotional intelligence is only about self-recognition, missing its broader implications.","B":"This option correctly identifies the relationship between emotional intelligence and effective emotion management.","C":"This option overlooks the importance of the first statement, which misrepresents emotional intelligence.","D":"This option inaccurately combines all statements without recognizing the flaw in Statement I."}},{"q":"Assertion: A person's mental health can be significantly influenced by their social environment. Reason: Social support provides resources that help in coping with stressors.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason oversimplifies the role of social connections.","Assertion is false, but Reason accurately describes a supportive environment."],"a":"A","question_type":"assertion_reason","concept_id":"psychology::psychology_and_life","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The question tests understanding of mental health concepts rather than definitions.","why_cuet_level":"It requires students to analyze assertions and reasons critically within psychological contexts.","distractor_rationale":{"A":"This option correctly connects social environment and mental health through support mechanisms.","B":"Incorrectly separates assertion from reason, failing to recognize their connection.","C":"Oversimplifies by suggesting that social connections alone do not impact mental health.","D":"Incorrectly states that the assertion is false, while it is indeed true."}},{"q":"Consider the following statements regarding psychological well-being: Statement I: High self-esteem leads to better coping strategies. Statement II: Psychological well-being is independent of life experiences. Statement III: Positive relationships contribute to an individual's overall psychological health. Choose the correct option:","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"psychology::psychology_and_life","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"This question requires evaluation of statements rather than mere recall of facts.","why_cuet_level":"It aligns with CUET's emphasis on critical thinking regarding psychological concepts.","distractor_rationale":{"A":"Incorrectly suggests that both statements are valid without recognizing the flaw in II.","B":"Misidentifies II as correct when it contradicts established psychological principles.","C":"Correctly identifies both I and III as valid statements about well-being.","D":"Combines all statements but fails to acknowledge the flaw in Statement II."}},{"q":"Assertion: Cognitive biases can affect decision-making processes. Reason: Cognitive biases are solely caused by lack of information or knowledge.","o":["Both Assertion and Reason are true, and the Reason explains the Assertion.","Both Assertion and Reason are true, but the Reason does not explain the Assertion.","Assertion is true, but Reason misrepresents cognitive biases' origins.","Assertion is false, but Reason accurately describes cognitive biases."],"a":"C","question_type":"assertion_reason","concept_id":"psychology::psychology_and_life","trap_option":"A","strong_distractors":["B","D"],"why_not_textbook":"The focus on cognitive biases invites deeper analysis rather than surface-level definitions.","why_cuet_level":"This question emphasizes understanding complex psychological phenomena relevant to CUET standards.","distractor_rationale":{"A":"This option incorrectly assumes that lack of information is the sole cause of cognitive biases.","B":"Fails to recognize that while both statements may be true, they do not relate directly as suggested.","C":"Correctly identifies a flaw in understanding cognitive biases' causes beyond just information deficits.","D":"Misstates that the assertion is false when it is actually true."}},{"q":"Read these statements about stress management: Statement I: Regular physical activity can alleviate feelings of stress. Statement II: Stress management techniques have no effect on long-term health outcomes. Statement III: Mindfulness practices can enhance emotional regulation during stressful times. Choose the correct option:","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"C","question_type":"statement_based","concept_id":"psychology::psychology_and_life","trap_option":"B","strong_distractors":["A","D"],"why_not_textbook":"The question assesses understanding of stress management rather than rote memorization of facts.","why_cuet_level":"It requires evaluation of multiple statements concerning psychological well-being relevant to CUET standards.","distractor_rationale":{"A":"Incorrectly includes II as valid despite its incorrect claim about stress management effects.","B":"Misidentifies a key statement as correct when it contradicts evidence about stress management benefits.","C":"Correctly recognizes both I and III as valid statements regarding stress management strategies.","D":"Combines all statements but fails to acknowledge the flaw in Statement II."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=5
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 5
+[pipeline] generated_count=5 | mix=easy=0, medium=5, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 5
+[reject] {
+  subject: 'psychology',
+  chapter: 'Psychology & Life',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'psychology',
+  chapter: 'Psychology & Life',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'psychology',
+  chapter: 'Psychology & Life',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=5 | pre_validation_filtered=3 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 3
+}
+[draft] Saved 68c3b00e-bf9d-4a48-9d06-6603f70066a5 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved ec791e26-0509-4f08-8d3f-5f839ec252ee | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved fb04b197-56ba-428b-9db2-ab7340216ca9 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 3,
+  draft_candidates: 3,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=psychology | chapter=Psychology & Life | target=5 | generated_count=5 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=3 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=3 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'c5cac30a-74f6-4982-bdf4-737c319750a7',
+    '54cd33be-6ded-4836-ab5b-50f28521c65d',
+    '2be3a4c9-3bc5-4be1-a98f-5ee0dd40ff42',
+    'b75ef7b0-25e2-4411-b58c-7203bc5133a5',
+    '4cb82e53-8783-4e85-87cd-f96d48d21afc',
+    'dfd66875-9d31-45cc-a7e5-3408347668a1',
+    '92730d94-5295-4c6f-8ecd-b41f33cabaeb',
+    'b1810819-5f34-482b-ae1d-6c012ca65266'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '2be3a4c9-3bc5-4be1-a98f-5ee0dd40ff42',
+  actual_subject: 'biology',
+  actual_chapter: 'Human Reproduction',
+  status: 'queued',
+  priority: 75,
+  original_priority: 75,
+  question_count: 10,
+  subject_question_count: 424,
+  created_at: '2026-04-30T22:35:16.410334+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  count: 10,
+  priority: 75
+}
+[worker] coverage-based selection: { subject: 'biology', chapter: 'Human Reproduction', count: 10 }
+
+[JOB 2be3a4c9] Starting: [biology] Human Reproduction
+[worker] RECEIVED_JOB: {
+  job_id: '2be3a4c9-3bc5-4be1-a98f-5ee0dd40ff42',
+  expected_subject: 'biology',
+  expected_chapter: 'Human Reproduction',
+  raw_subject_id: 'biology',
+  raw_chapter: 'Human Reproduction',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-04-30T22:35:16.410334+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '2be3a4c9-3bc5-4be1-a98f-5ee0dd40ff42',
+  expected_subject: 'biology',
+  resolved_subject_id: 'biology',
+  resolved_subject_name: 'Biology',
+  chapter: 'Human Reproduction',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=10 existing questions loaded
+[generation] batch adjusted: { chapter: 'Human Reproduction', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '2be3a4c9-3bc5-4be1-a98f-5ee0dd40ff42',
+  expected_subject: 'biology',
+  resolved_subject_id: 'biology',
+  resolved_subject_name: 'Biology',
+  expected_chapter: 'Human Reproduction',
+  canonical_unit: 'Reproduction',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Human Reproduction" unit="Reproduction" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'biology',
+  prompt_subject_name: 'Biology',
+  expected_chapter: 'Human Reproduction',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'biology',
+  expected_chapter: 'Human Reproduction',
+  canonical_unit: 'Reproduction',
+  concept_id: 'biology::human_reproduction',
+  pyq_anchor_id: 'structure_only_structured_biology_microbes_in_human_welfare_1_for_biology::human_reproduction',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'biology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'biology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 18369,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'biology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: Fertilization occurs when a sperm cell successfully penetrates an egg cell. Statement II: The fertilized egg undergoes several divisions before implantation. Statement III: Implantation is the process where the fertilized egg attaches to the ovary. Which option is correct?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"biology::human_reproduction","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question tests understanding of fertilization and implantation processes, rather than definitions.","why_cuet_level":"This level requires critical evaluation of statements rather than simple recall.","distractor_rationale":{"A":"Both statements accurately describe fertilization and subsequent development stages.","B":"Implantation does not occur in the ovary but in the uterine lining, making this incorrect.","C":"Implantation refers to attachment in the uterus, not the ovary, indicating a misunderstanding.","D":"While I and II are correct, III misstates where implantation occurs."}},{"q":"Assertion: The male reproductive system produces sperm continuously throughout life. Reason: This is due to the presence of Sertoli cells which nourish developing sperm. Evaluate the assertions:","o":["Both Assertion and Reason are correct, and Reason explains Assertion.","Assertion is correct, but Reason is incorrect regarding Sertoli cell function.","Both Assertion and Reason are incorrect about male reproduction.","Assertion is incorrect, while Reason is correct about Sertoli cells."],"a":"A","question_type":"assertion_reason","concept_id":"biology::human_reproduction","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"This question emphasizes the relationship between assertion and reasoning rather than definitions or facts.","why_cuet_level":"Requires understanding of male reproductive biology beyond basic definitions.","distractor_rationale":{"A":"Reason accurately explains why continuous sperm production occurs due to Sertoli cells.","B":"The role of Sertoli cells does support sperm development, thus this reasoning is valid.","C":"Both statements are accurate; therefore, this option is misleading by claiming both are incorrect.","D":"Sertoli cells play a crucial role in nourishing sperm; hence this statement misrepresents their function."}},{"q":"Consider the following statements about human reproduction: Statement I: Hormonal changes during the menstrual cycle prepare the body for potential pregnancy. Statement II: Ovulation occurs mid-cycle due to a surge in luteinizing hormone. Statement III: Menstruation only occurs if fertilization has taken place. Identify the correct option:","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"biology::human_reproduction","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question assesses comprehension of hormonal roles without requiring direct definitions.","why_cuet_level":"Evaluates understanding of complex hormonal interactions rather than simple recall.","distractor_rationale":{"A":"Statements I and II are factual regarding hormonal functions during the menstrual cycle.","B":"Menstruation can occur without fertilization, making this statement misleading.","C":"Menstruation is unrelated to fertilization occurring, thus this statement misrepresents basic reproductive biology.","D":"While I and II are accurate, III incorrectly asserts menstruation's condition."}},{"q":"Read the following claims: Claim I: Sperm cells can survive outside the body for extended periods. Claim II: The female reproductive tract provides a suitable environment for sperm survival. Claim III: Sperm transportation requires active movement through muscular contractions in the female system. Which claims are valid?","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"B","question_type":"comparison_based","concept_id":"biology::human_reproduction","trap_option":"A","strong_distractors":["C","D"],"why_not_textbook":"This question examines comparative claims about sperm viability in different environments rather than definitions.","why_cuet_level":"Requires understanding of environmental factors affecting sperm longevity rather than simple recall.","distractor_rationale":{"A":"Claim I is inaccurate as sperm cannot survive long outside body conditions; thus this option misrepresents facts.","B":"Both II and III correctly describe conditions for sperm viability within female reproductive anatomy.","C":"Claim I inaccurately represents conditions for sperm survival; thus this combination fails to reflect accurate information.","D":"Claim I fails on viability; hence this option incorrectly combines valid claims with an invalid one."}},{"q":"Assertion: Fertilization usually occurs in the fallopian tubes after ovulation. Reason: The fallopian tubes transport the egg from the ovaries to the uterus. Evaluate these statements:","o":["Both Assertion and Reason are true, with Reason supporting Assertion.","Assertion is true but Reason is false regarding transport directionality.","Both Assertion and Reason are false in their descriptions of fertilization locations.","Assertion is false while Reason is true about transport functions."],"a":"A","question_type":"assertion_reason","concept_id":"biology::human_reproduction","trap_option":"B","strong_distractors":["C","D"],"why_not_textbook":"This question tests understanding of fertilization location relative to anatomical structures rather than memorized facts.","why_cuet_level":"Evaluates comprehension of reproductive anatomy beyond surface-level knowledge.","distractor_rationale":{"A":"The reason correctly supports why fertilization happens in that location post-ovulation.","B":"The directionality of transport described here makes this reasoning inaccurate despite a true assertion.","C":"Both statements hold validity; thus this option misrepresents their factual nature together.","D":"The assertion holds true while reasoning fails on transport accuracy; hence this combination misrepresents facts."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=5
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 5
+[pipeline] generated_count=5 | mix=easy=0, medium=5, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 5
+[reject] {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'biology',
+  chapter: 'Human Reproduction',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=5 | pre_validation_filtered=3 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 3
+}
+[draft] Saved 3cf2c361-f203-4504-8b01-6d1cf71316c2 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 1db01c29-2a48-4431-8431-f19f09636db8 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 044b6b6e-510c-470e-b359-9dcf3c1c4b86 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 3,
+  draft_candidates: 3,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=biology | chapter=Human Reproduction | target=5 | generated_count=5 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=3 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=3 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'c5cac30a-74f6-4982-bdf4-737c319750a7',
+    '54cd33be-6ded-4836-ab5b-50f28521c65d',
+    'b75ef7b0-25e2-4411-b58c-7203bc5133a5',
+    '4cb82e53-8783-4e85-87cd-f96d48d21afc',
+    'dfd66875-9d31-45cc-a7e5-3408347668a1',
+    '92730d94-5295-4c6f-8ecd-b41f33cabaeb',
+    'b1810819-5f34-482b-ae1d-6c012ca65266'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'b75ef7b0-25e2-4411-b58c-7203bc5133a5',
+  actual_subject: 'biology',
+  actual_chapter: 'Principles of Inheritance & Variation',
+  status: 'queued',
+  priority: 75,
+  original_priority: 75,
+  question_count: 10,
+  subject_question_count: 427,
+  created_at: '2026-04-30T22:35:16.410334+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'biology',
+  chapter: 'Principles of Inheritance & Variation',
+  count: 10,
+  priority: 75
+}
+[worker] coverage-based selection: {
+  subject: 'biology',
+  chapter: 'Principles of Inheritance & Variation',
+  count: 10
+}
+
+[JOB b75ef7b0] Starting: [biology] Principles of Inheritance & Variation
+[worker] RECEIVED_JOB: {
+  job_id: 'b75ef7b0-25e2-4411-b58c-7203bc5133a5',
+  expected_subject: 'biology',
+  expected_chapter: 'Principles of Inheritance & Variation',
+  raw_subject_id: 'biology',
+  raw_chapter: 'Principles of Inheritance & Variation',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-04-30T22:35:16.410334+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'b75ef7b0-25e2-4411-b58c-7203bc5133a5',
+  expected_subject: 'biology',
+  resolved_subject_id: 'biology',
+  resolved_subject_name: 'Biology',
+  chapter: 'Principles of Inheritance & Variation',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=10 existing questions loaded
+[generation] batch adjusted: { chapter: 'Principles of Inheritance & Variation', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'b75ef7b0-25e2-4411-b58c-7203bc5133a5',
+  expected_subject: 'biology',
+  resolved_subject_id: 'biology',
+  resolved_subject_name: 'Biology',
+  expected_chapter: 'Principles of Inheritance & Variation',
+  canonical_unit: 'Genetics and Evolution',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Principles of Inheritance & Variation" unit="Genetics and Evolution" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'biology',
+  prompt_subject_name: 'Biology',
+  expected_chapter: 'Principles of Inheritance & Variation',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'biology',
+  expected_chapter: 'Principles of Inheritance & Variation',
+  canonical_unit: 'Genetics and Evolution',
+  concept_id: 'biology::principles_of_inheritance_and_variation',
+  pyq_anchor_id: 'structure_only_structured_biology_microbes_in_human_welfare_2_for_biology::principles_of_inheritance_and_variation',
+  anchor_tier: 3,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 2,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'biology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'biology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 18995,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'biology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Read the statements and choose the correct option: Statement I: In a dihybrid cross, the phenotypic ratio in the F2 generation is typically 9:3:3:1. Statement II: This ratio indicates that all traits assort independently. Statement III: The F1 generation of a dihybrid cross shows a phenotypic ratio of 3:1. ","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"biology::principles_of_inheritance_and_variation","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"This question tests the understanding of Mendelian ratios rather than rote definitions.","why_cuet_level":"The question requires analysis of genetic ratios and their implications.","distractor_rationale":{"A":"Both statements accurately reflect Mendelian inheritance principles regarding dihybrid crosses.","B":"Statement II overgeneralizes the independence of traits; some traits may show linkage under certain conditions.","C":"Statement III incorrectly states the F1 ratio; it should refer to the F2 generation instead.","D":"Including all statements would imply that every trait behaves independently, which is not always true."}},{"q":"Assertion: The law of segregation states that alleles segregate during gamete formation. Reason: This process ensures that offspring receive one allele from each parent. Choose the correct option: ","o":["Both Assertion and Reason are true, and Reason is the correct explanation for Assertion.","Both Assertion and Reason are true, but Reason is not the correct explanation for Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true."],"a":"A","question_type":"assertion_reason","concept_id":"biology::principles_of_inheritance_and_variation","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"The question evaluates conceptual understanding rather than mere recall of definitions.","why_cuet_level":"It requires understanding of segregation in genetic inheritance.","distractor_rationale":{"A":"Both statements correctly describe the law of segregation and its implications for inheritance.","B":"While both statements are correct, they do not connect logically as one explains the other.","C":"The assertion is accurate, but claiming the reason is false overlooks its fundamental role in genetics.","D":"The reason provided accurately reflects a key concept in genetics, making this choice incorrect."}},{"q":"Consider these statements about phenotypic expression: Statement I: Dominant traits can mask recessive traits in heterozygotes. Statement II: Environmental factors can influence phenotypic expression. Statement III: Recessive traits are never expressed in the phenotype. Identify the correct option: ","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"biology::principles_of_inheritance_and_variation","trap_option":"C","strong_distractors":["B","C"],"why_not_textbook":"This question engages with both genetic principles and environmental influences on phenotype.","why_cuet_level":"It challenges students to evaluate multiple aspects of trait expression.","distractor_rationale":{"A":"Both statements I and II are valid; however, statement III incorrectly describes recessive traits' expression.","B":"Environmental influence does play a role, but statement III misrepresents how recessive traits can be expressed under certain conditions.","C":"Recessive traits can be expressed under specific genetic contexts, making this statement inaccurate.","D":"Including all three statements would imply a misunderstanding of how genetics operates."}},{"q":"Assertion: Linked genes do not assort independently during meiosis. Reason: This linkage affects the expected ratios in offspring. Choose the best evaluation of these statements: ","o":["Both Assertion and Reason are true, with Reason explaining Assertion well.","Both Assertion and Reason are true, but Reason does not explain Assertion fully.","Assertion is true; however, Reason is incorrect under some conditions.","Assertion is false; hence Reason cannot be evaluated."],"a":"A","question_type":"assertion_reason","concept_id":"biology::principles_of_inheritance_and_variation","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question emphasizes understanding genetic linkage rather than memorizing definitions.","why_cuet_level":"It assesses comprehension of linkage effects on inheritance ratios.","distractor_rationale":{"A":"Both assertions correctly highlight how linkage impacts inheritance patterns in offspring ratios.","B":"While both statements are accurate, they do not connect adequately as one explains the other directly.","C":"The reasoning provided fails because linked genes can sometimes assort independently due to crossing over under specific contexts.","D":"Evaluating reasoning based on a false assertion does not apply here since both statements hold truth."}},{"q":"Evaluate these claims regarding polygenic inheritance: Statement I: Polygenic traits result from multiple genes affecting a single trait. Statement II: This type of inheritance leads to continuous variation in phenotypes. Statement III: All polygenic traits show simple Mendelian ratios. Choose the correct option: ","o":["I and II only","II and III only","I and III only","I, II and III"],"a":"A","question_type":"statement_based","concept_id":"biology::principles_of_inheritance_and_variation","trap_option":"C","strong_distractors":["B","D"],"why_not_textbook":"This question tests understanding of complex inheritance patterns versus simple Mendelian concepts.","why_cuet_level":"It challenges students to differentiate between types of genetic inheritance clearly.","distractor_rationale":{"A":"Statements I and II accurately describe polygenic inheritance without overgeneralizing it as in statement III.","B":"While continuous variation exists, statement III misrepresents polygenic traits by implying they follow Mendelian ratios strictly.","C":"Polygenic traits can exhibit complex patterns that do not conform to simple Mendelian expectations under many scenarios.","D":"Including all three would suggest that polygenic inheritance behaves like single-gene inheritance, which is misleading."}}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=5
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 5
+[pipeline] generated_count=5 | mix=easy=0, medium=5, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 5
+[reject] {
+  subject: 'biology',
+  chapter: 'Principles of Inheritance & Variation',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'biology',
+  chapter: 'Principles of Inheritance & Variation',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'biology',
+  chapter: 'Principles of Inheritance & Variation',
+  reason: 'extreme_qualifier',
+  source: 'pre_validation_internal_quality',
+  rule: 'extreme_qualifier',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=5 | pre_validation_filtered=3 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=0 | validator_load_reduction=100.0%
+[pipeline] debug_quality_gate {
+  pyq_anchor_used: [],
+  anchor_source_quality: [],
+  fallback_used: false,
+  selfcheck_passed: 3,
+  sent_to_validator: 0,
+  skipped_for_anchor_quality: 3
+}
+[draft] Saved 360a57aa-4058-4145-b56f-2d4659e5c7fd | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 7d9cfbdb-8bd6-4e6a-a2a6-940cd24434d2 | reason=draft_only:anchor_not_direct_enough_for_validation
+[draft] Saved 91ffc5ee-9e89-46e8-ac89-ad05977cd2b9 | reason=draft_only:anchor_not_direct_enough_for_validation
+[pipeline] draft_gate {
+  draft_only_flag: true,
+  draft_saved: 3,
+  draft_candidates: 3,
+  publish_count: 0,
+  reason: 'anchor_not_direct_enough_for_validation'
+}
+[pipeline] SUMMARY | subject=biology | chapter=Principles of Inheritance & Variation | target=5 | generated_count=5 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=3 | strict_validation_count=0 | validated_count=0 | accepted_count=0 | draft_count=3 | draft_only_flag=true | shortfall=5 | yield_rate=0.0% | retry_count=0 | api_calls_used=1
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'c5cac30a-74f6-4982-bdf4-737c319750a7',
+    '54cd33be-6ded-4836-ab5b-50f28521c65d',
+    '4cb82e53-8783-4e85-87cd-f96d48d21afc',
+    'dfd66875-9d31-45cc-a7e5-3408347668a1',
+    '92730d94-5295-4c6f-8ecd-b41f33cabaeb',
+    'b1810819-5f34-482b-ae1d-6c012ca65266'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '4cb82e53-8783-4e85-87cd-f96d48d21afc',
+  actual_subject: 'business_studies',
+  actual_chapter: 'Consumer Protection',
+  status: 'queued',
+  priority: 75,
+  original_priority: 75,
+  question_count: 10,
+  subject_question_count: 348,
+  created_at: '2026-04-30T22:35:16.410334+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'business_studies',
+  chapter: 'Consumer Protection',
+  count: 10,
+  priority: 75
+}
+[worker] coverage-based selection: {
+  subject: 'business_studies',
+  chapter: 'Consumer Protection',
+  count: 10
+}
+
+[JOB 4cb82e53] Starting: [business_studies] Consumer Protection
+[worker] RECEIVED_JOB: {
+  job_id: '4cb82e53-8783-4e85-87cd-f96d48d21afc',
+  expected_subject: 'business_studies',
+  expected_chapter: 'Consumer Protection',
+  raw_subject_id: 'business_studies',
+  raw_chapter: 'Consumer Protection',
+  status: 'queued',
+  priority: 75,
+  created_at: '2026-04-30T22:35:16.410334+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '4cb82e53-8783-4e85-87cd-f96d48d21afc',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  chapter: 'Consumer Protection',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=10 existing questions loaded
+[generation] batch adjusted: { chapter: 'Consumer Protection', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '4cb82e53-8783-4e85-87cd-f96d48d21afc',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  expected_chapter: 'Consumer Protection',
+  canonical_unit: 'Consumer Protection',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Consumer Protection" unit="Consumer Protection" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'business_studies',
+  prompt_subject_name: 'Business Studies',
+  expected_chapter: 'Consumer Protection',
+  requested_count: 5,
+  difficulty_override: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'business_studies',
+  requested_concept_id: 'business_studies::consumer_protection',
+  selected_anchor_id: 'structured_business_studies_consumer_protection_1',
+  selected_anchor_concept_id: 'business_studies::consumer_protection',
+  anchor_tier: 1,
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'business_studies',
+  expected_chapter: 'Consumer Protection',
+  canonical_unit: 'Consumer Protection',
+  concept_id: 'business_studies::consumer_protection',
+  pyq_anchor_id: 'structured_business_studies_consumer_protection_1',
+  anchor_tier: 1,
+  anchor_source_quality: 'manual_seed',
+  pyq_example_count: 5,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}

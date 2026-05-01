@@ -1,0 +1,33 @@
+{
+  "subject": "chemistry",
+  "chapter": "Coordination Compounds",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "A student confuses coordination number with oxidation state while naming a complex. Which distinction helps remove the error?",
+      "options": [
+        "Coordination number counts donor atoms attached to the metal, while oxidation state tracks formal charge.",
+        "Coordination number gives the charge on the ligand, while oxidation state counts ligands around the metal.",
+        "Both values are identical whenever the complex has neutral ligands.",
+        "Oxidation state is decided by geometry, while coordination number is decided by colour."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["comparison-based", "elimination", "close-distractors", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    },
+    {
+      "question": "Statement I: A ligand donates an electron pair to the central metal atom or ion. Statement II: The number of ligand donor atoms attached to the metal gives coordination number. Which option best evaluates the statements?",
+      "options": [
+        "Both statements are valid, and Statement II applies the donor-atom idea to coordination number.",
+        "Both statements are valid, but Statement II describes oxidation state rather than coordination number.",
+        "Statement I is valid, while Statement II is invalid because coordination number counts charges.",
+        "Statement I is invalid, while Statement II is valid because ligands accept electron pairs from metals."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["statement-based", "trap-option", "elimination", "ncert-specific"],
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

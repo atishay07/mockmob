@@ -1,0 +1,248 @@
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option. Statement I: When partners change their profit-sh'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'In a partnership firm, A and B share profits 4:1. If they decide to change this ratio to 3:2, which '
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the following assertions regarding profit-sharing adjustments in a partnership firm. Assertion '
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option. Statement I: When partners change their profit-sh'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'In a partnership firm, A and B share profits 4:1. If they decide to change this ratio to 3:2, which '
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the following assertions regarding profit-sharing adjustments in a partnership firm. Assertion '
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] Rejected | compositeScore=14 | source=validator_normalized | rule=Reason does not explain Assertion | reasons=Reason does not explain Assertion; logic error in key; ambiguous reasoning; ambiguous wording; confusing options; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold
+[pipeline] Rejected | compositeScore=8 | source=validator_normalized | rule=ambiguous statement logic | reasons=ambiguous statement logic; incorrect answer key logic; low trap quality; ambiguous wording; confusing options; validator score below threshold; exam quality below threshold; distractor quality below threshold
+[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=33.3% | threshold=40% | fallback_or_partial_output_allowed=true
+[publish] optional question columns unavailable; traceability retained in tags only: concept, concept_id, pyq_anchor_id, anchor_tier, difficulty_weight, question_type
+[pipeline] TARGET_NOT_MET | target=5 | accepted=1 | shortfall=4 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pipeline] LOW_YIELD=20.0% (threshold=30%) — less than 30 % of generated questions were accepted
+[supervisor] COST_ALERT: $1.68/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Introducing Indian Society',
+  reason: 'direct_evaluation_stem',
+  body: 'Assertion: The caste system in India has been a significant aspect of social organization. Reason: I',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Urbanization has led to greater soci'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Urbanization has led to greater soci'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 1, source: 'structural_pool' }
+[pipeline] TARGET_NOT_MET | target=3 | accepted=2 | shortfall=1 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Mass media can influence social chan'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A student argues that social media has no significant role in political mobilization because it lack'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  reason: 'weak_options',
+  body: 'A student argues that social media has no significant role in political mobilization because it lack',
+  index: 1
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements about mass communication: Statement I: Mass communication primaril'
+}
+[llm] generated_extreme_word_repaired {
+  body: "Statement I: The rise of digital media has led to a decline in traditional journalism's authority. S"
+}
+[llm] question_rejected_internal_quality {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  reason: 'weak_options',
+  body: 'A researcher claims that advertising through mass media has no effect on consumer behavior because i',
+  index: 4
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Mass media can influence social chan'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider the following statements about mass communication: Statement I: Mass communication primaril'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 1, added: 2, source: 'structural_pool' }
+[pipeline] TARGET_NOT_MET | target=5 | accepted=3 | shortfall=2 | api_calls_used=2 | reason=accepted_lower_count_without_retry
+[pyq_anchor] selected_anchor {
+  subject: 'psychology',
+  requested_concept_id: 'psychology::meeting_life_challenges',
+  selected_anchor_id: 'structured_psychology_self_and_personality_1',
+  selected_anchor_concept_id: 'psychology::self_and_personality',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'psychology',
+  requested_concept_id: 'psychology::meeting_life_challenges',
+  source_anchor_id: 'structured_psychology_self_and_personality_1',
+  source_anchor_concept_id: 'psychology::self_and_personality',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Effective coping strategies can vary'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'A student claims that resilience mainly depends on genetic factors. Which response best corrects thi'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Consider the following statements about stress management: Statement I: Avoidance can be an effectiv'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Assertion: Coping mechanisms should be tailored to fit individual circumstances for maximum effectiv'
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: 'A student claims that resilience mainly depends on genetic factors. Which response best corrects thi'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Effective coping strategies can vary'
+  },
+  {
+    reason: 'weak_options',
+    body: 'A student claims that resilience mainly depends on genetic factors. Which response best corrects thi'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Consider the following statements about stress management: Statement I: Avoidance can be an effectiv'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: '8094019e-76b9-4775-8292-9579c23e4d4e',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'psychology',
+  requested_concept_id: 'psychology::psychological_disorders',
+  selected_anchor_id: 'structured_psychology_self_and_personality_1',
+  selected_anchor_concept_id: 'psychology::self_and_personality',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'psychology',
+  requested_concept_id: 'psychology::psychological_disorders',
+  source_anchor_id: 'structured_psychology_self_and_personality_1',
+  source_anchor_concept_id: 'psychology::self_and_personality',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'case_based'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements and choose the correct option: Statement I: Anxiety disorders can lead to avoida'
+}
+[llm] generated_extreme_word_repaired {
+  body: 'Read the statements regarding bipolar disorder and choose the correct option: Statement I: Individua'
+}
+[pipeline] INTERNAL_REJECTION [
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements and choose the correct option: Statement I: Anxiety disorders can lead to avoida'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'In a case study, a teenager exhibits compulsive behaviors that interfere with daily life. Read the s'
+  },
+  {
+    reason: 'extreme_qualifier',
+    body: 'Read the statements regarding bipolar disorder and choose the correct option: Statement I: Individua'
+  }
+]
+[pipeline] minimum_validation_pool_backfill { before: 2, added: 1, source: 'structural_pool' }
+[pipeline] validation_skipped_anchor_quality_gate {
+  job_id: 'e6269a75-921d-4659-a02f-e4a5079a7fa2',
+  draft_saved: 3,
+  skipped_candidates: 3,
+  publish_count: 0
+}
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::moving_charges_and_magnetism',
+  selected_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  selected_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  fallback_used: true,
+  concept_mismatch_risk: 'high',
+  candidates: 2,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[pyq_anchor] high_concept_mismatch_risk_mitigated_with_structure_only_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::moving_charges_and_magnetism',
+  source_anchor_id: 'structured_physics_dual_nature_of_radiation_and_matter_1',
+  source_anchor_concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  anchor_tier: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'application_based',
+  selected_question_type: 'case_based'
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Read the statements and choose the correct option: Statement I: A current-carrying conductor experie',
+  index: 0
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'advanced_or_non_cuet_pattern',
+  body: 'Assertion: The magnetic field due to a straight current-carrying wire decreases with distance from t',
+  index: 1
+}
+[llm] question_rejected_internal_quality {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  reason: 'question_too_long',
+  body: 'Read the statements and choose the correct option: Statement I: A charged particle moving perpendicu',
+  index: 2
+}
+[llm] openai_generation failure gpt-4o-mini: empty question array after normalization

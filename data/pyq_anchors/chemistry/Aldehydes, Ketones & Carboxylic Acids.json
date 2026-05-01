@@ -1,0 +1,48 @@
+{
+  "subject": "chemistry",
+  "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+  "source_quality": "manual_seed",
+  "anchor_match_level": "exact_chapter",
+  "questions": [
+    {
+      "id": "chemistry_aldehydes_ketones_carboxylic_acids_anchor_001",
+      "question_type": "statement_based",
+      "pattern_tags": ["statement-based", "ncert-specific", "close-distractors"],
+      "question": "Read the statements about carbonyl compounds and choose the correct option:\nStatement I: Aldehydes generally undergo nucleophilic addition more readily than comparable ketones.\nStatement II: Ketones give Fehling's test more readily because they have two alkyl groups.\nStatement III: Carboxylic acids are less reactive towards nucleophilic addition than aldehydes.",
+      "options": ["I and III only", "I and II only", "II and III only", "I, II and III"],
+      "correct_answer": "A"
+    },
+    {
+      "id": "chemistry_aldehydes_ketones_carboxylic_acids_anchor_002",
+      "question_type": "application_based",
+      "pattern_tags": ["application", "test-reagent", "elimination"],
+      "question": "Two compounds have the same molecular formula. One gives Tollens' test, while the other does not. Which inference is most careful?",
+      "options": ["The positive compound is likely an aldehyde, while the other may be a ketone.", "The positive compound must be a carboxylic acid because Tollens' reagent detects acidity.", "Both compounds must be ketones because molecular formula is the same.", "The negative compound must lack oxygen because Tollens' reagent reacts with oxygen."],
+      "correct_answer": "A"
+    },
+    {
+      "id": "chemistry_aldehydes_ketones_carboxylic_acids_anchor_003",
+      "question_type": "comparison_based",
+      "pattern_tags": ["comparison", "acidity", "trap-option"],
+      "question": "Which comparison between carboxylic acids and alcohols is most accurate?",
+      "options": ["Carboxylic acids are more acidic because the carboxylate ion is resonance-stabilised.", "Alcohols are more acidic because the alkoxide ion has stronger resonance.", "Both have similar acidity because both contain an O-H bond.", "Carboxylic acids are less acidic because two oxygen atoms reduce polarity."],
+      "correct_answer": "A"
+    },
+    {
+      "id": "chemistry_aldehydes_ketones_carboxylic_acids_anchor_004",
+      "question_type": "assertion_reason",
+      "pattern_tags": ["assertion-reason", "reaction-logic", "close-options"],
+      "question": "Assertion: Propanal is more reactive than propanone towards nucleophilic addition. Reason: Propanal has less steric hindrance and a less electron-releasing carbonyl environment.",
+      "options": ["Both Assertion and Reason are true, and the Reason explains the Assertion.", "Both are true, but the Reason explains acidity rather than addition.", "Assertion is true, but Reason reverses the electronic effect.", "Assertion is false, while the Reason is correct for aldehydes."],
+      "correct_answer": "A"
+    },
+    {
+      "id": "chemistry_aldehydes_ketones_carboxylic_acids_anchor_005",
+      "question_type": "statement_based",
+      "pattern_tags": ["statement-based", "named-reaction", "elimination"],
+      "question": "Read the statements about reactions of aldehydes and ketones:\nStatement I: Aldol condensation needs at least one alpha hydrogen.\nStatement II: Cannizzaro reaction is shown by aldehydes lacking alpha hydrogen.\nStatement III: Every ketone gives Cannizzaro reaction under dilute base.",
+      "options": ["I and II only", "II and III only", "I and III only", "I, II and III"],
+      "correct_answer": "A"
+    }
+  ]
+}

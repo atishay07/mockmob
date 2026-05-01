@@ -2,41 +2,66 @@ import { createClient } from '@supabase/supabase-js';
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
 import { analyzeCoverage } from './analyzer.mjs';
-import { planGeneration } from './planner.mjs';
+import { getSubjectPriority, planGeneration } from './planner.mjs';
 import {
   generateQuestions,
   getLastGenerationDiagnostics,
-  validateAndAlignBatch,
-  recoverQuestions,
+  validateMiniBatch,
+  validateStrictBatch,
   PIPELINE_BATCH_SIZE,
-  VALIDATION_ACCEPT_THRESHOLD,
-  VALIDATION_RECOVER_THRESHOLD,
+  VALIDATION_BATCH_SIZE,
+  STRICT_VALIDATION_MAX_PER_BATCH,
   getCostTracker,
   isCostSaverActive,
   recordAcceptedForCost,
 } from '../lib/llm.mjs';
+import { runSelfCheck, summarizeSelfCheckResults } from '../lib/selfCheck.mjs';
 import { deduplicateBatch, deduplicateAgainst } from '../lib/dedupe.mjs';
-import { publishQuestion } from '../lib/publish.mjs';
+import { publishQuestion, publishPassageGroup, saveDraftQuestion } from '../lib/publish.mjs';
+import { getEnglishGenerationMode } from '../lib/englishGenerationMode.mjs';
+import {
+  getCuetOverrideConfig,
+  isJobAllowedByOverride,
+  filterJobsByOverride,
+  logOverrideConfig,
+} from '../lib/overrideConfig.mjs';
+import {
+  classifyQualityBand,
+  getQualityThresholds,
+  isPublishAllowedByQuality,
+  normalizeQualityMode,
+  shouldRequireStrictValidation,
+} from '../lib/qualityMode.mjs';
 import { CUET_SUPPORTED_SUBJECTS } from '../../../data/subjects.js';
 import { CANONICAL_SYLLABUS, TOP_SUBJECTS, getCanonicalChapters, getCanonicalUnitForChapter, isValidTopSyllabusPair } from '../../../data/canonical_syllabus.js';
 import { validateTraceability } from '../../../data/cuet_controls.js';
 import { PYQ_ANCHORS } from '../../../data/pyq_anchors.js';
 
-const supabase = createClient(
-  process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+const SUPABASE_URL = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const supabase = SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY
+  ? createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+  : null;
 
 const API_SECRET = process.env.INTERNAL_API_SECRET || 'test-secret';
-const MAX_RETRIES = 0;
-const MAX_API_CALLS_PER_JOB = 2;
+const MAX_RETRIES = Number(process.env.MAX_GENERATION_RETRIES || 2);
+const MAX_API_CALLS_PER_JOB = Number(process.env.MAX_API_CALLS_PER_JOB || 4);
 const VALIDATOR_FEEDBACK_PREFIX = 'validator_feedback:';
-const VALIDATION_CANDIDATE_LIMIT = 5;
+const VALIDATION_CANDIDATE_LIMIT = VALIDATION_BATCH_SIZE;
 const STANDARD_VALIDATION_SAMPLE_RATE = 0.30;
 const LOW_COVERAGE_VALIDATION_THRESHOLD = 25;
 const MIN_QUESTIONS_PER_CHAPTER = 50;
 const TOP_SUBJECT_SET = new Set(TOP_SUBJECTS);
+const FOCUSED_QUALITY_JOB_MARKER = 'focused_quality_test_direct_anchor';
+const COST_SOFT_ALERT_PER_1000 = Number(process.env.COST_SOFT_ALERT_PER_1000 || 2.0);
+const COST_HARD_THROTTLE_PER_1000 = Number(process.env.COST_HARD_THROTTLE_PER_1000 || 5.0);
+const COST_VALIDATION_PAUSE_THRESHOLD = Number(process.env.COST_VALIDATION_PAUSE_THRESHOLD || COST_HARD_THROTTLE_PER_1000);
+const AUTONOMOUS_JOB_CONCURRENCY = Number(process.env.AUTONOMOUS_JOB_CONCURRENCY || 3);
+const GENERATION_CONCURRENCY = Number(process.env.GENERATION_CONCURRENCY || 3);
+const VALIDATION_CONCURRENCY = Number(process.env.VALIDATION_CONCURRENCY || 4);
+const REPAIR_CONCURRENCY = Number(process.env.REPAIR_CONCURRENCY || 4);
 const canonical_syllabus = Object.fromEntries(
   CANONICAL_SYLLABUS
     .filter((subject) => TOP_SUBJECT_SET.has(subject.subject_id))
@@ -45,10 +70,9 @@ const canonical_syllabus = Object.fromEntries(
 const VALID_SUBJECTS = new Set(Object.keys(canonical_syllabus));
 const DEFAULT_GENERATION_COUNT = PIPELINE_BATCH_SIZE;
 const CHEAP_MODE_GENERATION_COUNT = 3;
-const HEAVY_CHAPTER_GENERATION_COUNT = 5;
+const HEAVY_CHAPTER_GENERATION_COUNT = DEFAULT_GENERATION_COUNT;
 const MIN_TIMEOUT_RETRY_COUNT = 3;
 const MAX_GENERATION_TIMEOUT_RETRIES = 0;
-const GENERATION_FALLBACK_MODEL = 'gpt-4o-mini';
 const ENGLISH_RC_CHAPTERS = new Set(['Factual Passage', 'Narrative Passage', 'Literary Passage']);
 const ALLOWED_ANCHOR_TIERS = new Set([1, 2, 3, 4]);
 const STALE_PROCESSING_MINUTES = Number(process.env.STALE_PROCESSING_MINUTES || 10);
@@ -59,6 +83,13 @@ const HEAVY_GENERATION_CHAPTERS = new Set([
 ]);
 
 const args = process.argv.slice(2);
+const overrideConfig = getCuetOverrideConfig({ argv: args, env: process.env });
+const QUALITY_MODE = normalizeQualityMode(overrideConfig.quality_mode || process.env.CUET_QUALITY_MODE || 'speed');
+logOverrideConfig(overrideConfig);
+console.log('[quality_mode]', {
+  mode: QUALITY_MODE,
+  thresholds: getQualityThresholds(QUALITY_MODE),
+});
 let difficultyOverride = null;
 if (args.includes('--easy') || process.env.npm_config_easy === 'true') difficultyOverride = 'easy';
 if (args.includes('--medium') || process.env.npm_config_medium === 'true') difficultyOverride = 'medium';
@@ -71,6 +102,170 @@ console.log('[config] difficultyOverride:', difficultyOverride);
 const SUBJECT_LOOP_MAX = 3;
 const recentSubjects = [];
 let dynamicQualityFeedback = [];
+const runMetrics = {
+  run_started_at: new Date().toISOString(),
+  jobs_started: 0,
+  jobs_completed: 0,
+  raw_candidates_generated: 0,
+  normalized_candidates: 0,
+  selfcheck_passed: 0,
+  validator_sent: 0,
+  validator_accepted: 0,
+  live_published: 0,
+  drafts_saved: 0,
+  total_job_duration_ms: 0,
+  model_usage_breakdown: {},
+  override_skipped_jobs: 0,
+  passage_groups_published: 0,
+  standalone_questions_published: 0,
+  quality_bands: { A_PLUS: 0, A: 0, B: 0, C: 0 },
+  validator_score_sum: 0,
+  validator_score_count: 0,
+  distractor_quality_sum: 0,
+  exam_quality_sum: 0,
+  english: {
+    passage_groups_generated: 0,
+    passage_groups_published: 0,
+    passage_children_generated: 0,
+    passage_children_published: 0,
+    quick_practice_standalone_count: 0,
+    nta_grouped_count: 0,
+  },
+};
+
+function modelMetricsFor(model) {
+  const key = model || 'unknown';
+  if (!runMetrics.model_usage_breakdown[key]) {
+    runMetrics.model_usage_breakdown[key] = {
+      model: key,
+      calls: 0,
+      success_calls: 0,
+      failed_calls: 0,
+      total_latency_ms: 0,
+      candidates: 0,
+      selfcheck_passed: 0,
+      published: 0,
+      cost_usd: 0,
+    };
+  }
+  return runMetrics.model_usage_breakdown[key];
+}
+
+export function runMetricsSnapshot() {
+  const durationMinutes = Math.max((Date.now() - Date.parse(runMetrics.run_started_at)) / 60000, 1 / 60);
+  const costSnapshot = getCostTracker();
+  const modelBreakdown = Object.fromEntries(Object.entries(runMetrics.model_usage_breakdown).map(([model, entry]) => [
+    model,
+    {
+      ...entry,
+      avg_latency_ms: entry.calls > 0 ? Math.round(entry.total_latency_ms / entry.calls) : 0,
+      avg_candidates_per_call: entry.calls > 0 ? Number((entry.candidates / entry.calls).toFixed(2)) : 0,
+      avg_selfcheck_passed_per_call: entry.calls > 0 ? Number((entry.selfcheck_passed / entry.calls).toFixed(2)) : 0,
+      avg_published_per_call: entry.calls > 0 ? Number((entry.published / entry.calls).toFixed(2)) : 0,
+      cost_per_published: entry.published > 0 ? Number((entry.cost_usd / entry.published).toFixed(6)) : null,
+    },
+  ]));
+  return {
+    run_started_at: runMetrics.run_started_at,
+    run_duration_minutes: Number(durationMinutes.toFixed(2)),
+    jobs_started: runMetrics.jobs_started,
+    jobs_completed: runMetrics.jobs_completed,
+    raw_candidates_generated: runMetrics.raw_candidates_generated,
+    normalized_candidates: runMetrics.normalized_candidates,
+    selfcheck_passed: runMetrics.selfcheck_passed,
+    validator_sent: runMetrics.validator_sent,
+    validator_accepted: runMetrics.validator_accepted,
+    live_published: runMetrics.live_published,
+    drafts_saved: runMetrics.drafts_saved,
+    live_questions_per_hour: Number(((runMetrics.live_published / durationMinutes) * 60).toFixed(1)),
+    generated_candidates_per_hour: Number(((runMetrics.raw_candidates_generated / durationMinutes) * 60).toFixed(1)),
+    jobs_completed_per_hour: Number(((runMetrics.jobs_completed / durationMinutes) * 60).toFixed(1)),
+    average_job_duration_ms: runMetrics.jobs_completed > 0 ? Math.round(runMetrics.total_job_duration_ms / runMetrics.jobs_completed) : 0,
+    average_publish_per_job: runMetrics.jobs_completed > 0 ? Number((runMetrics.live_published / runMetrics.jobs_completed).toFixed(2)) : 0,
+    cost_total: Number(costSnapshot.totalCostUsd.toFixed(6)),
+    cost_per_live_question: Number(costSnapshot.costPerAccepted.toFixed(6)),
+    cost_per_1000_live: Number(costSnapshot.costPer1000.toFixed(2)),
+    model_usage_breakdown: modelBreakdown,
+    override_metrics: {
+      override_active: overrideConfig.active,
+      allowed_subjects: overrideConfig.subjects,
+      allowed_chapters: overrideConfig.chapters,
+      skipped_jobs: runMetrics.override_skipped_jobs,
+      jobs_completed: runMetrics.jobs_completed,
+      live_published: runMetrics.live_published,
+      passage_groups_published: runMetrics.passage_groups_published,
+      standalone_questions_published: runMetrics.standalone_questions_published,
+    },
+    quality_metrics: {
+      mode: QUALITY_MODE,
+      a_plus_count: runMetrics.quality_bands.A_PLUS,
+      a_count: runMetrics.quality_bands.A,
+      b_count: runMetrics.quality_bands.B,
+      c_rejected_count: runMetrics.quality_bands.C,
+      average_validator_score: runMetrics.validator_score_count > 0 ? Number((runMetrics.validator_score_sum / runMetrics.validator_score_count).toFixed(2)) : 0,
+      average_distractor_quality: runMetrics.validator_score_count > 0 ? Number((runMetrics.distractor_quality_sum / runMetrics.validator_score_count).toFixed(2)) : 0,
+      average_exam_quality: runMetrics.validator_score_count > 0 ? Number((runMetrics.exam_quality_sum / runMetrics.validator_score_count).toFixed(2)) : 0,
+      passage_group_success_rate: runMetrics.english.passage_groups_generated > 0
+        ? Number((runMetrics.english.passage_groups_published / runMetrics.english.passage_groups_generated).toFixed(2))
+        : 0,
+    },
+    english_metrics: { ...runMetrics.english },
+  };
+}
+
+function recordRunMetricsUpdate({
+  generatorModel,
+  jobDurationMs,
+  generatedCount,
+  normalizedCount,
+  selfcheckPassed,
+  validatorSent,
+  validatorAccepted,
+  livePublished,
+  draftsSaved,
+}) {
+  runMetrics.jobs_completed += 1;
+  runMetrics.raw_candidates_generated += Number(generatedCount || 0);
+  runMetrics.normalized_candidates += Number(normalizedCount || 0);
+  runMetrics.selfcheck_passed += Number(selfcheckPassed || 0);
+  runMetrics.validator_sent += Number(validatorSent || 0);
+  runMetrics.validator_accepted += Number(validatorAccepted || 0);
+  runMetrics.live_published += Number(livePublished || 0);
+  runMetrics.drafts_saved += Number(draftsSaved || 0);
+  runMetrics.total_job_duration_ms += Number(jobDurationMs || 0);
+
+  const modelEntry = modelMetricsFor(generatorModel);
+  modelEntry.calls += 1;
+  modelEntry.success_calls += generatedCount > 0 ? 1 : 0;
+  modelEntry.failed_calls += generatedCount > 0 ? 0 : 1;
+  modelEntry.total_latency_ms += Number(jobDurationMs || 0);
+  modelEntry.candidates += Number(generatedCount || 0);
+  modelEntry.selfcheck_passed += Number(selfcheckPassed || 0);
+  modelEntry.published += Number(livePublished || 0);
+
+  const snapshot = runMetricsSnapshot();
+  console.log('[run_metrics]', snapshot);
+  for (const entry of Object.values(snapshot.model_usage_breakdown)) {
+    console.log('[model_performance]', entry);
+  }
+  if (snapshot.live_questions_per_hour < 30 && runMetrics.jobs_completed >= 3) {
+    console.warn('[throughput_failure_analysis]', {
+      top_bottlenecks: [
+        selfcheckPassed === 0 ? 'selfcheck_zero_yield' : '',
+        validatorSent === 0 ? 'validator_not_reached' : '',
+        livePublished === 0 ? 'no_publish_this_job' : '',
+      ].filter(Boolean),
+      slowest_models: Object.values(snapshot.model_usage_breakdown)
+        .sort((a, b) => b.avg_latency_ms - a.avg_latency_ms)
+        .slice(0, 3)
+        .map((entry) => ({ model: entry.model, avg_latency_ms: entry.avg_latency_ms })),
+      highest_rejection_reasons: [],
+      validator_mismatch_count: 0,
+      avg_batch_size: runMetrics.jobs_completed > 0 ? Number((runMetrics.raw_candidates_generated / runMetrics.jobs_completed).toFixed(2)) : 0,
+      worker_selection_mode: 'planner_priority_then_coverage_fallback',
+    });
+  }
+}
 
 // ── Question-type labels used in composite concept keys ───────────────────────
 const QUESTION_TYPES = ['conceptual', 'numerical', 'application'];
@@ -251,8 +446,58 @@ function normalizeQuestion(question, expectedSubject, expectedChapter) {
     concept_id: question.concept_id || '',
     pyq_anchor_id: question.pyq_anchor_id || '',
     anchor_tier: Number(question.anchor_tier || question.anchorTier || 0),
-    question_type: question.question_type || question.pattern_type || 'direct_concept',
+    anchor_source_quality: question.anchor_source_quality || question.anchorSourceQuality || '',
+    anchor_live_publish_allowed: question.anchor_live_publish_allowed === true,
+    question_type: question.question_type || question.pattern_type || 'statement_based',
     concept_pattern: question.concept_pattern || '',
+    trap_option: normalizeOptionKey(question.trap_option || question.trapOption),
+    strong_distractors: normalizeOptionKeyArray(question.strong_distractors || question.strongDistractors),
+    why_not_textbook: String(question.why_not_textbook || question.whyNotTextbook || '').trim(),
+    why_cuet_level: String(question.why_cuet_level || question.whyCuetLevel || '').trim(),
+    distractor_rationale: question.distractor_rationale || question.distractorRationale || {},
+    passage_id: String(question.passage_id || question.passageId || '').trim(),
+    passage_text: String(question.passage_text || question.passageText || '').trim(),
+    passage_title: String(question.passage_title || question.passageTitle || '').trim(),
+    passage_type: String(question.passage_type || question.passageType || '').trim(),
+    passage_group_id: String(question.passage_group_id || question.passageGroupId || question.group_id || '').trim(),
+    group_id: String(question.group_id || question.passage_group_id || '').trim(),
+    temporary_group_key: String(question.temporary_group_key || question.temp_group_key || '').trim(),
+    order_index: Number(question.order_index || question.orderIndex || 0),
+    is_passage_linked: question.is_passage_linked === true || Boolean(question.passage_text || question.passage_id || question.passage_group_id || question.temporary_group_key),
+    generation_mode: String(question.generation_mode || question.generationMode || '').trim(),
+    ordering_logic: String(question.ordering_logic || question.orderingLogic || '').trim(),
+  };
+}
+
+function normalizeOptionKey(value) {
+  const key = String(value || '').trim().toUpperCase();
+  return ['A', 'B', 'C', 'D'].includes(key) ? key : '';
+}
+
+function normalizeOptionKeyArray(value) {
+  const raw = Array.isArray(value) ? value : String(value || '').split(/[,/ ]+/);
+  return Array.from(new Set(raw.map(normalizeOptionKey).filter(Boolean))).slice(0, 4);
+}
+
+function buildQuestionHash(question) {
+  return createHash('sha1')
+    .update([
+      question?.subject || '',
+      question?.chapter || '',
+      question?.body || question?.q || question?.question || '',
+      JSON.stringify(question?.options || question?.o || []),
+    ].join('|'))
+    .digest('hex')
+    .slice(0, 16);
+}
+
+function assignCandidateIdentity(question, jobId, index) {
+  const qHash = question.q_hash || buildQuestionHash(question);
+  return {
+    ...question,
+    job_id: question.job_id || jobId,
+    q_hash: qHash,
+    candidate_id: question.candidate_id || `${jobId}:${index}:${qHash}`,
   };
 }
 
@@ -340,7 +585,7 @@ function filterInternalQualityQuestions(questions, expectedSubject, expectedChap
   return { valid, rejected };
 }
 
-function getInternalRejectionReason(question, expectedSubject, expectedChapter) {
+export function getInternalRejectionReason(question, expectedSubject, expectedChapter) {
   if (!isSchemaValid(question)) return 'invalid_schema';
   if (!isValidSyllabusPair(question.subject, question.chapter)) return 'invalid_syllabus_pair';
   if (question.subject !== expectedSubject || question.chapter !== expectedChapter) return 'subject_or_chapter_mismatch';
@@ -348,7 +593,8 @@ function getInternalRejectionReason(question, expectedSubject, expectedChapter) 
   if (!traceability.valid) return traceability.reason;
   if (!String(question.pyq_anchor_id || '').trim()) {
     question.pyq_anchor_id = `synthetic_${expectedSubject}_${expectedChapter.replace(/\s+/g, '_').toLowerCase()}`;
-    question.anchor_tier = 3;
+    question.anchor_tier = 4;
+    question.anchor_source_quality = 'synthetic';
   }
   if (!ALLOWED_ANCHOR_TIERS.has(Number(question.anchor_tier))) {
     question.anchor_tier = 3;
@@ -356,28 +602,81 @@ function getInternalRejectionReason(question, expectedSubject, expectedChapter) 
 
   const body = String(question.body || '').trim();
   const bodyLower = body.toLowerCase();
+  if (hasUnsupportedMediaReference(body)) return 'unsupported_media_reference';
+  if (isInvalidParaJumblePermutationQuestion(question, expectedChapter)) return 'invalid_para_jumble_permutation';
   const isEnglishReadingComprehension = expectedSubject === 'english' && ENGLISH_RC_CHAPTERS.has(expectedChapter);
-  const maxBodyChars = isEnglishReadingComprehension ? 1800 : 420;
-  const maxBodyWords = isEnglishReadingComprehension ? 260 : 70;
-  if (body.length > maxBodyChars || countWords(body) > maxBodyWords) return 'question_too_long';
-  if (isClearlyAdvancedOrNonCuet(bodyLower)) return 'advanced_or_non_cuet_pattern';
+  const maxBodyChars = isEnglishReadingComprehension ? 2200 : 900;
+  const maxBodyWords = isEnglishReadingComprehension ? 340 : 140;
+  if (body.length > maxBodyChars || countWords(body) > maxBodyWords) {
+    console.warn('[pipeline] pre_validation_quality_warning_log_only', {
+      reason: 'question_too_long',
+      body: body.slice(0, 100),
+    });
+  }
+  if (isClearlyAdvancedOrNonCuet(bodyLower)) {
+    console.warn('[pipeline] pre_validation_quality_warning_log_only', {
+      reason: 'advanced_or_non_cuet_pattern',
+      body: body.slice(0, 100),
+    });
+  }
   if (isClearlyOutsideChapter(question, expectedChapter, expectedSubject)) return 'outside_chapter';
   if (isDirectDefinitionStem(body)) {
     console.warn('[pipeline] pre_validation_quality_warning_log_only', {
       reason: 'direct_definition_or_textbook_stem',
       body: body.slice(0, 100),
     });
-    return 'direct_definition_or_textbook_stem';
+  }
+  if (hasExtremeQualifier(body) || question.options.some((option) => hasExtremeQualifier(option.text))) {
+    console.warn('[pipeline] pre_validation_quality_warning_log_only', {
+      reason: 'extreme_qualifier',
+      body: body.slice(0, 100),
+    });
+  }
+  if (hasLogicallyImpossibleOption(question.options)) {
+    console.warn('[pipeline] pre_validation_quality_warning_log_only', {
+      reason: 'logically_impossible_option',
+      body: body.slice(0, 100),
+    });
+  }
+  const answer = normalizeOptionKey(question.correct_answer);
+  const trapOption = normalizeOptionKey(question.trap_option);
+  const strongDistractors = normalizeOptionKeyArray(question.strong_distractors);
+  if (!trapOption || strongDistractors.length < 2) {
+    console.warn('[pipeline] pre_validation_quality_warning_log_only', {
+      reason: 'missing_trap_or_strong_distractors',
+      body: body.slice(0, 100),
+    });
+  }
+  if (trapOption && (trapOption === answer || strongDistractors.includes(answer))) {
+    console.warn('[pipeline] pre_validation_quality_warning_log_only', {
+      reason: 'trap_metadata_points_to_correct_answer',
+      body: body.slice(0, 100),
+    });
+  }
+  if (!question.why_not_textbook || !question.why_cuet_level) {
+    console.warn('[pipeline] pre_validation_quality_warning_log_only', {
+      reason: 'missing_cuet_rationale',
+      body: body.slice(0, 100),
+    });
+  }
+  if (!hasCompleteDistractorRationale(question.distractor_rationale)) {
+    console.warn('[pipeline] pre_validation_quality_warning_log_only', {
+      reason: 'missing_distractor_rationale',
+      body: body.slice(0, 100),
+    });
   }
   if (hasWeakOptions(question.options, question.correct_answer)) {
     console.warn('[pipeline] pre_validation_quality_warning_log_only', {
       reason: 'weak_options',
       body: body.slice(0, 100),
     });
-    return 'weak_options';
   }
 
   return null;
+}
+
+function hasCompleteDistractorRationale(rationale) {
+  return ['A', 'B', 'C', 'D'].every((key) => String(rationale?.[key] || '').trim().length >= 8);
 }
 
 function countWords(text) {
@@ -385,13 +684,56 @@ function countWords(text) {
 }
 
 function isClearlyAdvancedOrNonCuet(text) {
-  return /\b(vector space|subspace|basis|rank-nullity|heine-borel|cayley-hamilton|prove|proof|derive|derivation|jee|graduate|mba|b\.com|econometrics|hypothesis testing|functional analysis|abstract algebra|ring|field|group under|multi-step|caselet)\b/i.test(text);
+  const value = String(text || '').toLowerCase();
+  const allowedCuetPattern = /\b(statement|assertion|reason|match|ncert|observation|graph|one-step|formula|conceptual|application)\b/.test(value);
+  if (allowedCuetPattern && !/\b(jee|neet|olympiad|graduate|functional analysis|abstract algebra|heine-borel|rank-nullity)\b/.test(value)) {
+    return false;
+  }
+  if (/\b(vector space|subspace|basis|rank-nullity|heine-borel|cayley-hamilton|jee|neet|olympiad|graduate|mba|b\.com|econometrics|hypothesis testing|functional analysis|abstract algebra|group under)\b/i.test(value)) {
+    return true;
+  }
+  if (/\b(prove|proof|derive|derivation|multi-step)\b/i.test(value) && !allowedCuetPattern) return true;
+  const formulaSignals = (value.match(/[=+\-*/^]/g) || []).length;
+  const variableSignals = (value.match(/\b[a-z]\s*=/g) || []).length;
+  return formulaSignals > 4 || variableSignals > 3;
+}
+
+function hasUnsupportedMediaReference(body) {
+  return /\b(figure|diagram|graph|image|table)\b[^.?!]{0,80}\b(not provided|not shown|missing|below|above)\b/i.test(String(body || ''));
+}
+
+function isInvalidParaJumblePermutationQuestion(question, expectedChapter) {
+  const type = String(question?.question_type || '').toLowerCase();
+  const chapter = String(expectedChapter || question?.chapter || '').toLowerCase();
+  if (type !== 'para_jumble' && !/\bpara\s*jumbles?\b|sentence\s+rearrangement|sentence\s+reordering|paragraph\s+rearrangement/.test(chapter)) {
+    return false;
+  }
+  const options = question?.options || [];
+  if (!Array.isArray(options) || options.length !== 4) return true;
+  return options.some((option) => {
+    const compact = String(option?.text || option || '').toUpperCase().replace(/[^A-D]/g, '');
+    return compact.length !== 4 || compact.split('').sort().join('') !== 'ABCD';
+  });
 }
 
 function isDirectDefinitionStem(body) {
   const text = String(body || '').trim().toLowerCase();
   return /^(what is|define|meaning of|which term|who is|when did)\b/.test(text) ||
-    /\b(correct definition|best definition|definition of|refers to only|is known as)\b/.test(text);
+    /\b(correct definition|best definition|definition of|refers to|is known as)\b/.test(text) ||
+    /\bwhich of the following (statements )?(is|are) correct\??$/.test(text) ||
+    /\bwhich (principle|concept|term) (of management )?(is|has been|is primarily) (being )?(applied|reflected|demonstrated)\b/.test(text) ||
+    /\bthis reflects which (concept|principle|term)\b/.test(text);
+}
+
+function hasExtremeQualifier(text) {
+  const value = String(text || '').toLowerCase();
+  if (/\b(solely|entirely|impossible|guaranteed)\b/.test(value)) return true;
+  return /\b(always|never|all|only|completely|independent)\b/.test(value) &&
+    /\b(no effect|same in every case|direction of motion|environmentally friendly|unrelated|random|absurd|without exception)\b/.test(value);
+}
+
+function hasLogicallyImpossibleOption(options) {
+  return options.some((option) => /\b(unrelated|none of these|all of these|both a and b|cannot be determined|not possible|impossible in every case|has no relation)\b/i.test(String(option?.text || '')));
 }
 
 function hasWeakOptions(options, correctAnswer) {
@@ -404,6 +746,7 @@ function hasWeakOptions(options, correctAnswer) {
   if (texts.some((text) => text.length < 2)) return true;
   if (new Set(texts).size !== 4) return true;
   if (texts.some((text) => /\b(all of the above|none of the above|both a and b|cannot be determined)\b/i.test(text))) return true;
+  if (texts.some(hasExtremeQualifier)) return true;
   if (!hasPlausibleOptionConfusion(options, correctAnswer)) return true;
 
   const avgLength = texts.reduce((sum, text) => sum + text.length, 0) / texts.length;
@@ -420,7 +763,7 @@ function hasPlausibleOptionConfusion(options, correctAnswer) {
   const correctText = String(correct.text || '');
   const distractors = options.filter((option) => String(option?.key || '').trim().toUpperCase() !== answerKey);
   const closeDistractors = distractors.filter((option) => optionSimilarity(correctText, option.text) >= 0.16).length;
-  const partialTruthSignals = distractors.filter((option) => /\b(partly|only|mainly|usually|sometimes|increase|decrease|public|private|both|not all|except|because|while|but)\b/i.test(option.text)).length;
+  const partialTruthSignals = distractors.filter((option) => /\b(partly|mainly|usually|sometimes|increase|decrease|public|private|both|not all|except|because|while|but|however|whereas|similar|different)\b/i.test(option.text)).length;
   return closeDistractors >= 1 && (partialTruthSignals >= 1 || closeDistractors >= 2);
 }
 
@@ -575,6 +918,190 @@ function collectAcceptedSignalMismatches(validation, scoreThreshold) {
   if (validation?.concept_match && validation.concept_match !== 'EXACT') mismatches.push('concept_mismatch_but_accepted');
   if (validation?.subject_consistency && validation.subject_consistency !== 'CORRECT') mismatches.push('subject_mismatch_but_accepted');
   return mismatches;
+}
+
+function normalizeUnitScore(value) {
+  const n = Number(value || 0);
+  if (!Number.isFinite(n) || n <= 0) return 0;
+  if (n > 10) return Math.min(1, n / 100);
+  if (n > 1) return Math.min(1, n / 10);
+  return Math.min(1, n);
+}
+
+function toTenPointScore(value) {
+  return Number((normalizeUnitScore(value) * 10).toFixed(1));
+}
+
+function normalizeTrapQuality(value) {
+  const normalized = String(value || '').trim().toUpperCase();
+  if (normalized === 'HIGH' || normalized === 'MEDIUM' || normalized === 'LOW') return normalized;
+  return 'LOW';
+}
+
+function isLayerAccepted(validation, question = {}, layer = validation?.layer || 'mini') {
+  return isPublishAllowedByQuality(validation, question, QUALITY_MODE, layer).allowed;
+}
+
+function shouldEscalateToStrict(question, validation) {
+  const verdict = String(validation?.verdict || '').toLowerCase();
+  const score = normalizeUnitScore(validation?.score);
+  const issues = Array.isArray(validation?.issues) ? validation.issues.join(' ').toLowerCase() : '';
+
+  const qualityEscalation = shouldRequireStrictValidation(question, validation, QUALITY_MODE);
+  return qualityEscalation.required ||
+    verdict === 'borderline' ||
+    (score >= 0.60 && score < 0.80) ||
+    question?.concept_mismatch_risk === 'high' ||
+    question?.anchor_confidence === 'low' ||
+    question?.selfcheck_obviousness_risk !== 'low' ||
+    question?.selfcheck_distractor_quality !== 'high' ||
+    /\b(factual|uncertain|answer|concept|alignment)\b/.test(issues);
+}
+
+function scoreEscalationCandidate(question, validation) {
+  const anchorBonus = question?.anchor_confidence === 'high' ? 0.08 : question?.anchor_confidence === 'medium' ? 0.04 : 0;
+  const distractorBonus = question?.selfcheck_distractor_quality === 'high' ? 0.08 : question?.selfcheck_distractor_quality === 'medium' ? 0.04 : 0;
+  const trapBonus = question?.selfcheck_trap_quality === 'high' ? 0.08 : question?.selfcheck_trap_quality === 'medium' ? 0.04 : 0;
+  const issuePenalty = Array.isArray(validation?.issues) ? Math.min(0.12, validation.issues.length * 0.03) : 0;
+  return normalizeUnitScore(validation?.score) + anchorBonus + distractorBonus + trapBonus - issuePenalty;
+}
+
+function selectStrictEscalationCandidates(questions, miniResults, maxCount = STRICT_VALIDATION_MAX_PER_BATCH) {
+  return questions
+    .map((question, index) => ({ question, index, validation: miniResults[index] }))
+    .filter(({ question, validation }) => {
+      if (!validation) return false;
+      const verdict = String(validation?.verdict || '').toLowerCase();
+      if (verdict === 'reject' && normalizeUnitScore(validation?.score) < 0.60) return false;
+      return shouldEscalateToStrict(question, validation);
+    })
+    .sort((a, b) => scoreEscalationCandidate(b.question, b.validation) - scoreEscalationCandidate(a.question, a.validation))
+    .slice(0, Math.max(0, maxCount));
+}
+
+function collectLayerValidationReasons(validation) {
+  const reasons = collectUniqueFeedbackReasons([
+    ...(Array.isArray(validation?.issues) ? validation.issues : []),
+    String(validation?.verdict || '').toLowerCase() === 'reject' ? 'validator rejected' : '',
+    validation?.cuet_alignment === false ? 'cuet alignment failed' : '',
+    normalizeTrapQuality(validation?.trap_quality) === 'LOW' ? 'trap quality low' : '',
+    normalizeUnitScore(validation?.score) < 0.72 ? 'score below final threshold' : '',
+    normalizeUnitScore(validation?.exam_quality) < 0.70 ? 'exam quality below threshold' : '',
+    normalizeUnitScore(validation?.distractor_quality) < 0.70 ? 'distractor quality below threshold' : '',
+    normalizeUnitScore(validation?.conceptual_depth) < 0.60 ? 'conceptual depth below threshold' : '',
+  ]);
+  return reasons.length > 0 ? reasons : ['not accepted by validation layer'];
+}
+
+function buildValidatedQuestion(question, validation, layer) {
+  const band = validation?.quality_band || classifyQualityBand(validation);
+  return {
+    ...question,
+    validation_score: toTenPointScore(validation?.score),
+    validation_decision: 'accept',
+    validation_verdict: 'VALID',
+    validation_cuet_alignment: validation?.cuet_alignment === true,
+    validation_exam_quality: toTenPointScore(validation?.exam_quality),
+    validation_distractor_quality: toTenPointScore(validation?.distractor_quality),
+    validation_conceptual_depth: toTenPointScore(validation?.conceptual_depth),
+    validation_trap_quality: normalizeTrapQuality(validation?.trap_quality),
+    validation_quality_band: band,
+    validation_answer_confidence: normalizeUnitScore(validation?.answer_confidence ?? 1),
+    validation_factual_accuracy: validation?.factual_accuracy !== false,
+    validation_pyq_style_match: validation?.pyq_style_match !== false,
+    validation_layer: layer,
+    validation_model: validation?.model || layer,
+    validation_sampled: true,
+    strict_cuet_validated: true,
+    strict_validation_accepted: layer === 'strict' || question?.anchor_confidence !== 'low',
+    compositeScore: toTenPointScore(validation?.score) * 10,
+    validator_recommended_difficulty: normalizeOptionalDifficulty(validation?.recommended_difficulty),
+    anchor_source_quality: getAnchorSourceQuality(question),
+  };
+}
+
+function countLayerVerdicts(results = []) {
+  return results.reduce((counts, result) => {
+    const verdict = String(result?.verdict || 'reject').toLowerCase();
+    if (verdict === 'accept') counts.accepted += 1;
+    else if (verdict === 'borderline') counts.borderline += 1;
+    else counts.rejected += 1;
+    return counts;
+  }, { accepted: 0, borderline: 0, rejected: 0 });
+}
+
+function getAnchorSourceQuality(question) {
+  const direct = String(question?.anchor_source_quality || '').trim().toLowerCase();
+  if (direct) return direct;
+  const anchor = PYQ_ANCHORS.find((entry) => entry.id === question?.pyq_anchor_id);
+  if (anchor?.source_quality) return String(anchor.source_quality).trim().toLowerCase();
+  if (/synthetic|none/i.test(String(question?.pyq_anchor_id || ''))) return 'synthetic';
+  return 'unknown';
+}
+
+function attachAnchorMetadata(question, expectedSubject, expectedChapter) {
+  const anchorSource = getAnchorSourceQuality(question);
+  const anchorTier = Number(question?.anchor_tier || 0);
+  const anchorId = String(question?.pyq_anchor_id || '');
+  const subjectMismatch = question?.subject !== expectedSubject;
+  const chapterMismatch = question?.chapter !== expectedChapter;
+  const structureOnly = anchorId.startsWith('structure_only_') || anchorTier === 3;
+  let anchorMatchLevel = question?.anchor_match_level || 'none';
+  let anchorConfidence = question?.anchor_confidence || 'low';
+
+  if (anchorTier === 1 && !structureOnly && ['real_pyq', 'manual_seed'].includes(anchorSource)) {
+    anchorMatchLevel = 'exact_chapter';
+    anchorConfidence = 'high';
+  } else if (anchorTier === 2 && ['real_pyq', 'manual_seed'].includes(anchorSource)) {
+    anchorMatchLevel = 'same_unit';
+    anchorConfidence = 'medium';
+  } else if (structureOnly) {
+    anchorMatchLevel = 'structure_only';
+    anchorConfidence = 'low';
+  } else {
+    anchorMatchLevel = anchorMatchLevel === 'none' ? 'none' : anchorMatchLevel;
+    anchorConfidence = 'low';
+  }
+
+  const conceptMismatchRisk = subjectMismatch || chapterMismatch
+    ? 'high'
+    : String(question?.concept_mismatch_risk || '').toLowerCase() === 'high'
+      ? 'high'
+      : anchorConfidence === 'low'
+        ? 'medium'
+        : 'low';
+
+  return {
+    ...question,
+    anchor_tier: ALLOWED_ANCHOR_TIERS.has(anchorTier) ? anchorTier : 3,
+    anchor_source_quality: anchorSource,
+    anchor_match_level: anchorMatchLevel,
+    anchor_confidence: anchorConfidence,
+    concept_mismatch_risk: conceptMismatchRisk,
+  };
+}
+
+function getPublishGateRejectReason(question) {
+  if (question?.fallback_used === true) return 'fallback_never_publishes';
+  if (question?.structural_pool_fallback === true) return 'structural_fallback_never_publishes';
+  if (question?.is_passage_linked === true && question?.passage_group_publish_allowed !== true) return 'passage_child_without_parent_group_publish';
+  if (question?.concept_mismatch_risk === 'high' && question?.strict_validation_accepted !== true) return 'high_concept_mismatch_risk';
+  if (question?.strict_cuet_validated !== true) return 'not_strictly_validated';
+  const anchorSource = getAnchorSourceQuality(question);
+  if (!['real_pyq', 'manual_seed'].includes(anchorSource)) return `draft_only_anchor_source_${anchorSource || 'unknown'}`;
+  if (String(question?.validation_decision || '').toLowerCase() !== 'accept') return 'validator_decision_not_accept';
+  if (String(question?.validation_verdict || '').toUpperCase() !== 'VALID') return 'validator_verdict_not_valid';
+  if (question?.validation_cuet_alignment !== true) return 'validator_cuet_alignment_failed';
+  if (Number(question?.validation_score || 0) < 7) return 'validator_score_below_7';
+  if (Number(question?.validation_exam_quality || 0) < 7) return 'validator_exam_quality_below_7';
+  if (Number(question?.validation_distractor_quality || 0) < 7) return 'validator_distractor_quality_below_7';
+  if (Number(question?.validation_conceptual_depth || 0) < 6) return 'validator_conceptual_depth_below_6';
+  if (String(question?.validation_trap_quality || '').toUpperCase() === 'LOW') return 'validator_trap_quality_low';
+  return null;
+}
+
+function isValidationAnchorEligible(question) {
+  return question?.fallback_used !== true && question?.structural_pool_fallback !== true;
 }
 
 function collectUniqueFeedbackReasons(reasons) {
@@ -831,20 +1358,47 @@ async function getCoverageSnapshot() {
 function annotateJobWithCoverage(job, coverage) {
   const questionCount = coverage.chapterCounts.get(`${job.subject_id}::${job.chapter}`) || 0;
   const subjectTotal = coverage.subjectTotals.get(job.subject_id) || 0;
+  const originalPriority = Number(job.original_priority ?? job.priority ?? 0);
+  const effectivePriority = getCoveragePriority(job.subject_id, job.chapter, questionCount, subjectTotal);
 
   return {
     ...job,
     question_count: questionCount,
     subject_question_count: subjectTotal,
-    priority: getCoveragePriority(job.subject_id, job.chapter, questionCount, subjectTotal),
-    original_priority: job.priority,
+    priority: originalPriority,
+    original_priority: originalPriority,
+    effective_priority: effectivePriority,
   };
 }
 
 function compareJobsByCoverage(a, b) {
   return a.question_count - b.question_count ||
-    b.priority - a.priority ||
+    b.effective_priority - a.effective_priority ||
     new Date(a.created_at || 0) - new Date(b.created_at || 0);
+}
+
+export function selectPlannerPriorityJobFromRows(jobs = [], preferredJobIds = [], coverage = { chapterCounts: new Map(), subjectTotals: new Map() }, override = null) {
+  const preferredSet = new Set((preferredJobIds || []).filter(Boolean));
+  if (preferredSet.size === 0) return null;
+  const overrideConfigLocal = override || getCuetOverrideConfig({ env: {}, argv: [] });
+  const preferredJobs = filterJobsByOverride(jobs || [], overrideConfigLocal)
+    .filter((job) => preferredSet.has(job.id) && job.status === 'queued')
+    .filter((candidate) => isValidSyllabusPair(candidate.subject_id, candidate.chapter))
+    .map((candidate) => annotateJobWithCoverage(candidate, coverage))
+    .sort((a, b) => (
+      Number(b.original_priority ?? b.priority ?? 0) - Number(a.original_priority ?? a.priority ?? 0) ||
+      new Date(a.created_at || 0) - new Date(b.created_at || 0)
+    ));
+  return preferredJobs[0] || null;
+}
+
+export function selectCoverageFallbackJobFromRows(jobs = [], coverage = { chapterCounts: new Map(), subjectTotals: new Map() }, override = null) {
+  const overrideConfigLocal = override || getCuetOverrideConfig({ env: {}, argv: [] });
+  return filterJobsByOverride(jobs || [], overrideConfigLocal)
+    .filter((job) => job.status === 'queued')
+    .filter((candidate) => isValidSyllabusPair(candidate.subject_id, candidate.chapter))
+    .map((candidate) => annotateJobWithCoverage(candidate, coverage))
+    .sort(compareJobsByCoverage)[0] || null;
 }
 
 async function markJobAsSkipped(jobId, reason = 'Invalid subject') {
@@ -900,12 +1454,15 @@ async function recoverStaleProcessingJobs() {
   }
 }
 
-async function selectCoverageFirstJob({ preferredJobIds = [], coverage, excludeSubject = null, minPriority = null } = {}) {
+async function selectCoverageFirstJob({ preferredJobIds = [], coverage, excludeSubject = null, minPriority = null, excludeChapterKeys = new Set(), override = overrideConfig } = {}) {
+  const allowedSubjects = override?.subjects?.length > 0
+    ? override.subjects.filter((subjectId) => VALID_SUBJECTS.has(subjectId))
+    : [...VALID_SUBJECTS];
   let query = supabase
     .from('generation_jobs')
     .select('*')
     .eq('status', 'queued')
-    .in('subject_id', [...VALID_SUBJECTS])
+    .in('subject_id', allowedSubjects.length > 0 ? allowedSubjects : [...VALID_SUBJECTS])
     .order('created_at', { ascending: true })
     .limit(1000);
 
@@ -923,8 +1480,76 @@ async function selectCoverageFirstJob({ preferredJobIds = [], coverage, excludeS
 
   const { data, error } = await query;
   if (error) throw error;
+  const overrideSkipped = (data || []).filter((candidate) => !isJobAllowedByOverride(candidate, override).allowed);
+  for (const skipped of overrideSkipped.slice(0, 5)) {
+    console.log('[override] skipped_job', {
+      job_id: skipped.id,
+      subject: skipped.subject_id,
+      chapter: skipped.chapter,
+      reason: isJobAllowedByOverride(skipped, override).reason,
+    });
+  }
+  runMetrics.override_skipped_jobs += overrideSkipped.length;
+  const allowedRows = filterJobsByOverride(data || [], override);
 
-  const jobs = (data || [])
+  if (preferredJobIds.length > 0) {
+    const selected = selectPlannerPriorityJobFromRows(
+      allowedRows.filter((candidate) => !excludeChapterKeys.has(`${candidate.subject_id}::${candidate.chapter}`)),
+      preferredJobIds,
+      coverage,
+      override,
+    );
+    if (selected) {
+      console.log('[worker_selection]', {
+        mode: 'planner_priority',
+        selected_job_id: selected.id,
+        selected_subject: selected.subject_id,
+        selected_chapter: selected.chapter,
+        selected_priority: selected.effective_priority,
+        original_priority: selected.original_priority,
+        skipped_higher_priority_jobs: allowedRows
+          .filter((candidate) => candidate.status === 'queued')
+          .filter((candidate) => Number(candidate.priority || 0) > Number(selected.original_priority || 0))
+          .length,
+      });
+    }
+    return selected;
+  }
+
+  const jobs = allowedRows
+    .filter((candidate) => !excludeChapterKeys.has(`${candidate.subject_id}::${candidate.chapter}`))
+    .filter((candidate) => isValidSyllabusPair(candidate.subject_id, candidate.chapter))
+    .map((candidate) => annotateJobWithCoverage(candidate, coverage))
+    .sort(compareJobsByCoverage);
+
+  const selected = jobs[0] || null;
+  if (selected) {
+    console.log('[worker_selection]', {
+      mode: 'coverage_fallback',
+      selected_job_id: selected.id,
+      selected_subject: selected.subject_id,
+      selected_chapter: selected.chapter,
+      selected_priority: selected.effective_priority,
+      original_priority: selected.original_priority,
+      skipped_higher_priority_jobs: 0,
+    });
+  }
+  return selected;
+}
+
+async function selectFocusedQualityJob({ coverage } = {}) {
+  const { data, error } = await supabase
+    .from('generation_jobs')
+    .select('*')
+    .eq('status', 'queued')
+    .eq('error_message', FOCUSED_QUALITY_JOB_MARKER)
+    .in('subject_id', [...VALID_SUBJECTS])
+    .order('created_at', { ascending: true })
+    .limit(100);
+
+  if (error) throw error;
+
+  const jobs = filterJobsByOverride(data || [], overrideConfig)
     .filter((candidate) => isValidSyllabusPair(candidate.subject_id, candidate.chapter))
     .map((candidate) => annotateJobWithCoverage(candidate, coverage))
     .sort(compareJobsByCoverage);
@@ -932,16 +1557,31 @@ async function selectCoverageFirstJob({ preferredJobIds = [], coverage, excludeS
   return jobs[0] || null;
 }
 
+function isFocusedQualityJob(job) {
+  return job?.error_message === FOCUSED_QUALITY_JOB_MARKER;
+}
+
 async function workerLoop() {
   console.log('\nAutonomous CUET Question Engine Started');
+  if (!supabase) {
+    console.error('[worker] supabase_unavailable: SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are required for --start');
+    return;
+  }
   loadConceptMemory();
 
   let lastPlanTime = 0;
   let preferredPlannedJobIds = [];
+  const activeJobs = new Map();
+  const activeChapterKeys = new Set();
   const PLAN_INTERVAL = 60 * 60 * 1000;
 
   while (true) {
     try {
+      if (activeJobs.size >= AUTONOMOUS_JOB_CONCURRENCY) {
+        await Promise.race(activeJobs.values());
+        continue;
+      }
+
       const now = Date.now();
 
       if (now - lastPlanTime > PLAN_INTERVAL) {
@@ -966,15 +1606,21 @@ async function workerLoop() {
       const coverage = await getCoverageSnapshot();
       await recoverStaleProcessingJobs();
       await skipInvalidQueuedJobs();
-      let job = await selectCoverageFirstJob({
+      let job = await selectFocusedQualityJob({ coverage });
+      if (job) {
+        console.log('[queue] FOCUSED_QUALITY_JOB_SELECTED');
+      }
+      if (!job) job = await selectCoverageFirstJob({
         preferredJobIds: preferredPlannedJobIds,
         coverage,
+        excludeChapterKeys: activeChapterKeys,
+        override: overrideConfig,
       });
 
       if (!job && preferredPlannedJobIds.length > 0) {
         console.warn('[queue] PREFERRED_PLANNED_JOBS_EMPTY_OR_ALREADY_CLAIMED: falling back to valid queued jobs by lowest coverage');
         preferredPlannedJobIds = [];
-        job = await selectCoverageFirstJob({ coverage });
+        job = await selectCoverageFirstJob({ coverage, excludeChapterKeys: activeChapterKeys, override: overrideConfig });
       }
 
       console.log('[queue] WORKER_SELECTED_JOB:', job ? {
@@ -1013,6 +1659,18 @@ async function workerLoop() {
         preferredPlannedJobIds = preferredPlannedJobIds.filter((id) => id !== job.id);
         continue;
       }
+      const overrideDecision = isJobAllowedByOverride(job, overrideConfig);
+      if (!overrideDecision.allowed) {
+        console.log('[override] skipped_job', {
+          job_id: job.id,
+          subject: job.subject_id,
+          chapter: job.chapter,
+          reason: overrideDecision.reason,
+        });
+        runMetrics.override_skipped_jobs += 1;
+        preferredPlannedJobIds = preferredPlannedJobIds.filter((id) => id !== job.id);
+        continue;
+      }
 
       console.log('[worker] coverage-based selection:', {
         subject: job.subject_id,
@@ -1032,6 +1690,8 @@ async function workerLoop() {
           coverage,
           excludeSubject: job.subject_id,
           minPriority: job.original_priority,
+          excludeChapterKeys: activeChapterKeys,
+          override: overrideConfig,
         });
 
         if (altJob) {
@@ -1073,10 +1733,39 @@ async function workerLoop() {
 
       preferredPlannedJobIds = preferredPlannedJobIds.filter((id) => id !== job.id);
 
-      await processJob(job);
+      const chapterKey = `${job.subject_id}::${job.chapter}`;
+      activeChapterKeys.add(chapterKey);
+      const jobPromise = processJob(job)
+        .catch((error) => {
+          console.error('[worker] async_job_failed', {
+            job_id: job.id,
+            subject: job.subject_id,
+            chapter: job.chapter,
+            error: error.message,
+          });
+          if (error.message?.includes('429') || error.message?.includes('quota')) throw error;
+        })
+        .finally(() => {
+          activeJobs.delete(job.id);
+          activeChapterKeys.delete(chapterKey);
+        });
+      activeJobs.set(job.id, jobPromise);
+      console.log('[throughput]', {
+        active_jobs: activeJobs.size,
+        queued_jobs: null,
+        generation_concurrency: GENERATION_CONCURRENCY,
+        validation_concurrency: VALIDATION_CONCURRENCY,
+        repair_concurrency: REPAIR_CONCURRENCY,
+        jobs_completed_per_hour: runMetricsSnapshot().jobs_completed_per_hour,
+        live_questions_per_hour: runMetricsSnapshot().live_questions_per_hour,
+        generated_candidates_per_hour: runMetricsSnapshot().generated_candidates_per_hour,
+      });
 
-      console.log('Cooling down for 15s to respect API limits...');
-      await new Promise((resolve) => setTimeout(resolve, 15000));
+      if (activeJobs.size >= AUTONOMOUS_JOB_CONCURRENCY) {
+        await Promise.race(activeJobs.values());
+      } else {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      }
     } catch (err) {
       if (err.message?.includes('429') || err.message?.includes('quota')) {
         console.warn('Rate limit hit. Sleeping for 30s...');
@@ -1090,6 +1779,8 @@ async function workerLoop() {
 }
 
 async function processJob(job) {
+  const jobStartedAt = Date.now();
+  runMetrics.jobs_started += 1;
   console.log(`\n[JOB ${job.id.substring(0, 8)}] Starting: [${job.subject_id}] ${job.chapter}`);
   console.log('[worker] RECEIVED_JOB:', {
     job_id: job.id,
@@ -1157,6 +1848,7 @@ async function processJob(job) {
       ...subject,
       chapters: canonicalChapters.length > 0 ? canonicalChapters : subject.chapters,
     };
+    const englishMode = job.subject_id === 'english' ? getEnglishGenerationMode(job.chapter) : null;
     if (!canonicalUnit) {
       console.warn('[llm] chapter_mismatch_detected', {
         expected: generationSubject.chapters,
@@ -1189,12 +1881,8 @@ async function processJob(job) {
     stats.apiCallsUsed += 1;
     // Generate one large candidate pool; downstream filters choose what to validate.
     const costSaverMode = isCostSaverActive();
-    const targetCount = costSaverMode
-      ? CHEAP_MODE_GENERATION_COUNT
-      : Math.min(job.target_count || PIPELINE_BATCH_SIZE, PIPELINE_BATCH_SIZE);
-    let generateCount = costSaverMode
-      ? CHEAP_MODE_GENERATION_COUNT
-      : getInitialGenerationCount(job.chapter);
+    const targetCount = Math.min(overrideConfig.target_count || job.target_count || PIPELINE_BATCH_SIZE, PIPELINE_BATCH_SIZE);
+    let generateCount = getInitialGenerationCount(job.chapter);
     const adaptiveMax = getAdaptiveMaxPerConcept(generationSubject);
     const usedConceptSample = sampleArray([...getUsedConcepts(job.subject_id)], 20);
     let generationContext = {
@@ -1205,6 +1893,9 @@ async function processJob(job) {
       previousAttempts: retryFeedback.previousAttempts,
       costSaver: costSaverMode,
       maxAttempts: 1,
+      englishMode,
+      subject_priority_tier: getSubjectPriority(job.subject_id).tier,
+      recent_flash_yield_rate: Number(job.recent_flash_yield_rate ?? job.yield_rate ?? 1),
     };
     console.log('[generation] batch adjusted:', {
       chapter: job.chapter,
@@ -1221,6 +1912,9 @@ async function processJob(job) {
       difficulty_override: difficultyOverride,
       used_concepts_sampled: usedConceptSample.length,
       cost_saver_mode: costSaverMode,
+      generation_mode: englishMode?.mode || null,
+      quality_mode: QUALITY_MODE,
+      requires_passage: englishMode?.requires_passage === true,
     });
     console.log(`[pipeline] Generating ${generateCount} candidates... chapter="${job.chapter}" unit="${canonicalUnit.unit_name}" usedConcepts=${generationContext.usedConcepts.length} saturated=${generationContext.saturatedSubtopics.length} (api_call=${stats.apiCallsUsed})`);
     let rawQuestions = await generateQuestions(generationSubject, job.chapter, generateCount, generationContext);
@@ -1232,15 +1926,11 @@ async function processJob(job) {
       generationRetryCount += 1;
       stats.retryCount += 1;
       generateCount = Math.max(MIN_TIMEOUT_RETRY_COUNT, Math.floor(generateCount / 2));
-      generationContext = {
-        ...generationContext,
-        modelOverride: GENERATION_FALLBACK_MODEL,
-      };
-      console.warn('[generation] timeout fallback reduction:', {
+      generationContext = { ...generationContext };
+      console.warn('[generation] timeout_batch_reduction:', {
         chapter: job.chapter,
         retry_count: generationRetryCount,
         generate_count: generateCount,
-        fallback_model: GENERATION_FALLBACK_MODEL,
       });
       console.log('[generation] batch adjusted:', {
         chapter: job.chapter,
@@ -1266,6 +1956,21 @@ async function processJob(job) {
     }
 
     if (rawQuestions?.error) {
+      if (rawQuestions.action === 'defer_job' || rawQuestions.error === 'generator_unavailable') {
+        const reason = rawQuestions.reason || rawQuestions.error;
+        console.warn('[generator_unavailable]', {
+          job_id: job.id,
+          subject: job.subject_id,
+          chapter: job.chapter,
+          reason,
+          action: 'defer_job',
+        });
+        await supabase
+          .from('generation_jobs')
+          .update({ status: 'completed', completed_at: new Date().toISOString(), error_message: `deferred: ${reason}` })
+          .eq('id', job.id);
+        return;
+      }
       await supabase
         .from('generation_jobs')
         .update({ status: 'failed', completed_at: new Date().toISOString(), error_message: rawQuestions.error })
@@ -1312,6 +2017,21 @@ async function processJob(job) {
     }
 
     if (rawQuestions?.error) {
+      if (rawQuestions.action === 'defer_job' || rawQuestions.error === 'generator_unavailable') {
+        const reason = rawQuestions.reason || rawQuestions.error;
+        console.warn('[generator_unavailable]', {
+          job_id: job.id,
+          subject: job.subject_id,
+          chapter: job.chapter,
+          reason,
+          action: 'defer_job',
+        });
+        await supabase
+          .from('generation_jobs')
+          .update({ status: 'completed', completed_at: new Date().toISOString(), error_message: `deferred: ${reason}` })
+          .eq('id', job.id);
+        return;
+      }
       await supabase
         .from('generation_jobs')
         .update({ status: 'failed', completed_at: new Date().toISOString(), error_message: rawQuestions.error })
@@ -1448,141 +2168,392 @@ async function processJob(job) {
     stats.crossJobDuplicates = crossJobDupCount;
     const dupRate = internallyFiltered.length > 0 ? dupCount / internallyFiltered.length : 0;
 
-    let validationPool = similarityFilteredQuestions;
-    if (validationPool.length < 3 && dedupedQuestions.length > validationPool.length) {
-      const existingIds = new Set(validationPool.map((question) => question.body));
-      const backfill = dedupedQuestions
-        .filter((question) => !existingIds.has(question.body))
-        .slice(0, 3 - validationPool.length);
-      if (backfill.length > 0) {
-        console.warn('[pipeline] minimum_validation_pool_backfill', {
-          before: validationPool.length,
-          added: backfill.length,
-          source: 'pre_similarity_pool',
-        });
-        validationPool = [...validationPool, ...backfill];
-      }
-    }
-    if (validationPool.length < 3 && structFiltered.length > validationPool.length) {
-      const existingIds = new Set(validationPool.map((question) => question.body));
-      const backfill = structFiltered
-        .filter((question) => !existingIds.has(question.body))
-        .slice(0, 3 - validationPool.length);
-      if (backfill.length > 0) {
-        console.warn('[pipeline] minimum_validation_pool_backfill', {
-          before: validationPool.length,
-          added: backfill.length,
-          source: 'structural_pool',
-        });
-        validationPool = [...validationPool, ...backfill];
-      }
+    const validationPool = similarityFilteredQuestions
+      .map((question) => attachAnchorMetadata(question, job.subject_id, job.chapter));
+    const stemShapeCounts = new Map();
+    for (const question of validationPool) {
+      const shape = getStemShape(question.body);
+      stemShapeCounts.set(shape, (stemShapeCounts.get(shape) || 0) + 1);
     }
 
-    const balancedQuestions = balanceCorrectAnswerDistribution(validationPool).slice(0, targetCount);
+    const selfCheckEntries = validationPool.map((question) => ({
+      question,
+      result: runSelfCheck(question, {
+        subject: job.subject_id,
+        chapter: job.chapter,
+        stemShapeCounts,
+        batchSize: validationPool.length,
+      }),
+    }));
+    const selfCheckSummary = summarizeSelfCheckResults(selfCheckEntries.map((entry) => entry.result));
+    const selfCheckPassedEntries = selfCheckEntries.filter((entry) => entry.result.pass);
+    const selfCheckRejectedEntries = selfCheckEntries.filter((entry) => !entry.result.pass);
+    stats.preValidationFiltered += selfCheckRejectedEntries.length;
+    stats.rejected += selfCheckRejectedEntries.length;
+    dropReasons.validation_failed += selfCheckRejectedEntries.length;
+
+    console.log('[selfCheck] total', selfCheckEntries.length);
+    console.log('[selfCheck] passed', selfCheckPassedEntries.length);
+    console.log('[selfCheck] rejected_count', selfCheckRejectedEntries.length);
+    console.log('[selfCheck] reasons', selfCheckSummary.reasons);
+    const selfCheckRejectionRate = selfCheckEntries.length > 0
+      ? selfCheckRejectedEntries.length / selfCheckEntries.length
+      : 0;
+    console.log('[selfcheck_thresholds]', {
+      subject: job.subject_id,
+      chapter: job.chapter,
+      rejection_rate: Number(selfCheckRejectionRate.toFixed(3)),
+      retry_triggered: selfCheckRejectionRate > 0.70 && ['S', 'A'].includes(getSubjectPriority(job.subject_id).tier),
+      top_reasons: Object.entries(selfCheckSummary.reasons || {})
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5)
+        .map(([reason, count]) => ({ reason, count })),
+    });
+
+    const candidatePool = selfCheckPassedEntries.map(({ question, result }) => ({
+      ...question,
+      selfcheck_passed: true,
+      selfcheck_reasons: result.reasons,
+      selfcheck_distractor_quality: result.distractor_quality,
+      selfcheck_trap_quality: result.trap_quality,
+      selfcheck_obviousness_risk: result.obviousness_risk,
+      selfcheck_cuet_pattern: result.cuet_pattern,
+    }));
+    let balancedQuestions = balanceCorrectAnswerDistribution(candidatePool).slice(0, targetCount);
     const rankedForValidation = rankValidationCandidates(balancedQuestions, VALIDATION_CANDIDATE_LIMIT);
-    const validationLimit = costSaverMode
-      ? Math.min(targetCount, rankedForValidation.length)
-      : Math.min(3, VALIDATION_CANDIDATE_LIMIT, rankedForValidation.length);
-    const selectedForValidation = rankedForValidation.slice(0, validationLimit);
+    const validationLimit = Math.min(targetCount, VALIDATION_CANDIDATE_LIMIT, rankedForValidation.length);
+    let selectedForValidation = rankedForValidation
+      .slice(0, validationLimit > 0 ? validationLimit : rankedForValidation.length)
+      .map((question, index) => assignCandidateIdentity(question, job.id, index));
 
     const validatorLoadReduction = rawQuestions.length > 0
       ? 1 - (selectedForValidation.length / rawQuestions.length)
       : 0;
-    console.log(`[pipeline] after_chapter_filter=${chapterFiltered.length} | pre_validation_filtered=${structRemoved + internalRejected.length} | batch_duplicates=${batchDupCount} | cross_job_duplicates=${crossJobDupCount} | candidate_pool=${balancedQuestions.length} | sent_for_strict_validation=${selectedForValidation.length} | validator_load_reduction=${(validatorLoadReduction * 100).toFixed(1)}%`);
+    console.log(`[pipeline] after_chapter_filter=${chapterFiltered.length} | pre_validation_filtered=${structRemoved + internalRejected.length + selfCheckRejectedEntries.length} | batch_duplicates=${batchDupCount} | cross_job_duplicates=${crossJobDupCount} | candidate_pool=${candidatePool.length} | sent_to_validator=${selectedForValidation.length} | sent_for_strict_validation=deferred | validator_load_reduction=${(validatorLoadReduction * 100).toFixed(1)}%`);
+    console.log('[pipeline] debug_quality_gate', {
+      pyq_anchor_used: selectedForValidation.map((question) => question.pyq_anchor_id),
+      anchor_source_quality: selectedForValidation.map((question) => getAnchorSourceQuality(question)),
+      anchor_tier: selectedForValidation.map((question) => question.anchor_tier),
+      anchor_match_level: selectedForValidation.map((question) => question.anchor_match_level),
+      anchor_confidence: selectedForValidation.map((question) => question.anchor_confidence),
+      concept_mismatch_risk: selectedForValidation.map((question) => question.concept_mismatch_risk),
+      fallback_used: false,
+      selfcheck_passed: candidatePool.length,
+      sent_to_validator: selectedForValidation.length,
+      skipped_for_anchor_quality: 0,
+    });
 
     if (dupRate > 0.30) {
       console.warn(`[pipeline] HIGH_DUPLICATE_RATE=${(dupRate * 100).toFixed(1)}% (threshold=30%)`);
     }
 
-    if (balancedQuestions.length === 0) {
-      const feedbackReasons = collectUniqueFeedbackReasons(similarityRejected.map((entry) => entry.reason));
+    if (balancedQuestions.length === 0 || selectedForValidation.length === 0) {
+      const feedbackReasons = collectUniqueFeedbackReasons([
+        ...similarityRejected.map((entry) => entry.reason),
+        ...Object.keys(selfCheckSummary.reasons || {}),
+      ]);
       if (retryFeedback.attempt < MAX_RETRIES - 1 && feedbackReasons.length > 0) {
         await requeueJobWithValidatorFeedback(
           job.id,
           retryFeedback.attempt + 1,
           feedbackReasons,
-          [...retryFeedback.previousAttempts, ...buildPreviousAttemptsFromRejected(similarityRejected)],
+          [
+            ...retryFeedback.previousAttempts,
+            ...buildPreviousAttemptsFromRejected(similarityRejected),
+            ...buildPreviousAttemptsFromRejected(selfCheckRejectedEntries.map((entry) => ({
+              question: entry.question,
+              reasons: entry.result.reasons,
+            }))),
+          ],
         );
         return;
+      }
+      let draftCount = 0;
+      for (const entry of selfCheckRejectedEntries.slice(0, 5)) {
+        if (!isSchemaValid(entry.question)) continue;
+        const draftRes = await saveDraftQuestion(
+          entry.question,
+          `draft_only:selfcheck_rejected:${entry.result.reasons.join(';') || 'no selfcheck pass'}`,
+          { expectedChapter: job.chapter },
+        );
+        if (draftRes.success) draftCount += 1;
       }
       logDropSummary(job, dropReasons, {
         rawParsedCount: generationDiagnostics.rawParsedCount,
         normalizedCount: rawQuestions.length,
-        sampleFailedRawQuestion: null,
-        sampleFailedNormalizedAttempt: null,
+        sampleFailedRawQuestion: generationDiagnostics.sampleFailedRawQuestion || rawQuestions[0] || null,
+        sampleFailedNormalizedAttempt: generationDiagnostics.sampleFailedNormalizedAttempt || rawQuestions[0] || null,
       });
       await supabase
         .from('generation_jobs')
-        .update({ status: 'completed', completed_at: new Date().toISOString(), error_message: 'Skipped: 0 unique valid questions after filtering' })
+        .update({ status: 'completed', completed_at: new Date().toISOString(), error_message: 'draft_only: 0 selfcheck-passed questions' })
         .eq('id', job.id);
+      console.log('[pipeline] draft_gate', {
+        draft_only_flag: true,
+        draft_saved: draftCount,
+        draft_candidates: selfCheckRejectedEntries.length,
+        publish_count: 0,
+        reason: 'selfcheck_rejected_all',
+      });
       return;
     }
 
-    let validationResults;
-    if (costSaverMode) {
-      console.warn('[supervisor] CHEAP_MODE_ACTIVE: validation skipped for this batch; accepting structurally valid top candidates');
-      validationResults = selectedForValidation.map((question) => ({
-        score: 66,
-        compositeScore: 66,
-        exam_quality: 6.5,
-        distractor_quality: 6.5,
-        conceptual_depth: 6.5,
-        trap_quality: 'MEDIUM',
-        textbook_style: false,
-        decision: 'accept',
-        verdict: 'VALID',
-        syllabus_alignment: 'WITHIN',
-        concept_match: 'EXACT',
-        difficulty_level: String(question.difficulty || 'medium').toUpperCase(),
-        compared_to_pyqs: 'MATCH',
-        clarity: 'CLEAR',
-        language_level: 'SIMPLE',
-        option_quality: 'CLEAN',
-        subject_consistency: 'CORRECT',
-        difficulty_correct: true,
-        cuet_alignment: true,
-        recommended_difficulty: question.difficulty || 'medium',
-        reasons: [],
-        issues: [],
-      }));
-    } else {
-      // Step 5: Selective batch validation - API call 2, no retry.
+    // Step 5: Two-layer validation. Mini validator runs for every selfCheck survivor.
+    let miniResults = [];
+    let validatedQuestions = [];
+    const validatorFeedbackReasons = [];
+    const rejectedValidationAttempts = [];
+    stats.apiCallsUsed += 1;
+    if (stats.apiCallsUsed > MAX_API_CALLS_PER_JOB) {
+      throw new Error(`api_call_limit_exceeded before mini validation (${stats.apiCallsUsed} calls)`);
+    }
+
+    console.log(`[pipeline] Starting mini validation for ${selectedForValidation.length} selfCheck-passed questions... (api_call=${stats.apiCallsUsed})`);
+
+    try {
+      miniResults = await validateMiniBatch(selectedForValidation, subject);
+    } catch (validationErr) {
+      console.error(`[pipeline] Mini validation failed: ${validationErr.message}. Saving candidates as draft only; no live publish.`);
+      let draftCount = 0;
+      for (const question of selectedForValidation.filter(isSchemaValid).slice(0, 5)) {
+        const draftRes = await saveDraftQuestion(question, `validator_unavailable:${validationErr.message}`, { expectedChapter: job.chapter });
+        if (draftRes.success) draftCount += 1;
+      }
+      await supabase
+        .from('generation_jobs')
+        .update({
+          status: 'completed',
+          completed_at: new Date().toISOString(),
+          error_message: `draft_only: validator_unavailable:${validationErr.message}`,
+        })
+        .eq('id', job.id);
+      console.log('[pipeline] draft_gate', {
+        draft_only_flag: true,
+        draft_saved: draftCount,
+        draft_candidates: selectedForValidation.length,
+        publish_count: 0,
+        reason: 'validator_unavailable',
+      });
+      return;
+    }
+
+    const miniCounts = countLayerVerdicts(miniResults);
+    console.log('[validation_mini] sent_count', selectedForValidation.length);
+    console.log('[validation_mini] accepted', miniCounts.accepted);
+    console.log('[validation_mini] borderline', miniCounts.borderline);
+    console.log('[validation_mini] rejected', miniCounts.rejected);
+
+    const preValidationCostSnapshot = getCostTracker();
+    const shouldLimitStrictForCost =
+      preValidationCostSnapshot.acceptedCount >= 5 &&
+      preValidationCostSnapshot.costPer1000 >= COST_VALIDATION_PAUSE_THRESHOLD &&
+      !isFocusedQualityJob(job);
+    const strictMaxForBatch = shouldLimitStrictForCost
+      ? Math.min(1, STRICT_VALIDATION_MAX_PER_BATCH)
+      : STRICT_VALIDATION_MAX_PER_BATCH;
+    const shouldSkipStrictForCost = strictMaxForBatch <= 0;
+    const escalationEntries = selectStrictEscalationCandidates(
+      selectedForValidation,
+      miniResults,
+      strictMaxForBatch,
+    );
+    if (shouldLimitStrictForCost) {
+      console.warn('[validation_strict] limited_due_to_cost_pressure', {
+        max_for_batch: strictMaxForBatch,
+        cost_per_1000: Number(preValidationCostSnapshot.costPer1000.toFixed(2)),
+      });
+    }
+    const strictByQuestionIndex = new Map();
+    let strictFailureReason = '';
+
+    if (escalationEntries.length > 0 && shouldSkipStrictForCost) {
+      console.warn('[validation_strict] skipped_due_to_cost_limit', {
+        escalated_count: escalationEntries.length,
+        cost_per_1000: Number(preValidationCostSnapshot.costPer1000.toFixed(2)),
+      });
+    } else if (escalationEntries.length > 0) {
       stats.apiCallsUsed += 1;
       if (stats.apiCallsUsed > MAX_API_CALLS_PER_JOB) {
-        throw new Error(`api_call_limit_exceeded before validation (${stats.apiCallsUsed} calls)`);
+        throw new Error(`api_call_limit_exceeded before strict validation (${stats.apiCallsUsed} calls)`);
       }
-
-      console.log(`[pipeline] Starting batch validation for ${selectedForValidation.length} ranked questions... (api_call=${stats.apiCallsUsed})`);
-
       try {
-        validationResults = await validateAndAlignBatch(selectedForValidation, subject);
-      } catch (validationErr) {
-        console.error(`[pipeline] Batch validation failed without retry: ${validationErr.message}. Falling back to cheap structural acceptance.`);
-        validationResults = selectedForValidation.map((question) => ({
-          score: 66,
-          compositeScore: 66,
-          exam_quality: 6.5,
-          distractor_quality: 6.5,
-          conceptual_depth: 6.5,
-          trap_quality: 'MEDIUM',
-          textbook_style: false,
-          decision: 'accept',
-          verdict: 'VALID',
-          syllabus_alignment: 'WITHIN',
-          concept_match: 'EXACT',
-          difficulty_level: String(question.difficulty || 'medium').toUpperCase(),
-          compared_to_pyqs: 'MATCH',
-          clarity: 'CLEAR',
-          language_level: 'SIMPLE',
-          option_quality: 'CLEAN',
-          subject_consistency: 'CORRECT',
-          difficulty_correct: true,
-          cuet_alignment: true,
-          recommended_difficulty: question.difficulty || 'medium',
-          reasons: [`validator_unavailable_cheap_mode:${validationErr.message}`],
-          issues: [],
-        }));
+        const strictResults = await validateStrictBatch(escalationEntries.map((entry) => entry.question), subject);
+        escalationEntries.forEach((entry, strictIndex) => {
+          strictByQuestionIndex.set(entry.index, strictResults[strictIndex]);
+        });
+        const strictCounts = countLayerVerdicts(strictResults);
+        console.log('[validation_strict] escalated_count', escalationEntries.length);
+        console.log('[validation_strict] accepted', strictCounts.accepted);
+        console.log('[validation_strict] rejected', strictCounts.rejected + strictCounts.borderline);
+        console.log('[validation_strict] skipped_due_to_cost_limit', 0);
+      } catch (strictErr) {
+        strictFailureReason = strictErr.message || 'strict validator unavailable';
+        console.warn('[validation_strict] failed_draft_only_for_escalated', {
+          escalated_count: escalationEntries.length,
+          reason: strictFailureReason,
+        });
       }
+    } else {
+      console.log('[validation_strict] escalated_count', 0);
+      console.log('[validation_strict] accepted', 0);
+      console.log('[validation_strict] rejected', 0);
+      console.log('[validation_strict] skipped_due_to_cost_limit', 0);
+    }
+
+    const escalationIndexSet = new Set(escalationEntries.map((entry) => entry.index));
+    for (let i = 0; i < selectedForValidation.length; i += 1) {
+      const question = selectedForValidation[i];
+      const miniValidation = miniResults[i];
+      const strictValidation = strictByQuestionIndex.get(i);
+      const wasEscalated = escalationIndexSet.has(i);
+      const finalValidation = strictValidation || miniValidation;
+      const finalLayer = strictValidation ? 'strict' : 'mini';
+
+      if (!miniValidation) {
+        const reasons = ['missing mini validation result'];
+        validatorFeedbackReasons.push(...reasons);
+        rejectedValidationAttempts.push({ question, reasons });
+        stats.rejected += 1;
+        dropReasons.validation_failed += 1;
+        continue;
+      }
+
+      if (wasEscalated && !strictValidation) {
+        const reasons = [
+          shouldSkipStrictForCost ? 'strict validation skipped due to cost limit' : `strict validation unavailable:${strictFailureReason || 'no result'}`,
+        ];
+        validatorFeedbackReasons.push(...reasons);
+        rejectedValidationAttempts.push({ question, reasons });
+        stats.rejected += 1;
+        dropReasons.validation_failed += 1;
+        console.log('[pipeline] validator_rejected', {
+          layer: 'strict',
+          reason: reasons[0],
+          pyq_anchor_used: question.pyq_anchor_id,
+          anchor_confidence: question.anchor_confidence,
+        });
+        continue;
+      }
+
+      const publishDecision = isPublishAllowedByQuality(finalValidation, question, QUALITY_MODE, finalLayer);
+      const qualityBand = publishDecision.band;
+      runMetrics.quality_bands[qualityBand] = (runMetrics.quality_bands[qualityBand] || 0) + 1;
+      runMetrics.validator_score_sum += toTenPointScore(finalValidation?.score);
+      runMetrics.exam_quality_sum += toTenPointScore(finalValidation?.exam_quality);
+      runMetrics.distractor_quality_sum += toTenPointScore(finalValidation?.distractor_quality);
+      runMetrics.validator_score_count += 1;
+      console.log('[validator_quality_band]', {
+        candidate_id: question.candidate_id,
+        band: qualityBand,
+        mode: QUALITY_MODE,
+        publish_allowed: publishDecision.allowed,
+      });
+      if (QUALITY_MODE === 'premium') {
+        console.log('[premium_audit]', {
+          candidate_id: question.candidate_id,
+          score: toTenPointScore(finalValidation?.score),
+          answer_confidence: normalizeUnitScore(finalValidation?.answer_confidence ?? 0),
+          publish_allowed: publishDecision.allowed,
+          reasons: publishDecision.reasons,
+        });
+      }
+
+      if (publishDecision.allowed) {
+        const acceptedQuestion = buildValidatedQuestion(question, finalValidation, finalLayer);
+        validatedQuestions.push(acceptedQuestion);
+        stats.scores.push(acceptedQuestion.validation_score);
+        console.log('[pipeline] validator_accepted', {
+          layer: finalLayer,
+          score: acceptedQuestion.validation_score,
+          exam_quality: acceptedQuestion.validation_exam_quality,
+          distractor_quality: acceptedQuestion.validation_distractor_quality,
+          conceptual_depth: acceptedQuestion.validation_conceptual_depth,
+          trap_quality: acceptedQuestion.validation_trap_quality,
+          pyq_anchor_used: question.pyq_anchor_id,
+          anchor_source_quality: getAnchorSourceQuality(question),
+          anchor_confidence: question.anchor_confidence,
+        });
+        continue;
+      }
+
+      const validationReasons = collectUniqueFeedbackReasons([
+        ...collectLayerValidationReasons(finalValidation),
+        ...publishDecision.reasons,
+      ]);
+      validatorFeedbackReasons.push(...validationReasons);
+      rejectedValidationAttempts.push({ question, reasons: validationReasons });
+      stats.rejected += 1;
+      dropReasons.validation_failed += 1;
+      if (normalizeUnitScore(finalValidation?.score) < 0.72) dropReasons.low_score += 1;
+      if (finalValidation?.cuet_alignment === false) dropReasons.cuet_alignment_failed += 1;
+      console.log('[pipeline] validator_rejected', {
+        layer: finalLayer,
+        score: toTenPointScore(finalValidation?.score),
+        exam_quality: toTenPointScore(finalValidation?.exam_quality),
+        distractor_quality: toTenPointScore(finalValidation?.distractor_quality),
+        conceptual_depth: toTenPointScore(finalValidation?.conceptual_depth),
+        trap_quality: normalizeTrapQuality(finalValidation?.trap_quality),
+        reasons: validationReasons,
+      });
+      logRejectedQuestion({
+        subject: job.subject_id,
+        chapter: job.chapter,
+        reason: validationReasons.join('; ') || 'validation_failed',
+        source: `${finalLayer}_validator`,
+        rule: validationReasons[0] || 'validation_failed',
+        details: {
+          score: toTenPointScore(finalValidation?.score),
+          verdict: finalValidation?.verdict,
+          cuet_alignment: finalValidation?.cuet_alignment,
+          anchor_confidence: question.anchor_confidence,
+        },
+        attemptCount: generationAttemptCount,
+      });
+    }
+
+    if (false) {
+    // Legacy strict-only validation path disabled; two-layer validation runs above.
+    let validationResults;
+    stats.apiCallsUsed += 1;
+    if (stats.apiCallsUsed > MAX_API_CALLS_PER_JOB) {
+      throw new Error(`api_call_limit_exceeded before validation (${stats.apiCallsUsed} calls)`);
+    }
+
+    console.log(`[pipeline] Starting batch validation for ${selectedForValidation.length} ranked questions... (api_call=${stats.apiCallsUsed})`);
+
+    try {
+      validationResults = await validateAndAlignBatch(selectedForValidation, subject);
+    } catch (validationErr) {
+      console.error(`[pipeline] Batch validation failed without retry: ${validationErr.message}. Saving candidates as draft only; no live publish.`);
+      let draftCount = 0;
+      for (const question of selectedForValidation.filter(isSchemaValid).slice(0, 5)) {
+        const draftRes = await saveDraftQuestion(question, `validator_unavailable:${validationErr.message}`, { expectedChapter: job.chapter });
+        if (draftRes.success) draftCount += 1;
+      }
+      await supabase
+        .from('generation_jobs')
+        .update({
+          status: 'completed',
+          completed_at: new Date().toISOString(),
+          error_message: `draft_only: validator_unavailable:${validationErr.message}`,
+        })
+        .eq('id', job.id);
+      console.log('[pipeline] draft_gate', {
+        draft_only_flag: true,
+        draft_saved: draftCount,
+        draft_candidates: selectedForValidation.length,
+        publish_count: 0,
+        reason: 'validator_unavailable',
+      });
+      console.log(
+        `[pipeline] SUMMARY | subject=${job.subject_id} | chapter=${job.chapter} | target=${targetCount}` +
+        ` | generated_count=${stats.total} | batch_duplicates=${stats.duplicates} | cross_job_duplicates=${stats.crossJobDuplicates}` +
+        ` | pre_validation_filtered=${stats.preValidationFiltered} | strict_validation_count=${selectedForValidation.length} | validated_count=0` +
+        ` | accepted_count=0 | draft_count=${draftCount} | draft_only_flag=true | shortfall=${targetCount}` +
+        ` | yield_rate=0.0%` +
+        ` | retry_count=${stats.retryCount} | api_calls_used=${stats.apiCallsUsed}`,
+      );
+      return;
     }
 
     // ── Step 6: Three-way validation scoring (accept/recover/reject) ─────────
@@ -1636,13 +2607,30 @@ async function processJob(job) {
         if (hasValidatorImprovement) {
           console.log(`[pipeline] Applied validator improvement | index=${i} | issues=${(validation.issues || []).join('; ')}`);
         }
+        console.log('[pipeline] validator_accepted', {
+          score: validation.score,
+          exam_quality: validation.exam_quality,
+          distractor_quality: validation.distractor_quality,
+          conceptual_depth: validation.conceptual_depth,
+          trap_quality: validation.trap_quality,
+          pyq_anchor_used: question.pyq_anchor_id,
+          anchor_source_quality: getAnchorSourceQuality(question),
+        });
         validatedQuestions.push({
           ...improvedQuestion,
           validation_score: validation.score,
+          validation_decision: validation.decision,
+          validation_verdict: validation.verdict,
+          validation_cuet_alignment: validation.cuet_alignment === true,
+          validation_exam_quality: Number(validation.exam_quality || 0),
+          validation_distractor_quality: Number(validation.distractor_quality || 0),
+          validation_conceptual_depth: Number(validation.conceptual_depth || 0),
+          validation_trap_quality: validation.trap_quality || 'LOW',
           compositeScore: validation.compositeScore,
           validator_recommended_difficulty: normalizeOptionalDifficulty(validation.recommended_difficulty),
           validation_sampled: true,
           strict_cuet_validated: true,
+          anchor_source_quality: getAnchorSourceQuality(improvedQuestion),
         });
         stats.scores.push(validation.score);
         continue;
@@ -1665,6 +2653,14 @@ async function processJob(job) {
       console.warn(
         `[pipeline] Rejected | compositeScore=${validation.compositeScore} | source=${acceptanceDecision.source} | rule=${acceptanceDecision.rule} | reasons=${validationReasons.join('; ')}`,
       );
+      console.log('[pipeline] validator_rejected', {
+        score: validation.score,
+        exam_quality: validation.exam_quality,
+        distractor_quality: validation.distractor_quality,
+        conceptual_depth: validation.conceptual_depth,
+        trap_quality: validation.trap_quality,
+        rule: acceptanceDecision.rule,
+      });
       logRejectedQuestion({
         subject: job.subject_id,
         chapter: job.chapter,
@@ -1712,9 +2708,14 @@ async function processJob(job) {
       console.log(`[recovery] recovered ${recoveredQuestions.length} candidates | accepted=${recoveredAcceptedCount}`);
     }
 
+    }
+
     // ── Step 6c: Strict zero-acceptance handling ────────────────────────────
+    let draftOnlyFlag = false;
+    let draftOnlyReason = '';
+    let draftCandidates = [];
+
     if (validatedQuestions.length === 0) {
-      console.warn('[pipeline] strict_mode_no_validated_questions');
       const feedbackReasons = collectUniqueFeedbackReasons(validatorFeedbackReasons);
       if (retryFeedback.attempt < MAX_RETRIES - 1 && feedbackReasons.length > 0) {
         await requeueJobWithValidatorFeedback(
@@ -1725,27 +2726,16 @@ async function processJob(job) {
         );
         return;
       }
-      console.warn('[pipeline] strict_mode_no_validated_questions_final', {
+      draftOnlyFlag = true;
+      draftOnlyReason = `validator_rejected_all:${feedbackReasons.join(';') || 'no accepted validator decisions'}`;
+      draftCandidates = balancedQuestions.slice(0, Math.min(5, balancedQuestions.length));
+      console.warn('[pipeline] strict_mode_no_validated_questions_draft_only', {
         job_id: job.id,
         attempts: retryFeedback.attempt + 1,
         max_attempts: MAX_RETRIES,
         reasons: feedbackReasons,
+        draft_only_flag: true,
       });
-      logDropSummary(job, dropReasons, {
-        rawParsedCount: generationDiagnostics.rawParsedCount,
-        normalizedCount: rawQuestions.length,
-        sampleFailedRawQuestion: generationDiagnostics.sampleFailedRawQuestion || rawQuestions[0] || null,
-        sampleFailedNormalizedAttempt: generationDiagnostics.sampleFailedNormalizedAttempt || rawQuestions[0] || null,
-      });
-      await supabase
-        .from('generation_jobs')
-        .update({
-          status: 'completed',
-          completed_at: new Date().toISOString(),
-          error_message: `strict_mode_no_validated_questions: ${feedbackReasons.join('; ') || 'no accepted validator decisions'}`,
-        })
-        .eq('id', job.id);
-      return;
     }
 
     const modelDifficultyCounts = countDifficultyMix(validatedQuestions);
@@ -1791,7 +2781,7 @@ async function processJob(job) {
     console.log('[difficulty] accepted_count:', validatedQuestions.length);
 
     const acceptanceRate = balancedQuestions.length > 0 ? validatedQuestions.length / balancedQuestions.length : 0;
-    if (acceptanceRate < 0.40) {
+    if (false && acceptanceRate < 0.40) {
       console.error(`[pipeline] LOW QUALITY — COST RISK | acceptance_rate=${(acceptanceRate * 100).toFixed(1)}% | threshold=40%`);
       await supabase
         .from('generation_jobs')
@@ -1803,6 +2793,9 @@ async function processJob(job) {
         .eq('id', job.id);
       process.exitCode = 1;
       return;
+    }
+    if (acceptanceRate < 0.40) {
+      console.warn(`[pipeline] LOW QUALITY - COST RISK log_only | acceptance_rate=${(acceptanceRate * 100).toFixed(1)}% | threshold=40% | fallback_or_partial_output_allowed=true`);
     }
     console.log(`[pipeline] validated_count=${validatedQuestions.length} | acceptance_rate=${(acceptanceRate * 100).toFixed(1)}%`);
 
@@ -1817,6 +2810,9 @@ async function processJob(job) {
 
     // ── Step 8: Schema guard — last line of defence before DB write ───────────
     const publishReady = [];
+    const passageGroupMap = new Map();
+    const passagePublishGroups = [];
+    const draftReady = [];
     const schemaRejectedEntries = [];
     for (const question of sanityUnique) {
       const schemaReason = !isSchemaValid(question)
@@ -1831,7 +2827,73 @@ async function processJob(job) {
       if (schemaReason) {
         schemaRejectedEntries.push({ question, reason: schemaReason });
       } else {
-        publishReady.push(question);
+        if (question.is_passage_linked === true || question.passage_group_id || question.temporary_group_key) {
+          const passageGateReason = getPublishGateRejectReason({
+            ...question,
+            passage_group_publish_allowed: true,
+          });
+          if (passageGateReason) {
+            draftReady.push({ question, reason: passageGateReason });
+          } else {
+            const groupKey = question.passage_group_id || question.group_id || question.temporary_group_key || question.passage_id || 'passage_group_1';
+            if (!passageGroupMap.has(groupKey)) passageGroupMap.set(groupKey, []);
+            passageGroupMap.get(groupKey).push(question);
+          }
+          continue;
+        }
+        const publishGateReason = getPublishGateRejectReason(question);
+        if (publishGateReason) {
+          draftReady.push({ question, reason: publishGateReason });
+        } else {
+          publishReady.push(question);
+        }
+      }
+    }
+    for (const [groupKey, groupQuestions] of passageGroupMap.entries()) {
+      const validLinkedQuestions = groupQuestions
+        .filter((question) => question.passage_text && question.passage_id)
+        .sort((a, b) => Number(a.order_index || 0) - Number(b.order_index || 0));
+      runMetrics.english.passage_groups_generated += 1;
+      runMetrics.english.passage_children_generated += groupQuestions.length;
+      console.log('[passage_group] publish_decision', {
+        passage_group_id: null,
+        temporary_group_key: groupKey,
+        passage_id: validLinkedQuestions[0]?.passage_id || groupQuestions[0]?.passage_id || null,
+        linked_generated: groupQuestions.length,
+        selfcheck_passed: groupQuestions.filter((question) => question.selfcheck_passed === true).length,
+        validator_accepted: validLinkedQuestions.length,
+        published: validLinkedQuestions.length >= 3,
+        draft_reason: validLinkedQuestions.length >= 3 ? null : 'passage_group_fewer_than_3_validated_children',
+      });
+      if (validLinkedQuestions.length >= 3) {
+        passagePublishGroups.push({
+          group: {
+            id: groupKey,
+            subject: job.subject_id,
+            chapter: job.chapter,
+            passage_id: validLinkedQuestions[0].passage_id,
+            title: validLinkedQuestions[0].passage_title || null,
+            passage_type: validLinkedQuestions[0].passage_type || englishMode?.passage_type || null,
+            passage_text: validLinkedQuestions[0].passage_text,
+          },
+          questions: validLinkedQuestions,
+        });
+      } else {
+        for (const question of groupQuestions) {
+          draftReady.push({ question, reason: 'passage_group_fewer_than_3_validated_children' });
+        }
+      }
+      console.log('[passage_group_publish]', {
+        group_id: groupKey,
+        passage_id: validLinkedQuestions[0]?.passage_id || null,
+        valid_linked_questions: validLinkedQuestions.length,
+        published: validLinkedQuestions.length >= 3,
+        draft_reason: validLinkedQuestions.length >= 3 ? null : 'passage_group_fewer_than_3_validated_children',
+      });
+    }
+    if (draftOnlyFlag) {
+      for (const question of draftCandidates) {
+        if (isSchemaValid(question)) draftReady.push({ question, reason: draftOnlyReason || 'draft_only' });
       }
     }
     const schemaRejected = schemaRejectedEntries.length;
@@ -1854,8 +2916,10 @@ async function processJob(job) {
       stats.rejected += schemaRejected;
     }
 
-    console.log('[pipeline] FINAL_ACCEPTED_COUNT', publishReady.length);
-    console.log(`[pipeline] selected_count=${publishReady.length} | FINAL DISTRIBUTION: ${JSON.stringify(countDifficultyMix(publishReady))}`);
+    const passageReadyCount = passagePublishGroups.reduce((sum, group) => sum + group.questions.length, 0);
+    console.log('[pipeline] FINAL_ACCEPTED_COUNT', publishReady.length + passageReadyCount);
+    console.log('[pipeline] final_publish_count', publishReady.length + passageReadyCount);
+    console.log(`[pipeline] selected_count=${publishReady.length + passageReadyCount} | FINAL DISTRIBUTION: ${JSON.stringify(countDifficultyMix([...publishReady, ...passagePublishGroups.flatMap((group) => group.questions)]))}`);
 
     // ── Step 9: Publish first batch ───────────────────────────────────────────
     const acceptedQuestions = [];
@@ -1888,6 +2952,58 @@ async function processJob(job) {
         stats.rejected += 1;
       }
     }
+    for (const passageGroup of passagePublishGroups) {
+      const publishRes = await publishPassageGroup(passageGroup.group, passageGroup.questions, API_SECRET, { expectedChapter: job.chapter });
+      if (publishRes.success) {
+        acceptedQuestions.push(...passageGroup.questions);
+        stats.accepted += passageGroup.questions.length;
+        runMetrics.passage_groups_published += 1;
+        runMetrics.english.passage_groups_published += 1;
+        runMetrics.english.passage_children_published += passageGroup.questions.length;
+        runMetrics.english.nta_grouped_count += passageGroup.questions.length;
+        console.log('[passage_group_publish]', {
+          group_id: publishRes.group_id,
+          passage_id: passageGroup.group.passage_id,
+          valid_linked_questions: passageGroup.questions.length,
+          published: true,
+          draft_reason: null,
+        });
+      } else {
+        for (const question of passageGroup.questions) {
+          draftReady.push({ question, reason: `passage_group_publish_failed:${publishRes.error}` });
+        }
+        console.warn('[passage_group_publish]', {
+          group_id: passageGroup.group.id,
+          passage_id: passageGroup.group.passage_id,
+          valid_linked_questions: passageGroup.questions.length,
+          published: false,
+          draft_reason: publishRes.error,
+        });
+      }
+    }
+    runMetrics.standalone_questions_published += acceptedQuestions.filter((question) => !question.is_passage_linked && !question.passage_group_id && !question.temporary_group_key).length;
+    runMetrics.english.quick_practice_standalone_count += acceptedQuestions.filter((question) => (
+      question.subject === 'english' &&
+      !question.is_passage_linked &&
+      !question.passage_group_id &&
+      !question.temporary_group_key
+    )).length;
+
+    let draftCount = 0;
+    const draftSeen = new Set();
+    for (const entry of draftReady.slice(0, 5)) {
+      const key = entry.question?.body || '';
+      if (!key || draftSeen.has(key)) continue;
+      draftSeen.add(key);
+      const draftRes = await saveDraftQuestion(entry.question, entry.reason, { expectedChapter: job.chapter });
+      if (draftRes.success) draftCount += 1;
+    }
+    console.log('[pipeline] draft_gate', {
+      draft_only_flag: draftOnlyFlag,
+      draft_saved: draftCount,
+      draft_candidates: draftReady.length,
+      publish_count: acceptedQuestions.length,
+    });
 
     recordAcceptedConcepts(job.subject_id, acceptedQuestions);
 
@@ -1917,6 +3033,9 @@ async function processJob(job) {
       .update({
         status: jobFinalStatus,
         completed_at: new Date().toISOString(),
+        ...(draftOnlyFlag
+          ? { error_message: `draft_only: ${draftOnlyReason || 'no publishable validated questions'}` }
+          : {}),
         ...(finalShortfall > 0 && acceptedQuestions.length > 0
           ? { error_message: `partial: accepted ${acceptedQuestions.length}/${targetCount}` }
           : {}),
@@ -1941,6 +3060,16 @@ async function processJob(job) {
     const finalDupRate     = stats.total > 0 ? finalTotalDups / stats.total : 0;
     const finalYieldRate   = stats.total > 0 ? stats.accepted  / stats.total : 0;
     const costEfficiencyRatio = stats.apiCallsUsed > 0 ? stats.accepted / stats.apiCallsUsed : 0;
+    const jobDurationMinutes = Math.max((Date.now() - jobStartedAt) / 60000, 1 / 60);
+    const generatedPerMinute = stats.total / jobDurationMinutes;
+    const projectedCandidatesPerHour = generatedPerMinute * 60;
+    console.log('[speed] generated_per_minute', Number(generatedPerMinute.toFixed(1)));
+    console.log('[speed] projected_candidates_per_hour', Number(projectedCandidatesPerHour.toFixed(0)));
+    console.log('[speed] model_latency_breakdown', {
+      generator_model: selectedForValidation[0]?.generator_model || null,
+      validator_model: miniResults[0]?.model || null,
+      job_duration_ms: Date.now() - jobStartedAt,
+    });
 
     if (finalDupRate > 0.50) {
       console.warn(`[pipeline] HIGH_DUPLICATE_RATE=${(finalDupRate * 100).toFixed(1)}% (threshold=50%) — consider raising dedup thresholds further or improving prompt diversity`);
@@ -1952,20 +3081,60 @@ async function processJob(job) {
     console.log(
       `[pipeline] METRICS | generated_count=${stats.total}` +
       ` | prefiltered_count=${balancedQuestions.length}` +
-      ` | strict_validation_count=${selectedForValidation.length}` +
+      ` | sent_to_mini_validator=${selectedForValidation.length}` +
+      ` | sent_to_strict_validator=${strictByQuestionIndex.size}` +
       ` | accepted_count=${stats.accepted}` +
+      ` | final_publish_count=${acceptedQuestions.length}` +
       ` | api_calls_used=${stats.apiCallsUsed}` +
-      ` | cost_efficiency_ratio=${costEfficiencyRatio.toFixed(2)}`,
+      ` | cost_efficiency_ratio=${costEfficiencyRatio.toFixed(2)}` +
+      ` | generated_per_minute=${generatedPerMinute.toFixed(1)}` +
+      ` | projected_candidates_per_hour=${projectedCandidatesPerHour.toFixed(0)}`,
     );
 
     console.log(
       `[pipeline] SUMMARY | subject=${job.subject_id} | chapter=${job.chapter} | target=${targetCount}` +
       ` | generated_count=${stats.total} | batch_duplicates=${stats.duplicates} | cross_job_duplicates=${stats.crossJobDuplicates}` +
-      ` | pre_validation_filtered=${stats.preValidationFiltered} | strict_validation_count=${selectedForValidation.length} | validated_count=${validatedQuestions.length}` +
-      ` | accepted_count=${stats.accepted} | shortfall=${finalShortfall}` +
+      ` | pre_validation_filtered=${stats.preValidationFiltered} | mini_validation_count=${selectedForValidation.length} | strict_validation_count=${strictByQuestionIndex.size} | validated_count=${validatedQuestions.length}` +
+      ` | accepted_count=${stats.accepted} | draft_count=${draftCount} | draft_only_flag=${draftOnlyFlag} | shortfall=${finalShortfall}` +
       ` | yield_rate=${(finalYieldRate * 100).toFixed(1)}%` +
+      ` | generated_per_minute=${generatedPerMinute.toFixed(1)} | projected_candidates_per_hour=${projectedCandidatesPerHour.toFixed(0)}` +
       ` | retry_count=${stats.retryCount} | api_calls_used=${stats.apiCallsUsed}`,
     );
+    console.log('[pipeline] JOB_SUMMARY', {
+      subject: job.subject_id,
+      chapter: job.chapter,
+      generator_model: selectedForValidation[0]?.generator_model || null,
+      generator_provider: selectedForValidation[0]?.generator_provider || null,
+      generation_mode: englishMode?.mode || null,
+      requires_passage: englishMode?.requires_passage === true,
+      cheap_validator_model: miniResults[0]?.model || null,
+      strict_validator_model: [...strictByQuestionIndex.values()][0]?.model || null,
+      pyq_anchor_ids: selectedForValidation.map((question) => question.pyq_anchor_id).filter(Boolean),
+      anchor_tier: selectedForValidation.map((question) => question.anchor_tier),
+      anchor_match_level: selectedForValidation.map((question) => question.anchor_match_level),
+      anchor_confidence: selectedForValidation.map((question) => question.anchor_confidence),
+      concept_mismatch_risk: selectedForValidation.map((question) => question.concept_mismatch_risk),
+      fallback_used: false,
+      generated_count: stats.total,
+      selfcheck_passed: candidatePool.length,
+      selfcheck_rejected: selfCheckRejectedEntries.length,
+      sent_to_mini_validator: selectedForValidation.length,
+      mini_accepted: miniCounts.accepted,
+      mini_borderline: miniCounts.borderline,
+      mini_rejected: miniCounts.rejected,
+      sent_to_strict_validator: strictByQuestionIndex.size,
+      strict_accepted: [...strictByQuestionIndex.values()].filter(isLayerAccepted).length,
+      strict_rejected: [...strictByQuestionIndex.values()].filter((result) => !isLayerAccepted(result)).length,
+      final_published: acceptedQuestions.length,
+      draft_saved: draftCount,
+      yield_rate: Number((finalYieldRate * 100).toFixed(1)),
+      generated_per_minute: Number(generatedPerMinute.toFixed(1)),
+      projected_candidates_per_hour: Number(projectedCandidatesPerHour.toFixed(0)),
+      blocked_publish_reason: draftReady.map((entry) => entry.reason).slice(0, 8),
+    });
+    console.log('[override_metrics]', runMetricsSnapshot().override_metrics);
+    console.log('[quality_metrics]', runMetricsSnapshot().quality_metrics);
+    if (job.subject_id === 'english') console.log('[english_metrics]', runMetricsSnapshot().english_metrics);
     console.log(`[pipeline] Accepted difficulty mix: ${formatDifficultyCounts(acceptedQuestions)}`);
     console.log(`[pipeline] subject_distribution: ${JSON.stringify({ subject: job.subject_id, accepted: stats.accepted, rejected: stats.rejected, target: targetCount, met: finalShortfall === 0 })}`);
 
@@ -1973,9 +3142,35 @@ async function processJob(job) {
     recordAcceptedForCost(stats.accepted);
     const costSnapshot = getCostTracker();
     console.log(`[supervisor] COST_REPORT | total_tokens_used=${Math.round(costSnapshot.totalInputTokens + costSnapshot.totalOutputTokens)} | total_cost=$${(costSnapshot.totalCostUsd).toFixed(4)} | cost_per_accepted=$${costSnapshot.costPerAccepted.toFixed(4)} | cost_per_1000=$${costSnapshot.costPer1000.toFixed(2)} | total_accepted=${costSnapshot.acceptedCount}`);
-    if (costSnapshot.costPer1000 > 1.0 && costSnapshot.acceptedCount >= 1) {
-      console.warn(`[supervisor] COST_ALERT: $${costSnapshot.costPer1000.toFixed(2)}/1000 accepted exceeds $1 budget — next batch uses cheap mode: batch_size=3, validation=skipped`);
+    console.log('[cost] validation_cost', {
+      total_cost_usd: Number(costSnapshot.totalCostUsd.toFixed(6)),
+      accepted_questions: costSnapshot.acceptedCount,
+    });
+    console.log('[cost] cost_per_live_question', Number(costSnapshot.costPerAccepted.toFixed(6)));
+    console.log('[cost] cost_per_1000_live', Number(costSnapshot.costPer1000.toFixed(2)));
+    console.log('[cost] model_breakdown', {
+      generator_model: selectedForValidation[0]?.generator_model || null,
+      cheap_validator_model: miniResults[0]?.model || null,
+      strict_validator_model: [...strictByQuestionIndex.values()][0]?.model || null,
+    });
+    if (costSnapshot.costPer1000 > COST_SOFT_ALERT_PER_1000 && costSnapshot.costPer1000 <= COST_HARD_THROTTLE_PER_1000 && costSnapshot.acceptedCount >= 1) {
+      console.warn(`[supervisor] COST_SOFT_ALERT: $${costSnapshot.costPer1000.toFixed(2)}/1000 accepted exceeds soft target; speed-first mode keeps Flash batch size and validation active`);
     }
+    if (costSnapshot.costPer1000 > COST_HARD_THROTTLE_PER_1000 && costSnapshot.acceptedCount >= 3) {
+      console.warn(`[supervisor] COST_HARD_ALERT: $${costSnapshot.costPer1000.toFixed(2)}/1000 accepted exceeds hard throttle; strict validation cap is reduced before Flash batch size is touched`);
+    }
+
+    recordRunMetricsUpdate({
+      generatorModel: selectedForValidation[0]?.generator_model || rawQuestions[0]?.generator_model || null,
+      jobDurationMs: Date.now() - jobStartedAt,
+      generatedCount: stats.total,
+      normalizedCount: rawQuestions.length,
+      selfcheckPassed: candidatePool.length,
+      validatorSent: selectedForValidation.length,
+      validatorAccepted: validatedQuestions.length,
+      livePublished: acceptedQuestions.length,
+      draftsSaved: draftCount,
+    });
 
     const recentQuality = await analyzeRecentAcceptedQuality(job.subject_id, job.chapter);
     dynamicQualityFeedback = recentQuality.feedback;

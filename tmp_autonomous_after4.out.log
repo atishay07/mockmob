@@ -1,0 +1,2480 @@
+
+> mockmob@0.1.0 autonomous
+> node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start
+
+GEMINI API KEY: LOADED
+[config] difficultyOverride: null
+
+Autonomous CUET Question Engine Started
+[memory] Loaded concept memory: 5947 concepts across 40 subjects (saved 2026-04-30T19:59:06.248Z)
+🧐 Analyzing database coverage...
+[analyzer] Found 221 syllabus chapters in planner pool: {
+  tier1_gaps: 221,
+  tier2_gaps: 0,
+  tier3_gaps: 0,
+  syllabus_total: 221,
+  db_covered: 220,
+  missing_chapters: 1,
+  thresholds: { top_subjects: 50 }
+}
+📅 Planning generation jobs...
+[planner] syllabus_total: 221
+[planner] db_covered: 220
+[planner] missing_chapters: 1
+[planner] tier_pool_before_selection: {
+  tier1_available: 221,
+  tier1_gaps: 221,
+  tier1_after_override: 221,
+  tier2_available: 0,
+  tier3_available: 0,
+  subjects_in_pool: {
+    tier1: [
+      'english',    'accountancy',
+      'biology',    'business_studies',
+      'chemistry',  'computer_science',
+      'economics',  'geography',
+      'history',    'mathematics',
+      'physics',    'political_science',
+      'psychology', 'sociology',
+      'gat'
+    ],
+    tier2: [],
+    tier3: []
+  }
+}
+[planner] {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  coverage: 0,
+  priority: 100
+}
+[planner] {
+  subject: 'biology',
+  chapter: 'Microbes in Human Welfare',
+  coverage: 7,
+  priority: 90
+}
+[planner] {
+  subject: 'biology',
+  chapter: 'Principles of Inheritance & Variation',
+  coverage: 7,
+  priority: 90
+}
+[planner] {
+  subject: 'business_studies',
+  chapter: 'Consumer Protection',
+  coverage: 7,
+  priority: 90
+}
+[planner] {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  coverage: 7,
+  priority: 90
+}
+[planner] {
+  subject: 'geography',
+  chapter: 'Manufacturing Industries',
+  coverage: 7,
+  priority: 90
+}
+[planner] {
+  subject: 'physics',
+  chapter: 'Dual Nature of Radiation & Matter',
+  coverage: 7,
+  priority: 90
+}
+[planner] {
+  subject: 'physics',
+  chapter: 'Electromagnetic Induction',
+  coverage: 7,
+  priority: 90
+}
+[planner] {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  coverage: 7,
+  priority: 90
+}
+[planner] {
+  subject: 'psychology',
+  chapter: 'Psychology & Life',
+  coverage: 7,
+  priority: 90
+}
+[planner] tier_selection: {
+  tier1_selected: 10,
+  tier2_selected: 0,
+  tier3_selected: 0,
+  other_selected: 0,
+  total_jobs: 10,
+  tier1_pct: '100%',
+  target_pct: '100%',
+  distribution_met: true
+}
+Subject: sociology → normalized: sociology → tier: 1
+Subject: biology → normalized: biology → tier: 1
+Subject: biology → normalized: biology → tier: 1
+Subject: business_studies → normalized: business_studies → tier: 1
+Subject: chemistry → normalized: chemistry → tier: 1
+Subject: geography → normalized: geography → tier: 1
+Subject: physics → normalized: physics → tier: 1
+Subject: physics → normalized: physics → tier: 1
+Subject: physics → normalized: physics → tier: 1
+Subject: psychology → normalized: psychology → tier: 1
+SUBJECT TIERS:
+{ tier1: 10, tier2: 0, tier3: 0 }
+[planner] OUTPUT_JOBS: [
+  {
+    expected_subject: 'sociology',
+    expected_chapter: 'Mass Media & Communications',
+    tier: 1,
+    priority: 100,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Microbes in Human Welfare',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'biology',
+    expected_chapter: 'Principles of Inheritance & Variation',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'business_studies',
+    expected_chapter: 'Consumer Protection',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'chemistry',
+    expected_chapter: 'p-Block Elements',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'geography',
+    expected_chapter: 'Manufacturing Industries',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'physics',
+    expected_chapter: 'Dual Nature of Radiation & Matter',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'physics',
+    expected_chapter: 'Electromagnetic Induction',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'physics',
+    expected_chapter: 'Moving Charges & Magnetism',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  },
+  {
+    expected_subject: 'psychology',
+    expected_chapter: 'Psychology & Life',
+    tier: 1,
+    priority: 90,
+    target_count: 15
+  }
+]
+[queue] INSERT_GENERATION_JOBS_REQUEST: [
+  {
+    subject_id: 'sociology',
+    chapter: 'Mass Media & Communications',
+    status: 'queued',
+    priority: 100
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Microbes in Human Welfare',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'biology',
+    chapter: 'Principles of Inheritance & Variation',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'business_studies',
+    chapter: 'Consumer Protection',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'chemistry',
+    chapter: 'p-Block Elements',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'geography',
+    chapter: 'Manufacturing Industries',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'physics',
+    chapter: 'Dual Nature of Radiation & Matter',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'physics',
+    chapter: 'Electromagnetic Induction',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'physics',
+    chapter: 'Moving Charges & Magnetism',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    subject_id: 'psychology',
+    chapter: 'Psychology & Life',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] INSERT_GENERATION_JOBS_RESULT: [
+  {
+    id: '58189390-92a0-49a5-9359-f88449ed66f3',
+    subject_id: 'sociology',
+    chapter: 'Mass Media & Communications',
+    status: 'queued',
+    priority: 100,
+    created_at: '2026-04-30T19:59:54.149614+00:00'
+  },
+  {
+    id: '7c33c9a0-08f6-4642-a5d1-9d798802adcd',
+    subject_id: 'biology',
+    chapter: 'Microbes in Human Welfare',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:59:54.149614+00:00'
+  },
+  {
+    id: '95ae6528-fd3b-443e-b10e-55870a992b16',
+    subject_id: 'biology',
+    chapter: 'Principles of Inheritance & Variation',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:59:54.149614+00:00'
+  },
+  {
+    id: 'f39d7f97-7198-4390-af1c-7c9c81ae4f24',
+    subject_id: 'business_studies',
+    chapter: 'Consumer Protection',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:59:54.149614+00:00'
+  },
+  {
+    id: 'ccb02ba3-ef96-4d88-9736-b7eec8572df3',
+    subject_id: 'chemistry',
+    chapter: 'p-Block Elements',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:59:54.149614+00:00'
+  },
+  {
+    id: '986a27b7-ae90-4aa3-bc4d-bad46ad28dae',
+    subject_id: 'geography',
+    chapter: 'Manufacturing Industries',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:59:54.149614+00:00'
+  },
+  {
+    id: '01fdad24-1869-4cbb-9f2f-d0615e214706',
+    subject_id: 'physics',
+    chapter: 'Dual Nature of Radiation & Matter',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:59:54.149614+00:00'
+  },
+  {
+    id: 'ef1b6a56-c22a-4b78-911e-c893705f035d',
+    subject_id: 'physics',
+    chapter: 'Electromagnetic Induction',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:59:54.149614+00:00'
+  },
+  {
+    id: '4ee26a0f-1c0e-40da-916f-36066eaf7a0d',
+    subject_id: 'physics',
+    chapter: 'Moving Charges & Magnetism',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:59:54.149614+00:00'
+  },
+  {
+    id: 'ab27f0cb-8774-4778-896a-441f64f8e39f',
+    subject_id: 'psychology',
+    chapter: 'Psychology & Life',
+    status: 'queued',
+    priority: 90,
+    created_at: '2026-04-30T19:59:54.149614+00:00'
+  }
+]
+[planner] Created 10 new generation jobs.
+[worker] PLANNER_OUTPUT_CAPTURED: [
+  {
+    id: '58189390-92a0-49a5-9359-f88449ed66f3',
+    expected_subject: 'sociology',
+    expected_chapter: 'Mass Media & Communications',
+    status: 'queued',
+    priority: 100
+  },
+  {
+    id: '7c33c9a0-08f6-4642-a5d1-9d798802adcd',
+    expected_subject: 'biology',
+    expected_chapter: 'Microbes in Human Welfare',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '95ae6528-fd3b-443e-b10e-55870a992b16',
+    expected_subject: 'biology',
+    expected_chapter: 'Principles of Inheritance & Variation',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'f39d7f97-7198-4390-af1c-7c9c81ae4f24',
+    expected_subject: 'business_studies',
+    expected_chapter: 'Consumer Protection',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'ccb02ba3-ef96-4d88-9736-b7eec8572df3',
+    expected_subject: 'chemistry',
+    expected_chapter: 'p-Block Elements',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '986a27b7-ae90-4aa3-bc4d-bad46ad28dae',
+    expected_subject: 'geography',
+    expected_chapter: 'Manufacturing Industries',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '01fdad24-1869-4cbb-9f2f-d0615e214706',
+    expected_subject: 'physics',
+    expected_chapter: 'Dual Nature of Radiation & Matter',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'ef1b6a56-c22a-4b78-911e-c893705f035d',
+    expected_subject: 'physics',
+    expected_chapter: 'Electromagnetic Induction',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: '4ee26a0f-1c0e-40da-916f-36066eaf7a0d',
+    expected_subject: 'physics',
+    expected_chapter: 'Moving Charges & Magnetism',
+    status: 'queued',
+    priority: 90
+  },
+  {
+    id: 'ab27f0cb-8774-4778-896a-441f64f8e39f',
+    expected_subject: 'psychology',
+    expected_chapter: 'Psychology & Life',
+    status: 'queued',
+    priority: 90
+  }
+]
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '58189390-92a0-49a5-9359-f88449ed66f3',
+    '7c33c9a0-08f6-4642-a5d1-9d798802adcd',
+    '95ae6528-fd3b-443e-b10e-55870a992b16',
+    'f39d7f97-7198-4390-af1c-7c9c81ae4f24',
+    'ccb02ba3-ef96-4d88-9736-b7eec8572df3',
+    '986a27b7-ae90-4aa3-bc4d-bad46ad28dae',
+    '01fdad24-1869-4cbb-9f2f-d0615e214706',
+    'ef1b6a56-c22a-4b78-911e-c893705f035d',
+    '4ee26a0f-1c0e-40da-916f-36066eaf7a0d',
+    'ab27f0cb-8774-4778-896a-441f64f8e39f'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '7c33c9a0-08f6-4642-a5d1-9d798802adcd',
+  actual_subject: 'biology',
+  actual_chapter: 'Microbes in Human Welfare',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 7,
+  subject_question_count: 411,
+  created_at: '2026-04-30T19:59:54.149614+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'biology',
+  chapter: 'Microbes in Human Welfare',
+  count: 7,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'biology', chapter: 'Microbes in Human Welfare', count: 7 }
+
+[JOB 7c33c9a0] Starting: [biology] Microbes in Human Welfare
+[worker] RECEIVED_JOB: {
+  job_id: '7c33c9a0-08f6-4642-a5d1-9d798802adcd',
+  expected_subject: 'biology',
+  expected_chapter: 'Microbes in Human Welfare',
+  raw_subject_id: 'biology',
+  raw_chapter: 'Microbes in Human Welfare',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:59:54.149614+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '7c33c9a0-08f6-4642-a5d1-9d798802adcd',
+  expected_subject: 'biology',
+  resolved_subject_id: 'biology',
+  resolved_subject_name: 'Biology',
+  chapter: 'Microbes in Human Welfare',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=7 existing questions loaded
+[generation] batch adjusted: { chapter: 'Microbes in Human Welfare', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '7c33c9a0-08f6-4642-a5d1-9d798802adcd',
+  expected_subject: 'biology',
+  resolved_subject_id: 'biology',
+  resolved_subject_name: 'Biology',
+  expected_chapter: 'Microbes in Human Welfare',
+  canonical_unit: 'Biology and Human Welfare',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Microbes in Human Welfare" unit="Biology and Human Welfare" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'biology',
+  prompt_subject_name: 'Biology',
+  expected_chapter: 'Microbes in Human Welfare',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'biology',
+  expected_chapter: 'Microbes in Human Welfare',
+  canonical_unit: 'Biology and Human Welfare',
+  concept_id: 'biology::microbes_in_human_welfare',
+  pyq_anchor_id: 'synthetic_cuet_structure_biology',
+  anchor_tier: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'biology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'biology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 21325,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'biology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"In a community garden, a gardener notices that certain plants are thriving while others are wilting. After testing the soil, they find beneficial microbes present in higher levels where the plants are healthy. Which principle is being applied regarding the role of microbes in agriculture?","o":["Beneficial microbes enhance plant growth and soil health.","Microbes solely depend on plant roots for nutrients.","All soil microbes are harmful to plant growth.","Microbes have no impact on soil fertility."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"application_based","concept_pattern":"biology::microbes_in_human_welfare","subject":"biology","public_subject":"biology","chapter":"Microbes in Human Welfare","topic":"Biology and Human Welfare","concept":"Microbes in Human Welfare","concept_id":"biology::microbes_in_human_welfare","pyq_anchor_id":"synthetic_cuet_structure_biology","anchor_tier":4},{"q":"Comparing the roles of bacteria and fungi in composting, which statement best highlights their distinct contributions?","o":["Bacteria break down organic matter faster than fungi but contribute less to nutrient cycling.","Fungi are more effective at breaking down cellulose compared to bacteria but take longer to decompose materials.","Both bacteria and fungi decompose organic matter at the same rate, contributing equally to composting.","Bacteria primarily add nitrogen, while fungi primarily add carbon to compost."],"a":"B","d":"medium","difficulty_weight":2,"question_type":"comparison_based","concept_pattern":"biology::microbes_in_human_welfare","subject":"biology","public_subject":"biology","chapter":"Microbes in Human Welfare","topic":"Biology and Human Welfare","concept":"Microbes in Human Welfare","concept_id":"biology::microbes_in_human_welfare","pyq_anchor_id":"synthetic_cuet_structure_biology","anchor_tier":4},{"q":"Statement I: Microorganisms can be used in the production of antibiotics. Statement II: All microorganisms are harmful to human health. Which statement is correct?","o":["Only Statement I is correct.","Only Statement II is correct.","Both statements are correct.","Neither statement is correct."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"biology::microbes_in_human_welfare","subject":"biology","public_subject":"biology","chapter":"Microbes in Human Welfare","topic":"Biology and Human Welfare","concept":"Microbes in Human Welfare","concept_id":"biology::microbes_in_human_welfare","pyq_anchor_id":"synthetic_cuet_structure_biology","anchor_tier":4},{"q":"Assertion: Microbes play a crucial role in the nitrogen cycle. Reason: They convert atmospheric nitrogen into a form usable by plants. Which option correctly describes the relationship between Assertion and Reason?","o":["Both Assertion and Reason are true, and Reason explains Assertion.","Assertion is true, but Reason is false.","Assertion is false, but Reason is true.","Both Assertion and Reason are false."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"assertion_reason","concept_pattern":"biology::microbes_in_human_welfare","subject":"biology","public_subject":"biology","chapter":"Microbes in Human Welfare","topic":"Biology and Human Welfare","concept":"Microbes in Human Welfare","concept_id":"biology::microbes_in_human_welfare","pyq_anchor_id":"synthetic_cuet_structure_biology","anchor_tier":4},{"q":"In a small village, residents use fermented foods as part of their diet. A health worker explains that these foods contain beneficial microbes that aid digestion. What misconception might some villagers have about these microbes? 1) They believe all microbes cause illness. 2) They think fermentation is only for preservation. Which option best identifies this misconception? ","o":["Only statement 1 reflects a common misconception about microbes.","Only statement 2 reflects a common misconception about microbes.","Both statements reflect misconceptions about the role of microbes.","Neither statement reflects any misconceptions about microbes."],"a":"C","d":"medium","difficulty_weight":2,"question_type":"case_based","concept_pattern":"biology::microbes_in_human_welfare","subject":"biology","public_subject":"biology","chapter":"Microbes in Human Welfare","topic":"Biology and Human Welfare","concept":"Microbes in Human Welfare","concept_id":"biology::microbes_in_human_welfare","pyq_anchor_id":"synthetic_cuet_structure_biology","anchor_tier":4}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=4
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 4
+[pipeline] generated_count=4 | mix=easy=0, medium=4, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 4
+[reject] {
+  subject: 'biology',
+  chapter: 'Microbes in Human Welfare',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=4 | pre_validation_filtered=1 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=25.0%
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T20:00:16.875Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"biology","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'biology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'biology',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 21663,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'biology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "obvious answer",
+      "textbook style",
+      "conceptual_depth < 7",
+      "direct recall stem"
+    ],
+    "score": 4,
+    "exam_quality": 3,
+    "distractor_quality": 2,
+    "conceptual_depth": 4,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "easy",
+    "issues": [
+      "The logic is too linear for an Assertion-Reason question at the CUET level.",
+      "Lacks specific microbial examples like Rhizobium or Azotobacter which are expected."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "conceptual_depth < 7",
+      "obvious answer"
+    ],
+    "score": 5,
+    "exam_quality": 4,
+    "distractor_quality": 4,
+    "conceptual_depth": 5,
+    "textbook_style": false,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The misconceptions used as distractors are overly simplistic (e.g., 'all microbes cause illness').",
+      "Does not test specific biological knowledge related to fermentation or specific microbes like LAB."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "obvious answer",
+      "low trap quality",
+      "fewer than 2 options plausibly attractive",
+      "textbook style",
+      "conceptual_depth < 7"
+    ],
+    "score": 3,
+    "exam_quality": 2,
+    "distractor_quality": 1,
+    "conceptual_depth": 3,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "easy",
+    "issues": [
+      "Statement II is a generalized absolute ('All microorganisms...') which makes it an obvious false statement.",
+      "Question is too elementary and does not meet the competitive standard of CUET."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T20:00:38.541Z","model":"gemini-3-flash","subject":"biology","resultCount":3}
+[reject] {
+  subject: 'biology',
+  chapter: 'Microbes in Human Welfare',
+  reason: 'obvious answer; low trap quality; fewer than 2 options plausibly attractive; textbook style; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold',
+  source: 'validator_normalized',
+  rule: 'obvious answer',
+  details: {
+    compositeScore: 30,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'biology',
+  chapter: 'Microbes in Human Welfare',
+  reason: 'low trap quality; obvious answer; textbook style; conceptual_depth < 7; direct recall stem; validator score below threshold; exam quality below threshold; distractor quality below threshold',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 31,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 3, hard: 0 },
+  system: { easy: 2, medium: 1, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 3
+[pipeline] validated_count=3 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 3
+[pipeline] selected_count=3 | FINAL DISTRIBUTION: {"easy":2,"medium":1,"hard":0}
+✅ Published de75e067-0c4a-4e03-aff9-d11030a29483 | status=live | difficulty=easy | discoverable=true
+✅ Published f6671e24-2583-4909-8d08-71258954daa9 | status=live | difficulty=medium | discoverable=true
+✅ Published 8cc697ac-a37f-4e92-ad8c-09845a338089 | status=live | difficulty=easy | discoverable=true
+[pipeline] METRICS | generated_count=4 | prefiltered_count=3 | strict_validation_count=3 | accepted_count=3 | api_calls_used=2 | cost_efficiency_ratio=1.50
+[pipeline] SUMMARY | subject=biology | chapter=Microbes in Human Welfare | target=5 | generated_count=4 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=1 | strict_validation_count=3 | validated_count=3 | accepted_count=3 | shortfall=2 | yield_rate=75.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=2, medium=1, hard=0
+[pipeline] subject_distribution: {"subject":"biology","accepted":3,"rejected":3,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=6562 | total_cost=$0.0017 | cost_per_accepted=$0.0006 | cost_per_1000=$0.58 | total_accepted=3
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'biology',
+  chapter: 'Microbes in Human Welfare',
+  sample_size: 10,
+  direct_definition_count: 0,
+  weak_option_count: 5,
+  repeated_structure_count: 0,
+  easy_count: 3,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '58189390-92a0-49a5-9359-f88449ed66f3',
+    '95ae6528-fd3b-443e-b10e-55870a992b16',
+    'f39d7f97-7198-4390-af1c-7c9c81ae4f24',
+    'ccb02ba3-ef96-4d88-9736-b7eec8572df3',
+    '986a27b7-ae90-4aa3-bc4d-bad46ad28dae',
+    '01fdad24-1869-4cbb-9f2f-d0615e214706',
+    'ef1b6a56-c22a-4b78-911e-c893705f035d',
+    '4ee26a0f-1c0e-40da-916f-36066eaf7a0d',
+    'ab27f0cb-8774-4778-896a-441f64f8e39f'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '58189390-92a0-49a5-9359-f88449ed66f3',
+  actual_subject: 'sociology',
+  actual_chapter: 'Mass Media & Communications',
+  status: 'queued',
+  priority: 100,
+  original_priority: 100,
+  question_count: 0,
+  subject_question_count: 199,
+  created_at: '2026-04-30T19:59:54.149614+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  count: 0,
+  priority: 100
+}
+[worker] coverage-based selection: {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  count: 0
+}
+
+[JOB 58189390] Starting: [sociology] Mass Media & Communications
+[worker] RECEIVED_JOB: {
+  job_id: '58189390-92a0-49a5-9359-f88449ed66f3',
+  expected_subject: 'sociology',
+  expected_chapter: 'Mass Media & Communications',
+  raw_subject_id: 'sociology',
+  raw_chapter: 'Mass Media & Communications',
+  status: 'queued',
+  priority: 100,
+  created_at: '2026-04-30T19:59:54.149614+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '58189390-92a0-49a5-9359-f88449ed66f3',
+  expected_subject: 'sociology',
+  resolved_subject_id: 'sociology',
+  resolved_subject_name: 'Sociology',
+  chapter: 'Mass Media & Communications',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=20 existing questions loaded
+[generation] batch adjusted: { chapter: 'Mass Media & Communications', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '58189390-92a0-49a5-9359-f88449ed66f3',
+  expected_subject: 'sociology',
+  resolved_subject_id: 'sociology',
+  resolved_subject_name: 'Sociology',
+  expected_chapter: 'Mass Media & Communications',
+  canonical_unit: 'Social Change and Development in India',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Mass Media & Communications" unit="Social Change and Development in India" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'sociology',
+  prompt_subject_name: 'Sociology',
+  expected_chapter: 'Mass Media & Communications',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'sociology',
+  expected_chapter: 'Mass Media & Communications',
+  canonical_unit: 'Social Change and Development in India',
+  concept_id: 'sociology::mass_media_and_communications',
+  pyq_anchor_id: 'synthetic_cuet_structure_sociology',
+  anchor_tier: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 27672,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'sociology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Assertion: Mass media significantly influences social change in India. Reason: It acts as a tool for disseminating information and shaping public opinion. Which of the following is correct?","o":["Both assertion and reason are true, and the reason explains the assertion.","The assertion is true, but the reason is false.","The assertion is false, but the reason is true.","Both assertion and reason are false."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"assertion_reason","concept_pattern":"sociology::mass_media_and_communications","subject":"sociology","public_subject":"sociology","chapter":"Mass Media & Communications","topic":"Social Change and Development in India","concept":"Mass Media & Communications","concept_id":"sociology::mass_media_and_communications","pyq_anchor_id":"synthetic_cuet_structure_sociology","anchor_tier":4},{"q":"In a recent community meeting, residents discussed how local news channels have changed perceptions about development projects. What does this scenario illustrate regarding mass media?","o":["Mass media can distort reality by focusing only on negative aspects of projects.","Local news channels play a crucial role in shaping public perceptions and attitudes toward development.","Residents' opinions are solely influenced by personal experiences, not media representations.","Mass media has no significant impact on local community discussions."],"a":"B","d":"medium","difficulty_weight":2,"question_type":"case_based","concept_pattern":"sociology::mass_media_and_communications","subject":"sociology","public_subject":"sociology","chapter":"Mass Media & Communications","topic":"Social Change and Development in India","concept":"Mass Media & Communications","concept_id":"sociology::mass_media_and_communications","pyq_anchor_id":"synthetic_cuet_structure_sociology","anchor_tier":4},{"q":"A social worker uses social media to raise awareness about health issues in rural areas. This indicates that mass media can be effectively used to:","o":["Enhance communication and promote social development initiatives.","Replace traditional forms of communication entirely.","Create a divide between urban and rural populations.","Limit the reach of important health information."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"application_based","concept_pattern":"sociology::mass_media_and_communications","subject":"sociology","public_subject":"sociology","chapter":"Mass Media & Communications","topic":"Social Change and Development in India","concept":"Mass Media & Communications","concept_id":"sociology::mass_media_and_communications","pyq_anchor_id":"synthetic_cuet_structure_sociology","anchor_tier":4},{"q":"Comparing traditional media with digital media, which statement accurately reflects their roles in societal communication?","o":["Traditional media is more effective in reaching younger audiences than digital media.","Digital media allows for greater interactivity and engagement than traditional media.","Traditional media provides more immediate access to information compared to digital media.","Digital media has less influence on public opinion than traditional media."],"a":"B","d":"medium","difficulty_weight":2,"question_type":"comparison_based","concept_pattern":"sociology::mass_media_and_communications","subject":"sociology","public_subject":"sociology","chapter":"Mass Media & Communications","topic":"Social Change and Development in India","concept":"Mass Media & Communications","concept_id":"sociology::mass_media_and_communications","pyq_anchor_id":"synthetic_cuet_structure_sociology","anchor_tier":4},{"q":"Statement I: Mass media primarily serves entertainment purposes in society. Statement II: Mass media can also educate the public on various issues. Which option best describes these statements?","o":["Both statements are true, but Statement I downplays the educational role of mass media.","Only Statement I is true; Statement II is misleading about mass media's role.","Both statements are false; mass media has no educational value.","Only Statement II is true; Statement I exaggerates entertainment's importance."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"sociology::mass_media_and_communications","subject":"sociology","public_subject":"sociology","chapter":"Mass Media & Communications","topic":"Social Change and Development in India","concept":"Mass Media & Communications","concept_id":"sociology::mass_media_and_communications","pyq_anchor_id":"synthetic_cuet_structure_sociology","anchor_tier":4}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=4
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 4
+[pipeline] generated_count=4 | mix=easy=0, medium=4, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 4
+[reject] {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=4 | pre_validation_filtered=2 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=25.0%
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T20:01:25.300Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"sociology","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'sociology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'sociology',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 10818,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'sociology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "AMBIGUOUS",
+    "language_level": "SIMPLE",
+    "option_quality": "CONFUSING",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "non-standard statement-based options",
+      "low trap quality",
+      "obvious answer",
+      "conceptual_depth < 7"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Option format deviates from standard CUET statement-based structure (Both true, Both false, etc.)",
+      "Phrasing in options like 'downplays' or 'exaggerates' is subjective and ambiguous"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "obvious answer",
+      "low trap quality",
+      "conceptual_depth < 7"
+    ],
+    "score": 5,
+    "exam_quality": 5,
+    "distractor_quality": 4,
+    "conceptual_depth": 5,
+    "textbook_style": false,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Options B, C, and D are factually weak and do not act as plausible distractors",
+      "The question tests common knowledge rather than sociological concepts"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T20:01:36.120Z","model":"gemini-3-flash","subject":"sociology","resultCount":3}
+[reject] {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  reason: 'non-standard statement-based options; low trap quality; obvious answer; conceptual_depth < 7; ambiguous wording; confusing options; validator score below threshold; exam quality below threshold',
+  source: 'validator_normalized',
+  rule: 'non-standard statement-based options',
+  details: {
+    compositeScore: 0,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CONFUSING'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 3, hard: 0 },
+  system: { easy: 0, medium: 3, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 3
+[pipeline] validated_count=3 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 3
+[pipeline] selected_count=3 | FINAL DISTRIBUTION: {"easy":0,"medium":3,"hard":0}
+✅ Published bc7e9326-96cc-4a8f-b540-f2d8119eb9d7 | status=live | difficulty=medium | discoverable=true
+✅ Published a4f38d4f-7f82-455a-bfde-af111bef6cd5 | status=live | difficulty=medium | discoverable=true
+✅ Published 83a70ce6-fb83-43e7-b2fa-341e35c7867f | status=live | difficulty=medium | discoverable=true
+[pipeline] METRICS | generated_count=4 | prefiltered_count=3 | strict_validation_count=3 | accepted_count=3 | api_calls_used=2 | cost_efficiency_ratio=1.50
+[pipeline] SUMMARY | subject=sociology | chapter=Mass Media & Communications | target=5 | generated_count=4 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=2 | strict_validation_count=3 | validated_count=3 | accepted_count=3 | shortfall=2 | yield_rate=75.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=3, hard=0
+[pipeline] subject_distribution: {"subject":"sociology","accepted":3,"rejected":3,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=13159 | total_cost=$0.0034 | cost_per_accepted=$0.0006 | cost_per_1000=$0.57 | total_accepted=6
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'sociology',
+  chapter: 'Mass Media & Communications',
+  sample_size: 20,
+  direct_definition_count: 3,
+  weak_option_count: 12,
+  repeated_structure_count: 0,
+  easy_count: 5,
+  feedback_count: 2
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '95ae6528-fd3b-443e-b10e-55870a992b16',
+    'f39d7f97-7198-4390-af1c-7c9c81ae4f24',
+    'ccb02ba3-ef96-4d88-9736-b7eec8572df3',
+    '986a27b7-ae90-4aa3-bc4d-bad46ad28dae',
+    '01fdad24-1869-4cbb-9f2f-d0615e214706',
+    'ef1b6a56-c22a-4b78-911e-c893705f035d',
+    '4ee26a0f-1c0e-40da-916f-36066eaf7a0d',
+    'ab27f0cb-8774-4778-896a-441f64f8e39f'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '95ae6528-fd3b-443e-b10e-55870a992b16',
+  actual_subject: 'biology',
+  actual_chapter: 'Principles of Inheritance & Variation',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 7,
+  subject_question_count: 414,
+  created_at: '2026-04-30T19:59:54.149614+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'biology',
+  chapter: 'Principles of Inheritance & Variation',
+  count: 7,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'biology',
+  chapter: 'Principles of Inheritance & Variation',
+  count: 7
+}
+
+[JOB 95ae6528] Starting: [biology] Principles of Inheritance & Variation
+[worker] RECEIVED_JOB: {
+  job_id: '95ae6528-fd3b-443e-b10e-55870a992b16',
+  expected_subject: 'biology',
+  expected_chapter: 'Principles of Inheritance & Variation',
+  raw_subject_id: 'biology',
+  raw_chapter: 'Principles of Inheritance & Variation',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:59:54.149614+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '95ae6528-fd3b-443e-b10e-55870a992b16',
+  expected_subject: 'biology',
+  resolved_subject_id: 'biology',
+  resolved_subject_name: 'Biology',
+  chapter: 'Principles of Inheritance & Variation',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=7 existing questions loaded
+[generation] batch adjusted: { chapter: 'Principles of Inheritance & Variation', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '95ae6528-fd3b-443e-b10e-55870a992b16',
+  expected_subject: 'biology',
+  resolved_subject_id: 'biology',
+  resolved_subject_name: 'Biology',
+  expected_chapter: 'Principles of Inheritance & Variation',
+  canonical_unit: 'Genetics and Evolution',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Principles of Inheritance & Variation" unit="Genetics and Evolution" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'biology',
+  prompt_subject_name: 'Biology',
+  expected_chapter: 'Principles of Inheritance & Variation',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'biology',
+  expected_chapter: 'Principles of Inheritance & Variation',
+  canonical_unit: 'Genetics and Evolution',
+  concept_id: 'biology::principles_of_inheritance_and_variation',
+  pyq_anchor_id: 'synthetic_cuet_structure_biology',
+  anchor_tier: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'biology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'biology',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 43004,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'biology',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Statement I: Incomplete dominance results in a phenotype that is a blend of the parental traits. Statement II: Codominance leads to offspring displaying both parental traits simultaneously. Which of the following statements is correct?","o":["Only Statement I is correct.","Only Statement II is correct.","Both Statement I and Statement II are correct.","Neither Statement I nor Statement II is correct."],"a":"C","d":"medium|hard","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"unique_snake_case_tag","explanation":"Both statements accurately describe different inheritance patterns.","subject":"biology","public_subject":"biology","chapter":"Principles of Inheritance & Variation","topic":"Genetics and Evolution","concept":"Principles of Inheritance & Variation","concept_id":"biology::principles_of_inheritance_and_variation","pyq_anchor_id":"synthetic_cuet_structure_biology","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"Assertion: A dihybrid cross demonstrates independent assortment of genes. Reason: The alleles for different traits segregate independently during gamete formation. Evaluate the truth of both the assertion and reason.","o":["Both assertion and reason are true, and the reason explains the assertion.","Both assertion and reason are true, but the reason does not explain the assertion.","Assertion is true, but the reason is false.","Assertion is false, but the reason is true."],"a":"A","d":"medium|hard","difficulty_weight":2,"question_type":"assertion_reason","concept_pattern":"unique_snake_case_tag","explanation":"The assertion correctly describes a dihybrid cross, supported by the reason provided.","subject":"biology","public_subject":"biology","chapter":"Principles of Inheritance & Variation","topic":"Genetics and Evolution","concept":"Principles of Inheritance & Variation","concept_id":"biology::principles_of_inheritance_and_variation","pyq_anchor_id":"synthetic_cuet_structure_biology","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"In a classroom experiment, students observe that certain pea plants exhibit yellow seeds while others show green seeds. They hypothesize that this trait follows Mendelian inheritance. What inference can be drawn about the green seed trait?","o":["It is a dominant trait over yellow seeds.","It may be a recessive trait not expressed in heterozygous plants.","It exhibits incomplete dominance with yellow seeds.","It cannot be inherited at all."],"a":"B","d":"medium|hard","difficulty_weight":2,"question_type":"case_based","concept_pattern":"unique_snake_case_tag","explanation":"The green seed trait likely represents a recessive allele since it is not expressed when yellow seeds are present in heterozygous plants.","subject":"biology","public_subject":"biology","chapter":"Principles of Inheritance & Variation","topic":"Genetics and Evolution","concept":"Principles of Inheritance & Variation","concept_id":"biology::principles_of_inheritance_and_variation","pyq_anchor_id":"synthetic_cuet_structure_biology","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"In a genetic study, two traits are analyzed: flower color (purple vs. white) and seed shape (round vs. wrinkled). If purple color is dominant over white and round shape is dominant over wrinkled, which statement best describes the expected offspring phenotypes from a dihybrid cross? ","o":["All offspring will show purple flowers and round seeds.","Offspring can exhibit any combination of flower color and seed shape based on dominance relations.","Phenotypes will only reflect one dominant trait at a time.","Offspring will only show recessive traits from both parents."],"a":"B","d":"medium|hard","difficulty_weight":2,"question_type":"application_based","concept_pattern":"unique_snake_case_tag","explanation":"A dihybrid cross allows for multiple combinations of dominant and recessive traits in offspring phenotypes.","subject":"biology","public_subject":"biology","chapter":"Principles of Inheritance & Variation","topic":"Genetics and Evolution","concept":"Principles of Inheritance & Variation","concept_id":"biology::principles_of_inheritance_and_variation","pyq_anchor_id":"synthetic_cuet_structure_biology","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"Comparing dominance and codominance in inheritance patterns, which statement accurately reflects their differences? ","o":["Dominance results in one allele masking the other, while codominance shows both alleles equally expressed in the phenotype.","Both dominance and codominance lead to blending of traits in offspring.","Dominance can only occur in homozygous conditions, whereas codominance occurs in heterozygous conditions only.","Codominance involves one trait overshadowing another completely."],"a":"A","d":"medium|hard","difficulty_weight":2,"question_type":"comparison_based","concept_pattern":"unique_snake_case_tag","explanation":"The distinction between dominance and codominance lies in how alleles interact to express traits in phenotypes.","subject":"biology","public_subject":"biology","chapter":"Principles of Inheritance & Variation","topic":"Genetics and Evolution","concept":"Principles of Inheritance & Variation","concept_id":"biology::principles_of_inheritance_and_variation","pyq_anchor_id":"synthetic_cuet_structure_biology","anchor_tier":4,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=4
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 4
+[pipeline] generated_count=4 | mix=easy=0, medium=4, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 4
+[reject] {
+  subject: 'biology',
+  chapter: 'Principles of Inheritance & Variation',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'biology',
+  chapter: 'Principles of Inheritance & Variation',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'biology',
+  chapter: 'Principles of Inheritance & Variation',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=4 | pre_validation_filtered=3 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=25.0%
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T20:02:38.134Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"biology","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'biology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'biology',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 25736,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'biology',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "HIGH",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 8,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [],
+    "score": 7,
+    "exam_quality": 7,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "easy",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "obvious answer",
+      "conceptual_depth < 7",
+      "textbook style"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The correct option (C) is too broad and lacks the conceptual rigor expected in application-based questions.",
+      "Distractors are poorly constructed and do not represent plausible student errors."
+    ],
+    "decision": "reject",
+    "improved_question": "In a genetic study of flower color (Purple dominant over White) and seed shape (Round dominant over Wrinkled), a dihybrid cross was performed. Which of the following phenotypic combinations in the offspring would demonstrate the principle of independent assortment? (A) Only Purple-Round and White-Wrinkled, (B) A 3:1 ratio of Purple to White only, (C) The appearance of recombinant phenotypes like Purple-Wrinkled and White-Round, (D) All offspring showing a mixture of both parent colors on the same flower."
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T20:03:03.871Z","model":"gemini-3-flash","subject":"biology","resultCount":3}
+[reject] {
+  subject: 'biology',
+  chapter: 'Principles of Inheritance & Variation',
+  reason: 'low trap quality; obvious answer; conceptual_depth < 7; textbook style; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 31,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 3, hard: 0 },
+  system: { easy: 1, medium: 2, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 3
+[pipeline] validated_count=3 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 3
+[pipeline] selected_count=3 | FINAL DISTRIBUTION: {"easy":1,"medium":2,"hard":0}
+✅ Published 5707ff63-5fd6-458a-a94d-1fdde8736583 | status=live | difficulty=easy | discoverable=true
+✅ Published 8d1c5f5a-6e3d-4716-8f6b-04b6fbf17512 | status=live | difficulty=medium | discoverable=true
+✅ Published 095c711e-9696-47e0-9f02-f8cafe0787b1 | status=live | difficulty=medium | discoverable=true
+[pipeline] METRICS | generated_count=4 | prefiltered_count=3 | strict_validation_count=3 | accepted_count=3 | api_calls_used=2 | cost_efficiency_ratio=1.50
+[pipeline] SUMMARY | subject=biology | chapter=Principles of Inheritance & Variation | target=5 | generated_count=4 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=3 | strict_validation_count=3 | validated_count=3 | accepted_count=3 | shortfall=2 | yield_rate=75.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=1, medium=2, hard=0
+[pipeline] subject_distribution: {"subject":"biology","accepted":3,"rejected":4,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=20226 | total_cost=$0.0054 | cost_per_accepted=$0.0006 | cost_per_1000=$0.60 | total_accepted=9
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'biology',
+  chapter: 'Principles of Inheritance & Variation',
+  sample_size: 10,
+  direct_definition_count: 0,
+  weak_option_count: 6,
+  repeated_structure_count: 0,
+  easy_count: 1,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'f39d7f97-7198-4390-af1c-7c9c81ae4f24',
+    'ccb02ba3-ef96-4d88-9736-b7eec8572df3',
+    '986a27b7-ae90-4aa3-bc4d-bad46ad28dae',
+    '01fdad24-1869-4cbb-9f2f-d0615e214706',
+    'ef1b6a56-c22a-4b78-911e-c893705f035d',
+    '4ee26a0f-1c0e-40da-916f-36066eaf7a0d',
+    'ab27f0cb-8774-4778-896a-441f64f8e39f'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'f39d7f97-7198-4390-af1c-7c9c81ae4f24',
+  actual_subject: 'business_studies',
+  actual_chapter: 'Consumer Protection',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 7,
+  subject_question_count: 324,
+  created_at: '2026-04-30T19:59:54.149614+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'business_studies',
+  chapter: 'Consumer Protection',
+  count: 7,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'business_studies',
+  chapter: 'Consumer Protection',
+  count: 7
+}
+
+[JOB f39d7f97] Starting: [business_studies] Consumer Protection
+[worker] RECEIVED_JOB: {
+  job_id: 'f39d7f97-7198-4390-af1c-7c9c81ae4f24',
+  expected_subject: 'business_studies',
+  expected_chapter: 'Consumer Protection',
+  raw_subject_id: 'business_studies',
+  raw_chapter: 'Consumer Protection',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:59:54.149614+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'f39d7f97-7198-4390-af1c-7c9c81ae4f24',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  chapter: 'Consumer Protection',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=7 existing questions loaded
+[generation] batch adjusted: { chapter: 'Consumer Protection', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'f39d7f97-7198-4390-af1c-7c9c81ae4f24',
+  expected_subject: 'business_studies',
+  resolved_subject_id: 'business_studies',
+  resolved_subject_name: 'Business Studies',
+  expected_chapter: 'Consumer Protection',
+  canonical_unit: 'Consumer Protection',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Consumer Protection" unit="Consumer Protection" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'business_studies',
+  prompt_subject_name: 'Business Studies',
+  expected_chapter: 'Consumer Protection',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'business_studies',
+  expected_chapter: 'Consumer Protection',
+  canonical_unit: 'Consumer Protection',
+  concept_id: 'business_studies::consumer_protection',
+  pyq_anchor_id: 'structure_only_seed_pyq_b3_for_business_studies::consumer_protection',
+  anchor_tier: 3,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 45681,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'business_studies',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"A consumer believes that the right to safety and the right to choose are the same. Which option best differentiates these two consumer rights?","o":["The right to safety ensures products are safe for use, while the right to choose allows consumers to select from different products.","Both rights focus on protecting consumers from harmful products.","The right to choose guarantees the lowest prices, while the right to safety ensures product quality.","Both rights are primarily about consumer satisfaction rather than safety."],"a":"A","d":"medium|hard","difficulty_weight":3,"question_type":"comparison_based","concept_pattern":"business_studies::consumer_protection","explanation":"This question tests the distinction between two important consumer rights.","subject":"business_studies","public_subject":"business_studies","chapter":"Consumer Protection","topic":"Consumer Protection","concept":"Consumer Protection","concept_id":"business_studies::consumer_protection","pyq_anchor_id":"structure_only_seed_pyq_b3_for_business_studies::consumer_protection","anchor_tier":3,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"Statement I: Consumers have the right to seek redress against unfair trade practices. Statement II: Consumers should not be aware of their rights and responsibilities. Which statements are correct?","o":["Only Statement I is correct.","Both statements are correct.","Only Statement II is correct.","Neither statement is correct."],"a":"A","d":"medium|hard","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"business_studies::consumer_protection","explanation":"The question assesses understanding of consumer rights and awareness.","subject":"business_studies","public_subject":"business_studies","chapter":"Consumer Protection","topic":"Consumer Protection","concept":"Consumer Protection","concept_id":"business_studies::consumer_protection","pyq_anchor_id":"structure_only_seed_pyq_b3_for_business_studies::consumer_protection","anchor_tier":3,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"Assertion: Consumers have the right to be informed about the quality of products. Reason: This right helps consumers make informed choices and promotes fair competition. Which of the following is true?","o":["Both assertion and reason are true, and the reason correctly explains the assertion.","The assertion is true, but the reason is false.","The assertion is false, but the reason is true.","Both assertion and reason are false."],"a":"A","d":"medium|hard","difficulty_weight":2,"question_type":"assertion_reason","concept_pattern":"business_studies::consumer_protection","explanation":"This question evaluates understanding of consumer rights and their implications.","subject":"business_studies","public_subject":"business_studies","chapter":"Consumer Protection","topic":"Consumer Protection","concept":"Consumer Protection","concept_id":"business_studies::consumer_protection","pyq_anchor_id":"structure_only_seed_pyq_b3_for_business_studies::consumer_protection","anchor_tier":3,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"In a recent case, a consumer received a defective product but was unaware of their rights to seek a replacement. What can be inferred about this situation?","o":["The consumer lacks awareness of consumer protection laws, which can lead to exploitation.","The consumer is fully aware of their rights but chooses not to act on them.","The seller is obligated to inform all consumers about their rights regardless of circumstances.","The situation indicates that all consumers should know their rights without any education."],"a":"A","d":"medium|hard","difficulty_weight":2,"question_type":"case_based","concept_pattern":"business_studies::consumer_protection","explanation":"This question examines awareness of consumer rights in practical scenarios.","subject":"business_studies","public_subject":"business_studies","chapter":"Consumer Protection","topic":"Consumer Protection","concept":"Consumer Protection","concept_id":"business_studies::consumer_protection","pyq_anchor_id":"structure_only_seed_pyq_b3_for_business_studies::consumer_protection","anchor_tier":3,"passage_id":"optional_for_english_rc","passage_type":"optional_for_english_rc","passage_text":"optional_for_english_rc"},{"q":"A student believes that consumer protection primarily focuses on preventing fraud. Which principle does this overlook? What should they consider instead? ","o":["Consumer protection also involves ensuring product quality and safety beyond just fraud prevention.","Fraud prevention is the only aspect that matters in consumer protection efforts.","Consumer protection only deals with price regulation in markets without considering quality.","Preventing fraud is less important than promoting aggressive marketing strategies."],"a":"A","d":"medium|hard","difficulty_weight":2,"question_type":"application_based","concept_pattern":"business_studies::consumer_protection","explanation":"This question highlights broader aspects of consumer protection beyond fraud prevention.","subject":"business_studies","public_subject":"business_studies","chapter":"Consumer Protection","topic":"Consumer Protection","concept":"Consumer Protection","concept_id":"business_studies::consumer_protection","pyq_anchor_id":"structure_only_seed_pyq_b3_for_business_studies::consumer_protection","anchor_tier":3,"passage_id":"","passage_type":"","passage_text":""}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=5
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 5
+[pipeline] generated_count=5 | mix=easy=0, medium=5, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 5
+[reject] {
+  subject: 'business_studies',
+  chapter: 'Consumer Protection',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'business_studies',
+  chapter: 'Consumer Protection',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=5 | pre_validation_filtered=2 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=40.0%
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T20:04:08.378Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"business_studies","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'business_studies',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'business_studies',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 9123,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'business_studies',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "conceptual_depth < 7",
+      "textbook style",
+      "obvious answer"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 4,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The logic between assertion and reason is too direct and lacks the complexity found in CUET assertion-reason pairs.",
+      "The reason is a literal restatement of the definition of the right."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "obvious answer",
+      "conceptual_depth < 7"
+    ],
+    "score": 3,
+    "exam_quality": 3,
+    "distractor_quality": 2,
+    "conceptual_depth": 3,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Statement II is absurdly false, making the correct option too obvious.",
+      "Lacks the competitive depth required for a screening exam."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "low trap quality",
+      "textbook style",
+      "conceptual_depth < 7"
+    ],
+    "score": 5,
+    "exam_quality": 4,
+    "distractor_quality": 4,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Comparison is purely based on reciting definitions rather than application.",
+      "Distractors are not plausible for a prepared student."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T20:04:17.505Z","model":"gemini-3-flash","subject":"business_studies","resultCount":3}
+[reject] {
+  subject: 'business_studies',
+  chapter: 'Consumer Protection',
+  reason: 'low trap quality; obvious answer; conceptual_depth < 7; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 30,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'business_studies',
+  chapter: 'Consumer Protection',
+  reason: 'low trap quality; conceptual_depth < 7; textbook style; obvious answer; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold',
+  source: 'validator_normalized',
+  rule: 'low trap quality',
+  details: {
+    compositeScore: 31,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 3, hard: 0 },
+  system: { easy: 0, medium: 3, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 3
+[pipeline] validated_count=3 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 3
+[pipeline] selected_count=3 | FINAL DISTRIBUTION: {"easy":0,"medium":3,"hard":0}
+✅ Published 4550b78d-9a6b-4b47-a0f9-73bb6e6d1538 | status=live | difficulty=medium | discoverable=true
+✅ Published fdeeca53-6991-40ed-8420-2886dc118e34 | status=live | difficulty=medium | discoverable=true
+✅ Published 1595dce7-a7e3-4082-9ae2-3cf8efb05a90 | status=live | difficulty=medium | discoverable=true
+[pipeline] METRICS | generated_count=5 | prefiltered_count=3 | strict_validation_count=3 | accepted_count=3 | api_calls_used=2 | cost_efficiency_ratio=1.50
+[pipeline] SUMMARY | subject=business_studies | chapter=Consumer Protection | target=5 | generated_count=5 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=2 | strict_validation_count=3 | validated_count=3 | accepted_count=3 | shortfall=2 | yield_rate=60.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=3, hard=0
+[pipeline] subject_distribution: {"subject":"business_studies","accepted":3,"rejected":4,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=26937 | total_cost=$0.0072 | cost_per_accepted=$0.0006 | cost_per_1000=$0.60 | total_accepted=12
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'business_studies',
+  chapter: 'Consumer Protection',
+  sample_size: 10,
+  direct_definition_count: 0,
+  weak_option_count: 5,
+  repeated_structure_count: 0,
+  easy_count: 0,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    'ccb02ba3-ef96-4d88-9736-b7eec8572df3',
+    '986a27b7-ae90-4aa3-bc4d-bad46ad28dae',
+    '01fdad24-1869-4cbb-9f2f-d0615e214706',
+    'ef1b6a56-c22a-4b78-911e-c893705f035d',
+    '4ee26a0f-1c0e-40da-916f-36066eaf7a0d',
+    'ab27f0cb-8774-4778-896a-441f64f8e39f'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: 'ccb02ba3-ef96-4d88-9736-b7eec8572df3',
+  actual_subject: 'chemistry',
+  actual_chapter: 'p-Block Elements',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 7,
+  subject_question_count: 315,
+  created_at: '2026-04-30T19:59:54.149614+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  count: 7,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'chemistry', chapter: 'p-Block Elements', count: 7 }
+
+[JOB ccb02ba3] Starting: [chemistry] p-Block Elements
+[worker] RECEIVED_JOB: {
+  job_id: 'ccb02ba3-ef96-4d88-9736-b7eec8572df3',
+  expected_subject: 'chemistry',
+  expected_chapter: 'p-Block Elements',
+  raw_subject_id: 'chemistry',
+  raw_chapter: 'p-Block Elements',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:59:54.149614+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: 'ccb02ba3-ef96-4d88-9736-b7eec8572df3',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  chapter: 'p-Block Elements',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=7 existing questions loaded
+[generation] batch adjusted: { chapter: 'p-Block Elements', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: 'ccb02ba3-ef96-4d88-9736-b7eec8572df3',
+  expected_subject: 'chemistry',
+  resolved_subject_id: 'chemistry',
+  resolved_subject_name: 'Chemistry',
+  expected_chapter: 'p-Block Elements',
+  canonical_unit: 'Existing Chemistry Coverage',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="p-Block Elements" unit="Existing Chemistry Coverage" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'chemistry',
+  prompt_subject_name: 'Chemistry',
+  expected_chapter: 'p-Block Elements',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'chemistry',
+  expected_chapter: 'p-Block Elements',
+  canonical_unit: 'Existing Chemistry Coverage',
+  concept_id: 'chemistry::p_block_elements',
+  pyq_anchor_id: 'synthetic_cuet_structure_chemistry',
+  anchor_tier: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 21608,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'chemistry',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Assertion: Elements in the p-block show a wide range of oxidation states. Reason: This variability is due to the presence of both s and p electrons that can participate in bonding.","o":["Both assertion and reason are true, and the reason correctly explains the assertion.","Both assertion and reason are true, but the reason does not explain the assertion.","The assertion is true, but the reason is false.","The assertion is false, but the reason is true."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"assertion_reason","concept_pattern":"p_block_elements","explanation":"The presence of s and p electrons allows for various oxidation states in p-block elements.","subject":"chemistry","public_subject":"chemistry","chapter":"p-Block Elements","topic":"Existing Chemistry Coverage","concept":"p-Block Elements","concept_id":"chemistry::p_block_elements","pyq_anchor_id":"synthetic_cuet_structure_chemistry","anchor_tier":4},{"q":"In a laboratory, a student observes that aluminum reacts with chlorine to form aluminum chloride. This reaction highlights which characteristic of p-block elements?","o":["They can form covalent compounds with non-metals.","They have fixed oxidation states in compounds.","They are typically inert and do not react easily with other elements.","They can only form ionic compounds with metals."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"case_based","concept_pattern":"p_block_elements","explanation":"Aluminum's ability to react with chlorine to form a covalent compound shows its versatile bonding capabilities.","subject":"chemistry","public_subject":"chemistry","chapter":"p-Block Elements","topic":"Existing Chemistry Coverage","concept":"p-Block Elements","concept_id":"chemistry::p_block_elements","pyq_anchor_id":"synthetic_cuet_structure_chemistry","anchor_tier":4},{"q":"When considering the reactivity of p-block elements, which statement best reflects their behavior in chemical reactions?","o":["They generally exhibit higher reactivity than d-block elements due to their electron configuration.","They can exhibit both metallic and non-metallic characteristics depending on their group position.","Their reactivity is solely determined by their atomic size without considering other factors.","They only participate in oxidation reactions, not reduction reactions."],"a":"B","d":"medium","difficulty_weight":2,"question_type":"application_based","concept_pattern":"p_block_elements","explanation":"The behavior of p-block elements varies significantly across groups, leading to diverse reactivity patterns.","subject":"chemistry","public_subject":"chemistry","chapter":"p-Block Elements","topic":"Existing Chemistry Coverage","concept":"p-Block Elements","concept_id":"chemistry::p_block_elements","pyq_anchor_id":"synthetic_cuet_structure_chemistry","anchor_tier":4},{"q":"Comparing nitrogen and phosphorus from the p-block elements, which statement remains valid regarding their properties?","o":["Nitrogen is a gas at room temperature while phosphorus is a solid, indicating differences in molecular structure.","Both nitrogen and phosphorus readily form ionic bonds with metals due to their high electronegativity.","Phosphorus can exist in multiple allotropes while nitrogen does not show such diversity.","Both elements exhibit similar chemical reactivity due to being in the same group."],"a":"A","d":"hard","difficulty_weight":3,"question_type":"comparison_based","concept_pattern":"p_block_elements","explanation":"The physical state difference reflects their distinct molecular structures and bonding characteristics.","subject":"chemistry","public_subject":"chemistry","chapter":"p-Block Elements","topic":"Existing Chemistry Coverage","concept":"p-Block Elements","concept_id":"chemistry::p_block_elements","pyq_anchor_id":"synthetic_cuet_structure_chemistry","anchor_tier":4},{"q":"Statement I: All halogens are highly reactive due to their electron configuration. Statement II: Halogens can only exist as diatomic molecules under standard conditions. Which of these statements is correct? ","o":["Only Statement I is correct.","Only Statement II is correct.","Both statements are correct but independent of each other.","Neither statement is correct."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"p_block_elements","explanation":"Halogens are indeed highly reactive due to their electron configuration, but they typically exist as diatomic molecules under standard conditions.","subject":"chemistry","public_subject":"chemistry","chapter":"p-Block Elements","topic":"Existing Chemistry Coverage","concept":"p-Block Elements","concept_id":"chemistry::p_block_elements","pyq_anchor_id":"synthetic_cuet_structure_chemistry","anchor_tier":4}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=5
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 5
+[pipeline] generated_count=5 | mix=easy=0, medium=4, hard=1
+[pipeline] STRUCTURAL_VALID_COUNT 5
+[reject] {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=5 | pre_validation_filtered=3 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=40.0%
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T20:04:57.376Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"chemistry","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 20731,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'chemistry',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "textbook style",
+      "low trap quality",
+      "direct recall stem"
+    ],
+    "score": 5,
+    "exam_quality": 5,
+    "distractor_quality": 4,
+    "conceptual_depth": 6,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Question is a direct factual recall from NCERT without a conceptual twist",
+      "Assertion and Reason are too standard for a competitive entrance"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "AMBIGUOUS",
+    "language_level": "SIMPLE",
+    "option_quality": "CONFUSING",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "clarity == AMBIGUOUS",
+      "textbook style",
+      "option_quality != CLEAN"
+    ],
+    "score": 4,
+    "exam_quality": 3,
+    "distractor_quality": 3,
+    "conceptual_depth": 5,
+    "textbook_style": true,
+    "difficulty_correct": true,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Statement II is factually debatable regarding heavier elements like Astatine",
+      "The options follow an Assertion-Reason format which is incorrect for Statement-based MCQ types"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "obvious answer",
+      "low trap quality",
+      "textbook style"
+    ],
+    "score": 3,
+    "exam_quality": 3,
+    "distractor_quality": 2,
+    "conceptual_depth": 4,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Distractors are extremely weak and unlikely to mislead even a basic student",
+      "Case context is artificial and doesn't require analytical reasoning"
+    ],
+    "decision": "reject",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T20:05:18.108Z","model":"gemini-3-flash","subject":"chemistry","resultCount":3}
+[reject] {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  reason: 'clarity == AMBIGUOUS; textbook style; option_quality != CLEAN; ambiguous wording; confusing options; validator score below threshold; exam quality below threshold; distractor quality below threshold',
+  source: 'validator_normalized',
+  rule: 'clarity == AMBIGUOUS',
+  details: {
+    compositeScore: 0,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CONFUSING'
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  reason: 'obvious answer; low trap quality; textbook style; validator score below threshold; exam quality below threshold; distractor quality below threshold; conceptual depth below CUET reasoning threshold; direct textbook-style wording',
+  source: 'validator_normalized',
+  rule: 'obvious answer',
+  details: {
+    compositeScore: 30,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 3, hard: 0 },
+  system: { easy: 0, medium: 3, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 3
+[pipeline] validated_count=3 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 3
+[pipeline] selected_count=3 | FINAL DISTRIBUTION: {"easy":0,"medium":3,"hard":0}
+✅ Published 609edbdc-cea4-48dc-9efe-c753af8b61b4 | status=live | difficulty=medium | discoverable=true
+✅ Published 0cde91a7-9840-4eb9-95a1-5047348e1631 | status=live | difficulty=medium | discoverable=true
+✅ Published b77f58a2-d640-482a-9632-f4028b85efab | status=live | difficulty=medium | discoverable=true
+[pipeline] METRICS | generated_count=5 | prefiltered_count=3 | strict_validation_count=3 | accepted_count=3 | api_calls_used=2 | cost_efficiency_ratio=1.50
+[pipeline] SUMMARY | subject=chemistry | chapter=p-Block Elements | target=5 | generated_count=5 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=3 | strict_validation_count=3 | validated_count=3 | accepted_count=3 | shortfall=2 | yield_rate=60.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=3, hard=0
+[pipeline] subject_distribution: {"subject":"chemistry","accepted":3,"rejected":5,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=33418 | total_cost=$0.0089 | cost_per_accepted=$0.0006 | cost_per_1000=$0.59 | total_accepted=15
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'chemistry',
+  chapter: 'p-Block Elements',
+  sample_size: 10,
+  direct_definition_count: 0,
+  weak_option_count: 5,
+  repeated_structure_count: 0,
+  easy_count: 3,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '986a27b7-ae90-4aa3-bc4d-bad46ad28dae',
+    '01fdad24-1869-4cbb-9f2f-d0615e214706',
+    'ef1b6a56-c22a-4b78-911e-c893705f035d',
+    '4ee26a0f-1c0e-40da-916f-36066eaf7a0d',
+    'ab27f0cb-8774-4778-896a-441f64f8e39f'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '01fdad24-1869-4cbb-9f2f-d0615e214706',
+  actual_subject: 'physics',
+  actual_chapter: 'Dual Nature of Radiation & Matter',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 7,
+  subject_question_count: 288,
+  created_at: '2026-04-30T19:59:54.149614+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'physics',
+  chapter: 'Dual Nature of Radiation & Matter',
+  count: 7,
+  priority: 90
+}
+[worker] coverage-based selection: {
+  subject: 'physics',
+  chapter: 'Dual Nature of Radiation & Matter',
+  count: 7
+}
+
+[JOB 01fdad24] Starting: [physics] Dual Nature of Radiation & Matter
+[worker] RECEIVED_JOB: {
+  job_id: '01fdad24-1869-4cbb-9f2f-d0615e214706',
+  expected_subject: 'physics',
+  expected_chapter: 'Dual Nature of Radiation & Matter',
+  raw_subject_id: 'physics',
+  raw_chapter: 'Dual Nature of Radiation & Matter',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:59:54.149614+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '01fdad24-1869-4cbb-9f2f-d0615e214706',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  chapter: 'Dual Nature of Radiation & Matter',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=7 existing questions loaded
+[generation] batch adjusted: { chapter: 'Dual Nature of Radiation & Matter', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '01fdad24-1869-4cbb-9f2f-d0615e214706',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  expected_chapter: 'Dual Nature of Radiation & Matter',
+  canonical_unit: 'Dual Nature of Matter and Radiation',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Dual Nature of Radiation & Matter" unit="Dual Nature of Matter and Radiation" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'physics',
+  prompt_subject_name: 'Physics',
+  expected_chapter: 'Dual Nature of Radiation & Matter',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'physics',
+  expected_chapter: 'Dual Nature of Radiation & Matter',
+  canonical_unit: 'Dual Nature of Matter and Radiation',
+  concept_id: 'physics::dual_nature_of_radiation_and_matter',
+  pyq_anchor_id: 'synthetic_cuet_structure_physics',
+  anchor_tier: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  status: 'success',
+  retry_count: 0,
+  duration: 32725,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}
+[llm] Cleaned response: {"questions":[{"q":"Assertion: The dual nature of matter implies that particles exhibit both wave-like and particle-like properties. Reason: This duality is only observed under specific conditions in quantum mechanics. Which of the following is true?","o":["Both assertion and reason are true, and the reason explains the assertion.","The assertion is true, but the reason is false.","The assertion is false, but the reason is true.","Both assertion and reason are false."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"assertion_reason","concept_pattern":"physics::dual_nature_of_radiation_and_matter","subject":"physics","public_subject":"physics","chapter":"Dual Nature of Radiation & Matter","topic":"Dual Nature of Matter and Radiation","concept":"Dual Nature of Radiation & Matter","concept_id":"physics::dual_nature_of_radiation_and_matter","pyq_anchor_id":"synthetic_cuet_structure_physics","anchor_tier":4},{"q":"In a laboratory experiment, a student observes electron diffraction patterns and concludes that electrons behave like waves. Which inference about this observation is most accurate?","o":["This supports the wave-particle duality of electrons.","Electrons can only behave as particles in all situations.","Wave behavior of electrons contradicts their particle nature.","Diffraction patterns indicate electrons are solely waves."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"case_based","concept_pattern":"physics::dual_nature_of_radiation_and_matter","subject":"physics","public_subject":"physics","chapter":"Dual Nature of Radiation & Matter","topic":"Dual Nature of Matter and Radiation","concept":"Dual Nature of Radiation & Matter","concept_id":"physics::dual_nature_of_radiation_and_matter","pyq_anchor_id":"synthetic_cuet_structure_physics","anchor_tier":4},{"q":"When considering the photoelectric effect, which principle best explains why light can eject electrons from a metal surface?","o":["Light behaves as a particle, delivering energy to electrons.","Light behaves solely as a wave, influencing electron motion.","The ejected electrons have no relation to light's energy.","Electrons can only be ejected if light intensity is high."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"application_based","concept_pattern":"physics::dual_nature_of_radiation_and_matter","subject":"physics","public_subject":"physics","chapter":"Dual Nature of Radiation & Matter","topic":"Dual Nature of Matter and Radiation","concept":"Dual Nature of Radiation & Matter","concept_id":"physics::dual_nature_of_radiation_and_matter","pyq_anchor_id":"synthetic_cuet_structure_physics","anchor_tier":4},{"q":"Comparing classical physics and quantum mechanics, which statement accurately reflects their approach to matter?","o":["Classical physics treats matter as having definite properties, while quantum mechanics includes uncertainty.","Quantum mechanics ignores the wave properties of matter unlike classical physics.","Both classical physics and quantum mechanics treat matter as purely particles without wave characteristics.","Classical physics emphasizes wave behavior, while quantum mechanics focuses on particle behavior."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"comparison_based","concept_pattern":"physics::dual_nature_of_radiation_and_matter","subject":"physics","public_subject":"physics","chapter":"Dual Nature of Radiation & Matter","topic":"Dual Nature of Matter and Radiation","concept":"Dual Nature of Radiation & Matter","concept_id":"physics::dual_nature_of_radiation_and_matter","pyq_anchor_id":"synthetic_cuet_structure_physics","anchor_tier":4},{"q":"Statement I: The dual nature of radiation suggests it can behave like both a wave and a particle. Statement II: This duality only applies to light and not to other forms of radiation. Which statements are correct?","o":["Only Statement I is correct.","Only Statement II is correct.","Both statements are correct.","Both statements are incorrect."],"a":"A","d":"medium","difficulty_weight":2,"question_type":"statement_based","concept_pattern":"physics::dual_nature_of_radiation_and_matter","subject":"physics","public_subject":"physics","chapter":"Dual Nature of Radiation & Matter","topic":"Dual Nature of Matter and Radiation","concept":"Dual Nature of Radiation & Matter","concept_id":"physics::dual_nature_of_radiation_and_matter","pyq_anchor_id":"synthetic_cuet_structure_physics","anchor_tier":4}]}
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 5
+[llm] openai_generation success gpt-4o-mini count=5
+[pipeline] RAW_PARSED_COUNT 5
+[pipeline] NORMALIZED_COUNT 5
+[pipeline] generated_count=5 | mix=easy=0, medium=5, hard=0
+[pipeline] STRUCTURAL_VALID_COUNT 5
+[reject] {
+  subject: 'physics',
+  chapter: 'Dual Nature of Radiation & Matter',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[reject] {
+  subject: 'physics',
+  chapter: 'Dual Nature of Radiation & Matter',
+  reason: 'weak_options',
+  source: 'pre_validation_internal_quality',
+  rule: 'weak_options',
+  details: null,
+  attemptCount: 1
+}
+[pipeline] after_chapter_filter=5 | pre_validation_filtered=2 | batch_duplicates=0 | cross_job_duplicates=0 | candidate_pool=3 | sent_for_strict_validation=3 | validator_load_reduction=40.0%
+[pipeline] Starting batch validation for 3 ranked questions... (api_call=2)
+[llm] batch_validation_start | model=gemini-3-flash | resolved_model=gemini-3-flash-preview | count=3
+[llm] {"event":"batch_validation_start","timestamp":"2026-04-30T20:06:09.094Z","model":"gemini-3-flash","resolvedModel":"gemini-3-flash-preview","subject":"physics","questionCount":3}
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'physics',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm-call] {
+  model: 'gemini-3-flash-preview',
+  subject: 'physics',
+  stage: 'batch_validation',
+  status: 'success',
+  retry_count: 0,
+  duration: 14663,
+  error: null
+}
+[rate-limiter] {
+  event: 'release',
+  active_calls: 0,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gemini-3-flash-preview',
+  subject: 'physics',
+  stage: 'batch_validation',
+  retry_count: 0
+}
+[llm] Cleaned response: [
+  {
+    "index": 0,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "AMBIGUOUS",
+    "language_level": "SIMPLE",
+    "option_quality": "CONFUSING",
+    "subject_consistency": "WRONG",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "direct definition",
+      "textbook style",
+      "low conceptual depth",
+      "reason does not explain assertion",
+      "low trap quality"
+    ],
+    "score": 3,
+    "exam_quality": 3,
+    "distractor_quality": 2,
+    "conceptual_depth": 4,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "The reason provided is a condition, not a cause, making the answer key A questionable.",
+      "Question is too generic for a competitive exam."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 1,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "EASY",
+    "compared_to_pyqs": "EASIER",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "INVALID",
+    "trap_quality": "LOW",
+    "reasons": [
+      "obvious answer",
+      "textbook style",
+      "low conceptual depth",
+      "too similar to anchor",
+      "low trap quality"
+    ],
+    "score": 4,
+    "exam_quality": 4,
+    "distractor_quality": 3,
+    "conceptual_depth": 3,
+    "textbook_style": true,
+    "difficulty_correct": false,
+    "cuet_alignment": false,
+    "recommended_difficulty": "medium",
+    "issues": [
+      "Statement II is a trivial negation that offers no real challenge to the student.",
+      "Lacks the 'distractor' quality expected for screening."
+    ],
+    "decision": "reject",
+    "improved_question": null
+  },
+  {
+    "index": 2,
+    "syllabus_alignment": "WITHIN",
+    "concept_match": "EXACT",
+    "difficulty_level": "MEDIUM",
+    "compared_to_pyqs": "MATCH",
+    "clarity": "CLEAR",
+    "language_level": "SIMPLE",
+    "option_quality": "CLEAN",
+    "subject_consistency": "CORRECT",
+    "verdict": "VALID",
+    "trap_quality": "MEDIUM",
+    "reasons": [],
+    "score": 8,
+    "exam_quality": 8,
+    "distractor_quality": 7,
+    "conceptual_depth": 7,
+    "textbook_style": false,
+    "difficulty_correct": true,
+    "cuet_alignment": true,
+    "recommended_difficulty": "medium",
+    "issues": [],
+    "decision": "accept",
+    "improved_question": null
+  }
+]
+[llm] JSON recovery used: direct
+[llm] Parsed question count: 3
+[llm] {"event":"batch_validation_success","timestamp":"2026-04-30T20:06:23.758Z","model":"gemini-3-flash","subject":"physics","resultCount":3}
+[reject] {
+  subject: 'physics',
+  chapter: 'Dual Nature of Radiation & Matter',
+  reason: 'direct definition; textbook style; low conceptual depth; reason does not explain assertion; low trap quality; ambiguous wording; confusing options; subject mismatch',
+  source: 'validator_normalized',
+  rule: 'direct definition',
+  details: {
+    compositeScore: 0,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CONFUSING'
+  },
+  attemptCount: 1
+}
+[reject] {
+  subject: 'physics',
+  chapter: 'Dual Nature of Radiation & Matter',
+  reason: 'obvious answer; textbook style; low conceptual depth; too similar to anchor; low trap quality; validator score below threshold; exam quality below threshold; distractor quality below threshold',
+  source: 'validator_normalized',
+  rule: 'obvious answer',
+  details: {
+    compositeScore: 31,
+    verdict: 'INVALID',
+    syllabus_alignment: 'WITHIN',
+    concept_match: 'EXACT',
+    option_quality: 'CLEAN'
+  },
+  attemptCount: 1
+}
+[difficulty distribution] {
+  model: { easy: 0, medium: 3, hard: 0 },
+  system: { easy: 0, medium: 3, hard: 0 }
+}
+[difficulty] override: null
+[difficulty] accepted_count: 3
+[pipeline] validated_count=3 | acceptance_rate=100.0%
+[pipeline] FINAL_ACCEPTED_COUNT 3
+[pipeline] selected_count=3 | FINAL DISTRIBUTION: {"easy":0,"medium":3,"hard":0}
+✅ Published e0848c84-2e5a-4751-b2ac-0c58164d3326 | status=live | difficulty=medium | discoverable=true
+✅ Published a6d8c965-1d2f-4a3c-8597-67b03554b574 | status=live | difficulty=medium | discoverable=true
+✅ Published 6b65d869-08c3-4b68-b896-b4e5027839b2 | status=live | difficulty=medium | discoverable=true
+[pipeline] METRICS | generated_count=5 | prefiltered_count=3 | strict_validation_count=3 | accepted_count=3 | api_calls_used=2 | cost_efficiency_ratio=1.50
+[pipeline] SUMMARY | subject=physics | chapter=Dual Nature of Radiation & Matter | target=5 | generated_count=5 | batch_duplicates=0 | cross_job_duplicates=0 | pre_validation_filtered=2 | strict_validation_count=3 | validated_count=3 | accepted_count=3 | shortfall=2 | yield_rate=60.0% | retry_count=0 | api_calls_used=2
+[pipeline] Accepted difficulty mix: easy=0, medium=3, hard=0
+[pipeline] subject_distribution: {"subject":"physics","accepted":3,"rejected":4,"target":5,"met":false}
+[supervisor] COST_REPORT | total_tokens_used=40036 | total_cost=$0.0106 | cost_per_accepted=$0.0006 | cost_per_1000=$0.59 | total_accepted=18
+[quality-loop] DB_RECENT_QUALITY {
+  subject: 'physics',
+  chapter: 'Dual Nature of Radiation & Matter',
+  sample_size: 10,
+  direct_definition_count: 0,
+  weak_option_count: 4,
+  repeated_structure_count: 0,
+  easy_count: 3,
+  feedback_count: 1
+}
+Cooling down for 15s to respect API limits...
+[queue] WORKER_SELECT_REQUEST: {
+  preferred_planned_job_ids: [
+    '986a27b7-ae90-4aa3-bc4d-bad46ad28dae',
+    'ef1b6a56-c22a-4b78-911e-c893705f035d',
+    '4ee26a0f-1c0e-40da-916f-36066eaf7a0d',
+    'ab27f0cb-8774-4778-896a-441f64f8e39f'
+  ],
+  fallback: 'planner_inserted_ids_first_coverage_ranked'
+}
+[queue] WORKER_SELECTED_JOB: {
+  id: '4ee26a0f-1c0e-40da-916f-36066eaf7a0d',
+  actual_subject: 'physics',
+  actual_chapter: 'Moving Charges & Magnetism',
+  status: 'queued',
+  priority: 90,
+  original_priority: 90,
+  question_count: 7,
+  subject_question_count: 291,
+  created_at: '2026-04-30T19:59:54.149614+00:00',
+  from_planner_capture: true
+}
+[worker] picking job: {
+  subject: 'physics',
+  chapter: 'Moving Charges & Magnetism',
+  count: 7,
+  priority: 90
+}
+[worker] coverage-based selection: { subject: 'physics', chapter: 'Moving Charges & Magnetism', count: 7 }
+
+[JOB 4ee26a0f] Starting: [physics] Moving Charges & Magnetism
+[worker] RECEIVED_JOB: {
+  job_id: '4ee26a0f-1c0e-40da-916f-36066eaf7a0d',
+  expected_subject: 'physics',
+  expected_chapter: 'Moving Charges & Magnetism',
+  raw_subject_id: 'physics',
+  raw_chapter: 'Moving Charges & Magnetism',
+  status: 'queued',
+  priority: 90,
+  created_at: '2026-04-30T19:59:54.149614+00:00'
+}
+[worker] SUBJECT_RESOLUTION: {
+  job_id: '4ee26a0f-1c0e-40da-916f-36066eaf7a0d',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  chapter: 'Moving Charges & Magnetism',
+  subject_found: true
+}
+[pipeline] cross_job_dedup_pool=7 existing questions loaded
+[generation] batch adjusted: { chapter: 'Moving Charges & Magnetism', generate_count: 5 }
+[worker] GENERATION_INPUT: {
+  job_id: '4ee26a0f-1c0e-40da-916f-36066eaf7a0d',
+  expected_subject: 'physics',
+  resolved_subject_id: 'physics',
+  resolved_subject_name: 'Physics',
+  expected_chapter: 'Moving Charges & Magnetism',
+  canonical_unit: 'Magnetic Effects of Current and Magnetism',
+  generate_count: 5,
+  difficulty_override: null,
+  used_concepts_sampled: 20,
+  cost_saver_mode: false
+}
+[pipeline] Generating 5 candidates... chapter="Moving Charges & Magnetism" unit="Magnetic Effects of Current and Magnetism" usedConcepts=20 saturated=0 (api_call=1)
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'physics',
+  prompt_subject_name: 'Physics',
+  expected_chapter: 'Moving Charges & Magnetism',
+  requested_count: 5,
+  difficulty_override: null
+}
+[llm] STRICT_CUET_PROMPT_CONSTRUCTION: {
+  expected_subject: 'physics',
+  expected_chapter: 'Moving Charges & Magnetism',
+  canonical_unit: 'Magnetic Effects of Current and Magnetism',
+  concept_id: 'physics::moving_charges_and_magnetism',
+  pyq_anchor_id: 'synthetic_cuet_structure_physics',
+  anchor_tier: 4,
+  batch_size: 5,
+  pyq_style_patterns: [ 'direct_concept', 'statement_based', 'one_step_application' ],
+  difficulty_override: null
+}
+[llm] openai_generation active_model=gpt-4o-mini
+[rate-limiter] {
+  event: 'acquire',
+  active_calls: 1,
+  queue_length: 0,
+  max_concurrent: 6,
+  model: 'gpt-4o-mini',
+  subject: 'physics',
+  stage: 'generation_openai',
+  retry_count: 0
+}

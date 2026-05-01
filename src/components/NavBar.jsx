@@ -46,7 +46,7 @@ export function NavBar() {
           <button
             ref={mobileMenuButtonRef}
             type="button"
-            className="md:hidden inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-volt/30 bg-volt text-black shadow-[0_0_28px_rgba(210,240,0,0.22)]"
+            className="md:hidden inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-volt/30 bg-volt text-black shadow-[0_0_28px_rgba(210,240,0,0.22)]"
             onClick={() => setMenuOpen((open) => !open)}
             aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
             aria-expanded={menuOpen}
@@ -222,7 +222,7 @@ export function NavBar() {
             <Logo />
             <button
               type="button"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 text-zinc-300"
+              className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 text-zinc-300"
               onClick={() => setMenuOpen(false)}
               aria-label="Close navigation menu"
             >

@@ -1,0 +1,21 @@
+{
+  "subject": "physics",
+  "chapter": "Wave Optics",
+  "source_quality": "manual_seed",
+  "questions": [
+    {
+      "question": "In a Young's double-slit setup, the fringe width is observed to increase. Which change could explain this without changing the slit separation?",
+      "options": [
+        "Using light of larger wavelength while keeping the screen distance fixed.",
+        "Using light of smaller wavelength while keeping the screen distance fixed.",
+        "Moving the screen closer while keeping the wavelength fixed.",
+        "Increasing both slit separation and intensity equally."
+      ],
+      "correct_answer": "A",
+      "pattern_tags": ["one-step-application", "wave-optics", "close-distractors"],
+      "difficulty": "medium",
+      "year": 2024,
+      "source": "manual_seed"
+    }
+  ]
+}

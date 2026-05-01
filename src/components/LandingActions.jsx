@@ -13,11 +13,11 @@ export function LandingActions({ mode = 'hero' }) {
 
   if (mode === 'primary') {
     return (
-      <Link href={primaryHref}>
-        <Button variant="volt" size="lg" className="hover:scale-105 transition-transform">
+      <Button asChild variant="volt" size="lg" className="hover:scale-105 transition-transform no-underline">
+        <Link href={primaryHref}>
           {isAuthenticated ? 'Enter Dashboard' : 'Join the Mob'} <Icon name="arrow" />
-        </Button>
-      </Link>
+        </Link>
+      </Button>
     );
   }
 
@@ -29,17 +29,17 @@ export function LandingActions({ mode = 'hero' }) {
         </div>
       )}
       <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
-        <Link href={primaryHref}>
-          <Button variant="volt" size="lg">{primaryText} <Icon name="arrow" /></Button>
-        </Link>
+        <Button asChild variant="volt" size="lg" className="no-underline">
+          <Link href={primaryHref}>{primaryText} <Icon name="arrow" /></Link>
+        </Button>
         {!isAuthenticated && (
-          <Link href="/signup">
-            <Button variant="outline" size="lg">Get Started <Icon name="arrow" /></Button>
-          </Link>
+          <Button asChild variant="outline" size="lg" className="no-underline">
+            <Link href="/signup">Get Started <Icon name="arrow" /></Link>
+          </Button>
         )}
-        <Link href="/pricing">
-          <Button variant="outline" size="lg">View Pricing <Icon name="arrow" /></Button>
-        </Link>
+        <Button asChild variant="outline" size="lg" className="no-underline">
+          <Link href="/pricing">View Pricing <Icon name="arrow" /></Link>
+        </Button>
       </div>
     </div>
   );
