@@ -114,6 +114,19 @@ test('NTA selector rejects truly unusable questions', () => {
   assert.match(result.reasons.join(','), /placeholder_question|options_invalid|answer_missing_or_mismatch/);
 });
 
+test('rejects generic textbook one-liners', () => {
+  const result = qualityGateNtaQuestion(validQuestion(5, {
+    subject: 'economics',
+    chapter: 'Money & Banking',
+    body: 'What is money?',
+    question_type: 'direct_recall',
+    concept_id: 'economics::money_banking',
+  }), { subjectId: 'economics' });
+
+  assert.equal(result.accepted, false);
+  assert.match(result.reasons.join(','), /generic_textbook_one_liner/);
+});
+
 test('NTA selector preserves passage group order', () => {
   const pool = [
     ...standalonePool(47, 10),
@@ -161,4 +174,138 @@ test('Quick/full modes keep their existing count behavior', () => {
   assert.equal(resolveCount(getMode('quick'), 10), 10);
   assert.equal(resolveCount(getMode('quick'), 25), 10);
   assert.equal(resolveCount(getMode('full'), 25), 50);
+});
+
+test('rejects one-line Read the excerpt pseudo-passage', () => {
+  const result = qualityGateNtaQuestion(validQuestion(1, {
+    id: 'bad_literary_excerpt',
+    chapter: 'Literary Passage',
+    body: 'Read the excerpt: "The crimson sunset melted into the sea." Which type of imagery is used here?',
+    question_type: 'literary_device',
+    topic: 'Literary Passage',
+  }), { subjectId: 'english' });
+
+  assert.equal(result.accepted, false);
+  assert.match(result.reasons.join(','), /orphan_passage_question/);
+});
+
+test('rejects passage badge without recoverable passage text', () => {
+  const result = qualityGateNtaQuestion(validQuestion(2, {
+    id: 'bad_factual_generic',
+    chapter: 'Factual Passage',
+    body: 'A student is taking notes from a complex philosophical text. Which approach is most useful?',
+    question_type: 'reading_comprehension',
+    topic: 'Factual Passage',
+    passage_group_id: null,
+    passage_text: null,
+  }), { subjectId: 'english' });
+
+  assert.equal(result.accepted, false);
+  assert.match(result.reasons.join(','), /orphan_passage_question/);
+});
+
+test('rejects generic paraphrasing assertion-reason English theory without passage context', () => {
+  const result = qualityGateNtaQuestion(validQuestion(3, {
+    id: 'bad_paraphrase_assertion',
+    chapter: 'Vocabulary',
+    body: 'Assertion: Paraphrasing always preserves the exact length of the original sentence. Reason: A paraphrase rewrites the same idea in different words.',
+    question_type: 'assertion_reason',
+    options: [
+      { key: 'A', text: 'Both assertion and reason are true and reason explains assertion' },
+      { key: 'B', text: 'Both assertion and reason are true but reason does not explain assertion' },
+      { key: 'C', text: 'Assertion is false but reason is true' },
+      { key: 'D', text: 'Assertion is true but reason is false' },
+    ],
+    correct_answer: 'C',
+  }), { subjectId: 'english' });
+
+  assert.equal(result.accepted, false);
+  assert.match(result.reasons.join(','), /generic_english_assertion_reason_without_context/);
+});
+
+test('rejects orphan passage-dependent row even when options and answer are valid', () => {
+  const result = qualityGateNtaQuestion(validQuestion(4, {
+    id: 'orphan_passage_child',
+    chapter: 'Reading Comprehension',
+    body: 'According to the passage, why did the author describe the policy as gradual?',
+    question_type: 'inference',
+    passage_group_id: 'missing_parent',
+    passage_text: '',
+  }), { subjectId: 'english' });
+
+  assert.equal(result.accepted, false);
+  assert.match(result.reasons.join(','), /orphan_passage_question/);
+});
+
+test('accepts valid English passage group with real passage and four linked questions', () => {
+  const pool = [
+    ...standalonePool(46, 100),
+    validPassageQuestion('pg4_1', 1),
+    validPassageQuestion('pg4_2', 2),
+    validPassageQuestion('pg4_3', 3),
+    validPassageQuestion('pg4_4', 4, {
+      body: 'According to the passage, what did the reform encourage students to connect with daily observations?',
+      options: [
+        { key: 'A', text: 'Classroom questions and ideas from reading' },
+        { key: 'B', text: 'Library membership fees and sports records' },
+        { key: 'C', text: 'Attendance sheets and transport timings' },
+        { key: 'D', text: 'Unrelated textbook indexes and notices' },
+      ],
+      correct_answer: 'A',
+    }),
+  ];
+
+  const { selectedRows, diagnostics } = selectNtaQuestionSet(pool, 50, { subjectId: 'english', seed: 'passage-four' });
+  assert.equal(selectedRows.length, NTA_QUESTION_COUNT);
+  assert.equal(diagnostics.poolStats.passageGroupsSelected, 1);
+  assert.equal(selectedRows.filter((row) => row.passage_group_id === 'pg_library').length, 4);
+});
+
+test('English NTA selection excludes fake passage labels and keeps standalone verbal ability only', () => {
+  const badRows = [
+    validQuestion(1, {
+      id: 'bad_literary_excerpt_select',
+      chapter: 'Literary Passage',
+      body: 'Read the excerpt: "The crimson sunset melted into the sea." Which type of imagery is used here?',
+      question_type: 'literary_device',
+    }),
+    validQuestion(2, {
+      id: 'bad_factual_generic_select',
+      chapter: 'Factual Passage',
+      body: 'A student is taking notes from a complex philosophical text. Which approach is most useful?',
+      question_type: 'reading_comprehension',
+    }),
+    validQuestion(3, {
+      id: 'bad_assertion_select',
+      chapter: 'Vocabulary',
+      body: 'Assertion: Paraphrasing always preserves the exact length of the original sentence. Reason: A paraphrase rewrites the same idea in different words.',
+      question_type: 'assertion_reason',
+      correct_answer: 'C',
+      options: [
+        { key: 'A', text: 'Both are true and the reason explains the assertion' },
+        { key: 'B', text: 'Both are true but the reason does not explain the assertion' },
+        { key: 'C', text: 'Assertion is false but reason is true' },
+        { key: 'D', text: 'Assertion is true but reason is false' },
+      ],
+    }),
+  ];
+  const { selectedRows, diagnostics } = selectNtaQuestionSet([...standalonePool(55, 20), ...badRows], 50, {
+    subjectId: 'english',
+    seed: 'fake-passage-guard',
+  });
+
+  assert.equal(selectedRows.length, NTA_QUESTION_COUNT);
+  assert.equal(diagnostics.canBuild50, true);
+  assert.ok(!selectedRows.some((row) => badRows.some((bad) => bad.id === row.id)));
+});
+
+test('NTA selector returns fewer than 50 when fewer than 50 acceptable questions exist', () => {
+  const { selectedRows, diagnostics } = selectNtaQuestionSet(standalonePool(49), 50, {
+    subjectId: 'english',
+    seed: 'forty-nine',
+  });
+
+  assert.equal(selectedRows.length, 49);
+  assert.equal(diagnostics.canBuild50, false);
+  assert.equal(diagnostics.durationMinutes, NTA_DURATION_MINUTES);
 });

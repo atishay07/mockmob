@@ -1,0 +1,62 @@
+
+> mockmob@0.1.0 nta:sample
+> node --use-system-ca scripts/nta-sample.mjs --subject=mathematics --runs=1
+
+
+## Loaded 470 candidate rows for mathematics
+
+# NTA sample subject=mathematics run=1
+selected=50/50 canBuild50=true durationMinutes=60
+topRejectReasons=[{"reason":"generic_textbook_one_liner","count":48},{"reason":"malformed_question_text","count":19},{"reason":"question_missing_or_too_short","count":15},{"reason":"options_invalid","count":11},{"reason":"orphan_passage_question","count":1}]
+idx | id | chapter | type | passage_group_id | real_passage | text | warnings
+---: | --- | --- | --- | --- | --- | --- | ---
+1 | 4e51e290-24a6-4248-8edd-9b5b8f6fcafb | Differential Equations | statement_based |  | no | Consider the following statements about differential equations: Statement I: The order of the differential equation \( ... | -
+2 | aa1cf5e0-bc9e-48d7-8baa-8f70b9206f17 | Continuity & Differentiability |  |  | no | Case: Two differentiable signals f(t) and g(t) model competing sensor outputs and h(t)=max{f(t),g(t)}. At time t0 the s... | -
+3 | 1a307a4a-0e13-4fb4-9d0c-df2acbb1240b | Application of Integrals |  |  | no | Assertion: For any odd integrable function f, ∫_{-a}^{a} f(x) dx = 0. Reason: An odd function satisfies f(-x) = -f(x) f... | -
+4 | f713c81c-e0fe-4779-ad64-999e876ae57f | Vector Algebra |  |  | no | If a = (1, 0, 2), b = (0, 3, 0) and c = (1, 4, 5), the volume of the parallelepiped formed by these vectors is equal to | -
+5 | e303f625-b148-4ae2-a6dc-d047290cfa67 | Integrals |  |  | no | A metal rod of length L has temperature distribution T(x)=20+10 sin(π x/L) (temperature in °C, x in [0,L]). The average... | -
+6 | 49270ae6-5503-4d17-a313-6044c7889f24 | Probability Distributions |  |  | no | For a continuous distribution with cumulative distribution function F, which statement best characterizes a median m? | -
+7 | 5d0850cd-9267-4b02-98b8-5fe60c9efbc4 | Application of Integrals |  |  | no | Assertion: For a continuous nonnegative function f on [a,b], the root-mean-square (RMS) equals the arithmetic mean if a... | -
+8 | bdd24762-c6bf-4e1c-a7a6-5ee5bcfff9b3 | Relations & Functions |  |  | no | Assertion: A function f(x) = x^2 is not one-to-one on the set of real numbers. Reason: For any real number y > 0, there... | -
+9 | 556852ed-b86d-44fc-a73b-7418a410ca9e | Relations & Functions |  |  | no | Which of the following statements about inverses and one-sided inverses of functions is correct? (All functions between... | -
+10 | 91516fc4-ed63-49b1-9307-df306e95d3c8 | Relations & Functions |  |  | no | A logger samples a system every 15 minutes from 09:00 to 12:00 inclusive. The sampling times are mapped to hour index h... | -
+11 | 7edf4fcc-9c9d-4893-8ba3-0483573f2253 | Integrals |  |  | no | Match List I (integrals) with List II (an antiderivative). List I: (i) ∫ dx/(1+x^2) (ii) ∫ dx/√(a^2-x^2) (iii) ∫ x/√(1-... | -
+12 | cd49dd81-06b4-4f26-9fe9-5aa06c9f6061 | Application of Derivatives |  |  | no | Case: X1,...,Xn are i.i.d. with density f(x;θ)=θ x^{θ-1}, 0<x<1, θ>0. The derivative of the log-likelihood (score funct... | -
+13 | 18a9e3bd-e4c3-4c9c-9e94-54043dd75a00 | Vector Algebra |  |  | no | Let plane 2x - y + 3z = 0. Find the distance of the point P(4, -1, 2) from the plane. | -
+14 | 6666e0a8-4329-4ee5-bd81-0fb46a3fa8df | Linear Programming |  |  | no | Which of the following systems represents an infeasible linear programming feasible region? | -
+15 | 14a8db2f-0f9d-43d0-9ce9-8eac06ea5652 | Relations & Functions |  |  | no | Consider functions f,g: R→R where f is even (f(−x)=f(x)) and g is odd (g(−x)=−g(x)). Which of the following statements ... | -
+16 | 18b269e7-4b15-4a34-a583-3b80571ec244 | Relations & Functions |  |  | no | A relation R is defined on the set of real numbers as a R b if a^2 = b^2. Is this relation reflexive, symmetric, and/or... | -
+17 | 5460abea-c37c-4521-a65b-2d1d1c601143 | Continuity & Differentiability |  |  | no | Match List I (functions) with List II (property at x=0): List I: (1) f(x)=/x/, (2) g(x)=x sin(1/x) for x≠0, g(0)=0, (3)... | -
+18 | 7b8cc956-407b-48dc-bd0c-e0c73f94fe18 | Relations & Functions |  |  | no | Assertion: If f is a one-to-one continuous map from the compact interval [0,1] onto f([0,1]), then f^{-1} is continuous... | -
+19 | 83c4e302-e40e-402e-9638-5746cc0307e4 | Relations & Functions |  |  | no | A company uses a function C(n) = 100 + 5n to calculate the cost of producing 'n' items. If they produced 50 items, what... | -
+20 | b09cc3e3-8ece-4371-84f8-efddad4881b7 | Relations & Functions |  |  | no | Let A be a fixed 2×2 matrix (not necessarily symmetric) and define q(v)=v^T A v for v in R^2. Which statement is correc... | -
+21 | cc9487d4-5482-447d-a761-05d04563806f | Matrices |  |  | no | Assertion (A): For invertible n*n matrices A and B we have (AB)^{-1} = B^{-1}A^{-1}. Reason (R): The inverse of a produ... | -
+22 | 6317bd05-983d-477e-8d5b-1417fea7610a | Time Based Data |  |  | no | A series value was 120 in base period and 150 in current period; the percentage increase relative to base is | -
+23 | 09629525-a1f3-494f-b15d-b57acb647f00 | Relations & Functions |  |  | no | A company is launching a new product. The probability of success on any given day is 0.6. If they launch the product fo... | -
+24 | 5b61ce3f-16e0-4b08-9fef-99f1d7b54b81 | Relations & Functions |  |  | no | Assertion: If A and B are n×n matrices with det(A)det(B)=1 then the linear map x↦A(Bx) preserves oriented volume. Reaso... | -
+25 | 3901b54b-e578-4d42-8e8e-ab1fc6d960a0 | Determinants |  |  | no | Let A be an n*n matrix with det(A)=0. Which conclusion necessarily follows? | -
+26 | fc3274b8-6b40-46e1-9788-9f1c21e7364a | Relations & Functions |  |  | no | Assertion (A): If a function f:A→B has a left inverse, then f is injective. Reason (R): If g is a left inverse of f the... | -
+27 | b9bc923e-58d9-4302-99f0-8fd53cc18771 | Differential Equations |  |  | no | In a physics class, a student applies the concept of differential equations to model the motion of a falling object. Wh... | -
+28 | 9a44b147-ac1d-4af7-aeca-ce81f08ba04d | Relations & Functions |  |  | no | Let g_alpha(x)=x^α sin(1/x) for x≠0 and g_alpha(0)=0. For which α values is g_alpha continuous at 0 and differentiable ... | -
+29 | 89ac0e16-7bb3-4f05-aece-9811b230dc66 | Relations & Functions |  |  | no | Consider the relation R defined on the set of integers Z as a R b if a - b is even. Which property does R NOT satisfy? | -
+30 | ccb2b007-b1aa-41ac-920b-534ce9cd3502 | Continuity & Differentiability |  |  | no | Match List I (differential equations) with List II (property of any solution y on an interval where the RHS is as state... | -
+31 | 912867d8-48d5-424f-a1fc-35c77787b87b | Inferential Statistics |  |  | no | If both X and Y are standardized (zero mean and unit variance), the ordinary least squares slope in regression of Y on ... | -
+32 | b94a33dd-45c2-4ddb-a9f9-4aa4729d71b6 | Differential Equations |  |  | no | A general solution of a linear ordinary differential equation of order n contains how many arbitrary constants? | -
+33 | 0ebe695d-f26c-4595-a624-dd0555e45b4b | Relations & Functions |  |  | no | Let R be a relation on a set S which is both symmetric and antisymmetric. Which of the following must hold? | -
+34 | a4a75ee6-3d80-4171-875a-2a908c871db9 | Relations & Functions |  |  | no | Let S^2 = {v∈R^3: //v//=1}. Define f:S^2→R by f(v) = third coordinate of v. Define relation ~ on S^2 by u~v iff f(u)=f(... | -
+35 | ffde4867-e561-440d-a42d-39816b12eb35 | Application of Integrals |  |  | no | Case: A curve is given parametrically by x=t, y=t^2 for t∈[0,1]. What is the area under the parametric curve above the ... | -
+36 | 85e0bdd1-075c-40a4-abea-df3178112308 | Financial Mathematics |  |  | no | Consider maximizing Z = x + y subject to x ≥ y, x ≥ 0, y ≥ 0. Which statement is true about Z? | -
+37 | b88d11e9-1c88-4393-b8d6-438432712d5b | Inferential Statistics |  |  | no | Assertion: Solving the score equation (derivative of log-likelihood = 0) always gives the maximum likelihood estimator.... | -
+38 | c2930e09-7bf5-448f-bd7f-dd58cc8b69cf | Three Dimensional Geometry |  |  | no | A plane passes through point P(1,2,3) and has normal vector n = (2,-1,4). Which of the following is a correct vector fo... | -
+39 | 97eaf5ac-701d-472f-aedf-432efc777a8d | Application of Integrals |  |  | no | A variable force F(x)=5x N acts along a straight line moving a particle from x=0 to x=2 m. Using the integral for work,... | -
+40 | fb636c85-0185-49e3-b23f-1e5211d9f003 | Three Dimensional Geometry |  |  | no | Assertion: If a particle moves with constant speed then its acceleration is orthogonal to its velocity. Reason: d/dt(v·... | -
+41 | fc445a64-5553-4a72-9c98-d31bebccf390 | Time Based Data |  |  | no | Assertion: Using left Riemann sums with a decreasing function on [a,b] yields an overestimate of the integral. Reason: ... | -
+42 | 6e57f335-b086-4a70-a906-8448f8025668 | Application of Integrals |  |  | no | Area of the region bounded by y = x^2 and y = 4 is given by which definite integral (with limits implicit where they me... | -
+43 | 3cf87328-dad6-4164-a21f-b67acd340df6 | Matrices |  |  | no | If A is a 3x3 idempotent matrix (A^2 = A), what are the possible values for the determinant of A? | -
+44 | b9335eee-6ebd-4d01-bd4f-c4dcb0184520 | Linear Programming |  |  | no | Assertion: Degeneracy in an LP can sometimes lead to multiple optimal solutions. Reason: Degeneracy means at least one ... | -
+45 | 93a0d16f-1e3e-4da6-a033-95e8e725e6a0 | Probability Distributions |  |  | no | Match List I (distribution) with List II (typical support): List I: (1) Bernoulli, (2) Geometric, (3) Poisson, (4) Disc... | -
+46 | f942a198-99aa-44ea-a4b3-78dfbaabc44c | Relations & Functions |  |  | no | Scenario: For fixed nonparallel a,b in R^3 define f(v)=det([v,a,b]) for v∈R^3. Which vector equals ∇_v f at an arbitrar... | -
+47 | 4f6177d7-9110-4bad-9041-2fb317e7d4da | Relations & Functions |  |  | no | A farmer is deciding how many acres of wheat to plant. The profit P (in dollars) is given by P(x) = -x^2 + 100x - 500, ... | -
+48 | 2299453c-c375-4b85-a941-372de02ae162 | Numbers, Quantification and Numerical Applications |  |  | no | A factory makes products A and B. Labour: 2A + B ≤ 100 hours; Material: A + 3B ≤ 120 units; profit 5A + 4B. The optimum... | -
+49 | 16e77c02-09b4-4dc4-a959-799c39537a0f | Financial Mathematics |  |  | no | For a system Ax = b, which condition guarantees that the system is consistent (has at least one solution)? | -
+50 | 7d7ef828-e666-446f-bff8-b90fcb1b1014 | Relations & Functions |  |  | no | Case: A statistic T on sample space {0,1}^2 is defined by T(X1,X2)=X1+X2. As a function T:{0,1}^2→{0,1,2}, which of the... | -

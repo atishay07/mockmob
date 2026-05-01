@@ -407,6 +407,7 @@ export const Database = {
     if (updates.paymentId !== undefined) patch.payment_id = updates.paymentId;
     if (updates.status !== undefined) patch.status = updates.status;
     if (updates.amountPaid !== undefined) patch.amount_paid = updates.amountPaid;
+    if (updates.rawOrder !== undefined) patch.raw_order = updates.rawOrder;
     if (updates.rawPayment !== undefined) patch.raw_payment = updates.rawPayment;
     if (updates.rawSubscription !== undefined) patch.raw_subscription = updates.rawSubscription;
 

@@ -6,6 +6,7 @@ import { getRivalProfile } from '@/services/ai-rival/rivalProfiles';
 import { generateAIResponse } from '@/services/ai/providers';
 import { buildRivalIntroPrompt } from '@/services/ai/systemPrompt';
 import { logAIUsage } from '@/services/ai/usageLogger';
+import { getUsageSnapshot } from '@/services/usage/getDailyUsage';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -42,6 +43,7 @@ export async function POST(request) {
     return NextResponse.json(
       {
         error: result.error,
+        message: result.message,
         planRequired: result.planRequired || false,
         upgradeHint: result.upgradeHint || false,
         balance: result.balance,
@@ -51,13 +53,31 @@ export async function POST(request) {
     );
   }
 
-  // Generate a short AI intro line. Cheap, optional — never blocks the battle.
-  const profile = getRivalProfile(body.rivalType);
+  if (result.battle.charge?.creditUnits > 0) {
+    await logAIUsage({
+      userId: session.user.id,
+      feature: 'benchmark_premium',
+      provider: 'none',
+      model: 'none',
+      inputTokens: 0,
+      outputTokens: 0,
+      estimatedCostUsd: 0,
+      actionTriggered: 'launch_ai_rival',
+      metadata: {
+        rivalType: result.battle.rivalType,
+        battleId: result.battle.id,
+        charge: result.battle.charge,
+        creditUnits: result.battle.charge.creditUnits,
+      },
+    });
+  }
+
+  const profile = getRivalProfile(result.battle.rivalType);
   let intro = { introLine: deterministicIntro(profile), tagline: profile.archetype.toUpperCase() };
   try {
     const ai = await generateAIResponse({
       tier: 'fast',
-      systemPrompt: 'You write short trash-talk intros for AI rival matches in a CUET prep app. Reply only with JSON.',
+      systemPrompt: 'You write short, clear setup lines for timed CUET pressure benchmarks. No fantasy roleplay. Reply only with JSON.',
       userMessage: buildRivalIntroPrompt(profile, {
         avgScore: result.battle.rivalBenchmark.score,
       }),
@@ -71,26 +91,41 @@ export async function POST(request) {
     }
     await logAIUsage({
       userId: session.user.id,
-      feature: 'rival_intro',
+      feature: 'benchmark_intro',
       provider: ai.usage?.provider,
       model: ai.usage?.model,
       inputTokens: ai.usage?.inputTokens || 0,
       outputTokens: ai.usage?.outputTokens || 0,
       estimatedCostUsd: ai.usage?.estimatedCostUsd || 0,
       actionTriggered: 'launch_ai_rival',
-      metadata: { rivalType: body.rivalType, battleId: result.battle.id },
+      metadata: { rivalType: result.battle.rivalType, battleId: result.battle.id },
     });
   } catch (err) {
     console.warn('[rival] intro AI call failed, using deterministic intro:', err?.message);
   }
 
+  const latestUser = await Database.getUserById(session.user.id).catch(() => dbUser);
+  const usageSnapshot = await getUsageSnapshot(latestUser || dbUser).catch(() => null);
+
   return NextResponse.json({
     ok: true,
     battle: { ...result.battle, intro },
+    usageSnapshot: usageSnapshot
+      ? {
+          tier: usageSnapshot.tier,
+          isPaid: usageSnapshot.isPaid,
+          remaining: usageSnapshot.remaining,
+          creditBalance: usageSnapshot.creditBalance,
+          aiCreditBalance: usageSnapshot.aiCreditBalance,
+          aiWallet: usageSnapshot.aiWallet,
+          includedAiCreditsRemaining: usageSnapshot.includedAiCreditsRemaining,
+          normalCreditBalance: usageSnapshot.normalCreditBalance,
+        }
+      : null,
   });
 }
 
 function deterministicIntro(profile) {
-  if (!profile) return 'Battle starts now. No retreat.';
-  return `${profile.name} is here. ${profile.strength}. Beat me on ${profile.weakness}.`;
+  if (!profile) return 'Your benchmark is ready.';
+  return `${profile.name} is ready. Benchmark focus: ${profile.strength}. Watch for: ${profile.weakness}.`;
 }

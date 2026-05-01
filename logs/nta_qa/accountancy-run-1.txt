@@ -1,0 +1,62 @@
+
+> mockmob@0.1.0 nta:sample
+> node --use-system-ca scripts/nta-sample.mjs --subject=accountancy --runs=1
+
+
+## Loaded 1517 candidate rows for accountancy
+
+# NTA sample subject=accountancy run=1
+selected=50/50 canBuild50=true durationMinutes=60
+topRejectReasons=[{"reason":"generic_textbook_one_liner","count":181},{"reason":"options_invalid","count":52},{"reason":"orphan_passage_question","count":6},{"reason":"question_missing_or_too_short","count":1}]
+idx | id | chapter | type | passage_group_id | real_passage | text | warnings
+---: | --- | --- | --- | --- | --- | --- | ---
+1 | 00802b28-ffc6-4998-a8ca-5a1e81caec0a | Profit & Loss Appropriation Account | assertion_reason |  | no | Assertion (A): Interest on capital is an appropriation of profits. Reason (R): It is deducted from net profit in the Pr... | -
+2 | 2225253a-e56f-4bee-9c1e-c2d1bbf2a536 | Debentures |  |  | no | Delta Ltd. issued 6,000, 9% Debentures of ₹400 each at a discount of 6%. What will be the amount credited to the 9% Deb... | -
+3 | a9dfb985-59f9-42fa-af13-701f0e2974c6 | Cash Flow Statement |  |  | no | Net Profit before tax and extraordinary items is ₹4,00,000. Depreciation for the year is ₹25,000 and loss on sale of ma... | -
+4 | ab40c3fd-847e-493f-9987-c2701750f83b | Debentures |  |  | no | Vertex Ltd. issued 4,000, 9% Debentures of ₹300 each at a discount of 5%. What will be the amount credited to the 9% De... | -
+5 | 12ab9884-0e24-4628-9126-3967978d3374 | Cash Flow Statement |  |  | no | Net Profit before tax and extraordinary items is ₹1,60,000. Depreciation for the year is ₹10,000 and loss on sale of ma... | -
+6 | eeef414e-69e7-439d-92d6-84be708abb66 | Share Capital |  |  | no | How are calls in arrears normally presented in the balance sheet of a company? | -
+7 | 950c8b46-8452-4c6a-8f39-d7cfccccdf4b | Debentures |  |  | no | Omega Ltd. issued 7,000, 9% Debentures of ₹200 each at a discount of 8%. What will be the amount credited to the 9% Deb... | -
+8 | 9e749b7a-5191-4808-8096-4cb05792f014 | Cash Flow Statement |  |  | no | Net Profit before tax and extraordinary items is ₹4,80,000. Depreciation for the year is ₹25,000 and loss on sale of ma... | -
+9 | ad5cbde6-96ff-4ec0-a0f4-58814acbc827 | Debentures |  |  | no | Delta Ltd. issued 2,000, 9% Debentures of ₹100 each at a discount of 8%. What will be the amount credited to the 9% Deb... | -
+10 | a240e34b-d79b-446b-a38b-fe433b98672b | Debentures |  |  | no | Vertex Ltd. issued 8,000, 9% Debentures of ₹400 each at a discount of 6%. What will be the amount credited to the 9% De... | -
+11 | 00e30f6f-9ed7-43d5-a9f3-f7ba4a84781e | Partnership Fundamentals |  |  | no | Rahul and Varun are partners. Rahul's capital is ₹1,30,000 and Varun's capital is ₹2,20,000. If the partnership deed pr... | -
+12 | e839a517-afb2-4cd8-82e2-e016fef747d5 | Cash Flow Statement |  |  | no | Net Profit before tax and extraordinary items is ₹4,60,000. Depreciation for the year is ₹35,000 and loss on sale of ma... | -
+13 | a96a5eb9-c783-4f93-9d3c-dcd8f9b72623 | Computerized Accounting System |  |  | no | In a computerized accounting system like Busy, which of the following is considered the primary document for recording ... | -
+14 | a3707179-7910-42e3-962e-599aed09bf2c | Goodwill Valuation |  |  | no | Match-based: Match List I (Methods of valuing goodwill) with List II (Primary basis used). List I: (1) Average profit m... | -
+15 | 8693af30-7352-4fb1-a411-37d58b82b164 | Dissolution of Partnership |  |  | no | A firm in dissolution realises inventory for 90,000 and sells fixed assets for 150,000; realisation expenses 10,000 pai... | -
+16 | 0dcd572e-280f-474d-9d68-5405683dc2bc | Admission of Partner |  |  | no | Jaya and Lata share profits in the ratio 4:2. They decide to change their profit sharing ratio to equal. On this date, ... | -
+17 | 06baa378-7365-483b-8a95-5a6d37537b06 | Computerized Accounting System |  |  | no | In a computerized accounting system like Marg, which of the following is considered the primary document for recording ... | -
+18 | 01dc09dc-7b8d-49f7-80ca-9619ee54aae2 | Share Capital |  |  | no | Assertion: Amounts in the Forfeited Shares Account are shown under 'Reserves and Surplus' as a capital reserve in the b... | -
+19 | 1270e44e-8f36-4084-8e8b-584729d8cb16 | Share Capital |  |  | no | Assertion: Bonus issue increases the number of shares and is recorded in the balance sheet but does not appear in the C... | -
+20 | 852d48af-d257-4889-adc0-9c5099ffa619 | Admission of Partner |  |  | no | Farhan and Gaurav share profits in the ratio 4:2. They decide to change their profit sharing ratio to equal. On this da... | -
+21 | 5d96f689-b372-40d7-982c-cfd55a0bce26 | Admission of Partner |  |  | no | Aman and Harsh share profits in the ratio 3:1. They decide to change their profit sharing ratio to equal. On this date,... | -
+22 | 1d6f33d0-be62-465a-88bf-478032acb1a7 | Partnership Fundamentals |  |  | no | Farhan and Uma are partners. Farhan's capital is ₹3,80,000 and Uma's capital is ₹1,60,000. If the partnership deed prov... | -
+23 | 5ea37f10-1ea4-42b7-9ab6-c44dd79a0775 | Partnership Fundamentals |  |  | no | Aman and Yash are partners. Aman's capital is ₹4,10,000 and Yash's capital is ₹1,50,000. If the partnership deed provid... | -
+24 | 6f618558-2b3c-467d-a9d3-5c3e5862cad8 | Cash Flow Statement |  |  | no | Net Profit before tax and extraordinary items is ₹4,80,000. Depreciation for the year is ₹40,000 and loss on sale of ma... | -
+25 | c695ab77-b60e-44f6-9299-197b7c2c1268 | Debentures |  |  | no | Delta Ltd. issued 3,000, 9% Debentures of ₹100 each at a discount of 5%. What will be the amount credited to the 9% Deb... | -
+26 | 704ae886-958c-461c-b713-60fcae83a02b | Dissolution of Partnership Firm |  |  | no | Partner X had given a loan of Rs 30,000 to the firm; on dissolution the firm repaid the loan with interest of Rs 3,000.... | -
+27 | 46f97556-0ba3-4322-b565-adb0f8690bac | Cash Flow Statement |  |  | no | Net Profit before tax and extraordinary items is ₹3,20,000. Depreciation for the year is ₹15,000 and loss on sale of ma... | -
+28 | a0721f45-c9b6-4946-a408-73b9bc2ec3be | Admission of Partner |  |  | no | Yash and Om share profits in the ratio 4:2. They decide to change their profit sharing ratio to equal. On this date, fi... | -
+29 | 72a7df51-1845-4508-a689-44b1a4906219 | Partnership Fundamentals |  |  | no | Deepika and Gaurav are partners. Deepika's capital is ₹1,30,000 and Gaurav's capital is ₹80,000. If the partnership dee... | -
+30 | 57aa3252-8fab-4808-a98c-94142ed9c45c | Computerized Accounting System |  |  | no | In a computerized accounting system like Zoho Books, which of the following is considered the primary document for reco... | -
+31 | dfaebd45-1d8d-405c-8a08-75e4fc03893f | Admission of Partner |  |  | no | Karan and Deepika share profits in the ratio 2:2. They decide to change their profit sharing ratio to equal. On this da... | -
+32 | 6c35620f-2fd4-4004-9258-90ec847b1c38 | Admission of Partner |  |  | no | Karan and Farhan share profits in the ratio 2:1. They decide to change their profit sharing ratio to equal. On this dat... | -
+33 | 07a9bed4-9d81-4322-9b6b-f397b8b51d1e | Dissolution of Partnership |  |  | no | Match List I (Ratio) with List II (How a specific dissolution event changes the ratio relative magnitude immediately) a... | -
+34 | d8f3e2ac-d450-47a7-94c1-72b125f03eb5 | Computerized Accounting System |  |  | no | In a computerized accounting system like Zoho Books, which of the following is considered the primary document for reco... | -
+35 | 6c897310-ed0c-490e-80aa-1b641c5f818b | Partnership Fundamentals |  |  | no | Ishan and Harsh are partners. Ishan's capital is ₹4,00,000 and Harsh's capital is ₹2,90,000. If the partnership deed pr... | -
+36 | f6069361-e8c5-411f-8fc3-3dac63b4110b | Computerized Accounting System |  |  | no | In a computerized accounting system like Zoho Books, which of the following is considered the primary document for reco... | -
+37 | 3f3051f3-7223-4806-b6ad-2515fc3ede99 | Cash Flow Statement |  |  | no | Net Profit before tax and extraordinary items is ₹4,60,000. Depreciation for the year is ₹35,000 and loss on sale of ma... | -
+38 | 9280ef71-c2d0-42a2-aee1-70304d19ab81 | Profit & Loss Appropriation Account |  |  | no | Assertion: Profit & Loss Appropriation Account is prepared only after the Profit & Loss Account is closed. Reason: The ... | -
+39 | bfc8e316-dd25-4638-862f-e4dab11be1d4 | Cash Flow Statement |  |  | no | Net Profit before tax and extraordinary items is ₹1,00,000. Depreciation for the year is ₹30,000 and loss on sale of ma... | -
+40 | 5fcbefd5-c6e4-4703-8c85-7b161fe2e499 | Financial Statements of Company |  |  | no | A company must redeem debentures of 500,000 after 3 years and rules require 25% of redemption amount to be provided in ... | -
+41 | 7cf31a37-8a44-46c9-839c-1ff40113100e | Cash Flow Statement |  |  | no | Net Profit before tax and extraordinary items is ₹3,40,000. Depreciation for the year is ₹45,000 and loss on sale of ma... | -
+42 | 29c9415b-8076-44fc-af9d-7de422cf51b7 | Admission of Partner |  |  | no | Deepika and Jaya share profits in the ratio 2:2. They decide to change their profit sharing ratio to equal. On this dat... | -
+43 | 9eeefee3-3f03-435f-a995-551358384259 | Debentures |  |  | no | Match List I (Method of redemption of debentures) with List II (Primary accounting consequence) and choose the correct ... | -
+44 | 210827cf-f283-4b5e-826e-bb84538347ee | Computerized Accounting System |  |  | no | In a computerized accounting system like Zoho Books, which of the following is considered the primary document for reco... | -
+45 | 7458980b-f18e-4c48-906a-0dd2c63d4742 | Computerized Accounting System |  |  | no | In a computerized accounting system like QuickBooks, which of the following is considered the primary document for reco... | -
+46 | fa903ee8-2c26-4b61-bf71-5e0dd84a92a7 | Share Capital |  |  | no | Zenith Ltd. issued 35,000 equity shares of ₹10 each at a premium of ₹3 per share. Amount payable on application is ₹2 a... | -
+47 | f79574e3-638c-413b-882a-87acdbd06f85 | Debentures |  |  | no | Quantum Ltd. issued 6,000, 9% Debentures of ₹400 each at a discount of 5%. What will be the amount credited to the 9% D... | -
+48 | e9c1bb78-0891-43c6-aaee-875999f8a455 | Partnership Fundamentals |  |  | no | Jaya and Rahul are partners. Jaya's capital is ₹3,80,000 and Rahul's capital is ₹4,20,000. If the partnership deed prov... | -
+49 | 5fa5701f-f0a4-437f-af5a-ac60480ab65c | Admission of Partner |  |  | no | Manish and Yash share profits in the ratio 4:1. They decide to change their profit sharing ratio to equal. On this date... | -
+50 | 00c334d1-7ee2-4e6c-8b68-37d5fb12ea5a | Debentures |  |  | no | Vertex Ltd. issued 5,000, 9% Debentures of ₹100 each at a discount of 6%. What will be the amount credited to the 9% De... | -

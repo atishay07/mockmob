@@ -1,30 +1,29 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { Logo } from '@/components/Logo';
+import { AuthSessionScreen } from '@/components/auth/AuthSessionScreen';
 import { getSupabaseBrowserClient } from '@/lib/supabase-browser';
 
-const SESSION_RETRY_DELAYS = [0, 150, 300, 500];
+const SESSION_RETRY_DELAYS = [0, 250, 600, 1000, 1600, 2400, 3200, 4500];
+const RETRYABLE_PROFILE_STATUSES = [401, 404, 429, 500, 502, 503, 504];
 
 async function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 const PHASES = [
-  'Verifying credentials…',
-  'Loading your profile…',
-  'Almost there…',
+  'Verifying credentials...',
+  'Loading your profile...',
+  'Preparing your arena...',
 ];
 
 export default function AuthCallbackPageClient() {
   const [phase, setPhase] = useState(0);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     let mounted = true;
-    let phaseTimer = null;
-
-    // Advance phase text every ~600ms so the user sees motion.
-    phaseTimer = setInterval(() => {
+    const phaseTimer = setInterval(() => {
       setPhase((p) => Math.min(PHASES.length - 1, p + 1));
     }, 600);
 
@@ -40,9 +39,9 @@ export default function AuthCallbackPageClient() {
         }
 
         if (code) {
-          const { error } = await supabase.auth.exchangeCodeForSession(code);
-          if (error) {
-            throw error;
+          const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+          if (exchangeError) {
+            throw exchangeError;
           }
         }
 
@@ -59,17 +58,22 @@ export default function AuthCallbackPageClient() {
             continue;
           }
 
-          const res = await fetch('/api/auth/me', {
-            cache: 'no-store',
-            credentials: 'same-origin',
-          });
+          let res = null;
+          try {
+            res = await fetch('/api/auth/me', {
+              cache: 'no-store',
+              credentials: 'same-origin',
+            });
+          } catch {
+            continue;
+          }
           if (!mounted) return;
 
           if (!res.ok) {
-            if (res.status === 401) {
+            if (RETRYABLE_PROFILE_STATUSES.includes(res.status)) {
               continue;
             }
-            break;
+            throw new Error('MockMob could not load your profile after login.');
           }
 
           const data = await res.json();
@@ -77,68 +81,27 @@ export default function AuthCallbackPageClient() {
           return;
         }
 
-      } catch {
-        // Ignore and fall through to the recovery redirect below.
-      }
-
-      if (mounted) {
-        window.location.replace('/signup');
+        throw new Error('Your session was created, but the profile check did not finish yet. Please try again.');
+      } catch (authError) {
+        if (mounted) {
+          setError(authError?.message || 'We could not complete the login handshake. Please try again.');
+        }
       }
     }
 
     finishAuth();
     return () => {
       mounted = false;
-      if (phaseTimer) clearInterval(phaseTimer);
+      clearInterval(phaseTimer);
     };
   }, []);
 
   return (
-    <div
-      className="view min-h-screen flex items-center justify-center px-5"
-      // Block any background interaction while we redirect.
-      style={{ pointerEvents: 'none', userSelect: 'none' }}
-      aria-busy="true"
-      role="status"
-    >
-      <div className="glass p-8 text-center max-w-sm w-full" style={{ pointerEvents: 'auto' }}>
-        <Logo className="mb-5 justify-center" />
-        <div
-          aria-hidden
-          style={{
-            width: 48, height: 48, margin: '0 auto 18px',
-            border: '3px solid rgba(212,255,0,0.15)',
-            borderTopColor: 'var(--volt)',
-            borderRadius: '50%',
-            animation: 'mm-auth-spin 800ms linear infinite',
-          }}
-        />
-        <h1 className="display-md mb-1">Securing your session</h1>
-        <p className="text-zinc-400 text-sm" style={{ minHeight: '20px' }}>
-          {PHASES[phase]}
-        </p>
-        <div
-          className="mt-5 h-1 rounded-full overflow-hidden"
-          style={{ background: 'rgba(255,255,255,0.06)' }}
-          aria-hidden
-        >
-          <div
-            style={{
-              height: '100%',
-              width: '30%',
-              background: 'linear-gradient(90deg, transparent, var(--volt), transparent)',
-              animation: 'mm-auth-bar 1.2s ease-in-out infinite',
-            }}
-          />
-        </div>
-      </div>
-      <style jsx global>{`
-        @keyframes mm-auth-spin { to { transform: rotate(360deg) } }
-        @keyframes mm-auth-bar {
-          0%   { transform: translateX(-100%) }
-          100% { transform: translateX(380%) }
-        }
-      `}</style>
-    </div>
+    <AuthSessionScreen
+      message={PHASES[phase]}
+      error={error}
+      actionHref="/login"
+      actionLabel="Try login again"
+    />
   );
 }

@@ -12,7 +12,7 @@ import { getUsageSnapshot } from '@/services/usage/getDailyUsage';
  *  - Tolerate missing tables/fields (free users, new accounts).
  *  - Compute deterministic facts so the model only does *recommendation*.
  *
- * Returns a JSON-safe object. Never throws — always returns at least
+ * Returns a JSON-safe object. Never throws; always returns at least
  * { userId, displayName, exam, isPaid, ... } with safe defaults.
  */
 export async function getStudentAIContext({ user, options = {} } = {}) {
@@ -87,6 +87,15 @@ export async function getStudentAIContext({ user, options = {} } = {}) {
     mistakeDNA,
     admissionCompassSummary,
   });
+  const aiConfidence = buildAIConfidence({
+    recentMockSummary,
+    lastMockSummary,
+    weaknessSummary,
+    savedQuestionSummary,
+    skippedQuestionSummary,
+    admissionCompassSummary,
+    selectedSubjects: effectiveUser?.subjects,
+  });
 
   return {
     userId,
@@ -108,10 +117,17 @@ export async function getStudentAIContext({ user, options = {} } = {}) {
     savedQuestionSummary,
     skippedQuestionSummary,
     admissionCompassSummary,
+    aiConfidence,
     revisionPriority: buildRevisionPriority({ weaknessSummary, savedQuestionSummary, skippedQuestionSummary }),
     recommendedDeterministicActions,
 
-    creditBalance: effectiveUser?.creditBalance ?? 0,
+    aiCredits: usageSnapshot?.aiWallet || {
+      total: usageSnapshot?.aiCreditBalance || 0,
+      includedRemaining: usageSnapshot?.includedAiCreditsRemaining || 0,
+      bonusCredits: 0,
+      resetAt: null,
+    },
+    normalCreditBalance: effectiveUser?.creditBalance ?? 0,
     dailyUsage: usageSnapshot?.used || { aiMentorMessages: 0, basicRivalBattles: 0, premiumRivalBattles: 0 },
     limits: usageSnapshot?.limits || null,
     contextVersion: 1,
@@ -220,19 +236,28 @@ function computeMistakeDNA({ attempts, progressRows }) {
 
   const conf = (n) => (n >= 25 ? 'high' : n >= 8 ? 'medium' : 'low');
 
-  return {
+  const categories = {
     conceptErrors: { score: clamp(Math.round(wrongRatio * 100), 0, 100), confidence: conf(dataPoints) },
     trapErrors: { score: clamp(Math.round(fastWrong * 100), 0, 100), confidence: conf(progressRows.length) },
     timePressureErrors: { score: clamp(Math.round(skipRatio * 100), 0, 100), confidence: conf(attempts.length) },
     carelessErrors: { score: clamp(Math.round(fastWrong * 60), 0, 100), confidence: conf(progressRows.length) },
     revisionDecayErrors: { score: clamp(Math.round(repeatedWrong * 100), 0, 100), confidence: conf(progressRows.length) },
-    guessingErrors: { score: clamp(Math.round((wrongRatio - skipRatio) * 80), 0, 100), confidence: conf(attempts.length) },
+    guessingErrors: { score: clamp(Math.round(Math.max(0, wrongRatio - skipRatio) * 80), 0, 100), confidence: conf(attempts.length) },
+  };
+  const dominantPattern = Object.entries(categories)
+    .sort((a, b) => b[1].score - a[1].score)
+    .slice(0, 2)
+    .map(([key, value]) => ({ key, score: value.score, confidence: value.confidence }));
+
+  return {
+    ...categories,
+    dominantPattern,
     _meta: { dataPoints, slowness: slowOverall },
   };
 }
 
 function countFastWrong(rows) {
-  // Rows where dwell is short but accuracy poor → likely traps/careless.
+  // Rows where dwell is short but accuracy poor: likely traps/careless.
   let fastWrong = 0;
   let total = 0;
   for (const r of rows) {
@@ -307,6 +332,75 @@ function buildRevisionPriority({ weaknessSummary, savedQuestionSummary, skippedQ
   return items;
 }
 
+function buildAIConfidence({
+  recentMockSummary,
+  lastMockSummary,
+  weaknessSummary,
+  savedQuestionSummary,
+  skippedQuestionSummary,
+  admissionCompassSummary,
+  selectedSubjects,
+}) {
+  const evidence = [];
+  let score = 20;
+
+  const attemptCount = recentMockSummary?.attemptCount || 0;
+  if (attemptCount >= 5) {
+    score += 30;
+    evidence.push(`last ${attemptCount} attempts`);
+  } else if (attemptCount >= 2) {
+    score += 18;
+    evidence.push(`${attemptCount} recent attempts`);
+  } else if (attemptCount === 1) {
+    score += 8;
+    evidence.push('one recent attempt');
+  } else {
+    evidence.push('no mock attempt yet');
+  }
+
+  if (lastMockSummary?.ageHours != null) {
+    if (lastMockSummary.ageHours <= 72) {
+      score += 12;
+      evidence.push('fresh mock data');
+    } else if (lastMockSummary.ageHours <= 168) {
+      score += 6;
+      evidence.push('mock data from this week');
+    }
+  }
+
+  if ((weaknessSummary?.weakChapters || []).length >= 2) {
+    score += 14;
+    evidence.push('repeated weak chapters');
+  } else if ((weaknessSummary?.weakChapters || []).length === 1) {
+    score += 8;
+    evidence.push('one weak chapter signal');
+  }
+
+  if ((savedQuestionSummary?.count || 0) > 0) {
+    score += 4;
+    evidence.push('saved-question history');
+  }
+  if ((skippedQuestionSummary?.questionsSkipped || 0) > 0) {
+    score += 5;
+    evidence.push('skip pattern');
+  }
+  if (admissionCompassSummary?.estimatedScore) {
+    score += 8;
+    evidence.push('Compass score band');
+  }
+  if (Array.isArray(selectedSubjects) && selectedSubjects.length > 0) {
+    score += 4;
+    evidence.push('selected subjects');
+  }
+
+  const finalScore = clamp(score, 18, 92);
+  return {
+    score: finalScore,
+    label: finalScore >= 70 ? 'high' : finalScore >= 45 ? 'medium' : 'low',
+    evidence,
+  };
+}
+
 function buildDeterministicRecommendations({
   isPaid,
   recentMockSummary,
@@ -323,7 +417,7 @@ function buildDeterministicRecommendations({
     recs.push({ kind: 'speed_drill', priority: 'high', reason: 'time_pressure_high' });
   }
   if (mistakeDNA.trapErrors.score > 35) {
-    recs.push({ kind: 'trap_drill', priority: 'high', reason: 'trap_errors_high' });
+    recs.push({ kind: 'mistake_replay', priority: 'high', reason: 'trap_errors_high' });
   }
   if (weaknessSummary.weakChapters.length > 0) {
     recs.push({
@@ -377,9 +471,11 @@ function safeEmptyContext({ reason }) {
     savedQuestionSummary: { count: 0 },
     skippedQuestionSummary: { totalSkips: 0, questionsSkipped: 0, topSubjects: [] },
     admissionCompassSummary: null,
+    aiConfidence: { score: 18, label: 'low', evidence: ['missing user context'] },
     revisionPriority: [],
     recommendedDeterministicActions: [],
-    creditBalance: 0,
+    aiCredits: { total: 0, includedRemaining: 0, bonusCredits: 0, resetAt: null },
+    normalCreditBalance: 0,
     dailyUsage: { aiMentorMessages: 0, basicRivalBattles: 0, premiumRivalBattles: 0 },
     limits: null,
     contextVersion: 1,

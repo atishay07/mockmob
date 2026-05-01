@@ -13,6 +13,16 @@ function isProtectedRoute(pathname) {
   );
 }
 
+function hasSupabaseAuthCookie(request) {
+  return request.cookies.getAll().some(({ name, value }) => (
+    Boolean(value) &&
+    (
+      (name.startsWith('sb-') && name.includes('auth-token')) ||
+      name.includes('supabase-auth-token')
+    )
+  ));
+}
+
 // Capture a creator/referral code from the URL into a 30-day cookie. Cookie
 // is NOT httpOnly so the checkout component can read it for prefill on
 // pages that haven't been hit by middleware in the same render.
@@ -66,9 +76,16 @@ export async function middleware(request) {
     },
   });
 
-  const { data } = await supabase.auth.getUser();
-  if (!data?.user) {
-    return NextResponse.redirect(new URL('/signup', request.url));
+  const hasAuthCookie = hasSupabaseAuthCookie(request);
+  try {
+    const { data, error } = await supabase.auth.getUser();
+    if (!data?.user && !(hasAuthCookie && error)) {
+      return NextResponse.redirect(new URL('/signup', request.url));
+    }
+  } catch {
+    if (!hasAuthCookie) {
+      return NextResponse.redirect(new URL('/signup', request.url));
+    }
   }
 
   applyRefCapture(request, response);

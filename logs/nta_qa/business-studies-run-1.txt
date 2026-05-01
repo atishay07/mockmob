@@ -1,0 +1,62 @@
+
+> mockmob@0.1.0 nta:sample
+> node --use-system-ca scripts/nta-sample.mjs --subject=business-studies --runs=1
+
+
+## Loaded 441 candidate rows for business_studies
+
+# NTA sample subject=business_studies run=1
+selected=50/50 canBuild50=true durationMinutes=60
+topRejectReasons=[{"reason":"generic_textbook_one_liner","count":13},{"reason":"orphan_passage_question","count":12},{"reason":"question_missing_or_too_short","count":1}]
+idx | id | chapter | type | passage_group_id | real_passage | text | warnings
+---: | --- | --- | --- | --- | --- | --- | ---
+1 | 36112636-9945-4abc-bcd7-c70e7179244c | Consumer Protection | application_based |  | no | A consumer purchased a packaged food item that did not list an important allergen on the label. The consumer suffered a... | -
+2 | a8cfb265-0fab-47c0-8ae9-d4d6e19a44e9 | Entrepreneurship Development | statement_based |  | no | Consider the following statements regarding the entrepreneurial process: Statement I: Opportunity identification is the... | -
+3 | 4336d5cb-fc0b-4ee3-9c31-f67fe8e86f64 | Planning | statement_based |  | no | Statement I: Planning is a mental exercise that requires logical and systematic thinking rather than guesswork. Stateme... | -
+4 | 76a7aabb-a3ad-4c1b-90b5-a1b47e883962 | Financial Management | assertion_reason |  | no | Assertion (A): Capital budgeting decisions involve long-term commitments of funds and affect the risk and profitability... | -
+5 | 37035d56-40eb-4610-9087-8b0bd7032661 | Nature & Significance of Management |  |  | no | A team leader gives on-the-spot directions to workers to change sequence of tasks and also records the outcome in daily... | -
+6 | 594f3606-4831-4df3-b55a-2adf6248814f | Marketing Management |  |  | no | A retailer sold a batch of defective electrical items to consumers; the manufacturer denies responsibility claiming the... | -
+7 | 31b45d5b-2be3-4bc8-8808-9b11ed9da77c | Staffing |  |  | no | Which of the following staffing actions is primarily an organizing decision rather than a staffing decision, though bot... | -
+8 | b30a8267-484d-4790-8802-6aecb62851ff | Business Environment |  |  | no | Which of the following illustrations best differentiates between 'controlling' as a function and 'controlling' as mere ... | -
+9 | 42fcb703-0c2f-4afc-b072-6baf222b3c93 | Nature & Significance of Management |  |  | no | Assertion: Management ensures efficiency and effectiveness. Reason: By using resources judiciously and achieving goals,... | -
+10 | f7e020b2-15b6-4f8b-93c7-0a5a05b8e0d7 | Nature & Significance of Management |  |  | no | A company faces a sudden drop in sales. The top management decides to analyze the market trends and competitor strategi... | -
+11 | 7261d8e5-de62-4900-a3ce-bbeb310fe4fa | Entrepreneurship Development |  |  | no | Which of the following best describes the primary objective of Entrepreneurship Development Programmes (EDPs)? | -
+12 | cb766fea-3015-4efd-8318-5138781270fb | Principles of Management |  |  | no | The process of setting performance standards is a crucial part of which management function? | -
+13 | ddb7471c-1ed5-4962-8cd0-4a7be5e78914 | Consumer Protection |  |  | no | Assertion: A certificate mark (e.g., quality mark) on packaging guarantees absolute immunity for seller against any con... | -
+14 | d5ac27f4-e511-4495-b269-f25d3fc9f466 | Directing |  |  | no | Match List I (Leadership style) with List II (Characteristic) and select the correct option. List I: P. Autocratic, Q. ... | -
+15 | 4d9f5ff8-b8b1-428f-accc-a02992c0a8d3 | Nature & Significance of Management |  |  | no | Match List I (planning tools) with List II (primary purpose). Match List I with List II. | -
+16 | fdd77ac3-e730-468c-8ed6-b21d27fdb41a | Nature & Significance of Management |  |  | no | A mobile accessory firm has limited budget to respond to consumer safety notices and must choose one combined immediate... | -
+17 | ad14387e-df87-4462-9ce6-25b23b80de04 | Marketing Management |  |  | no | An advertisement states 'Our product is the best in the country' with no comparative data. Under consumer protection co... | -
+18 | 070385bb-3ef9-45c2-bea6-efab69c76298 | Business Environment |  |  | no | A foreman who is allowed to set daily production targets within agreed monthly goals is an example of which principle a... | -
+19 | ce385351-682b-4933-979d-55d03e9f8707 | Nature & Significance of Management |  |  | no | Which aspect of management emphasizes the importance of ensuring that all parts of the organization work together harmo... | -
+20 | 3f56f8be-61e5-461c-9a54-7a7b646ac0d4 | Nature & Significance of Management |  |  | no | Which of the following most sharply distinguishes an entrepreneur from an intrapreneur in the context of a business org... | -
+21 | 04f61cbe-19a5-4808-b379-7c369f45d636 | Nature & Significance of Management |  |  | no | Which of the following formulae correctly represents percentage variance used in controlling when variance is defined a... | -
+22 | 662454b4-537b-438c-bd72-b7c05bd9a7eb | Nature & Significance of Management |  |  | no | Which one of the following statements best distinguishes management as an art and as a science? | -
+23 | aad02d53-35d6-4f5c-9aa8-d6af04ef8a2c | Business Environment |  |  | no | Which one of the following best captures a practical limitation of applying the principle of wide span of management as... | -
+24 | 5176d853-7167-4983-8f9a-38878feda66c | Nature & Significance of Management |  |  | no | A factory manager insists on equal treatment for all workers but disciplines some harshly without fair hearing; which p... | -
+25 | b8435e0a-5b80-4df2-8c03-cded2e919a9c | Principles of Management |  |  | no | Assertion: The Business Environment is complex. Reason: It is difficult to understand the exact impact of various inter... | -
+26 | e668ade4-99e1-456c-879a-bd867968cc05 | Organising |  |  | no | Which one of the following statements about functional authority is most accurate in the context of organising? | -
+27 | c4fed238-1c15-48a7-afce-4441e1affdf5 | Nature & Significance of Management |  |  | no | Which of the following best captures the subtle difference between planning as 'proactive' and controlling as 'reactive... | -
+28 | 971d5d83-6c66-4219-aab0-d6bc894316c1 | Nature & Significance of Management |  |  | no | Assertion: Management is a group activity. Reason: It involves coordinating the efforts of different people to achieve ... | -
+29 | 883c511b-0136-4d86-bca9-58b2df20b5f9 | Nature & Significance of Management |  |  | no | Assertion: Entrepreneurship Development Programmes (EDPs) primarily aim to create self-employment and productive small ... | -
+30 | 1d2f75b7-dc09-4a36-82a2-774773374d41 | Nature & Significance of Management |  |  | no | Assertion (A): Directing is a continuous function of management. Reason (R): Directing is performed only after the work... | -
+31 | 18685b9e-9efb-4a05-9880-93d1b422fb71 | Directing |  |  | no | Which statement about informal leaders within a work group is correct in the context of directing? | -
+32 | 3eb6c15a-f9ae-499f-b28e-4e89cba63dab | Principles of Management |  |  | no | Which principle of management emphasizes the importance of 'one head and one plan' for a group of activities having the... | -
+33 | 51d2679b-a6eb-43fe-a7f2-95b31489b1fd | Principles of Management |  |  | no | A retailer received 200 consumer complaints monthly before process change and 150 after; average resolution time fell f... | -
+34 | 67be1843-82f1-4863-9a3a-7b6a899242ab | Nature & Significance of Management |  |  | no | A manager gives tasks but never asks for employees' views or feedback. Which component of directing is being neglected? | -
+35 | 40827013-0b17-4368-bbf0-ac4ddc631606 | Nature & Significance of Management |  |  | no | Which statement about 'management by exception' as a control technique is most accurate? | -
+36 | 10dcef21-32a1-4737-ad0b-2eb8d0404ba3 | Principles of Management |  |  | no | Assertion: The scalar chain must always be strictly followed. Reason: Fayol introduced the 'gang plank' to allow for ex... | -
+37 | ab19d811-8dc0-4c77-9a39-b3db151ba2c4 | Nature & Significance of Management |  |  | no | Which of the following statements about informal organisation is the most misleading trap and therefore incorrect? | -
+38 | f852ceb6-c668-4210-b68f-e8364623c836 | Consumer Protection |  |  | no | Application: An online marketplace displays seller ratings but deliberately suppresses negative verified reviews to boo... | -
+39 | 5d93e85f-5f17-48d8-9864-d126acbdfa77 | Entrepreneurship Development |  |  | no | Case: An entrepreneur prepares a proposal to obtain a bank loan for a new unit; the bank asks for projections that show... | -
+40 | 1595dce7-a7e3-4082-9ae2-3cf8efb05a90 | Consumer Protection |  |  | no | Assertion: Consumers have the right to be informed about the quality of products. Reason: This right helps consumers ma... | -
+41 | db50bf17-8f8f-4256-8fa4-1883c7505285 | Nature & Significance of Management |  |  | no | A manager is trying to find out if actual performance meets standards and taking corrective actions. This is an example... | -
+42 | 9ab17662-defe-4fb4-980e-2a2d0bc5c6ac | Nature & Significance of Management |  |  | no | Match List I (Type of plan) with List II (Typical time horizon): List I: 1. Strategic plan 2. Tactical plan 3. Operatio... | -
+43 | 8e3dd72e-be53-4f9b-b791-78509ef266cc | Nature & Significance of Management |  |  | no | Application: A manager must decide between promoting an internal candidate with strong interpersonal skills or hiring e... | -
+44 | 517893ee-72b0-4d8d-94b2-ae83e5187994 | Principles of Management |  |  | no | Applying the principle of unity of direction to marketing management would primarily ensure: | -
+45 | aaf54202-0bbf-4452-9b54-4e5b36e63e3f | Nature & Significance of Management |  |  | no | Which marketing philosophy focuses on the availability and affordability of products, believing consumers will favor re... | -
+46 | 7d4878dd-4413-4900-be59-4b46c972827d | Financial Management |  |  | no | Assertion: Inflation in the business environment increases a firm's need for working capital. Reason: Higher expected i... | -
+47 | 310e14fe-9de2-489e-be4a-8caf095a9c92 | Nature & Significance of Management |  |  | no | Assertion: A well-formulated plan reduces uncertainty in future operations. Reason: A plan converts all unpredictable e... | -
+48 | cf7a26b5-5eda-46d1-849b-6926c751a9d0 | Planning |  |  | no | Assertion: Planning inherently eliminates the need for control within an organization. Reason: Control mechanisms are p... | -
+49 | 0ecc2625-1ddf-401e-b60f-3ad17059aceb | Directing |  |  | no | Which statement best distinguishes informal communication from formal communication in directing? | -
+50 | d553c3f8-77f9-4773-b981-0fee810db9cf | Nature & Significance of Management |  |  | no | A growing firm must choose between functional departmentalisation and product departmentalisation. Which of the followi... | -

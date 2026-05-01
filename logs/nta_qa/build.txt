@@ -1,0 +1,107 @@
+
+> mockmob@0.1.0 build
+> next build
+
+▲ Next.js 16.2.4 (Turbopack)
+- Environments: .env.local
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 7.6s
+  Running TypeScript ...
+  Finished TypeScript in 191ms ...
+  Collecting page data using 15 workers ...
+  Generating static pages using 15 workers (0/29) ...
+  Generating static pages using 15 workers (7/29) 
+  Generating static pages using 15 workers (14/29) 
+  Generating static pages using 15 workers (21/29) 
+✓ Generating static pages using 15 workers (29/29) in 571ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /admin
+├ ƒ /admission-compass
+├ ƒ /analytics
+├ ƒ /api/admin/creators
+├ ƒ /api/admin/creators/[id]
+├ ƒ /api/admin/orders
+├ ƒ /api/admin/overview
+├ ƒ /api/admin/payouts
+├ ƒ /api/ai/actions/execute
+├ ƒ /api/ai/context
+├ ƒ /api/ai/credits
+├ ƒ /api/ai/mentor/chat
+├ ƒ /api/ai/mentor/history
+├ ƒ /api/ai/mentor/local
+├ ƒ /api/ai/mentor/session/new
+├ ƒ /api/ai/rival/start
+├ ƒ /api/ai/rival/submit
+├ ƒ /api/ai/usage
+├ ƒ /api/analytics
+├ ƒ /api/attempts
+├ ƒ /api/attempts/[id]
+├ ƒ /api/auth/[...nextauth]
+├ ƒ /api/auth/me
+├ ƒ /api/billing/webhook
+├ ƒ /api/bookmarks
+├ ƒ /api/chapters
+├ ƒ /api/coming-soon/unlock
+├ ƒ /api/creator/me
+├ ƒ /api/credits/grant
+├ ƒ /api/credits/spend
+├ ƒ /api/internal/moderation/process
+├ ƒ /api/internal/moderation/recover
+├ ƒ /api/leaderboard
+├ ƒ /api/learning/summary
+├ ƒ /api/questions
+├ ƒ /api/questions/[id]/interact
+├ ƒ /api/questions/[id]/vote
+├ ƒ /api/questions/explore
+├ ƒ /api/questions/feed
+├ ƒ /api/questions/mine
+├ ƒ /api/questions/moderate
+├ ƒ /api/questions/pending
+├ ƒ /api/questions/upload
+├ ƒ /api/send-email
+├ ƒ /api/stats
+├ ƒ /api/subjects
+├ ƒ /api/users/[id]
+├ ƒ /auth/callback
+├ ○ /coming-soon
+├ ƒ /create-subscription
+├ ƒ /creator
+├ ○ /cuet-mock-test-free
+├ ○ /cuet-practice-tests-online
+├ ○ /cuet-previous-year-questions
+├ ƒ /dashboard
+├ ƒ /explore
+├ ○ /features
+├ ƒ /leaderboard
+├ ƒ /login
+├ ƒ /mentor
+├ ƒ /moderation
+├ ƒ /my-uploads
+├ ƒ /onboarding
+├ ƒ /pricing
+├ ○ /privacy
+├ ƒ /profile
+├ ○ /refunds
+├ ƒ /result/[id]
+├ ƒ /rival
+├ ○ /robots.txt
+├ ƒ /saved
+├ ƒ /signup
+├ ○ /sitemap.xml
+├ ○ /terms
+├ ƒ /test
+├ ƒ /upload
+├ ƒ /verify-payment
+└ ƒ /webhook
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

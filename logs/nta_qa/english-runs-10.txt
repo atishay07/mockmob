@@ -1,0 +1,566 @@
+
+> mockmob@0.1.0 nta:sample
+> node --use-system-ca scripts/nta-sample.mjs --subject=english --runs=10
+
+
+## Loaded 388 candidate rows for english
+
+# NTA sample subject=english run=1
+selected=50/50 canBuild50=true durationMinutes=60
+topRejectReasons=[{"reason":"orphan_passage_question","count":212},{"reason":"generic_english_assertion_reason_without_context","count":13},{"reason":"question_missing_or_too_short","count":9},{"reason":"generic_textbook_one_liner","count":8}]
+idx | id | chapter | type | passage_group_id | real_passage | text | warnings
+---: | --- | --- | --- | --- | --- | --- | ---
+1 | 459ac193-3644-48d5-89d8-f08be64d1b49 | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. Green roofs and reflective materials can mitigate th... | -
+2 | 759c3916-a134-45b1-a8cc-98e347c54a6d | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. The ease of sharing information online has also ampl... | -
+3 | c13f9a2e-f5d8-4e2c-8c96-b8b1ce0656e1 | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. Social media algorithms are designed to maximize eng... | -
+4 | c13f86d8-8961-4c54-bb8f-b06d6bd8c73e | Correct Word Usage |  |  | no | Select the sentence that shows correct subject-verb agreement with a collective noun used as a single unit: | -
+5 | 17508e4a-7052-4221-a4c2-1e5c3647b950 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. a useful book Q. I found R. at the fair S. yesterday | -
+6 | 6a67f64a-48a9-4388-bd17-318fe2f31d4c | Vocabulary |  |  | no | Statement I: The word 'benevolent' implies a desire to do good. Statement II: 'Malevolent' means having a kind disposit... | -
+7 | 9778589e-2792-43ef-b432-0ac706b51551 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. because it was raining Q. we stayed indoors R. the whole ... | -
+8 | 9e237220-91a1-4575-8f1c-f2810eed2702 | Match the Following |  |  | no | Match List I (prose technique) with List II (how it supports characterization). List I: 1 free indirect discourse, 2 ep... | -
+9 | 14bddd76-de4f-4ae3-9fb6-18840332d62f | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. for the meeting Q. arrived late R. due to traffic S. the ... | -
+10 | c0c84c23-1c56-4714-ba01-d78faa4b7502 | Match the Following |  |  | no | Match List I (note-making elements) with List II (purpose). List I: 1 Headings 2 Abbreviations 3 Indicators (arrows, st... | -
+11 | f5d63bee-d9e2-42a3-86b8-27a46011763d | Match the Following |  |  | no | Match List I with List II: List I (Text Feature) (a) Heading (b) Caption List II (Purpose) (i) Explains an image (ii) I... | -
+12 | 4ce849e0-9e45-43fa-a6b4-3a0cc44246c3 | Match the Following |  |  | no | Match List I (cohesive device) with List II (primary function). List I: 1 Repetition 2 Pronoun referencing 3 Transition... | -
+13 | 7c7042be-3694-473c-88d0-ea94e1272313 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. in the garden Q. were playing R. the children S. happily | -
+14 | 9ab866f3-fc98-4b38-8332-d89ba83e7989 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. the school bus Q. reached the stop R. before 7 a.m. S. ev... | -
+15 | a8211db0-f696-445e-b45d-38e38fdd29ce | Match the Following |  |  | no | Match List I (poetic device) with List II (example). List I: 1 Metonymy, 2 Synecdoche, 3 Metaphor, 4 Personification. L... | -
+16 | 48e7af04-5458-45aa-9a73-1a843aa6a672 | Correct Word Usage |  |  | no | Case: A four-line stanza uses short lines that break sentences across lines (enjambment) and also contains mid-line pun... | -
+17 | 3fe710b3-a248-4720-bbc0-13831d73f498 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. after dinner Q. my grandfather R. tells us stories S. eve... | -
+18 | 86749dec-42ff-4cd8-b867-7792416c89f4 | Vocabulary |  |  | no | Assertion: A strong vocabulary enhances reading fluency. Reason: Knowing more words reduces the need to pause and decod... | -
+19 | b0ca1a8c-d7c8-4f55-9845-18b332b08de1 | Vocabulary |  |  | no | In the sentence 'The storm finally began to abate', which word is the closest synonym in meaning? | -
+20 | 8e8da505-f073-4f67-9b14-2a18cc44616b | Correct Word Usage |  |  | no | Assertion: Ordering points chronologically in notes always improves clarity. Reason: Chronological order presents event... | -
+21 | e4d3fd44-2ec6-4add-b552-b97d3287f310 | Vocabulary |  |  | no | Assertion: Verbal irony occurs when a speaker's words mean the opposite of their literal sense. Reason: Sarcasm is iden... | -
+22 | ee01ba25-13c8-4dc9-a651-5dca155c0020 | Correct Word Usage |  |  | no | Choose the sentence that correctly uses commas to avoid an unintended meaning: | -
+23 | 7c23be75-e553-40ea-9982-a88456f9e15f | Correct Word Usage |  |  | no | Assertion: A semicolon can join two independent clauses without a coordinating conjunction. Reason: A semicolon is used... | -
+24 | deb270a1-f776-4f76-9338-088348552105 | Match the Following |  |  | no | Match List I (figure of speech) with List II (definition). List I: A Metaphor, B Hyperbole, C Oxymoron, D Onomatopoeia.... | -
+25 | ec6fbfb4-32c2-4bf1-8434-54c8005e0b66 | Vocabulary |  |  | no | A student understands that "un-" often means "not" or "opposite of." When they see the word "unhappy," they correctly d... | -
+26 | 89e01410-8940-4ece-a973-f1e88aa58716 | Match the Following |  |  | no | Match List I with List II and select the correct answer using the code given below: List I (Figure of Speech) A. Allite... | -
+27 | b4a3fbae-4a93-49f6-be47-83b7000cd8e8 | Match the Following |  |  | no | Match List I with List II: List I (Reading Technique) (a) Skimming (b) Scanning List II (Purpose) (i) Finding specific ... | -
+28 | 6e825b79-e434-487d-b7e6-916d19682123 | Vocabulary |  |  | no | Which word best conveys a somber mood in the context of poetry describing an approaching evening? | -
+29 | b261cbe2-4022-4413-b7b4-a1cc97c67306 | Match the Following |  |  | no | Match the words in List I to the dominant connotative label in List II. List I: (1) svelte, (2) scrawny, (3) slender, (... | -
+30 | 361f280a-bbd8-4aab-b0c4-22b7adbc85e0 | Match the Following |  |  | no | Match List I (poetic term) with List II (brief definition). List I: A Enjambment, B Caesura, C Refrain, D Stanza. List ... | -
+31 | 88051c7e-8da6-4b61-a35a-ec279375309f | Match the Following |  |  | no | Match List I (Sentence type) with List II (Example): List I: 1 Declarative 2 Interrogative 3 Imperative 4 Exclamatory L... | -
+32 | 7c67f9ec-3490-476e-89d2-eb65c4d100f5 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. for the test Q. Riya studied R. all night S. carefully | -
+33 | c8f2eeea-e39f-4272-9ab9-5cd9469c84b2 | Match the Following |  |  | no | Match List I (types of prose) with List II (primary purpose). List I: 1 Narrative 2 Expository 3 Persuasive 4 Descripti... | -
+34 | 84b8368e-d843-4f26-9856-1612b2378f8a | Match the Following |  |  | no | Match List I with List II: List I (Note-making Tool) (a) Pen and paper (b) Digital note app List II (Characteristic) (i... | -
+35 | 33bd9b71-7c15-48ee-b3e2-2ab432e7c11c | Correct Word Usage |  |  | no | In a formal invitation, which word is more appropriate to request something? | -
+36 | 70e0a493-aab4-4ff5-b9f4-5c7f4a0af9da | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. the lights went out Q. during the storm R. suddenly S. la... | -
+37 | 9efa1a52-50b1-4f97-823a-2bc17f07a327 | Vocabulary |  |  | no | Which prefix correctly forms the opposite of the word active? | -
+38 | 2288e437-30c7-499a-b159-075843ddb1cb | Match the Following |  |  | no | Match List I (paragraph function) with List II (typical signalling phrase). List I: 1 topic sentence introducing contra... | -
+39 | 99cb445e-7e75-41a0-bb8b-482c074dc97c | Match the Following |  |  | no | Match List I (clause type) with List II (example). List I: 1 Restrictive relative clause, 2 Non-restrictive relative cl... | -
+40 | 3137d051-f15e-4257-b2ed-36b35fff097d | Correct Word Usage |  |  | no | Assertion: An inference drawn by a reader must be strictly required by the text's stated facts. Reason: An assumption i... | -
+41 | f10b30f1-ae13-4b4c-820c-50a151a166da | Correct Word Usage |  |  | no | Assertion: In counterfactual conditional clauses (contrary-to-fact), English commonly uses 'were' after 'if' regardless... | -
+42 | 6375cecd-6481-4d04-a64e-857f5b23c063 | Match the Following |  |  | no | Match List I (left) — stylistic device — with List II (right) — typical immediate comprehension effect. List I: (1) Ana... | -
+43 | 2a3d20f1-d662-4b18-bcf0-3093c411ed15 | Match the Following |  |  | no | Match the following figures of speech with their definitions: List I: (A) Alliteration (B) Onomatopoeia (C) Oxymoron Li... | -
+44 | cd08a82e-f3b7-42c2-86c4-5c11ccd4181c | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. Public policy communication often fails when it uses... | -
+45 | 6136c491-8f26-4f3b-a17d-f241f8e77ba6 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. The inundation of information can overwhelm users an... | -
+46 | e1c7375c-5a3c-4859-a728-a17d551e3ddb | Correct Word Usage |  |  | no | Choose the sentence that demonstrates correct parallel structure: | -
+47 | e5a2f9d8-57e4-40d2-81c9-7d2fb6281c14 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. Scientific temper encourages questioning and evidenc... | -
+48 | 13aea4d5-168d-4dc0-92e4-7440d7989858 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. The accelerating effects of climate change have made... | -
+49 | d8602438-3f30-40e2-a0cf-f9d2a56b47e2 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. The rise of remote work has blurred the boundaries b... | -
+50 | 481a3d20-1eff-4dd7-a699-a406f8c0f363 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. This fragmentation of attention has been linked to i... | -
+
+# NTA sample subject=english run=2
+selected=50/50 canBuild50=true durationMinutes=60
+topRejectReasons=[{"reason":"orphan_passage_question","count":212},{"reason":"generic_english_assertion_reason_without_context","count":13},{"reason":"question_missing_or_too_short","count":9},{"reason":"generic_textbook_one_liner","count":8}]
+idx | id | chapter | type | passage_group_id | real_passage | text | warnings
+---: | --- | --- | --- | --- | --- | --- | ---
+1 | c13f9a2e-f5d8-4e2c-8c96-b8b1ce0656e1 | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. Social media algorithms are designed to maximize eng... | -
+2 | 759c3916-a134-45b1-a8cc-98e347c54a6d | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. The ease of sharing information online has also ampl... | -
+3 | 459ac193-3644-48d5-89d8-f08be64d1b49 | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. Green roofs and reflective materials can mitigate th... | -
+4 | 2a3d20f1-d662-4b18-bcf0-3093c411ed15 | Match the Following |  |  | no | Match the following figures of speech with their definitions: List I: (A) Alliteration (B) Onomatopoeia (C) Oxymoron Li... | -
+5 | 9e237220-91a1-4575-8f1c-f2810eed2702 | Match the Following |  |  | no | Match List I (prose technique) with List II (how it supports characterization). List I: 1 free indirect discourse, 2 ep... | -
+6 | 4ce849e0-9e45-43fa-a6b4-3a0cc44246c3 | Match the Following |  |  | no | Match List I (cohesive device) with List II (primary function). List I: 1 Repetition 2 Pronoun referencing 3 Transition... | -
+7 | b0ca1a8c-d7c8-4f55-9845-18b332b08de1 | Vocabulary |  |  | no | In the sentence 'The storm finally began to abate', which word is the closest synonym in meaning? | -
+8 | 99cb445e-7e75-41a0-bb8b-482c074dc97c | Match the Following |  |  | no | Match List I (clause type) with List II (example). List I: 1 Restrictive relative clause, 2 Non-restrictive relative cl... | -
+9 | f5d63bee-d9e2-42a3-86b8-27a46011763d | Match the Following |  |  | no | Match List I with List II: List I (Text Feature) (a) Heading (b) Caption List II (Purpose) (i) Explains an image (ii) I... | -
+10 | 6375cecd-6481-4d04-a64e-857f5b23c063 | Match the Following |  |  | no | Match List I (left) — stylistic device — with List II (right) — typical immediate comprehension effect. List I: (1) Ana... | -
+11 | 7c23be75-e553-40ea-9982-a88456f9e15f | Correct Word Usage |  |  | no | Assertion: A semicolon can join two independent clauses without a coordinating conjunction. Reason: A semicolon is used... | -
+12 | 6a67f64a-48a9-4388-bd17-318fe2f31d4c | Vocabulary |  |  | no | Statement I: The word 'benevolent' implies a desire to do good. Statement II: 'Malevolent' means having a kind disposit... | -
+13 | 70e0a493-aab4-4ff5-b9f4-5c7f4a0af9da | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. the lights went out Q. during the storm R. suddenly S. la... | -
+14 | c13f86d8-8961-4c54-bb8f-b06d6bd8c73e | Correct Word Usage |  |  | no | Select the sentence that shows correct subject-verb agreement with a collective noun used as a single unit: | -
+15 | 48e7af04-5458-45aa-9a73-1a843aa6a672 | Correct Word Usage |  |  | no | Case: A four-line stanza uses short lines that break sentences across lines (enjambment) and also contains mid-line pun... | -
+16 | 9efa1a52-50b1-4f97-823a-2bc17f07a327 | Vocabulary |  |  | no | Which prefix correctly forms the opposite of the word active? | -
+17 | f10b30f1-ae13-4b4c-820c-50a151a166da | Correct Word Usage |  |  | no | Assertion: In counterfactual conditional clauses (contrary-to-fact), English commonly uses 'were' after 'if' regardless... | -
+18 | ee01ba25-13c8-4dc9-a651-5dca155c0020 | Correct Word Usage |  |  | no | Choose the sentence that correctly uses commas to avoid an unintended meaning: | -
+19 | b261cbe2-4022-4413-b7b4-a1cc97c67306 | Match the Following |  |  | no | Match the words in List I to the dominant connotative label in List II. List I: (1) svelte, (2) scrawny, (3) slender, (... | -
+20 | 88051c7e-8da6-4b61-a35a-ec279375309f | Match the Following |  |  | no | Match List I (Sentence type) with List II (Example): List I: 1 Declarative 2 Interrogative 3 Imperative 4 Exclamatory L... | -
+21 | 3fe710b3-a248-4720-bbc0-13831d73f498 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. after dinner Q. my grandfather R. tells us stories S. eve... | -
+22 | c8f2eeea-e39f-4272-9ab9-5cd9469c84b2 | Match the Following |  |  | no | Match List I (types of prose) with List II (primary purpose). List I: 1 Narrative 2 Expository 3 Persuasive 4 Descripti... | -
+23 | 6e825b79-e434-487d-b7e6-916d19682123 | Vocabulary |  |  | no | Which word best conveys a somber mood in the context of poetry describing an approaching evening? | -
+24 | 7c7042be-3694-473c-88d0-ea94e1272313 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. in the garden Q. were playing R. the children S. happily | -
+25 | 17508e4a-7052-4221-a4c2-1e5c3647b950 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. a useful book Q. I found R. at the fair S. yesterday | -
+26 | b4a3fbae-4a93-49f6-be47-83b7000cd8e8 | Match the Following |  |  | no | Match List I with List II: List I (Reading Technique) (a) Skimming (b) Scanning List II (Purpose) (i) Finding specific ... | -
+27 | 9778589e-2792-43ef-b432-0ac706b51551 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. because it was raining Q. we stayed indoors R. the whole ... | -
+28 | 361f280a-bbd8-4aab-b0c4-22b7adbc85e0 | Match the Following |  |  | no | Match List I (poetic term) with List II (brief definition). List I: A Enjambment, B Caesura, C Refrain, D Stanza. List ... | -
+29 | 9ab866f3-fc98-4b38-8332-d89ba83e7989 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. the school bus Q. reached the stop R. before 7 a.m. S. ev... | -
+30 | 2288e437-30c7-499a-b159-075843ddb1cb | Match the Following |  |  | no | Match List I (paragraph function) with List II (typical signalling phrase). List I: 1 topic sentence introducing contra... | -
+31 | ec6fbfb4-32c2-4bf1-8434-54c8005e0b66 | Vocabulary |  |  | no | A student understands that "un-" often means "not" or "opposite of." When they see the word "unhappy," they correctly d... | -
+32 | deb270a1-f776-4f76-9338-088348552105 | Match the Following |  |  | no | Match List I (figure of speech) with List II (definition). List I: A Metaphor, B Hyperbole, C Oxymoron, D Onomatopoeia.... | -
+33 | 14bddd76-de4f-4ae3-9fb6-18840332d62f | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. for the meeting Q. arrived late R. due to traffic S. the ... | -
+34 | e4d3fd44-2ec6-4add-b552-b97d3287f310 | Vocabulary |  |  | no | Assertion: Verbal irony occurs when a speaker's words mean the opposite of their literal sense. Reason: Sarcasm is iden... | -
+35 | 8e8da505-f073-4f67-9b14-2a18cc44616b | Correct Word Usage |  |  | no | Assertion: Ordering points chronologically in notes always improves clarity. Reason: Chronological order presents event... | -
+36 | c0c84c23-1c56-4714-ba01-d78faa4b7502 | Match the Following |  |  | no | Match List I (note-making elements) with List II (purpose). List I: 1 Headings 2 Abbreviations 3 Indicators (arrows, st... | -
+37 | 89e01410-8940-4ece-a973-f1e88aa58716 | Match the Following |  |  | no | Match List I with List II and select the correct answer using the code given below: List I (Figure of Speech) A. Allite... | -
+38 | 7c67f9ec-3490-476e-89d2-eb65c4d100f5 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. for the test Q. Riya studied R. all night S. carefully | -
+39 | 33bd9b71-7c15-48ee-b3e2-2ab432e7c11c | Correct Word Usage |  |  | no | In a formal invitation, which word is more appropriate to request something? | -
+40 | a8211db0-f696-445e-b45d-38e38fdd29ce | Match the Following |  |  | no | Match List I (poetic device) with List II (example). List I: 1 Metonymy, 2 Synecdoche, 3 Metaphor, 4 Personification. L... | -
+41 | 86749dec-42ff-4cd8-b867-7792416c89f4 | Vocabulary |  |  | no | Assertion: A strong vocabulary enhances reading fluency. Reason: Knowing more words reduces the need to pause and decod... | -
+42 | 84b8368e-d843-4f26-9856-1612b2378f8a | Match the Following |  |  | no | Match List I with List II: List I (Note-making Tool) (a) Pen and paper (b) Digital note app List II (Characteristic) (i... | -
+43 | 3137d051-f15e-4257-b2ed-36b35fff097d | Correct Word Usage |  |  | no | Assertion: An inference drawn by a reader must be strictly required by the text's stated facts. Reason: An assumption i... | -
+44 | 026f366a-b507-4d21-83d2-e76cf97eb315 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. This often stems from a lack of coordination between... | -
+45 | e8fbe22b-5a44-4f1f-a516-36d4af15941f | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. Urban areas are increasingly becoming centers of inn... | -
+46 | e1c7375c-5a3c-4859-a728-a17d551e3ddb | Correct Word Usage |  |  | no | Choose the sentence that demonstrates correct parallel structure: | -
+47 | 6136c491-8f26-4f3b-a17d-f241f8e77ba6 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. The inundation of information can overwhelm users an... | -
+48 | df88572a-eaef-446f-b572-7da98eae36b9 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. This expansion often encroaches on natural habitats.... | -
+49 | 9e7ab76f-627d-4d33-ad29-be3ec33d97c7 | Correct Word Usage |  |  | no | Choose the sentence with the correct subject-verb agreement. | -
+50 | e5a2f9d8-57e4-40d2-81c9-7d2fb6281c14 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. Scientific temper encourages questioning and evidenc... | -
+
+# NTA sample subject=english run=3
+selected=50/50 canBuild50=true durationMinutes=60
+topRejectReasons=[{"reason":"orphan_passage_question","count":212},{"reason":"generic_english_assertion_reason_without_context","count":13},{"reason":"question_missing_or_too_short","count":9},{"reason":"generic_textbook_one_liner","count":8}]
+idx | id | chapter | type | passage_group_id | real_passage | text | warnings
+---: | --- | --- | --- | --- | --- | --- | ---
+1 | 459ac193-3644-48d5-89d8-f08be64d1b49 | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. Green roofs and reflective materials can mitigate th... | -
+2 | 759c3916-a134-45b1-a8cc-98e347c54a6d | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. The ease of sharing information online has also ampl... | -
+3 | c13f9a2e-f5d8-4e2c-8c96-b8b1ce0656e1 | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. Social media algorithms are designed to maximize eng... | -
+4 | 6a67f64a-48a9-4388-bd17-318fe2f31d4c | Vocabulary |  |  | no | Statement I: The word 'benevolent' implies a desire to do good. Statement II: 'Malevolent' means having a kind disposit... | -
+5 | 7c23be75-e553-40ea-9982-a88456f9e15f | Correct Word Usage |  |  | no | Assertion: A semicolon can join two independent clauses without a coordinating conjunction. Reason: A semicolon is used... | -
+6 | 6e825b79-e434-487d-b7e6-916d19682123 | Vocabulary |  |  | no | Which word best conveys a somber mood in the context of poetry describing an approaching evening? | -
+7 | f5d63bee-d9e2-42a3-86b8-27a46011763d | Match the Following |  |  | no | Match List I with List II: List I (Text Feature) (a) Heading (b) Caption List II (Purpose) (i) Explains an image (ii) I... | -
+8 | 361f280a-bbd8-4aab-b0c4-22b7adbc85e0 | Match the Following |  |  | no | Match List I (poetic term) with List II (brief definition). List I: A Enjambment, B Caesura, C Refrain, D Stanza. List ... | -
+9 | 9778589e-2792-43ef-b432-0ac706b51551 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. because it was raining Q. we stayed indoors R. the whole ... | -
+10 | 9efa1a52-50b1-4f97-823a-2bc17f07a327 | Vocabulary |  |  | no | Which prefix correctly forms the opposite of the word active? | -
+11 | a8211db0-f696-445e-b45d-38e38fdd29ce | Match the Following |  |  | no | Match List I (poetic device) with List II (example). List I: 1 Metonymy, 2 Synecdoche, 3 Metaphor, 4 Personification. L... | -
+12 | e4d3fd44-2ec6-4add-b552-b97d3287f310 | Vocabulary |  |  | no | Assertion: Verbal irony occurs when a speaker's words mean the opposite of their literal sense. Reason: Sarcasm is iden... | -
+13 | f10b30f1-ae13-4b4c-820c-50a151a166da | Correct Word Usage |  |  | no | Assertion: In counterfactual conditional clauses (contrary-to-fact), English commonly uses 'were' after 'if' regardless... | -
+14 | 88051c7e-8da6-4b61-a35a-ec279375309f | Match the Following |  |  | no | Match List I (Sentence type) with List II (Example): List I: 1 Declarative 2 Interrogative 3 Imperative 4 Exclamatory L... | -
+15 | c13f86d8-8961-4c54-bb8f-b06d6bd8c73e | Correct Word Usage |  |  | no | Select the sentence that shows correct subject-verb agreement with a collective noun used as a single unit: | -
+16 | c8f2eeea-e39f-4272-9ab9-5cd9469c84b2 | Match the Following |  |  | no | Match List I (types of prose) with List II (primary purpose). List I: 1 Narrative 2 Expository 3 Persuasive 4 Descripti... | -
+17 | 70e0a493-aab4-4ff5-b9f4-5c7f4a0af9da | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. the lights went out Q. during the storm R. suddenly S. la... | -
+18 | 33bd9b71-7c15-48ee-b3e2-2ab432e7c11c | Correct Word Usage |  |  | no | In a formal invitation, which word is more appropriate to request something? | -
+19 | 48e7af04-5458-45aa-9a73-1a843aa6a672 | Correct Word Usage |  |  | no | Case: A four-line stanza uses short lines that break sentences across lines (enjambment) and also contains mid-line pun... | -
+20 | 9ab866f3-fc98-4b38-8332-d89ba83e7989 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. the school bus Q. reached the stop R. before 7 a.m. S. ev... | -
+21 | 17508e4a-7052-4221-a4c2-1e5c3647b950 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. a useful book Q. I found R. at the fair S. yesterday | -
+22 | 2288e437-30c7-499a-b159-075843ddb1cb | Match the Following |  |  | no | Match List I (paragraph function) with List II (typical signalling phrase). List I: 1 topic sentence introducing contra... | -
+23 | 7c67f9ec-3490-476e-89d2-eb65c4d100f5 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. for the test Q. Riya studied R. all night S. carefully | -
+24 | b0ca1a8c-d7c8-4f55-9845-18b332b08de1 | Vocabulary |  |  | no | In the sentence 'The storm finally began to abate', which word is the closest synonym in meaning? | -
+25 | 86749dec-42ff-4cd8-b867-7792416c89f4 | Vocabulary |  |  | no | Assertion: A strong vocabulary enhances reading fluency. Reason: Knowing more words reduces the need to pause and decod... | -
+26 | 8e8da505-f073-4f67-9b14-2a18cc44616b | Correct Word Usage |  |  | no | Assertion: Ordering points chronologically in notes always improves clarity. Reason: Chronological order presents event... | -
+27 | 3137d051-f15e-4257-b2ed-36b35fff097d | Correct Word Usage |  |  | no | Assertion: An inference drawn by a reader must be strictly required by the text's stated facts. Reason: An assumption i... | -
+28 | 2a3d20f1-d662-4b18-bcf0-3093c411ed15 | Match the Following |  |  | no | Match the following figures of speech with their definitions: List I: (A) Alliteration (B) Onomatopoeia (C) Oxymoron Li... | -
+29 | 3fe710b3-a248-4720-bbc0-13831d73f498 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. after dinner Q. my grandfather R. tells us stories S. eve... | -
+30 | b4a3fbae-4a93-49f6-be47-83b7000cd8e8 | Match the Following |  |  | no | Match List I with List II: List I (Reading Technique) (a) Skimming (b) Scanning List II (Purpose) (i) Finding specific ... | -
+31 | 7c7042be-3694-473c-88d0-ea94e1272313 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. in the garden Q. were playing R. the children S. happily | -
+32 | 4ce849e0-9e45-43fa-a6b4-3a0cc44246c3 | Match the Following |  |  | no | Match List I (cohesive device) with List II (primary function). List I: 1 Repetition 2 Pronoun referencing 3 Transition... | -
+33 | 99cb445e-7e75-41a0-bb8b-482c074dc97c | Match the Following |  |  | no | Match List I (clause type) with List II (example). List I: 1 Restrictive relative clause, 2 Non-restrictive relative cl... | -
+34 | deb270a1-f776-4f76-9338-088348552105 | Match the Following |  |  | no | Match List I (figure of speech) with List II (definition). List I: A Metaphor, B Hyperbole, C Oxymoron, D Onomatopoeia.... | -
+35 | 84b8368e-d843-4f26-9856-1612b2378f8a | Match the Following |  |  | no | Match List I with List II: List I (Note-making Tool) (a) Pen and paper (b) Digital note app List II (Characteristic) (i... | -
+36 | ec6fbfb4-32c2-4bf1-8434-54c8005e0b66 | Vocabulary |  |  | no | A student understands that "un-" often means "not" or "opposite of." When they see the word "unhappy," they correctly d... | -
+37 | c0c84c23-1c56-4714-ba01-d78faa4b7502 | Match the Following |  |  | no | Match List I (note-making elements) with List II (purpose). List I: 1 Headings 2 Abbreviations 3 Indicators (arrows, st... | -
+38 | b261cbe2-4022-4413-b7b4-a1cc97c67306 | Match the Following |  |  | no | Match the words in List I to the dominant connotative label in List II. List I: (1) svelte, (2) scrawny, (3) slender, (... | -
+39 | 89e01410-8940-4ece-a973-f1e88aa58716 | Match the Following |  |  | no | Match List I with List II and select the correct answer using the code given below: List I (Figure of Speech) A. Allite... | -
+40 | 6375cecd-6481-4d04-a64e-857f5b23c063 | Match the Following |  |  | no | Match List I (left) — stylistic device — with List II (right) — typical immediate comprehension effect. List I: (1) Ana... | -
+41 | 9e237220-91a1-4575-8f1c-f2810eed2702 | Match the Following |  |  | no | Match List I (prose technique) with List II (how it supports characterization). List I: 1 free indirect discourse, 2 ep... | -
+42 | 14bddd76-de4f-4ae3-9fb6-18840332d62f | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. for the meeting Q. arrived late R. due to traffic S. the ... | -
+43 | ee01ba25-13c8-4dc9-a651-5dca155c0020 | Correct Word Usage |  |  | no | Choose the sentence that correctly uses commas to avoid an unintended meaning: | -
+44 | 05fac976-9fae-4d48-84f5-9efdc640ae30 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. However, technical jargon can alienate the very peop... | -
+45 | 3d7dc49d-16a0-47e5-8154-4aba43d56042 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. Teaching critical evaluation skills has therefore be... | -
+46 | b828abf0-d2bf-4797-85b5-6dfad65729c2 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. However, the quality of engagement with long-form te... | -
+47 | 4ecddcb4-4370-4c78-b371-8db5f06a3b17 | Correct Word Usage |  |  | no | Which sentence correctly uses a semicolon? | -
+48 | df88572a-eaef-446f-b572-7da98eae36b9 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. This expansion often encroaches on natural habitats.... | -
+49 | e1c7375c-5a3c-4859-a728-a17d551e3ddb | Correct Word Usage |  |  | no | Choose the sentence that demonstrates correct parallel structure: | -
+50 | d8602438-3f30-40e2-a0cf-f9d2a56b47e2 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. The rise of remote work has blurred the boundaries b... | -
+
+# NTA sample subject=english run=4
+selected=50/50 canBuild50=true durationMinutes=60
+topRejectReasons=[{"reason":"orphan_passage_question","count":212},{"reason":"generic_english_assertion_reason_without_context","count":13},{"reason":"question_missing_or_too_short","count":9},{"reason":"generic_textbook_one_liner","count":8}]
+idx | id | chapter | type | passage_group_id | real_passage | text | warnings
+---: | --- | --- | --- | --- | --- | --- | ---
+1 | 459ac193-3644-48d5-89d8-f08be64d1b49 | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. Green roofs and reflective materials can mitigate th... | -
+2 | 759c3916-a134-45b1-a8cc-98e347c54a6d | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. The ease of sharing information online has also ampl... | -
+3 | c13f9a2e-f5d8-4e2c-8c96-b8b1ce0656e1 | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. Social media algorithms are designed to maximize eng... | -
+4 | ee01ba25-13c8-4dc9-a651-5dca155c0020 | Correct Word Usage |  |  | no | Choose the sentence that correctly uses commas to avoid an unintended meaning: | -
+5 | ec6fbfb4-32c2-4bf1-8434-54c8005e0b66 | Vocabulary |  |  | no | A student understands that "un-" often means "not" or "opposite of." When they see the word "unhappy," they correctly d... | -
+6 | 88051c7e-8da6-4b61-a35a-ec279375309f | Match the Following |  |  | no | Match List I (Sentence type) with List II (Example): List I: 1 Declarative 2 Interrogative 3 Imperative 4 Exclamatory L... | -
+7 | 33bd9b71-7c15-48ee-b3e2-2ab432e7c11c | Correct Word Usage |  |  | no | In a formal invitation, which word is more appropriate to request something? | -
+8 | 4ce849e0-9e45-43fa-a6b4-3a0cc44246c3 | Match the Following |  |  | no | Match List I (cohesive device) with List II (primary function). List I: 1 Repetition 2 Pronoun referencing 3 Transition... | -
+9 | 6375cecd-6481-4d04-a64e-857f5b23c063 | Match the Following |  |  | no | Match List I (left) — stylistic device — with List II (right) — typical immediate comprehension effect. List I: (1) Ana... | -
+10 | 3fe710b3-a248-4720-bbc0-13831d73f498 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. after dinner Q. my grandfather R. tells us stories S. eve... | -
+11 | b0ca1a8c-d7c8-4f55-9845-18b332b08de1 | Vocabulary |  |  | no | In the sentence 'The storm finally began to abate', which word is the closest synonym in meaning? | -
+12 | 48e7af04-5458-45aa-9a73-1a843aa6a672 | Correct Word Usage |  |  | no | Case: A four-line stanza uses short lines that break sentences across lines (enjambment) and also contains mid-line pun... | -
+13 | 361f280a-bbd8-4aab-b0c4-22b7adbc85e0 | Match the Following |  |  | no | Match List I (poetic term) with List II (brief definition). List I: A Enjambment, B Caesura, C Refrain, D Stanza. List ... | -
+14 | 86749dec-42ff-4cd8-b867-7792416c89f4 | Vocabulary |  |  | no | Assertion: A strong vocabulary enhances reading fluency. Reason: Knowing more words reduces the need to pause and decod... | -
+15 | deb270a1-f776-4f76-9338-088348552105 | Match the Following |  |  | no | Match List I (figure of speech) with List II (definition). List I: A Metaphor, B Hyperbole, C Oxymoron, D Onomatopoeia.... | -
+16 | c0c84c23-1c56-4714-ba01-d78faa4b7502 | Match the Following |  |  | no | Match List I (note-making elements) with List II (purpose). List I: 1 Headings 2 Abbreviations 3 Indicators (arrows, st... | -
+17 | 9778589e-2792-43ef-b432-0ac706b51551 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. because it was raining Q. we stayed indoors R. the whole ... | -
+18 | b4a3fbae-4a93-49f6-be47-83b7000cd8e8 | Match the Following |  |  | no | Match List I with List II: List I (Reading Technique) (a) Skimming (b) Scanning List II (Purpose) (i) Finding specific ... | -
+19 | 9ab866f3-fc98-4b38-8332-d89ba83e7989 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. the school bus Q. reached the stop R. before 7 a.m. S. ev... | -
+20 | f5d63bee-d9e2-42a3-86b8-27a46011763d | Match the Following |  |  | no | Match List I with List II: List I (Text Feature) (a) Heading (b) Caption List II (Purpose) (i) Explains an image (ii) I... | -
+21 | 9efa1a52-50b1-4f97-823a-2bc17f07a327 | Vocabulary |  |  | no | Which prefix correctly forms the opposite of the word active? | -
+22 | 6a67f64a-48a9-4388-bd17-318fe2f31d4c | Vocabulary |  |  | no | Statement I: The word 'benevolent' implies a desire to do good. Statement II: 'Malevolent' means having a kind disposit... | -
+23 | f10b30f1-ae13-4b4c-820c-50a151a166da | Correct Word Usage |  |  | no | Assertion: In counterfactual conditional clauses (contrary-to-fact), English commonly uses 'were' after 'if' regardless... | -
+24 | 2a3d20f1-d662-4b18-bcf0-3093c411ed15 | Match the Following |  |  | no | Match the following figures of speech with their definitions: List I: (A) Alliteration (B) Onomatopoeia (C) Oxymoron Li... | -
+25 | 99cb445e-7e75-41a0-bb8b-482c074dc97c | Match the Following |  |  | no | Match List I (clause type) with List II (example). List I: 1 Restrictive relative clause, 2 Non-restrictive relative cl... | -
+26 | c13f86d8-8961-4c54-bb8f-b06d6bd8c73e | Correct Word Usage |  |  | no | Select the sentence that shows correct subject-verb agreement with a collective noun used as a single unit: | -
+27 | b261cbe2-4022-4413-b7b4-a1cc97c67306 | Match the Following |  |  | no | Match the words in List I to the dominant connotative label in List II. List I: (1) svelte, (2) scrawny, (3) slender, (... | -
+28 | 89e01410-8940-4ece-a973-f1e88aa58716 | Match the Following |  |  | no | Match List I with List II and select the correct answer using the code given below: List I (Figure of Speech) A. Allite... | -
+29 | 2288e437-30c7-499a-b159-075843ddb1cb | Match the Following |  |  | no | Match List I (paragraph function) with List II (typical signalling phrase). List I: 1 topic sentence introducing contra... | -
+30 | 6e825b79-e434-487d-b7e6-916d19682123 | Vocabulary |  |  | no | Which word best conveys a somber mood in the context of poetry describing an approaching evening? | -
+31 | 7c67f9ec-3490-476e-89d2-eb65c4d100f5 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. for the test Q. Riya studied R. all night S. carefully | -
+32 | 84b8368e-d843-4f26-9856-1612b2378f8a | Match the Following |  |  | no | Match List I with List II: List I (Note-making Tool) (a) Pen and paper (b) Digital note app List II (Characteristic) (i... | -
+33 | 9e237220-91a1-4575-8f1c-f2810eed2702 | Match the Following |  |  | no | Match List I (prose technique) with List II (how it supports characterization). List I: 1 free indirect discourse, 2 ep... | -
+34 | 3137d051-f15e-4257-b2ed-36b35fff097d | Correct Word Usage |  |  | no | Assertion: An inference drawn by a reader must be strictly required by the text's stated facts. Reason: An assumption i... | -
+35 | 7c23be75-e553-40ea-9982-a88456f9e15f | Correct Word Usage |  |  | no | Assertion: A semicolon can join two independent clauses without a coordinating conjunction. Reason: A semicolon is used... | -
+36 | a8211db0-f696-445e-b45d-38e38fdd29ce | Match the Following |  |  | no | Match List I (poetic device) with List II (example). List I: 1 Metonymy, 2 Synecdoche, 3 Metaphor, 4 Personification. L... | -
+37 | 7c7042be-3694-473c-88d0-ea94e1272313 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. in the garden Q. were playing R. the children S. happily | -
+38 | 14bddd76-de4f-4ae3-9fb6-18840332d62f | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. for the meeting Q. arrived late R. due to traffic S. the ... | -
+39 | e4d3fd44-2ec6-4add-b552-b97d3287f310 | Vocabulary |  |  | no | Assertion: Verbal irony occurs when a speaker's words mean the opposite of their literal sense. Reason: Sarcasm is iden... | -
+40 | 70e0a493-aab4-4ff5-b9f4-5c7f4a0af9da | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. the lights went out Q. during the storm R. suddenly S. la... | -
+41 | c8f2eeea-e39f-4272-9ab9-5cd9469c84b2 | Match the Following |  |  | no | Match List I (types of prose) with List II (primary purpose). List I: 1 Narrative 2 Expository 3 Persuasive 4 Descripti... | -
+42 | 17508e4a-7052-4221-a4c2-1e5c3647b950 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. a useful book Q. I found R. at the fair S. yesterday | -
+43 | 8e8da505-f073-4f67-9b14-2a18cc44616b | Correct Word Usage |  |  | no | Assertion: Ordering points chronologically in notes always improves clarity. Reason: Chronological order presents event... | -
+44 | e8fbe22b-5a44-4f1f-a516-36d4af15941f | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. Urban areas are increasingly becoming centers of inn... | -
+45 | 3614eade-0e16-4965-b98e-86c223cca196 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. However, sheer volume does not guarantee quality, an... | -
+46 | e5a2f9d8-57e4-40d2-81c9-7d2fb6281c14 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. Scientific temper encourages questioning and evidenc... | -
+47 | 9e7ab76f-627d-4d33-ad29-be3ec33d97c7 | Correct Word Usage |  |  | no | Choose the sentence with the correct subject-verb agreement. | -
+48 | 6136c491-8f26-4f3b-a17d-f241f8e77ba6 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. The inundation of information can overwhelm users an... | -
+49 | df88572a-eaef-446f-b572-7da98eae36b9 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. This expansion often encroaches on natural habitats.... | -
+50 | 5ff5d221-553c-48ba-9e84-a54edceb92ec | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. However, this ease of access has led to a decline in... | -
+
+# NTA sample subject=english run=5
+selected=50/50 canBuild50=true durationMinutes=60
+topRejectReasons=[{"reason":"orphan_passage_question","count":212},{"reason":"generic_english_assertion_reason_without_context","count":13},{"reason":"question_missing_or_too_short","count":9},{"reason":"generic_textbook_one_liner","count":8}]
+idx | id | chapter | type | passage_group_id | real_passage | text | warnings
+---: | --- | --- | --- | --- | --- | --- | ---
+1 | c13f9a2e-f5d8-4e2c-8c96-b8b1ce0656e1 | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. Social media algorithms are designed to maximize eng... | -
+2 | 759c3916-a134-45b1-a8cc-98e347c54a6d | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. The ease of sharing information online has also ampl... | -
+3 | 459ac193-3644-48d5-89d8-f08be64d1b49 | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. Green roofs and reflective materials can mitigate th... | -
+4 | b0ca1a8c-d7c8-4f55-9845-18b332b08de1 | Vocabulary |  |  | no | In the sentence 'The storm finally began to abate', which word is the closest synonym in meaning? | -
+5 | b4a3fbae-4a93-49f6-be47-83b7000cd8e8 | Match the Following |  |  | no | Match List I with List II: List I (Reading Technique) (a) Skimming (b) Scanning List II (Purpose) (i) Finding specific ... | -
+6 | c0c84c23-1c56-4714-ba01-d78faa4b7502 | Match the Following |  |  | no | Match List I (note-making elements) with List II (purpose). List I: 1 Headings 2 Abbreviations 3 Indicators (arrows, st... | -
+7 | 9e237220-91a1-4575-8f1c-f2810eed2702 | Match the Following |  |  | no | Match List I (prose technique) with List II (how it supports characterization). List I: 1 free indirect discourse, 2 ep... | -
+8 | 14bddd76-de4f-4ae3-9fb6-18840332d62f | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. for the meeting Q. arrived late R. due to traffic S. the ... | -
+9 | c13f86d8-8961-4c54-bb8f-b06d6bd8c73e | Correct Word Usage |  |  | no | Select the sentence that shows correct subject-verb agreement with a collective noun used as a single unit: | -
+10 | 6375cecd-6481-4d04-a64e-857f5b23c063 | Match the Following |  |  | no | Match List I (left) — stylistic device — with List II (right) — typical immediate comprehension effect. List I: (1) Ana... | -
+11 | 3fe710b3-a248-4720-bbc0-13831d73f498 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. after dinner Q. my grandfather R. tells us stories S. eve... | -
+12 | 2288e437-30c7-499a-b159-075843ddb1cb | Match the Following |  |  | no | Match List I (paragraph function) with List II (typical signalling phrase). List I: 1 topic sentence introducing contra... | -
+13 | 3137d051-f15e-4257-b2ed-36b35fff097d | Correct Word Usage |  |  | no | Assertion: An inference drawn by a reader must be strictly required by the text's stated facts. Reason: An assumption i... | -
+14 | 84b8368e-d843-4f26-9856-1612b2378f8a | Match the Following |  |  | no | Match List I with List II: List I (Note-making Tool) (a) Pen and paper (b) Digital note app List II (Characteristic) (i... | -
+15 | 9ab866f3-fc98-4b38-8332-d89ba83e7989 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. the school bus Q. reached the stop R. before 7 a.m. S. ev... | -
+16 | b261cbe2-4022-4413-b7b4-a1cc97c67306 | Match the Following |  |  | no | Match the words in List I to the dominant connotative label in List II. List I: (1) svelte, (2) scrawny, (3) slender, (... | -
+17 | 8e8da505-f073-4f67-9b14-2a18cc44616b | Correct Word Usage |  |  | no | Assertion: Ordering points chronologically in notes always improves clarity. Reason: Chronological order presents event... | -
+18 | e4d3fd44-2ec6-4add-b552-b97d3287f310 | Vocabulary |  |  | no | Assertion: Verbal irony occurs when a speaker's words mean the opposite of their literal sense. Reason: Sarcasm is iden... | -
+19 | deb270a1-f776-4f76-9338-088348552105 | Match the Following |  |  | no | Match List I (figure of speech) with List II (definition). List I: A Metaphor, B Hyperbole, C Oxymoron, D Onomatopoeia.... | -
+20 | 17508e4a-7052-4221-a4c2-1e5c3647b950 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. a useful book Q. I found R. at the fair S. yesterday | -
+21 | 86749dec-42ff-4cd8-b867-7792416c89f4 | Vocabulary |  |  | no | Assertion: A strong vocabulary enhances reading fluency. Reason: Knowing more words reduces the need to pause and decod... | -
+22 | c8f2eeea-e39f-4272-9ab9-5cd9469c84b2 | Match the Following |  |  | no | Match List I (types of prose) with List II (primary purpose). List I: 1 Narrative 2 Expository 3 Persuasive 4 Descripti... | -
+23 | 7c7042be-3694-473c-88d0-ea94e1272313 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. in the garden Q. were playing R. the children S. happily | -
+24 | f10b30f1-ae13-4b4c-820c-50a151a166da | Correct Word Usage |  |  | no | Assertion: In counterfactual conditional clauses (contrary-to-fact), English commonly uses 'were' after 'if' regardless... | -
+25 | 33bd9b71-7c15-48ee-b3e2-2ab432e7c11c | Correct Word Usage |  |  | no | In a formal invitation, which word is more appropriate to request something? | -
+26 | 7c23be75-e553-40ea-9982-a88456f9e15f | Correct Word Usage |  |  | no | Assertion: A semicolon can join two independent clauses without a coordinating conjunction. Reason: A semicolon is used... | -
+27 | 89e01410-8940-4ece-a973-f1e88aa58716 | Match the Following |  |  | no | Match List I with List II and select the correct answer using the code given below: List I (Figure of Speech) A. Allite... | -
+28 | 48e7af04-5458-45aa-9a73-1a843aa6a672 | Correct Word Usage |  |  | no | Case: A four-line stanza uses short lines that break sentences across lines (enjambment) and also contains mid-line pun... | -
+29 | 6a67f64a-48a9-4388-bd17-318fe2f31d4c | Vocabulary |  |  | no | Statement I: The word 'benevolent' implies a desire to do good. Statement II: 'Malevolent' means having a kind disposit... | -
+30 | f5d63bee-d9e2-42a3-86b8-27a46011763d | Match the Following |  |  | no | Match List I with List II: List I (Text Feature) (a) Heading (b) Caption List II (Purpose) (i) Explains an image (ii) I... | -
+31 | a8211db0-f696-445e-b45d-38e38fdd29ce | Match the Following |  |  | no | Match List I (poetic device) with List II (example). List I: 1 Metonymy, 2 Synecdoche, 3 Metaphor, 4 Personification. L... | -
+32 | 9778589e-2792-43ef-b432-0ac706b51551 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. because it was raining Q. we stayed indoors R. the whole ... | -
+33 | 4ce849e0-9e45-43fa-a6b4-3a0cc44246c3 | Match the Following |  |  | no | Match List I (cohesive device) with List II (primary function). List I: 1 Repetition 2 Pronoun referencing 3 Transition... | -
+34 | 70e0a493-aab4-4ff5-b9f4-5c7f4a0af9da | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. the lights went out Q. during the storm R. suddenly S. la... | -
+35 | 88051c7e-8da6-4b61-a35a-ec279375309f | Match the Following |  |  | no | Match List I (Sentence type) with List II (Example): List I: 1 Declarative 2 Interrogative 3 Imperative 4 Exclamatory L... | -
+36 | ec6fbfb4-32c2-4bf1-8434-54c8005e0b66 | Vocabulary |  |  | no | A student understands that "un-" often means "not" or "opposite of." When they see the word "unhappy," they correctly d... | -
+37 | 9efa1a52-50b1-4f97-823a-2bc17f07a327 | Vocabulary |  |  | no | Which prefix correctly forms the opposite of the word active? | -
+38 | 99cb445e-7e75-41a0-bb8b-482c074dc97c | Match the Following |  |  | no | Match List I (clause type) with List II (example). List I: 1 Restrictive relative clause, 2 Non-restrictive relative cl... | -
+39 | 2a3d20f1-d662-4b18-bcf0-3093c411ed15 | Match the Following |  |  | no | Match the following figures of speech with their definitions: List I: (A) Alliteration (B) Onomatopoeia (C) Oxymoron Li... | -
+40 | 6e825b79-e434-487d-b7e6-916d19682123 | Vocabulary |  |  | no | Which word best conveys a somber mood in the context of poetry describing an approaching evening? | -
+41 | 361f280a-bbd8-4aab-b0c4-22b7adbc85e0 | Match the Following |  |  | no | Match List I (poetic term) with List II (brief definition). List I: A Enjambment, B Caesura, C Refrain, D Stanza. List ... | -
+42 | ee01ba25-13c8-4dc9-a651-5dca155c0020 | Correct Word Usage |  |  | no | Choose the sentence that correctly uses commas to avoid an unintended meaning: | -
+43 | 7c67f9ec-3490-476e-89d2-eb65c4d100f5 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. for the test Q. Riya studied R. all night S. carefully | -
+44 | 13aea4d5-168d-4dc0-92e4-7440d7989858 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. The accelerating effects of climate change have made... | -
+45 | 05fac976-9fae-4d48-84f5-9efdc640ae30 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. However, technical jargon can alienate the very peop... | -
+46 | 4ecddcb4-4370-4c78-b371-8db5f06a3b17 | Correct Word Usage |  |  | no | Which sentence correctly uses a semicolon? | -
+47 | ca3ee25d-0162-4e86-a01e-22c54406c356 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. As cities expand, the conversion of natural landscap... | -
+48 | 481a3d20-1eff-4dd7-a699-a406f8c0f363 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. This fragmentation of attention has been linked to i... | -
+49 | e1c7375c-5a3c-4859-a728-a17d551e3ddb | Correct Word Usage |  |  | no | Choose the sentence that demonstrates correct parallel structure: | -
+50 | d8602438-3f30-40e2-a0cf-f9d2a56b47e2 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. The rise of remote work has blurred the boundaries b... | -
+
+# NTA sample subject=english run=6
+selected=50/50 canBuild50=true durationMinutes=60
+topRejectReasons=[{"reason":"orphan_passage_question","count":212},{"reason":"generic_english_assertion_reason_without_context","count":13},{"reason":"question_missing_or_too_short","count":9},{"reason":"generic_textbook_one_liner","count":8}]
+idx | id | chapter | type | passage_group_id | real_passage | text | warnings
+---: | --- | --- | --- | --- | --- | --- | ---
+1 | c13f9a2e-f5d8-4e2c-8c96-b8b1ce0656e1 | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. Social media algorithms are designed to maximize eng... | -
+2 | 759c3916-a134-45b1-a8cc-98e347c54a6d | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. The ease of sharing information online has also ampl... | -
+3 | 459ac193-3644-48d5-89d8-f08be64d1b49 | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. Green roofs and reflective materials can mitigate th... | -
+4 | 3137d051-f15e-4257-b2ed-36b35fff097d | Correct Word Usage |  |  | no | Assertion: An inference drawn by a reader must be strictly required by the text's stated facts. Reason: An assumption i... | -
+5 | 8e8da505-f073-4f67-9b14-2a18cc44616b | Correct Word Usage |  |  | no | Assertion: Ordering points chronologically in notes always improves clarity. Reason: Chronological order presents event... | -
+6 | 9778589e-2792-43ef-b432-0ac706b51551 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. because it was raining Q. we stayed indoors R. the whole ... | -
+7 | b4a3fbae-4a93-49f6-be47-83b7000cd8e8 | Match the Following |  |  | no | Match List I with List II: List I (Reading Technique) (a) Skimming (b) Scanning List II (Purpose) (i) Finding specific ... | -
+8 | 70e0a493-aab4-4ff5-b9f4-5c7f4a0af9da | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. the lights went out Q. during the storm R. suddenly S. la... | -
+9 | c13f86d8-8961-4c54-bb8f-b06d6bd8c73e | Correct Word Usage |  |  | no | Select the sentence that shows correct subject-verb agreement with a collective noun used as a single unit: | -
+10 | 4ce849e0-9e45-43fa-a6b4-3a0cc44246c3 | Match the Following |  |  | no | Match List I (cohesive device) with List II (primary function). List I: 1 Repetition 2 Pronoun referencing 3 Transition... | -
+11 | 89e01410-8940-4ece-a973-f1e88aa58716 | Match the Following |  |  | no | Match List I with List II and select the correct answer using the code given below: List I (Figure of Speech) A. Allite... | -
+12 | b0ca1a8c-d7c8-4f55-9845-18b332b08de1 | Vocabulary |  |  | no | In the sentence 'The storm finally began to abate', which word is the closest synonym in meaning? | -
+13 | 17508e4a-7052-4221-a4c2-1e5c3647b950 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. a useful book Q. I found R. at the fair S. yesterday | -
+14 | a8211db0-f696-445e-b45d-38e38fdd29ce | Match the Following |  |  | no | Match List I (poetic device) with List II (example). List I: 1 Metonymy, 2 Synecdoche, 3 Metaphor, 4 Personification. L... | -
+15 | 6a67f64a-48a9-4388-bd17-318fe2f31d4c | Vocabulary |  |  | no | Statement I: The word 'benevolent' implies a desire to do good. Statement II: 'Malevolent' means having a kind disposit... | -
+16 | f5d63bee-d9e2-42a3-86b8-27a46011763d | Match the Following |  |  | no | Match List I with List II: List I (Text Feature) (a) Heading (b) Caption List II (Purpose) (i) Explains an image (ii) I... | -
+17 | 14bddd76-de4f-4ae3-9fb6-18840332d62f | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. for the meeting Q. arrived late R. due to traffic S. the ... | -
+18 | 9e237220-91a1-4575-8f1c-f2810eed2702 | Match the Following |  |  | no | Match List I (prose technique) with List II (how it supports characterization). List I: 1 free indirect discourse, 2 ep... | -
+19 | 9efa1a52-50b1-4f97-823a-2bc17f07a327 | Vocabulary |  |  | no | Which prefix correctly forms the opposite of the word active? | -
+20 | 361f280a-bbd8-4aab-b0c4-22b7adbc85e0 | Match the Following |  |  | no | Match List I (poetic term) with List II (brief definition). List I: A Enjambment, B Caesura, C Refrain, D Stanza. List ... | -
+21 | 3fe710b3-a248-4720-bbc0-13831d73f498 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. after dinner Q. my grandfather R. tells us stories S. eve... | -
+22 | 2a3d20f1-d662-4b18-bcf0-3093c411ed15 | Match the Following |  |  | no | Match the following figures of speech with their definitions: List I: (A) Alliteration (B) Onomatopoeia (C) Oxymoron Li... | -
+23 | 84b8368e-d843-4f26-9856-1612b2378f8a | Match the Following |  |  | no | Match List I with List II: List I (Note-making Tool) (a) Pen and paper (b) Digital note app List II (Characteristic) (i... | -
+24 | b261cbe2-4022-4413-b7b4-a1cc97c67306 | Match the Following |  |  | no | Match the words in List I to the dominant connotative label in List II. List I: (1) svelte, (2) scrawny, (3) slender, (... | -
+25 | e4d3fd44-2ec6-4add-b552-b97d3287f310 | Vocabulary |  |  | no | Assertion: Verbal irony occurs when a speaker's words mean the opposite of their literal sense. Reason: Sarcasm is iden... | -
+26 | deb270a1-f776-4f76-9338-088348552105 | Match the Following |  |  | no | Match List I (figure of speech) with List II (definition). List I: A Metaphor, B Hyperbole, C Oxymoron, D Onomatopoeia.... | -
+27 | 7c23be75-e553-40ea-9982-a88456f9e15f | Correct Word Usage |  |  | no | Assertion: A semicolon can join two independent clauses without a coordinating conjunction. Reason: A semicolon is used... | -
+28 | c8f2eeea-e39f-4272-9ab9-5cd9469c84b2 | Match the Following |  |  | no | Match List I (types of prose) with List II (primary purpose). List I: 1 Narrative 2 Expository 3 Persuasive 4 Descripti... | -
+29 | ee01ba25-13c8-4dc9-a651-5dca155c0020 | Correct Word Usage |  |  | no | Choose the sentence that correctly uses commas to avoid an unintended meaning: | -
+30 | 7c67f9ec-3490-476e-89d2-eb65c4d100f5 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. for the test Q. Riya studied R. all night S. carefully | -
+31 | 9ab866f3-fc98-4b38-8332-d89ba83e7989 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. the school bus Q. reached the stop R. before 7 a.m. S. ev... | -
+32 | 48e7af04-5458-45aa-9a73-1a843aa6a672 | Correct Word Usage |  |  | no | Case: A four-line stanza uses short lines that break sentences across lines (enjambment) and also contains mid-line pun... | -
+33 | 86749dec-42ff-4cd8-b867-7792416c89f4 | Vocabulary |  |  | no | Assertion: A strong vocabulary enhances reading fluency. Reason: Knowing more words reduces the need to pause and decod... | -
+34 | 6375cecd-6481-4d04-a64e-857f5b23c063 | Match the Following |  |  | no | Match List I (left) — stylistic device — with List II (right) — typical immediate comprehension effect. List I: (1) Ana... | -
+35 | f10b30f1-ae13-4b4c-820c-50a151a166da | Correct Word Usage |  |  | no | Assertion: In counterfactual conditional clauses (contrary-to-fact), English commonly uses 'were' after 'if' regardless... | -
+36 | c0c84c23-1c56-4714-ba01-d78faa4b7502 | Match the Following |  |  | no | Match List I (note-making elements) with List II (purpose). List I: 1 Headings 2 Abbreviations 3 Indicators (arrows, st... | -
+37 | 7c7042be-3694-473c-88d0-ea94e1272313 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. in the garden Q. were playing R. the children S. happily | -
+38 | 88051c7e-8da6-4b61-a35a-ec279375309f | Match the Following |  |  | no | Match List I (Sentence type) with List II (Example): List I: 1 Declarative 2 Interrogative 3 Imperative 4 Exclamatory L... | -
+39 | 99cb445e-7e75-41a0-bb8b-482c074dc97c | Match the Following |  |  | no | Match List I (clause type) with List II (example). List I: 1 Restrictive relative clause, 2 Non-restrictive relative cl... | -
+40 | 33bd9b71-7c15-48ee-b3e2-2ab432e7c11c | Correct Word Usage |  |  | no | In a formal invitation, which word is more appropriate to request something? | -
+41 | 6e825b79-e434-487d-b7e6-916d19682123 | Vocabulary |  |  | no | Which word best conveys a somber mood in the context of poetry describing an approaching evening? | -
+42 | ec6fbfb4-32c2-4bf1-8434-54c8005e0b66 | Vocabulary |  |  | no | A student understands that "un-" often means "not" or "opposite of." When they see the word "unhappy," they correctly d... | -
+43 | 2288e437-30c7-499a-b159-075843ddb1cb | Match the Following |  |  | no | Match List I (paragraph function) with List II (typical signalling phrase). List I: 1 topic sentence introducing contra... | -
+44 | 4ecddcb4-4370-4c78-b371-8db5f06a3b17 | Correct Word Usage |  |  | no | Which sentence correctly uses a semicolon? | -
+45 | e1c7375c-5a3c-4859-a728-a17d551e3ddb | Correct Word Usage |  |  | no | Choose the sentence that demonstrates correct parallel structure: | -
+46 | 6136c491-8f26-4f3b-a17d-f241f8e77ba6 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. The inundation of information can overwhelm users an... | -
+47 | 3614eade-0e16-4965-b98e-86c223cca196 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. However, sheer volume does not guarantee quality, an... | -
+48 | e8fbe22b-5a44-4f1f-a516-36d4af15941f | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. Urban areas are increasingly becoming centers of inn... | -
+49 | 481a3d20-1eff-4dd7-a699-a406f8c0f363 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. This fragmentation of attention has been linked to i... | -
+50 | 0dee37b0-fdcd-4e3f-ace0-110ef6a34e0b | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. However, this assumption overlooks the persistent ga... | -
+
+# NTA sample subject=english run=7
+selected=50/50 canBuild50=true durationMinutes=60
+topRejectReasons=[{"reason":"orphan_passage_question","count":212},{"reason":"generic_english_assertion_reason_without_context","count":13},{"reason":"question_missing_or_too_short","count":9},{"reason":"generic_textbook_one_liner","count":8}]
+idx | id | chapter | type | passage_group_id | real_passage | text | warnings
+---: | --- | --- | --- | --- | --- | --- | ---
+1 | c13f9a2e-f5d8-4e2c-8c96-b8b1ce0656e1 | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. Social media algorithms are designed to maximize eng... | -
+2 | 459ac193-3644-48d5-89d8-f08be64d1b49 | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. Green roofs and reflective materials can mitigate th... | -
+3 | 759c3916-a134-45b1-a8cc-98e347c54a6d | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. The ease of sharing information online has also ampl... | -
+4 | 17508e4a-7052-4221-a4c2-1e5c3647b950 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. a useful book Q. I found R. at the fair S. yesterday | -
+5 | b261cbe2-4022-4413-b7b4-a1cc97c67306 | Match the Following |  |  | no | Match the words in List I to the dominant connotative label in List II. List I: (1) svelte, (2) scrawny, (3) slender, (... | -
+6 | ec6fbfb4-32c2-4bf1-8434-54c8005e0b66 | Vocabulary |  |  | no | A student understands that "un-" often means "not" or "opposite of." When they see the word "unhappy," they correctly d... | -
+7 | c8f2eeea-e39f-4272-9ab9-5cd9469c84b2 | Match the Following |  |  | no | Match List I (types of prose) with List II (primary purpose). List I: 1 Narrative 2 Expository 3 Persuasive 4 Descripti... | -
+8 | 2a3d20f1-d662-4b18-bcf0-3093c411ed15 | Match the Following |  |  | no | Match the following figures of speech with their definitions: List I: (A) Alliteration (B) Onomatopoeia (C) Oxymoron Li... | -
+9 | b4a3fbae-4a93-49f6-be47-83b7000cd8e8 | Match the Following |  |  | no | Match List I with List II: List I (Reading Technique) (a) Skimming (b) Scanning List II (Purpose) (i) Finding specific ... | -
+10 | 9efa1a52-50b1-4f97-823a-2bc17f07a327 | Vocabulary |  |  | no | Which prefix correctly forms the opposite of the word active? | -
+11 | 7c67f9ec-3490-476e-89d2-eb65c4d100f5 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. for the test Q. Riya studied R. all night S. carefully | -
+12 | f5d63bee-d9e2-42a3-86b8-27a46011763d | Match the Following |  |  | no | Match List I with List II: List I (Text Feature) (a) Heading (b) Caption List II (Purpose) (i) Explains an image (ii) I... | -
+13 | 33bd9b71-7c15-48ee-b3e2-2ab432e7c11c | Correct Word Usage |  |  | no | In a formal invitation, which word is more appropriate to request something? | -
+14 | 86749dec-42ff-4cd8-b867-7792416c89f4 | Vocabulary |  |  | no | Assertion: A strong vocabulary enhances reading fluency. Reason: Knowing more words reduces the need to pause and decod... | -
+15 | 88051c7e-8da6-4b61-a35a-ec279375309f | Match the Following |  |  | no | Match List I (Sentence type) with List II (Example): List I: 1 Declarative 2 Interrogative 3 Imperative 4 Exclamatory L... | -
+16 | 4ce849e0-9e45-43fa-a6b4-3a0cc44246c3 | Match the Following |  |  | no | Match List I (cohesive device) with List II (primary function). List I: 1 Repetition 2 Pronoun referencing 3 Transition... | -
+17 | 361f280a-bbd8-4aab-b0c4-22b7adbc85e0 | Match the Following |  |  | no | Match List I (poetic term) with List II (brief definition). List I: A Enjambment, B Caesura, C Refrain, D Stanza. List ... | -
+18 | 84b8368e-d843-4f26-9856-1612b2378f8a | Match the Following |  |  | no | Match List I with List II: List I (Note-making Tool) (a) Pen and paper (b) Digital note app List II (Characteristic) (i... | -
+19 | 14bddd76-de4f-4ae3-9fb6-18840332d62f | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. for the meeting Q. arrived late R. due to traffic S. the ... | -
+20 | 2288e437-30c7-499a-b159-075843ddb1cb | Match the Following |  |  | no | Match List I (paragraph function) with List II (typical signalling phrase). List I: 1 topic sentence introducing contra... | -
+21 | 89e01410-8940-4ece-a973-f1e88aa58716 | Match the Following |  |  | no | Match List I with List II and select the correct answer using the code given below: List I (Figure of Speech) A. Allite... | -
+22 | 3137d051-f15e-4257-b2ed-36b35fff097d | Correct Word Usage |  |  | no | Assertion: An inference drawn by a reader must be strictly required by the text's stated facts. Reason: An assumption i... | -
+23 | 6a67f64a-48a9-4388-bd17-318fe2f31d4c | Vocabulary |  |  | no | Statement I: The word 'benevolent' implies a desire to do good. Statement II: 'Malevolent' means having a kind disposit... | -
+24 | b0ca1a8c-d7c8-4f55-9845-18b332b08de1 | Vocabulary |  |  | no | In the sentence 'The storm finally began to abate', which word is the closest synonym in meaning? | -
+25 | 48e7af04-5458-45aa-9a73-1a843aa6a672 | Correct Word Usage |  |  | no | Case: A four-line stanza uses short lines that break sentences across lines (enjambment) and also contains mid-line pun... | -
+26 | 7c7042be-3694-473c-88d0-ea94e1272313 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. in the garden Q. were playing R. the children S. happily | -
+27 | 8e8da505-f073-4f67-9b14-2a18cc44616b | Correct Word Usage |  |  | no | Assertion: Ordering points chronologically in notes always improves clarity. Reason: Chronological order presents event... | -
+28 | 3fe710b3-a248-4720-bbc0-13831d73f498 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. after dinner Q. my grandfather R. tells us stories S. eve... | -
+29 | deb270a1-f776-4f76-9338-088348552105 | Match the Following |  |  | no | Match List I (figure of speech) with List II (definition). List I: A Metaphor, B Hyperbole, C Oxymoron, D Onomatopoeia.... | -
+30 | 99cb445e-7e75-41a0-bb8b-482c074dc97c | Match the Following |  |  | no | Match List I (clause type) with List II (example). List I: 1 Restrictive relative clause, 2 Non-restrictive relative cl... | -
+31 | f10b30f1-ae13-4b4c-820c-50a151a166da | Correct Word Usage |  |  | no | Assertion: In counterfactual conditional clauses (contrary-to-fact), English commonly uses 'were' after 'if' regardless... | -
+32 | ee01ba25-13c8-4dc9-a651-5dca155c0020 | Correct Word Usage |  |  | no | Choose the sentence that correctly uses commas to avoid an unintended meaning: | -
+33 | c13f86d8-8961-4c54-bb8f-b06d6bd8c73e | Correct Word Usage |  |  | no | Select the sentence that shows correct subject-verb agreement with a collective noun used as a single unit: | -
+34 | 7c23be75-e553-40ea-9982-a88456f9e15f | Correct Word Usage |  |  | no | Assertion: A semicolon can join two independent clauses without a coordinating conjunction. Reason: A semicolon is used... | -
+35 | 9778589e-2792-43ef-b432-0ac706b51551 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. because it was raining Q. we stayed indoors R. the whole ... | -
+36 | 9ab866f3-fc98-4b38-8332-d89ba83e7989 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. the school bus Q. reached the stop R. before 7 a.m. S. ev... | -
+37 | e4d3fd44-2ec6-4add-b552-b97d3287f310 | Vocabulary |  |  | no | Assertion: Verbal irony occurs when a speaker's words mean the opposite of their literal sense. Reason: Sarcasm is iden... | -
+38 | a8211db0-f696-445e-b45d-38e38fdd29ce | Match the Following |  |  | no | Match List I (poetic device) with List II (example). List I: 1 Metonymy, 2 Synecdoche, 3 Metaphor, 4 Personification. L... | -
+39 | c0c84c23-1c56-4714-ba01-d78faa4b7502 | Match the Following |  |  | no | Match List I (note-making elements) with List II (purpose). List I: 1 Headings 2 Abbreviations 3 Indicators (arrows, st... | -
+40 | 6375cecd-6481-4d04-a64e-857f5b23c063 | Match the Following |  |  | no | Match List I (left) — stylistic device — with List II (right) — typical immediate comprehension effect. List I: (1) Ana... | -
+41 | 70e0a493-aab4-4ff5-b9f4-5c7f4a0af9da | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. the lights went out Q. during the storm R. suddenly S. la... | -
+42 | 6e825b79-e434-487d-b7e6-916d19682123 | Vocabulary |  |  | no | Which word best conveys a somber mood in the context of poetry describing an approaching evening? | -
+43 | 9e237220-91a1-4575-8f1c-f2810eed2702 | Match the Following |  |  | no | Match List I (prose technique) with List II (how it supports characterization). List I: 1 free indirect discourse, 2 ep... | -
+44 | 3614eade-0e16-4965-b98e-86c223cca196 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. However, sheer volume does not guarantee quality, an... | -
+45 | 6136c491-8f26-4f3b-a17d-f241f8e77ba6 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. The inundation of information can overwhelm users an... | -
+46 | ca3ee25d-0162-4e86-a01e-22c54406c356 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. As cities expand, the conversion of natural landscap... | -
+47 | e8fbe22b-5a44-4f1f-a516-36d4af15941f | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. Urban areas are increasingly becoming centers of inn... | -
+48 | 05fac976-9fae-4d48-84f5-9efdc640ae30 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. However, technical jargon can alienate the very peop... | -
+49 | 0dee37b0-fdcd-4e3f-ace0-110ef6a34e0b | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. However, this assumption overlooks the persistent ga... | -
+50 | e5a2f9d8-57e4-40d2-81c9-7d2fb6281c14 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. Scientific temper encourages questioning and evidenc... | -
+
+# NTA sample subject=english run=8
+selected=50/50 canBuild50=true durationMinutes=60
+topRejectReasons=[{"reason":"orphan_passage_question","count":212},{"reason":"generic_english_assertion_reason_without_context","count":13},{"reason":"question_missing_or_too_short","count":9},{"reason":"generic_textbook_one_liner","count":8}]
+idx | id | chapter | type | passage_group_id | real_passage | text | warnings
+---: | --- | --- | --- | --- | --- | --- | ---
+1 | 459ac193-3644-48d5-89d8-f08be64d1b49 | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. Green roofs and reflective materials can mitigate th... | -
+2 | 759c3916-a134-45b1-a8cc-98e347c54a6d | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. The ease of sharing information online has also ampl... | -
+3 | c13f9a2e-f5d8-4e2c-8c96-b8b1ce0656e1 | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. Social media algorithms are designed to maximize eng... | -
+4 | 48e7af04-5458-45aa-9a73-1a843aa6a672 | Correct Word Usage |  |  | no | Case: A four-line stanza uses short lines that break sentences across lines (enjambment) and also contains mid-line pun... | -
+5 | f5d63bee-d9e2-42a3-86b8-27a46011763d | Match the Following |  |  | no | Match List I with List II: List I (Text Feature) (a) Heading (b) Caption List II (Purpose) (i) Explains an image (ii) I... | -
+6 | e4d3fd44-2ec6-4add-b552-b97d3287f310 | Vocabulary |  |  | no | Assertion: Verbal irony occurs when a speaker's words mean the opposite of their literal sense. Reason: Sarcasm is iden... | -
+7 | f10b30f1-ae13-4b4c-820c-50a151a166da | Correct Word Usage |  |  | no | Assertion: In counterfactual conditional clauses (contrary-to-fact), English commonly uses 'were' after 'if' regardless... | -
+8 | 2a3d20f1-d662-4b18-bcf0-3093c411ed15 | Match the Following |  |  | no | Match the following figures of speech with their definitions: List I: (A) Alliteration (B) Onomatopoeia (C) Oxymoron Li... | -
+9 | b0ca1a8c-d7c8-4f55-9845-18b332b08de1 | Vocabulary |  |  | no | In the sentence 'The storm finally began to abate', which word is the closest synonym in meaning? | -
+10 | 7c7042be-3694-473c-88d0-ea94e1272313 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. in the garden Q. were playing R. the children S. happily | -
+11 | 99cb445e-7e75-41a0-bb8b-482c074dc97c | Match the Following |  |  | no | Match List I (clause type) with List II (example). List I: 1 Restrictive relative clause, 2 Non-restrictive relative cl... | -
+12 | b4a3fbae-4a93-49f6-be47-83b7000cd8e8 | Match the Following |  |  | no | Match List I with List II: List I (Reading Technique) (a) Skimming (b) Scanning List II (Purpose) (i) Finding specific ... | -
+13 | 9778589e-2792-43ef-b432-0ac706b51551 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. because it was raining Q. we stayed indoors R. the whole ... | -
+14 | 33bd9b71-7c15-48ee-b3e2-2ab432e7c11c | Correct Word Usage |  |  | no | In a formal invitation, which word is more appropriate to request something? | -
+15 | 17508e4a-7052-4221-a4c2-1e5c3647b950 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. a useful book Q. I found R. at the fair S. yesterday | -
+16 | c8f2eeea-e39f-4272-9ab9-5cd9469c84b2 | Match the Following |  |  | no | Match List I (types of prose) with List II (primary purpose). List I: 1 Narrative 2 Expository 3 Persuasive 4 Descripti... | -
+17 | 14bddd76-de4f-4ae3-9fb6-18840332d62f | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. for the meeting Q. arrived late R. due to traffic S. the ... | -
+18 | 7c23be75-e553-40ea-9982-a88456f9e15f | Correct Word Usage |  |  | no | Assertion: A semicolon can join two independent clauses without a coordinating conjunction. Reason: A semicolon is used... | -
+19 | 70e0a493-aab4-4ff5-b9f4-5c7f4a0af9da | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. the lights went out Q. during the storm R. suddenly S. la... | -
+20 | 361f280a-bbd8-4aab-b0c4-22b7adbc85e0 | Match the Following |  |  | no | Match List I (poetic term) with List II (brief definition). List I: A Enjambment, B Caesura, C Refrain, D Stanza. List ... | -
+21 | 84b8368e-d843-4f26-9856-1612b2378f8a | Match the Following |  |  | no | Match List I with List II: List I (Note-making Tool) (a) Pen and paper (b) Digital note app List II (Characteristic) (i... | -
+22 | 9ab866f3-fc98-4b38-8332-d89ba83e7989 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. the school bus Q. reached the stop R. before 7 a.m. S. ev... | -
+23 | 4ce849e0-9e45-43fa-a6b4-3a0cc44246c3 | Match the Following |  |  | no | Match List I (cohesive device) with List II (primary function). List I: 1 Repetition 2 Pronoun referencing 3 Transition... | -
+24 | 3fe710b3-a248-4720-bbc0-13831d73f498 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. after dinner Q. my grandfather R. tells us stories S. eve... | -
+25 | 2288e437-30c7-499a-b159-075843ddb1cb | Match the Following |  |  | no | Match List I (paragraph function) with List II (typical signalling phrase). List I: 1 topic sentence introducing contra... | -
+26 | 89e01410-8940-4ece-a973-f1e88aa58716 | Match the Following |  |  | no | Match List I with List II and select the correct answer using the code given below: List I (Figure of Speech) A. Allite... | -
+27 | b261cbe2-4022-4413-b7b4-a1cc97c67306 | Match the Following |  |  | no | Match the words in List I to the dominant connotative label in List II. List I: (1) svelte, (2) scrawny, (3) slender, (... | -
+28 | c13f86d8-8961-4c54-bb8f-b06d6bd8c73e | Correct Word Usage |  |  | no | Select the sentence that shows correct subject-verb agreement with a collective noun used as a single unit: | -
+29 | 9e237220-91a1-4575-8f1c-f2810eed2702 | Match the Following |  |  | no | Match List I (prose technique) with List II (how it supports characterization). List I: 1 free indirect discourse, 2 ep... | -
+30 | 3137d051-f15e-4257-b2ed-36b35fff097d | Correct Word Usage |  |  | no | Assertion: An inference drawn by a reader must be strictly required by the text's stated facts. Reason: An assumption i... | -
+31 | 6e825b79-e434-487d-b7e6-916d19682123 | Vocabulary |  |  | no | Which word best conveys a somber mood in the context of poetry describing an approaching evening? | -
+32 | deb270a1-f776-4f76-9338-088348552105 | Match the Following |  |  | no | Match List I (figure of speech) with List II (definition). List I: A Metaphor, B Hyperbole, C Oxymoron, D Onomatopoeia.... | -
+33 | 6375cecd-6481-4d04-a64e-857f5b23c063 | Match the Following |  |  | no | Match List I (left) — stylistic device — with List II (right) — typical immediate comprehension effect. List I: (1) Ana... | -
+34 | 7c67f9ec-3490-476e-89d2-eb65c4d100f5 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. for the test Q. Riya studied R. all night S. carefully | -
+35 | 88051c7e-8da6-4b61-a35a-ec279375309f | Match the Following |  |  | no | Match List I (Sentence type) with List II (Example): List I: 1 Declarative 2 Interrogative 3 Imperative 4 Exclamatory L... | -
+36 | 6a67f64a-48a9-4388-bd17-318fe2f31d4c | Vocabulary |  |  | no | Statement I: The word 'benevolent' implies a desire to do good. Statement II: 'Malevolent' means having a kind disposit... | -
+37 | ee01ba25-13c8-4dc9-a651-5dca155c0020 | Correct Word Usage |  |  | no | Choose the sentence that correctly uses commas to avoid an unintended meaning: | -
+38 | 8e8da505-f073-4f67-9b14-2a18cc44616b | Correct Word Usage |  |  | no | Assertion: Ordering points chronologically in notes always improves clarity. Reason: Chronological order presents event... | -
+39 | 86749dec-42ff-4cd8-b867-7792416c89f4 | Vocabulary |  |  | no | Assertion: A strong vocabulary enhances reading fluency. Reason: Knowing more words reduces the need to pause and decod... | -
+40 | ec6fbfb4-32c2-4bf1-8434-54c8005e0b66 | Vocabulary |  |  | no | A student understands that "un-" often means "not" or "opposite of." When they see the word "unhappy," they correctly d... | -
+41 | a8211db0-f696-445e-b45d-38e38fdd29ce | Match the Following |  |  | no | Match List I (poetic device) with List II (example). List I: 1 Metonymy, 2 Synecdoche, 3 Metaphor, 4 Personification. L... | -
+42 | 9efa1a52-50b1-4f97-823a-2bc17f07a327 | Vocabulary |  |  | no | Which prefix correctly forms the opposite of the word active? | -
+43 | c0c84c23-1c56-4714-ba01-d78faa4b7502 | Match the Following |  |  | no | Match List I (note-making elements) with List II (purpose). List I: 1 Headings 2 Abbreviations 3 Indicators (arrows, st... | -
+44 | e8fbe22b-5a44-4f1f-a516-36d4af15941f | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. Urban areas are increasingly becoming centers of inn... | -
+45 | 4ecddcb4-4370-4c78-b371-8db5f06a3b17 | Correct Word Usage |  |  | no | Which sentence correctly uses a semicolon? | -
+46 | 6136c491-8f26-4f3b-a17d-f241f8e77ba6 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. The inundation of information can overwhelm users an... | -
+47 | cd08a82e-f3b7-42c2-86c4-5c11ccd4181c | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. Public policy communication often fails when it uses... | -
+48 | 0dee37b0-fdcd-4e3f-ace0-110ef6a34e0b | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. However, this assumption overlooks the persistent ga... | -
+49 | b828abf0-d2bf-4797-85b5-6dfad65729c2 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. However, the quality of engagement with long-form te... | -
+50 | 026f366a-b507-4d21-83d2-e76cf97eb315 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. This often stems from a lack of coordination between... | -
+
+# NTA sample subject=english run=9
+selected=50/50 canBuild50=true durationMinutes=60
+topRejectReasons=[{"reason":"orphan_passage_question","count":212},{"reason":"generic_english_assertion_reason_without_context","count":13},{"reason":"question_missing_or_too_short","count":9},{"reason":"generic_textbook_one_liner","count":8}]
+idx | id | chapter | type | passage_group_id | real_passage | text | warnings
+---: | --- | --- | --- | --- | --- | --- | ---
+1 | 459ac193-3644-48d5-89d8-f08be64d1b49 | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. Green roofs and reflective materials can mitigate th... | -
+2 | 759c3916-a134-45b1-a8cc-98e347c54a6d | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. The ease of sharing information online has also ampl... | -
+3 | c13f9a2e-f5d8-4e2c-8c96-b8b1ce0656e1 | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. Social media algorithms are designed to maximize eng... | -
+4 | a8211db0-f696-445e-b45d-38e38fdd29ce | Match the Following |  |  | no | Match List I (poetic device) with List II (example). List I: 1 Metonymy, 2 Synecdoche, 3 Metaphor, 4 Personification. L... | -
+5 | 48e7af04-5458-45aa-9a73-1a843aa6a672 | Correct Word Usage |  |  | no | Case: A four-line stanza uses short lines that break sentences across lines (enjambment) and also contains mid-line pun... | -
+6 | 361f280a-bbd8-4aab-b0c4-22b7adbc85e0 | Match the Following |  |  | no | Match List I (poetic term) with List II (brief definition). List I: A Enjambment, B Caesura, C Refrain, D Stanza. List ... | -
+7 | deb270a1-f776-4f76-9338-088348552105 | Match the Following |  |  | no | Match List I (figure of speech) with List II (definition). List I: A Metaphor, B Hyperbole, C Oxymoron, D Onomatopoeia.... | -
+8 | 4ce849e0-9e45-43fa-a6b4-3a0cc44246c3 | Match the Following |  |  | no | Match List I (cohesive device) with List II (primary function). List I: 1 Repetition 2 Pronoun referencing 3 Transition... | -
+9 | 2288e437-30c7-499a-b159-075843ddb1cb | Match the Following |  |  | no | Match List I (paragraph function) with List II (typical signalling phrase). List I: 1 topic sentence introducing contra... | -
+10 | 2a3d20f1-d662-4b18-bcf0-3093c411ed15 | Match the Following |  |  | no | Match the following figures of speech with their definitions: List I: (A) Alliteration (B) Onomatopoeia (C) Oxymoron Li... | -
+11 | 7c23be75-e553-40ea-9982-a88456f9e15f | Correct Word Usage |  |  | no | Assertion: A semicolon can join two independent clauses without a coordinating conjunction. Reason: A semicolon is used... | -
+12 | c0c84c23-1c56-4714-ba01-d78faa4b7502 | Match the Following |  |  | no | Match List I (note-making elements) with List II (purpose). List I: 1 Headings 2 Abbreviations 3 Indicators (arrows, st... | -
+13 | 14bddd76-de4f-4ae3-9fb6-18840332d62f | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. for the meeting Q. arrived late R. due to traffic S. the ... | -
+14 | 88051c7e-8da6-4b61-a35a-ec279375309f | Match the Following |  |  | no | Match List I (Sentence type) with List II (Example): List I: 1 Declarative 2 Interrogative 3 Imperative 4 Exclamatory L... | -
+15 | 3fe710b3-a248-4720-bbc0-13831d73f498 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. after dinner Q. my grandfather R. tells us stories S. eve... | -
+16 | 8e8da505-f073-4f67-9b14-2a18cc44616b | Correct Word Usage |  |  | no | Assertion: Ordering points chronologically in notes always improves clarity. Reason: Chronological order presents event... | -
+17 | 7c67f9ec-3490-476e-89d2-eb65c4d100f5 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. for the test Q. Riya studied R. all night S. carefully | -
+18 | 7c7042be-3694-473c-88d0-ea94e1272313 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. in the garden Q. were playing R. the children S. happily | -
+19 | e4d3fd44-2ec6-4add-b552-b97d3287f310 | Vocabulary |  |  | no | Assertion: Verbal irony occurs when a speaker's words mean the opposite of their literal sense. Reason: Sarcasm is iden... | -
+20 | 99cb445e-7e75-41a0-bb8b-482c074dc97c | Match the Following |  |  | no | Match List I (clause type) with List II (example). List I: 1 Restrictive relative clause, 2 Non-restrictive relative cl... | -
+21 | 17508e4a-7052-4221-a4c2-1e5c3647b950 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. a useful book Q. I found R. at the fair S. yesterday | -
+22 | ee01ba25-13c8-4dc9-a651-5dca155c0020 | Correct Word Usage |  |  | no | Choose the sentence that correctly uses commas to avoid an unintended meaning: | -
+23 | b261cbe2-4022-4413-b7b4-a1cc97c67306 | Match the Following |  |  | no | Match the words in List I to the dominant connotative label in List II. List I: (1) svelte, (2) scrawny, (3) slender, (... | -
+24 | 9ab866f3-fc98-4b38-8332-d89ba83e7989 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. the school bus Q. reached the stop R. before 7 a.m. S. ev... | -
+25 | 70e0a493-aab4-4ff5-b9f4-5c7f4a0af9da | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. the lights went out Q. during the storm R. suddenly S. la... | -
+26 | 9e237220-91a1-4575-8f1c-f2810eed2702 | Match the Following |  |  | no | Match List I (prose technique) with List II (how it supports characterization). List I: 1 free indirect discourse, 2 ep... | -
+27 | 6a67f64a-48a9-4388-bd17-318fe2f31d4c | Vocabulary |  |  | no | Statement I: The word 'benevolent' implies a desire to do good. Statement II: 'Malevolent' means having a kind disposit... | -
+28 | c13f86d8-8961-4c54-bb8f-b06d6bd8c73e | Correct Word Usage |  |  | no | Select the sentence that shows correct subject-verb agreement with a collective noun used as a single unit: | -
+29 | b4a3fbae-4a93-49f6-be47-83b7000cd8e8 | Match the Following |  |  | no | Match List I with List II: List I (Reading Technique) (a) Skimming (b) Scanning List II (Purpose) (i) Finding specific ... | -
+30 | 33bd9b71-7c15-48ee-b3e2-2ab432e7c11c | Correct Word Usage |  |  | no | In a formal invitation, which word is more appropriate to request something? | -
+31 | c8f2eeea-e39f-4272-9ab9-5cd9469c84b2 | Match the Following |  |  | no | Match List I (types of prose) with List II (primary purpose). List I: 1 Narrative 2 Expository 3 Persuasive 4 Descripti... | -
+32 | 84b8368e-d843-4f26-9856-1612b2378f8a | Match the Following |  |  | no | Match List I with List II: List I (Note-making Tool) (a) Pen and paper (b) Digital note app List II (Characteristic) (i... | -
+33 | 89e01410-8940-4ece-a973-f1e88aa58716 | Match the Following |  |  | no | Match List I with List II and select the correct answer using the code given below: List I (Figure of Speech) A. Allite... | -
+34 | 6375cecd-6481-4d04-a64e-857f5b23c063 | Match the Following |  |  | no | Match List I (left) — stylistic device — with List II (right) — typical immediate comprehension effect. List I: (1) Ana... | -
+35 | f5d63bee-d9e2-42a3-86b8-27a46011763d | Match the Following |  |  | no | Match List I with List II: List I (Text Feature) (a) Heading (b) Caption List II (Purpose) (i) Explains an image (ii) I... | -
+36 | 86749dec-42ff-4cd8-b867-7792416c89f4 | Vocabulary |  |  | no | Assertion: A strong vocabulary enhances reading fluency. Reason: Knowing more words reduces the need to pause and decod... | -
+37 | 9efa1a52-50b1-4f97-823a-2bc17f07a327 | Vocabulary |  |  | no | Which prefix correctly forms the opposite of the word active? | -
+38 | 9778589e-2792-43ef-b432-0ac706b51551 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. because it was raining Q. we stayed indoors R. the whole ... | -
+39 | 3137d051-f15e-4257-b2ed-36b35fff097d | Correct Word Usage |  |  | no | Assertion: An inference drawn by a reader must be strictly required by the text's stated facts. Reason: An assumption i... | -
+40 | f10b30f1-ae13-4b4c-820c-50a151a166da | Correct Word Usage |  |  | no | Assertion: In counterfactual conditional clauses (contrary-to-fact), English commonly uses 'were' after 'if' regardless... | -
+41 | 6e825b79-e434-487d-b7e6-916d19682123 | Vocabulary |  |  | no | Which word best conveys a somber mood in the context of poetry describing an approaching evening? | -
+42 | b0ca1a8c-d7c8-4f55-9845-18b332b08de1 | Vocabulary |  |  | no | In the sentence 'The storm finally began to abate', which word is the closest synonym in meaning? | -
+43 | ec6fbfb4-32c2-4bf1-8434-54c8005e0b66 | Vocabulary |  |  | no | A student understands that "un-" often means "not" or "opposite of." When they see the word "unhappy," they correctly d... | -
+44 | e1c7375c-5a3c-4859-a728-a17d551e3ddb | Correct Word Usage |  |  | no | Choose the sentence that demonstrates correct parallel structure: | -
+45 | df88572a-eaef-446f-b572-7da98eae36b9 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. This expansion often encroaches on natural habitats.... | -
+46 | 0dee37b0-fdcd-4e3f-ace0-110ef6a34e0b | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. However, this assumption overlooks the persistent ga... | -
+47 | 026f366a-b507-4d21-83d2-e76cf97eb315 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. This often stems from a lack of coordination between... | -
+48 | 3d7dc49d-16a0-47e5-8154-4aba43d56042 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. Teaching critical evaluation skills has therefore be... | -
+49 | b828abf0-d2bf-4797-85b5-6dfad65729c2 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. However, the quality of engagement with long-form te... | -
+50 | 9e7ab76f-627d-4d33-ad29-be3ec33d97c7 | Correct Word Usage |  |  | no | Choose the sentence with the correct subject-verb agreement. | -
+
+# NTA sample subject=english run=10
+selected=50/50 canBuild50=true durationMinutes=60
+topRejectReasons=[{"reason":"orphan_passage_question","count":212},{"reason":"generic_english_assertion_reason_without_context","count":13},{"reason":"question_missing_or_too_short","count":9},{"reason":"generic_textbook_one_liner","count":8}]
+idx | id | chapter | type | passage_group_id | real_passage | text | warnings
+---: | --- | --- | --- | --- | --- | --- | ---
+1 | c13f9a2e-f5d8-4e2c-8c96-b8b1ce0656e1 | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. Social media algorithms are designed to maximize eng... | -
+2 | 459ac193-3644-48d5-89d8-f08be64d1b49 | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. Green roofs and reflective materials can mitigate th... | -
+3 | 759c3916-a134-45b1-a8cc-98e347c54a6d | Para Jumbles | para_jumble |  | no | Rearrange the following sentences to form a coherent paragraph: A. The ease of sharing information online has also ampl... | -
+4 | c13f86d8-8961-4c54-bb8f-b06d6bd8c73e | Correct Word Usage |  |  | no | Select the sentence that shows correct subject-verb agreement with a collective noun used as a single unit: | -
+5 | 4ce849e0-9e45-43fa-a6b4-3a0cc44246c3 | Match the Following |  |  | no | Match List I (cohesive device) with List II (primary function). List I: 1 Repetition 2 Pronoun referencing 3 Transition... | -
+6 | 17508e4a-7052-4221-a4c2-1e5c3647b950 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. a useful book Q. I found R. at the fair S. yesterday | -
+7 | c8f2eeea-e39f-4272-9ab9-5cd9469c84b2 | Match the Following |  |  | no | Match List I (types of prose) with List II (primary purpose). List I: 1 Narrative 2 Expository 3 Persuasive 4 Descripti... | -
+8 | c0c84c23-1c56-4714-ba01-d78faa4b7502 | Match the Following |  |  | no | Match List I (note-making elements) with List II (purpose). List I: 1 Headings 2 Abbreviations 3 Indicators (arrows, st... | -
+9 | 88051c7e-8da6-4b61-a35a-ec279375309f | Match the Following |  |  | no | Match List I (Sentence type) with List II (Example): List I: 1 Declarative 2 Interrogative 3 Imperative 4 Exclamatory L... | -
+10 | 7c23be75-e553-40ea-9982-a88456f9e15f | Correct Word Usage |  |  | no | Assertion: A semicolon can join two independent clauses without a coordinating conjunction. Reason: A semicolon is used... | -
+11 | 7c7042be-3694-473c-88d0-ea94e1272313 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. in the garden Q. were playing R. the children S. happily | -
+12 | 99cb445e-7e75-41a0-bb8b-482c074dc97c | Match the Following |  |  | no | Match List I (clause type) with List II (example). List I: 1 Restrictive relative clause, 2 Non-restrictive relative cl... | -
+13 | 33bd9b71-7c15-48ee-b3e2-2ab432e7c11c | Correct Word Usage |  |  | no | In a formal invitation, which word is more appropriate to request something? | -
+14 | 6e825b79-e434-487d-b7e6-916d19682123 | Vocabulary |  |  | no | Which word best conveys a somber mood in the context of poetry describing an approaching evening? | -
+15 | ee01ba25-13c8-4dc9-a651-5dca155c0020 | Correct Word Usage |  |  | no | Choose the sentence that correctly uses commas to avoid an unintended meaning: | -
+16 | deb270a1-f776-4f76-9338-088348552105 | Match the Following |  |  | no | Match List I (figure of speech) with List II (definition). List I: A Metaphor, B Hyperbole, C Oxymoron, D Onomatopoeia.... | -
+17 | ec6fbfb4-32c2-4bf1-8434-54c8005e0b66 | Vocabulary |  |  | no | A student understands that "un-" often means "not" or "opposite of." When they see the word "unhappy," they correctly d... | -
+18 | b261cbe2-4022-4413-b7b4-a1cc97c67306 | Match the Following |  |  | no | Match the words in List I to the dominant connotative label in List II. List I: (1) svelte, (2) scrawny, (3) slender, (... | -
+19 | 8e8da505-f073-4f67-9b14-2a18cc44616b | Correct Word Usage |  |  | no | Assertion: Ordering points chronologically in notes always improves clarity. Reason: Chronological order presents event... | -
+20 | b4a3fbae-4a93-49f6-be47-83b7000cd8e8 | Match the Following |  |  | no | Match List I with List II: List I (Reading Technique) (a) Skimming (b) Scanning List II (Purpose) (i) Finding specific ... | -
+21 | 9778589e-2792-43ef-b432-0ac706b51551 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. because it was raining Q. we stayed indoors R. the whole ... | -
+22 | 7c67f9ec-3490-476e-89d2-eb65c4d100f5 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. for the test Q. Riya studied R. all night S. carefully | -
+23 | 2a3d20f1-d662-4b18-bcf0-3093c411ed15 | Match the Following |  |  | no | Match the following figures of speech with their definitions: List I: (A) Alliteration (B) Onomatopoeia (C) Oxymoron Li... | -
+24 | f10b30f1-ae13-4b4c-820c-50a151a166da | Correct Word Usage |  |  | no | Assertion: In counterfactual conditional clauses (contrary-to-fact), English commonly uses 'were' after 'if' regardless... | -
+25 | 89e01410-8940-4ece-a973-f1e88aa58716 | Match the Following |  |  | no | Match List I with List II and select the correct answer using the code given below: List I (Figure of Speech) A. Allite... | -
+26 | 84b8368e-d843-4f26-9856-1612b2378f8a | Match the Following |  |  | no | Match List I with List II: List I (Note-making Tool) (a) Pen and paper (b) Digital note app List II (Characteristic) (i... | -
+27 | 70e0a493-aab4-4ff5-b9f4-5c7f4a0af9da | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. the lights went out Q. during the storm R. suddenly S. la... | -
+28 | b0ca1a8c-d7c8-4f55-9845-18b332b08de1 | Vocabulary |  |  | no | In the sentence 'The storm finally began to abate', which word is the closest synonym in meaning? | -
+29 | 9ab866f3-fc98-4b38-8332-d89ba83e7989 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. the school bus Q. reached the stop R. before 7 a.m. S. ev... | -
+30 | 9efa1a52-50b1-4f97-823a-2bc17f07a327 | Vocabulary |  |  | no | Which prefix correctly forms the opposite of the word active? | -
+31 | a8211db0-f696-445e-b45d-38e38fdd29ce | Match the Following |  |  | no | Match List I (poetic device) with List II (example). List I: 1 Metonymy, 2 Synecdoche, 3 Metaphor, 4 Personification. L... | -
+32 | e4d3fd44-2ec6-4add-b552-b97d3287f310 | Vocabulary |  |  | no | Assertion: Verbal irony occurs when a speaker's words mean the opposite of their literal sense. Reason: Sarcasm is iden... | -
+33 | 9e237220-91a1-4575-8f1c-f2810eed2702 | Match the Following |  |  | no | Match List I (prose technique) with List II (how it supports characterization). List I: 1 free indirect discourse, 2 ep... | -
+34 | 6375cecd-6481-4d04-a64e-857f5b23c063 | Match the Following |  |  | no | Match List I (left) — stylistic device — with List II (right) — typical immediate comprehension effect. List I: (1) Ana... | -
+35 | 3137d051-f15e-4257-b2ed-36b35fff097d | Correct Word Usage |  |  | no | Assertion: An inference drawn by a reader must be strictly required by the text's stated facts. Reason: An assumption i... | -
+36 | 14bddd76-de4f-4ae3-9fb6-18840332d62f | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. for the meeting Q. arrived late R. due to traffic S. the ... | -
+37 | f5d63bee-d9e2-42a3-86b8-27a46011763d | Match the Following |  |  | no | Match List I with List II: List I (Text Feature) (a) Heading (b) Caption List II (Purpose) (i) Explains an image (ii) I... | -
+38 | 86749dec-42ff-4cd8-b867-7792416c89f4 | Vocabulary |  |  | no | Assertion: A strong vocabulary enhances reading fluency. Reason: Knowing more words reduces the need to pause and decod... | -
+39 | 3fe710b3-a248-4720-bbc0-13831d73f498 | Para Jumbles |  |  | no | Arrange the following parts to form a meaningful sentence: P. after dinner Q. my grandfather R. tells us stories S. eve... | -
+40 | 361f280a-bbd8-4aab-b0c4-22b7adbc85e0 | Match the Following |  |  | no | Match List I (poetic term) with List II (brief definition). List I: A Enjambment, B Caesura, C Refrain, D Stanza. List ... | -
+41 | 6a67f64a-48a9-4388-bd17-318fe2f31d4c | Vocabulary |  |  | no | Statement I: The word 'benevolent' implies a desire to do good. Statement II: 'Malevolent' means having a kind disposit... | -
+42 | 2288e437-30c7-499a-b159-075843ddb1cb | Match the Following |  |  | no | Match List I (paragraph function) with List II (typical signalling phrase). List I: 1 topic sentence introducing contra... | -
+43 | 48e7af04-5458-45aa-9a73-1a843aa6a672 | Correct Word Usage |  |  | no | Case: A four-line stanza uses short lines that break sentences across lines (enjambment) and also contains mid-line pun... | -
+44 | 05fac976-9fae-4d48-84f5-9efdc640ae30 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. However, technical jargon can alienate the very peop... | -
+45 | d8602438-3f30-40e2-a0cf-f9d2a56b47e2 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. The rise of remote work has blurred the boundaries b... | -
+46 | df88572a-eaef-446f-b572-7da98eae36b9 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. This expansion often encroaches on natural habitats.... | -
+47 | 3614eade-0e16-4965-b98e-86c223cca196 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. However, sheer volume does not guarantee quality, an... | -
+48 | cd08a82e-f3b7-42c2-86c4-5c11ccd4181c | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. Public policy communication often fails when it uses... | -
+49 | 13aea4d5-168d-4dc0-92e4-7440d7989858 | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. The accelerating effects of climate change have made... | -
+50 | 0dee37b0-fdcd-4e3f-ace0-110ef6a34e0b | Para Jumbles |  |  | no | Rearrange the following sentences to form a coherent paragraph: A. However, this assumption overlooks the persistent ga... | -

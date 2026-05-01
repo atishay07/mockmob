@@ -1,0 +1,362 @@
+[
+  {
+    "subject": "english",
+    "chapter": "Vocabulary",
+    "body": "[MOCK EASY] Vocabulary Question 1",
+    "options": [
+      {
+        "key": "A",
+        "text": "Option A"
+      },
+      {
+        "key": "B",
+        "text": "Option B"
+      },
+      {
+        "key": "C",
+        "text": "Option C"
+      },
+      {
+        "key": "D",
+        "text": "Option D"
+      }
+    ],
+    "correct_answer": "A",
+    "explanation": "Mock explanation aligned to the chosen difficulty.",
+    "difficulty": "easy",
+    "difficulty_weight": 1,
+    "topic": "Verbal Ability",
+    "concept": "Vocabulary",
+    "concept_id": "english::vocabulary",
+    "question_type": "application_based",
+    "concept_pattern": "mock_easy_1",
+    "tags": [
+      "mock",
+      "cuet"
+    ]
+  },
+  {
+    "subject": "english",
+    "chapter": "Vocabulary",
+    "body": "[MOCK EASY] Vocabulary Question 2",
+    "options": [
+      {
+        "key": "A",
+        "text": "Option A"
+      },
+      {
+        "key": "B",
+        "text": "Option B"
+      },
+      {
+        "key": "C",
+        "text": "Option C"
+      },
+      {
+        "key": "D",
+        "text": "Option D"
+      }
+    ],
+    "correct_answer": "A",
+    "explanation": "Mock explanation aligned to the chosen difficulty.",
+    "difficulty": "easy",
+    "difficulty_weight": 1,
+    "topic": "Verbal Ability",
+    "concept": "Vocabulary",
+    "concept_id": "english::vocabulary",
+    "question_type": "application_based",
+    "concept_pattern": "mock_easy_2",
+    "tags": [
+      "mock",
+      "cuet"
+    ]
+  },
+  {
+    "subject": "english",
+    "chapter": "Vocabulary",
+    "body": "[MOCK EASY] Vocabulary Question 3",
+    "options": [
+      {
+        "key": "A",
+        "text": "Option A"
+      },
+      {
+        "key": "B",
+        "text": "Option B"
+      },
+      {
+        "key": "C",
+        "text": "Option C"
+      },
+      {
+        "key": "D",
+        "text": "Option D"
+      }
+    ],
+    "correct_answer": "A",
+    "explanation": "Mock explanation aligned to the chosen difficulty.",
+    "difficulty": "easy",
+    "difficulty_weight": 1,
+    "topic": "Verbal Ability",
+    "concept": "Vocabulary",
+    "concept_id": "english::vocabulary",
+    "question_type": "application_based",
+    "concept_pattern": "mock_easy_3",
+    "tags": [
+      "mock",
+      "cuet"
+    ]
+  },
+  {
+    "subject": "english",
+    "chapter": "Vocabulary",
+    "body": "[MOCK MEDIUM] Vocabulary Question 4",
+    "options": [
+      {
+        "key": "A",
+        "text": "Option A"
+      },
+      {
+        "key": "B",
+        "text": "Option B"
+      },
+      {
+        "key": "C",
+        "text": "Option C"
+      },
+      {
+        "key": "D",
+        "text": "Option D"
+      }
+    ],
+    "correct_answer": "A",
+    "explanation": "Mock explanation aligned to the chosen difficulty.",
+    "difficulty": "medium",
+    "difficulty_weight": 2,
+    "topic": "Verbal Ability",
+    "concept": "Vocabulary",
+    "concept_id": "english::vocabulary",
+    "question_type": "application_based",
+    "concept_pattern": "mock_medium_4",
+    "tags": [
+      "mock",
+      "cuet"
+    ]
+  },
+  {
+    "subject": "english",
+    "chapter": "Vocabulary",
+    "body": "[MOCK MEDIUM] Vocabulary Question 5",
+    "options": [
+      {
+        "key": "A",
+        "text": "Option A"
+      },
+      {
+        "key": "B",
+        "text": "Option B"
+      },
+      {
+        "key": "C",
+        "text": "Option C"
+      },
+      {
+        "key": "D",
+        "text": "Option D"
+      }
+    ],
+    "correct_answer": "A",
+    "explanation": "Mock explanation aligned to the chosen difficulty.",
+    "difficulty": "medium",
+    "difficulty_weight": 2,
+    "topic": "Verbal Ability",
+    "concept": "Vocabulary",
+    "concept_id": "english::vocabulary",
+    "question_type": "application_based",
+    "concept_pattern": "mock_medium_5",
+    "tags": [
+      "mock",
+      "cuet"
+    ]
+  },
+  {
+    "subject": "english",
+    "chapter": "Vocabulary",
+    "body": "[MOCK MEDIUM] Vocabulary Question 6",
+    "options": [
+      {
+        "key": "A",
+        "text": "Option A"
+      },
+      {
+        "key": "B",
+        "text": "Option B"
+      },
+      {
+        "key": "C",
+        "text": "Option C"
+      },
+      {
+        "key": "D",
+        "text": "Option D"
+      }
+    ],
+    "correct_answer": "A",
+    "explanation": "Mock explanation aligned to the chosen difficulty.",
+    "difficulty": "medium",
+    "difficulty_weight": 2,
+    "topic": "Verbal Ability",
+    "concept": "Vocabulary",
+    "concept_id": "english::vocabulary",
+    "question_type": "application_based",
+    "concept_pattern": "mock_medium_6",
+    "tags": [
+      "mock",
+      "cuet"
+    ]
+  },
+  {
+    "subject": "english",
+    "chapter": "Vocabulary",
+    "body": "[MOCK MEDIUM] Vocabulary Question 7",
+    "options": [
+      {
+        "key": "A",
+        "text": "Option A"
+      },
+      {
+        "key": "B",
+        "text": "Option B"
+      },
+      {
+        "key": "C",
+        "text": "Option C"
+      },
+      {
+        "key": "D",
+        "text": "Option D"
+      }
+    ],
+    "correct_answer": "A",
+    "explanation": "Mock explanation aligned to the chosen difficulty.",
+    "difficulty": "medium",
+    "difficulty_weight": 2,
+    "topic": "Verbal Ability",
+    "concept": "Vocabulary",
+    "concept_id": "english::vocabulary",
+    "question_type": "application_based",
+    "concept_pattern": "mock_medium_7",
+    "tags": [
+      "mock",
+      "cuet"
+    ]
+  },
+  {
+    "subject": "english",
+    "chapter": "Vocabulary",
+    "body": "[MOCK MEDIUM] Vocabulary Question 8",
+    "options": [
+      {
+        "key": "A",
+        "text": "Option A"
+      },
+      {
+        "key": "B",
+        "text": "Option B"
+      },
+      {
+        "key": "C",
+        "text": "Option C"
+      },
+      {
+        "key": "D",
+        "text": "Option D"
+      }
+    ],
+    "correct_answer": "A",
+    "explanation": "Mock explanation aligned to the chosen difficulty.",
+    "difficulty": "medium",
+    "difficulty_weight": 2,
+    "topic": "Verbal Ability",
+    "concept": "Vocabulary",
+    "concept_id": "english::vocabulary",
+    "question_type": "application_based",
+    "concept_pattern": "mock_medium_8",
+    "tags": [
+      "mock",
+      "cuet"
+    ]
+  },
+  {
+    "subject": "english",
+    "chapter": "Vocabulary",
+    "body": "[MOCK HARD] Vocabulary Question 9",
+    "options": [
+      {
+        "key": "A",
+        "text": "Option A"
+      },
+      {
+        "key": "B",
+        "text": "Option B"
+      },
+      {
+        "key": "C",
+        "text": "Option C"
+      },
+      {
+        "key": "D",
+        "text": "Option D"
+      }
+    ],
+    "correct_answer": "A",
+    "explanation": "Mock explanation aligned to the chosen difficulty.",
+    "difficulty": "hard",
+    "difficulty_weight": 3,
+    "topic": "Verbal Ability",
+    "concept": "Vocabulary",
+    "concept_id": "english::vocabulary",
+    "question_type": "application_based",
+    "concept_pattern": "mock_hard_9",
+    "tags": [
+      "mock",
+      "cuet"
+    ]
+  },
+  {
+    "subject": "english",
+    "chapter": "Vocabulary",
+    "body": "[MOCK HARD] Vocabulary Question 10",
+    "options": [
+      {
+        "key": "A",
+        "text": "Option A"
+      },
+      {
+        "key": "B",
+        "text": "Option B"
+      },
+      {
+        "key": "C",
+        "text": "Option C"
+      },
+      {
+        "key": "D",
+        "text": "Option D"
+      }
+    ],
+    "correct_answer": "A",
+    "explanation": "Mock explanation aligned to the chosen difficulty.",
+    "difficulty": "hard",
+    "difficulty_weight": 3,
+    "topic": "Verbal Ability",
+    "concept": "Vocabulary",
+    "concept_id": "english::vocabulary",
+    "question_type": "application_based",
+    "concept_pattern": "mock_hard_10",
+    "tags": [
+      "mock",
+      "cuet"
+    ]
+  }
+]

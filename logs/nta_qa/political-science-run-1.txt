@@ -1,0 +1,62 @@
+
+> mockmob@0.1.0 nta:sample
+> node --use-system-ca scripts/nta-sample.mjs --subject=political-science --runs=1
+
+
+## Loaded 336 candidate rows for political_science
+
+# NTA sample subject=political_science run=1
+selected=50/50 canBuild50=true durationMinutes=60
+topRejectReasons=[{"reason":"generic_textbook_one_liner","count":10},{"reason":"orphan_passage_question","count":5}]
+idx | id | chapter | type | passage_group_id | real_passage | text | warnings
+---: | --- | --- | --- | --- | --- | --- | ---
+1 | 0b551adf-e80a-4adb-b048-416d96b8eef2 | Challenges of Nation Building |  |  | no | Assertion: Regional movements in post-independence India often expressed strong regional identities and grievances. Rea... | -
+2 | e580b7bd-633a-44b1-9635-c7cc47f06956 | Globalisation |  |  | no | Assertion: Remittances from migrants help reduce a country's current account deficit. Reason: Remittances are recorded ... | -
+3 | 9f8fc438-57ff-4aff-8496-2fa514722c23 | Crisis of the Democratic Order |  |  | no | Which of the following statements about the role of civil society during the crisis of democratic order in India is mos... | -
+4 | a50f3e76-4864-44bd-b5ea-7287022abfc8 | US Hegemony in World Politics |  |  | no | During the Cold War, how did the US policy of 'containment' differ from 'rollback' in practice? | -
+5 | dc3de76c-ff85-46c9-b126-158b8059a77a | Security in the Contemporary World |  |  | no | Case: After the Cold War, a small coastal state finds its security suddenly threatened by a nearby expanding power; it ... | -
+6 | ffc3f1ac-2445-417f-a286-872c6a319c7c | Rise of Popular Movements |  |  | no | Which of the following was NOT a typical political effect of the Cold War on Indian popular movements? | -
+7 | c88f8ae1-4bd4-4bc9-894a-dee5b936d674 | India's External Relations |  |  | no | Case: Following rising cross-border incidents with a neighboring state, India hosted a regional meeting with neighborin... | -
+8 | ff3d3575-60b7-4d22-bb42-6fbaf2e3adff | Cold War Era |  |  | no | Assertion: After the end of bipolar competition, regional organisations became more important in managing security and ... | -
+9 | f4fe3eb8-a480-4a9c-b0f0-f42209130422 | Alternative Centres of Power |  |  | no | Assertion: Alternative centres of power, including MNCs and NGOs, can shape security and governance through resources, ... | -
+10 | 17fffb72-c5e4-443d-91a2-7984a0fd9a11 | US Hegemony in World Politics |  |  | no | Assertion: The United States relied more on alliances and client-states than on direct colonial rule during the Cold Wa... | -
+11 | 739d0426-70c5-4b37-a50d-dadb3861d7a3 | International Organisations |  |  | no | Who is the chief administrative officer of the United Nations? | -
+12 | 1c36bf16-b824-471c-9cb5-e3a30380dfc5 | US Hegemony in World Politics |  |  | no | During the Cold War India accepted some American economic aid while refusing basing rights for US forces; this posture ... | -
+13 | eecbaad7-ab84-40c8-ac4b-b118ff92d53f | Crisis of the Democratic Order |  |  | no | During the Emergency period several civil liberties were curtailed. Which of the following rights was specifically susp... | -
+14 | abc50c4c-ad9e-44d0-a1dd-6e9be28ba282 | Crisis of the Democratic Order |  |  | no | Which constitutional provision empowered the central government to proclaim an Internal Emergency in India in 1975? | -
+15 | a5bfe458-c8e1-45ed-bd4e-2cd9c3f38c13 | Globalisation |  |  | no | Which of the following best explains how globalisation contributed to the rise of regional parties in India? | -
+16 | e0ed1db8-c799-4f06-9285-92bb389394dd | Globalisation |  |  | no | Which description best captures 'political globalisation' as it affects India's external relations under globalisation? | -
+17 | 82edc76d-d0d5-4628-8e2b-fffbca657f70 | End of Bipolarity |  |  | no | Which statement best shows how information technology affected the rise of popular movements after the Cold War? | -
+18 | e8378992-44cc-41e2-b200-ee20905edac7 | Recent Issues and Challenges |  |  | no | India maintains autonomy in foreign policy in the face of US hegemony by adopting which approach? | -
+19 | 085d6d31-115f-48c0-bec5-5ef7f4c48d1a | International Organisations |  |  | no | Which of the following statements accurately describes the main function of the International Monetary Fund (IMF)? | -
+20 | 844d8d6c-3ae0-4d88-b88d-20775de4b143 | International Organisations |  |  | no | The headquarters of the World Health Organisation (WHO) is located in which city? | -
+21 | 166da3eb-3b76-4637-94ff-09e73607d55b | Regional Aspirations |  |  | no | A mineral-rich district witnesses a separatist movement demanding local control of revenues. From a security-aspect pol... | -
+22 | 811303ce-3e7a-4382-98be-746eb706d4e7 | US Hegemony in World Politics |  |  | no | Consider the following statements regarding the 'Bandwagoning' strategy used by states in relation to US hegemony: I. I... | -
+23 | 28cbd2bd-f9aa-47ba-9830-6485b83c1ffc | Recent Issues and Challenges |  |  | no | Match the environmental movement (List I) with its primary strategy (List II): List I: 1. Chipko 2. Narmada Bachao Ando... | -
+24 | 06ab766e-e646-44d7-952a-2e15233fa48f | End of Bipolarity |  |  | no | A coastal state uses a high-profile regional environmental treaty to increase its diplomatic weight among neighbours. T... | -
+25 | 8009638b-0b08-4c16-89e3-a1d0f57af414 | Cold War Era |  |  | no | If historians conventionally date the start of the Cold War bipolar order to 1947 and mark its end in 1991, for how man... | -
+26 | a0c4ccc2-07d7-4278-8ac1-414fe4e40002 | International Organisations |  |  | no | A country wishes to bring a matter of international peace and security to the attention of the UN. Which principal orga... | -
+27 | 79d801cb-1fec-4c53-bf7e-9fbb33f9f6f2 | Environment & Natural Resources |  |  | no | Assertion: Climate change is often framed as a non-traditional security threat. Reason: Non-traditional security focuse... | -
+28 | 1b1f25b4-bdb7-4817-826d-5c08c36d3cee | Recent Issues and Challenges |  |  | no | A municipality promises to open a factory that will create 5,000 jobs but will increase water pollution; voters support... | -
+29 | 6ce3ae2c-ff0a-476f-b001-d7ae4349eb57 | Cold War Era |  |  | no | Which description best captures the ‘End of Bipolarity’ in international politics after the late 1980s? | -
+30 | 3fc94a2a-58fb-43ce-adac-e30f5905fc39 | Rise of Popular Movements |  |  | no | Which of the following best describes 'alternative centres of power' in the context of popular movements? | -
+31 | ac5f5b96-99d9-4817-a3de-617d57cd7473 | US Hegemony in World Politics |  |  | no | Assertion: Proxy wars were central to US strategy of containment during much of the Cold War. Reason: Direct superpower... | -
+32 | bf589862-fe59-4561-9bf2-562dce6b276c | Contemporary South Asia |  |  | no | A country in South Asia set a five-year agricultural growth target of 6% per year. After five years, the compound annua... | -
+33 | 093286e5-4123-4f7b-a7ab-85c023db37d9 | Democratic Upsurge and Coalition Politics |  |  | no | Application: A small regional party joins a coalition and insists on the Union Ministry of Agriculture to secure funds ... | -
+34 | 0cdc5c5b-8da3-42d0-b2e1-20cd009aba3e | Cold War Era |  |  | no | Which statement correctly distinguishes a one-party dominant system from a single-party system? | -
+35 | 2dd55ed2-f886-484f-a02b-ac779b29cea6 | End of Bipolarity |  |  | no | Which of the following is NOT typically considered an alternative centre of power in the post-Cold War era? | -
+36 | d3bfcfc3-3aab-4d0f-af2a-0f5605ad837e | Environment & Natural Resources |  |  | no | A nation's CO2 emissions intensity (emissions per unit GDP) fell from 0.8 kg per dollar to 0.6 kg per dollar over a dec... | -
+37 | 2a2814c3-8141-4e1a-9210-f664d2672eca | Contemporary South Asia |  |  | no | Which of the following best describes a primary challenge of nation-building in contemporary South Asian states? | -
+38 | 9923ff3f-71d7-4b14-a409-3b1d02c96e42 | International Organisations |  |  | no | A global movement uses networks to push the World Health Organization to adopt stricter guidelines on infectious diseas... | -
+39 | 0ec9ceab-95b6-46bb-8ec9-1ad46f694ce1 | Recent Issues and Challenges |  |  | no | Which of the following is a likely political consequence of prolonged coalition governments at the Centre? | -
+40 | d75c4256-544f-4db7-b851-dd9421ac1f00 | End of Bipolarity |  |  | no | If influence scores in a regional policy process are: State=5, Regional Org=3, NGO=2 (total 10). If NGO influence doubl... | -
+41 | e32a7295-fc58-4768-8837-35f982fa462d | India's External Relations |  |  | no | In a bilateral border dispute with a neighboring country, which instrument of India's external relations is most approp... | -
+42 | 9175dd49-6760-4614-b6e3-c340eea3f924 | Regional Aspirations |  |  | no | State Z holds 40 million tonnes of coal while the national total is 200 million tonnes. What percentage of national coa... | -
+43 | 285f148a-338c-4bbf-8353-e02abccb541c | Globalisation |  |  | no | How does diaspora diplomacy, in the context of globalisation, most directly strengthen India's external relations? | -
+44 | aaf88abe-b44f-42f4-b1dd-59896fe6c1c3 | Environment & Natural Resources |  |  | no | Assertion: The securitization of environmental issues often leads to greater involvement of military institutions. Reas... | -
+45 | a16d35b9-e997-47c6-83df-90824f6f807e | International Organisations |  |  | no | During the Cold War, decolonization movements used the United Nations to advocate independence. Which UN organ historic... | -
+46 | ad04b24a-ba54-46c7-a38f-070e1665a954 | Crisis of the Democratic Order |  |  | no | If the Congress vote share in a general election fell from 48% to 36% between two successive polls, what is the percent... | -
+47 | 2a1831d5-d246-49fd-b316-5f417f3e5baa | Recent Issues and Challenges |  |  | no | Assertion: During the era of one-party dominance, internal party democracy often weakened in the dominant party. Reason... | -
+48 | 01f75096-efec-43a0-b1c2-e86e63832f26 | International Organisations |  |  | no | Which international organisation was the predecessor to the United Nations? | -
+49 | 752eb7aa-3a90-4611-bd4c-f70a77fd0cdb | Crisis of the Democratic Order |  |  | no | Assertion: The 'Garibi Hatao' campaign strengthened Indira Gandhi's direct mass appeal. Reason: The slogan translated i... | -
+50 | 3932e313-9943-4245-bf7f-ca484fb6f5aa | Challenges of Nation Building |  |  | no | A trade union acting as an alternative centre of power saw a significant increase in its membership over three years, r... | -

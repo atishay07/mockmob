@@ -8,8 +8,8 @@
 
 -- ---------------------------------------------------------------------
 -- 1. ai_usage_logs
---    Append-only log of every AI call. Drives cost reporting + the
---    daily-limit counter (free 0 / paid 5 mentor msgs per IST day).
+--    Append-only log of every AI call. Drives cost reporting and the
+--    monthly included AI-credit counter.
 -- ---------------------------------------------------------------------
 create table if not exists public.ai_usage_logs (
   id uuid primary key default gen_random_uuid(),
@@ -29,6 +29,30 @@ create index if not exists ai_usage_logs_user_created_idx
   on public.ai_usage_logs (user_id, created_at desc);
 create index if not exists ai_usage_logs_feature_created_idx
   on public.ai_usage_logs (feature, created_at desc);
+
+-- ---------------------------------------------------------------------
+-- 1b. ai_credit_ledger
+--     Future-ready ledger for monthly included grants and extra AI packs.
+--     Current app code can operate from ai_usage_logs, but this table lets
+--     future payment/cron jobs grant, expire, and audit AI credits cleanly.
+-- ---------------------------------------------------------------------
+create table if not exists public.ai_credit_ledger (
+  id uuid primary key default gen_random_uuid(),
+  user_id text not null,
+  amount integer not null,
+  reason text not null
+    check (reason in ('monthly_grant', 'pack_purchase', 'admin_adjustment', 'ai_spend', 'expiry')),
+  feature text,
+  reference text,
+  metadata jsonb not null default '{}'::jsonb,
+  expires_at timestamptz,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists ai_credit_ledger_user_created_idx
+  on public.ai_credit_ledger (user_id, created_at desc);
+create index if not exists ai_credit_ledger_reference_idx
+  on public.ai_credit_ledger (reference);
 
 -- ---------------------------------------------------------------------
 -- 2. mentor_sessions + mentor_messages
@@ -106,6 +130,19 @@ create index if not exists rival_battle_answers_battle_idx
   on public.rival_battle_answers (battle_id);
 
 -- ---------------------------------------------------------------------
+-- 3b. RLS hardening
+--     The app currently accesses these tables from server routes through
+--     the service-role Supabase client. Enable RLS for defense in depth and
+--     do not add broad anon/authenticated direct table policies here.
+-- ---------------------------------------------------------------------
+alter table public.ai_usage_logs enable row level security;
+alter table public.ai_credit_ledger enable row level security;
+alter table public.mentor_sessions enable row level security;
+alter table public.mentor_messages enable row level security;
+alter table public.rival_battles enable row level security;
+alter table public.rival_battle_answers enable row level security;
+
+-- ---------------------------------------------------------------------
 -- 4. mm_spend_credits_amount RPC
 --    Atomic, parameterised credit decrement for AI Mentor + Rival.
 --    Independent from the existing fixed-action `spend_credits` RPC so
@@ -121,6 +158,7 @@ create or replace function public.mm_spend_credits_amount(
 ) returns jsonb
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   v_balance integer;
@@ -167,5 +205,7 @@ begin
 end;
 $$;
 
+revoke all on function public.mm_spend_credits_amount(text, integer, text, text)
+  from public, anon, authenticated;
 grant execute on function public.mm_spend_credits_amount(text, integer, text, text)
-  to anon, authenticated, service_role;
+  to service_role;

@@ -1,33 +1,31 @@
 /**
- * AI Rival profiles — single source of truth for archetypes.
+ * Shadow Benchmark profiles. Single source of truth for pressure-check settings.
  *
- * Tier semantics:
- *   tier === 'basic'   → covered by free 1/day or paid unlimited
- *   tier === 'premium' → covered by paid 2/day or paid + credits
- *   tier === 'credit'  → always costs credits even for paid users
+ * Product language stays plain: this is a timed benchmark, not a fantasy
+ * opponent system.
  */
 
 export const RIVAL_PROFILES = {
   NORTH_CAMPUS_RIVAL: {
-    name: 'North Campus Rival',
-    archetype: 'all-rounder',
-    description: 'A balanced North Campus aspirant. Steady accuracy, no flashy tricks. Beat them and you are on track.',
+    name: 'Daily Benchmark',
+    archetype: 'daily benchmark',
+    description: 'A short daily pressure check. Good for proving you can execute today without taking a full mock.',
     freeAllowed: true,
     paidAllowed: true,
     tier: 'basic',
     creditCost: 0,
     targetAccuracy: 0.78,
     avgTimePerQuestion: 55,
-    strength: 'consistency across subjects',
-    weakness: 'rarely takes risks on hard traps',
+    strength: 'balanced score target',
+    weakness: 'not personalized to weak chapters yet',
     difficultyMultiplier: 1.0,
-    introStyle: 'measured, slightly cocky',
-    accent: '#a3e635',
+    introStyle: 'clear and focused',
+    accent: '#d2f000',
   },
   HANSRAJ_LEVEL: {
-    name: 'Hansraj-Level Rival',
-    archetype: 'elite-academic',
-    description: 'A Hansraj-tier student. Sharp on conceptual questions, will punish weak Macroeconomics or Polity foundations.',
+    name: 'College Benchmark',
+    archetype: 'college benchmark',
+    description: 'A higher benchmark for students preparing around competitive DU college targets.',
     freeAllowed: false,
     paidAllowed: true,
     tier: 'credit',
@@ -35,31 +33,31 @@ export const RIVAL_PROFILES = {
     targetAccuracy: 0.86,
     avgTimePerQuestion: 50,
     strength: 'concept depth',
-    weakness: 'occasionally slow on quant',
+    weakness: 'requires enough target data to be truly personal',
     difficultyMultiplier: 1.18,
-    introStyle: 'austere, top-of-class energy',
-    accent: '#fbbf24',
+    introStyle: 'direct and realistic',
+    accent: '#eab308',
   },
   SRCC_DREAM: {
-    name: 'SRCC Dream Rival',
-    archetype: 'commerce-precision',
-    description: 'An SRCC B.Com aspirant. Near-perfect Accountancy and Business Studies. You need elite speed + accuracy to win.',
+    name: 'DU Target Benchmark',
+    archetype: 'dream college benchmark',
+    description: 'A premium benchmark for your target college or course path. Use only after a few mocks.',
     freeAllowed: false,
     paidAllowed: true,
     tier: 'credit',
     creditCost: 2,
     targetAccuracy: 0.9,
     avgTimePerQuestion: 48,
-    strength: 'commerce execution',
-    weakness: 'humanities subjects',
+    strength: 'high accuracy target',
+    weakness: 'not useful without regular mock data',
     difficultyMultiplier: 1.22,
-    introStyle: 'crisp, no-nonsense',
-    accent: '#f472b6',
+    introStyle: 'crisp and specific',
+    accent: '#eab308',
   },
   SPEED_DEMON: {
-    name: 'Speed Demon',
-    archetype: 'velocity',
-    description: 'Trades a little accuracy for speed. Will finish before you. Beat them by attempting more without breaking.',
+    name: 'Speed Benchmark',
+    archetype: 'pacing benchmark',
+    description: 'Tests pacing. Useful when you know the material but lose marks by running out of time.',
     freeAllowed: false,
     paidAllowed: true,
     tier: 'basic',
@@ -67,73 +65,73 @@ export const RIVAL_PROFILES = {
     targetAccuracy: 0.7,
     avgTimePerQuestion: 32,
     strength: 'pace under pressure',
-    weakness: 'silly errors on traps',
+    weakness: 'accuracy can drop under traps',
     difficultyMultiplier: 0.95,
-    introStyle: 'restless, rapid-fire',
-    accent: '#22d3ee',
+    introStyle: 'short and practical',
+    accent: '#38bdf8',
   },
   ACCURACY_MONSTER: {
-    name: 'Accuracy Monster',
-    archetype: 'precision',
-    description: 'Slow but lethal. Accuracy near 92%. Beat them on volume, not on per-question hits.',
+    name: 'Accuracy Benchmark',
+    archetype: 'precision benchmark',
+    description: 'Tests precision. Useful when careless errors are pulling down otherwise good attempts.',
     freeAllowed: false,
     paidAllowed: true,
     tier: 'basic',
     creditCost: 0,
     targetAccuracy: 0.92,
     avgTimePerQuestion: 78,
-    strength: 'never picks a wrong answer when sure',
-    weakness: 'leaves questions unattempted',
+    strength: 'precision',
+    weakness: 'slower pace',
     difficultyMultiplier: 1.05,
-    introStyle: 'calm, surgical',
-    accent: '#c084fc',
+    introStyle: 'calm and exact',
+    accent: '#a78bfa',
   },
   COMEBACK_RIVAL: {
-    name: 'Comeback Rival',
-    archetype: 'rubber-band',
-    description: 'Starts behind, ends ahead. They get stronger every battle. Do not get complacent.',
+    name: 'Recovery Benchmark',
+    archetype: 'recovery benchmark',
+    description: 'A basic benchmark for students trying to rebuild consistency after a poor mock.',
     freeAllowed: false,
     paidAllowed: true,
     tier: 'basic',
     creditCost: 0,
     targetAccuracy: 0.74,
     avgTimePerQuestion: 58,
-    strength: 'late-test focus',
-    weakness: 'first 5 questions',
+    strength: 'balanced recovery target',
+    weakness: 'less focused than Weakness Rival',
     difficultyMultiplier: 1.0,
-    introStyle: 'patient, taunting',
+    introStyle: 'steady and practical',
     accent: '#34d399',
   },
   WEAKNESS_RIVAL: {
-    name: 'Weakness Rival',
-    archetype: 'targeted',
-    description: 'Built specifically against your weakest chapters. The closer the battle, the more you have grown.',
+    name: 'Weakness Benchmark',
+    archetype: 'weakness benchmark',
+    description: 'Targets weak chapters from your MockMob history. Use when Radar shows repeated leaks.',
     freeAllowed: false,
     paidAllowed: true,
     tier: 'credit',
     creditCost: 1,
     targetAccuracy: 0.82,
     avgTimePerQuestion: 52,
-    strength: 'your specific weak topics',
-    weakness: 'your strongest area',
+    strength: 'your weakest available topics',
+    weakness: 'needs enough attempt history',
     difficultyMultiplier: 1.12,
-    introStyle: 'analytical, direct',
+    introStyle: 'analytical and direct',
     accent: '#f87171',
   },
   BOSS_RIVAL: {
-    name: 'Boss Rival',
-    archetype: 'final-form',
-    description: 'A composite top-1% rival. High accuracy, strong pace, no weaknesses. Survive the round, and you are CUET-ready.',
+    name: 'Composite Benchmark',
+    archetype: 'hard composite benchmark',
+    description: 'The hardest composite benchmark. Use after basic rivals feel too easy.',
     freeAllowed: false,
     paidAllowed: true,
     tier: 'credit',
     creditCost: 3,
     targetAccuracy: 0.93,
     avgTimePerQuestion: 46,
-    strength: 'every dimension',
-    weakness: 'none',
+    strength: 'high pace and high accuracy',
+    weakness: 'expensive if used too early',
     difficultyMultiplier: 1.3,
-    introStyle: 'imposing, final-boss',
+    introStyle: 'serious and concise',
     accent: '#facc15',
   },
 };
@@ -149,11 +147,6 @@ export function listRivalProfiles() {
 const BASIC_RIVALS = new Set(['NORTH_CAMPUS_RIVAL', 'SPEED_DEMON', 'ACCURACY_MONSTER', 'COMEBACK_RIVAL']);
 const PREMIUM_RIVALS = new Set(['HANSRAJ_LEVEL', 'SRCC_DREAM', 'WEAKNESS_RIVAL', 'BOSS_RIVAL']);
 
-/**
- * Quota slot a rival type counts against.
- *   'rival_basic'   → covered by free 1/day (only NORTH for free users) or paid unlimited.
- *   'rival_premium' → covered by paid 2/day premium quota; credits beyond.
- */
 export function quotaSlotFor(rivalType) {
   if (BASIC_RIVALS.has(rivalType)) return 'rival_basic';
   if (PREMIUM_RIVALS.has(rivalType)) return 'rival_premium';
@@ -168,12 +161,7 @@ export function isPremiumRival(rivalType) {
   return PREMIUM_RIVALS.has(rivalType);
 }
 
-/**
- * Free users can only run NORTH_CAMPUS_RIVAL once a day.
- * Paid users get all basic rivals unlimited + 2/day premium quota.
- * After premium quota is exhausted, per-profile creditCost applies.
- */
-export function rivalAccessRule({ rivalType, isPaid, basicQuotaRemaining, premiumQuotaRemaining }) {
+export function rivalAccessRule({ rivalType, isPaid, basicQuotaRemaining }) {
   const profile = RIVAL_PROFILES[rivalType];
   if (!profile) return { allowed: false, reason: 'unknown_rival' };
 
@@ -187,20 +175,16 @@ export function rivalAccessRule({ rivalType, isPaid, basicQuotaRemaining, premiu
       }
       return { allowed: true, requiresCredits: false, creditCost: 0 };
     }
-    // paid: unlimited basic
     return { allowed: true, requiresCredits: false, creditCost: 0 };
   }
 
   if (PREMIUM_RIVALS.has(rivalType)) {
     if (!isPaid) return { allowed: false, planRequired: true, reason: 'premium_rival_paid_only' };
-    if (premiumQuotaRemaining > 0) {
-      return { allowed: true, requiresCredits: false, creditCost: 0 };
-    }
     return {
       allowed: true,
       requiresCredits: true,
       creditCost: profile.creditCost || 1,
-      reason: 'premium_quota_exhausted_credits_required',
+      reason: 'premium_rival_credit_required',
     };
   }
 

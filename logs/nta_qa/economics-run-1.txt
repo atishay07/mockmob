@@ -1,0 +1,62 @@
+
+> mockmob@0.1.0 nta:sample
+> node --use-system-ca scripts/nta-sample.mjs --subject=economics --runs=1
+
+
+## Loaded 459 candidate rows for economics
+
+# NTA sample subject=economics run=1
+selected=50/50 canBuild50=true durationMinutes=60
+topRejectReasons=[{"reason":"generic_textbook_one_liner","count":23},{"reason":"orphan_passage_question","count":5},{"reason":"question_missing_or_too_short","count":5},{"reason":"options_invalid","count":1}]
+idx | id | chapter | type | passage_group_id | real_passage | text | warnings
+---: | --- | --- | --- | --- | --- | --- | ---
+1 | 37ab9423-c4be-4b4e-aa4e-e64bcb6977ad | Money & Banking | application_based |  | no | The central bank wants to reduce inflation by contracting the money supply. Which of the following policy actions is LE... | -
+2 | 10fdef01-2f99-4079-bb15-5e62a1002b37 | Government Budget & the Economy | assertion_reason |  | no | Assertion: Fiscal deficit is the difference between total expenditure and total receipts excluding borrowings. Reason: ... | -
+3 | 81d66632-2de9-4ffa-92e9-ae100cd4fd88 | Government Budget & the Economy | application_based |  | no | If the government increases subsidies on food and fertilizers without raising taxes and without changing other expendit... | -
+4 | 94ee4b2c-c897-46cc-8c67-8055eecd85ba | Indian Economy on the Eve of Independence | statement_based |  | no | Read the statements and choose the correct option. Statement I: India's birth rate and death rate were both high at ind... | -
+5 | 757b1265-a61e-4cf4-8869-e6773661df72 | Money & Banking | statement_based |  | no | Consider the following statements about money supply in India: Statement I: M1 includes currency with the public and de... | -
+6 | 88787ffb-9834-4e2b-96f6-0cbe1e95fe3d | Production & Costs | statement_based |  | no | Consider the following statements regarding the relationship between Average Product (AP) and Marginal Product (MP) of ... | -
+7 | 8afa476a-86d8-4511-ac6c-6d52960c8259 | Money & Banking | statement_based |  | no | Consider the following statements regarding money supply in India: Statement I: M1 includes currency with the public an... | -
+8 | e50d280c-7037-45f4-8ce3-5dec4a4cce11 | Government Budget & the Economy | statement_based |  | no | Read the statements about capital and revenue items in the government budget: Statement I: Construction of a highway is... | -
+9 | 12b99a89-2bd2-423e-80bd-f04d81cbc83a | Indian Economy on the Eve of Independence | statement_based |  | no | Read the statements and choose the correct option: Statement I: The colonial government built railways primarily to mob... | -
+10 | 2cd3f1f7-08f9-4e77-b661-fb24498986a7 | Indian Economy on the Eve of Independence | statement_based |  | no | Read the statements and choose the correct option. Statement I: On the eve of independence, India's population was char... | -
+11 | dc7a6b30-6892-4267-a0b8-dd2156938fcc | Indian Economy on the Eve of Independence | comparison_based |  | no | Which of the following best explains the paradox of colonial India's trade surplus coinciding with its economic underde... | -
+12 | 82947c5c-14ef-4832-94f5-f54d11075f59 | Money & Banking | application_based |  | no | The central bank decides to increase the cash reserve ratio (CRR) from 4% to 6%. Which of the following is the most lik... | -
+13 | fd95b270-de9b-4d63-9568-44b654bb185a | Money & Banking | statement_based |  | no | Consider the following statements about money supply: Statement I: M1 includes currency with the public and demand depo... | -
+14 | aa190017-b466-4810-8797-20840930a8c6 | Rural Development |  |  | no | Assertion: A rising fiscal deficit in the national budget can potentially reduce funds available for rural public inves... | -
+15 | d3075648-5b1d-4b3b-9507-a5a96081a6d5 | Income Determination |  |  | no | Assertion: A higher marginal propensity to import reduces the value of the fiscal multiplier in an open economy. Reason... | -
+16 | f43c5d69-c1c3-43b8-9a75-1dfa62162c67 | Theory of Firms under Perfect Competition |  |  | no | Case: An industry of identical firms in perfect competition faces a sudden one‑time increase in market demand, raising ... | -
+17 | 38b0c305-89db-4390-8268-e2a82e645733 | Rural Development |  |  | no | A newly built all-weather rural road is most likely to influence rural employment by: | -
+18 | a80ff544-8d54-4639-b704-05923f2e1b1f | Environment & Sustainable Development |  |  | no | Assertion: In perfect competition a firm produces where price equals private marginal cost. Reason: When production gen... | -
+19 | ece199c3-f31d-4563-ae52-870b2b972e83 | Theory of Firms under Perfect Competition |  |  | no | Which of the following best describes a perfectly competitive firm’s short-run supply curve? | -
+20 | a981c488-3546-4892-9689-5d33c1ce21ae | Indian Economic Development 1950–1990 |  |  | no | Which of the following statements is correct about the broad character of Indian economic development from 1950 to 1990? | -
+21 | d333e3cd-0e2c-4685-a398-4f4a097e6fad | Environment & Sustainable Development |  |  | no | After 1991 economic reforms, which market mechanism most directly pressured firms to adopt cleaner, more efficient tech... | -
+22 | 89f4ea3f-f60a-40b6-a6a0-6216c54f7ccb | Rural Development |  |  | no | Which of the following would not normally be classified as a public good in rural development policy? | -
+23 | 2592677b-16ab-426b-bab7-eb9c22cd6bcc | Market Equilibrium & Simple Applications |  |  | no | If demand is highly elastic while supply is relatively inelastic, who bears the larger burden of a specific per-unit ta... | -
+24 | fd633040-d83c-405b-a643-ac9933e3ad98 | Balance of Payments |  |  | no | Numerical: Country X reports a current account surplus of $20 billion and net capital outflow of $15 billion (net purch... | -
+25 | 6627c499-6e3a-41ba-ba37-e7c57977831b | Economic Reforms Since 1991 |  |  | no | Which statement best captures the technical difference between 'liberalisation' and 'globalisation' as used in India’s ... | -
+26 | baba3f6b-e9f2-468d-af09-d2dcaaef2c29 | National Income & Related Aggregates |  |  | no | Case: After 1991, many small app-based service providers expanded but a large share remained outside formal reporting f... | -
+27 | d12418df-1c5e-45d2-a868-a9631e0bc263 | Money & Banking |  |  | no | Which of the following is not a suitable example of money in the modern economy? | -
+28 | a8a616a3-8fc9-4ca4-aadd-e792c1dceb63 | Introduction & Theory of Consumer Behaviour |  |  | no | Two-period consumer maximizes ln(c1)+0.9 ln(c2) with y1=100, y2=110. If the real interest rate falls from 10% to 5% and... | -
+29 | 64fde3c3-0cf6-4902-8d9f-706c6dc3fd32 | Theory of Firms under Perfect Competition |  |  | no | If the minimum average variable cost of a firm is ₹5 per unit, which of the following prices will make the firm prefer ... | -
+30 | 626ccb72-539f-447b-90ab-dedc820ba496 | Introduction & Theory of Consumer Behaviour |  |  | no | For a firm in perfect competition, the demand curve it faces is: | -
+31 | 9d6ce17c-d799-42fb-a6df-783d28733bd9 | Development Experiences of India |  |  | no | Which statement best defines a 'poverty line' used in measuring India's poverty? | -
+32 | 5fbe0f78-66a9-4e5f-aa88-1d74b9c74972 | Balance of Payments |  |  | no | Assertion-Reason: Assertion (A): Central banks can use reserve transactions to correct short‑term BoP imbalances. Reaso... | -
+33 | f96f2816-1e6e-4894-a634-1f713162435c | Production & Costs |  |  | no | If marginal cost (MC) is below average cost (AC) at a given output, what happens to AC when output increases by a small... | -
+34 | a3959bd4-a9be-4eb1-9586-496de3583b9d | Production & Costs |  |  | no | Which one of the following best captures the Law of Diminishing Marginal Returns in the short-run? | -
+35 | 3eeaabe2-774d-4343-8bbb-16670a5ac5f1 | Money & Banking |  |  | no | Assertion: Explicit government guarantees on bank deposits tend to increase moral hazard in the banking sector. Reason:... | -
+36 | 4842b8ad-2544-41e9-96b3-249d2bca51ef | Introduction & Theory of Consumer Behaviour |  |  | no | In a perfectly competitive market, what characteristic best describes the product sold by different firms? | -
+37 | eb09a4db-04cc-4f29-8db5-9bba2136815b | Production & Costs |  |  | no | Match List I (cost measures) with List II (formula or description): List I: 1) Average Fixed Cost, 2) Marginal Cost, 3)... | -
+38 | 973da3c4-f0ca-4fc2-9ca0-b8019a2b8e97 | Introduction & Theory of Consumer Behaviour |  |  | no | Case: A smallholder receives most income at harvest (season 1) and little in season 2; a local lender offers high-cost ... | -
+39 | 082ff5ce-455d-4625-8299-ea521f553b0a | Production & Costs |  |  | no | Case: A manufacturing firm faces a sudden increase in factory rent (a fixed cost) while its variable costs per unit rem... | -
+40 | f0e7d013-c8a1-4dc2-8e20-e3d38d524dd5 | Production & Costs |  |  | no | If a firm's inputs are doubled and output increases from 80 to 170 units, this production technology exhibits which ret... | -
+41 | 9edd5670-c314-4024-9d4e-235bc3881893 | Government Budget & the Economy |  |  | no | Application: A government reduces budgetary allocation to rural public investment while maintaining social subsidies; w... | -
+42 | 70f2790b-1fde-4026-bcb1-a82874d1646a | Theory of Firms under Perfect Competition |  |  | no | Assertion: A per‑unit tax imposed on a perfectly competitive firm is always fully passed on to consumers as a higher pr... | -
+43 | 8e412528-7b8e-40dc-b3a0-37f61d072075 | Balance of Payments |  |  | no | Conceptual: Which of the following best describes the Balance of Payments (BoP) account of a country? | -
+44 | ed249f37-6fc6-4845-9d2a-506e8cc57bfc | Production & Costs |  |  | no | Assertion: A wage subsidy paid to rural firms increases employment in the short run. Reason: A wage subsidy lowers the ... | -
+45 | f489de45-2973-46ea-8b97-6e89e836981e | Government Budget & the Economy |  |  | no | Fiscal deficit is Rs 300 crore and interest payments are Rs 90 crore. Primary deficit will be: | -
+46 | 25e9b5ed-bebb-46be-843f-0a1cd0bde6b3 | Employment |  |  | no | Case: A balance of payments crisis forces rapid liberalisation and reduction of trade barriers. Which group is most lik... | -
+47 | 14bc4d2d-e83b-4be3-aa56-966fe4073ca7 | Development Experiences of India |  |  | no | Case: A consumer has income ₹100; price of X is ₹10 and price of Y is ₹20. Can the bundle (5 units of X, 2 units of Y) ... | -
+48 | 3d5c3ffa-8ec0-4c6b-85e3-d69118c196d1 | Employment |  |  | no | Which employment-related consequence is most commonly associated with import substitution (ISI) policies pursued in Ind... | -
+49 | 06b04272-2c11-4e0e-b0d7-b8f071d3b65d | Production & Costs |  |  | no | Match List I (stages of production in the short-run) with List II (characteristic): List I: 1) Stage I, 2) Stage II, 3)... | -
+50 | 00321823-e24f-413c-950d-8cd6feb66290 | Market Equilibrium & Simple Applications |  |  | no | Case: After construction of a major rural highway, many firms in a previously local industry find lower production cost... | -

@@ -28,7 +28,8 @@ test('low-confidence anchors no longer force Pro for normal jobs', () => {
 test('GPT is never selected for generation', () => {
   assert.doesNotMatch(llmSource, /const OPENAI_GENERATION_MODEL/);
   assert.match(llmSource, /blocked_openai_generation_override/);
-  assert.match(llmSource, /const GENERATION_MODELS = deepseek \? DEEPSEEK_GENERATION_MODELS : \[\]/);
+  assert.match(llmSource, /ALLOW_OPENAI_GENERATION/);
+  assert.match(llmSource, /KIMI_GENERATION_MODELS/);
 });
 
 test('Gemini is primary repair provider and GPT-4o-mini is repair fallback or validator only', () => {

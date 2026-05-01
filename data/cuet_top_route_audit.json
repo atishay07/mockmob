@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "default_top": 10,
+  "standalone_target_candidates": 12,
+  "passage_target_groups": 1,
+  "max_live_publish_allowed": 0,
+  "routes": [
+    {
+      "subject": "english",
+      "chapter_aliases": ["Factual Passage", "Narrative Passage", "Reading Comprehension"],
+      "route_type": "passage",
+      "priority": 100
+    },
+    {
+      "subject": "english",
+      "chapter_aliases": ["Para Jumbles"],
+      "route_type": "standalone",
+      "priority": 95
+    },
+    {
+      "subject": "gat",
+      "chapter_aliases": ["Logical & Analytical Reasoning", "Logical Reasoning", "General Mental Ability"],
+      "route_type": "standalone",
+      "priority": 92
+    },
+    {
+      "subject": "gat",
+      "chapter_aliases": ["Quantitative Reasoning", "Quantitative Aptitude", "Numerical Ability"],
+      "route_type": "standalone",
+      "priority": 90
+    },
+    {
+      "subject": "accountancy",
+      "chapter_aliases": ["Partnership Fundamentals", "Share Capital", "Financial Statements of Company"],
+      "route_type": "standalone",
+      "priority": 86
+    },
+    {
+      "subject": "business_studies",
+      "chapter_aliases": ["Principles of Management", "Marketing Management", "Nature & Significance of Management"],
+      "route_type": "standalone",
+      "priority": 84
+    },
+    {
+      "subject": "economics",
+      "chapter_aliases": ["Money & Banking", "National Income & Related Aggregates"],
+      "route_type": "standalone",
+      "priority": 82
+    },
+    {
+      "subject": "mathematics",
+      "chapter_aliases": ["Probability"],
+      "route_type": "standalone",
+      "priority": 80
+    },
+    {
+      "subject": "physics",
+      "chapter_aliases": ["Electromagnetic Induction", "Ray Optics & Optical Instruments"],
+      "route_type": "standalone",
+      "priority": 78
+    },
+    {
+      "subject": "biology",
+      "chapter_aliases": ["Molecular Basis of Inheritance"],
+      "route_type": "standalone",
+      "priority": 76
+    },
+    {
+      "subject": "chemistry",
+      "chapter_aliases": ["Aldehydes, Ketones & Carboxylic Acids"],
+      "route_type": "standalone",
+      "priority": 74
+    },
+    {
+      "subject": "history",
+      "chapter_aliases": ["Mahatma Gandhi & the Nationalist Movement", "Kings, Farmers & Towns"],
+      "route_type": "standalone",
+      "priority": 60
+    },
+    {
+      "subject": "geography",
+      "chapter_aliases": ["Population — Distribution, Density, Growth", "Human Geography — Nature & Scope"],
+      "route_type": "standalone",
+      "priority": 58
+    }
+  ]
+}

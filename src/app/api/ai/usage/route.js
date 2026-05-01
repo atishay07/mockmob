@@ -29,12 +29,18 @@ export async function GET() {
         snapshot.limits.basicRivalBattles === Infinity ? 'unlimited' : snapshot.limits.basicRivalBattles,
     },
     used: snapshot.used,
+    monthly: snapshot.monthly,
+    includedMonthlyAiCredits: snapshot.includedMonthlyAiCredits,
+    includedAiCreditsRemaining: snapshot.includedAiCreditsRemaining,
+    aiWallet: snapshot.aiWallet,
+    aiCreditBalance: snapshot.aiCreditBalance,
     remaining: {
       ...snapshot.remaining,
       basicRivalBattles:
         snapshot.remaining.basicRivalBattles === Infinity ? 'unlimited' : snapshot.remaining.basicRivalBattles,
     },
     creditBalance: snapshot.creditBalance,
+    normalCreditBalance: snapshot.normalCreditBalance,
     creditCosts: snapshot.creditCosts,
   });
 }

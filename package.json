@@ -4,10 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev",
+    "dev": "node --use-system-ca node_modules/next/dist/bin/next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node --use-system-ca node_modules/next/dist/bin/next start",
     "lint": "eslint",
+    "nta:sample": "node --use-system-ca scripts/nta-sample.mjs",
     "nta:diagnose": "node --use-system-ca scripts/nta-diagnose.mjs",
     "test:nta": "node --test data/tests/nta_question_selector.test.mjs",
     "db:seed": "node scripts/seed.mjs",

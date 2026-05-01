@@ -1,16 +1,13 @@
 import 'server-only';
 import { supabaseAdmin } from '@/lib/supabase';
-import { Database } from '@/../data/db';
 import { getRivalProfile, quotaSlotFor, rivalAccessRule } from './rivalProfiles';
-import { getUsageSnapshot, planTierFor } from '@/services/usage/getDailyUsage';
-import { checkAndConsumeCredits } from '@/services/credits/checkAndConsumeCredits';
+import { getUsageSnapshot, planTierFor, rivalTypeToQuotaAction } from '@/services/usage/getDailyUsage';
+import { consumeAIAllowance } from '@/services/credits/consumeAIAllowance';
 
 /**
- * Algorithmically create an AI Rival battle session.
- *
- * Determinism note: question selection, rival benchmark, and difficulty
- * weighting are all computed server-side without any AI call. AI is used
- * later for intro/outro flavour text only (see /api/ai/rival/start).
+ * Creates a Shadow Benchmark battle. Question selection, benchmark scoring, and final
+ * score math are deterministic server-side logic. AI only adds intro/outro
+ * flavor in the route layer.
  */
 export async function createAIRivalBattle({
   user,
@@ -34,7 +31,6 @@ export async function createAIRivalBattle({
     isPaid,
     basicQuotaRemaining:
       snapshot.remaining.basicRivalBattles === Infinity ? Infinity : snapshot.remaining.basicRivalBattles,
-    premiumQuotaRemaining: snapshot.remaining.premiumRivalBattles,
   });
 
   if (!access.allowed) {
@@ -43,7 +39,7 @@ export async function createAIRivalBattle({
       error: access.reason || 'rival_access_denied',
       planRequired: Boolean(access.planRequired),
       upgradeHint: Boolean(access.upgradeHint),
-      status: access.planRequired ? 402 : 429,
+      status: access.status || (access.planRequired ? 402 : 429),
     };
   }
 
@@ -56,47 +52,44 @@ export async function createAIRivalBattle({
   }
 
   const count = clampInt(questionCount, 5, 30, 10);
-  const timeLimit = clampInt(timeLimitMinutes, 3, 60, Math.max(5, Math.round((count * profile.avgTimePerQuestion) / 60) + 2));
+  const timeLimit = clampInt(
+    timeLimitMinutes,
+    3,
+    60,
+    Math.max(5, Math.round((count * profile.avgTimePerQuestion) / 60) + 2),
+  );
+  const battleSeed = buildBattleSeed({ userId: user.id, rivalType, used: snapshot.used });
 
-  // Pick questions algorithmically (no AI).
   const questions = await selectRivalQuestions({
     userId: user.id,
     subjects: normalizedSubjects,
     count,
     difficultyTarget: difficultyTarget || profileDifficulty(profile),
     rivalType,
+    seed: battleSeed,
   });
 
-  if (!questions.length) {
-    return { ok: false, error: 'no_questions_available', status: 422 };
+  if (questions.length < Math.min(5, count)) {
+    return {
+      ok: false,
+      error: 'no_questions_available',
+      message: 'No complete benchmark question set is available for this subject yet. Try another subject or a shorter diagnostic mock.',
+      status: 422,
+    };
   }
 
-  // Charge credits if required (AFTER question availability is confirmed).
   let chargeRecord = null;
-  if (access.requiresCredits && access.creditCost > 0) {
-    const reference = `rival_${rivalType}_${user.id}_${Date.now()}`;
-    const charge = await checkAndConsumeCredits({
-      userId: user.id,
-      amount: access.creditCost,
-      action: `ai_rival_${rivalType.toLowerCase()}`,
-      reference,
-    });
-    if (!charge.ok) {
-      return {
-        ok: false,
-        error: charge.error || 'credit_charge_failed',
-        balance: charge.balance,
-        required: charge.required,
-        status: 402,
-      };
-    }
-    chargeRecord = { reference, charged: charge.charged, balance: charge.balance };
-  }
+  const requiresCharge = access.requiresCredits && access.creditCost > 0;
 
-  const rivalBenchmark = simulateRivalBenchmark({ profile, questions, count, timeLimitSeconds: timeLimit * 60 });
+  const rivalBenchmark = simulateRivalBenchmark({
+    profile,
+    questions,
+    count,
+    timeLimitSeconds: timeLimit * 60,
+    seed: battleSeed,
+  });
 
-  const sb = supabaseAdmin();
-  const { data, error } = await sb
+  const { data, error } = await supabaseAdmin()
     .from('rival_battles')
     .insert({
       user_id: user.id,
@@ -122,7 +115,8 @@ export async function createAIRivalBattle({
         difficultyTarget: difficultyTarget || null,
         targetCollege: targetCollege || null,
         slot: quotaSlotFor(rivalType),
-        charge: chargeRecord,
+        battleSeed,
+        charge: null,
         rivalAnswers: rivalBenchmark.answers,
       },
     })
@@ -131,7 +125,46 @@ export async function createAIRivalBattle({
 
   if (error || !data) {
     console.error('[rival] insert failed:', error);
-    return { ok: false, error: 'battle_insert_failed', status: 500 };
+    return {
+      ok: false,
+      error: 'battle_insert_failed',
+      message: 'Rival could not create the battle record. No AI credits were charged. Try again in a moment.',
+      status: 500,
+    };
+  }
+
+  if (requiresCharge) {
+    const allowance = await consumeAIAllowance({
+      user,
+      action: rivalTypeToQuotaAction(rivalType),
+      referencePrefix: `rival_${rivalType}_${data.id}`,
+    });
+    if (!allowance.ok) {
+      await markBattleAbandoned({
+        battleId: data.id,
+        userId: user.id,
+        reason: allowance.error || 'credit_charge_failed',
+      });
+      return {
+        ok: false,
+        error: allowance.error || 'credit_charge_failed',
+        message:
+          allowance.error === 'ai_credit_schema_missing'
+            ? 'AI credits are not initialized yet. Run the AI overlay credits migration.'
+            : 'This premium Rival needs AI credits before it can start.',
+        planRequired: Boolean(allowance.planRequired),
+        balance: allowance.balance,
+        required: allowance.required,
+        status: allowance.status || 402,
+      };
+    }
+    chargeRecord = allowance.charge;
+    await attachBattleCharge({
+      battleId: data.id,
+      userId: user.id,
+      metadata: data.metadata,
+      charge: chargeRecord,
+    });
   }
 
   return {
@@ -139,7 +172,7 @@ export async function createAIRivalBattle({
     battle: {
       id: data.id,
       rivalType,
-      profile: profile,
+      profile,
       subjects: normalizedSubjects,
       questions: questions.map((q) => ({
         id: q.id,
@@ -164,13 +197,37 @@ export async function createAIRivalBattle({
   };
 }
 
-// ----- internals -----
+async function attachBattleCharge({ battleId, userId, metadata, charge }) {
+  try {
+    await supabaseAdmin()
+      .from('rival_battles')
+      .update({ metadata: { ...(metadata || {}), charge } })
+      .eq('id', battleId)
+      .eq('user_id', userId);
+  } catch (err) {
+    console.warn('[rival] charge metadata update skipped:', err?.message || err);
+  }
+}
 
-async function selectRivalQuestions({ userId, subjects, count, difficultyTarget, rivalType }) {
+async function markBattleAbandoned({ battleId, userId, reason }) {
+  try {
+    await supabaseAdmin()
+      .from('rival_battles')
+      .update({
+        status: 'abandoned',
+        metadata: { abandonedReason: reason, abandonedAt: new Date().toISOString() },
+      })
+      .eq('id', battleId)
+      .eq('user_id', userId);
+  } catch (err) {
+    console.warn('[rival] abandoned marker skipped:', err?.message || err);
+  }
+}
+
+async function selectRivalQuestions({ userId, subjects, count, difficultyTarget, rivalType, seed }) {
   const sb = supabaseAdmin();
   const perSubject = Math.max(1, Math.ceil(count / subjects.length));
 
-  // For WEAKNESS_RIVAL we bias toward chapters the user has historically failed.
   let weakChapters = new Set();
   if (rivalType === 'WEAKNESS_RIVAL') {
     try {
@@ -201,10 +258,10 @@ async function selectRivalQuestions({ userId, subjects, count, difficultyTarget,
     const limit = Math.min(perSubject * 3, remaining * 4, 60);
     let query = sb
       .from('questions')
-      .select('id, subject, chapter, question, options, correct_index, correct_answer, difficulty, score')
+      .select('id, subject, chapter, body, question, options, correct_index, difficulty, score')
       .eq('subject', subject)
       .eq('is_deleted', false)
-      .eq('status', 'live')
+      .or('status.eq.live,verification_state.eq.verified')
       .limit(limit);
 
     if (difficultyTarget && ['easy', 'medium', 'hard'].includes(difficultyTarget)) {
@@ -220,30 +277,31 @@ async function selectRivalQuestions({ userId, subjects, count, difficultyTarget,
       if (weak.length) pool = weak;
     }
 
-    // Shuffle + take.
-    pool.sort(() => Math.random() - 0.5);
+    pool.sort((a, b) => hashToUnit(`${seed}:${a.id}:pick`) - hashToUnit(`${seed}:${b.id}:pick`));
     collected.push(...pool.slice(0, Math.min(perSubject, remaining)));
   }
 
-  // Normalise option shape — Database.getQuestions does a similar thing,
-  // but here we need raw rows so we can charge credits before paying for it.
-  return collected.slice(0, count).map((q) => ({
-    id: q.id,
-    subject: q.subject,
-    chapter: q.chapter,
-    question: q.question,
-    options: Array.isArray(q.options)
-      ? q.options.map((o) => (typeof o === 'string' ? o : o?.text ?? o?.label ?? ''))
-      : [],
-    correctIndex: Number.isInteger(q.correct_index) ? q.correct_index : null,
-    difficulty: q.difficulty || 'medium',
-  }));
+  return collected
+    .map((q) => {
+      const questionText = String(q.question || q.body || '').trim();
+      const options = Array.isArray(q.options)
+        ? q.options.map((o) => String(typeof o === 'string' ? o : o?.text ?? o?.label ?? o?.value ?? '').trim())
+        : [];
+      return {
+        id: q.id,
+        subject: q.subject,
+        chapter: q.chapter,
+        question: questionText,
+        options: options.filter(Boolean),
+        correctIndex: Number.isInteger(q.correct_index) ? q.correct_index : null,
+        difficulty: q.difficulty || 'medium',
+      };
+    })
+    .filter((q) => q.question.length >= 8 && q.options.length >= 2)
+    .slice(0, count);
 }
 
-function simulateRivalBenchmark({ profile, questions, count, timeLimitSeconds }) {
-  // Deterministic-ish simulation (uses Math.random but bounded).
-  // For each question: rival has profile.targetAccuracy chance to be right,
-  // adjusted ±5% by question difficulty. Time is sampled around avgTimePerQuestion.
+function simulateRivalBenchmark({ profile, questions, count, timeLimitSeconds, seed }) {
   let correct = 0;
   let totalTime = 0;
   const answers = [];
@@ -251,14 +309,15 @@ function simulateRivalBenchmark({ profile, questions, count, timeLimitSeconds })
   for (const q of questions) {
     const diffAdj = q.difficulty === 'hard' ? -0.07 : q.difficulty === 'easy' ? 0.05 : 0;
     const pCorrect = clamp(profile.targetAccuracy + diffAdj, 0.3, 0.98);
-    const isCorrect = Math.random() < pCorrect;
+    const isCorrect = hashToUnit(`${seed}:${q.id}:correct`) < pCorrect;
+    const timeRoll = hashToUnit(`${seed}:${q.id}:time`) - 0.5;
     const t = Math.max(
       8,
-      Math.round(profile.avgTimePerQuestion + (Math.random() - 0.5) * 18 * profile.difficultyMultiplier),
+      Math.round(profile.avgTimePerQuestion + timeRoll * 18 * profile.difficultyMultiplier),
     );
+
     totalTime += t;
     if (totalTime > timeLimitSeconds) {
-      // Rival ran out of time on remaining questions.
       answers.push({ qid: q.id, isCorrect: false, timeSeconds: t, ranOut: true });
       continue;
     }
@@ -267,7 +326,6 @@ function simulateRivalBenchmark({ profile, questions, count, timeLimitSeconds })
   }
 
   const accuracyPct = count ? Math.round((correct / count) * 100) : 0;
-  // Score uses MockMob's "every correct = +1 weight" base, scaled by difficulty multiplier.
   const score = Math.round(correct * 10 * profile.difficultyMultiplier);
 
   return {
@@ -282,7 +340,23 @@ function simulateRivalBenchmark({ profile, questions, count, timeLimitSeconds })
 function profileDifficulty(profile) {
   if (profile.difficultyMultiplier >= 1.2) return 'hard';
   if (profile.difficultyMultiplier <= 0.95) return 'easy';
-  return null; // mixed
+  return null;
+}
+
+function buildBattleSeed({ userId, rivalType, used }) {
+  const day = new Date().toISOString().slice(0, 10);
+  const count = (used?.basicRivalBattles || 0) + (used?.premiumRivalBattles || 0);
+  return `${userId}:${rivalType}:${day}:${count}`;
+}
+
+function hashToUnit(input) {
+  let h = 2166136261;
+  const text = String(input);
+  for (let i = 0; i < text.length; i += 1) {
+    h ^= text.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return (h >>> 0) / 4294967295;
 }
 
 function clamp(v, lo, hi) {

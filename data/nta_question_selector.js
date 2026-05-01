@@ -10,7 +10,17 @@ const GOOD_STATUS = new Set(['live', 'active', 'published']);
 const GOOD_VERIFICATION = new Set(['verified']);
 const GOOD_QUALITY_BANDS = new Set(['strong', 'exceptional', 'verified', 'high']);
 const ACTIVE_EXPLORATION_STATES = new Set(['active', 'fast_track', 'promoted']);
-const PASSAGE_CHAPTERS = new Set(['Factual Passage', 'Narrative Passage', 'Literary Passage']);
+const PASSAGE_CHAPTERS = new Set([
+  'Factual Passage',
+  'Narrative Passage',
+  'Literary Passage',
+  'Reading Comprehension',
+  'Prose',
+  'Discursive Passage',
+  'Unseen Passage',
+]);
+const MIN_REAL_PASSAGE_WORDS = 70;
+const MIN_REAL_PASSAGE_SENTENCES = 3;
 
 const PLACEHOLDER_PATTERNS = [
   /\b(lorem ipsum|todo|insert question|replace this|dummy question|sample question)\b/i,
@@ -179,17 +189,60 @@ export function getPassageKey(row) {
 export function isPassageLinkedQuestion(row) {
   const chapter = textValue(row?.chapter);
   const type = textValue(row?.questionType ?? row?.question_type).toLowerCase();
+  const topic = textValue(row?.topic ?? row?.badge ?? row?.label ?? row?.passage_type ?? row?.passageType).toLowerCase();
   const text = getQuestionText(row);
-  const mentionsPassage = /\b(according to|based on|as stated in|the passage|the paragraph|the extract|the author|the narrator)\b/i.test(text);
+  const passageChapter = PASSAGE_CHAPTERS.has(chapter) || /\b(passage|reading comprehension|prose)\b/i.test(chapter);
+  const passageType = /\b(reading_comprehension|comprehension|passage|central_idea|inference|author_purpose|tone|vocabulary_in_context|literary_device)\b/i.test(type);
+  const passageBadge = /\b(passage|reading comprehension|prose)\b/i.test(topic);
+  const mentionsPassage = /\b(according to|based on|as stated in|read the passage|read the excerpt|read the extract|read the text|the passage|the paragraph|the extract|the excerpt|the author|the narrator)\b/i.test(text);
   return Boolean(
     getPassageKey(row) ||
     getPassageText(row) ||
     row?.is_passage_linked ||
-    type.includes('reading_comprehension') ||
-    type.includes('comprehension') ||
-    type.includes('passage') ||
-    (PASSAGE_CHAPTERS.has(chapter) && mentionsPassage)
+    passageChapter ||
+    passageType ||
+    passageBadge ||
+    mentionsPassage
   );
+}
+
+export function hasRealPassageBlock(row) {
+  const passageText = getPassageText(row);
+  if (!passageText) return false;
+  const wordCount = passageText.split(/\s+/).filter(Boolean).length;
+  const sentenceCount = (passageText.match(/[.!?](?:\s|$)/g) || []).length;
+  return wordCount >= MIN_REAL_PASSAGE_WORDS && sentenceCount >= MIN_REAL_PASSAGE_SENTENCES;
+}
+
+function isEnglishTheoryAssertionWithoutContext(row, subject) {
+  if (subject !== 'english') return false;
+  const text = getQuestionText(row);
+  const type = textValue(row?.questionType ?? row?.question_type).toLowerCase();
+  const chapter = textValue(row?.chapter).toLowerCase();
+  const assertionReason = type.includes('assertion') || /\bassertion\s*:/i.test(text) || /\breason\s*:/i.test(text);
+  if (!assertionReason) return false;
+  if (isPassageLinkedQuestion(row) && hasRealPassageBlock(row)) return false;
+  return /\b(paraphras|summary|summaris|rewrite|meaning|definition|grammar|phrase|sentence)\b/i.test(`${chapter} ${text}`);
+}
+
+function isGenericTextbookOneLiner(row, subject) {
+  const text = getQuestionText(row);
+  if (!text || isPassageLinkedQuestion(row)) return false;
+  if (subject === 'english' && /\b(closest in meaning|opposite in meaning|rearrange|sentence correction|error detection)\b/i.test(text)) return false;
+  const directRecall = /\b(what is|define|definition of|meaning of|is called|known as|refers to)\b/i.test(text);
+  const hasExamPattern = /\b(statement|assertion|reason|case|scenario|situation|given|data|match|following statements|which of the following)\b/i.test(text);
+  return directRecall && !hasExamPattern && text.length < 180;
+}
+
+export function getNtaContentWarnings(row, context = {}) {
+  const warnings = [];
+  const subject = subjectOf(row, context);
+  const passageLinked = isPassageLinkedQuestion(row);
+  if (passageLinked && !getPassageText(row)) warnings.push('orphan_passage_question');
+  if (passageLinked && getPassageText(row) && !hasRealPassageBlock(row)) warnings.push('fake_or_too_short_passage_block');
+  if (isEnglishTheoryAssertionWithoutContext(row, subject)) warnings.push('generic_english_assertion_reason_without_context');
+  if (isGenericTextbookOneLiner(row, subject)) warnings.push('generic_textbook_one_liner');
+  return warnings;
 }
 
 function answerRaw(row) {
@@ -418,7 +471,9 @@ export function qualityGateNtaQuestion(row, context = {}) {
   if (hasPlaceholderText(text)) reasons.push('placeholder_question');
   if (!optionsAreUsable(options)) reasons.push('options_invalid');
   if (correctIndex < 0) reasons.push('answer_missing_or_mismatch');
-  if (passageLinked && !passageText) reasons.push('orphan_passage_question');
+  for (const warning of getNtaContentWarnings(row, { ...context, subjectId: subject })) {
+    reasons.push(warning);
+  }
 
   const chapterValid = hasValidChapter(row, subject);
   const normalized = {
@@ -599,7 +654,7 @@ export function selectNtaQuestionSet(rows, requestedCount = NTA_QUESTION_COUNT, 
   diagnostics.acceptedCandidates = usable.length;
   diagnostics.poolStats.usable = usable.length;
 
-  const { passageGroups, standalone, all } = buildCandidates(usable, diagnostics, subjectId);
+  const { passageGroups, standalone } = buildCandidates(usable, diagnostics, subjectId);
   const selected = [];
   const fingerprints = new Set();
   const seed = options.seed || '';
@@ -616,26 +671,6 @@ export function selectNtaQuestionSet(rows, requestedCount = NTA_QUESTION_COUNT, 
       selectCandidate(candidate, selected, fingerprints, targetCount, diagnostics);
     }
     for (const candidate of rankedStandalone.filter((entry) => entry.tier === tier)) {
-      if (selectedQuestionCount(selected) >= targetCount) break;
-      selectCandidate(candidate, selected, fingerprints, targetCount, diagnostics);
-    }
-  }
-
-  if (selectedQuestionCount(selected) < targetCount) {
-    const selectedRows = new Set(selected.flatMap((candidate) => candidate.rows.map((row) => row.id)));
-    const remainingPassageRows = all
-      .filter((candidate) => candidate.kind === 'passage')
-      .flatMap((candidate) => candidate.rows)
-      .filter((row) => !selectedRows.has(row.id))
-      .map((row) => ({
-        kind: 'question',
-        rows: [row],
-        size: 1,
-        tier: 3,
-        score: 0.35,
-      }));
-
-    for (const candidate of remainingPassageRows) {
       if (selectedQuestionCount(selected) >= targetCount) break;
       selectCandidate(candidate, selected, fingerprints, targetCount, diagnostics);
     }

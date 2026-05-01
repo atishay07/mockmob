@@ -5,11 +5,12 @@ import OpenAI from 'openai';
  * AI provider abstraction for MockMob.
  *
  * Tiered model routing (env-driven, no hard-coded model names):
- *   AI_DEFAULT_PROVIDER   = 'deepseek' | 'openai'   (default 'deepseek')
- *   AI_FAST_MODEL         = e.g. 'deepseek-chat'    (cheap reasoning)
- *   AI_SMART_MODEL        = e.g. 'deepseek-reasoner' (Mentor / autopsy)
+ *   AI_DEFAULT_PROVIDER   = 'openai' | 'deepseek'   (default 'openai')
+ *   AI_FAST_MODEL         = e.g. 'gpt-4o-mini'      (cheap PrepOS chat)
+ *   AI_SMART_MODEL        = e.g. 'gpt-4.1-mini'     (autopsy / recovery)
  *   AI_FALLBACK_PROVIDER  = e.g. 'openai'
- *   AI_FALLBACK_MODEL     = e.g. 'gpt-4o-mini'
+ *   AI_FAST_PROVIDER      = optional override for fast replies
+ *   AI_FALLBACK_MODEL     = e.g. 'gpt-5-nano'
  *   DEEPSEEK_API_KEY, DEEPSEEK_BASE_URL (default https://api.deepseek.com)
  *   OPENAI_API_KEY
  *
@@ -17,7 +18,7 @@ import OpenAI from 'openai';
  *   generateAIResponse({ tier, systemPrompt, userMessage, context, responseSchema, maxRetries })
  *     -> { ok, data, raw, usage, fallbackUsed, error }
  *
- *   tier ∈ 'smart' | 'fast'   (smart -> AI_SMART_MODEL, fast -> AI_FAST_MODEL)
+ *   tier is 'smart' or 'fast' (smart -> AI_SMART_MODEL, fast -> AI_FAST_MODEL)
  */
 
 let _deepseek = null;
@@ -49,16 +50,18 @@ function getClient(provider) {
 }
 
 function pickModelForTier(tier) {
-  const fast = process.env.AI_FAST_MODEL || 'deepseek-chat';
-  const smart = process.env.AI_SMART_MODEL || process.env.AI_FAST_MODEL || 'deepseek-chat';
+  const fast = process.env.AI_FAST_MODEL || 'gpt-4o-mini';
+  const smart = process.env.AI_SMART_MODEL || 'gpt-4.1-mini';
   return tier === 'smart' ? smart : fast;
 }
 
-// Rough cost table (USD per 1M tokens) — used for telemetry only, never billing.
+// Rough cost table (USD per 1M tokens). Used for telemetry only, never billing.
 // Update freely; missing entries fall back to 0.
 const COST_TABLE = {
   'deepseek-chat': { in: 0.27, out: 1.1 },
   'deepseek-reasoner': { in: 0.55, out: 2.19 },
+  'gpt-4.1-mini': { in: 0.4, out: 1.6 },
+  'gpt-5-nano': { in: 0.05, out: 0.4 },
   'gpt-4o-mini': { in: 0.15, out: 0.6 },
   'gpt-4o': { in: 2.5, out: 10 },
 };
@@ -94,7 +97,7 @@ function safeParseJson(text) {
   }
 }
 
-async function callOnce({ provider, model, systemPrompt, userMessage, context, jsonMode }) {
+async function callOnce({ provider, model, systemPrompt, userMessage, context, jsonMode, maxTokens = 950 }) {
   const client = getClient(provider);
   if (!client) {
     return { ok: false, error: `provider_unavailable:${provider}` };
@@ -116,7 +119,7 @@ async function callOnce({ provider, model, systemPrompt, userMessage, context, j
       model,
       messages,
       temperature: 0.4,
-      max_tokens: 1100,
+      max_tokens: maxTokens,
       ...(jsonMode ? { response_format: { type: 'json_object' } } : {}),
     });
     const choice = completion.choices?.[0];
@@ -147,7 +150,7 @@ async function callOnce({ provider, model, systemPrompt, userMessage, context, j
 
 /**
  * Generate a strict-JSON AI response with provider/model fallback and
- * one repair retry on invalid JSON. Always returns an object — never throws.
+ * one repair retry on invalid JSON. Always returns an object; never throws.
  */
 export async function generateAIResponse({
   tier = 'smart',
@@ -168,10 +171,14 @@ export async function generateAIResponse({
     };
   }
 
-  const primaryProvider = process.env.AI_DEFAULT_PROVIDER || 'deepseek';
+  const primaryProvider =
+    tier === 'fast'
+      ? (process.env.AI_FAST_PROVIDER || process.env.AI_DEFAULT_PROVIDER || 'openai')
+      : (process.env.AI_DEFAULT_PROVIDER || 'openai');
   const fallbackProvider = process.env.AI_FALLBACK_PROVIDER || 'openai';
   const primaryModel = pickModelForTier(tier);
   const fallbackModel = process.env.AI_FALLBACK_MODEL || 'gpt-4o-mini';
+  const maxTokens = tier === 'smart' ? 900 : 950;
 
   // ---- attempt 1: primary provider, JSON mode ----
   let attempt = await callOnce({
@@ -181,6 +188,7 @@ export async function generateAIResponse({
     userMessage,
     context,
     jsonMode: true,
+    maxTokens,
   });
 
   let parsed = attempt.ok ? safeParseJson(attempt.raw) : null;
@@ -197,6 +205,7 @@ export async function generateAIResponse({
       userMessage,
       context,
       jsonMode: true,
+      maxTokens,
     });
     if (repaired.ok) {
       attempt = repaired;
@@ -215,6 +224,7 @@ export async function generateAIResponse({
       userMessage,
       context,
       jsonMode: true,
+      maxTokens,
     });
     if (fb.ok) {
       const fbParsed = safeParseJson(fb.raw);
@@ -224,7 +234,7 @@ export async function generateAIResponse({
         validationOk = true;
         fallbackUsed = true;
       } else if (!parsed && fbParsed) {
-        // Take fallback parse even if schema is partial — better than nothing.
+        // Take fallback parse even if schema is partial; better than nothing.
         attempt = fb;
         parsed = fbParsed;
         validationOk = false;
@@ -257,7 +267,7 @@ export async function generateAIResponse({
 }
 
 /**
- * Lightweight schema sanity check. Not a full validator — checks that
+ * Lightweight schema sanity check. Not a full validator; checks that
  * declared required keys exist and have roughly the right type. Intentional
  * minimum so we never break the UI on a slightly off-shape model reply.
  */

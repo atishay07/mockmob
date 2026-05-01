@@ -3,8 +3,8 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { getRivalProfile } from './rivalProfiles';
 
 /**
- * Score a submitted rival battle deterministically.
- * Never uses AI — this is the source of truth for win/loss.
+ * Score a submitted Shadow Benchmark deterministically.
+ * Never uses AI. This is the source of truth for win/loss.
  *
  * @param {{
  *   battleId: string,
@@ -81,6 +81,9 @@ export async function scoreRivalBattle({ battleId, userId, answers }) {
   else if (totalTime > battle.rival_time_seconds) result = 'loss';
   else result = 'tie';
 
+  const shareCard = buildShareCard({ result, profile, score, rivalScore: battle.rival_score, accuracy });
+  const nextMoveHint = buildNextMoveHint({ result, accuracy, totalTime, totalQuestions: total, profile });
+
   // Persist answers + update battle.
   if (detailRows.length) {
     const { error: ansErr } = await sb.from('rival_battle_answers').insert(detailRows);
@@ -97,6 +100,7 @@ export async function scoreRivalBattle({ battleId, userId, answers }) {
       user_time_seconds: totalTime,
       result,
       submitted_at: submittedAt,
+      metadata: { ...(battle.metadata || {}), shareCard, nextMoveHint },
     })
     .eq('id', battleId);
 
@@ -104,6 +108,8 @@ export async function scoreRivalBattle({ battleId, userId, answers }) {
     console.error('[rival] battle update failed:', updErr);
     return { ok: false, error: 'battle_update_failed', status: 500 };
   }
+
+  await persistSharePayload({ battleId, shareCard });
 
   return {
     ok: true,
@@ -123,9 +129,20 @@ export async function scoreRivalBattle({ battleId, userId, answers }) {
       profile: battle.rival_profile,
     },
     rivalType: battle.rival_type,
-    shareCard: buildShareCard({ result, profile, score, rivalScore: battle.rival_score, accuracy }),
-    nextMoveHint: buildNextMoveHint({ result, accuracy, totalTime, totalQuestions: total, profile }),
+    shareCard,
+    nextMoveHint,
   };
+}
+
+async function persistSharePayload({ battleId, shareCard }) {
+  try {
+    await supabaseAdmin()
+      .from('rival_battles')
+      .update({ share_payload: shareCard })
+      .eq('id', battleId);
+  } catch (err) {
+    console.warn('[rival] share payload column unavailable:', err?.message || err);
+  }
 }
 
 function resolveCorrectIndex(q) {
@@ -139,7 +156,7 @@ function resolveCorrectIndex(q) {
 
 function buildShareCard({ result, profile, score, rivalScore, accuracy }) {
   const verb = result === 'win' ? 'beat' : result === 'loss' ? 'lost to' : 'tied with';
-  const rivalName = profile?.name || 'AI Rival';
+  const rivalName = profile?.name || 'Shadow Benchmark';
   return {
     headline: `I ${verb} ${rivalName}`,
     score,
@@ -161,16 +178,16 @@ function titleFor({ result, accuracy }) {
 
 function buildNextMoveHint({ result, accuracy, totalTime, totalQuestions, profile }) {
   if (result === 'loss' && accuracy < 50) {
-    return 'Run a focused trap drill on your weakest subject before the next rematch.';
+    return 'Run Mistake Replay on your weakest subject before the next retry.';
   }
   if (result === 'loss' && totalQuestions && totalTime / totalQuestions > (profile?.avgTimePerQuestion || 60) * 1.3) {
-    return 'You are losing on speed, not knowledge. Try a Speed Demon battle next.';
+    return 'You are losing on speed, not knowledge. Try Speed Benchmark next.';
   }
   if (result === 'win' && accuracy < 75) {
     return 'You won, but accuracy is shaky. Lock it in with a focused chapter revision.';
   }
   if (result === 'win') {
-    return 'Step up — try a higher-tier rival. Boss Rival is waiting.';
+    return 'Step up only if this felt clean. Otherwise replay the questions you nearly missed.';
   }
   return 'Take a Quick Practice mock to compound the rhythm.';
 }

@@ -24,12 +24,38 @@ try {
 
 console.log("GEMINI API KEY:", process.env.GEMINI_API_KEY ? "LOADED" : "MISSING");
 
+function normalizeKimiProvider(value = process.env.KIMI_PROVIDER) {
+  const provider = String(value || 'moonshot').trim().toLowerCase();
+  return ['moonshot', 'deepinfra', 'openrouter'].includes(provider) ? provider : 'moonshot';
+}
+
+function getDefaultKimiBaseUrl(provider = normalizeKimiProvider()) {
+  if (provider === 'deepinfra') return 'https://api.deepinfra.com/v1/openai';
+  if (provider === 'openrouter') return 'https://openrouter.ai/api/v1';
+  return 'https://api.moonshot.ai/v1';
+}
+
+function getDefaultKimiModel(provider = normalizeKimiProvider()) {
+  if (provider === 'deepinfra') return 'moonshotai/Kimi-K2.6';
+  if (provider === 'openrouter') return 'moonshotai/kimi-k2.6';
+  return 'kimi-k2.6';
+}
+
+const KIMI_PROVIDER = normalizeKimiProvider();
+const KIMI_BASE_URL_VALUE = process.env.KIMI_BASE_URL || getDefaultKimiBaseUrl(KIMI_PROVIDER);
+
 const genAI = process.env.GEMINI_API_KEY ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY) : null;
 const openai = process.env.OPENAI_API_KEY ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY }) : null;
 const deepseek = process.env.DEEPSEEK_API_KEY
   ? new OpenAI({
       apiKey: process.env.DEEPSEEK_API_KEY,
       baseURL: process.env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com',
+    })
+  : null;
+const kimi = process.env.KIMI_API_KEY
+  ? new OpenAI({
+      apiKey: process.env.KIMI_API_KEY,
+      baseURL: KIMI_BASE_URL_VALUE,
     })
   : null;
 
@@ -341,7 +367,21 @@ function getSubtopicFocus(subjectId, allChapters, pickCount = 3) {
 
 const ALLOW_OPENAI_GENERATION = String(process.env.ALLOW_OPENAI_GENERATION || 'false').trim().toLowerCase() === 'true';
 const REQUESTED_GENERATOR_PROVIDER = String(process.env.GENERATOR_PRIMARY_PROVIDER || process.env.GENERATOR_PROVIDER || '').trim().toLowerCase();
-const GENERATOR_PROVIDER = deepseek ? 'deepseek' : (REQUESTED_GENERATOR_PROVIDER || 'deepseek');
+const ALLOW_KIMI_GENERATION = String(process.env.ALLOW_KIMI_GENERATION || 'false').trim().toLowerCase() === 'true';
+const KIMI_BASE_URL = KIMI_BASE_URL_VALUE;
+const KIMI_MODEL = process.env.KIMI_MODEL || getDefaultKimiModel(KIMI_PROVIDER);
+const KIMI_FALLBACK_PROVIDER = process.env.KIMI_FALLBACK_PROVIDER || 'deepseek';
+const KIMI_FALLBACK_MODEL = process.env.KIMI_FALLBACK_MODEL || 'deepseek-v4-flash';
+const KIMI_TIMEOUT_MS = Number(process.env.KIMI_TIMEOUT_MS || 120000);
+const KIMI_BATCH_SIZE = Number(process.env.KIMI_BATCH_SIZE || 8);
+const KIMI_PASSAGE_BATCH_SIZE = Number(process.env.KIMI_PASSAGE_BATCH_SIZE || 1);
+const KIMI_MAX_OUTPUT_TOKENS = Number(process.env.KIMI_MAX_OUTPUT_TOKENS || 8000);
+const KIMI_TEMPERATURE = Number(process.env.KIMI_TEMPERATURE || 0.45);
+const KIMI_DISCOVER_MODELS = String(process.env.KIMI_DISCOVER_MODELS || 'false').trim().toLowerCase() === 'true';
+const KIMI_DISABLE_THINKING = String(process.env.KIMI_DISABLE_THINKING || 'false').trim().toLowerCase() === 'true';
+const GENERATOR_PROVIDER = isKimiEnabled()
+  ? 'kimi'
+  : (deepseek ? 'deepseek' : (REQUESTED_GENERATOR_PROVIDER || 'deepseek'));
 const DEEPSEEK_PRO_MODEL = process.env.DEEPSEEK_PRO_MODEL
   || process.env.GENERATOR_PRIMARY_MODEL
   || process.env.DEEPSEEK_GENERATOR_MODEL
@@ -358,7 +398,11 @@ const DEEPSEEK_GENERATION_MODELS = [
   DEEPSEEK_FLASH_MODEL,
   DEEPSEEK_CHAT_MODEL,
 ].filter((model, index, array) => model && array.indexOf(model) === index);
-const GENERATION_MODELS = deepseek ? DEEPSEEK_GENERATION_MODELS : [];
+const KIMI_GENERATION_MODELS = isKimiEnabled() ? [KIMI_MODEL] : [];
+const GENERATION_MODELS = [
+  ...KIMI_GENERATION_MODELS,
+  ...(deepseek ? DEEPSEEK_GENERATION_MODELS : []),
+].filter((model, index, array) => model && array.indexOf(model) === index);
 const CHEAP_VALIDATOR_MODEL = process.env.CHEAP_VALIDATOR_MODEL || 'gpt-4o-mini';
 const STRICT_VALIDATOR_MODEL = process.env.STRICT_VALIDATOR_MODEL || 'gpt-4o';
 const GENERATION_MAX_OUTPUT_TOKENS = Number(process.env.GENERATION_MAX_OUTPUT_TOKENS || 3800);
@@ -369,12 +413,15 @@ const VALIDATION_MODELS = [
 
 console.log('[llm] generator_config', {
   primary_provider: GENERATOR_PROVIDER,
-  primary_model: DEEPSEEK_PRO_MODEL,
+  primary_model: GENERATOR_PROVIDER === 'kimi' ? KIMI_MODEL : DEEPSEEK_PRO_MODEL,
   fallback_model: DEEPSEEK_FLASH_MODEL,
   second_fallback_model: DEEPSEEK_CHAT_MODEL,
   allow_openai_generation: ALLOW_OPENAI_GENERATION,
+  allow_kimi_generation: ALLOW_KIMI_GENERATION,
+  kimi_key_loaded: Boolean(kimi),
   deepseek_key_loaded: Boolean(deepseek),
 });
+console.log('[kimi_config]', getKimiConfig());
 const GEMINI_MODEL_ALIASES = {
   'gemini-3-flash': process.env.GEMINI_3_FLASH_MODEL || 'gemini-3-flash-preview',
   'gemini-2-flash': process.env.GEMINI_2_FLASH_MODEL || 'gemini-2.0-flash-001',
@@ -419,6 +466,8 @@ const MODEL_COST_PER_1K_INPUT = {
   'deepseek-v4-pro': 0.00014,
   'deepseek-v4-flash': 0.00007,
   'deepseek-chat': 0.00014,
+  [KIMI_MODEL]: Number(process.env.KIMI_INPUT_COST_PER_1M || 0.95) / 1000,
+  'kimi-k2.6': Number(process.env.KIMI_INPUT_COST_PER_1M || 0.95) / 1000,
   'gemini-3-flash-preview': 0.00015,
   'gemini-3-flash': 0.00015,
   'gemini-2-flash': 0.00010,
@@ -431,6 +480,8 @@ const MODEL_COST_PER_1K_OUTPUT = {
   'deepseek-v4-pro': 0.00028,
   'deepseek-v4-flash': 0.00020,
   'deepseek-chat': 0.00028,
+  [KIMI_MODEL]: Number(process.env.KIMI_OUTPUT_COST_PER_1M || 4.00) / 1000,
+  'kimi-k2.6': Number(process.env.KIMI_OUTPUT_COST_PER_1M || 4.00) / 1000,
   'gemini-3-flash-preview': 0.0006,
   'gemini-3-flash': 0.0006,
   'gemini-2-flash': 0.0004,
@@ -445,6 +496,7 @@ const costTracker = {
   totalCostUsd: 0,
   batchCount: 0,
   acceptedCount: 0,
+  modelBreakdown: {},
 };
 
 export function getCostTracker() {
@@ -463,11 +515,32 @@ export function recordCost(modelName, inputTokens, outputTokens) {
   const resolvedModelName = resolveGeminiModelName(modelName);
   const inputCost = (inputTokens / 1000) * (MODEL_COST_PER_1K_INPUT[modelName] || MODEL_COST_PER_1K_INPUT[resolvedModelName] || 0.001);
   const outputCost = (outputTokens / 1000) * (MODEL_COST_PER_1K_OUTPUT[modelName] || MODEL_COST_PER_1K_OUTPUT[resolvedModelName] || 0.003);
+  const totalCost = inputCost + outputCost;
   costTracker.totalInputTokens += inputTokens;
   costTracker.totalOutputTokens += outputTokens;
-  costTracker.totalCostUsd += inputCost + outputCost;
+  costTracker.totalCostUsd += totalCost;
   costTracker.batchCount += 1;
-  return inputCost + outputCost;
+  const key = modelName || resolvedModelName || 'unknown';
+  costTracker.modelBreakdown[key] ??= {
+    input_tokens: 0,
+    output_tokens: 0,
+    cost_usd: 0,
+    calls: 0,
+  };
+  costTracker.modelBreakdown[key].input_tokens += Number(inputTokens || 0);
+  costTracker.modelBreakdown[key].output_tokens += Number(outputTokens || 0);
+  costTracker.modelBreakdown[key].cost_usd += totalCost;
+  costTracker.modelBreakdown[key].calls += 1;
+  return totalCost;
+}
+
+export function getModelCostBreakdown() {
+  return Object.fromEntries(Object.entries(costTracker.modelBreakdown || {}).map(([model, stats]) => [model, {
+    input_tokens: Math.round(Number(stats.input_tokens || 0)),
+    output_tokens: Math.round(Number(stats.output_tokens || 0)),
+    cost_usd: Number(Number(stats.cost_usd || 0).toFixed(6)),
+    calls: Number(stats.calls || 0),
+  }]));
 }
 
 export function recordAcceptedForCost(count) {
@@ -577,11 +650,11 @@ export async function generateQuestions(subject, chapter, count = 10, context = 
     return questions;
   }
 
-  if (!deepseek) {
-    console.error('[llm] generator_unavailable no_deepseek_api_key');
+  if (!deepseek && !isKimiEnabled()) {
+    console.error('[llm] generator_unavailable no_generation_api_key');
     return {
       error: 'generator_unavailable',
-      reason: 'no_deepseek_api_key',
+      reason: 'no_generation_api_key',
       action: 'defer_job',
     };
   }
@@ -628,13 +701,13 @@ async function generateWithDeepSeekOnly(subject, chapter, count, context = {}) {
   };
 
   const requestedOverride = String(context.modelOverride || '').trim();
-  if (requestedOverride && !isDeepSeekGenerationModel(requestedOverride) && !ALLOW_OPENAI_GENERATION) {
+  if (requestedOverride && !isDeepSeekGenerationModel(requestedOverride) && !isKimiGenerationModel(requestedOverride) && !ALLOW_OPENAI_GENERATION) {
     console.warn('[llm] blocked_openai_generation_override', {
       requested_model: requestedOverride,
-      action: 'using_deepseek_only',
+      action: isKimiEnabled() ? 'using_kimi_or_deepseek_only' : 'using_deepseek_only',
     });
   }
-  const modelNames = requestedOverride && isDeepSeekGenerationModel(requestedOverride)
+  const modelNames = requestedOverride && (isDeepSeekGenerationModel(requestedOverride) || isKimiGenerationModel(requestedOverride))
     ? [requestedOverride, ...getAvailableGenerationModels()].filter((model, index, array) => model && array.indexOf(model) === index)
     : getAvailableGenerationModels({
         ...context,
@@ -691,6 +764,7 @@ async function generateWithDeepSeekOnly(subject, chapter, count, context = {}) {
         fallback_model: fallbackModel,
         health_state: getDeepSeekHealthSnapshot(),
         deepseek_key_loaded: Boolean(deepseek),
+        kimi_key_loaded: Boolean(kimi),
       });
       console.log('[generator_model_selected]', {
         provider: generationProvider,
@@ -711,7 +785,8 @@ async function generateWithDeepSeekOnly(subject, chapter, count, context = {}) {
           call: () => withTimeout(
             generationClient.chat.completions.create({
               model: modelName,
-              ...(requiresMaxCompletionTokens(modelName) ? {} : { temperature: 0.55 }),
+              ...(requiresMaxCompletionTokens(modelName) || generationProvider === 'kimi' ? {} : { temperature: 0.55 }),
+              ...(generationProvider === 'kimi' ? buildKimiRequestPayload({}).thinking ? { thinking: buildKimiRequestPayload({}).thinking } : {} : {}),
               ...(requiresMaxCompletionTokens(modelName)
                 ? { max_completion_tokens: getGenerationMaxOutputTokens(modelName, attempt) }
                 : { max_tokens: getGenerationMaxOutputTokens(modelName, attempt) }),
@@ -720,7 +795,7 @@ async function generateWithDeepSeekOnly(subject, chapter, count, context = {}) {
                 { role: 'system', content: CUET_GENERATION_SYSTEM_PROMPT },
                 { role: 'user', content: prompt },
               ],
-              ...(requiresMaxCompletionTokens(modelName) ? {} : {
+              ...(requiresMaxCompletionTokens(modelName) || generationProvider === 'kimi' ? {} : {
                 presence_penalty: 0.2,
                 frequency_penalty: 0.2,
               }),
@@ -774,7 +849,7 @@ async function generateWithDeepSeekOnly(subject, chapter, count, context = {}) {
           repair_provider: repairResult.provider,
           repair_model: repairResult.model,
         }));
-        console.log('[deepseek_generation_result]', {
+        const generationResultLog = {
           model: modelName,
           finish_reason: finishReason,
           content_length: text.length,
@@ -782,7 +857,11 @@ async function generateWithDeepSeekOnly(subject, chapter, count, context = {}) {
           parsed_ok: parsed.length > 0,
           repair_used: repairResult.provider !== 'code',
           final_question_count: parsed.length,
-        });
+          input_tokens: Math.round(estimatedInputTokens),
+          output_tokens: Math.round(estimatedOutputTokens),
+          cost_estimate_usd: Number(generationCost.toFixed(6)),
+        };
+        console.log(generationProvider === 'kimi' ? '[kimi_generation_result]' : '[deepseek_generation_result]', generationResultLog);
         const normalized = ensureMinimumGeneratedCandidates(
           normalizeGeneratedQuestions(parsed, subject.id, chapter),
           subject,
@@ -886,7 +965,7 @@ async function generateWithDeepSeekOnly(subject, chapter, count, context = {}) {
   }
   return {
     error: 'generator_unavailable',
-    reason: lastError ? getLlmFailureReason(lastError) : 'all_deepseek_generation_models_failed',
+    reason: lastError ? getLlmFailureReason(lastError) : (isKimiEnabled() ? 'kimi_and_deepseek_generation_models_failed' : 'all_deepseek_generation_models_failed'),
     action: 'defer_job',
   };
 }
@@ -896,7 +975,7 @@ function ensureMinimumGeneratedCandidates(questions, subject, chapter, count, an
 }
 
 function getGenerationResponseFormat(modelName, conceptId, englishMode = null) {
-  if (getGenerationProvider(modelName) === 'deepseek' || englishMode) {
+  if (['deepseek', 'kimi'].includes(getGenerationProvider(modelName)) || englishMode) {
     return { type: 'json_object' };
   }
   const answerKeySchema = { type: 'string', enum: ['A', 'B', 'C', 'D'] };
@@ -984,6 +1063,188 @@ function isDeepSeekGenerationModel(modelName) {
   return DEEPSEEK_GENERATION_MODELS.includes(String(modelName || '').trim());
 }
 
+export function isKimiEnabled() {
+  return Boolean(kimi)
+    && String(process.env.ALLOW_KIMI_GENERATION || (ALLOW_KIMI_GENERATION ? 'true' : 'false')).trim().toLowerCase() === 'true'
+    && String(process.env.GENERATOR_PRIMARY_PROVIDER || process.env.GENERATOR_PROVIDER || REQUESTED_GENERATOR_PROVIDER || '').trim().toLowerCase() === 'kimi';
+}
+
+export function getKimiConfig() {
+  return {
+    enabled: isKimiEnabled(),
+    provider: KIMI_PROVIDER,
+    base_url: KIMI_BASE_URL,
+    endpoint: '/chat/completions',
+    model: KIMI_MODEL,
+    api_key_loaded: Boolean(kimi),
+    api_key_prefix: getSecretPrefix(process.env.KIMI_API_KEY),
+    api_key_length: String(process.env.KIMI_API_KEY || '').length,
+    timeout_ms: KIMI_TIMEOUT_MS,
+    batch_size: KIMI_BATCH_SIZE,
+    passage_batch_size: KIMI_PASSAGE_BATCH_SIZE,
+    max_output_tokens: KIMI_MAX_OUTPUT_TOKENS,
+    temperature: KIMI_TEMPERATURE,
+    disable_thinking: KIMI_DISABLE_THINKING,
+    discover_models: KIMI_DISCOVER_MODELS,
+    fallback_provider: KIMI_FALLBACK_PROVIDER,
+    fallback_model: KIMI_FALLBACK_MODEL,
+  };
+}
+
+function getSecretPrefix(value) {
+  const secret = String(value || '');
+  return secret ? secret.slice(0, 6) : '';
+}
+
+function buildKimiRequestPayload(payload = {}) {
+  const requestPayload = {
+    ...payload,
+    model: payload.model || KIMI_MODEL,
+    max_tokens: payload.max_tokens ?? KIMI_MAX_OUTPUT_TOKENS,
+  };
+  const temperatureExplicit = Object.prototype.hasOwnProperty.call(payload, 'temperature')
+    || Object.prototype.hasOwnProperty.call(process.env, 'KIMI_TEMPERATURE');
+  if (KIMI_PROVIDER === 'moonshot') {
+    if (temperatureExplicit) requestPayload.temperature = payload.temperature ?? KIMI_TEMPERATURE;
+    if (KIMI_DISABLE_THINKING) requestPayload.thinking = { type: 'disabled' };
+    delete requestPayload.top_p;
+    delete requestPayload.presence_penalty;
+    delete requestPayload.frequency_penalty;
+    return requestPayload;
+  }
+  requestPayload.temperature = payload.temperature ?? KIMI_TEMPERATURE;
+  return requestPayload;
+}
+
+export async function callKimiChatCompletion(payload = {}, context = {}) {
+  const client = context.client || kimi;
+  if (!context.allowDisabled && !isKimiEnabled() && !context.client) {
+    throw new LlmGenerationError('kimi generation disabled or missing api key', 'kimi_disabled');
+  }
+  if (!client?.chat?.completions?.create) {
+    throw new LlmGenerationError('kimi client unavailable', 'no_api_key');
+  }
+  const timeoutMs = Number(context.timeoutMs || KIMI_TIMEOUT_MS);
+  const startedAt = Date.now();
+  const response = await withTimeout(
+    client.chat.completions.create(buildKimiRequestPayload(payload)),
+    timeoutMs,
+    `kimi timeout after ${timeoutMs}ms`,
+  );
+  return { response, latency_ms: Date.now() - startedAt };
+}
+
+export async function healthCheckKimi(context = {}) {
+  const startedAt = Date.now();
+  const debugBase = {
+    provider: KIMI_PROVIDER,
+    base_url: KIMI_BASE_URL,
+    endpoint: '/chat/completions',
+    model: context.model || KIMI_MODEL,
+    api_key_loaded: Boolean(process.env.KIMI_API_KEY),
+    api_key_prefix: getSecretPrefix(process.env.KIMI_API_KEY),
+    api_key_length: String(process.env.KIMI_API_KEY || '').length,
+    request_has_authorization_header: Boolean(process.env.KIMI_API_KEY),
+  };
+  try {
+    const { response } = await callKimiChatCompletion({
+      model: context.model || KIMI_MODEL,
+      temperature: 0,
+      max_tokens: 32,
+      messages: [{ role: 'user', content: 'Return exactly: {"ok":true}' }],
+    }, { ...context, allowDisabled: true });
+    const text = extractGenerationText(response, 'kimi');
+    let parsedOk = false;
+    try {
+      parsedOk = JSON.parse(sanitizeJsonText(text))?.ok === true;
+    } catch {
+      parsedOk = false;
+    }
+    const result = {
+      ok: parsedOk,
+      model: context.model || KIMI_MODEL,
+      latency_ms: Date.now() - startedAt,
+      error: parsedOk ? null : 'invalid_health_response',
+    };
+    console.log('[kimi_health_debug]', {
+      ...debugBase,
+      status: parsedOk ? 200 : null,
+      error_type: parsedOk ? null : 'invalid_health_response',
+      error_message: result.error,
+    });
+    console.log('[kimi_health]', result);
+    return result;
+  } catch (error) {
+    const status = Number(error?.status || error?.statusCode || error?.response?.status || 0) || null;
+    const result = {
+      ok: false,
+      model: context.model || KIMI_MODEL,
+      latency_ms: Date.now() - startedAt,
+      error: error?.message || String(error),
+      status,
+    };
+    console.warn('[kimi_health_debug]', {
+      ...debugBase,
+      status,
+      error_type: error?.type || error?.code || error?.name || 'request_error',
+      error_message: error?.message || String(error),
+    });
+    if (status === 401) {
+      console.warn('Key is loaded but not accepted by this provider. Check whether the key belongs to the selected provider/base URL.');
+    }
+    console.warn('[kimi_health]', result);
+    return result;
+  }
+}
+
+export async function discoverKimiModels(context = {}) {
+  const fetchImpl = context.fetchImpl || globalThis.fetch;
+  const baseUrl = String(context.baseUrl || KIMI_BASE_URL || '').replace(/\/+$/, '');
+  const apiKey = context.apiKey || process.env.KIMI_API_KEY;
+  if (!apiKey) {
+    const result = { ok: false, model_ids: [], error: 'missing_kimi_api_key' };
+    console.warn('[kimi_models]', result);
+    return result;
+  }
+  if (typeof fetchImpl !== 'function') {
+    const result = { ok: false, model_ids: [], error: 'fetch_unavailable' };
+    console.warn('[kimi_models]', result);
+    return result;
+  }
+  try {
+    const response = await fetchImpl(`${baseUrl}/models`, {
+      headers: { Authorization: `Bearer ${apiKey}` },
+    });
+    if (!response.ok) {
+      const result = { ok: false, model_ids: [], error: `models_http_${response.status}` };
+      console.warn('[kimi_models]', result);
+      return result;
+    }
+    const body = await response.json();
+    const modelIds = (Array.isArray(body?.data) ? body.data : [])
+      .map((entry) => String(entry?.id || '').trim())
+      .filter(Boolean);
+    const result = {
+      ok: true,
+      model_ids: modelIds,
+      configured_model_available: modelIds.includes(KIMI_MODEL),
+    };
+    console.log('[kimi_models]', result);
+    if (!result.configured_model_available) {
+      console.warn('[kimi_models] configured model not listed', { model: KIMI_MODEL });
+    }
+    return result;
+  } catch (error) {
+    const result = { ok: false, model_ids: [], error: error?.message || String(error) };
+    console.warn('[kimi_models]', result);
+    return result;
+  }
+}
+
+function isKimiGenerationModel(modelName) {
+  return isKimiEnabled() && String(modelName || '').trim() === KIMI_MODEL;
+}
+
 function getDeepSeekModelRole(modelName) {
   const value = String(modelName || '').trim();
   if (value === DEEPSEEK_PRO_MODEL) return 'pro';
@@ -993,18 +1254,21 @@ function getDeepSeekModelRole(modelName) {
 }
 
 function getGenerationProvider(modelName) {
+  if (isKimiGenerationModel(modelName)) return 'kimi';
   if (isDeepSeekGenerationModel(modelName)) return 'deepseek';
   return ALLOW_OPENAI_GENERATION ? 'openai' : 'openai_disabled';
 }
 
 function getGenerationClient(modelName) {
   const provider = getGenerationProvider(modelName);
+  if (provider === 'kimi') return kimi;
   if (provider === 'deepseek') return deepseek;
   if (provider === 'openai' && ALLOW_OPENAI_GENERATION) return openai;
   return null;
 }
 
 function getProviderTimeoutMs(provider, modelName = '') {
+  if (provider === 'kimi') return KIMI_TIMEOUT_MS;
   if (provider !== 'deepseek') return OPENAI_TIMEOUT_MS;
   const role = getDeepSeekModelRole(modelName);
   if (role === 'pro') return DEEPSEEK_PRO_TIMEOUT_MS;
@@ -1015,6 +1279,10 @@ function getProviderTimeoutMs(provider, modelName = '') {
 
 function getProviderGenerationBatchSize(provider, requestedCount, modelName = '') {
   let configured = OPENAI_GENERATION_BATCH_SIZE;
+  if (provider === 'kimi') {
+    const configuredKimiBatch = requestedCount <= KIMI_PASSAGE_BATCH_SIZE ? KIMI_PASSAGE_BATCH_SIZE : KIMI_BATCH_SIZE;
+    return Math.min(Math.max(1, configuredKimiBatch), requestedCount);
+  }
   if (provider === 'deepseek') {
     const role = getDeepSeekModelRole(modelName);
     if (role === 'pro') configured = DEEPSEEK_PRO_BATCH_SIZE;
@@ -1028,6 +1296,7 @@ function getProviderGenerationBatchSize(provider, requestedCount, modelName = ''
 }
 
 function getGenerationMaxOutputTokens(modelName, attempt = {}) {
+  if (isKimiGenerationModel(modelName)) return KIMI_MAX_OUTPUT_TOKENS;
   const role = getDeepSeekModelRole(modelName);
   let configured = GENERATION_MAX_OUTPUT_TOKENS;
   if (role === 'pro') configured = DEEPSEEK_PRO_MAX_OUTPUT_TOKENS;
@@ -1264,6 +1533,7 @@ function normalizeComparableText(value) {
 }
 
 export function selectGenerationModel(context = {}) {
+  if (isKimiEnabled()) return KIMI_MODEL;
   const exactAnchor = context.anchor_match_level === 'exact_chapter' || context.anchor_confidence === 'high';
   const tier = String(context.subject_priority_tier || context.priority_tier || '').toUpperCase();
   const recentFlashYieldRate = Number(context.recent_flash_yield_rate ?? context.recentFlashYieldRate ?? 1);
@@ -1294,6 +1564,14 @@ export function selectGenerationModel(context = {}) {
 }
 
 export function getGenerationLoopConfigForModel(modelName) {
+  if (isKimiGenerationModel(modelName)) {
+    return {
+      batchSize: KIMI_BATCH_SIZE,
+      maxGenerationCallsPerJob: FLASH_MAX_GENERATION_CALLS_PER_JOB,
+      maxCandidatesPerJob: FLASH_MAX_CANDIDATES_PER_JOB,
+      maxJobTimeMs: KIMI_TIMEOUT_MS,
+    };
+  }
   const role = getDeepSeekModelRole(modelName);
   if (role === 'pro') {
     return {
@@ -1342,13 +1620,21 @@ export function getSubBatchRequestCountsForTarget(targetCount, modelName) {
 
 function getAvailableGenerationModels(context = {}) {
   clearExpiredModelFailures();
-  if (!deepseek) return [];
+  if (!deepseek && !isKimiEnabled()) return [];
   const selected = selectGenerationModel(context);
   const preferred = deepseekHealth.preferred_model && !isDeepSeekModelDisabled(deepseekHealth.preferred_model)
     ? [deepseekHealth.preferred_model]
     : [];
-  const ordered = [selected, ...preferred, activeModel, ...GENERATION_MODELS].filter((model, index, array) => (
-    isDeepSeekGenerationModel(model) && array.indexOf(model) === index
+  const kimiFallbacks = isKimiEnabled()
+    ? [
+        KIMI_FALLBACK_PROVIDER === 'deepseek' ? KIMI_FALLBACK_MODEL : null,
+        DEEPSEEK_FLASH_MODEL,
+        DEEPSEEK_PRO_MODEL,
+        DEEPSEEK_CHAT_MODEL,
+      ]
+    : [];
+  const ordered = [selected, ...kimiFallbacks, ...preferred, activeModel, ...GENERATION_MODELS].filter((model, index, array) => (
+    (isKimiGenerationModel(model) || isDeepSeekGenerationModel(model)) && array.indexOf(model) === index
   ));
   const readyModels = ordered.filter((model) => !failedModels.has(model) && !isDeepSeekModelDisabled(model));
   if (readyModels.length > 0) return readyModels;

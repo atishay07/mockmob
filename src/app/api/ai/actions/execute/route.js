@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
-import { getUsageSnapshot, resolveActionQuota, planTierFor } from '@/services/usage/getDailyUsage';
-import { checkAndConsumeCredits } from '@/services/credits/checkAndConsumeCredits';
+import { getUsageSnapshot, planTierFor } from '@/services/usage/getDailyUsage';
+import { consumeAIAllowance } from '@/services/credits/consumeAIAllowance';
+import { AI_CREDIT_PACKS } from '@/services/credits/aiCreditWallet';
 import { logAIUsage } from '@/services/ai/usageLogger';
 
 export const dynamic = 'force-dynamic';
@@ -12,10 +13,13 @@ const ALLOWED_ACTIONS = new Set([
   'launch_ai_rival',
   'create_next_mock',
   'create_trap_drill',
+  'create_mistake_replay',
   'show_admission_path',
   'explain_mistake',
   'start_revision_queue',
   'show_mock_autopsy',
+  'buy_credits',
+  'upgrade_plan',
 ]);
 
 export async function POST(request) {
@@ -46,12 +50,8 @@ export async function POST(request) {
   const snapshot = await getUsageSnapshot(dbUser);
   const isPaid = planTierFor(dbUser) === 'paid';
 
-  // Each action has its own gating + cost.
   switch (action) {
-    case 'launch_ai_rival': {
-      // Front-end should call /api/ai/rival/start directly with full params.
-      // This branch returns a redirect descriptor so the executor can be
-      // called from a mentor card without leaving the chat.
+    case 'launch_ai_rival':
       return NextResponse.json({
         ok: true,
         kind: 'redirect',
@@ -61,7 +61,6 @@ export async function POST(request) {
           subjects: Array.isArray(params.subjects) ? params.subjects : null,
         },
       });
-    }
 
     case 'create_next_mock': {
       const subject = params.subject || dbUser.subjects?.[0] || null;
@@ -74,85 +73,83 @@ export async function POST(request) {
           target: '/profile',
         }, { status: 400 });
       }
+
+      let chargeRecord = null;
+      if (params.custom === true) {
+        const charged = await chargeActionAllowance({
+          user: dbUser,
+          action: 'custom_mock_plan',
+          prefix: 'custom_mock_plan',
+          params,
+        });
+        if (charged.error) return NextResponse.json(charged.error, { status: charged.status });
+        chargeRecord = charged.record;
+      }
+
       return NextResponse.json({
         ok: true,
         kind: 'redirect',
         target: '/dashboard',
         params: { subject, mode, count: clampInt(params.count, 5, 50, 10) },
+        charge: chargeRecord,
       });
     }
 
-    case 'create_trap_drill': {
-      const quota = resolveActionQuota({ user: dbUser, snapshot, action: 'trap_drill' });
-      if (!quota.allowed) {
+    case 'create_trap_drill':
+    case 'create_mistake_replay': {
+      if (!isPaid) {
         return NextResponse.json(
-          { error: 'paid_plan_required', message: 'Trap drills are a paid feature.' },
+          { error: 'paid_plan_required', message: 'Mistake Replay is a paid feature when personalized.' },
           { status: 402 },
         );
       }
-      const charge = await chargeIfNeeded({
-        quota,
-        userId: session.user.id,
-        action: 'trap_drill',
-        prefix: 'trap_drill',
-      });
-      if (charge.error) return NextResponse.json(charge.error, { status: charge.status });
 
-      // TODO: full trap-drill generator. For MVP we hand back a structured
-      // recommendation that the client can render and route to /dashboard
-      // with prefilled subject + chapter filters.
       const subject = params.subject || dbUser.subjects?.[0] || null;
       return NextResponse.json({
         ok: true,
-        kind: 'recommendation',
+        kind: 'inline',
         message:
-          'Trap drill generated. We will route you to a focused practice on your weakest chapter. Full custom drills are coming.',
-        target: '/dashboard',
+          'Mistake Replay ready: run 8-10 questions from the weakest available area, cap it at 10 minutes, review only wrong or skipped questions, then take a benchmark while the pattern is fresh.',
         params: {
           subject,
-          mode: 'quick',
+          suggestedRoute: '/dashboard',
+          suggestedMode: 'quick',
           count: clampInt(params.questionCount, 5, 30, 10),
           difficulty: 'hard',
           focusConcepts: Array.isArray(params.focusConcepts) ? params.focusConcepts.slice(0, 6) : [],
         },
-        charge: charge.record,
+        charge: { kind: 'covered_by_mentor', amount: 0, creditUnits: 0 },
       });
     }
 
-    case 'show_admission_path': {
+    case 'show_admission_path':
       return NextResponse.json({
         ok: true,
         kind: 'redirect',
         target: '/admission-compass',
         params: {},
       });
-    }
 
-    case 'explain_mistake': {
-      // No-charge inline action — UI already has the context.
+    case 'explain_mistake':
       return NextResponse.json({
         ok: true,
         kind: 'inline',
         message:
-          'Open the question on the Saved or Result page to read the canonical explanation. Mentor will reference it on the next prompt.',
-        target: params.questionId ? `/saved` : `/dashboard`,
+          'Open the question from Saved or Result. PrepOS will use that exact question context on your next prompt.',
+        target: params.questionId ? '/saved' : '/dashboard',
         params: { questionId: params.questionId || null },
       });
-    }
 
-    case 'start_revision_queue': {
-      // Routes to the saved questions page where revision queue lives.
+    case 'start_revision_queue':
       return NextResponse.json({
         ok: true,
         kind: 'redirect',
         target: '/saved',
         params: { intent: 'revise', subjects: params.subjects || dbUser.subjects || [] },
       });
-    }
 
     case 'show_mock_autopsy': {
-      const quota = resolveActionQuota({ user: dbUser, snapshot, action: 'mock_autopsy' });
-      if (!quota.allowed) {
+      if (!isPaid) {
         return NextResponse.json(
           { error: 'paid_plan_required', message: 'Deep mock autopsy is a paid feature.' },
           { status: 402 },
@@ -167,16 +164,7 @@ export async function POST(request) {
           target: '/dashboard',
         }, { status: 400 });
       }
-      const charge = await chargeIfNeeded({
-        quota,
-        userId: session.user.id,
-        action: 'mock_autopsy',
-        prefix: 'autopsy',
-      });
-      if (charge.error) return NextResponse.json(charge.error, { status: charge.status });
 
-      // Hand the most recent attempt id to the mentor — UI will then call
-      // /api/ai/mentor/chat with mode=autopsy and a "Analyse attempt X" message.
       return NextResponse.json({
         ok: true,
         kind: 'mentor_followup',
@@ -185,49 +173,65 @@ export async function POST(request) {
           attemptId: attempts[0].id,
           subject: attempts[0].subject,
           mode: 'autopsy',
-          prompt: `Analyse my last mock (${attempts[0].subject}, score ${attempts[0].score}).`,
+          prompt: `Analyze my last mock (${attempts[0].subject}, score ${attempts[0].score}).`,
         },
-        charge: charge.record,
+        charge: { kind: 'charged_on_mentor_followup', amount: 0, creditUnits: 0 },
       });
     }
+
+    case 'buy_credits':
+      return NextResponse.json({
+        ok: true,
+        kind: 'redirect',
+        target: '/pricing/prepos',
+        message: 'Open PrepOS credit packs to top up without changing your subscription.',
+        params: { reason: 'ai_credits', balance: snapshot.creditBalance || 0 },
+        packs: AI_CREDIT_PACKS,
+      });
+
+    case 'upgrade_plan':
+      return NextResponse.json({
+        ok: true,
+        kind: 'redirect',
+        target: '/pricing',
+        params: { reason: 'ai_mentor' },
+      });
 
     default:
       return NextResponse.json({ error: 'unhandled_action' }, { status: 400 });
   }
 }
 
-async function chargeIfNeeded({ quota, userId, action, prefix }) {
-  if (!quota.requiresCredits || !quota.creditCost) {
-    return { ok: true, record: { kind: 'included', amount: 0 } };
-  }
-  const reference = `${prefix}_${userId}_${Date.now()}`;
-  const charge = await checkAndConsumeCredits({
-    userId,
-    amount: quota.creditCost,
+async function chargeActionAllowance({ user, action, prefix, params }) {
+  const allowance = await consumeAIAllowance({
+    user,
     action,
-    reference,
+    params,
+    referencePrefix: prefix,
   });
-  if (!charge.ok) {
+
+  if (!allowance.ok) {
     return {
       error: {
-        error: charge.error || 'insufficient_credits',
-        required: charge.required ?? quota.creditCost,
-        balance: charge.balance,
+        error: allowance.error || 'insufficient_credits',
+        required: allowance.required,
+        balance: allowance.balance,
         upgrade: true,
       },
-      status: 402,
+      status: allowance.status || 402,
     };
   }
-  // Log the action separately from mentor chat.
+
   await logAIUsage({
-    userId,
+    userId: user.id,
     feature: action,
     provider: 'none',
     model: 'none',
     actionTriggered: action,
-    metadata: { reference, charged: charge.charged },
+    metadata: { charge: allowance.charge, creditUnits: allowance.charge?.creditUnits || 0 },
   });
-  return { ok: true, record: { kind: 'credits', amount: charge.charged, reference } };
+
+  return { ok: true, record: allowance.charge };
 }
 
 function clampInt(v, lo, hi, fallback) {

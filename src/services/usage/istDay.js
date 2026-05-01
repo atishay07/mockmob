@@ -1,6 +1,6 @@
 /**
  * IST day-boundary helpers.
- * MockMob is India/CUET/DU focused — daily limits are computed against IST,
+ * MockMob is India/CUET/DU focused; daily limits are computed against IST,
  * not UTC, so a battle taken at 11pm IST doesn't unlock another one 30 min
  * later just because UTC ticked over.
  *
@@ -21,6 +21,20 @@ export function istDayStart(input = new Date()) {
 /** ISO string at the start of today (IST), used as a SQL filter lower bound. */
 export function istDayStartISO(input = new Date()) {
   return new Date(istDayStart(input)).toISOString();
+}
+
+/** Returns the start-of-month timestamp (epoch ms) in IST. */
+export function istMonthStart(input = new Date()) {
+  const ts = input instanceof Date ? input.getTime() : Number(input) || Date.now();
+  const shifted = new Date(ts + IST_OFFSET_MS);
+  const y = shifted.getUTCFullYear();
+  const m = shifted.getUTCMonth();
+  return Date.UTC(y, m, 1) - IST_OFFSET_MS;
+}
+
+/** ISO string at the start of the current IST month. */
+export function istMonthStartISO(input = new Date()) {
+  return new Date(istMonthStart(input)).toISOString();
 }
 
 /** Returns "YYYY-MM-DD" in IST. */

@@ -1,0 +1,45 @@
+{
+  "created_at": "2026-05-01T22:00:11.736Z",
+  "no_publish": true,
+  "routes": [
+    {
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "route_type": "standalone",
+      "priority": 999
+    }
+  ],
+  "results": [
+    {
+      "route": "english::Vocabulary",
+      "model": "kimi",
+      "provider": "kimi",
+      "generation_success": true,
+      "json_parse_success": true,
+      "repair_used": false,
+      "raw_candidates": 10,
+      "normalized_candidates": 10,
+      "selfcheck_passed": 0,
+      "validator_sent": 0,
+      "validator_accepted": 0,
+      "simulated_publish_count": 0,
+      "average_validator_score": 0,
+      "average_exam_quality": 0,
+      "average_distractor_quality": 0,
+      "average_trap_quality": 0,
+      "weak_distractor_rate": 1,
+      "direct_definition_rate": 0,
+      "answer_mismatch_rate": 0,
+      "non_cuet_pattern_rate": 1,
+      "avg_latency_ms": 10,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0,
+      "estimated_cost_per_1000_live": null,
+      "projected_live_per_hour": 0,
+      "sample_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\logs\\audit\\route_samples\\english__vocabulary"
+    }
+  ],
+  "winner": "kimi",
+  "recommendation": "keep_deepseek_default_and_continue_kimi_ab_tests"
+}

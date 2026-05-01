@@ -6,6 +6,7 @@ import { JsonLd } from '@/components/JsonLd';
 import { Icon } from '@/components/ui/Icons';
 import { Button } from '@/components/ui/Button';
 import { DotPattern } from '@/components/ui/dot-pattern';
+import { PrepOSOrb } from '@/components/ui/PrepOSOrb';
 import { breadcrumbJsonLd, seoMetadata } from '@/lib/seo';
 
 export const metadata = seoMetadata({
@@ -21,13 +22,14 @@ export default function FeaturesPage() {
     { t: 'Live Leaderboards', d: 'Turn practice into pressure. Climb ranks as you solve, submit, and compete in focused mock sprints.', icon: 'trend' },
     { t: 'Saved Question Bank', d: 'Bookmark tough questions from Explore and build your personal revision stack for repeat practice.', icon: 'book' },
     { t: 'Exam Tracks', d: 'CUET-first pathways with subject, unit, chapter, and difficulty controls shaped around actual student workflows.', icon: 'route' },
+    { t: 'PrepOS Daily Mission', d: 'A chat-first planning layer that turns every mock result into today’s benchmark, replay, review, or DU target move.', icon: 'spark', highlight: true },
     { t: 'AI Admission Compass', d: 'Premium users unlock a DU college predictor with mock CUET score bands, category-aware targets, and course-subject eligibility checks.', icon: 'target', highlight: true },
     { t: 'Premium Speed Layer', d: 'Unlock unlimited mocks, advanced Radar, targeted difficulty, and faster high-intent practice loops.', icon: 'zap' },
   ];
   const proof = [
     ['Solve', 'Mock tests, chapter drills, and curated feeds'],
     ['Signal', 'Votes, saves, skips, and progress analytics'],
-    ['Improve', 'Next moves, weak chapters, and premium recipes'],
+    ['Ask', 'PrepOS plans the benchmark, replay, review, or DU move'],
   ];
 
   return (
@@ -49,7 +51,7 @@ export default function FeaturesPage() {
           <div className="eyebrow mb-4">{'// The Arsenal'}</div>
           <h1 className="display-lg mb-6">Every feature exists to move your <span className="text-volt italic">score faster.</span></h1>
           <p className="text-zinc-400 max-w-2xl mx-auto text-lg">
-            MockMob is not a notes app. It is a practice engine: find the right questions, save the painful ones, get the signal, and come back sharper.
+            MockMob is not a notes app. It is a CUET practice engine with PrepOS on top: find the right questions, save the painful ones, ask for the next move, and come back sharper.
           </p>
         </div>
       </section>
@@ -77,7 +79,7 @@ export default function FeaturesPage() {
             {allFeatures.map((f, i) => (
               <div key={i} className="glass p-6 md:p-8 relative overflow-hidden group md:min-h-[260px]" style={{ borderColor: f.highlight ? 'rgba(210,240,0,0.2)' : 'rgba(255,255,255,0.08)' }}>
                 <div
-                  className="pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+                  className="feature-dot-layer pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"
                   style={{ position: 'absolute', inset: 0, zIndex: 0 }}
                 >
                   <DotPattern width={24} height={24} cx={1} cy={1} cr={1.5} className={f.highlight ? "text-volt/30" : "text-white/20"} glow={true} style={{ maskImage: 'radial-gradient(ellipse at center, white, transparent 70%)', WebkitMaskImage: 'radial-gradient(ellipse at center, white, transparent 70%)' }} />
@@ -96,10 +98,36 @@ export default function FeaturesPage() {
         </div>
       </section>
 
+      <section className="px-5 mb-20">
+        <div className="container-std">
+          <div className="glass features-prepos-card relative overflow-hidden border-volt/20 p-6 md:p-8">
+            <div className="features-prepos-grid">
+              <div className="features-prepos-orb">
+                <PrepOSOrb size={86} active label="AI" />
+              </div>
+              <div>
+                <div className="eyebrow mb-3">{'// PrepOS layer'}</div>
+                <h2 className="display-md mb-3">The feature that ties the rest together.</h2>
+                <p className="max-w-2xl text-zinc-400 leading-relaxed">
+                  Radar finds the weakness. Saved questions hold the evidence. Compass shows the DU path. PrepOS turns all of it into a simple instruction: what to solve next, why it matters, and when to re-benchmark.
+                </p>
+              </div>
+              <div className="features-prepos-steps">
+                {['Set daily mission', 'Replay weakest trap', 'Replan after mock'].map((step) => (
+                  <span key={step}>{step}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="px-5 mb-28">
         <div className="container-std">
           <div className="glass premium-feature-card p-5 md:p-6 grid grid-cols-1 lg:grid-cols-[minmax(360px,0.95fr)_minmax(0,1fr)] gap-6 items-stretch relative overflow-hidden border-volt/20">
-            <DotPattern width={22} height={22} cx={1} cy={1} cr={1.2} className="text-volt/20 opacity-45" glow={true} style={{ maskImage: 'radial-gradient(ellipse at right, white, transparent 70%)', WebkitMaskImage: 'radial-gradient(ellipse at right, white, transparent 70%)' }} />
+            <div className="pointer-events-none opacity-45" style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+              <DotPattern width={22} height={22} cx={1} cy={1} cr={1.2} className="text-volt/20" glow={true} style={{ maskImage: 'radial-gradient(ellipse at right, white, transparent 70%)', WebkitMaskImage: 'radial-gradient(ellipse at right, white, transparent 70%)' }} />
+            </div>
             <div className="relative z-10 feature-compass-shot">
               <div className="shot-top">
                 <div>
@@ -175,6 +203,59 @@ export default function FeaturesPage() {
 
       <MarketingFooter />
       <style>{`
+        .features-prepos-card {
+          background:
+            radial-gradient(circle at 8% 20%, rgba(210,240,0,.12), transparent 34%),
+            radial-gradient(circle at 92% 76%, rgba(85,255,197,.07), transparent 38%),
+            rgba(255,255,255,.015);
+        }
+        .features-prepos-card::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          background-image: radial-gradient(rgba(210,240,0,.2) 1px, transparent 1px);
+          background-size: 22px 22px;
+          mask-image: radial-gradient(ellipse at center, black, transparent 74%);
+          opacity: .42;
+        }
+        .features-prepos-grid {
+          position: relative;
+          z-index: 1;
+          display: grid;
+          grid-template-columns: 1fr;
+          align-items: center;
+          gap: 22px;
+        }
+        @media (min-width: 860px) {
+          .features-prepos-grid {
+            grid-template-columns: auto minmax(0, 1fr) minmax(220px, .5fr);
+          }
+        }
+        .features-prepos-orb {
+          display: flex;
+          align-items: center;
+        }
+        .features-prepos-steps {
+          display: grid;
+          gap: 10px;
+        }
+        .features-prepos-steps span {
+          border: 1px solid rgba(255,255,255,.08);
+          border-radius: 999px;
+          background: rgba(0,0,0,.25);
+          padding: 10px 13px;
+          color: #e4e4e7;
+          font-size: 12px;
+          font-weight: 800;
+          animation: features-step-pulse 4.2s ease-in-out infinite;
+        }
+        .features-prepos-steps span:nth-child(2) { animation-delay: .18s; }
+        .features-prepos-steps span:nth-child(3) { animation-delay: .36s; }
+        @keyframes features-step-pulse {
+          0%, 100% { transform: translateX(0); border-color: rgba(255,255,255,.08); }
+          50% { transform: translateX(4px); border-color: rgba(210,240,0,.24); }
+        }
         .premium-feature-card {
           min-height: 0;
         }
@@ -284,6 +365,22 @@ export default function FeaturesPage() {
           }
           .shot-insights {
             grid-template-columns: 1fr;
+          }
+        }
+        @media (hover: none) {
+          .feature-dot-layer {
+            opacity: .78 !important;
+            animation: mobile-dot-breathe 4.2s ease-in-out infinite;
+          }
+        }
+        @keyframes mobile-dot-breathe {
+          0%, 100% { opacity: .32; }
+          50% { opacity: .84; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .features-prepos-steps span,
+          .feature-dot-layer {
+            animation: none;
           }
         }
       `}</style>

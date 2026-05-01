@@ -1,0 +1,21 @@
+
+> mockmob@0.1.0 nta:diagnose
+> node --use-system-ca scripts/nta-diagnose.mjs
+
+subject | total candidates | usable | hard rejected | tier1 | tier2 | tier3 | canBuild50 | passageGroups | top reject reasons
+--- | ---: | ---: | ---: | ---: | ---: | ---: | --- | ---: | ---
+english | 388 | 159 | 229 | 3 | 156 | 0 | yes | 0 | orphan_passage_question:212, generic_english_assertion_reason_without_context:13, question_missing_or_too_short:9, generic_textbook_one_liner:8
+gat | 228 | 200 | 28 | 0 | 200 | 0 | yes | 0 | generic_textbook_one_liner:25, question_missing_or_too_short:3, orphan_passage_question:2
+accountancy | 1517 | 1278 | 239 | 1 | 1277 | 0 | yes | 0 | generic_textbook_one_liner:181, options_invalid:52, orphan_passage_question:6, question_missing_or_too_short:1
+business_studies | 441 | 415 | 26 | 4 | 411 | 0 | yes | 0 | generic_textbook_one_liner:13, orphan_passage_question:12, question_missing_or_too_short:1
+economics | 459 | 425 | 34 | 13 | 411 | 1 | yes | 0 | generic_textbook_one_liner:23, orphan_passage_question:5, question_missing_or_too_short:5, options_invalid:1
+mathematics | 470 | 383 | 87 | 1 | 382 | 0 | yes | 0 | generic_textbook_one_liner:48, malformed_question_text:19, question_missing_or_too_short:15, options_invalid:11, orphan_passage_question:1
+physics | 401 | 359 | 42 | 5 | 354 | 0 | yes | 0 | generic_textbook_one_liner:28, orphan_passage_question:11, options_invalid:3, malformed_question_text:1
+chemistry | 457 | 413 | 44 | 0 | 413 | 0 | yes | 0 | question_missing_or_too_short:16, generic_textbook_one_liner:12, orphan_passage_question:9, options_invalid:8
+biology | 537 | 502 | 35 | 0 | 502 | 0 | yes | 0 | generic_textbook_one_liner:25, question_missing_or_too_short:6, orphan_passage_question:5, answer_missing_or_mismatch:1, options_invalid:1
+history | 314 | 291 | 23 | 0 | 291 | 0 | yes | 0 | orphan_passage_question:18, generic_textbook_one_liner:5
+political_science | 336 | 321 | 15 | 0 | 321 | 0 | yes | 0 | generic_textbook_one_liner:10, orphan_passage_question:5
+geography | 286 | 264 | 22 | 0 | 264 | 0 | yes | 0 | generic_textbook_one_liner:15, orphan_passage_question:7
+psychology | 215 | 187 | 28 | 1 | 186 | 0 | yes | 0 | orphan_passage_question:18, generic_textbook_one_liner:10
+sociology | 314 | 296 | 18 | 7 | 289 | 0 | yes | 0 | orphan_passage_question:9, generic_textbook_one_liner:8, question_missing_or_too_short:1
+computer_science | 519 | 487 | 32 | 12 | 475 | 0 | yes | 0 | generic_textbook_one_liner:16, orphan_passage_question:15, options_invalid:1

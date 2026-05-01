@@ -9,8 +9,10 @@ import { Avatar } from '@/components/ui/Avatar';
 import { useAuth } from '@/components/AuthProvider';
 import { useRole } from '@/lib/roleContext';
 import { DotPattern } from '@/components/ui/dot-pattern';
+import { AuthSessionScreen } from '@/components/auth/AuthSessionScreen';
 
 const TOUR_STEPS = [
+  { title: 'PrepOS', target: 'nav-mentor', body: 'Start here for the prep layer: setup, chat, daily missions, replanning, benchmark guidance, and review.' },
   { title: 'Arena', target: 'nav-dashboard', body: 'Start timed CUET mocks, choose subjects, chapters, question count, and difficulty controls.' },
   { title: 'Compass', target: 'nav-admission-compass', body: 'Turn your mock score band into college and course direction.' },
   { title: 'Explore', target: 'nav-explore', body: 'Practice from the live question feed with subject, unit, chapter, difficulty, and search filters.' },
@@ -116,22 +118,14 @@ export default function AppLayoutClient({ children }) {
 
   if (status !== 'authenticated' || (pathname.startsWith('/moderation') && !isModerator)) {
     return (
-      <div style={{
-        minHeight: '100vh', display: 'flex', alignItems: 'center',
-        justifyContent: 'center', flexDirection: 'column', gap: '16px',
-      }}>
-        <div style={{
-          width: '36px', height: '36px', borderRadius: '50%',
-          border: '2px solid rgba(210,240,0,.3)', borderTopColor: 'var(--volt)',
-          animation: 'spin 0.8s linear infinite',
-        }} />
-        <p style={{ color: '#52525b', fontSize: '12px', fontFamily: 'var(--font-mono)' }}>LOADING SESSION…</p>
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-      </div>
+      <AuthSessionScreen
+        message={status === 'authenticated' ? 'Checking your access...' : 'Loading your session...'}
+      />
     );
   }
 
   const studentTabs = [
+    { id: 'mentor', label: 'PrepOS', icon: 'spark' },
     { id: 'dashboard', label: 'Arena', icon: 'zap' },
     { id: 'admission-compass', label: 'Compass', icon: 'target' },
     { id: 'explore', label: 'Explore', icon: 'radar' },
@@ -144,6 +138,7 @@ export default function AppLayoutClient({ children }) {
   ];
 
   const modTabs = [
+    { id: 'mentor', label: 'PrepOS', icon: 'spark' },
     { id: 'dashboard', label: 'Arena', icon: 'zap' },
     { id: 'admission-compass', label: 'Compass', icon: 'target' },
     { id: 'moderation', label: 'Mod Queue', icon: 'shield' },
@@ -393,7 +388,7 @@ export default function AppLayoutClient({ children }) {
       )}
 
       <main className={`app-main ${isTestRoute ? 'app-main--test' : 'px-4 py-6 md:px-5 md:py-8'}`} style={{ flex: 1, position: 'relative' }}>
-        <DotPattern className="fixed inset-0 opacity-20 pointer-events-none" width={24} height={24} />
+        <DotPattern className="fixed inset-0 opacity-10 pointer-events-none" width={24} height={24} />
         <div className={`${isTestRoute ? 'test-content-host' : 'container-std'} relative z-10`}>
           {children}
         </div>

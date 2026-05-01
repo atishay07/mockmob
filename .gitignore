@@ -32,6 +32,8 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 coming-soon-*.log
+ai-feature-dev-*.log
+auth-fix-dev-*.log
 
 # env files (can opt-in for committing if needed)
 .env*

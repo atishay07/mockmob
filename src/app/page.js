@@ -6,6 +6,7 @@ import { Icon } from '@/components/ui/Icons';
 import { Button } from '@/components/ui/Button';
 import { MarketingFooter } from '@/components/MarketingFooter';
 import { JsonLd } from '@/components/JsonLd';
+import { DynamicCompassPreview } from '@/components/landing/DynamicCompassPreview';
 import { breadcrumbJsonLd, courseJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
 
 // Magic UI components
@@ -14,6 +15,7 @@ import { NumberTicker } from '@/components/ui/number-ticker';
 import { ScrollVelocityContainer, ScrollVelocityRow } from '@/components/ui/scroll-based-velocity';
 import { DotPattern } from '@/components/ui/dot-pattern';
 import { InteractiveGridPattern } from '@/components/ui/interactive-grid-pattern';
+import { PrepOSOrb } from '@/components/ui/PrepOSOrb';
 
 export const metadata = seoMetadata({
   title: 'CUET Mock Tests & Practice Questions | MockMob',
@@ -26,21 +28,22 @@ export default function LandingPage() {
   const stats = [
     { v: 1000, l: 'Active Mobbers', i: 'users', plus: true },
     { v: 10000, l: 'Questions Live', i: 'book', plus: true },
-    { v: 7, l: 'Exam tracks', i: 'route', plus: true },
+    { v: 7, l: 'CUET subjects', i: 'route', plus: true },
     { v: 'LIVE', l: 'Mock Sprint', i: 'flame', live: true },
   ];
   
   const features = [
-    { t: 'Community-built mocks', d: '10,000+ peer-crafted questions reviewed, rated, and battle-tested by toppers every single day. No dusty PDFs. No decade-old repeats.', tag: 'MOST LOVED', icon: 'users', span: 'md:col-span-8', hero: true },
-    { t: 'AI weakness radar', d: 'Smart analytics pinpoint the exact chapter, topic & trap killing your score.', icon: 'radar', span: 'md:col-span-4', chart: true },
-    { t: 'Discord-style study', d: 'Live voice rooms and real-time doubt solving. Study with your mob, stay accountable 24/7.', icon: 'msg', span: 'md:col-span-4' },
-    { t: 'Exam-specific tracks', d: 'Tailored pathways for CUET, JEE, NEET, and UPSC. Not just tests — a roadmap to the rank.', icon: 'route', span: 'md:col-span-8', track: true },
+    { t: 'Community-built CUET mocks', d: '10,000+ peer-crafted questions reviewed, rated, and battle-tested by serious CUET aspirants every day. No dusty PDFs. No decade-old repeats.', tag: 'MOST LOVED', icon: 'users', span: 'md:col-span-7', hero: true },
+    { t: 'PrepOS CUET co-pilot', d: 'Ask PrepOS what to do today. It turns your mocks, weak chapters, saved questions, and DU goals into a clear next move.', tag: 'NEW', icon: 'spark', span: 'md:col-span-5', hero: true },
+    { t: 'AI weakness radar', d: 'Smart analytics pinpoint the exact chapter, topic, speed leak, and trap pattern killing your score.', icon: 'radar', span: 'md:col-span-4', chart: true },
+    { t: 'Mistake Replay', d: 'Reopen the questions that actually hurt your score and convert them into short benchmark drills.', icon: 'msg', span: 'md:col-span-4' },
+    { t: 'DU target path', d: 'CUET-first pathways connect your subjects, score band, and target course to realistic college moves.', icon: 'route', span: 'md:col-span-4', track: true },
   ];
 
   const testimonials = [
-    { n: 'Aanya Kulkarni', r: 'CUET • AIR 42', q: 'I used to solve PYQs alone at 2 AM wondering if my speed was normal. MockMob showed me the mob was solving faster — and that pushed me to actually level up.' },
-    { n: 'Rohit Mehta', r: 'JEE ADV • Rank 812', q: 'The speed of the interface is a game changer. It feels exactly like the NTA centre computers, minus the lag.' },
-    { n: 'Sia Prajapati', r: 'NEET • AIR 1,204', q: 'The weakness radar caught that my time management was poor in Biology. Fixed it in 2 weeks. Scored 355/360.' },
+    { n: 'Aanya Kulkarni', r: 'CUET • North Campus', q: 'I used to solve PYQs alone at 2 AM wondering if my speed was normal. MockMob showed me the exact chapter that was dragging my score down.' },
+    { n: 'Meera Sharma', r: 'SRCC • B.Com (Hons)', q: 'PrepOS made the plan simple: benchmark, replay mistakes, then push Accountancy. It felt like a senior had mapped the week for me.' },
+    { n: 'Atishay Jain', r: 'Hansraj College', q: 'The DU Compass view made my CUET score feel actionable. I could see the colleges, the subject gaps, and the next move without guessing.' },
   ];
 
   const faqs = [
@@ -100,7 +103,7 @@ export default function LandingPage() {
           <MorphingText texts={["mob.", "best.", "top 1%."]} className="text-volt italic h-[80px] md:h-[120px]" />
           
           <p className="text-base md:text-lg text-zinc-400 max-w-2xl mx-auto mb-8 mt-4" style={{ lineHeight: 1.6 }}>
-            India&apos;s first community-built mock test platform. Take peer-verified mocks for <span className="text-volt font-semibold">CUET, JEE, NEET, UPSC, CAT, GATE &amp; SSC</span>. Compete live. Climb boards. Crack exams.
+            India&apos;s CUET-first mock test platform. Take peer-verified mocks, ask <span className="text-volt font-semibold">PrepOS</span> what to do next, and turn every score into a sharper DU admission move.
           </p>
           <LandingActions mode="hero" />
           <div className="inline-flex items-center gap-2 text-xs text-zinc-500">
@@ -142,10 +145,38 @@ export default function LandingPage() {
         <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#0a0a0a] to-transparent z-10"></div>
         <ScrollVelocityContainer className="font-display font-bold text-3xl md:text-5xl tracking-tight text-white/40">
           <ScrollVelocityRow baseVelocity={1.6} direction={1} scrollReactivity={false}>
-            CUET <span className="opacity-15 mx-4">—</span> JEE <span className="opacity-15 mx-4">—</span> NEET <span className="opacity-15 mx-4">—</span> UPSC <span className="opacity-15 mx-4">—</span> CAT <span className="opacity-15 mx-4">—</span> GATE <span className="opacity-15 mx-4">—</span> SSC <span className="opacity-15 mx-4">—</span> CLAT <span className="opacity-15 mx-4">—</span> NDA <span className="opacity-15 mx-4">—</span> 
+            CUET English <span className="opacity-15 mx-4">—</span> Accountancy <span className="opacity-15 mx-4">—</span> Economics <span className="opacity-15 mx-4">—</span> Psychology <span className="opacity-15 mx-4">—</span> History <span className="opacity-15 mx-4">—</span> Political Science <span className="opacity-15 mx-4">—</span> SRCC <span className="opacity-15 mx-4">—</span> Hansraj <span className="opacity-15 mx-4">—</span> 
           </ScrollVelocityRow>
         </ScrollVelocityContainer>
       </div>
+
+      {/* PREPOS PROMO */}
+      <section className="px-5 mb-24">
+        <div className="container-std">
+          <div className="prepos-promo glass relative overflow-hidden border-volt/20">
+            <div className="prepos-promo-grid">
+              <div className="prepos-promo-orb">
+                <PrepOSOrb size={92} active label="OS" />
+              </div>
+              <div className="prepos-promo-copy">
+                <div className="eyebrow mb-3">{'// PrepOS'}</div>
+                <h2 className="display-md mb-3">A CUET co-pilot that keeps asking, <span className="text-volt italic">what is the next move?</span></h2>
+                <p className="text-zinc-400 leading-relaxed">
+                  Open the island from any page. PrepOS can set your daily mission, replan after a bad mock, benchmark you against DU targets, and turn saved mistakes into replay drills.
+                </p>
+              </div>
+              <div className="prepos-promo-stack" aria-label="PrepOS quick actions">
+                {['Plan today', 'Replay mistakes', 'Benchmark DU path'].map((item, index) => (
+                  <div key={item} className="prepos-promo-chip" style={{ animationDelay: `${index * 0.18}s` }}>
+                    <span>{index + 1}</span>
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* HOW IT WORKS */}
       <section className="px-5 mb-24">
@@ -224,7 +255,7 @@ export default function LandingPage() {
                     grow as a flex/block sibling and steal vertical space (the
                     `.glass > *` rule otherwise reverts it to position:relative). */}
                 <div
-                  className="pointer-events-none opacity-[0.35] group-hover:opacity-100 transition-opacity duration-700"
+                  className="feature-dot-layer pointer-events-none opacity-[0.35] group-hover:opacity-100 transition-opacity duration-700"
                   style={{ position: 'absolute', inset: 0, zIndex: 0 }}
                 >
                   <DotPattern width={24} height={24} cx={1} cy={1} cr={1.5} className={f.hero ? "text-volt/30" : "text-white/20"} glow={true} style={{ maskImage: 'radial-gradient(ellipse at top left, white, transparent 70%)', WebkitMaskImage: 'radial-gradient(ellipse at top left, white, transparent 70%)' }} />
@@ -249,16 +280,18 @@ export default function LandingPage() {
       <section className="px-5 mb-24">
         <div className="container-std">
           <div className="compass-card glass relative overflow-hidden border-volt/20">
-            <DotPattern
-              width={22}
-              height={22}
-              cx={1}
-              cy={1}
-              cr={1.2}
-              className="text-volt/20 opacity-40"
-              glow={true}
-              style={{ maskImage: 'radial-gradient(ellipse at top left, white, transparent 65%)', WebkitMaskImage: 'radial-gradient(ellipse at top left, white, transparent 65%)' }}
-            />
+            <div className="pointer-events-none opacity-40" style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+              <DotPattern
+                width={22}
+                height={22}
+                cx={1}
+                cy={1}
+                cr={1.2}
+                className="text-volt/20"
+                glow={true}
+                style={{ maskImage: 'radial-gradient(ellipse at top left, white, transparent 65%)', WebkitMaskImage: 'radial-gradient(ellipse at top left, white, transparent 65%)' }}
+              />
+            </div>
             <div className="compass-grid">
               <div className="compass-copy">
                 <div className="eyebrow mb-3">{'// DU Compass · AI guidance'}</div>
@@ -289,55 +322,7 @@ export default function LandingPage() {
                   <Icon name="arrow" style={{ width: '14px', height: '14px' }} />
                 </Link>
               </div>
-              <div className="compass-shot" aria-label="DU Compass preview">
-                <div className="shot-top">
-                  <div>
-                    <div className="mono-label">Mock CUET score</div>
-                    <div className="shot-score">872<span>/1000</span></div>
-                  </div>
-                  <span className="pill volt shot-band">High · 850-1000</span>
-                </div>
-                <div className="shot-bars">
-                  {[
-                    ['Economics', 178],
-                    ['Accountancy', 184],
-                    ['English', 178],
-                  ].map(([subject, marks]) => (
-                    <div key={subject}>
-                      <div className="flex items-center justify-between text-[11px] text-zinc-400 mb-1.5">
-                        <span>{subject}</span>
-                        <span className="font-mono tabular-nums">{marks}/200</span>
-                      </div>
-                      <div className="bar"><div className="fill fill-volt" style={{ width: `${Math.round((marks / 200) * 100)}%` }} /></div>
-                    </div>
-                  ))}
-                </div>
-                <div className="shot-insights">
-                  <div>
-                    <span>Eligibility</span>
-                    <strong>5/5 subjects fit</strong>
-                  </div>
-                  <div>
-                    <span>Next move</span>
-                    <strong>Push Maths +12</strong>
-                  </div>
-                </div>
-                <div className="shot-list">
-                  {[
-                    ['SRCC', 'B.Com (Hons)', 'Aspirational'],
-                    ['Hansraj', 'Economics (Hons)', 'Moderate'],
-                    ['Sri Venkateswara', 'B.Com (Hons)', 'High'],
-                  ].map(([college, course, chance]) => (
-                    <div key={`${college}-${course}`} className="shot-row">
-                      <div>
-                        <b>{college}</b>
-                        <span>{course}</span>
-                      </div>
-                      <em>{chance}</em>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <DynamicCompassPreview />
             </div>
           </div>
         </div>
@@ -410,6 +395,86 @@ export default function LandingPage() {
 
       <MarketingFooter />
       <style>{`
+        .prepos-promo {
+          padding: clamp(20px, 3vw, 32px);
+          background:
+            radial-gradient(circle at 12% 18%, rgba(210,240,0,.12), transparent 36%),
+            radial-gradient(circle at 84% 70%, rgba(85,255,197,.07), transparent 42%),
+            rgba(255,255,255,.015);
+        }
+        .prepos-promo::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          background-image: linear-gradient(rgba(210,240,0,.09) 1px, transparent 1px), linear-gradient(90deg, rgba(210,240,0,.07) 1px, transparent 1px);
+          background-size: 34px 34px;
+          mask-image: radial-gradient(ellipse at center, black, transparent 72%);
+          opacity: .42;
+        }
+        .prepos-promo-grid {
+          position: relative;
+          z-index: 1;
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 22px;
+          align-items: center;
+        }
+        @media (min-width: 860px) {
+          .prepos-promo-grid {
+            grid-template-columns: auto minmax(0, 1fr) minmax(220px, .55fr);
+          }
+        }
+        .prepos-promo-orb {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+        }
+        .prepos-promo-copy {
+          max-width: 680px;
+        }
+        .prepos-promo-stack {
+          display: grid;
+          gap: 10px;
+        }
+        .prepos-promo-chip {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          border: 1px solid rgba(255,255,255,.08);
+          border-radius: 14px;
+          background: rgba(0,0,0,.28);
+          padding: 12px 14px;
+          color: #e4e4e7;
+          font-size: 13px;
+          font-weight: 800;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+          animation: prepos-chip-float 4.4s ease-in-out infinite;
+        }
+        .prepos-promo-chip span {
+          display: inline-flex;
+          width: 24px;
+          height: 24px;
+          align-items: center;
+          justify-content: center;
+          border-radius: 999px;
+          background: var(--volt);
+          color: #050604;
+          font-family: var(--font-display);
+          font-size: 12px;
+          font-weight: 900;
+        }
+        @keyframes prepos-chip-float {
+          0%, 100% { transform: translateY(0); border-color: rgba(255,255,255,.08); }
+          50% { transform: translateY(-4px); border-color: rgba(210,240,0,.22); }
+        }
+        .compass-scenario {
+          animation: compass-scenario-enter .44s cubic-bezier(.2,.8,.2,1) both;
+        }
+        @keyframes compass-scenario-enter {
+          from { opacity: .35; transform: translateY(8px); filter: blur(2px); }
+          to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
         .compass-card {
           padding: clamp(20px, 3vw, 32px);
           background:
@@ -609,6 +674,23 @@ export default function LandingPage() {
           }
           .compass-shot .shot-band {
             align-self: flex-start;
+          }
+        }
+        @media (hover: none) {
+          .feature-dot-layer {
+            opacity: .78 !important;
+            animation: mobile-dot-breathe 4.2s ease-in-out infinite;
+          }
+        }
+        @keyframes mobile-dot-breathe {
+          0%, 100% { opacity: .32; }
+          50% { opacity: .84; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .prepos-promo-chip,
+          .compass-scenario,
+          .feature-dot-layer {
+            animation: none;
           }
         }
       `}</style>

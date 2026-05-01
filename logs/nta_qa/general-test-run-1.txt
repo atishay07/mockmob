@@ -1,0 +1,62 @@
+
+> mockmob@0.1.0 nta:sample
+> node --use-system-ca scripts/nta-sample.mjs --subject=general-test --runs=1
+
+
+## Loaded 228 candidate rows for gat
+
+# NTA sample subject=gat run=1
+selected=50/50 canBuild50=true durationMinutes=60
+topRejectReasons=[{"reason":"generic_textbook_one_liner","count":25},{"reason":"question_missing_or_too_short","count":3},{"reason":"orphan_passage_question","count":2}]
+idx | id | chapter | type | passage_group_id | real_passage | text | warnings
+---: | --- | --- | --- | --- | --- | --- | ---
+1 | 214a0a2d-a633-4de4-90aa-1a03164a0b62 | Quantitative Reasoning |  |  | no | Match List I (data source) with List II (typical release frequency). List I: 1. Census 2. Consumer Price Index 3. GDP e... | -
+2 | ad15c624-dc50-4e20-9246-5fbe201ff9ba | Basic Mathematical Concepts |  |  | no | Case: A commuter travels 60 km at 30 km/h and then 60 km at 60 km/h. A columnist claims: 'Average speed equals the simp... | -
+3 | 50cbb3d0-b263-448e-8e6d-802e7d816ca9 | Current Affairs |  |  | no | A business news story: a stock falls 10% on Monday and then gains 10% on Tuesday. Which statement about its price after... | -
+4 | bfe44ae1-ffa4-43d8-bef5-9d6b24cad9f7 | General Knowledge |  |  | no | A politician wears a green badge and shortly after the election their party wins; the politician claims the badge cause... | -
+5 | c4a5afc2-445c-46b2-b818-60b6448434d3 | Current Affairs |  |  | no | State A reported 100 Metric Tons (Mt) of emissions, which increased by 20%. State B reported 300 Mt of emissions, which... | -
+6 | 6adfbbbb-d54a-4dfb-8adf-febfcc4d460b | Current Affairs |  |  | no | Which of these is the primary monetary policy tool a central bank uses in news reports to signal tightening to control ... | -
+7 | d1c04588-4784-4ecc-96f9-d64c4db60067 | General Mental Ability |  |  | no | Assertion: Increasing the share of renewable energy in electricity generation reduces air pollution. Reason: Burning fo... | -
+8 | 8584b9b0-3813-4775-a7e0-159e88c4570f | Current Affairs |  |  | no | Match List I (International body) with List II (Primary focus). List I: 1 UNEP, 2 WHO, 3 IPCC. List II: a Public health... | -
+9 | 17e40e00-f515-4ff8-805a-26edf2b92d96 | General Knowledge |  |  | no | Match logical fallacies (List I) to headlines (List II). List I: F1 Ad hominem, F2 False dilemma, F3 Post hoc, F4 Hasty... | -
+10 | 6d463895-93c9-4dde-b7ef-19cde5336cdb | General Science and Environment Literacy |  |  | no | A city produces 400 tons of waste daily. If 60% of this waste is organic and can be composted, how many tons of waste w... | -
+11 | 3aa78428-e692-4aea-abb8-a4889e57deac | Basic Mathematical Concepts |  |  | no | A newspaper reports unemployment fell from 6% to 5%. Which pair correctly gives the absolute change and the relative ch... | -
+12 | 0b5551f2-d815-499f-b1f9-73f82f590536 | Current Affairs |  |  | no | A pre-election poll showed Candidate A leading 52–48, but the final result was Candidate B winning 51–49. Which is the ... | -
+13 | 6971d134-e3af-43a5-a572-4553eefcbbe7 | General Knowledge |  |  | no | Which statement best captures the practical difference between a head of state and a head of government in parliamentar... | -
+14 | 82c4328f-910b-4af9-9760-7febca3a3bca | Logical & Analytical Reasoning |  |  | no | Which of the following statements is logically strongest when evidence is limited: 'Possible', 'Probable', 'Certain', o... | -
+15 | b5bd13d8-72a7-429a-ac4e-3c971fa96309 | General Knowledge |  |  | no | In international relations, what most sharply distinguishes 'soft power' from 'smart power' when a state seeks to influ... | -
+16 | 6e836795-645e-43f0-8f33-c9e450f97076 | Basic Mathematical Concepts |  |  | no | If a dataset has a long right tail because of a few very large values, which measure best represents its centre? | -
+17 | 04945aef-1818-4ca6-8ba3-932fca911eea | General Knowledge |  |  | no | Assertion: When setting targets to limit global warming, cumulative CO2 emissions are more informative than a single-ye... | -
+18 | 8b03a627-fccf-4ea3-a680-9e2082e7677c | Current Affairs |  |  | no | A state report shows literacy improving from 70% to 77% over five years. What are the percentage-point change and the p... | -
+19 | 8cacdbc1-4041-41b6-bb4d-f67a155bd1f2 | Current Affairs |  |  | no | Case: A new viral disease was detected with rapid person-to-person transmission in a region; authorities announced cont... | -
+20 | 38f341cf-9618-447b-a4d9-c58c858f7b63 | Basic Mathematical Concepts |  |  | no | Assertion: If two events A and B are independent, then P(A and B) = P(A) * P(B). Reason: Independence means occurrence ... | -
+21 | 9c961ed3-4dfb-473f-9be9-18c4af66a530 | Current Affairs |  |  | no | Core inflation reported in current-affairs coverage typically excludes which of the following components? | -
+22 | cb430cdb-8069-4e21-836d-081d7f33997a | Logical & Analytical Reasoning |  |  | no | Assertion: Two events A and B are mutually exclusive if P(A∩B)=0. Reason: Mutually exclusive events cannot occur togeth... | -
+23 | 1598109f-f902-4e32-bfc9-402a85b3ec09 | Quantitative Reasoning |  |  | no | A country’s unemployment rate rises from 6% to 7.5% over a year. By what percent did the unemployment rate increase rel... | -
+24 | b2a6dae0-6dc3-488c-b24f-cdeffeea781f | General Mental Ability |  |  | no | Assertion: The median is less affected by outliers than the mean. Reason: The median is calculated using the middle val... | -
+25 | 1a4b1b9e-2b51-4ecd-bebd-758ac3b888f4 | Current Affairs |  |  | no | A news headline says 'Inflation eased to 5% in March from 5.5% in February.' In plain terms what does 'eased' mean in t... | -
+26 | a20422ca-a7e5-400b-8e7a-729a374e5cc1 | General Knowledge |  |  | no | A country's electricity came 10% from renewables when total consumption was 1000 TWh. After five years, renewables shar... | -
+27 | a741da42-b668-4af4-89bf-bb8389d0752d | Basic Mathematical Concepts |  |  | no | Three countries share 100 million vaccine doses in the ratio 2:3:5. How many doses does the country with the middle sha... | -
+28 | 44ac0748-2765-44d3-b7b0-b74e6d51e5b4 | Statistical Data Analysis |  |  | no | A researcher classifies survey responses into 'Agree', 'Neutral', and 'Disagree' and also records respondents' ages in ... | -
+29 | 8cc6b6f1-97fa-469a-a6aa-b0b55c8a4f72 | Current Affairs |  |  | no | Which of the following best describes the 'first-past-the-post' electoral system widely discussed in recent election co... | -
+30 | ebf2d5a0-9dcf-4c8d-aec9-b539ecf55c09 | Current Affairs |  |  | no | A country reported annual CO2 emissions of 2,000 million tonnes and a population of 250 million. What is the per capita... | -
+31 | 20c99a92-0503-4ce3-babc-cda1b5fae35b | Logical & Analytical Reasoning |  |  | no | Match the logical errors (List I) with examples (List II): List I: 1. Hasty generalization 2. False dichotomy 3. Post h... | -
+32 | d5426b84-d438-4eff-b8ee-0273d12fb5bc | General Mental Ability |  |  | no | Which statement best describes producers (autotrophs) in a typical terrestrial ecosystem? | -
+33 | 45c3baa5-3c1c-425c-b98f-046f480baf7c | General Knowledge |  |  | no | In a federal democracy, which feature most clearly distinguishes a constitutional amendment from an ordinary statute? | -
+34 | af96c33a-3146-4282-aac4-83245f78cb80 | Numerical Ability |  |  | no | Match List I (Measures) with List II (Typical use). List I: 1. Mean 2. Median 3. Mode. List II: A. Best for skewed dist... | -
+35 | c33dcd57-23b2-4759-a287-c5ba370901dd | General Science and Environment Literacy |  |  | no | Two-sentence scenario: A small dataset of rainfall values is 20, 22, 25, 25, 90 mm. Which statement is true? | -
+36 | 2d7d2b5c-7119-4218-8b38-76c5f0488f4d | Current Affairs |  |  | no | Match recent headline types in List I with the most appropriate chart type in List II (choose the correct mapping): Lis... | -
+37 | 78f1dd3d-5672-45e6-8d46-792bba399b5f | Quantitative Reasoning |  |  | no | Assertion: A public opinion survey conducted only at university campuses is likely to misrepresent the views of the who... | -
+38 | d457c000-ef68-48c1-85b5-558bd0016761 | Basic Mathematical Concepts |  |  | no | Assertion: The mode of a dataset is always a unique value. Reason: Mode represents the most frequently occurring value(... | -
+39 | 760eff1b-6a3c-4278-b294-6f4c495c170a | Current Affairs |  |  | no | Assertion: A commentator claims that a constant 5% annual growth rate will double GDP in 10 years. Reason: The doubling... | -
+40 | 9e808ed3-c114-4b07-9b0f-d34ab3efcb11 | Quantitative Reasoning |  |  | no | Assertion: All mammals are animals; All whales are mammals. Reason: Therefore, all whales are animals. Choose the corre... | -
+41 | f10e0ad4-d495-4041-9051-62882de805f4 | Current Affairs |  |  | no | Match the following economic indicators (List I) with what they primarily measure (List II): List I: (1) CPI (2) PMI (3... | -
+42 | 7e0d8176-43c0-484a-9308-31afe9df5c04 | Statistical Data Analysis |  |  | no | For which type of data is the mode the most appropriate single measure of central tendency? | -
+43 | c09309c9-ae1f-4504-a77b-bffd91eb7a26 | General Knowledge |  |  | no | Which one of the following statements is incorrect regarding renewable and sustainable energy concepts? | -
+44 | e525be42-e958-4e91-9261-4e2b2599d692 | Current Affairs |  |  | no | Case: A coastal city faced a storm surge and evacuated low-lying neighborhoods after a 36-hour advanced warning from me... | -
+45 | 545c4ce5-aefc-4d43-938f-a3fdb59170ec | Quantitative Reasoning |  |  | no | A small region reports incomes (in thousands): 10, 12, 13, 14, 100. Which measure (mean or median) better represents a ... | -
+46 | 0cc2c938-3e6e-42fb-b27e-1691b68589c5 | Current Affairs |  |  | no | At recent climate discussions, the term 'net-zero emissions' is often used. Which statement best describes 'net-zero' i... | -
+47 | 57740f88-3617-4f16-adda-dd0801755c6a | General Knowledge |  |  | no | Consider the geopolitical implications of a significant technological breakthrough in fusion energy. If a stable, cost-... | -
+48 | d7b45ae0-d624-4b7f-988f-a289591a8fc9 | Current Affairs |  |  | no | A financial news item shows a figure 2.46 crore reported in a short headline as 2.5 crore. Which rounding rule best exp... | -
+49 | 93a46fce-3e4c-4b6a-8c69-ba472250cde6 | Statistical Data Analysis |  |  | no | Match List I (statistic) with List II (best-suited data type). List I: (1) Mean (2) Median (3) Mode. List II: (A) Ordin... | -
+50 | 311fa4cc-03c4-43f9-ac40-5d78205699a3 | Current Affairs |  |  | no | Assertion: A public opinion poll reports 60% approval with a margin of error ±4%. Reason: The margin of error in that r... | -

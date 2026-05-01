@@ -1,0 +1,5 @@
+{
+  "primary_reason": "GENERATOR_QUALITY_WEAK",
+  "secondary_reasons": [],
+  "recommended_fix": "Improve prompt or add exact route anchor; keep validator thresholds intact."
+}

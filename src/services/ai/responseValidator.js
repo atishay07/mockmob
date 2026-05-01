@@ -3,7 +3,7 @@ import { ALLOWED_ACTIONS, ALLOWED_CARD_TYPES } from './systemPrompt';
 /**
  * Sanitise a mentor response so the UI never crashes on a malformed
  * model reply. We intentionally accept partial output and patch missing
- * fields rather than reject — fallback UX > error UX.
+ * fields rather than reject; fallback UX beats error UX.
  */
 export function sanitizeMentorResponse(parsed, { fallbackReply } = {}) {
   const safe = {
@@ -66,7 +66,7 @@ export function buildFallbackMentorResponse({ context, mode = 'mentor', error } 
   const reply =
     recentCount === 0
       ? "I don't have any mock data on you yet. Take one Quick Practice or Full Mock so I can read your speed and accuracy leaks, then ask me again."
-      : `I'm temporarily unable to reach the model. Based on your last ${recentCount} attempt(s), the safest next move is to drill your weakest subject and re-run a short rival match.`;
+      : `I'm temporarily unable to reach the model. Based on your last ${recentCount} attempt(s), the safest next move is to replay your weakest subject and run a short benchmark.`;
 
   const actions = [];
   if (recentCount === 0) {
@@ -79,7 +79,7 @@ export function buildFallbackMentorResponse({ context, mode = 'mentor', error } 
     });
   } else {
     actions.push({
-      label: 'Run a Rival battle',
+      label: 'Run Daily Benchmark',
       action: 'launch_ai_rival',
       params: { rivalType: 'NORTH_CAMPUS_RIVAL' },
       creditCost: 0,
@@ -93,9 +93,9 @@ export function buildFallbackMentorResponse({ context, mode = 'mentor', error } 
     cards: [
       {
         type: 'warning',
-        title: 'Mentor degraded mode',
+        title: 'PrepOS degraded mode',
         body: error
-          ? 'AI provider unreachable. You can still use Rival, mocks, and revision tools while we retry.'
+          ? 'AI provider unreachable. You can still use benchmarks, mocks, and revision tools while we retry.'
           : 'I am running on a deterministic fallback. Refresh in a minute for a full diagnosis.',
         metadata: { mode, error: error || null },
       },

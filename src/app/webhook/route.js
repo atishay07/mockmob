@@ -3,6 +3,7 @@ import crypto from 'node:crypto';
 import { verifyRazorpayWebhookSignature } from '@/lib/payments/razorpay';
 import { recordEarningIfApplicable } from '@/lib/payouts';
 import { Database } from '@/../data/db';
+import { getAICreditPack, grantPurchasedAICredits } from '@/services/credits/aiCreditWallet';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -39,8 +40,9 @@ export async function POST(request) {
     const payment = event?.payload?.payment?.entity;
     const subscription = event?.payload?.subscription?.entity;
     const subscriptionId = subscription?.id || payment?.subscription_id;
+    const orderId = payment?.order_id;
 
-    if (!subscriptionId || !HANDLED_EVENTS.has(eventType)) {
+    if ((!subscriptionId && !orderId) || !HANDLED_EVENTS.has(eventType)) {
       return NextResponse.json({ ok: true, ignored: true });
     }
 
@@ -60,13 +62,68 @@ export async function POST(request) {
       return NextResponse.json({ ok: true, deduped: true });
     }
 
-    const paymentRecord = await Database.getPaymentBySubscriptionId(subscriptionId);
+    const paymentRecord = subscriptionId
+      ? await Database.getPaymentBySubscriptionId(subscriptionId)
+      : await Database.getPaymentByOrderId(orderId);
     if (!paymentRecord) {
       await Database.markWebhookEventProcessed(eventId, 'no matching payment record');
       return NextResponse.json({ ok: true, ignored: true });
     }
 
     const hasCapturedPayment = payment?.status === 'captured' && typeof payment?.amount === 'number' && payment.amount > 0;
+    const creditPack = getAICreditPack(paymentRecord.planId);
+
+    if (creditPack) {
+      if (eventType === 'payment.captured' && hasCapturedPayment) {
+        if (payment.amount !== creditPack.amountPaise || payment.currency !== 'INR') {
+          await Database.updatePaymentByOrderId(orderId, {
+            paymentId: payment?.id,
+            status: 'failed',
+            amountPaid: typeof payment?.amount === 'number' ? payment.amount : undefined,
+            rawPayment: payment,
+          });
+          await Database.markWebhookEventProcessed(eventId, 'credit pack amount mismatch');
+          return NextResponse.json({ ok: true, ignored: true });
+        }
+
+        const grant = await grantPurchasedAICredits({
+          userId: paymentRecord.userId,
+          credits: creditPack.credits,
+          packKey: creditPack.key,
+          paymentId: payment?.id,
+          orderId,
+          idempotencyKey: `ai_topup:${orderId}:${payment?.id}`,
+          metadata: {
+            amountPaise: creditPack.amountPaise,
+            amountInr: creditPack.amountInr,
+            source: 'razorpay_webhook',
+          },
+        });
+
+        if (!grant.ok) {
+          throw new Error(grant.error || 'ai_credit_webhook_grant_failed');
+        }
+
+        await Database.updatePaymentByOrderId(orderId, {
+          paymentId: payment?.id,
+          status: 'captured',
+          amountPaid: payment.amount,
+          rawPayment: payment,
+        });
+      }
+
+      if (eventType === 'payment.failed') {
+        await Database.updatePaymentByOrderId(orderId, {
+          paymentId: payment?.id,
+          status: 'failed',
+          amountPaid: typeof payment?.amount === 'number' ? payment.amount : undefined,
+          rawPayment: payment,
+        });
+      }
+
+      await Database.markWebhookEventProcessed(eventId);
+      return NextResponse.json({ ok: true });
+    }
 
     if (eventType === 'payment.captured' || (eventType === 'subscription.charged' && hasCapturedPayment)) {
       await Database.updatePaymentBySubscriptionId(subscriptionId, {

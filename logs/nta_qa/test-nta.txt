@@ -1,0 +1,29 @@
+
+> mockmob@0.1.0 test:nta
+> node --test data/tests/nta_question_selector.test.mjs
+
+✔ NTA selector returns exactly 50 when 50+ usable questions exist (29.3892ms)
+✔ NTA selector does not fail because chapter is missing (22.3743ms)
+✔ NTA selector does not fail because quality metadata is missing (19.116ms)
+✔ NTA selector rejects truly unusable questions (0.9618ms)
+✔ rejects generic textbook one-liners (0.8161ms)
+✔ NTA selector preserves passage group order (16.9755ms)
+✔ NTA selector returns passage context for linked questions (0.4799ms)
+✔ NTA mode forces 60-minute duration (0.1986ms)
+✔ NTA mode ignores requested count and returns 50 (17.3388ms)
+✔ Quick/full modes keep their existing count behavior (0.2431ms)
+✔ rejects one-line Read the excerpt pseudo-passage (0.2992ms)
+✔ rejects passage badge without recoverable passage text (0.2574ms)
+✔ rejects generic paraphrasing assertion-reason English theory without passage context (0.4756ms)
+✔ rejects orphan passage-dependent row even when options and answer are valid (0.2404ms)
+✔ accepts valid English passage group with real passage and four linked questions (19.8399ms)
+✔ English NTA selection excludes fake passage labels and keeps standalone verbal ability only (19.4654ms)
+✔ NTA selector returns fewer than 50 when fewer than 50 acceptable questions exist (13.9419ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 298.0308

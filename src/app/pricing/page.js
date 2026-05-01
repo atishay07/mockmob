@@ -232,6 +232,24 @@ export default async function PricingPage() {
           ))}
         </section>
 
+        <section className="mx-auto mt-10 max-w-4xl">
+          <div className="prepos-main-cta">
+            <div>
+              <div className="mono-label mb-2 !text-volt">Need more PrepOS?</div>
+              <h2 className="font-display text-2xl font-black text-zinc-50 sm:text-3xl">AI credit packs now live separately.</h2>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-400">
+                Pro stays focused on mocks, Compass, Radar, and unlimited practice. PrepOS top-ups are one-time packs for heavier AI planning, and purchased credits never expire.
+              </p>
+            </div>
+            <LiquidGlassButton asChild variant="ghost" size="md">
+              <Link href="/pricing/prepos">
+                <Sparkles className="h-4 w-4" />
+                View PrepOS credits
+              </Link>
+            </LiquidGlassButton>
+          </div>
+        </section>
+
         <section className="mx-auto mt-14 max-w-5xl">
           <div className="mb-6 flex flex-col gap-2 text-center">
             <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-volt/25 bg-volt/10 px-3 py-1">
@@ -337,6 +355,112 @@ export default async function PricingPage() {
       </div>
       <MarketingFooter />
       <style>{`
+        .prepos-main-cta {
+          display: flex;
+          flex-direction: column;
+          gap: 18px;
+          align-items: flex-start;
+          justify-content: space-between;
+          overflow: hidden;
+          border: 1px solid rgba(210,240,0,.2);
+          border-radius: 22px;
+          background:
+            radial-gradient(circle at 8% 18%, rgba(210,240,0,.11), transparent 38%),
+            rgba(255,255,255,.025);
+          padding: clamp(18px, 3vw, 28px);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+        }
+        @media (min-width: 760px) {
+          .prepos-main-cta {
+            flex-direction: row;
+            align-items: center;
+          }
+        }
+        .prepos-credit-panel {
+          position: relative;
+          overflow: hidden;
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 18px;
+          align-items: center;
+          border: 1px solid rgba(210,240,0,.2);
+          border-radius: 22px;
+          background:
+            radial-gradient(circle at 9% 20%, rgba(210,240,0,.11), transparent 34%),
+            radial-gradient(circle at 92% 72%, rgba(85,255,197,.065), transparent 38%),
+            rgba(255,255,255,.025);
+          padding: clamp(20px, 3vw, 30px);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+        }
+        .prepos-credit-panel::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          background-image: radial-gradient(rgba(210,240,0,.18) 1px, transparent 1px);
+          background-size: 22px 22px;
+          mask-image: radial-gradient(ellipse at center, black, transparent 76%);
+          opacity: .36;
+        }
+        .prepos-credit-panel > * {
+          position: relative;
+          z-index: 1;
+        }
+        @media (min-width: 900px) {
+          .prepos-credit-panel {
+            grid-template-columns: auto minmax(0, 1fr) minmax(230px, .42fr);
+          }
+          .prepos-pack-row {
+            grid-column: 2 / 4;
+          }
+        }
+        .prepos-credit-orb {
+          display: flex;
+          align-items: center;
+        }
+        .prepos-credit-copy {
+          max-width: 680px;
+        }
+        .prepos-credit-metrics {
+          display: grid;
+          gap: 10px;
+        }
+        .prepos-credit-metrics div,
+        .prepos-pack {
+          border: 1px solid rgba(255,255,255,.08);
+          border-radius: 14px;
+          background: rgba(0,0,0,.24);
+          padding: 12px 14px;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+        }
+        .prepos-credit-metrics span,
+        .prepos-credit-metrics em,
+        .prepos-pack span {
+          display: block;
+          color: #71717a;
+          font-size: 11px;
+          font-style: normal;
+          font-weight: 800;
+        }
+        .prepos-credit-metrics strong,
+        .prepos-pack strong {
+          display: block;
+          color: #fff;
+          font-family: var(--font-display);
+          font-size: 20px;
+          line-height: 1.05;
+          margin: 3px 0;
+        }
+        .prepos-pack-row {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+        @media (min-width: 640px) {
+          .prepos-pack-row {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+          }
+        }
         .sale-ribbon {
           position: relative;
           overflow: visible;
