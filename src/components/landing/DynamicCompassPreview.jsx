@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const SCENARIOS = [
   {
@@ -53,61 +53,128 @@ const SCENARIOS = [
   },
 ];
 
+function AnimatedNumber({ value, duration = 800 }) {
+  const ref = useRef(null);
+  const prevRef = useRef(value);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const from = prevRef.current;
+    const to = value;
+    prevRef.current = value;
+    if (from === to) return;
+
+    const start = performance.now();
+    let raf;
+    const tick = (now) => {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = Math.round(from + (to - from) * eased);
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [value, duration]);
+
+  return <span ref={ref}>{value}</span>;
+}
+
+function AnimatedBar({ percent }) {
+  return (
+    <div className="bar">
+      <div
+        className="fill fill-volt"
+        style={{
+          width: `${percent}%`,
+          transition: 'width 900ms cubic-bezier(0.22, 1, 0.36, 1)',
+        }}
+      />
+    </div>
+  );
+}
+
 export function DynamicCompassPreview({ className = '' }) {
   const [index, setIndex] = useState(0);
   const scenario = SCENARIOS[index];
 
   useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (mq.matches) return;
     const timer = window.setInterval(() => {
       setIndex((current) => (current + 1) % SCENARIOS.length);
-    }, 2600);
+    }, 3400);
     return () => window.clearInterval(timer);
   }, []);
 
   return (
     <div className={`compass-shot ${className}`} aria-label="DU Compass preview">
-      <div key={scenario.score} className="compass-scenario">
-        <div className="shot-top">
-          <div>
-            <div className="mono-label">Mock CUET score</div>
-            <div className="shot-score">{scenario.score}<span>/1000</span></div>
+      <div className="shot-top">
+        <div>
+          <div className="mono-label">Mock CUET score</div>
+          <div className="shot-score">
+            <AnimatedNumber value={scenario.score} duration={900} />
+            <span>/1000</span>
           </div>
-          <span className="pill volt shot-band">{scenario.band}</span>
         </div>
-        <div className="shot-bars">
-          {scenario.subjects.map(([subject, marks]) => (
-            <div key={subject}>
-              <div className="flex items-center justify-between text-[11px] text-zinc-400 mb-1.5">
-                <span>{subject}</span>
-                <span className="font-mono tabular-nums">{marks}/200</span>
-              </div>
-              <div className="bar">
-                <div className="fill fill-volt" style={{ width: `${Math.round((marks / 200) * 100)}%` }} />
-              </div>
+        <span
+          className="pill volt shot-band"
+          style={{ transition: 'opacity 400ms ease' }}
+        >
+          {scenario.band}
+        </span>
+      </div>
+
+      <div className="shot-bars">
+        {scenario.subjects.map(([subject, marks]) => (
+          <div key={subject}>
+            <div className="flex items-center justify-between text-[11px] text-zinc-400 mb-1.5">
+              <span
+                style={{
+                  transition: 'opacity 300ms ease',
+                }}
+              >
+                {subject}
+              </span>
+              <span className="font-mono tabular-nums">
+                <AnimatedNumber value={marks} duration={800} />
+                /200
+              </span>
             </div>
-          ))}
-        </div>
-        <div className="shot-insights">
-          <div>
-            <span>Eligibility</span>
-            <strong>{scenario.eligibility}</strong>
+            <AnimatedBar percent={Math.round((marks / 200) * 100)} />
           </div>
-          <div>
-            <span>Next move</span>
-            <strong>{scenario.nextMove}</strong>
-          </div>
+        ))}
+      </div>
+
+      <div className="shot-insights">
+        <div style={{ transition: 'opacity 400ms ease 100ms' }}>
+          <span>Eligibility</span>
+          <strong>{scenario.eligibility}</strong>
         </div>
-        <div className="shot-list">
-          {scenario.colleges.map(([college, course, chance]) => (
-            <div key={`${college}-${course}`} className="shot-row">
-              <div>
-                <b>{college}</b>
-                <span>{course}</span>
-              </div>
-              <em>{chance}</em>
+        <div style={{ transition: 'opacity 400ms ease 150ms' }}>
+          <span>Next move</span>
+          <strong>{scenario.nextMove}</strong>
+        </div>
+      </div>
+
+      <div className="shot-list">
+        {scenario.colleges.map(([college, course, chance], i) => (
+          <div
+            key={`${college}-${course}`}
+            className="shot-row"
+            style={{
+              opacity: 1,
+              transform: 'translateY(0)',
+              transition: `opacity 400ms ease ${200 + i * 80}ms, transform 400ms ease ${200 + i * 80}ms`,
+            }}
+          >
+            <div>
+              <b>{college}</b>
+              <span>{course}</span>
             </div>
-          ))}
-        </div>
+            <em>{chance}</em>
+          </div>
+        ))}
       </div>
     </div>
   );

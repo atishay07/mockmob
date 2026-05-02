@@ -62,7 +62,7 @@ export default function AssistantLauncher({ compact = false, hidden = false }) {
         whileHover={{ y: -2, scale: 1.01 }}
         whileTap={{ scale: 0.97 }}
         animate={{ width: expanded ? 282 : 62 }}
-        transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+        transition={{ type: 'spring', stiffness: 260, damping: 28, mass: 0.8 }}
         className={`group fixed bottom-5 right-5 z-[70] inline-flex h-[62px] items-center rounded-full text-left md:right-6 ${
           expanded
             ? 'gap-3 border border-white/10 bg-[#0c0e09]/94 px-3 pr-4 shadow-[0_18px_60px_rgba(0,0,0,0.42)] backdrop-blur-xl hover:border-volt/35 hover:bg-[#11140b]'
@@ -87,9 +87,10 @@ export default function AssistantLauncher({ compact = false, hidden = false }) {
         </span>
         {expanded ? (
           <motion.span
-            initial={{ opacity: 0, x: -8 }}
+            initial={{ opacity: 0, x: -6 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -8 }}
+            exit={{ opacity: 0, x: -6 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
             className="block min-w-0"
           >
             <span className="flex items-center gap-2 font-display text-sm font-black text-zinc-50">

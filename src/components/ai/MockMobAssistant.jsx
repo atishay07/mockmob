@@ -389,27 +389,24 @@ export default function MockMobAssistant({
 
 function AssistantHeader({ isDrawer, isAuthenticated, isPaid, loading, onNewSession, onClose }) {
   return (
-    <header className="border-b border-white/8 px-5 py-4">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 text-[12px] font-semibold text-zinc-400">
-            <span className="h-2 w-2 rounded-full bg-volt shadow-[0_0_14px_rgba(210,240,0,0.5)]" />
-            Prep operating system
+    <header className="border-b border-white/[0.06] px-5 py-4">
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <span className="h-2 w-2 shrink-0 rounded-full bg-volt shadow-[0_0_10px_rgba(210,240,0,0.4)]" />
+          <div>
+            <h2 className="font-display text-base font-black leading-tight text-zinc-50">PrepOS</h2>
+            <p className="text-xs text-zinc-500 mt-0.5">
+              {isAuthenticated
+                ? isPaid ? 'Missions, replay, benchmarks, review' : 'Guide + daily benchmark'
+                : 'Guide mode'}
+            </p>
           </div>
-          <h2 className="mt-1 font-display text-[24px] font-black leading-tight text-zinc-50">MockMob PrepOS</h2>
-          <p className="mt-1 text-sm leading-5 text-zinc-500">
-            {isAuthenticated
-              ? isPaid
-                ? 'Personal missions, replay, benchmarks, and review.'
-                : 'Guide, missions, and one free daily benchmark.'
-              : 'Public guide mode. Personal missions unlock after signup.'}
-          </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           <button
             type="button"
             onClick={onNewSession}
-            className="hidden rounded-full bg-white/[0.06] px-3 py-1.5 text-sm font-semibold text-zinc-300 transition hover:bg-white/[0.1] hover:text-zinc-50 sm:inline-flex"
+            className="hidden rounded-lg bg-white/[0.06] px-3 py-1.5 text-xs font-semibold text-zinc-400 transition hover:bg-white/[0.1] hover:text-zinc-50 sm:inline-flex"
           >
             New
           </button>
@@ -417,7 +414,7 @@ function AssistantHeader({ isDrawer, isAuthenticated, isPaid, loading, onNewSess
             <button
               type="button"
               onClick={onClose}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-xl text-zinc-400 transition hover:bg-white/[0.06] hover:text-zinc-100"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-zinc-500 transition hover:bg-white/[0.06] hover:text-zinc-100"
               aria-label="Close PrepOS"
             >
               <Icon name="x" />
@@ -796,7 +793,7 @@ function CreditShelf({ isAuthenticated, isPaid, wallet, aiTotal, notice, onPack 
           >
             <div className="flex items-center justify-between gap-3">
               <span className="text-sm font-bold text-zinc-100">{pack.name}</span>
-              <span className="text-xs font-bold text-zinc-500">Coming soon</span>
+              <span className="text-[10px] font-semibold text-zinc-600">{pack.price || ''}</span>
             </div>
             <p className="mt-1 text-xs leading-5 text-zinc-500">{pack.description}</p>
           </button>
@@ -813,16 +810,16 @@ function CreditShelf({ isAuthenticated, isPaid, wallet, aiTotal, notice, onPack 
 
 function SectionRail({ activeSection, setActiveSection }) {
   return (
-    <nav className="grid grid-cols-5 border-t border-white/8 bg-[#090a08] px-2 py-2">
+    <nav className="grid grid-cols-5 border-t border-white/[0.06] bg-[#090a08] px-1.5 py-1.5 gap-1">
       {PREPOS_SECTIONS.map((section) => (
         <button
           key={section.id}
           type="button"
           onClick={() => setActiveSection(section.id)}
-          className={`min-h-10 rounded-xl text-xs font-bold transition ${
+          className={`min-h-9 rounded-lg text-[11px] font-bold transition-colors ${
             activeSection === section.id
               ? 'bg-volt text-zinc-950'
-              : 'text-zinc-500 hover:bg-white/[0.05] hover:text-zinc-100'
+              : 'text-zinc-500 hover:bg-white/[0.05] hover:text-zinc-200'
           }`}
         >
           {section.label}

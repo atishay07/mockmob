@@ -29,8 +29,7 @@ export const AI_CREDIT_PACKS = [
     amountPaise: 2000,
     credits: 150,
     status: 'live',
-    description: 'Best value for a week of missions, replay, and planning.',
-    featured: true,
+    description: 'A deeper refill for missions, replay, and planning.',
   },
   {
     key: 'prepos_50_400',
@@ -41,7 +40,8 @@ export const AI_CREDIT_PACKS = [
     amountPaise: 5000,
     credits: 400,
     status: 'live',
-    description: 'For heavy PrepOS use without interrupting your CUET flow.',
+    description: 'Best value for heavy PrepOS use without interrupting your CUET flow.',
+    featured: true,
   },
 ];
 
@@ -210,15 +210,11 @@ export async function grantPurchasedAICredits({
   });
   if (rpc.ok || rpc.error !== 'rpc_unavailable') return rpc;
 
-  return grantDirectly({
-    userId,
-    amount,
-    packKey,
-    paymentId,
-    orderId,
-    idempotencyKey: key,
-    metadata,
-  });
+  return {
+    ok: false,
+    error: 'ai_credit_grant_rpc_required',
+    status: 503,
+  };
 }
 
 async function grantViaRpc({ userId, amount, packKey, paymentId, orderId, idempotencyKey, metadata }) {
@@ -226,7 +222,7 @@ async function grantViaRpc({ userId, amount, packKey, paymentId, orderId, idempo
     const { data, error } = await supabaseAdmin().rpc('mm_ai_grant_bonus_credits', {
       p_user_id: userId,
       p_amount: amount,
-      p_reason: 'ai_credit_purchase',
+      p_reason: 'pack_purchase',
       p_reference: orderId || paymentId || null,
       p_idempotency_key: idempotencyKey,
       p_metadata: {
@@ -483,7 +479,7 @@ async function insertLedger({
     await supabaseAdmin().from('ai_credit_ledger').insert({
       user_id: userId,
       amount,
-      reason: amount < 0 ? 'ai_spend' : action || 'admin_adjustment',
+      reason: amount < 0 ? 'ai_spend' : action === 'ai_credit_purchase' ? 'pack_purchase' : action || 'admin_adjustment',
       feature: action || null,
       reference: reference || null,
       wallet_source: source || null,

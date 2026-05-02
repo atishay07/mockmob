@@ -382,7 +382,7 @@ body { min-height: 100vh; }
 .bar > .fill {
   height: 100%;
   border-radius: 999px;
-  transition: width 0.4s ease;
+  transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .fill-volt { background: var(--volt); box-shadow: 0 0 8px var(--volt); }
 .fill-amber { background: #fbbf24; }
@@ -596,7 +596,9 @@ canvas { max-width: 100%; }
 @media (prefers-reduced-motion: reduce) {
   .skeleton,
   .animate-pulse-slow,
-  .marquee-track { animation: none !important; }
+  .marquee-track,
+  .logo .bolt,
+  .logo .dot { animation: none !important; }
   .glass { transition: none; }
 }
 
@@ -622,6 +624,7 @@ canvas { max-width: 100%; }
   font-size: 20px;
   font-weight: 800;
   text-decoration: none;
+  position: relative;
 }
 .logo .bolt {
   width: 26px;
@@ -633,8 +636,55 @@ canvas { max-width: 100%; }
   align-items: center;
   justify-content: center;
   box-shadow: 0 0 22px var(--volt-glow);
+  transform-origin: center;
+  animation: logoBoltWake 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-.logo .dot { color: var(--volt); }
+.logo .dot {
+  color: var(--volt);
+  display: inline-block;
+  text-shadow: 0 0 12px rgba(210, 240, 0, 0.46);
+  transform-origin: center;
+  animation: logoDotWake 1.15s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
+}
+.logo:hover .bolt {
+  transform: rotate(-8deg) scale(1.05);
+  box-shadow: 0 0 32px rgba(210, 240, 0, 0.42);
+}
+.logo:hover .dot {
+  transform: scale(1.18);
+  text-shadow: 0 0 18px rgba(210, 240, 0, 0.74);
+}
+@keyframes logoBoltWake {
+  0% {
+    opacity: 0;
+    transform: translateY(-6px) rotate(-18deg) scale(0.72);
+    box-shadow: 0 0 0 rgba(210, 240, 0, 0);
+  }
+  62% {
+    opacity: 1;
+    transform: translateY(0) rotate(7deg) scale(1.08);
+    box-shadow: 0 0 34px rgba(210, 240, 0, 0.46);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(0) scale(1);
+    box-shadow: 0 0 22px var(--volt-glow);
+  }
+}
+@keyframes logoDotWake {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  48% {
+    opacity: 1;
+    transform: scale(1.38);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 
 .coming-soon-page {
   position: relative;

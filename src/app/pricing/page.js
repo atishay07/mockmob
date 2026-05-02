@@ -233,20 +233,35 @@ export default async function PricingPage() {
         </section>
 
         <section className="mx-auto mt-10 max-w-4xl">
-          <div className="prepos-main-cta">
-            <div>
-              <div className="mono-label mb-2 !text-volt">Need more PrepOS?</div>
-              <h2 className="font-display text-2xl font-black text-zinc-50 sm:text-3xl">AI credit packs now live separately.</h2>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-400">
-                Pro stays focused on mocks, Compass, Radar, and unlimited practice. PrepOS top-ups are one-time packs for heavier AI planning, and purchased credits never expire.
-              </p>
+          <div className="prepos-credit-section">
+            <div className="prepos-credit-section-header">
+              <div>
+                <h2 className="font-display text-2xl font-black text-zinc-50 sm:text-3xl">Need more AI guidance?</h2>
+                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-400">
+                  Add AI credits when you want deeper mock autopsies, Rival battles, trap drills, or comeback plans. Credits never expire.
+                </p>
+              </div>
             </div>
-            <LiquidGlassButton asChild variant="ghost" size="md">
-              <Link href="/pricing/prepos">
-                <Sparkles className="h-4 w-4" />
-                View PrepOS credits
-              </Link>
-            </LiquidGlassButton>
+            <div className="prepos-credit-packs">
+              {[
+                { name: 'AI Boost', price: '₹10', credits: '50', desc: 'Quick top-up for a few extra Mentor questions or a trap drill.' },
+                { name: 'Prep Pack', price: '₹20', credits: '150', desc: 'Deep mock autopsy, Rival battle, and a comeback plan.' },
+                { name: 'Power Pack', price: '₹50', credits: '400', desc: 'Best value for a full PrepOS sprint across planning, replay, and Rival battles.', popular: true },
+              ].map((pack) => (
+                <div key={pack.name} className={`prepos-credit-pack-card ${pack.popular ? 'is-popular' : ''}`}>
+                  {pack.popular && <span className="prepos-pack-badge">Best value</span>}
+                  <div className="prepos-pack-price">{pack.price}</div>
+                  <div className="prepos-pack-name">{pack.name}</div>
+                  <div className="prepos-pack-credits">{pack.credits} AI credits</div>
+                  <p className="prepos-pack-desc">{pack.desc}</p>
+                  <LiquidGlassButton asChild variant={pack.popular ? 'volt' : 'ghost'} size="sm" className="w-full mt-auto">
+                    <Link href="/pricing/prepos">
+                      Get {pack.name}
+                    </Link>
+                  </LiquidGlassButton>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -256,7 +271,7 @@ export default async function PricingPage() {
               <Sparkles className="h-3.5 w-3.5 text-volt" />
               <span className="mono-label !text-volt">Compass preview</span>
             </div>
-            <h2 className="display-md">See how Compass sells the score story.</h2>
+            <h2 className="display-md">Turn every mock into a DU admission move.</h2>
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             {compassShots.map((shot) => (
@@ -355,26 +370,94 @@ export default async function PricingPage() {
       </div>
       <MarketingFooter />
       <style>{`
-        .prepos-main-cta {
-          display: flex;
-          flex-direction: column;
-          gap: 18px;
-          align-items: flex-start;
-          justify-content: space-between;
+        .prepos-credit-section {
           overflow: hidden;
           border: 1px solid rgba(210,240,0,.2);
           border-radius: 22px;
           background:
-            radial-gradient(circle at 8% 18%, rgba(210,240,0,.11), transparent 38%),
-            rgba(255,255,255,.025);
-          padding: clamp(18px, 3vw, 28px);
+            radial-gradient(circle at 8% 18%, rgba(210,240,0,.09), transparent 38%),
+            rgba(255,255,255,.02);
+          padding: clamp(20px, 3vw, 32px);
           box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
         }
-        @media (min-width: 760px) {
-          .prepos-main-cta {
-            flex-direction: row;
-            align-items: center;
+        .prepos-credit-section-header {
+          margin-bottom: 20px;
+        }
+        .prepos-credit-packs {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+        @media (min-width: 640px) {
+          .prepos-credit-packs {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
           }
+        }
+        .prepos-credit-pack-card {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          border: 1px solid rgba(255,255,255,.08);
+          border-radius: 16px;
+          background: rgba(0,0,0,.2);
+          padding: 20px;
+          transition: border-color 0.2s ease, transform 0.2s ease;
+        }
+        .prepos-credit-pack-card:hover {
+          border-color: rgba(255,255,255,.16);
+          transform: translateY(-2px);
+        }
+        .prepos-credit-pack-card.is-popular {
+          border-color: rgba(210,240,0,.3);
+          background: rgba(210,240,0,.04);
+        }
+        .prepos-credit-pack-card.is-popular:hover {
+          border-color: rgba(210,240,0,.5);
+        }
+        .prepos-pack-badge {
+          position: absolute;
+          top: -1px;
+          right: 16px;
+          background: var(--volt);
+          color: #000;
+          font-family: var(--font-mono);
+          font-size: 9px;
+          font-weight: 800;
+          letter-spacing: .1em;
+          text-transform: uppercase;
+          padding: 3px 8px;
+          border-radius: 0 0 6px 6px;
+        }
+        .prepos-pack-price {
+          font-family: var(--font-display);
+          font-size: 28px;
+          font-weight: 900;
+          color: #fff;
+          line-height: 1;
+          margin-bottom: 2px;
+        }
+        .prepos-pack-name {
+          font-family: var(--font-display);
+          font-size: 14px;
+          font-weight: 700;
+          color: var(--volt);
+          margin-bottom: 4px;
+        }
+        .prepos-pack-credits {
+          font-family: var(--font-mono);
+          font-size: 11px;
+          font-weight: 700;
+          color: #71717a;
+          letter-spacing: .08em;
+          text-transform: uppercase;
+          margin-bottom: 10px;
+        }
+        .prepos-pack-desc {
+          font-size: 13px;
+          color: #a1a1aa;
+          line-height: 1.5;
+          margin: 0 0 16px;
+          flex: 1;
         }
         .prepos-credit-panel {
           position: relative;

@@ -13,7 +13,6 @@ import { Database } from '@/../data/db';
 import {
   AI_CREDIT_PACKS,
   AI_FREE_MONTHLY_CREDITS,
-  AI_INTERNAL_USD_TO_INR,
   AI_PRO_INCLUDED_MONTHLY_CREDITS,
   getAIWallet,
 } from '@/services/credits/aiCreditWallet';
@@ -41,11 +40,6 @@ const faqs = [
   },
 ];
 
-const costRows = [
-  ['Standard PrepOS chat', '1 credit', 'Fast GPT-4o mini guidance'],
-  ['Mock autopsy / replay / DU path', '3 credits', 'Smart GPT-4.1 mini planning'],
-  ['In-system navigation actions', '0 credits', 'No model call'],
-];
 
 export default async function PrepOSPricingPage() {
   const session = await auth();
@@ -123,26 +117,9 @@ export default async function PrepOSPricingPage() {
           ))}
         </section>
 
-        <section className="mx-auto mt-12 grid max-w-6xl gap-5 lg:grid-cols-[1.1fr_.9fr]">
+        <section className="mx-auto mt-12 max-w-3xl">
           <div className="prepos-rules-panel">
-            <div className="mono-label mb-3 !text-volt">Cost-safe rules</div>
-            <h2 className="display-md mb-3">Credits are priced around a ₹5 API ceiling per 50 credits.</h2>
-            <p className="text-sm leading-7 text-zinc-400">
-              MockMob uses an internal planning rate of ₹{AI_INTERNAL_USD_TO_INR}/USD. Normal PrepOS chat stays on the fast model with capped output, while smart actions cost 3 credits so the Pro 50-credit allowance stays inside the compute budget.
-            </p>
-            <div className="mt-5 grid gap-3">
-              {costRows.map(([name, cost, detail]) => (
-                <div key={name} className="prepos-cost-row">
-                  <span>{name}</span>
-                  <strong>{cost}</strong>
-                  <em>{detail}</em>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="prepos-rules-panel">
-            <div className="mono-label mb-3 !text-volt">Wallet order</div>
+            <div className="mono-label mb-3 !text-volt">How credits work</div>
             <div className="grid gap-3">
               {[
                 ['Monthly first', 'Included Free/Pro credits spend before purchased credits.'],
@@ -246,10 +223,9 @@ export default async function PrepOSPricingPage() {
           box-shadow: 0 0 42px rgba(210,240,0,.08), inset 0 1px 0 rgba(255,255,255,.06);
         }
         .prepos-pack-badge {
-          position: absolute;
-          right: 18px;
-          top: 18px;
-          z-index: 2;
+          display: inline-flex;
+          width: fit-content;
+          margin-bottom: 14px;
           border-radius: 999px;
           border: 1px solid rgba(210,240,0,.34);
           background: rgba(210,240,0,.12);
@@ -260,29 +236,6 @@ export default async function PrepOSPricingPage() {
           font-weight: 900;
           letter-spacing: .12em;
           text-transform: uppercase;
-        }
-        .prepos-cost-row {
-          display: grid;
-          grid-template-columns: minmax(0, 1fr) auto;
-          gap: 4px 14px;
-          border: 1px solid rgba(255,255,255,.08);
-          border-radius: 16px;
-          background: rgba(0,0,0,.2);
-          padding: 13px 14px;
-        }
-        .prepos-cost-row span {
-          color: #e4e4e7;
-          font-weight: 800;
-        }
-        .prepos-cost-row strong {
-          color: var(--volt);
-          font-weight: 900;
-        }
-        .prepos-cost-row em {
-          grid-column: 1 / -1;
-          color: #71717a;
-          font-size: 12px;
-          font-style: normal;
         }
       `}</style>
     </div>

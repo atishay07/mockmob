@@ -84,7 +84,11 @@ export function PrepOSCreditPurchaseButton({ pack, className = '', onSuccess }) 
               razorpay_signature: response.razorpay_signature,
             });
             setStatus('success');
-            setMessage(`${verified.granted || serverPack.credits} PrepOS credits added.`);
+            setMessage(
+              verified.idempotent || verified.alreadyCaptured
+                ? 'PrepOS credits already added.'
+                : `${verified.granted ?? serverPack.credits} PrepOS credits added.`
+            );
             onSuccess?.(verified);
           } catch (error) {
             setStatus('error');

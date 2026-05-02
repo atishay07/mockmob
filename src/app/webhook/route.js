@@ -86,6 +86,11 @@ export async function POST(request) {
           return NextResponse.json({ ok: true, ignored: true });
         }
 
+        if (isAlreadyCapturedCreditPayment(paymentRecord, { paymentId: payment?.id, amountPaise: creditPack.amountPaise })) {
+          await Database.markWebhookEventProcessed(eventId, 'credit pack already captured');
+          return NextResponse.json({ ok: true, idempotent: true });
+        }
+
         const grant = await grantPurchasedAICredits({
           userId: paymentRecord.userId,
           credits: creditPack.credits,
@@ -189,4 +194,10 @@ export async function POST(request) {
     }
     return NextResponse.json({ error: 'Failed to process webhook' }, { status: 500 });
   }
+}
+
+function isAlreadyCapturedCreditPayment(paymentRecord, { paymentId, amountPaise }) {
+  return paymentRecord?.status === 'captured' &&
+    paymentRecord.paymentId === paymentId &&
+    Number(paymentRecord.amountPaid) === Number(amountPaise);
 }

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
 import { getRazorpayClient, verifyRazorpayPaymentSignature } from '@/lib/payments/razorpay';
-import { getAICreditPack, grantPurchasedAICredits } from '@/services/credits/aiCreditWallet';
+import { getAICreditPack, getAIWallet, grantPurchasedAICredits } from '@/services/credits/aiCreditWallet';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -60,6 +60,19 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Payment details do not match credit pack' }, { status: 400 });
     }
 
+    if (isAlreadyCapturedCreditPayment(paymentRecord, { paymentId, amountPaise: pack.amountPaise })) {
+      const dbUser = await Database.getUserById(session.user.id).catch(() => null);
+      const wallet = dbUser ? await getAIWallet(dbUser) : null;
+      return NextResponse.json({
+        ok: true,
+        pack,
+        granted: 0,
+        balance: wallet?.total ?? null,
+        idempotent: true,
+        alreadyCaptured: true,
+      });
+    }
+
     const grant = await grantPurchasedAICredits({
       userId: session.user.id,
       credits: pack.credits,
@@ -96,4 +109,10 @@ export async function POST(request) {
     console.error('[ai-credits/verify] failed:', error);
     return NextResponse.json({ error: 'Failed to verify PrepOS credit purchase' }, { status: 500 });
   }
+}
+
+function isAlreadyCapturedCreditPayment(paymentRecord, { paymentId, amountPaise }) {
+  return paymentRecord?.status === 'captured' &&
+    paymentRecord.paymentId === paymentId &&
+    Number(paymentRecord.amountPaid) === Number(amountPaise);
 }

@@ -126,8 +126,8 @@ export const BENCHMARK_OPTIONS = [
 
 export const CREDIT_PACKS = [
   { key: 'prepos_10_50', name: '₹10 PrepOS top-up', amount: 10, credits: 50, description: 'A quick refill for another focused PrepOS sprint.' },
-  { key: 'prepos_20_150', name: '₹20 PrepOS focus pack', amount: 20, credits: 150, description: 'Best value for a week of missions, replay, and planning.' },
-  { key: 'prepos_50_400', name: '₹50 PrepOS sprint pack', amount: 50, credits: 400, description: 'For heavy PrepOS usage without interrupting your CUET flow.' },
+  { key: 'prepos_20_150', name: '₹20 PrepOS focus pack', amount: 20, credits: 150, description: 'A deeper refill for missions, replay, and planning.' },
+  { key: 'prepos_50_400', name: '₹50 PrepOS sprint pack', amount: 50, credits: 400, description: 'Best value for heavy PrepOS usage without interrupting your CUET flow.' },
 ];
 
 export function pageHelpForPath(pathname = '/') {
