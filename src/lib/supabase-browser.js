@@ -16,7 +16,12 @@ function getSupabaseKeys() {
 export function getSupabaseBrowserClient() {
   if (browserClient) return browserClient;
   const { url, anonKey } = getSupabaseKeys();
-  browserClient = createBrowserClient(url, anonKey);
+  browserClient = createBrowserClient(url, anonKey, {
+    auth: {
+      // The dedicated /auth/callback page owns PKCE code exchange.
+      detectSessionInUrl: false,
+    },
+  });
   return browserClient;
 }
 

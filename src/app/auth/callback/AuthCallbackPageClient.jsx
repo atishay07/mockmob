@@ -6,6 +6,8 @@ import { getSupabaseBrowserClient } from '@/lib/supabase-browser';
 
 const SESSION_RETRY_DELAYS = [0, 250, 600, 1000, 1600, 2400, 3200, 4500];
 const RETRYABLE_PROFILE_STATUSES = [401, 404, 429, 500, 502, 503, 504];
+const MISSING_CODE_VERIFIER_MESSAGE =
+  'This login link could not be completed because the browser handshake was interrupted. Please start login again in this same tab.';
 
 async function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -16,6 +18,26 @@ const PHASES = [
   'Loading your profile...',
   'Preparing your arena...',
 ];
+
+function isMissingCodeVerifierError(error) {
+  const message = String(error?.message || error || '').toLowerCase();
+  return message.includes('code verifier') || message.includes('code_verifier');
+}
+
+async function getCurrentSession(supabase) {
+  try {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    return session || null;
+  } catch {
+    return null;
+  }
+}
+
+function clearAuthQuery() {
+  window.history.replaceState(null, '', window.location.pathname);
+}
 
 export default function AuthCallbackPageClient() {
   const [phase, setPhase] = useState(0);
@@ -41,8 +63,16 @@ export default function AuthCallbackPageClient() {
         if (code) {
           const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
           if (exchangeError) {
-            throw exchangeError;
+            const existingSession = await getCurrentSession(supabase);
+            if (!existingSession) {
+              throw new Error(
+                isMissingCodeVerifierError(exchangeError)
+                  ? MISSING_CODE_VERIFIER_MESSAGE
+                  : exchangeError.message,
+              );
+            }
           }
+          clearAuthQuery();
         }
 
         for (const delay of SESSION_RETRY_DELAYS) {

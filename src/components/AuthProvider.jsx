@@ -115,13 +115,14 @@ export function AuthProvider({ children }) {
 
   const refreshSession = useCallback(async ({ silent = true } = {}) => {
     const requestId = ++requestIdRef.current;
+    let supabase = null;
 
     if (!silent && mountedRef.current) {
       setStatus('loading');
     }
 
     try {
-      const supabase = getSupabaseBrowserClient();
+      supabase = getSupabaseBrowserClient();
       const session = await getSessionWithRetry(supabase);
 
       if (!session) {
@@ -147,7 +148,7 @@ export function AuthProvider({ children }) {
       return me;
     } catch (error) {
       if (error?.message?.includes('Refresh Token') || error?.name === 'AuthApiError') {
-        supabase.auth.signOut().catch(() => {});
+        supabase?.auth.signOut().catch(() => {});
       }
       if (requestId === requestIdRef.current) {
         if (!silent || !userRef.current) {
