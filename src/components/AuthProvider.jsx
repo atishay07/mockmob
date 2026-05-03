@@ -4,7 +4,6 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useR
 import {
   getSupabaseBrowserClient,
   signInWithGoogle as signInWithGoogleOAuth,
-  signInWithEmailOtp as signInWithEmailOtpAuth,
   verifyEmailOtp as verifyEmailOtpAuth,
 } from '@/lib/supabase-browser';
 
@@ -207,8 +206,26 @@ export function AuthProvider({ children }) {
   }, []);
 
   const signInWithEmail = useCallback(async (email) => {
-    const redirectTo = `${window.location.origin}/auth/callback`;
-    return signInWithEmailOtpAuth(email, redirectTo);
+    try {
+      const res = await fetch('/api/auth/email-login', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data?.ok) {
+        return {
+          data: null,
+          error: { message: data?.message || 'Email login failed. Please try again.' },
+        };
+      }
+      return { data, error: null };
+    } catch {
+      return {
+        data: null,
+        error: { message: 'Email login failed. Please try again.' },
+      };
+    }
   }, []);
 
   const verifyEmailOtp = useCallback(async (email, token) => {

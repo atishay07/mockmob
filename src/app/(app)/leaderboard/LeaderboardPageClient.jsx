@@ -35,12 +35,19 @@ export default function LeaderboardPageClient() {
   }
   if (status === 'error') return <ErrorState message={error} onRetry={() => window.location.reload()} />;
 
+  const hasPracticeRivals = leaderboard.some((entry) => entry.isSynthetic);
+
   return (
     <div className="container-narrow">
       <div className="text-center mb-10 pt-6">
         <div className="eyebrow mb-3">{'// The Mob'}</div>
         <h1 className="display-lg mb-3">Global <span className="text-volt italic">Rankings.</span></h1>
         <p className="text-zinc-400">Total points across all mocks. Top 3 get the podium.</p>
+        {hasPracticeRivals ? (
+          <p className="mx-auto mt-3 max-w-xl text-xs leading-5 text-zinc-500">
+            Practice rivals fill empty ranks until more real MockMob attempts land. Beat their totals to climb faster.
+          </p>
+        ) : null}
       </div>
 
       {leaderboard.length === 0 ? (
@@ -77,6 +84,7 @@ export default function LeaderboardPageClient() {
                     <div className={`font-display font-bold truncate ${isMe ? 'text-volt' : 'text-white'}`}>
                       {entry.name}
                       {isMe && <span className="ml-2 pill volt">YOU</span>}
+                      {entry.isSynthetic && <span className="ml-2 rounded-full border border-white/10 bg-white/[0.04] px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.12em] text-zinc-500">Rival</span>}
                     </div>
                   </div>
                   <div className="col-span-2 text-right text-zinc-400 font-mono text-sm" style={{ fontVariantNumeric: 'tabular-nums' }}>{entry.tests}</div>
@@ -107,6 +115,7 @@ function Podium({ rank, user, heightPct, isTop }) {
         {isTop && <Icon name="trophy" style={{ color: 'var(--volt)', marginBottom: '8px' }} />}
         <Avatar name={user.name} size={size} className={`mb-2 ${isTop ? 'ring-2 ring-volt ring-offset-2 ring-offset-ink' : ''}`} />
         <div className={`font-display font-bold ${nameClass}`}>{user.name.split(' ')[0]}</div>
+        {user.isSynthetic ? <div className="text-[10px] font-black uppercase tracking-[0.12em] text-zinc-600">Rival</div> : null}
         <div className="text-xs text-zinc-500 mb-2" style={{ fontVariantNumeric: 'tabular-nums' }}>{user.totalScore}{isTop ? ' pts' : ''}</div>
         <div className={`rounded-full flex items-center justify-center font-bold ${isTop ? 'w-10 h-10 bg-volt text-black text-lg' : 'w-8 h-8 bg-white/5 text-zinc-400'}`}>{rank}</div>
       </div>

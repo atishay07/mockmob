@@ -54,10 +54,23 @@ export default function AuthCallbackPageClient() {
         const supabase = getSupabaseBrowserClient();
         const params = new URLSearchParams(window.location.search);
         const code = params.get('code');
+        const tokenHash = params.get('token_hash');
+        const type = params.get('type');
         const authError = params.get('error_description') || params.get('error');
 
         if (authError) {
           throw new Error(authError);
+        }
+
+        if (tokenHash && type) {
+          const { error: verifyError } = await supabase.auth.verifyOtp({
+            token_hash: tokenHash,
+            type,
+          });
+          if (verifyError) {
+            throw new Error(verifyError.message || 'This login link is invalid or expired.');
+          }
+          clearAuthQuery();
         }
 
         if (code) {

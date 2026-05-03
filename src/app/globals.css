@@ -45,6 +45,7 @@ html, body {
   /* Enable discretionary ligatures + proper apostrophes in body copy. */
   font-feature-settings: "ss01", "cv11", "kern";
 }
+html { scroll-behavior: smooth; }
 
 /* Display faces always render digits at equal width so scores/timers/percentages
    don't jitter on updates. */

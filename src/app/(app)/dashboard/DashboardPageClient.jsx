@@ -385,6 +385,15 @@ export default function DashboardPageClient() {
                     <span className="mono-label">Mode</span>
                     <span className="text-xs text-zinc-500">{mode.blurb}</span>
                   </div>
+                  <div className="mb-3 rounded-2xl border border-volt/20 bg-volt/[0.06] px-4 py-3 text-xs leading-5 text-zinc-300">
+                    <span className="font-bold text-volt">Quality note:</span>{' '}
+                    Quick Practice and Full Mock are built for volume and speed. Premium Smart Practice and NTA Mode use the highest-quality selection layer for stricter, exam-style question picks.
+                    {!isPremium && (
+                      <Link href="/pricing?reason=arena_quality" className="ml-1 font-bold text-volt underline-offset-2 hover:underline">
+                        Upgrade for premium question quality.
+                      </Link>
+                    )}
+                  </div>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                     {MODE_LIST.map((id) => {
                       const m = TEST_MODES[id];

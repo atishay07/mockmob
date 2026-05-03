@@ -5,7 +5,7 @@ import { seoMetadata } from '@/lib/seo';
 
 export const metadata = seoMetadata({
   title: 'Refund Policy | MockMob',
-  description: 'Read MockMob cancellation and refund guidance for Pro subscriptions and payment issues.',
+  description: 'Read MockMob no-refund and cancellation guidance for Pro subscriptions.',
   path: '/refunds',
 });
 
@@ -20,24 +20,24 @@ export default function RefundsPage() {
 
         <div className="legal-copy">
           <section>
+            <h2>No refunds</h2>
+            <p>MockMob does not allow refunds for completed payments, subscriptions, PrepOS credit packs, or consumed billing periods. Please review the plan, price, and feature details before purchase.</p>
+          </section>
+          <section>
             <h2>Cancellations</h2>
-            <p>You can cancel MockMob Pro anytime. Cancellation stops future renewal charges, while access generally remains active until the end of the paid billing period.</p>
+            <p>You can cancel future auto-payments anytime. Cancellation stops upcoming renewal charges, while access remains active only for the already paid billing period.</p>
           </section>
           <section>
-            <h2>Refund window</h2>
-            <p>If you were charged by mistake or could not access Pro after payment, contact us within 7 days of the charge. We will review the payment status, account access, and usage history.</p>
-          </section>
-          <section>
-            <h2>When refunds may not apply</h2>
-            <p>Refunds may not be available after substantial premium usage, repeated refund requests, account misuse, or when the subscription period has already been consumed.</p>
+            <h2>How to cancel</h2>
+            <p>Cancel the subscription from your auto-payment or Razorpay mandate screen before the next billing date. If you need help, mail us from your registered email with your payment reference and cancellation request.</p>
           </section>
           <section>
             <h2>Failed or duplicate payments</h2>
-            <p>Duplicate charges, failed payment deductions, or gateway settlement issues will be checked against Razorpay records and handled according to the payment provider timeline.</p>
+            <p>Failed, duplicate, or gateway-side settlement issues are not treated as voluntary refunds. We will check Razorpay records and help resolve payment-provider errors according to their timeline.</p>
           </section>
           <section>
-            <h2>How to request help</h2>
-            <p>Share your registered email, payment date, amount, and transaction reference through the support or contact channel available on the site.</p>
+            <h2>Support details</h2>
+            <p>When mailing us, include your registered email, payment date, amount, and transaction reference so we can identify the subscription or payment quickly.</p>
           </section>
         </div>
       </main>

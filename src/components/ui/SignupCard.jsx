@@ -47,7 +47,7 @@ export function SignupCard({ mode = 'signup' }) {
         return;
       }
       setOtpSent(true);
-      setNotice('Check your email for the login link or 6-digit code.');
+      setNotice('Check your email for the login button or 6-digit code. The code works on this device even if the email is open somewhere else.');
     } catch {
       setError('Email sign-in failed. Please try again.');
     } finally {
@@ -127,6 +127,9 @@ export function SignupCard({ mode = 'signup' }) {
               placeholder="000000"
               disabled={emailLoading}
             />
+            <span className="text-xs leading-5 text-zinc-500">
+              Open the email on any phone, read the 6-digit code, then type it here.
+            </span>
           </label>
         )}
         <LiquidGlassButton
@@ -135,7 +138,7 @@ export function SignupCard({ mode = 'signup' }) {
           className="w-full min-w-0 justify-center px-4 text-[11px] sm:text-[13px]"
           disabled={emailLoading || !email.trim() || (otpSent && otp.trim().length < 6)}
         >
-          {emailLoading ? 'Working...' : otpSent ? 'Verify code' : 'Continue with email'}
+          {emailLoading ? 'Working...' : otpSent ? 'Verify code and continue' : 'Send link and code'}
         </LiquidGlassButton>
       </form>
 

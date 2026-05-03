@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import Link from 'next/link';
-import { ArrowLeft, Check, Infinity, ShieldCheck, Sparkles, WalletCards } from 'lucide-react';
+import { ArrowDown, ArrowLeft, Check, Infinity, MessageSquareText, ShieldCheck, Sparkles, WalletCards } from 'lucide-react';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
 import { JsonLd } from '@/components/JsonLd';
@@ -80,6 +80,20 @@ export default async function PrepOSPricingPage() {
             <p className="max-w-2xl text-base leading-7 text-zinc-400">
               Free users get {AI_FREE_MONTHLY_CREDITS} credits monthly. Pro users get {AI_PRO_INCLUDED_MONTHLY_CREDITS}. If you need more mock autopsy, mission replans, or DU path guidance, top up without changing your subscription.
             </p>
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+              <LiquidGlassButton asChild variant="volt" size="lg">
+                <a href="#prepos-plan-packs">
+                  <ArrowDown className="h-4 w-4" />
+                  Start planning
+                </a>
+              </LiquidGlassButton>
+              <LiquidGlassButton asChild variant="ghost" size="lg">
+                <a href="#prepos-credit-rules">
+                  <MessageSquareText className="h-4 w-4" />
+                  How credits work
+                </a>
+              </LiquidGlassButton>
+            </div>
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
               <Metric label="Your balance" value={wallet ? wallet.total : 'Login'} />
               <Metric label="Monthly included" value={wallet ? `${wallet.includedRemaining}/${wallet.includedMonthlyCredits}` : isPaid ? AI_PRO_INCLUDED_MONTHLY_CREDITS : AI_FREE_MONTHLY_CREDITS} />
@@ -88,7 +102,7 @@ export default async function PrepOSPricingPage() {
           </div>
         </section>
 
-        <section className="mx-auto mt-12 grid max-w-6xl gap-5 lg:grid-cols-3">
+        <section id="prepos-plan-packs" className="mx-auto mt-12 grid max-w-6xl scroll-mt-28 gap-5 lg:grid-cols-3">
           {AI_CREDIT_PACKS.map((pack) => (
             <article key={pack.key} className={`prepos-pack-card ${pack.featured ? 'is-featured' : ''}`}>
               {pack.featured ? <div className="prepos-pack-badge">Best value</div> : null}
@@ -117,7 +131,7 @@ export default async function PrepOSPricingPage() {
           ))}
         </section>
 
-        <section className="mx-auto mt-12 max-w-3xl">
+        <section id="prepos-credit-rules" className="mx-auto mt-12 max-w-3xl scroll-mt-28">
           <div className="prepos-rules-panel">
             <div className="mono-label mb-3 !text-volt">How credits work</div>
             <div className="grid gap-3">

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { motion } from 'motion/react';
 import { PrepOSOrb } from '@/components/ui/PrepOSOrb';
@@ -16,6 +16,7 @@ export default function AssistantLauncher({ compact = false, hidden = false }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isNarrow, setIsNarrow] = useState(true);
+  const scrolledRef = useRef(false);
 
   const isTestRoute = pathname?.startsWith('/test');
   const isHiddenPath = HIDDEN_PREFIXES.some((prefix) => pathname?.startsWith(prefix));
@@ -47,10 +48,23 @@ export default function AssistantLauncher({ compact = false, hidden = false }) {
   }, [open]);
 
   useEffect(() => {
-    const update = () => setScrolled(window.scrollY > 96);
+    let frame = 0;
+    const update = () => {
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(() => {
+        const y = window.scrollY;
+        const next = scrolledRef.current ? y > 32 : y > 128;
+        if (next === scrolledRef.current) return;
+        scrolledRef.current = next;
+        setScrolled(next);
+      });
+    };
     update();
     window.addEventListener('scroll', update, { passive: true });
-    return () => window.removeEventListener('scroll', update);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', update);
+    };
   }, []);
 
   useEffect(() => {

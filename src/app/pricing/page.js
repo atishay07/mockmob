@@ -8,6 +8,7 @@ import { JsonLd } from '@/components/JsonLd';
 import { PricingCard } from '@/components/ui/PricingCard';
 import { LiquidGlassButton } from '@/components/ui/LiquidGlassButton';
 import { RazorpayPaymentButton } from '@/components/billing/RazorpayPaymentButton';
+import { PriceIncreaseCountdown } from '@/components/pricing/PriceIncreaseCountdown';
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
 import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
@@ -121,6 +122,8 @@ const compassShots = [
   },
 ];
 
+const PRICE_UPDATE_DEADLINE = '2026-05-04T00:00:00+05:30';
+
 const faqs = [
   {
     q: 'How does the Leaderboard work?',
@@ -194,7 +197,7 @@ export default async function PricingPage() {
         <section className="mx-auto mb-10 max-w-3xl text-center">
           <div className="sale-ribbon mb-5 inline-flex items-center gap-3 rounded-full border border-volt/50 bg-volt/15 px-5 py-2">
             <PartyPopper className="h-4 w-4 text-volt" />
-            <span className="mono-label !text-volt">CUET 2026 sale is live</span>
+            <span className="mono-label !text-volt">Midnight price update</span>
             <span className="sale-spark sale-spark-1" />
             <span className="sale-spark sale-spark-2" />
             <span className="sale-spark sale-spark-3" />
@@ -203,7 +206,7 @@ export default async function PricingPage() {
             Pricing that keeps your <span className="text-volt italic">momentum</span> alive.
           </h1>
           <p className="mx-auto max-w-2xl text-zinc-400">
-            Start free, grow when you are ready, and keep every mock session focused on rank gains.
+            Start free, or lock the current Pro price before the new CUET 2026 pricing goes live at 12:00 AM IST.
           </p>
           <div className="sale-price-strip mt-5 inline-flex flex-wrap items-center justify-center gap-3 rounded-2xl border border-volt/25 bg-[rgba(210,240,0,0.08)] px-5 py-3 text-sm">
             <ShieldCheck className="h-4 w-4 text-volt" />
@@ -212,6 +215,7 @@ export default async function PricingPage() {
             <span className="text-zinc-500">now</span>
             <span className="font-display text-2xl font-extrabold text-volt">₹69/month</span>
           </div>
+          <PriceIncreaseCountdown deadline={PRICE_UPDATE_DEADLINE} />
         </section>
 
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
@@ -255,7 +259,7 @@ export default async function PricingPage() {
                   <div className="prepos-pack-credits">{pack.credits} AI credits</div>
                   <p className="prepos-pack-desc">{pack.desc}</p>
                   <LiquidGlassButton asChild variant={pack.popular ? 'volt' : 'ghost'} size="sm" className="w-full mt-auto">
-                    <Link href="/pricing/prepos">
+                    <Link href="/pricing/prepos#prepos-plan-packs">
                       Get {pack.name}
                     </Link>
                   </LiquidGlassButton>
@@ -573,6 +577,88 @@ export default async function PricingPage() {
         .sale-ribbon:hover .sale-spark-3 { animation-delay: .16s; }
         .sale-price-strip {
           box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+        }
+        .price-countdown-panel {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 14px;
+          align-items: center;
+          border: 1px solid rgba(210,240,0,.28);
+          border-radius: 18px;
+          background:
+            linear-gradient(135deg, rgba(210,240,0,.105), rgba(255,255,255,.025) 44%, rgba(210,240,0,.055)),
+            rgba(0,0,0,.24);
+          padding: 16px;
+          text-align: left;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 18px 60px rgba(0,0,0,.24);
+        }
+        @media (min-width: 720px) {
+          .price-countdown-panel {
+            grid-template-columns: minmax(0, 1fr) auto;
+            padding: 18px 20px;
+          }
+        }
+        .price-countdown-kicker {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          color: var(--volt);
+          font-family: var(--font-mono);
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: .1em;
+          text-transform: uppercase;
+        }
+        .price-countdown-copy p {
+          margin: 6px 0 0;
+          color: #d4d4d8;
+          font-size: 14px;
+          line-height: 1.55;
+        }
+        .price-countdown-copy strong {
+          color: var(--volt);
+          font-weight: 900;
+        }
+        .price-countdown-timer {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(66px, 1fr));
+          gap: 8px;
+        }
+        .price-countdown-timer span {
+          display: grid;
+          place-items: center;
+          min-height: 64px;
+          border: 1px solid rgba(255,255,255,.1);
+          border-radius: 14px;
+          background: rgba(0,0,0,.26);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+        }
+        .price-countdown-timer strong {
+          color: #f4f4f5;
+          font-family: var(--font-display);
+          font-size: 26px;
+          font-weight: 950;
+          line-height: 1;
+        }
+        .price-countdown-timer em {
+          color: #a1a1aa;
+          font-family: var(--font-mono);
+          font-size: 10px;
+          font-style: normal;
+          font-weight: 800;
+          letter-spacing: .12em;
+          line-height: 1;
+          margin-top: 5px;
+          text-transform: uppercase;
+        }
+        .price-countdown-live {
+          grid-column: 1 / -1;
+          min-width: 220px;
+          padding: 0 18px;
+          color: var(--volt);
+          font-family: var(--font-display);
+          font-size: 18px;
+          font-weight: 900;
         }
         .compass-preview-panel {
           border: 1px solid rgba(255,255,255,.1);

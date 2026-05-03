@@ -5,7 +5,7 @@ import { Logo } from './Logo';
 export function MarketingFooter() {
   return (
     <footer className="border-t border-white/5 pt-16 pb-8 px-5">
-      <div className="container-wide grid grid-cols-2 md:grid-cols-5 gap-8 mb-16">
+      <div className="container-wide grid grid-cols-2 md:grid-cols-6 gap-8 mb-12">
         <div className="col-span-2 md:col-span-2">
           <Logo className="mb-4" />
           <p className="text-zinc-500 text-sm max-w-xs mb-6">
@@ -85,6 +85,41 @@ export function MarketingFooter() {
               </Link>
             </li>
           </ul>
+        </div>
+        <div>
+          <div className="text-white font-display font-bold mb-4">Social</div>
+          <ul className="flex flex-col gap-2 text-sm text-zinc-500">
+            <li>
+              <a
+                href="https://www.instagram.com/mockmob.in/"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 hover:text-volt"
+              >
+                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-volt/25 bg-volt/10 text-[9px] font-black text-volt">IG</span>
+                Instagram
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div className="container-wide mb-8 rounded-2xl border border-volt/20 bg-volt/[0.06] px-5 py-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <div className="font-display text-base font-black text-zinc-50">Follow MockMob on Instagram</div>
+            <p className="mt-1 text-sm leading-6 text-zinc-400">
+              Exclusive deals, CUET updates, product drops, and quick prep signals.
+            </p>
+          </div>
+          <a
+            href="https://www.instagram.com/mockmob.in/"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-volt px-4 text-sm font-black text-zinc-950 transition hover:brightness-110"
+          >
+            <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-zinc-950/20 bg-zinc-950/10 text-[9px] font-black">IG</span>
+            Follow us
+          </a>
         </div>
       </div>
       <div className="container-wide text-center text-xs text-zinc-600">

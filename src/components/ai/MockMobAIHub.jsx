@@ -158,6 +158,7 @@ export default function MockMobAIHub({
       setSetupProfile(stored);
       setSetupDraft(stored || SETUP_DEFAULTS);
       setSetupOpen(Boolean(isAuthenticated && !stored));
+      if (stored) setTranscriptOpen(true);
     }, 0);
     return () => window.clearTimeout(timer);
   }, [setupKey, isAuthenticated]);
@@ -435,7 +436,7 @@ export default function MockMobAIHub({
         setupBuildTimersRef.current = [
           window.setTimeout(() => {
             setMissionFocus('mission');
-            setActiveSection('mission');
+            setTranscriptOpen(true);
           }, 1900),
         ];
       }, 1040),
@@ -445,6 +446,7 @@ export default function MockMobAIHub({
   function startSetup() {
     setSetupOpen(true);
     setActiveSection('ai');
+    setTranscriptOpen(false);
   }
 
   function replanDay() {
@@ -560,6 +562,7 @@ export default function MockMobAIHub({
             onSend={sendMessage}
             onAction={runAction}
             onTranscriptOpen={() => setTranscriptOpen(true)}
+            onTranscriptClose={() => setTranscriptOpen(false)}
             onSetupDraft={setSetupDraft}
             onSaveSetup={saveSetup}
             onCloseSetup={() => setSetupOpen(false)}
@@ -672,18 +675,20 @@ function AIChatSection({
   onSend,
   onAction,
   onTranscriptOpen,
+  onTranscriptClose,
   onSetupDraft,
   onSaveSetup,
   onCloseSetup,
   onStartSetup,
 }) {
-  const showTranscript = (transcriptOpen && messages.length > 0) || pending || error || setupBuild;
   const hasSavedThread = messages.length > 0 && !transcriptOpen;
   const conversationMode = transcriptOpen || pending || error || setupBuild;
   const setupSummary = setupProfile
     ? `${setupProfile.dailyMinutes} min daily · ${display(setupProfile.focus)} · ${display(setupProfile.benchmark)}`
     : 'Four choices, then PrepOS builds the day.';
-  const greeting = setupProfile ? `Ready, ${firstName}?` : `Set your prep layer, ${firstName}?`;
+  const greeting = setupProfile ? `How can I help, ${firstName}?` : `Set your prep layer, ${firstName}?`;
+  const showReadyCard = conversationMode && setupProfile && !messages.length && !pending && !error && !setupBuild;
+  const showTranscript = showReadyCard || (transcriptOpen && messages.length > 0) || pending || error || setupBuild;
 
   return (
     <section className="relative flex min-h-full flex-col overflow-hidden">
@@ -707,8 +712,19 @@ function AIChatSection({
             >
               <PrepOSOrb size={conversationMode ? 48 : 92} label={conversationMode ? '' : 'OS'} active />
               <div className={conversationMode ? 'min-w-0 flex-1' : ''}>
-                <div className={`${conversationMode ? 'mb-1' : 'mt-5'} inline-flex items-center gap-2 rounded-full border border-volt/20 bg-volt/[0.07] px-3 py-1 text-[11px] font-black uppercase tracking-[0.22em] text-volt`}>
-                  PrepOS
+                <div className="flex flex-wrap items-center gap-2">
+                  <div className={`${conversationMode ? 'mb-1' : 'mt-5'} inline-flex items-center gap-2 rounded-full border border-volt/20 bg-volt/[0.07] px-3 py-1 text-[11px] font-black uppercase tracking-[0.22em] text-volt`}>
+                    PrepOS
+                  </div>
+                  {conversationMode && setupProfile ? (
+                    <button
+                      type="button"
+                      onClick={onTranscriptClose}
+                      className="mb-1 inline-flex min-h-8 items-center rounded-full border border-white/10 bg-white/[0.04] px-3 text-xs font-bold text-zinc-400 transition hover:bg-white/[0.07] hover:text-zinc-100"
+                    >
+                      Close chat
+                    </button>
+                  ) : null}
                 </div>
                 <TypedGreeting
                   text={greeting}
@@ -717,7 +733,7 @@ function AIChatSection({
                 {!conversationMode ? (
                   <p className="mt-3 max-w-[560px] text-sm leading-6 text-zinc-400">
                     {setupProfile
-                      ? 'Ask, replan, benchmark, or review without leaving your flow.'
+                      ? 'Your next steps are ready for today. Ask anything, open missions, retune setup, or replan from chat.'
                       : 'Answer a quick setup once, then PrepOS turns your target into daily work.'}
                   </p>
                 ) : null}
@@ -758,9 +774,9 @@ function AIChatSection({
                   <PrepTile
                     icon="spark"
                     title={setupProfile ? 'Setup tuned' : 'Start setup'}
-                    body={setupSummary}
+                    body={setupProfile ? 'Done with setup? Continue with chat.' : setupSummary}
                     active={!setupProfile || setupOpen}
-                    onClick={onStartSetup}
+                    onClick={setupProfile ? onTranscriptOpen : onStartSetup}
                   />
                   <PrepTile
                     icon="route"
@@ -794,6 +810,7 @@ function AIChatSection({
                   exit={{ opacity: 0, y: 8, height: 0 }}
                   className="mt-4 max-h-[min(48vh,440px)] space-y-3 overflow-y-auto pr-1"
                 >
+                  {showReadyCard ? <SetupReadyCard setupProfile={setupProfile} onAction={onAction} /> : null}
                   {messages.map((message) => (
                     <ChatMessage key={message.id} message={message} onAction={onAction} />
                   ))}
@@ -1485,6 +1502,32 @@ function PrepTile({ icon, title, body, active = false, onClick }) {
   );
 }
 
+function SetupReadyCard({ setupProfile, onAction }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 8, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      className="flex max-w-[94%] gap-3"
+    >
+      <PrepOSOrb size={32} active />
+      <div className="min-w-0 rounded-2xl rounded-tl-md border border-white/8 bg-white/[0.045] px-4 py-3 text-sm leading-6 text-zinc-300">
+        <div className="font-display text-base font-black text-zinc-50">Your setup is tuned.</div>
+        <p className="mt-1">
+          How can I help you today? Your {setupProfile.dailyMinutes}-minute plan is ready: missions, replan, benchmark, and review can all start from this chat.
+        </p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <button type="button" onClick={() => onAction({ type: 'section', section: 'mission' })} className="rounded-xl bg-white/[0.07] px-3 py-2 text-sm font-semibold text-zinc-100 transition hover:bg-white/[0.11]">
+            Open missions
+          </button>
+          <button type="button" onClick={() => onAction({ type: 'setup' })} className="rounded-xl bg-white/[0.07] px-3 py-2 text-sm font-semibold text-zinc-100 transition hover:bg-white/[0.11]">
+            Retune setup
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 function ChatMessage({ message, onAction }) {
   if (message.role === 'user') {
     return (
@@ -1638,7 +1681,7 @@ function buildSetupPlanResponse({ setupProfile, context, user, pathname, benchma
     .join(' ');
 
   return {
-    reply: `Done. I built a ${setupProfile.dailyMinutes}-minute ${display(setupProfile.focus)} plan for ${display(setupProfile.target)}. ${planLine} I am opening Missions with this plan loaded.`,
+    reply: `Done. I built a ${setupProfile.dailyMinutes}-minute ${display(setupProfile.focus)} plan for ${display(setupProfile.target)}. ${planLine} Your next steps are ready here in chat. Ask me to replan, explain the mission, open the benchmark, or review the last mock.`,
     reason: `Setup saved: benchmark ${display(setupProfile.benchmark)}, focus ${display(setupProfile.focus)}, target ${display(setupProfile.target)}.`,
     cardLimit: 4,
     cards: plan.slice(0, 4).map((item) => ({
@@ -1646,8 +1689,8 @@ function buildSetupPlanResponse({ setupProfile, context, user, pathname, benchma
       body: item.body,
     })),
     actions: [
+      { label: 'Continue in chat', type: 'ask', prompt: 'What should I do first today?' },
       { label: 'Open Missions', type: 'section', section: 'mission' },
-      { label: 'Open benchmark', type: 'benchmark', rivalType: benchmark.id },
     ],
   };
 }
