@@ -9,6 +9,11 @@ import {
   refundRevocationMatchesPayment,
   resolvePaidThrough,
 } from '../../src/lib/payments/entitlements.js';
+import {
+  getPaymentPlan,
+  getPlanAccessUntil,
+  isLiveOneTimeAccessPlan,
+} from '../../src/lib/payments/plans.js';
 
 test('paid-through date prefers Razorpay invoice billing end', () => {
   const paidThrough = resolvePaidThrough({
@@ -108,4 +113,20 @@ test('refund revocation audit only blocks matching payment identifiers', () => {
     subscriptionId: 'sub_new_purchase',
     paymentId: 'pay_new_purchase',
   }), false);
+});
+
+test('CUET 2026 Pro checkout is a live one-time Rs 99 access plan', () => {
+  const plan = getPaymentPlan('pro_cuet_2026');
+
+  assert.equal(isLiveOneTimeAccessPlan(plan), true);
+  assert.equal(plan.amount, 9900);
+  assert.equal(plan.currency, 'INR');
+  assert.equal(getPlanAccessUntil(plan), '2026-12-31T18:29:59.999Z');
+});
+
+test('legacy monthly plan is not live for new checkout', () => {
+  const plan = getPaymentPlan('pro_monthly');
+
+  assert.equal(isLiveOneTimeAccessPlan(plan), false);
+  assert.equal(plan.status, 'legacy');
 });

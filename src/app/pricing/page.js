@@ -8,15 +8,14 @@ import { JsonLd } from '@/components/JsonLd';
 import { PricingCard } from '@/components/ui/PricingCard';
 import { LiquidGlassButton } from '@/components/ui/LiquidGlassButton';
 import { RazorpayPaymentButton } from '@/components/billing/RazorpayPaymentButton';
-import { PriceIncreaseCountdown } from '@/components/pricing/PriceIncreaseCountdown';
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
 import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
 
 export const metadata = seoMetadata({
-  title: 'MockMob Pricing for CUET Mock Tests & Analytics',
+  title: 'MockMob CUET 2026 Access Pricing',
   description:
-    'Start free or unlock MockMob Pro for unlimited CUET mocks, advanced Radar analytics, bookmarks, and Admission Compass.',
+    'Start free or unlock one-time MockMob CUET 2026 access with unlimited mocks, advanced Radar analytics, bookmarks, and Admission Compass.',
   path: '/pricing',
 });
 
@@ -37,15 +36,16 @@ const plans = [
   },
   {
     name: 'Pro',
-    price: '₹69',
-    originalPrice: '₹199',
-    cycle: '/month',
-    description: 'For CUET 2026 aspirants who want mocks, analytics, and college direction in one place.',
-    ctaLabel: 'Go Pro',
-    planId: 'pro_monthly',
-    amount: 6900,
+    price: 'Rs 99',
+    originalPrice: 'Rs 199',
+    cycle: 'one-time',
+    description: 'One-time CUET 2026 access for aspirants who want mocks, analytics, and college direction in one place.',
+    ctaLabel: 'Unlock CUET 2026',
+    planId: 'pro_cuet_2026',
+    amount: 9900,
     featured: true,
     features: [
+      'One-time purchase for CUET 2026 access',
       'Admission Compass — CUET score bands and DU college recommendations',
       'Custom subject-course eligibility mapping for your target colleges',
       'Premium Radar with weakness analysis and chapter priority maps',
@@ -67,8 +67,8 @@ const COMPARISON_GROUPS = [
   {
     heading: 'Core test modes',
     rows: [
-      ['Quick Practice (5 to 20 Qs)', 'Credit-gated · 10 credits each', 'Unlimited'],
-      ['Full Mock (50 Qs · 60 min)', 'Credit-gated · 50 credits each', 'Unlimited'],
+      ['Quick Practice (5 to 20 Qs)', 'Credit-gated · 10 credits each', 'Unlimited for CUET 2026'],
+      ['Full Mock (50 Qs · 60 min)', 'Credit-gated · 50 credits each', 'Unlimited for CUET 2026'],
     ],
   },
   {
@@ -122,8 +122,6 @@ const compassShots = [
   },
 ];
 
-const PRICE_UPDATE_DEADLINE = '2026-05-04T00:00:00+05:30';
-
 const faqs = [
   {
     q: 'How does the Leaderboard work?',
@@ -142,8 +140,8 @@ const faqs = [
     a: 'No. Radar explains why your score is moving by showing weak chapters, speed problems, and priority maps. Compass uses that progress history to turn your CUET score estimate into college recommendations and course mapping.'
   },
   {
-    q: 'Can I cancel my Pro plan anytime?',
-    a: 'Absolutely. You can cancel your ₹69/month subscription at any time with no hidden fees or lock-in periods.'
+    q: 'Is Pro a monthly subscription now?',
+    a: 'No. CUET 2026 access is a one-time Rs 99 purchase. There is no monthly auto-renewal or recurring subscription mandate.'
   },
   {
     q: 'Are the community mocks reliable?',
@@ -197,7 +195,7 @@ export default async function PricingPage() {
         <section className="mx-auto mb-10 max-w-3xl text-center">
           <div className="sale-ribbon mb-5 inline-flex items-center gap-3 rounded-full border border-volt/50 bg-volt/15 px-5 py-2">
             <PartyPopper className="h-4 w-4 text-volt" />
-            <span className="mono-label !text-volt">Midnight price update</span>
+            <span className="mono-label !text-volt">CUET 2026 one-time access</span>
             <span className="sale-spark sale-spark-1" />
             <span className="sale-spark sale-spark-2" />
             <span className="sale-spark sale-spark-3" />
@@ -206,16 +204,15 @@ export default async function PricingPage() {
             Pricing that keeps your <span className="text-volt italic">momentum</span> alive.
           </h1>
           <p className="mx-auto max-w-2xl text-zinc-400">
-            Start free, or lock the current Pro price before the new CUET 2026 pricing goes live at 12:00 AM IST.
+            Start free, or unlock MockMob Pro for the CUET 2026 cycle with one secure one-time checkout.
           </p>
           <div className="sale-price-strip mt-5 inline-flex flex-wrap items-center justify-center gap-3 rounded-2xl border border-volt/25 bg-[rgba(210,240,0,0.08)] px-5 py-3 text-sm">
             <ShieldCheck className="h-4 w-4 text-volt" />
             <span className="text-zinc-300">Real MRP</span>
-            <span className="font-semibold text-zinc-500 line-through decoration-zinc-500/80 decoration-2">₹199/month</span>
+            <span className="font-semibold text-zinc-500 line-through decoration-zinc-500/80 decoration-2">Rs 199</span>
             <span className="text-zinc-500">now</span>
-            <span className="font-display text-2xl font-extrabold text-volt">₹69/month</span>
+            <span className="font-display text-2xl font-extrabold text-volt">Rs 99 one-time</span>
           </div>
-          <PriceIncreaseCountdown deadline={PRICE_UPDATE_DEADLINE} />
         </section>
 
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
@@ -338,7 +335,7 @@ export default async function PricingPage() {
           </div>
 
           <p className="mt-6 text-center text-sm text-zinc-400">
-            All this for a nominal price of <span className="font-semibold text-volt">₹69 per month</span>.
+            All this for a nominal one-time price of <span className="font-semibold text-volt">Rs 99 for CUET 2026 access</span>.
           </p>
         </section>
 

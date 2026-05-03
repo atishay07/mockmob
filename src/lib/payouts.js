@@ -20,11 +20,15 @@ function isPaidSale(payment) {
  * Always best-effort — never throws back into the caller's flow. Earnings
  * are inserted later by /api/admin/payouts/mark-paid if missed here.
  */
-export async function recordEarningIfApplicable(subscriptionId) {
-  if (!subscriptionId) return;
+export async function recordEarningIfApplicable(paymentLookup) {
+  if (!paymentLookup) return;
 
   try {
-    const payment = await Database.getPaymentBySubscriptionId(subscriptionId);
+    const payment = typeof paymentLookup === 'object' && paymentLookup.orderId
+      ? await Database.getPaymentByOrderId(paymentLookup.orderId)
+      : await Database.getPaymentBySubscriptionId(
+        typeof paymentLookup === 'object' ? paymentLookup.subscriptionId : paymentLookup
+      );
     if (!payment) return;
     if (!isPaidSale(payment)) return;
     if (payment.payoutId) return;          // already paid out — never overwrite
@@ -40,6 +44,6 @@ export async function recordEarningIfApplicable(subscriptionId) {
     // a no-op once the payment has been paid out.
     await Database.setPaymentEarning(payment.id, earning);
   } catch (e) {
-    console.error('[payouts] failed to record earning', { subscriptionId, error: e?.message });
+    console.error('[payouts] failed to record earning', { paymentLookup, error: e?.message });
   }
 }

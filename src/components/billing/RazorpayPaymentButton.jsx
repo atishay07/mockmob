@@ -86,7 +86,7 @@ export function RazorpayPaymentButton({
   const [message, setMessage] = useState('');
   const [isPremium, setIsPremium] = useState(initialIsPremium);
   const [code, setCode] = useState('');
-  const [appliedCode, setAppliedCode] = useState(null); // { code, offerId } once subscription created
+  const [appliedCode, setAppliedCode] = useState(null);
 
   // Prefill on mount: URL ?ref= wins, then localStorage. URL also writes
   // through to localStorage so the code persists across navigation.
@@ -133,7 +133,7 @@ export function RazorpayPaymentButton({
       if (user.isPremium) {
         setIsPremium(true);
         setStatus('success');
-        setMessage('You are already subscribed to premium.');
+        setMessage('CUET 2026 access is already active.');
         return;
       }
 
@@ -142,7 +142,7 @@ export function RazorpayPaymentButton({
       const normalized = normalizeCodeInput(code);
       const codeForServer = normalized && CODE_PATTERN.test(normalized) ? normalized : undefined;
 
-      const { keyId, subscription, plan, applied, referral } = await postJson('/create-subscription', {
+      const { keyId, order, plan, applied, referral } = await postJson('/create-order', {
         userId: user.id,
         planId,
         amount,
@@ -151,9 +151,7 @@ export function RazorpayPaymentButton({
 
       if (applied?.code) {
         setAppliedCode(applied);
-        if (applied.status === 'tracked_no_offer') {
-          setMessage(`Referral ${applied.code} tracked. No Razorpay discount is configured for this code.`);
-        }
+        setMessage(`Referral ${applied.code} tracked for this access purchase.`);
       } else if (codeForServer) {
         setMessage(referral?.reason || 'Code not recognised. Continuing without discount.');
       }
@@ -162,7 +160,9 @@ export function RazorpayPaymentButton({
         key: keyId,
         name: 'MockMob',
         description: plan.name,
-        subscription_id: subscription.id,
+        order_id: order.id,
+        amount: plan.amount,
+        currency: plan.currency,
         prefill: {
           name: user.name || '',
           email: user.email || '',
@@ -180,7 +180,7 @@ export function RazorpayPaymentButton({
           try {
             setStatus('loading');
             await postJson('/verify-payment', {
-              razorpay_subscription_id: response.razorpay_subscription_id,
+              razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
               userId: user.id,
@@ -188,7 +188,7 @@ export function RazorpayPaymentButton({
             await refreshSession({ silent: false });
             setIsPremium(true);
             setStatus('success');
-            setMessage('Subscription verified. Pro is active.');
+            setMessage('Payment verified. CUET 2026 access is active.');
           } catch (error) {
             setStatus('error');
             setMessage(error.message);
@@ -221,7 +221,7 @@ export function RazorpayPaymentButton({
       <div className="w-full rounded-xl border border-volt/25 bg-volt/10 px-4 py-3 text-sm font-semibold text-volt">
         <div className="flex items-center justify-center gap-2">
           <ShieldCheck className="h-4 w-4" />
-          <span>You are already subscribed to premium</span>
+          <span>CUET 2026 access is already active</span>
         </div>
       </div>
     );

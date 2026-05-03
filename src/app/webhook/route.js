@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import crypto from 'node:crypto';
-import { getPaymentPlan } from '@/lib/payments/plans';
+import { getPaymentPlan, getPlanAccessUntil, isOneTimeAccessPlan } from '@/lib/payments/plans';
 import { getRazorpayClient, verifyRazorpayWebhookSignature } from '@/lib/payments/razorpay';
 import {
   amountMatchesPaymentRecord,
@@ -98,6 +98,13 @@ export async function POST(request) {
     const creditPack = getAICreditPack(paymentRecord.planId);
     if (creditPack) {
       await processCreditPackWebhook({ eventType, payment, orderId, paymentRecord, creditPack });
+      await Database.markWebhookEventProcessed(eventId);
+      return NextResponse.json({ ok: true });
+    }
+
+    const oneTimePlan = getPaymentPlan(paymentRecord.planId);
+    if (isOneTimeAccessPlan(oneTimePlan)) {
+      await processOneTimeAccessWebhook({ eventType, payment, orderId, paymentRecord, plan: oneTimePlan });
       await Database.markWebhookEventProcessed(eventId);
       return NextResponse.json({ ok: true });
     }
@@ -361,6 +368,103 @@ async function updateUnpaidSubscriptionPayment({ subscriptionId, payment, subscr
 
   await Database.updateUser(paymentRecord.userId, {
     subscriptionStatus: 'past_due',
+    isPremium: false,
+    premiumUntil: null,
+    razorpaySubscriptionId: null,
+  });
+}
+
+async function processOneTimeAccessWebhook({ eventType, payment, orderId, paymentRecord, plan }) {
+  const resolvedOrderId = orderId || payment?.order_id || paymentRecord.orderId;
+  const resolvedPaymentId = payment?.id || paymentRecord.paymentId;
+
+  if (!resolvedOrderId) return;
+
+  if (await Database.hasRefundPremiumRevocation({
+    userId: paymentRecord.userId,
+    paymentId: resolvedPaymentId,
+  })) {
+    await keepRefundRevokedOrder({ orderId: resolvedOrderId, payment, paymentRecord });
+    return;
+  }
+
+  if (eventType === 'payment.captured') {
+    const isExpectedPayment = isCapturedRazorpayPayment(payment) &&
+      payment.order_id === resolvedOrderId &&
+      payment.amount === plan.amount &&
+      payment.currency === plan.currency;
+
+    if (!isExpectedPayment) {
+      if (!hasPaidPaymentEvidence(paymentRecord)) {
+        await Database.updatePaymentByOrderId(resolvedOrderId, {
+          paymentId: resolvedPaymentId,
+          status: 'failed',
+          amountPaid: typeof payment?.amount === 'number' ? payment.amount : null,
+          accessUntil: null,
+          rawPayment: payment,
+        });
+      }
+      return;
+    }
+
+    if (paymentRecord.status === 'captured' &&
+      paymentRecord.paymentId === payment.id &&
+      Number(paymentRecord.amountPaid) === Number(plan.amount)) {
+      return;
+    }
+
+    const accessUntil = getPlanAccessUntil(plan);
+    await Database.updatePaymentByOrderId(resolvedOrderId, {
+      paymentId: payment.id,
+      status: 'captured',
+      amountPaid: payment.amount,
+      accessUntil,
+      rawPayment: payment,
+      ...referralAttributionFromCheckout({
+        paymentRecord,
+        payment,
+      }),
+    });
+
+    await Database.updateUser(paymentRecord.userId, {
+      subscriptionStatus: 'active',
+      isPremium: true,
+      premiumUntil: accessUntil,
+      razorpaySubscriptionId: null,
+    });
+
+    await recordEarningIfApplicable({ orderId: resolvedOrderId });
+  }
+
+  if (eventType === 'payment.failed' && !hasPaidPaymentEvidence(paymentRecord)) {
+    await Database.updatePaymentByOrderId(resolvedOrderId, {
+      paymentId: resolvedPaymentId,
+      status: 'failed',
+      amountPaid: typeof payment?.amount === 'number' ? payment.amount : undefined,
+      rawPayment: payment,
+    });
+  }
+}
+
+async function keepRefundRevokedOrder({ orderId, payment, paymentRecord }) {
+  const resolvedPaymentId = payment?.id || paymentRecord.paymentId;
+
+  await Database.updatePaymentByOrderId(orderId, {
+    paymentId: resolvedPaymentId,
+    status: 'cancelled',
+    amountPaid: 0,
+    accessUntil: null,
+    rawPayment: payment || paymentRecord.rawPayment,
+  });
+
+  const hasOtherPaidAccess = await Database.hasOtherPaidSubscriptionEvidence({
+    userId: paymentRecord.userId,
+    excludingPaymentId: resolvedPaymentId,
+  });
+  if (hasOtherPaidAccess) return;
+
+  await Database.updateUser(paymentRecord.userId, {
+    subscriptionStatus: 'cancelled',
     isPremium: false,
     premiumUntil: null,
     razorpaySubscriptionId: null,
