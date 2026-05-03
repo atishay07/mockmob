@@ -1,10 +1,23 @@
+import OpenAI from 'openai';
 import { isValidTopSyllabusPair } from './canonical_syllabus.js';
 import { toInternalSubjectId } from './cuet_controls.js';
+import {
+  ANSWER_LOCAL_CONFIDENCE_THRESHOLD,
+  scoreAnswerLocalConfidence as scoreNtaAnswerLocalConfidence,
+  verifyAnswerIntegrity as verifyNtaAnswerIntegrity,
+} from './answer_integrity.js';
 
 export const NTA_QUESTION_COUNT = 50;
 export const NTA_DURATION_MINUTES = 60;
+export { scoreNtaAnswerLocalConfidence, verifyNtaAnswerIntegrity };
 
 const OPTION_KEYS = ['A', 'B', 'C', 'D'];
+const NTA_AI_ANSWER_VERIFIER_MODEL = process.env.NTA_ANSWER_VERIFIER_MODEL || 'gpt-5-nano';
+const NTA_AI_ANSWER_VERIFIER_TIMEOUT_MS = Math.min(28_000, Math.max(4_000, Number(process.env.NTA_ANSWER_VERIFIER_TIMEOUT_MS || 24_000)));
+const NTA_AI_ANSWER_VERIFIER_MAX_ROWS = Math.min(50, Math.max(1, Number(process.env.NTA_ANSWER_VERIFIER_MAX_ROWS || 50)));
+const NTA_AI_ANSWER_CONFIDENCE_THRESHOLD = Math.min(1, Math.max(0.5, Number(process.env.NTA_AI_ANSWER_CONFIDENCE_THRESHOLD || 0.86)));
+const NTA_LOCAL_ANSWER_CONFIDENCE_THRESHOLD = ANSWER_LOCAL_CONFIDENCE_THRESHOLD;
+const NTA_AI_REFILL_ATTEMPTS = Math.min(3, Math.max(1, Number(process.env.NTA_AI_REFILL_ATTEMPTS || 2)));
 const VALID_DIFFICULTIES = new Set(['easy', 'medium', 'hard']);
 const GOOD_STATUS = new Set(['live', 'active', 'published']);
 const GOOD_VERIFICATION = new Set(['verified']);
@@ -39,6 +52,14 @@ const STOP_WORDS = new Set([
   'the', 'and', 'for', 'with', 'from', 'that', 'this', 'which', 'what', 'when',
   'where', 'does', 'into', 'only', 'following', 'correct', 'option', 'choose',
 ]);
+
+let openaiClient = null;
+
+function getOpenAiClient() {
+  if (!process.env.OPENAI_API_KEY) return null;
+  openaiClient ??= new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  return openaiClient;
+}
 
 function textValue(value) {
   if (value == null) return '';
@@ -315,6 +336,16 @@ function jaccardSimilarity(a, b) {
 
 function optionFingerprint(options) {
   return options.map((option) => normalizeComparable(option.text)).sort().join('|');
+}
+
+function explanationText(row) {
+  return textValue(firstPresent(row, [
+    'answer_check',
+    'answerCheck',
+    'explanation',
+    'solution',
+    'rationale',
+  ]));
 }
 
 function countReason(target, reason) {
@@ -598,15 +629,64 @@ function selectedQuestionCount(selected) {
   return selected.reduce((sum, candidate) => sum + candidate.size, 0);
 }
 
-function selectCandidate(candidate, selected, fingerprints, targetCount, diagnostics) {
+function candidateAnswerIntegrity(candidate) {
+  const checks = candidate.rows.map((row) => verifyNtaAnswerIntegrity(row));
+  const failed = checks.filter((check) => !check.accepted);
+  return {
+    accepted: failed.length === 0,
+    checks,
+    failed,
+    reasons: [...new Set(failed.flatMap((check) => check.reasons))],
+  };
+}
+
+function recordAnswerIntegrityFailure(diagnostics, candidate, integrity) {
+  const failedIds = integrity.failed
+    .map((check) => check.questionId)
+    .filter(Boolean);
+
+  diagnostics.answerIntegrity.rejectedByAnswerGuard += candidate.size;
+  diagnostics.answerIntegrity.failedQuestionIds.push(...failedIds);
+  for (const reason of integrity.reasons) {
+    countReason(diagnostics.answerIntegrity.rejectReasons, reason);
+    countReason(diagnostics.hardRejectReasons, reason);
+  }
+}
+
+function selectCandidate(candidate, selected, fingerprints, targetCount, diagnostics, opts = {}) {
   if (selectedQuestionCount(selected) + candidate.size > targetCount) return false;
   if (candidateHasDuplicate(candidate, fingerprints)) {
-    countReason(diagnostics.hardRejectReasons, 'duplicate_or_near_duplicate');
+    if (opts.recordDiagnostics !== false) countReason(diagnostics.hardRejectReasons, 'duplicate_or_near_duplicate');
     return false;
+  }
+  if (opts.answerIntegrity !== false) {
+    const integrity = candidateAnswerIntegrity(candidate);
+    if (!integrity.accepted) {
+      recordAnswerIntegrityFailure(diagnostics, candidate, integrity);
+      return false;
+    }
   }
   selected.push(candidate);
   rememberFingerprints(candidate.rows, fingerprints);
   return true;
+}
+
+function selectRankedCandidates(rankedPassages, rankedStandalone, targetCount, diagnostics, opts = {}) {
+  const selected = [];
+  const fingerprints = new Set();
+
+  for (const tier of [1, 2, 3]) {
+    for (const candidate of rankedPassages.filter((entry) => entry.tier === tier)) {
+      if (selectedQuestionCount(selected) >= targetCount) break;
+      selectCandidate(candidate, selected, fingerprints, targetCount, diagnostics, opts);
+    }
+    for (const candidate of rankedStandalone.filter((entry) => entry.tier === tier)) {
+      if (selectedQuestionCount(selected) >= targetCount) break;
+      selectCandidate(candidate, selected, fingerprints, targetCount, diagnostics, opts);
+    }
+  }
+
+  return selected;
 }
 
 export function selectNtaQuestionSet(rows, requestedCount = NTA_QUESTION_COUNT, options = {}) {
@@ -637,6 +717,17 @@ export function selectNtaQuestionSet(rows, requestedCount = NTA_QUESTION_COUNT, 
       standaloneSelected: 0,
       topRejectReasons: [],
     },
+    answerIntegrity: {
+      mode: 'deterministic',
+      selectedBeforeVerification: 0,
+      rejectedByAnswerGuard: 0,
+      refilledCount: 0,
+      finalVerifiedCount: 0,
+      failedQuestionIds: [],
+      rejectReasons: {},
+      topRejectReasons: [],
+      passed: false,
+    },
   };
 
   const evaluated = (Array.isArray(rows) ? rows : []).map((row) => qualityGateNtaQuestion(row, { ...options, subjectId }));
@@ -655,8 +746,6 @@ export function selectNtaQuestionSet(rows, requestedCount = NTA_QUESTION_COUNT, 
   diagnostics.poolStats.usable = usable.length;
 
   const { passageGroups, standalone } = buildCandidates(usable, diagnostics, subjectId);
-  const selected = [];
-  const fingerprints = new Set();
   const seed = options.seed || '';
 
   const rankedPassages = passageGroups
@@ -665,18 +754,34 @@ export function selectNtaQuestionSet(rows, requestedCount = NTA_QUESTION_COUNT, 
   const rankedStandalone = standalone
     .sort((a, b) => candidateScore(b, seed) - candidateScore(a, seed));
 
-  for (const tier of [1, 2, 3]) {
-    for (const candidate of rankedPassages.filter((entry) => entry.tier === tier)) {
-      if (selectedQuestionCount(selected) >= targetCount) break;
-      selectCandidate(candidate, selected, fingerprints, targetCount, diagnostics);
-    }
-    for (const candidate of rankedStandalone.filter((entry) => entry.tier === tier)) {
-      if (selectedQuestionCount(selected) >= targetCount) break;
-      selectCandidate(candidate, selected, fingerprints, targetCount, diagnostics);
-    }
-  }
+  const selectedBeforeVerification = selectRankedCandidates(
+    rankedPassages,
+    rankedStandalone,
+    targetCount,
+    diagnostics,
+    { answerIntegrity: false, recordDiagnostics: false },
+  );
+  diagnostics.answerIntegrity.selectedBeforeVerification = selectedQuestionCount(selectedBeforeVerification);
+
+  const selected = selectRankedCandidates(
+    rankedPassages,
+    rankedStandalone,
+    targetCount,
+    diagnostics,
+    { answerIntegrity: true },
+  );
 
   const selectedRows = selected.flatMap((candidate) => candidate.rows).slice(0, targetCount);
+  diagnostics.answerIntegrity.refilledCount = Math.max(
+    0,
+    selectedRows.filter((row) => !selectedBeforeVerification.some((candidate) => candidate.rows.some((candidateRow) => candidateRow.id === row.id))).length,
+  );
+  diagnostics.answerIntegrity.finalVerifiedCount = selectedRows.length;
+  diagnostics.answerIntegrity.passed = selectedRows.length === targetCount && diagnostics.answerIntegrity.rejectedByAnswerGuard === 0
+    ? true
+    : selectedRows.length === targetCount;
+  diagnostics.answerIntegrity.topRejectReasons = topReasons(diagnostics.answerIntegrity.rejectReasons);
+
   diagnostics.finalSelectedCount = selectedRows.length;
   diagnostics.passageGroupsIncluded = selected.filter((candidate) => candidate.kind === 'passage').length;
   diagnostics.passageQuestionsIncluded = selected
@@ -693,7 +798,285 @@ export function selectNtaQuestionSet(rows, requestedCount = NTA_QUESTION_COUNT, 
   diagnostics.canBuild50 = selectedRows.length === targetCount;
   diagnostics.message = diagnostics.canBuild50
     ? undefined
+    : diagnostics.answerIntegrity.rejectedByAnswerGuard > 0
+    ? `The database has ${diagnostics.poolStats.usable} structurally usable NTA questions, but only ${selectedRows.length} passed answer integrity; 50 are required.`
     : `The database has ${diagnostics.poolStats.usable} usable NTA question${diagnostics.poolStats.usable === 1 ? '' : 's'} for this subject after hard rejection; 50 are required.`;
 
   return { selectedRows, diagnostics };
+}
+
+function compactQuestionForAi(row) {
+  const options = normalizeOptions(row?.options, row);
+  const correctIndex = resolveCorrectIndex(row, options);
+  return {
+    id: String(row?.id || ''),
+    subject: subjectOf(row, {}),
+    chapter: textValue(row?.chapter),
+    question: getQuestionText(row).slice(0, 1200),
+    passage: getPassageText(row).slice(0, 1400) || null,
+    options: options.map((option) => `${option.key}) ${option.text}`).slice(0, 4),
+    stored_correct_answer: correctIndex >= 0 ? options[correctIndex]?.key : textValue(answerRaw(row)),
+    explanation: explanationText(row).slice(0, 900) || null,
+  };
+}
+
+function safeParseJsonObject(text) {
+  const raw = String(text || '').trim().replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '');
+  try {
+    const parsed = JSON.parse(raw);
+    return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : null;
+  } catch {
+    const start = raw.indexOf('{');
+    const end = raw.lastIndexOf('}');
+    if (start >= 0 && end > start) {
+      try {
+        return JSON.parse(raw.slice(start, end + 1));
+      } catch {
+        return null;
+      }
+    }
+    return null;
+  }
+}
+
+function normalizeAiAnswerResult(row, result) {
+  const check = verifyNtaAnswerIntegrity(row);
+  const solvedAnswer = textValue(result?.solved_answer).toUpperCase();
+  const verdict = textValue(result?.verdict).toLowerCase();
+  const confidence = Math.max(0, Math.min(1, Number(result?.confidence || 0)));
+  const reason = textValue(result?.reason || result?.reasons?.join?.(', ') || '');
+  const solvedKey = OPTION_KEYS.includes(solvedAnswer) ? solvedAnswer : null;
+  const pass = verdict === 'pass' &&
+    solvedKey &&
+    solvedKey === check.correctKey &&
+    confidence >= NTA_AI_ANSWER_CONFIDENCE_THRESHOLD;
+
+  return {
+    questionId: row?.id || null,
+    pass,
+    verdict: pass ? 'pass' : (verdict || 'fail'),
+    solvedAnswer: solvedKey,
+    storedAnswer: check.correctKey,
+    confidence,
+    reason: pass
+      ? reason
+      : reason || (solvedKey && solvedKey !== check.correctKey ? 'ai_solved_answer_mismatch' : 'ai_low_confidence_or_unsure'),
+  };
+}
+
+async function runOpenAiNtaAnswerVerifier(rows, options = {}) {
+  const list = Array.isArray(rows) ? rows.filter(Boolean) : [];
+  if (list.length === 0) {
+    return { enabled: true, model: options.model || NTA_AI_ANSWER_VERIFIER_MODEL, results: [], skippedReason: 'no_low_confidence_rows' };
+  }
+
+  if (typeof options.aiAnswerVerifier === 'function') {
+    const raw = await options.aiAnswerVerifier(list, {
+      model: options.model || NTA_AI_ANSWER_VERIFIER_MODEL,
+      confidenceThreshold: NTA_AI_ANSWER_CONFIDENCE_THRESHOLD,
+    });
+    const byId = new Map((Array.isArray(raw) ? raw : []).map((entry) => [String(entry.id || entry.questionId || ''), entry]));
+    return {
+      enabled: true,
+      model: 'injected-test-verifier',
+      results: list.map((row) => normalizeAiAnswerResult(row, byId.get(String(row.id)) || { verdict: 'unsure', confidence: 0, reason: 'missing_injected_result' })),
+    };
+  }
+
+  if (options.aiAnswerVerifier === false) {
+    return { enabled: false, model: options.model || NTA_AI_ANSWER_VERIFIER_MODEL, results: [], skippedReason: 'disabled_by_caller' };
+  }
+
+  const client = getOpenAiClient();
+  if (!client) {
+    return { enabled: false, model: options.model || NTA_AI_ANSWER_VERIFIER_MODEL, results: [], skippedReason: 'openai_api_key_missing' };
+  }
+
+  const model = options.model || NTA_AI_ANSWER_VERIFIER_MODEL;
+  const prompt = `You are verifying CUET NTA-mode MCQ answer keys before a student starts a timed mock.
+
+Solve each question independently. Compare your solved answer with stored_correct_answer.
+Return pass only when there is one clear correct option, stored_correct_answer matches it, and confidence is high.
+Return fail for a wrong key or multiple-correct risk. Return unsure when evidence is insufficient.
+
+Questions:
+${JSON.stringify(list.map(compactQuestionForAi))}
+
+Return JSON only.`;
+
+  try {
+    const response = await client.chat.completions.create({
+      model,
+      messages: [
+        { role: 'system', content: 'Return only strict JSON for answer-key verification.' },
+        { role: 'user', content: prompt },
+      ],
+      response_format: {
+        type: 'json_schema',
+        json_schema: {
+          name: 'nta_answer_verification',
+          strict: true,
+          schema: {
+            type: 'object',
+            additionalProperties: false,
+            required: ['results'],
+            properties: {
+              results: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  additionalProperties: false,
+                  required: ['id', 'verdict', 'solved_answer', 'confidence', 'reason'],
+                  properties: {
+                    id: { type: 'string' },
+                    verdict: { type: 'string', enum: ['pass', 'fail', 'unsure'] },
+                    solved_answer: { type: 'string', enum: ['A', 'B', 'C', 'D', 'UNKNOWN'] },
+                    confidence: { type: 'number' },
+                    reason: { type: 'string' },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    }, { timeout: Math.max(4_000, Number(options.timeoutMs || NTA_AI_ANSWER_VERIFIER_TIMEOUT_MS)) });
+
+    const text = response?.choices?.[0]?.message?.content || '';
+    const parsed = safeParseJsonObject(text);
+    const byId = new Map((Array.isArray(parsed?.results) ? parsed.results : []).map((entry) => [String(entry.id || ''), entry]));
+    return {
+      enabled: true,
+      model,
+      usage: response?.usage || null,
+      results: list.map((row) => normalizeAiAnswerResult(row, byId.get(String(row.id)) || { verdict: 'unsure', confidence: 0, reason: 'missing_ai_result' })),
+    };
+  } catch (error) {
+    return {
+      enabled: true,
+      model,
+      error: error?.message || 'ai_answer_verifier_failed',
+      results: list.map((row) => normalizeAiAnswerResult(row, { verdict: 'unsure', confidence: 0, reason: 'ai_answer_verifier_failed_closed' })),
+    };
+  }
+}
+
+function addAiReason(ai, reason, count = 1) {
+  ai.rejectReasons[reason] = (ai.rejectReasons[reason] || 0) + count;
+}
+
+function attachAiDiagnostics(result, ai) {
+  result.diagnostics.answerIntegrity.ai = {
+    ...ai,
+    topRejectReasons: topReasons(ai.rejectReasons),
+  };
+  result.diagnostics.answerIntegrity.topRejectReasons = topReasons({
+    ...result.diagnostics.answerIntegrity.rejectReasons,
+    ...ai.rejectReasons,
+  });
+  return result;
+}
+
+export async function selectNtaQuestionSetWithAnswerVerification(rows, requestedCount = NTA_QUESTION_COUNT, options = {}) {
+  const startedAt = Date.now();
+  const ai = {
+    enabled: options.aiAnswerVerifier !== false,
+    model: options.model || NTA_AI_ANSWER_VERIFIER_MODEL,
+    localConfidenceThreshold: NTA_LOCAL_ANSWER_CONFIDENCE_THRESHOLD,
+    aiConfidenceThreshold: NTA_AI_ANSWER_CONFIDENCE_THRESHOLD,
+    timeBudgetMs: Number(options.timeBudgetMs || NTA_AI_ANSWER_VERIFIER_TIMEOUT_MS),
+    checkedCount: 0,
+    skippedCount: 0,
+    failedCount: 0,
+    attempts: 0,
+    failedQuestionIds: [],
+    rejectReasons: {},
+    topRejectReasons: [],
+    skippedReason: null,
+    elapsedMs: 0,
+  };
+
+  const excludedIds = new Set();
+  const aiPassedIds = new Set();
+  let latest = null;
+
+  for (let attempt = 0; attempt < NTA_AI_REFILL_ATTEMPTS; attempt += 1) {
+    ai.attempts = attempt + 1;
+    const candidateRows = Array.isArray(rows)
+      ? rows.filter((row) => !excludedIds.has(row?.id))
+      : [];
+    latest = selectNtaQuestionSet(candidateRows, requestedCount, options);
+
+    if (latest.selectedRows.length !== NTA_QUESTION_COUNT) {
+      ai.elapsedMs = Date.now() - startedAt;
+      return attachAiDiagnostics(latest, ai);
+    }
+
+    const lowConfidenceRows = latest.selectedRows
+      .map((row) => ({ row, local: scoreNtaAnswerLocalConfidence(row) }))
+      .filter((entry) => entry.local.needsAi && !aiPassedIds.has(entry.row.id))
+      .sort((a, b) => a.local.confidence - b.local.confidence)
+      .slice(0, NTA_AI_ANSWER_VERIFIER_MAX_ROWS);
+
+    ai.skippedCount += Math.max(0, latest.selectedRows.length - lowConfidenceRows.length);
+    if (lowConfidenceRows.length === 0) {
+      ai.skippedReason = 'all_rows_high_local_confidence';
+      ai.elapsedMs = Date.now() - startedAt;
+      return attachAiDiagnostics(latest, ai);
+    }
+
+    const remainingMs = Math.max(0, ai.timeBudgetMs - (Date.now() - startedAt));
+    if (remainingMs < 4_000) {
+      ai.skippedReason = 'ai_time_budget_exhausted';
+      ai.elapsedMs = Date.now() - startedAt;
+      return attachAiDiagnostics(latest, ai);
+    }
+
+    const aiResult = await runOpenAiNtaAnswerVerifier(
+      lowConfidenceRows.map((entry) => entry.row),
+      {
+        ...options,
+        timeoutMs: Math.min(NTA_AI_ANSWER_VERIFIER_TIMEOUT_MS, remainingMs),
+      },
+    );
+
+    if (aiResult.enabled === false) {
+      ai.enabled = false;
+      ai.skippedReason = aiResult.skippedReason;
+      ai.elapsedMs = Date.now() - startedAt;
+      return attachAiDiagnostics(latest, ai);
+    }
+
+    ai.model = aiResult.model || ai.model;
+    if (aiResult.error) {
+      ai.error = aiResult.error;
+      addAiReason(ai, 'ai_answer_verifier_failed_closed', lowConfidenceRows.length);
+    }
+    ai.checkedCount += lowConfidenceRows.length;
+
+    const failed = aiResult.results.filter((entry) => !entry.pass);
+    for (const entry of aiResult.results) {
+      if (entry.pass && entry.questionId) aiPassedIds.add(entry.questionId);
+    }
+    if (failed.length === 0) {
+      ai.elapsedMs = Date.now() - startedAt;
+      return attachAiDiagnostics(latest, ai);
+    }
+
+    ai.failedCount += failed.length;
+    for (const entry of failed) {
+      if (entry.questionId) {
+        excludedIds.add(entry.questionId);
+        ai.failedQuestionIds.push(entry.questionId);
+      }
+      addAiReason(ai, entry.reason || 'ai_answer_verifier_rejected');
+    }
+  }
+
+  const finalRows = Array.isArray(rows)
+    ? rows.filter((row) => !excludedIds.has(row?.id))
+    : [];
+  latest = selectNtaQuestionSet(finalRows, requestedCount, options);
+  ai.elapsedMs = Date.now() - startedAt;
+  return attachAiDiagnostics(latest, ai);
 }

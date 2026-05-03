@@ -5,6 +5,8 @@ import {
   NTA_QUESTION_COUNT,
   qualityGateNtaQuestion,
   selectNtaQuestionSet,
+  selectNtaQuestionSetWithAnswerVerification,
+  verifyNtaAnswerIntegrity,
 } from '../nta_question_selector.js';
 import { getMode, resolveCount, resolveDurationSec } from '../test_modes.js';
 
@@ -308,4 +310,137 @@ test('NTA selector returns fewer than 50 when fewer than 50 acceptable questions
   assert.equal(selectedRows.length, 49);
   assert.equal(diagnostics.canBuild50, false);
   assert.equal(diagnostics.durationMinutes, NTA_DURATION_MINUTES);
+});
+
+test('answer integrity guard rejects explanation that points to another key', () => {
+  const result = verifyNtaAnswerIntegrity(validQuestion(1, {
+    correct_answer: 'B',
+    explanation: 'The correct answer is A because the first option is the closest meaning.',
+  }));
+
+  assert.equal(result.accepted, false);
+  assert.ok(result.reasons.includes('answer_guard_explanation_contradicts_key'));
+});
+
+test('NTA answer integrity excludes bad keyed row and refills to 50', () => {
+  const bad = validQuestion(999, {
+    id: 'bad_answer_key_runtime',
+    correct_answer: 'B',
+    explanation: 'The correct answer is A because this explanation contradicts the stored answer.',
+    anchor_tier: 1,
+    pyq_anchor_id: 'pyq_bad_runtime',
+    quality_score: 1,
+  });
+  const clean = standalonePool(50, 100, {
+    anchor_tier: 3,
+    pyq_anchor_id: null,
+    quality_band: undefined,
+  });
+
+  const { selectedRows, diagnostics } = selectNtaQuestionSet([bad, ...clean], 50, {
+    subjectId: 'english',
+    seed: 'answer-refill',
+  });
+
+  assert.equal(selectedRows.length, NTA_QUESTION_COUNT);
+  assert.equal(diagnostics.canBuild50, true);
+  assert.equal(diagnostics.answerIntegrity.finalVerifiedCount, NTA_QUESTION_COUNT);
+  assert.equal(diagnostics.answerIntegrity.refilledCount, 1);
+  assert.ok(diagnostics.answerIntegrity.failedQuestionIds.includes('bad_answer_key_runtime'));
+  assert.ok(!selectedRows.some((row) => row.id === 'bad_answer_key_runtime'));
+});
+
+test('NTA answer integrity refuses to start when only 49 clean questions remain', () => {
+  const bad = validQuestion(998, {
+    id: 'bad_answer_no_refill',
+    correct_answer: 'C',
+    explanation: 'Option B is correct because the explanation contradicts the stored answer.',
+    anchor_tier: 1,
+    pyq_anchor_id: 'pyq_bad_no_refill',
+  });
+
+  const { selectedRows, diagnostics } = selectNtaQuestionSet([bad, ...standalonePool(49, 200)], 50, {
+    subjectId: 'english',
+    seed: 'answer-no-refill',
+  });
+
+  assert.equal(selectedRows.length, 49);
+  assert.equal(diagnostics.canBuild50, false);
+  assert.equal(diagnostics.answerIntegrity.finalVerifiedCount, 49);
+  assert.match(diagnostics.message, /answer integrity|50 are required/i);
+});
+
+test('NTA answer integrity refill keeps passage group ordering intact', () => {
+  const bad = validQuestion(997, {
+    id: 'bad_before_passage',
+    correct_answer: 'D',
+    explanation: 'The answer is A because this row should be removed before launch.',
+    anchor_tier: 1,
+    pyq_anchor_id: 'pyq_bad_before_passage',
+  });
+  const pool = [
+    bad,
+    ...standalonePool(47, 300, { anchor_tier: 3, pyq_anchor_id: null, quality_band: undefined }),
+    validPassageQuestion('guard_p3', 3),
+    validPassageQuestion('guard_p1', 1),
+    validPassageQuestion('guard_p2', 2),
+  ];
+
+  const { selectedRows, diagnostics } = selectNtaQuestionSet(pool, 50, {
+    subjectId: 'english',
+    seed: 'answer-passage-order',
+  });
+
+  assert.equal(selectedRows.length, NTA_QUESTION_COUNT);
+  assert.equal(diagnostics.answerIntegrity.finalVerifiedCount, NTA_QUESTION_COUNT);
+  assert.deepEqual(selectedRows.slice(0, 3).map((row) => row.id), ['guard_p1', 'guard_p2', 'guard_p3']);
+});
+
+test('NTA AI verifier only checks low-confidence rows and refills rejected answers', async () => {
+  const bad = validQuestion(996, {
+    id: 'ai_bad_low_confidence',
+    correct_answer: 'B',
+    explanation: '',
+    anchor_tier: 1,
+    pyq_anchor_id: 'pyq_ai_bad',
+    quality_score: 1,
+  });
+  const clean = standalonePool(50, 400, {
+    explanation: 'The correct answer is B because the option gives the closest precise meaning.',
+    anchor_tier: 1,
+    quality_score: 0.9,
+  });
+  const calls = [];
+
+  const { selectedRows, diagnostics } = await selectNtaQuestionSetWithAnswerVerification([bad, ...clean], 50, {
+    subjectId: 'english',
+    seed: 'ai-low-confidence-refill',
+    aiAnswerVerifier: async (rows) => {
+      calls.push(rows.map((row) => row.id));
+      return rows.map((row) => row.id === 'ai_bad_low_confidence'
+        ? {
+            id: row.id,
+            verdict: 'fail',
+            solved_answer: 'A',
+            confidence: 0.97,
+            reason: 'ai_solved_answer_mismatch',
+          }
+        : {
+            id: row.id,
+            verdict: 'pass',
+            solved_answer: 'B',
+            confidence: 0.96,
+            reason: 'stored answer matches independent solve',
+          });
+    },
+  });
+
+  assert.equal(calls.length, 1);
+  assert.deepEqual(calls[0], ['ai_bad_low_confidence']);
+  assert.equal(selectedRows.length, NTA_QUESTION_COUNT);
+  assert.equal(diagnostics.canBuild50, true);
+  assert.equal(diagnostics.answerIntegrity.ai.checkedCount, 1);
+  assert.equal(diagnostics.answerIntegrity.ai.failedCount, 1);
+  assert.ok(diagnostics.answerIntegrity.ai.failedQuestionIds.includes('ai_bad_low_confidence'));
+  assert.ok(!selectedRows.some((row) => row.id === 'ai_bad_low_confidence'));
 });

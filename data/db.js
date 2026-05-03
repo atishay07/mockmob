@@ -18,7 +18,7 @@ import { SEED_QUESTIONS } from './questions';
 import { toPublicSubjectId } from './cuet_controls';
 import { getMode } from './test_modes';
 import { rankCandidates, pickWithConstraints, buildSelectionUsageMeta } from './mock_question_selector';
-import { NTA_DURATION_MINUTES, NTA_QUESTION_COUNT, isPassageLinkedQuestion, selectNtaQuestionSet } from './nta_question_selector';
+import { NTA_DURATION_MINUTES, NTA_QUESTION_COUNT, isPassageLinkedQuestion, selectNtaQuestionSetWithAnswerVerification } from './nta_question_selector';
 
 // ---------- id helpers (match legacy formats) ----------
 const rid = () => Math.random().toString(36).substring(2, 9);
@@ -469,6 +469,7 @@ export const Database = {
       .eq('user_id', userId)
       .not('payment_id', 'is', null)
       .gt('amount_paid', 0)
+      .in('status', ['captured', 'completed', 'paid'])
       .limit(20);
     if (error) throw error;
 
@@ -1115,7 +1116,7 @@ export const Database = {
 
     const ranked = rankCandidates(pool, { mode, progress, weakConcepts });
     if (mode.id === 'nta') {
-      const { selectedRows, diagnostics } = selectNtaQuestionSet(ranked, targetCount, {
+      const { selectedRows, diagnostics } = await selectNtaQuestionSetWithAnswerVerification(ranked, targetCount, {
         subjectId,
         seed: opts.generationKey || opts.seed || '',
       });

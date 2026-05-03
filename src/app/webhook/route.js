@@ -331,13 +331,28 @@ async function handleSubscriptionEnd({ eventType, subscriptionId, payment, subsc
   });
 }
 
-async function updateUnpaidSubscriptionPayment({ subscriptionId, payment, subscription }) {
+async function updateUnpaidSubscriptionPayment({ subscriptionId, payment, subscription, paymentRecord }) {
   await Database.updatePaymentBySubscriptionId(subscriptionId, {
     paymentId: payment?.id,
     status: 'failed',
-    amountPaid: typeof payment?.amount === 'number' ? payment.amount : undefined,
+    amountPaid: null,
+    accessUntil: null,
     rawPayment: payment,
     rawSubscription: subscription,
+  });
+
+  const hasOtherPaidAccess = await Database.hasOtherPaidSubscriptionEvidence({
+    userId: paymentRecord?.userId,
+    excludingSubscriptionId: subscriptionId,
+    excludingPaymentId: payment?.id,
+  });
+  if (hasOtherPaidAccess) return;
+
+  await Database.updateUser(paymentRecord.userId, {
+    subscriptionStatus: 'past_due',
+    isPremium: false,
+    premiumUntil: null,
+    razorpaySubscriptionId: null,
   });
 }
 

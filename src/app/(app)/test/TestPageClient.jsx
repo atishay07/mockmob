@@ -36,6 +36,42 @@ function displayLabel(value) {
     .replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
+const NTA_LOADING_STEPS = [
+  'Validating all questions',
+  'Checking answer keys',
+  'Picking the highest-confidence set',
+];
+
+function NtaValidationSpinner({ subjectId }) {
+  return (
+    <div className="container-narrow max-w-3xl px-4 pt-16">
+      <div className="glass p-6 md:p-8">
+        <div className="flex items-start gap-4">
+          <div className="w-3 h-3 mt-2 rounded-full bg-volt animate-pulse-slow shadow-[0_0_18px_var(--volt)]" />
+          <div className="min-w-0">
+            <div className="mono-label mb-2">NTA quality check</div>
+            <h1 className="heading text-2xl md:text-3xl text-white">Building your verified {displayLabel(subjectId)} mock.</h1>
+            <p className="text-sm text-zinc-400 mt-3 max-w-xl">
+              We are validating answer keys, screening risky rows, and refilling with the strongest available questions before the timer starts.
+            </p>
+            <div className="grid gap-2 mt-6">
+              {NTA_LOADING_STEPS.map((step, index) => (
+                <div key={step} className="flex items-center gap-3 rounded-md border border-white/10 bg-white/[0.03] px-3 py-2 text-sm text-zinc-300">
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full border border-volt/40 text-[11px] font-bold text-volt">
+                    {index + 1}
+                  </span>
+                  <span>{step}</span>
+                </div>
+              ))}
+            </div>
+            <p className="mono-label mt-5 text-zinc-500">This can take up to 30 seconds.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function passageKeyFor(question) {
   return question?.passageGroupId || question?.passage_group_id || question?.group_id || question?.passageId || question?.passage_id || '';
 }
@@ -370,7 +406,8 @@ function TestRunner() {
     </div>
   );
 
-  if (authStatus === 'loading' || loading) return <PageSpinner label="Loading test..." />;
+  if (authStatus === 'loading') return <PageSpinner label="Loading test..." />;
+  if (loading) return isNtaMode ? <NtaValidationSpinner subjectId={subjectId} /> : <PageSpinner label="Loading test..." />;
 
   if (error) return (
     <div className="container-narrow max-w-3xl px-4 pt-10">

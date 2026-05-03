@@ -40,7 +40,8 @@ export function isFutureIso(value, nowMs = Date.now()) {
 
 export function hasPaidPaymentEvidence(paymentRecord) {
   return Boolean(paymentRecord?.paymentId || paymentRecord?.payment_id) &&
-    Number(paymentRecord?.amountPaid ?? paymentRecord?.amount_paid) > 0;
+    Number(paymentRecord?.amountPaid ?? paymentRecord?.amount_paid) > 0 &&
+    PAID_PAYMENT_RECORD_STATUSES.has(paymentRecord?.status);
 }
 
 function stringSetFromValues(...values) {
@@ -80,8 +81,7 @@ export function refundRevocationMatchesPayment(metadata, { subscriptionId = null
 }
 
 export function isPaidSaleRecord(paymentRecord) {
-  return hasPaidPaymentEvidence(paymentRecord) &&
-    PAID_PAYMENT_RECORD_STATUSES.has(paymentRecord?.status);
+  return hasPaidPaymentEvidence(paymentRecord);
 }
 
 export function isCapturedRazorpayPayment(payment) {

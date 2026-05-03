@@ -39,12 +39,18 @@ test('effective premium survives cancellation inside paid-through window', () =>
   assert.equal(effectivePremiumFromRow(row, Date.parse('2026-02-03T00:00:00.000Z')), false);
 });
 
-test('paid evidence is independent of subscription lifecycle status', () => {
+test('paid evidence requires a captured payment record', () => {
   assert.equal(hasPaidPaymentEvidence({
-    status: 'cancelled',
+    status: 'captured',
     paymentId: 'pay_123',
     amountPaid: 6800,
   }), true);
+
+  assert.equal(hasPaidPaymentEvidence({
+    status: 'failed',
+    paymentId: 'pay_failed',
+    amountPaid: 6800,
+  }), false);
 });
 
 test('discounted creator payments can validate below nominal amount', () => {

@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { evaluateGeneratedQuestionAnswerGuard } from '../../../data/answer_integrity.js';
 import { getCanonicalUnitForChapter, isValidTopSyllabusPair } from '../../../data/canonical_syllabus.js';
 import { validateTraceability } from '../../../data/cuet_controls.js';
 
@@ -86,6 +87,20 @@ export async function publishQuestion(question, apiSecret, options = {}) {
     }
     if (!String(question.pyq_anchor_id || '').trim()) {
       return { success: false, error: 'draft_only_anchor_source_none' };
+    }
+    const answerGuard = evaluateGeneratedQuestionAnswerGuard(question, { subjectId: question.subject });
+    if (!answerGuard.accepted) {
+      console.warn('[publish] answer_integrity_guard_rejected', {
+        subject: question.subject || null,
+        chapter,
+        reasons: answerGuard.check?.reasons || [],
+        source: 'publish_guard',
+      });
+      return {
+        success: false,
+        error: answerGuard.error || 'answer_integrity_guard_failed',
+        answerIntegrity: answerGuard.check,
+      };
     }
     if (!ALLOWED_ANCHOR_TIERS.has(Number(question.anchor_tier))) {
       const original = question.anchor_tier;
@@ -201,6 +216,25 @@ export async function publishPassageGroup(group, questions, apiSecret, options =
     }
     if (!isValidTopSyllabusPair(subject, chapter)) {
       return { success: false, error: 'invalid_subject_unit_chapter_mapping' };
+    }
+    for (const question of validQuestions) {
+      const answerGuard = evaluateGeneratedQuestionAnswerGuard(
+        { ...question, subject: question.subject || subject },
+        { subjectId: subject },
+      );
+      if (!answerGuard.accepted) {
+        console.warn('[passage_group] answer_integrity_guard_rejected', {
+          subject,
+          chapter,
+          reasons: answerGuard.check?.reasons || [],
+          source: 'passage_group_publish_guard',
+        });
+        return {
+          success: false,
+          error: `passage_child_answer_integrity_failed:${answerGuard.error || 'answer_integrity_guard_failed'}`,
+          answerIntegrity: answerGuard.check,
+        };
+      }
     }
 
     const now = new Date().toISOString();

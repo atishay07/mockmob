@@ -11,11 +11,16 @@
     "nta:sample": "node --use-system-ca scripts/nta-sample.mjs",
     "nta:diagnose": "node --use-system-ca scripts/nta-diagnose.mjs",
     "test:nta": "node --test data/tests/nta_question_selector.test.mjs",
+    "test:answer-integrity": "node --test data/tests/answer_integrity.test.mjs",
     "db:seed": "node scripts/seed.mjs",
     "autonomous": "node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start",
     "validate:sample": "node --use-system-ca --env-file=.env.local scripts/pipeline/validate-existing.mjs --mode=sample --sample-size=50",
     "validate:dry-run": "node --use-system-ca --env-file=.env.local scripts/pipeline/validate-existing.mjs --mode=dry-run",
-    "validate:apply": "node --use-system-ca --env-file=.env.local scripts/pipeline/validate-existing.mjs --mode=apply"
+    "validate:apply": "node --use-system-ca --env-file=.env.local scripts/pipeline/validate-existing.mjs --mode=apply",
+    "answer-integrity:dry-run": "node --use-system-ca --env-file=.env.local scripts/answer-integrity-cleanup.mjs --mode=dry-run --subjects=top15 --scope=visible",
+    "answer-integrity:apply": "node --use-system-ca --env-file=.env.local scripts/answer-integrity-cleanup.mjs --mode=apply --subjects=top15 --scope=visible",
+    "answer-integrity:semantic-dry-run": "node --use-system-ca --env-file=.env.local scripts/answer-integrity-semantic-sweep.mjs --mode=dry-run --subjects=top15 --scope=visible",
+    "answer-integrity:semantic-apply": "node --use-system-ca --env-file=.env.local scripts/answer-integrity-semantic-sweep.mjs --mode=apply --subjects=top15 --scope=visible"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.90.0",
