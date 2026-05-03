@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import crypto from 'node:crypto';
-import { getPaymentPlan, getPlanAccessUntil, isOneTimeAccessPlan } from '@/lib/payments/plans';
+import { getPaymentPlan, getPlanAccessUntil, getPlanCheckoutAmount, isOneTimeAccessPlan } from '@/lib/payments/plans';
 import { getRazorpayClient, verifyRazorpayWebhookSignature } from '@/lib/payments/razorpay';
 import {
   amountMatchesPaymentRecord,
@@ -389,9 +389,15 @@ async function processOneTimeAccessWebhook({ eventType, payment, orderId, paymen
   }
 
   if (eventType === 'payment.captured') {
+    const expectedOrderAmount = Number(paymentRecord.rawOrder?.amount || plan.amount);
+    const discountIsAllowed = expectedOrderAmount === plan.amount ||
+      (Boolean(paymentRecord.offerId) &&
+        expectedOrderAmount === getPlanCheckoutAmount(plan, paymentRecord.offerId) &&
+        amountMatchesPaymentRecord(payment, paymentRecord));
     const isExpectedPayment = isCapturedRazorpayPayment(payment) &&
       payment.order_id === resolvedOrderId &&
-      payment.amount === plan.amount &&
+      payment.amount === expectedOrderAmount &&
+      discountIsAllowed &&
       payment.currency === plan.currency;
 
     if (!isExpectedPayment) {

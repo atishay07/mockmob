@@ -11,6 +11,7 @@ import {
 } from '../../src/lib/payments/entitlements.js';
 import {
   getPaymentPlan,
+  getPlanCheckoutAmount,
   getPlanAccessUntil,
   isLiveOneTimeAccessPlan,
 } from '../../src/lib/payments/plans.js';
@@ -99,6 +100,19 @@ test('discounted payments can validate from Razorpay subscription offer metadata
   });
 });
 
+test('one-time access discounts require a Razorpay offer id on the payment record', () => {
+  const payment = { status: 'captured', amount: 8900, currency: 'INR' };
+
+  assert.equal(amountMatchesPaymentRecord(payment, {
+    amount: 9900,
+    offerId: 'offer_flash_1000',
+  }), true);
+
+  assert.equal(amountMatchesPaymentRecord(payment, {
+    amount: 9900,
+  }), false);
+});
+
 test('refund revocation audit only blocks matching payment identifiers', () => {
   const metadata = {
     subscriptionIds: ['sub_refunded'],
@@ -121,6 +135,8 @@ test('CUET 2026 Pro checkout is a live one-time Rs 99 access plan', () => {
   assert.equal(isLiveOneTimeAccessPlan(plan), true);
   assert.equal(plan.amount, 9900);
   assert.equal(plan.currency, 'INR');
+  assert.equal(getPlanCheckoutAmount(plan), 9900);
+  assert.equal(getPlanCheckoutAmount(plan, 'offer_Sl0iH8LNWcFE7Y'), 6900);
   assert.equal(getPlanAccessUntil(plan), '2026-12-31T18:29:59.999Z');
 });
 

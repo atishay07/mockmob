@@ -6,7 +6,8 @@ import { useAuth } from '@/components/AuthProvider';
 import { LiquidGlassButton } from '@/components/ui/LiquidGlassButton';
 
 const REF_STORAGE_KEY = 'mm_ref';
-const CODE_PATTERN = /^[a-z0-9._-]{1,64}$/;
+const CODE_PATTERN = /^(offer_[A-Za-z0-9]{6,64}|[a-z0-9._-]{1,64})$/;
+const OFFER_ID_PATTERN = /^offer_[A-Za-z0-9]{6,64}$/;
 
 function loadRazorpayCheckout() {
   return new Promise((resolve, reject) => {
@@ -72,7 +73,16 @@ function persistRef(value) {
 }
 
 function normalizeCodeInput(raw) {
-  return String(raw || '').trim().toLowerCase();
+  const trimmed = String(raw || '').trim();
+  if (OFFER_ID_PATTERN.test(trimmed)) return trimmed;
+  return trimmed.toLowerCase().replace(/\s+/g, '');
+}
+
+function formatCheckoutAmount(paise, currency = 'INR') {
+  const amount = Number(paise);
+  if (!Number.isFinite(amount) || amount <= 0) return null;
+  if (currency === 'INR') return `Rs ${Math.round(amount / 100)}`;
+  return `${currency} ${(amount / 100).toFixed(2)}`;
 }
 
 export function RazorpayPaymentButton({
@@ -151,7 +161,12 @@ export function RazorpayPaymentButton({
 
       if (applied?.code) {
         setAppliedCode(applied);
-        setMessage(`Referral ${applied.code} tracked for this access purchase.`);
+        const checkoutAmount = formatCheckoutAmount(plan?.amount, plan?.currency);
+        setMessage(
+          applied.status === 'offer_attached'
+            ? `Discount code ${applied.code} applied. Checkout price: ${checkoutAmount || 'discounted amount'}.`
+            : `Referral ${applied.code} tracked for this access purchase.`
+        );
       } else if (codeForServer) {
         setMessage(referral?.reason || 'Code not recognised. Continuing without discount.');
       }

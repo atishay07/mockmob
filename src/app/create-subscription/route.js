@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { getRazorpayClient, getRazorpayKeyId } from '@/lib/payments/razorpay';
-import { getPaymentPlan, isLiveOneTimeAccessPlan } from '@/lib/payments/plans';
+import { getPaymentPlan, getPlanCheckoutAmount, isLiveOneTimeAccessPlan } from '@/lib/payments/plans';
 import { resolveCreatorCode } from '@/lib/referrals/offers';
 import { Database } from '@/../data/db';
 
@@ -65,31 +65,34 @@ export async function POST(request) {
     const attributedReferral = referral && ['offer_attached', 'tracked_no_offer'].includes(referral.status)
       ? referral
       : null;
-    const trackedReferral = attributedReferral ? {
-      ...attributedReferral,
-      offerId: null,
-      status: 'tracked_no_offer',
-      reason: 'Referral tracked for CUET 2026 one-time access',
-    } : null;
+    const hasDiscountOffer = Boolean(attributedReferral?.offerId);
+    const checkoutAmount = getPlanCheckoutAmount(plan, attributedReferral?.offerId);
 
     const orderPayload = {
-      amount: plan.amount,
+      amount: checkoutAmount,
       currency: plan.currency,
       receipt: `cuet2026_${userId}_${Date.now()}`.slice(0, 40),
       notes: {
         kind: plan.checkoutKind,
         userId,
         planId: plan.id,
+        nominalAmount: String(plan.amount),
+        checkoutAmount: String(checkoutAmount),
         accessUntil: plan.accessUntil || '',
         ...(referral ? {
           referralCodeAttempted: referral.code,
-          referralStatus: trackedReferral ? trackedReferral.status : referral.status,
+          referralStatus: attributedReferral ? attributedReferral.status : referral.status,
         } : {}),
-        ...(trackedReferral ? {
-          creatorCode: trackedReferral.code,
-          creatorId: trackedReferral.creatorId || '',
+        ...(attributedReferral ? {
+          creatorCode: attributedReferral.code,
+          creatorId: attributedReferral.creatorId || '',
+          offerId: attributedReferral.offerId || '',
         } : {}),
       },
+      ...(hasDiscountOffer ? {
+        offers: [attributedReferral.offerId],
+        force_offer: true,
+      } : {}),
     };
 
     let order;
@@ -112,12 +115,12 @@ export async function POST(request) {
       currency: plan.currency,
       status: order.status || 'created',
       rawOrder: order,
-      creatorCode: trackedReferral?.code || null,
-      creatorId: trackedReferral?.creatorId || null,
-      offerId: null,
+      creatorCode: attributedReferral?.code || null,
+      creatorId: attributedReferral?.creatorId || null,
+      offerId: attributedReferral?.offerId || null,
       referralCodeAttempted: referral?.code || null,
-      referralStatus: trackedReferral?.status || referral?.status || 'none',
-      referralReason: trackedReferral?.reason || referral?.reason || null,
+      referralStatus: attributedReferral?.status || referral?.status || 'none',
+      referralReason: attributedReferral?.reason || referral?.reason || null,
     });
 
     return NextResponse.json({
@@ -126,18 +129,20 @@ export async function POST(request) {
       plan: {
         id: plan.id,
         name: plan.name,
-        amount: plan.amount,
+        amount: checkoutAmount,
+        nominalAmount: plan.amount,
         currency: plan.currency,
         accessUntil: plan.accessUntil || null,
       },
-      applied: trackedReferral ? {
-        code: trackedReferral.code,
-        status: trackedReferral.status,
-        reason: trackedReferral.reason,
+      applied: attributedReferral ? {
+        code: attributedReferral.code,
+        offerId: attributedReferral.offerId || null,
+        status: attributedReferral.status,
+        reason: attributedReferral.reason,
       } : null,
       referral: referral ? {
         code: referral.code,
-        status: trackedReferral ? trackedReferral.status : referral.status,
+        status: attributedReferral ? attributedReferral.status : referral.status,
         reason: referral.reason,
       } : null,
     });

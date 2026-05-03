@@ -22,19 +22,29 @@ import { supabaseAdmin } from '@/lib/supabase';
  *     });
  */
 
+const FLASH_69_OFFER_ID = 'offer_Sl0iH8LNWcFE7Y';
+
 // Hardcoded fallback. Codes are matched case-insensitively (key is lowercase).
 const STATIC_OFFER_MAP = {
   rahul: { offerId: 'offer_SjGiVehyf7X33K', creatorId: null },
+  hey30: { offerId: FLASH_69_OFFER_ID, creatorId: null },
+  flash68: { offerId: FLASH_69_OFFER_ID, creatorId: null },
+  flash69: { offerId: FLASH_69_OFFER_ID, creatorId: null },
 };
 
 const CODE_PATTERN = /^[a-z0-9._-]{1,64}$/;
+const OFFER_ID_PATTERN = /^offer_[A-Za-z0-9]{6,64}$/;
+const DIRECT_OFFER_IDS = new Set([FLASH_69_OFFER_ID]);
 
 export function normalizeCode(raw) {
   if (typeof raw !== 'string') return null;
-  const trimmed = raw.trim().toLowerCase();
+  const trimmed = raw.trim();
   if (!trimmed) return null;
-  if (!CODE_PATTERN.test(trimmed)) return null;
-  return trimmed;
+  if (OFFER_ID_PATTERN.test(trimmed)) return trimmed;
+
+  const code = trimmed.toLowerCase().replace(/\s+/g, '');
+  if (!CODE_PATTERN.test(code)) return null;
+  return code;
 }
 
 /**
@@ -44,6 +54,16 @@ export function normalizeCode(raw) {
 export async function resolveCreatorCode(rawCode) {
   const code = normalizeCode(rawCode);
   if (!code) return null;
+
+  if (DIRECT_OFFER_IDS.has(code)) {
+    return {
+      code: 'flash69',
+      offerId: code,
+      creatorId: null,
+      status: 'offer_attached',
+      reason: 'Razorpay flash discount offer attached',
+    };
+  }
 
   // 1) DB lookup — case-insensitive on the trimmed code.
   try {
@@ -65,12 +85,15 @@ export async function resolveCreatorCode(rawCode) {
         };
       }
 
+      const fallbackOffer = STATIC_OFFER_MAP[code]?.offerId || null;
+      const offerId = data.offer_id || fallbackOffer;
+
       return {
         code: data.code.trim().toLowerCase(),
-        offerId: data.offer_id || null,
+        offerId,
         creatorId: data.id,
-        status: data.offer_id ? 'offer_attached' : 'tracked_no_offer',
-        reason: data.offer_id
+        status: offerId ? 'offer_attached' : 'tracked_no_offer',
+        reason: offerId
           ? 'Razorpay discount offer attached'
           : 'Referral tracked without Razorpay discount offer',
       };

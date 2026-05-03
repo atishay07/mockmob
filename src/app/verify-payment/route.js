@@ -10,7 +10,7 @@ import {
   referralAttributionFromCheckout,
   resolvePaidThrough,
 } from '@/lib/payments/entitlements';
-import { getPaymentPlan, getPlanAccessUntil, isOneTimeAccessPlan } from '@/lib/payments/plans';
+import { getPaymentPlan, getPlanAccessUntil, getPlanCheckoutAmount, isOneTimeAccessPlan } from '@/lib/payments/plans';
 import { recordEarningIfApplicable } from '@/lib/payouts';
 import { Database } from '@/../data/db';
 
@@ -85,12 +85,18 @@ async function verifyOneTimeAccessPayment({ body, orderId, sessionUserId }) {
   }
 
   const razorpayPayment = await getRazorpayClient().payments.fetch(paymentId);
-  const amountMatches = razorpayPayment.order_id === orderId &&
-    razorpayPayment.amount === plan.amount &&
+  const expectedOrderAmount = Number(paymentRecord.rawOrder?.amount || plan.amount);
+  const discountIsAllowed = expectedOrderAmount === plan.amount ||
+    (Boolean(paymentRecord.offerId) &&
+      expectedOrderAmount === getPlanCheckoutAmount(plan, paymentRecord.offerId) &&
+      amountMatchesPaymentRecord(razorpayPayment, paymentRecord));
+  const paymentMatchesOrder = razorpayPayment.order_id === orderId &&
+    razorpayPayment.amount === expectedOrderAmount &&
+    discountIsAllowed &&
     razorpayPayment.currency === plan.currency &&
     razorpayPayment.status === 'captured';
 
-  if (!amountMatches) {
+  if (!paymentMatchesOrder) {
     await Database.updatePaymentByOrderId(orderId, {
       paymentId,
       status: 'failed',

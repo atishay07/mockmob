@@ -21,6 +21,10 @@ export const PAYMENT_PLANS = {
   },
 };
 
+const OFFER_CHECKOUT_AMOUNTS = {
+  offer_Sl0iH8LNWcFE7Y: 6900,
+};
+
 export function getPaymentPlan(planId) {
   return PAYMENT_PLANS[planId] || null;
 }
@@ -40,4 +44,19 @@ export function isOneTimeAccessPlan(plan) {
 
 export function getPlanAccessUntil(plan) {
   return plan?.accessUntil || null;
+}
+
+export function getPlanCheckoutAmount(plan, offerId = null) {
+  const nominalAmount = Number(plan?.amount);
+  const discountedAmount = offerId ? OFFER_CHECKOUT_AMOUNTS[offerId] : null;
+
+  if (
+    Number.isInteger(discountedAmount) &&
+    discountedAmount > 0 &&
+    discountedAmount < nominalAmount
+  ) {
+    return discountedAmount;
+  }
+
+  return nominalAmount;
 }

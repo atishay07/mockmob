@@ -43,33 +43,39 @@ const userOut = (r) => r && ({
   createdAt: new Date(r.created_at).getTime(),
 });
 
-const paymentOut = (r) => r && ({
-  id: r.id,
-  userId: r.user_id,
-  orderId: r.order_id,
-  subscriptionId: r.subscription_id,
-  paymentId: r.payment_id,
-  planId: r.plan_id,
-  razorpayPlanId: r.razorpay_plan_id,
-  amount: r.amount,
-  amountPaid: r.amount_paid ?? null,
-  accessUntil: r.access_until || null,
-  currency: r.currency,
-  status: r.status,
-  creatorCode: r.creator_code || null,
-  creatorId: r.creator_id || null,
-  offerId: r.offer_id || null,
-  referralCodeAttempted: r.referral_code_attempted || null,
-  referralStatus: r.referral_status || 'none',
-  referralReason: r.referral_reason || null,
-  creatorEarning: r.creator_earning ?? null,
-  payoutId: r.payout_id || null,
-  rawOrder: r.raw_order || {},
-  rawSubscription: r.raw_subscription || {},
-  rawPayment: r.raw_payment || {},
-  createdAt: r.created_at ? new Date(r.created_at).getTime() : null,
-  updatedAt: r.updated_at ? new Date(r.updated_at).getTime() : null,
-});
+const paymentOut = (r) => {
+  if (!r) return r;
+  const rawOrder = r.raw_order || {};
+  const orderNotes = rawOrder.notes || {};
+
+  return {
+    id: r.id,
+    userId: r.user_id,
+    orderId: r.order_id,
+    subscriptionId: r.subscription_id,
+    paymentId: r.payment_id,
+    planId: r.plan_id,
+    razorpayPlanId: r.razorpay_plan_id,
+    amount: r.amount,
+    amountPaid: r.amount_paid ?? null,
+    accessUntil: r.access_until || orderNotes.accessUntil || null,
+    currency: r.currency,
+    status: r.status,
+    creatorCode: r.creator_code || orderNotes.creatorCode || null,
+    creatorId: r.creator_id || orderNotes.creatorId || null,
+    offerId: r.offer_id || orderNotes.offerId || null,
+    referralCodeAttempted: r.referral_code_attempted || orderNotes.referralCodeAttempted || null,
+    referralStatus: r.referral_status || orderNotes.referralStatus || 'none',
+    referralReason: r.referral_reason || null,
+    creatorEarning: r.creator_earning ?? null,
+    payoutId: r.payout_id || null,
+    rawOrder,
+    rawSubscription: r.raw_subscription || {},
+    rawPayment: r.raw_payment || {},
+    createdAt: r.created_at ? new Date(r.created_at).getTime() : null,
+    updatedAt: r.updated_at ? new Date(r.updated_at).getTime() : null,
+  };
+};
 
 const payoutOut = (r) => r && ({
   id: r.id,
