@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import Link from 'next/link';
 import {
   Banknote,
@@ -10,7 +10,11 @@ import {
   PlayCircle,
   Plus,
   ReceiptText,
+  RefreshCw,
+  Save,
+  Search,
   ShieldCheck,
+  Tag,
   Users,
   X,
 } from 'lucide-react';
@@ -40,6 +44,23 @@ const dateTime = (value) => {
     minute: '2-digit',
   });
 };
+
+const referralStatusMeta = {
+  offer_attached: { label: 'Discount offer', className: 'bg-volt/10 text-volt' },
+  tracked_no_offer: { label: 'Tracked only', className: 'bg-sky-500/10 text-sky-200' },
+  inactive: { label: 'Inactive code', className: 'bg-amber-500/10 text-amber-200' },
+  unknown: { label: 'Unknown code', className: 'bg-red-500/10 text-red-200' },
+  none: { label: 'No referral', className: 'bg-white/10 text-zinc-400' },
+};
+
+function ReferralStatusBadge({ status }) {
+  const meta = referralStatusMeta[status || 'none'] || referralStatusMeta.none;
+  return (
+    <span className={`inline-flex rounded-full px-2 py-1 text-xs font-medium ${meta.className}`}>
+      {meta.label}
+    </span>
+  );
+}
 
 function StatCard({ icon: Icon, label, value, detail }) {
   return (
@@ -173,6 +194,9 @@ export default function AdminDashboardClient({ adminEmail, initialData }) {
   const [pendingPayouts, setPendingPayouts] = useState(initialData.pendingPayouts);
   const [payoutHistory, setPayoutHistory] = useState(initialData.payoutHistory);
   const [showCreate, setShowCreate] = useState(false);
+  const [editingCreatorId, setEditingCreatorId] = useState('');
+  const [creatorDraft, setCreatorDraft] = useState({});
+  const [orderFilter, setOrderFilter] = useState('');
   const [busyId, setBusyId] = useState('');
   const [error, setError] = useState('');
 
@@ -222,6 +246,49 @@ export default function AdminDashboardClient({ adminEmail, initialData }) {
     }
   }
 
+  function beginEditCreator(creator) {
+    setEditingCreatorId(creator.id);
+    setCreatorDraft({
+      name: creator.name || '',
+      email: creator.email || '',
+      code: creator.code || '',
+      offerId: creator.offerId || '',
+      payoutRupees: String((Number(creator.payoutPerSale) || 0) / 100),
+      notes: creator.notes || '',
+    });
+  }
+
+  async function saveCreator(creator) {
+    setBusyId(creator.id);
+    setError('');
+    try {
+      const response = await fetch(`/api/admin/creators/${creator.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: creatorDraft.name?.trim(),
+          email: creatorDraft.email?.trim() || null,
+          code: creatorDraft.code?.trim().toLowerCase(),
+          offerId: creatorDraft.offerId?.trim() || null,
+          payoutPerSale: Math.max(0, Math.round((Number(creatorDraft.payoutRupees) || 0) * 100)),
+          notes: creatorDraft.notes?.trim() || null,
+        }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        setError(data.error || 'Creator could not be updated');
+        return;
+      }
+      setCreators((current) => current.map((row) => (
+        row.id === creator.id ? { ...row, ...data.creator, stats: row.stats || zeroStats(row.id) } : row
+      )));
+      setEditingCreatorId('');
+      setCreatorDraft({});
+    } finally {
+      setBusyId('');
+    }
+  }
+
   async function markPaid(row) {
     const ok = window.confirm(`Mark ${money(row.pendingPaise)} as paid to ${row.creator?.name || row.creatorId}?`);
     if (!ok) return;
@@ -255,6 +322,19 @@ export default function AdminDashboardClient({ adminEmail, initialData }) {
     }));
   }
 
+  const filteredOrders = orders.filter((order) => {
+    const needle = orderFilter.trim().toLowerCase();
+    if (!needle) return true;
+    return [
+      order.creatorCode,
+      order.referralCodeAttempted,
+      order.referralStatus,
+      order.paymentId,
+      order.subscriptionId,
+      order.userId,
+    ].some((value) => String(value || '').toLowerCase().includes(needle));
+  });
+
   return (
     <main className="min-h-screen bg-[#07070b] px-4 py-6 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl space-y-8">
@@ -285,6 +365,13 @@ export default function AdminDashboardClient({ adminEmail, initialData }) {
           <StatCard icon={CheckCircle2} label="Total payouts due" value={money(overview?.pendingPayoutPaise)} detail="Unpaid creator earnings" />
         </section>
 
+        <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <StatCard icon={Tag} label="Referral attempts" value={overview?.referralAttempts || 0} detail="All checkout code entries" />
+          <StatCard icon={CheckCircle2} label="Attributed referrals" value={overview?.attributedReferrals || 0} detail="Linked to a creator" />
+          <StatCard icon={RefreshCw} label="Tracked without offer" value={overview?.trackedNoOfferReferrals || 0} detail="No Razorpay discount needed" />
+          <StatCard icon={Search} label="Invalid attempts" value={overview?.invalidReferralAttempts || 0} detail="Unknown or inactive codes" />
+        </section>
+
         <section>
           <SectionHeader
             title="Creator management"
@@ -312,40 +399,77 @@ export default function AdminDashboardClient({ adminEmail, initialData }) {
                   <th className="px-3 py-3 font-medium">Total earnings</th>
                   <th className="px-3 py-3 font-medium">Payout due</th>
                   <th className="px-3 py-3 font-medium">Status</th>
+                  <th className="px-3 py-3 font-medium">Offer</th>
                   <th className="px-3 py-3 font-medium">Action</th>
                 </tr>
               </thead>
               <tbody>
-                {creators.length === 0 ? <EmptyRow colSpan={8} label="No creators yet." /> : creators.map((creator) => {
+                {creators.length === 0 ? <EmptyRow colSpan={9} label="No creators yet." /> : creators.map((creator) => {
                   const stats = creator.stats || zeroStats(creator.id);
+                  const isEditing = editingCreatorId === creator.id;
                   return (
-                    <tr key={creator.id} className="border-t border-white/[0.06]">
-                      <td className="px-3 py-3">
-                        <div className="font-medium text-white">{creator.name}</div>
-                        <div className="text-xs text-zinc-500">{creator.email || '-'}</div>
-                      </td>
-                      <td className="px-3 py-3"><code className="rounded bg-white/10 px-2 py-1 text-xs">{creator.code}</code></td>
-                      <td className="px-3 py-3 text-zinc-300">{stats.totalSales}</td>
-                      <td className="px-3 py-3 text-zinc-300">{money(stats.totalRevenuePaise)}</td>
-                      <td className="px-3 py-3 text-zinc-300">{money(stats.totalEarningsPaise)}</td>
-                      <td className="px-3 py-3 text-volt">{money(stats.pendingPayoutPaise)}</td>
-                      <td className="px-3 py-3">
-                        <span className={`rounded-full px-2 py-1 text-xs ${creator.isActive ? 'bg-volt/10 text-volt' : 'bg-white/10 text-zinc-400'}`}>
-                          {creator.isActive ? 'Active' : 'Inactive'}
-                        </span>
-                      </td>
-                      <td className="px-3 py-3">
-                        <button
-                          type="button"
-                          onClick={() => toggleCreator(creator)}
-                          disabled={busyId === creator.id}
-                          className="inline-flex items-center gap-1.5 rounded-md border border-white/10 px-2.5 py-1.5 text-xs text-zinc-200 hover:bg-white/10 disabled:opacity-50"
-                        >
-                          {busyId === creator.id ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : creator.isActive ? <PauseCircle className="h-3.5 w-3.5" /> : <PlayCircle className="h-3.5 w-3.5" />}
-                          {creator.isActive ? 'Disable' : 'Enable'}
-                        </button>
-                      </td>
-                    </tr>
+                    <Fragment key={creator.id}>
+                      <tr className="border-t border-white/[0.06]">
+                        <td className="px-3 py-3">
+                          <div className="font-medium text-white">{creator.name}</div>
+                          <div className="text-xs text-zinc-500">{creator.email || '-'}</div>
+                        </td>
+                        <td className="px-3 py-3"><code className="rounded bg-white/10 px-2 py-1 text-xs">{creator.code}</code></td>
+                        <td className="px-3 py-3 text-zinc-300">{stats.totalSales}</td>
+                        <td className="px-3 py-3 text-zinc-300">{money(stats.totalRevenuePaise)}</td>
+                        <td className="px-3 py-3 text-zinc-300">{money(stats.totalEarningsPaise)}</td>
+                        <td className="px-3 py-3 text-volt">{money(stats.pendingPayoutPaise)}</td>
+                        <td className="px-3 py-3">
+                          <span className={`rounded-full px-2 py-1 text-xs ${creator.isActive ? 'bg-volt/10 text-volt' : 'bg-white/10 text-zinc-400'}`}>
+                            {creator.isActive ? 'Active' : 'Inactive'}
+                          </span>
+                        </td>
+                        <td className="px-3 py-3">
+                          <code className="text-xs text-zinc-400">{creator.offerId || 'Tracked only'}</code>
+                        </td>
+                        <td className="px-3 py-3">
+                          <div className="flex flex-wrap gap-2">
+                            <button
+                              type="button"
+                              onClick={() => beginEditCreator(creator)}
+                              className="rounded-md border border-white/10 px-2.5 py-1.5 text-xs text-zinc-200 hover:bg-white/10"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => toggleCreator(creator)}
+                              disabled={busyId === creator.id}
+                              className="inline-flex items-center gap-1.5 rounded-md border border-white/10 px-2.5 py-1.5 text-xs text-zinc-200 hover:bg-white/10 disabled:opacity-50"
+                            >
+                              {busyId === creator.id ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : creator.isActive ? <PauseCircle className="h-3.5 w-3.5" /> : <PlayCircle className="h-3.5 w-3.5" />}
+                              {creator.isActive ? 'Disable' : 'Enable'}
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                      {isEditing ? (
+                        <tr className="border-t border-white/[0.06] bg-white/[0.025]">
+                          <td colSpan={9} className="px-3 py-4">
+                            <div className="grid gap-3 md:grid-cols-3">
+                              <input className="input" value={creatorDraft.name || ''} onChange={(e) => setCreatorDraft((d) => ({ ...d, name: e.target.value }))} placeholder="Name" />
+                              <input className="input" type="email" value={creatorDraft.email || ''} onChange={(e) => setCreatorDraft((d) => ({ ...d, email: e.target.value }))} placeholder="Email" />
+                              <input className="input" value={creatorDraft.code || ''} onChange={(e) => setCreatorDraft((d) => ({ ...d, code: e.target.value.toLowerCase().replace(/\s/g, '') }))} placeholder="Code" />
+                              <input className="input" value={creatorDraft.offerId || ''} onChange={(e) => setCreatorDraft((d) => ({ ...d, offerId: e.target.value.trim() }))} placeholder="Razorpay offer_id (optional)" />
+                              <input className="input" type="number" min="0" step="1" value={creatorDraft.payoutRupees || '0'} onChange={(e) => setCreatorDraft((d) => ({ ...d, payoutRupees: e.target.value }))} placeholder="Payout INR" />
+                              <input className="input" value={creatorDraft.notes || ''} onChange={(e) => setCreatorDraft((d) => ({ ...d, notes: e.target.value }))} placeholder="Internal notes" />
+                            </div>
+                            <div className="mt-3 flex flex-wrap gap-2">
+                              <button type="button" onClick={() => saveCreator(creator)} disabled={busyId === creator.id} className="btn-volt inline-flex items-center gap-2">
+                                {busyId === creator.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+                                Save creator
+                              </button>
+                              <button type="button" onClick={() => setEditingCreatorId('')} className="btn-ghost">Cancel</button>
+                            </div>
+                          </td>
+                        </tr>
+                      ) : null}
+                    </Fragment>
                   );
                 })}
               </tbody>
@@ -354,27 +478,47 @@ export default function AdminDashboardClient({ adminEmail, initialData }) {
         </section>
 
         <section>
-          <SectionHeader title="Orders" />
+          <SectionHeader
+            title="Referral and payment ledger"
+            action={(
+              <label className="relative block min-w-[260px]">
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
+                <input
+                  className="input w-full pl-9"
+                  value={orderFilter}
+                  onChange={(event) => setOrderFilter(event.target.value)}
+                  placeholder="Search code, user, payment"
+                />
+              </label>
+            )}
+          />
           <div className="overflow-x-auto rounded-lg border border-white/10">
-            <table className="w-full min-w-[760px] text-left text-sm">
+            <table className="w-full min-w-[980px] text-left text-sm">
               <thead className="bg-white/[0.04] text-xs uppercase tracking-wide text-zinc-500">
                 <tr>
                   <th className="px-3 py-3 font-medium">Date</th>
                   <th className="px-3 py-3 font-medium">User</th>
-                  <th className="px-3 py-3 font-medium">Creator code</th>
+                  <th className="px-3 py-3 font-medium">Referral</th>
+                  <th className="px-3 py-3 font-medium">Status</th>
                   <th className="px-3 py-3 font-medium">Amount paid</th>
                   <th className="px-3 py-3 font-medium">Creator earning</th>
+                  <th className="px-3 py-3 font-medium">Payment status</th>
                   <th className="px-3 py-3 font-medium">Payment id</th>
                 </tr>
               </thead>
               <tbody>
-                {orders.length === 0 ? <EmptyRow colSpan={6} label="No orders yet." /> : orders.map((order) => (
+                {filteredOrders.length === 0 ? <EmptyRow colSpan={8} label="No matching orders yet." /> : filteredOrders.map((order) => (
                   <tr key={order.id} className="border-t border-white/[0.06]">
                     <td className="px-3 py-3 text-xs text-zinc-400">{dateTime(order.createdAt)}</td>
                     <td className="px-3 py-3"><code className="text-xs text-zinc-400">{order.userId || '-'}</code></td>
-                    <td className="px-3 py-3"><code className="text-xs text-zinc-300">{order.creatorCode || '-'}</code></td>
+                    <td className="px-3 py-3">
+                      <code className="text-xs text-zinc-300">{order.referralCodeAttempted || order.creatorCode || '-'}</code>
+                      {order.referralReason ? <div className="mt-1 text-xs text-zinc-500">{order.referralReason}</div> : null}
+                    </td>
+                    <td className="px-3 py-3"><ReferralStatusBadge status={order.referralStatus} /></td>
                     <td className="px-3 py-3 text-white">{order.amountPaid == null ? '-' : money(order.amountPaid)}</td>
                     <td className="px-3 py-3 text-volt">{order.creatorEarning == null ? '-' : money(order.creatorEarning)}</td>
+                    <td className="px-3 py-3"><span className="rounded-full bg-white/10 px-2 py-1 text-xs text-zinc-300">{order.status || '-'}</span></td>
                     <td className="px-3 py-3"><code className="text-xs text-zinc-500">{order.paymentId || '-'}</code></td>
                   </tr>
                 ))}

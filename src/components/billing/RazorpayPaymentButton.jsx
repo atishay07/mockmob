@@ -142,7 +142,7 @@ export function RazorpayPaymentButton({
       const normalized = normalizeCodeInput(code);
       const codeForServer = normalized && CODE_PATTERN.test(normalized) ? normalized : undefined;
 
-      const { keyId, subscription, plan, applied } = await postJson('/create-subscription', {
+      const { keyId, subscription, plan, applied, referral } = await postJson('/create-subscription', {
         userId: user.id,
         planId,
         amount,
@@ -151,10 +151,11 @@ export function RazorpayPaymentButton({
 
       if (applied?.code) {
         setAppliedCode(applied);
+        if (applied.status === 'tracked_no_offer') {
+          setMessage(`Referral ${applied.code} tracked. No Razorpay discount is configured for this code.`);
+        }
       } else if (codeForServer) {
-        // Server silently dropped the code (unknown / inactive). Don't
-        // block checkout — just tell the user it didn't apply.
-        setMessage('Code not recognised — continuing without discount.');
+        setMessage(referral?.reason || 'Code not recognised. Continuing without discount.');
       }
 
       const checkout = new window.Razorpay({
@@ -169,7 +170,8 @@ export function RazorpayPaymentButton({
         notes: {
           userId: user.id,
           planId,
-          ...(applied?.code ? { creatorCode: applied.code } : {}),
+          ...(applied?.code ? { creatorCode: applied.code, referralStatus: applied.status } : {}),
+          ...(referral?.code ? { referralCodeAttempted: referral.code } : {}),
         },
         theme: {
           color: '#d2f000',
@@ -250,7 +252,7 @@ export function RazorpayPaymentButton({
         {appliedCode ? (
           <span className="mt-1.5 inline-flex items-center gap-1.5 text-xs text-volt">
             <BadgeCheck className="h-3.5 w-3.5" />
-            Code <strong className="font-semibold">{appliedCode.code}</strong> applied
+            {appliedCode.status === 'tracked_no_offer' ? 'Referral' : 'Code'} <strong className="font-semibold">{appliedCode.code}</strong> {appliedCode.status === 'tracked_no_offer' ? 'tracked' : 'applied'}
           </span>
         ) : null}
       </label>

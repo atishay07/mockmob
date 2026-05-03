@@ -88,11 +88,13 @@ export async function POST(request) {
       return NextResponse.json({ error: 'User is already subscribed to premium' }, { status: 409 });
     }
 
-    // Resolve the creator code to a Razorpay offer_id. resolveCreatorCode
-    // handles normalization + DB lookup + static fallback. Invalid or unknown
-    // codes return null and are silently dropped — the subscription is
-    // created at full price, exactly as today.
-    const creator = rawCode ? await resolveCreatorCode(rawCode) : null;
+    // Razorpay only proves discounts when an offer_id exists. We still
+    // persist first-party referral evidence for tracked-only, inactive,
+    // and unknown codes so admin can see what users entered.
+    const referral = rawCode ? await resolveCreatorCode(rawCode) : null;
+    const attributedReferral = referral && ['offer_attached', 'tracked_no_offer'].includes(referral.status)
+      ? referral
+      : null;
 
     const subscriptionPayload = {
       plan_id: razorpayPlanId,
@@ -102,9 +104,16 @@ export async function POST(request) {
       notes: {
         userId,
         planId: plan.id,
-        ...(creator ? { creatorCode: creator.code, creatorId: creator.creatorId || '' } : {}),
+        ...(referral ? {
+          referralCodeAttempted: referral.code,
+          referralStatus: referral.status,
+        } : {}),
+        ...(attributedReferral ? {
+          creatorCode: attributedReferral.code,
+          creatorId: attributedReferral.creatorId || '',
+        } : {}),
       },
-      ...(creator?.offerId ? { offer_id: creator.offerId } : {}),
+      ...(attributedReferral?.offerId ? { offer_id: attributedReferral.offerId } : {}),
     };
 
     assertRazorpayTimestampsAreSeconds(subscriptionPayload);
@@ -132,9 +141,12 @@ export async function POST(request) {
       currency: plan.currency,
       status: subscription.status || 'created',
       rawSubscription: subscription,
-      creatorCode: creator?.code || null,
-      creatorId: creator?.creatorId || null,
-      offerId: creator?.offerId || null,
+      creatorCode: attributedReferral?.code || null,
+      creatorId: attributedReferral?.creatorId || null,
+      offerId: attributedReferral?.offerId || null,
+      referralCodeAttempted: referral?.code || null,
+      referralStatus: referral?.status || 'none',
+      referralReason: referral?.reason || null,
     });
 
     return NextResponse.json({
@@ -146,9 +158,19 @@ export async function POST(request) {
         amount: plan.amount,
         currency: plan.currency,
       },
-      // Tell the client whether the code they sent was actually applied,
-      // so it can surface "Code applied" / silent ignore appropriately.
-      applied: creator ? { code: creator.code, offerId: creator.offerId } : null,
+      // Tell the client what happened to the code so the UI can separate
+      // gateway discounts from first-party referral tracking.
+      applied: attributedReferral ? {
+        code: attributedReferral.code,
+        offerId: attributedReferral.offerId,
+        status: attributedReferral.status,
+        reason: attributedReferral.reason,
+      } : null,
+      referral: referral ? {
+        code: referral.code,
+        status: referral.status,
+        reason: referral.reason,
+      } : null,
     });
   } catch (error) {
     console.error('[create-subscription] failed:', error);

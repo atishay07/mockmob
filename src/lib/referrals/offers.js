@@ -54,11 +54,25 @@ export async function resolveCreatorCode(rawCode) {
       .limit(1)
       .maybeSingle();
 
-    if (!error && data && data.is_active && data.offer_id) {
+    if (!error && data) {
+      if (!data.is_active) {
+        return {
+          code,
+          offerId: null,
+          creatorId: null,
+          status: 'inactive',
+          reason: 'Creator code exists but is inactive',
+        };
+      }
+
       return {
         code: data.code.trim().toLowerCase(),
-        offerId: data.offer_id,
+        offerId: data.offer_id || null,
         creatorId: data.id,
+        status: data.offer_id ? 'offer_attached' : 'tracked_no_offer',
+        reason: data.offer_id
+          ? 'Razorpay discount offer attached'
+          : 'Referral tracked without Razorpay discount offer',
       };
     }
   } catch (e) {
@@ -69,8 +83,20 @@ export async function resolveCreatorCode(rawCode) {
   // 2) Static fallback.
   const staticHit = STATIC_OFFER_MAP[code];
   if (staticHit?.offerId) {
-    return { code, offerId: staticHit.offerId, creatorId: staticHit.creatorId };
+    return {
+      code,
+      offerId: staticHit.offerId,
+      creatorId: staticHit.creatorId,
+      status: 'offer_attached',
+      reason: 'Static Razorpay discount offer attached',
+    };
   }
 
-  return null;
+  return {
+    code,
+    offerId: null,
+    creatorId: null,
+    status: 'unknown',
+    reason: 'Referral code was not found',
+  };
 }

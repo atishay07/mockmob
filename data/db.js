@@ -59,6 +59,9 @@ const paymentOut = (r) => r && ({
   creatorCode: r.creator_code || null,
   creatorId: r.creator_id || null,
   offerId: r.offer_id || null,
+  referralCodeAttempted: r.referral_code_attempted || null,
+  referralStatus: r.referral_status || 'none',
+  referralReason: r.referral_reason || null,
   creatorEarning: r.creator_earning ?? null,
   payoutId: r.payout_id || null,
   rawOrder: r.raw_order || {},
@@ -197,7 +200,7 @@ function isMissingPhase1VoteSchema(error) {
 function isMissingReferralSchema(error) {
   return error?.code === '42703' ||
     error?.code === '42P01' ||
-    /creators|payouts|creator_id|creator_code|offer_id|amount_paid|creator_earning|payout_id|payout_per_sale|schema cache|column .* does not exist|relation .* does not exist/i.test(error?.message || '');
+    /creators|payouts|creator_id|creator_code|offer_id|referral_code_attempted|referral_status|referral_reason|amount_paid|creator_earning|payout_id|payout_per_sale|schema cache|column .* does not exist|relation .* does not exist/i.test(error?.message || '');
 }
 
 function isMissingEntitlementSchema(error) {
@@ -359,6 +362,9 @@ export const Database = {
       creator_code: payment.creatorCode || null,
       creator_id: payment.creatorId || null,
       offer_id: payment.offerId || null,
+      referral_code_attempted: payment.referralCodeAttempted || null,
+      referral_status: payment.referralStatus || (payment.referralCodeAttempted ? 'unknown' : 'none'),
+      referral_reason: payment.referralReason || null,
       raw_order: payment.rawOrder || {},
       raw_subscription: payment.rawSubscription || {},
       raw_payment: payment.rawPayment || {},
@@ -372,6 +378,19 @@ export const Database = {
       .single();
     if (error && isMissingEntitlementSchema(error)) {
       delete row.access_until;
+      ({ data, error } = await supabaseAdmin()
+        .from('payments')
+        .insert(row)
+        .select('*')
+        .single());
+    }
+    if (error && isMissingReferralSchema(error)) {
+      delete row.creator_code;
+      delete row.creator_id;
+      delete row.offer_id;
+      delete row.referral_code_attempted;
+      delete row.referral_status;
+      delete row.referral_reason;
       ({ data, error } = await supabaseAdmin()
         .from('payments')
         .insert(row)
@@ -706,7 +725,7 @@ export const Database = {
   async getCreatorStats(creatorId = null) {
     let query = supabaseAdmin()
       .from('payments')
-      .select('creator_id, status, amount_paid, amount, creator_earning, payout_id, payment_id')
+      .select('creator_id, status, amount_paid, amount, creator_earning, payout_id, payment_id, referral_status')
       .not('creator_id', 'is', null);
     if (creatorId) query = query.eq('creator_id', creatorId);
     const { data, error } = await query;
@@ -753,13 +772,17 @@ export const Database = {
   async getPlatformOverview() {
     const { data: payments, error: pe } = await supabaseAdmin()
       .from('payments')
-      .select('status, amount_paid, amount, creator_earning, payout_id, creator_id, payment_id');
+      .select('status, amount_paid, amount, creator_earning, payout_id, creator_id, payment_id, referral_status');
     if (pe) {
       if (isMissingReferralSchema(pe)) {
         console.error('[db] getPlatformOverview using empty payment stats because schema is missing:', pe.message);
         return {
           totalRevenuePaise: 0,
           totalSales: 0,
+          referralAttempts: 0,
+          attributedReferrals: 0,
+          trackedNoOfferReferrals: 0,
+          invalidReferralAttempts: 0,
           totalCreators: 0,
           activeCreators: 0,
           pendingPayoutPaise: 0,
@@ -776,10 +799,18 @@ export const Database = {
 
     let totalRevenuePaise = 0;
     let totalSales = 0;
+    let referralAttempts = 0;
+    let attributedReferrals = 0;
+    let trackedNoOfferReferrals = 0;
+    let invalidReferralAttempts = 0;
     let pendingPayoutPaise = 0;
     let paidPayoutPaise = 0;
 
     for (const row of payments || []) {
+      if (row.referral_status && row.referral_status !== 'none') referralAttempts += 1;
+      if (row.creator_id) attributedReferrals += 1;
+      if (row.referral_status === 'tracked_no_offer') trackedNoOfferReferrals += 1;
+      if (['unknown', 'inactive'].includes(row.referral_status)) invalidReferralAttempts += 1;
       if (!isPaidSaleRow(row)) continue;
       totalSales += 1;
       totalRevenuePaise += Number(row.amount_paid) || 0;
@@ -794,6 +825,10 @@ export const Database = {
     return {
       totalRevenuePaise,
       totalSales,
+      referralAttempts,
+      attributedReferrals,
+      trackedNoOfferReferrals,
+      invalidReferralAttempts,
       totalCreators,
       activeCreators,
       pendingPayoutPaise,
