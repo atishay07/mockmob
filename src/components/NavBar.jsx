@@ -64,7 +64,7 @@ export function NavBar() {
                 key={link.label}
                 href={link.href}
                 className="hover:text-white transition-colors"
-                style={{ fontFamily: 'var(--font-display)', fontWeight: 500, fontSize: '13px', color: '#a1a1aa' }}
+                style={{ display: 'inline-flex', minHeight: '44px', alignItems: 'center', fontFamily: 'var(--font-display)', fontWeight: 500, fontSize: '13px', color: '#a1a1aa' }}
               >
                 {link.label}
               </Link>
@@ -80,7 +80,8 @@ export function NavBar() {
                   type="button"
                   className="btn-ghost"
                   style={{
-                    padding: '6px 8px',
+                    minHeight: '44px',
+                    padding: '6px 10px',
                     borderRadius: '999px',
                     border: '1px solid rgba(255,255,255,0.08)',
                     background: 'rgba(255,255,255,0.03)',
@@ -159,7 +160,8 @@ export function NavBar() {
                   type="button"
                   className="btn-ghost"
                   style={{
-                    padding: '8px 10px',
+                    minHeight: '44px',
+                    padding: '8px 12px',
                     borderRadius: '999px',
                     border: '1px solid rgba(255,255,255,0.08)',
                     background: 'rgba(255,255,255,0.03)',

@@ -106,30 +106,34 @@ export default function LandingPage() {
         />
 
         <div className="container-wide text-center relative z-10">
-          <ScrollReveal delay={0} distance={16}>
-            <Link href="/signup" className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-red-500/25 mb-7 no-underline" style={{ background: 'rgba(248,113,113,0.04)' }}>
+          <ScrollReveal delay={0} distance={16} initialInView>
+            <Link
+              href="/signup"
+              className="mb-7 inline-flex min-h-10 items-center gap-2 rounded-full border border-red-500/25 px-4 py-2 no-underline"
+              style={{ background: 'rgba(248,113,113,0.04)', minHeight: '44px' }}
+            >
               <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse-slow" style={{ boxShadow: '0 0 8px rgba(248,113,113,.9)' }}></span>
               <span className="mono-label" style={{ color: 'var(--volt)' }}>Now live — CUET &apos;26 Mock Sprint</span>
               <Icon name="arrow" style={{ color: 'var(--volt)', width: '11px', height: '11px' }} />
             </Link>
           </ScrollReveal>
 
-          <ScrollReveal delay={80} distance={20}>
+          <ScrollReveal delay={80} distance={20} initialInView>
             <h1 className="display-xl mb-2 text-white">
               Stop grinding alone.<br />
               Rank up with the
             </h1>
           </ScrollReveal>
-          <ScrollReveal delay={160}>
+          <ScrollReveal delay={160} initialInView>
             <MorphingText texts={["mob.", "best.", "top 1%."]} className="text-volt italic h-[80px] md:h-[120px]" />
           </ScrollReveal>
 
-          <ScrollReveal delay={240} distance={16}>
+          <ScrollReveal delay={240} distance={16} initialInView>
             <p className="text-base md:text-lg text-zinc-400 max-w-2xl mx-auto mb-8 mt-4" style={{ lineHeight: 1.6 }}>
               India&apos;s CUET-first mock test platform. Take peer-verified mocks, ask <span className="text-volt font-semibold">PrepOS</span> what to do next, and turn every score into a sharper DU admission move.
             </p>
           </ScrollReveal>
-          <ScrollReveal delay={320} distance={12}>
+          <ScrollReveal delay={320} distance={12} initialInView>
             <LandingActions mode="hero" />
             <div className="inline-flex items-center gap-2 text-xs text-zinc-500 mt-3">
               <Icon name="spark" style={{ color: 'var(--volt)', width: '12px', height: '12px' }} />
@@ -590,6 +594,8 @@ export default function LandingPage() {
           display: inline-flex;
           align-items: center;
           gap: 8px;
+          min-height: 44px;
+          padding: 6px 0;
           color: var(--volt);
           font-family: var(--font-display);
           font-weight: 800;

@@ -5,6 +5,7 @@
 
 import { supabase } from '@/lib/supabase'
 import { auth } from '@/lib/auth'
+import { Database } from '@/../data/db'
 
 const VALID_INTERACTION_TYPES = new Set([
   'seen', 'attempted', 'like', 'unlike', 'save', 'unsave',
@@ -120,7 +121,7 @@ export async function POST(request, { params }) {
   // ---- Load question (existence + authorship) ----
   const { data: question, error: qError } = await supabase
     .from('questions')
-    .select('id, author_id, live_at, is_deleted, subject, chapter, correct_answer')
+    .select('id, author_id, live_at, is_deleted, subject, chapter, correct_answer, status')
     .eq('id', questionId)
     .single()
 
@@ -172,7 +173,32 @@ export async function POST(request, { params }) {
     metadata,
   })
 
+  if (interaction_type === 'report') {
+    const reportError = await queueReportedQuestion(questionId)
+    if (reportError) {
+      console.error('[interact] report queue error:', reportError)
+      return Response.json({ error: 'Report was recorded, but queueing for moderation failed.' }, { status: 500 })
+    }
+  }
+
   return Response.json({ interaction_id: interaction.id }, { status: 201 })
+}
+
+async function queueReportedQuestion(questionId) {
+  const now = new Date().toISOString()
+  const { error } = await supabase
+    .from('questions')
+    .update({
+      status: 'pending',
+      verification_state: 'disputed',
+      exploration_state: 'pending_review',
+      updated_at: now,
+    })
+    .eq('id', questionId)
+    .neq('status', 'rejected')
+
+  if (error) return error
+  return null
 }
 
 /**
@@ -199,17 +225,12 @@ async function checkQualifiedSignal(userId, questionId, flowContext) {
     return 'You must have seen or attempted this question before liking or saving it.'
   }
 
-  const { data: userRow } = await supabase
-    .from('users')
-    .select('created_at, subscription_status')
-    .eq('id', userId)
-    .single()
-
+  const userRow = await Database.getUserById(userId)
   if (!userRow) return 'User not found.'
 
-  const accountAgeHours = (Date.now() - new Date(userRow.created_at).getTime()) / 3_600_000
+  const accountAgeHours = (Date.now() - Number(userRow.createdAt || 0)) / 3_600_000
   if (accountAgeHours >= 24) return null
-  if (userRow.subscription_status === 'active') return null
+  if (userRow.isPremium) return null
 
   // FIX 5: count DISTINCT mock sessions via RPC, not raw row count.
   // The old query counted individual attempted rows — 5 questions in 1

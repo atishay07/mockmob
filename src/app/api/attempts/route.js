@@ -22,6 +22,9 @@ function validateAttemptPayload(a) {
   if (!Number.isInteger(a.total) || a.total <= 0) errors.push('total must be a positive integer');
   if (!Array.isArray(a.details)) errors.push('details must be an array');
   if (!Array.isArray(a.questionsSnapshot)) errors.push('questionsSnapshot must be an array');
+  if (a.selectionMeta !== undefined && (!a.selectionMeta || typeof a.selectionMeta !== 'object' || Array.isArray(a.selectionMeta))) {
+    errors.push('selectionMeta must be an object');
+  }
   return errors;
 }
 

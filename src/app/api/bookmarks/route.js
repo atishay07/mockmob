@@ -85,7 +85,7 @@ export async function POST(request) {
     }
 
     const user = await Database.getUserById(session.user.id);
-    const isPremium = user?.subscriptionStatus === 'active';
+    const isPremium = Boolean(user?.isPremium);
 
     if (!saved) {
       const { error } = await supabaseAdmin()

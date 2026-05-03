@@ -1,6 +1,14 @@
 import { NextResponse } from 'next/server';
 import crypto from 'node:crypto';
-import { verifyRazorpayWebhookSignature } from '@/lib/payments/razorpay';
+import { getPaymentPlan } from '@/lib/payments/plans';
+import { getRazorpayClient, verifyRazorpayWebhookSignature } from '@/lib/payments/razorpay';
+import {
+  amountMatchesPaymentRecord,
+  hasPaidPaymentEvidence,
+  isCapturedRazorpayPayment,
+  isFutureIso,
+  resolvePaidThrough,
+} from '@/lib/payments/entitlements';
 import { recordEarningIfApplicable } from '@/lib/payouts';
 import { Database } from '@/../data/db';
 import { getAICreditPack, grantPurchasedAICredits } from '@/services/credits/aiCreditWallet';
@@ -18,7 +26,6 @@ const HANDLED_EVENTS = new Set([
   'payment.captured',
   'payment.failed',
 ]);
-const PAID_SALE_STATES = new Set(['captured', 'completed', 'paid']);
 
 export async function POST(request) {
   let eventId = null;
@@ -37,143 +44,126 @@ export async function POST(request) {
 
     const event = JSON.parse(body);
     const eventType = event?.event;
-    const payment = event?.payload?.payment?.entity;
-    const subscription = event?.payload?.subscription?.entity;
-    const subscriptionId = subscription?.id || payment?.subscription_id;
-    const orderId = payment?.order_id;
+    let payment = event?.payload?.payment?.entity || null;
+    let subscription = event?.payload?.subscription?.entity || null;
+    let invoice = null;
+    let subscriptionId = subscription?.id || payment?.subscription_id || null;
+    const orderId = payment?.order_id || null;
 
-    if ((!subscriptionId && !orderId) || !HANDLED_EVENTS.has(eventType)) {
+    if (!HANDLED_EVENTS.has(eventType) || (!subscriptionId && !orderId && !payment?.invoice_id)) {
       return NextResponse.json({ ok: true, ignored: true });
     }
 
-    // Idempotency: prefer Razorpay's own event id (header) when present;
-    // fall back to a deterministic hash of the body so a missing/changed
-    // header still dedupes identical re-deliveries.
     eventId = request.headers.get('x-razorpay-event-id')
       || crypto.createHash('sha256').update(body).digest('hex');
 
-    const isFirstSeen = await Database.claimWebhookEvent({
+    const shouldProcess = await Database.claimWebhookEvent({
       eventId,
       eventType,
       payload: event,
     });
 
-    if (!isFirstSeen) {
+    if (!shouldProcess) {
       return NextResponse.json({ ok: true, deduped: true });
     }
 
-    const paymentRecord = subscriptionId
+    if (payment?.invoice_id) {
+      invoice = await getRazorpayClient().invoices.fetch(payment.invoice_id);
+      subscriptionId = subscriptionId || invoice?.subscription_id || null;
+    }
+
+    if (subscriptionId && !subscription) {
+      subscription = await getRazorpayClient().subscriptions.fetch(subscriptionId);
+    }
+
+    let paymentRecord = subscriptionId
       ? await Database.getPaymentBySubscriptionId(subscriptionId)
       : await Database.getPaymentByOrderId(orderId);
+
+    if (!paymentRecord && subscriptionId && isCapturedRazorpayPayment(payment)) {
+      paymentRecord = await createMissingSubscriptionPaymentRecord({
+        payment,
+        subscription,
+        invoice,
+        subscriptionId,
+      });
+    }
+
     if (!paymentRecord) {
       await Database.markWebhookEventProcessed(eventId, 'no matching payment record');
       return NextResponse.json({ ok: true, ignored: true });
     }
 
-    const hasCapturedPayment = payment?.status === 'captured' && typeof payment?.amount === 'number' && payment.amount > 0;
     const creditPack = getAICreditPack(paymentRecord.planId);
-
     if (creditPack) {
-      if (eventType === 'payment.captured' && hasCapturedPayment) {
-        if (payment.amount !== creditPack.amountPaise || payment.currency !== 'INR') {
-          await Database.updatePaymentByOrderId(orderId, {
-            paymentId: payment?.id,
-            status: 'failed',
-            amountPaid: typeof payment?.amount === 'number' ? payment.amount : undefined,
-            rawPayment: payment,
-          });
-          await Database.markWebhookEventProcessed(eventId, 'credit pack amount mismatch');
-          return NextResponse.json({ ok: true, ignored: true });
-        }
-
-        if (isAlreadyCapturedCreditPayment(paymentRecord, { paymentId: payment?.id, amountPaise: creditPack.amountPaise })) {
-          await Database.markWebhookEventProcessed(eventId, 'credit pack already captured');
-          return NextResponse.json({ ok: true, idempotent: true });
-        }
-
-        const grant = await grantPurchasedAICredits({
-          userId: paymentRecord.userId,
-          credits: creditPack.credits,
-          packKey: creditPack.key,
-          paymentId: payment?.id,
-          orderId,
-          idempotencyKey: `ai_topup:${orderId}:${payment?.id}`,
-          metadata: {
-            amountPaise: creditPack.amountPaise,
-            amountInr: creditPack.amountInr,
-            source: 'razorpay_webhook',
-          },
-        });
-
-        if (!grant.ok) {
-          throw new Error(grant.error || 'ai_credit_webhook_grant_failed');
-        }
-
-        await Database.updatePaymentByOrderId(orderId, {
-          paymentId: payment?.id,
-          status: 'captured',
-          amountPaid: payment.amount,
-          rawPayment: payment,
-        });
-      }
-
-      if (eventType === 'payment.failed') {
-        await Database.updatePaymentByOrderId(orderId, {
-          paymentId: payment?.id,
-          status: 'failed',
-          amountPaid: typeof payment?.amount === 'number' ? payment.amount : undefined,
-          rawPayment: payment,
-        });
-      }
-
+      await processCreditPackWebhook({ eventType, payment, orderId, paymentRecord, creditPack });
       await Database.markWebhookEventProcessed(eventId);
       return NextResponse.json({ ok: true });
     }
 
-    if (eventType === 'payment.captured' || (eventType === 'subscription.charged' && hasCapturedPayment)) {
-      await Database.updatePaymentBySubscriptionId(subscriptionId, {
-        paymentId: payment?.id,
-        status: 'captured',
-        amountPaid: payment.amount,
-        rawPayment: payment,
-        rawSubscription: subscription,
+    if (await Database.hasRefundPremiumRevocation({
+      userId: paymentRecord.userId,
+      subscriptionId: subscriptionId || paymentRecord.subscriptionId,
+      paymentId: payment?.id || paymentRecord.paymentId,
+    })) {
+      await keepRefundRevoked({
+        subscriptionId: subscriptionId || paymentRecord.subscriptionId,
+        payment,
+        subscription,
+        paymentRecord,
       });
-      await Database.updateUser(paymentRecord.userId, {
-        subscriptionStatus: 'active',
-        isPremium: true,
-      });
-
-      await recordEarningIfApplicable(subscriptionId);
+      await Database.markWebhookEventProcessed(eventId, 'refunded subscription ignored');
+      return NextResponse.json({ ok: true, ignored: true, reason: 'refunded_subscription' });
     }
 
-    if (
-      ['subscription.authenticated', 'subscription.activated'].includes(eventType) &&
-      !PAID_SALE_STATES.has(paymentRecord.status)
-    ) {
-      await Database.updatePaymentBySubscriptionId(subscriptionId, {
-        status: subscription?.status === 'active' ? 'active' : 'authenticated',
-        rawSubscription: subscription,
+    if (eventType === 'payment.captured' || eventType === 'subscription.charged') {
+      if (!isCapturedRazorpayPayment(payment) || !amountMatchesPaymentRecord(payment, paymentRecord)) {
+        await updateUnpaidSubscriptionPayment({ subscriptionId, payment, subscription, paymentRecord });
+        await Database.markWebhookEventProcessed(eventId, 'subscription payment amount mismatch');
+        return NextResponse.json({ ok: true, ignored: true });
+      }
+
+      await grantPaidSubscriptionAccess({
+        subscriptionId,
+        payment,
+        subscription,
+        invoice,
+        paymentRecord,
       });
+      await Database.markWebhookEventProcessed(eventId);
+      return NextResponse.json({ ok: true });
+    }
+
+    if (['subscription.authenticated', 'subscription.activated'].includes(eventType)) {
+      if (!hasPaidPaymentEvidence(paymentRecord)) {
+        await Database.updatePaymentBySubscriptionId(subscriptionId, {
+          status: subscription?.status === 'active' ? 'active' : 'authenticated',
+          rawSubscription: subscription,
+        });
+      } else if (subscription) {
+        await Database.updatePaymentBySubscriptionId(subscriptionId, {
+          rawSubscription: subscription,
+        });
+      }
     }
 
     if (['payment.failed', 'subscription.halted'].includes(eventType)) {
-      await Database.updatePaymentBySubscriptionId(subscriptionId, {
-        paymentId: payment?.id,
-        status: 'failed',
-        amountPaid: typeof payment?.amount === 'number' ? payment.amount : undefined,
-        rawPayment: payment,
-        rawSubscription: subscription,
+      await handleFailedSubscriptionPayment({
+        subscriptionId,
+        payment,
+        subscription,
+        paymentRecord,
       });
     }
 
     if (['subscription.cancelled', 'subscription.completed'].includes(eventType)) {
-      await Database.updatePaymentBySubscriptionId(subscriptionId, {
-        status: eventType === 'subscription.cancelled' ? 'cancelled' : 'completed',
-        rawSubscription: subscription,
-      });
-      await Database.updateUser(paymentRecord.userId, {
-        subscriptionStatus: eventType === 'subscription.cancelled' ? 'cancelled' : 'free',
-        isPremium: false,
+      await handleSubscriptionEnd({
+        eventType,
+        subscriptionId,
+        payment,
+        subscription,
+        invoice,
+        paymentRecord,
       });
     }
 
@@ -182,17 +172,226 @@ export async function POST(request) {
   } catch (error) {
     console.error('[webhook] failed:', error);
     if (eventId) {
-      // Mark the event with the error, but DON'T return 200 — Razorpay needs
-      // a non-2xx so it retries. The PRIMARY KEY guarantees the next attempt
-      // will see the row already exists and re-enter as a deduped no-op...
-      // unless we also clear it. Strategy: we let the row sit and Razorpay's
-      // retry will hit the dedupe branch. If processing genuinely needs to
-      // re-run, an admin can delete the webhook_events row.
       try {
-        await Database.markWebhookEventProcessed(eventId, error?.message || 'unknown error');
+        await Database.markWebhookEventFailed(eventId, error?.message || 'unknown error');
       } catch {}
     }
     return NextResponse.json({ error: 'Failed to process webhook' }, { status: 500 });
+  }
+}
+
+async function createMissingSubscriptionPaymentRecord({ payment, subscription, invoice, subscriptionId }) {
+  const notes = {
+    ...(subscription?.notes || {}),
+    ...(invoice?.notes || {}),
+    ...(payment?.notes || {}),
+  };
+  const userId = notes.userId;
+  const planId = notes.planId;
+  const plan = getPaymentPlan(planId);
+
+  if (!userId || !plan || payment.amount <= 0 || payment.amount > plan.amount) {
+    return null;
+  }
+
+  const user = await Database.getUserById(userId);
+  if (!user) return null;
+
+  const accessUntil = resolvePaidThrough({ subscription, invoice, payment });
+
+  return Database.createPayment({
+    userId,
+    subscriptionId,
+    paymentId: payment.id,
+    planId: plan.id,
+    amount: plan.amount,
+    amountPaid: payment.amount,
+    currency: plan.currency,
+    status: 'captured',
+    rawSubscription: subscription || {},
+    rawPayment: payment,
+    accessUntil,
+    creatorCode: notes.creatorCode || null,
+  });
+}
+
+async function grantPaidSubscriptionAccess({ subscriptionId, payment, subscription, invoice, paymentRecord }) {
+  const accessUntil = resolvePaidThrough({
+    subscription,
+    invoice,
+    payment,
+    existingPremiumUntil: paymentRecord.accessUntil,
+  });
+
+  await Database.updatePaymentBySubscriptionId(subscriptionId, {
+    paymentId: payment?.id,
+    status: 'captured',
+    amountPaid: payment.amount,
+    accessUntil,
+    rawPayment: payment,
+    rawSubscription: subscription,
+  });
+
+  await Database.updateUser(paymentRecord.userId, {
+    subscriptionStatus: 'active',
+    isPremium: true,
+    premiumUntil: accessUntil,
+    razorpaySubscriptionId: subscriptionId,
+  });
+
+  await recordEarningIfApplicable(subscriptionId);
+}
+
+async function keepRefundRevoked({ subscriptionId, payment, subscription, paymentRecord }) {
+  const resolvedSubscriptionId = subscriptionId || paymentRecord.subscriptionId;
+  const resolvedPaymentId = payment?.id || paymentRecord.paymentId;
+
+  if (resolvedSubscriptionId) {
+    await Database.updatePaymentBySubscriptionId(resolvedSubscriptionId, {
+      paymentId: resolvedPaymentId,
+      status: 'cancelled',
+      amountPaid: 0,
+      accessUntil: null,
+      rawPayment: payment || paymentRecord.rawPayment,
+      rawSubscription: subscription || paymentRecord.rawSubscription,
+    });
+  }
+
+  const hasOtherPaidAccess = await Database.hasOtherPaidSubscriptionEvidence({
+    userId: paymentRecord.userId,
+    excludingSubscriptionId: resolvedSubscriptionId,
+    excludingPaymentId: resolvedPaymentId,
+  });
+  if (hasOtherPaidAccess) return;
+
+  await Database.updateUser(paymentRecord.userId, {
+    subscriptionStatus: 'cancelled',
+    isPremium: false,
+    premiumUntil: null,
+    razorpaySubscriptionId: null,
+  });
+}
+
+async function handleFailedSubscriptionPayment({ subscriptionId, payment, subscription, paymentRecord }) {
+  if (hasPaidPaymentEvidence(paymentRecord)) {
+    const accessUntil = paymentRecord.accessUntil || resolvePaidThrough({
+      subscription,
+      payment,
+      existingPremiumUntil: paymentRecord.accessUntil,
+      nowMs: Number(paymentRecord.createdAt) || Date.now(),
+    });
+    const keepAccess = isFutureIso(accessUntil);
+    await Database.updatePaymentBySubscriptionId(subscriptionId, {
+      accessUntil,
+      rawPayment: payment,
+      rawSubscription: subscription,
+    });
+    await Database.updateUser(paymentRecord.userId, {
+      subscriptionStatus: 'past_due',
+      isPremium: keepAccess,
+      premiumUntil: accessUntil,
+      razorpaySubscriptionId: subscriptionId,
+    });
+    return;
+  }
+
+  await updateUnpaidSubscriptionPayment({ subscriptionId, payment, subscription, paymentRecord });
+}
+
+async function handleSubscriptionEnd({ eventType, subscriptionId, payment, subscription, invoice, paymentRecord }) {
+  const accessUntil = resolvePaidThrough({
+    subscription,
+    invoice,
+    payment,
+    existingPremiumUntil: paymentRecord.accessUntil,
+    nowMs: Number(paymentRecord.createdAt) || Date.now(),
+  });
+  const keepPaidAccess = hasPaidPaymentEvidence(paymentRecord) && isFutureIso(accessUntil);
+
+  if (hasPaidPaymentEvidence(paymentRecord)) {
+    await Database.updatePaymentBySubscriptionId(subscriptionId, {
+      accessUntil,
+      rawPayment: payment,
+      rawSubscription: subscription,
+    });
+  } else {
+    await Database.updatePaymentBySubscriptionId(subscriptionId, {
+      status: eventType === 'subscription.cancelled' ? 'cancelled' : 'completed',
+      accessUntil: keepPaidAccess ? accessUntil : null,
+      rawPayment: payment,
+      rawSubscription: subscription,
+    });
+  }
+
+  await Database.updateUser(paymentRecord.userId, {
+    subscriptionStatus: eventType === 'subscription.cancelled' ? 'cancelled' : 'free',
+    isPremium: keepPaidAccess,
+    premiumUntil: keepPaidAccess ? accessUntil : null,
+    razorpaySubscriptionId: subscriptionId,
+  });
+}
+
+async function updateUnpaidSubscriptionPayment({ subscriptionId, payment, subscription }) {
+  await Database.updatePaymentBySubscriptionId(subscriptionId, {
+    paymentId: payment?.id,
+    status: 'failed',
+    amountPaid: typeof payment?.amount === 'number' ? payment.amount : undefined,
+    rawPayment: payment,
+    rawSubscription: subscription,
+  });
+}
+
+async function processCreditPackWebhook({ eventType, payment, orderId, paymentRecord, creditPack }) {
+  const hasCapturedPayment = isCapturedRazorpayPayment(payment);
+
+  if (eventType === 'payment.captured' && hasCapturedPayment) {
+    if (payment.amount !== creditPack.amountPaise) {
+      await Database.updatePaymentByOrderId(orderId, {
+        paymentId: payment?.id,
+        status: 'failed',
+        amountPaid: typeof payment?.amount === 'number' ? payment.amount : undefined,
+        rawPayment: payment,
+      });
+      return;
+    }
+
+    if (isAlreadyCapturedCreditPayment(paymentRecord, { paymentId: payment?.id, amountPaise: creditPack.amountPaise })) {
+      return;
+    }
+
+    const grant = await grantPurchasedAICredits({
+      userId: paymentRecord.userId,
+      credits: creditPack.credits,
+      packKey: creditPack.key,
+      paymentId: payment?.id,
+      orderId,
+      idempotencyKey: `ai_topup:${orderId}:${payment?.id}`,
+      metadata: {
+        amountPaise: creditPack.amountPaise,
+        amountInr: creditPack.amountInr,
+        source: 'razorpay_webhook',
+      },
+    });
+
+    if (!grant.ok) {
+      throw new Error(grant.error || 'ai_credit_webhook_grant_failed');
+    }
+
+    await Database.updatePaymentByOrderId(orderId, {
+      paymentId: payment?.id,
+      status: 'captured',
+      amountPaid: payment.amount,
+      rawPayment: payment,
+    });
+  }
+
+  if (eventType === 'payment.failed') {
+    await Database.updatePaymentByOrderId(orderId, {
+      paymentId: payment?.id,
+      status: 'failed',
+      amountPaid: typeof payment?.amount === 'number' ? payment.amount : undefined,
+      rawPayment: payment,
+    });
   }
 }
 

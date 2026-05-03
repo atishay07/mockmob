@@ -637,7 +637,7 @@ export default async function PricingPage() {
             grid-template-columns: 72px minmax(0, 1fr);
             align-items: center;
             gap: 12px;
-            min-height: 42px;
+            min-height: 44px;
             border-top: 1px solid rgba(255,255,255,.06);
             padding: 10px 0;
           }

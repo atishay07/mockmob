@@ -327,7 +327,7 @@ export default function AIRivalArena() {
                     key={subject}
                     type="button"
                     onClick={() => toggleSubject(subject)}
-                    className={`rounded-full border px-3 py-2 text-xs font-bold transition ${
+                    className={`inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition ${
                       activeSubjects.includes(subject)
                         ? 'border-volt/40 bg-volt/10 text-volt'
                         : 'border-white/10 bg-black/20 text-zinc-400 hover:text-zinc-100'
@@ -337,7 +337,7 @@ export default function AIRivalArena() {
                   </button>
                 ))
               ) : (
-                <Link href="/profile" className="text-sm font-bold text-volt no-underline">Add subjects in Profile</Link>
+                <Link href="/profile" className="inline-flex min-h-11 items-center text-sm font-bold text-volt no-underline">Add subjects in Profile</Link>
               )}
             </div>
             <div className="mt-4 flex flex-wrap items-center gap-3">
@@ -347,7 +347,7 @@ export default function AIRivalArena() {
                   key={count}
                   type="button"
                   onClick={() => setQuestionCount(count)}
-                  className={`h-9 rounded-full border px-4 text-xs font-black ${
+                  className={`min-h-11 rounded-full border px-4 text-xs font-black ${
                     questionCount === count ? 'border-volt bg-volt text-black' : 'border-white/10 text-zinc-400'
                   }`}
                 >
@@ -486,10 +486,12 @@ function BattleScreen({ battle, question, index, answers, timeLeftMs, onSelect, 
 }
 
 function ResultScreen({ result, battle, onRematch, onLobby, starting }) {
+  const [copied, setCopied] = useState(false);
   const won = result.result === 'win';
   const tied = result.result === 'tie';
   const title = won ? 'You cleared the benchmark.' : tied ? 'Dead heat.' : 'The benchmark exposed a leak.';
   const share = result.shareCard || {};
+  const shareText = `${share.headline || title} Score ${share.score ?? result.user.score} vs ${share.rivalScore ?? result.rival.score} against ${battle.profile.name}. Next move: ${result.outro?.nextMove || result.nextMoveHint || 'review the benchmark leak.'}`;
 
   return (
     <div className="grid gap-6">
@@ -540,9 +542,18 @@ function ResultScreen({ result, battle, onRematch, onLobby, starting }) {
           </button>
           <button
             type="button"
+            onClick={async () => {
+              try {
+                await navigator.clipboard.writeText(shareText);
+                setCopied(true);
+                window.setTimeout(() => setCopied(false), 1600);
+              } catch {
+                setCopied(false);
+              }
+            }}
             className="inline-flex min-h-12 items-center gap-2 rounded-full border border-white/10 px-5 text-sm font-bold text-zinc-300"
           >
-            <Share2 size={16} /> Share data
+            <Share2 size={16} /> {copied ? 'Copied' : 'Copy share text'}
           </button>
         </div>
       </section>
@@ -571,7 +582,7 @@ function DailyChallenge({ profile, onStart, disabled }) {
 function LockHint({ access }) {
   const href = access.kind === 'credits' ? '/pricing?reason=ai_credits' : '/pricing?reason=benchmark';
   return (
-    <Link href={href} className="rounded-xl border border-red-400/25 bg-red-400/[0.08] px-3 py-2 text-xs font-bold leading-5 text-red-100 no-underline">
+    <Link href={href} className="inline-flex min-h-11 items-center rounded-xl border border-red-400/25 bg-red-400/[0.08] px-3 py-2 text-xs font-bold leading-5 text-red-100 no-underline">
       {lockMessage(access)}
     </Link>
   );

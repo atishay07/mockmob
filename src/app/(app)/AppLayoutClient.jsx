@@ -147,7 +147,8 @@ export default function AppLayoutClient({ children }) {
     { id: 'profile', label: 'Profile', icon: 'users' },
   ];
 
-  const tabs = role === 'moderator' ? modTabs : studentTabs;
+  const tabs = (role === 'moderator' ? modTabs : studentTabs)
+    .filter((tab) => !(isTestRoute && tab.id === 'mentor'));
   const isActive = (id) => pathname.includes(id);
 
   function closeTour() {
@@ -441,20 +442,20 @@ export default function AppLayoutClient({ children }) {
             <div className="mt-5 flex items-center justify-between gap-3">
               <button
                 type="button"
-                className="rounded-full border border-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-zinc-400 transition hover:border-white/20 hover:text-white disabled:opacity-35"
+                className="inline-flex min-h-11 items-center rounded-full border border-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-zinc-400 transition hover:border-white/20 hover:text-white disabled:opacity-35"
                 disabled={tourStep === 0}
                 onClick={() => setTourStep((step) => Math.max(0, step - 1))}
               >
                 Back
               </button>
               {tourStep === TOUR_STEPS.length - 1 ? (
-                <button type="button" className="rounded-full bg-volt px-5 py-2 text-sm font-extrabold text-black shadow-[0_0_22px_rgba(210,240,0,0.22)] transition hover:brightness-110" onClick={closeTour}>
+                <button type="button" className="inline-flex min-h-11 items-center rounded-full bg-volt px-5 py-2 text-sm font-extrabold text-black shadow-[0_0_22px_rgba(210,240,0,0.22)] transition hover:brightness-110" onClick={closeTour}>
                   Finish
                 </button>
               ) : (
                 <button
                   type="button"
-                  className="rounded-full bg-volt px-5 py-2 text-sm font-extrabold text-black shadow-[0_0_22px_rgba(210,240,0,0.22)] transition hover:brightness-110"
+                  className="inline-flex min-h-11 items-center rounded-full bg-volt px-5 py-2 text-sm font-extrabold text-black shadow-[0_0_22px_rgba(210,240,0,0.22)] transition hover:brightness-110"
                   onClick={() => setTourStep((step) => Math.min(TOUR_STEPS.length - 1, step + 1))}
                 >
                   Next

@@ -15,11 +15,12 @@ export default function AssistantLauncher({ compact = false, hidden = false }) {
   const { user, status } = useAuth();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isNarrow, setIsNarrow] = useState(true);
 
   const isTestRoute = pathname?.startsWith('/test');
   const isHiddenPath = HIDDEN_PREFIXES.some((prefix) => pathname?.startsWith(prefix));
   const isPublicPath = pathname === '/' || PUBLIC_PREFIXES.some((prefix) => prefix !== '/' && pathname?.startsWith(prefix));
-  const finalCompact = compact || isTestRoute || scrolled;
+  const finalCompact = compact || isTestRoute || scrolled || isNarrow;
   const expanded = !finalCompact && !open;
   const nudge = useMemo(() => {
     if (status === 'authenticated' && user?.id) {
@@ -52,7 +53,15 @@ export default function AssistantLauncher({ compact = false, hidden = false }) {
     return () => window.removeEventListener('scroll', update);
   }, []);
 
-  if (hidden || isHiddenPath || (status === 'loading' && !isPublicPath)) return null;
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 640px)');
+    const update = () => setIsNarrow(media.matches);
+    update();
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
+
+  if (hidden || isTestRoute || isHiddenPath || (status === 'loading' && !isPublicPath)) return null;
 
   return (
     <>
@@ -63,14 +72,18 @@ export default function AssistantLauncher({ compact = false, hidden = false }) {
         whileTap={{ scale: 0.97 }}
         animate={{ width: expanded ? 282 : 62 }}
         transition={{ type: 'spring', stiffness: 260, damping: 28, mass: 0.8 }}
-        className={`group fixed bottom-5 right-5 z-[70] inline-flex h-[62px] items-center rounded-full text-left md:right-6 ${
+        style={{
+          right: 'max(16px, env(safe-area-inset-right))',
+          bottom: 'max(16px, env(safe-area-inset-bottom))',
+        }}
+        className={`group fixed bottom-4 right-4 z-[70] inline-flex h-[62px] items-center rounded-full text-left md:bottom-5 md:right-6 ${
           expanded
             ? 'gap-3 border border-white/10 bg-[#0c0e09]/94 px-3 pr-4 shadow-[0_18px_60px_rgba(0,0,0,0.42)] backdrop-blur-xl hover:border-volt/35 hover:bg-[#11140b]'
             : 'justify-center bg-transparent p-0'
         }`}
         aria-label="Open PrepOS"
       >
-        {!open ? (
+        {!open && !isNarrow ? (
           <motion.span
             initial={false}
             animate={{ opacity: expanded ? 1 : 0.92, y: expanded ? 0 : 2 }}

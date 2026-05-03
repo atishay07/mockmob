@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { AlertCircle, BadgeCheck, CheckCircle2, Loader2, ShieldCheck, Tag } from 'lucide-react';
+import { useAuth } from '@/components/AuthProvider';
 import { LiquidGlassButton } from '@/components/ui/LiquidGlassButton';
 
 const REF_STORAGE_KEY = 'mm_ref';
@@ -80,6 +81,7 @@ export function RazorpayPaymentButton({
   label = 'Go Pro',
   initialIsPremium = false,
 }) {
+  const { refreshSession } = useAuth();
   const [status, setStatus] = useState('idle');
   const [message, setMessage] = useState('');
   const [isPremium, setIsPremium] = useState(initialIsPremium);
@@ -181,6 +183,7 @@ export function RazorpayPaymentButton({
               razorpay_signature: response.razorpay_signature,
               userId: user.id,
             });
+            await refreshSession({ silent: false });
             setIsPremium(true);
             setStatus('success');
             setMessage('Subscription verified. Pro is active.');

@@ -619,6 +619,7 @@ canvas { max-width: 100%; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  min-height: 44px;
   color: #fff;
   font-family: var(--font-display);
   font-size: 20px;

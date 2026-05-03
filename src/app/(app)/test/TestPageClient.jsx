@@ -318,6 +318,7 @@ function TestRunner() {
         total: qs.length,
         details,
         questionsSnapshot: qs,
+        selectionMeta: selectionMeta || {},
       });
       try { window.localStorage.removeItem(key); } catch {}
       try { window.sessionStorage.setItem('mm:postTest', '1'); } catch {}
@@ -328,7 +329,7 @@ function TestRunner() {
       setSubmitting(false);
       setError(`Submit failed: ${e.message}. Your answers are saved. Press Submit again.`);
     }
-  }, [user, subjectId, key, router, refreshSession]);
+  }, [user, subjectId, key, router, refreshSession, selectionMeta]);
 
   const timeLeft = endsAt ? Math.max(0, Math.floor((endsAt - now) / 1000)) : 0;
   useEffect(() => {
@@ -950,7 +951,7 @@ function TestRunner() {
         .nta-chip--marked-answered { color: #c4b5fd; border-color: rgba(168,85,247,.42); background: rgba(168,85,247,.1); }
         .nta-chip--visited { color: #fca5a5; border-color: rgba(248,113,113,.34); background: rgba(248,113,113,.08); }
         .nta-text-button {
-          min-height: 34px;
+          min-height: 44px;
           display: inline-flex;
           align-items: center;
           gap: 6px;
@@ -1120,7 +1121,7 @@ function TestRunner() {
           position: relative;
           width: 100%;
           aspect-ratio: 1;
-          min-height: 42px;
+          min-height: 44px;
           border-radius: 7px;
           border: 1px solid rgba(255,255,255,.1);
           background: rgba(255,255,255,.04);
@@ -1329,7 +1330,7 @@ function TestRunner() {
           .nta-text-button {
             flex: 1;
             justify-content: center;
-            min-height: 40px;
+            min-height: 44px;
           }
         }
         @media (prefers-reduced-motion: reduce) {

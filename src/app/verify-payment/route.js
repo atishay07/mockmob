@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { getRazorpayClient, verifyRazorpaySubscriptionSignature } from '@/lib/payments/razorpay';
+import { amountMatchesPaymentRecord, resolvePaidThrough } from '@/lib/payments/entitlements';
 import { recordEarningIfApplicable } from '@/lib/payouts';
 import { Database } from '@/../data/db';
 
@@ -49,21 +50,15 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Invalid Razorpay signature' }, { status: 400 });
     }
 
+    if (await Database.hasRefundPremiumRevocation({ userId, subscriptionId, paymentId })) {
+      await keepRefundRevoked({ subscriptionId, paymentId, paymentRecord });
+      return NextResponse.json({ error: 'This payment was refunded and premium has been revoked' }, { status: 409 });
+    }
+
     const razorpayPayment = await getRazorpayClient().payments.fetch(paymentId);
     const razorpaySubscription = await getRazorpayClient().subscriptions.fetch(subscriptionId);
 
-    // Amount validation:
-    //   - Without an offer: the payment must equal the plan's nominal amount.
-    //   - With an offer: the payment may be lower than the nominal amount
-    //     (discounted) but must be > 0. We can't predict the discounted
-    //     amount here without re-fetching the offer, so the upper bound
-    //     (<= nominal) is the strongest reasonable check.
-    const hasOffer = Boolean(paymentRecord.offerId);
-    const amountIsAcceptable = hasOffer
-      ? Number.isInteger(razorpayPayment.amount)
-        && razorpayPayment.amount > 0
-        && razorpayPayment.amount <= paymentRecord.amount
-      : razorpayPayment.amount === paymentRecord.amount;
+    const amountIsAcceptable = amountMatchesPaymentRecord(razorpayPayment, paymentRecord);
 
     if (
       razorpaySubscription.id !== subscriptionId ||
@@ -80,6 +75,12 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Payment details do not match subscription' }, { status: 400 });
     }
 
+    const premiumUntil = resolvePaidThrough({
+      subscription: razorpaySubscription,
+      payment: razorpayPayment,
+      existingPremiumUntil: paymentRecord.accessUntil,
+    });
+
     await Database.updatePaymentBySubscriptionId(subscriptionId, {
       paymentId,
       status: 'captured',
@@ -87,6 +88,7 @@ export async function POST(request) {
       // payments.amount stays at the plan's nominal price. The delta tells
       // us how much discount the creator's offer applied.
       amountPaid: typeof razorpayPayment.amount === 'number' ? razorpayPayment.amount : null,
+      accessUntil: premiumUntil,
       rawPayment: razorpayPayment,
       rawSubscription: razorpaySubscription,
     });
@@ -94,6 +96,8 @@ export async function POST(request) {
     const user = await Database.updateUser(userId, {
       subscriptionStatus: 'active',
       isPremium: true,
+      premiumUntil,
+      razorpaySubscriptionId: subscriptionId,
     });
 
     // Lock in creator earnings now that the payment is confirmed.
@@ -114,4 +118,27 @@ export async function POST(request) {
     console.error('[verify-payment] failed:', error);
     return NextResponse.json({ error: 'Failed to verify payment' }, { status: 500 });
   }
+}
+
+async function keepRefundRevoked({ subscriptionId, paymentId, paymentRecord }) {
+  await Database.updatePaymentBySubscriptionId(subscriptionId, {
+    paymentId,
+    status: 'cancelled',
+    amountPaid: 0,
+    accessUntil: null,
+  });
+
+  const hasOtherPaidAccess = await Database.hasOtherPaidSubscriptionEvidence({
+    userId: paymentRecord.userId,
+    excludingSubscriptionId: subscriptionId,
+    excludingPaymentId: paymentId,
+  });
+  if (hasOtherPaidAccess) return;
+
+  await Database.updateUser(paymentRecord.userId, {
+    subscriptionStatus: 'cancelled',
+    isPremium: false,
+    premiumUntil: null,
+    razorpaySubscriptionId: null,
+  });
 }

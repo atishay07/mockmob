@@ -11,7 +11,7 @@ import { apiGet } from '@/lib/fetcher';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/ToastProvider';
 import { CreditsRemainingModal } from '@/components/CreditsRemainingModal';
-import { TEST_MODES, defaultModeFor, resolveCount } from '@/../data/test_modes';
+import { TEST_MODES, resolveCount } from '@/../data/test_modes';
 
 const TEST_START_CREDIT_COST = 10;
 const MODE_LIST = ['quick', 'smart', 'full', 'nta'];
@@ -136,7 +136,7 @@ export default function DashboardPageClient() {
   const avg = attempts.length ? Math.round(attempts.reduce((sum, attempt) => sum + attempt.score, 0) / attempts.length) : 0;
   const rank = myRankIdx >= 0 ? myRankIdx + 1 : null;
   const isPremium = Boolean(user?.isPremium || learningSummary?.plan?.isPremium);
-  const effectiveModeId = selMode && TEST_MODES[selMode] ? selMode : defaultModeFor(isPremium);
+  const effectiveModeId = selMode && TEST_MODES[selMode] ? selMode : 'quick';
   const mode = TEST_MODES[effectiveModeId];
   const modeIsLockedForUser = mode.premium && !isPremium;
   // Mode-specific cost: Quick = 10, Full = 50, Smart/NTA = 0 (premium-only).
@@ -588,7 +588,7 @@ export default function DashboardPageClient() {
             onClick={refreshSubmissions}
             disabled={subRefreshing}
             className="btn-outline sm"
-            style={{ borderRadius: '999px', fontSize: '10px', padding: '3px 12px' }}
+            style={{ borderRadius: '999px', fontSize: '10px', minHeight: '44px', padding: '0 14px' }}
           >
             {subRefreshing ? 'Refreshing…' : 'Refresh'}
           </button>

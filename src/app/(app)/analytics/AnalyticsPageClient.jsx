@@ -215,7 +215,7 @@ export default function AnalyticsPageClient() {
               <p className="text-sm text-zinc-400 leading-relaxed mb-4">
                 Advanced Radar stats, chapter priority maps, and AI weakness prompts stay pinned at the top on mobile.
               </p>
-              <Link href="/pricing" className="inline-flex items-center justify-center rounded-full bg-volt px-5 py-2 text-sm font-bold text-black hover:brightness-110 transition">Go Premium</Link>
+              <Link href="/pricing" className="inline-flex min-h-11 items-center justify-center rounded-full bg-volt px-5 py-2 text-sm font-bold text-black hover:brightness-110 transition">Go Premium</Link>
             </div>
           </div>
         )}
@@ -377,7 +377,7 @@ export default function AnalyticsPageClient() {
                 <p className="text-sm text-zinc-400 leading-relaxed mb-4">
                   Get advanced Radar stats, chapter priority maps, AI weakness prompts, and premium mock recipes.
                 </p>
-                <Link href="/pricing" className="inline-flex items-center justify-center rounded-full bg-volt px-5 py-2 text-sm font-bold text-black hover:brightness-110 transition">Go Premium</Link>
+                <Link href="/pricing" className="inline-flex min-h-11 items-center justify-center rounded-full bg-volt px-5 py-2 text-sm font-bold text-black hover:brightness-110 transition">Go Premium</Link>
               </div>
             </div>
           )}

@@ -23,12 +23,13 @@ export function ScrollReveal({
   direction = "up",
   distance = 24,
   duration = 600,
+  initialInView = false,
   once = true,
   threshold = 0.15,
   as: Tag = "div",
   ...props
 }) {
-  const [inView, setInView] = useState(false);
+  const [inView, setInView] = useState(initialInView);
   const observerRef = useRef(null);
   const prefersReduced = useReducedMotion();
   const visible = inView || prefersReduced;
@@ -40,6 +41,12 @@ export function ScrollReveal({
         observerRef.current = null;
       }
       if (!el || prefersReduced) return;
+
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        setInView(true);
+        if (once) return;
+      }
 
       const observer = new IntersectionObserver(
         ([entry]) => {

@@ -49,6 +49,7 @@ function ModCard({ question, onAction, toast }) {
   const [decision, setDecision] = useState(null);
   const [loading, setLoading] = useState(false);
   const options = Array.isArray(question.options) ? question.options : [];
+  const reportMeta = question.latestReport?.metadata || {};
 
   async function handleAction(action) {
     if (loading || decision) return;
@@ -128,6 +129,20 @@ function ModCard({ question, onAction, toast }) {
           </div>
         )}
 
+        {question.reportCount > 0 && (
+          <div className="rounded-lg border border-amber-400/20 bg-amber-400/10 px-3 py-3 text-sm text-amber-100 leading-6 mb-4">
+            <div className="font-semibold text-amber-200 mb-1">
+              Student report ({question.reportCount})
+            </div>
+            <div>{reportMeta.note || 'Reported from answer analysis.'}</div>
+            {reportMeta.verdict && (
+              <div className="mt-1 text-xs text-amber-200/70 font-mono uppercase tracking-[0.12em]">
+                Result verdict: {reportMeta.verdict}
+              </div>
+            )}
+          </div>
+        )}
+
         <div className="flex flex-wrap gap-4 text-xs text-zinc-500 font-mono">
           {question.author_id && <span>BY: {String(question.author_id).slice(0, 12)}…</span>}
           {question.createdAt && <span>{new Date(question.createdAt).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>}
@@ -148,7 +163,7 @@ function ModCard({ question, onAction, toast }) {
               className="btn-outline sm"
               style={{ borderColor: 'rgba(248,113,113,.3)', color: '#f87171' }}
             >
-              {loading ? 'Saving…' : 'Reject'}
+              {loading ? 'Saving...' : question.reportCount > 0 ? 'Reject question' : 'Reject'}
             </button>
             <button
               disabled={loading}
@@ -156,7 +171,7 @@ function ModCard({ question, onAction, toast }) {
               className="btn-volt sm"
               style={{ background: '#4ade80', boxShadow: 'none' }}
             >
-              {loading ? 'Saving…' : 'Approve'}
+              {loading ? 'Saving...' : question.reportCount > 0 ? 'Keep question' : 'Approve'}
             </button>
           </>
         )}

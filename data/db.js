@@ -9,10 +9,16 @@
  */
 
 import { supabaseAdmin } from '@/lib/supabase';
+import {
+  effectivePremiumFromRow,
+  REFUND_REVOKED_PREMIUM_ACTION,
+  refundRevocationMatchesPayment,
+} from '@/lib/payments/entitlements';
 import { SEED_QUESTIONS } from './questions';
 import { toPublicSubjectId } from './cuet_controls';
-import { getMode, computeDifficultyTargets } from './test_modes';
-import { NTA_DURATION_MINUTES, NTA_QUESTION_COUNT, selectNtaQuestionSet } from './nta_question_selector';
+import { getMode } from './test_modes';
+import { rankCandidates, pickWithConstraints, buildSelectionUsageMeta } from './mock_question_selector';
+import { NTA_DURATION_MINUTES, NTA_QUESTION_COUNT, isPassageLinkedQuestion, selectNtaQuestionSet } from './nta_question_selector';
 
 // ---------- id helpers (match legacy formats) ----------
 const rid = () => Math.random().toString(36).substring(2, 9);
@@ -31,7 +37,9 @@ const userOut = (r) => r && ({
   role: r.role,
   creditBalance: r.credit_balance || 0,
   subscriptionStatus: r.subscription_status || 'free',
-  isPremium: Boolean(r.is_premium) || r.subscription_status === 'active',
+  isPremium: effectivePremiumFromRow(r),
+  premiumUntil: r.premium_until || null,
+  razorpaySubscriptionId: r.razorpay_subscription_id || null,
   createdAt: new Date(r.created_at).getTime(),
 });
 
@@ -45,6 +53,7 @@ const paymentOut = (r) => r && ({
   razorpayPlanId: r.razorpay_plan_id,
   amount: r.amount,
   amountPaid: r.amount_paid ?? null,
+  accessUntil: r.access_until || null,
   currency: r.currency,
   status: r.status,
   creatorCode: r.creator_code || null,
@@ -93,10 +102,18 @@ const ANSWER_KEY_INDEX = new Map([
   ['D', 3],
   ['E', 4],
 ]);
+const OPTION_KEYS = ['A', 'B', 'C', 'D', 'E'];
 
 function optionLabel(option) {
   if (typeof option === 'string') return option;
   return option?.text ?? option?.label ?? option?.value ?? option?.body ?? option?.option ?? '';
+}
+
+function optionKeyAt(question, index) {
+  if (!Number.isInteger(index) || index < 0) return null;
+  const option = Array.isArray(question?.options) ? question.options[index] : null;
+  if (option && typeof option === 'object' && option.key != null) return String(option.key);
+  return OPTION_KEYS[index] || String(index);
 }
 
 function resolveCorrectIndex(r) {
@@ -183,6 +200,34 @@ function isMissingReferralSchema(error) {
     /creators|payouts|creator_id|creator_code|offer_id|amount_paid|creator_earning|payout_id|payout_per_sale|schema cache|column .* does not exist|relation .* does not exist/i.test(error?.message || '');
 }
 
+function isMissingEntitlementSchema(error) {
+  return error?.code === '42703' ||
+    /premium_until|razorpay_subscription_id|access_until|schema cache|column .* does not exist/i.test(error?.message || '');
+}
+
+function isMissingAuditSchema(error) {
+  return error?.code === '42P01' ||
+    /audit_logs|schema cache|relation .* does not exist/i.test(error?.message || '');
+}
+
+function isMissingAttemptSelectionSchema(error) {
+  const message = String(error?.message || '');
+  const details = String(error?.details || '');
+  const text = `${message} ${details}`;
+  return ['42703', 'PGRST204'].includes(error?.code) &&
+    /selection_meta/i.test(text);
+}
+
+function isMissingLearningProgressSchema(error) {
+  return error?.code === '42P01' ||
+    /user_question_progress|schema cache|relation .* does not exist/i.test(error?.message || '');
+}
+
+function isMissingInteractionsSchema(error) {
+  return error?.code === '42P01' ||
+    /question_interactions|schema cache|relation .* does not exist/i.test(error?.message || '');
+}
+
 function isPaidSaleRow(row) {
   return Boolean(row?.payment_id) &&
     PAID_SALE_STATUSES.has(row?.status) &&
@@ -191,67 +236,6 @@ function isPaidSaleRow(row) {
 
 function getDifficultyWeight(difficulty) {
   return { easy: 1, medium: 2, hard: 3 }[String(difficulty || '').toLowerCase()] || 2;
-}
-
-// ── Mode-aware mock picker ──────────────────────────────────────────────────
-// Layered priority (highest first):
-//   1. unseen by user
-//   2. weak-topic concepts (smart mode only)
-//   3. least recently used
-//   4. community quality (score) as tiebreaker
-// Then enforces difficulty targets and a per-concept cap.
-function rankCandidates(rows, { mode, progress, weakConcepts }) {
-  const now = Date.now();
-  const dayMs = 1000 * 60 * 60 * 24;
-  return rows
-    .map((row) => {
-      const seen = progress.get(row.id);
-      const isUnseen = !seen || (seen.attempt_count || 0) === 0;
-      const isWeak = mode.useWeakTopics && row.concept_id && weakConcepts.has(row.concept_id);
-      const last = seen?.last_attempted_at ? new Date(seen.last_attempted_at).getTime() : 0;
-      const ageDays = last ? Math.min(400, (now - last) / dayMs) : 400;
-
-      let priority = 0;
-      if (isUnseen) priority += 10000;
-      if (isWeak) priority += 5000;
-      priority += ageDays;            // older = higher priority (LRU)
-      priority += (row.score || 0);   // community quality tiebreaker
-      return { row, priority };
-    })
-    .sort((a, b) => b.priority - a.priority)
-    .map((entry) => entry.row);
-}
-
-function pickWithConstraints(orderedRows, count, mode) {
-  const targets = computeDifficultyTargets(count, mode.difficulty);
-  const taken = { easy: 0, medium: 0, hard: 0 };
-  const conceptCount = new Map();
-  const cap = mode.maxPerConcept || 2;
-  const out = [];
-  const used = new Set();
-
-  // Pass 1 — respect difficulty targets + per-concept cap.
-  for (const row of orderedRows) {
-    if (out.length >= count) break;
-    const d = ['easy', 'medium', 'hard'].includes(row.difficulty) ? row.difficulty : 'medium';
-    if (taken[d] >= targets[d]) continue;
-    if (cap && row.concept_id && (conceptCount.get(row.concept_id) || 0) >= cap) continue;
-    out.push(row); used.add(row.id); taken[d]++;
-    if (row.concept_id) conceptCount.set(row.concept_id, (conceptCount.get(row.concept_id) || 0) + 1);
-  }
-
-  // Pass 2 — fill remaining slots, only the per-concept cap still applies.
-  if (out.length < count) {
-    for (const row of orderedRows) {
-      if (out.length >= count) break;
-      if (used.has(row.id)) continue;
-      if (cap && row.concept_id && (conceptCount.get(row.concept_id) || 0) >= cap) continue;
-      out.push(row); used.add(row.id);
-      if (row.concept_id) conceptCount.set(row.concept_id, (conceptCount.get(row.concept_id) || 0) + 1);
-    }
-  }
-
-  return out.slice(0, count);
 }
 
 function validateMockSet(rows, count) {
@@ -275,6 +259,7 @@ const attemptOut = (r) => r && ({
   total: r.total,
   details: r.details || [],
   questionsSnapshot: r.questions_snapshot || [],
+  selectionMeta: r.selection_meta || {},
   completedAt: new Date(r.completed_at).getTime(),
 });
 
@@ -340,9 +325,17 @@ export const Database = {
     if ('role' in updates) patch.role = updates.role;
     if ('subscriptionStatus' in updates) patch.subscription_status = updates.subscriptionStatus;
     if ('isPremium' in updates) patch.is_premium = updates.isPremium;
+    if ('premiumUntil' in updates) patch.premium_until = updates.premiumUntil;
+    if ('razorpaySubscriptionId' in updates) patch.razorpay_subscription_id = updates.razorpaySubscriptionId;
 
-    const { data, error } = await supabaseAdmin()
+    let { data, error } = await supabaseAdmin()
       .from('users').update(patch).eq('id', id).select('*').maybeSingle();
+    if (error && isMissingEntitlementSchema(error)) {
+      delete patch.premium_until;
+      delete patch.razorpay_subscription_id;
+      ({ data, error } = await supabaseAdmin()
+        .from('users').update(patch).eq('id', id).select('*').maybeSingle());
+    }
     if (error) throw error;
     return userOut(data);
   },
@@ -370,12 +363,21 @@ export const Database = {
       raw_subscription: payment.rawSubscription || {},
       raw_payment: payment.rawPayment || {},
     };
+    if (payment.accessUntil !== undefined) row.access_until = payment.accessUntil || null;
 
-    const { data, error } = await supabaseAdmin()
+    let { data, error } = await supabaseAdmin()
       .from('payments')
       .insert(row)
       .select('*')
       .single();
+    if (error && isMissingEntitlementSchema(error)) {
+      delete row.access_until;
+      ({ data, error } = await supabaseAdmin()
+        .from('payments')
+        .insert(row)
+        .select('*')
+        .single());
+    }
     if (error) throw error;
     return paymentOut(data);
   },
@@ -407,16 +409,26 @@ export const Database = {
     if (updates.paymentId !== undefined) patch.payment_id = updates.paymentId;
     if (updates.status !== undefined) patch.status = updates.status;
     if (updates.amountPaid !== undefined) patch.amount_paid = updates.amountPaid;
-    if (updates.rawOrder !== undefined) patch.raw_order = updates.rawOrder;
-    if (updates.rawPayment !== undefined) patch.raw_payment = updates.rawPayment;
-    if (updates.rawSubscription !== undefined) patch.raw_subscription = updates.rawSubscription;
+    if (updates.accessUntil !== undefined) patch.access_until = updates.accessUntil;
+    if (updates.rawOrder !== undefined) patch.raw_order = updates.rawOrder || {};
+    if (updates.rawPayment !== undefined) patch.raw_payment = updates.rawPayment || {};
+    if (updates.rawSubscription !== undefined) patch.raw_subscription = updates.rawSubscription || {};
 
-    const { data, error } = await supabaseAdmin()
+    let { data, error } = await supabaseAdmin()
       .from('payments')
       .update(patch)
       .eq('order_id', orderId)
       .select('*')
       .maybeSingle();
+    if (error && isMissingEntitlementSchema(error)) {
+      delete patch.access_until;
+      ({ data, error } = await supabaseAdmin()
+        .from('payments')
+        .update(patch)
+        .eq('order_id', orderId)
+        .select('*')
+        .maybeSingle());
+    }
     if (error) throw error;
     return paymentOut(data);
   },
@@ -426,17 +438,63 @@ export const Database = {
     if (updates.paymentId !== undefined) patch.payment_id = updates.paymentId;
     if (updates.status !== undefined) patch.status = updates.status;
     if (updates.amountPaid !== undefined) patch.amount_paid = updates.amountPaid;
-    if (updates.rawPayment !== undefined) patch.raw_payment = updates.rawPayment;
-    if (updates.rawSubscription !== undefined) patch.raw_subscription = updates.rawSubscription;
+    if (updates.accessUntil !== undefined) patch.access_until = updates.accessUntil;
+    if (updates.rawPayment !== undefined) patch.raw_payment = updates.rawPayment || {};
+    if (updates.rawSubscription !== undefined) patch.raw_subscription = updates.rawSubscription || {};
 
-    const { data, error } = await supabaseAdmin()
+    let { data, error } = await supabaseAdmin()
       .from('payments')
       .update(patch)
       .eq('subscription_id', subscriptionId)
       .select('*')
       .maybeSingle();
+    if (error && isMissingEntitlementSchema(error)) {
+      delete patch.access_until;
+      ({ data, error } = await supabaseAdmin()
+        .from('payments')
+        .update(patch)
+        .eq('subscription_id', subscriptionId)
+        .select('*')
+        .maybeSingle());
+    }
     if (error) throw error;
     return paymentOut(data);
+  },
+
+  async hasOtherPaidSubscriptionEvidence({ userId, excludingSubscriptionId = null, excludingPaymentId = null } = {}) {
+    if (!userId) return false;
+    const { data, error } = await supabaseAdmin()
+      .from('payments')
+      .select('id, subscription_id, payment_id, status, amount_paid')
+      .eq('user_id', userId)
+      .not('payment_id', 'is', null)
+      .gt('amount_paid', 0)
+      .limit(20);
+    if (error) throw error;
+
+    return (data || []).some((row) => {
+      if (excludingSubscriptionId && row.subscription_id === excludingSubscriptionId) return false;
+      if (excludingPaymentId && row.payment_id === excludingPaymentId) return false;
+      return true;
+    });
+  },
+
+  async hasRefundPremiumRevocation({ userId, subscriptionId = null, paymentId = null } = {}) {
+    if (!userId || (!subscriptionId && !paymentId)) return false;
+    const { data, error } = await supabaseAdmin()
+      .from('audit_logs')
+      .select('metadata')
+      .eq('action', REFUND_REVOKED_PREMIUM_ACTION)
+      .eq('target_type', 'user')
+      .eq('target_id', userId)
+      .order('created_at', { ascending: false })
+      .limit(50);
+    if (error) {
+      if (isMissingAuditSchema(error)) return false;
+      throw error;
+    }
+
+    return (data || []).some((row) => refundRevocationMatchesPayment(row.metadata, { subscriptionId, paymentId }));
   },
 
   // =====================================================================
@@ -787,7 +845,30 @@ export const Database = {
         payload: payload || {},
       });
     if (!error) return true;
-    if (error.code === '23505') return false; // duplicate — already processed
+    if (error.code === '23505') {
+      const { data, error: readError } = await supabaseAdmin()
+        .from('webhook_events')
+        .select('processed_at, error_message')
+        .eq('event_id', eventId)
+        .maybeSingle();
+      if (readError) throw readError;
+
+      if (data?.error_message) {
+        const { error: resetError } = await supabaseAdmin()
+          .from('webhook_events')
+          .update({
+            event_type: eventType,
+            payload: payload || {},
+            processed_at: null,
+            error_message: null,
+          })
+          .eq('event_id', eventId);
+        if (resetError) throw resetError;
+        return true;
+      }
+
+      return !data?.processed_at;
+    }
     if (error.code === '42P01') return true;  // table not yet migrated — don't block prod
     throw error;
   },
@@ -795,13 +876,27 @@ export const Database = {
   async markWebhookEventProcessed(eventId, errorMessage = null) {
     if (!eventId) return;
     const patch = { processed_at: new Date().toISOString() };
-    if (errorMessage) patch.error_message = errorMessage;
+    patch.error_message = errorMessage;
     const { error } = await supabaseAdmin()
       .from('webhook_events')
       .update(patch)
       .eq('event_id', eventId);
     if (error && error.code !== '42P01') {
       console.error('[webhook] failed to mark event processed:', error.message);
+    }
+  },
+
+  async markWebhookEventFailed(eventId, errorMessage = null) {
+    if (!eventId) return;
+    const { error } = await supabaseAdmin()
+      .from('webhook_events')
+      .update({
+        processed_at: null,
+        error_message: errorMessage || 'unknown error',
+      })
+      .eq('event_id', eventId);
+    if (error && error.code !== '42P01') {
+      console.error('[webhook] failed to mark event failed:', error.message);
     }
   },
 
@@ -958,12 +1053,11 @@ export const Database = {
         query = query.eq('difficulty', opts.difficulty);
       }
       if (withScore) {
-        query = query
-          .gte('score', -2)
-          .order('score', { ascending: false });
+        query = query.gte('score', -2);
       }
       return query
         .order('created_at', { ascending: false })
+        .order('score', { ascending: false })
         .limit(poolSize);
     };
 
@@ -979,20 +1073,24 @@ export const Database = {
       pool = Array.isArray(data) ? data : [];
     }
     if (mode.id === 'quick') {
-      pool = pool.filter((row) => !row.passage_group_id && !row.group_id && !row.passage_id);
+      pool = pool.filter((row) => !isPassageLinkedQuestion(row));
     }
     if (mode.id === 'nta') {
       pool = await this._attachPassageMetadata(pool);
     }
 
     // Recency: drop questions seen in the user's last N attempts for this subject.
+    let recencyFilteredCount = 0;
     if (opts.userId && mode.recencyLimit > 0) {
       const recentIds = await this._recentQuestionIds(opts.userId, subjectId, mode.recencyLimit);
       if (recentIds.size) {
         const trimmed = pool.filter((row) => !recentIds.has(row.id));
         // Only honour recency if we still have a viable pool afterwards.
         const minimumAfterRecency = mode.id === 'nta' ? targetCount : Math.ceil(targetCount * 0.7);
-        if (trimmed.length >= minimumAfterRecency) pool = trimmed;
+        if (trimmed.length >= minimumAfterRecency) {
+          recencyFilteredCount = pool.length - trimmed.length;
+          pool = trimmed;
+        }
       }
     }
 
@@ -1032,6 +1130,14 @@ export const Database = {
     }
 
     const selected = pickWithConstraints(ranked, targetCount, mode);
+    const selectionUsage = buildSelectionUsageMeta({
+      selectedRows: selected,
+      candidatePool: pool,
+      progress,
+      mode,
+      targetCount,
+      recencyFilteredCount,
+    });
 
     const validation = validateMockSet(selected, targetCount);
     if (!validation.ok && validation.reason === 'pool_too_thin') {
@@ -1040,6 +1146,7 @@ export const Database = {
 
     return formatResult(selected, {
       validation,
+      selectionUsage,
     });
   },
 
@@ -1248,7 +1355,54 @@ export const Database = {
       .in('verification_state', ['unverified', 'pending_review', 'disputed'])
       .order('created_at', { ascending: false });
     if (error) throw error;
-    return data.map(questionOut);
+    return this._attachQuestionReportMetadata(data.map(questionOut));
+  },
+
+  async _attachQuestionReportMetadata(questions) {
+    const list = Array.isArray(questions) ? questions : [];
+    const ids = list.map((question) => question?.id).filter(Boolean);
+    if (ids.length === 0) return list;
+
+    const { data, error } = await supabaseAdmin()
+      .from('question_interactions')
+      .select('question_id, user_id, interaction_type, created_at, metadata')
+      .in('question_id', ids)
+      .in('interaction_type', ['report', 'report_resolved'])
+      .order('created_at', { ascending: false })
+      .limit(1000);
+    if (error) {
+      if (isMissingInteractionsSchema(error)) return list;
+      throw error;
+    }
+
+    const byQuestion = new Map();
+    for (const event of data || []) {
+      const bucket = byQuestion.get(event.question_id) || [];
+      bucket.push(event);
+      byQuestion.set(event.question_id, bucket);
+    }
+
+    return list.map((question) => {
+      const events = byQuestion.get(question.id) || [];
+      const latestResolvedAt = events
+        .filter((event) => event.interaction_type === 'report_resolved')
+        .reduce((latest, event) => Math.max(latest, new Date(event.created_at).getTime()), 0);
+      const activeReports = events.filter((event) => (
+        event.interaction_type === 'report' &&
+        new Date(event.created_at).getTime() > latestResolvedAt
+      ));
+      if (activeReports.length === 0) return question;
+      const latestReport = activeReports[0];
+      return {
+        ...question,
+        reportCount: activeReports.length,
+        latestReport: {
+          userId: latestReport.user_id || null,
+          createdAt: latestReport.created_at || null,
+          metadata: latestReport.metadata || {},
+        },
+      };
+    });
   },
 
   async addPendingQuestion(q) {
@@ -1325,11 +1479,84 @@ export const Database = {
       total: a.total,
       details: a.details || [],
       questions_snapshot: a.questionsSnapshot || [],
+      selection_meta: a.selectionMeta || {},
     };
-    const { data, error } = await supabaseAdmin()
+    let { data, error } = await supabaseAdmin()
       .from('attempts').insert(row).select('*').single();
+    if (error && isMissingAttemptSelectionSchema(error)) {
+      delete row.selection_meta;
+      ({ data, error } = await supabaseAdmin()
+        .from('attempts').insert(row).select('*').single());
+    }
     if (error) throw error;
+    try {
+      await this._recordAttemptProgress({
+        userId: a.userId,
+        subject: a.subject,
+        details: a.details || [],
+        questionsSnapshot: a.questionsSnapshot || [],
+      });
+    } catch (progressError) {
+      console.warn('[attempts] progress update skipped:', progressError.message);
+    }
     return attemptOut(data);
+  },
+
+  async _recordAttemptProgress({ userId, subject, details, questionsSnapshot }) {
+    if (!userId || !Array.isArray(questionsSnapshot) || questionsSnapshot.length === 0) return;
+
+    const detailsById = new Map((Array.isArray(details) ? details : [])
+      .filter((detail) => detail?.qid)
+      .map((detail) => [detail.qid, detail]));
+    const questionsById = new Map();
+    for (const question of questionsSnapshot) {
+      if (question?.id && !questionsById.has(question.id)) questionsById.set(question.id, question);
+    }
+    const questionIds = [...questionsById.keys()];
+    if (questionIds.length === 0) return;
+
+    const { data: existingRows, error: readError } = await supabaseAdmin()
+      .from('user_question_progress')
+      .select('question_id, seen_count, attempt_count, correct_count, skip_count, last_selected_key, last_correct, best_dwell_ms, last_seen_at, last_attempted_at')
+      .eq('user_id', userId)
+      .in('question_id', questionIds);
+    if (readError) {
+      if (isMissingLearningProgressSchema(readError)) return;
+      throw readError;
+    }
+
+    const existingById = new Map((existingRows || []).map((row) => [row.question_id, row]));
+    const nowIso = new Date().toISOString();
+    const rows = questionIds.map((questionId) => {
+      const question = questionsById.get(questionId);
+      const detail = detailsById.get(questionId);
+      const answered = Number.isInteger(detail?.givenIndex);
+      const existing = existingById.get(questionId) || {};
+      return {
+        user_id: userId,
+        question_id: questionId,
+        subject: question?.internalSubject || question?.subject || subject || null,
+        chapter: question?.chapter || null,
+        seen_count: Number(existing.seen_count || 0) + 1,
+        attempt_count: Number(existing.attempt_count || 0) + (answered ? 1 : 0),
+        correct_count: Number(existing.correct_count || 0) + (detail?.isCorrect === true ? 1 : 0),
+        skip_count: Number(existing.skip_count || 0) + (answered ? 0 : 1),
+        last_selected_key: answered ? optionKeyAt(question, detail.givenIndex) : existing.last_selected_key || null,
+        last_correct: answered ? detail?.isCorrect === true : existing.last_correct ?? null,
+        best_dwell_ms: existing.best_dwell_ms || null,
+        last_seen_at: nowIso,
+        last_attempted_at: answered ? nowIso : existing.last_attempted_at || null,
+        updated_at: nowIso,
+      };
+    });
+
+    const { error: writeError } = await supabaseAdmin()
+      .from('user_question_progress')
+      .upsert(rows, { onConflict: 'user_id,question_id' });
+    if (writeError) {
+      if (isMissingLearningProgressSchema(writeError)) return;
+      throw writeError;
+    }
   },
 
   // =====================================================================

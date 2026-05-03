@@ -27,6 +27,8 @@ export async function GET() {
       creditBalance: dbUser.creditBalance || 0,
       subscriptionStatus: dbUser.subscriptionStatus || 'free',
       isPremium: Boolean(dbUser.isPremium),
+      premiumUntil: dbUser.premiumUntil || null,
+      razorpaySubscriptionId: dbUser.razorpaySubscriptionId || null,
     };
 
     return NextResponse.json({

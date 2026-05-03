@@ -63,7 +63,7 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const subject = searchParams.get('subject');
     const user = await Database.getUserById(session.user.id);
-    const isPremium = user?.subscriptionStatus === 'active';
+    const isPremium = Boolean(user?.isPremium);
     const weekStart = startOfWeek().getTime();
 
     const [attempts, bookmarksResult, progressResult, contributorResult] = await Promise.all([

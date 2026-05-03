@@ -20,11 +20,13 @@ const INACTIVE_EVENTS = new Set([
 export async function POST(request) {
   try {
     const secret = process.env.BILLING_WEBHOOK_SECRET;
-    if (secret) {
-      const provided = request.headers.get('x-mockmob-signature');
-      if (provided !== secret) {
-        return NextResponse.json({ error: 'Invalid webhook signature' }, { status: 401 });
-      }
+    if (!secret) {
+      return NextResponse.json({ error: 'BILLING_WEBHOOK_SECRET is required' }, { status: 503 });
+    }
+
+    const provided = request.headers.get('x-mockmob-signature');
+    if (provided !== secret) {
+      return NextResponse.json({ error: 'Invalid webhook signature' }, { status: 401 });
     }
 
     const body = await request.json();
@@ -46,7 +48,10 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Unsupported subscription event' }, { status: 422 });
     }
 
-    let query = supabaseAdmin().from('users').update({ subscription_status: subscriptionStatus });
+    let query = supabaseAdmin().from('users').update({
+      subscription_status: subscriptionStatus,
+      is_premium: subscriptionStatus === 'active',
+    });
     query = userId ? query.eq('id', userId) : query.eq('email', email);
     const { data, error } = await query.select('id, subscription_status').maybeSingle();
     if (error) throw error;

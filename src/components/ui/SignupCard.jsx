@@ -146,7 +146,11 @@ export function SignupCard({ mode = 'signup' }) {
 
       <p className="mt-6 text-sm text-zinc-500">
         {isLogin ? 'New here?' : 'Already have an account?'}{' '}
-        <Link href={isLogin ? '/signup' : '/login'} className="text-volt transition-colors hover:text-[#e8ff4a]">
+        <Link
+          href={isLogin ? '/signup' : '/login'}
+          className="inline-flex min-h-11 items-center text-volt transition-colors hover:text-[#e8ff4a]"
+          style={{ minHeight: '44px', paddingInline: '4px' }}
+        >
           {isLogin ? 'Create an account' : 'Log in'}
         </Link>
       </p>

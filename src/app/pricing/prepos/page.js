@@ -69,7 +69,7 @@ export default async function PrepOSPricingPage() {
             <PrepOSOrb size={118} active label="AI" />
           </div>
           <div className="prepos-hero-copy">
-            <Link href="/pricing" className="mb-5 inline-flex items-center gap-2 text-sm font-bold text-zinc-400 no-underline transition hover:text-volt">
+            <Link href="/pricing" className="mb-5 inline-flex min-h-11 items-center gap-2 rounded-full py-1 text-sm font-bold text-zinc-400 no-underline transition hover:text-volt" style={{ minHeight: '44px' }}>
               <ArrowLeft className="h-4 w-4" />
               Back to Pro pricing
             </Link>

@@ -11,6 +11,7 @@ const eslintConfig = defineConfig([
     "build/**",
     "coverage/**",
     "dist/**",
+    "artifacts/**",
     ".turbo/**",
     ".vercel/**",
     ".claude/**",

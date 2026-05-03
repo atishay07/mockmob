@@ -22,9 +22,9 @@ const liquidGlassButtonVariants = cva(
           'border-white/15 bg-[rgba(255,255,255,0.03)] text-white hover:bg-[rgba(255,255,255,0.08)] hover:border-white/35',
       },
       size: {
-        sm: 'h-10 px-4 text-[11px]',
-        md: 'h-11 px-5 text-xs',
-        lg: 'h-12 px-6 text-[13px]',
+        sm: 'min-h-11 px-4 py-2.5 text-[11px]',
+        md: 'min-h-11 px-5 py-2.5 text-xs',
+        lg: 'min-h-12 px-6 py-3 text-[13px]',
       },
     },
     defaultVariants: {

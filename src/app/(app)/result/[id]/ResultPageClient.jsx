@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { Icon } from '@/components/ui/Icons';
 import { Button } from '@/components/ui/Button';
 import { PageSpinner, ErrorState } from '@/components/ui/Skeleton';
-import { apiGet } from '@/lib/fetcher';
+import { apiGet, apiPost } from '@/lib/fetcher';
 
 function displayValue(value, fallback = '') {
   if (value == null) return fallback;
@@ -28,6 +28,9 @@ export default function ResultPageClient() {
   const [attempt, setAttempt] = useState(null);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState('all'); // all | correct | wrong | skipped
+  const [reporting, setReporting] = useState({});
+  const [reported, setReported] = useState({});
+  const [reportError, setReportError] = useState(null);
 
   useEffect(() => {
     let alive = true;
@@ -54,6 +57,41 @@ export default function ResultPageClient() {
   const isPass = attempt.score >= 40;
   const isStrong = attempt.score >= 70;
   const accuracy = attempt.total ? Math.round((attempt.correct / attempt.total) * 100) : 0;
+
+  async function handleReport(row) {
+    const qid = row?.q?.id;
+    if (!qid || reporting[qid] || reported[qid]) return;
+    const note = window.prompt('What looks wrong? Example: answer key, option text, explanation, or unclear wording.');
+    if (note === null) return;
+
+    setReportError(null);
+    setReporting((current) => ({ ...current, [qid]: true }));
+    try {
+      await apiPost(`/api/questions/${encodeURIComponent(qid)}/interact`, {
+        interaction_type: 'report',
+        flow_context: 'review',
+        session_id: attempt.id,
+        metadata: {
+          source: 'result_analysis',
+          attempt_id: attempt.id,
+          subject: attempt.subject,
+          verdict: row.verdict,
+          note: note.trim(),
+          given_index: row.d?.givenIndex ?? null,
+          correct_index: row.q?.correctIndex ?? null,
+        },
+      });
+      setReported((current) => ({ ...current, [qid]: true }));
+    } catch (e) {
+      setReportError(e.message || 'Failed to report question.');
+    } finally {
+      setReporting((current) => {
+        const next = { ...current };
+        delete next[qid];
+        return next;
+      });
+    }
+  }
 
   return (
     <div className="container-narrow pb-20">
@@ -105,6 +143,12 @@ export default function ResultPageClient() {
         </Button>
       </div>
 
+      {reportError && (
+        <div className="mb-5 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+          {reportError}
+        </div>
+      )}
+
       {/* ---------- Filter tabs ---------- */}
       <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
         <div className="eyebrow">{'// Post-match review'}</div>
@@ -126,6 +170,9 @@ export default function ResultPageClient() {
           ))}
         </div>
       </div>
+      <p className="mb-4 text-xs text-zinc-500">
+        If an option, answer key, or explanation looks wrong, report it here and a moderator will review it.
+      </p>
 
       {/* ---------- Review list ---------- */}
       <div className="flex flex-col gap-4">
@@ -136,6 +183,8 @@ export default function ResultPageClient() {
         ) : filtered.map(({ q, d, verdict }, i) => {
           const isCorrect = verdict === 'correct';
           const isWrong   = verdict === 'wrong';
+          const isReporting = !!reporting[q.id];
+          const isReported = !!reported[q.id];
 
           return (
             <div
@@ -147,11 +196,11 @@ export default function ResultPageClient() {
                           :             'rgba(255,255,255,0.08)',
               }}
             >
-              <div className="flex items-start gap-4 mb-4">
+              <div className="flex items-start gap-4 mb-4 flex-wrap">
                 <div className={`w-8 h-8 shrink-0 rounded-full flex items-center justify-center font-bold text-black ${isCorrect ? 'bg-volt' : isWrong ? 'bg-red-400' : 'bg-zinc-600'}`}>
                   {isCorrect ? <Icon name="check" /> : isWrong ? <Icon name="x" /> : '—'}
                 </div>
-                <div>
+                <div className="min-w-0 flex-1">
                   <div className="flex gap-2 items-center mb-1 flex-wrap">
                     <span className="mono-label">Q{i + 1}</span>
                     <span className="pill subtle">{displayValue(q.chapter, 'Chapter')}</span>
@@ -159,6 +208,14 @@ export default function ResultPageClient() {
                   </div>
                   <p className="text-lg leading-relaxed">{displayValue(q.question ?? q.body, 'Question unavailable')}</p>
                 </div>
+                <button
+                  type="button"
+                  className="btn-outline sm shrink-0"
+                  disabled={isReporting || isReported}
+                  onClick={() => handleReport({ q, d, verdict })}
+                >
+                  {isReported ? 'Reported' : isReporting ? 'Sending...' : 'Report'}
+                </button>
               </div>
 
               <div className="pl-12 flex flex-col gap-2">

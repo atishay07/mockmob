@@ -44,7 +44,7 @@ export async function GET(request) {
     }
 
     const dbUser = await Database.getUserById(session.user.id);
-    const isPremium = dbUser?.subscriptionStatus === 'active';
+    const isPremium = Boolean(dbUser?.isPremium);
 
     if (mode.premium && !isPremium) {
       return NextResponse.json({
