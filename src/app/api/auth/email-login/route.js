@@ -65,12 +65,12 @@ function loginEmailHtml({ link, code }) {
               <td>
                 <p style="margin:0 0 8px;color:#d2f000;font-size:12px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;">MockMob login</p>
                 <h1 style="margin:0;color:#f8faf2;font-size:28px;line-height:1.15;">Use the button or enter this code.</h1>
-                <p style="margin:14px 0 22px;color:#a1a1aa;font-size:15px;line-height:1.7;">If this email is open on another phone, keep MockMob open on the payment device and type the 6-digit code below.</p>
+                <p style="margin:14px 0 22px;color:#a1a1aa;font-size:15px;line-height:1.7;">If this email is open on another phone, keep MockMob open on the payment device and type the 8-digit code below.</p>
                 <p style="margin:0 0 22px;">
                   <a href="${safeLink}" style="display:inline-block;border-radius:999px;background:#d2f000;color:#090a08;font-size:15px;font-weight:800;text-decoration:none;padding:14px 20px;">Log in to MockMob</a>
                 </p>
                 <div style="border:1px solid rgba(210,240,0,0.28);border-radius:18px;background:rgba(210,240,0,0.08);padding:18px;text-align:center;">
-                  <p style="margin:0 0 8px;color:#a1a1aa;font-size:13px;">Your 6-digit login code</p>
+                  <p style="margin:0 0 8px;color:#a1a1aa;font-size:13px;">Your 8-digit login code</p>
                   <p style="margin:0;color:#d2f000;font-size:34px;line-height:1;font-weight:900;letter-spacing:0.28em;">${safeCode}</p>
                 </div>
                 <p style="margin:18px 0 0;color:#71717a;font-size:12px;line-height:1.6;">This login is one-time use. If you did not request it, you can ignore this email.</p>

@@ -47,7 +47,7 @@ export function SignupCard({ mode = 'signup' }) {
         return;
       }
       setOtpSent(true);
-      setNotice('Check your email for the login button or 6-digit code. The code works on this device even if the email is open somewhere else.');
+      setNotice('Check your email for the login button or 8-digit code. The code works on any device with this email address.');
     } catch {
       setError('Email sign-in failed. Please try again.');
     } finally {
@@ -59,7 +59,7 @@ export function SignupCard({ mode = 'signup' }) {
     event.preventDefault();
     const cleanEmail = email.trim();
     const cleanOtp = otp.trim();
-    if (!cleanEmail || cleanOtp.length < 6) return;
+    if (!cleanEmail || cleanOtp.length < 8) return;
 
     setError('');
     setNotice('');
@@ -121,14 +121,14 @@ export function SignupCard({ mode = 'signup' }) {
               className="input text-center !text-lg !tracking-[0.28em]"
               inputMode="numeric"
               autoComplete="one-time-code"
-              maxLength={6}
+              maxLength={8}
               value={otp}
-              onChange={(event) => setOtp(event.target.value.replace(/\D/g, '').slice(0, 6))}
-              placeholder="000000"
+              onChange={(event) => setOtp(event.target.value.replace(/\D/g, '').slice(0, 8))}
+              placeholder="00000000"
               disabled={emailLoading}
             />
             <span className="text-xs leading-5 text-zinc-500">
-              Open the email on any phone, read the 6-digit code, then type it here.
+              Open the email on any phone, read the 8-digit code, then type it here.
             </span>
           </label>
         )}
@@ -136,7 +136,7 @@ export function SignupCard({ mode = 'signup' }) {
           variant="ghost"
           size="lg"
           className="w-full min-w-0 justify-center px-4 text-[11px] sm:text-[13px]"
-          disabled={emailLoading || !email.trim() || (otpSent && otp.trim().length < 6)}
+          disabled={emailLoading || !email.trim() || (otpSent && otp.trim().length < 8)}
         >
           {emailLoading ? 'Working...' : otpSent ? 'Verify code and continue' : 'Send link and code'}
         </LiquidGlassButton>
