@@ -62,6 +62,12 @@ const PREPOS_COMMANDS = [
   },
 ];
 
+const PLAN_BUILD_STEPS = [
+  'Reading setup choices',
+  'Choosing mission order',
+  'Writing the daily plan',
+];
+
 const SETUP_DEFAULTS = {
   target: 'CUET score climb',
   dailyMinutes: 45,
@@ -115,7 +121,9 @@ export default function MockMobAIHub({
   const [setupOpen, setSetupOpen] = useState(false);
   const [planVersion, setPlanVersion] = useState(1);
   const [transcriptOpen, setTranscriptOpen] = useState(false);
+  const [setupBuild, setSetupBuild] = useState(null);
   const transcriptRef = useRef(null);
+  const setupBuildTimersRef = useRef([]);
 
   const isDrawer = variant === 'drawer';
   const isAuthenticated = Boolean(user?.id);
@@ -137,6 +145,11 @@ export default function MockMobAIHub({
     const source = user?.name || user?.email || studentContext?.displayName || 'there';
     return String(source).split(/[ @]/)[0] || 'there';
   }, [studentContext?.displayName, user?.email, user?.name]);
+
+  useEffect(() => () => {
+    setupBuildTimersRef.current.forEach((timer) => window.clearTimeout(timer));
+    setupBuildTimersRef.current = [];
+  }, []);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -165,7 +178,6 @@ export default function MockMobAIHub({
       };
     }
     const timer = window.setTimeout(() => {
-      // eslint-disable-next-line react-hooks/immutability
       Promise.allSettled([loadHistory(), loadContext()])
         .finally(() => {
           if (!cancelled) setError(null);
@@ -181,7 +193,7 @@ export default function MockMobAIHub({
   useEffect(() => {
     if (!transcriptRef.current) return;
     transcriptRef.current.scrollTop = transcriptRef.current.scrollHeight;
-  }, [messages, pending, activeSection]);
+  }, [messages, pending, activeSection, setupBuild]);
 
   async function loadHistory() {
     if (!isAuthenticated) return;
@@ -235,6 +247,10 @@ export default function MockMobAIHub({
     const finalText = String(text || '').trim();
     if (!finalText || pending) return;
 
+    if (setupBuild) {
+      clearSetupBuildTimers();
+      setSetupBuild(null);
+    }
     setActiveSection('ai');
     setTranscriptOpen(true);
     setInput('');
@@ -363,14 +379,67 @@ export default function MockMobAIHub({
 
   function saveSetup(next = setupDraft) {
     const clean = normalizeSetup(next);
+    const nextBenchmark = BENCHMARK_BY_SETUP[clean.benchmark] || 'NORTH_CAMPUS_RIVAL';
     setSetupProfile(clean);
     setSetupDraft(clean);
     setSetupOpen(false);
-    setSelectedBenchmark(BENCHMARK_BY_SETUP[clean.benchmark] || 'NORTH_CAMPUS_RIVAL');
+    setSelectedBenchmark(nextBenchmark);
     if (typeof window !== 'undefined') {
       window.localStorage.setItem(setupKey, JSON.stringify(clean));
     }
-    setActiveSection('mission');
+    startSetupPlanBuild(clean, nextBenchmark);
+  }
+
+  function clearSetupBuildTimers() {
+    setupBuildTimersRef.current.forEach((timer) => window.clearTimeout(timer));
+    setupBuildTimersRef.current = [];
+  }
+
+  function startSetupPlanBuild(clean, benchmarkId) {
+    if (typeof window === 'undefined') return;
+    clearSetupBuildTimers();
+    setActiveSection('ai');
+    setTranscriptOpen(true);
+    setPending(false);
+    setError(null);
+    setInput('');
+    setMissionFocus('mission');
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: `u_setup_${Date.now()}`,
+        role: 'user',
+        text: `Build my ${display(clean.target)} plan for ${clean.dailyMinutes} minutes.`,
+      },
+    ]);
+    setSetupBuild({ stage: 0, profile: clean });
+
+    setupBuildTimersRef.current = [
+      window.setTimeout(() => setSetupBuild({ stage: 1, profile: clean }), 320),
+      window.setTimeout(() => setSetupBuild({ stage: 2, profile: clean }), 680),
+      window.setTimeout(() => {
+        const response = buildSetupPlanResponse({
+          setupProfile: clean,
+          context: studentContext,
+          user,
+          pathname,
+          benchmarkId,
+          planVersion: planVersion + 1,
+        });
+        setSetupBuild(null);
+        setPlanVersion((value) => value + 1);
+        setMessages((prev) => [
+          ...prev,
+          { id: `a_setup_${Date.now()}`, role: 'assistant', response },
+        ]);
+        setupBuildTimersRef.current = [
+          window.setTimeout(() => {
+            setMissionFocus('mission');
+            setActiveSection('mission');
+          }, 1900),
+        ];
+      }, 1040),
+    ];
   }
 
   function startSetup() {
@@ -385,6 +454,8 @@ export default function MockMobAIHub({
   }
 
   function runAction(action) {
+    clearSetupBuildTimers();
+    setSetupBuild(null);
     if (!action) return;
 
     if (action.type === 'ask' && action.prompt) {
@@ -484,6 +555,7 @@ export default function MockMobAIHub({
             error={error}
             input={input}
             transcriptRef={transcriptRef}
+            setupBuild={setupBuild}
             onInput={setInput}
             onSend={sendMessage}
             onAction={runAction}
@@ -595,6 +667,7 @@ function AIChatSection({
   error,
   input,
   transcriptRef,
+  setupBuild,
   onInput,
   onSend,
   onAction,
@@ -604,9 +677,9 @@ function AIChatSection({
   onCloseSetup,
   onStartSetup,
 }) {
-  const showTranscript = (transcriptOpen && messages.length > 0) || pending || error;
+  const showTranscript = (transcriptOpen && messages.length > 0) || pending || error || setupBuild;
   const hasSavedThread = messages.length > 0 && !transcriptOpen;
-  const conversationMode = transcriptOpen || pending || error;
+  const conversationMode = transcriptOpen || pending || error || setupBuild;
   const setupSummary = setupProfile
     ? `${setupProfile.dailyMinutes} min daily · ${display(setupProfile.focus)} · ${display(setupProfile.benchmark)}`
     : 'Four choices, then PrepOS builds the day.';
@@ -619,12 +692,12 @@ function AIChatSection({
         <div className="absolute inset-0 opacity-[0.18] [background-image:radial-gradient(rgba(246,247,238,0.22)_1px,transparent_1px)] [background-size:18px_18px]" />
       </div>
 
-      <div className="relative flex-1 space-y-4 px-4 py-4 sm:px-5 sm:py-5">
+      <div className="relative flex-1 space-y-4 px-3 py-3 sm:px-5 sm:py-5">
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, ease: 'easeOut' }}
-          className="overflow-hidden rounded-[28px] border border-white/10 bg-[#0b0d08]/88 shadow-[0_28px_90px_rgba(0,0,0,0.35)] backdrop-blur-2xl"
+          className="w-full max-w-full overflow-hidden rounded-[28px] border border-white/10 bg-[#0b0d08]/88 shadow-[0_28px_90px_rgba(0,0,0,0.35)] backdrop-blur-2xl"
         >
           <div className={`relative px-4 sm:px-6 ${conversationMode ? 'py-4' : 'pb-4 pt-7'}`}>
             <div className="pointer-events-none absolute inset-x-0 top-0 h-44 bg-[radial-gradient(circle_at_50%_0%,rgba(210,240,0,0.17),transparent_62%)]" />
@@ -639,7 +712,7 @@ function AIChatSection({
                 </div>
                 <TypedGreeting
                   text={greeting}
-                  className={`${conversationMode ? 'mt-1 text-[22px] sm:text-[24px]' : 'mt-3 text-[28px] sm:text-[34px]'} max-w-[560px] font-display font-black leading-[1.04] text-zinc-50`}
+                  className={`${conversationMode ? 'mt-1 text-[22px] sm:text-[24px]' : 'mt-3 text-[26px] sm:text-[34px]'} w-full max-w-[min(560px,100%)] font-display font-black leading-[1.08] text-zinc-50`}
                 />
                 {!conversationMode ? (
                   <p className="mt-3 max-w-[560px] text-sm leading-6 text-zinc-400">
@@ -724,6 +797,7 @@ function AIChatSection({
                   {messages.map((message) => (
                     <ChatMessage key={message.id} message={message} onAction={onAction} />
                   ))}
+                  {setupBuild ? <PlanBuildCard stage={setupBuild.stage} profile={setupBuild.profile} /> : null}
                   {error ? <InfoStrip tone="warn">{error}</InfoStrip> : null}
                   {pending ? (
                     <div className="rounded-2xl border border-white/8 bg-white/[0.03] p-4">
@@ -800,7 +874,7 @@ function TypedGreeting({ text, className = '' }) {
     <h3 className={className} aria-label={text}>
       <span
         key={text}
-        className="inline-block max-w-full overflow-hidden whitespace-nowrap align-bottom"
+        className="inline-block max-w-full overflow-hidden whitespace-normal break-words align-bottom sm:whitespace-nowrap"
         style={{
           animation: `prepos-type ${Math.max(0.8, text.length * 0.028)}s steps(${Math.max(1, text.length)}, end) both`,
         }}
@@ -1294,10 +1368,10 @@ function CommandInput({ input, pending, isAuthenticated, setupProfile, compact =
     <motion.form
       initial={false}
       animate={{
-        borderRadius: focused || input || compact ? 24 : 999,
+        borderRadius: focused || input || compact ? 24 : 30,
       }}
       transition={{ type: 'spring', stiffness: 420, damping: 34 }}
-      className="relative border border-white/10 bg-black/30 p-2 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
+      className="relative w-full max-w-full border border-white/10 bg-black/30 p-2.5 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] sm:p-3"
       onSubmit={(event) => {
         event.preventDefault();
         submit();
@@ -1339,8 +1413,8 @@ function CommandInput({ input, pending, isAuthenticated, setupProfile, compact =
           <PrepOSOrb size={28} active={focused || pending} />
         </div>
         <div className="min-w-0 flex-1">
-          <div className={`${compact ? 'sr-only' : 'mb-1 flex'} items-center justify-between gap-3 px-2`}>
-            <span className="text-[11px] font-black uppercase tracking-[0.18em] text-zinc-500">
+          <div className={`${compact ? 'sr-only' : 'mb-2 flex'} flex-wrap items-center justify-between gap-2 px-1 sm:px-2`}>
+            <span className="text-[10px] font-black uppercase tracking-[0.14em] text-zinc-500 sm:text-[11px] sm:tracking-[0.18em]">
               {setupProfile ? 'Command layer' : 'Setup first, or ask directly'}
             </span>
             <span className="hidden text-[11px] font-semibold text-zinc-600 sm:inline">
@@ -1355,8 +1429,8 @@ function CommandInput({ input, pending, isAuthenticated, setupProfile, compact =
             onBlur={() => setFocused(false)}
             onChange={(event) => onInput(event.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder={isAuthenticated ? (compact ? 'Reply to PrepOS...' : 'Ask PrepOS, or type /mission, /replan, /benchmark...') : 'Ask how MockMob works...'}
-            className="block max-h-[168px] min-h-12 w-full resize-none rounded-2xl border border-transparent bg-white/[0.035] px-4 py-3 text-sm leading-6 text-zinc-100 outline-none placeholder:text-zinc-600 focus:border-volt/25 focus:bg-white/[0.05]"
+            placeholder={isAuthenticated ? (compact ? 'Reply to PrepOS...' : 'Ask PrepOS...') : 'Ask MockMob...'}
+            className="block max-h-[168px] min-h-12 w-full resize-none overflow-y-auto rounded-2xl border border-transparent bg-white/[0.035] px-4 py-3 text-sm leading-6 text-zinc-100 outline-none placeholder:text-zinc-600 focus:border-volt/25 focus:bg-white/[0.05]"
           />
         </div>
         <button
@@ -1369,13 +1443,13 @@ function CommandInput({ input, pending, isAuthenticated, setupProfile, compact =
         </button>
       </div>
 
-      {!compact ? <div className="mt-2 flex gap-2 overflow-x-auto px-1 pb-1">
+      {!compact ? <div className="mt-2 grid grid-cols-2 gap-2 px-1 pb-1 sm:flex sm:flex-wrap">
         {QUICK_PROMPTS.map((prompt) => (
           <button
             key={prompt.label}
             type="button"
             onClick={() => onSend(prompt.prompt, prompt.mode)}
-            className="shrink-0 rounded-full border border-white/8 bg-white/[0.035] px-3 py-2 text-xs font-semibold text-zinc-400 transition hover:border-volt/20 hover:bg-volt/[0.07] hover:text-zinc-100"
+            className="min-h-10 rounded-full border border-white/8 bg-white/[0.035] px-3 py-2 text-center text-xs font-semibold text-zinc-400 transition hover:border-volt/20 hover:bg-volt/[0.07] hover:text-zinc-100 sm:min-h-0 sm:w-auto sm:text-left"
           >
             {prompt.label}
           </button>
@@ -1437,7 +1511,7 @@ function ChatMessage({ message, onAction }) {
         {response.reason ? <p className="mt-2 text-xs leading-5 text-zinc-500">{response.reason}</p> : null}
         {Array.isArray(response.cards) && response.cards.length ? (
           <div className="mt-3 space-y-2">
-            {response.cards.slice(0, 2).map((card, index) => (
+            {response.cards.slice(0, response.cardLimit || 2).map((card, index) => (
               <div key={`${card.title}_${index}`} className="rounded-xl border border-white/6 bg-black/22 p-3">
                 <div className="text-xs font-bold text-zinc-200">{card.title}</div>
                 <p className="mt-1 text-xs leading-5 text-zinc-500">{card.body}</p>
@@ -1459,6 +1533,55 @@ function ChatMessage({ message, onAction }) {
             ))}
           </div>
         ) : null}
+      </div>
+    </motion.div>
+  );
+}
+
+function PlanBuildCard({ stage = 0, profile }) {
+  const activeStage = Math.min(stage, PLAN_BUILD_STEPS.length - 1);
+  const progress = `${((activeStage + 1) / PLAN_BUILD_STEPS.length) * 100}%`;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 8, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      className="flex max-w-[94%] gap-3"
+    >
+      <PrepOSOrb size={30} active />
+      <div className="min-w-0 flex-1 overflow-hidden rounded-2xl rounded-tl-md border border-volt/18 bg-[linear-gradient(180deg,rgba(210,240,0,0.075),rgba(255,255,255,0.03))] p-4 shadow-[0_18px_48px_rgba(0,0,0,0.2)]">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <div className="text-xs font-black uppercase tracking-[0.16em] text-volt">Building plan</div>
+            <div className="mt-1 text-sm font-bold text-zinc-100">{display(profile?.target || 'CUET target')}</div>
+          </div>
+          <div className="rounded-full bg-black/25 px-3 py-1 text-xs font-bold text-zinc-400">
+            {profile?.dailyMinutes || 45} min
+          </div>
+        </div>
+        <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/[0.08]">
+          <motion.div
+            className="h-full rounded-full bg-volt shadow-[0_0_18px_rgba(210,240,0,0.45)]"
+            initial={false}
+            animate={{ width: progress }}
+            transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+          />
+        </div>
+        <div className="mt-4 grid gap-2">
+          {PLAN_BUILD_STEPS.map((step, index) => (
+            <div
+              key={step}
+              className={`flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-semibold transition ${
+                index <= activeStage
+                  ? 'border-volt/18 bg-volt/[0.055] text-zinc-200'
+                  : 'border-white/6 bg-black/18 text-zinc-600'
+              }`}
+            >
+              <span className={`h-1.5 w-1.5 rounded-full ${index <= activeStage ? 'bg-volt' : 'bg-zinc-700'}`} />
+              {step}
+            </div>
+          ))}
+        </div>
       </div>
     </motion.div>
   );
@@ -1491,6 +1614,42 @@ function Metric({ label, value }) {
       <div className="mt-1 font-display text-lg font-black text-zinc-50">{value}</div>
     </div>
   );
+}
+
+function buildSetupPlanResponse({ setupProfile, context, user, pathname, benchmarkId, planVersion }) {
+  const setupContext = context
+    ? { ...context, setupProfile }
+    : { setupProfile };
+  const mission = buildTodayMission({ context: setupContext, user, pathname });
+  const replay = buildMistakeReplayPlan(setupContext);
+  const benchmark = BENCHMARK_OPTIONS.find((item) => item.id === benchmarkId)
+    || benchmarkFromSetup(setupProfile)
+    || BENCHMARK_OPTIONS[0];
+  const plan = buildDailyPlan({
+    mission,
+    replay,
+    context: setupContext,
+    setupProfile,
+    benchmark,
+    planVersion,
+  });
+  const planLine = plan
+    .map((item, index) => `${index + 1}. ${item.title}`)
+    .join(' ');
+
+  return {
+    reply: `Done. I built a ${setupProfile.dailyMinutes}-minute ${display(setupProfile.focus)} plan for ${display(setupProfile.target)}. ${planLine} I am opening Missions with this plan loaded.`,
+    reason: `Setup saved: benchmark ${display(setupProfile.benchmark)}, focus ${display(setupProfile.focus)}, target ${display(setupProfile.target)}.`,
+    cardLimit: 4,
+    cards: plan.slice(0, 4).map((item) => ({
+      title: `${item.time} - ${item.title}`,
+      body: item.body,
+    })),
+    actions: [
+      { label: 'Open Missions', type: 'section', section: 'mission' },
+      { label: 'Open benchmark', type: 'benchmark', rivalType: benchmark.id },
+    ],
+  };
 }
 
 function buildDailyPlan({ mission, replay, context, setupProfile, benchmark, planVersion }) {
