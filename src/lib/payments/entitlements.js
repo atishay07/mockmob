@@ -91,13 +91,99 @@ export function isCapturedRazorpayPayment(payment) {
     payment.currency === 'INR';
 }
 
-export function amountMatchesPaymentRecord(payment, paymentRecord) {
+function firstString(...values) {
+  for (const value of values) {
+    if (typeof value === 'string' && value.trim()) return value.trim();
+  }
+  return null;
+}
+
+export function referralAttributionFromCheckout({
+  paymentRecord = null,
+  payment = null,
+  subscription = null,
+  invoice = null,
+} = {}) {
+  const rawPayment = paymentRecord?.rawPayment || paymentRecord?.raw_payment || {};
+  const rawSubscription = paymentRecord?.rawSubscription || paymentRecord?.raw_subscription || {};
+  const notes = {
+    ...(rawSubscription?.notes || {}),
+    ...(rawPayment?.notes || {}),
+    ...(subscription?.notes || {}),
+    ...(invoice?.notes || {}),
+    ...(payment?.notes || {}),
+  };
+
+  const offerId = firstString(
+    paymentRecord?.offerId,
+    paymentRecord?.offer_id,
+    rawSubscription?.offer_id,
+    rawSubscription?.offerId,
+    subscription?.offer_id,
+    subscription?.offerId,
+    invoice?.offer_id,
+    invoice?.offerId,
+    payment?.offer_id,
+    payment?.offerId,
+    notes.offerId,
+    notes.offer_id,
+  );
+  const creatorCode = firstString(
+    paymentRecord?.creatorCode,
+    paymentRecord?.creator_code,
+    notes.creatorCode,
+    notes.creator_code,
+  );
+  const creatorId = firstString(
+    paymentRecord?.creatorId,
+    paymentRecord?.creator_id,
+    notes.creatorId,
+    notes.creator_id,
+  );
+  const referralCodeAttempted = firstString(
+    paymentRecord?.referralCodeAttempted,
+    paymentRecord?.referral_code_attempted,
+    notes.referralCodeAttempted,
+    notes.referral_code_attempted,
+    creatorCode,
+  );
+  const referralStatus = firstString(
+    paymentRecord?.referralStatus,
+    paymentRecord?.referral_status,
+    notes.referralStatus,
+    notes.referral_status,
+    offerId ? 'offer_attached' : null,
+    creatorCode ? 'tracked_no_offer' : null,
+  );
+
+  return {
+    creatorCode,
+    creatorId,
+    offerId,
+    referralCodeAttempted,
+    referralStatus,
+  };
+}
+
+function hasDiscountEvidence(paymentRecord, context = {}) {
+  const attribution = referralAttributionFromCheckout({
+    paymentRecord,
+    ...context,
+  });
+  return Boolean(
+    attribution.offerId ||
+    attribution.creatorCode ||
+    attribution.referralStatus === 'offer_attached'
+  );
+}
+
+export function amountMatchesPaymentRecord(payment, paymentRecord, context = {}) {
   if (!isCapturedRazorpayPayment(payment) || !paymentRecord?.amount) return false;
 
   const nominalAmount = Number(paymentRecord.amount);
   if (!Number.isInteger(nominalAmount) || nominalAmount <= 0) return false;
 
-  if (paymentRecord.offerId || paymentRecord.offer_id || paymentRecord.creatorCode || paymentRecord.creator_code) {
+  if (hasDiscountEvidence(paymentRecord, { payment, ...context })) {
     return payment.amount > 0 && payment.amount <= nominalAmount;
   }
 

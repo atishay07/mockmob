@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { getRazorpayClient, verifyRazorpaySubscriptionSignature } from '@/lib/payments/razorpay';
-import { amountMatchesPaymentRecord, resolvePaidThrough } from '@/lib/payments/entitlements';
+import { amountMatchesPaymentRecord, referralAttributionFromCheckout, resolvePaidThrough } from '@/lib/payments/entitlements';
 import { recordEarningIfApplicable } from '@/lib/payouts';
 import { Database } from '@/../data/db';
 
@@ -58,7 +58,9 @@ export async function POST(request) {
     const razorpayPayment = await getRazorpayClient().payments.fetch(paymentId);
     const razorpaySubscription = await getRazorpayClient().subscriptions.fetch(subscriptionId);
 
-    const amountIsAcceptable = amountMatchesPaymentRecord(razorpayPayment, paymentRecord);
+    const amountIsAcceptable = amountMatchesPaymentRecord(razorpayPayment, paymentRecord, {
+      subscription: razorpaySubscription,
+    });
 
     if (
       razorpaySubscription.id !== subscriptionId ||
@@ -68,7 +70,8 @@ export async function POST(request) {
       await Database.updatePaymentBySubscriptionId(subscriptionId, {
         paymentId,
         status: 'failed',
-        amountPaid: typeof razorpayPayment.amount === 'number' ? razorpayPayment.amount : null,
+        amountPaid: null,
+        accessUntil: null,
         rawPayment: razorpayPayment,
         rawSubscription: razorpaySubscription,
       });
@@ -91,6 +94,11 @@ export async function POST(request) {
       accessUntil: premiumUntil,
       rawPayment: razorpayPayment,
       rawSubscription: razorpaySubscription,
+      ...referralAttributionFromCheckout({
+        paymentRecord,
+        payment: razorpayPayment,
+        subscription: razorpaySubscription,
+      }),
     });
 
     const user = await Database.updateUser(userId, {

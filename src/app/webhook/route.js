@@ -7,6 +7,7 @@ import {
   hasPaidPaymentEvidence,
   isCapturedRazorpayPayment,
   isFutureIso,
+  referralAttributionFromCheckout,
   resolvePaidThrough,
 } from '@/lib/payments/entitlements';
 import { recordEarningIfApplicable } from '@/lib/payouts';
@@ -117,7 +118,7 @@ export async function POST(request) {
     }
 
     if (eventType === 'payment.captured' || eventType === 'subscription.charged') {
-      if (!isCapturedRazorpayPayment(payment) || !amountMatchesPaymentRecord(payment, paymentRecord)) {
+      if (!isCapturedRazorpayPayment(payment) || !amountMatchesPaymentRecord(payment, paymentRecord, { subscription, invoice })) {
         await updateUnpaidSubscriptionPayment({ subscriptionId, payment, subscription, paymentRecord });
         await Database.markWebhookEventProcessed(eventId, 'subscription payment amount mismatch');
         return NextResponse.json({ ok: true, ignored: true });
@@ -212,6 +213,10 @@ async function createMissingSubscriptionPaymentRecord({ payment, subscription, i
     rawPayment: payment,
     accessUntil,
     creatorCode: notes.creatorCode || null,
+    creatorId: notes.creatorId || null,
+    offerId: subscription?.offer_id || notes.offerId || null,
+    referralCodeAttempted: notes.referralCodeAttempted || notes.creatorCode || null,
+    referralStatus: notes.referralStatus || (subscription?.offer_id ? 'offer_attached' : null),
   });
 }
 
@@ -230,6 +235,12 @@ async function grantPaidSubscriptionAccess({ subscriptionId, payment, subscripti
     accessUntil,
     rawPayment: payment,
     rawSubscription: subscription,
+    ...referralAttributionFromCheckout({
+      paymentRecord,
+      payment,
+      subscription,
+      invoice,
+    }),
   });
 
   await Database.updateUser(paymentRecord.userId, {

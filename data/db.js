@@ -429,6 +429,11 @@ export const Database = {
     if (updates.status !== undefined) patch.status = updates.status;
     if (updates.amountPaid !== undefined) patch.amount_paid = updates.amountPaid;
     if (updates.accessUntil !== undefined) patch.access_until = updates.accessUntil;
+    if (updates.creatorCode !== undefined) patch.creator_code = updates.creatorCode;
+    if (updates.creatorId !== undefined) patch.creator_id = updates.creatorId;
+    if (updates.offerId !== undefined) patch.offer_id = updates.offerId;
+    if (updates.referralCodeAttempted !== undefined) patch.referral_code_attempted = updates.referralCodeAttempted;
+    if (updates.referralStatus !== undefined) patch.referral_status = updates.referralStatus;
     if (updates.rawOrder !== undefined) patch.raw_order = updates.rawOrder || {};
     if (updates.rawPayment !== undefined) patch.raw_payment = updates.rawPayment || {};
     if (updates.rawSubscription !== undefined) patch.raw_subscription = updates.rawSubscription || {};
@@ -448,6 +453,19 @@ export const Database = {
         .select('*')
         .maybeSingle());
     }
+    if (error && isMissingReferralSchema(error)) {
+      delete patch.creator_code;
+      delete patch.creator_id;
+      delete patch.offer_id;
+      delete patch.referral_code_attempted;
+      delete patch.referral_status;
+      ({ data, error } = await supabaseAdmin()
+        .from('payments')
+        .update(patch)
+        .eq('order_id', orderId)
+        .select('*')
+        .maybeSingle());
+    }
     if (error) throw error;
     return paymentOut(data);
   },
@@ -458,6 +476,11 @@ export const Database = {
     if (updates.status !== undefined) patch.status = updates.status;
     if (updates.amountPaid !== undefined) patch.amount_paid = updates.amountPaid;
     if (updates.accessUntil !== undefined) patch.access_until = updates.accessUntil;
+    if (updates.creatorCode !== undefined) patch.creator_code = updates.creatorCode;
+    if (updates.creatorId !== undefined) patch.creator_id = updates.creatorId;
+    if (updates.offerId !== undefined) patch.offer_id = updates.offerId;
+    if (updates.referralCodeAttempted !== undefined) patch.referral_code_attempted = updates.referralCodeAttempted;
+    if (updates.referralStatus !== undefined) patch.referral_status = updates.referralStatus;
     if (updates.rawPayment !== undefined) patch.raw_payment = updates.rawPayment || {};
     if (updates.rawSubscription !== undefined) patch.raw_subscription = updates.rawSubscription || {};
 
@@ -469,6 +492,19 @@ export const Database = {
       .maybeSingle();
     if (error && isMissingEntitlementSchema(error)) {
       delete patch.access_until;
+      ({ data, error } = await supabaseAdmin()
+        .from('payments')
+        .update(patch)
+        .eq('subscription_id', subscriptionId)
+        .select('*')
+        .maybeSingle());
+    }
+    if (error && isMissingReferralSchema(error)) {
+      delete patch.creator_code;
+      delete patch.creator_id;
+      delete patch.offer_id;
+      delete patch.referral_code_attempted;
+      delete patch.referral_status;
       ({ data, error } = await supabaseAdmin()
         .from('payments')
         .update(patch)

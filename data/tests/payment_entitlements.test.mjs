@@ -5,6 +5,7 @@ import {
   effectivePremiumFromRow,
   hasPaidPaymentEvidence,
   isFutureIso,
+  referralAttributionFromCheckout,
   refundRevocationMatchesPayment,
   resolvePaidThrough,
 } from '../../src/lib/payments/entitlements.js';
@@ -62,6 +63,35 @@ test('discounted creator payments can validate below nominal amount', () => {
 
   assert.equal(amountMatchesPaymentRecord(payment, paymentRecord), true);
   assert.equal(isFutureIso('2026-02-02T00:00:00.000Z', Date.parse('2026-01-01T00:00:00.000Z')), true);
+});
+
+test('discounted payments can validate from Razorpay subscription offer metadata', () => {
+  const payment = {
+    status: 'captured',
+    amount: 6800,
+    currency: 'INR',
+    notes: { creatorCode: 'radhika10' },
+  };
+  const paymentRecord = {
+    amount: 6900,
+    rawSubscription: {
+      offer_id: 'offer_123',
+      notes: {
+        creatorCode: 'radhika10',
+        creatorId: 'crt_123',
+        referralStatus: 'offer_attached',
+      },
+    },
+  };
+
+  assert.equal(amountMatchesPaymentRecord(payment, paymentRecord), true);
+  assert.deepEqual(referralAttributionFromCheckout({ paymentRecord, payment }), {
+    creatorCode: 'radhika10',
+    creatorId: 'crt_123',
+    offerId: 'offer_123',
+    referralCodeAttempted: 'radhika10',
+    referralStatus: 'offer_attached',
+  });
 });
 
 test('refund revocation audit only blocks matching payment identifiers', () => {
