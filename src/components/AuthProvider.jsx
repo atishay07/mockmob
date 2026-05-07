@@ -12,6 +12,7 @@ const AUTH_ME_RETRY_DELAYS = [0, 250, 600, 1000, 1600, 2400, 3200];
 const SESSION_RETRY_DELAYS = [0, 120, 300, 650];
 const SESSION_CHECK_TIMEOUT_MS = 2500;
 const AUTH_ME_TIMEOUT_MS = 3500;
+const RETRYABLE_AUTH_ME_STATUSES = [429, 500, 502, 503, 504];
 
 function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -44,7 +45,7 @@ async function fetchMe() {
         return res.json();
       }
 
-      if (![401, 404, 429, 500, 502, 503, 504].includes(res.status)) {
+      if (!RETRYABLE_AUTH_ME_STATUSES.includes(res.status)) {
         return null;
       }
     } catch {
@@ -92,6 +93,7 @@ export function AuthProvider({ children }) {
   const [needsOnboarding, setNeedsOnboarding] = useState(false);
   const mountedRef = useRef(false);
   const requestIdRef = useRef(0);
+  const refreshPromiseRef = useRef(null);
   const userRef = useRef(null);
 
   useEffect(() => {
@@ -113,48 +115,65 @@ export function AuthProvider({ children }) {
   }, []);
 
   const refreshSession = useCallback(async ({ silent = true } = {}) => {
-    const requestId = ++requestIdRef.current;
-    let supabase = null;
-
     if (!silent && mountedRef.current) {
       setStatus('loading');
     }
 
-    try {
-      supabase = getSupabaseBrowserClient();
-      const session = await getSessionWithRetry(supabase);
+    // Supabase can emit an initial auth-state event while bootstrap is already
+    // resolving. Reuse the in-flight request instead of multiplying /api/auth/me.
+    if (refreshPromiseRef.current) {
+      return refreshPromiseRef.current;
+    }
 
-      if (!session) {
+    const requestId = ++requestIdRef.current;
+    let supabase = null;
+
+    const refreshPromise = (async () => {
+      try {
+        supabase = getSupabaseBrowserClient();
+        const session = await getSessionWithRetry(supabase);
+
+        if (!session) {
+          if (requestId === requestIdRef.current) {
+            applyUnauthenticated();
+          }
+          return null;
+        }
+
+        const me = await fetchMe();
+        if (requestId !== requestIdRef.current || !mountedRef.current) {
+          return null;
+        }
+
+        if (!me?.user) {
+          if (!silent || !userRef.current) {
+            applyUnauthenticated();
+          }
+          return null;
+        }
+
+        applyAuthenticated(me);
+        return me;
+      } catch (error) {
+        if (error?.message?.includes('Refresh Token') || error?.name === 'AuthApiError') {
+          supabase?.auth.signOut().catch(() => {});
+        }
         if (requestId === requestIdRef.current) {
-          applyUnauthenticated();
+          if (!silent || !userRef.current) {
+            applyUnauthenticated();
+          }
         }
         return null;
       }
+    })();
 
-      const me = await fetchMe();
-      if (requestId !== requestIdRef.current || !mountedRef.current) {
-        return null;
+    refreshPromiseRef.current = refreshPromise;
+    try {
+      return await refreshPromise;
+    } finally {
+      if (refreshPromiseRef.current === refreshPromise) {
+        refreshPromiseRef.current = null;
       }
-
-      if (!me?.user) {
-        if (!silent || !userRef.current) {
-          applyUnauthenticated();
-        }
-        return null;
-      }
-
-      applyAuthenticated(me);
-      return me;
-    } catch (error) {
-      if (error?.message?.includes('Refresh Token') || error?.name === 'AuthApiError') {
-        supabase?.auth.signOut().catch(() => {});
-      }
-      if (requestId === requestIdRef.current) {
-        if (!silent || !userRef.current) {
-          applyUnauthenticated();
-        }
-      }
-      return null;
     }
   }, [applyAuthenticated, applyUnauthenticated]);
 

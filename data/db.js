@@ -209,6 +209,19 @@ function isMissingReferralSchema(error) {
     /creators|payouts|creator_id|creator_code|offer_id|referral_code_attempted|referral_status|referral_reason|amount_paid|creator_earning|payout_id|payout_per_sale|schema cache|column .* does not exist|relation .* does not exist/i.test(error?.message || '');
 }
 
+function removeReferralAttemptColumns(row) {
+  delete row.referral_code_attempted;
+  delete row.referral_status;
+  delete row.referral_reason;
+}
+
+function removeCreatorAttributionColumns(row) {
+  delete row.creator_code;
+  delete row.creator_id;
+  delete row.offer_id;
+  removeReferralAttemptColumns(row);
+}
+
 function isMissingEntitlementSchema(error) {
   return error?.code === '42703' ||
     /premium_until|razorpay_subscription_id|access_until|schema cache|column .* does not exist/i.test(error?.message || '');
@@ -391,12 +404,15 @@ export const Database = {
         .single());
     }
     if (error && isMissingReferralSchema(error)) {
-      delete row.creator_code;
-      delete row.creator_id;
-      delete row.offer_id;
-      delete row.referral_code_attempted;
-      delete row.referral_status;
-      delete row.referral_reason;
+      removeReferralAttemptColumns(row);
+      ({ data, error } = await supabaseAdmin()
+        .from('payments')
+        .insert(row)
+        .select('*')
+        .single());
+    }
+    if (error && isMissingReferralSchema(error)) {
+      removeCreatorAttributionColumns(row);
       ({ data, error } = await supabaseAdmin()
         .from('payments')
         .insert(row)
@@ -460,11 +476,16 @@ export const Database = {
         .maybeSingle());
     }
     if (error && isMissingReferralSchema(error)) {
-      delete patch.creator_code;
-      delete patch.creator_id;
-      delete patch.offer_id;
-      delete patch.referral_code_attempted;
-      delete patch.referral_status;
+      removeReferralAttemptColumns(patch);
+      ({ data, error } = await supabaseAdmin()
+        .from('payments')
+        .update(patch)
+        .eq('order_id', orderId)
+        .select('*')
+        .maybeSingle());
+    }
+    if (error && isMissingReferralSchema(error)) {
+      removeCreatorAttributionColumns(patch);
       ({ data, error } = await supabaseAdmin()
         .from('payments')
         .update(patch)
@@ -506,11 +527,16 @@ export const Database = {
         .maybeSingle());
     }
     if (error && isMissingReferralSchema(error)) {
-      delete patch.creator_code;
-      delete patch.creator_id;
-      delete patch.offer_id;
-      delete patch.referral_code_attempted;
-      delete patch.referral_status;
+      removeReferralAttemptColumns(patch);
+      ({ data, error } = await supabaseAdmin()
+        .from('payments')
+        .update(patch)
+        .eq('subscription_id', subscriptionId)
+        .select('*')
+        .maybeSingle());
+    }
+    if (error && isMissingReferralSchema(error)) {
+      removeCreatorAttributionColumns(patch);
       ({ data, error } = await supabaseAdmin()
         .from('payments')
         .update(patch)
@@ -767,7 +793,7 @@ export const Database = {
   async getCreatorStats(creatorId = null) {
     let query = supabaseAdmin()
       .from('payments')
-      .select('creator_id, status, amount_paid, amount, creator_earning, payout_id, payment_id, referral_status')
+      .select('creator_id, status, amount_paid, amount, creator_earning, payout_id, payment_id, raw_order')
       .not('creator_id', 'is', null);
     if (creatorId) query = query.eq('creator_id', creatorId);
     const { data, error } = await query;
@@ -814,7 +840,7 @@ export const Database = {
   async getPlatformOverview() {
     const { data: payments, error: pe } = await supabaseAdmin()
       .from('payments')
-      .select('status, amount_paid, amount, creator_earning, payout_id, creator_id, payment_id, referral_status');
+      .select('status, amount_paid, amount, creator_earning, payout_id, creator_id, payment_id, raw_order');
     if (pe) {
       if (isMissingReferralSchema(pe)) {
         console.error('[db] getPlatformOverview using empty payment stats because schema is missing:', pe.message);
@@ -849,10 +875,12 @@ export const Database = {
     let paidPayoutPaise = 0;
 
     for (const row of payments || []) {
-      if (row.referral_status && row.referral_status !== 'none') referralAttempts += 1;
+      const payment = paymentOut(row);
+      const referralStatus = payment?.referralStatus || 'none';
+      if (referralStatus !== 'none') referralAttempts += 1;
       if (row.creator_id) attributedReferrals += 1;
-      if (row.referral_status === 'tracked_no_offer') trackedNoOfferReferrals += 1;
-      if (['unknown', 'inactive'].includes(row.referral_status)) invalidReferralAttempts += 1;
+      if (referralStatus === 'tracked_no_offer') trackedNoOfferReferrals += 1;
+      if (['unknown', 'inactive'].includes(referralStatus)) invalidReferralAttempts += 1;
       if (!isPaidSaleRow(row)) continue;
       totalSales += 1;
       totalRevenuePaise += Number(row.amount_paid) || 0;

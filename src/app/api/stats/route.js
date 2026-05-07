@@ -1,10 +1,38 @@
 import { supabase } from '@/lib/supabase';
 import { SUBJECTS } from '@/../data/subjects';
+import { checkRateLimit, rateLimitHeaders } from '@/lib/server/rateLimit';
+import {
+  failRequestDiagnostics,
+  finishRequestDiagnostics,
+  startRequestDiagnostics,
+} from '@/lib/server/requestDiagnostics';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+const ROUTE = '/api/stats';
+const STATS_RATE_LIMIT = 120;
+
+function jsonWithDiagnostics(context, body, init) {
+  const response = Response.json(body, init);
+  finishRequestDiagnostics(context, { status: response.status });
+  return response;
+}
+
+export async function GET(request) {
+  const diagnostics = startRequestDiagnostics(request, ROUTE);
   try {
+    const rateLimit = checkRateLimit(request, {
+      route: ROUTE,
+      limit: STATS_RATE_LIMIT,
+    });
+    if (!rateLimit.allowed) {
+      return jsonWithDiagnostics(
+        diagnostics,
+        { error: 'Too many requests' },
+        { status: 429, headers: rateLimitHeaders(rateLimit) },
+      );
+    }
+
     const { count, error } = await supabase
       .from('questions')
       .select('*', { count: 'exact', head: true })
@@ -25,11 +53,12 @@ export async function GET() {
       subjectCounts[subject.id] = subjectCount || 0;
     }));
     
-    return Response.json({
+    return jsonWithDiagnostics(diagnostics, {
       bankSize: count || 0,
       subjectCounts,
     });
   } catch (error) {
+    failRequestDiagnostics(diagnostics, error);
     return Response.json({ error: error.message }, { status: 500 });
   }
 }

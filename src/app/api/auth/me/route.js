@@ -1,12 +1,40 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
+import { checkRateLimit, rateLimitHeaders } from '@/lib/server/rateLimit';
+import {
+  failRequestDiagnostics,
+  finishRequestDiagnostics,
+  startRequestDiagnostics,
+} from '@/lib/server/requestDiagnostics';
 
-export async function GET() {
+const ROUTE = '/api/auth/me';
+const AUTH_ME_RATE_LIMIT = 300;
+
+function jsonWithDiagnostics(context, body, init) {
+  const response = NextResponse.json(body, init);
+  finishRequestDiagnostics(context, { status: response.status });
+  return response;
+}
+
+export async function GET(request) {
+  const diagnostics = startRequestDiagnostics(request, ROUTE);
   try {
+    const rateLimit = checkRateLimit(request, {
+      route: ROUTE,
+      limit: AUTH_ME_RATE_LIMIT,
+    });
+    if (!rateLimit.allowed) {
+      return jsonWithDiagnostics(
+        diagnostics,
+        { error: 'Too many requests' },
+        { status: 429, headers: rateLimitHeaders(rateLimit) },
+      );
+    }
+
     const session = await auth();
     if (!session?.user) {
-      return NextResponse.json({ user: null, needsOnboarding: false }, { status: 401 });
+      return jsonWithDiagnostics(diagnostics, { user: null, needsOnboarding: false }, { status: 401 });
     }
 
     const dbUser =
@@ -14,7 +42,7 @@ export async function GET() {
       (session.user.email ? await Database.getUserByEmail(session.user.email) : null);
 
     if (!dbUser) {
-      return NextResponse.json({ user: null, needsOnboarding: false }, { status: 404 });
+      return jsonWithDiagnostics(diagnostics, { user: null, needsOnboarding: false }, { status: 404 });
     }
 
     const user = {
@@ -31,11 +59,12 @@ export async function GET() {
       razorpaySubscriptionId: dbUser.razorpaySubscriptionId || null,
     };
 
-    return NextResponse.json({
+    return jsonWithDiagnostics(diagnostics, {
       user,
       needsOnboarding: user.subjects.length === 0,
     });
   } catch (e) {
+    failRequestDiagnostics(diagnostics, e);
     console.error('[api/auth/me] GET failed:', e);
     return NextResponse.json({ error: 'Failed to resolve auth session' }, { status: 500 });
   }

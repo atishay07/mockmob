@@ -2,12 +2,26 @@ import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { supabaseAdmin } from '@/lib/supabase';
 import { Database } from '@/../data/db';
+import { checkRateLimit, rateLimitHeaders } from '@/lib/server/rateLimit';
+import {
+  failRequestDiagnostics,
+  finishRequestDiagnostics,
+  startRequestDiagnostics,
+} from '@/lib/server/requestDiagnostics';
 
 export const dynamic = 'force-dynamic';
 
 const FREE_BOOKMARK_LIMIT = 25;
 const FREE_WEEKLY_GOAL = 30;
 const PREMIUM_WEEKLY_GOAL = 80;
+const ROUTE = '/api/learning/summary';
+const SUMMARY_RATE_LIMIT = 120;
+
+function jsonWithDiagnostics(context, body, init, extra) {
+  const response = NextResponse.json(body, init);
+  finishRequestDiagnostics(context, { status: response.status, extra });
+  return response;
+}
 
 function startOfToday() {
   const date = new Date();
@@ -54,10 +68,23 @@ function lastSevenDays() {
 }
 
 export async function GET(request) {
+  const diagnostics = startRequestDiagnostics(request, ROUTE);
   try {
+    const rateLimit = checkRateLimit(request, {
+      route: ROUTE,
+      limit: SUMMARY_RATE_LIMIT,
+    });
+    if (!rateLimit.allowed) {
+      return jsonWithDiagnostics(
+        diagnostics,
+        { error: 'Too many requests' },
+        { status: 429, headers: rateLimitHeaders(rateLimit) },
+      );
+    }
+
     const session = await auth();
     if (!session?.user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return jsonWithDiagnostics(diagnostics, { error: 'Unauthorized' }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);
@@ -166,7 +193,7 @@ export async function GET(request) {
     const solvedThisWeek = Math.max(weeklySolved, progressWeekly);
     const solvedTotal = Math.max(solvedIds.size, answered);
 
-    return NextResponse.json({
+    return jsonWithDiagnostics(diagnostics, {
       plan: {
         status: user?.subscriptionStatus || 'free',
         isPremium,
@@ -210,8 +237,9 @@ export async function GET(request) {
         solved: activityMap.get(day) || 0,
       })),
       topContributors,
-    });
+    }, undefined, { subject: subject || 'all' });
   } catch (e) {
+    failRequestDiagnostics(diagnostics, e);
     console.error('[api/learning/summary] GET failed:', e);
     return NextResponse.json({ error: 'Failed to load learning summary' }, { status: 500 });
   }

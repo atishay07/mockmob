@@ -2,11 +2,25 @@ import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
+import { checkRateLimit, rateLimitHeaders } from '@/lib/server/rateLimit';
+import {
+  failRequestDiagnostics,
+  finishRequestDiagnostics,
+  startRequestDiagnostics,
+} from '@/lib/server/requestDiagnostics';
 
 const DEFAULT_LIMIT = 20;
 const MAX_LIMIT = 50;
+const ROUTE = '/api/questions/feed';
+const FEED_RATE_LIMIT = 180;
 
 export const dynamic = 'force-dynamic';
+
+function jsonWithDiagnostics(context, body, init, extra) {
+  const response = NextResponse.json(body, init);
+  finishRequestDiagnostics(context, { status: response.status, extra });
+  return response;
+}
 
 /**
  * GET /api/questions/feed
@@ -24,11 +38,24 @@ export const dynamic = 'force-dynamic';
  * Response: { questions: [...], total: number, hasMore: boolean }
  */
 export async function GET(request) {
+  const diagnostics = startRequestDiagnostics(request, ROUTE);
   try {
+    const rateLimit = checkRateLimit(request, {
+      route: ROUTE,
+      limit: FEED_RATE_LIMIT,
+    });
+    if (!rateLimit.allowed) {
+      return jsonWithDiagnostics(
+        diagnostics,
+        { error: 'Too many requests' },
+        { status: 429, headers: rateLimitHeaders(rateLimit) },
+      );
+    }
+
     const { searchParams } = new URL(request.url);
     const subject = searchParams.get('subject');
     if (!subject) {
-      return NextResponse.json({ error: 'subject is required' }, { status: 400 });
+      return jsonWithDiagnostics(diagnostics, { error: 'subject is required' }, { status: 400 });
     }
 
     const chapter = searchParams.get('chapter') || null;
@@ -85,7 +112,7 @@ export async function GET(request) {
       }
     }
 
-    return NextResponse.json({
+    return jsonWithDiagnostics(diagnostics, {
       questions: (data || []).map((r) => ({
         id: r.id,
         subject: r.subject,
@@ -107,8 +134,9 @@ export async function GET(request) {
       })),
       total: count ?? 0,
       hasMore: (offset + limit) < (count ?? 0),
-    });
+    }, undefined, { subject, count: data?.length || 0 });
   } catch (e) {
+    failRequestDiagnostics(diagnostics, e);
     console.error('[api/questions/feed] GET failed:', e);
     return NextResponse.json({ error: 'Failed to load feed' }, { status: 500 });
   }

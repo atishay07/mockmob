@@ -5,7 +5,7 @@ import { AuthSessionScreen } from '@/components/auth/AuthSessionScreen';
 import { getSupabaseBrowserClient } from '@/lib/supabase-browser';
 
 const SESSION_RETRY_DELAYS = [0, 250, 600, 1000, 1600, 2400, 3200, 4500];
-const RETRYABLE_PROFILE_STATUSES = [401, 404, 429, 500, 502, 503, 504];
+const RETRYABLE_PROFILE_STATUSES = [429, 500, 502, 503, 504];
 const MISSING_CODE_VERIFIER_MESSAGE =
   'This login link could not be completed because the browser handshake was interrupted. Please start login again in this same tab.';
 
