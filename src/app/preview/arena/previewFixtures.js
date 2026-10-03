@@ -1,3 +1,4 @@
+import { scoreSession } from '../../../../data/recovery';
 // Original examples for layout and interaction checks. Never content-bank records.
 const SUBJECTS = [
   { id: 'accountancy', name: 'Accountancy', practice: 'supported' },
@@ -36,7 +37,29 @@ export function fixtureChapters(subject) {
 export function fixtureUploads() {
   return fixtureFeed('accountancy').slice(0, 4).map((question, index) => ({ ...question, question: question.body, status: ['pending_moderation', 'live', 'quarantined', 'rejected'][index], createdAt: '2026-10-02T18:00:00.000Z' }));
 }
+// A 10-question practice session shaped like a real hard one: 3 right, 6 wrong, 1 blank, two answer
+// changes (one right to wrong, one wrong to right) and several fast wrong picks. Scored by the real engine.
+const ADMISSION = { chapter: 'Admission of a Partner', body: 'A and B share profits 3:2. C is admitted and the new ratio is 2:2:1. The sacrificing ratio of A and B is:', options: ['3:2', '1:0', '1:1', '2:3'], answer: 'B', explanation: 'A gives up 3/5 − 2/5 = 1/5; B gives up 2/5 − 2/5 = 0. So only A sacrifices: 1:0.' };
 export function fixtureAttempt() {
-  const rows = fixtureFeed('accountancy').slice(0, 5);
-  return { id: 'fixture-attempt', subject: 'accountancy', score: 56, correct: 3, wrong: 1, unattempted: 1, total: 5, completedAt: '2026-10-02T18:00:00.000Z', questionsSnapshot: rows.map((question) => ({ ...question, question: question.body, options: question.options.map((option) => option.text), correctIndex: 'ABCD'.indexOf(question.correct_answer) })), details: rows.map((question, index) => ({ qid: question.id, isCorrect: index < 3 ? true : index === 3 ? false : null, givenIndex: index < 3 ? 'ABCD'.indexOf(question.correct_answer) : index === 3 ? 0 : null, timeMs: 40000 })) };
+  const feed = fixtureFeed('accountancy');
+  const asSnapshot = (q, i) => ({ id: `fixture-q${i + 1}`, chapter: q.chapter, difficulty: ['easy', 'medium', 'hard'][i % 3], question: q.body ?? q.question, explanation: q.explanation, options: q.options.map(o => (typeof o === 'string' ? o : o.text)), correctIndex: 'ABCD'.indexOf(q.correct_answer ?? q.answer) });
+  const pool = [feed[0], ADMISSION, feed[1], ADMISSION, feed[0], ADMISSION, feed[1], feed[0], ADMISSION, feed[1]];
+  const questions = pool.map(asSnapshot);
+  const wrongOf = (q) => (q.correctIndex + 1) % q.options.length;
+  // Per question: final answer kind, seconds spent, and an optional first pick that was changed.
+  const plan = [['right', 48], ['wrong', 12], ['wrong', 15, 'right'], ['wrong', 70], ['right', 35], ['wrong', 9], ['right', 52, 'wrong'], ['wrong', 14], ['blank', 30], ['wrong', 18]];
+  const answers = {}; const events = []; let at = 0; let seq = 1;
+  plan.forEach(([kind, seconds, first], i) => {
+    const q = questions[i];
+    events.push({ seq: seq++, qid: q.id, at, type: 'visit' });
+    const pick = (k) => (k === 'right' ? q.correctIndex : wrongOf(q));
+    if (first) { events.push({ seq: seq++, qid: q.id, at: at + seconds * 400, type: 'answer', answer: pick(first) }); }
+    if (kind !== 'blank') { answers[q.id] = pick(kind); events.push({ seq: seq++, qid: q.id, at: at + seconds * 900, type: 'answer', answer: answers[q.id] }); }
+    at += seconds * 1000;
+  });
+  events.push({ seq: seq++, qid: questions.at(-1).id, at, type: 'visit' });
+  const scored = scoreSession(questions, answers, events);
+  return { id: 'fixture-attempt', subject: 'accountancy', score: scored.score, correct: scored.correct, wrong: scored.wrong, unattempted: scored.unattempted, total: scored.total,
+    completedAt: '2026-10-04T18:00:00.000Z', questionsSnapshot: questions, details: scored.details,
+    selectionMeta: { scoringVersion: 'server_practice_v1', recovery: scored.recovery } };
 }

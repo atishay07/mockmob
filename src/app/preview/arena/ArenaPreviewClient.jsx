@@ -228,7 +228,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     if (url.pathname === '/api/recovery/repair' && method === 'POST') {
       const kind = fixture.get('repair') || 'explained';
       const base = { practiceHref: '/test?subject=accountancy&mode=quick&count=5&chapter=Partnership+Fundamentals&recoveryFrom=fixture-attempt', chosenIndex: 0, keyIndex: 2 };
-      if (kind === 'held') return json({ ok: true, status: 'held_for_recheck', charged: 0, ...base, message: 'Two independent AI checks disagreed with this question’s answer key, so we have withheld it for re-checking instead of explaining it. You were not charged.' });
+      if (kind === 'held') return json({ ok: true, status: 'held_for_recheck', charged: 0, ...base, message: 'Our check of this question didn’t match its answer key, so we’ve held it for review instead of explaining it. You weren’t charged, and it won’t appear in practice until it’s cleared.' });
       if (kind === 'insufficient') return json({ ok: false, error: 'insufficient_ai_credits', balance: 0, message: 'Mistake Repair uses 1 PrepOS credit and you have 0 left this month. The stored explanation and fresh practice are still free.' }, 402);
       if (kind === 'fail') return json({ ok: false, error: 'unusable_output', charged: 0, message: 'The repair could not be prepared reliably this time. You were not charged.' }, 502);
       return json({ ok: true, status: 'explained', charged: 1, wallet: { total: 67, state: 'available' }, ...base, repair: {

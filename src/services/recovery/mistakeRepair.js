@@ -87,8 +87,8 @@ export async function repairMistake({ user, attemptId, questionId, requestId, ge
     if (confirmed) await withheldForRecheck(db, { questionId, userId: user.id, attemptId, firstIndex: verdict.solvedIndex, blindIndex, model: ai.usage?.model || null }).catch(() => {});
     try { await deps.release(operationKey, confirmed ? 'ai_key_dispute' : 'ai_inconsistent'); } catch { /* the expiry sweep returns it */ }
     return out(200, confirmed
-      ? { ok: true, status: 'held_for_recheck', charged: 0, ...base, message: 'Two independent AI checks disagreed with this question’s answer key, so we have withheld it for re-checking instead of explaining it. You were not charged.' }
-      : { ok: true, status: 'not_explained', charged: 0, ...base, storedExplanation: eligible.question.explanation || null, message: 'The AI could not explain this one reliably, so it is not shown. You were not charged.' });
+      ? { ok: true, status: 'held_for_recheck', charged: 0, ...base, message: 'Our check of this question didn’t match its answer key, so we’ve held it for review instead of explaining it. You weren’t charged, and it won’t appear in practice until it’s cleared.' }
+      : { ok: true, status: 'not_explained', charged: 0, ...base, storedExplanation: eligible.question.explanation || null, message: 'We couldn’t write a repair for this one that met our bar, so we’re not showing one. You weren’t charged.' });
   }
 
   const repair = { ...verdict.repair, model: ai.usage?.model || null, generatedAt: new Date().toISOString() };

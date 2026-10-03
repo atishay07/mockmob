@@ -1,20 +1,16 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
-import { Icon } from '@/components/ui/Icons';
-import { Button } from '@/components/ui/Button';
+import { useParams } from 'next/navigation';
 import { PageSpinner, ErrorState } from '@/components/ui/Skeleton';
 import { apiGet, apiPost } from '@/lib/fetcher';
 import ScoreRecoveryLab from '@/components/ScoreRecoveryLab';
-import MistakeReplay from '@/components/MistakeReplay';
 import MistakeRepair from '@/components/recovery/MistakeRepair';
-import SessionReadout from '@/components/ai/SessionReadout';
-import { computePrepOSInsights } from '@/../data/prepos_insights';
+import { analyseSession, formatDuration } from '@/../data/session_recovery';
 import { AppIcon } from '@/components/ui/Glyph';
 import { Mascot } from '@/components/brand/Mascot';
-import ArenaHead from '@/components/arena/ArenaHead';
+import '@/components/recovery/result.css';
 
 function displayValue(value, fallback = '') {
   if (value == null) return fallback;
@@ -23,21 +19,41 @@ function displayValue(value, fallback = '') {
   return String(value);
 }
 
-function optionText(option) {
-  return displayValue(option, 'Option');
+const LETTERS = 'ABCDEFGH';
+
+// The headline number counts up once on arrival; reduced motion shows it at once.
+function CountUp({ value }) {
+  const [shown, setShown] = useState(value);
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !value) return undefined;
+    let raf; let start;
+    const step = (t) => { start ??= t; const p = Math.min((t - start) / 750, 1); setShown(Math.round(value * (1 - (1 - p) ** 3))); if (p < 1) raf = requestAnimationFrame(step); };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [value]);
+  return shown;
+}
+const subjectName = (s) => String(s || '').replace(/[_-]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+
+function verdictLine({ marks }) {
+  if (!marks.gap) return 'Every question right. Nothing to repair; take a harder set next.';
+  if (marks.wrong && marks.gapWrong >= marks.gapBlank) return `${marks.wrong} wrong answer${marks.wrong === 1 ? '' : 's'} cost ${marks.gapWrong} of the ${marks.gap} marks you missed. The Lab below shows which to repair first.`;
+  return `${marks.blank} blank${marks.blank === 1 ? '' : 's'} left ${marks.gapBlank} marks unearned. The Lab below shows where they were.`;
 }
 
 /**
- * Result page — shows verdict, breakdown, and per-question review.
+ * Result page: summary first, then the Score Recovery Lab, then every answer in order.
  * Fetches a single attempt by ID instead of pulling all user attempts.
  */
 export default function ResultPageClient({ previewId = null }) {
   const params = useParams();
   const id = previewId || params.id;
-  const router = useRouter();
   const [attempt, setAttempt] = useState(null);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState('all'); // all | correct | wrong | skipped
+  const [open, setOpen] = useState(() => new Set());
+  const [repaired, setRepaired] = useState(() => new Set());
+  const [autoRepair, setAutoRepair] = useState(null);
   const [reporting, setReporting] = useState({});
   const [reported, setReported] = useState({});
   const [reportError, setReportError] = useState(null);
@@ -45,30 +61,46 @@ export default function ResultPageClient({ previewId = null }) {
 
   useEffect(() => {
     let alive = true;
-    queueMicrotask(() => { if (alive) { setAttempt(null); setError(null); setFilter('all'); setReporting({}); setReported({}); setReportError(null); } });
+    queueMicrotask(() => { if (alive) { setAttempt(null); setError(null); setFilter('all'); setReporting({}); setReported({}); setReportError(null); setRepaired(new Set()); setAutoRepair(null); } });
     apiGet(`/api/attempts/${id}`)
-      .then(data => { if (alive) setAttempt(data); })
+      .then(data => { if (!alive) return; setAttempt(data); const firstWrong = (data.details || []).find(d => d.isCorrect === false); setOpen(new Set(firstWrong ? [firstWrong.qid] : [])); })
       .catch(e => { if (alive) setError(e.message); });
     return () => { alive = false; };
   }, [id, retry]);
 
-  const filtered = useMemo(() => {
-    if (!attempt) return [];
-    return (attempt.questionsSnapshot || []).map((q) => {
-      const d = (attempt.details || []).find(x => x.qid === q.id);
-      const verdict = d?.isCorrect === true ? 'correct'
-                    : d?.isCorrect === false ? 'wrong'
-                    : 'skipped';
-      return { q, d, verdict };
-    }).filter(row => filter === 'all' || row.verdict === filter);
-  }, [attempt, filter]);
+  const analysis = useMemo(() => attempt ? analyseSession(attempt) : null, [attempt]);
+  const visible = useMemo(() => analysis ? analysis.rows.filter(r => filter === 'all' || r.verdict === filter) : [], [analysis, filter]);
+
+  const jumpTo = useCallback((number, { repair = false } = {}) => {
+    const row = analysis?.rows.find(r => r.number === number);
+    if (!row) return;
+    setFilter(f => (f === 'all' || f === row.verdict ? f : 'all'));
+    setOpen(s => new Set(s).add(row.q.id));
+    if (repair) setAutoRepair(row.q.id);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      const el = document.getElementById(`q-${number}`);
+      el?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+      el?.querySelector('.rp-q__bar')?.focus({ preventScroll: true });
+    }));
+  }, [analysis]);
+
+  const repairNext = useCallback(() => {
+    const next = analysis?.mistakes.find(r => !repaired.has(r.q.id));
+    if (next) jumpTo(next.number, { repair: true });
+  }, [analysis, repaired, jumpTo]);
+
+  const settled = useCallback((qid, status) => {
+    if (['explained', 'stored', 'held_for_recheck', 'not_explained'].includes(status)) setRepaired(s => new Set(s).add(qid));
+  }, []);
 
   if (error)    return <div className="container-narrow student-page student-page--result pt-8"><ErrorState mascot message="This session did not load. Try again to see your recorded result." onRetry={() => { setError(null); setRetry((count) => count + 1); }} /></div>;
-  if (!attempt) return <PageSpinner label="Loading your recorded result…" />;
+  if (!attempt || !analysis) return <PageSpinner label="Loading your recorded result…" />;
 
+  const { marks, timing } = analysis;
+  const answered = marks.right + marks.wrong;
+  const accuracy = answered ? Math.round((marks.right / answered) * 100) : 0;
   const isPass = attempt.score >= 40;
-  const isStrong = attempt.score >= 70;
-  const accuracy = attempt.total ? Math.round((attempt.correct / attempt.total) * 100) : 0;
+  const toggle = (qid) => setOpen(s => { const n = new Set(s); if (n.has(qid)) n.delete(qid); else n.add(qid); return n; });
 
   async function handleReport(row) {
     const qid = row?.q?.id;
@@ -106,189 +138,116 @@ export default function ResultPageClient({ previewId = null }) {
   }
 
   return (
-    <div className="container-narrow student-page student-page--result pb-20">
-      <ArenaHead eyebrow="Result · recorded session" title="Your session, in detail." lede="Check the answers, read the reasoning and choose what to practise next." />
-      <ScoreRecoveryLab attempt={attempt} />
-      <MistakeReplay attemptId={attempt.id} />
-      {/* ---------- Verdict hero ---------- */}
-      <div className="text-center mb-10 pt-6 relative">
-        <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full blur-[80px] opacity-10 ${isPass ? 'bg-volt' : 'bg-red-500'}`} />
-        <div className="relative z-10">
-          <div className="mono-label mb-4">Session complete</div>
-          <div className="pip-drill-result"><Mascot pose={isPass ? 'celebrating' : 'encouraging'} alt={isPass ? 'Pip celebrating a finished session.' : 'Pip encouraging you after a hard session.'} /></div>
-          <p className="display-xl mb-3 leading-none" style={{ color: isPass ? 'var(--a-accent-text, var(--volt))' : 'var(--a-bad-text, #f87171)', fontVariantNumeric: 'tabular-nums' }}>
-            {attempt.score}%
-          </p>
-          <div className="text-zinc-400 text-lg">
-            {isStrong ? 'A strong session. Check what still cost you marks below.'
-              : isPass ? 'A solid session. The chapters below show where to push next.'
-              : 'A hard one. The review below shows exactly where it went.'}
-          </div>
+    <div className="container-narrow student-page student-page--result rp pb-20">
+      {/* ---------- 1. Summary ---------- */}
+      <header className="rp-hero">
+        <div className="rp-hero__pip pip-drill-result"><Mascot pose={isPass ? 'celebrating' : 'encouraging'} alt={isPass ? 'Pip celebrating a finished session.' : 'Pip encouraging you after a hard session.'} /></div>
+        <div className="rp-hero__main">
+          <p className="rp-eyebrow">Session complete · {subjectName(attempt.subject)} · {attempt.total} questions{timing ? ` · ${formatDuration(timing.totalMs)}` : ''}</p>
+          <h1 className="rp-hero__score"><b data-tone={marks.scored < 0 ? 'bad' : isPass ? 'good' : 'mid'}>{marks.scored < 0 ? '−' : ''}<CountUp value={Math.abs(marks.scored)} /></b><span>/ {marks.max} marks</span></h1>
+          <p className="rp-hero__line">{verdictLine(analysis)}</p>
         </div>
-      </div>
-
-      {/* ---------- Breakdown ---------- */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8 text-center">
-        <div className="glass p-4">
-          <div className="text-2xl font-display font-bold text-volt mb-1" style={{ fontVariantNumeric: 'tabular-nums' }}>{attempt.correct}</div>
-          <div className="mono-label">Correct</div>
-        </div>
-        <div className="glass p-4">
-          <div className="text-2xl font-display font-bold text-red-400 mb-1" style={{ fontVariantNumeric: 'tabular-nums' }}>{attempt.wrong}</div>
-          <div className="mono-label">Wrong</div>
-        </div>
-        <div className="glass p-4">
-          <div className="text-2xl font-display font-bold text-zinc-400 mb-1" style={{ fontVariantNumeric: 'tabular-nums' }}>{attempt.unattempted}</div>
-          <div className="mono-label">Skipped</div>
-        </div>
-        <div className="glass p-4">
-          <div className="text-2xl font-display font-bold text-white mb-1" style={{ fontVariantNumeric: 'tabular-nums' }}>{accuracy}%</div>
-          <div className="mono-label">Accuracy</div>
-        </div>
-      </div>
-
-      <SessionReadout attempt={attempt} />
-
-      {/* ---------- One next step, from this session's record only ---------- */}
-      {(() => {
-        // Same pure engine as the readout above and PrepOS, so this page never contradicts
-        // itself: a chapter is named only once it has enough answered questions to rank.
-        const top = computePrepOSInsights([attempt]).chapters?.ranked?.[0];
-        const topChapter = top?.chapter;
-        const practise = (chapter) => router.push(`/test?subject=${encodeURIComponent(attempt.subject)}&count=10&mode=quick${chapter ? `&chapter=${encodeURIComponent(chapter)}` : ''}&generationKey=${crypto.randomUUID()}`);
-        const reason = topChapter
-          ? `${top.wrong} wrong and ${top.skip} blank out of ${top.n} questions in ${topChapter}: the most marks open in this session. A short set there is the most direct next step.`
-          : attempt.wrong + attempt.unattempted > 0
-            ? 'One session is too short to rank chapters, so the next step is another short set in the same subject. Your record ranks chapters once each has 4 or more answers.'
-            : 'Every question in this session was answered correctly. Another set keeps the record growing.';
-        return (
-          <section className="result-next" aria-labelledby="result-next-title">
-            <div className="result-next__copy">
-              <p className="eyebrow">Next step</p>
-              <h2 id="result-next-title">{topChapter ? `Practise ${topChapter}` : 'Practise another set'}</h2>
-              <p>{reason}</p>
-            </div>
-            <div className="result-next__actions">
-              <Button variant="volt" onClick={() => practise(topChapter)}>
-                <AppIcon name="practice" size={18} /> {topChapter ? 'Practise this chapter' : 'Practise 10 more'}
-              </Button>
-              {attempt.wrong > 0 ? <Link href="/review" className="result-next__link"><AppIcon name="review" size={16} />Review mistakes</Link> : null}
-              <Link href="/saved" className="result-next__link"><AppIcon name="saved" size={16} />Saved questions</Link>
-              <Link href="/analytics" className="result-next__link"><AppIcon name="radar" size={16} />Open Radar</Link>
-              <Link href="/dashboard" className="result-next__link result-next__link--back"><AppIcon name="practice" size={16} />Back to Practice</Link>
-            </div>
-          </section>
-        );
-      })()}
-
-      {reportError && (
-        <div role="alert" className="mb-5 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
-          {reportError}
-        </div>
-      )}
-
-      {/* ---------- Filter tabs ---------- */}
-      <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
-        <div className="eyebrow">{'Post-match review'}</div>
-        <div className="flex gap-1.5 flex-wrap" role="group" aria-label="Filter session review">
-          {[
-            { id: 'all',     label: `All ${attempt.total}` },
-            { id: 'correct', label: `Correct ${attempt.correct}` },
-            { id: 'wrong',   label: `Wrong ${attempt.wrong}` },
-            { id: 'skipped', label: `Skipped ${attempt.unattempted}` },
-          ].map(t => (
-            <button
-              key={t.id}
-              type="button"
-              aria-pressed={filter === t.id}
-              onClick={() => setFilter(t.id)}
-              className={`count-btn ${filter === t.id ? 'active' : ''}`}
-              style={{ width: 'auto', padding: '0 14px', whiteSpace: 'nowrap' }}
-            >
-              {t.label}
-            </button>
+        <dl className="rp-stats">
+          <div data-kind="right"><dt>Right</dt><dd>{marks.right}<small>+{marks.right * 5}</small></dd></div>
+          <div data-kind="wrong"><dt>Wrong</dt><dd>{marks.wrong}<small>−{marks.wrong}</small></dd></div>
+          <div data-kind="blank"><dt>Blank</dt><dd>{marks.blank}<small>0</small></dd></div>
+          <div><dt>Accuracy</dt><dd>{`${accuracy}%`}<small>of answered</small></dd></div>
+        </dl>
+        <ol className="rp-strip" aria-label="Questions in this session">
+          {analysis.rows.map(r => (
+            <li key={r.q.id} style={{ '--i': r.index }}>
+              <button type="button" data-verdict={r.verdict} data-changed={r.changed || undefined} onClick={() => jumpTo(r.number)}
+                aria-label={`Question ${r.number}: ${r.verdict === 'skipped' ? 'blank' : r.verdict}${r.changed ? ', answer changed' : ''}`}>{r.number}</button>
+            </li>
           ))}
-        </div>
-      </div>
-      <p className="mb-4 text-xs text-zinc-500">
-        If a question looks wrong, report the specific issue. Uncertain questions stay held while their checks are resolved.
-      </p>
+        </ol>
+      </header>
 
-      {/* ---------- Review list ---------- */}
-      <div className="flex flex-col gap-4">
-        {filtered.length === 0 ? (
-          <div className="glass p-8 text-center text-zinc-500 text-sm">
-            Nothing in this bucket.
+      {/* ---------- 2. Score Recovery Lab ---------- */}
+      <ScoreRecoveryLab attempt={attempt} analysis={analysis} repaired={repaired} onJump={jumpTo} onRepairNext={repairNext} />
+
+      {/* ---------- 3. Answer by answer ---------- */}
+      <section className="rp-review" aria-labelledby="rp-review-title">
+        <div className="rp-review__head">
+          <h2 id="rp-review-title">Answer by answer</h2>
+          <div className="rp-filters" role="group" aria-label="Filter answers">
+            {[
+              { id: 'all',     label: `All ${attempt.total}` },
+              { id: 'wrong',   label: `Wrong ${marks.wrong}` },
+              { id: 'skipped', label: `Blank ${marks.blank}` },
+              { id: 'correct', label: `Right ${marks.right}` },
+            ].map(t => (
+              <button key={t.id} type="button" aria-pressed={filter === t.id} onClick={() => setFilter(t.id)}>{t.label}</button>
+            ))}
           </div>
-        ) : filtered.map(({ q, d, verdict }, i) => {
-          const isCorrect = verdict === 'correct';
-          const isWrong   = verdict === 'wrong';
-          const isReporting = !!reporting[q.id];
-          const isReported = !!reported[q.id];
+        </div>
+        {reportError ? <div role="alert" className="rp-alert">{reportError}</div> : null}
 
-          return (
-            <div
-              key={q.id}
-              className="glass p-6"
-              style={{
-                borderColor: isCorrect ? 'rgba(210,240,0,0.3)'
-                          : isWrong   ? 'rgba(248,113,113,0.3)'
-                          :             'rgba(255,255,255,0.08)',
-              }}
-            >
-              <div className="flex items-start gap-4 mb-4 flex-wrap">
-                <div className={`w-8 h-8 shrink-0 rounded-full flex items-center justify-center font-bold text-black ${isCorrect ? 'bg-volt' : isWrong ? 'bg-red-400' : 'bg-zinc-600'}`}>
-                  {isCorrect ? <Icon name="check" /> : isWrong ? <Icon name="x" /> : '—'}
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="flex gap-2 items-center mb-1 flex-wrap">
-                    <span className="mono-label">Q{i + 1}</span>
-                    <span className="pill subtle">{displayValue(q.chapter, 'Chapter')}</span>
-                    {q.difficulty && <span className="pill subtle">{displayValue(q.difficulty)}</span>}
-                  </div>
-                  <p className="text-lg leading-relaxed">{displayValue(q.question ?? q.body, 'Question unavailable')}</p>
-                </div>
-                <button
-                  type="button"
-                  className="btn-outline sm shrink-0"
-                  disabled={isReporting || isReported}
-                  onClick={() => handleReport({ q, d, verdict })}
-                >
-                  {isReported ? 'Reported' : isReporting ? 'Sending...' : 'Report'}
-                </button>
-              </div>
-
-              <div className="pl-12 flex flex-col gap-2">
-                {q.options.map((opt, j) => {
-                  const isSelected = d?.givenIndex === j;
-                  const isActuallyCorrect = q.correctIndex === j;
-                  let cls = 'bg-white/5 border-white/10';
-                  if (isActuallyCorrect) cls = 'bg-volt/10 border-volt text-volt';
-                  else if (isSelected) cls = 'bg-red-500/10 border-red-500 text-red-400';
-
-                  return (
-                    <div key={j} className={`p-3 rounded-lg border ${cls} flex justify-between gap-3`}>
-                      <span>{optionText(opt)}</span>
-                      <span className="flex gap-2 text-[10px] font-mono shrink-0">
-                        {isSelected && <span className="pill subtle">YOUR PICK</span>}
-                        {isActuallyCorrect && <span className="pill volt">CORRECT</span>}
-                      </span>
+        <ol className="rp-list">
+          {visible.length === 0 ? <li className="rp-empty">Nothing in this group.</li> : visible.map(row => {
+            const { q, d, verdict, number } = row;
+            const isOpen = open.has(q.id);
+            const given = d?.givenIndex;
+            const isWrong = verdict === 'wrong';
+            return (
+              <li key={q.id} id={`q-${number}`} className="rp-q" data-verdict={verdict} data-open={isOpen || undefined}>
+                <h3 className="rp-q__h"><button type="button" className="rp-q__bar" aria-expanded={isOpen} aria-controls={`q-${number}-body`} onClick={() => toggle(q.id)}>
+                  <span className="rp-q__badge" aria-hidden="true">{number}</span>
+                  <span className="rp-q__summary">
+                    <span className="rp-q__text">{displayValue(q.question ?? q.body, 'Question unavailable')}</span>
+                    <span className="rp-q__meta">
+                      <span data-verdict={verdict}>{verdict === 'correct' ? 'Right +5' : isWrong ? 'Wrong −1' : 'Blank 0'}</span>
+                      <span>{row.chapter}</span>
+                      {Number.isFinite(row.ms) ? <span>{formatDuration(row.ms)}</span> : null}
+                      {row.changed ? <span>Answer changed</span> : null}
+                      {repaired.has(q.id) ? <span data-verdict="repaired">Repaired</span> : null}
+                    </span>
+                  </span>
+                  <span className="rp-q__chev" aria-hidden="true" />
+                </button></h3>
+                {isOpen ? (
+                  <div className="rp-q__body" id={`q-${number}-body`}>
+                    <ul className="rp-options">
+                      {q.options.map((opt, j) => {
+                        const mine = given === j, key = q.correctIndex === j;
+                        return (
+                          <li key={j} data-state={key ? 'key' : mine ? 'mine' : undefined}>
+                            <span className="rp-options__letter">{LETTERS[j]}</span>
+                            <span className="rp-options__text">{displayValue(opt, 'Option')}</span>
+                            {mine || key ? <span className="rp-options__tag">{key && mine ? 'Your pick · correct' : key ? 'Correct' : 'Your pick'}</span> : null}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                    {q.explanation ? (
+                      isWrong ? (
+                        <details className="rp-expl"><summary>Book explanation</summary><p>{displayValue(q.explanation)}</p></details>
+                      ) : <div className="rp-expl rp-expl--open"><span>Explanation</span><p>{displayValue(q.explanation)}</p></div>
+                    ) : null}
+                    {isWrong && Number.isInteger(given) ? (
+                      <MistakeRepair key={q.id} attemptId={attempt.id} questionId={q.id} chosen={LETTERS[given]} answer={Number.isInteger(q.correctIndex) ? LETTERS[q.correctIndex] : null}
+                        autoStart={autoRepair === q.id} onSettled={settled}
+                        next={(() => { const n = analysis.mistakes.find(m => m.number > number && !repaired.has(m.q.id)) || analysis.mistakes.find(m => m.q.id !== q.id && !repaired.has(m.q.id)); return n ? { number: n.number, go: () => jumpTo(n.number, { repair: true }) } : null; })()} />
+                    ) : null}
+                    <div className="rp-q__foot">
+                      <button type="button" className="rp-report" disabled={!!reporting[q.id] || !!reported[q.id]} onClick={() => handleReport(row)}>
+                        {reported[q.id] ? 'Reported. Thank you.' : reporting[q.id] ? 'Sending…' : 'Report a problem with this question'}
+                      </button>
                     </div>
-                  );
-                })}
-
-                {q.explanation && (
-                  <div className="mt-4 p-4 bg-black/30 rounded-lg text-sm text-zinc-300 border border-white/5 leading-relaxed">
-                    <span className="text-volt font-bold mr-2 mono-label">Explanation</span>
-                    <div className="mt-2">{displayValue(q.explanation)}</div>
                   </div>
-                )}
-                {isWrong && Number.isInteger(d?.givenIndex) ? <MistakeRepair key={q.id} attemptId={attempt.id} questionId={q.id} /> : null}
-              </div>
-            </div>
-          );
-        })}
-      </div>
+                ) : null}
+              </li>
+            );
+          })}
+        </ol>
+      </section>
+
+      <nav className="rp-links" aria-label="More from your record">
+        <Link href="/mentor?tab=record"><AppIcon name="prepos" size={16} />Full record in PrepOS</Link>
+        <Link href="/review"><AppIcon name="review" size={16} />All saved mistakes</Link>
+        <Link href="/analytics"><AppIcon name="radar" size={16} />Open Radar</Link>
+        <Link href="/dashboard"><AppIcon name="practice" size={16} />Back to Practice</Link>
+      </nav>
     </div>
   );
 }

@@ -1,5 +1,32 @@
 # Implementation status — latest update: 4 October 2026
 
+## 4 October 2026 (late night) — Result page + Score Recovery Lab redesign after owner test (Claude)
+
+Owner tried a 10-question quick practice (3 right, 7 wrong) and rated the Lab 5/10: no meaningful use,
+weird "replay your decisions" slider, page too tall; wanted summary + Pip first, then the Lab, then
+each answer with Mistake Repair. Done (see DESIGN.md "Score Recovery Lab"):
+- `data/session_recovery.js` (new, pure): marks gap (6 per wrong, 5 per blank), chapters ranked by
+  marks lost, per-question time from device events, factual observations. Tests:
+  `data/tests/session_recovery.test.mjs` (added to `test:recovery`).
+- `ResultPageClient.jsx` rewritten: summary hero with question strip → Lab → accordion answers.
+  Removed from this page: ArenaHead, MistakeReplay, SessionReadout, the separate next-step block and
+  the compact LearningNextAction (all duplicated the Lab). Components still exist for other pages.
+- `ScoreRecoveryLab.jsx` rewritten as Find / Repair / Prove; slider replaced by a folded decision log.
+- `MistakeRepair.jsx`: staged loading, two-card trap/why-wrong layout, "matched the key" check,
+  auto-run when launched from the Lab queue, "Next mistake: Qn" chaining.
+- `/preview/arena?view=result` fixture is now a realistic 10-question session scored by the real
+  engine; `/preview/recovery` redirects there.
+Verified: recovery 35, learning 80, nta 22, answer-integrity 6, du 19, payment/questions/PrepOS/repair
+81 pass; lint clean; `next build` 62/62. Browser: desktop, 375px (no horizontal scroll), light theme,
+Start repairing → Q2 repaired → Next mistake Q3 → Q4. Page height on the fixture fell from ~5.8k to ~3.6k px.
+Second pass (owner: UI 9/10, clarity 7/10, "too much AI framing"): repair copy no longer narrates
+the AI ("Why option C felt right", "Where it breaks", "Checked against the answer key"); server
+held/not-explained messages rewritten the same way; sparkle icon replaced by a wrench; observations
+are now tag + fact + consequence + one tip; step headers say what each step is for; mono uppercase
+labels replaced with sentence case; motion added (score count-up, Pip entrance, strip stagger, bars
+and chapter tracks grow when the Lab scrolls into view, repair cards stagger in; all off under reduced
+motion). Owner approved commit and push to main.
+
 ## 4 October 2026 (night) — Score Recovery + AI unblocked and live in production DB (Claude)
 
 Owner decisions in chat: names (marketing "Score Recovery", feature "Score Recovery Lab", action

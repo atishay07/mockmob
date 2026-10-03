@@ -445,9 +445,24 @@ The initial example shows the first answer earning +5; selecting the revisit sho
 
 ### Score Recovery Lab
 
-A paper reading canvas with three observed facts, a dark replay inset, one inferred intervention and a reflection form. The facts are scored marks, recorded answer changes and unanswered count. A range labelled by event number steps through device events and announces the selected time, question, answer and any observed change effect. Its native accent is volt and its interaction height is at least 44px. The current inset uses a cool dark surface (`#1c2b30`) rather than the homepage slate; this is local component styling, not a replacement brand palette.
+Redesigned 4 October 2026 after owner feedback ("5/10, too tall, weird replay slider"). The result page
+runs in one order: **summary → Score Recovery Lab → answer by answer**, all on Arena tokens (both themes).
 
-The lab states that unanswered items cannot by themselves distinguish time pressure from deliberate skips. An attempt without a server-held snapshot renders a readable insufficient-evidence state and diagnostic link. Missing or inconsistent telemetry leaves the score available with an honest replay message. The fresh-practice action sits beside the explicit limitations: content may be unavailable, repeats are not improvement evidence, and uncalibrated score differences do not prove a causal gain.
+- **Summary** (`.rp-hero`): Pip, marks as "9 / 50 marks" (not a percent), one data-driven line naming
+  what cost the most, four stat tiles and a clickable question strip (green right, red wrong, outlined
+  blank, amber dot = answer changed). Each cell jumps to and opens that answer.
+- **Lab** (`.srl`): headline "Where your N missing marks went", a stacked bar (scored / lost on wrong at
+  6 each / unearned on blanks at 5 each), then three numbered steps. **Find**: chapters ranked by marks
+  lost, plus factual observations (right→wrong changes, fast wrong picks under 20 s, a concentrated
+  chapter, blanks with +5/−1 guess arithmetic), each with Q chips. **Repair**: progress "n of m
+  repaired", a queue of mistake chips and one CTA that jumps to the next unrepaired mistake and runs
+  Mistake Repair. **Prove**: fresh verified questions when the gate has five; otherwise regular
+  chapter practice, labelled as not proof. The device decision log and the playbook note sit in a
+  closed `<details>` at the bottom. The old range slider is gone.
+- **Answer by answer** (`.rp-q`): collapsed accordion rows (two-line question, verdict, chapter, time,
+  "Answer changed", "Repaired"); only the first wrong answer opens by default. Wrong answers keep the
+  book explanation folded and lead with Mistake Repair. A finished repair offers "Next mistake: Qn".
+- Logic lives in `data/session_recovery.js` (pure, tested). Nothing on the page forecasts recovered marks.
 
 ### Recovery Review / Progress Records
 
