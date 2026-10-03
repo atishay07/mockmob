@@ -250,6 +250,9 @@ html[data-theme='light'] :is(.app-shell .nta-runner[data-interface='nta'], .aren
   gap: 8px;
 }
 
+/* Horizontal clipping must not create a body scroll container: the topbar sticks
+   to the viewport, including when More opens from the bottom navigation. */
+body:has(.app-shell) { overflow-x: clip; }
 .app-shell .arena-topbar {
   position: sticky;
   top: 0;
@@ -381,6 +384,11 @@ html[data-theme='light'] :is(.app-shell .nta-runner[data-interface='nta'], .aren
 }
 .app-shell .arena-sheet {
   display: grid;
+  position: absolute;
+  inset: 100% 0 auto;
+  max-height: calc(100dvh - 160px - env(safe-area-inset-bottom));
+  overflow-y: auto;
+  overscroll-behavior: contain;
   gap: 16px;
   padding: 14px 16px 18px;
   border-top: 1px solid var(--a-line);
@@ -408,6 +416,7 @@ html[data-theme='light'] :is(.app-shell .nta-runner[data-interface='nta'], .aren
 }
 .app-shell .arena-sheet__account {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
@@ -1121,11 +1130,12 @@ html[data-theme='light'] .arena-dark-island {
 .app-shell .pr-summary__cta { width: 100%; justify-content: center; gap: 8px; }
 @media (min-width: 1024px) { .app-shell .pr-summary { position: sticky; top: 84px; } }
 @media (max-width: 1023px) {
-  .app-shell .pr-summary { position: sticky; bottom: 12px; z-index: 30; padding: 12px 14px; border-radius: 18px; gap: 10px; grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
+  .app-shell .pr-summary { position: static; padding: 16px; border-radius: 16px; gap: 12px; grid-template-columns: minmax(0, 1fr); align-items: start; }
   .app-shell .pr-summary h2, .app-shell .pr-summary dl > div:not([data-emph]) { display: none; }
-  .app-shell .pr-summary dl > div[data-emph] { border: 0; padding: 0; justify-content: flex-start; gap: 8px; }
-  .app-shell .pr-summary__reason { grid-column: 1 / -1; grid-row: 2; min-height: 0; font-size: 13px; }
-  .app-shell .pr-summary__cta { width: auto; min-width: 150px; grid-column: 2; grid-row: 1; }
+  .app-shell .pr-summary dl > div[data-emph] { border: 0; padding: 0; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .app-shell .pr-summary dd { overflow-wrap: normal; text-align: left; }
+  .app-shell .pr-summary__reason { grid-column: 1; grid-row: 2; min-height: 0; font-size: 13px; }
+  .app-shell .pr-summary__cta { width: 100%; min-width: 0; grid-column: 1; grid-row: 3; min-height: 48px; }
 }
 
 /* Lower panels: ruled lists, no card-in-card. */

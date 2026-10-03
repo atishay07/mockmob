@@ -102,6 +102,19 @@
 /* Round 5: reserved character space, never a floating overlay on the reading canvas. */
 .pip-guide-flyer { position: fixed; inset: 0 auto auto 0; width: 160px; height: 180px; z-index: 46; pointer-events: none; transform-origin: 0 0; opacity: 0; will-change: transform; }
 .pip-guide-flyer .pip-actor { width: auto; aspect-ratio: var(--pip-ar); }
+.pip-guide-local { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
+.pip-guide-local .pip-actor { height: 100%; width: auto; max-width: 100%; }
+.pip-seat[data-pip-reacting='true'] .pip-seat__art > .pip-image { opacity: 0; }
+.ml__session-label { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .75rem; }
+.mm .pip-seat--lab-inline { display: none; }
+@media (max-width: 1099px) {
+  #score-recovery-lab .lp-guide-head > .pip-seat { display: none; }
+  .mm .pip-seat--lab-inline { display: block; width: 52px; flex: 0 0 52px; }
+  .mm .pip-seat--lab-inline .pip-seat__art { width: 52px; height: 62px; }
+  .pip-seat--lab-inline figcaption { display: none; }
+  .ml__bar-top { flex-wrap: nowrap; }
+  .ml__session-label { flex: 1; min-width: 0; }
+}
 .lp-hero__greeting .pip-seat { grid-template-columns: 120px minmax(0,1fr); width: 265px; }
 .lp-hero__greeting .pip-seat__art { width: 120px; height: 160px; }
 .lp-guide-head .pip-seat__art { width: 140px; height: 170px; }
@@ -117,8 +130,9 @@
   .mm.lp .pip-seat[data-pip-station] .pip-seat__art { width: 160px; height: 180px; }
 }
 @media (max-width: 760px) {
-  .lp-hero__greeting .pip-seat { width: 110px; display: block; }
-  .lp-hero__greeting .pip-seat__art { width: 100px; height: 120px; }
+  .lp-hero__greeting .pip-seat { width: 70px; display: block; flex: 0 0 70px; }
+  .lp-hero__greeting .pip-seat__art { width: 64px; height: 76px; }
+  .lp-hero__greeting .pip-seat figcaption { display: none; }
   .lp-guide-head > .pip-seat { flex-basis: 100px; }
   .lp-guide-head .pip-seat__art { width: 96px; height: 116px; }
   .lp-exam-bottom .pip-seat--demo { grid-template-columns: 96px minmax(0,1fr); }

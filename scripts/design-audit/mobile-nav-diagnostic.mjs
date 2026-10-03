@@ -1,0 +1,7 @@
+import {chromium} from 'file:///C:/Users/atish/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core/index.mjs';
+const b=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
+try { const p=await b.newPage({viewport:{width:390,height:844}});await p.goto('http://localhost:3010/preview/arena?view=dashboard&plan=pro');await p.locator('.pr-head').waitFor();await p.evaluate(()=>scrollTo({top:800,behavior:'instant'}));
+console.log(await p.locator('.arena-topbar').evaluate(e=>{const a=[];for(let n=e;n;n=n.parentElement){const s=getComputedStyle(n),r=n.getBoundingClientRect();a.push({tag:n.tagName,cls:n.className,top:r.top,height:r.height,position:s.position,overflowX:s.overflowX,overflowY:s.overflowY,transform:s.transform})}return a}));
+await p.getByRole('button',{name:'More',exact:true}).click();console.log(await p.locator('#arena-sheet').evaluate(e=>({top:e.getBoundingClientRect().top,bottom:e.getBoundingClientRect().bottom,focus:document.activeElement.textContent,y:scrollY})));await p.screenshot({path:'artifacts/mobile-refinement-2026-10-04/menu-diagnostic.png'});
+await p.goto('http://localhost:3010');await p.locator('.ml').waitFor();console.log(JSON.stringify(await p.locator('.ml__panel').evaluateAll(es=>es.map(e=>({label:e.getAttribute('aria-label'),height:e.offsetHeight,children:[...e.children].map(n=>({cls:n.className,h:n.offsetHeight,margin:getComputedStyle(n).margin,text:n.textContent.slice(0,90)}))}))),null,2));
+}finally{await b.close()}

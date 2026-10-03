@@ -172,7 +172,7 @@ button.lp-exam__num:active .lp-exam__cell { transform: scale(.94); }
   .lp .lp-hero__copy { gap: 1rem; }
   .lp .lp-cta { display: block; }
   .lp .lp-cta .mm-actions { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
-  .lp .lp-cta .mm-btn { padding-inline: .6rem; font-size: .8125rem; }
+  .lp .lp-cta .mm-btn { padding-inline: .6rem; font-size: .875rem; min-height: 48px; }
   .lp .lp-cta .mm-btn__icon { display: none; }
   .lp .lp-stage { max-width: 36rem; justify-self: center; }
   .lp .lp-stage::before { inset: -.7rem; border-radius: 1.5rem; }
@@ -190,6 +190,8 @@ button.lp-exam__num:active .lp-exam__cell { transform: scale(.94); }
   .lp-exam__numbers, .lp-exam[data-interface='nta'] .lp-exam__numbers { --cell-h: 29px; grid-template-columns: repeat(10, minmax(0, 1fr)); }
   .lp-exam__cell, .lp-exam[data-interface='nta'] .lp-exam__cell { font-size: .625rem; }
   .lp-exam__numbers button.lp-exam__num { --cell-h: 44px; grid-column: span 2; }
+  .lp-exam__numbers .lp-exam__num--rest { display: none; }
+  .lp-exam__numbers button .lp-exam__cell { font-size: .875rem; }
   .lp-exam[data-interface] .lp-exam__numbers button.lp-exam__num::before { inset: 0 -2px; }
   .lp-exam__legend { grid-template-columns: 1fr 1fr; }
   .lp-exam__bar { padding: .9rem 1rem; gap: .5rem; flex-wrap: wrap; }

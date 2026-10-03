@@ -141,7 +141,7 @@ export default function ResultPageClient({ previewId = null }) {
     <div className="container-narrow student-page student-page--result rp pb-20">
       {/* ---------- 1. Summary ---------- */}
       <header className="rp-hero">
-        <div className="rp-hero__pip pip-drill-result"><Mascot pose={isPass ? 'celebrating' : 'encouraging'} alt={isPass ? 'Pip celebrating a finished session.' : 'Pip encouraging you after a hard session.'} /></div>
+        <div className="rp-hero__pip pip-drill-result"><Mascot pose={isPass ? 'celebrating' : 'encouraging'} alt={isPass ? 'Mobi celebrating a finished session.' : 'Mobi encouraging you after a hard session.'} /></div>
         <div className="rp-hero__main">
           <p className="rp-eyebrow">Session complete · {subjectName(attempt.subject)} · {attempt.total} questions{timing ? ` · ${formatDuration(timing.totalMs)}` : ''}</p>
           <h1 className="rp-hero__score"><b data-tone={marks.scored < 0 ? 'bad' : isPass ? 'good' : 'mid'}>{marks.scored < 0 ? '−' : ''}<CountUp value={Math.abs(marks.scored)} /></b><span>/ {marks.max} marks</span></h1>

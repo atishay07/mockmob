@@ -1,0 +1,14 @@
+import {chromium} from 'file:///C:/Users/atish/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core/index.mjs';
+import fs from 'node:fs/promises';import assert from 'node:assert/strict';
+const b=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});const report=[];
+try{for(const width of [320,390,1440]){
+ const c=await b.newContext({viewport:{width,height:844},isMobile:width<600,hasTouch:width<600});const p=await c.newPage();await p.goto('http://localhost:3010');await p.waitForFunction(()=>document.documentElement.dataset.pipGuide);
+ await p.getByRole('button',{name:'Get one next move',exact:true}).click();
+ await p.locator('.ml__panels').evaluate(e=>scrollTo({top:e.getBoundingClientRect().top+scrollY-220,behavior:'instant'}));
+ if(width<600){await p.locator('.pip-guide-local').waitFor({timeout:3000});const box=await p.locator('.pip-guide-local').boundingBox();const host=await p.locator('[data-pip-station="lab-inline"] .pip-seat__art').boundingBox();assert.equal(Math.round(box.width),Math.round(host.width));assert.equal(await p.locator('.pip-guide-flyer').count(),0);await p.waitForTimeout(2100);assert.equal(await p.locator('.pip-guide-local').count(),0);assert.equal(await p.locator('[data-pip-station="lab-inline"] .pip-image').evaluate(e=>getComputedStyle(e).opacity),'1');report.push({width,localReaction:'contained actor and restored fallback passed',box});}
+ await p.getByRole('button',{name:'Replay',exact:true}).click();await p.locator('.ml__stage').evaluate(e=>scrollTo({top:e.getBoundingClientRect().top+scrollY-180,behavior:'instant'}));await p.waitForTimeout(150);
+ report.push({width,geometry:await p.locator('.ml,.ml__stage,.ml__panels').evaluateAll(es=>es.map(e=>({cls:e.className,height:e.offsetHeight}))) });await p.screenshot({path:`artifacts/mobile-refinement-2026-10-04/final-${width}-lab.png`});
+ const bg=await c.newPage();await bg.goto('about:blank');await bg.bringToFront();const hidden=await p.evaluate(()=>document.hidden);report.push({width,backgroundTabHidden:hidden,backgroundAcceptance:hidden?'available':'headless kept document visible; hardware check remains'});await bg.close();
+ if(width===390){await p.emulateMedia({reducedMotion:'reduce'});await p.addStyleTag({content:'html{font-size:200%!important}'});await p.waitForTimeout(150);assert.equal(await p.locator('.ml__tile:not(:disabled)').count(),10);report.push({textZoom:'200%',panels:await p.locator('.ml__panel').evaluateAll(es=>es.map(e=>({label:e.getAttribute('aria-label'),width:e.clientWidth,scrollWidth:e.scrollWidth,height:e.clientHeight,scrollHeight:e.scrollHeight})))});await p.screenshot({path:'artifacts/mobile-refinement-2026-10-04/final-text-200.png'});}
+ await c.close();
+}}finally{await fs.writeFile('artifacts/mobile-refinement-2026-10-04/motion-final.json',JSON.stringify(report,null,2));await b.close()}

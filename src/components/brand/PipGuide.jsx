@@ -19,6 +19,7 @@ export default function PipGuide() {
   const [blink, setBlink] = useState(0);
   useEffect(() => {
     const media = matchMedia('(prefers-reduced-motion: reduce)');
+    const desktop = matchMedia('(min-width: 1100px)');
     let dispose = () => {};
     function start() {
       dispose(); setActor(null);
@@ -26,10 +27,48 @@ export default function PipGuide() {
       const root = document.documentElement;
       // Static fallback opt-out also permits a layout-identical production cost baseline.
       if (root.hasAttribute('data-pip-static')) return;
+      // Phones keep each character in its own reserved art box. No scroll tracking,
+      // hidden fallback or delayed reaction from a section the reader has passed.
+      if (!desktop.matches) {
+        let timer = 0, count = 0;
+        let activeSeat = null;
+        const clear = () => {
+          clearTimeout(timer); timer = 0;
+          if (activeSeat) delete activeSeat.dataset.pipReacting;
+          activeSeat = null; setActor(null);
+        };
+        const react = (event) => {
+          const { station, mood } = event.detail || {};
+          if (!REACTIONS[mood] || document.hidden || (mood === 'eureka' && peakPlayed.current)) return;
+          const id = station === 'lab' ? 'lab-inline' : station;
+          const seat = document.querySelector(`[data-pip-station="${id}"]`);
+          const host = seat?.querySelector('.pip-seat__art');
+          if (!host) return;
+          const box = host.getBoundingClientRect();
+          const top = document.querySelector('.mm-nav')?.getBoundingClientRect().bottom || 0;
+          const dock = document.querySelector('.mm-dock')?.getBoundingClientRect();
+          const bottom = dock?.height ? Math.min(innerHeight, dock.top) : innerHeight;
+          if (!box.height || box.top < top || box.bottom > bottom) return;
+          if (station === 'lab' && mood === 'eureka' && document.querySelector('.ml')?.dataset.pipMove !== 'true') return;
+          if (activeSeat === seat && timer) return;
+          clear(); activeSeat = seat;
+          seat.dataset.pipReacting = 'true';
+          const reaction = REACTIONS[mood];
+          if (mood === 'eureka') peakPlayed.current = true;
+          setActor({ host, pose: reaction.pose || seat.dataset.pipPose, facing: seat.dataset.pipPose === 'pointing' ? 'left' : 'right', motion: `${reaction.motion}-${++count % 2}` });
+          timer = setTimeout(clear, reaction.ms);
+        };
+        const visibility = () => { if (document.hidden) clear(); };
+        root.dataset.pipGuide = 'local';
+        window.addEventListener('pip:react', react);
+        document.addEventListener('visibilitychange', visibility);
+        dispose = () => { clear(); delete root.dataset.pipGuide; window.removeEventListener('pip:react', react); document.removeEventListener('visibilitychange', visibility); };
+        return;
+      }
       const lab = document.querySelector('.ml');
       const stations = [...document.querySelectorAll('[data-pip-station]')].map(seat => ({
         seat, id:seat.dataset.pipStation, pose:seat.dataset.pipPose, art:seat.querySelector('.pip-seat__art'),
-      })).filter(s=>s.art);
+      })).filter(s=>s.art && s.art.getBoundingClientRect().height > 0);
       if (!stations.length) return;
       let raf=0,index=0,current=null,lastTime=0,disposed=false;
       let mood=null,reactionUntil=0,n=0;
@@ -107,7 +146,7 @@ export default function PipGuide() {
       document.fonts.ready.then(()=>{if(!disposed)resize();});wake();
       dispose=()=>{disposed=true;cancelAnimationFrame(raf);clearTimeout(reactionTimer);clearInterval(blinkTimer);observer.disconnect();window.removeEventListener('scroll',wake);window.removeEventListener('resize',resize);window.removeEventListener('pip:react',react);document.removeEventListener('visibilitychange',wake);stations.forEach(s=>s.seat.style.removeProperty('transform'));delete root.dataset.pipGuide;delete root.dataset.pipPerch;delete root.dataset.pipPerchVisible;};
     }
-    start();media.addEventListener('change',start);return()=>{dispose();media.removeEventListener('change',start);};
+    start();media.addEventListener('change',start);desktop.addEventListener('change',start);return()=>{dispose();media.removeEventListener('change',start);desktop.removeEventListener('change',start);};
   },[]);
-  return actor?createPortal(<span ref={flyer} className="pip-guide-flyer" aria-hidden="true"><PipActor pose={actor.pose} facing={actor.facing} motion={actor.motion} blink={blink}/></span>,document.body):null;
+  return actor?createPortal(<span ref={flyer} className={actor.host ? 'pip-guide-local' : 'pip-guide-flyer'} aria-hidden="true"><PipActor pose={actor.pose} facing={actor.facing} motion={actor.motion} blink={blink}/></span>,actor.host || document.body):null;
 }

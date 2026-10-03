@@ -5,8 +5,10 @@
 // Steps 1-3 describe what the product records today (answers, changes, timing, skips). Step 4
 // (delayed fresh checks) is shown with its real release state, never as available.
 import { useEffect, useRef, useState } from 'react';
-import { ArrowLeftRight, Check, Clock, Lock, Minus, Pause, Play, X } from 'lucide-react';
+import { ArrowLeftRight, Check, Clock, Lock, Minus, Pause, Play, RotateCcw, X } from 'lucide-react';
 import { pipReact } from '@/components/brand/pipEvents';
+import { useReadableRegion } from './useReadableRegion';
+import { MascotSeat } from '@/components/brand/Mascot';
 
 const SESSION = [
   { n: 1, first: 'right', final: 'right', time: '0:48' },
@@ -47,22 +49,19 @@ function inspectorText(tile) {
 
 export default function MistakeLab({ recoveryState = 'blocked_content', recoveryReason = '' }) {
   const rootRef = useRef(null);
-  const moveRef = useRef(null);
-  const [moveInView, setMoveInView] = useState(false);
-  const [step, setStep] = useState(0);
+  const readingRef = useRef(null);
+  const progressRef = useRef(null);
+  const clockRef = useRef({ token: 0, elapsed: 0 });
+  const [timeline, setTimeline] = useState({ step: 0, token: 0 });
+  const { step, token } = timeline;
   const [playing, setPlaying] = useState(true);
-  const [inView, setInView] = useState(false);
+  const inView = useReadableRegion(readingRef);
   const [hold, setHold] = useState(false);
   const [reduced, setReduced] = useState(false);
   const [revealed, setRevealed] = useState(0);
   const [picked, setPicked] = useState(null);
   const [pipPresent, setPipPresent] = useState(false);
   const keyboardStep = useRef(false);
-  useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => setMoveInView(entry.intersectionRatio >= 0.5), { threshold: 0.5 });
-    if (moveRef.current) observer.observe(moveRef.current);
-    return () => observer.disconnect();
-  }, []);
   useEffect(() => {
     const sync = () => setPipPresent(document.documentElement.dataset.pipPerch === 'lab' && document.documentElement.dataset.pipPerchVisible === 'true');
     sync(); window.addEventListener('pip:presence', sync);
@@ -77,53 +76,70 @@ export default function MistakeLab({ recoveryState = 'blocked_content', recovery
     return () => query.removeEventListener('change', sync);
   }, []);
 
-  useEffect(() => {
-    const node = rootRef.current;
-    if (!node || typeof IntersectionObserver === 'undefined') { setInView(true); return undefined; }
-    // Pause only once the lab is fully off screen (invisible, so no visible stop). A higher
-    // threshold flipped the tour on and off mid-scroll, which read as a glitch.
-    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0 });
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-
   const running = playing && inView && !hold && !reduced;
 
   // The page's peak: Pip (perched beside this lab) watches the replay and jumps once when the
   // leak becomes one next move. Later loops only get a nod.
   useEffect(() => {
+    rootRef.current.dataset.pipMove = String(inView && step === 2);
     if (!inView || keyboardStep.current) return;
     const key = STEPS[step].key;
-    if (key === 'move' && moveInView) {
-      // Seeing the next move latches the request. It survives a step change or a
-      // retargeted flight until the guide can show it from the visible lab perch.
-      rootRef.current.dataset.pipMove = 'true';
+    if (key === 'move') {
       pipReact('lab', 'eureka');
     } else if (key === 'leak' && pipPresent) pipReact('lab', 'nod');
-  }, [step, inView, pipPresent, moveInView]);
+  }, [step, inView, pipPresent]);
 
-  // Step 1: the replay reveals one question at a time (all at once under reduced motion).
+  // A single elapsed clock owns the step, question reveals and visible progress.
+  // Leaving the reading region preserves elapsed time; it never catches up offscreen.
   useEffect(() => {
-    if (step !== 0) return undefined;
-    // Seed the finished replay once; re-running on every `picked` change would undo the visitor's tap.
-    if (reduced) {
-      if (revealed >= SESSION.length) return undefined;
-      const id = window.setTimeout(() => { setRevealed(SESSION.length); setPicked(3); }, 0);
-      return () => window.clearTimeout(id);
-    }
-    if (!running || revealed >= SESSION.length) {
-      if (revealed >= SESSION.length && picked === null) { const id = window.setTimeout(() => setPicked(3), 250); return () => window.clearTimeout(id); }
-      return undefined;
-    }
-    const id = window.setTimeout(() => setRevealed((value) => value + 1), REVEAL_MS);
+    if (!running) return undefined;
+    const duration = STEPS[step].ms;
+    const elapsed = clockRef.current.elapsed;
+    const start = performance.now();
+    const bar = progressRef.current;
+    const animation = bar?.animate([
+      { transform: `scaleX(${elapsed / duration})` }, { transform: 'scaleX(1)' },
+    ], { duration: Math.max(1, duration - elapsed), fill: 'forwards', easing: 'linear' });
+    let timer;
+    const tick = () => {
+      const time = Math.min(duration, elapsed + performance.now() - start);
+      if (step === 0) {
+        const count = Math.min(SESSION.length, Math.floor(time / REVEAL_MS));
+        setRevealed(count);
+        if (count === SESSION.length) setPicked(value => value ?? 3);
+      }
+      if (time >= duration) {
+        clockRef.current = { token: token + 1, elapsed: 0 };
+        setTimeline({ step: (step + 1) % STEPS.length, token: token + 1 });
+        if (step === STEPS.length - 1) { setRevealed(0); setPicked(null); }
+        return;
+      }
+      const nextReveal = step === 0 && time < SESSION.length * REVEAL_MS ? REVEAL_MS - time % REVEAL_MS : duration - time;
+      timer = window.setTimeout(tick, Math.max(1, Math.min(nextReveal, duration - time)));
+    };
+    timer = window.setTimeout(tick, 0);
+    return () => {
+      window.clearTimeout(timer);
+      if (clockRef.current.token === token) {
+        clockRef.current.elapsed = Math.min(duration, elapsed + performance.now() - start);
+        if (bar) bar.style.transform = `scaleX(${clockRef.current.elapsed / duration})`;
+      }
+      animation?.cancel();
+    };
+  }, [step, token, running]);
+
+  useEffect(() => {
+    if (!reduced || step !== 0) return undefined;
+    const id = window.setTimeout(() => { setRevealed(SESSION.length); setPicked(3); }, 0);
     return () => window.clearTimeout(id);
-  }, [step, running, reduced, revealed, picked]);
+  }, [reduced, step]);
 
   const goTo = (index) => {
-    setStep(index);
+    const nextToken = clockRef.current.token + 1;
+    clockRef.current = { token: nextToken, elapsed: 0 };
+    setTimeline({ step: index, token: nextToken });
     if (index === 0) { setRevealed(reduced ? SESSION.length : 0); setPicked(reduced ? 3 : null); }
   };
-  const advance = () => { keyboardStep.current = false; goTo((step + 1) % STEPS.length); };
 
   const shown = SESSION.slice(0, revealed);
   const marks = shown.reduce((sum, tile) => sum + MARK[tile.final], 0);
@@ -135,18 +151,19 @@ export default function MistakeLab({ recoveryState = 'blocked_content', recovery
   return (
     // The tour keeps playing under a passing cursor or a tap. Only keyboard focus holds it, so a
     // keyboard user is never moved on mid-read; the explicit button pauses it for everyone.
-    <div className="ml" ref={rootRef} onFocus={(event) => { if (event.target.matches?.(':focus-visible')) setHold(true); }} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setHold(false); }}>
+    <div className="ml" ref={rootRef} data-playing={running} onFocus={(event) => { if (event.target.matches?.(':focus-visible')) setHold(true); }} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setHold(false); }}>
       <div className="ml__rail">
         <ol className="ml__steps">
           {STEPS.map((item, index) => {
             const active = index === step;
             return (
               <li key={item.key} data-active={active} data-done={index < step}>
-                <button ref={index === 2 ? moveRef : undefined} type="button" onClick={(event) => { keyboardStep.current = event.detail === 0; goTo(index); if (index === 0) { setRevealed(SESSION.length); setPicked(3); } }} aria-current={active ? 'step' : undefined}>
+                <button type="button" aria-label={item.title} onClick={(event) => { keyboardStep.current = event.detail === 0; setPlaying(false); goTo(index); if (index === 0) { clockRef.current.elapsed = SESSION.length * REVEAL_MS; setRevealed(SESSION.length); setPicked(3); } }} aria-current={active ? 'step' : undefined}>
                   <span className="ml__num">{String(index + 1).padStart(2, '0')}</span>
                   <span className="ml__label">{item.title}</span>
+                  <span className="ml__short" aria-hidden="true">{['Replay', 'Find', 'Next move', 'Check'][index]}</span>
                   <i className="ml__bar" aria-hidden="true">
-                    {active ? <b key={item.key} style={{ animationDuration: `${item.ms}ms`, animationPlayState: running ? 'running' : 'paused' }} onAnimationEnd={advance} data-auto={!reduced} /> : null}
+                    {active ? <b ref={progressRef} key={token} data-auto={!reduced} /> : null}
                   </i>
                 </button>
               </li>
@@ -158,19 +175,21 @@ export default function MistakeLab({ recoveryState = 'blocked_content', recovery
         <div className="ml__caption">
           {STEPS.map((item, index) => <p key={item.key} data-active={index === step} aria-hidden={index !== step}>{item.body}</p>)}
         </div>
-        <button type="button" className="ml__pause" onClick={() => setPlaying((value) => !value)} disabled={reduced}>
+        <div className="ml__controls"><button type="button" className="ml__pause" onClick={() => { keyboardStep.current = false; setPlaying((value) => !value); }} disabled={reduced}>
           {playing ? <Pause size={15} aria-hidden="true" /> : <Play size={15} aria-hidden="true" />}
           {reduced ? 'Auto-play is off (reduced motion)' : playing ? 'Pause the tour' : 'Resume the tour'}
         </button>
+        <button type="button" className="ml__restart" onClick={(event) => { keyboardStep.current = event.detail === 0; goTo(0); setPlaying(true); }}><RotateCcw size={15} aria-hidden="true" />Replay</button></div>
       </div>
 
       <figure className="ml__stage" aria-label="Example session, illustrative data">
         <div className="ml__bar-top">
-          <span>Example session · Accountancy · 10 questions</span>
-          <span className="ml__tag">Illustrative data</span>
+          <div className="ml__session-label"><span>Example session · Accountancy · 10 questions</span><span className="ml__tag">Illustrative data</span></div>
+          <MascotSeat station="lab-inline" pose="attentive" label="Mobi follows the replay." className="pip-seat--lab-inline" />
         </div>
 
         <div className="ml__panels">
+          <span className="ml__reading-region" ref={readingRef} aria-hidden="true" />
           {/* 1. Replay */}
           <section className="ml__panel" data-active={step === 0} aria-hidden={step !== 0} inert={step !== 0 ? true : undefined} aria-label="Replay the session">
             <div className="ml__score" aria-live={running ? 'off' : 'polite'}>
@@ -201,17 +220,17 @@ export default function MistakeLab({ recoveryState = 'blocked_content', recovery
               <li style={{ '--i': 0, '--w': '100%' }}>
                 <div><b>Answer changes</b><span>3 changes, net −6 marks</span></div>
                 <i aria-hidden="true"><em data-bad="true" /></i>
-                <p>Q4 and Q8 started right and ended wrong. Q9 started wrong and ended right, and that gain is counted too.</p>
+                <p>Q4 and Q8 changed from right to wrong. Q9 changed from wrong to right; its gain is counted too.</p>
               </li>
               <li style={{ '--i': 1, '--w': '62%' }}>
                 <div><b>Slowest question</b><span>Q7 took 3:12</span></div>
                 <i aria-hidden="true"><em /></i>
-                <p>Your typical question here takes about 1:05. One question took the time of three.</p>
+                <p>About three times the typical 1:05 in this session.</p>
               </li>
               <li style={{ '--i': 2, '--w': '38%' }}>
                 <div><b>Left blank</b><span>2 questions, 10 marks open</span></div>
                 <i aria-hidden="true"><em /></i>
-                <p>Q6 and Q10 were skipped. Blank costs nothing, but it also gains nothing.</p>
+                <p>Q6 and Q10. No penalty, no marks earned.</p>
               </li>
             </ul>
           </section>
@@ -220,13 +239,13 @@ export default function MistakeLab({ recoveryState = 'blocked_content', recovery
           <section className="ml__panel" data-active={step === 2} aria-hidden={step !== 2} inert={step !== 2 ? true : undefined} aria-label="Get one next move">
             <p className="ml__eyebrow">Your next move</p>
             <div className="ml__move">
-              <h3>Do one 10-question set and only change an answer if you can name the rule that makes it wrong.</h3>
+              <h3>Try 10 questions. Change an answer only when you can name the rule that makes it wrong.</h3>
               <p className="ml__why">Why this: in this session, changed answers cost the most (net −6 marks).</p>
               <div className="ml__where" aria-label="Shown in">
                 <span>Today</span><span>Radar</span><span>PrepOS</span><span>Results</span>
               </div>
             </div>
-            <p className="ml__note">A suggestion built from one session. It becomes more reliable as your record grows, and it never claims to know why you changed an answer.</p>
+            <p className="ml__note">A suggestion from one session, not a diagnosis of why you changed answers. More sessions strengthen the evidence.</p>
           </section>
 
           {/* 4. Check */}

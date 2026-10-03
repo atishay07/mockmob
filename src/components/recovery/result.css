@@ -182,6 +182,7 @@
 .rp-options li[data-state='mine'] { border-color: color-mix(in oklab, var(--a-bad-text, #ff9d92) 60%, transparent); background: var(--a-bad-wash); color: var(--a-ink, #f2f4ec); }
 .rp-options li[data-state='mine'] .rp-options__letter { background: var(--a-bad-text, #ff9d92); color: #10140e; }
 .rp-options li[data-state='mine'] .rp-options__tag { color: var(--a-bad-text, #ff9d92); }
+html[data-theme='light'] .rp-options li:is([data-state='key'], [data-state='mine']) .rp-options__letter { color: #fff; }
 .rp-expl { border-radius: 12px; background: var(--a-sunken, #0f1512); border: 1px solid var(--a-line, #253026); font-size: 14px; line-height: 1.6; color: var(--a-ink-2, #bcc5b9); }
 .rp-expl summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; padding: 0 14px; font-weight: 600; color: var(--a-ink-2); }
 .rp-expl p { margin: 0; padding: 0 14px 14px; }
@@ -200,7 +201,7 @@
   .rp-hero { grid-template-columns: 64px 1fr; gap: 12px 14px; }
   .rp-hero__pip { width: 64px; align-self: start; }
   .rp-stats { grid-template-columns: repeat(2, 1fr); }
-  .rp-strip button { width: 36px; height: 36px; }
+  .rp-strip button { width: 44px; height: 44px; }
   .srl-step { grid-template-columns: 28px 1fr; gap: 10px; }
   .srl-step__num { width: 28px; height: 28px; }
   .srl-step:not(:last-child)::before { left: 13px; top: 30px; }
@@ -211,6 +212,16 @@
   .rp-q__body { padding: 0 12px 14px; }
   .rp-options li { grid-template-columns: 26px 1fr; }
   .rp-options__tag { grid-column: 2; }
+}
+.srl-find-toggle { display: none; }
+@media (max-width: 760px) {
+  .srl-find[data-expanded='false'] [data-secondary] { display: none; }
+  .srl-find-toggle { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; min-height: 44px; padding: 10px 0; background: none; border: 0; border-top: 1px solid var(--a-line); text-align: left; font: 600 14px/1.4 var(--font-body); color: var(--a-accent-text); cursor: pointer; }
+  .srl-find-toggle span { font-size: 20px; flex: none; }
+  .srl-find-toggle:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; border-radius: 4px; }
+  .srl-queue { gap: 6px; }
+  .srl-queue__item { min-height: 44px; }
+  .rp-report, .rp-links a { min-height: 44px; }
 }
 @media (prefers-reduced-motion: reduce) { .rp-q__chev, .srl-progress__track span { transition: none; } }
 

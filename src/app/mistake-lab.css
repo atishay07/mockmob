@@ -19,9 +19,8 @@
 .ml__steps li[data-done='true'] .ml__num { color: var(--ink-2); }
 .ml__bar { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: transparent; overflow: hidden; }
 .ml__steps li[data-active='true'] .ml__bar { background: var(--line); }
-.ml__bar b { display: block; height: 100%; width: 100%; background: var(--accent-text); transform-origin: left center; transform: scaleX(0); animation: ml-fill linear forwards; }
+.ml__bar b { display: block; height: 100%; width: 100%; background: var(--accent-text); transform-origin: left center; transform: scaleX(0); }
 .ml__bar b[data-auto='false'] { animation: none; transform: scaleX(1); }
-@keyframes ml-fill { to { transform: scaleX(1); } }
 .ml__caption { display: grid; }
 .ml__caption p { grid-area: 1 / 1; margin: 0; font-size: 0.95rem; line-height: 1.55; color: var(--ink-2); opacity: 0; transform: translateY(4px); transition: opacity .3s ease, transform .35s var(--ease, ease); }
 .ml__caption p[data-active='true'] { opacity: 1; transform: none; }
@@ -33,9 +32,9 @@
 .ml__stage { margin: 0; min-width: 0; border-radius: 22px; background: #0e130f; color: #f2f4ec; border: 1px solid rgba(244, 245, 240, 0.12); box-shadow: 0 30px 70px -30px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(244, 245, 240, 0.08); overflow: hidden; }
 .ml__bar-top { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; padding: 0.85rem 1.1rem; border-bottom: 1px solid rgba(244, 245, 240, 0.1); font-size: 0.8rem; font-weight: 600; color: #bcc5b9; }
 .ml__tag { padding: 0.15rem 0.6rem; border-radius: 999px; border: 1px solid rgba(210, 240, 0, 0.35); color: #d2f000; font-size: 0.72rem; font-weight: 700; }
-.ml__panels { position: relative; min-height: 25.5rem; }
-@media (max-width: 959px) { .ml__panels { min-height: 27rem; } }
-.ml__panel { position: absolute; inset: 0; display: grid; align-content: start; gap: 1rem; padding: 1.25rem 1.1rem; opacity: 0; transform: translateY(10px); visibility: hidden; transition: opacity .35s ease, transform .45s var(--ease, ease), visibility 0s linear .45s; }
+.ml__panels { position: relative; display: grid; min-height: 25.5rem; }
+.ml__reading-region { position: absolute; inset: 0 0 auto; height: min(360px, 45svh); pointer-events: none; }
+.ml__panel { grid-area: 1 / 1; min-width: 0; display: grid; align-content: start; gap: 1rem; padding: 1.25rem 1.1rem; opacity: 0; transform: translateY(6px); visibility: hidden; transition: opacity .2s ease, transform .24s var(--ease, ease), visibility 0s linear .24s; }
 .ml__panel[data-active='true'] { opacity: 1; transform: none; visibility: visible; transition-delay: 0s; }
 .ml__eyebrow { margin: 0; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.02em; color: #9aa795; }
 
@@ -99,7 +98,7 @@
 
 .ml__stage figcaption { padding: 0.8rem 1.1rem 1rem; border-top: 1px solid rgba(244, 245, 240, 0.08); font-size: 0.74rem; line-height: 1.5; color: #8f9a8b; }
 
-@media (max-width: 420px) { .ml__tiles { gap: 0.4rem; } .ml__checks li { grid-template-columns: auto minmax(0, 1fr); } .ml__checks em { grid-column: 2; text-align: left; } .ml__panels { min-height: 30rem; } }
+@media (max-width: 420px) { .ml__tiles { gap: 0.4rem; } .ml__checks li { grid-template-columns: auto minmax(0, 1fr); } .ml__checks em { grid-column: 2; text-align: left; } }
 @media (prefers-reduced-motion: reduce) {
   .ml__panel, .ml__caption p, .ml__tile { transition: none; }
   .ml__tile[data-state] , .ml__leaks li, .ml__leaks em, .ml__checks li, .ml__move { animation: none !important; opacity: 1 !important; transform: none !important; }
@@ -108,3 +107,34 @@
 
 .lp-head--left { text-align: left; justify-items: start; margin-inline: 0; max-width: 46rem; }
 .lp-kicker { margin: 0 0 0.6rem; font: 600 0.78rem var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-text); }
+
+.ml__short { display: none; }
+.ml__controls { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+.ml__restart { display: inline-flex; align-items: center; justify-content: center; gap: .4rem; min-height: 44px; padding: 0 .8rem; border: 0; border-radius: 999px; background: transparent; color: var(--ink-2); font: inherit; font-size: .85rem; font-weight: 600; cursor: pointer; }
+.ml__restart:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.ml :is(button, summary) { touch-action: manipulation; }
+html[data-theme='light'] .ml__stage { box-shadow: 0 12px 32px -18px rgb(16 32 14 / .38); }
+@media (max-width: 959px) {
+  .ml { gap: 1rem; }
+  .ml__rail { display: contents; }
+  .ml__steps { order: 0; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .35rem; }
+  .ml__steps li, .ml__steps li:last-child { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .ml__steps li[data-active='true'] { background: var(--accent-wash); border-color: var(--accent-line); }
+  .ml__steps button { min-height: 64px; height: 100%; grid-template-columns: 1fr; justify-items: start; gap: .25rem; padding: .6rem .65rem; font-size: .875rem; }
+  .ml__num { font-size: .6875rem; }
+  .ml__label { display: none; }
+  .ml__short { display: block; font-weight: 700; line-height: 1.2; }
+  .ml__steps button:focus-visible { outline-offset: -3px; }
+  .ml__caption { order: 1; }
+  .ml__caption p { font-size: .9375rem; line-height: 1.5; transform: none; }
+  .ml__stage { order: 2; border-radius: 16px; }
+  .ml__panels { min-height: 0; }
+  .ml__controls { order: 3; justify-content: space-between; }
+  .ml__panel { padding: 1rem; }
+  .ml__tiles { grid-template-columns: repeat(auto-fit, minmax(max(16%, 2.75rem), 1fr)); }
+  .ml__checks li { grid-template-columns: auto minmax(0, 1fr); }
+  /* The panel heading already explains that every check uses a fresh question. */
+  .ml__checks em { display: none; }
+  .ml__bar-top { padding: .8rem 1rem; }
+  .ml__move { padding: .9rem; }
+}

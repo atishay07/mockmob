@@ -1,7 +1,7 @@
 "use client";
 // Score Recovery Lab on the result page: Find the marks you lost, Repair the mistakes, Prove it on
 // fresh questions. Facts come from the server-scored attempt; device events are labelled as such.
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowRight, Check } from 'lucide-react';
 import { apiGet, apiPost } from '@/lib/fetcher';
@@ -109,6 +109,8 @@ export default function ScoreRecoveryLab({ attempt, analysis, repaired, onJump, 
   const done = mistakes.filter(r => repaired.has(r.q.id)).length;
   const pct = (v) => `${marks.max ? (v / marks.max) * 100 : 0}%`;
   const maxGap = chapters[0]?.gap || 1;
+  const [expanded, setExpanded] = useState(false);
+  const findId = useId();
 
   return (
     <section ref={ref} className="srl" data-in={inView || undefined} aria-labelledby="srl-title">
@@ -134,12 +136,12 @@ export default function ScoreRecoveryLab({ attempt, analysis, repaired, onJump, 
       <ol className="srl-steps">
         <li className="srl-step">
           <div className="srl-step__num" aria-hidden="true">1</div>
-          <div className="srl-step__main">
+          <div className="srl-step__main srl-find" id={findId} data-expanded={expanded}>
             <div className="srl-step__head"><h3>Find</h3><p>Which chapters cost you, and why</p></div>
             {chapters.length ? (
               <ul className="srl-chapters">
                 {chapters.slice(0, 4).map((c, i) => (
-                  <li key={c.chapter} style={{ '--i': i }}>
+                  <li key={c.chapter} data-secondary={i > 0 || undefined} style={{ '--i': i }}>
                     <button type="button" onClick={() => onJump(c.first)} className="srl-chapter">
                       <span className="srl-chapter__name">{c.chapter}</span>
                       <span className="srl-chapter__meta">{[c.wrong && `${c.wrong} wrong`, c.blank && `${c.blank} blank`].filter(Boolean).join(', ')} of {c.n}</span>
@@ -152,8 +154,8 @@ export default function ScoreRecoveryLab({ attempt, analysis, repaired, onJump, 
             ) : <p>Every question was right. Try a harder or longer set to find what’s left.</p>}
             {observations.length ? (
               <ul className="srl-obs">
-                {observations.map(o => (
-                  <li key={o.id} data-tone={o.tone}>
+                {observations.map((o, i) => (
+                  <li key={o.id} data-tone={o.tone} data-secondary={i > 0 || undefined}>
                     <span className="srl-obs__tag">{o.label}</span>
                     <b>{o.headline}</b>
                     <span className="srl-obs__detail">{o.detail}</span>
@@ -163,6 +165,7 @@ export default function ScoreRecoveryLab({ attempt, analysis, repaired, onJump, 
                 ))}
               </ul>
             ) : null}
+            {(chapters.length > 1 || observations.length > 1) && <button type="button" className="srl-find-toggle" aria-expanded={expanded} aria-controls={findId} onClick={() => setExpanded(value => !value)}>{expanded ? 'Show the key finding' : 'See all chapters and observations'}<span aria-hidden="true">{expanded ? '−' : '+'}</span></button>}
             {device ? <p className="srl-fine">This earlier session was scored in your browser, so answer changes and timings aren’t available.</p> : null}
           </div>
         </li>

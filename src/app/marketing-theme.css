@@ -63,6 +63,12 @@ html[data-theme-switching]::view-transition-old(root),
 html[data-theme-switching]::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
 html[data-theme] .mm .mm-nav { background: color-mix(in srgb, var(--paper) 94%, transparent); }
 html[data-theme] .mm .mm-dock { background: color-mix(in srgb, var(--paper) 96%, transparent); }
+@supports (backdrop-filter: blur(8px)) {
+  html[data-theme] .mm .mm-nav { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+}
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  html[data-theme] .mm :is(.mm-nav, .mm-dock) { background: var(--paper); backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
 html[data-theme] .mm .mm-btn--secondary { background: var(--paper-raised); color: var(--ink); box-shadow: 0 var(--btn-edge) 0 var(--line-strong), var(--sh-1); }
 html[data-theme='light'] .lp :is(.du-teaser__big span, .du-live > span:first-child) { color: var(--accent-text); }
 html[data-theme='light'] .lp .lp-bg__grid { opacity: .18; background-image: linear-gradient(to right, #65784b40 1px, transparent 1px), linear-gradient(to bottom, #65784b40 1px, transparent 1px); }

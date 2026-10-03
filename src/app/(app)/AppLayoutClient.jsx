@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Logo } from '@/components/Logo';
@@ -33,6 +33,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const { user, status, signOut } = useAuth();
   const { isModerator } = useRole();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const menuOpener = useRef(null);
   const [tourOpen, setTourOpen] = useState(false);
   const [tourStep, setTourStep] = useState(0);
   const [tourTarget, setTourTarget] = useState(null);
@@ -43,10 +44,47 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
 
   useEffect(() => {
     if (!mobileMenuOpen) return;
-    const closeOnEscape = (event) => { if (event.key === 'Escape') setMobileMenuOpen(false); };
+    const sheet = document.getElementById('arena-sheet');
+    const opener = menuOpener.current;
+    const header = sheet?.closest('.arena-topbar');
+    const dock = document.querySelector('.arena-bottomnav');
+    const fitMenu = () => {
+      const bottom = dock?.getBoundingClientRect();
+      const available = (bottom?.height ? Math.min(innerHeight, bottom.top) : innerHeight) - (header?.getBoundingClientRect().bottom || 64) - 12;
+      if (sheet) sheet.style.maxHeight = `${Math.max(80, available)}px`;
+    };
+    const resize = new ResizeObserver(fitMenu);
+    if (header) resize.observe(header);
+    if (dock) resize.observe(dock);
+    fitMenu();
+    window.addEventListener('resize', fitMenu);
+    window.addEventListener('scroll', fitMenu, { passive: true });
+    const frame = requestAnimationFrame(() => sheet?.querySelector('a')?.focus({ preventScroll: true }));
+    const closeOnEscape = (event) => { if (event.key === 'Escape') { setMobileMenuOpen(false); opener?.focus({ preventScroll: true }); } };
+    const closeOutside = (event) => { if (!event.target.closest('.arena-topbar, .arena-bottomnav')) setMobileMenuOpen(false); };
+    const closeOnExit = (event) => { if (!event.target.closest('.arena-topbar, .arena-bottomnav')) setMobileMenuOpen(false); };
+    const desktop = matchMedia('(min-width: 1024px)');
+    const closeOnDesktop = () => { if (desktop.matches) setMobileMenuOpen(false); };
     document.addEventListener('keydown', closeOnEscape);
-    return () => document.removeEventListener('keydown', closeOnEscape);
+    document.addEventListener('pointerdown', closeOutside);
+    document.addEventListener('focusin', closeOnExit);
+    desktop.addEventListener('change', closeOnDesktop);
+    return () => {
+      cancelAnimationFrame(frame);
+      resize.disconnect();
+      window.removeEventListener('resize', fitMenu);
+      window.removeEventListener('scroll', fitMenu);
+      document.removeEventListener('keydown', closeOnEscape);
+      document.removeEventListener('pointerdown', closeOutside);
+      document.removeEventListener('focusin', closeOnExit);
+      desktop.removeEventListener('change', closeOnDesktop);
+    };
   }, [mobileMenuOpen]);
+
+  const toggleMenu = (event) => {
+    menuOpener.current = event.currentTarget;
+    setMobileMenuOpen(open => !open);
+  };
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -217,10 +255,10 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
               type="button"
               data-tour="mobile-menu-toggle"
               className="arena-iconbtn arena-mobile-only"
-              onClick={() => setMobileMenuOpen((open) => !open)}
+              onClick={toggleMenu}
               aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
               aria-expanded={mobileMenuOpen}
-              aria-controls="arena-sheet"
+              aria-controls={mobileMenuOpen ? 'arena-sheet' : undefined}
             >
               {mobileMenuOpen ? <StatusIcon kind="close" /> : (
                 <span className="inline-flex flex-col gap-1" aria-hidden="true">
@@ -286,7 +324,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
       </main>
       {!isTestRoute && <nav className="arena-bottomnav" aria-label="Quick study navigation">
         {MOBILE_STUDY_NAV.map((tab) => <Link key={tab.id} href={previewLinks?.[tab.id] || tab.href} onClick={() => setMobileMenuOpen(false)} aria-current={isActive(tab.id) ? 'page' : undefined} data-tour={`nav-${tab.id}`}><AppIcon name={tab.icon} /><span>{tab.label}</span></Link>)}
-        <button type="button" aria-expanded={mobileMenuOpen} aria-controls="arena-sheet" onClick={() => { setMobileMenuOpen((open) => !open); requestAnimationFrame(() => document.getElementById('arena-sheet')?.scrollIntoView({ block: 'start', behavior: 'instant' })); }}><AppIcon name="expand" /><span>More</span></button>
+        <button type="button" aria-expanded={mobileMenuOpen} aria-controls={mobileMenuOpen ? 'arena-sheet' : undefined} onClick={toggleMenu}><AppIcon name="expand" /><span>More</span></button>
       </nav>}
       {!isTestRoute && tourOpen && (
         <div className="pointer-events-none fixed inset-0 z-[80]">

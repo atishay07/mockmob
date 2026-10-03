@@ -499,7 +499,7 @@ function TestRunner() {
   );
 
   if (authStatus === 'loading') return <PageSpinner label="Loading test..." />;
-  if (loading) return <div className="container-narrow px-4 pt-10"><ArenaCompanion pose="attentive" title="One question at a time.">Opening your session. Your timer appears when the questions are ready; Pip stays outside while you answer.</ArenaCompanion>{isNtaMode ? <NtaValidationSpinner subjectId={subjectId} /> : <p role="status">Loading practice…</p>}</div>;
+  if (loading) return <div className="container-narrow px-4 pt-10"><ArenaCompanion pose="attentive" title="One question at a time.">Opening your session. Your timer appears when the questions are ready; Mobi stays outside while you answer.</ArenaCompanion>{isNtaMode ? <NtaValidationSpinner subjectId={subjectId} /> : <p role="status">Loading practice…</p>}</div>;
 
   if (error && !questions.length) return (
     <div className="container-narrow max-w-3xl px-4 pt-10">

@@ -122,7 +122,7 @@ export default function LandingPage() {
                 <span className="lp-pill__dot" aria-hidden="true" />
                 CUET UG 2027
                 <ArrowRight size={14} aria-hidden="true" />
-              </a><MascotSeat station="hero" pose="greeting" label="Pip’s on your side." note="Even at 11pm." eager /></div>
+              </a><MascotSeat station="hero" pose="greeting" label="Mobi’s on your side." note="Even at 11pm." eager /></div>
               <h1 className="lp-title">
                 {recoveryReleased() ? <><span className="lp-title__line">Find the mistake</span><span className="lp-title__line">behind the marks.</span></> : <>
                 <span className="lp-title__line">CUET 2027.</span>

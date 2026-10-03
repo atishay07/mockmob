@@ -1,0 +1,8 @@
+import {chromium} from 'file:///C:/Users/atish/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core/index.mjs';
+import fs from 'node:fs/promises';import assert from 'node:assert/strict';
+const b=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});const report=[];
+try{for(const [width,height,zoom] of [[320,844,1],[390,844,2],[844,390,1]]){
+ const p=await b.newPage({viewport:{width,height},isMobile:width<600,hasTouch:true});await p.goto('http://localhost:3010/preview/arena?view=dashboard&plan=pro');await p.locator('.pr-head').waitFor();if(zoom===2)await p.addStyleTag({content:'html{font-size:200%!important}'});await p.evaluate(()=>scrollTo({top:800,behavior:'instant'}));
+ const more=p.getByRole('button',{name:'More',exact:true});await more.tap();const signout=p.locator('#arena-sheet').getByRole('button',{name:'Sign out',exact:true});await signout.scrollIntoViewIfNeeded();
+ const check=await signout.evaluate(e=>{const r=e.getBoundingClientRect(),dock=document.querySelector('.arena-bottomnav').getBoundingClientRect(),sheet=document.querySelector('#arena-sheet').getBoundingClientRect();return {top:sheet.top,bottom:sheet.bottom,dock:dock.top,buttonBottom:r.bottom,hit:e.contains(document.elementFromPoint(r.left+r.width/2,r.top+r.height/2))}});assert.ok(check.top>=0 && check.bottom<=check.dock && check.hit);await p.keyboard.press('Escape');assert.equal(await more.evaluate(e=>document.activeElement===e),true);report.push({width,height,zoom,...check});await p.close();
+}}finally{await fs.writeFile('artifacts/mobile-refinement-2026-10-04/navigation-final.json',JSON.stringify(report,null,2));await b.close()}

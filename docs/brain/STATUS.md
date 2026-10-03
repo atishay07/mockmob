@@ -1,5 +1,69 @@
 # Implementation status — latest update: 4 October 2026
 
+## 4 October 2026 — Mobile refinement publication authorized (Codex)
+
+The owner explicitly requested committing these changes to the live website. Publishing
+the verified mobile refinement through `main` and the existing Git deployment integration.
+Physical-device/background-tab acceptance and the inconsistent throttled LCP result remain
+documented limitations, not completed checks. No database or environment changes are part
+of this publication. Deployment completion is to be checked against the live domain.
+
+## 4 October 2026 — Mobile refinement implemented locally (Codex)
+
+Owner approved implementation and the public companion name **Mobi**. Detailed changes,
+measurements and limits: `MOBILE-REFINEMENT-IMPLEMENTATION-2026-10-04.md`.
+
+- Lab starts only when its content is readable. One clock pauses offscreen/hidden;
+  manual steps pause and explicit Replay restarts. Compact phone controls and natural
+  panel sizing; Mobi uses contained local reactions, preserving desktop travel.
+- Phone hero/exam palette refined. Practice summary repaired at 320px (390px → 166px).
+  Result Find shortened through disclosure (1247px → 399px at 390px). Light answer-state
+  contrast corrected; navigation glass has opaque accessibility fallbacks.
+- Arena header now sticks correctly. More opens without page jumps, scrolls between
+  measured header/dock bounds, and restores opener focus on Escape. Final checks at
+  320px, 390px with 200% text, and 844×390 landscape reached the last account action.
+- Responsive matrix: 56 homepage/Practice/Result/quick-runner configurations across seven
+  widths and both themes; no root overflow or page exceptions. Timing, reduced motion,
+  text zoom, Mobi fallback, both NTA skins' answer/palette flows, public demo, theme
+  persistence and free/error states verified in development fixtures. Result contrast
+  scans had no flagged text. Evidence: `artifacts/mobile-refinement-2026-10-04/`.
+- Lint/build passed. Recovery 35, learning 80, NTA/answer-integrity/payment 40: all 155
+  tests passed without skips. Diff whitespace check passed. Build EPERM was resolved by
+  approved filesystem access, with no cache deletion or configuration workaround.
+- Isolated Slow 4G/4× CPU production samples: CLS 0; LCP 1.604–3.532s, so the 2.5s
+  target is not consistently met. Physical Android/Safari, actual background-tab resume,
+  assistive technology and real signed-in acceptance remain open. Local emulation does
+  not establish hardware or production readiness. No paid model, migration or deploy.
+- Preview: localhost:3010. Temporary production server 3011 stopped. Existing edits/
+  untracked artifacts preserved. No commit or push; publication awaits device/performance
+  acceptance and an explicit deployment decision.
+
+## 4 October 2026 — Published mobile audit and Preparoo reference study (Codex)
+
+Audit and plan only; no product behaviour or production changes. Plan:
+`MOBILE-REFINEMENT-PLAN-2026-10-04.md`. Evidence: `artifacts/mobile-audit-2026-10-04/`.
+
+- Live homepage: 390/1280px, both themes; Lab autoplay advances to Find while the replay
+  has zero visible pixels on phones. The phone rail occupies 376px before the replay.
+- Preparoo public reference: 390/1280px, wheel-scroll samples, phone illustration and
+  backdrop-filter inventory. Observed mobile hero asset is WebP, plus PNG/SVG assets.
+  Phone feature/explanation/preview hierarchy is the useful reference; no assets copied.
+- Hydrated Arena fixtures: Practice, branded quick runner, Result at 320/390/430px,
+  both themes, 18 captures. Zero document overflow/page exceptions. Narrow Practice
+  cost text wraps nearly letter by letter; Result Find occupies 1247px at 390px.
+  Light Result option letters produce two contrast flags (~2.75/2.82:1).
+- Menu taps and Escape close verified at 320/390px. Public reduced motion shows a
+  complete static replay and removes the floating guide. Initial unhydrated captures
+  were rejected; localhost-origin retry restored fixture hydration without config edits.
+- Next: playback readability gate + compact Lab + Practice summary + Result density/
+  contrast, then phone-local mascot, previews/navigation and daylight depth. Mobi is
+  a suggested name only, not an approved or implemented rename.
+- Browser emulation is not physical-device proof. Real Android/Safari, screen reader,
+  throttled production performance, both premium NTA skins and live signed-in workflows
+  remain acceptance gates. No attempt, model call, checkout, migration or deploy ran.
+  Only audit scripts/docs changed; product suites/build were not rerun. Local preview
+  is running on port 3010. Existing untracked evidence directories were preserved.
+
 ## 5 October 2026 — Mistake Repair on GPT-6 Luna (Claude)
 
 Owner chose GPT-6 Luna (USD 0.10 in / 0.50 out per 1M) for Mistake Repair: reasoning effort `low` for

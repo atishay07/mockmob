@@ -594,6 +594,25 @@ translucent washes), `--surface-hover`, `--edge-light`, `--warn-text`, `--bad-te
 `marketing-theme.css` defines them per theme and resets them to night values inside `.mm-screen`
 and `.mm-foot`, which stay dark in both themes. Volt stays a fill; as text on paper it fails contrast.
 
+## October 4: mobile refinement and Mobi
+
+The owner approved **Mobi** as the public companion name. Existing `Pip` file names and
+asset identifiers are internal compatibility names. Phone/tablet reactions stay inside
+reserved illustration boxes; desktop keeps its existing travel lane. Reduced motion uses
+static artwork. Never place the companion inside the timed answering interface.
+
+The landing Lab begins only when its bounded reading region clears the header/dock.
+One elapsed clock drives tiles and steps, pauses offscreen or while the document is hidden,
+and preserves progress on return. Manual step selection pauses autoplay; Replay restarts it.
+Phone controls use four short labels, with complete accessible names. Overlapping panels
+reserve their tallest natural height so transitions do not move following content.
+
+Phone Practice uses a full-width start action beneath the cost. Result Find initially shows
+one chapter and one observation, with remaining details available through disclosure.
+Arena More opens a scrollable menu between its actual header and bottom navigation;
+Escape returns focus to the opener. The header must not sit inside a body overflow container.
+Verification and remaining release gates: `docs/brain/MOBILE-REFINEMENT-IMPLEMENTATION-2026-10-04.md`.
+
 The switch is the sun or moon itself (inset-shadow crescent), with a circular View Transition
 reveal from the switch. Hero bay: framed bay, lit slate card, two-card stack, skeleton explanation.
 
