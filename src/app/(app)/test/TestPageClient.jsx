@@ -1,33 +1,32 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback, Suspense, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useCallback, Suspense, useMemo, useSyncExternalStore } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icons';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { PageSpinner, ErrorState } from '@/components/ui/Skeleton';
-import { apiGet, apiPost } from '@/lib/fetcher';
+import ArenaCompanion from '@/components/brand/ArenaCompanion';
+import { api, apiPost } from '@/lib/fetcher';
 import { useAuth } from '@/components/AuthProvider';
 import { VoteControls } from '@/components/questions/VoteControls';
 import { getMode, isValidModeId, resolveCount, resolveDurationSec } from '@/../data/test_modes';
+import { resumableDraft, SUBMISSION_GRACE_MS } from '@/../data/session_draft';
+import './nta-classic.css';
 
 const OPTION_LETTERS = ['A', 'B', 'C', 'D', 'E'];
+const subscribeConnection = callback => {
+  window.addEventListener('online', callback);
+  window.addEventListener('offline', callback);
+  return () => { window.removeEventListener('online', callback); window.removeEventListener('offline', callback); };
+};
+const connectionSnapshot = () => navigator.onLine;
 
 const storageKey = (uid, subject, chapter, count, difficulty = 'auto', modeId = 'quick') =>
   `mm:test:${uid || 'anon'}:${subject}:${chapter || '*'}:${count}:${difficulty || 'auto'}:${modeId}`;
 
 function optionLabel(option) {
   return typeof option === 'string' ? option : option?.text ?? String(option ?? '');
-}
-
-function correctOptionIndex(question) {
-  if (Number.isInteger(question.correctIndex)) return question.correctIndex;
-  if (!Array.isArray(question.options)) return -1;
-  return question.options.findIndex((option, index) => (
-    option?.key === question.correctAnswer ||
-    option?.key === question.correct_answer ||
-    String(index) === String(question.correctAnswer ?? question.correct_answer)
-  ));
 }
 
 function displayLabel(value) {
@@ -37,9 +36,9 @@ function displayLabel(value) {
 }
 
 const NTA_LOADING_STEPS = [
-  'Validating all questions',
-  'Checking answer keys',
-  'Picking the highest-confidence set',
+  'Checking available evidence',
+  'Selecting your question mix',
+  'Creating your session',
 ];
 
 function NtaValidationSpinner({ subjectId }) {
@@ -49,10 +48,10 @@ function NtaValidationSpinner({ subjectId }) {
         <div className="flex items-start gap-4">
           <div className="w-3 h-3 mt-2 rounded-full bg-volt animate-pulse-slow shadow-[0_0_18px_var(--volt)]" />
           <div className="min-w-0">
-            <div className="mono-label mb-2">NTA quality check</div>
+            <div className="mono-label mb-2">Preparing practice</div>
             <h1 className="heading text-2xl md:text-3xl text-white">Building your verified {displayLabel(subjectId)} mock.</h1>
             <p className="text-sm text-zinc-400 mt-3 max-w-xl">
-              We are validating answer keys, screening risky rows, and refilling with the strongest available questions before the timer starts.
+              Selecting questions with current verification evidence before the timer starts.
             </p>
             <div className="grid gap-2 mt-6">
               {NTA_LOADING_STEPS.map((step, index) => (
@@ -150,6 +149,8 @@ function TestRunner() {
   const count = resolveCount(mode, requestedCount);
   const generationKey = searchParams.get('generationKey');
   const isNtaMode = modeId === 'nta';
+  const [examInterface, setExamInterface] = useState(() => searchParams.get('interface') === 'nta' ? 'nta' : 'mockmob');
+  const classicInterface = isNtaMode && examInterface === 'nta';
 
   const [questions, setQuestions] = useState([]);
   const [idx, setIdx] = useState(0);
@@ -162,8 +163,15 @@ function TestRunner() {
   const [error, setError] = useState(null);
   const [selectionMeta, setSelectionMeta] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [syncStatus, setSyncStatus] = useState('saved');
+  const [pendingSubmission,setPendingSubmission] = useState(false);
+  const online = useSyncExternalStore(subscribeConnection, connectionSnapshot, () => true);
+  const autoSubmitTried = useRef(false);
   const [showVoteCoach, setShowVoteCoach] = useState(false);
   const [mobilePaletteOpen, setMobilePaletteOpen] = useState(false);
+  const mobilePaletteTriggerRef = useRef(null);
+  const mobilePaletteCloseRef = useRef(null);
+  const mobilePaletteDialogRef = useRef(null);
 
   const userId = user?.id;
   const key = useMemo(
@@ -172,6 +180,23 @@ function TestRunner() {
   );
 
   const answersRef = useRef(answers);
+  const eventsRef = useRef([]);
+  const startedRef = useRef(0);
+  const recordEvent = useCallback((qid, type, answer) => {
+    if (!startedRef.current || eventsRef.current.length >= 5000) return;
+    const prior = eventsRef.current.at(-1);
+    eventsRef.current.push({ seq: (prior?.seq || 0) + 1, qid, type,
+      at: Math.max(prior?.at || 0, Date.now() - startedRef.current),
+      ...(type === 'answer' ? { answer } : {}) });
+  }, []);
+  const chooseAnswer = useCallback((qid, answer) => {
+    if(submitting || pendingSubmission || (endsAt && Date.now()>=endsAt))return;
+    recordEvent(qid, 'answer', answer);
+    setAnswers(prev => {
+      const next = { ...prev }; if (answer === null) delete next[qid]; else next[qid] = answer;
+      answersRef.current = next; return next;
+    });
+  }, [recordEvent,pendingSubmission,endsAt,submitting]);
   const questionsRef = useRef(questions);
   const submittedRef = useRef(false);
   useEffect(() => { answersRef.current = answers; }, [answers]);
@@ -186,7 +211,10 @@ function TestRunner() {
       setLoading(true);
       setError(null);
       setSelectionMeta(null);
-      if (!generationKey || generationKey.length < 12) {
+      setPendingSubmission(false);
+      autoSubmitTried.current = false;
+      submittedRef.current = false;
+      if ((!generationKey || generationKey.length < 12) && !searchParams.get('sessionId')) {
         if (!alive) return;
         setError('Missing generation key. Start a fresh test from the dashboard.');
         setLoading(false);
@@ -198,19 +226,23 @@ function TestRunner() {
           const raw = window.localStorage.getItem(key);
           if (raw) {
             const saved = JSON.parse(raw);
-            if (saved?.questions?.length && typeof saved.endsAt === 'number' && saved.endsAt > Date.now()) {
+            if (resumableDraft(saved,{generationKey,sessionId:searchParams.get('sessionId')})) {
               if (!alive) return;
               setQuestions(saved.questions);
+              eventsRef.current = saved.events || [];
+              startedRef.current = saved.startedAt;
               setAnswers(saved.answers || {});
               setVisited(saved.visited || {});
               setMarked(saved.marked || {});
               setSelectionMeta(saved.selectionMeta || null);
               setEndsAt(saved.endsAt);
               setIdx(typeof saved.idx === 'number' ? Math.min(saved.idx, saved.questions.length - 1) : 0);
+              setPendingSubmission(saved.pendingSubmission === true);
               setLoading(false);
               return;
             }
-            window.localStorage.removeItem(key);
+            // Keep a pending submission for reconnect diagnostics; never restart it as a new test.
+            if(!saved.pendingSubmission)window.localStorage.removeItem(key);
           }
         } catch {
           // Corrupted local progress should not block a fresh test load.
@@ -222,8 +254,11 @@ function TestRunner() {
         if (chapters) qs.set('chapters', chapters);
         else if (chapter) qs.set('chapter', chapter);
         if (difficulty) qs.set('difficulty', difficulty);
-        qs.set('generationKey', generationKey);
-        const payload = await apiGet(`/api/questions?${qs.toString()}`);
+        if (generationKey) qs.set('generationKey', generationKey);
+        qs.set('experience', searchParams.get('recoveryFrom') ? 'recovery' : 'practice');
+        if (searchParams.get('recoveryFrom')) qs.set('recoveryFrom', searchParams.get('recoveryFrom'));
+        for (const name of ['sessionId','episodeId','purpose','tonightKey','tonightMinutes']) if (searchParams.get(name)) qs.set(name, searchParams.get(name));
+        const payload = await apiPost('/api/sessions', Object.fromEntries(qs));
         if (!alive) return;
 
         const { questions: loadedQuestions, meta } = normalizeQuestionPayload(payload);
@@ -240,15 +275,27 @@ function TestRunner() {
           return;
         }
 
-        const ends = Date.now() + resolveRunnerDurationSec(mode, loadedQuestions) * 1000;
+        // Phone clocks drift from the server's. Time the session on this device from
+        // when it arrived, using only the server's duration, so event offsets never run
+        // ahead of the server's elapsed time and the countdown is not skewed.
+        const receivedAt = Date.now();
+        const durationMs = Date.parse(payload.expiresAt) - Date.parse(payload.startedAt);
+        const serverNow = Number.isFinite(payload.serverNow) ? payload.serverNow : Date.parse(payload.startedAt);
+        const remainingMs = Date.parse(payload.expiresAt) - serverNow;
+        const ends = receivedAt + (Number.isFinite(remainingMs) ? Math.max(0, remainingMs) : resolveRunnerDurationSec(mode, loadedQuestions) * 1000);
+        startedRef.current = receivedAt - Math.max(0, serverNow - Date.parse(payload.startedAt));
+        eventsRef.current = payload.events || [];
+        recordEvent(loadedQuestions[0].id, 'visit');
         setQuestions(loadedQuestions);
-        setAnswers({});
+        const restoredAnswers = {};
+        for (const event of eventsRef.current) if (event.type === 'answer') restoredAnswers[event.qid] = event.answer;
+        setAnswers(restoredAnswers);
         setVisited(visitedForBlock(loadedQuestions, 0));
         setMarked({});
         setIdx(0);
         setEndsAt(ends);
         setLoading(false);
-        if (!isNtaMode && typeof window !== 'undefined' && !window.localStorage.getItem('mm_vote_coach_seen')) {
+        if (false) {
           setShowVoteCoach(true);
         }
         refreshSession({ silent: true });
@@ -261,13 +308,13 @@ function TestRunner() {
           router.replace('/pricing?reason=insufficient_credits');
           return;
         }
-        setError(e.message || 'Failed to load questions');
+        setError(e.message === 'INSUFFICIENT_VERIFIED_CONTENT' ? 'Verified questions are not ready for this selection yet. No credits were charged.' : e.message === 'INSUFFICIENT_PRACTICE_CONTENT' ? 'There are not enough questions for this selection. Try fewer questions or another chapter. No credits were charged.' : e.message === 'RECOVERY_MIGRATION_REQUIRED' ? 'Recovery content is being prepared. Return to Practice to use the existing question library.' : e.message || 'Failed to load questions');
         setLoading(false);
       }
     }
     load();
     return () => { alive = false; };
-  }, [subjectId, chapter, chapters, difficulty, count, mode, modeId, generationKey, key, authStatus, refreshSession, router, isNtaMode]);
+  }, [subjectId, chapter, chapters, difficulty, count, mode, modeId, generationKey, key, authStatus, refreshSession, router, isNtaMode, recordEvent, searchParams]);
 
   useEffect(() => {
     if (loading || !endsAt || typeof window === 'undefined') return;
@@ -278,20 +325,42 @@ function TestRunner() {
         visited,
         marked,
         selectionMeta,
+        generationKey,
+        events: eventsRef.current,
+        startedAt: startedRef.current,
         endsAt,
         idx,
+        pendingSubmission,
       }));
     } catch {
       // Private mode or quota pressure should not interrupt the attempt.
     }
-  }, [questions, answers, visited, marked, selectionMeta, endsAt, idx, key, loading]);
+  }, [questions, answers, visited, marked, selectionMeta, endsAt, idx, key, loading, generationKey,pendingSubmission]);
+
+  useEffect(() => {
+    if (!selectionMeta?.sessionId || selectionMeta.sessionTicket || loading) return;
+    let busy=false; let alive=true;
+    const sync=async()=>{
+      if (busy || submittedRef.current || Date.now() > endsAt || !eventsRef.current.length) return;
+      busy=true;
+      try {
+        await api('/api/sessions',{method:'PUT',headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({sessionId:selectionMeta.sessionId,events:eventsRef.current})});
+        if(alive)setSyncStatus('saved');
+      } catch { if(alive)setSyncStatus('pending'); }
+      finally { busy=false; }
+    };
+    const timer=setInterval(sync,1500); window.addEventListener('online',sync);
+    return()=>{alive=false;clearInterval(timer);window.removeEventListener('online',sync);};
+  },[selectionMeta?.sessionId,selectionMeta?.sessionTicket,loading,endsAt]);
 
   const gotoQuestion = useCallback((nextIdx) => {
     const safe = Math.max(0, Math.min(questionsRef.current.length - 1, nextIdx));
     setIdx(safe);
+    if (questionsRef.current[safe]) recordEvent(questionsRef.current[safe].id, 'visit');
     const patch = visitedForBlock(questionsRef.current, safe);
     setVisited((prev) => ({ ...prev, ...patch }));
-  }, []);
+  }, [recordEvent]);
 
   useEffect(() => {
     if (!endsAt) return;
@@ -321,40 +390,14 @@ function TestRunner() {
     if (!user) return;
     submittedRef.current = true;
     setSubmitting(true);
-
-    const qs = questionsRef.current;
-    const ans = answersRef.current;
-
-    let correct = 0;
-    let wrong = 0;
-    let unattempted = 0;
-    const details = qs.map((question) => {
-      const given = ans[question.id];
-      if (given === undefined) {
-        unattempted += 1;
-        return { qid: question.id, givenIndex: null, isCorrect: null };
-      }
-      const isCorrect = given === correctOptionIndex(question);
-      if (isCorrect) correct += 1;
-      else wrong += 1;
-      return { qid: question.id, givenIndex: given, isCorrect };
-    });
-
-    const max = qs.length * 5;
-    const raw = (correct * 5) - (wrong * 1);
-    const score = Math.max(0, Math.round((raw / max) * 100));
+    setMobilePaletteOpen(false);
 
     try {
       const data = await apiPost('/api/attempts', {
-        subject: subjectId,
-        score,
-        correct,
-        wrong,
-        unattempted,
-        total: qs.length,
-        details,
-        questionsSnapshot: qs,
-        selectionMeta: selectionMeta || {},
+        sessionId: selectionMeta?.sessionId,
+        sessionTicket: selectionMeta?.sessionTicket,
+        answers: answersRef.current,
+        events: eventsRef.current.filter(e => e.at <= endsAt - startedRef.current),
       });
       try { window.localStorage.removeItem(key); } catch {}
       try { window.sessionStorage.setItem('mm:postTest', '1'); } catch {}
@@ -364,20 +407,30 @@ function TestRunner() {
       submittedRef.current = false;
       setSubmitting(false);
       setError(`Submit failed: ${e.message}. Your answers are saved. Press Submit again.`);
+      if(e.kind === 'network' || !navigator.onLine){
+        setPendingSubmission(true);
+        setError(selectionMeta?.sessionTicket
+          ? 'Waiting for connection. Answers are held on this device. Reconnect before the two-minute submission window ends.'
+          : 'Waiting for connection. After the deadline, the server can score only answers it already received. Reconnect before time runs out.');
+      } else {
+        setPendingSubmission(false);
+        if(e.message === 'SESSION_EXPIRED')setError('The server’s submission window has ended. This session cannot be recorded.');
+      }
     }
-  }, [user, subjectId, key, router, refreshSession, selectionMeta]);
+  }, [user, key, router, refreshSession, selectionMeta, endsAt]);
 
   const timeLeft = endsAt ? Math.max(0, Math.floor((endsAt - now) / 1000)) : 0;
+  useEffect(()=>{const reconnect=()=>{if(pendingSubmission && Date.now() <= endsAt+SUBMISSION_GRACE_MS)submitTest();};window.addEventListener('online',reconnect);return()=>window.removeEventListener('online',reconnect);},[pendingSubmission,endsAt,submitTest]);
   useEffect(() => {
     if (!endsAt) return;
-    if (timeLeft <= 0 && !submittedRef.current && !loading) submitTest();
+    if (timeLeft <= 0 && !submittedRef.current && !loading && !autoSubmitTried.current){autoSubmitTried.current=true;submitTest();}
   }, [timeLeft, endsAt, loading, submitTest]);
 
   useEffect(() => {
     if (loading || !questions.length) return;
     const onKeyDown = (event) => {
       const tag = event.target?.tagName;
-      if (event.defaultPrevented || ['INPUT', 'TEXTAREA', 'SELECT'].includes(tag)) return;
+      if (mobilePaletteOpen || event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey || event.target?.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(tag)) return;
       const block = getQuestionBlock(questionsRef.current, idx);
       if (event.key === 'ArrowLeft') {
         event.preventDefault();
@@ -388,12 +441,51 @@ function TestRunner() {
       } else if (/^[1-4]$/.test(event.key)) {
         event.preventDefault();
         const active = questionsRef.current[idx];
-        if (active?.id) setAnswers((prev) => ({ ...prev, [active.id]: Number(event.key) - 1 }));
+        if (active?.id) chooseAnswer(active.id, Number(event.key) - 1);
       }
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [loading, questions.length, idx, gotoQuestion]);
+  }, [loading, questions.length, idx, gotoQuestion, chooseAnswer, mobilePaletteOpen]);
+
+  useEffect(() => {
+    if (!mobilePaletteOpen) return undefined;
+    const dialog = mobilePaletteDialogRef.current;
+    if (!dialog) return undefined;
+    const trigger = mobilePaletteTriggerRef.current;
+
+    const onDialogKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setMobilePaletteOpen(false);
+        return;
+      }
+      if (event.key !== 'Tab') return;
+
+      const controls = [...dialog.querySelectorAll('button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])')]
+        .filter((control) => control.getAttribute('aria-hidden') !== 'true');
+      if (!controls.length) {
+        event.preventDefault();
+        return;
+      }
+      const first = controls[0];
+      const last = controls[controls.length - 1];
+      if (event.shiftKey && (document.activeElement === first || !dialog.contains(document.activeElement))) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && (document.activeElement === last || !dialog.contains(document.activeElement))) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    mobilePaletteCloseRef.current?.focus();
+    document.addEventListener('keydown', onDialogKeyDown);
+    return () => {
+      document.removeEventListener('keydown', onDialogKeyDown);
+      trigger?.focus();
+    };
+  }, [mobilePaletteOpen]);
 
   if (!subjectId) return (
     <div className="container-narrow max-w-3xl pt-10">
@@ -407,11 +499,11 @@ function TestRunner() {
   );
 
   if (authStatus === 'loading') return <PageSpinner label="Loading test..." />;
-  if (loading) return isNtaMode ? <NtaValidationSpinner subjectId={subjectId} /> : <PageSpinner label="Loading test..." />;
+  if (loading) return <div className="container-narrow px-4 pt-10"><ArenaCompanion pose="attentive" title="One question at a time.">Opening your session. Your timer appears when the questions are ready; Pip stays outside while you answer.</ArenaCompanion>{isNtaMode ? <NtaValidationSpinner subjectId={subjectId} /> : <p role="status">Loading practice…</p>}</div>;
 
-  if (error) return (
+  if (error && !questions.length) return (
     <div className="container-narrow max-w-3xl px-4 pt-10">
-      <ErrorState message={error} onRetry={() => router.refresh()} />
+      <ErrorState mascot message={error} onRetry={() => window.location.reload()} />
       <div className="mt-4">
         <Button variant="outline" onClick={() => router.push('/dashboard')}>
           <Icon name="home" /> Back to dashboard
@@ -456,13 +548,7 @@ function TestRunner() {
     });
   };
 
-  const clearAnswer = (qid) => {
-    setAnswers((prev) => {
-      const next = { ...prev };
-      delete next[qid];
-      return next;
-    });
-  };
+  const clearAnswer = (qid) => chooseAnswer(qid, null);
 
   const confirmAndSubmit = () => {
     if (pendingCount > 0 || markedCount > 0) {
@@ -527,8 +613,9 @@ function TestRunner() {
               key={`${question.id}-${optionIndex}`}
               type="button"
               className={`nta-option ${selected ? 'is-selected' : ''}`}
-              onClick={() => setAnswers((prev) => ({ ...prev, [question.id]: optionIndex }))}
+              onClick={() => chooseAnswer(question.id, optionIndex)}
               aria-pressed={selected}
+              disabled={pendingSubmission || timeLeft <= 0 || submitting}
             >
               <span className="nta-option-letter">{OPTION_LETTERS[optionIndex] || optionIndex + 1}</span>
               <span className="nta-option-text">{optionLabel(opt)}</span>
@@ -562,11 +649,13 @@ function TestRunner() {
   );
 
   return (
-    <div className="nta-runner">
+    <div className="nta-runner" data-interface={classicInterface ? 'nta' : 'mockmob'}>
+      <div role="status" className="runner-sync-state">{pendingSubmission ? 'Waiting for server confirmation. Answers are held on this device until the submission window ends.' : !online ? 'You are offline. Answers stay on this device and the timer continues. Reconnect before submitting.' : selectionMeta?.sessionTicket ? 'Answers are saved on this device. Stay online when submitting. Existing practice-bank content is still being audited.' : syncStatus === 'pending' ? 'Waiting for connection. Answers stay on this device; synchronize before the timer ends.' : 'Practice saves to your account while online.'}</div>
+      {error && <div role="alert" className="runner-submit-error">{error}<button type="button" onClick={submitTest}>Retry submission</button></div>}
       {showVoteCoach && (
         <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/70 backdrop-blur-sm px-4">
           <div className="glass volt-soft max-w-lg w-full p-5 md:p-6 relative overflow-hidden">
-            <div className="eyebrow mb-3">{'// Quality loop'}</div>
+            <div className="eyebrow mb-3">{'Quality loop'}</div>
             <h2 className="heading text-[24px] mb-3">Help clean the question bank</h2>
             <p className="text-sm text-zinc-300 leading-relaxed mb-4">
               If a question feels out of syllabus, wrongly keyed, or unfairly hard, downvote it. Repeated downvotes push weak questions out of active mocks.
@@ -585,6 +674,14 @@ function TestRunner() {
         </div>
       )}
 
+      {isNtaMode && <div className="nta-interface-toolbar">
+        <span>Practice interface</span>
+        <div role="group" aria-label="Test interface">
+          <button type="button" aria-pressed={!classicInterface} onClick={() => setExamInterface('mockmob')}>MockMob</button>
+          <button type="button" aria-pressed={classicInterface} onClick={() => setExamInterface('nta')}>NTA style</button>
+        </div>
+        <small>Switch anytime. Your answers and timer stay.</small>
+      </div>}
       <header className="nta-test-header">
         <div className="nta-header-left">
           <button
@@ -613,7 +710,7 @@ function TestRunner() {
           <ProgressBar value={progress} />
         </div>
 
-        <div className={`nta-timer ${lowTime ? 'is-low' : ''}`} aria-live="polite">
+        <div className={`nta-timer ${lowTime ? 'is-low' : ''}`} role="timer" aria-label={`Time remaining: ${mins} minutes ${secs} seconds`}>
           <Icon name="clock" />
           <span>{mins}:{secs.toString().padStart(2, '0')}</span>
         </div>
@@ -655,6 +752,13 @@ function TestRunner() {
             </div>
 
             <div className="nta-navigation">
+              {classicInterface && <>
+                <button type="button" className="nta-nav-button nta-classic-review" onClick={() => {
+                  setMarked((prev) => ({ ...prev, [q.id]: true }));
+                  if (!isLastBlock) gotoQuestion(block.endIdx + 1);
+                }}>Mark for Review & Next</button>
+                <button type="button" className="nta-nav-button" onClick={() => clearAnswer(q.id)}>Clear response</button>
+              </>}
               <button
                 type="button"
                 className="nta-nav-button"
@@ -669,7 +773,7 @@ function TestRunner() {
                 onClick={goNext}
                 disabled={submitting}
               >
-                {isLastBlock ? (submitting ? 'Submitting...' : 'Submit Test') : 'Next'}
+                {isLastBlock ? (submitting ? 'Submitting...' : 'Submit Test') : classicInterface ? 'Save & Next' : 'Next'}
                 {!isLastBlock && <Icon name="chevR" />}
               </button>
             </div>
@@ -691,6 +795,7 @@ function TestRunner() {
               <span><i className="legend marked" /> Marked</span>
               <span><i className="legend visited" /> Not answered</span>
               <span><i className="legend notvisited" /> Not visited</span>
+              <span><i className="legend marked-answered" /> Answered & marked for review</span>
             </div>
             <button type="button" className="nta-submit-button" onClick={confirmAndSubmit} disabled={submitting}>
               {submitting ? 'Submitting...' : 'Submit test'}
@@ -703,7 +808,7 @@ function TestRunner() {
         <button type="button" disabled={block.startIdx === 0} onClick={() => gotoQuestion(block.startIdx - 1)}>
           <Icon name="chevL" /> Prev
         </button>
-        <button type="button" onClick={() => setMobilePaletteOpen(true)}>
+        <button ref={mobilePaletteTriggerRef} type="button" onClick={() => setMobilePaletteOpen(true)}>
           Palette
         </button>
         <button type="button" className="is-primary" onClick={goNext} disabled={submitting}>
@@ -712,15 +817,15 @@ function TestRunner() {
       </div>
 
       {mobilePaletteOpen && (
-        <div className="nta-mobile-sheet" role="dialog" aria-modal="true" aria-label="Question palette">
-          <button className="nta-sheet-backdrop" type="button" aria-label="Close palette" onClick={() => setMobilePaletteOpen(false)} />
+        <div ref={mobilePaletteDialogRef} className="nta-mobile-sheet" role="dialog" aria-modal="true" aria-label="Question palette">
+          <button className="nta-sheet-backdrop" type="button" tabIndex={-1} aria-label="Close palette" onClick={() => setMobilePaletteOpen(false)} />
           <div className="nta-sheet-panel">
             <div className="nta-sheet-head">
               <div>
                 <span className="nta-kicker">Review Palette</span>
                 <strong>{answered}/{questions.length} answered</strong>
               </div>
-              <button type="button" className="nta-icon-button" onClick={() => setMobilePaletteOpen(false)} aria-label="Close palette">
+              <button ref={mobilePaletteCloseRef} type="button" className="nta-icon-button" onClick={() => setMobilePaletteOpen(false)} aria-label="Close palette">
                 <Icon name="x" />
               </button>
             </div>
@@ -757,7 +862,7 @@ function TestRunner() {
           gap: 18px;
           padding: 12px clamp(18px, 2vw, 28px);
           border-bottom: 1px solid rgba(255,255,255,.08);
-          background: rgba(8,9,7,.92);
+          background: var(--a-topbar, rgba(8,9,7,.92));
           backdrop-filter: blur(18px);
         }
         .nta-header-left {
@@ -784,7 +889,7 @@ function TestRunner() {
           font-family: var(--font-display);
           font-size: 17px;
           line-height: 1.15;
-          color: #f4f6ed;
+          color: var(--a-ink, #f4f6ed);
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -793,15 +898,15 @@ function TestRunner() {
           width: 44px;
           height: 44px;
           border-radius: 8px;
-          border: 1px solid rgba(255,255,255,.1);
-          background: rgba(255,255,255,.035);
-          color: #d4d4d8;
+          border: 1px solid var(--a-line, rgba(255,255,255,.1));
+          background: var(--a-hover, rgba(255,255,255,.035));
+          color: var(--a-ink-2, #d4d4d8);
           display: inline-flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
         }
-        .nta-icon-button:hover { border-color: rgba(255,255,255,.22); color: #fff; }
+        .nta-icon-button:hover { border-color: var(--a-line-hover, rgba(255,255,255,.22)); color: var(--a-ink, #fff); }
         .nta-header-progress {
           display: grid;
           gap: 8px;
@@ -827,9 +932,9 @@ function TestRunner() {
           justify-content: center;
           gap: 8px;
           border-radius: 8px;
-          border: 1px solid rgba(255,255,255,.1);
-          background: rgba(255,255,255,.035);
-          color: #f4f6ed;
+          border: 1px solid var(--a-line, rgba(255,255,255,.1));
+          background: var(--a-hover, rgba(255,255,255,.035));
+          color: var(--a-ink, #f4f6ed);
           font-family: var(--font-mono);
           font-weight: 900;
           font-variant-numeric: tabular-nums;
@@ -837,7 +942,7 @@ function TestRunner() {
         .nta-timer.is-low {
           border-color: rgba(248,113,113,.45);
           background: rgba(248,113,113,.1);
-          color: #fca5a5;
+          color: var(--a-bad-text, #fca5a5);
         }
         .nta-shell {
           width: min(100%, 1340px);
@@ -853,7 +958,7 @@ function TestRunner() {
           border-radius: 8px;
           border: 1px solid rgba(251,191,36,.28);
           background: rgba(251,191,36,.08);
-          color: #fde68a;
+          color: var(--a-warn-text, #fde68a);
           font-size: 13px;
           line-height: 1.5;
         }
@@ -867,9 +972,9 @@ function TestRunner() {
           width: 100%;
           max-width: 930px;
           justify-self: end;
-          border: 1px solid rgba(255,255,255,.1);
+          border: 1px solid var(--a-line, rgba(255,255,255,.1));
           border-radius: 8px;
-          background: rgba(15,16,13,.94);
+          background: var(--a-topbar, rgba(15,16,13,.94));
           box-shadow: 0 18px 70px rgba(0,0,0,.28);
           overflow: hidden;
         }
@@ -881,14 +986,14 @@ function TestRunner() {
           align-items: center;
           padding: 20px 22px;
           border-bottom: 1px solid rgba(255,255,255,.08);
-          background: rgba(255,255,255,.025);
+          background: var(--a-hover, rgba(255,255,255,.025));
         }
         .nta-paper-head h1 {
           margin: 4px 0 0;
           font-family: var(--font-display);
           font-size: 22px;
           line-height: 1.15;
-          color: #f8faf0;
+          color: var(--a-ink, #f8faf0);
         }
         .nta-paper-tags {
           display: flex;
@@ -897,9 +1002,9 @@ function TestRunner() {
           gap: 8px;
         }
         .nta-paper-tags span {
-          border: 1px solid rgba(255,255,255,.1);
+          border: 1px solid var(--a-line, rgba(255,255,255,.1));
           border-radius: 6px;
-          color: #d4d4d8;
+          color: var(--a-ink-2, #d4d4d8);
           padding: 6px 8px;
           font-family: var(--font-mono);
           font-size: 10px;
@@ -924,15 +1029,15 @@ function TestRunner() {
           font-weight: 900;
           letter-spacing: .12em;
           text-transform: uppercase;
-          color: var(--volt);
+          color: var(--a-accent-text, var(--volt));
         }
         .nta-passage-head strong {
-          color: #f4f6ed;
+          color: var(--a-ink, #f4f6ed);
           letter-spacing: .08em;
         }
         .nta-passage p {
           margin: 0;
-          color: #d4d4d8;
+          color: var(--a-ink-2, #d4d4d8);
           font-size: 15px;
           line-height: 1.8;
           max-width: 72ch;
@@ -970,43 +1075,43 @@ function TestRunner() {
           font-weight: 900;
           letter-spacing: .14em;
           text-transform: uppercase;
-          color: var(--volt);
+          color: var(--a-accent-text, var(--volt));
         }
         .nta-chip {
           border-radius: 6px;
-          border: 1px solid rgba(255,255,255,.1);
+          border: 1px solid var(--a-line, rgba(255,255,255,.1));
           padding: 4px 7px;
           font-family: var(--font-mono);
           font-size: 9px;
           font-weight: 900;
           letter-spacing: .09em;
           text-transform: uppercase;
-          color: #a1a1aa;
+          color: var(--a-ink-3, #a1a1aa);
         }
-        .nta-chip--answered { color: #86efac; border-color: rgba(74,222,128,.38); background: rgba(74,222,128,.08); }
+        .nta-chip--answered { color: var(--a-good-text, #86efac); border-color: rgba(74,222,128,.38); background: rgba(74,222,128,.08); }
         .nta-chip--marked,
-        .nta-chip--marked-answered { color: #c4b5fd; border-color: rgba(168,85,247,.42); background: rgba(168,85,247,.1); }
-        .nta-chip--visited { color: #fca5a5; border-color: rgba(248,113,113,.34); background: rgba(248,113,113,.08); }
+        .nta-chip--marked-answered { color: var(--a-purple-text, #c4b5fd); border-color: rgba(168,85,247,.42); background: rgba(168,85,247,.1); }
+        .nta-chip--visited { color: var(--a-bad-text, #fca5a5); border-color: rgba(248,113,113,.34); background: rgba(248,113,113,.08); }
         .nta-text-button {
           min-height: 44px;
           display: inline-flex;
           align-items: center;
           gap: 6px;
-          border: 1px solid rgba(255,255,255,.1);
+          border: 1px solid var(--a-line, rgba(255,255,255,.1));
           border-radius: 8px;
-          background: rgba(255,255,255,.025);
-          color: #d4d4d8;
+          background: var(--a-hover, rgba(255,255,255,.025));
+          color: var(--a-ink-2, #d4d4d8);
           padding: 0 10px;
           font-family: var(--font-display);
           font-size: 12px;
           font-weight: 800;
           cursor: pointer;
         }
-        .nta-text-button:hover { border-color: rgba(255,255,255,.24); color: #fff; }
+        .nta-text-button:hover { border-color: var(--a-line-hover, rgba(255,255,255,.24)); color: var(--a-ink, #fff); }
         .nta-question-text {
           margin: 0 0 18px;
           max-width: 74ch;
-          color: #f8faf0;
+          color: var(--a-ink, #f8faf0);
           font-family: var(--font-display);
           font-size: 21px;
           font-weight: 750;
@@ -1024,17 +1129,17 @@ function TestRunner() {
           grid-template-columns: 34px minmax(0, 1fr);
           align-items: start;
           gap: 12px;
-          border: 1px solid rgba(255,255,255,.11);
+          border: 1px solid var(--a-line, rgba(255,255,255,.11));
           border-radius: 8px;
-          background: rgba(255,255,255,.018);
-          color: #e4e4e7;
+          background: var(--a-hover, rgba(255,255,255,.018));
+          color: var(--a-ink-2, #e4e4e7);
           padding: 12px;
           text-align: left;
           cursor: pointer;
         }
         .nta-option:hover {
-          border-color: rgba(255,255,255,.26);
-          background: rgba(255,255,255,.035);
+          border-color: var(--a-line-hover, rgba(255,255,255,.26));
+          background: var(--a-hover, rgba(255,255,255,.035));
         }
         .nta-option.is-selected {
           border-color: rgba(210,240,0,.72);
@@ -1047,8 +1152,8 @@ function TestRunner() {
           align-items: center;
           justify-content: center;
           border-radius: 7px;
-          background: rgba(255,255,255,.06);
-          color: #a1a1aa;
+          background: var(--a-hover, rgba(255,255,255,.06));
+          color: var(--a-ink-3, #a1a1aa);
           font-family: var(--font-display);
           font-weight: 900;
         }
@@ -1072,10 +1177,10 @@ function TestRunner() {
         .nta-submit-button,
         .nta-mobile-actions button {
           min-height: 44px;
-          border: 1px solid rgba(255,255,255,.12);
+          border: 1px solid var(--a-line, rgba(255,255,255,.12));
           border-radius: 8px;
-          background: rgba(255,255,255,.03);
-          color: #f4f6ed;
+          background: var(--a-hover, rgba(255,255,255,.03));
+          color: var(--a-ink, #f4f6ed);
           display: inline-flex;
           align-items: center;
           justify-content: center;
@@ -1097,7 +1202,7 @@ function TestRunner() {
         .nta-nav-button.is-primary,
         .nta-submit-button,
         .nta-mobile-actions button.is-primary {
-          border-color: var(--volt);
+          border-color: var(--a-accent-text, var(--volt));
           background: var(--volt);
           color: #050600;
         }
@@ -1106,9 +1211,9 @@ function TestRunner() {
           top: 96px;
           display: grid;
           gap: 14px;
-          border: 1px solid rgba(255,255,255,.1);
+          border: 1px solid var(--a-line, rgba(255,255,255,.1));
           border-radius: 8px;
-          background: rgba(15,16,13,.94);
+          background: var(--a-topbar, rgba(15,16,13,.94));
           padding: 14px;
           box-shadow: 0 18px 70px rgba(0,0,0,.22);
         }
@@ -1126,13 +1231,13 @@ function TestRunner() {
           display: grid;
           align-content: center;
           gap: 4px;
-          border: 1px solid rgba(255,255,255,.08);
+          border: 1px solid var(--a-line, rgba(255,255,255,.08));
           border-radius: 8px;
-          background: rgba(255,255,255,.025);
+          background: var(--a-hover, rgba(255,255,255,.025));
           padding: 9px;
         }
         .nta-summary-grid strong {
-          color: #f8faf0;
+          color: var(--a-ink, #f8faf0);
           font-family: var(--font-display);
           font-size: 22px;
           line-height: 1;
@@ -1160,9 +1265,9 @@ function TestRunner() {
           aspect-ratio: 1;
           min-height: 44px;
           border-radius: 7px;
-          border: 1px solid rgba(255,255,255,.1);
-          background: rgba(255,255,255,.04);
-          color: #a1a1aa;
+          border: 1px solid var(--a-line, rgba(255,255,255,.1));
+          background: var(--a-hover, rgba(255,255,255,.04));
+          color: var(--a-ink-3, #a1a1aa);
           font-family: var(--font-display);
           font-size: 12px;
           font-weight: 900;
@@ -1175,18 +1280,18 @@ function TestRunner() {
         .nta-palette-chip--answered {
           background: rgba(74,222,128,.16);
           border-color: rgba(74,222,128,.5);
-          color: #86efac;
+          color: var(--a-good-text, #86efac);
         }
         .nta-palette-chip--visited {
           background: rgba(248,113,113,.1);
           border-color: rgba(248,113,113,.42);
-          color: #fca5a5;
+          color: var(--a-bad-text, #fca5a5);
         }
         .nta-palette-chip--marked,
         .nta-palette-chip--marked-answered {
           background: rgba(168,85,247,.14);
           border-color: rgba(168,85,247,.5);
-          color: #c4b5fd;
+          color: var(--a-purple-text, #c4b5fd);
         }
         .nta-palette-chip--marked-answered::after {
           content: '';
@@ -1217,13 +1322,13 @@ function TestRunner() {
           width: 10px;
           height: 10px;
           border-radius: 3px;
-          border: 1px solid rgba(255,255,255,.14);
+          border: 1px solid var(--a-line, rgba(255,255,255,.14));
           display: inline-block;
         }
         .legend.answered { background: rgba(74,222,128,.16); border-color: rgba(74,222,128,.5); }
         .legend.marked { background: rgba(168,85,247,.14); border-color: rgba(168,85,247,.5); }
         .legend.visited { background: rgba(248,113,113,.1); border-color: rgba(248,113,113,.42); }
-        .legend.notvisited { background: rgba(255,255,255,.04); }
+        .legend.notvisited { background: var(--a-hover, rgba(255,255,255,.04)); }
         .nta-mobile-actions,
         .nta-mobile-sheet {
           display: none;
@@ -1307,9 +1412,9 @@ function TestRunner() {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 8px;
-            padding: 10px;
+            padding: 10px 10px calc(10px + env(safe-area-inset-bottom, 0px));
             border-top: 1px solid rgba(255,255,255,.1);
-            background: rgba(8,9,7,.94);
+            background: var(--a-topbar, rgba(8,9,7,.94));
             backdrop-filter: blur(16px);
           }
           .nta-mobile-actions button {
@@ -1335,11 +1440,12 @@ function TestRunner() {
             right: 0;
             bottom: 0;
             max-height: min(78vh, 620px);
+            max-height: min(78dvh, 620px);
             overflow: auto;
             border-radius: 14px 14px 0 0;
-            border: 1px solid rgba(255,255,255,.12);
-            background: #0f100d;
-            padding: 16px;
+            border: 1px solid var(--a-line, rgba(255,255,255,.12));
+            background: var(--a-raised, #0f100d);
+            padding: 16px 16px calc(16px + env(safe-area-inset-bottom, 0px));
             display: grid;
             gap: 14px;
           }
@@ -1354,7 +1460,7 @@ function TestRunner() {
             margin-top: 3px;
             font-family: var(--font-display);
             font-size: 18px;
-            color: #fff;
+            color: var(--a-ink, #fff);
           }
         }
         @media (max-width: 520px) {

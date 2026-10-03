@@ -1,7 +1,8 @@
+import { currentRegistry } from '../../../data/evidence_registry.js';
 import { createClient } from '@supabase/supabase-js';
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
-import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { join, dirname, resolve } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createHash } from 'node:crypto';
 import { analyzeCoverage } from './analyzer.mjs';
 import { getSubjectPriority, planGeneration } from './planner.mjs';
@@ -43,6 +44,10 @@ import {
 import { CUET_SUPPORTED_SUBJECTS } from '../../../data/subjects.js';
 import { CANONICAL_SYLLABUS, TOP_SUBJECTS, getCanonicalChapters, getCanonicalUnitForChapter, isValidTopSyllabusPair } from '../../../data/canonical_syllabus.js';
 import { validateTraceability } from '../../../data/cuet_controls.js';
+import { pipelineBudget } from '../lib/budgetLedger.mjs';
+import { verifyBatch } from '../lib/evidencePipeline.mjs';
+import { contentHash } from '../../../data/content_evidence.js';
+import { excludeHeldFamilies } from '../../../data/evidence_holds.js';
 import { PYQ_ANCHORS } from '../../../data/pyq_anchors.js';
 
 const SUPABASE_URL = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -194,8 +199,8 @@ export function runMetricsSnapshot() {
     average_job_duration_ms: runMetrics.jobs_completed > 0 ? Math.round(runMetrics.total_job_duration_ms / runMetrics.jobs_completed) : 0,
     average_publish_per_job: runMetrics.jobs_completed > 0 ? Number((runMetrics.live_published / runMetrics.jobs_completed).toFixed(2)) : 0,
     cost_total: Number(costSnapshot.totalCostUsd.toFixed(6)),
-    cost_per_live_question: Number(costSnapshot.costPerAccepted.toFixed(6)),
-    cost_per_1000_live: Number(costSnapshot.costPer1000.toFixed(2)),
+    cost_per_live_question: Number((costSnapshot.costPerAccepted ?? Infinity).toFixed(6)),
+    cost_per_1000_live: Number((costSnapshot.costPer1000 ?? Infinity).toFixed(2)),
     model_usage_breakdown: modelBreakdown,
     override_metrics: {
       override_active: overrideConfig.active,
@@ -1815,6 +1820,18 @@ async function workerLoop() {
 }
 
 async function processJob(job) {
+  const registry=currentRegistry();
+  if(!Object.keys(registry.sources || {}).length || !process.env.CUET_EVIDENCE_ADAPTER_MODULE || !process.env.CUET_EVIDENCE_SIGNING_KEY) throw new Error('route_paused_evidence_configuration_required');
+  const families=Object.entries(registry.families || {}).filter(([,f])=>f.state==='active' && f.subject===job.subject_id && f.chapter===job.chapter).map(([id])=>({family_id:id}));
+  if(!(await excludeHeldFamilies(families,supabase)).length)throw new Error('route_paused_source_family_required');
+  const route = `${job.subject_id}:${job.chapter}`;
+  pipelineBudget().assertRoute(route);
+  const before = runMetrics.live_published || 0;
+  try { return await processJobInternal(job); }
+  finally { pipelineBudget().recordBatch(route, Math.max(0, (runMetrics.live_published || 0) - before)); }
+}
+
+async function processJobInternal(job) {
   const jobStartedAt = Date.now();
   runMetrics.jobs_started += 1;
   console.log(`\n[JOB ${job.id.substring(0, 8)}] Starting: [${job.subject_id}] ${job.chapter}`);
@@ -2387,7 +2404,7 @@ async function processJob(job) {
 
     const preValidationCostSnapshot = getCostTracker();
     const shouldLimitStrictForCost =
-      preValidationCostSnapshot.acceptedCount >= 5 &&
+      preValidationCostSnapshot.acceptedCount > 0 &&
       preValidationCostSnapshot.costPer1000 >= COST_VALIDATION_PAUSE_THRESHOLD &&
       !isFocusedQualityJob(job);
     const strictMaxForBatch = shouldLimitStrictForCost
@@ -3014,6 +3031,22 @@ async function processJob(job) {
     console.log(`[pipeline] selected_count=${publishReady.length + passageReadyCount} | FINAL DISTRIBUTION: ${JSON.stringify(countDifficultyMix([...publishReady, ...passagePublishGroups.flatMap((group) => group.questions)]))}`);
 
     // ── Step 9: Publish first batch ───────────────────────────────────────────
+    const registry=currentRegistry();
+    const {adapters,version}=await import(pathToFileURL(resolve(process.env.CUET_EVIDENCE_ADAPTER_MODULE)).href);
+    async function evidenceChecked(candidates){
+      const inputs=candidates.map(q=>{
+        const familyEntry=Object.entries(registry.families || {}).find(([id,f])=>f.state==='active' && f.subject===q.subject && f.chapter===q.chapter && (q.family_id===id || (q.concept_id && f.concept_id===q.concept_id)));
+        const [familyId,family]=familyEntry || [];
+        return {...q,id:q.id || q.candidate_id || `generated-${contentHash(q)}`,family_id:familyId,route:family?.route,source_refs:family?.sources || []};
+      });
+      const unheld=await excludeHeldFamilies(inputs,supabase);
+      const results=await verifyBatch(unheld,{registry,ledger:pipelineBudget(),adapters,version,secret:process.env.CUET_EVIDENCE_SIGNING_KEY});
+      return results.filter(r=>r.state==='eligible').map(r=>r.question);
+    }
+    const evidenced=await evidenceChecked(publishReady);
+    publishReady.splice(0,publishReady.length,...evidenced);
+    for(const group of passagePublishGroups)group.questions=await evidenceChecked(group.questions);
+    console.log('[pipeline] item_evidence_eligible',publishReady.length+passagePublishGroups.reduce((n,g)=>n+g.questions.length,0));
     const acceptedQuestions = [];
     for (const question of publishReady) {
       const publishRes = await publishQuestion(question, API_SECRET, { expectedChapter: job.chapter });
@@ -3263,24 +3296,25 @@ async function processJob(job) {
 
     // ── Cost Supervisor ──────────────────────────────────────────────────────
     recordAcceptedForCost(stats.accepted);
+
     const costSnapshot = getCostTracker();
-    console.log(`[supervisor] COST_REPORT | total_tokens_used=${Math.round(costSnapshot.totalInputTokens + costSnapshot.totalOutputTokens)} | total_cost=$${(costSnapshot.totalCostUsd).toFixed(4)} | cost_per_accepted=$${costSnapshot.costPerAccepted.toFixed(4)} | cost_per_1000=$${costSnapshot.costPer1000.toFixed(2)} | total_accepted=${costSnapshot.acceptedCount}`);
+    console.log(`[supervisor] COST_REPORT | total_tokens_used=${Math.round(costSnapshot.totalInputTokens + costSnapshot.totalOutputTokens)} | total_cost=$${(costSnapshot.totalCostUsd).toFixed(4)} | cost_per_accepted=$${(costSnapshot.costPerAccepted ?? Infinity).toFixed(4)} | cost_per_1000=$${(costSnapshot.costPer1000 ?? Infinity).toFixed(2)} | total_accepted=${costSnapshot.acceptedCount}`);
     console.log('[cost] validation_cost', {
       total_cost_usd: Number(costSnapshot.totalCostUsd.toFixed(6)),
       accepted_questions: costSnapshot.acceptedCount,
     });
-    console.log('[cost] cost_per_live_question', Number(costSnapshot.costPerAccepted.toFixed(6)));
-    console.log('[cost] cost_per_1000_live', Number(costSnapshot.costPer1000.toFixed(2)));
+    console.log('[cost] cost_per_live_question', Number((costSnapshot.costPerAccepted ?? Infinity).toFixed(6)));
+    console.log('[cost] cost_per_1000_live', Number((costSnapshot.costPer1000 ?? Infinity).toFixed(2)));
     console.log('[cost] model_breakdown', {
       generator_model: selectedForValidation[0]?.generator_model || null,
       cheap_validator_model: miniResults[0]?.model || null,
       strict_validator_model: [...strictByQuestionIndex.values()][0]?.model || null,
     });
     if (costSnapshot.costPer1000 > COST_SOFT_ALERT_PER_1000 && costSnapshot.costPer1000 <= COST_HARD_THROTTLE_PER_1000 && costSnapshot.acceptedCount >= 1) {
-      console.warn(`[supervisor] COST_SOFT_ALERT: $${costSnapshot.costPer1000.toFixed(2)}/1000 accepted exceeds soft target; speed-first mode keeps Flash batch size and validation active`);
+      console.warn(`[supervisor] COST_SOFT_ALERT: $${(costSnapshot.costPer1000 ?? Infinity).toFixed(2)}/1000 accepted exceeds soft target; speed-first mode keeps Flash batch size and validation active`);
     }
     if (costSnapshot.costPer1000 > COST_HARD_THROTTLE_PER_1000 && costSnapshot.acceptedCount >= 3) {
-      console.warn(`[supervisor] COST_HARD_ALERT: $${costSnapshot.costPer1000.toFixed(2)}/1000 accepted exceeds hard throttle; strict validation cap is reduced before Flash batch size is touched`);
+      console.warn(`[supervisor] COST_HARD_ALERT: $${(costSnapshot.costPer1000 ?? Infinity).toFixed(2)}/1000 accepted exceeds hard throttle; strict validation cap is reduced before Flash batch size is touched`);
     }
 
     recordRunMetricsUpdate({

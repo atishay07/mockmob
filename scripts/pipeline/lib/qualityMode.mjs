@@ -72,16 +72,16 @@ export function isPublishAllowedByQuality(validation = {}, question = {}, mode =
   const normalized = normalizeQualityMode(mode);
   const thresholds = getQualityThresholds(normalized);
   const band = validation.quality_band || classifyQualityBand(validation);
-  const answerConfidence = validation.answer_confidence === undefined ? 1 : unit(validation.answer_confidence);
-  const factualAccuracy = validation.factual_accuracy === undefined ? true : validation.factual_accuracy === true;
+  const answerConfidence = validation.answer_confidence === undefined ? 0 : unit(validation.answer_confidence);
+  const factualAccuracy = validation.factual_accuracy === true;
   const reasons = [];
 
   if (String(validation.verdict || '').toLowerCase() !== 'accept') reasons.push('validator_not_accept');
   if (unit(validation.score) < thresholds.score) reasons.push('score_below_quality_mode_threshold');
   if (unit(validation.exam_quality) < thresholds.exam_quality) reasons.push('exam_quality_below_quality_mode_threshold');
   if (unit(validation.distractor_quality) < thresholds.distractor_quality) reasons.push('distractor_quality_below_quality_mode_threshold');
-  if (unit(validation.conceptual_depth) < thresholds.conceptual_depth) reasons.push('conceptual_depth_below_quality_mode_threshold');
-  if (String(validation.trap_quality || '').toLowerCase() === 'low') reasons.push('trap_quality_low');
+  // Depth and traps describe difficulty; they do not establish correctness.
+  if (!Number.isFinite(validation.answer_confidence)) reasons.push('missing_answer_confidence');
   if (validation.cuet_alignment !== true) reasons.push('cuet_alignment_false');
   if (!thresholds.allowed_bands.includes(band)) reasons.push(`quality_band_${band}_not_allowed`);
   if (answerConfidence < thresholds.answer_confidence) reasons.push('answer_confidence_below_threshold');

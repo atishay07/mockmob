@@ -1,4 +1,5 @@
 export const FAILURE_CATEGORIES = [
+  'INSUFFICIENT_TELEMETRY',
   'ROUTING_OVERRIDE_BUG',
   'GENERATION_SCHEMA_BUG',
   'GENERATOR_QUALITY_WEAK',
@@ -26,6 +27,8 @@ export function analyzeRouteFailure(routeRun = {}) {
   if (metrics.chapter && route.chapter && normalize(metrics.chapter) !== normalize(route.chapter)) {
     return diagnosis('ROUTING_OVERRIDE_BUG', ['chapter mismatch'], 'Fix route alias resolution or override chapter filtering.');
   }
+  if(!(Number(metrics.generated_count)>0 || Number(metrics.validator_sent)>0))
+    return diagnosis('INSUFFICIENT_TELEMETRY',['No candidate or validation request evidence is available.'],'Reconstruct actual request/usage records; do not infer weak generation or validator rejection from absent telemetry.');
 
   if (isPassage && (metrics.passage_child_missing_group || hasReason(dumps, 'passage_child_missing_group'))) {
     return diagnosis('PASSAGE_GROUP_LINKING_BUG', ['passage child missing group id/key'], 'Fix passage_group_id creation and child assignment before publish.');
@@ -89,7 +92,7 @@ export function analyzeRouteFailure(routeRun = {}) {
     reasons.push('NEEDS_STRONGER_GENERATOR');
   }
 
-  const primary = reasons[0] || (Number(metrics.published_count || 0) === 0 ? 'GENERATOR_QUALITY_WEAK' : null);
+  const primary = reasons[0] || (Number(metrics.published_count || 0) === 0 ? 'INSUFFICIENT_TELEMETRY' : null);
   if (!primary) return diagnosis(null, [], 'No immediate fix required.');
   return diagnosis(primary, reasons.slice(1), recommendedFix(primary));
 }
@@ -104,6 +107,8 @@ function diagnosis(primary, secondary, recommendedFix) {
 
 function recommendedFix(reason) {
   switch (reason) {
+    case 'INSUFFICIENT_TELEMETRY':
+      return 'Recover request, generation and validation records before diagnosing model quality.';
     case 'ROUTING_OVERRIDE_BUG':
       return 'Fix override parsing / worker fallback / queued job filtering and add route selection tests.';
     case 'GENERATION_SCHEMA_BUG':

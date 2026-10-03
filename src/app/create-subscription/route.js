@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { getRazorpayClient, getRazorpayKeyId } from '@/lib/payments/razorpay';
-import { getPaymentPlan, getPlanCheckoutAmount, isLiveOneTimeAccessPlan } from '@/lib/payments/plans';
+import { getPaymentPlan, getPlanCheckoutAmount, isLiveOneTimeAccessPlan, mappedPlanOffer } from '@/lib/payments/plans';
 import { resolveCreatorCode } from '@/lib/referrals/offers';
 import { Database } from '@/../data/db';
 
@@ -58,20 +58,21 @@ export async function POST(request) {
     }
 
     if (user.isPremium) {
-      return NextResponse.json({ error: 'CUET 2026 access is already active' }, { status: 409 });
+      return NextResponse.json({ error: 'Pro access is already active on this account' }, { status: 409 });
     }
 
     const referral = rawCode ? await resolveCreatorCode(rawCode) : null;
     const attributedReferral = referral && ['offer_attached', 'tracked_no_offer'].includes(referral.status)
       ? referral
       : null;
-    const hasDiscountOffer = Boolean(attributedReferral?.offerId);
-    const checkoutAmount = getPlanCheckoutAmount(plan, attributedReferral?.offerId);
+    const mappedOfferId = mappedPlanOffer(plan, attributedReferral?.offerId);
+    const hasDiscountOffer = Boolean(mappedOfferId);
+    const checkoutAmount = getPlanCheckoutAmount(plan, mappedOfferId);
 
     const orderPayload = {
       amount: checkoutAmount,
       currency: plan.currency,
-      receipt: `cuet2026_${userId}_${Date.now()}`.slice(0, 40),
+      receipt: `${plan.checkoutKind || 'mmpass'}_${userId}_${Date.now()}`.slice(0, 40),
       notes: {
         kind: plan.checkoutKind,
         userId,
@@ -86,11 +87,11 @@ export async function POST(request) {
         ...(attributedReferral ? {
           creatorCode: attributedReferral.code,
           creatorId: attributedReferral.creatorId || '',
-          offerId: attributedReferral.offerId || '',
+          offerId: mappedOfferId || '',
         } : {}),
       },
       ...(hasDiscountOffer ? {
-        offers: [attributedReferral.offerId],
+        offers: [mappedOfferId],
         force_offer: true,
       } : {}),
     };

@@ -1,19 +1,24 @@
 import 'server-only';
 import { getUsageSnapshot, resolveActionQuota } from '@/services/usage/getDailyUsage';
-import { consumeAIWalletCredits } from './aiCreditWallet';
+import { consumeAIWalletCredits, paidAiOpen, PREPOS_PAUSED_MESSAGE } from './aiCreditWallet';
 
 /**
  * Spends the right AI allowance for a paid feature.
  *
  * Order:
- *   1. Validate plan/feature rules.
- *   2. Spend the user's dedicated AI wallet.
+ *   1. Refuse while paid PrepOS is paused (no read, no charge).
+ *   2. Validate plan/feature rules.
+ *   3. Spend the dedicated AI wallet through the atomic RPC with the caller's stable
+ *      operation key. The same key must be passed on every retry of one operation.
  *
- * Normal MockMob credits are never read or mutated here.
+ * Normal MockMob practice credits are never read or mutated here.
  */
-export async function consumeAIAllowance({ user, action, params = {}, referencePrefix = 'ai' }) {
+export async function consumeAIAllowance({ user, action, params = {}, operationKey }) {
   if (!user?.id) {
     return { ok: false, error: 'missing_user', status: 401 };
+  }
+  if (!paidAiOpen()) {
+    return { ok: false, error: 'prepos_paused', status: 503, message: PREPOS_PAUSED_MESSAGE, required: 0, balance: null };
   }
 
   const snapshot = await getUsageSnapshot(user);
@@ -27,57 +32,38 @@ export async function consumeAIAllowance({ user, action, params = {}, referenceP
       planRequired: Boolean(quota.planRequired),
       upgradeHint: Boolean(quota.upgradeHint),
       required: quota.required ?? quota.creditUnits ?? quota.creditCost ?? 0,
-      balance: quota.balance ?? snapshot.aiCreditBalance ?? 0,
+      balance: quota.balance ?? snapshot.aiCreditBalance ?? null,
       quota,
       snapshot,
     };
   }
 
   const creditUnits = quota.creditUnits || quota.creditCost || 0;
-  if (creditUnits > 0) {
-    const reference = `${referencePrefix}_${user.id}_${Date.now()}`;
-    const charge = await consumeAIWalletCredits({
-      user,
-      amount: creditUnits,
-      action,
-      reference,
-      idempotencyKey: reference,
-      metadata: { action, quota },
-    });
+  if (creditUnits === 0) {
+    return { ok: true, quota, snapshot, charge: { kind: 'included', amount: 0, creditUnits: 0, reference: null } };
+  }
 
-    if (!charge.ok) {
-      return {
-        ok: false,
-        error: charge.error || 'insufficient_ai_credits',
-        status: charge.status || 402,
-        required: charge.required ?? creditUnits,
-        balance: charge.balance ?? charge.wallet?.total ?? snapshot.aiCreditBalance ?? 0,
-        quota,
-        snapshot,
-      };
-    }
+  const charge = await consumeAIWalletCredits({
+    user,
+    amount: creditUnits,
+    action,
+    reference: operationKey,
+    idempotencyKey: operationKey,
+    metadata: { action, quota },
+  });
 
+  if (!charge.ok) {
     return {
-      ok: true,
+      ok: false,
+      error: charge.error || 'insufficient_ai_credits',
+      status: charge.status || 402,
+      message: charge.message,
+      required: charge.required ?? creditUnits,
+      balance: charge.balance ?? null,
       quota,
-      snapshot: { ...snapshot, aiWallet: charge.wallet, aiCreditBalance: charge.wallet?.total ?? snapshot.aiCreditBalance },
-      charge: charge.charge,
+      snapshot,
     };
   }
 
-  return {
-    ok: true,
-    quota,
-    snapshot,
-    charge: {
-      kind: creditUnits > 0 ? 'included_monthly' : 'included',
-      amount: 0,
-      creditUnits,
-      reference: null,
-      includedRemainingAfter:
-        creditUnits > 0
-          ? Math.max(0, (snapshot.includedAiCreditsRemaining || 0) - creditUnits)
-          : snapshot.includedAiCreditsRemaining,
-    },
-  };
+  return { ok: true, quota, snapshot, charge: charge.charge };
 }

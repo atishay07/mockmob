@@ -1,0 +1,33 @@
+{
+  "dir": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\data\\offline_question_batches\\economics_money_banking",
+  "quality_mode": "balanced",
+  "dry_run": true,
+  "write_requested": false,
+  "allow_db_write": false,
+  "db_lookup": {
+    "available": true,
+    "reason": null,
+    "count": 48
+  },
+  "accepted_candidates_count": 92,
+  "db_duplicate_count": 0,
+  "passage_child_rejected_count": 0,
+  "importable_count": 92,
+  "inserted_count": 0,
+  "skipped_count": 0,
+  "blocked_reasons": [
+    "write_flag_not_passed",
+    "dry_run_enabled"
+  ],
+  "real_validation_sample": {
+    "status": "completed",
+    "sample_size": 20,
+    "accepted_count": 20,
+    "average_score": 0.863,
+    "average_distractor_quality": 0.758
+  },
+  "duplicate_rejections": [],
+  "passage_child_rejections": [],
+  "inserted": [],
+  "failed": []
+}

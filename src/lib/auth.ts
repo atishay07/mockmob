@@ -5,6 +5,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { Database } from "@/../data/db";
+import { supabaseAdmin } from '@/lib/supabase';
 
 export const authOptions = {
   providers: [
@@ -136,8 +137,17 @@ async function ensureDbUserFromIdentity(identity) {
   return dbUser;
 }
 
-export async function auth() {
-  const supabaseUser = await getSupabaseUserFromCookies();
+export async function auth(request?: Request) {
+  const authorization = request?.headers.get('authorization');
+  let supabaseUser;
+  if (authorization) {
+    if (!authorization.startsWith('Bearer ')) return null;
+    const { data, error } = await supabaseAdmin().auth.getUser(authorization.slice(7));
+    if (error) return null;
+    supabaseUser = data.user;
+  } else {
+    supabaseUser = await getSupabaseUserFromCookies();
+  }
   if (!supabaseUser?.email) return null;
 
   const dbUser = await ensureDbUserFromIdentity({

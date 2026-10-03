@@ -28,7 +28,14 @@ const JOB_TIMEOUT_MS = 35_000
  * Claims and processes the next queued moderation job.
  * Protected by x-internal-secret header.
  */
-export async function POST(request) {
+// The former single-model moderation path cannot certify or spend on content.
+// Keep its queued jobs intact for the persistent evidence worker.
+export async function POST(request){
+  if(!process.env.INTERNAL_API_SECRET || request.headers.get('x-internal-secret')!==process.env.INTERNAL_API_SECRET)
+    return Response.json({error:'Forbidden.'},{status:403});
+  return Response.json({processed:false,reason:'paused_persistent_evidence_pipeline_required'},{status:503});
+}
+async function legacyModerationProcess(request) {
   const secret = request.headers.get('x-internal-secret')
   if (!process.env.INTERNAL_API_SECRET || secret !== process.env.INTERNAL_API_SECRET) {
     return Response.json({ error: 'Forbidden.' }, { status: 403 })

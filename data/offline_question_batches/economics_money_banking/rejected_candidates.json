@@ -1,0 +1,856 @@
+[
+  {
+    "file": "batch_005.json",
+    "index": 9,
+    "local_id": "economics_money_banking_batch_005_q010",
+    "stage": "dedupe",
+    "reasons": [
+      "duplicate_within_batch"
+    ],
+    "candidate": {
+      "candidate_id": "economics_money_banking_batch_005_q010",
+      "local_id": "economics_money_banking_batch_005_q010",
+      "source": "codex_offline_generation",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "body": "In a monetary-policy situation, A bank must hold a larger share of its liabilities in approved securities. Which effect is most likely? Choose the option that best follows from the case.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Credit expansion rises because approved securities can be lent directly to households."
+        },
+        {
+          "key": "B",
+          "text": "Credit expansion is restrained because more resources must be held in specified liquid assets."
+        },
+        {
+          "key": "C",
+          "text": "SLR is the same as CRR because both are cash balances kept only with the RBI."
+        },
+        {
+          "key": "D",
+          "text": "A higher SLR lowers the repo rate automatically and therefore expands credit."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Option B is correct because credit expansion is restrained because more resources must be held in specified liquid assets. The correct key is B: Credit expansion is restrained because more resources must be held in specified liquid assets.",
+      "answer_check": "The correct key is B: Credit expansion is restrained because more resources must be held in specified liquid assets.",
+      "difficulty": "medium",
+      "question_type": "case_based",
+      "concept": "Money & Banking",
+      "concept_pattern": "Statutory Liquidity Ratio",
+      "sub_concept": "Statutory Liquidity Ratio",
+      "template_id": "case_slr_1",
+      "trap_option": "C",
+      "strong_distractors": [
+        "A",
+        "C"
+      ],
+      "distractor_rationale": {
+        "A": "Option A states \"Credit expansion rises because approved securities can be lent directly to households.\". It is tempting because it uses monetary vocabulary, but it misstates the Statutory Liquidity Ratio relationship.",
+        "B": "Option B states \"Credit expansion is restrained because more resources must be held in specified liquid assets.\". It is correct because it matches the monetary rule tested in Statutory Liquidity Ratio.",
+        "C": "Option C states \"SLR is the same as CRR because both are cash balances kept only with the RBI.\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Statutory Liquidity Ratio mechanism.",
+        "D": "Option D states \"A higher SLR lowers the repo rate automatically and therefore expands credit.\". It is tempting because it uses monetary vocabulary, but it misstates the Statutory Liquidity Ratio relationship."
+      },
+      "tags": [
+        "codex_offline_generation",
+        "quality:balanced",
+        "pattern:case_based",
+        "sub_concept:statutory_liquidity_ratio",
+        "pattern_tag:case_based",
+        "pattern_tag:monetary_policy",
+        "pattern_tag:trap"
+      ],
+      "pattern_tags": [
+        "case-based",
+        "monetary-policy",
+        "trap"
+      ],
+      "ncert_alignment": "Statutory Liquidity Ratio is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Separates SLR from CRR and repo rate.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition.",
+      "pyq_anchor_id": "offline_seed:economics_money_banking_batch_005_q010",
+      "anchor_tier": 3,
+      "anchor_source_quality": "manual_seed",
+      "anchor_confidence": "high",
+      "concept_mismatch_risk": "low",
+      "fallback_used": false,
+      "selfcheck_passed": true,
+      "selfcheck_reasons": [],
+      "selfcheck_distractor_quality": "high",
+      "selfcheck_trap_quality": "high",
+      "selfcheck_obviousness_risk": "low",
+      "selfcheck_cuet_pattern": true
+    }
+  },
+  {
+    "file": "batch_006.json",
+    "index": 9,
+    "local_id": "economics_money_banking_batch_006_q010",
+    "stage": "dedupe",
+    "reasons": [
+      "duplicate_within_batch"
+    ],
+    "candidate": {
+      "candidate_id": "economics_money_banking_batch_006_q010",
+      "local_id": "economics_money_banking_batch_006_q010",
+      "source": "codex_offline_generation",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "body": "In a commercial-bank balance-sheet situation, After a repo-rate hike, banks revise some lending rates upward. Which mechanism is being illustrated? Choose the option that best follows from the case.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Repo-rate changes affect only RBI accounting and cannot affect lending rates."
+        },
+        {
+          "key": "B",
+          "text": "A repo-rate hike must increase loan demand because borrowers rush to borrow."
+        },
+        {
+          "key": "C",
+          "text": "Transmission means CRR and SLR become legally identical after a policy change."
+        },
+        {
+          "key": "D",
+          "text": "It illustrates policy-rate transmission from RBI borrowing cost to bank lending rates."
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "Option D is correct because it illustrates policy-rate transmission from RBI borrowing cost to bank lending rates. The correct key is D: It illustrates policy-rate transmission from RBI borrowing cost to bank lending rates.",
+      "answer_check": "The correct key is D: It illustrates policy-rate transmission from RBI borrowing cost to bank lending rates.",
+      "difficulty": "medium",
+      "question_type": "case_based",
+      "concept": "Money & Banking",
+      "concept_pattern": "Policy Rate Transmission",
+      "sub_concept": "Policy Rate Transmission",
+      "template_id": "case_policy_rate_transmission_2",
+      "trap_option": "B",
+      "strong_distractors": [
+        "A",
+        "B"
+      ],
+      "distractor_rationale": {
+        "A": "Option A states \"Repo-rate changes affect only RBI accounting and cannot affect lending rates.\". It is tempting because it uses monetary vocabulary, but it misstates the Policy Rate Transmission relationship.",
+        "B": "Option B states \"A repo-rate hike must increase loan demand because borrowers rush to borrow.\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Policy Rate Transmission mechanism.",
+        "C": "Option C states \"Transmission means CRR and SLR become legally identical after a policy change.\". It is tempting because it uses monetary vocabulary, but it misstates the Policy Rate Transmission relationship.",
+        "D": "Option D states \"It illustrates policy-rate transmission from RBI borrowing cost to bank lending rates.\". It is correct because it matches the monetary rule tested in Policy Rate Transmission."
+      },
+      "tags": [
+        "codex_offline_generation",
+        "quality:balanced",
+        "pattern:case_based",
+        "sub_concept:policy_rate_transmission",
+        "pattern_tag:case_based",
+        "pattern_tag:monetary_policy",
+        "pattern_tag:trap"
+      ],
+      "pattern_tags": [
+        "case-based",
+        "monetary-policy",
+        "trap"
+      ],
+      "ncert_alignment": "Policy Rate Transmission is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Applies monetary transmission at a CUET-appropriate level.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition.",
+      "pyq_anchor_id": "offline_seed:economics_money_banking_batch_006_q010",
+      "anchor_tier": 3,
+      "anchor_source_quality": "manual_seed",
+      "anchor_confidence": "high",
+      "concept_mismatch_risk": "low",
+      "fallback_used": false,
+      "selfcheck_passed": true,
+      "selfcheck_reasons": [],
+      "selfcheck_distractor_quality": "high",
+      "selfcheck_trap_quality": "high",
+      "selfcheck_obviousness_risk": "low",
+      "selfcheck_cuet_pattern": true
+    }
+  },
+  {
+    "file": "batch_007.json",
+    "index": 9,
+    "local_id": "economics_money_banking_batch_007_q010",
+    "stage": "dedupe",
+    "reasons": [
+      "duplicate_within_batch"
+    ],
+    "candidate": {
+      "candidate_id": "economics_money_banking_batch_007_q010",
+      "local_id": "economics_money_banking_batch_007_q010",
+      "source": "codex_offline_generation",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "body": "During a liquidity-management situation, Banks have surplus funds and the RBI raises the reverse repo rate. Which response is most likely? Choose the option that best follows from the case.",
+      "options": [
+        {
+          "key": "A",
+          "text": "The RBI lends more to banks, so liquidity available for lending rises."
+        },
+        {
+          "key": "B",
+          "text": "Banks may park more surplus funds with the RBI, reducing liquidity available for lending."
+        },
+        {
+          "key": "C",
+          "text": "Banks reduce parking funds with the RBI because reverse repo becomes more attractive."
+        },
+        {
+          "key": "D",
+          "text": "The cash reserve ratio falls automatically when reverse repo rises."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Option B is correct because banks may park more surplus funds with the RBI, reducing liquidity available for lending. The correct key is B: Banks may park more surplus funds with the RBI, reducing liquidity available for lending.",
+      "answer_check": "The correct key is B: Banks may park more surplus funds with the RBI, reducing liquidity available for lending.",
+      "difficulty": "hard",
+      "question_type": "case_based",
+      "concept": "Money & Banking",
+      "concept_pattern": "Reverse Repo Rate",
+      "sub_concept": "Reverse Repo Rate",
+      "template_id": "case_reverse_repo_rate_0",
+      "trap_option": "C",
+      "strong_distractors": [
+        "A",
+        "C"
+      ],
+      "distractor_rationale": {
+        "A": "Option A states \"The RBI lends more to banks, so liquidity available for lending rises.\". It is tempting because it uses monetary vocabulary, but it misstates the Reverse Repo Rate relationship.",
+        "B": "Option B states \"Banks may park more surplus funds with the RBI, reducing liquidity available for lending.\". It is correct because it matches the monetary rule tested in Reverse Repo Rate.",
+        "C": "Option C states \"Banks reduce parking funds with the RBI because reverse repo becomes more attractive.\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Reverse Repo Rate mechanism.",
+        "D": "Option D states \"The cash reserve ratio falls automatically when reverse repo rises.\". It is tempting because it uses monetary vocabulary, but it misstates the Reverse Repo Rate relationship."
+      },
+      "tags": [
+        "codex_offline_generation",
+        "quality:balanced",
+        "pattern:case_based",
+        "sub_concept:reverse_repo_rate",
+        "pattern_tag:case_based",
+        "pattern_tag:monetary_policy",
+        "pattern_tag:trap"
+      ],
+      "pattern_tags": [
+        "case-based",
+        "monetary-policy",
+        "trap"
+      ],
+      "ncert_alignment": "Reverse Repo Rate is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Tests the direction of liquidity flow under reverse repo.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition.",
+      "pyq_anchor_id": "offline_seed:economics_money_banking_batch_007_q010",
+      "anchor_tier": 3,
+      "anchor_source_quality": "manual_seed",
+      "anchor_confidence": "high",
+      "concept_mismatch_risk": "low",
+      "fallback_used": false,
+      "selfcheck_passed": true,
+      "selfcheck_reasons": [],
+      "selfcheck_distractor_quality": "high",
+      "selfcheck_trap_quality": "high",
+      "selfcheck_obviousness_risk": "low",
+      "selfcheck_cuet_pattern": true
+    }
+  },
+  {
+    "file": "batch_008.json",
+    "index": 9,
+    "local_id": "economics_money_banking_batch_008_q010",
+    "stage": "dedupe",
+    "reasons": [
+      "duplicate_within_batch"
+    ],
+    "candidate": {
+      "candidate_id": "economics_money_banking_batch_008_q010",
+      "local_id": "economics_money_banking_batch_008_q010",
+      "source": "codex_offline_generation",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "body": "For an inflation-control case, A household shifts money from wallet cash to a current-account balance that can be used by cheque. How should this be treated in narrow money? Choose the option that best follows from the case.",
+      "options": [
+        {
+          "key": "A",
+          "text": "It leaves M1 because chequeable deposits are not physical currency."
+        },
+        {
+          "key": "B",
+          "text": "It enters only M3 because every bank balance is treated as a time deposit."
+        },
+        {
+          "key": "C",
+          "text": "It becomes high powered money because the commercial bank now holds the account."
+        },
+        {
+          "key": "D",
+          "text": "It remains within M1 because both currency with the public and demand deposits are narrow-money components."
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "Option D is correct because it remains within M1 because both currency with the public and demand deposits are narrow-money components. The correct key is D: It remains within M1 because both currency with the public and demand deposits are narrow-money components.",
+      "answer_check": "The correct key is D: It remains within M1 because both currency with the public and demand deposits are narrow-money components.",
+      "difficulty": "medium",
+      "question_type": "case_based",
+      "concept": "Money & Banking",
+      "concept_pattern": "Money Supply Components",
+      "sub_concept": "Money Supply Components",
+      "template_id": "case_money_supply_components_1",
+      "trap_option": "B",
+      "strong_distractors": [
+        "A",
+        "B"
+      ],
+      "distractor_rationale": {
+        "A": "Option A states \"It leaves M1 because chequeable deposits are not physical currency.\". It is tempting because it uses monetary vocabulary, but it misstates the Money Supply Components relationship.",
+        "B": "Option B states \"It enters only M3 because every bank balance is treated as a time deposit.\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Money Supply Components mechanism.",
+        "C": "Option C states \"It becomes high powered money because the commercial bank now holds the account.\". It is tempting because it uses monetary vocabulary, but it misstates the Money Supply Components relationship.",
+        "D": "Option D states \"It remains within M1 because both currency with the public and demand deposits are narrow-money components.\". It is correct because it matches the monetary rule tested in Money Supply Components."
+      },
+      "tags": [
+        "codex_offline_generation",
+        "quality:balanced",
+        "pattern:case_based",
+        "sub_concept:money_supply_components",
+        "pattern_tag:case_based",
+        "pattern_tag:monetary_policy",
+        "pattern_tag:trap"
+      ],
+      "pattern_tags": [
+        "case-based",
+        "monetary-policy",
+        "trap"
+      ],
+      "ncert_alignment": "Money Supply Components is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Tests the narrow-money composition used in NCERT macroeconomics.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition.",
+      "pyq_anchor_id": "offline_seed:economics_money_banking_batch_008_q010",
+      "anchor_tier": 3,
+      "anchor_source_quality": "manual_seed",
+      "anchor_confidence": "high",
+      "concept_mismatch_risk": "low",
+      "fallback_used": false,
+      "selfcheck_passed": true,
+      "selfcheck_reasons": [],
+      "selfcheck_distractor_quality": "high",
+      "selfcheck_trap_quality": "high",
+      "selfcheck_obviousness_risk": "low",
+      "selfcheck_cuet_pattern": true
+    }
+  },
+  {
+    "file": "batch_009.json",
+    "index": 9,
+    "local_id": "economics_money_banking_batch_009_q010",
+    "stage": "dedupe",
+    "reasons": [
+      "duplicate_within_batch"
+    ],
+    "candidate": {
+      "candidate_id": "economics_money_banking_batch_009_q010",
+      "local_id": "economics_money_banking_batch_009_q010",
+      "source": "codex_offline_generation",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "body": "In a monetary-policy situation, A learner says the RBI is just like a commercial bank because both deal with money. Which correction is best? Choose the option that best follows from the case.",
+      "options": [
+        {
+          "key": "A",
+          "text": "The RBI mainly competes with commercial banks because it accepts ordinary household savings accounts."
+        },
+        {
+          "key": "B",
+          "text": "The RBI regulates currency, reserves, and credit conditions rather than operating as a retail profit-maximising lender."
+        },
+        {
+          "key": "C",
+          "text": "The RBI approves each individual consumer loan because commercial banks cannot judge borrowers independently."
+        },
+        {
+          "key": "D",
+          "text": "The RBI creates demand deposits directly in every household account because it issues currency."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Option B is correct because the RBI regulates currency, reserves, and credit conditions rather than operating as a retail profit-maximising lender. The correct key is B: The RBI regulates currency, reserves, and credit conditions rather than operating as a retail profit-maximising lender.",
+      "answer_check": "The correct key is B: The RBI regulates currency, reserves, and credit conditions rather than operating as a retail profit-maximising lender.",
+      "difficulty": "medium",
+      "question_type": "case_based",
+      "concept": "Money & Banking",
+      "concept_pattern": "Central Bank Function",
+      "sub_concept": "Central Bank Function",
+      "template_id": "case_central_bank_function_2",
+      "trap_option": "C",
+      "strong_distractors": [
+        "A",
+        "C"
+      ],
+      "distractor_rationale": {
+        "A": "Option A states \"The RBI mainly competes with commercial banks because it accepts ordinary household savings accounts.\". It is tempting because it uses monetary vocabulary, but it misstates the Central Bank Function relationship.",
+        "B": "Option B states \"The RBI regulates currency, reserves, and credit conditions rather than operating as a retail profit-maximising lender.\". It is correct because it matches the monetary rule tested in Central Bank Function.",
+        "C": "Option C states \"The RBI approves each individual consumer loan because commercial banks cannot judge borrowers independently.\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Central Bank Function mechanism.",
+        "D": "Option D states \"The RBI creates demand deposits directly in every household account because it issues currency.\". It is tempting because it uses monetary vocabulary, but it misstates the Central Bank Function relationship."
+      },
+      "tags": [
+        "codex_offline_generation",
+        "quality:balanced",
+        "pattern:case_based",
+        "sub_concept:central_bank_function",
+        "pattern_tag:case_based",
+        "pattern_tag:monetary_policy",
+        "pattern_tag:trap"
+      ],
+      "pattern_tags": [
+        "case-based",
+        "monetary-policy",
+        "trap"
+      ],
+      "ncert_alignment": "Central Bank Function is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Distinguishes central banking from commercial banking and fiscal authority.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition.",
+      "pyq_anchor_id": "offline_seed:economics_money_banking_batch_009_q010",
+      "anchor_tier": 3,
+      "anchor_source_quality": "manual_seed",
+      "anchor_confidence": "high",
+      "concept_mismatch_risk": "low",
+      "fallback_used": false,
+      "selfcheck_passed": true,
+      "selfcheck_reasons": [],
+      "selfcheck_distractor_quality": "high",
+      "selfcheck_trap_quality": "high",
+      "selfcheck_obviousness_risk": "low",
+      "selfcheck_cuet_pattern": true
+    }
+  },
+  {
+    "file": "batch_010.json",
+    "index": 9,
+    "local_id": "economics_money_banking_batch_010_q010",
+    "stage": "dedupe",
+    "reasons": [
+      "duplicate_within_batch"
+    ],
+    "candidate": {
+      "candidate_id": "economics_money_banking_batch_010_q010",
+      "local_id": "economics_money_banking_batch_010_q010",
+      "source": "codex_offline_generation",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "body": "In a commercial-bank balance-sheet situation, A shopkeeper refuses a cheque but accepts currency notes for an old debt settlement. Which idea best explains the difference? Choose the option that best follows from the case.",
+      "options": [
+        {
+          "key": "A",
+          "text": "A cheque is compulsory legal tender whenever the payer has a bank account."
+        },
+        {
+          "key": "B",
+          "text": "Currency loses legal-tender status when digital payments are available."
+        },
+        {
+          "key": "C",
+          "text": "Fixed deposits have stronger legal-tender status than currency because they earn interest."
+        },
+        {
+          "key": "D",
+          "text": "Currency has compulsory legal acceptability for debt settlement, while a cheque depends on bank acceptance and account conditions."
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "Option D is correct because currency has compulsory legal acceptability for debt settlement, while a cheque depends on bank acceptance and account conditions. The correct key is D: Currency has compulsory legal acceptability for debt settlement, while a cheque depends on bank acceptance and account conditions.",
+      "answer_check": "The correct key is D: Currency has compulsory legal acceptability for debt settlement, while a cheque depends on bank acceptance and account conditions.",
+      "difficulty": "hard",
+      "question_type": "case_based",
+      "concept": "Money & Banking",
+      "concept_pattern": "Legal Tender",
+      "sub_concept": "Legal Tender",
+      "template_id": "case_legal_tender_0",
+      "trap_option": "B",
+      "strong_distractors": [
+        "A",
+        "B"
+      ],
+      "distractor_rationale": {
+        "A": "Option A states \"A cheque is compulsory legal tender whenever the payer has a bank account.\". It is tempting because it uses monetary vocabulary, but it misstates the Legal Tender relationship.",
+        "B": "Option B states \"Currency loses legal-tender status when digital payments are available.\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Legal Tender mechanism.",
+        "C": "Option C states \"Fixed deposits have stronger legal-tender status than currency because they earn interest.\". It is tempting because it uses monetary vocabulary, but it misstates the Legal Tender relationship.",
+        "D": "Option D states \"Currency has compulsory legal acceptability for debt settlement, while a cheque depends on bank acceptance and account conditions.\". It is correct because it matches the monetary rule tested in Legal Tender."
+      },
+      "tags": [
+        "codex_offline_generation",
+        "quality:balanced",
+        "pattern:case_based",
+        "sub_concept:legal_tender",
+        "pattern_tag:case_based",
+        "pattern_tag:monetary_policy",
+        "pattern_tag:trap"
+      ],
+      "pattern_tags": [
+        "case-based",
+        "monetary-policy",
+        "trap"
+      ],
+      "ncert_alignment": "Legal Tender is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Separates legal acceptability from common banking instruments.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition.",
+      "pyq_anchor_id": "offline_seed:economics_money_banking_batch_010_q010",
+      "anchor_tier": 3,
+      "anchor_source_quality": "manual_seed",
+      "anchor_confidence": "high",
+      "concept_mismatch_risk": "low",
+      "fallback_used": false,
+      "selfcheck_passed": true,
+      "selfcheck_reasons": [],
+      "selfcheck_distractor_quality": "high",
+      "selfcheck_trap_quality": "high",
+      "selfcheck_obviousness_risk": "low",
+      "selfcheck_cuet_pattern": true
+    }
+  },
+  {
+    "file": "batch_009.json",
+    "index": 4,
+    "local_id": "economics_money_banking_batch_009_q005",
+    "stage": "validator",
+    "reasons": [
+      "validator_not_accept",
+      "score_below_7_5",
+      "answer_confidence_below_0_85",
+      "balanced_score_floor_failed"
+    ],
+    "mini_validation": {
+      "layer": "heuristic_mini",
+      "scoring_method": "deterministic_heuristic",
+      "verdict": "accept",
+      "score": 8.37,
+      "exam_quality": 8.09,
+      "distractor_quality": 8,
+      "conceptual_depth": 7.71,
+      "answer_confidence": 0.898,
+      "factual_accuracy": true,
+      "factual_accuracy_level": "high",
+      "cuet_alignment": true,
+      "trap_quality": "high",
+      "issues": []
+    },
+    "strict_validation": {
+      "layer": "heuristic_strict",
+      "scoring_method": "deterministic_heuristic",
+      "verdict": "reject",
+      "score": 6.87,
+      "exam_quality": 7.07,
+      "distractor_quality": 7.12,
+      "conceptual_depth": 6.87,
+      "answer_confidence": 0.778,
+      "factual_accuracy": true,
+      "factual_accuracy_level": "high",
+      "cuet_alignment": true,
+      "trap_quality": "high",
+      "issues": [
+        "numerical_explanation_missing_working"
+      ]
+    },
+    "candidate": {
+      "candidate_id": "economics_money_banking_batch_009_q005",
+      "local_id": "economics_money_banking_batch_009_q005",
+      "source": "codex_offline_generation",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "body": "The RBI purchases government securities worth Rs 500 crore in an open market operation. What is the first-round effect on banking-system liquidity?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Liquidity increases by Rs 500 crore, because RBI purchase payments add funds"
+        },
+        {
+          "key": "B",
+          "text": "Liquidity decreases by Rs 500 crore, because it reverses the OMO liquidity direction"
+        },
+        {
+          "key": "C",
+          "text": "Liquidity is unchanged, because it wrongly treats securities and bank reserves as the same liquid asset"
+        },
+        {
+          "key": "D",
+          "text": "Liquidity increases by Rs 1000 crore, because it double-counts the RBI security transaction"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Option A is correct because an RBI purchase pays funds into the market, increasing liquidity by Rs 500 crore. The correct key is A: Liquidity increases by Rs 500 crore, because RBI purchase payments add funds",
+      "answer_check": "The correct key is A: Liquidity increases by Rs 500 crore, because RBI purchase payments add funds",
+      "difficulty": "medium",
+      "question_type": "simple_numerical",
+      "concept": "Money & Banking",
+      "concept_pattern": "OMO Liquidity Effect",
+      "sub_concept": "OMO Liquidity Effect",
+      "template_id": "numerical_omo_liquidity_change",
+      "trap_option": "C",
+      "strong_distractors": [
+        "B",
+        "C"
+      ],
+      "distractor_rationale": {
+        "A": "Option A states \"Liquidity increases by Rs 500 crore, because RBI purchase payments add funds\". It is correct because it matches the monetary rule tested in OMO Liquidity Effect.",
+        "B": "Option B states \"Liquidity decreases by Rs 500 crore, because it reverses the OMO liquidity direction\". It is tempting because it uses monetary vocabulary, but it misstates the OMO Liquidity Effect relationship.",
+        "C": "Option C states \"Liquidity is unchanged, because it wrongly treats securities and bank reserves as the same liquid asset\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual OMO Liquidity Effect mechanism.",
+        "D": "Option D states \"Liquidity increases by Rs 1000 crore, because it double-counts the RBI security transaction\". It is tempting because it uses monetary vocabulary, but it misstates the OMO Liquidity Effect relationship."
+      },
+      "tags": [
+        "codex_offline_generation",
+        "quality:balanced",
+        "pattern:simple_numerical",
+        "sub_concept:omo_liquidity_effect",
+        "pattern_tag:simple_numerical",
+        "pattern_tag:money_multiplier",
+        "pattern_tag:trap"
+      ],
+      "pattern_tags": [
+        "simple-numerical",
+        "money-multiplier",
+        "trap"
+      ],
+      "ncert_alignment": "OMO Liquidity Effect is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Tests OMO direction numerically.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition.",
+      "pyq_anchor_id": "offline_seed:economics_money_banking_batch_009_q005",
+      "anchor_tier": 3,
+      "anchor_source_quality": "manual_seed",
+      "anchor_confidence": "high",
+      "concept_mismatch_risk": "low",
+      "fallback_used": false,
+      "selfcheck_passed": true,
+      "selfcheck_reasons": [],
+      "selfcheck_distractor_quality": "high",
+      "selfcheck_trap_quality": "high",
+      "selfcheck_obviousness_risk": "medium",
+      "selfcheck_cuet_pattern": true,
+      "strict_cuet_validated": false,
+      "mini_validation": {
+        "layer": "heuristic_mini",
+        "scoring_method": "deterministic_heuristic",
+        "verdict": "accept",
+        "score": 8.37,
+        "exam_quality": 8.09,
+        "distractor_quality": 8,
+        "conceptual_depth": 7.71,
+        "answer_confidence": 0.898,
+        "factual_accuracy": true,
+        "factual_accuracy_level": "high",
+        "cuet_alignment": true,
+        "trap_quality": "high",
+        "issues": []
+      },
+      "strict_required": true,
+      "strict_validation": {
+        "layer": "heuristic_strict",
+        "scoring_method": "deterministic_heuristic",
+        "verdict": "reject",
+        "score": 6.87,
+        "exam_quality": 7.07,
+        "distractor_quality": 7.12,
+        "conceptual_depth": 6.87,
+        "answer_confidence": 0.778,
+        "factual_accuracy": true,
+        "factual_accuracy_level": "high",
+        "cuet_alignment": true,
+        "trap_quality": "high",
+        "issues": [
+          "numerical_explanation_missing_working"
+        ]
+      },
+      "final_validation": {
+        "layer": "heuristic_strict",
+        "scoring_method": "deterministic_heuristic",
+        "verdict": "reject",
+        "score": 6.87,
+        "exam_quality": 7.07,
+        "distractor_quality": 7.12,
+        "conceptual_depth": 6.87,
+        "answer_confidence": 0.778,
+        "factual_accuracy": true,
+        "factual_accuracy_level": "high",
+        "cuet_alignment": true,
+        "trap_quality": "high",
+        "issues": [
+          "numerical_explanation_missing_working"
+        ]
+      },
+      "chapter_alignment": "exact",
+      "resolved_subject": "economics",
+      "resolved_chapter": "Money & Banking",
+      "alignment_confidence": 0.98,
+      "alignment_reason": "subject_chapter_exact_with_money_banking_signals",
+      "offline_source_file": "batch_009.json"
+    }
+  },
+  {
+    "file": "batch_010.json",
+    "index": 4,
+    "local_id": "economics_money_banking_batch_010_q005",
+    "stage": "validator",
+    "reasons": [
+      "validator_not_accept",
+      "answer_confidence_below_0_85"
+    ],
+    "mini_validation": {
+      "layer": "heuristic_mini",
+      "scoring_method": "deterministic_heuristic",
+      "verdict": "accept",
+      "score": 9.12,
+      "exam_quality": 8.78,
+      "distractor_quality": 8.72,
+      "conceptual_depth": 8.33,
+      "answer_confidence": 0.963,
+      "factual_accuracy": true,
+      "factual_accuracy_level": "high",
+      "cuet_alignment": true,
+      "trap_quality": "high",
+      "issues": []
+    },
+    "strict_validation": {
+      "layer": "heuristic_strict",
+      "scoring_method": "deterministic_heuristic",
+      "verdict": "reject",
+      "score": 7.62,
+      "exam_quality": 7.82,
+      "distractor_quality": 7.87,
+      "conceptual_depth": 7.62,
+      "answer_confidence": 0.843,
+      "factual_accuracy": true,
+      "factual_accuracy_level": "high",
+      "cuet_alignment": true,
+      "trap_quality": "high",
+      "issues": [
+        "numerical_explanation_missing_working"
+      ]
+    },
+    "candidate": {
+      "candidate_id": "economics_money_banking_batch_010_q005",
+      "local_id": "economics_money_banking_batch_010_q005",
+      "source": "codex_offline_generation",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "body": "The RBI sells government securities worth Rs 300 crore in an open market operation. What is the first-round effect on banking-system liquidity?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Liquidity increases by Rs 300 crore, because it reverses the OMO liquidity direction"
+        },
+        {
+          "key": "B",
+          "text": "Liquidity is unchanged, because it wrongly treats securities and bank reserves as the same liquid asset"
+        },
+        {
+          "key": "C",
+          "text": "Liquidity decreases by Rs 300 crore, because RBI sale payments absorb funds"
+        },
+        {
+          "key": "D",
+          "text": "Liquidity decreases by Rs 600 crore, because it double-counts the RBI security transaction"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Option C is correct because an RBI sale takes funds from buyers, decreasing liquidity by Rs 300 crore. The correct key is C: Liquidity decreases by Rs 300 crore, because RBI sale payments absorb funds",
+      "answer_check": "The correct key is C: Liquidity decreases by Rs 300 crore, because RBI sale payments absorb funds",
+      "difficulty": "medium",
+      "question_type": "simple_numerical",
+      "concept": "Money & Banking",
+      "concept_pattern": "OMO Liquidity Effect",
+      "sub_concept": "OMO Liquidity Effect",
+      "template_id": "numerical_omo_liquidity_change",
+      "trap_option": "B",
+      "strong_distractors": [
+        "A",
+        "B"
+      ],
+      "distractor_rationale": {
+        "A": "Option A states \"Liquidity increases by Rs 300 crore, because it reverses the OMO liquidity direction\". It is tempting because it uses monetary vocabulary, but it misstates the OMO Liquidity Effect relationship.",
+        "B": "Option B states \"Liquidity is unchanged, because it wrongly treats securities and bank reserves as the same liquid asset\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual OMO Liquidity Effect mechanism.",
+        "C": "Option C states \"Liquidity decreases by Rs 300 crore, because RBI sale payments absorb funds\". It is correct because it matches the monetary rule tested in OMO Liquidity Effect.",
+        "D": "Option D states \"Liquidity decreases by Rs 600 crore, because it double-counts the RBI security transaction\". It is tempting because it uses monetary vocabulary, but it misstates the OMO Liquidity Effect relationship."
+      },
+      "tags": [
+        "codex_offline_generation",
+        "quality:balanced",
+        "pattern:simple_numerical",
+        "sub_concept:omo_liquidity_effect",
+        "pattern_tag:simple_numerical",
+        "pattern_tag:money_multiplier",
+        "pattern_tag:trap"
+      ],
+      "pattern_tags": [
+        "simple-numerical",
+        "money-multiplier",
+        "trap"
+      ],
+      "ncert_alignment": "OMO Liquidity Effect is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Tests OMO direction numerically.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition.",
+      "pyq_anchor_id": "offline_seed:economics_money_banking_batch_010_q005",
+      "anchor_tier": 3,
+      "anchor_source_quality": "manual_seed",
+      "anchor_confidence": "high",
+      "concept_mismatch_risk": "low",
+      "fallback_used": false,
+      "selfcheck_passed": true,
+      "selfcheck_reasons": [],
+      "selfcheck_distractor_quality": "high",
+      "selfcheck_trap_quality": "high",
+      "selfcheck_obviousness_risk": "medium",
+      "selfcheck_cuet_pattern": true,
+      "strict_cuet_validated": false,
+      "mini_validation": {
+        "layer": "heuristic_mini",
+        "scoring_method": "deterministic_heuristic",
+        "verdict": "accept",
+        "score": 9.12,
+        "exam_quality": 8.78,
+        "distractor_quality": 8.72,
+        "conceptual_depth": 8.33,
+        "answer_confidence": 0.963,
+        "factual_accuracy": true,
+        "factual_accuracy_level": "high",
+        "cuet_alignment": true,
+        "trap_quality": "high",
+        "issues": []
+      },
+      "strict_required": true,
+      "strict_validation": {
+        "layer": "heuristic_strict",
+        "scoring_method": "deterministic_heuristic",
+        "verdict": "reject",
+        "score": 7.62,
+        "exam_quality": 7.82,
+        "distractor_quality": 7.87,
+        "conceptual_depth": 7.62,
+        "answer_confidence": 0.843,
+        "factual_accuracy": true,
+        "factual_accuracy_level": "high",
+        "cuet_alignment": true,
+        "trap_quality": "high",
+        "issues": [
+          "numerical_explanation_missing_working"
+        ]
+      },
+      "final_validation": {
+        "layer": "heuristic_strict",
+        "scoring_method": "deterministic_heuristic",
+        "verdict": "reject",
+        "score": 7.62,
+        "exam_quality": 7.82,
+        "distractor_quality": 7.87,
+        "conceptual_depth": 7.62,
+        "answer_confidence": 0.843,
+        "factual_accuracy": true,
+        "factual_accuracy_level": "high",
+        "cuet_alignment": true,
+        "trap_quality": "high",
+        "issues": [
+          "numerical_explanation_missing_working"
+        ]
+      },
+      "chapter_alignment": "exact",
+      "resolved_subject": "economics",
+      "resolved_chapter": "Money & Banking",
+      "alignment_confidence": 0.98,
+      "alignment_reason": "subject_chapter_exact_with_money_banking_signals",
+      "offline_source_file": "batch_010.json"
+    }
+  }
+]

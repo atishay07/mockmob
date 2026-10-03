@@ -2,6 +2,7 @@ import 'server-only';
 import { Database } from '@/../data/db';
 import { supabaseAdmin } from '@/lib/supabase';
 import { buildAdmissionCompass } from '@/lib/admissionCompass';
+import { learningRecord } from '@/lib/server/learning';
 import { getUsageSnapshot } from '@/services/usage/getDailyUsage';
 
 /**
@@ -97,7 +98,9 @@ export async function getStudentAIContext({ user, options = {} } = {}) {
     selectedSubjects: effectiveUser?.subjects,
   });
 
+  const sharedPlan = await learningRecord(userId).catch(() => null);
   return {
+    sharedPlan: sharedPlan ? {primary:sharedPlan.primary,alternatives:sharedPlan.alternatives,pathwayState:sharedPlan.pathwayState} : null,
     userId,
     displayName: effectiveUser?.name || 'Student',
     planType: isPaid ? 'paid' : 'free',

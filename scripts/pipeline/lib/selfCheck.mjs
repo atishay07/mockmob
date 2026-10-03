@@ -27,20 +27,18 @@ export function runSelfCheck(question, context = {}) {
   if (normalized.options.some((option) => !option.text)) reasons.push('empty_option');
   if (new Set(optionTexts.map(normalizeComparableText)).size !== optionTexts.length) reasons.push('duplicate_options');
 
-  const isEnglishContext = normalized.subject === 'english' && ENGLISH_CONTEXT_CHAPTERS.has(normalized.chapter);
-  if (!isEnglishContext && !passageLinked && isDirectDefinition(body)) reasons.push('direct_definition');
+  // Direct recall and short stems can be valid. Exam fit is established against
+  // authenticated references, not by requiring every item to have a trap.
 
   const strongDistractors = normalizeAnswerKeyArray(question?.strong_distractors || question?.strongDistractors);
   const trapOption = normalizeAnswerKey(question?.trap_option || question?.trapOption);
-  if (strongDistractors.length < 2) reasons.push('missing_strong_distractors');
-  if (!trapOption) reasons.push('missing_trap_option');
   if (trapOption && trapOption === normalized.answer) reasons.push('trap_equals_answer');
   if (trapOption && !normalized.options.some((option) => option.key === trapOption)) reasons.push('trap_option_not_present');
   if (strongDistractors.includes(normalized.answer)) reasons.push('strong_distractor_points_to_answer');
   if (question?.json_repaired === true) {
     if (!String(question?.answer_check || question?.answerCheck || '').trim()) reasons.push('generated_schema_minimal_missing_field');
     if (trapOption && !ANSWER_KEYS.has(trapOption)) reasons.push('invalid_trap_option');
-    if (strongDistractors.length < 2 || strongDistractors.some((key) => !ANSWER_KEYS.has(key))) reasons.push('strong_distractors_invalid');
+    if (strongDistractors.some((key) => !ANSWER_KEYS.has(key))) reasons.push('strong_distractors_invalid');
     if (passageLinked && !String(question?.temporary_group_key || question?.passage_group_id || question?.group_id || '').trim()) reasons.push('passage_child_missing_group');
   }
 
@@ -77,7 +75,7 @@ export function runSelfCheck(question, context = {}) {
     : statementCombination
     ? 2
     : countPlausibleDistractors(correct?.text || '', distractors.map((option) => option.text));
-  if (!paraJumble && !statementCombination && !passagePlausibleOptions && plausibleDistractors < 2) reasons.push('weak_distractors');
+  // Word overlap is a diagnostic signal, not evidence that a distractor is bad.
 
   const trapQuality = reasons.some((reason) => reason.includes('trap')) || plausibleDistrorsAreVeryWeak(plausibleDistractors)
     ? 'low'
@@ -86,13 +84,7 @@ export function runSelfCheck(question, context = {}) {
   const obviousnessRisk = reasons.some((reason) => ['answer_wording_giveaway', 'weak_distractors', 'absurd_extreme_option'].includes(reason))
     ? 'high'
     : statementCombination || hasReasoningPattern(bodyLower) ? 'low' : 'medium';
-  const cuetPattern = !isClearlyOutsideCuetScope(body) && (
-    paraJumble ||
-    passageLinked ||
-    statementCombination ||
-    /\b(assertion|reason|case|situation|compare|application|match|observation|graph|infer|conclude)\b/i.test(body) ||
-    countWords(body) >= 18
-  );
+  const cuetPattern = !isClearlyOutsideCuetScope(body);
   if (!cuetPattern) reasons.push('non_cuet_pattern');
 
   return {

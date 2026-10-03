@@ -1,3 +1,6 @@
+import { StatusIcon } from './Glyph';
+import { Mascot } from '@/components/brand/Mascot';
+
 /**
  * Minimal skeleton primitives. All use a single shimmer animation defined in globals.css.
  * Keep these presentational — no data dependency.
@@ -32,7 +35,7 @@ export function PageSpinner({ label = 'Loading…' }) {
   return (
     <div className="flex items-center justify-center py-24 text-zinc-500">
       <div className="flex items-center gap-3">
-        <div className="w-3 h-3 rounded-full bg-volt animate-pulse-slow shadow-[0_0_12px_var(--volt)]" />
+        <div className="pip-state"><Mascot pose="attentive" /></div>
         <span className="mono-label">{label}</span>
       </div>
     </div>
@@ -40,37 +43,34 @@ export function PageSpinner({ label = 'Loading…' }) {
 }
 
 /** Inline error surface used by data-fetching pages. */
-export function ErrorState({ message = 'Something went wrong.', onRetry }) {
+export function ErrorState({ message = 'Check your connection and try again.', onRetry, title = 'This did not load', mascot = false }) {
   return (
-    <div className="glass p-6 flex flex-col items-start gap-3">
-      <div className="mono-label" style={{ color: '#f87171' }}>{'// Error'}</div>
-      <div className="text-sm text-zinc-300">{message}</div>
-      {onRetry && (
-        <button onClick={onRetry} className="btn-outline sm">
-          Retry
-        </button>
-      )}
+    <div className="ui-state ui-state--error" role="alert">
+      {mascot ? <div className="pip-state"><Mascot pose="encouraging" /></div> : <StatusIcon kind="error" size={20} />}
+      <div>
+        <b>{title}</b>
+        <p>{message}</p>
+        {onRetry ? <button type="button" onClick={onRetry} className="ui-state__action">Try again</button> : null}
+      </div>
     </div>
   );
 }
 
 export function EmptyState({
-  eyebrow = '// Empty',
+  eyebrow = '',
   title = 'Nothing here yet.',
-  message = 'Once data starts flowing, it will show up here.',
+  message = 'Your recorded activity will appear here when you start.',
   actionLabel,
   onAction,
+  mascot = true,
 }) {
   return (
-    <div className="glass p-8 text-center flex flex-col items-center gap-3">
-      <div className="eyebrow no-dot">{eyebrow}</div>
-      <h3 className="heading text-xl">{title}</h3>
-      <p className="text-sm text-zinc-400 max-w-md">{message}</p>
-      {actionLabel && onAction && (
-        <button onClick={onAction} className="btn-outline sm">
-          {actionLabel}
-        </button>
-      )}
+    <div className="ui-state ui-state--empty">
+      {mascot && <div className="pip-state"><Mascot pose="attentive" /></div>}
+      {eyebrow && !eyebrow.startsWith('//') ? <span className="ui-state__eyebrow">{eyebrow}</span> : null}
+      <b>{title}</b>
+      <p>{message}</p>
+      {actionLabel && onAction ? <button type="button" onClick={onAction} className="ui-state__action ui-state__action--primary">{actionLabel}</button> : null}
     </div>
   );
 }

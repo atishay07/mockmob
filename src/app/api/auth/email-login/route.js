@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
+import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { resend } from '@/lib/resend';
 
 export const runtime = 'nodejs';
@@ -102,7 +103,7 @@ export async function POST(request) {
       return NextResponse.json({ ok: false, message: 'Enter a valid email address.' }, { status: 400 });
     }
 
-    if (!checkRateLimit(request, email)) {
+    if (!checkRateLimit(request, email) || !(await checkPersistentRateLimit(request,{route:'/api/auth/email-login',limit:5,windowMs:3600000,keyParts:[email],identityOnly:true})).allowed) {
       return NextResponse.json({ ok: false, message: 'Please wait before requesting another login code.' }, { status: 429 });
     }
 

@@ -13,6 +13,7 @@ import {
 } from '../../../data/cuet_controls.js';
 import { selectPyqAnchors } from '../../../data/pyq_anchors.js';
 import { getEnglishGenerationMode } from './englishGenerationMode.mjs';
+import { budgetedFetch } from './budgetLedger.mjs';
 import { normalizeGenerationPayload } from './passageNormalizer.mjs';
 import { repairGeneratedJson, containsMetaCommentary } from './jsonRepair.mjs';
 
@@ -44,18 +45,21 @@ function getDefaultKimiModel(provider = normalizeKimiProvider()) {
 const KIMI_PROVIDER = normalizeKimiProvider();
 const KIMI_BASE_URL_VALUE = process.env.KIMI_BASE_URL || getDefaultKimiBaseUrl(KIMI_PROVIDER);
 
-const genAI = process.env.GEMINI_API_KEY ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY) : null;
-const openai = process.env.OPENAI_API_KEY ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY }) : null;
+// Gemini dispatch is disabled until its transport has the same reservation and usage contract.
+const genAI = null;
+const openai = process.env.OPENAI_API_KEY ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY, fetch: budgetedFetch(), maxRetries: 0 }) : null;
 const deepseek = process.env.DEEPSEEK_API_KEY
   ? new OpenAI({
       apiKey: process.env.DEEPSEEK_API_KEY,
       baseURL: process.env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com',
+      fetch: budgetedFetch(), maxRetries: 0,
     })
   : null;
 const kimi = process.env.KIMI_API_KEY
   ? new OpenAI({
       apiKey: process.env.KIMI_API_KEY,
       baseURL: KIMI_BASE_URL_VALUE,
+      fetch: budgetedFetch(), maxRetries: 0,
     })
   : null;
 
@@ -504,10 +508,10 @@ export function getCostTracker() {
     ...costTracker,
     costPerAccepted: costTracker.acceptedCount > 0
       ? costTracker.totalCostUsd / costTracker.acceptedCount
-      : 0,
+      : null,
     costPer1000: costTracker.acceptedCount > 0
       ? (costTracker.totalCostUsd / costTracker.acceptedCount) * 1000
-      : 0,
+      : null,
   };
 }
 
@@ -2679,7 +2683,7 @@ export async function validateAndAlign(question, subjectContext) {
   }
 
   if (genAI) {
-    const prompt = `VAL CUET MCQ. CUET = NCERT familiarity test, NOT deep reasoning. Return JSON only: {"score":0-10,"exam_quality":0-10,"distractor_quality":0-10,"conceptual_depth":0-10,"textbook_style":false,"difficulty_correct":true,"cuet_alignment":true,"recommended_difficulty":"easy|medium|hard","issues":[],"decision":"accept|reject","improved_question":null}.
+    const prompt = `VAL CUET MCQ. CUET = NCERT familiarity test, NOT deep reasoning. Return JSON only: {"score":0-10,"exam_quality":0-10,"distractor_quality":0-10,"conceptual_depth":0-10,"textbook_style":false,"difficulty_correct":true,"cuet_alignment":true,"recommended_difficulty":"easy|medium|hard","answer_confidence":0-1,"factual_accuracy":true|false,"issues":[],"decision":"accept|reject","improved_question":null}.
 ACCEPT: direct NCERT recall/definition, one-step application, simple assertion-reason with NCERT-phrased clauses, basic numericals (one formula).
 REJECT if ANY of: abstract algebra/vector space/proof/theorem-by-name, JEE-style derivation, multi-step calculation, MBA/graduate-level concept, college viva style, complex assertion-reason (named theorems, nested conditionals), direct textbook copy, weak distractors, ambiguity, wrong chapter.
 When in doubt → reject. CUET students should answer from textbook memory + one simple step only.
@@ -2866,20 +2870,20 @@ INVALID CONDITIONS:
 - language_level == COMPLEX
 - option_quality != CLEAN
 - subject_consistency != CORRECT
-- textbook_style == true
+- incorrect key or unsupported answer explanation
 - direct definition / direct recall stem ("What is X?", "Define X", "Which is the correct definition of X?")
 - obvious answer or no reasoning required
 - fewer than 2 options plausibly attractive to a partially prepared student
-- trap_quality == LOW
-- conceptual_depth < 7
+- multiple defensible options
+- missing assumptions needed to solve the question
 - question is too similar to anchor
 - anchor phrasing is reused directly
 
 Also reject if subject, concept_id, or pyq_anchor_id is missing or if the subject does not match the selected subject. PYQ comparison must be against the same subject only.
-Target a real screening rate: reject weak textbook questions even if technically correct. A 100% acceptance batch is suspicious unless every item has genuine option traps.
+Judge each item on correctness and calibrated exam fit. Valid easy/direct-recall items are permitted. Do not impose a rejection quota.
 
 Return EXACTLY ${questions.length} JSON result objects, indices 0 through ${questions.length - 1}. Format:
-[{"index":0,"syllabus_alignment":"WITHIN|OUTSIDE","concept_match":"EXACT|PARTIAL|MISMATCH","difficulty_level":"EASY|MEDIUM|HARD|TOO HARD","compared_to_pyqs":"EASIER|MATCH|HARDER","clarity":"CLEAR|AMBIGUOUS","language_level":"SIMPLE|MODERATE|COMPLEX","option_quality":"CLEAN|OVERLAPPING|CONFUSING","subject_consistency":"CORRECT|WRONG","verdict":"VALID|INVALID","trap_quality":"HIGH|MEDIUM|LOW","reasons":[],"score":0-10,"exam_quality":0-10,"distractor_quality":0-10,"conceptual_depth":0-10,"textbook_style":false,"difficulty_correct":true,"cuet_alignment":true,"recommended_difficulty":"easy|medium|hard","issues":[],"decision":"accept|reject","improved_question":null},...]
+[{"index":0,"syllabus_alignment":"WITHIN|OUTSIDE","concept_match":"EXACT|PARTIAL|MISMATCH","difficulty_level":"EASY|MEDIUM|HARD|TOO HARD","compared_to_pyqs":"EASIER|MATCH|HARDER","clarity":"CLEAR|AMBIGUOUS","language_level":"SIMPLE|MODERATE|COMPLEX","option_quality":"CLEAN|OVERLAPPING|CONFUSING","subject_consistency":"CORRECT|WRONG","verdict":"VALID|INVALID","trap_quality":"HIGH|MEDIUM|LOW","reasons":[],"score":0-10,"exam_quality":0-10,"distractor_quality":0-10,"conceptual_depth":0-10,"textbook_style":false,"difficulty_correct":true,"cuet_alignment":true,"recommended_difficulty":"easy|medium|hard","answer_confidence":0-1,"factual_accuracy":true|false,"issues":[],"decision":"accept|reject","improved_question":null},...]
 
 Return ONLY JSON array.
 questions=${JSON.stringify(compactBatch)}`;
@@ -3036,7 +3040,7 @@ Return a JSON object with a "results" array, one item per input candidate_id and
 Classify each as:
 - accept: clearly CUET-level, conceptually correct, one correct answer, close distractors
 - borderline: likely usable but needs strict review
-- reject: wrong, ambiguous, textbook/direct, non-CUET, weak options, or answer mismatch
+- reject: wrong, ambiguous, outside the documented syllabus, invalid options, or answer mismatch
 
 Use scores from 0.0 to 1.0.
 Evaluate:
@@ -3046,8 +3050,8 @@ Evaluate:
 4. distractor closeness
 5. trap quality
 6. obvious-wording risk
-7. whether it is too basic/direct
-8. whether answer_check proves correctness
+7. whether difficulty matches the requested level; direct recall is valid when supported by exam examples
+8. independently establish the answer from supplied source evidence; answer_check is a claim, not proof
 9. multiple-correct-answer risk
 10. passage dependency for passage-linked English questions
 
@@ -3060,7 +3064,7 @@ Set quality_band:
 - B = 0.70-0.79, acceptable practice
 - C = below publish standard
 
-Final accept should normally require score >= 0.72, exam_quality >= 0.70, distractor_quality >= 0.70, conceptual_depth >= 0.60, trap_quality not low, and cuet_alignment true.
+Return factual_accuracy and answer_confidence explicitly. Never accept if evidence is missing. Do not reject solely for low conceptual depth, easy wording, or absence of a trap. Correctness and exam fit are separate checks.
 Do not reject solely because anchor_confidence is low; mark it borderline or accept with lower confidence if content is good.
 
 Subject context: ${subjectContext?.id || 'unknown'}

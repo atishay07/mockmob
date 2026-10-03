@@ -1,0 +1,51 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { PGlite } from '@electric-sql/pglite';
+
+test('learning storage atomically enforces owners, allowances, families and immutable observations',async()=>{
+  const db=new PGlite();
+  try {
+    await db.exec(`create role anon;create role authenticated;create role service_role;
+      create table users(id text primary key,credit_balance int);
+      create table questions(id text primary key,subject text,chapter text,body text,options jsonb,correct_answer text,explanation text);
+      create table attempts(id text primary key,user_id text,subject text,score int,correct int,wrong int,unattempted int,total int,details jsonb,questions_snapshot jsonb);
+      create table user_question_progress(user_id text,question_id text,subject text,chapter text,seen_count int default 0,attempt_count int default 0,correct_count int default 0,skip_count int default 0,last_selected_key text,last_correct boolean,last_seen_at timestamptz,last_attempted_at timestamptz,updated_at timestamptz,primary key(user_id,question_id));
+      create table credit_transactions(user_id text,amount int,type text,reference text primary key,action text,credit_delta int);
+      create table question_interactions(user_id text,question_id text);
+      create table question_bookmarks(user_id text,question_id text);
+      insert into users values('owner',100),('other',100);insert into questions(id,body) values('p','old');`);
+    for(const file of ['0036_mode_aware_credits.sql','20261001105920_score_recovery_foundations.sql','20261002120000_connected_learning.sql','20261002123000_answer_correction_history.sql'])await db.exec(readFileSync(new URL(`../../supabase/migrations/${file}`,import.meta.url),'utf8'));
+    const session=id=>({id,user_id:'owner',request_key:`key_${id}`,subject:'economics',mode:'quick',state:'active',questions:[{id:'q1',familyId:'ordinary'}],selection_meta:{},events:[],created_at:new Date().toISOString(),expires_at:new Date(Date.now()+60000).toISOString()});
+    await Promise.all([db.query('select start_learning_session($1,$2,$3,$4)',[session('s'),'attempt','daily_practice','2026-10-02']),db.query('select start_learning_session($1,$2,$3,$4)',[session('t'),'attempt','daily_practice','2026-10-02'])]);
+    await db.query('select start_learning_session($1,$2,$3,$4)',[session('s'),'attempt','daily_practice','2026-10-02']);
+    assert.equal((await db.query("select credit_balance from users where id='owner'")).rows[0].credit_balance,90);
+    assert.equal((await db.query('select count(*)::int as n from learning_allowances')).rows[0].n,1);
+    const item={questionId:'p',familyId:'f'};
+    const row={id:'e',user_id:'owner',request_key:'episode_request',concept_id:'c',pathway:{probes:[item],repair:[],checks:[]},projection:{revision:0,state:'investigating'}};
+    await Promise.all([db.query('select start_learning_episode($1,$2)',[row,'2026-09-28']),db.query('select start_learning_episode($1,$2)',[{...row,id:'retry'},'2026-09-28'])]);
+    assert.equal((await db.query('select count(*)::int as n from learning_episodes')).rows[0].n,1);
+    await assert.rejects(db.query('select start_learning_episode($1,$2)',[{...row,id:'bad',request_key:'bad',concept_id:'another'},null]),/fresh content/);
+    const response={itemId:'p',type:'choice',value:0},projection={revision:1,state:'repairing'};
+    await assert.rejects(db.query('select advance_learning_episode($1,$2,$3,$4,$5,$6)',['e','other','request',response,0,projection]),/episode not found/);
+    await Promise.all([db.query('select advance_learning_episode($1,$2,$3,$4,$5,$6)',['e','owner','request',response,0,projection]),db.query('select advance_learning_episode($1,$2,$3,$4,$5,$6)',['e','owner','request',response,0,projection])]);
+    await assert.rejects(db.query('select advance_learning_episode($1,$2,$3,$4,$5,$6)',['e','owner','request',{...response,value:1},0,projection]),/idempotency conflict/);
+    await assert.rejects(db.query('select advance_learning_episode($1,$2,$3,$4,$5,$6)',['e','owner','other',response,0,projection]),/revision conflict/);
+    assert.equal((await db.query('select count(*)::int as n from learning_observations')).rows[0].n,1);
+    await db.exec(`insert into attempts(id,user_id,questions_snapshot) values('original','owner','[{"id":"p","correctIndex":0}]');`);
+    await db.exec("update questions set body='corrected' where id='p'");
+    assert.equal((await db.query("select projection->>'state' as state from learning_episodes where id='e'")).rows[0].state,'invalidated');
+    assert.equal((await db.query('select count(*)::int as n from learning_observations')).rows[0].n,2);
+    assert.equal((await db.query('select count(*)::int as n from attempt_recalculation_queue')).rows[0].n,1);
+    assert.equal((await db.query("select questions_snapshot->0->>'correctIndex' as key from attempts where id='original'")).rows[0].key,'0');
+    const independent={...row,id:'held',request_key:'held_request',concept_id:'second',pathway:{probes:[{questionId:'other_q',familyId:'held_f'}],repair:[],checks:[]}};
+    await db.query('select start_learning_episode($1,$2)',[independent,null]);
+    await db.exec("insert into recovery_family_holds(family_id,reason) values('held_f','uncertain');");
+    assert.equal((await db.query("select projection->>'state' as state from learning_episodes where id='held'")).rows[0].state,'invalidated');
+    await db.exec("insert into questions(id,family_id) values('seen','seen_family');insert into question_interactions values('other','seen');");
+    await assert.rejects(db.query('select start_learning_episode($1,$2)',[{...independent,id:'not_fresh',user_id:'other',request_key:'not_fresh',pathway:{probes:[{questionId:'variant',familyId:'seen_family'}],repair:[],checks:[]}},'2026-09-28']),/fresh content/);
+    assert.equal((await db.query("select count(*)::int as n from learning_allowances where user_id='other'")).rows[0].n,0);
+    await db.exec('set role authenticated');await assert.rejects(db.query('select * from learning_episodes'),/permission denied/);
+    await db.exec('reset role;set role service_role');await assert.rejects(db.query("update learning_observations set request_key='overwrite'"),/permission denied/);
+  }finally{await db.close();}
+});

@@ -1,0 +1,27 @@
+/* Small, route-scoped refinements for public subpages. */
+.mm.public-features .feature-card .feature-dot-layer {
+  opacity: 0;
+  transition: opacity 160ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.mm.public-features .feature-icon {
+  transform: scale(1);
+  transition: transform 150ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .mm.public-features .feature-card:hover .feature-dot-layer {
+    opacity: 0.42;
+  }
+
+  .mm.public-features .feature-card:hover .feature-icon {
+    transform: scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mm.public-features .feature-card .feature-dot-layer,
+  .mm.public-features .feature-icon {
+    transition: none;
+  }
+}

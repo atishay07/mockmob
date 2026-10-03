@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/Button';
+import { StatusIcon } from '@/components/ui/Glyph';
 import { apiPost } from '@/lib/fetcher';
 import { UploadForm } from '@/components/feed/UploadForm';
 
@@ -71,11 +72,11 @@ export default function UploadPageClient() {
     }
     setSubmitting(false);
     setBulkReport({ submitted, errors: submitErrors });
-    if (submitted > 0) setBulkOk(`${submitted} question(s) sent to moderation ✓`);
+    if (submitted > 0) setBulkOk(`${submitted} question(s) sent to moderation.`);
   };
 
   return (
-    <div>
+    <div className="student-page student-page--upload">
       {/* ── Tab switcher ── */}
       <div style={{ display: 'flex', gap: '8px', marginBottom: '32px' }}>
         {['single', 'bulk'].map(t => (
@@ -97,7 +98,7 @@ export default function UploadPageClient() {
       {tab === 'bulk' && (
         <div style={{ maxWidth: '640px', margin: '0 auto' }}>
           <div style={{ marginBottom: '24px' }}>
-            <div className="eyebrow" style={{ marginBottom: '8px' }}>{'// BULK IMPORT'}</div>
+            <div className="eyebrow" style={{ marginBottom: '8px' }}>{'Bulk import'}</div>
             <h1 className="display-md">
               Bulk <span className="text-volt" style={{ fontStyle: 'italic' }}>Upload</span>
             </h1>
@@ -144,10 +145,10 @@ export default function UploadPageClient() {
             />
 
             {bulkError && (
-              <p style={{ color: '#f87171', fontSize: '13px' }}>⚠ {bulkError}</p>
+              <p role="alert" style={{ color: 'var(--a-bad-text, #f87171)', fontSize: '13px', display: 'flex', gap: 6, alignItems: 'center' }}><StatusIcon kind="warning" size={14} />{bulkError}</p>
             )}
             {bulkOk && (
-              <p style={{ color: '#4ade80', fontSize: '13px' }}>✓ {bulkOk}</p>
+              <p role="status" style={{ color: 'var(--a-good-text, #4ade80)', fontSize: '13px', display: 'flex', gap: 6, alignItems: 'center' }}><StatusIcon kind="success" size={14} />{bulkOk}</p>
             )}
             {bulkReport && (
               <div style={{

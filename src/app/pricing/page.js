@@ -1,74 +1,81 @@
 export const dynamic = "force-dynamic";
 import React from 'react';
+import { CAPABILITIES, newOfferReleased, RECOVERY_PACKAGING_ROWS } from '@/../data/capabilities';
+import { publicOffer } from '@/lib/payments/offer';
 import Link from 'next/link';
-import { Check, ChevronDown, PartyPopper, ShieldCheck, Sparkles, X } from 'lucide-react';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
+import { MobileDock } from '@/components/MobileDock';
 import { JsonLd } from '@/components/JsonLd';
+import { Icon } from '@/components/ui/Icons';
 import { PricingCard } from '@/components/ui/PricingCard';
-import { LiquidGlassButton } from '@/components/ui/LiquidGlassButton';
 import { RazorpayPaymentButton } from '@/components/billing/RazorpayPaymentButton';
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
 import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
 
-export const metadata = seoMetadata({
-  title: 'MockMob CUET 2026 Access Pricing',
-  description:
-    'Start free or unlock one-time MockMob CUET 2026 access with unlimited mocks, advanced Radar analytics, bookmarks, and Admission Compass.',
-  path: '/pricing',
-});
+export function generateMetadata() {
+  const offer = publicOffer();
+  const monthly = offer.purchasable === 'monthly';
+  return seoMetadata({
+    title: monthly ? `MockMob Pro Pricing: ₹${offer.monthly.rupees} a month` : `MockMob Pro Pricing: ₹${offer.oneTime.rupees} to start`,
+    description: monthly
+      ? `Start free. MockMob Pro is ₹${offer.monthly.rupees} a month: unlimited Quick Practice and Full Mock, Smart Practice, NTA Mode and full Radar. Cancel anytime.`
+      : `Start free. MockMob Pro access is ₹${offer.oneTime.rupees} once through ${offer.oneTime.expires}: unlimited Quick Practice and Full Mock, Smart Practice, NTA Mode and full Radar. Monthly Pro opens soon.`,
+    path: '/pricing',
+  });
+}
 
-const plans = [
+const buildPlans = (offer) => [
   {
     name: 'Free',
     price: '₹0',
-    cycle: '/month',
-    description: 'Perfect for getting started with focused mock practice.',
-    ctaLabel: 'Start Free',
-    features: [
-      'Quick Practice (5 to 20 questions) — credit-gated',
-      'Full Mock (50 questions, 60 minutes) — credit-gated',
+    cycle: 'forever',
+    description: 'Enough to find out whether MockMob is for you, with no card involved.',
+    ctaLabel: 'Create a free account',
+    features: newOfferReleased() ? ['One five-question baseline per launch subject', 'One included daily 10-question practice set', 'One new complete recovery episode per week', 'Delayed checks for every started episode', '25 saved questions', 'Free DU eligibility and historical cutoffs'] : [
+      'Quick Practice, 5 to 20 questions — credit-gated',
+      'Full Mock, 50 questions in 60 minutes — credit-gated',
       'Weekly progress tracking',
       '25 saved questions',
-      'Community leaderboard access',
+      'Community leaderboard',
     ],
   },
   {
-    name: 'Pro',
-    price: 'Rs 99',
-    originalPrice: 'Rs 199',
-    cycle: 'one-time',
-    description: 'One-time CUET 2026 access for aspirants who want mocks, analytics, and college direction in one place.',
-    ctaLabel: 'Unlock CUET 2026',
-    planId: 'pro_cuet_2026',
-    amount: 9900,
+    name: offer.purchasable === 'monthly' ? 'Pro' : 'Pro access',
+    price: `₹${offer.purchasable === 'monthly' ? offer.monthly.rupees : offer.oneTime.rupees}`,
+    cycle: offer.purchasable === 'monthly' ? '/month' : 'once',
+    description: offer.purchasable === 'monthly'
+      ? 'Everything unlocked. Renews every month, cancel whenever you like.'
+      : `One payment covers you through ${offer.oneTime.expires}. Monthly Pro at ₹${offer.monthly.rupees} opens soon.`,
+    ctaLabel: offer.purchasable === 'monthly' ? `Start Pro for ₹${offer.monthly.rupees}/month` : `Get access for ₹${offer.oneTime.rupees}`,
+    planId: offer.purchasable === 'monthly' ? offer.monthly.planId : offer.oneTime.planId,
+    billing: offer.purchasable === 'monthly' ? 'monthly' : 'once',
+    amount: (offer.purchasable === 'monthly' ? offer.monthly.rupees : offer.oneTime.rupees) * 100,
     featured: true,
-    features: [
-      'One-time purchase for CUET 2026 access',
-      'Admission Compass — CUET score bands and DU college recommendations',
-      'Custom subject-course eligibility mapping for your target colleges',
-      'Premium Radar with weakness analysis and chapter priority maps',
-      'Difficulty selector: easy, medium, hard, or auto',
-      'Fast-lane mock generation and unlimited bookmarks',
-      'Unlimited Quick Practice and Full Mock',
-      'Smart Practice — adaptive, targets your weak topics',
-      'NTA Mode — strict CUET exam simulation (50 Qs, 60 min, PYQ-anchored)',
+    footnote: offer.purchasable === 'monthly'
+      ? 'Auto-renews monthly. Cancel in Account; access continues to the end of the paid month.'
+      : `Access ends ${offer.oneTime.expires}. No auto-renewal on this payment.`,
+    features: newOfferReleased() ? ['All available recovery pathways', 'Fresh delayed checks and full recovery history', 'Unlimited available practice and reattempts', 'Full, Smart and NTA access', 'Full priorities and playbook', 'Unlimited saved questions'] : [
+      'Unlimited Quick Practice and Full Mocks',
+      'NTA Mode — 2026-format baseline, 50 Q / 60 min; 2027 rules provisional',
+      'Smart Practice — adaptive, targets your weak chapters',
+      'Full Radar: every ranked chapter, pace and changed-answer detail',
+      'Compass Pro: your practice projected paper by paper, against your DU shortlist',
+      'Compass Pro next move: the paper and chapter that can move your total most',
+      'Free DU eligibility and sourced historical cutoffs',
+      'Difficulty selector: easy, medium, hard or auto',
+      'Unlimited bookmarks',
     ],
-  }
+  },
 ];
 
-// ── Comparison rows are grouped to keep the table scannable: ──
-//   1. Core test modes (available to all)
-//   2. Core platform features (available to all)
-//   3. Advanced features (Pro) — Compass family is highlighted Most Popular
-//   4. Advanced test modes (Pro) — bottom of the table
-const COMPARISON_GROUPS = [
+const COMPARISON_GROUPS = newOfferReleased() ? [{ heading: 'Practice and recovery', rows: RECOVERY_PACKAGING_ROWS }] : [
   {
     heading: 'Core test modes',
     rows: [
-      ['Quick Practice (5 to 20 Qs)', 'Credit-gated · 10 credits each', 'Unlimited for CUET 2026'],
-      ['Full Mock (50 Qs · 60 min)', 'Credit-gated · 50 credits each', 'Unlimited for CUET 2026'],
+      ['Quick Practice (5 to 20 Qs)', 'Credit-gated · 10 credits each', 'Unlimited with Pro'],
+      ['Full Mock (50 Qs · 60 min)', 'Credit-gated · 50 credits each', 'Unlimited with Pro'],
     ],
   },
   {
@@ -82,14 +89,11 @@ const COMPARISON_GROUPS = [
   {
     heading: 'Advanced features',
     rows: [
-      ['Admission Compass', false, true, 'popular'],
-      ['CUET score band estimate', false, true, 'popular'],
-      ['College recommendations', false, true, 'popular'],
-      ['Custom subject-course mapping', false, true, 'popular'],
+      ['DU eligibility and historical cutoffs', true, true],
+      ['Compass Pro: practice projection, DU shortlist and next move', false, true, 'popular'],
       ['Difficulty selector', false, 'Easy, medium, hard, auto'],
-      ['Premium Radar analysis', false, true],
-      ['Chapter priority maps', false, true],
-      ['Fast-lane mock generation', false, true],
+      ['Radar: marks ledger, top three chapters, weekly summary', true, true],
+      ['Radar: every ranked chapter, pace and changed-answer detail', false, true],
     ],
   },
   {
@@ -101,83 +105,83 @@ const COMPARISON_GROUPS = [
   },
 ];
 
-const compassShots = [
+const AI_PACKS = [
   {
-    label: 'CUET score band',
-    title: '872/1000',
-    detail: 'High chance band',
-    rows: ['Accountancy 184/200', 'Economics 172/200', 'English 178/200'],
+    name: 'AI Boost',
+    price: '₹10',
+    credits: '50 AI credits',
+    desc: 'New purchases paused. Existing credit balances are preserved.',
   },
   {
-    label: 'College ideas',
-    title: 'SRCC, Hansraj, Venky',
-    detail: 'Ranked by fit',
-    rows: ['B.Com (Hons)', 'Economics', 'Category-aware targets'],
+    name: 'Prep Pack',
+    price: '₹20',
+    credits: '150 AI credits',
+    desc: 'Shared learning plans and core recovery do not require paid model calls.',
   },
   {
-    label: 'Custom mapping',
-    title: 'Subject to course fit',
-    detail: 'Eligibility checked',
-    rows: ['Your 5 subjects', 'Target college courses', 'Next mock priority'],
+    name: 'Power Pack',
+    price: '₹50',
+    credits: '400 AI credits',
+    desc: 'Paid AI remains gated on durable spending and wallet checks.',
+    popular: true,
+    flag: 'Most credits per rupee',
   },
 ];
 
-const faqs = [
+const buildFaqs = (offer) => [
   {
-    q: 'How does the Leaderboard work?',
-    a: 'Every mock you take earns you XP based on your speed, accuracy, and difficulty of the questions. Your XP dictates your rank on the global leaderboard. Taking the daily "Mock Sprint" gives you a multiplier to help you climb faster.'
+    q: 'Is Pro a monthly subscription?',
+    a: offer.purchasable === 'monthly'
+      ? `Yes. Pro is ₹${offer.monthly.rupees} a month and renews automatically until you cancel. Cancel in Account at any time; you keep Pro until the end of the month you already paid for.`
+      : `Monthly Pro at ₹${offer.monthly.rupees} a month is opening soon. Until then you can pay ₹${offer.oneTime.rupees} once for access through ${offer.oneTime.expires}, with no auto-renewal. That payment keeps its full term when monthly billing opens.`,
   },
   {
-    q: 'What exactly is the AI Weakness Tracker?',
-    a: 'Instead of only showing a raw score, the premium layer connects Arena attempts, Explore solves, bookmarks, and speed signals to show the chapters slowing you down.'
+    q: 'What happens when I cancel?',
+    a: 'Renewals stop. Pro stays active until the end of the period you paid for, then your account drops to Free. Your history, saved questions and credits stay.',
   },
   {
     q: 'What does Admission Compass compare?',
-    a: 'Compass compares your mock CUET score band, selected subjects, category, and target course direction to suggest realistic DU college-course options, aspirational picks, and the subject gaps to attack next.'
+    a: 'Compass uses official DU programme rules and published historical allocation scores, free for everyone. Compass Pro adds a practice projection: what each CUET paper would be worth if exam day went like your own practice, with a range, checked against the 2026 cutoffs of the colleges on your shortlist. It is labelled as a projection, not a prediction or an admission chance.',
   },
   {
     q: 'Is Compass the same as Radar?',
-    a: 'No. Radar explains why your score is moving by showing weak chapters, speed problems, and priority maps. Compass uses that progress history to turn your CUET score estimate into college recommendations and course mapping.'
-  },
-  {
-    q: 'Is Pro a monthly subscription now?',
-    a: 'No. CUET 2026 access is a one-time Rs 99 purchase. There is no monthly auto-renewal or recurring subscription mandate.'
+    a: 'Radar describes your practice history. Compass checks sourced eligibility and historical cutoffs; with Pro, it also maps your practice to your DU shortlist and names the paper with the most marks open.',
   },
   {
     q: 'Are the community mocks reliable?',
-    a: 'Yes! Every question uploaded by the community goes through an AI moderation pipeline and is peer-reviewed by top scorers. Questions with low ratings or incorrect keys are aggressively pruned from the active pool.'
-  }
+    a: 'New recovery content must pass source, answer-key, family and independent calibration gates. Uncertain content is withheld. The ordinary legacy bank remains under audit; software checks alone do not establish academic accuracy.',
+  },
+  {
+    q: 'How does the leaderboard work?',
+    a: 'Every mock you take earns XP based on your speed, accuracy, and the difficulty of the questions. Your XP sets your rank on the global leaderboard, and the daily Mock Sprint carries a multiplier.',
+  },
 ];
 
-function ComparisonValue({ value, pro = false, highlight = false }) {
+function ComparisonValue({ value, pro = false }) {
   if (value === true) {
     return (
-      <span className={`inline-flex items-center gap-2 ${pro || highlight ? 'text-volt' : 'text-zinc-200'}`}>
-        <Check className="h-4 w-4" />
+      <span className="mm-cmp__yes">
+        <Icon name="check" aria-hidden="true" />
         Included
       </span>
     );
   }
-
   if (value === false) {
-    return (
-      <span className="inline-flex items-center gap-2 text-zinc-500">
-        <X className="h-4 w-4" />
-        Not included
-      </span>
-    );
+    return <span className="mm-cmp__no">Not included</span>;
   }
-
-  return <span className={pro || highlight ? 'text-volt' : 'text-zinc-300'}>{value}</span>;
+  return <span data-pro={pro ? 'true' : 'false'}>{value}</span>;
 }
 
 export default async function PricingPage() {
   const session = await auth();
   const currentUser = session?.user?.id ? await Database.getUserById(session.user.id) : null;
   const isCurrentUserPremium = Boolean(currentUser?.isPremium);
+  const offer = publicOffer();
+  const PLANS = buildPlans(offer);
+  const FAQS = buildFaqs(offer);
 
   return (
-    <div className="view min-h-screen">
+    <div className="mm">
       <JsonLd
         id="pricing-breadcrumb-json-ld"
         data={breadcrumbJsonLd([
@@ -187,557 +191,129 @@ export default async function PricingPage() {
       />
       <JsonLd
         id="pricing-faq-json-ld"
-        data={faqJsonLd(faqs.map((faq) => ({ question: faq.q, answer: faq.a })))}
+        data={faqJsonLd(FAQS.map((faq) => ({ question: faq.q, answer: faq.a })))}
       />
       <NavBar />
-      <div className="container-wide px-5 pb-14 pt-[108px]">
 
-        <section className="mx-auto mb-10 max-w-3xl text-center">
-          <div className="sale-ribbon mb-5 inline-flex items-center gap-3 rounded-full border border-volt/50 bg-volt/15 px-5 py-2">
-            <PartyPopper className="h-4 w-4 text-volt" />
-            <span className="mono-label !text-volt">CUET 2026 one-time access</span>
-            <span className="sale-spark sale-spark-1" />
-            <span className="sale-spark sale-spark-2" />
-            <span className="sale-spark sale-spark-3" />
-          </div>
-          <h1 className="display-lg mb-4">
-            Pricing that keeps your <span className="text-volt italic">momentum</span> alive.
-          </h1>
-          <p className="mx-auto max-w-2xl text-zinc-400">
-            Start free, or unlock MockMob Pro for the CUET 2026 cycle with one secure one-time checkout.
-          </p>
-          <div className="sale-price-strip mt-5 inline-flex flex-wrap items-center justify-center gap-3 rounded-2xl border border-volt/25 bg-[rgba(210,240,0,0.08)] px-5 py-3 text-sm">
-            <ShieldCheck className="h-4 w-4 text-volt" />
-            <span className="text-zinc-300">Real MRP</span>
-            <span className="font-semibold text-zinc-500 line-through decoration-zinc-500/80 decoration-2">Rs 199</span>
-            <span className="text-zinc-500">now</span>
-            <span className="font-display text-2xl font-extrabold text-volt">Rs 99 one-time</span>
+      <main>
+        <section className="mm-section mm-section--flush" style={{ paddingTop: '2.5rem' }}>
+          <div className="mm-wrap">
+            <h1 className="mm-h1">{offer.purchasable === 'monthly' ? `Pro is ₹${offer.monthly.rupees} a month.` : `₹${offer.oneTime.rupees} gets you in.`}</h1>
+            <p className="mm-lead" style={{ marginTop: '1rem' }}>
+              {offer.purchasable === 'monthly'
+                ? 'Start free and stay free if that is enough. Go Pro when you want unlimited practice, every mode and the full Radar. Cancel any month.'
+                : `Start free and stay free if that is enough. For everything, one payment of ₹${offer.oneTime.rupees} covers access through ${offer.oneTime.expires}. Monthly Pro at ₹${offer.monthly.rupees} opens soon, and nobody who paid now loses a day.`}
+            </p>
           </div>
         </section>
 
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          {plans.map((plan, index) => (
-            <PricingCard
-              key={plan.name}
-              {...plan}
-              delay={index * 80}
-              ctaElement={plan.planId ? (
-                <RazorpayPaymentButton
-                  planId={plan.planId}
-                  amount={plan.amount}
-                  label={plan.ctaLabel}
-                  initialIsPremium={isCurrentUserPremium}
+        <section className="mm-section">
+          <div className="mm-wrap">
+            <div className="mm-plans">
+              {PLANS.map((plan) => (
+                <PricingCard
+                  key={plan.name}
+                  {...plan}
+                  ctaElement={
+                    plan.planId ? (
+                      <RazorpayPaymentButton
+                        planId={plan.planId}
+                        amount={plan.amount}
+                        label={plan.ctaLabel}
+                        billing={plan.billing}
+                        initialIsPremium={isCurrentUserPremium}
+                      />
+                    ) : null
+                  }
                 />
-              ) : null}
-            />
-          ))}
-        </section>
-
-        <section className="mx-auto mt-10 max-w-4xl">
-          <div className="prepos-credit-section">
-            <div className="prepos-credit-section-header">
-              <div>
-                <h2 className="font-display text-2xl font-black text-zinc-50 sm:text-3xl">Need more AI guidance?</h2>
-                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-400">
-                  Add AI credits when you want deeper mock autopsies, Rival battles, trap drills, or comeback plans. Credits never expire.
-                </p>
-              </div>
-            </div>
-            <div className="prepos-credit-packs">
-              {[
-                { name: 'AI Boost', price: '₹10', credits: '50', desc: 'Quick top-up for a few extra Mentor questions or a trap drill.' },
-                { name: 'Prep Pack', price: '₹20', credits: '150', desc: 'Deep mock autopsy, Rival battle, and a comeback plan.' },
-                { name: 'Power Pack', price: '₹50', credits: '400', desc: 'Best value for a full PrepOS sprint across planning, replay, and Rival battles.', popular: true },
-              ].map((pack) => (
-                <div key={pack.name} className={`prepos-credit-pack-card ${pack.popular ? 'is-popular' : ''}`}>
-                  {pack.popular && <span className="prepos-pack-badge">Best value</span>}
-                  <div className="prepos-pack-price">{pack.price}</div>
-                  <div className="prepos-pack-name">{pack.name}</div>
-                  <div className="prepos-pack-credits">{pack.credits} AI credits</div>
-                  <p className="prepos-pack-desc">{pack.desc}</p>
-                  <LiquidGlassButton asChild variant={pack.popular ? 'volt' : 'ghost'} size="sm" className="w-full mt-auto">
-                    <Link href="/pricing/prepos#prepos-plan-packs">
-                      Get {pack.name}
-                    </Link>
-                  </LiquidGlassButton>
-                </div>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="mx-auto mt-14 max-w-5xl">
-          <div className="mb-6 flex flex-col gap-2 text-center">
-            <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-volt/25 bg-volt/10 px-3 py-1">
-              <Sparkles className="h-3.5 w-3.5 text-volt" />
-              <span className="mono-label !text-volt">Compass preview</span>
-            </div>
-            <h2 className="display-md">Turn every mock into a DU admission move.</h2>
-          </div>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            {compassShots.map((shot) => (
-              <div key={shot.label} className="compass-preview-panel">
-                <div className="mono-label mb-3">{shot.label}</div>
-                <div className="font-display text-2xl font-extrabold leading-tight text-white">{shot.title}</div>
-                <div className="mb-4 mt-1 text-sm text-volt">{shot.detail}</div>
-                <div className="flex flex-col gap-2">
-                  {shot.rows.map((row) => (
-                    <div key={row} className="flex items-center justify-between gap-3 rounded-lg border border-white/[0.08] bg-white/[0.03] px-3 py-2 text-xs text-zinc-300">
-                      <span>{row}</span>
-                      <Check className="h-3.5 w-3.5 shrink-0 text-volt" />
-                    </div>
-                  ))}
-                </div>
+        <section className="mm-section mm-section--sunken">
+          <div className="mm-wrap">
+            <h2 className="mm-h2">Free and Pro, line by line.</h2>
+            <p className="mm-body mm-section__intro">
+              Free is genuinely usable: credits gate how often you can generate, not what you can
+              see.
+            </p>
+
+            <div className="mm-cmp">
+              <div className="mm-cmp__head" role="presentation">
+                <div>Feature</div>
+                <div>Free</div>
+                <div>Pro</div>
               </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="mx-auto mt-14 max-w-5xl">
-          <div className="mb-6 text-center">
-            <h2 className="display-md mb-2">Free vs Pro</h2>
-            <p className="text-zinc-400">Everything serious CUET prep needs, laid out clearly.</p>
-          </div>
-
-          <div className="pricing-comparison overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02]">
-            <div className="comparison-head grid grid-cols-[1.4fr_0.85fr_0.85fr] border-b border-white/10 bg-white/[0.04] text-xs font-mono uppercase tracking-[0.18em] text-zinc-500">
-              <div className="px-5 py-4">Feature</div>
-              <div className="px-5 py-4">Free</div>
-              <div className="px-5 py-4 text-volt">Pro</div>
-            </div>
-            {COMPARISON_GROUPS.map((group) => (
-              <React.Fragment key={group.heading}>
-                <div className="comparison-group-heading">
-                  {group.heading}
-                </div>
-                {group.rows.map(([feature, free, pro, marker]) => {
-                  const isPopular = marker === 'popular';
-                  return (
+              {COMPARISON_GROUPS.map((group) => (
+                <React.Fragment key={group.heading}>
+                  <h3 className="mm-cmp__group">{group.heading}</h3>
+                  {group.rows.map(([feature, free, pro, marker]) => (
                     <div
                       key={feature}
-                      className={`comparison-row grid grid-cols-1 border-b border-white/[0.06] last:border-b-0 sm:grid-cols-[1.4fr_0.85fr_0.85fr] ${isPopular ? 'is-popular' : ''}`}
+                      className="mm-cmp__row"
+                      data-popular={marker === 'popular' ? 'true' : 'false'}
                     >
-                      <div className="comparison-feature px-5 pb-2 pt-4 text-sm font-semibold text-white sm:py-4">
-                        <span>{feature}</span>
-                        {isPopular ? (
-                          <span className="ml-2 inline-flex rounded-full border border-volt/30 bg-volt/10 px-2 py-0.5 text-[10px] font-mono uppercase tracking-[0.14em] text-volt">
-                            Most popular
-                          </span>
-                        ) : null}
+                      <div className="mm-cmp__feature">{feature}</div>
+                      <div className="mm-cmp__cell" data-label="Free">
+                        <ComparisonValue value={free} />
                       </div>
-                      <div className="comparison-value px-5 py-2 text-sm sm:py-4" data-label="Free"><ComparisonValue value={free} /></div>
-                      <div className="comparison-value px-5 pb-4 pt-2 text-sm sm:py-4" data-label="Pro"><ComparisonValue value={pro} pro highlight={isPopular} /></div>
+                      <div className="mm-cmp__cell" data-label="Pro">
+                        <ComparisonValue value={pro} pro />
+                      </div>
                     </div>
-                  );
-                })}
-              </React.Fragment>
-            ))}
-          </div>
-
-          <p className="mt-6 text-center text-sm text-zinc-400">
-            All this for a nominal one-time price of <span className="font-semibold text-volt">Rs 99 for CUET 2026 access</span>.
-          </p>
-        </section>
-
-        <section className="mx-auto mt-20 max-w-3xl text-left">
-          <div className="text-center mb-10">
-            <h2 className="display-md mb-2">Frequently Asked Questions</h2>
-            <p className="text-zinc-400">Everything you need to know about MockMob</p>
-          </div>
-          
-          <div className="flex flex-col gap-3">
-            {faqs.map((faq, index) => (
-              <details key={index} className="glass p-5 group [&_summary::-webkit-details-marker]:hidden">
-                <summary className="flex items-center justify-between cursor-pointer list-none font-display text-lg font-bold">
-                  {faq.q}
-                  <ChevronDown className="h-5 w-5 text-zinc-500 transition-transform group-open:rotate-180" />
-                </summary>
-                <div className="pt-4 text-zinc-400 leading-relaxed text-sm">
-                  {faq.a}
-                </div>
-              </details>
-            ))}
+                  ))}
+                </React.Fragment>
+              ))}
+            </div>
           </div>
         </section>
 
-        <section className="mx-auto mt-16 max-w-3xl text-center">
-          <p className="text-sm text-zinc-500">Need team or institute pricing? We can set it up in minutes.</p>
-          <div className="mt-4 flex justify-center">
-            <LiquidGlassButton asChild variant="ghost" size="md">
-              <a href="mailto:support@mockmob.in?subject=Team%20%2F%20institute%20pricing">Talk to us</a>
-            </LiquidGlassButton>
+        <section className="mm-section">
+          <div className="mm-wrap mm-wrap--tight">
+            <h2 className="mm-h2">PrepOS, and its own credits.</h2>
+            <p className="mm-body mm-section__intro">
+              PrepOS reads your own practice record and shows your next step, your leaks and your weekly report. The basics are free for everyone and use no credits. Pro adds every ranked chapter, pace and changed-answer detail.
+            </p>
+            <p className="mm-body">
+              Optional model replies use a separate PrepOS wallet: 10 credits a month on Free and 50 on Pro, never mixed with practice credits.
+              Those replies are switched off while spending checks finish, so no credits are being used, and purchased credits you already hold are preserved.
+            </p>
+            <p style={{ marginTop: '1rem' }}>
+              <Link href="/pricing/prepos" className="mm-btn mm-btn--secondary">See your PrepOS wallet</Link>
+            </p>
           </div>
         </section>
-      </div>
+
+        <section className="mm-section mm-section--sunken">
+          <div className="mm-wrap mm-wrap--tight">
+            <h2 className="mm-h2">Questions people actually ask.</h2>
+            <div className="mm-faqs">
+              {FAQS.map((faq) => (
+                <details key={faq.q} className="mm-faq">
+                  <summary>{faq.q}</summary>
+                  <div className="mm-faq__body">{faq.a}</div>
+                </details>
+              ))}
+            </div>
+            <p className="mm-small" style={{ marginTop: '2rem' }}>
+              Need team or institute pricing?{' '}
+              <a
+                className="mm-link"
+                href="mailto:support@mockmob.in?subject=Team%20%2F%20institute%20pricing"
+              >
+                Email us
+              </a>{' '}
+              and we will set it up.
+            </p>
+          </div>
+        </section>
+      </main>
+
       <MarketingFooter />
-      <style>{`
-        .prepos-credit-section {
-          overflow: hidden;
-          border: 1px solid rgba(210,240,0,.2);
-          border-radius: 22px;
-          background:
-            radial-gradient(circle at 8% 18%, rgba(210,240,0,.09), transparent 38%),
-            rgba(255,255,255,.02);
-          padding: clamp(20px, 3vw, 32px);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
-        }
-        .prepos-credit-section-header {
-          margin-bottom: 20px;
-        }
-        .prepos-credit-packs {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 12px;
-        }
-        @media (min-width: 640px) {
-          .prepos-credit-packs {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-          }
-        }
-        .prepos-credit-pack-card {
-          position: relative;
-          display: flex;
-          flex-direction: column;
-          border: 1px solid rgba(255,255,255,.08);
-          border-radius: 16px;
-          background: rgba(0,0,0,.2);
-          padding: 20px;
-          transition: border-color 0.2s ease, transform 0.2s ease;
-        }
-        .prepos-credit-pack-card:hover {
-          border-color: rgba(255,255,255,.16);
-          transform: translateY(-2px);
-        }
-        .prepos-credit-pack-card.is-popular {
-          border-color: rgba(210,240,0,.3);
-          background: rgba(210,240,0,.04);
-        }
-        .prepos-credit-pack-card.is-popular:hover {
-          border-color: rgba(210,240,0,.5);
-        }
-        .prepos-pack-badge {
-          position: absolute;
-          top: -1px;
-          right: 16px;
-          background: var(--volt);
-          color: #000;
-          font-family: var(--font-mono);
-          font-size: 9px;
-          font-weight: 800;
-          letter-spacing: .1em;
-          text-transform: uppercase;
-          padding: 3px 8px;
-          border-radius: 0 0 6px 6px;
-        }
-        .prepos-pack-price {
-          font-family: var(--font-display);
-          font-size: 28px;
-          font-weight: 900;
-          color: #fff;
-          line-height: 1;
-          margin-bottom: 2px;
-        }
-        .prepos-pack-name {
-          font-family: var(--font-display);
-          font-size: 14px;
-          font-weight: 700;
-          color: var(--volt);
-          margin-bottom: 4px;
-        }
-        .prepos-pack-credits {
-          font-family: var(--font-mono);
-          font-size: 11px;
-          font-weight: 700;
-          color: #71717a;
-          letter-spacing: .08em;
-          text-transform: uppercase;
-          margin-bottom: 10px;
-        }
-        .prepos-pack-desc {
-          font-size: 13px;
-          color: #a1a1aa;
-          line-height: 1.5;
-          margin: 0 0 16px;
-          flex: 1;
-        }
-        .prepos-credit-panel {
-          position: relative;
-          overflow: hidden;
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 18px;
-          align-items: center;
-          border: 1px solid rgba(210,240,0,.2);
-          border-radius: 22px;
-          background:
-            radial-gradient(circle at 9% 20%, rgba(210,240,0,.11), transparent 34%),
-            radial-gradient(circle at 92% 72%, rgba(85,255,197,.065), transparent 38%),
-            rgba(255,255,255,.025);
-          padding: clamp(20px, 3vw, 30px);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
-        }
-        .prepos-credit-panel::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-          background-image: radial-gradient(rgba(210,240,0,.18) 1px, transparent 1px);
-          background-size: 22px 22px;
-          mask-image: radial-gradient(ellipse at center, black, transparent 76%);
-          opacity: .36;
-        }
-        .prepos-credit-panel > * {
-          position: relative;
-          z-index: 1;
-        }
-        @media (min-width: 900px) {
-          .prepos-credit-panel {
-            grid-template-columns: auto minmax(0, 1fr) minmax(230px, .42fr);
-          }
-          .prepos-pack-row {
-            grid-column: 2 / 4;
-          }
-        }
-        .prepos-credit-orb {
-          display: flex;
-          align-items: center;
-        }
-        .prepos-credit-copy {
-          max-width: 680px;
-        }
-        .prepos-credit-metrics {
-          display: grid;
-          gap: 10px;
-        }
-        .prepos-credit-metrics div,
-        .prepos-pack {
-          border: 1px solid rgba(255,255,255,.08);
-          border-radius: 14px;
-          background: rgba(0,0,0,.24);
-          padding: 12px 14px;
-          box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
-        }
-        .prepos-credit-metrics span,
-        .prepos-credit-metrics em,
-        .prepos-pack span {
-          display: block;
-          color: #71717a;
-          font-size: 11px;
-          font-style: normal;
-          font-weight: 800;
-        }
-        .prepos-credit-metrics strong,
-        .prepos-pack strong {
-          display: block;
-          color: #fff;
-          font-family: var(--font-display);
-          font-size: 20px;
-          line-height: 1.05;
-          margin: 3px 0;
-        }
-        .prepos-pack-row {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 10px;
-        }
-        @media (min-width: 640px) {
-          .prepos-pack-row {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-          }
-        }
-        .sale-ribbon {
-          position: relative;
-          overflow: visible;
-          box-shadow: 0 0 30px rgba(210, 240, 0, .12);
-          transition: transform .25s ease, box-shadow .25s ease;
-        }
-        .sale-ribbon:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 0 46px rgba(210, 240, 0, .2);
-        }
-        .sale-spark {
-          position: absolute;
-          width: 7px;
-          height: 7px;
-          border-radius: 999px;
-          background: var(--volt);
-          opacity: 0;
-          pointer-events: none;
-        }
-        .sale-spark-1 { left: 16%; top: -8px; }
-        .sale-spark-2 { right: 20%; top: -10px; }
-        .sale-spark-3 { right: 12%; bottom: -8px; }
-        .sale-ribbon:hover .sale-spark {
-          animation: sale-pop .8s ease both;
-        }
-        .sale-ribbon:hover .sale-spark-2 { animation-delay: .08s; }
-        .sale-ribbon:hover .sale-spark-3 { animation-delay: .16s; }
-        .sale-price-strip {
-          box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
-        }
-        .price-countdown-panel {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 14px;
-          align-items: center;
-          border: 1px solid rgba(210,240,0,.28);
-          border-radius: 18px;
-          background:
-            linear-gradient(135deg, rgba(210,240,0,.105), rgba(255,255,255,.025) 44%, rgba(210,240,0,.055)),
-            rgba(0,0,0,.24);
-          padding: 16px;
-          text-align: left;
-          box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 18px 60px rgba(0,0,0,.24);
-        }
-        @media (min-width: 720px) {
-          .price-countdown-panel {
-            grid-template-columns: minmax(0, 1fr) auto;
-            padding: 18px 20px;
-          }
-        }
-        .price-countdown-kicker {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          color: var(--volt);
-          font-family: var(--font-mono);
-          font-size: 11px;
-          font-weight: 800;
-          letter-spacing: .1em;
-          text-transform: uppercase;
-        }
-        .price-countdown-copy p {
-          margin: 6px 0 0;
-          color: #d4d4d8;
-          font-size: 14px;
-          line-height: 1.55;
-        }
-        .price-countdown-copy strong {
-          color: var(--volt);
-          font-weight: 900;
-        }
-        .price-countdown-timer {
-          display: grid;
-          grid-template-columns: repeat(3, minmax(66px, 1fr));
-          gap: 8px;
-        }
-        .price-countdown-timer span {
-          display: grid;
-          place-items: center;
-          min-height: 64px;
-          border: 1px solid rgba(255,255,255,.1);
-          border-radius: 14px;
-          background: rgba(0,0,0,.26);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
-        }
-        .price-countdown-timer strong {
-          color: #f4f4f5;
-          font-family: var(--font-display);
-          font-size: 26px;
-          font-weight: 950;
-          line-height: 1;
-        }
-        .price-countdown-timer em {
-          color: #a1a1aa;
-          font-family: var(--font-mono);
-          font-size: 10px;
-          font-style: normal;
-          font-weight: 800;
-          letter-spacing: .12em;
-          line-height: 1;
-          margin-top: 5px;
-          text-transform: uppercase;
-        }
-        .price-countdown-live {
-          grid-column: 1 / -1;
-          min-width: 220px;
-          padding: 0 18px;
-          color: var(--volt);
-          font-family: var(--font-display);
-          font-size: 18px;
-          font-weight: 900;
-        }
-        .compass-preview-panel {
-          border: 1px solid rgba(255,255,255,.1);
-          border-radius: 16px;
-          background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.02));
-          padding: 18px;
-          min-height: 238px;
-          box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
-        }
-        .comparison-group-heading {
-          padding: 14px 20px 8px;
-          font-family: var(--font-mono);
-          font-size: 10px;
-          font-weight: 700;
-          letter-spacing: .18em;
-          text-transform: uppercase;
-          color: #71717a;
-          background: rgba(0,0,0,.18);
-          border-bottom: 1px solid rgba(255,255,255,.06);
-          border-top: 1px solid rgba(255,255,255,.06);
-        }
-        .pricing-comparison .comparison-head > div + div,
-        .pricing-comparison .comparison-row > div + div {
-          border-left: 1px solid rgba(255,255,255,.05);
-        }
-        /* Subtle highlight on the entire Pro column. */
-        .pricing-comparison .comparison-head > div:last-child,
-        .pricing-comparison .comparison-row > div:last-child {
-          background: rgba(210,240,0,.025);
-        }
-        .pricing-comparison .comparison-row.is-popular {
-          background: rgba(210,240,0,.05);
-        }
-        .pricing-comparison .comparison-row.is-popular > div:last-child {
-          background: rgba(210,240,0,.07);
-        }
-        @keyframes sale-pop {
-          0% { opacity: 0; transform: translateY(8px) scale(.7); }
-          40% { opacity: 1; }
-          100% { opacity: 0; transform: translateY(-18px) scale(1.2); }
-        }
-        @media (max-width: 639px) {
-          .comparison-head {
-            display: none;
-          }
-          .pricing-comparison .comparison-row > div + div {
-            border-left: 0;
-          }
-          .pricing-comparison .comparison-row > div:last-child {
-            background: transparent;
-          }
-          .comparison-row {
-            gap: 0;
-            padding: 14px;
-          }
-          .comparison-feature {
-            padding: 0 0 12px;
-            line-height: 1.45;
-          }
-          .comparison-value {
-            display: grid;
-            grid-template-columns: 72px minmax(0, 1fr);
-            align-items: center;
-            gap: 12px;
-            min-height: 44px;
-            border-top: 1px solid rgba(255,255,255,.06);
-            padding: 10px 0;
-          }
-          .comparison-value::before {
-            content: attr(data-label);
-            color: #71717a;
-            font-family: var(--font-mono);
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: .12em;
-            text-transform: uppercase;
-          }
-          .comparison-value > span {
-            min-width: 0;
-          }
-        }
-      `}</style>
+      {CAPABILITIES.recovery.state !== 'available' && <section className="container-std px-5 pb-12"><h2 className="display-md">Recovery is still in development</h2><p>{CAPABILITIES.recovery.reason} Planned recovery capabilities are excluded from the live paid comparison.</p></section>}
+      <p className="container-std px-5 pb-8">Unlimited access covers available content and reattempts. It does not promise unlimited unique questions.</p>
+      <MobileDock note={offer.purchasable === 'monthly' ? `Pro ₹${offer.monthly.rupees} a month. Cancel anytime.` : `₹${offer.oneTime.rupees} once, through ${offer.oneTime.expires}.`} label="Start free" href="/signup" />
     </div>
   );
 }

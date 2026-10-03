@@ -67,7 +67,7 @@ async function verifyOneTimeAccessPayment({ body, orderId, sessionUserId }) {
 
   const plan = getPaymentPlan(paymentRecord.planId);
   if (!isOneTimeAccessPlan(plan)) {
-    return NextResponse.json({ error: 'Payment is not a CUET 2026 one-time access order' }, { status: 400 });
+    return NextResponse.json({ error: 'Payment is not a MockMob one-time access order' }, { status: 400 });
   }
 
   const isSignatureValid = verifyRazorpayPaymentSignature({ orderId, paymentId, signature });
@@ -81,7 +81,7 @@ async function verifyOneTimeAccessPayment({ body, orderId, sessionUserId }) {
 
   if (await Database.hasRefundPremiumRevocation({ userId, paymentId })) {
     await keepRefundRevokedOrder({ orderId, paymentId, paymentRecord });
-    return NextResponse.json({ error: 'This payment was refunded and CUET 2026 access has been revoked' }, { status: 409 });
+    return NextResponse.json({ error: 'This payment was refunded and access has been revoked' }, { status: 409 });
   }
 
   const razorpayPayment = await getRazorpayClient().payments.fetch(paymentId);
@@ -104,7 +104,7 @@ async function verifyOneTimeAccessPayment({ body, orderId, sessionUserId }) {
       accessUntil: null,
       rawPayment: razorpayPayment,
     });
-    return NextResponse.json({ error: 'Payment details do not match CUET 2026 access order' }, { status: 400 });
+    return NextResponse.json({ error: 'Payment details do not match the access order' }, { status: 400 });
   }
 
   const accessUntil = getPlanAccessUntil(plan);

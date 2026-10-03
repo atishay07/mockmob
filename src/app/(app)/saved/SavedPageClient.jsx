@@ -3,8 +3,8 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import ArenaHead from '@/components/arena/ArenaHead';
 import { QuestionCard } from '@/components/feed/QuestionCard';
-import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icons';
 import { EmptyState, ErrorState, SkeletonCard } from '@/components/ui/Skeleton';
 
@@ -34,9 +34,9 @@ export default function SavedPageClient() {
 
   if (status === 'loading') {
     return (
-      <div className="container-narrow flex flex-col gap-4">
+      <div className="container-narrow student-page student-page--saved flex flex-col gap-4">
         <div>
-          <div className="eyebrow mb-2">{'// Saved'}</div>
+          <div className="eyebrow mb-2">{'Saved'}</div>
           <div className="h-10 w-72 max-w-full skeleton mb-2" />
           <div className="h-4 w-64 max-w-full skeleton" />
         </div>
@@ -47,27 +47,19 @@ export default function SavedPageClient() {
   }
 
   if (status === 'error') {
-    return <ErrorState message={error} onRetry={loadSaved} />;
+    return <div className="student-page student-page--saved"><ErrorState mascot message={error} onRetry={loadSaved} /></div>;
   }
 
   return (
-    <div className="container-narrow view">
-      <div className="mb-6 flex items-end justify-between gap-3 flex-wrap">
-        <div>
-          <div className="eyebrow mb-2">{'// Saved'}</div>
-          <h1 className="display-md">Saved <span className="text-volt italic">questions</span></h1>
-          <p className="text-sm text-zinc-500 mt-2">Everything you save from Explore lands here for review.</p>
-        </div>
-        <Link href="/explore">
-          <Button variant="outline" size="sm">
-            <Icon name="radar" /> Explore
-          </Button>
-        </Link>
+    <div className="container-narrow view student-page student-page--saved">
+      <div className="mb-6">
+        <ArenaHead eyebrow="Saved" title="Saved questions" lede={`Everything you save from Explore lands here for another look.${questions.length ? ` ${questions.length} saved.` : ''}`}
+          aside={<span className="saved-aside"><Link href="/explore" className="na__alt"><Icon name="radar" /> Explore questions</Link><Link href="/dashboard" className="na__alt"><Icon name="target" /> Choose practice</Link></span>} />
       </div>
 
       {questions.length === 0 ? (
         <EmptyState
-          eyebrow="// Nothing saved"
+          eyebrow="Nothing saved"
           title="Save questions from Explore"
           message="Tap Save on any feed question and it will appear here."
           actionLabel="Go to Explore"

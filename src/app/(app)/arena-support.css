@@ -1,0 +1,166 @@
+/* Round 3: contribution forms and reachable phone navigation.
+   Round 4: motion is restored by surface, not switched off wholesale (see docs/brain/MOTION.md).
+   Containers that hold fixed UI (the shell, each page's .view) only fade. A transformed
+   ancestor becomes the containing block for position:fixed children, which would drag the
+   sidebar, the phone dock and modals around for the length of the entrance. */
+.app-shell.view, .app-shell .view { animation: arena-fade 220ms ease-out both; }
+.app-shell .arena-nav-link { min-height: 44px; }
+.app-shell .arena-bottomnav { display: none; }
+/* Timed answering stays calm: the shell appears, nothing in the runner travels, and the
+   question-progress fill changes instantly (it moves on every Save & Next). */
+.app-shell--test .view, .app-shell.app-shell--test { animation-duration: 120ms; }
+.app-shell .nta-runner .bar > .fill { transition: none; }
+@keyframes arena-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes arena-rise { from { opacity: 0; transform: translate3d(0, 10px, 0); } to { opacity: 1; transform: none; } }
+@keyframes arena-nav-in { from { opacity: 0; transform: translate3d(-8px, 0, 0); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  /* Entering the Arena: the rail fills top to bottom once (the layout persists across pages). */
+  .app-shell .arena-sidebar .arena-nav-link, .app-shell .arena-sidebar .arena-nav-label { animation: arena-nav-in 380ms var(--a-ease) both; animation-delay: calc(60ms + var(--i, 0) * 22ms); }
+  /* Every page opens the same way: headline, then its summary strip, then its work. */
+  .app-shell:not(.app-shell--test) .pr-head { animation: arena-rise 420ms var(--a-ease) both; }
+  .app-shell:not(.app-shell--test) .pr-stats > div { animation: arena-rise 420ms var(--a-ease) both; animation-delay: calc(70ms + var(--i, 0) * 45ms); }
+  .app-shell .pr-stats > div:nth-child(2) { --i: 1; } .app-shell .pr-stats > div:nth-child(3) { --i: 2; } .app-shell .pr-stats > div:nth-child(4) { --i: 3; }
+  .app-shell .pr-steps > .pr-step, .app-shell .pr-steps > .pr-nta-wrap { animation: arena-rise 460ms var(--a-ease) both; animation-delay: calc(140ms + var(--i, 0) * 60ms); }
+  .app-shell .pr-steps > :nth-child(2) { --i: 1; } .app-shell .pr-steps > :nth-child(3) { --i: 2; } .app-shell .pr-steps > :nth-child(4) { --i: 3; } .app-shell .pr-steps > :nth-child(n+5) { --i: 4; }
+  /* Exam-day card: idle tilt, straightens under the pointer or when chosen. Palette cells
+     blink only while the card is on screen (data-awake comes from NtaConsolePreview). */
+  .app-shell .pr-nta[aria-pressed='true'] .pr-nta__console { transform: rotate(0deg) translateY(-2px); }
+  .app-shell .pr-nta__console:not([data-awake='true']) .pr-nta__palette em { animation-play-state: paused; }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* Fewer and gentler, not none: entrances keep a short fade and lose their travel. */
+  .app-shell.view, .app-shell .view, .app-shell .pr-head, .app-shell .pr-stats > div, .app-shell .pr-steps > * { animation: arena-fade 160ms ease-out both !important; }
+}
+.app-shell .account-edit { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; text-decoration: none; }
+.app-shell .student-page--profile .flex-1 { min-width: 0; }
+.app-shell .con-page { max-width: 780px; }
+.app-shell .con-note { padding: 16px 18px; border-inline-start: 3px solid var(--a-accent-text); margin-bottom: 26px; background: var(--a-raised); font-size: 14px; line-height: 1.7; color: var(--a-ink-2); }
+.app-shell .con-note a { display: inline-flex; align-items: center; min-height: 44px; color: var(--a-accent-text); text-underline-offset: 3px; }
+.app-shell .con-form { display: grid; gap: 24px; }
+.app-shell .con-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.app-shell .con-field { display: grid; gap: 9px; min-width: 0; }
+.app-shell .con-field label, .app-shell .con-options legend { color: var(--a-ink-2); font-size: 14px; font-weight: 650; line-height: 1.5; }
+.app-shell .con-form textarea { min-height: 110px; resize: vertical; }
+.app-shell .con-error { font-size: 13px; color: var(--a-bad-text); }
+.app-shell .con-options { display: grid; gap: 10px; border: none; padding: 0; min-width: 0; }
+.app-shell .con-options legend { margin-bottom: 12px; }
+.app-shell .con-option { display: flex; gap: 8px; align-items: center; }
+.app-shell .con-option input { flex: 1; width: 0; min-width: 0; }
+.app-shell .con-key, .app-shell .con-remove { display: grid; place-items: center; flex: 0 0 44px; width: 44px; height: 44px; padding: 0; border-radius: 9px; border: 1px solid var(--a-line-strong); background: var(--a-raised); color: var(--a-ink-2); font-size: 16px; cursor: pointer; }
+.app-shell .con-key[aria-pressed='true'] { background: var(--volt); color: #0b100e; border-color: var(--volt); }
+.app-shell .con-message { padding: 18px; border-radius: 12px; border: 1px solid var(--a-line-strong); color: var(--a-good-text); font-size: 14px; line-height: 1.6; }
+.app-shell .con-message[data-state='error'] { color: var(--a-bad-text); }
+.app-shell .con-form .btn-volt { justify-content: center; }
+.app-shell .con-fine { font-size: 13px; line-height: 1.6; color: var(--a-ink-3); }
+.app-shell .con-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-block: 24px; }
+.app-shell .con-list { display: grid; gap: 12px; }
+.app-shell .con-upload { border: 1px solid var(--a-line-strong); border-radius: 14px; background: var(--a-raised); }
+.app-shell .con-upload summary { display: flex; align-items: start; justify-content: space-between; flex-wrap: wrap; gap: 14px; padding: 20px; min-height: 64px; cursor: pointer; list-style: none; }
+.app-shell .con-upload summary::after { content: '+'; font: 600 20px var(--font-mono); color: var(--a-ink-3); }
+.app-shell .con-upload[open] summary::after { content: '−'; }
+.app-shell .con-upload summary > span { flex: 1 1 280px; min-width: 0; }
+.app-shell .con-upload b { display: block; font-size: 15px; font-weight: 650; line-height: 1.6; overflow-wrap: anywhere; }
+.app-shell .con-upload small { display: block; margin-top: 8px; font-size: 12px; color: var(--a-ink-3); overflow-wrap: anywhere; }
+.app-shell .con-upload em { font-size: 12px; font-style: normal; line-height: 1.5; color: var(--a-warn-text); }
+.app-shell .con-upload[data-state='live'] em { color: var(--a-good-text); }
+.app-shell .con-upload[data-state='held'] em { color: var(--a-bad-text); }
+.app-shell .con-upload__detail { border-top: 1px solid var(--a-line); padding: 20px; color: var(--a-ink-2); font-size: 14px; line-height: 1.6; }
+.app-shell .con-upload dl { display: grid; gap: 12px; margin-top: 18px; }
+.app-shell .con-upload dt { color: var(--a-ink-3); font-size: 12px; }
+.app-shell .con-upload dd { overflow-wrap: anywhere; }
+.app-shell .ranks-note { color: var(--a-ink-3); font-size: 13px; line-height: 1.7; margin-bottom: 22px; }
+.app-shell .ranks-leaders { list-style: none; padding: 0; display: grid; gap: 12px; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 32px; }
+.app-shell .ranks-leaders li { display: grid; gap: 16px; padding: 22px; background: var(--a-raised); border: 1px solid var(--a-line-strong); border-radius: 16px; min-width: 0; }
+.app-shell .ranks-leaders li:first-child { border-color: var(--a-volt-line); }
+.app-shell .ranks-place { color: var(--a-ink-3); font: 500 14px var(--font-mono); }
+.app-shell .ranks-leaders b { font: 700 18px/1.3 var(--font-display); overflow-wrap: anywhere; }
+.app-shell .ranks-leaders small { display: block; color: var(--a-ink-3); font-size: 12px; font-weight: 500; margin-top: 5px; }
+.app-shell .ranks-leaders strong { font: 700 32px var(--font-display); color: var(--a-accent-text); font-variant-numeric: tabular-nums; }
+.app-shell .ranks-table-wrap { border: 1px solid var(--a-line); border-radius: 14px; overflow: hidden; }
+.app-shell .ranks-table { width: 100%; border-collapse: collapse; table-layout: fixed; background: var(--a-raised); font-size: 14px; }
+.app-shell .ranks-table th, .app-shell .ranks-table td { padding: 16px 14px; border-bottom: 1px solid var(--a-line); text-align: right; font-variant-numeric: tabular-nums; }
+.app-shell .ranks-table thead th { color: var(--a-ink-3); font-size: 12px; font-weight: 650; }
+.app-shell .ranks-table th:nth-child(1) { width: 80px; }
+.app-shell .ranks-table th:nth-child(3) { width: 76px; }
+.app-shell .ranks-table th:nth-child(4) { width: 90px; }
+.app-shell .ranks-table th:nth-child(2) { text-align: left; }
+.app-shell .ranks-table tr[data-you='true'] { background: var(--a-volt-wash); }
+.app-shell .ranks-identity { display: flex; align-items: center; gap: 12px; min-width: 0; text-align: left; }
+.app-shell .ranks-identity > span { min-width: 0; }
+.app-shell .ranks-identity b { overflow-wrap: anywhere; font-weight: 650; }
+.app-shell .ranks-identity small { display: block; font-size: 11px; font-weight: 500; color: var(--a-ink-3); margin-top: 4px; }
+.app-shell .ui-state--error .pip-state { width: 48px; height: 60px; }
+.app-shell .ex-page :is(button, select):focus-visible, .app-shell .con-page summary:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; }
+.app-shell .student-page--result .count-btn { min-height: 44px; }
+@media (max-width: 1023px) {
+  .app-shell .arena-bottomnav { position: fixed; inset: auto 0 0; z-index: 44; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid var(--a-line-strong); background: var(--a-bg); padding: 5px 6px calc(5px + env(safe-area-inset-bottom)); }
+  .app-shell .arena-bottomnav :is(a, button) { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; min-height: 54px; min-width: 0; padding: 5px 2px; border: none; border-radius: 9px; background: transparent; color: var(--a-ink-3); text-decoration: none; font: 650 11px/1.25 var(--font-body); cursor: pointer; }
+  .app-shell .arena-bottomnav svg { width: 19px; height: 19px; }
+  .app-shell .arena-bottomnav [aria-current='page'], .app-shell .arena-bottomnav [aria-expanded='true'] { color: var(--a-accent-text); background: var(--a-volt-wash); }
+  .app-shell .arena-bottomnav :focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
+  .app-shell:not(.app-shell--test) .app-main { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
+  .app-shell .pr-summary { bottom: calc(76px + env(safe-area-inset-bottom)); }
+  .app-shell .arena-sheet { max-height: calc(100dvh - 148px); overflow-y: auto; overscroll-behavior: contain; }
+  .app-shell .arena-sheet__account { flex-wrap: wrap; }
+}
+@media (max-width: 600px) {
+  .app-shell .con-pair { grid-template-columns: 1fr; }
+  .app-shell .ranks-leaders { grid-template-columns: 1fr; gap: 0; border: 1px solid var(--a-line-strong); border-radius: 14px; overflow: hidden; }
+  .app-shell .ranks-leaders li { grid-template-columns: 24px minmax(0, 1fr) auto; align-items: center; padding: 16px; border: none; border-radius: 0; border-bottom: 1px solid var(--a-line); gap: 12px; }
+  .app-shell .ranks-leaders strong { font-size: 24px; }
+  .app-shell .ranks-leaders b { font-size: 16px; }
+  .app-shell .ranks-table th, .app-shell .ranks-table td { padding: 14px 8px; font-size: 12px; }
+  .app-shell .ranks-table th:nth-child(1) { width: 44px; }
+  .app-shell .ranks-table th:nth-child(3) { width: 47px; }
+  .app-shell .ranks-table th:nth-child(4) { width: 57px; }
+  .app-shell .ranks-identity { gap: 7px; }
+  .app-shell .ranks-identity > .avatar { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .app-shell *, .app-shell *::before, .app-shell *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: 0s !important; scroll-behavior: auto !important; } }
+.app-shell .arena-chip { min-height: 44px; }
+.app-shell :is(button, input, select, summary) { min-height: 44px; min-width: 44px; }
+.app-shell a { min-height: 44px; }
+.app-shell .arena-profile { min-height: 44px; }
+.app-shell .ex-note a { display: inline-flex; min-height: 44px; align-items: center; }
+.app-shell .ex-action { min-width: 44px; }
+.app-shell .cmp-sources summary { min-height: 44px; }
+.app-shell .cmp-sources a { display: inline-flex; align-items: center; min-height: 44px; }
+.prepos-console > nav { flex-wrap: wrap; }
+.app-shell .arena-tour-card button { min-width: 44px; min-height: 44px; }
+.app-shell .learning-journey { background: var(--a-raised); color: var(--text-primary); border: 1px solid var(--a-line); }
+.app-shell .recovery-lab > a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
+.app-shell .ex-record a { display: inline-flex; align-items: center; min-height: 44px; }
+.app-shell .learning-time button { min-height: 44px; }
+/* Exam-day card console: the bar holds any subject name, the clock never reflows. */
+.app-shell .pr-nta__bar { gap: 10px; }
+.app-shell .pr-nta__bar b { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.app-shell .pr-nta__clock { flex-shrink: 0; display: inline-flex; }
+.app-shell .pr-nta__sec { display: inline-block; min-width: 2ch; }
+@media (prefers-reduced-motion: no-preference) {
+  /* A stepped tick: each new second drops 2px into place, like a split-flap, never a slide. */
+  .app-shell .pr-nta__console[data-awake='true'] .pr-nta__sec { animation: pr-nta-tick 240ms var(--a-ease) both; }
+}
+@keyframes pr-nta-tick { from { opacity: .35; transform: translate3d(0, -2px, 0); } to { opacity: 1; transform: none; } }
+/* Result: one next step from this session's own record, then the return path. */
+.app-shell .result-next { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px 28px; align-items: center; margin: 0 0 40px; padding: 22px 24px; border: 1px solid var(--a-volt-line, var(--a-line-strong)); border-radius: 18px; background: linear-gradient(135deg, var(--a-volt-wash), transparent 60%), var(--a-raised); }
+.app-shell .result-next__copy { min-width: 0; }
+.app-shell .result-next h2 { margin: 4px 0 6px; font: 700 22px/1.25 var(--font-display); letter-spacing: -0.01em; overflow-wrap: anywhere; }
+.app-shell .result-next p:not(.eyebrow) { margin: 0; color: var(--a-ink-2); font-size: 14px; line-height: 1.6; max-width: 62ch; }
+.app-shell .result-next__actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 4px 14px; max-width: 360px; }
+.app-shell .result-next__actions > button { flex: 1 0 100%; justify-content: center; }
+.app-shell .result-next__link { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; color: var(--a-accent-text); font-size: 14px; font-weight: 650; text-decoration: none; text-underline-offset: 3px; }
+.app-shell .result-next__link:hover { text-decoration: underline; }
+.app-shell .result-next__link--back { color: var(--a-ink-2); }
+@media (max-width: 720px) {
+  .app-shell .result-next { grid-template-columns: 1fr; padding: 18px; }
+  .app-shell .result-next__actions { justify-content: flex-start; max-width: none; }
+}
+.app-shell .saved-aside { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+/* Round 4 sweep fixes. Grid tracks default to auto, so one long no-wrap title set the lower
+   panels' width (548px, cut off from 320 to 1440px). Tracks may now shrink below content. */
+.app-shell .pr-lower, .app-shell .pr-panel, .app-shell .pr-subs, .app-shell .pr-recent { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 1024px) { .app-shell .pr-lower { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+/* Targets that more specific rules had held under 44px. */
+.app-shell .pr-link, .app-shell .pr-chapters button, .app-shell .na__seg button { min-height: 44px; }
+.app-shell .nta-interface-toolbar [role='group'] button { min-height: 44px; }
+.app-shell .recovery-next a { display: inline-flex; align-items: center; min-height: 44px; }

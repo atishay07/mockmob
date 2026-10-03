@@ -1,463 +1,106 @@
 "use client";
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+
+import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import { uploadQuestion } from '@/lib/services/questionService';
-import { Icon } from '@/components/ui/Icons';
+import ArenaHead from '@/components/arena/ArenaHead';
+import { ErrorState } from '@/components/ui/Skeleton';
+import { chapterGroups } from '@/../data/explore_feed';
+import { contributionErrors, removeContributionOption } from '@/../data/contribution_ui';
 
-const DIFFICULTIES = ['easy', 'medium', 'hard'];
-const MIN_OPTIONS = 2;
-const MAX_OPTIONS = 5;
+const BLANK = { subject: '', chapter: '', body: '', correct_answer: '', explanation: '', difficulty: 'medium', tags: '' };
+const initialOptions = () => 'ABCD'.split('').map((key) => ({ key, text: '' }));
 
-function Label({ children, required }) {
-  return (
-    <label style={{
-      display: 'block', marginBottom: '6px',
-      fontSize: '12px', fontWeight: 600,
-      fontFamily: 'var(--font-mono)', letterSpacing: '0.15em',
-      textTransform: 'uppercase', color: '#a1a1aa',
-    }}>
-      {children} {required && <span style={{ color: '#f87171' }}>*</span>}
-    </label>
-  );
+function Field({ name, label, error, children }) {
+  return <div className="con-field"><label htmlFor={`con-${name}`}>{label}</label>{children}{error && <p id={`con-${name}-error`} className="con-error" role="alert">{error}</p>}</div>;
 }
-
-function Field({ label, required, error, children }) {
-  return (
-    <div style={{ marginBottom: '20px' }}>
-      <Label required={required}>{label}</Label>
-      {children}
-      {error && (
-        <p style={{ color: '#f87171', fontSize: '11px', marginTop: '4px' }}>{error}</p>
-      )}
-    </div>
-  );
-}
-
-const BLANK_FORM = {
-  subject: '',
-  chapter: '',
-  body: '',
-  difficulty: 'medium',
-  correct_answer: '',
-  explanation: '',
-  tags: '',
-};
 
 export function UploadForm() {
-  const [form, setForm]         = useState(BLANK_FORM);
-  const [options, setOptions]   = useState([
-    { key: 'A', text: '' },
-    { key: 'B', text: '' },
-    { key: 'C', text: '' },
-    { key: 'D', text: '' },
-  ]);
-  const [errors, setErrors]     = useState({});
-  const [status, setStatus]     = useState('idle'); // idle | loading | success | error
-  const [apiMessage, setApiMessage] = useState('');
-  const [warnings, setWarnings] = useState([]);
+  const [form, setForm] = useState(BLANK);
+  const [options, setOptions] = useState(initialOptions);
   const [subjects, setSubjects] = useState([]);
   const [chapters, setChapters] = useState([]);
-  const textareaRef             = useRef(null);
+  const [catalogState, setCatalogState] = useState('loading');
+  const [chapterState, setChapterState] = useState('idle');
+  const [retry, setRetry] = useState(0);
+  const [errors, setErrors] = useState({});
+  const [state, setState] = useState('idle');
+  const [message, setMessage] = useState('');
+  const [warnings, setWarnings] = useState([]);
+  const submitLock = useRef(false);
+  const formNode = useRef(null);
+  const busy = state === 'loading';
 
-  // Load subjects
   useEffect(() => {
-    fetch('/api/subjects').then(r => r.json()).then(setSubjects).catch(console.error);
-  }, []);
-
-  // Load chapters when subject changes
+    const controller = new AbortController();
+    fetch('/api/subjects', { signal: controller.signal }).then(async (response) => {
+      const data = await response.json();
+      if (!response.ok || !Array.isArray(data)) throw new Error('catalog_unavailable');
+      setSubjects(data.filter((subject) => subject.practice !== 'merged' && !subject.mergedInto));
+      setCatalogState('ready');
+    }).catch((error) => { if (error.name !== 'AbortError') setCatalogState('error'); });
+    return () => controller.abort();
+  }, [retry]);
   useEffect(() => {
-    if (!form.subject) {
-      const id = window.setTimeout(() => setChapters([]), 0);
-      return () => window.clearTimeout(id);
-    }
-    fetch(`/api/chapters?subject=${encodeURIComponent(form.subject)}`)
-      .then(r => r.json())
-      .then(setChapters)
-      .catch(() => setChapters([]));
-  }, [form.subject]);
+    if (!form.subject) return;
+    const controller = new AbortController();
+    fetch(`/api/chapters?subject=${encodeURIComponent(form.subject)}`, { signal: controller.signal }).then(async (response) => {
+      const data = await response.json();
+      if (!response.ok) throw new Error('chapters_unavailable');
+      setChapters(chapterGroups(data));
+      setChapterState('ready');
+    }).catch((error) => { if (error.name !== 'AbortError') setChapterState('error'); });
+    return () => controller.abort();
+  }, [form.subject, retry]);
 
-  // Auto-resize textarea
-  useEffect(() => {
-    const ta = textareaRef.current;
-    if (!ta) return;
-    ta.style.height = 'auto';
-    ta.style.height = ta.scrollHeight + 'px';
-  }, [form.body]);
-
-  const set = useCallback((key, value) => {
-    setForm(f => ({ ...f, [key]: value }));
-    setErrors(e => ({ ...e, [key]: undefined }));
-  }, []);
-
-  const setOption = useCallback((idx, text) => {
-    setOptions(prev => prev.map((o, i) => i === idx ? { ...o, text } : o));
-  }, []);
-
-  const addOption = () => {
-    if (options.length >= MAX_OPTIONS) return;
-    const letters = 'ABCDE';
-    setOptions(prev => [...prev, { key: letters[prev.length], text: '' }]);
-  };
-
-  const removeOption = (idx) => {
-    if (options.length <= MIN_OPTIONS) return;
-    setOptions(prev => {
-      const next = prev.filter((_, i) => i !== idx)
-        .map((o, i) => ({ ...o, key: 'ABCDE'[i] }));
-      // If correct_answer was the removed option, clear it
-      if (form.correct_answer === prev[idx].key) {
-        setForm(f => ({ ...f, correct_answer: '' }));
-      }
-      return next;
-    });
-  };
-
-  // ── Validation ──
-  const validate = () => {
-    const e = {};
-    if (!form.subject.trim()) e.subject = 'Subject is required';
-    if (!form.chapter.trim()) e.chapter = 'Chapter is required';
-    if (!form.body.trim() || form.body.trim().length < 10)
-      e.body = 'Question must be at least 10 characters';
-    const filled = options.filter(o => o.text.trim());
-    if (filled.length < MIN_OPTIONS)
-      e.options = `At least ${MIN_OPTIONS} options are required`;
-    if (!form.correct_answer)
-      e.correct_answer = 'Mark the correct answer';
-    return e;
-  };
-
-  // ── Submit ──
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const errs = validate();
-    if (Object.keys(errs).length) { setErrors(errs); return; }
-
-    setStatus('loading');
-    setWarnings([]);
-    setApiMessage('');
-
-    const payload = {
-      subject:        form.subject.trim(),
-      chapter:        form.chapter.trim(),
-      body:           form.body.trim(),
-      options:        options.filter(o => o.text.trim()),
-      correct_answer: form.correct_answer,
-      explanation:    form.explanation.trim() || null,
-      difficulty:     form.difficulty,
-      tags:           form.tags.split(',').map(t => t.trim()).filter(Boolean),
-    };
-
+  function set(key, value) {
+    setForm((current) => ({ ...current, [key]: value, ...(key === 'subject' ? { chapter: '' } : {}) }));
+    setErrors((current) => ({ ...current, [key]: undefined }));
+    if (key === 'subject') { setChapters([]); setChapterState(value ? 'loading' : 'idle'); }
+  }
+  function remove(index) {
+    const next = removeContributionOption(options, form.correct_answer, index);
+    setOptions(next.options);
+    set('correct_answer', next.correctKey);
+  }
+  async function submit(event) {
+    event.preventDefault();
+    if (submitLock.current) return;
+    const nextErrors = contributionErrors(form, options);
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length) { requestAnimationFrame(() => formNode.current?.querySelector('[aria-invalid="true"]')?.focus()); return; }
+    submitLock.current = true;
+    setState('loading'); setMessage(''); setWarnings([]);
     try {
-      const res = await uploadQuestion(payload);
-      setStatus('success');
-      setApiMessage(`Question submitted! ID: ${res.question_id}`);
-      if (res.rule_violations?.length) {
-        setWarnings(res.rule_violations.map(v => v.message));
-      }
-      // Reset form
-      setForm(BLANK_FORM);
-      setOptions([
-        { key: 'A', text: '' }, { key: 'B', text: '' },
-        { key: 'C', text: '' }, { key: 'D', text: '' },
-      ]);
-      setErrors({});
-    } catch (err) {
-      setStatus('error');
-      if (err.data?.rule_violations?.length) {
-        setErrors({ global: err.data.rule_violations.map(v => v.message).join(' · ') });
-      } else {
-        setApiMessage(err.message ?? 'Upload failed');
-      }
-    }
-  };
+      const result = await uploadQuestion({ ...form, body: form.body.trim(), options: options.filter((option) => option.text.trim()).map((option) => ({ ...option, text: option.text.trim() })), explanation: form.explanation.trim() || null, tags: form.tags.split(',').map((tag) => tag.trim()).filter(Boolean) });
+      setState('success');
+      setMessage(result.warning ? 'Saved, but checks could not start yet. Track it in My uploads.' : 'Saved for checks. It is not live in practice yet.');
+      setWarnings((result.rule_violations || []).map((violation) => violation.message));
+      setForm(BLANK); setOptions(initialOptions()); setChapters([]);
+    } catch (error) {
+      setState('error');
+      setMessage(error.data?.rule_violations?.map((violation) => violation.message).join(' · ') || error.message || 'This did not submit. Your draft is still here.');
+    } finally { submitLock.current = false; }
+  }
+  const props = (name) => ({ id: `con-${name}`, disabled: busy, value: form[name], onChange: (event) => set(name, event.target.value), 'aria-invalid': Boolean(errors[name]), 'aria-describedby': errors[name] ? `con-${name}-error` : undefined });
 
-  const isLoading = status === 'loading';
-
-  return (
-    <div style={{ maxWidth: '640px', margin: '0 auto', width: '100%' }}>
-      {/* ── Header ── */}
-      <div style={{ marginBottom: '32px' }}>
-        <div className="eyebrow" style={{ marginBottom: '8px' }}>{'// CONTRIBUTE'}</div>
-        <h1 className="display-md">
-          Upload a <span className="text-volt" style={{ fontStyle: 'italic' }}>Question</span>
-        </h1>
-        <p style={{ color: '#71717a', fontSize: '13px', marginTop: '6px' }}>
-          Peer-reviewed questions power the mob. Submit yours and earn credits once it passes moderation.
-        </p>
+  return <div className="con-page student-page student-page--upload">
+    <ArenaHead eyebrow="Contribute" title="A good question helps the next person." lede="Write an original question with a clear answer and reasoning. It stays out of practice until its checks pass." />
+    <p className="con-note">No credit reward is promised for a submission. <Link href="/my-uploads">Track your uploads ↗</Link></p>
+    {catalogState === 'error' && <ErrorState message="Subjects did not load. Your draft is still here." onRetry={() => setRetry((count) => count + 1)} />}
+    <form ref={formNode} onSubmit={submit} className="con-form" noValidate>
+      <div className="con-pair">
+        <Field name="subject" label="Subject" error={errors.subject}><select className="select" {...props('subject')} disabled={busy || catalogState !== 'ready'}><option value="">{catalogState === 'loading' ? 'Loading subjects…' : 'Choose a subject'}</option>{subjects.map((subject) => <option key={subject.id} value={subject.id}>{subject.name}</option>)}</select></Field>
+        <Field name="chapter" label="Chapter" error={errors.chapter}><select className="select" {...props('chapter')} disabled={busy || chapterState !== 'ready'}><option value="">{chapterState === 'loading' ? 'Loading chapters…' : 'Choose a chapter'}</option>{chapters.map((group) => <optgroup key={group.name} label={group.name}>{group.chapters.map((chapter) => <option key={chapter.id || chapter.name} value={chapter.name}>{chapter.name}</option>)}</optgroup>)}</select></Field>
       </div>
-
-      {/* ── Credit incentive banner ── */}
-      <div className="glass" style={{
-        padding: '12px 16px', marginBottom: '28px', display: 'flex',
-        alignItems: 'center', gap: '12px',
-        borderColor: 'rgba(210,240,0,0.2)', background: 'rgba(210,240,0,0.02)',
-      }}>
-        <Icon name="spark" style={{ color: 'var(--volt)', width: '18px', height: '18px' }} />
-        <span style={{ fontSize: '13px', color: '#a1a1aa' }}>
-          Earn <strong style={{ color: 'var(--volt)' }}>+15 credits</strong> on submit.{' '}
-          <strong style={{ color: 'var(--volt)' }}>+30 more</strong> when your question goes live.
-        </span>
-      </div>
-
-      <form onSubmit={handleSubmit} noValidate>
-        {/* ── Subject ── */}
-        <Field label="Subject" required error={errors.subject}>
-          {subjects.length > 0 ? (
-            <select
-              className="select"
-              value={form.subject}
-              onChange={e => { set('subject', e.target.value); set('chapter', ''); }}
-              disabled={isLoading}
-            >
-              <option value="">Select subject…</option>
-              {subjects.map(s => (
-                <option key={s.id} value={s.id}>{s.name}</option>
-              ))}
-            </select>
-          ) : (
-            <input
-              className="input"
-              value={form.subject}
-              onChange={e => set('subject', e.target.value)}
-              placeholder="e.g. General Test"
-              disabled={isLoading}
-            />
-          )}
-        </Field>
-
-        {/* ── Chapter ── */}
-        <Field label="Chapter" required error={errors.chapter}>
-          {chapters.length > 0 ? (
-            <select
-              className="select"
-              value={form.chapter}
-              onChange={e => set('chapter', e.target.value)}
-              disabled={isLoading}
-            >
-              <option value="">Select chapter…</option>
-              {chapters.map(c => (
-                <option key={c.id ?? c.name} value={c.name}>{c.name}</option>
-              ))}
-            </select>
-          ) : (
-            <input
-              className="input"
-              value={form.chapter}
-              onChange={e => set('chapter', e.target.value)}
-              placeholder="e.g. Quantitative Aptitude"
-              disabled={isLoading}
-            />
-          )}
-        </Field>
-
-        {/* ── Question Body ── */}
-        <Field label="Question" required error={errors.body}>
-          <textarea
-            ref={textareaRef}
-            className="textarea"
-            value={form.body}
-            onChange={e => set('body', e.target.value)}
-            placeholder="Type your question here… Be clear and concise."
-            rows={3}
-            disabled={isLoading}
-            style={{ resize: 'none', overflow: 'hidden', lineHeight: '1.6' }}
-          />
-        </Field>
-
-        {/* ── Options ── */}
-        <Field label="Options" required error={errors.options}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {options.map((opt, idx) => (
-              <div key={opt.key} style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                <button
-                  type="button"
-                  style={{
-                  width: '44px', height: '44px', borderRadius: '8px', flexShrink: 0,
-                  background: form.correct_answer === opt.key ? 'var(--volt)' : 'rgba(255,255,255,0.05)',
-                  color: form.correct_answer === opt.key ? '#000' : '#71717a',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12px',
-                  cursor: 'pointer', transition: 'all 0.15s ease',
-                  border: '1px solid rgba(255,255,255,0.08)',
-                }}
-                  title={`Mark ${opt.key} as correct`}
-                  aria-label={`Mark option ${opt.key} as the correct answer`}
-                  aria-pressed={form.correct_answer === opt.key}
-                  onClick={() => !isLoading && set('correct_answer', opt.key)}
-                  disabled={isLoading}
-                >
-                  {opt.key}
-                </button>
-                <input
-                  className="input"
-                  value={opt.text}
-                  onChange={e => setOption(idx, e.target.value)}
-                  placeholder={`Option ${opt.key}`}
-                  disabled={isLoading}
-                  style={{ flex: 1 }}
-                />
-                {options.length > MIN_OPTIONS && (
-                  <button
-                    type="button"
-                    onClick={() => removeOption(idx)}
-                    disabled={isLoading}
-                    style={{
-                      background: 'none', border: 'none', cursor: 'pointer',
-                      color: '#52525b', padding: '4px', flexShrink: 0,
-                    }}
-                    aria-label={`Remove option ${opt.key}`}
-                  >
-                    <Icon name="x" style={{ width: '14px', height: '14px' }} />
-                  </button>
-                )}
-              </div>
-            ))}
-          </div>
-
-          <div style={{ marginTop: '10px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-            {options.length < MAX_OPTIONS && (
-              <button
-                type="button"
-                onClick={addOption}
-                disabled={isLoading}
-                className="btn-ghost"
-                style={{ fontSize: '12px' }}
-              >
-                + Add option
-              </button>
-            )}
-            <span style={{ color: '#52525b', fontSize: '11px', fontFamily: 'var(--font-mono)' }}>
-              Click a letter to mark correct answer
-            </span>
-          </div>
-          {errors.correct_answer && (
-            <p style={{ color: '#f87171', fontSize: '11px', marginTop: '6px' }}>{errors.correct_answer}</p>
-          )}
-        </Field>
-
-        {/* ── Difficulty + Tags ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '20px' }}>
-          <div>
-            <Label>Difficulty</Label>
-            <div style={{ display: 'flex', gap: '6px' }}>
-              {DIFFICULTIES.map(d => {
-                const colors = { easy: '#4ade80', medium: '#fbbf24', hard: '#f87171' };
-                return (
-                  <button
-                    key={d}
-                    type="button"
-                    disabled={isLoading}
-                    onClick={() => set('difficulty', d)}
-                    style={{
-                      flex: 1, padding: '8px 4px', borderRadius: '8px', border: 'none', cursor: 'pointer',
-                      fontFamily: 'var(--font-mono)', fontWeight: 600, fontSize: '10px',
-                      letterSpacing: '0.1em', textTransform: 'uppercase', transition: 'all 0.15s ease',
-                      background: form.difficulty === d
-                        ? `rgba(${colors[d] === '#4ade80' ? '74,222,128' : colors[d] === '#fbbf24' ? '251,191,36' : '248,113,113'},0.15)`
-                        : 'rgba(255,255,255,0.03)',
-                      color: form.difficulty === d ? colors[d] : '#52525b',
-                      borderColor: form.difficulty === d ? colors[d] : 'transparent',
-                      boxShadow: form.difficulty === d ? `0 0 0 1px ${colors[d]}40` : 'none',
-                    }}
-                  >
-                    {d}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-          <div>
-            <Label>Tags</Label>
-            <input
-              className="input"
-              value={form.tags}
-              onChange={e => set('tags', e.target.value)}
-              placeholder="ratio, speed, time"
-              disabled={isLoading}
-            />
-          </div>
-        </div>
-
-        {/* ── Explanation ── */}
-        <Field label="Explanation (recommended)">
-          <textarea
-            className="textarea"
-            value={form.explanation}
-            onChange={e => set('explanation', e.target.value)}
-            placeholder="Why is this the correct answer? Help the community learn."
-            rows={2}
-            disabled={isLoading}
-            style={{ resize: 'vertical' }}
-          />
-        </Field>
-
-        {/* ── Global error ── */}
-        {errors.global && (
-          <div style={{
-            padding: '12px 16px', marginBottom: '20px',
-            background: 'rgba(248,113,113,0.08)',
-            border: '1px solid rgba(248,113,113,0.3)',
-            borderRadius: '8px', color: '#f87171', fontSize: '13px',
-          }}>
-            {errors.global}
-          </div>
-        )}
-
-        {/* ── Success / Warning ── */}
-        {status === 'success' && (
-          <div style={{
-            padding: '12px 16px', marginBottom: '20px',
-            background: 'rgba(74,222,128,0.08)',
-            border: '1px solid rgba(74,222,128,0.3)',
-            borderRadius: '8px', fontSize: '13px',
-          }}>
-            <div style={{ color: '#4ade80', fontWeight: 600 }}>✓ {apiMessage}</div>
-            {warnings.map((w, i) => (
-              <div key={i} style={{ color: '#fbbf24', marginTop: '6px', fontSize: '12px' }}>⚠ {w}</div>
-            ))}
-          </div>
-        )}
-        {status === 'error' && apiMessage && (
-          <div style={{
-            padding: '12px 16px', marginBottom: '20px',
-            background: 'rgba(248,113,113,0.08)',
-            border: '1px solid rgba(248,113,113,0.3)',
-            borderRadius: '8px', color: '#f87171', fontSize: '13px',
-          }}>
-            ✗ {apiMessage}
-          </div>
-        )}
-
-        {/* ── Submit ── */}
-        <button
-          type="submit"
-          className="btn-volt lg"
-          disabled={isLoading}
-          style={{ width: '100%', justifyContent: 'center', position: 'relative' }}
-        >
-          {isLoading ? (
-            <>
-              <Icon name="radar" style={{ width: '16px', height: '16px', animation: 'spin 1s linear infinite' }} />
-              Submitting…
-            </>
-          ) : (
-            <>
-              <Icon name="upload" style={{ width: '16px', height: '16px' }} />
-              Submit for Review
-            </>
-          )}
-        </button>
-        <p style={{ textAlign: 'center', color: '#52525b', fontSize: '11px', marginTop: '12px', fontFamily: 'var(--font-mono)' }}>
-          All questions go through community moderation before going live.
-        </p>
-      </form>
-
-      <style>{`
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to   { transform: rotate(360deg); }
-        }
-      `}</style>
-    </div>
-  );
+      {chapterState === 'error' && <ErrorState title="Chapters did not load" message="Retry to choose a chapter. Your question text is safe here." onRetry={() => setRetry((count) => count + 1)} />}
+      <Field name="body" label="Question" error={errors.body}><textarea className="textarea" {...props('body')} rows={4} placeholder="Write the full question. Include the facts needed to solve it." /></Field>
+      <fieldset className="con-options"><legend>Options · tap a letter to mark the correct answer</legend>{options.map((option, index) => <div key={option.key} className="con-option"><button type="button" className="con-key" disabled={busy} aria-label={`Mark option ${option.key} as correct`} aria-pressed={form.correct_answer === option.key} onClick={() => set('correct_answer', option.key)}>{option.key}</button><input className="input" value={option.text} disabled={busy} aria-label={`Option ${option.key}`} onChange={(event) => setOptions((current) => current.map((entry, i) => i === index ? { ...entry, text: event.target.value } : entry))} placeholder={`Option ${option.key}`} />{options.length > 2 && <button type="button" className="con-remove" disabled={busy} onClick={() => remove(index)} aria-label={`Remove option ${option.key}`}>×</button>}</div>)}{(errors.options || errors.correct_answer) && <p className="con-error" role="alert">{errors.options || errors.correct_answer}</p>}{options.length < 5 && <button type="button" className="ex-action" disabled={busy} onClick={() => setOptions((current) => [...current, { key: 'ABCDE'[current.length], text: '' }])}>Add option</button>}</fieldset>
+      <div className="con-pair"><Field name="difficulty" label="Difficulty"><select className="select" {...props('difficulty')}><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option></select></Field><Field name="tags" label="Tags (optional)"><input className="input" {...props('tags')} placeholder="ratio, partnership" /></Field></div>
+      <Field name="explanation" label="Reasoning (recommended)"><textarea className="textarea" {...props('explanation')} rows={4} placeholder="Explain the rule, show the working and name your source where possible." /></Field>
+      {message && <div className="con-message" data-state={state} role={state === 'error' ? 'alert' : 'status'}><b>{message}</b>{warnings.map((warning, index) => <p key={index}>{warning}</p>)}</div>}
+      <button type="submit" className="btn-volt lg" disabled={busy || catalogState !== 'ready'}>{busy ? 'Submitting…' : 'Submit for checks'}</button>
+      <p className="con-fine">Uncertain questions stay held. Submission does not mean publication.</p>
+    </form>
+  </div>;
 }

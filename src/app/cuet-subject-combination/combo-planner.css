@@ -1,0 +1,47 @@
+/* CUET subject combination planner. Inherits Night Arena tokens and the calculator's chips. */
+.cp-new { display: inline-flex; margin: 0 0 0.75rem; padding: 0.25rem 0.7rem; border-radius: 999px; border: 1px solid var(--accent-line, rgba(210, 240, 0, 0.45)); color: var(--accent-text); font: 700 0.78rem var(--font-body); }
+.cp { display: grid; gap: 1.25rem; }
+@media (min-width: 1100px) { .cp { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; } .cp-out { grid-column: 2; grid-row: 1 / span 2; position: sticky; top: 5rem; } }
+.cp-step { display: grid; gap: 0.85rem; min-width: 0; padding: clamp(1rem, 3vw, 1.5rem); border-radius: var(--r-3, 20px); border: 1px solid var(--line); background: var(--paper-raised); }
+.cp-step__title { display: flex; align-items: center; gap: 0.6rem; margin: 0; font: 800 clamp(1.15rem, 2.4vw, 1.4rem) / 1.2 var(--font-display); letter-spacing: -0.015em; color: var(--ink); }
+.cp-step__title span { display: inline-grid; place-items: center; width: 1.6rem; height: 1.6rem; border-radius: 8px; border: 1px solid var(--line-strong); font: 600 0.8rem var(--font-mono, monospace); color: var(--accent-text); }
+.cp-step__hint { margin: 0; color: var(--ink-3); font-size: 0.875rem; line-height: 1.5; }
+.cp-group { margin: 0.35rem 0 0; font: 700 0.85rem var(--font-display); color: var(--ink-2); }
+.cp-search { margin: 0; }
+.cp-results { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
+.cp-results button { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: 'icon name' 'icon meta'; align-items: center; column-gap: 0.6rem; width: 100%; min-height: 44px; padding: 0.5rem 0.75rem; border-radius: 12px; border: 1px solid var(--line); background: transparent; color: var(--ink); text-align: left; font: 600 0.9rem var(--font-body); cursor: pointer; }
+.cp-results svg { grid-area: icon; color: var(--accent-text); }
+.cp-results small { grid-area: meta; color: var(--ink-3); font-size: 0.75rem; font-weight: 500; }
+.cp-results button[aria-pressed='true'] { border-color: var(--accent-line, rgba(210, 240, 0, 0.5)); background: var(--accent-wash, rgba(210, 240, 0, 0.06)); }
+.cp-results button:disabled { opacity: 0.5; cursor: default; }
+.cp-results button:focus-visible, .cp-limit button:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 2px; }
+.cp-tray { margin: 0; }
+.cp-limit { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; padding-top: 0.75rem; border-top: 1px solid var(--line); }
+.cp-limit > span { font-weight: 700; font-size: 0.875rem; color: var(--ink); margin-right: 0.25rem; }
+.cp-limit button { min-width: 44px; min-height: 44px; border-radius: 12px; border: 1px solid var(--line-strong); background: transparent; color: var(--ink-2); font: 700 0.95rem var(--font-body); cursor: pointer; }
+.cp-limit button[aria-pressed='true'] { background: var(--volt); border-color: var(--volt); color: #0b1000; }
+.cp-limit small { flex-basis: 100%; color: var(--ink-3); font-size: 0.78rem; }
+.cp-out[aria-busy='true'] .cp-list { opacity: 0.55; transition: opacity 0.15s ease; }
+.cp-keep { margin: 0; padding: 0.75rem 0.9rem; border-radius: 14px; border: 1px solid var(--accent-line, rgba(210, 240, 0, 0.45)); background: var(--accent-wash, rgba(210, 240, 0, 0.06)); color: var(--ink-2); font-size: 0.9rem; line-height: 1.5; }
+.cp-keep b { color: var(--ink); }
+.cp-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; }
+.cp-combo { display: grid; gap: 0.7rem; padding: 1rem; border-radius: 16px; border: 1px solid var(--line); background: rgb(var(--tint) / 0.02); }
+.cp-combo[data-best] { border-color: var(--accent-line, rgba(210, 240, 0, 0.5)); background: linear-gradient(180deg, var(--accent-wash, rgba(210, 240, 0, 0.06)), transparent 70%); }
+.cp-combo__head { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+.cp-combo__rank { font: 800 0.95rem var(--font-display); color: var(--ink); }
+.cp-combo[data-best] .cp-combo__rank { color: var(--accent-text); }
+.cp-combo__papers { color: var(--ink-3); font-size: 0.8rem; font-weight: 600; }
+.cp-combo__subjects { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.cp-combo__subjects li { padding: 0.35rem 0.7rem; border-radius: 999px; border: 1px solid var(--line-strong); color: var(--ink); font-size: 0.85rem; font-weight: 600; }
+.cp-combo__stats { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; margin: 0; }
+.cp-combo__stats dt { color: var(--ink-3); font-size: 0.75rem; font-weight: 600; }
+.cp-combo__stats dd { margin: 0; color: var(--ink-2); font-size: 0.9rem; }
+.cp-combo__stats b { font: 800 1.35rem var(--font-display); color: var(--ink); font-variant-numeric: tabular-nums; }
+.cp-combo__missed { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
+.cp-combo__missed li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.45rem; align-items: start; color: var(--ink-2); font-size: 0.85rem; line-height: 1.45; }
+.cp-combo__missed svg { margin-top: 0.2rem; color: var(--bad-text, #ff9d92); }
+.cp-combo__missed b { color: var(--ink); }
+.cp-combo__ok { display: flex; align-items: center; gap: 0.4rem; margin: 0; color: var(--good-text, #b6e36e); font-size: 0.85rem; font-weight: 600; }
+.cp-combo__go { justify-self: start; display: inline-flex; align-items: center; gap: 0.35rem; min-height: 44px; }
+.cp-fine { margin: 0; color: var(--ink-3); font-size: 0.78rem; line-height: 1.5; }
+@media (prefers-reduced-motion: reduce) { .cp-out[aria-busy='true'] .cp-list { transition: none; } }

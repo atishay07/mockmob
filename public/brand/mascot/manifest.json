@@ -1,0 +1,64 @@
+{
+  "sheet": {
+    "src": "/brand/mascot/character-sheet.webp",
+    "width": 864,
+    "height": 1107,
+    "bytes": 119358,
+    "alphaMin": 0,
+    "alphaMax": 255
+  },
+  "greeting": {
+    "src": "/brand/mascot/greeting.webp",
+    "width": 409,
+    "height": 560,
+    "bytes": 31016,
+    "alphaMin": 0,
+    "alphaMax": 255
+  },
+  "thinking": {
+    "src": "/brand/mascot/thinking.webp",
+    "width": 361,
+    "height": 560,
+    "bytes": 29428,
+    "alphaMin": 0,
+    "alphaMax": 255
+  },
+  "pointing": {
+    "src": "/brand/mascot/pointing.webp",
+    "width": 471,
+    "height": 560,
+    "bytes": 31934,
+    "alphaMin": 0,
+    "alphaMax": 255
+  },
+  "celebrating": {
+    "src": "/brand/mascot/celebrating.webp",
+    "width": 472,
+    "height": 560,
+    "bytes": 32760,
+    "alphaMin": 0,
+    "alphaMax": 255
+  },
+  "idle": {
+    "src": "/brand/mascot/idle.webp",
+    "width": 417,
+    "height": 560,
+    "bytes": 30470,
+    "alphaMin": 0,
+    "alphaMax": 255
+  },
+  "encouraging": {
+    "src": "/brand/mascot/encouraging.webp",
+    "width": 366,
+    "height": 560,
+    "bytes": 31614,
+    "alphaMin": 0,
+    "alphaMax": 255
+  },
+  "attentive": {
+    "src": "/brand/mascot/attentive.webp",
+    "width": 370,
+    "height": 560,
+    "bytes": 31874
+  }
+}

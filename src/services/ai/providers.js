@@ -1,11 +1,14 @@
 import 'server-only';
 import OpenAI from 'openai';
+import Anthropic from '@anthropic-ai/sdk';
+import { reserveRuntime, receiptRuntime } from './runtimeGuard';
 
 /**
  * AI provider abstraction for MockMob.
  *
  * Tiered model routing (env-driven, no hard-coded model names):
- *   AI_DEFAULT_PROVIDER   = 'openai' | 'deepseek'   (default 'openai')
+ *   AI_DEFAULT_PROVIDER   = 'anthropic' | 'openai' | 'deepseek'   (default 'openai')
+ *   ANTHROPIC_API_KEY     (owner choice 4 Oct 2026: claude-haiku-4-5 fast, claude-sonnet-5-5 smart)
  *   AI_FAST_MODEL         = e.g. 'gpt-4o-mini'      (cheap PrepOS chat)
  *   AI_SMART_MODEL        = e.g. 'gpt-4.1-mini'     (autopsy / recovery)
  *   AI_FALLBACK_PROVIDER  = e.g. 'openai'
@@ -23,12 +26,23 @@ import OpenAI from 'openai';
 
 let _deepseek = null;
 let _openai = null;
+let _anthropic = null;
+
+function getAnthropicClient() {
+  if (_anthropic) return _anthropic;
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) return null;
+  // SDK retries off: every physical request must pass through the runtime reservation.
+  _anthropic = new Anthropic({ apiKey, maxRetries: 0, timeout: 45_000 });
+  return _anthropic;
+}
 
 function getDeepseekClient() {
   if (_deepseek) return _deepseek;
   const apiKey = process.env.DEEPSEEK_API_KEY;
   if (!apiKey) return null;
   _deepseek = new OpenAI({
+    maxRetries: 0,
     apiKey,
     baseURL: process.env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com',
   });
@@ -39,13 +53,14 @@ function getOpenAIClient() {
   if (_openai) return _openai;
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) return null;
-  _openai = new OpenAI({ apiKey });
+  _openai = new OpenAI({ apiKey, maxRetries: 0 });
   return _openai;
 }
 
 function getClient(provider) {
   if (provider === 'deepseek') return getDeepseekClient();
   if (provider === 'openai') return getOpenAIClient();
+  if (provider === 'anthropic') return getAnthropicClient();
   return null;
 }
 
@@ -64,11 +79,13 @@ const COST_TABLE = {
   'gpt-5-nano': { in: 0.05, out: 0.4 },
   'gpt-4o-mini': { in: 0.15, out: 0.6 },
   'gpt-4o': { in: 2.5, out: 10 },
+  'claude-haiku-4-5': { in: 1, out: 5 },
+  'claude-sonnet-5-5': { in: 2, out: 10 },
 };
 
 function estimateCostUsd(model, inputTokens, outputTokens) {
   const rates = COST_TABLE[model];
-  if (!rates) return 0;
+  if (!rates) return null;
   const cost = (inputTokens / 1_000_000) * rates.in + (outputTokens / 1_000_000) * rates.out;
   return Math.round(cost * 1_000_000) / 1_000_000;
 }
@@ -97,7 +114,7 @@ function safeParseJson(text) {
   }
 }
 
-async function callOnce({ provider, model, systemPrompt, userMessage, context, jsonMode, maxTokens = 950 }) {
+async function callOnce({ requestKey, provider, model, systemPrompt, userMessage, context, jsonMode, maxTokens = 950 }) {
   const client = getClient(provider);
   if (!client) {
     return { ok: false, error: `provider_unavailable:${provider}` };
@@ -114,6 +131,12 @@ async function callOnce({ provider, model, systemPrompt, userMessage, context, j
     },
   ];
 
+  let reservation;
+  try {
+    reservation = await reserveRuntime({requestKey,provider,model,messages,maxTokens});
+    if (!reservation.dispatch) return reservation.receipt?.response || {ok:false,error:'runtime_request_pending'};
+  } catch { return {ok:false,error:'runtime_ai_temporarily_unavailable'}; }
+  if (provider === 'anthropic') return callAnthropic({ client, requestKey, provider, model, messages, jsonMode, maxTokens, reservation });
   try {
     const completion = await client.chat.completions.create({
       model,
@@ -125,7 +148,7 @@ async function callOnce({ provider, model, systemPrompt, userMessage, context, j
     const choice = completion.choices?.[0];
     const text = choice?.message?.content || '';
     const usage = completion.usage || {};
-    return {
+    const result = {
       ok: true,
       raw: text,
       usage: {
@@ -133,18 +156,54 @@ async function callOnce({ provider, model, systemPrompt, userMessage, context, j
         model,
         inputTokens: usage.prompt_tokens || 0,
         outputTokens: usage.completion_tokens || 0,
-        estimatedCostUsd: estimateCostUsd(
-          model,
-          usage.prompt_tokens || 0,
-          usage.completion_tokens || 0,
-        ),
+        estimatedCostUsd: Number.isFinite(usage.prompt_tokens) && Number.isFinite(usage.completion_tokens) ? (usage.prompt_tokens * reservation.inputRate + usage.completion_tokens * reservation.outputRate) / 1_000_000 : null,
       },
     };
+    await receiptRuntime(requestKey,result.usage.estimatedCostUsd,{response:result,usage});
+    if (result.usage.estimatedCostUsd === null) return {ok:false,error:'provider_usage_missing'};
+    return result;
   } catch (err) {
+    await receiptRuntime(requestKey,null,{error:'physical_request_failed_or_receipt_unavailable'}).catch(()=>{});
     return {
       ok: false,
       error: `${provider}:${err?.code || err?.name || 'request_failed'}:${err?.message || ''}`.slice(0, 240),
     };
+  }
+}
+
+// Claude Messages API: system prompt is top-level; JSON is requested by instruction and parsed
+// tolerantly (fences stripped). Usage is always returned, so receipts carry exact token counts.
+async function callAnthropic({ client, requestKey, provider, model, messages, jsonMode, maxTokens, reservation }) {
+  try {
+    const response = await client.messages.create({
+      model,
+      max_tokens: maxTokens,
+      // Haiku 4.5 accepts sampling and does not think unless asked. Sonnet 5.5 rejects custom
+      // sampling and thinks by default; short grounded replies run without thinking there.
+      ...(/^claude-sonnet-5/.test(model) ? { thinking: { type: 'between_tools' } } : { temperature: 0.4 }),
+      system: jsonMode ? `${messages[0].content}
+
+Reply with one JSON object only. No prose outside it, no code fences.` : messages[0].content,
+      messages: [{ role: 'user', content: messages[1].content }],
+    });
+    const text = response.content.filter((b) => b.type === 'text').map((b) => b.text).join('');
+    const usage = response.usage || {};
+    const input = (usage.input_tokens || 0) + (usage.cache_creation_input_tokens || 0) + (usage.cache_read_input_tokens || 0);
+    const output = usage.output_tokens;
+    const result = {
+      ok: response.stop_reason !== 'refusal',
+      raw: text,
+      usage: { provider, model, inputTokens: input, outputTokens: output || 0,
+        estimatedCostUsd: Number.isFinite(output) ? (input * reservation.inputRate + output * reservation.outputRate) / 1_000_000 : null },
+      ...(response.stop_reason === 'refusal' ? { error: 'anthropic:refusal' } : {}),
+    };
+    await receiptRuntime(requestKey, result.usage.estimatedCostUsd, { response: result, usage, stopReason: response.stop_reason });
+    if (result.usage.estimatedCostUsd === null) return { ok: false, error: 'provider_usage_missing' };
+    return result;
+  } catch (err) {
+    await receiptRuntime(requestKey, null, { error: 'physical_request_failed_or_receipt_unavailable' }).catch(() => {});
+    const kind = err instanceof Anthropic.RateLimitError ? 'rate_limited' : err instanceof Anthropic.APIError ? `status_${err.status}` : err?.name || 'request_failed';
+    return { ok: false, error: `anthropic:${kind}:${err?.message || ''}`.slice(0, 240) };
   }
 }
 
@@ -153,6 +212,7 @@ async function callOnce({ provider, model, systemPrompt, userMessage, context, j
  * one repair retry on invalid JSON. Always returns an object; never throws.
  */
 export async function generateAIResponse({
+  requestKey,
   tier = 'smart',
   systemPrompt,
   userMessage,
@@ -182,6 +242,7 @@ export async function generateAIResponse({
 
   // ---- attempt 1: primary provider, JSON mode ----
   let attempt = await callOnce({
+    requestKey: requestKey ? `${requestKey}:primary` : null,
     provider: primaryProvider,
     model: primaryModel,
     systemPrompt,
@@ -197,6 +258,7 @@ export async function generateAIResponse({
   // ---- repair retry: same model, harder JSON instruction ----
   if (attempt.ok && (!parsed || !validationOk) && maxRetries > 0) {
     const repaired = await callOnce({
+      requestKey: requestKey ? `${requestKey}:repair` : null,
       provider: primaryProvider,
       model: primaryModel,
       systemPrompt:
@@ -218,6 +280,7 @@ export async function generateAIResponse({
   let fallbackUsed = false;
   if (!attempt.ok || !parsed || !validationOk) {
     const fb = await callOnce({
+      requestKey: requestKey ? `${requestKey}:fallback` : null,
       provider: fallbackProvider,
       model: fallbackModel,
       systemPrompt,
@@ -257,7 +320,7 @@ export async function generateAIResponse({
   }
 
   return {
-    ok: true,
+    ok: validationOk,
     data: parsed,
     raw: attempt.raw,
     usage: attempt.usage,

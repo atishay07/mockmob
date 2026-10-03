@@ -1,0 +1,738 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-01T16:22:16.7653740Z",
+  "title": "Design System: MockMob",
+  "extensions": {
+    "colorMeta": {
+      "volt": {
+        "role": "primary",
+        "displayName": "Volt",
+        "canonical": "#d2f000",
+        "tonalRamp": [
+          "#242a00",
+          "#3d4700",
+          "#576500",
+          "#718300",
+          "#8ba100",
+          "#a5bf00",
+          "#bfdd00",
+          "#eefbaa"
+        ]
+      },
+      "volt-edge": {
+        "role": "primary",
+        "displayName": "Volt Edge",
+        "canonical": "#9db400",
+        "tonalRamp": [
+          "#1a1e00",
+          "#333b00",
+          "#4d5800",
+          "#667500",
+          "#809300",
+          "#9db400",
+          "#c2dc22",
+          "#e4f57e"
+        ]
+      },
+      "volt-soft": {
+        "role": "primary",
+        "displayName": "Volt Soft",
+        "canonical": "#eefbaa",
+        "tonalRamp": [
+          "#2b3305",
+          "#44500a",
+          "#5d6e10",
+          "#778c17",
+          "#93aa2c",
+          "#b3c65e",
+          "#d3e187",
+          "#f5fcd2"
+        ]
+      },
+      "volt-ink": {
+        "role": "primary",
+        "displayName": "Volt Ink",
+        "canonical": "#0b1000",
+        "tonalRamp": [
+          "#050700",
+          "#0b1000",
+          "#161f00",
+          "#232f00",
+          "#334300",
+          "#455900",
+          "#587100",
+          "#6d8a00"
+        ]
+      },
+      "slate": {
+        "role": "secondary",
+        "displayName": "Slate",
+        "canonical": "#0f130e",
+        "tonalRamp": [
+          "#0f130e",
+          "#1a211a",
+          "#29322a",
+          "#3b463b",
+          "#556254",
+          "#7b8879",
+          "#a6ae9f",
+          "#d4d9cf"
+        ]
+      },
+      "slate-2": {
+        "role": "secondary",
+        "displayName": "Slate Raised",
+        "canonical": "#1a211a",
+        "tonalRamp": [
+          "#0a0d09",
+          "#1a211a",
+          "#29322a",
+          "#3b463b",
+          "#556254",
+          "#7b8879",
+          "#a6ae9f",
+          "#d4d9cf"
+        ]
+      },
+      "slate-3": {
+        "role": "secondary",
+        "displayName": "Slate Line",
+        "canonical": "#29322a",
+        "tonalRamp": [
+          "#0f130e",
+          "#1a211a",
+          "#29322a",
+          "#3b463b",
+          "#556254",
+          "#7b8879",
+          "#a6ae9f",
+          "#d4d9cf"
+        ]
+      },
+      "slate-line": {
+        "role": "secondary",
+        "displayName": "Night Hairline",
+        "canonical": "rgba(244, 245, 240, 0.13)",
+        "tonalRamp": [
+          "rgba(244,245,240,0.04)",
+          "rgba(244,245,240,0.08)",
+          "rgba(244,245,240,0.13)",
+          "rgba(244,245,240,0.2)",
+          "rgba(244,245,240,0.3)",
+          "rgba(244,245,240,0.45)",
+          "rgba(244,245,240,0.65)",
+          "rgba(244,245,240,0.9)"
+        ]
+      },
+      "chalk": {
+        "role": "secondary",
+        "displayName": "Chalk",
+        "canonical": "#f4f5f0",
+        "tonalRamp": [
+          "#191b17",
+          "#2f3329",
+          "#484e42",
+          "#63695c",
+          "#808778",
+          "#a6ae9f",
+          "#cbd1c4",
+          "#f4f5f0"
+        ]
+      },
+      "chalk-2": {
+        "role": "secondary",
+        "displayName": "Chalk Muted",
+        "canonical": "#a6ae9f",
+        "tonalRamp": [
+          "#191b17",
+          "#2f3329",
+          "#484e42",
+          "#63695c",
+          "#808778",
+          "#a6ae9f",
+          "#cbd1c4",
+          "#f4f5f0"
+        ]
+      },
+      "flag": {
+        "role": "tertiary",
+        "displayName": "Flag",
+        "canonical": "#b93225",
+        "tonalRamp": [
+          "#2b0b07",
+          "#4a1410",
+          "#6b1e17",
+          "#8e2820",
+          "#b93225",
+          "#d4614f",
+          "#e99a8c",
+          "#fbe9e7"
+        ]
+      },
+      "flag-soft": {
+        "role": "tertiary",
+        "displayName": "Flag Soft",
+        "canonical": "#fbe9e7",
+        "tonalRamp": [
+          "#2b0b07",
+          "#4a1410",
+          "#6b1e17",
+          "#8e2820",
+          "#b93225",
+          "#d4614f",
+          "#e99a8c",
+          "#fbe9e7"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#f4f5f0",
+        "tonalRamp": [
+          "#10140e",
+          "#242a20",
+          "#3e453b",
+          "#5c6357",
+          "#8a9184",
+          "#c1c5b6",
+          "#eaece3",
+          "#f4f5f0"
+        ]
+      },
+      "paper-raised": {
+        "role": "neutral",
+        "displayName": "Paper Raised",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#10140e",
+          "#242a20",
+          "#3e453b",
+          "#5c6357",
+          "#8a9184",
+          "#c1c5b6",
+          "#eaece3",
+          "#ffffff"
+        ]
+      },
+      "paper-sunken": {
+        "role": "neutral",
+        "displayName": "Paper Sunken",
+        "canonical": "#eaece3",
+        "tonalRamp": [
+          "#10140e",
+          "#242a20",
+          "#3e453b",
+          "#5c6357",
+          "#8a9184",
+          "#c1c5b6",
+          "#eaece3",
+          "#f9faf6"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#10140e",
+        "tonalRamp": [
+          "#10140e",
+          "#242a20",
+          "#3e453b",
+          "#5c6357",
+          "#8a9184",
+          "#c1c5b6",
+          "#d9dcd0",
+          "#f4f5f0"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Ink Reading",
+        "canonical": "#3e453b",
+        "tonalRamp": [
+          "#10140e",
+          "#242a20",
+          "#3e453b",
+          "#5c6357",
+          "#8a9184",
+          "#c1c5b6",
+          "#d9dcd0",
+          "#f4f5f0"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Ink Caption",
+        "canonical": "#5c6357",
+        "tonalRamp": [
+          "#10140e",
+          "#242a20",
+          "#3e453b",
+          "#5c6357",
+          "#8a9184",
+          "#c1c5b6",
+          "#d9dcd0",
+          "#f4f5f0"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#d9dcd0",
+        "tonalRamp": [
+          "#10140e",
+          "#242a20",
+          "#3e453b",
+          "#5c6357",
+          "#8a9184",
+          "#c1c5b6",
+          "#d9dcd0",
+          "#f4f5f0"
+        ]
+      },
+      "line-strong": {
+        "role": "neutral",
+        "displayName": "Stroke",
+        "canonical": "#c1c5b6",
+        "tonalRamp": [
+          "#10140e",
+          "#242a20",
+          "#3e453b",
+          "#5c6357",
+          "#8a9184",
+          "#c1c5b6",
+          "#d9dcd0",
+          "#f4f5f0"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "One per page. The page headline only, with balanced wrapping."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section openers. Gets 2.5rem clearance above, less below."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Feature-row and sub-section headings."
+      },
+      "subhead": {
+        "displayName": "Subhead",
+        "purpose": "FAQ questions, nav sheet rows, card headings, drill verdicts."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "The retained mm-lead sentence, capped at 34ch on phones and 46ch from 768px."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Reading copy in Ink 2, capped at 68ch (70ch in long-form articles)."
+      },
+      "small": {
+        "displayName": "Small",
+        "purpose": "Captions, footnotes, dock note, metadata in Ink 3."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Uppercase tracked Gabarito for panel titlebars, tags, footer column heads, table group heads."
+      },
+      "measure": {
+        "displayName": "Measure",
+        "purpose": "Compact readings and replay timestamps. Prominent marks and prices may use Gabarito; lab facts use tabular numerals."
+      },
+      "recovery-display": {
+        "displayName": "Recovery Display",
+        "purpose": "The homepage promise, with a separate second phrase and balanced wrapping."
+      },
+      "recovery-lead": {
+        "displayName": "Recovery Lead",
+        "purpose": "The semibold explanatory sentence; wraps naturally on a phone."
+      },
+      "recovery-headline": {
+        "displayName": "Recovery Headline",
+        "purpose": "Titles on the lab, review and progress reading canvas."
+      }
+    },
+    "shadows": [
+      {
+        "name": "ambient-1",
+        "value": "0 1px 2px rgba(16, 20, 14, 0.05), 0 2px 6px rgba(16, 20, 14, 0.05)",
+        "purpose": "Panels, plan cards and chips at rest."
+      },
+      {
+        "name": "ambient-2",
+        "value": "0 2px 4px rgba(16, 20, 14, 0.05), 0 10px 24px rgba(16, 20, 14, 0.08)",
+        "purpose": "Primary keys, the price block, secondary key on hover."
+      },
+      {
+        "name": "ambient-3",
+        "value": "0 6px 12px rgba(16, 20, 14, 0.06), 0 26px 56px rgba(16, 20, 14, 0.11)",
+        "purpose": "Product screens and the featured plan — the surfaces that sit deepest into the page."
+      },
+      {
+        "name": "key-edge-primary",
+        "value": "0 4px 0 #9db400",
+        "purpose": "The primary key's bottom lip. Always paired with transform: translateY(-4px) and collapsed on :active."
+      },
+      {
+        "name": "key-edge-secondary",
+        "value": "0 4px 0 #c1c5b6",
+        "purpose": "The secondary key's bottom lip. Deepens to #5c6357 on hover."
+      },
+      {
+        "name": "key-edge-night",
+        "value": "0 3px 0 #0a0d09",
+        "purpose": "Drill answer keys inside a slate screen, paired with translateY(-3px)."
+      },
+      {
+        "name": "focus-ring",
+        "value": "outline: 3px solid #10140e; outline-offset: 2px",
+        "purpose": "Every focusable element. Ink rather than volt, so the ring never reads as an action fill."
+      },
+      {
+        "name": "field-focus",
+        "value": "0 0 0 3px #eefbaa",
+        "purpose": "The one deliberate zero-offset shadow in the system, scoped to field focus and paired with an ink border."
+      },
+      {
+        "value": "0 18px 46px rgba(16,20,14,0.12)",
+        "name": "recovery-preview",
+        "purpose": "Separates the homepage illustrative replay from paper; the lab reading canvas is flat."
+      }
+    ],
+    "motion": [
+      {
+        "name": "press",
+        "value": "transform 0.12s cubic-bezier(0.2, 0.8, 0.3, 1), box-shadow 0.12s cubic-bezier(0.2, 0.8, 0.3, 1)",
+        "purpose": "The key press. Transform and shadow collapse together."
+      },
+      {
+        "name": "press-night",
+        "value": "transform 0.16s cubic-bezier(0.2, 0.8, 0.3, 1), box-shadow 0.16s cubic-bezier(0.2, 0.8, 0.3, 1)",
+        "purpose": "Drill answer keys — slightly slower, because the panel is the focus."
+      },
+      {
+        "name": "settle",
+        "value": "mm-settle 0.34s cubic-bezier(0.2, 0.9, 0.3, 1) both",
+        "purpose": "Beat 1 of the drill sequence: the correct answer lands with a 1.5% overshoot."
+      },
+      {
+        "name": "knock",
+        "value": "mm-knock 0.36s cubic-bezier(0.3, 0.9, 0.4, 1) both",
+        "purpose": "Beat 1, wrong branch: a ±3px lateral shake, no colour flash."
+      },
+      {
+        "name": "recede",
+        "value": "mm-recede 0.42s cubic-bezier(0.22, 1, 0.36, 1) 0.09s both",
+        "purpose": "Beat 2: unchosen options fall to 38% opacity and 98.5% scale."
+      },
+      {
+        "name": "rise",
+        "value": "mm-rise 0.34s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both",
+        "purpose": "Beat 3: the reason arrives from 10px below. Also the page-level reveal at 0.5s."
+      },
+      {
+        "name": "appear",
+        "value": "mm-appear 0.34s ease-out 0.26s both",
+        "purpose": "Beat 4: the forward key fades in on opacity only, so its resting -4px lift survives the reveal."
+      },
+      {
+        "name": "breathe",
+        "value": "mm-breathe 2.4s ease-in-out infinite",
+        "purpose": "The live dot on a product screen titlebar, cycling 1 to 0.3 opacity. The only ambient loop in the system."
+      },
+      {
+        "name": "dock-slide",
+        "value": "transform 0.24s cubic-bezier(0.2, 0.8, 0.3, 1)",
+        "purpose": "The thumb-zone bar leaves on translateY(120%) rather than fading."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important",
+        "purpose": "Applied to every element inside .mm under prefers-reduced-motion. Every mechanism still works; only the choreography is removed."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "figures",
+        "value": "720px"
+      },
+      {
+        "name": "table",
+        "value": "760px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "plans",
+        "value": "860px"
+      },
+      {
+        "name": "lg",
+        "value": "900px"
+      },
+      {
+        "name": "foot",
+        "value": "960px"
+      },
+      {
+        "name": "xl",
+        "value": "1080px"
+      },
+      {
+        "value": "760px",
+        "query": "max-width",
+        "name": "recovery-stack",
+        "purpose": "Homepage hero, evidence, price and steps stack."
+      },
+      {
+        "value": "520px",
+        "query": "max-width",
+        "name": "recovery-compact",
+        "purpose": "Fact text shrinks; review and progress records stack."
+      }
+    ],
+    "provenance": {
+      "newRoll": false,
+      "authority": [
+        "src/app/layout.js direction contract",
+        "PRODUCT.md current implementation authority",
+        "built source",
+        "artifacts/recovery screenshots"
+      ],
+      "inheritedSeedKey": "b256fb04",
+      "directionApprovedAt": "2026-10-01"
+    },
+    "verification": {
+      "materialFixesResolved": 6,
+      "reviewSource": "Supplied finish-review conclusion",
+      "limitation": "Lab screenshots use explicitly illustrative development data. Static screenshots do not verify live calibration, checkout or student gains.",
+      "disposition": "ship",
+      "screenshots": [
+        "artifacts/recovery/home-desktop.jpg",
+        "artifacts/recovery/home-mobile.jpg",
+        "artifacts/recovery/lab-desktop.jpg",
+        "artifacts/recovery/lab-mobile.jpg"
+      ]
+    },
+    "notCanonized": "Unused recovery eyebrow selector and legacy assistant launcher glow in development fixtures are not recovery patterns. Component-local lab color literals do not redefine the inherited palette."
+  },
+  "components": [
+    {
+      "name": "Primary Key",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The committing action. Rests 4px above a Volt Edge lip and collapses flush when pressed.",
+      "html": "<button class=\"ds-key ds-key--primary\">Start free<svg class=\"ds-key__icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 17 17 7M9 7h8v8\"/></svg></button>",
+      "css": ".ds-key { --btn-edge: 4px; position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; min-height: 54px; padding: 0.75rem 1.25rem; border: 0; border-radius: 14px; font-family: Gabarito, system-ui, sans-serif; font-size: 1rem; font-weight: 800; letter-spacing: -0.01em; cursor: pointer; transition: transform 0.12s cubic-bezier(0.2, 0.8, 0.3, 1), box-shadow 0.12s cubic-bezier(0.2, 0.8, 0.3, 1), background-color 0.15s ease; } .ds-key--primary { background: #d2f000; color: #0b1000; box-shadow: 0 var(--btn-edge) 0 #9db400, 0 2px 4px rgba(16,20,14,0.05), 0 10px 24px rgba(16,20,14,0.08); transform: translateY(calc(var(--btn-edge) * -1)); } .ds-key--primary:active { transform: translateY(0); box-shadow: 0 0 0 #9db400, 0 1px 2px rgba(16,20,14,0.05), 0 2px 6px rgba(16,20,14,0.05); } .ds-key:focus-visible { outline: 3px solid #10140e; outline-offset: 2px; } @media (hover: hover) { .ds-key--primary:hover { background: #dbfb14; } } .ds-key__icon { width: 18px; height: 18px; flex-shrink: 0; }"
+    },
+    {
+      "name": "Secondary Key",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "The alternative action. Same mechanics as the primary key, with a neutral lip.",
+      "html": "<button class=\"ds-key ds-key--secondary\">See what &#8377;99 unlocks</button>",
+      "css": ".ds-key--secondary { --btn-edge: 4px; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; min-height: 54px; padding: 0.75rem 1.25rem; border: 0; border-radius: 14px; background: #ffffff; color: #10140e; font-family: Gabarito, system-ui, sans-serif; font-size: 1rem; font-weight: 800; letter-spacing: -0.01em; cursor: pointer; box-shadow: 0 var(--btn-edge) 0 #c1c5b6, 0 1px 2px rgba(16,20,14,0.05), 0 2px 6px rgba(16,20,14,0.05); transform: translateY(calc(var(--btn-edge) * -1)); transition: transform 0.12s cubic-bezier(0.2, 0.8, 0.3, 1), box-shadow 0.12s cubic-bezier(0.2, 0.8, 0.3, 1); } .ds-key--secondary:active { transform: translateY(0); box-shadow: 0 0 0 #c1c5b6; } .ds-key--secondary:focus-visible { outline: 3px solid #10140e; outline-offset: 2px; } @media (hover: hover) { .ds-key--secondary:hover { background: #fff; box-shadow: 0 4px 0 #5c6357, 0 2px 4px rgba(16,20,14,0.05), 0 10px 24px rgba(16,20,14,0.08); } }"
+    },
+    {
+      "name": "Key on Night",
+      "kind": "button",
+      "refersTo": "button-onnight",
+      "description": "The primary key inside a slate product screen. The ambient shadow is dropped because it would be invisible; the lip does all the work.",
+      "html": "<div class=\"ds-night-demo\"><button class=\"ds-key ds-key--onnight\">Next question</button></div>",
+      "css": ".ds-night-demo { background: #0f130e; padding: 20px; border-radius: 20px; } .ds-key--onnight { --btn-edge: 4px; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; min-height: 54px; padding: 0.75rem 1.25rem; border: 0; border-radius: 14px; background: #d2f000; color: #0b1000; font-family: Gabarito, system-ui, sans-serif; font-size: 1rem; font-weight: 800; letter-spacing: -0.01em; cursor: pointer; box-shadow: 0 var(--btn-edge) 0 #9db400; transform: translateY(calc(var(--btn-edge) * -1)); transition: transform 0.12s cubic-bezier(0.2, 0.8, 0.3, 1), box-shadow 0.12s cubic-bezier(0.2, 0.8, 0.3, 1); } .ds-key--onnight:active { transform: translateY(0); box-shadow: none; } .ds-key--onnight:focus-visible { outline: 3px solid #f4f5f0; outline-offset: 2px; }"
+    },
+    {
+      "name": "Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Navigation pill for subject rails and article topics. There is no selected state — chips are links, not filters.",
+      "html": "<a class=\"ds-chip\" href=\"#\">Accountancy</a>",
+      "css": ".ds-chip { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 44px; padding: 0.5rem 0.875rem; border: 1px solid #c1c5b6; border-radius: 999px; background: #ffffff; font-family: Gabarito, system-ui, sans-serif; font-size: 0.875rem; font-weight: 700; color: #10140e; text-decoration: none; white-space: nowrap; transition: background-color 0.15s ease, border-color 0.15s ease; } .ds-chip:focus-visible { outline: 3px solid #10140e; outline-offset: 2px; } @media (hover: hover) { .ds-chip:hover { background: #eefbaa; border-color: #9db400; } }"
+    },
+    {
+      "name": "Tag",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "Small uppercase marker. Sunken by default; volt for emphasis, Flag Soft for alerts.",
+      "html": "<span class=\"ds-tag\">Chapter tagged</span> <span class=\"ds-tag ds-tag--volt\">Included</span> <span class=\"ds-tag ds-tag--flag\">Legacy</span>",
+      "css": ".ds-tag { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.25rem 0.5rem; border-radius: 6px; background: #eaece3; font-family: Gabarito, system-ui, sans-serif; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #3e453b; } .ds-tag--volt { background: #d2f000; color: #0b1000; } .ds-tag--flag { background: #fbe9e7; color: #b93225; }"
+    },
+    {
+      "name": "Panel",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "The daylight container. Flat white, hairline border, ambient depth with real vertical offset — never translucent, never blurred.",
+      "html": "<div class=\"ds-panel\"><h3 class=\"ds-panel__title\">The bank is engineered, not scraped.</h3><p class=\"ds-panel__body\">Every question passes schema validation, answer-key verification and duplicate detection before it can appear in a mock.</p></div>",
+      "css": ".ds-panel { background: #ffffff; border: 1px solid #d9dcd0; border-radius: 20px; box-shadow: 0 1px 2px rgba(16,20,14,0.05), 0 2px 6px rgba(16,20,14,0.05); padding: 1.25rem; } .ds-panel__title { margin: 0; font-family: Gabarito, system-ui, sans-serif; font-size: 1.0625rem; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; color: #10140e; } .ds-panel__body { margin: 0.625rem 0 0; max-width: 68ch; font-family: 'Hanken Grotesk', system-ui, sans-serif; font-size: 1rem; line-height: 1.65; color: #3e453b; } @media (min-width: 768px) { .ds-panel { padding: 1.75rem; } }"
+    },
+    {
+      "name": "Product Screen",
+      "kind": "card",
+      "refersTo": "screen",
+      "description": "The product's own interface, rendered as night inside the daylight page. Titlebar carries a breathing volt dot and a label in the display face, never mono.",
+      "html": "<div class=\"ds-screen\"><div class=\"ds-screen__bar\"><span class=\"ds-screen__live\" aria-hidden=\"true\"></span>English</div><div class=\"ds-screen__body\"><p class=\"ds-screen__q\">Choose the option nearest in meaning to CANDID:</p></div></div>",
+      "css": ".ds-screen { background: #0f130e; color: #f4f5f0; border-radius: 20px; box-shadow: 0 6px 12px rgba(16,20,14,0.06), 0 26px 56px rgba(16,20,14,0.11); overflow: hidden; } .ds-screen__bar { display: flex; align-items: center; gap: 0.5rem; min-height: 44px; padding: 0.5rem 0.875rem; border-bottom: 1px solid rgba(244,245,240,0.13); font-family: Gabarito, system-ui, sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #a6ae9f; } .ds-screen__live { width: 7px; height: 7px; border-radius: 999px; background: #d2f000; flex-shrink: 0; animation: ds-breathe 2.4s ease-in-out infinite; } @keyframes ds-breathe { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } } .ds-screen__body { padding: 1rem 0.875rem 1.125rem; } .ds-screen__q { margin: 0; font-family: Gabarito, system-ui, sans-serif; font-size: 1.1875rem; font-weight: 700; line-height: 1.35; letter-spacing: -0.015em; color: #f4f5f0; } @media (prefers-reduced-motion: reduce) { .ds-screen__live { animation-duration: 0.001ms; } }"
+    },
+    {
+      "name": "Drill Answer Key",
+      "kind": "custom",
+      "refersTo": "drill-option",
+      "description": "Retained practice pattern, separate from the recovery homepage signature. A pressable answer key on night with a mono letter chip and explicit correct/wrong states.",
+      "html": "<div class=\"ds-night-demo ds-drill\"><button class=\"ds-opt\"><span class=\"ds-opt__key\">A</span><span>Hidden</span></button><button class=\"ds-opt\" data-state=\"correct\"><span class=\"ds-opt__key\">B</span><span>Frank</span></button><button class=\"ds-opt\" data-state=\"muted\"><span class=\"ds-opt__key\">C</span><span>Careful</span></button></div>",
+      "css": ".ds-drill { display: grid; gap: 0.625rem; } .ds-opt { --edge: 3px; display: flex; align-items: center; gap: 0.75rem; width: 100%; min-height: 56px; padding: 0.75rem 0.875rem; border: 1px solid #29322a; border-radius: 14px; background: #1a211a; box-shadow: 0 var(--edge) 0 #0a0d09; transform: translateY(calc(var(--edge) * -1)); color: #f4f5f0; font-family: 'Hanken Grotesk', system-ui, sans-serif; font-size: 1rem; font-weight: 600; line-height: 1.35; text-align: left; cursor: pointer; transition: transform 0.16s cubic-bezier(0.2,0.8,0.3,1), box-shadow 0.16s cubic-bezier(0.2,0.8,0.3,1), background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease; } .ds-opt:active { transform: translateY(0); box-shadow: 0 0 0 #0a0d09; } .ds-opt:focus-visible { outline: 3px solid #f4f5f0; outline-offset: 2px; } @media (hover: hover) { .ds-opt:hover { border-color: #9db400; background: #1f271e; } } .ds-opt__key { display: grid; place-items: center; flex-shrink: 0; width: 30px; height: 30px; border-radius: 8px; background: #29322a; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 0.8125rem; font-weight: 600; color: #a6ae9f; } .ds-opt[data-state=\"correct\"] { transform: translateY(0); box-shadow: 0 0 0 #0a0d09; background: #d2f000; border-color: #d2f000; color: #0b1000; animation: ds-settle 0.34s cubic-bezier(0.2,0.9,0.3,1) both; } .ds-opt[data-state=\"correct\"] .ds-opt__key { background: rgba(11,16,0,0.16); color: #0b1000; } .ds-opt[data-state=\"wrong\"] { transform: translateY(0); box-shadow: 0 0 0 #0a0d09; background: #2a1614; border-color: #7d3128; color: #ffc9c2; } .ds-opt[data-state=\"muted\"] { transform: translateY(0); box-shadow: none; opacity: 0.38; } @keyframes ds-settle { 0% { transform: translateY(-3px) scale(1); } 45% { transform: translateY(0) scale(1.015); } 100% { transform: translateY(0) scale(1); } }"
+    },
+    {
+      "name": "Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Paper-filled with a stroke border and 16px text so iOS does not zoom on focus. Focus darkens the border to ink and adds a Volt Soft ring.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field__label\">Coupon code</span><input class=\"ds-field__input\" type=\"text\" placeholder=\"Have one? Enter it here\" /></label>",
+      "css": ".ds-field { display: block; } .ds-field__label { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.4rem; font-family: Gabarito, system-ui, sans-serif; font-size: 0.8125rem; font-weight: 700; color: #3e453b; } .ds-field__input { width: 100%; min-height: 52px; padding: 0.75rem 0.875rem; border: 1px solid #c1c5b6; border-radius: 14px; background: #f4f5f0; color: #10140e; font-family: 'Hanken Grotesk', system-ui, sans-serif; font-size: 1rem; } .ds-field__input::placeholder { color: #5c6357; } .ds-field__input:focus { outline: none; border-color: #10140e; box-shadow: 0 0 0 3px #eefbaa; } .ds-field__input:disabled { opacity: 0.6; }"
+    },
+    {
+      "name": "Nav Link",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Desktop navigation item. 44px target, hover and current-page both resolve to ink on Paper Sunken.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav__link\" href=\"#\">Free mock test</a><a class=\"ds-nav__link\" href=\"#\" aria-current=\"page\">Score Recovery Lab</a><a class=\"ds-nav__link\" href=\"#\">Pricing</a></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; gap: 0.25rem; background: #f4f5f0; padding: 6px 0; } .ds-nav__link { display: inline-flex; align-items: center; min-height: 44px; padding-inline: 0.75rem; border-radius: 10px; font-family: Gabarito, system-ui, sans-serif; font-size: 0.9375rem; font-weight: 600; color: #3e453b; text-decoration: none; transition: color 0.15s ease, background-color 0.15s ease; } .ds-nav__link[aria-current=\"page\"] { color: #10140e; background: #eaece3; } .ds-nav__link:focus-visible { outline: 3px solid #10140e; outline-offset: 2px; } @media (hover: hover) { .ds-nav__link:hover { color: #10140e; background: #eaece3; } }"
+    },
+    {
+      "name": "Plan Card",
+      "kind": "card",
+      "refersTo": "plan-featured",
+      "description": "The commitment card at the largest radius. Featured state is marked with a 2px ink border and a hanging tab, never a coloured glow.",
+      "html": "<article class=\"ds-plan\" data-featured=\"true\"><p class=\"ds-plan__flag\">Everything, one payment</p><h3 class=\"ds-plan__name\">CUET 2027 Access</h3><p class=\"ds-plan__price\">&#8377;99<span>one-time</span></p><p class=\"ds-plan__desc\">Everything, through counselling in July 2027.</p></article>",
+      "css": ".ds-plan { position: relative; display: flex; flex-direction: column; border: 1px solid #c1c5b6; border-radius: 28px; background: #ffffff; box-shadow: 0 1px 2px rgba(16,20,14,0.05), 0 2px 6px rgba(16,20,14,0.05); padding: 1.5rem; } .ds-plan[data-featured=\"true\"] { border-color: #10140e; border-width: 2px; box-shadow: 0 6px 12px rgba(16,20,14,0.06), 0 26px 56px rgba(16,20,14,0.11); padding-top: 2.25rem; } .ds-plan__flag { position: absolute; top: 0; left: 1.25rem; margin: 0; padding: 0.3rem 0.75rem; border-radius: 0 0 8px 8px; background: #10140e; color: #f4f5f0; font-family: Gabarito, system-ui, sans-serif; font-size: 0.75rem; font-weight: 700; } .ds-plan__name { margin: 0; font-family: Gabarito, system-ui, sans-serif; font-size: 1.125rem; font-weight: 700; color: #3e453b; } .ds-plan__price { margin: 0.35rem 0 0; font-family: Gabarito, system-ui, sans-serif; font-size: 3.5rem; font-weight: 800; line-height: 0.95; letter-spacing: -0.05em; font-variant-numeric: tabular-nums; color: #10140e; } .ds-plan__price span { margin-left: 0.5rem; font-size: 0.9375rem; font-weight: 600; letter-spacing: 0; color: #5c6357; } .ds-plan__desc { margin: 0.75rem 0 0; font-family: 'Hanken Grotesk', system-ui, sans-serif; font-size: 0.9375rem; line-height: 1.55; color: #3e453b; }"
+    },
+    {
+      "css": ".ds-recovery-preview{margin:0;background:var(--slate,#0f130e);color:var(--chalk,#f4f5f0);border-radius:14px;overflow:hidden;box-shadow:0 18px 46px rgba(16,20,14,.12);font-family:var(--font-body,\"Hanken Grotesk\"),sans-serif}.ds-recovery-title{display:flex;justify-content:space-between;gap:12px;padding:18px 22px;border-bottom:1px solid rgba(244,245,240,.13);font-size:14px;font-weight:650}.ds-recovery-title span{font-size:11px;font-weight:400;color:#c3cbbd}.ds-recovery-preview h2{font-family:var(--font-display,Gabarito),sans-serif;font-size:27px;line-height:1.15;margin:26px 26px 30px}.ds-recovery-track{display:flex;gap:30px;margin:0 26px 26px}.ds-recovery-track button{flex:1;text-align:left;color:var(--chalk-2,#a6ae9f);background:transparent;border:0;padding:0;cursor:pointer}.ds-recovery-dot{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid #4e5847;border-radius:50%;margin-bottom:10px;background:var(--slate,#0f130e)}.ds-recovery-track button[aria-pressed=true]{color:var(--volt,#d2f000)}.ds-recovery-track button[aria-pressed=true] .ds-recovery-dot{background:var(--volt,#d2f000);border-color:var(--volt,#d2f000);color:var(--ink,#10140e)}.ds-recovery-time{font-family:var(--font-mono,\"Geist Mono\"),monospace;font-size:12px}.ds-recovery-track strong{display:block;margin-top:5px;font-size:13px;font-weight:500}.ds-recovery-track button:focus-visible{outline:2px solid var(--volt,#d2f000);outline-offset:5px;border-radius:4px}.ds-recovery-observation{margin:0 26px;padding:20px 0;border-block:1px solid rgba(244,245,240,.13);font-size:14px}.ds-recovery-preview figcaption{padding:14px 26px 20px;font-size:11px;line-height:1.5;color:var(--chalk-2,#a6ae9f)}@media(max-width:760px){.ds-recovery-preview h2{font-size:25px;margin-inline:22px}.ds-recovery-track{margin-inline:22px}}",
+      "kind": "custom",
+      "refersTo": "recovery-preview",
+      "html": "<figure class=\"ds-recovery-preview\"><div class=\"ds-recovery-title\">Score Recovery Lab <span>Interactive example</span></div><h2>What changed when you came back?</h2><div class=\"ds-recovery-track\"><button type=\"button\" aria-pressed=\"true\"><span class=\"ds-recovery-dot\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"m5 12 4 4L19 6\"/></svg></span><span class=\"ds-recovery-time\">00:42</span><strong>First answer</strong></button><button type=\"button\" aria-pressed=\"false\"><span class=\"ds-recovery-dot\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M3 11a9 9 0 1 1 2.5 6.2M3 4v7h7\"/></svg></span><span class=\"ds-recovery-time\">03:18</span><strong>Revisited question</strong></button></div><p class=\"ds-recovery-observation\">First answer: B · Correct · +5 marks</p><figcaption>Illustrative replay. These values are an example, not your score or predicted recoverable marks.</figcaption></figure>",
+      "description": "Two deliberate, no-login replay choices. Selected state uses a filled 44px circle and aria-pressed; example marks are explicitly illustrative.",
+      "name": "Illustrative Recovery Timeline"
+    },
+    {
+      "css": ".ds-recovery-action{display:inline-flex;align-items:center;gap:10px;background:var(--volt,#d2f000);color:#182024;border:0;border-radius:10px;padding:14px 20px;min-height:48px;font-family:var(--font-body,\"Hanken Grotesk\"),sans-serif;font-weight:700;margin:12px 0;cursor:pointer}.ds-recovery-action:focus-visible{outline:3px solid #172126;outline-offset:4px}.ds-recovery-action:disabled{cursor:default}",
+      "kind": "button",
+      "refersTo": "recovery-action",
+      "html": "<button type=\"button\" class=\"ds-recovery-action\">Save to my playbook</button>",
+      "description": "Flat action within the paper reading workflow. At least 48px tall; separate from the raised marketing key.",
+      "name": "Recovery Lab Action"
+    },
+    {
+      "kind": "input",
+      "html": "<section class=\"ds-recovery-replay\"><h3>Replay your decisions</h3><label for=\"ds-recovery-position\">Event 1 of 3</label><input id=\"ds-recovery-position\" type=\"range\" min=\"0\" max=\"2\" value=\"0\"/><p>0m 42s · Question 1 · Selected B</p></section>",
+      "css": ".ds-recovery-replay{background:#1c2b30;color:var(--chalk,#f4f5f0);padding:20px;border-radius:12px;font-family:var(--font-body,\"Hanken Grotesk\"),sans-serif}.ds-recovery-replay h3{font-family:var(--font-display,Gabarito),sans-serif;font-size:21px;font-weight:650;margin:12px 0}.ds-recovery-replay input{display:block;width:100%;accent-color:var(--volt,#d2f000);margin:20px 0;min-height:44px}.ds-recovery-replay input:focus-visible{outline:2px solid var(--chalk,#f4f5f0);outline-offset:2px}.ds-recovery-replay p{line-height:1.65;margin:12px 0}",
+      "description": "Native event-position slider inside the dark lab inset. A 44px interaction height preserves one-handed use.",
+      "name": "Recovery Decision Range"
+    }
+  ],
+  "narrative": {
+    "northStar": "Daylight Page, Night Exam.",
+    "overview": "The marketing surface is a sheet of warm off-white paper carrying near-black ink. The homepage's interactive recovery replay is cut into that paper as a slate panel; the content-evidence band and footer share its dark register. The Score Recovery Lab extends the world with a bright reading canvas and a dark decision timeline. The page is daylight and the replay is night: the contrast separates explanations from focused examination. Volt behaves as pigment, not as a light source.\n\r\nThe structure is deliberately conventional: a clear promise, immediate interactive example, subject links, three recovery steps, evidence, pricing, FAQ and closing action. The approved recovery direction keeps the existing materials and the keycap signature: raised marketing controls rest above a hard bottom edge and collapse flush when pressed. The homepage primary action opens the illustrative replay without login; a separate secondary action joins the free pilot. The adjacent caption states that the diagnostic opens after content checks pass. Launch scope is English, Accountancy, Business Studies and Economics for CUET UG 2027.\n\r\nThe confirmed device floor is a budget Android on patchy 4G. The recovery homepage uses a simple two-state replay rather than an ambient animation or performance chart. Its headline is static. The retained count-up, headline decode and drill resolution remain patterns on other marketing surfaces; their reduced-motion alternatives remain part of the system. No canvas, WebGL or scroll-driven choreography is required by this world.\n\r\nScope boundary: marketing uses `.mm`; the recovery lab and review/progress records use the dedicated `.recovery-` components described below. The surrounding authenticated shell and in-app credits sheet retain their legacy styling. Their visual effects are not reusable recovery patterns.\n\n**Provenance:** historical seed key `b256fb04` is inherited from the established paper/slate/volt world, not a new roll. The recovery journey was approved on October 1, 2026. The supplied finish-review disposition is **ship**, with all six material fixes resolved. This scan records the source and the four screenshots in `artifacts/recovery/`; the lab screenshots are explicitly development previews with illustrative data, not evidence of student gains or live content availability.",
+    "keyCharacteristics": [
+      "Paper ground, near-black ink, one accent — volt — used as a surface, never as light.",
+      "The product's own screens invert to slate inside the bright page.",
+      "Keys, not buttons: a resting lift over a hard bottom edge, collapsing flush on press.",
+      "Ambient depth uses offset plus blur; keycap edges and focus rings have separate roles.",
+      "Phone-first layouts, full-width hero actions and a thumb-zone replay shortcut.",
+      "Gabarito for display and controls, Hanken Grotesk for reading, Geist Mono for measurement.",
+      "Recovery replay changes only after a deliberate selection; observed marks and inferred next moves remain distinct."
+    ],
+    "rules": [
+      {
+        "section": "colors",
+        "body": "On paper, volt is a fill that carries near-black ink; when volt's identity is needed as a mark rather than a surface — an underline, an edge, a small icon, the logo dot — it becomes Volt Edge. Volt is never body-text colour on paper. On slate, volt is free to be text and graphics. The system enforces this in code: the legacy `.text-volt` utility is reassigned to ink inside `.mm`.",
+        "name": "The Two Volts Rule"
+      },
+      {
+        "section": "colors",
+        "body": "Volt never appears as a decorative glow, blur, spread or text-shadow in the recovery world. The legacy marketing glows are explicitly zeroed inside `.mm`. A solid volt keyboard-focus outline on the dark replay is a functional state, not illumination.",
+        "name": "The No-Halo Rule"
+      },
+      {
+        "section": "colors",
+        "body": "The dark family concentrates attention on the interactive replay, its timeline and the evidence checklist, and anchors the footer. Reading and reflection stay on paper. The homepage evidence band is a real use of slate; slate is not restricted to product screenshots.",
+        "name": "The Night-Is-Focus Rule"
+      },
+      {
+        "section": "typography",
+        "body": "Geist Mono carries compact measurements such as replay timestamps and machine labels. Human titles and prominent homepage marks or prices use Gabarito. Lab fact figures use tabular numerals. Preserve the distinction rather than forcing every numeral into the mono face.",
+        "name": "The Mono-Is-Measurement Rule"
+      },
+      {
+        "section": "typography",
+        "body": "The display face tightens as it grows: -0.035em at display, -0.03em at headline, -0.02em at title, -0.01em at subhead, and down to -0.05em on the largest figures and prices. Positive tracking on the display face is permitted only in uppercase labels at 0.8125rem and below.",
+        "name": "The Negative-Tracking Rule"
+      },
+      {
+        "section": "typography",
+        "body": "Keep the lead to one sentence and allow natural wrapping. The incumbent `.mm-lead` measure is 34ch on phones and 46ch from 768px; the recovery lead uses its own larger, semibold treatment.",
+        "name": "The Short-Lead Rule"
+      },
+      {
+        "section": "layout",
+        "body": "The promise, replay action, pilot action and content-calibration disclosure remain readable on a narrow phone. Stack sections and wrap labels before reducing their meaning. Use the breakpoint form that expresses the existing component; the recovery implementation includes both minimum- and maximum-width queries.",
+        "name": "The Phone-First Rule"
+      },
+      {
+        "section": "layout",
+        "body": "Interactive targets have a 44px floor. The homepage replay's circular timeline targets are 44×44px and its enclosing buttons include the timestamp and label. The lab range input is at least 44px high. Marketing keys are 54px, drill answers 56px, fields 52px; lab actions are at least 48px. This is a late-night one-handed product; the floor is functional, not decorative.",
+        "name": "The 44px Rule"
+      },
+      {
+        "section": "layout",
+        "body": "Below 900px the homepage dock links directly to the illustrative replay without login and says so beside the action. The recovery hero retains both replay and pilot actions on mobile, so joining remains discoverable beside the calibration disclosure. The dock spacer reserves page-end clearance and `--mm-dock-lift: 74px` clears eligible floating elements. The replay anchor has 90px scroll clearance below the sticky navigation.",
+        "name": "The Thumb-Zone Rule"
+      },
+      {
+        "section": "elevation",
+        "body": "A raised control rests translated up by exactly its edge height and collapses flush on `:active`. The hard offset shadow is legitimate only as a keycap edge — paired with the resting lift and the press collapse. A hard offset shadow on a surface that cannot be pressed is not part of this system.",
+        "name": "The Key Rule"
+      },
+      {
+        "section": "elevation",
+        "body": "Ambient depth always has vertical offset. No zero-offset shadow, no halo, no ring-glow, no coloured spread — the one exception is the field focus ring, and it is scoped to focus.",
+        "name": "The Offset-And-Blur Rule"
+      }
+    ],
+    "dos": [
+      "Do treat volt as a surface. A volt fill carries Volt Ink on top of it; a volt mark on paper becomes Volt Edge.",
+      "Do give every raised control a resting lift and a matching bottom edge, and collapse both on `:active`. That press is the system's signature.",
+      "Do keep focused replay and evidence surfaces dark within the paper page; keep explanation and reflection readable on paper.",
+      "Do verify the phone composition with natural wrapping, stacked sections and visible replay and pilot actions.",
+      "Do clear the 44px target floor, including replay markers and the lab range; use the component's established larger action height.",
+      "Do keep the lead to a short sentence and body copy within a comfortable reading measure.",
+      "Do use mono for compact measurements and tabular figures for changing values.",
+      "Do label illustrative values, observed events and inferred interventions separately; leave content-calibration disclosures adjacent to the pilot action.",
+      "Do ship a truthful resting value for every live counter, so a slow or failed fetch still renders a real number.",
+      "Do wrap every hover treatment in `@media (hover: hover)`.",
+      "Do use inline SVG at 15–20px sitting directly next to its label."
+    ],
+    "donts": [
+      "Don't put a kicker or eyebrow above a heading. The inherited `.eyebrow` and `.mono-label` classes are set to `display: none` inside `.mm` on purpose — the headline is the entry point.",
+      "Don't use volt as decorative glow, halo, spread or text-shadow. A solid keyboard-focus outline remains a functional state.",
+      "Don't set volt or Volt Edge as body-text colour on paper. Volt-as-text is a night-only privilege.",
+      "Don't add a zero-offset shadow. Ambient depth always has vertical offset; the only zero-offset value in the system is the field focus ring.",
+      "Don't reach for a translucent or blurred card. `.glass` is explicitly reduced to a flat white panel with `backdrop-filter: none` inside `.mm`; the only surviving blur is the dock's, behind an `@supports` guard.",
+      "Don't build icon tiles — an icon inside a rounded coloured square as a feature marker. Icons are inline, at text size, next to their label.",
+      "Don't lay features out as a bento or card grid. They are alternating full-width rows separated by hairlines.",
+      "Don't animate anything on a marketing page beyond the drill's rehearsed resolution, the breathing live dot, the count-up, the headline decode, and the reveal rise. Everything else is still and legible.",
+      "Don't add an animation library to a marketing page. The device floor is a budget Android on patchy 4G; the count-up and the decode are hand-rolled for exactly this reason.",
+      "Don't treat the older drill hero or numbered steps as the current recovery homepage composition.",
+      "Don't turn illustrative marks, repeated questions or uncalibrated score differences into improvement claims.",
+      "Don't reach into the legacy app classes (`.glass`, `.btn-volt`, `.q-option`, `.stat`) or the `.mmx-` sheet when building a new marketing surface. Their appearance inside `.mm` is a compatibility shim for pages not yet converted, not a pattern to extend."
+    ]
+  }
+}

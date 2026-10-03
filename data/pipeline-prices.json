@@ -1,0 +1,6 @@
+{
+  "source_url": null,
+  "expires_at": null,
+  "models": {},
+  "note": "Paid dispatch disabled until current provider prices and maximum input limits are independently configured. Initial persistent budget is $2, lifetime cap $10."
+}

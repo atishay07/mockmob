@@ -1,0 +1,75 @@
+/* Compass ladder (.cl): controls follow the page theme; the ladder is a product screen, so it stays dark. */
+.cl { display: grid; gap: 1.75rem; align-items: start; }
+@media (min-width: 960px) { .cl { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: clamp(2rem, 4.5vw, 4.5rem); } }
+.cl__controls { display: grid; gap: 1.1rem; min-width: 0; }
+.cl__group { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.cl__group button { min-height: 44px; padding: 0 0.9rem; border-radius: 999px; border: 1px solid var(--line-strong); background: transparent; color: var(--ink-2); font: 600 0.875rem var(--font-body); cursor: pointer; transition: background-color .2s ease, color .2s ease, border-color .2s ease; }
+.cl__group button:hover { color: var(--ink); border-color: var(--ink-3); }
+.cl__group button[aria-pressed='true'] { background: var(--accent-wash); border-color: var(--accent-line); color: var(--ink); box-shadow: 0 0 0 1px var(--accent-line) inset; }
+.cl__group button:focus-visible, .cl input:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 2px; }
+.cl__group--small button { min-height: 44px; min-width: 44px; padding: 0 0.75rem; font-size: 0.8rem; }
+.cl__row { display: flex; flex-wrap: wrap; gap: 0.6rem 1.25rem; }
+
+.cl__score { display: grid; grid-template-columns: 1fr auto; gap: 0.35rem 1rem; align-items: baseline; padding: 1rem 1.1rem; border: 1px solid var(--line-strong); border-radius: 18px; background: var(--paper-raised); }
+.cl__score label { font-size: 0.85rem; font-weight: 600; color: var(--ink-2); }
+.cl__big { font: 800 clamp(2.2rem, 5vw, 3rem)/1 var(--font-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: var(--accent-text); min-width: 3ch; text-align: right; }
+.cl__score input { grid-column: 1 / -1; width: 100%; height: 44px; accent-color: var(--volt); cursor: pointer; background: transparent; }
+.cl__score small { grid-column: 1 / -1; font-size: 0.78rem; color: var(--ink-3); }
+.cl__big span { font: 500 .8rem var(--font-body); letter-spacing: 0; color: var(--ink-3); }
+.cl__try { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem; margin-top: .5rem; }
+.cl__demo { display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; border: 0; border-radius: 8px; padding: .4rem .5rem; background: transparent; color: var(--ink-2); font: 600 .8rem var(--font-body); cursor: pointer; }
+.cl__demo:hover { color: var(--ink); background: var(--accent-wash); }
+.cl__demo:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 3px; }
+.cl__demo:active, .cl__group button:active { transform: translateY(1px); }
+.cl__summary { margin: 0; font-size: 1rem; line-height: 1.6; color: var(--ink-2); max-width: 46ch; }
+.cl__summary b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.cl__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem; }
+
+.cl__stage { margin: 0; min-width: 0; border-radius: 22px; background: #0e130f; color: #f2f4ec; border: 1px solid rgba(244, 245, 240, 0.12); box-shadow: 0 30px 70px -30px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(244, 245, 240, 0.08); overflow: hidden; }
+.cl__top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem 1rem; padding: 0.85rem 1.1rem; border-bottom: 1px solid rgba(244, 245, 240, 0.1); font: 700 0.9rem var(--font-display); }
+.cl__tag { font: 600 0.72rem var(--font-body); color: #d2f000; padding: 0.15rem 0.6rem; border: 1px solid rgba(210, 240, 0, 0.35); border-radius: 999px; }
+.cl__list { list-style: none; margin: 0; padding: 0.4rem 1.1rem 0.6rem; display: grid; }
+.cl__list li { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); grid-template-areas: 'name cut' 'track track' 'gap gap'; gap: 0.25rem 0.75rem; padding: 0.7rem 0; border-top: 1px solid rgba(244, 245, 240, 0.07); }
+.cl__list li:first-child { border-top: 0; }
+@media (min-width: 640px) { .cl__list li { grid-template-columns: minmax(0, 11rem) minmax(0, 1fr) 4.2rem 7.6rem; grid-template-areas: 'name track cut gap'; align-items: center; gap: 0 0.8rem; padding: 0.6rem 0; } }
+.cl__name { grid-area: name; font: 600 0.9rem/1.35 var(--font-display); overflow-wrap: anywhere; }
+.cl__name i { font-style: normal; font-weight: 500; color: #8f9a8b; }
+.cl__track { grid-area: track; position: relative; display: block; height: 8px; border-radius: 999px; background: rgba(244, 245, 240, 0.08); }
+.cl__track u { position: absolute; inset: 0; border-radius: inherit; background: rgba(244, 245, 240, 0.28); transform-origin: left center; transition: transform .12s linear; }
+.cl__track b { position: absolute; top: -4px; width: 3px; height: 16px; margin-left: -1.5px; border-radius: 2px; background: #f2f4ec; }
+.cl__list li[data-state='clear'] .cl__track u { background: #d2f000; }
+.cl__list li[data-state='clear'] .cl__name { color: #f2f4ec; }
+.cl__list li[data-state='short'] .cl__name { color: #bcc5b9; }
+.cl__list li[data-state='none'] { opacity: .6; }
+.cl__cut { grid-area: cut; font: 600 0.85rem var(--font-mono); text-align: right; font-variant-numeric: tabular-nums; color: #d9dfd1; }
+.cl__gap { grid-area: gap; font: 600 0.78rem var(--font-body); font-variant-numeric: tabular-nums; color: #9aa795; }
+@media (min-width: 640px) { .cl__gap { text-align: right; } }
+.cl__list li[data-state='clear'] .cl__gap { color: #d2f000; }
+.cl__stage figcaption { padding: 0.8rem 1.1rem 1rem; border-top: 1px solid rgba(244, 245, 240, 0.08); font-size: 0.74rem; line-height: 1.55; color: #8f9a8b; }
+@media (prefers-reduced-motion: reduce) { .cl__track u, .cl__group button { transition: none; } }
+
+/* Compass Pro promo: the paid layer on top of the free ladder. Glass over a soft volt light. */
+.lp-cpro { position: relative; isolation: isolate; display: grid; gap: 1.25rem; margin-top: 1.5rem; padding: clamp(1.1rem, 3vw, 1.75rem); border-radius: 22px; overflow: hidden; border: 1px solid var(--accent-line, rgba(210, 240, 0, 0.4)); background: var(--glass-fill, rgba(18, 24, 19, 0.55)); -webkit-backdrop-filter: blur(22px) saturate(170%); backdrop-filter: blur(22px) saturate(170%); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 30px 70px -44px rgba(0, 0, 0, 0.7); }
+.lp-cpro::before { content: ""; position: absolute; z-index: -1; inset: -50% -10% auto 45%; height: 200%; background: radial-gradient(closest-side, rgba(210, 240, 0, 0.16), transparent); pointer-events: none; }
+@media (min-width: 900px) { .lp-cpro { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); align-items: start; } .lp-cpro__fine { grid-column: 1 / -1; } }
+.lp-cpro__copy { display: grid; gap: 0.6rem; justify-items: start; }
+.lp-cpro__copy p { margin: 0; color: var(--ink-2); line-height: 1.6; }
+.lp-cpro__badge { display: inline-flex; padding: 0.2rem 0.65rem; border-radius: 999px; border: 1px solid var(--accent-line, rgba(210, 240, 0, 0.45)); color: var(--accent-text) !important; font: 700 0.75rem var(--font-body); }
+.lp-cpro__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
+.lp-cpro__list li { display: grid; gap: 0.2rem; padding: 0.85rem 1rem; border-radius: 14px; border: 1px solid var(--line); background: rgb(var(--tint) / 0.03); }
+.lp-cpro__list b { font: 700 0.98rem var(--font-display); color: var(--ink); }
+.lp-cpro__list span { font-size: 0.875rem; line-height: 1.5; color: var(--ink-2); }
+.lp-cpro__fine { margin: 0; font-size: 0.78rem; line-height: 1.5; color: var(--ink-3); }
+html[data-theme='light'] .lp-cpro { --glass-fill: rgba(255, 255, 255, 0.6); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 30px 70px -46px rgba(20, 32, 14, 0.4); }
+html[data-theme='light'] .lp-cpro::before { background: radial-gradient(closest-side, rgba(170, 200, 0, 0.24), transparent); }
+@media (prefers-reduced-transparency: reduce) { .lp-cpro { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--paper-raised); } }
+
+/* Combo Planner promo in the DU section: same glass family as Compass Pro. */
+.lp-combo { position: relative; isolation: isolate; display: grid; gap: 1rem; align-items: center; margin-block: 1.5rem; padding: clamp(1.1rem, 3vw, 1.6rem); border-radius: 22px; overflow: hidden; border: 1px solid var(--accent-line, rgba(210, 240, 0, 0.4)); background: var(--glass-fill, rgba(18, 24, 19, 0.55)); -webkit-backdrop-filter: blur(22px) saturate(170%); backdrop-filter: blur(22px) saturate(170%); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 30px 70px -44px rgba(0, 0, 0, 0.7); }
+.lp-combo::before { content: ""; position: absolute; z-index: -1; inset: -60% 40% auto -10%; height: 220%; background: radial-gradient(closest-side, rgba(210, 240, 0, 0.14), transparent); pointer-events: none; }
+.lp-combo > div { display: grid; gap: 0.5rem; justify-items: start; }
+.lp-combo p:not(.lp-cpro__badge) { margin: 0; max-width: 62ch; color: var(--ink-2); line-height: 1.6; }
+.lp-combo .mm-btn { justify-self: start; }
+@media (min-width: 900px) { .lp-combo { grid-template-columns: minmax(0, 1fr) auto; } }
+html[data-theme='light'] .lp-combo { --glass-fill: rgba(255, 255, 255, 0.6); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 30px 70px -46px rgba(20, 32, 14, 0.4); }
+@media (prefers-reduced-transparency: reduce) { .lp-combo { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--paper-raised); } }

@@ -1,341 +1,86 @@
 "use client";
-import React, { useEffect, useRef, useState, useCallback, useMemo, memo } from 'react';
+
+import { memo, useEffect, useRef, useState } from 'react';
+import { AppIcon, StatusIcon } from '@/components/ui/Glyph';
 import { interactWithQuestion, setQuestionBookmark } from '@/lib/services/questionService';
-import { Analytics } from '@/lib/analytics';
 import { VoteControls } from '@/components/questions/VoteControls';
 import { useToast } from '@/components/ToastProvider';
+import { questionFeedback } from '@/../data/explore_feed';
 
-const LETTERS = ['A', 'B', 'C', 'D', 'E'];
-
-function readSavedState(id) {
-  if (!id || typeof window === 'undefined') return false;
-  try {
-    const saves = JSON.parse(localStorage.getItem('mm_saves') || '{}');
-    return Boolean(saves[id]);
-  } catch {
-    return false;
-  }
-}
-
-// ── Difficulty badge ──────────────────────────────────────────────────────────
-const DIFF = {
-  easy:   { label: 'Easy',   bg: 'rgba(74,222,128,.12)',  color: '#4ade80' },
-  medium: { label: 'Medium', bg: 'rgba(251,191,36,.12)',  color: '#fbbf24' },
-  hard:   { label: 'Hard',   bg: 'rgba(248,113,113,.12)', color: '#f87171' },
-};
-
-function DiffBadge({ d }) {
-  const s = DIFF[d] ?? DIFF.medium;
-  return (
-    <span style={{
-      padding: '3px 9px', borderRadius: '20px', fontSize: '10px',
-      fontFamily: 'var(--font-mono)', fontWeight: 700, letterSpacing: '0.12em',
-      textTransform: 'uppercase', background: s.bg, color: s.color,
-    }}>{s.label}</span>
-  );
-}
-
-// ── Single option button ──────────────────────────────────────────────────────
-const Option = memo(function Option({ idx, text, state, disabled, onSelect }) {
-  /* state: 'idle' | 'selected' | 'correct' | 'wrong' | 'dimmed' */
-  const styles = {
-    idle:     { border: '1.5px solid rgba(255,255,255,.08)', bg: 'rgba(255,255,255,.02)', letter: { bg: 'rgba(255,255,255,.06)', color: '#71717a' }, text: '#d4d4d8' },
-    selected: { border: '1.5px solid rgba(210,240,0,.5)',    bg: 'rgba(210,240,0,.04)',   letter: { bg: 'var(--volt)',              color: '#000'    }, text: '#fff'    },
-    correct:  { border: '1.5px solid rgba(74,222,128,.55)', bg: 'rgba(74,222,128,.06)',  letter: { bg: '#4ade80',                  color: '#000'    }, text: '#4ade80' },
-    wrong:    { border: '1.5px solid rgba(248,113,113,.55)',bg: 'rgba(248,113,113,.06)', letter: { bg: '#f87171',                  color: '#fff'    }, text: '#f87171' },
-    dimmed:   { border: '1.5px solid rgba(255,255,255,.04)', bg: 'transparent',           letter: { bg: 'rgba(255,255,255,.04)',   color: '#3f3f46' }, text: '#52525b' },
-  };
-  const s = styles[state] ?? styles.idle;
-
-  return (
-    <button
-      disabled={disabled}
-      onClick={onSelect}
-      aria-label={`Option ${LETTERS[idx]}: ${text}`}
-      onMouseDown={e => { if (!disabled) e.currentTarget.style.transform = 'scale(0.983)'; }}
-      onMouseUp={e => { e.currentTarget.style.transform = ''; }}
-      onMouseLeave={e => { e.currentTarget.style.transform = ''; }}
-      style={{
-        width: '100%', textAlign: 'left', display: 'flex', alignItems: 'center', gap: '12px',
-        padding: '14px 16px', borderRadius: '12px', cursor: disabled ? 'default' : 'pointer',
-        border: s.border, background: s.bg, color: s.text,
-        transition: 'all .15s ease', transform: 'scale(1)',
-      }}
-    >
-      <span style={{
-        width: '28px', height: '28px', borderRadius: '7px', flexShrink: 0,
-        background: s.letter.bg, color: s.letter.color,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '11px',
-        transition: 'all .15s ease',
-      }}>{LETTERS[idx]}</span>
-      <span style={{ flex: 1, fontSize: '14px', lineHeight: 1.5 }}>{text}</span>
-      {state === 'correct' && <span style={{ fontSize: '15px' }}>✓</span>}
-      {state === 'wrong'   && <span style={{ fontSize: '15px' }}>✗</span>}
-    </button>
-  );
-});
-
-// ── Main card ─────────────────────────────────────────────────────────────────
 export const QuestionCard = memo(function QuestionCard({ row, onProgressChange }) {
+  const q = row?.questions ?? row ?? {};
+  const options = Array.isArray(q.options) ? q.options : [];
   const toast = useToast();
-  const q       = row?.questions ?? row ?? {};
-  const options = useMemo(() => (
-    Array.isArray(q.options) ? q.options : []
-  ), [q.options]);
+  const [selected, setSelected] = useState(null);
+  const [revealed, setRevealed] = useState(false);
+  const [saved, setSaved] = useState(Boolean(q.saved));
+  const [saving, setSaving] = useState(false);
+  const [recordError, setRecordError] = useState(false);
+  const card = useRef(null);
+  const feedbackNode = useRef(null);
+  const seen = useRef(false);
+  const startedAt = useRef(null);
+  const answerLock = useRef(false);
+  const saveLock = useRef(false);
+  const feedback = questionFeedback(q, selected);
 
-  const [selected,  setSelected]  = useState(null);   // idx
-  const [revealed,  setRevealed]  = useState(false);
-  const [saved,     setSaved]     = useState(() => Boolean(q.saved) || readSavedState(q.id));
-  const [skipping,  setSkipping]  = useState(false);
-
-  const mountAt  = useRef(0);
-  const seenDone = useRef(false);
-  const cardRef  = useRef(null);
-
-  // ── Reset per-question timers without making render time-dependent ──
   useEffect(() => {
-    mountAt.current = Date.now();
+    if (!card.current || !q.id) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting || seen.current) return;
+      seen.current = true;
+      startedAt.current = Date.now();
+      interactWithQuestion(q.id, { interaction_type: 'seen' }).catch(() => {});
+      observer.disconnect();
+    }, { threshold: 0.4 });
+    observer.observe(card.current);
+    return () => observer.disconnect();
   }, [q.id]);
 
-  const writeLS = (key, id, value) => {
-    try {
-      const obj = JSON.parse(localStorage.getItem(key) || '{}');
-      if (value === null || value === 0 || value === false) delete obj[id];
-      else obj[id] = value;
-      localStorage.setItem(key, JSON.stringify(obj));
-    } catch { /* ignore */ }
-  };
-
-  // ── Auto-fire "seen" at 60 % visibility ──────────────────────────────────
-  useEffect(() => {
-    if (!cardRef.current || seenDone.current || !q.id) return;
-    const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting && !seenDone.current) {
-        seenDone.current = true;
-        Analytics.recordView();
-        interactWithQuestion(q.id, { interaction_type: 'seen', flow_context: 'explore' });
-      }
-    }, { threshold: 0.6 });
-    obs.observe(cardRef.current);
-    return () => obs.disconnect();
-  }, [q.id]);
-
-  const dwellMs = () => Date.now() - mountAt.current;
-
-  // ── Correct option index ──────────────────────────────────────────────────
-  const correctIdx = options.findIndex(
-    o => o.key === q.correct_answer || String(o.key) === String(q.correct_answer)
-  );
-
-  // ── Handlers ─────────────────────────────────────────────────────────────
-  const handleSelect = useCallback((idx) => {
-    if (revealed) return;
-    const ms = dwellMs();
-    setSelected(idx);
+  function reveal(key, keyboard) {
+    if (answerLock.current) return;
+    answerLock.current = true;
+    setSelected(key);
     setRevealed(true);
-    Analytics.recordAnswer();
-    Analytics.recordDwell(ms);
-    interactWithQuestion(q.id, {
-      interaction_type: 'attempted',
-      flow_context: 'explore',
-      dwell_ms: ms,
-      metadata: { selected_key: options[idx]?.key ?? String(idx) },
-    }).then(() => onProgressChange?.({ type: 'attempted', questionId: q.id })).catch(() => {});
-  }, [revealed, q.id, options, onProgressChange]);
+    if (keyboard) requestAnimationFrame(() => feedbackNode.current?.focus({ preventScroll: true }));
+    interactWithQuestion(q.id, { interaction_type: key == null ? 'skip' : 'attempted', dwell_ms: Math.max(0, Date.now() - (startedAt.current ?? Date.now())), metadata: key == null ? {} : { selected_key: key } }).then((result) => {
+      if (!result) setRecordError(true);
+      else onProgressChange?.({ type: key == null ? 'skip' : 'attempted', questionId: q.id });
+    }).catch(() => setRecordError(true));
+  }
 
-  const handleSkip = useCallback(() => {
-    if (revealed || skipping) return;
-    const ms = dwellMs();
-    setSkipping(true);
-    Analytics.recordSkip(ms);
-    interactWithQuestion(q.id, { interaction_type: 'skip', flow_context: 'explore', dwell_ms: ms })
-      .then(() => onProgressChange?.({ type: 'skip', questionId: q.id }))
-      .catch(() => {});
-    setTimeout(() => { setRevealed(true); setSkipping(false); }, 300);
-  }, [revealed, skipping, q.id, onProgressChange]);
-
-  const handleSave = useCallback(() => {
-    const next = !saved;
-    setSaved(next);
-    writeLS('mm_saves', q.id, next ? Date.now() : false);
-    setQuestionBookmark(q.id, next)
-      .then((result) => {
-        onProgressChange?.({ type: next ? 'save' : 'unsave', questionId: q.id, result });
-        if (next) {
-          toast.success({
-            message: 'Added to saved questions.',
-            actionLabel: 'Open saved',
-            href: '/saved',
-          });
-        }
-      })
-      .catch(() => {
-        setSaved(!next);
-        writeLS('mm_saves', q.id, !next ? Date.now() : false);
-        toast.error(next
-          ? 'Could not save this question. Run the saved-questions migration and try again.'
-          : 'Could not update saved questions.'
-        );
-      });
-  }, [saved, q.id, onProgressChange, toast]);
-
-  // ── Option state resolver ─────────────────────────────────────────────────
-  const optionState = (idx) => {
-    if (!revealed) return idx === selected ? 'selected' : 'idle';
-    if (idx === correctIdx)                    return 'correct';
-    if (idx === selected && idx !== correctIdx) return 'wrong';
-    return 'dimmed';
-  };
+  async function save() {
+    if (saveLock.current) return;
+    saveLock.current = true;
+    setSaving(true);
+    try {
+      const result = await setQuestionBookmark(q.id, !saved);
+      setSaved(Boolean(result.saved));
+      onProgressChange?.({ type: result.saved ? 'save' : 'unsave', questionId: q.id });
+      if (result.saved) toast.success({ message: 'Saved for another go.', actionLabel: 'Open saved', href: '/saved' });
+    } catch (error) {
+      toast.error(error.status === 402 ? 'Your 25 free save slots are full. Remove a saved question to make room.' : 'Could not update saved questions. Check your connection and try again.');
+    } finally { saveLock.current = false; setSaving(false); }
+  }
 
   return (
-    <article
-      ref={cardRef}
-      style={{
-        background: 'linear-gradient(135deg,rgba(255,255,255,.032),rgba(255,255,255,.008) 40%,rgba(255,255,255,.014))',
-        border: '1px solid rgba(255,255,255,.08)',
-        borderRadius: '20px', padding: '24px',
-        marginBottom: '16px', overflow: 'hidden',
-        transition: 'opacity .3s ease, transform .3s ease',
-        opacity: skipping ? 0 : 1,
-        transform: skipping ? 'translateX(32px)' : 'none',
-      }}
-    >
-      {/* ── Meta row ── */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '18px', flexWrap: 'wrap' }}>
-        {q.subject && (
-          <span style={{
-            padding: '3px 9px', borderRadius: '20px', fontSize: '10px',
-            fontFamily: 'var(--font-mono)', fontWeight: 600, letterSpacing: '0.12em',
-            textTransform: 'uppercase', background: 'rgba(255,255,255,.06)', color: '#a1a1aa',
-          }}>{q.subject}</span>
-        )}
-        {q.chapter && (
-          <span style={{
-            padding: '3px 9px', borderRadius: '20px', fontSize: '10px',
-            fontFamily: 'var(--font-mono)', fontWeight: 600, letterSpacing: '0.12em',
-            textTransform: 'uppercase', background: 'rgba(255,255,255,.04)', color: '#71717a',
-          }}>{q.chapter}</span>
-        )}
-        <span style={{ marginLeft: 'auto' }}><DiffBadge d={q.difficulty} /></span>
+    <article ref={card} className="ex-question">
+      <header className="ex-question__meta"><span>{q.chapter || 'Practice question'}</span><span className="ex-difficulty" data-level={q.difficulty}>{['easy', 'medium', 'hard'].includes(q.difficulty) ? q.difficulty : 'Unlabelled'}</span></header>
+      <h3 className="ex-question__body">{q.body ?? q.question ?? 'Question unavailable'}</h3>
+      <div className="ex-options" role="group" aria-label="Answer options">
+        {options.map((option, index) => {
+          const correct = revealed && feedback.correctKey != null && String(option.key) === String(feedback.correctKey);
+          const wrong = revealed && feedback.state === 'incorrect' && String(option.key) === String(selected);
+          return <button key={option.key ?? index} type="button" className="ex-option" data-state={correct ? 'correct' : wrong ? 'wrong' : 'idle'} disabled={revealed || option.key == null || feedback.state === 'unavailable'} onClick={(event) => reveal(option.key, event.detail === 0)}><span className="ex-option__key">{option.key ?? 'ABCD'[index]}</span><span>{option.text}</span>{correct ? <StatusIcon kind="success" size={18} /> : wrong ? <StatusIcon kind="error" size={18} /> : null}</button>;
+        })}
       </div>
-
-      {/* ── Question body ── */}
-      <p style={{
-        fontSize: '16px', fontWeight: 500, lineHeight: 1.65,
-        color: '#f4f4f5', marginBottom: '20px',
-      }}>
-        {q.body ?? q.question ?? '—'}
-      </p>
-
-      {/* ── Options ── */}
-      {options.length > 0 ? (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '9px', marginBottom: '22px' }}>
-          {options.map((opt, idx) => (
-            <Option
-              key={opt.key ?? idx}
-              idx={idx}
-              text={opt.text}
-              state={optionState(idx)}
-              disabled={revealed}
-              onSelect={() => handleSelect(idx)}
-            />
-          ))}
-        </div>
-      ) : (
-        revealed && q.correct_answer && (
-          <div style={{
-            padding: '12px 16px', marginBottom: '20px',
-            background: 'rgba(74,222,128,.06)',
-            border: '1px solid rgba(74,222,128,.3)',
-            borderRadius: '10px', color: '#4ade80', fontSize: '14px',
-          }}>✓ {q.correct_answer}</div>
-        )
-      )}
-
-      {/* ── Explanation ── */}
-      {revealed && q.explanation && (
-        <div style={{
-          padding: '13px 15px', marginBottom: '20px',
-          background: 'rgba(255,255,255,.025)',
-          border: '1px solid rgba(255,255,255,.07)',
-          borderRadius: '10px', fontSize: '13px',
-          color: '#a1a1aa', lineHeight: 1.65,
-        }}>
-          <span style={{ color: 'var(--volt)', fontWeight: 700 }}>💡 </span>
-          {q.explanation}
-        </div>
-      )}
-
-      {/* ── Tags ── */}
-      {Array.isArray(q.tags) && q.tags.length > 0 && (
-        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '18px' }}>
-          {q.tags.map(t => (
-            <span key={t} style={{
-              padding: '2px 8px', borderRadius: '4px',
-              background: 'rgba(255,255,255,.04)', color: '#52525b',
-              fontSize: '10px', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em',
-            }}>#{t}</span>
-          ))}
-        </div>
-      )}
-
-      {/* ── Action bar ── */}
-      <div style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,.06)',
-        gap: '12px',
-      }}>
-        {/* Vote cluster */}
-        <VoteControls
-          questionId={q.id}
-          initialScore={q.score}
-          initialUserVote={q.userVote}
-        />
-
-        {/* Save + Skip */}
-        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-          <ActionBtn
-            label="Save"
-            active={saved}
-            activeColor="var(--volt)"
-            activeBg="rgba(210,240,0,.1)"
-            onClick={handleSave}
-            pill
-          >
-            {saved ? '★' : '☆'} Save
-          </ActionBtn>
-          {!revealed && (
-            <ActionBtn label="Skip" onClick={handleSkip} pill muted>
-              Skip →
-            </ActionBtn>
-          )}
-        </div>
-      </div>
+      {revealed && <div ref={feedbackNode} className="ex-feedback" data-state={feedback.state} tabIndex={-1} role="status"><b>{feedback.state === 'correct' ? 'Correct. Keep the reasoning.' : feedback.state === 'incorrect' ? `The answer is ${feedback.correctKey}. Here’s why.` : feedback.state === 'revealed' ? `Answer: ${feedback.correctKey}` : 'The answer is unavailable.'}</b><p>{q.explanation || 'An explanation is not available for this question.'}</p></div>}
+      {recordError && <p className="ex-recorderror" role="status">Feedback is shown, but this activity could not be recorded.</p>}
+      {feedback.state === 'unavailable' && !revealed && <p className="ex-recorderror">This question has no usable answer key. Try the next one.</p>}
+      <footer className="ex-question__actions">
+        <VoteControls questionId={q.id} initialScore={q.score} initialUserVote={q.userVote} onError={() => toast.error('Your vote did not save. Try again when your connection is back.')} />
+        <div className="ex-question__tools"><button type="button" className="ex-action" aria-pressed={saved} disabled={saving} onClick={save}><AppIcon name="saved" size={16} />{saving ? 'Saving…' : saved ? 'Saved' : 'Save'}</button>{!revealed && feedback.state !== 'unavailable' && <button type="button" className="ex-action" onClick={(event) => reveal(null, event.detail === 0)}>Show answer</button>}</div>
+      </footer>
     </article>
   );
 });
-
-// ── Small action button atom ──────────────────────────────────────────────────
-function ActionBtn({ children, label, onClick, active, activeBg, activeColor, pill, muted }) {
-  return (
-    <button
-      aria-label={label}
-      onClick={onClick}
-      style={{
-        border: pill ? '1px solid rgba(255,255,255,.1)' : 'none',
-        borderRadius: pill ? '20px' : '20px',
-        padding: pill ? '5px 12px' : '0',
-        width: pill ? 'auto' : '32px',
-        height: pill ? 'auto' : '32px',
-        minWidth: pill ? undefined : '32px',
-        background: active ? activeBg : 'transparent',
-        color: active ? activeColor : muted ? '#3f3f46' : '#71717a',
-        cursor: 'pointer', fontSize: pill ? '11px' : '14px',
-        fontFamily: 'var(--font-mono)', fontWeight: 600, letterSpacing: '0.08em',
-        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px',
-        transition: 'all .15s ease',
-      }}
-    >{children}</button>
-  );
-}

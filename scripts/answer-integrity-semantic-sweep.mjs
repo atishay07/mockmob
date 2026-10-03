@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+import { budgetedFetch } from './pipeline/lib/budgetLedger.mjs';
+
 import { createClient } from '@supabase/supabase-js';
 import OpenAI from 'openai';
 import fs from 'node:fs/promises';
@@ -181,7 +183,7 @@ async function verifyBatch(openai, batch, options, attempt = 1) {
 }
 
 async function verifyRows(rows, options) {
-  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  const openai = new OpenAI({ fetch: budgetedFetch(), maxRetries: 0, apiKey: process.env.OPENAI_API_KEY });
   const items = rows.map(toVerifierItem);
   const batches = [];
   for (let index = 0; index < items.length; index += options.batchSize) {

@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button';
 import { DotPattern } from '@/components/ui/dot-pattern';
 import { PrepOSOrb } from '@/components/ui/PrepOSOrb';
 import { breadcrumbJsonLd, seoMetadata } from '@/lib/seo';
+import '@/app/public-polish.css';
 
 export const metadata = seoMetadata({
   title: 'CUET Practice Features, Analytics & Admission Compass | MockMob',
@@ -17,23 +18,23 @@ export const metadata = seoMetadata({
 
 export default function FeaturesPage() {
   const allFeatures = [
-    { t: 'Community Mocks', d: 'Peer-built questions with votes, saves, and quality signals, so the best material rises and weak questions get pushed out.', icon: 'users', highlight: true },
-    { t: 'Weakness Radar', d: 'Score movement, chapter gaps, consistency, completion rate, and premium advanced analysis in one place.', icon: 'radar' },
+    { t: 'CUET question practice', d: 'Explore available CUET-style practice, review explanations, and save questions that deserve another look.', icon: 'users', highlight: true },
+    { t: 'Practice Radar', d: 'Review attempts by subject and chapter, with deeper practice signals available where your history supports them.', icon: 'radar' },
     { t: 'Live Leaderboards', d: 'Turn practice into pressure. Climb ranks as you solve, submit, and compete in focused mock sprints.', icon: 'trend' },
     { t: 'Saved Question Bank', d: 'Bookmark tough questions from Explore and build your personal revision stack for repeat practice.', icon: 'book' },
     { t: 'Exam Tracks', d: 'CUET-first pathways with subject, unit, chapter, and difficulty controls shaped around actual student workflows.', icon: 'route' },
-    { t: 'PrepOS Daily Mission', d: 'A chat-first planning layer that turns every mock result into today’s benchmark, replay, review, or DU target move.', icon: 'spark', highlight: true },
-    { t: 'AI Admission Compass', d: 'Premium users unlock a DU college predictor with mock CUET score bands, category-aware targets, and course-subject eligibility checks.', icon: 'target', highlight: true },
-    { t: 'Premium Speed Layer', d: 'Unlock unlimited mocks, advanced Radar, targeted difficulty, and faster high-intent practice loops.', icon: 'zap' },
+    { t: 'PrepOS study plan', d: 'See a shared next step based on available practice history. Core planning does not depend on a paid model reply.', icon: 'spark', highlight: true },
+    { t: 'Admission Compass', d: 'Check programme eligibility and compare sourced DU historical cutoffs by year, round, and category. Free for everyone.', icon: 'target', highlight: true },
+    { t: 'Pro practice access', d: 'Unlock available practice modes, the difficulty selector, and deeper Radar details. Access follows the current offer and inventory.', icon: 'zap' },
   ];
   const proof = [
-    ['Solve', 'Mock tests, chapter drills, and curated feeds'],
-    ['Signal', 'Votes, saves, skips, and progress analytics'],
-    ['Ask', 'PrepOS plans the benchmark, replay, review, or DU move'],
+    ['Practise', 'Timed mocks, focused drills, and question review'],
+    ['Review', 'Saved questions and practice history by chapter'],
+    ['Plan', 'A next step grounded in available study history'],
   ];
 
   return (
-    <div className="view">
+    <div className="mm public-features">
       <JsonLd
         id="features-breadcrumb-json-ld"
         data={breadcrumbJsonLd([
@@ -44,12 +45,12 @@ export default function FeaturesPage() {
       <NavBar />
       
       {/* HEADER */}
-      <section className="px-5 pt-32 pb-16 relative overflow-hidden">
+      <section className="px-5 pt-10 pb-16 relative overflow-hidden">
         <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_top,rgba(210,240,0,0.07)_0%,transparent_48%)] pointer-events-none" />
         <DotPattern width={26} height={26} cx={1} cy={1} cr={1.2} className="text-volt/20 opacity-40" glow={true} />
         <div className="container-narrow text-center relative z-10">
           <div className="eyebrow mb-4">{'// The Arsenal'}</div>
-          <h1 className="display-lg mb-6">Every feature exists to move your <span className="text-volt italic">score faster.</span></h1>
+          <h1 className="display-lg mb-6">Every feature should make your <span className="text-volt italic">next step clearer.</span></h1>
           <p className="text-zinc-400 max-w-2xl mx-auto text-lg">
             MockMob is not a notes app. It is a CUET practice engine with PrepOS on top: find the right questions, save the painful ones, ask for the next move, and come back sharper.
           </p>
@@ -77,16 +78,16 @@ export default function FeaturesPage() {
         <div className="container-std">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {allFeatures.map((f, i) => (
-              <div key={i} className="glass p-6 md:p-8 relative overflow-hidden group md:min-h-[260px]" style={{ borderColor: f.highlight ? 'rgba(210,240,0,0.2)' : 'rgba(255,255,255,0.08)' }}>
+              <div key={i} className="feature-card glass p-6 md:p-8 relative overflow-hidden md:min-h-[260px]" style={{ borderColor: f.highlight ? 'rgba(210,240,0,0.2)' : 'rgba(255,255,255,0.08)' }}>
                 <div
-                  className="feature-dot-layer pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+                  className="feature-dot-layer pointer-events-none"
                   style={{ position: 'absolute', inset: 0, zIndex: 0 }}
                 >
                   <DotPattern width={24} height={24} cx={1} cy={1} cr={1.5} className={f.highlight ? "text-volt/30" : "text-white/20"} glow={true} style={{ maskImage: 'radial-gradient(ellipse at center, white, transparent 70%)', WebkitMaskImage: 'radial-gradient(ellipse at center, white, transparent 70%)' }} />
                 </div>
                 
                 <div className="relative z-10">
-                  <div className="w-14 h-14 rounded-xl flex items-center justify-center mb-6 transition-transform group-hover:scale-110 duration-500 shadow-lg" style={{ background: f.highlight ? 'var(--volt)' : 'rgba(255,255,255,0.05)', color: f.highlight ? '#000' : '#a1a1aa' }}>
+                  <div className="feature-icon w-14 h-14 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ background: f.highlight ? 'var(--volt)' : 'rgba(255,255,255,0.05)', color: f.highlight ? '#000' : '#a1a1aa' }}>
                     <Icon name={f.icon} style={{ width: '24px', height: '24px' }} />
                   </div>
                   <h3 className="heading text-xl mb-3">{f.t}</h3>
@@ -132,11 +133,11 @@ export default function FeaturesPage() {
               <div className="shot-top">
                 <div>
                   <div className="mono-label">Admission Compass</div>
-                  <div className="shot-score">872<span>/1000</span></div>
+                  <div className="shot-score">DU<span>historical reference</span></div>
                 </div>
-                <span className="pill volt">High chance · 850-1000</span>
+                <span className="pill volt">Illustrative target · not a prediction</span>
               </div>
-              <div className="shot-bars">
+              <div className="shot-bars" hidden>
                 {['Accountancy', 'Economics', 'Maths', 'English', 'Business'].map((item, index) => (
                   <div key={item}>
                     <div className="flex items-center justify-between text-xs text-zinc-400 mb-1">
@@ -159,9 +160,9 @@ export default function FeaturesPage() {
               </div>
               <div className="shot-list">
                 {[
-                  ['SRCC', 'B.Com (Hons)', 'Aspirational'],
-                  ['Hansraj', 'Economics', 'Moderate'],
-                  ['Venky', 'B.Com (Hons)', 'High'],
+                  ['Eligibility', 'Programme-specific subjects', 'Official bulletin'],
+                  ['Cutoffs', 'Category and round', 'Published history'],
+                  ['2027', 'Rules pending publication', 'Provisional'],
                 ].map(([college, course, chance]) => (
                   <div key={`${college}-${course}`} className="shot-row">
                     <div>
@@ -175,12 +176,12 @@ export default function FeaturesPage() {
             </div>
             <div className="relative z-10 premium-copy">
               <div className="eyebrow mb-3">{'// Premium loop'}</div>
-              <h2 className="display-md mb-3">Premium turns practice into admission intelligence.</h2>
+              <h2 className="display-md mb-3">Keep your practice and admission planning grounded.</h2>
               <p className="text-zinc-400 leading-relaxed max-w-xl">
-                Unlimited mocks, advanced Radar, AI analysis, targeted difficulty, and Admission Compass help serious students see the gap between their current score and likely DU college-course options.
+                Use available mocks and Radar to understand your practice. The free DU calculator checks programme eligibility and historical cutoffs separately.
               </p>
               <div className="mt-5 flex flex-wrap gap-2">
-                {['Mock CUET score', 'DU college matching', 'Course eligibility', 'AI improvement moves'].map((item) => (
+                {['Programme eligibility', 'Official history', 'Category and round', '2027 provisional'].map((item) => (
                   <span key={item} className="pill volt">{item}</span>
                 ))}
               </div>
@@ -248,13 +249,6 @@ export default function FeaturesPage() {
           color: #e4e4e7;
           font-size: 12px;
           font-weight: 800;
-          animation: features-step-pulse 4.2s ease-in-out infinite;
-        }
-        .features-prepos-steps span:nth-child(2) { animation-delay: .18s; }
-        .features-prepos-steps span:nth-child(3) { animation-delay: .36s; }
-        @keyframes features-step-pulse {
-          0%, 100% { transform: translateX(0); border-color: rgba(255,255,255,.08); }
-          50% { transform: translateX(4px); border-color: rgba(210,240,0,.24); }
         }
         .premium-feature-card {
           min-height: 0;
@@ -365,22 +359,6 @@ export default function FeaturesPage() {
           }
           .shot-insights {
             grid-template-columns: 1fr;
-          }
-        }
-        @media (hover: none) {
-          .feature-dot-layer {
-            opacity: .78 !important;
-            animation: mobile-dot-breathe 4.2s ease-in-out infinite;
-          }
-        }
-        @keyframes mobile-dot-breathe {
-          0%, 100% { opacity: .32; }
-          50% { opacity: .84; }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .features-prepos-steps span,
-          .feature-dot-layer {
-            animation: none;
           }
         }
       `}</style>

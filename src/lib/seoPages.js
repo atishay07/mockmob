@@ -26,7 +26,7 @@ export const seoPages = {
         body: [
           'A strong CUET mock test should do more than produce a score. It should include subject-wise practice, chapter tagging, difficulty balance, answer review, and repeatable revision. When these pieces are missing, students cannot tell whether a low score came from weak concepts, poor time allocation, avoidable mistakes, or unfamiliar question formats.',
           'The best approach is to use mocks as diagnostics. Start with a full or focused test, review every incorrect and skipped question, mark the exact chapter behind the mistake, and then practise a shorter drill before taking another mock. This converts a mock test from a confidence check into a study plan. For CUET UG, where subject combinations vary widely, that personalised loop matters more than generic preparation advice.',
-          'A good mock also protects confidence. When you can see that one chapter or one question type caused most of the damage, the score feels fixable instead of personal. That is why the review screen matters as much as the test screen. Students who review properly usually improve faster because they know whether the next session should be concept revision, speed work, or more mixed practice.',
+          'A good mock also makes review more specific. When one chapter or question type accounts for several misses, you can decide whether the next session should focus on concepts, timing, or mixed practice. The review screen matters as much as the test screen because it helps you choose that next action.',
         ],
       },
       {
@@ -34,7 +34,7 @@ export const seoPages = {
         body: [
           'Create a free account, choose your target exam path, and begin with the practice flow that matches your current preparation stage. If your syllabus coverage is early, use smaller chapter drills and question discovery. If you already know the basics, move toward timed mocks and leaderboard pressure. Saved questions help you build a personal revision bank from the exact items that slowed you down.',
           'After each attempt, do not stop at the percentage score. Look for repeated mistakes: the same chapter, the same kind of trap, the same section taking too long, or the same careless option choice. MockMob is built to surface those signals through practice history, saved questions, and premium analytics when you need a deeper view. The free layer is enough to start building the habit, and the upgrade path is there when you want unlimited intensity.',
-          'Use the free mock experience to set a baseline. Your first few attempts should answer simple questions: which subject feels slow, which chapter has the most avoidable errors, how many questions are skipped, and whether accuracy falls near the end. Once the baseline is clear, every later mock has a purpose. The aim is steady score movement, not one lucky high score.',
+          'Use the free mock experience to set a baseline. Your first few attempts can show which subject feels slow, which chapters need review, how many questions are skipped, and whether accuracy changes near the end. Use those observations to give each later practice session a clear purpose.',
         ],
         links: [
           { href: '/signup', label: 'Start free CUET practice' },
@@ -42,9 +42,9 @@ export const seoPages = {
         ],
       },
       {
-        heading: 'Free Mock Test Strategy For CUET UG 2026',
+        heading: 'Free Mock Test Strategy For CUET UG 2027',
         body: [
-          'For CUET UG 2026, a practical mock strategy has three phases. In the first phase, take short tests to expose syllabus gaps and strengthen basic accuracy. In the second phase, increase timed practice and mix chapters so your brain learns to switch contexts quickly. In the final phase, simulate real exam pressure with longer tests, strict review windows, and repeated revision of saved mistakes.',
+          'For CUET UG 2027, a practical mock strategy has three phases. In the first phase, take short tests to expose syllabus gaps and strengthen basic accuracy. In the second phase, increase timed practice and mix chapters so your brain learns to switch contexts quickly. In the final phase, simulate real exam pressure with longer tests, strict review windows, and repeated revision of saved mistakes.',
           'Do not chase mock count alone. Ten reviewed tests are better than thirty forgotten attempts. Keep a mistake log, revisit previous year questions, and use online practice tests to maintain momentum between full mocks. The goal is not simply to feel prepared; it is to know which topics are stable, which are risky, and which ones deserve the next hour of study.',
           'A simple rule helps: every mock should create three actions. Pick one chapter to revise, one question pattern to practise, and one timing habit to improve. This keeps preparation practical and prevents the common trap of taking tests for the thrill of a score while leaving the underlying weaknesses untouched.',
         ],
@@ -78,11 +78,11 @@ export const seoPages = {
     path: '/cuet-previous-year-questions',
     breadcrumb: 'CUET Previous Year Questions',
     eyebrow: '// CUET PYQs',
-    h1: 'CUET Previous Year Questions with Answers',
+    h1: 'CUET Previous Year Questions: Practice and Review Guide',
     description:
       'CUET previous year question practice for understanding exam patterns, recurring topics, difficulty, and revision priorities.',
     intro:
-      'CUET previous year questions are one of the clearest ways to understand what the exam actually asks, how options are framed, and where students lose time.',
+      'Learn how to use CUET previous year questions to study exam patterns and review your preparation. MockMob does not currently claim a verified historical question inventory; its ordinary practice content is not presented as official past-paper material.',
     sections: [
       {
         heading: 'Why CUET Previous Year Questions Are Important',
@@ -99,14 +99,14 @@ export const seoPages = {
         heading: 'How To Practise CUET PYQs Correctly',
         body: [
           'Start by solving a set without looking at explanations. Use a timer, even for short sets, because CUET preparation must include speed. After solving, mark each question as correct, incorrect, guessed, or skipped. This small classification gives you more useful data than a raw score. Guessed-correct questions still need review because they can become future mistakes.',
-          'The review should be chapter-specific. If three questions from a subject go wrong, ask whether they belong to the same chapter, the same formula family, or the same reading pattern. Then practise a small drill before returning to another PYQ set. This keeps previous year questions from becoming passive reading and turns them into active score improvement.',
+          'The review should be chapter-specific. If several questions from a subject go wrong, ask whether they belong to the same chapter, formula family, or reading pattern. Then practise a small drill before returning to another PYQ set. This turns a past-paper session into specific review actions.',
           'Avoid solving PYQs in a hurry only to mark them complete. The real value appears when you compare your reasoning with the answer. If you chose a wrong option, identify whether the issue was concept confusion, careless reading, lack of elimination, or time pressure. Each mistake type needs a different fix, and that distinction is what makes previous year question practice powerful.',
         ],
       },
       {
         heading: 'Using MockMob With Previous Year Questions',
         body: [
-          'MockMob helps students organise practice around questions, saved mistakes, and analytics. You can use the platform to practise CUET-style questions, build a bank of difficult items, and move into timed mocks when you need pressure. The product is especially useful when PYQ practice exposes a weak area and you need more questions around that topic.',
+          'MockMob helps organize practice around available questions, saved items, and attempt history. Its ordinary library contains CUET-style practice and is not represented as verified historical exam material. When your own PYQ review exposes a weak area, use available practice to revisit that topic.',
           'A smart weekly routine could include one previous year question session, two subject-wise practice tests, one mixed mock, and one revision block for saved questions. This gives you pattern recognition, topic coverage, time management, and mistake correction in the same week. It is simple, repeatable, and easier to sustain than random study marathons.',
           'When a PYQ feels difficult, save it and revisit it after a few days. If you can solve it later without remembering the answer, the concept has started to settle. If you still struggle, it belongs in your priority list. This spaced return is especially useful for CUET subjects where similar ideas appear in different wording across practice sets.',
         ],
@@ -128,7 +128,7 @@ export const seoPages = {
       {
         question: 'Are CUET previous year questions enough for CUET preparation?',
         answer:
-          'CUET PYQs are essential, but they should be combined with mock tests, chapter practice, revision, and timed online tests for complete preparation.',
+          'CUET PYQs can help with exam-pattern familiarity. Combine them with chapter practice, revision, and timed tests, and check that any question described as a past-paper item has a clear source.',
       },
       {
         question: 'How should I analyse CUET previous year questions?',

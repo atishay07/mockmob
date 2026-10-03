@@ -3,6 +3,7 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { getRivalProfile, quotaSlotFor, rivalAccessRule } from './rivalProfiles';
 import { getUsageSnapshot, planTierFor, rivalTypeToQuotaAction } from '@/services/usage/getDailyUsage';
 import { consumeAIAllowance } from '@/services/credits/consumeAIAllowance';
+import { aiCommerceOpen, PREPOS_PAUSED_MESSAGE } from '@/services/credits/aiCreditWallet';
 
 /**
  * Creates a Shadow Benchmark battle. Question selection, benchmark scoring, and final
@@ -80,6 +81,10 @@ export async function createAIRivalBattle({
 
   let chargeRecord = null;
   const requiresCharge = access.requiresCredits && access.creditCost > 0;
+  // Paid PrepOS is paused: refuse before creating a battle row, so nothing is reserved or charged.
+  if (requiresCharge && !aiCommerceOpen()) {
+    return { ok: false, error: 'prepos_paused', message: PREPOS_PAUSED_MESSAGE, status: 503 };
+  }
 
   const rivalBenchmark = simulateRivalBenchmark({
     profile,
@@ -137,7 +142,8 @@ export async function createAIRivalBattle({
     const allowance = await consumeAIAllowance({
       user,
       action: rivalTypeToQuotaAction(rivalType),
-      referencePrefix: `rival_${rivalType}_${data.id}`,
+      // One battle row = one operation; retries for this battle reuse the same key.
+      operationKey: `rival:${data.id}:${rivalTypeToQuotaAction(rivalType)}`,
     });
     if (!allowance.ok) {
       await markBattleAbandoned({
@@ -148,10 +154,8 @@ export async function createAIRivalBattle({
       return {
         ok: false,
         error: allowance.error || 'credit_charge_failed',
-        message:
-          allowance.error === 'ai_credit_schema_missing'
-            ? 'AI credits are not initialized yet. Run the AI overlay credits migration.'
-            : 'This premium Rival needs AI credits before it can start.',
+        message: allowance.message
+          || (allowance.planRequired ? 'This Rival needs Pro.' : 'This premium Rival needs PrepOS credits before it can start. Your credits have not been used.'),
         planRequired: Boolean(allowance.planRequired),
         balance: allowance.balance,
         required: allowance.required,

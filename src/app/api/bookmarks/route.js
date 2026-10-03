@@ -1,3 +1,4 @@
+import { readablePracticeQuestions } from '@/../data/practice_library';
 import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { supabaseAdmin } from '@/lib/supabase';
@@ -35,10 +36,11 @@ export async function GET() {
     if (ids.length > 0) {
       const { data: questionRows, error: questionError } = await supabaseAdmin()
         .from('questions')
-        .select('id, body, question, subject, chapter, difficulty, options, correct_answer, explanation, tags, upvotes, downvotes, score')
+        .select('*')
         .in('id', ids);
       if (questionError) throw questionError;
-      const byId = new Map((questionRows || []).map((row) => [row.id, row]));
+      const allowedRows=await readablePracticeQuestions(questionRows || [],supabaseAdmin());
+      const byId = new Map(allowedRows.map((row) => [row.id, row]));
       questions = ids
         .map((id) => byId.get(id))
         .filter(Boolean)

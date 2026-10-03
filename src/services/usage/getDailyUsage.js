@@ -1,7 +1,7 @@
 import 'server-only';
 import { supabaseAdmin } from '@/lib/supabase';
 import { istDayStartISO, istMonthStartISO } from './istDay';
-import { AI_FREE_MONTHLY_CREDITS, AI_INCLUDED_MONTHLY_CREDITS, getAIWallet } from '@/services/credits/aiCreditWallet';
+import { AI_FREE_MONTHLY_CREDITS, AI_INCLUDED_MONTHLY_CREDITS, isPaidUser, readAIWallet } from '@/services/credits/aiCreditWallet';
 
 export const INCLUDED_MONTHLY_AI_CREDITS = AI_INCLUDED_MONTHLY_CREDITS;
 
@@ -39,7 +39,7 @@ export const LIMITS = {
 };
 
 export function planTierFor(user) {
-  return user?.subscriptionStatus === 'active' || user?.isPremium === true ? 'paid' : 'free';
+  return isPaidUser(user) ? 'paid' : 'free';
 }
 
 export function getCreditCostForAction(action, params = {}) {
@@ -161,13 +161,14 @@ export async function getMonthlyAIUsage(userId) {
   }
 }
 
-export async function getUsageSnapshot(user) {
+// Pass an already-read wallet to avoid a second read in the same request.
+export async function getUsageSnapshot(user, { wallet } = {}) {
   const tier = planTierFor(user);
   const limits = LIMITS[tier];
   const [used, monthly, aiWallet] = await Promise.all([
     getDailyUsage(user.id),
     getMonthlyAIUsage(user.id),
-    getAIWallet(user),
+    wallet ? Promise.resolve(wallet) : readAIWallet(user),
   ]);
 
   const includedMonthlyAiCredits = aiWallet.includedMonthlyCredits;
@@ -195,7 +196,8 @@ export async function getUsageSnapshot(user) {
     remaining,
     aiCreditBalance: aiWallet.total,
     aiWallet,
-    // Normal MockMob credits are kept separate for legacy screens.
+    aiWalletState: aiWallet.state,
+    // Normal MockMob practice credits are a separate ledger, kept for legacy screens.
     normalCreditBalance: user?.creditBalance || 0,
     creditBalance: aiWallet.total,
     creditCosts: CREDIT_COSTS,
@@ -257,6 +259,10 @@ export function resolveActionQuota({ user, snapshot, action, params = {} }) {
 function resolvePaidCreditGate({ snapshot, cost, action }) {
   if (!cost) {
     return { allowed: true, requiresCredits: false, creditCost: 0, creditUnits: 0 };
+  }
+  // Paused, unreadable or missing wallets never authorise a charge.
+  if (snapshot?.aiWallet && snapshot.aiWallet.spendable !== true) {
+    return { allowed: false, reason: snapshot.aiWallet.state === 'empty' ? 'insufficient_credits' : 'prepos_unavailable', creditCost: cost, creditUnits: cost, required: cost, balance: snapshot.aiWallet.total, status: snapshot.aiWallet.state === 'empty' ? 402 : 503 };
   }
 
   const includedRemaining = snapshot?.includedAiCreditsRemaining ?? snapshot?.remaining?.aiCredits ?? 0;

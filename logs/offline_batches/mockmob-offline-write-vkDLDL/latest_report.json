@@ -1,0 +1,70 @@
+{
+  "generated_at": "2026-10-01T21:25:59.257Z",
+  "route": {
+    "subject": "Economics",
+    "chapter": "Money & Banking",
+    "quality_mode": "balanced",
+    "directory": "C:\\Users\\atish\\AppData\\Local\\Temp\\mockmob-offline-write-vkDLDL"
+  },
+  "counts": {
+    "raw_questions": 10,
+    "schema_valid": 10,
+    "alignment_pass": 10,
+    "selfcheck_pass": 10,
+    "mini_validator_accepted": 10,
+    "strict_validator_accepted": 3,
+    "final_accepted": 0,
+    "final_rejected": 10
+  },
+  "quality": {
+    "scoring_method": "deterministic_heuristic_screen",
+    "heuristic_average_score": 0,
+    "heuristic_average_exam_quality": 0,
+    "heuristic_average_distractor_quality": 0,
+    "heuristic_average_answer_confidence": 0,
+    "note": "Heuristic scores are local screening scores, not real validator scores."
+  },
+  "real_validation_sample": null,
+  "top_rejection_reasons": [],
+  "cost_estimate": {
+    "generator": "deterministic_codex_file_factory",
+    "external_llm_calls": 0,
+    "estimated_usd": 0
+  },
+  "import_results": {
+    "dir": "C:\\Users\\atish\\AppData\\Local\\Temp\\mockmob-offline-write-vkDLDL",
+    "quality_mode": "balanced",
+    "dry_run": true,
+    "write_requested": true,
+    "allow_db_write": false,
+    "db_lookup": {
+      "available": false,
+      "reason": "supabase_env_missing",
+      "count": 0
+    },
+    "accepted_candidates_count": 0,
+    "legacy_heuristic_accepted_count": 10,
+    "evidence_checked_count": 0,
+    "db_duplicate_count": 0,
+    "passage_child_rejected_count": 0,
+    "importable_count": 0,
+    "inserted_count": 0,
+    "skipped_count": 0,
+    "blocked_reasons": [
+      "item_evidence_missing",
+      "no_publishable_item_evidence",
+      "OFFLINE_IMPORT_ALLOW_DB_WRITE_not_true",
+      "dry_run_enabled"
+    ],
+    "real_validation_sample": null,
+    "duplicate_rejections": [],
+    "passage_child_rejections": [],
+    "inserted": [],
+    "failed": []
+  },
+  "recommendation": {
+    "good_enough_to_import": false,
+    "reason": "Do not import yet; heuristic acceptance or real-validator sample evidence is below the requested threshold.",
+    "real_import_command": "OFFLINE_IMPORT_ALLOW_DB_WRITE=true node scripts/pipeline/tools/importOfflineQuestionBatch.mjs --dir=\"data/offline_question_batches/economics_money_banking\" --quality=balanced --write"
+  }
+}

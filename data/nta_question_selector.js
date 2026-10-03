@@ -57,7 +57,7 @@ let openaiClient = null;
 
 function getOpenAiClient() {
   if (!process.env.OPENAI_API_KEY) return null;
-  openaiClient ??= new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  return null; // Runtime checks reuse publication evidence; paid verification runs in the budgeted worker.
   return openaiClient;
 }
 
@@ -262,7 +262,7 @@ export function getNtaContentWarnings(row, context = {}) {
   if (passageLinked && !getPassageText(row)) warnings.push('orphan_passage_question');
   if (passageLinked && getPassageText(row) && !hasRealPassageBlock(row)) warnings.push('fake_or_too_short_passage_block');
   if (isEnglishTheoryAssertionWithoutContext(row, subject)) warnings.push('generic_english_assertion_reason_without_context');
-  if (isGenericTextbookOneLiner(row, subject)) warnings.push('generic_textbook_one_liner');
+  // Direct recall can be valid CUET content; depth alone never rejects a row.
   return warnings;
 }
 
@@ -497,7 +497,7 @@ export function qualityGateNtaQuestion(row, context = {}) {
 
   if (isDeleted(row)) reasons.push('deleted_question');
   if (isWrongSubject(row, context)) reasons.push('wrong_subject');
-  if (!text || text.length < 10 || tokensForSimilarity(text).length < 3) reasons.push('question_missing_or_too_short');
+  if (!text || text.length < 10) reasons.push('question_missing_or_too_short');
   if (hasMalformedText(text)) reasons.push('malformed_question_text');
   if (hasPlaceholderText(text)) reasons.push('placeholder_question');
   if (!optionsAreUsable(options)) reasons.push('options_invalid');
@@ -887,78 +887,9 @@ async function runOpenAiNtaAnswerVerifier(rows, options = {}) {
     return { enabled: false, model: options.model || NTA_AI_ANSWER_VERIFIER_MODEL, results: [], skippedReason: 'disabled_by_caller' };
   }
 
-  const client = getOpenAiClient();
-  if (!client) {
-    return { enabled: false, model: options.model || NTA_AI_ANSWER_VERIFIER_MODEL, results: [], skippedReason: 'openai_api_key_missing' };
-  }
-
-  const model = options.model || NTA_AI_ANSWER_VERIFIER_MODEL;
-  const prompt = `You are verifying CUET NTA-mode MCQ answer keys before a student starts a timed mock.
-
-Solve each question independently. Compare your solved answer with stored_correct_answer.
-Return pass only when there is one clear correct option, stored_correct_answer matches it, and confidence is high.
-Return fail for a wrong key or multiple-correct risk. Return unsure when evidence is insufficient.
-
-Questions:
-${JSON.stringify(list.map(compactQuestionForAi))}
-
-Return JSON only.`;
-
-  try {
-    const response = await client.chat.completions.create({
-      model,
-      messages: [
-        { role: 'system', content: 'Return only strict JSON for answer-key verification.' },
-        { role: 'user', content: prompt },
-      ],
-      response_format: {
-        type: 'json_schema',
-        json_schema: {
-          name: 'nta_answer_verification',
-          strict: true,
-          schema: {
-            type: 'object',
-            additionalProperties: false,
-            required: ['results'],
-            properties: {
-              results: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  additionalProperties: false,
-                  required: ['id', 'verdict', 'solved_answer', 'confidence', 'reason'],
-                  properties: {
-                    id: { type: 'string' },
-                    verdict: { type: 'string', enum: ['pass', 'fail', 'unsure'] },
-                    solved_answer: { type: 'string', enum: ['A', 'B', 'C', 'D', 'UNKNOWN'] },
-                    confidence: { type: 'number' },
-                    reason: { type: 'string' },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    }, { timeout: Math.max(4_000, Number(options.timeoutMs || NTA_AI_ANSWER_VERIFIER_TIMEOUT_MS)) });
-
-    const text = response?.choices?.[0]?.message?.content || '';
-    const parsed = safeParseJsonObject(text);
-    const byId = new Map((Array.isArray(parsed?.results) ? parsed.results : []).map((entry) => [String(entry.id || ''), entry]));
-    return {
-      enabled: true,
-      model,
-      usage: response?.usage || null,
-      results: list.map((row) => normalizeAiAnswerResult(row, byId.get(String(row.id)) || { verdict: 'unsure', confidence: 0, reason: 'missing_ai_result' })),
-    };
-  } catch (error) {
-    return {
-      enabled: true,
-      model,
-      error: error?.message || 'ai_answer_verifier_failed',
-      results: list.map((row) => normalizeAiAnswerResult(row, { verdict: 'unsure', confidence: 0, reason: 'ai_answer_verifier_failed_closed' })),
-    };
-  }
+  // Live selection never dispatches a paid verifier or promotes model agreement
+  // into academic truth. Use the guarded offline evidence pipeline instead.
+  return {enabled:false,model:null,results:[],skippedReason:'live_answer_verification_paused'};
 }
 
 function addAiReason(ai, reason, count = 1) {

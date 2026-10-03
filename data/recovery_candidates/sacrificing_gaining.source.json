@@ -1,0 +1,933 @@
+{
+  "id": "sacrificing_gaining",
+  "subject": "accountancy",
+  "chapter": "Reconstitution of a Partnership Firm",
+  "title": "Sacrificing and gaining ratios",
+  "version": 1,
+  "ruleVersion": 1,
+  "sourceVersion": "cuet-ug-2026-301@2025-12-27",
+  "state": "candidate",
+  "authoring": {
+    "permission": "owned_original",
+    "note": "Original MockMob wording and scenarios, drafted 2026-10-03 under the owner's instruction. No textbook or past-paper text is reproduced. Facts used are standard accounting definitions.",
+    "author": "MockMob (agent-drafted; not an independent academic reviewer)"
+  },
+  "sourceRefs": [
+    {
+      "id": "nta_cuet_ug_2026_syllabus_301",
+      "kind": "official_syllabus",
+      "use": "syllabus_alignment_reference_only",
+      "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227522720880.pdf",
+      "listedAt": "https://cuet.nta.nic.in/cuetug-2026-syllabus/",
+      "retrievedAt": "2026-10-03",
+      "sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+      "locator": "Unit II: Reconstitution of a Partnership firm, first bullet",
+      "supports": "Unit II lists changes in profit sharing ratio among existing partners, and sacrificing and gaining ratio.",
+      "caveat": "CUET UG 2026 syllabus. The 2027 syllabus is not yet published; re-verify the locator and hash when NTA publishes it."
+    }
+  ],
+  "hypotheses": [
+    "secure",
+    "direction_reversed",
+    "old_ratio_default",
+    "new_ratio_used"
+  ],
+  "noGapHypothesis": "secure",
+  "hypothesisNotes": {
+    "secure": "Applies old share minus new share (sacrifice) and new share minus old share (gain) per partner.",
+    "direction_reversed": "Subtracts in the wrong direction, so the partner whose share falls is treated as gaining.",
+    "old_ratio_default": "Treats the old ratio as the sacrificing or gaining ratio even when a different new ratio is stated.",
+    "new_ratio_used": "Treats the new ratio among the continuing partners as the sacrificing or gaining ratio."
+  },
+  "explanation": "A partner's sacrifice is the old share minus the new share; a gain is the new share minus the old share. Work each continuing partner's change out separately, with a common denominator. The old ratio is the sacrificing ratio only when the incoming partner takes the share from the old partners in their old ratio.",
+  "workedContrast": "J and K share 2:1. L joins and J, K and L share equally. J goes from 2/3 to 1/3, a sacrifice of 1/3. K goes from 1/3 to 1/3: no sacrifice at all. Using the old ratio, 2:1, would wrongly make K give something up.",
+  "explanations": {
+    "general": "Your answers pointed in different directions, so we will not label one reasoning gap. Start from the definition: sacrifice = old share − new share, gain = new share − old share, worked out for each partner separately.",
+    "secure": "Two different scenarios showed you applying the distinction correctly. One short step, then fresh checks on question families you have not seen.",
+    "direction_reversed": "Subtract in the direction of the change. Sacrifice = old share − new share, the part a partner gives up. Gain = new share − old share. A partner whose share falls has sacrificed; one whose share rises has gained.",
+    "old_ratio_default": "The old ratio is a shortcut that holds only when the incoming partner takes the share from the old partners in their old ratio, or nothing else is stated. When a new ratio is given, compute old − new for each partner. Some partners may give up nothing, or even gain.",
+    "new_ratio_used": "The new ratio describes shares after the change, not what each partner gave up. A partner with the larger new share may have sacrificed less, or gained. Compare each partner's old and new shares."
+  },
+  "contrasts": {
+    "general": "J and K share 2:1. L joins and J, K and L share equally. J: 2/3 → 1/3, sacrifice 1/3. K: 1/3 → 1/3, no change. The sacrificing ratio is 1:0, not 2:1.",
+    "secure": "Check one partner at a time: write the old share and new share over a common denominator, subtract, then read the sign. Positive old − new is a sacrifice; negative is a gain.",
+    "direction_reversed": "S's share falls from 1/2 to 1/5: old − new = 3/10, so S sacrificed 3/10. Writing new − old gives −3/10, which reads as a gain and reverses the story.",
+    "old_ratio_default": "J and K share 2:1. L joins and all three share equally. The old ratio says J and K sacrifice 2:1. Working it out: J gives up 1/3, K gives up nothing. The stated new ratio overrides the shortcut.",
+    "new_ratio_used": "V and W share equally. X joins and the new ratio V:W:X is 2:1:1. The new ratio V:W is 2:1, yet V stays at 1/2 and gives up nothing, while W goes from 1/2 to 1/4, a sacrifice of 1/4."
+  },
+  "probes": [
+    {
+      "id": "acc_sg_probe_admission_mixed",
+      "questionId": "rcv-acc-sg-p1",
+      "familyId": "acc_sg_f_admission_mixed",
+      "type": "choice",
+      "prompt": "A and B share profits equally. C is admitted, and the new ratio of A, B and C is 1:3:1. Which statement about A and B is correct?",
+      "scenario": {
+        "type": "admission",
+        "old": {
+          "A": 1,
+          "B": 1
+        },
+        "new": {
+          "A": 1,
+          "B": 3,
+          "C": 1
+        }
+      },
+      "options": [
+        {
+          "text": "A sacrifices 3/10 and B gains 1/10",
+          "claim": {
+            "kind": "moves",
+            "moves": {
+              "A": [
+                3,
+                10
+              ],
+              "B": [
+                -1,
+                10
+              ]
+            }
+          }
+        },
+        {
+          "text": "A and B sacrifice in their old ratio, 1:1",
+          "claim": {
+            "kind": "ratio",
+            "verb": "sacrifice",
+            "ratio": {
+              "A": 1,
+              "B": 1
+            }
+          }
+        },
+        {
+          "text": "A and B sacrifice in the ratio 1:3",
+          "claim": {
+            "kind": "ratio",
+            "verb": "sacrifice",
+            "ratio": {
+              "A": 1,
+              "B": 3
+            }
+          }
+        },
+        {
+          "text": "B sacrifices 1/10 and A gains 3/10",
+          "claim": {
+            "kind": "moves",
+            "moves": {
+              "A": [
+                -3,
+                10
+              ],
+              "B": [
+                1,
+                10
+              ]
+            }
+          }
+        }
+      ],
+      "answer": 0,
+      "matrix": {
+        "secure": [
+          0
+        ],
+        "old_ratio_default": [
+          1
+        ],
+        "new_ratio_used": [
+          2
+        ],
+        "direction_reversed": [
+          3
+        ]
+      }
+    },
+    {
+      "id": "acc_sg_probe_change_three",
+      "questionId": "rcv-acc-sg-p2",
+      "familyId": "acc_sg_f_change_three",
+      "type": "choice",
+      "prompt": "P, Q and R share profits 5:3:2. They agree to share profits 2:3:5 from now on. Which statement is correct?",
+      "scenario": {
+        "type": "change",
+        "old": {
+          "P": 5,
+          "Q": 3,
+          "R": 2
+        },
+        "new": {
+          "P": 2,
+          "Q": 3,
+          "R": 5
+        }
+      },
+      "options": [
+        {
+          "text": "P, Q and R sacrifice in their old ratio, 5:3:2",
+          "claim": {
+            "kind": "ratio",
+            "verb": "sacrifice",
+            "ratio": {
+              "P": 5,
+              "Q": 3,
+              "R": 2
+            }
+          }
+        },
+        {
+          "text": "R sacrifices 3/10 and P gains 3/10; Q is unaffected",
+          "claim": {
+            "kind": "moves",
+            "moves": {
+              "P": [
+                -3,
+                10
+              ],
+              "Q": [
+                0,
+                1
+              ],
+              "R": [
+                3,
+                10
+              ]
+            }
+          }
+        },
+        {
+          "text": "P sacrifices 3/10 and R gains 3/10; Q is unaffected",
+          "claim": {
+            "kind": "moves",
+            "moves": {
+              "P": [
+                3,
+                10
+              ],
+              "Q": [
+                0,
+                1
+              ],
+              "R": [
+                -3,
+                10
+              ]
+            }
+          }
+        },
+        {
+          "text": "P, Q and R sacrifice in the new ratio, 2:3:5",
+          "claim": {
+            "kind": "ratio",
+            "verb": "sacrifice",
+            "ratio": {
+              "P": 2,
+              "Q": 3,
+              "R": 5
+            }
+          }
+        }
+      ],
+      "answer": 2,
+      "matrix": {
+        "secure": [
+          2
+        ],
+        "old_ratio_default": [
+          0
+        ],
+        "new_ratio_used": [
+          3
+        ],
+        "direction_reversed": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "acc_sg_probe_retirement",
+      "questionId": "rcv-acc-sg-p3",
+      "familyId": "acc_sg_f_retirement",
+      "type": "choice",
+      "prompt": "X, Y and Z share profits 4:3:2. Y retires, and X and Z will share future profits 5:4. Which statement is correct?",
+      "scenario": {
+        "type": "retirement",
+        "old": {
+          "X": 4,
+          "Y": 3,
+          "Z": 2
+        },
+        "new": {
+          "X": 5,
+          "Z": 4
+        }
+      },
+      "options": [
+        {
+          "text": "X and Z sacrifice in the ratio 1:2",
+          "claim": {
+            "kind": "ratio",
+            "verb": "sacrifice",
+            "ratio": {
+              "X": 1,
+              "Z": 2
+            }
+          }
+        },
+        {
+          "text": "X and Z gain in the ratio 1:2",
+          "claim": {
+            "kind": "ratio",
+            "verb": "gain",
+            "ratio": {
+              "X": 1,
+              "Z": 2
+            }
+          }
+        },
+        {
+          "text": "X and Z gain in their old ratio, 2:1",
+          "claim": {
+            "kind": "ratio",
+            "verb": "gain",
+            "ratio": {
+              "X": 2,
+              "Z": 1
+            }
+          }
+        },
+        {
+          "text": "X and Z gain in their new ratio, 5:4",
+          "claim": {
+            "kind": "ratio",
+            "verb": "gain",
+            "ratio": {
+              "X": 5,
+              "Z": 4
+            }
+          }
+        }
+      ],
+      "answer": 1,
+      "matrix": {
+        "secure": [
+          1
+        ],
+        "old_ratio_default": [
+          2
+        ],
+        "new_ratio_used": [
+          3
+        ],
+        "direction_reversed": [
+          0
+        ]
+      }
+    }
+  ],
+  "repair": [
+    {
+      "id": "acc_sg_repair_direction",
+      "questionId": "rcv-acc-sg-r1",
+      "familyId": "acc_sg_f_rep_direction",
+      "type": "choice",
+      "prompt": "After a change in the profit sharing ratio, a partner's share falls from 1/2 to 3/10. What has happened to this partner?",
+      "shareCheck": {
+        "old": [
+          1,
+          2
+        ],
+        "new": [
+          3,
+          10
+        ],
+        "verb": "sacrifice",
+        "amount": [
+          1,
+          5
+        ]
+      },
+      "options": [
+        {
+          "text": "The partner has sacrificed 1/5 (old share − new share)"
+        },
+        {
+          "text": "The partner has gained 1/5 (new share − old share)"
+        },
+        {
+          "text": "The partner has sacrificed 3/10, the new share"
+        },
+        {
+          "text": "Nothing has changed, because sacrifice is always measured in the old ratio"
+        }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "acc_sg_repair_sacrifice_value",
+      "questionId": "rcv-acc-sg-r2",
+      "familyId": "acc_sg_f_rep_sacrifice",
+      "type": "numeric_step",
+      "prompt": "M's share falls from 0.6 to 0.45. Enter M's sacrifice (old share − new share) as a decimal.",
+      "answer": 0.15,
+      "tolerance": 0.0005,
+      "solver": {
+        "kind": "sacrificing_ratio",
+        "oldShare": 0.6,
+        "newShare": 0.45
+      }
+    },
+    {
+      "id": "acc_sg_repair_gain_value",
+      "questionId": "rcv-acc-sg-r3",
+      "familyId": "acc_sg_f_rep_gain",
+      "type": "numeric_step",
+      "prompt": "N's share rises from 0.25 to 0.4. Enter N's gain (new share − old share) as a decimal.",
+      "answer": 0.15,
+      "tolerance": 0.0005,
+      "solver": {
+        "kind": "gaining_ratio",
+        "oldShare": 0.25,
+        "newShare": 0.4
+      }
+    },
+    {
+      "id": "acc_sg_repair_unaffected",
+      "questionId": "rcv-acc-sg-r4",
+      "familyId": "acc_sg_f_rep_unaffected",
+      "type": "numeric_step",
+      "prompt": "Y and Z share profits 3:2. W is admitted, and the new ratio of Y, Z and W is 2:2:1. Enter Z's sacrifice as a decimal.",
+      "answer": 0,
+      "tolerance": 0.0005,
+      "solver": {
+        "kind": "sacrificing_ratio",
+        "oldShare": 0.4,
+        "newShare": 0.4
+      },
+      "scenario": {
+        "type": "admission",
+        "old": {
+          "Y": 3,
+          "Z": 2
+        },
+        "new": {
+          "Y": 2,
+          "Z": 2,
+          "W": 1
+        }
+      },
+      "partner": "Z"
+    },
+    {
+      "id": "acc_sg_repair_new_ratio",
+      "questionId": "rcv-acc-sg-r5",
+      "familyId": "acc_sg_f_rep_new_ratio",
+      "type": "numeric_step",
+      "prompt": "S and T share profits equally. U is admitted, and the new ratio of S, T and U is 3:1:1. Enter T's sacrifice as a decimal.",
+      "answer": 0.3,
+      "tolerance": 0.0005,
+      "solver": {
+        "kind": "sacrificing_ratio",
+        "oldShare": 0.5,
+        "newShare": 0.2
+      },
+      "scenario": {
+        "type": "admission",
+        "old": {
+          "S": 1,
+          "T": 1
+        },
+        "new": {
+          "S": 3,
+          "T": 1,
+          "U": 1
+        }
+      },
+      "partner": "T"
+    }
+  ],
+  "repairPaths": {
+    "general": [
+      "acc_sg_repair_direction",
+      "acc_sg_repair_sacrifice_value",
+      "acc_sg_repair_unaffected"
+    ],
+    "secure": [
+      "acc_sg_repair_new_ratio"
+    ],
+    "direction_reversed": [
+      "acc_sg_repair_direction",
+      "acc_sg_repair_gain_value",
+      "acc_sg_repair_sacrifice_value"
+    ],
+    "old_ratio_default": [
+      "acc_sg_repair_unaffected",
+      "acc_sg_repair_sacrifice_value"
+    ],
+    "new_ratio_used": [
+      "acc_sg_repair_new_ratio",
+      "acc_sg_repair_sacrifice_value"
+    ]
+  },
+  "checks": [
+    {
+      "id": "acc_sg_check_admission_unequal",
+      "questionId": "rcv-acc-sg-c1",
+      "familyId": "acc_sg_f_chk_admission_unequal",
+      "type": "choice",
+      "prompt": "P and Q share profits 2:1. R is admitted, and the new ratio of P, Q and R is 3:1:1. In what ratio do P and Q sacrifice?",
+      "scenario": {
+        "type": "admission",
+        "old": {
+          "P": 2,
+          "Q": 1
+        },
+        "new": {
+          "P": 3,
+          "Q": 1,
+          "R": 1
+        }
+      },
+      "options": [
+        {
+          "text": "2:1",
+          "claim": {
+            "kind": "ratio",
+            "verb": "sacrifice",
+            "ratio": {
+              "P": 2,
+              "Q": 1
+            }
+          }
+        },
+        {
+          "text": "3:1",
+          "claim": {
+            "kind": "ratio",
+            "verb": "sacrifice",
+            "ratio": {
+              "P": 3,
+              "Q": 1
+            }
+          }
+        },
+        {
+          "text": "1:2",
+          "claim": {
+            "kind": "ratio",
+            "verb": "sacrifice",
+            "ratio": {
+              "P": 1,
+              "Q": 2
+            }
+          }
+        },
+        {
+          "text": "1:1",
+          "claim": {
+            "kind": "ratio",
+            "verb": "sacrifice",
+            "ratio": {
+              "P": 1,
+              "Q": 1
+            }
+          }
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "acc_sg_check_retirement_equal",
+      "questionId": "rcv-acc-sg-c2",
+      "familyId": "acc_sg_f_chk_retirement_equal",
+      "type": "choice",
+      "prompt": "X, Y and Z share profits 3:2:1. Y retires, and X and Z will share future profits 2:1. In what ratio do X and Z gain?",
+      "scenario": {
+        "type": "retirement",
+        "old": {
+          "X": 3,
+          "Y": 2,
+          "Z": 1
+        },
+        "new": {
+          "X": 2,
+          "Z": 1
+        }
+      },
+      "options": [
+        {
+          "text": "3:1",
+          "claim": {
+            "kind": "ratio",
+            "verb": "gain",
+            "ratio": {
+              "X": 3,
+              "Z": 1
+            }
+          }
+        },
+        {
+          "text": "1:1",
+          "claim": {
+            "kind": "ratio",
+            "verb": "gain",
+            "ratio": {
+              "X": 1,
+              "Z": 1
+            }
+          }
+        },
+        {
+          "text": "2:1",
+          "claim": {
+            "kind": "ratio",
+            "verb": "gain",
+            "ratio": {
+              "X": 2,
+              "Z": 1
+            }
+          }
+        },
+        {
+          "text": "1:3",
+          "claim": {
+            "kind": "ratio",
+            "verb": "gain",
+            "ratio": {
+              "X": 1,
+              "Z": 3
+            }
+          }
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "acc_sg_check_change_unaffected",
+      "questionId": "rcv-acc-sg-c3",
+      "familyId": "acc_sg_f_chk_change_unaffected",
+      "type": "choice",
+      "prompt": "L, M and N share profits 2:2:1. They agree to share profits 1:2:2 from now on. Which statement is correct?",
+      "scenario": {
+        "type": "change",
+        "old": {
+          "L": 2,
+          "M": 2,
+          "N": 1
+        },
+        "new": {
+          "L": 1,
+          "M": 2,
+          "N": 2
+        }
+      },
+      "options": [
+        {
+          "text": "L, M and N sacrifice in their old ratio, 2:2:1",
+          "claim": {
+            "kind": "ratio",
+            "verb": "sacrifice",
+            "ratio": {
+              "L": 2,
+              "M": 2,
+              "N": 1
+            }
+          }
+        },
+        {
+          "text": "N sacrifices 1/5 and L gains 1/5; M is unaffected",
+          "claim": {
+            "kind": "moves",
+            "moves": {
+              "L": [
+                -1,
+                5
+              ],
+              "M": [
+                0,
+                1
+              ],
+              "N": [
+                1,
+                5
+              ]
+            }
+          }
+        },
+        {
+          "text": "L, M and N sacrifice in the new ratio, 1:2:2",
+          "claim": {
+            "kind": "ratio",
+            "verb": "sacrifice",
+            "ratio": {
+              "L": 1,
+              "M": 2,
+              "N": 2
+            }
+          }
+        },
+        {
+          "text": "L sacrifices 1/5 and N gains 1/5; M is unaffected",
+          "claim": {
+            "kind": "moves",
+            "moves": {
+              "L": [
+                1,
+                5
+              ],
+              "M": [
+                0,
+                1
+              ],
+              "N": [
+                -1,
+                5
+              ]
+            }
+          }
+        }
+      ],
+      "answer": 3
+    },
+    {
+      "id": "acc_sg_check_old_ratio_valid",
+      "questionId": "rcv-acc-sg-c4",
+      "familyId": "acc_sg_f_chk_old_ratio_valid",
+      "type": "choice",
+      "prompt": "A and B share profits 3:1. C is admitted for a 1/5 share, which C takes from A and B in their old ratio. In what ratio do A and B sacrifice?",
+      "scenario": {
+        "type": "admission",
+        "old": {
+          "A": 3,
+          "B": 1
+        },
+        "new": {
+          "A": 3,
+          "B": 1,
+          "C": 1
+        },
+        "derive": {
+          "incoming": "C",
+          "share": [
+            1,
+            5
+          ],
+          "from": "old_ratio"
+        }
+      },
+      "boundary": "old_ratio_is_correct",
+      "options": [
+        {
+          "text": "1:1",
+          "claim": {
+            "kind": "ratio",
+            "verb": "sacrifice",
+            "ratio": {
+              "A": 1,
+              "B": 1
+            }
+          }
+        },
+        {
+          "text": "3:1",
+          "claim": {
+            "kind": "ratio",
+            "verb": "sacrifice",
+            "ratio": {
+              "A": 3,
+              "B": 1
+            }
+          }
+        },
+        {
+          "text": "1:3",
+          "claim": {
+            "kind": "ratio",
+            "verb": "sacrifice",
+            "ratio": {
+              "A": 1,
+              "B": 3
+            }
+          }
+        },
+        {
+          "text": "4:1",
+          "claim": {
+            "kind": "ratio",
+            "verb": "sacrifice",
+            "ratio": {
+              "A": 4,
+              "B": 1
+            }
+          }
+        }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "acc_sg_check_single_sacrifice",
+      "questionId": "rcv-acc-sg-c5",
+      "familyId": "acc_sg_f_chk_single_sacrifice",
+      "type": "choice",
+      "prompt": "D and E share profits equally. F is admitted for a 1/4 share, all of which D gives up. Which statement is correct?",
+      "scenario": {
+        "type": "admission",
+        "old": {
+          "D": 1,
+          "E": 1
+        },
+        "new": {
+          "D": 1,
+          "E": 2,
+          "F": 1
+        },
+        "derive": {
+          "incoming": "F",
+          "share": [
+            1,
+            4
+          ],
+          "from": "D"
+        }
+      },
+      "boundary": "partner_unaffected",
+      "options": [
+        {
+          "text": "D and E sacrifice in their old ratio, 1:1",
+          "claim": {
+            "kind": "ratio",
+            "verb": "sacrifice",
+            "ratio": {
+              "D": 1,
+              "E": 1
+            }
+          }
+        },
+        {
+          "text": "D and E sacrifice in the ratio 1:2",
+          "claim": {
+            "kind": "ratio",
+            "verb": "sacrifice",
+            "ratio": {
+              "D": 1,
+              "E": 2
+            }
+          }
+        },
+        {
+          "text": "D sacrifices 1/4; E is unaffected",
+          "claim": {
+            "kind": "moves",
+            "moves": {
+              "D": [
+                1,
+                4
+              ],
+              "E": [
+                0,
+                1
+              ]
+            }
+          }
+        },
+        {
+          "text": "D gains 1/4; E is unaffected",
+          "claim": {
+            "kind": "moves",
+            "moves": {
+              "D": [
+                -1,
+                4
+              ],
+              "E": [
+                0,
+                1
+              ]
+            }
+          }
+        }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "acc_sg_check_death_gain",
+      "questionId": "rcv-acc-sg-c6",
+      "familyId": "acc_sg_f_chk_death_gain",
+      "type": "choice",
+      "prompt": "G, H and I share profits 5:3:2. I dies, and G and H will share future profits equally. Which statement is correct?",
+      "scenario": {
+        "type": "death",
+        "old": {
+          "G": 5,
+          "H": 3,
+          "I": 2
+        },
+        "new": {
+          "G": 1,
+          "H": 1
+        }
+      },
+      "boundary": "partner_unaffected",
+      "options": [
+        {
+          "text": "H gains 1/5; G's share is unchanged",
+          "claim": {
+            "kind": "moves",
+            "moves": {
+              "G": [
+                0,
+                1
+              ],
+              "H": [
+                -1,
+                5
+              ]
+            }
+          }
+        },
+        {
+          "text": "G and H gain in their old ratio, 5:3",
+          "claim": {
+            "kind": "ratio",
+            "verb": "gain",
+            "ratio": {
+              "G": 5,
+              "H": 3
+            }
+          }
+        },
+        {
+          "text": "G and H gain in their new ratio, 1:1",
+          "claim": {
+            "kind": "ratio",
+            "verb": "gain",
+            "ratio": {
+              "G": 1,
+              "H": 1
+            }
+          }
+        },
+        {
+          "text": "H sacrifices 1/5; G's share is unchanged",
+          "claim": {
+            "kind": "moves",
+            "moves": {
+              "G": [
+                0,
+                1
+              ],
+              "H": [
+                1,
+                5
+              ]
+            }
+          }
+        }
+      ],
+      "answer": 0
+    }
+  ]
+}

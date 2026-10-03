@@ -1,4 +1,5 @@
 'use client';
+import { CAPABILITIES } from '@/../data/capabilities';
 
 import { useState } from 'react';
 import { CheckCircle2, Loader2, ShieldCheck, WalletCards } from 'lucide-react';
@@ -125,12 +126,14 @@ export function PrepOSCreditPurchaseButton({ pack, className = '', onSuccess }) 
         variant={pack.featured ? 'volt' : 'ghost'}
         size="md"
         className="w-full"
-        disabled={loading}
+        disabled={loading || CAPABILITIES.optionalAi.state !== 'available'}
         onClick={handlePurchase}
       >
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : success ? <CheckCircle2 className="h-4 w-4" /> : <WalletCards className="h-4 w-4" />}
-        {loading ? 'Opening checkout' : success ? 'Credits added' : `Buy for ₹${pack.amountInr}`}
+        {CAPABILITIES.optionalAi.state !== 'available' ? 'Top-ups temporarily paused' : loading ? 'Opening checkout' : success ? 'Credits added' : `Buy for ₹${pack.amountInr}`}
+
       </LiquidGlassButton>
+      {CAPABILITIES.optionalAi.state !== 'available' && <p className="mt-3 text-sm text-zinc-400">{CAPABILITIES.optionalAi.reason}</p>}
       {message ? (
         <div className={`mt-3 flex items-center gap-2 text-xs ${success ? 'text-volt' : 'text-zinc-400'}`}>
           {success ? <ShieldCheck className="h-4 w-4" /> : null}

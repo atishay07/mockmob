@@ -1,0 +1,392 @@
+{
+  "metadata": {
+    "source": "codex_offline_generation",
+    "subject": "Economics",
+    "chapter": "Money & Banking",
+    "quality_mode": "balanced",
+    "batch_number": 9,
+    "question_count": 10
+  },
+  "questions": [
+    {
+      "local_id": "economics_money_banking_batch_009_q001",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "statement_based",
+      "difficulty": "hard",
+      "concept": "Currency With The Public",
+      "question_text": "Read the following statements about Currency With The Public. Statement I: Money supply measures include currency held by the public, not cash held by the government or banks as reserves. Statement II: Cash in bank vaults is not the same as currency held by the public for spending.. Which option is correct?",
+      "options": {
+        "A": "Both Statement I and Statement II are correct",
+        "B": "Statement I only is correct",
+        "C": "Statement II only is correct",
+        "D": "Neither Statement I nor Statement II is correct"
+      },
+      "correct_option": "A",
+      "answer_explanation": "Option A is correct because Statement I states the rule accurately and Statement II gives the related monetary effect without changing the concept.",
+      "answer_check": "The correct key is A: Money supply measures include currency held by the public, not cash held by the government or banks as reserves; Cash in bank vaults is not the same as currency held by the public for spending.",
+      "trap_option": "C",
+      "strong_distractors": [
+        "B",
+        "C"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"Both Statement I and Statement II are correct\". It is correct because it matches the monetary rule tested in Currency With The Public.",
+        "B": "Option B states \"Statement I only is correct\". It is tempting because it uses monetary vocabulary, but it misstates the Currency With The Public relationship.",
+        "C": "Option C states \"Statement II only is correct\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Currency With The Public mechanism.",
+        "D": "Option D states \"Neither Statement I nor Statement II is correct\". It is tempting because it uses monetary vocabulary, but it misstates the Currency With The Public relationship."
+      },
+      "template_id": "statement_currency_with_public",
+      "pattern_tags": [
+        "statement-based",
+        "elimination",
+        "trap"
+      ],
+      "ncert_alignment": "Currency With The Public is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Targets a common aggregate-measurement mistake.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_009_q002",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "case_based",
+      "difficulty": "medium",
+      "concept": "Open Market Operations",
+      "question_text": "In a monetary-policy situation, The RBI buys government securities from the market. What is the expected liquidity effect?",
+      "options": {
+        "B": "Liquidity increases because the RBI pays for securities and funds enter the banking system.",
+        "A": "Liquidity falls because securities leave the market after an RBI purchase.",
+        "C": "Liquidity is unchanged because securities and currency are both the same asset.",
+        "D": "A purchase works like a reverse repo because banks park more surplus funds with the RBI."
+      },
+      "correct_option": "B",
+      "answer_explanation": "Option B is correct because liquidity increases because the RBI pays for securities and funds enter the banking system.",
+      "answer_check": "The correct key is B: Liquidity increases because the RBI pays for securities and funds enter the banking system.",
+      "trap_option": "C",
+      "strong_distractors": [
+        "A",
+        "C"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"Liquidity falls because securities leave the market after an RBI purchase.\". It is tempting because it uses monetary vocabulary, but it misstates the Open Market Operations relationship.",
+        "B": "Option B states \"Liquidity increases because the RBI pays for securities and funds enter the banking system.\". It is correct because it matches the monetary rule tested in Open Market Operations.",
+        "C": "Option C states \"Liquidity is unchanged because securities and currency are both the same asset.\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Open Market Operations mechanism.",
+        "D": "Option D states \"A purchase works like a reverse repo because banks park more surplus funds with the RBI.\". It is tempting because it uses monetary vocabulary, but it misstates the Open Market Operations relationship."
+      },
+      "template_id": "application_open_market_operations_1",
+      "pattern_tags": [
+        "application",
+        "elimination",
+        "money-banking"
+      ],
+      "ncert_alignment": "Open Market Operations is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Uses liquidity direction in OMO without drifting into government budget.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_009_q003",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "assertion_reason",
+      "difficulty": "hard",
+      "concept": "Legal Tender",
+      "question_text": "In a liquidity-policy application, Assertion (A): Currency notes and coins have legal-tender status.. Reason (R): They are backed by law for settlement of debts within the monetary system.. Which option correctly evaluates the Assertion and Reason?",
+      "options": {
+        "C": "Both Assertion and Reason are true, and the Reason correctly explains the Assertion",
+        "A": "Both Assertion and Reason are true, but the Reason does not correctly explain the Assertion",
+        "B": "Assertion is true, but Reason is false",
+        "D": "Assertion is false, but Reason is true"
+      },
+      "correct_option": "C",
+      "answer_explanation": "Option C is correct because the Reason explains compulsory acceptability of legal tender.",
+      "answer_check": "The correct key is C: both A and R are true; the Reason explains compulsory acceptability of legal tender.",
+      "trap_option": "B",
+      "strong_distractors": [
+        "A",
+        "B"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"Both Assertion and Reason are true, but the Reason does not correctly explain the Assertion\". It is tempting because it uses monetary vocabulary, but it misstates the Legal Tender relationship.",
+        "B": "Option B states \"Assertion is true, but Reason is false\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Legal Tender mechanism.",
+        "C": "Option C states \"Both Assertion and Reason are true, and the Reason correctly explains the Assertion\". It is correct because it matches the monetary rule tested in Legal Tender.",
+        "D": "Option D states \"Assertion is false, but Reason is true\". It is tempting because it uses monetary vocabulary, but it misstates the Legal Tender relationship."
+      },
+      "template_id": "assertion_legal_tender",
+      "pattern_tags": [
+        "assertion-reason",
+        "reasoning",
+        "trap"
+      ],
+      "ncert_alignment": "Legal Tender is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Separates legal acceptability from common banking instruments.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_009_q004",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "comparison_based",
+      "difficulty": "medium",
+      "concept": "CRR vs SLR",
+      "question_text": "In a commercial-bank decision case, compare CRR and SLR for a commercial bank that must follow both rules. Which option is most accurate?",
+      "options": {
+        "D": "CRR is the cash balance kept with the RBI, while SLR is a required holding of liquid assets such as cash, gold, or approved securities.",
+        "A": "CRR is maintained as gold and securities, while SLR is maintained only as cash with the RBI.",
+        "B": "CRR is a policy interest rate, while SLR is the rate at which banks borrow from the RBI.",
+        "C": "CRR and SLR both mean the bank can lend the entire deposit base after reporting it to the RBI."
+      },
+      "correct_option": "D",
+      "answer_explanation": "Option D is correct because CRR is the cash balance kept with the RBI, while SLR is a required holding of liquid assets such as cash, gold, or approved securities.",
+      "answer_check": "The correct key is D: CRR is the cash balance kept with the RBI, while SLR is a required holding of liquid assets such as cash, gold, or approved securities.",
+      "trap_option": "B",
+      "strong_distractors": [
+        "A",
+        "B"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"CRR is maintained as gold and securities, while SLR is maintained only as cash with the RBI.\". It is tempting because it uses monetary vocabulary, but it misstates the CRR vs SLR relationship.",
+        "B": "Option B states \"CRR is a policy interest rate, while SLR is the rate at which banks borrow from the RBI.\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual CRR vs SLR mechanism.",
+        "C": "Option C states \"CRR and SLR both mean the bank can lend the entire deposit base after reporting it to the RBI.\". It is tempting because it uses monetary vocabulary, but it misstates the CRR vs SLR relationship.",
+        "D": "Option D states \"CRR is the cash balance kept with the RBI, while SLR is a required holding of liquid assets such as cash, gold, or approved securities.\". It is correct because it matches the monetary rule tested in CRR vs SLR."
+      },
+      "template_id": "comparison_crr_vs_slr",
+      "pattern_tags": [
+        "comparison",
+        "elimination",
+        "trap"
+      ],
+      "ncert_alignment": "CRR vs SLR is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Targets the common CRR-SLR confusion.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_009_q005",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "simple_numerical",
+      "difficulty": "medium",
+      "concept": "OMO Liquidity Effect",
+      "question_text": "The RBI purchases government securities worth Rs 500 crore in an open market operation. What is the first-round effect on banking-system liquidity?",
+      "options": {
+        "A": "Liquidity increases by Rs 500 crore, because RBI purchase payments add funds",
+        "B": "Liquidity decreases by Rs 500 crore, because it reverses the OMO liquidity direction",
+        "C": "Liquidity is unchanged, because it wrongly treats securities and bank reserves as the same liquid asset",
+        "D": "Liquidity increases by Rs 1000 crore, because it double-counts the RBI security transaction"
+      },
+      "correct_option": "A",
+      "answer_explanation": "Option A is correct because an RBI purchase pays funds into the market, increasing liquidity by Rs 500 crore.",
+      "answer_check": "The correct key is A: Liquidity increases by Rs 500 crore, because RBI purchase payments add funds",
+      "trap_option": "C",
+      "strong_distractors": [
+        "B",
+        "C"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"Liquidity increases by Rs 500 crore, because RBI purchase payments add funds\". It is correct because it matches the monetary rule tested in OMO Liquidity Effect.",
+        "B": "Option B states \"Liquidity decreases by Rs 500 crore, because it reverses the OMO liquidity direction\". It is tempting because it uses monetary vocabulary, but it misstates the OMO Liquidity Effect relationship.",
+        "C": "Option C states \"Liquidity is unchanged, because it wrongly treats securities and bank reserves as the same liquid asset\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual OMO Liquidity Effect mechanism.",
+        "D": "Option D states \"Liquidity increases by Rs 1000 crore, because it double-counts the RBI security transaction\". It is tempting because it uses monetary vocabulary, but it misstates the OMO Liquidity Effect relationship."
+      },
+      "template_id": "numerical_omo_liquidity_change",
+      "pattern_tags": [
+        "simple-numerical",
+        "money-multiplier",
+        "trap"
+      ],
+      "ncert_alignment": "OMO Liquidity Effect is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Tests OMO direction numerically.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_009_q006",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "statement_based",
+      "difficulty": "medium",
+      "concept": "Near Money And Liquidity",
+      "question_text": "Read the following statements about Near Money And Liquidity. Statement I: Time deposits are less liquid than demand deposits but are included in broader money aggregates. Statement II: Time deposits are less liquid than demand deposits but are still part of broader monetary aggregates.. Which option is correct?",
+      "options": {
+        "B": "Both Statement I and Statement II are correct",
+        "A": "Statement I only is correct",
+        "C": "Statement II only is correct",
+        "D": "Neither Statement I nor Statement II is correct"
+      },
+      "correct_option": "B",
+      "answer_explanation": "Option B is correct because Statement I states the rule accurately and Statement II gives the related monetary effect without changing the concept.",
+      "answer_check": "The correct key is B: Time deposits are less liquid than demand deposits but are included in broader money aggregates; Time deposits are less liquid than demand deposits but are still part of broader monetary aggregates.",
+      "trap_option": "C",
+      "strong_distractors": [
+        "A",
+        "C"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"Statement I only is correct\". It is tempting because it uses monetary vocabulary, but it misstates the Near Money And Liquidity relationship.",
+        "B": "Option B states \"Both Statement I and Statement II are correct\". It is correct because it matches the monetary rule tested in Near Money And Liquidity.",
+        "C": "Option C states \"Statement II only is correct\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Near Money And Liquidity mechanism.",
+        "D": "Option D states \"Neither Statement I nor Statement II is correct\". It is tempting because it uses monetary vocabulary, but it misstates the Near Money And Liquidity relationship."
+      },
+      "template_id": "statement_near_money_liquidity",
+      "pattern_tags": [
+        "statement-based",
+        "elimination",
+        "trap"
+      ],
+      "ncert_alignment": "Near Money And Liquidity is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Tests liquidity ranking and aggregate inclusion together.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_009_q007",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "application_based",
+      "difficulty": "medium",
+      "concept": "Monetary Policy And Inflation",
+      "question_text": "In a money-supply application, Inflation is rising and the RBI wants to restrain demand using monetary policy. Which action best fits the objective?",
+      "options": {
+        "C": "A contractionary step such as raising rates or reserve requirements can reduce credit and demand.",
+        "A": "Lowering CRR would be contractionary because banks keep fewer reserves.",
+        "B": "Cutting the repo rate would normally restrain credit demand during inflation.",
+        "D": "Selling fewer securities through OMO always absorbs more liquidity."
+      },
+      "correct_option": "C",
+      "answer_explanation": "Option C is correct because a contractionary step such as raising rates or reserve requirements can reduce credit and demand.",
+      "answer_check": "The correct key is C: A contractionary step such as raising rates or reserve requirements can reduce credit and demand.",
+      "trap_option": "B",
+      "strong_distractors": [
+        "A",
+        "B"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"Lowering CRR would be contractionary because banks keep fewer reserves.\". It is tempting because it uses monetary vocabulary, but it misstates the Monetary Policy And Inflation relationship.",
+        "B": "Option B states \"Cutting the repo rate would normally restrain credit demand during inflation.\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Monetary Policy And Inflation mechanism.",
+        "C": "Option C states \"A contractionary step such as raising rates or reserve requirements can reduce credit and demand.\". It is correct because it matches the monetary rule tested in Monetary Policy And Inflation.",
+        "D": "Option D states \"Selling fewer securities through OMO always absorbs more liquidity.\". It is tempting because it uses monetary vocabulary, but it misstates the Monetary Policy And Inflation relationship."
+      },
+      "template_id": "application_monetary_policy_inflation_0",
+      "pattern_tags": [
+        "application",
+        "elimination",
+        "money-banking"
+      ],
+      "ncert_alignment": "Monetary Policy And Inflation is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Keeps inflation control inside monetary, not fiscal, instruments.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_009_q008",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "assertion_reason",
+      "difficulty": "hard",
+      "concept": "Near Money And Liquidity",
+      "question_text": "For a reserve-management application, Assertion (A): Time deposits are less liquid than demand deposits.. Reason (R): They usually require maturity or withdrawal conditions before use as spending power.. Which option correctly evaluates the Assertion and Reason?",
+      "options": {
+        "D": "Both Assertion and Reason are true, and the Reason correctly explains the Assertion",
+        "A": "Both Assertion and Reason are true, but the Reason does not correctly explain the Assertion",
+        "B": "Assertion is true, but Reason is false",
+        "C": "Assertion is false, but Reason is true"
+      },
+      "correct_option": "D",
+      "answer_explanation": "Option D is correct because the Reason explains liquidity ranking.",
+      "answer_check": "The correct key is D: both A and R are true; the Reason explains liquidity ranking.",
+      "trap_option": "B",
+      "strong_distractors": [
+        "A",
+        "B"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"Both Assertion and Reason are true, but the Reason does not correctly explain the Assertion\". It is tempting because it uses monetary vocabulary, but it misstates the Near Money And Liquidity relationship.",
+        "B": "Option B states \"Assertion is true, but Reason is false\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Near Money And Liquidity mechanism.",
+        "C": "Option C states \"Assertion is false, but Reason is true\". It is tempting because it uses monetary vocabulary, but it misstates the Near Money And Liquidity relationship.",
+        "D": "Option D states \"Both Assertion and Reason are true, and the Reason correctly explains the Assertion\". It is correct because it matches the monetary rule tested in Near Money And Liquidity."
+      },
+      "template_id": "assertion_near_money_liquidity",
+      "pattern_tags": [
+        "assertion-reason",
+        "reasoning",
+        "trap"
+      ],
+      "ncert_alignment": "Near Money And Liquidity is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Tests liquidity ranking and aggregate inclusion together.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_009_q009",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "comparison_based",
+      "difficulty": "medium",
+      "concept": "M1 vs M3",
+      "question_text": "During a bank liquidity review, compare narrow money (M1) and broad money (M3). Which option correctly states the difference?",
+      "options": {
+        "A": "M1 focuses on the most liquid components such as currency and demand deposits, while M3 adds time deposits to make a broader aggregate.",
+        "B": "M1 includes time deposits, while M3 excludes demand deposits because they are cheque-based money.",
+        "C": "M1 is the monetary base held by the RBI, while M3 is only government cash balance.",
+        "D": "M1 and M3 are identical because all bank deposits have the same liquidity."
+      },
+      "correct_option": "A",
+      "answer_explanation": "Option A is correct because M1 focuses on the most liquid components such as currency and demand deposits, while M3 adds time deposits to make a broader aggregate.",
+      "answer_check": "The correct key is A: M1 focuses on the most liquid components such as currency and demand deposits, while M3 adds time deposits to make a broader aggregate.",
+      "trap_option": "C",
+      "strong_distractors": [
+        "B",
+        "C"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"M1 focuses on the most liquid components such as currency and demand deposits, while M3 adds time deposits to make a broader aggregate.\". It is correct because it matches the monetary rule tested in M1 vs M3.",
+        "B": "Option B states \"M1 includes time deposits, while M3 excludes demand deposits because they are cheque-based money.\". It is tempting because it uses monetary vocabulary, but it misstates the M1 vs M3 relationship.",
+        "C": "Option C states \"M1 is the monetary base held by the RBI, while M3 is only government cash balance.\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual M1 vs M3 mechanism.",
+        "D": "Option D states \"M1 and M3 are identical because all bank deposits have the same liquidity.\". It is tempting because it uses monetary vocabulary, but it misstates the M1 vs M3 relationship."
+      },
+      "template_id": "comparison_m1_vs_m3",
+      "pattern_tags": [
+        "comparison",
+        "elimination",
+        "trap"
+      ],
+      "ncert_alignment": "M1 vs M3 is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Tests liquidity ranking and aggregate coverage.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_009_q010",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "case_based",
+      "difficulty": "medium",
+      "concept": "Central Bank Function",
+      "question_text": "In a monetary-policy situation, A learner says the RBI is just like a commercial bank because both deal with money. Which correction is best? Choose the option that best follows from the case.",
+      "options": {
+        "B": "The RBI regulates currency, reserves, and credit conditions rather than operating as a retail profit-maximising lender.",
+        "A": "The RBI mainly competes with commercial banks because it accepts ordinary household savings accounts.",
+        "C": "The RBI approves each individual consumer loan because commercial banks cannot judge borrowers independently.",
+        "D": "The RBI creates demand deposits directly in every household account because it issues currency."
+      },
+      "correct_option": "B",
+      "answer_explanation": "Option B is correct because the RBI regulates currency, reserves, and credit conditions rather than operating as a retail profit-maximising lender.",
+      "answer_check": "The correct key is B: The RBI regulates currency, reserves, and credit conditions rather than operating as a retail profit-maximising lender.",
+      "trap_option": "C",
+      "strong_distractors": [
+        "A",
+        "C"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"The RBI mainly competes with commercial banks because it accepts ordinary household savings accounts.\". It is tempting because it uses monetary vocabulary, but it misstates the Central Bank Function relationship.",
+        "B": "Option B states \"The RBI regulates currency, reserves, and credit conditions rather than operating as a retail profit-maximising lender.\". It is correct because it matches the monetary rule tested in Central Bank Function.",
+        "C": "Option C states \"The RBI approves each individual consumer loan because commercial banks cannot judge borrowers independently.\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Central Bank Function mechanism.",
+        "D": "Option D states \"The RBI creates demand deposits directly in every household account because it issues currency.\". It is tempting because it uses monetary vocabulary, but it misstates the Central Bank Function relationship."
+      },
+      "template_id": "case_central_bank_function_2",
+      "pattern_tags": [
+        "case-based",
+        "monetary-policy",
+        "trap"
+      ],
+      "ncert_alignment": "Central Bank Function is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Distinguishes central banking from commercial banking and fiscal authority.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    }
+  ]
+}

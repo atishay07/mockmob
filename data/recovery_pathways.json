@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "state": "blocked_sources",
+  "reason": "Permitted reference sources and independent calibration are not yet registered. Ordinary practice remains available.",
+  "pathways": [],
+  "candidates": [
+    {
+      "id": "sacrificing_gaining",
+      "state": "awaiting_academic_review",
+      "source": "data/recovery_candidates/sacrificing_gaining.source.json",
+      "built": "data/recovery_candidates/sacrificing_gaining.pathway.json",
+      "report": "docs/brain/reports/pathway-sacrificing_gaining-validation.json",
+      "note": "Candidates are never served. Release needs independent academic review, signed question evidence from the backend verification job, a registered digest and the recovery release gates."
+    }
+  ]
+}

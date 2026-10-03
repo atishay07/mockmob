@@ -3,7 +3,7 @@ import { DiscoveryFeed } from '@/components/feed/DiscoveryFeed';
 
 export const metadata = {
   title: 'Explore — MockMob',
-  description: 'Discover peer-verified questions ranked by the community.',
+  description: 'Practise CUET questions at your pace, check the reasoning and save what needs another go.',
 };
 
 export default function ExplorePage() {

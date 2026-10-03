@@ -1,17 +1,18 @@
+import { auth } from '@/lib/auth';
 import { NextResponse } from 'next/server';
 import { Database } from '@/../data/db';
 import { SUBJECTS } from '@/../data/subjects';
+import { attemptScoring } from '@/../data/attempt_scoring';
 
 export async function GET(request) {
   try {
-    const { searchParams } = new URL(request.url);
-    const userId = searchParams.get('userId');
-
-    if (!userId) {
-      return NextResponse.json({ error: 'userId is required' }, { status: 400 });
-    }
-
-    const attempts = await Database.getAttempts(userId);
+    const session = await auth(request);
+    if (!session?.user) return NextResponse.json({error:'Unauthorized'},{status:401});
+    const userId=session.user.id;
+    // The owner's own history: server-scored practice plus earlier browser-scored attempts,
+    // which are labelled as such. Recovery evidence is computed separately (/api/recovery).
+    const attempts=await Database.getAttempts(userId);
+    const deviceScored=attempts.filter(a=>attemptScoring(a)==='device').length;
 
     // -------- Chapter-wise accuracy --------
     const byChapter = {};
@@ -72,6 +73,7 @@ export async function GET(request) {
       test: `T${i + 1}`,
       score: a.score,
       at: a.completedAt,
+      scoring: attemptScoring(a),
     }));
     const scores = timeline.map((row) => row.score);
     const latestScore = scores.at(-1) || 0;
@@ -146,6 +148,7 @@ export async function GET(request) {
       timeline,
       totals,
       totalAttempts: attempts.length,
+      scoring: { server: attempts.length - deviceScored, device: deviceScored },
       insights: {
         latestScore,
         bestScore,

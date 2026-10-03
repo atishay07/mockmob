@@ -11,12 +11,12 @@ export const metadata = seoMetadata({
 
 export default function TermsPage() {
   return (
-    <div className="view min-h-screen">
+    <div className="mm">
       <NavBar />
-      <main className="container-narrow px-5 pb-20 pt-32">
+      <main className="container-narrow px-5 pb-20 pt-10">
         <div className="eyebrow mb-3">{'// Legal'}</div>
         <h1 className="display-lg mb-5">Terms of Service</h1>
-        <p className="mb-10 text-zinc-400">Last updated: April 27, 2026</p>
+        <p className="mb-10 text-zinc-400">Last updated: 2 October 2026</p>
 
         <div className="legal-copy">
           <section>
@@ -33,7 +33,7 @@ export default function TermsPage() {
           </section>
           <section>
             <h2>Premium access</h2>
-            <p>Pro access unlocks premium features such as unlimited mocks, Radar, difficulty controls, bookmarks, and Admission Compass. Feature availability can evolve as we improve the product.</p>
+            <p>Pro access unlocks premium features such as unlimited mocks, Radar, difficulty controls, bookmarks, and Admission Compass. Current season access ends 31 July 2027. Available inventory and reattempts are included; unlimited unique questions are not promised. Existing purchases keep their recorded expiry and rights. DU eligibility and historical cutoffs are free. Recovery is unavailable until its content and journey gates pass.</p>
           </section>
           <section>
             <h2>Exam affiliation</h2>
@@ -50,11 +50,11 @@ export default function TermsPage() {
         .legal-copy {
           display: grid;
           gap: 22px;
-          color: #a1a1aa;
+          color: var(--ink-2);
           line-height: 1.8;
         }
         .legal-copy h2 {
-          color: #fff;
+          color: var(--ink);
           font-family: var(--font-display);
           font-size: 22px;
           font-weight: 800;

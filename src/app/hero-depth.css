@@ -1,0 +1,126 @@
+/* ==========================================================================
+   HERO DEPTH, PROOF DOCK AND STATEMENT (landing only)
+   Scroll Craft principles adapted to the existing guided-practice grammar:
+   - planes move at different rates (far aurora < grid < page < near drill card),
+     travel stays under 200px, copy rides at 1x and nothing pins;
+   - all motion is CSS scroll-driven (compositor work, no JS on scroll) and is a
+     progressive enhancement: unsupported browsers and reduced motion get the
+     complete static composition.
+   ========================================================================== */
+
+/* ---------- 1. Scroll depth on the existing hero planes ---------- */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .lp-hero .lp-bg__aurora,
+    .lp-hero .lp-bg__grid,
+    .lp-hero .lp-bg__dots,
+    .lp-hero .lp-stage__card {
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 100svh;
+    }
+    /* Far: lags the page most, and opens slightly as if the camera moves in. */
+    .lp-hero .lp-bg__aurora { animation-name: lp-depth-far; }
+    .lp-hero .lp-bg__grid { animation-name: lp-depth-grid; }
+    .lp-hero .lp-bg__dots { animation-name: lp-depth-mid; }
+    /* Near: the playable card rises a little faster than the page, so it reads in front.
+       Desktop only: on phones the card sits below the fold and would slide into its own label. */
+    .lp-hero .lp-stage__card { animation-name: none; }
+    @media (min-width: 960px) { .lp-hero .lp-stage__card { animation-name: lp-depth-near; } }
+  }
+}
+@keyframes lp-depth-far { to { transform: translate3d(0, 160px, 0) scale(1.08); opacity: 0.55; } }
+@keyframes lp-depth-grid { to { transform: translate3d(0, 110px, 0); } }
+@keyframes lp-depth-mid { to { transform: translate3d(0, 60px, 0); } }
+@keyframes lp-depth-near { to { transform: translate3d(0, -36px, 0); } }
+
+/* ---------- 2. Proof dock: Apple-style glass over the hero light ---------- */
+.lp-proof {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: clamp(2.25rem, 5vw, 3.75rem);
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid var(--glass-edge, rgba(244, 245, 240, 0.16));
+  background: var(--glass-fill, rgba(18, 24, 19, 0.5));
+  -webkit-backdrop-filter: blur(24px) saturate(170%);
+  backdrop-filter: blur(24px) saturate(170%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 30px 70px -40px rgba(0, 0, 0, 0.7);
+}
+/* A soft light under the glass so the blur has something to refract. */
+.lp-proof::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -60% -10% auto 35%;
+  height: 220%;
+  background: radial-gradient(closest-side, rgba(210, 240, 0, 0.16), transparent);
+  pointer-events: none;
+}
+.lp-proof a {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  align-content: start;
+  gap: 0.15rem 0.6rem;
+  min-height: 44px;
+  padding: 1rem 1.1rem;
+  color: var(--ink);
+  text-decoration: none;
+  box-shadow: inset -1px 0 0 var(--glass-divider, rgba(244, 245, 240, 0.09)), inset 0 -1px 0 var(--glass-divider, rgba(244, 245, 240, 0.09));
+  transition: background-color 0.2s ease;
+}
+.lp-proof svg { grid-row: 1 / span 2; margin-top: 0.3rem; color: var(--accent-text); }
+.lp-proof b {
+  font: 800 clamp(1.35rem, 3.6vw, 1.75rem) / 1.05 var(--font-display);
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.lp-proof span { color: var(--ink-2); font-size: 0.8125rem; line-height: 1.4; }
+.lp-proof a:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: -3px; border-radius: 20px; }
+.lp-proof a:active { background: rgb(var(--tint) / 0.06); }
+@media (hover: hover) and (pointer: fine) {
+  .lp-proof a:hover { background: rgb(var(--tint) / 0.05); }
+}
+@media (min-width: 900px) {
+  .lp-proof { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .lp-proof a { box-shadow: inset -1px 0 0 var(--glass-divider, rgba(244, 245, 240, 0.09)); }
+  .lp-proof a:last-child { box-shadow: none; }
+}
+html[data-theme='light'] .lp-proof {
+  --glass-fill: rgba(255, 255, 255, 0.55);
+  --glass-edge: rgba(23, 32, 22, 0.1);
+  --glass-divider: rgba(23, 32, 22, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 30px 70px -44px rgba(20, 32, 14, 0.4);
+}
+html[data-theme='light'] .lp-proof::before { background: radial-gradient(closest-side, rgba(170, 200, 0, 0.26), transparent); }
+@media (prefers-reduced-transparency: reduce) {
+  .lp-proof { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--paper-raised); }
+}
+
+/* ---------- 3. Statement: words light up as the reader scrolls through ---------- */
+.lp-statement { padding-block: clamp(2.5rem, 7vw, 5.5rem); view-timeline-name: --lp-statement; }
+.lp-statement__text {
+  margin: 0;
+  max-width: 22ch;
+  font: 800 clamp(1.85rem, 5.6vw, 4.25rem) / 1.08 var(--font-display);
+  letter-spacing: -0.035em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.lp-statement__w[data-accent] { color: var(--accent-text); }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .lp-statement__w {
+      animation: lp-word linear both;
+      animation-timeline: --lp-statement;
+      /* Each word lights in its own slice of the section's pass through the viewport. */
+      animation-range-start: cover calc(18% + var(--p) * 34%);
+      animation-range-end: cover calc(24% + var(--p) * 34%);
+    }
+  }
+}
+@keyframes lp-word { from { opacity: 0.18; } to { opacity: 1; } }

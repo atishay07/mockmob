@@ -1,751 +1,484 @@
-import React from 'react';
 import Link from 'next/link';
+import { CAPABILITIES, recoveryReleased, newOfferReleased } from '@/../data/capabilities';
+import { publicOffer } from '@/lib/payments/offer';
+import { ArrowRight, ArrowUpRight, Check, History, Bookmark, Trophy, Monitor, Target, GraduationCap, ShieldCheck } from 'lucide-react';
 import { NavBar } from '@/components/NavBar';
-import { LandingActions } from '@/components/LandingActions';
-import { Icon } from '@/components/ui/Icons';
-import { Button } from '@/components/ui/Button';
 import { MarketingFooter } from '@/components/MarketingFooter';
+import { MobileDock } from '@/components/MobileDock';
 import { JsonLd } from '@/components/JsonLd';
-import { DynamicCompassPreview } from '@/components/landing/DynamicCompassPreview';
-import { breadcrumbJsonLd, courseJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
-
-import { MorphingText } from '@/components/ui/morphing-text';
-import { NumberTicker } from '@/components/ui/number-ticker';
-import { ScrollVelocityContainer, ScrollVelocityRow } from '@/components/ui/scroll-based-velocity';
-import { DotPattern } from '@/components/ui/dot-pattern';
-import { InteractiveGridPattern } from '@/components/ui/interactive-grid-pattern';
+import { LandingActions } from '@/components/LandingActions';
 import { PrepOSOrb } from '@/components/ui/PrepOSOrb';
-import { ScrollReveal } from '@/components/ui/ScrollReveal';
+import { DemoDrill } from '@/components/landing/DemoDrill';
+import { HeroBackdrop } from '@/components/landing/HeroBackdrop';
+import { Reveal } from '@/components/landing/Reveal';
+import { LiveStatsBand } from '@/components/landing/LiveStatsBand';
+import { EligibilityTeaser } from '@/components/du/EligibilityTeaser';
+import { CollegeDestinations } from '@/components/landing/CollegeDestinations';
+import { ExamComparator } from '@/components/landing/ExamComparator';
+import { ChapterReadout } from '@/components/landing/ChapterReadout';
+import { SubjectGrid } from '@/components/landing/SubjectGrid';
+import { ArenaScreen, CompassScreen, PlanScreen } from '@/components/landing/ProductScreens';
+import MistakeLab from '@/components/landing/MistakeLab';
+import { publishedVoices } from '@/lib/voices';
+import { INSTAGRAM, STATS_AS_OF, rankedReels } from '@/lib/social';
+import { buildCompassShowcase, duIndexFacts } from '@/lib/du/showcase';
+import CompassLadder from '@/components/landing/CompassLadder';
+import CreatorReels from '@/components/landing/CreatorReels';
+import { MascotSeat } from '@/components/brand/Mascot';
+import PipGuide from '@/components/brand/PipGuide';
+import WallOfLove from '@/components/landing/WallOfLove';
+import { breadcrumbJsonLd, faqJsonLd } from '@/lib/seo';
+import './landing.css';
+import './home-refinements.css';
+import './mistake-lab.css';
+import './compass-ladder.css';
+import './social-proof.css';
+import './hero-depth.css';
 
-export const metadata = seoMetadata({
-  title: 'CUET Mock Tests & Practice Questions | MockMob',
-  description:
-    'Take CUET mock tests, practise peer-reviewed questions, track weak chapters, and prepare for CUET UG with MockMob.',
-  path: '/',
-});
+const MARQUEE = [
+  'English', 'Accountancy', 'Business Studies', 'Economics', 'History', 'Political Science', 'Psychology',
+  'Mathematics', 'Physics', 'Chemistry', 'Biology', 'Computer Science', 'General Test',
+];
+
+const steps = [
+  ['Pick a subject and a pace', 'A five-question drill tonight, or a full 50-question, 60-minute mock at the weekend.', 'pick'],
+  ['Practise against the clock', 'Every answer is scored on the server. Reload mid-session and you resume where you left off.', 'time'],
+  ['Fix the chapter, not the score', 'Review explanations and follow the same next action in Today, Radar and PrepOS.', 'fix'],
+];
+
+function StepVisual({ kind }) {
+  if (kind === 'pick') {
+    return (
+      <div className="lp-stepvis" aria-hidden="true">
+        <span>Accountancy</span>
+        <span data-on="true">Partnership</span>
+        <span>20 questions</span>
+      </div>
+    );
+  }
+  if (kind === 'time') {
+    return (
+      <div className="lp-stepvis lp-stepvis--timer" aria-hidden="true">
+        <span className="mm-measure">38:12 left</span>
+        <i className="lp-stepvis__track"><b /></i>
+      </div>
+    );
+  }
+  return (
+    <div className="lp-stepvis lp-stepvis--bars" aria-hidden="true">
+      <i style={{ '--w': '38%' }} data-low="true" />
+      <i style={{ '--w': '61%' }} />
+      <i style={{ '--w': '84%' }} />
+    </div>
+  );
+}
+
+const freePlan = newOfferReleased() ? ['One baseline per launch subject', 'One included daily 10-question set', 'One new recovery episode per week', 'Fresh checks for started episodes', '25 saved questions'] : [
+  'Quick Practice and Full Mock on credits',
+  'Weekly progress tracking',
+  '25 saved questions',
+  'Leaderboard',
+];
+const proPlan = newOfferReleased() ? ['All available recovery pathways', 'Fresh delayed checks and full history', 'Unlimited available practice and reattempts', 'Full, Smart and NTA access', 'Unlimited saved questions'] : [
+  'Unlimited Quick Practice and Full Mock',
+  'Compass Pro: your practice mapped to your DU shortlist',
+  'Smart Practice and NTA Mode',
+  'Full Radar: every ranked chapter, pace and changed answers',
+  'Unlimited saved questions',
+];
+
+const OFFER = publicOffer();
+const SHOWCASE = buildCompassShowcase();
+const WALL_VOICES = publishedVoices();
+const DU_FACTS = duIndexFacts();
+
+// The statement scrubs word by word with the scroll. Words marked with * carry the accent.
+const STATEMENT = 'One mock. A clearer *next step. See what cost you marks, choose a chapter for *tonight, and check the DU subject rules behind your *shortlist.';
+
+const faqs = [
+  { question: 'Can I try it before signing up?', answer: 'Yes. Try five original sample questions here. They show how practice feels, not a subject diagnosis or an official previous-year paper.' },
+  { question: 'What is MockMob built for?', answer: `CUET UG practice, review and one shared next action. ${recoveryReleased() ? 'Recovery pathways support' : 'Recovery content is being prepared for'} English, Accountancy, Business Studies and Economics. DU guidance uses sourced eligibility and historical cutoffs.` },
+  { question: 'What is Score Recovery Lab?', answer: recoveryReleased() ? 'Investigate a specific reasoning gap, complete the missing step and return for fresh unassisted checks. Five questions are an initial signal, not a complete subject diagnosis.' : 'A reasoning-repair workflow being built around source-backed probes, interactive repair and fresh delayed checks. It remains unavailable while sources, calibration and the authenticated journey are checked. The decision replay shown here is an illustrative example.' },
+  { question: 'What does Pro cost?', answer: OFFER.purchasable === 'monthly' ? `₹${OFFER.monthly.rupees} a month. It renews until you cancel in Account, and you keep Pro to the end of the month you paid for.` : `Monthly Pro at ₹${OFFER.monthly.rupees} a month is opening soon. Until then, ₹${OFFER.oneTime.rupees} once covers access through ${OFFER.oneTime.expires}, with no auto-renewal. Whoever pays now keeps the full term.` },
+  { question: 'Is MockMob affiliated with NTA or DU?', answer: 'No. MockMob is independent. Practice scores and DU guidance cannot guarantee a result or admission. The 2027 exam details remain provisional until officially confirmed.' },
+];
 
 export default function LandingPage() {
-  const valueTiles = [
-    {
-      label: 'CUET Practice Bank',
-      copy: '10,000+ exam-style questions mapped to CUET patterns.',
-      icon: 'book',
-    },
-    {
-      label: 'Prep OS',
-      copy: 'Mocks, weakness tracking, revision, and AI guidance in one loop.',
-      icon: 'spark',
-      accent: true,
-    },
-    {
-      label: 'DU Compass',
-      copy: 'Map scores to realistic DU course paths.',
-      icon: 'route',
-    },
-    {
-      label: 'AI Rival',
-      copy: 'Timed benchmark battles to test speed and accuracy.',
-      icon: 'flame',
-    },
-  ];
-
-  const features = [
-    { t: 'Community-built CUET mocks', d: '10,000+ peer-crafted questions reviewed, rated, and battle-tested by serious CUET aspirants every day. No dusty PDFs. No decade-old repeats.', tag: 'MOST LOVED', icon: 'users', span: 'md:col-span-7', hero: true },
-    { t: 'PrepOS CUET co-pilot', d: 'Ask PrepOS what to do today. It turns your mocks, weak chapters, saved questions, and DU goals into a clear next move.', tag: 'NEW', icon: 'spark', span: 'md:col-span-5', hero: true },
-    { t: 'AI weakness radar', d: 'Smart analytics pinpoint the exact chapter, topic, speed leak, and trap pattern killing your score.', icon: 'radar', span: 'md:col-span-4', chart: true },
-    { t: 'Mistake Replay', d: 'Reopen the questions that actually hurt your score and convert them into short benchmark drills.', icon: 'msg', span: 'md:col-span-4' },
-    { t: 'DU target path', d: 'CUET-first pathways connect your subjects, score band, and target course to realistic college moves.', icon: 'route', span: 'md:col-span-4', track: true },
-  ];
-
-  const testimonials = [
-    { n: 'Aanya Kulkarni', r: 'CUET · North Campus', q: 'I used to solve PYQs alone at 2 AM wondering if my speed was normal. MockMob showed me the exact chapter that was dragging my score down.' },
-    { n: 'Meera Sharma', r: 'SRCC · B.Com (Hons)', q: 'PrepOS made the plan simple: benchmark, replay mistakes, then push Accountancy. It felt like a senior had mapped the week for me.' },
-    { n: 'Atishay Jain', r: 'Hansraj College', q: 'The DU Compass view made my CUET score feel actionable. I could see the colleges, the subject gaps, and the next move without guessing.' },
-  ];
-
-  const faqs = [
-    {
-      question: 'Can I take a CUET mock test free on MockMob?',
-      answer:
-        'Yes. MockMob lets students start with free CUET mock practice and upgrade when they need unlimited mocks, deeper analytics, and Admission Compass.',
-    },
-    {
-      question: 'Does MockMob include CUET previous year questions?',
-      answer:
-        'MockMob is built around CUET-style practice, previous year question routines, chapter drills, and community-verified questions for exam preparation.',
-    },
-    {
-      question: 'Is MockMob affiliated with NTA?',
-      answer:
-        'No. MockMob is an independent exam preparation platform and is not affiliated with NTA, DU, CUET, or any official exam body.',
-    },
-  ];
-
   return (
-    <div className="view">
+    <div className="mm lp">
       <JsonLd id="home-breadcrumb-json-ld" data={breadcrumbJsonLd([{ name: 'Home', path: '/' }])} />
       <JsonLd id="home-faq-json-ld" data={faqJsonLd(faqs)} />
-      <JsonLd
-        id="home-course-json-ld"
-        data={courseJsonLd({
-          name: 'CUET Mock Tests and Practice Questions',
-          description: 'CUET UG preparation with free mock tests, online practice questions, analytics, and admission planning.',
-          path: '/',
-        })}
-      />
+      <noscript>
+        <style>{'.rv,.rv-item,.lp-hero [data-hero]{opacity:1!important;transform:none!important}'}</style>
+      </noscript>
       <NavBar />
+      <main id="main-content">
+        {/* ------------------------------ HERO ------------------------------ */}
+        <section className="lp-hero">
+          <HeroBackdrop />
+          <div className="mm-wrap lp-hero__grid">
+            <div className="lp-hero__copy">
+              <div className="lp-hero__greeting"><a href="#try-practice" className="lp-pill" data-hero style={{ '--h': 0 }}>
+                <span className="lp-pill__dot" aria-hidden="true" />
+                CUET UG 2027
+                <ArrowRight size={14} aria-hidden="true" />
+              </a><MascotSeat station="hero" pose="greeting" label="Pip’s on your side." note="Even at 11pm." eager /></div>
+              <h1 className="lp-title">
+                {recoveryReleased() ? <><span className="lp-title__line">Find the mistake</span><span className="lp-title__line">behind the marks.</span></> : <>
+                <span className="lp-title__line">CUET 2027.</span>
+                <span className="lp-title__line">One mock.</span>
+                <span className="lp-title__line lp-title__morph">A clearer next step.</span>
+                </>}
+              </h1>
+              <p className="lp-lead" data-hero style={{ '--h': 1 }}>
+                {recoveryReleased() ? 'Find the missing step. Practise it. Check it on fresh questions. Built for CUET Commerce and English.' : 'Take a timed session. Review the answers you missed. Choose what to practise next in English, Accountancy, Business Studies and Economics.'}
+              </p>
+              <div className="lp-cta" data-hero style={{ '--h': 2 }}>
+                <LandingActions />
+              </div>
+              <ul className="lp-trust" data-hero style={{ '--h': 3 }}>
+                <li><Check size={16} aria-hidden="true" />Free to start</li>
+                <li><Check size={16} aria-hidden="true" />{OFFER.purchasable === 'monthly' ? `Pro ₹${OFFER.monthly.rupees} a month` : `Pro ₹${OFFER.oneTime.rupees} once, through ${OFFER.oneTime.expires}`}</li>
+                <li><Check size={16} aria-hidden="true" />{OFFER.purchasable === 'monthly' ? 'Cancel anytime' : 'No auto-renewal'}</li>
+              </ul>
+              <Link href="/cuet-cutoff-calculator" className="lp-link lp-hero__tool" data-hero style={{ '--h': 4 }}>
+                Free DU eligibility and cutoff calculator
+                <ArrowRight size={16} aria-hidden="true" />
+              </Link>
+              <a href="#exam-experience" className="lp-hero__exam-link"><Monitor size={16} aria-hidden="true" />Meet the exam before exam day<ArrowRight size={15} aria-hidden="true" /></a>
+            </div>
 
-      {/* HERO */}
-      <section style={{ paddingTop: '120px', paddingBottom: '48px' }} className="px-5 relative overflow-hidden">
-        <InteractiveGridPattern
-          width={40}
-          height={40}
-          squares={[36, 28]}
-          className="opacity-[0.15] landing-grid-pattern"
-          squaresClassName="hover:fill-volt/20"
-        />
+            <div className="lp-stage" id="try-practice" data-hero style={{ '--h': 2 }}>
+              <div className="lp-stage__heading"><span><span className="lp-stage__live" />Your first question starts here</span><span>No signup</span></div>
+              <div className="lp-stage__card">
+                <DemoDrill />
+              </div>
+              <div className="lp-stage__path"><span>01 · Answer</span><i /><span>02 · Read the explanation</span></div>
+              <p className="lp-stage__note">
+                Five original sample questions. No signup. Not an official PYQ or a scored diagnostic.
+              </p>
+            </div>
+          </div>
 
-        <div className="container-wide text-center relative z-10">
-          <ScrollReveal delay={0} distance={16} initialInView>
-            <Link
-              href="/signup"
-              className="mb-7 inline-flex min-h-10 items-center gap-2 rounded-full border border-red-500/25 px-4 py-2 no-underline"
-              style={{ background: 'rgba(248,113,113,0.04)', minHeight: '44px' }}
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse-slow" style={{ boxShadow: '0 0 8px rgba(248,113,113,.9)' }}></span>
-              <span className="mono-label" style={{ color: 'var(--volt)' }}>Now live — CUET &apos;26 Mock Sprint</span>
-              <Icon name="arrow" style={{ color: 'var(--volt)', width: '11px', height: '11px' }} />
-            </Link>
-          </ScrollReveal>
+          {/* Second hero beat: real, linked facts on a glass dock over the hero's light. */}
+          <div className="mm-wrap">
+            <nav className="lp-proof" aria-label="Why students pick MockMob" data-hero style={{ '--h': 5 }}>
+              <a href="#try-practice"><Target size={18} aria-hidden="true" /><b>5 questions</b><span>Try the sample before you sign up</span></a>
+              {DU_FACTS ? <a href="#du-eligibility"><GraduationCap size={18} aria-hidden="true" /><b>{DU_FACTS.programmes}</b><span>DU programmes · check subject rules free</span></a> : null}
+              <a href="#exam-experience"><Monitor size={18} aria-hidden="true" /><b>2 screens</b><span>MockMob or NTA style · your choice</span></a>
+              <a href="#how-it-works"><ShieldCheck size={18} aria-hidden="true" /><b>60 min</b><span>50 questions · one full CUET mock</span></a>
+            </nav>
+          </div>
+        </section>
 
-          <ScrollReveal delay={80} distance={20} initialInView>
-            <h1 className="display-xl mb-2 text-white">
-              Stop grinding alone.<br />
-              Rank up with the
-            </h1>
-          </ScrollReveal>
-          <ScrollReveal delay={160} initialInView>
-            <MorphingText texts={["mob.", "best.", "top 1%."]} className="text-volt italic h-[80px] md:h-[120px]" />
-          </ScrollReveal>
-
-          <ScrollReveal delay={240} distance={16} initialInView>
-            <p className="text-base md:text-lg text-zinc-400 max-w-2xl mx-auto mb-8 mt-4" style={{ lineHeight: 1.6 }}>
-              India&apos;s CUET-first mock test platform. Take peer-verified mocks, ask <span className="text-volt font-semibold">PrepOS</span> what to do next, and turn every score into a sharper DU admission move.
+        {/* ----------------------- STATEMENT (scroll-scrubbed) -------------------- */}
+        <section className="lp-statement" aria-label="What MockMob does">
+          <div className="mm-wrap">
+            <p className="lp-statement__text">
+              {STATEMENT.split(' ').map((word, i, all) => (
+                <span key={i} className="lp-statement__w" data-accent={word.startsWith('*') || undefined} style={{ '--p': (i / (all.length - 1)).toFixed(3) }}>
+                  {word.replace('*', '')}{i < all.length - 1 ? ' ' : ''}
+                </span>
+              ))}
             </p>
-          </ScrollReveal>
-          <ScrollReveal delay={320} distance={12} initialInView>
-            <LandingActions mode="hero" />
-            <div className="inline-flex items-center gap-2 text-xs text-zinc-500 mt-3">
-              <Icon name="spark" style={{ color: 'var(--volt)', width: '12px', height: '12px' }} />
-              No credit card. No spam. Just verified mocks.
-            </div>
-          </ScrollReveal>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* VALUE STRIP — replaces generic stats bar */}
-      <section className="px-5 mb-10 md:mb-20 relative z-10">
-        <div className="container-wide">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            {valueTiles.map((tile, i) => (
-              <ScrollReveal key={tile.label} delay={i * 80} distance={20}>
-                <div
-                  className="value-tile glass p-5 group"
-                  style={{
-                    borderColor: tile.accent ? 'rgba(210,240,0,0.25)' : 'rgba(255,255,255,0.08)',
-                    background: tile.accent ? 'rgba(210,240,0,0.03)' : undefined,
-                  }}
-                >
-                  <div className="flex items-center gap-3 mb-2.5">
-                    <div
-                      className="w-9 h-9 rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-                      style={{
-                        background: tile.accent ? 'var(--volt)' : 'rgba(255,255,255,0.06)',
-                        color: tile.accent ? '#000' : 'var(--volt)',
-                      }}
-                    >
-                      <Icon name={tile.icon} style={{ width: '16px', height: '16px' }} />
-                    </div>
-                    <span className="heading text-sm text-white">{tile.label}</span>
-                  </div>
-                  <p className="text-zinc-400 text-[13px] leading-relaxed m-0">{tile.copy}</p>
-                </div>
-              </ScrollReveal>
+        {/* ------------------------- SCORE RECOVERY LAB --------------------- */}
+        <section className="lp-sec" id="score-recovery-lab">
+          <div className="mm-wrap">
+            <div className="lp-guide-head"><Reveal className="lp-head lp-head--left">
+              <p className="lp-kicker">Mistake lab</p>
+              <h2 className="lp-h2">See exactly where your marks went.</h2>
+              <p className="lp-sub">
+                Replay the answer changes, slow questions and skips. Then pick one useful move. The example below shows how.
+              </p>
+            </Reveal><MascotSeat station="lab" pose="attentive" label="Read the pattern." note="Replay, then choose a step." /></div>
+            <Reveal delay={100}>
+              <MistakeLab recoveryState={CAPABILITIES.recovery.state} recoveryReason={CAPABILITIES.recovery.reason} />
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ----------------------------- MARQUEE ---------------------------- */}
+        <div className="lp-marquee" aria-label="CUET subjects you can practise">
+          <div className="lp-marquee__track" aria-hidden="true">
+            {[...MARQUEE, ...MARQUEE].map((name, i) => (
+              <span key={`${name}-${i}`}>{name}</span>
             ))}
           </div>
+          <ul className="lp-sr">{MARQUEE.map((name) => <li key={name}>{name}</li>)}</ul>
         </div>
-      </section>
 
-      {/* MARQUEE */}
-      <div className="overflow-hidden bg-white/5 border-y border-white/5 mb-12 md:mb-20 relative py-6">
-        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#0a0a0a] to-transparent z-10"></div>
-        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#0a0a0a] to-transparent z-10"></div>
-        <ScrollVelocityContainer className="font-display font-bold text-3xl md:text-5xl tracking-tight text-white/40">
-          <ScrollVelocityRow baseVelocity={1.6} direction={1} scrollReactivity={false}>
-            CUET English <span className="opacity-15 mx-4">—</span> Accountancy <span className="opacity-15 mx-4">—</span> Economics <span className="opacity-15 mx-4">—</span> Psychology <span className="opacity-15 mx-4">—</span> History <span className="opacity-15 mx-4">—</span> Political Science <span className="opacity-15 mx-4">—</span> SRCC <span className="opacity-15 mx-4">—</span> Hansraj <span className="opacity-15 mx-4">—</span>
-          </ScrollVelocityRow>
-        </ScrollVelocityContainer>
-      </div>
-
-      {/* PREPOS PROMO */}
-      <section className="px-5 mb-14 md:mb-24">
-        <div className="container-std">
-          <ScrollReveal distance={30}>
-            <div className="prepos-promo glass relative overflow-hidden border-volt/20">
-              <div className="prepos-promo-grid">
-                <div className="prepos-promo-orb">
-                  <PrepOSOrb size={92} active label="OS" />
-                </div>
-                <div className="prepos-promo-copy">
-                  <div className="eyebrow mb-3">{'// PrepOS'}</div>
-                  <h2 className="display-md mb-3">A CUET co-pilot that keeps asking, <span className="text-volt italic">what is the next move?</span></h2>
-                  <p className="text-zinc-400 leading-relaxed">
-                    Open the island from any page. PrepOS can set your daily mission, replan after a bad mock, benchmark you against DU targets, and turn saved mistakes into replay drills.
-                  </p>
-                </div>
-                <div className="prepos-promo-stack" aria-label="PrepOS quick actions">
-                  {['Plan today', 'Replay mistakes', 'Benchmark DU path'].map((item, index) => (
-                    <div key={item} className="prepos-promo-chip" style={{ animationDelay: `${index * 0.18}s` }}>
-                      <span>{index + 1}</span>
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </ScrollReveal>
-        </div>
-      </section>
-
-      {/* HOW IT WORKS */}
-      <section className="px-5 mb-14 md:mb-24">
-        <div className="container-std">
-          <ScrollReveal>
-            <div className="text-center mb-12">
-              <div className="eyebrow mb-3">{'// Workflow'}</div>
-              <h2 className="display-lg">How MockMob <span className="text-volt" style={{ fontStyle: 'italic' }}>works.</span></h2>
-            </div>
-          </ScrollReveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { n: '1', t: 'Pick your target', d: 'Select your exam and chapters. We curate a custom mock based on what you actually need to study today.' },
-              { n: '2', t: 'Enter the Sprint', d: 'Solve peer-reviewed questions in a strict timed environment. Feel the exact pressure of the real exam.', active: true },
-              { n: '3', t: 'Analyze & Climb', d: 'Review your trap patterns with the AI Radar and watch your global rank jump on the live leaderboard.' },
-            ].map((step, i) => (
-              <ScrollReveal key={step.n} delay={i * 100} distance={24}>
-                <div className={`glass p-8 text-center relative hover:-translate-y-1 transition-transform ${step.active ? 'border-volt/20 bg-[rgba(210,240,0,0.03)]' : ''}`}>
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-6 font-display font-bold text-xl ${step.active ? 'bg-volt text-black shadow-[0_0_20px_rgba(210,240,0,0.3)]' : 'bg-white/5 text-volt border border-white/10'}`}>
-                    {step.n}
-                  </div>
-                  <h3 className={`heading text-xl mb-3 ${step.active ? 'text-volt' : ''}`}>{step.t}</h3>
-                  <p className="text-zinc-400 text-sm">{step.d}</p>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FEATURES BENTO */}
-      <section className="px-5 mb-14 md:mb-24 relative overflow-hidden py-6 md:py-10">
-        <div className="absolute inset-0 pointer-events-none opacity-40">
-          <DotPattern
-            width={22}
-            height={22}
-            cx={1}
-            cy={1}
-            cr={1.2}
-            className="text-volt/20"
-            glow={true}
-            style={{ maskImage: 'radial-gradient(ellipse at center, white, transparent 68%)', WebkitMaskImage: 'radial-gradient(ellipse at center, white, transparent 68%)' }}
-          />
-        </div>
-        <div className="container-std">
-          <ScrollReveal>
-            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12 relative z-10">
-              <div>
-                <div className="eyebrow mb-3">{'// Why MockMob'}</div>
-                <h2 className="display-lg">Built for the <span className="text-volt" style={{ fontStyle: 'italic' }}>top 1%.</span></h2>
-                <p className="text-zinc-400 max-w-xl mt-3 leading-relaxed">
-                  A faster loop for serious students: solve, vote, save, diagnose, and return to the exact chapters that move the score.
+        {/* ---------------------------- COMPASS LADDER ---------------------------- */}
+        {SHOWCASE.programmes.length > 0 ? (
+          <section className="lp-sec" id="compass">
+            <div className="mm-wrap">
+              <div className="lp-guide-head lp-guide-head--lead"><Reveal className="lp-head lp-head--left">
+                <p className="lp-kicker">DU Compass</p>
+                <h2 className="lp-h2">Put your shortlist beside the numbers.</h2>
+                <p className="lp-sub">
+                  Compare a score with published 2026 DU cutoffs, by college, category and round. Historical context for your plan, not an admission promise.
                 </p>
-              </div>
-              <div className="grid grid-cols-3 gap-2 w-full lg:w-auto">
-                {[
-                  ['1 tap', 'save weak questions'],
-                  ['5 min', 'chapter drills'],
-                  ['24/7', 'live radar'],
-                ].map(([value, label]) => (
-                  <div key={label} className="glass px-3 py-3 text-center min-w-0">
-                    <div className="heading text-volt text-xl">{value}</div>
-                    <div className="mono-label !tracking-[0.08em] leading-snug whitespace-normal break-words">{label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </ScrollReveal>
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 relative z-10">
-            {features.map((f, i) => (
-              <ScrollReveal key={i} delay={i * 80} className={f.span}>
-                <div
-                  className={`glass p-6 md:p-8 relative overflow-hidden group md:min-h-[280px] h-full`}
-                  style={{
-                    background: f.hero ? 'rgba(210,240,0,0.02)' : 'rgba(255,255,255,0.015)',
-                    borderColor: f.hero ? 'rgba(210,240,0,0.2)' : 'rgba(255,255,255,0.08)',
-                  }}
-                >
-                  <div
-                    className="feature-dot-layer pointer-events-none opacity-[0.35] group-hover:opacity-100 transition-opacity duration-700"
-                    style={{ position: 'absolute', inset: 0, zIndex: 0 }}
-                  >
-                    <DotPattern width={24} height={24} cx={1} cy={1} cr={1.5} className={f.hero ? "text-volt/30" : "text-white/20"} glow={true} style={{ maskImage: 'radial-gradient(ellipse at top left, white, transparent 70%)', WebkitMaskImage: 'radial-gradient(ellipse at top left, white, transparent 70%)' }} />
-                  </div>
-                  <div className="relative z-10">
-                    <div className="flex items-center justify-between mb-4 md:mb-6">
-                      <div className="w-11 h-11 md:w-12 md:h-12 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110 duration-500" style={{ background: f.hero ? 'var(--volt)' : 'rgba(255,255,255,0.05)', color: f.hero ? '#000' : '#a1a1aa' }}>
-                        <Icon name={f.icon} style={{ width: '20px', height: '20px' }} />
-                      </div>
-                      {f.tag && <span className="pill volt">{f.tag}</span>}
-                    </div>
-                    <h3 className="heading text-xl md:text-2xl mb-2 md:mb-3">{f.t}</h3>
-                    <p className="text-zinc-400 text-sm md:text-base leading-relaxed">{f.d}</p>
-                  </div>
+              </Reveal><MascotSeat station="compass" pose="pointing" label="Check the source." note="Keep the goal in view." /></div>
+              <Reveal delay={100}><CompassLadder data={SHOWCASE} /></Reveal>
+              <Reveal as="aside" className="lp-cpro" aria-label="Compass Pro">
+                <div className="lp-cpro__copy">
+                  <p className="lp-cpro__badge">Compass Pro</p>
+                  <h3 className="lp-h3">Your practice, mapped to the colleges you want.</h3>
+                  <p>Turn your recorded practice into a paper-by-paper range. Compare it with your DU shortlist and see which paper has the most room to improve.</p>
+                  <Link href="/pricing" className="lp-link">See what Pro includes<ArrowRight size={16} aria-hidden="true" /></Link>
                 </div>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* DU COMPASS */}
-      <section className="px-5 mb-14 md:mb-24">
-        <div className="container-std">
-          <ScrollReveal distance={30}>
-            <div className="compass-card glass relative overflow-hidden border-volt/20">
-              <div className="pointer-events-none opacity-40" style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-                <DotPattern
-                  width={22}
-                  height={22}
-                  cx={1}
-                  cy={1}
-                  cr={1.2}
-                  className="text-volt/20"
-                  glow={true}
-                  style={{ maskImage: 'radial-gradient(ellipse at top left, white, transparent 65%)', WebkitMaskImage: 'radial-gradient(ellipse at top left, white, transparent 65%)' }}
-                />
-              </div>
-              <div className="compass-grid">
-                <div className="compass-copy">
-                  <div className="eyebrow mb-3">{'// DU Compass · AI guidance'}</div>
-                  <h2 className="display-md mb-3 leading-[1.05]">
-                    Map your score to<br className="hidden sm:block" /> DU paths <span className="text-volt italic">before the panic.</span>
-                  </h2>
-                  <p className="text-zinc-400 leading-relaxed">
-                    Compass reads your mock score, selected subjects, and category to map realistic Delhi University college and course options, with the marks gap and the next move spelled out.
-                  </p>
-                  <ul className="compass-features">
-                    {[
-                      ['Score band predictor', 'Mock scores into CUET confidence tiers.'],
-                      ['Course-subject fit', 'DU eligibility checked before shortlist.'],
-                      ['Category-aware targets', 'Cutoffs adjusted by category and campus.'],
-                      ['Next-move analysis', 'The subject that moves rank the fastest.'],
-                    ].map(([title, body]) => (
-                      <li key={title}>
-                        <span className="compass-feature-dot" aria-hidden="true" />
-                        <div>
-                          <div className="compass-feature-title">{title}</div>
-                          <div className="compass-feature-body">{body}</div>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                  <Link href="/features" className="compass-cta">
-                    See how Compass works
-                    <Icon name="arrow" style={{ width: '14px', height: '14px' }} />
-                  </Link>
-                </div>
-                <DynamicCompassPreview />
-              </div>
+                <ul className="lp-cpro__list">
+                  <li><b>Practice projection</b><span>Each paper out of 250, from your attempt rate and accuracy, with an honest range.</span></li>
+                  <li><b>Your DU shortlist</b><span>Up to 8 college and programme targets, compared with Rounds I to III.</span></li>
+                  <li><b>Next move</b><span>The paper with the most marks open, and its weakest chapter.</span></li>
+                </ul>
+                <p className="lp-cpro__fine">A projection from your own record, not a prediction or an admission chance. The cutoff comparison above stays free.</p>
+              </Reveal>
             </div>
-          </ScrollReveal>
-        </div>
-      </section>
+          </section>
+        ) : null}
 
-      {/* TESTIMONIALS */}
-      <section className="px-5 mb-14 md:mb-24">
-        <div className="container-std">
-          <ScrollReveal>
-            <div className="flex flex-col md:flex-row items-center md:items-end justify-between mb-10 gap-6 text-center md:text-left">
+        {/* ------------------------- FREE DU CALCULATOR --------------------- */}
+        <section className="lp-sec" id="du-eligibility">
+          <div className="mm-wrap">
+            <MascotSeat station="eligibility" pose="pointing" label="Start with your subjects." note="Eligibility is not admission." className="pip-seat--utility" />
+            <Reveal className="lp-head">
+              <h2 className="lp-h2">Which DU courses fit your subjects?</h2>
+              <p className="lp-sub">
+                Tick your subjects. Check the published 2026 subject rules, then compare college cutoffs in your category. Free to use. Eligibility is not admission.
+              </p>
+            </Reveal>
+            <Reveal>
+              <EligibilityTeaser />
+            </Reveal>
+            <Reveal as="aside" className="lp-combo" aria-label="CUET subject combination planner">
               <div>
-                <div className="eyebrow mb-3">{'// Wall of love'}</div>
-                <h2 className="display-lg">The mob <span className="text-volt" style={{ fontStyle: 'italic' }}>speaks.</span></h2>
+                <p className="lp-cpro__badge">New · Combo Planner</p>
+                <h3 className="lp-h3">Not sure which CUET subjects to pick?</h3>
+                <p>Choose your DU goals and available subjects. Compare five-paper combinations against the published 2026 rules before you fill the CUET form. Recheck when 2027 rules arrive.</p>
               </div>
-            </div>
-          </ScrollReveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {testimonials.map((t, i) => (
-              <ScrollReveal key={i} delay={i * 100}>
-                <div className="glass p-8 relative hover:scale-[1.02] transition-transform duration-300 h-full">
-                  <div className="text-volt mb-4 flex gap-1">
-                    {[...Array(5)].map((_, j) => <Icon key={j} name="spark" style={{ width: '14px', height: '14px', fill: 'currentColor' }} />)}
-                  </div>
-                  <p className="text-base text-zinc-300 mb-8 italic">&ldquo;{t.q}&rdquo;</p>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-volt to-zinc-500 flex items-center justify-center text-black font-bold font-display">{t.n.charAt(0)}</div>
-                    <div>
-                      <div className="font-display font-bold text-sm">{t.n}</div>
-                      <div className="text-xs text-zinc-500">{t.r}</div>
-                    </div>
-                  </div>
+              <Link href="/cuet-subject-combination" className="mm-btn mm-btn--primary">Plan my subjects<ArrowRight size={17} aria-hidden="true" /></Link>
+            </Reveal>
+            <CollegeDestinations />
+          </div>
+        </section>
+
+        <ExamComparator />
+
+        {/* ------------------------------ PROOF ----------------------------- */}
+        <section className="lp-sec lp-sec--tight">
+          <div className="mm-wrap">
+            <Reveal>
+              <LiveStatsBand offer={OFFER} />
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ------------------------------ BENTO ----------------------------- */}
+        <section className="lp-sec" id="your-prep">
+          <div className="mm-wrap">
+            <Reveal className="lp-head">
+              <h2 className="lp-h2">A clearer plan, from practice to your shortlist.</h2>
+              <p className="lp-sub">
+                Practise, find the weak chapter, plan the next session, and check which Delhi University courses your subjects unlock.
+                The screens below are illustrative; yours fill in from your own attempts.
+              </p>
+            </Reveal>
+
+            <div className="lp-bento">
+              <Reveal as="article" className="lp-tile lp-tile--arena">
+                <div className="lp-tile__copy">
+                  <h3 className="lp-h3">Arena. Practice that fits your day.</h3>
+                  <p>Choose subject, chapter and pace. Start with a short drill, or sit a full 50-question, 60-minute mock in an interface built to feel like the real thing.</p>
+                  <Link href="/dashboard" className="lp-link">Open the Arena<ArrowRight size={16} aria-hidden="true" /></Link>
                 </div>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>
+                <div className="lp-tile__media"><ArenaScreen /></div>
+              </Reveal>
 
-      {/* CTA */}
-      <section className="px-5 mb-14 md:mb-24 relative py-8 md:py-16 text-center">
-        <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,rgba(210,240,0,0.08)_0%,transparent_60%)] pointer-events-none" />
-        <ScrollReveal>
-          <div className="relative z-10 flex flex-col items-center">
-            <div className="w-12 h-12 bg-volt rounded-xl mx-auto mb-5 flex items-center justify-center text-black shadow-[0_0_30px_rgba(210,240,0,0.3)]">
-              <Icon name="zap" style={{ width: '22px', height: '22px' }} />
-            </div>
-            <h2 className="display-lg mb-3">Stop reading. Start solving.</h2>
-            <p className="text-zinc-400 mb-8 max-w-sm mx-auto text-sm md:text-base">The next topper is already on Question 42 today. What are you waiting for?</p>
-            <LandingActions mode="primary" />
-          </div>
-        </ScrollReveal>
-      </section>
+              <Reveal as="article" className="lp-tile lp-tile--radar" delay={90}>
+                <div className="lp-tile__copy">
+                  <h3 className="lp-h3">Radar. Know which chapter to fix first.</h3>
+                  <p>A score is only a number. Radar maps every miss back to a chapter so tonight’s session has a target.</p>
+                  <Link href="/analytics" className="lp-link">Explore Radar<ArrowRight size={16} aria-hidden="true" /></Link>
+                </div>
+                <div className="lp-tile__media"><ChapterReadout /></div>
+              </Reveal>
 
-      <section className="px-5 mb-14 md:mb-24">
-        <div className="container-narrow">
-          <ScrollReveal>
-            <div className="text-center mb-8">
-              <div className="eyebrow mb-3">{'// CUET FAQ'}</div>
-              <h2 className="display-md">Quick answers before you start.</h2>
+              <Reveal as="article" className="lp-tile lp-tile--prepos">
+                <div className="lp-tile__copy">
+                  <div className="lp-tile__orb"><PrepOSOrb size={52} /></div>
+                  <h3 className="lp-h3">PrepOS. Your record, explained.</h3>
+                  <p>Ask what to do next. PrepOS reads your sessions and shows the leak, the pace problem and the one step to take, the same step you see in Today and Radar. The basics of your record are free and use no credits; Pro adds the full chapter list, pace and changed-answer detail.</p>
+                  <Link href="/mentor" className="lp-link">Meet PrepOS<ArrowRight size={16} aria-hidden="true" /></Link>
+                </div>
+                <div className="lp-tile__media"><PlanScreen /></div>
+              </Reveal>
+
+              <Reveal as="article" className="lp-tile lp-tile--compass" delay={90}>
+                <div className="lp-tile__copy">
+                  <h3 className="lp-h3">Admission Compass. Keep the college goal in view.</h3>
+                  <p>Check programme eligibility and published DU cutoffs free. With Pro, Compass projects your practice paper by paper and maps it to your shortlist of colleges.</p>
+                  <ul className="lp-ticks">
+                    <li><Check size={16} aria-hidden="true" />Sourced historical cutoff comparisons</li>
+                    <li><Check size={16} aria-hidden="true" />Subject and course eligibility</li>
+                    <li><Check size={16} aria-hidden="true" />Pro: practice projection, DU shortlist, next move</li>
+                  </ul>
+                  <Link href="/admission-compass" className="lp-link">Open Compass<ArrowRight size={16} aria-hidden="true" /></Link>
+                  <Link href="/cuet-cutoff-calculator" className="lp-link">See real DU cutoffs, free<ArrowRight size={16} aria-hidden="true" /></Link>
+                </div>
+                <div className="lp-tile__media"><CompassScreen /></div>
+              </Reveal>
+
+              <Reveal as="article" className="lp-tile lp-tile--mini">
+                <History size={20} aria-hidden="true" />
+                <h3 className="lp-h4">Mistake Replay</h3>
+                <p>Reopen the questions that actually cost you marks and turn them into short drills.</p>
+                <Link href="/review" className="lp-link">Review mistakes<ArrowRight size={16} aria-hidden="true" /></Link>
+              </Reveal>
+              <Reveal as="article" className="lp-tile lp-tile--mini" delay={80}>
+                <Bookmark size={20} aria-hidden="true" />
+                <h3 className="lp-h4">Saved questions</h3>
+                <p>Keep the questions worth another look and revise them on your own schedule.</p>
+                <Link href="/saved" className="lp-link">Open saved<ArrowRight size={16} aria-hidden="true" /></Link>
+              </Reveal>
+              <Reveal as="article" className="lp-tile lp-tile--mini" delay={160}>
+                <Trophy size={20} aria-hidden="true" />
+                <h3 className="lp-h4">Leaderboard and AI Rival</h3>
+                <p>See how your scores stack up, then race a timed practice rival to train speed and nerve.</p>
+                <Link href="/leaderboard" className="lp-link">See the board<ArrowRight size={16} aria-hidden="true" /></Link>
+              </Reveal>
             </div>
-          </ScrollReveal>
-          <div className="grid gap-3">
-            {faqs.map((faq, i) => (
-              <ScrollReveal key={faq.question} delay={i * 60}>
-                <details className="glass p-5 [&_summary::-webkit-details-marker]:hidden">
-                  <summary className="cursor-pointer list-none font-display text-lg font-bold text-white">
-                    {faq.question}
-                  </summary>
-                  <p className="pt-3 text-sm leading-relaxed text-zinc-400">{faq.answer}</p>
+          </div>
+        </section>
+
+        {/* ---------------------------- HOW IT WORKS ------------------------ */}
+        <section className="lp-sec lp-sec--band" id="how-it-works">
+          <div className="mm-wrap">
+            <Reveal className="lp-head">
+              <h2 className="lp-h2">Practise. Review. Fix. Repeat until exam day.</h2>
+            </Reveal>
+            <Reveal as="ol" className="lp-steps">
+              {steps.map(([title, body, kind], i) => (
+                <li className="lp-step rv-item" style={{ '--i': i }} key={title}>
+                  <span className="lp-step__num mm-measure">{String(i + 1).padStart(2, '0')}</span>
+                  <h3 className="lp-h4">{title}</h3>
+                  <p>{body}</p>
+                  <StepVisual kind={kind} />
+                </li>
+              ))}
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ------------------------------ SUBJECTS -------------------------- */}
+        <section className="lp-sec lp-sec--band" id="subjects">
+          <div className="mm-wrap">
+            <Reveal className="lp-head">
+              <h2 className="lp-h2">Start with the subjects that carry your score.</h2>
+              <p className="lp-sub">
+                Recovery is being prepared for four subjects. These counts describe ordinary practice, not complete recovery pathways.
+              </p>
+            </Reveal>
+            <Reveal><SubjectGrid /></Reveal>
+            <p className="lp-more">
+              <Link href="/cuet-2027" className="lp-link">CUET 2027 guide<ArrowUpRight size={16} aria-hidden="true" /></Link>
+              <Link href="/cuet-previous-year-questions" className="lp-link">Previous year questions<ArrowUpRight size={16} aria-hidden="true" /></Link>
+              <Link href="/cuet-mock-test-free" className="lp-link">Free CUET mock test<ArrowUpRight size={16} aria-hidden="true" /></Link>
+            </p>
+          </div>
+        </section>
+
+        {/* ------------------------------ INSTAGRAM ------------------------------ */}
+        <section className="lp-sec" id="on-instagram">
+          <div className="mm-wrap">
+            <Reveal className="lp-head lp-head--left">
+              <p className="lp-kicker">MockMob on Instagram</p>
+              <h2 className="lp-h2">Featured by CUET creators.</h2>
+              <p className="lp-sub">DU seniors and admissions creators have put MockMob in front of their audiences. Tap a reel to watch it here.</p>
+            </Reveal>
+            <Reveal delay={100}><CreatorReels items={rankedReels()} profileUrl={INSTAGRAM.url} handle={INSTAGRAM.handle} asOf={STATS_AS_OF} /></Reveal>
+          </div>
+        </section>
+
+        {/* ----------------------------- WALL OF LOVE ----------------------------- */}
+        {WALL_VOICES.length > 0 ? (
+          <section className="lp-sec" id="wall-of-love">
+            <div className="mm-wrap">
+              <Reveal className="lp-head lp-head--left">
+                <p className="lp-kicker">Wall of love</p>
+                <h2 className="lp-h2">The mob speaks.</h2>
+              </Reveal>
+              <Reveal delay={100}><WallOfLove voices={WALL_VOICES} /></Reveal>
+            </div>
+          </section>
+        ) : null}
+
+        {/* ------------------------------ PRICING --------------------------- */}
+        <section className="lp-sec" id="pricing">
+          <div className="mm-wrap">
+            <MascotSeat station="pricing" pose="attentive" label="Take your time." note="The sample stays free." className="pip-seat--utility" />
+            <Reveal className="lp-head">
+              <h2 className="lp-h2">Start free. Go Pro when you want more room.</h2>
+              <p className="lp-sub">{OFFER.purchasable === 'monthly' ? `Pro is ₹${OFFER.monthly.rupees} a month. Cancel any month and keep what you paid for.` : `One payment of ₹${OFFER.oneTime.rupees} covers you through ${OFFER.oneTime.expires}. Monthly Pro at ₹${OFFER.monthly.rupees} opens soon, and nobody who pays now loses a day.`}</p>
+            </Reveal>
+            <Reveal className="lp-plans">
+              <div className="lp-plan">
+                <h3 className="lp-h4">Free</h3>
+                <p className="lp-plan__price mm-measure">₹0</p>
+                <ul className="lp-ticks">
+                  {freePlan.map((item) => <li key={item}><Check size={16} aria-hidden="true" />{item}</li>)}
+                </ul>
+                <Link href="/signup" className="mm-btn mm-btn--secondary">Start free</Link>
+              </div>
+              <div className="lp-plan lp-plan--pro">
+                <h3 className="lp-h4">Pro</h3>
+                <p className="lp-plan__price mm-measure">₹{OFFER.purchasable === 'monthly' ? OFFER.monthly.rupees : OFFER.oneTime.rupees}<span>{OFFER.purchasable === 'monthly' ? ' a month' : ' once'}</span></p>
+                <p className="lp-plan__note">{OFFER.purchasable === 'monthly' ? 'Renews monthly. Cancel anytime in Account.' : `Access through ${OFFER.oneTime.expires}. This payment does not renew.`}</p>
+                <ul className="lp-ticks">
+                  <li><Check size={16} aria-hidden="true" />Everything in Free</li>
+                  {proPlan.map((item) => <li key={item}><Check size={16} aria-hidden="true" />{item}</li>)}
+                </ul>
+                <Link href="/pricing" className="mm-btn mm-btn--primary">{OFFER.purchasable === 'monthly' ? `Go Pro for ₹${OFFER.monthly.rupees}/month` : 'See Pro'}<ArrowRight size={18} aria-hidden="true" /></Link>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* -------------------------------- FAQ ----------------------------- */}
+        <section className="lp-sec lp-sec--band">
+          <div className="mm-wrap mm-wrap--tight">
+            <Reveal><h2 className="lp-h2">Before your first mock.</h2></Reveal>
+            <Reveal className="mm-faqs">
+              {faqs.map(({ question, answer }) => (
+                <details key={question} className="mm-faq">
+                  <summary>{question}</summary>
+                  <div className="mm-faq__body">{answer}</div>
                 </details>
-              </ScrollReveal>
-            ))}
+              ))}
+            </Reveal>
           </div>
-        </div>
-      </section>
+        </section>
 
+        {/* ------------------------------- CLOSE ---------------------------- */}
+        <section className="lp-close">
+          <div className="lp-bg lp-bg--static" aria-hidden="true">
+            <div className="lp-bg__aurora" />
+            <div className="lp-bg__grid" />
+            <div className="lp-bg__dots" />
+          </div>
+          <Reveal className="mm-wrap lp-close__inner">
+            <MascotSeat station="close" pose="greeting" label="See you in the Arena." note="Start with one session." />
+            <h2 className="lp-h2 lp-h2--xl">Five questions. Then your next move.</h2>
+            <p className="lp-sub">Try the sample now. Build your practice record when you’re ready.</p>
+            <LandingActions mode="primary" />
+          </Reveal>
+        </section>
+      </main>
       <MarketingFooter />
-      <style>{`
-        .value-tile {
-          transition: border-color 0.25s ease, transform 0.25s ease;
-        }
-        .value-tile:hover {
-          border-color: rgba(210,240,0,0.2);
-          transform: translateY(-2px);
-        }
-        .prepos-promo {
-          padding: clamp(20px, 3vw, 32px);
-          background:
-            radial-gradient(circle at 12% 18%, rgba(210,240,0,.12), transparent 36%),
-            radial-gradient(circle at 84% 70%, rgba(85,255,197,.07), transparent 42%),
-            rgba(255,255,255,.015);
-        }
-        .prepos-promo::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-          background-image: linear-gradient(rgba(210,240,0,.09) 1px, transparent 1px), linear-gradient(90deg, rgba(210,240,0,.07) 1px, transparent 1px);
-          background-size: 34px 34px;
-          mask-image: radial-gradient(ellipse at center, black, transparent 72%);
-          opacity: .42;
-        }
-        .prepos-promo-grid {
-          position: relative;
-          z-index: 1;
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 22px;
-          align-items: center;
-        }
-        @media (min-width: 860px) {
-          .prepos-promo-grid {
-            grid-template-columns: auto minmax(0, 1fr) minmax(220px, .55fr);
-          }
-        }
-        .prepos-promo-orb {
-          display: flex;
-          align-items: center;
-          justify-content: flex-start;
-        }
-        .prepos-promo-copy {
-          max-width: 680px;
-        }
-        .prepos-promo-stack {
-          display: grid;
-          gap: 10px;
-        }
-        .prepos-promo-chip {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          border: 1px solid rgba(255,255,255,.08);
-          border-radius: 14px;
-          background: rgba(0,0,0,.28);
-          padding: 12px 14px;
-          color: #e4e4e7;
-          font-size: 13px;
-          font-weight: 800;
-          box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
-          animation: prepos-chip-float 4.4s ease-in-out infinite;
-        }
-        .prepos-promo-chip span {
-          display: inline-flex;
-          width: 24px;
-          height: 24px;
-          align-items: center;
-          justify-content: center;
-          border-radius: 999px;
-          background: var(--volt);
-          color: #050604;
-          font-family: var(--font-display);
-          font-size: 12px;
-          font-weight: 900;
-        }
-        @keyframes prepos-chip-float {
-          0%, 100% { transform: translateY(0); border-color: rgba(255,255,255,.08); }
-          50% { transform: translateY(-4px); border-color: rgba(210,240,0,.22); }
-        }
-        .compass-card {
-          padding: clamp(20px, 3vw, 32px);
-          background:
-            radial-gradient(circle at 0% 0%, rgba(210,240,0,0.06), transparent 55%),
-            rgba(255,255,255,0.015);
-        }
-        .compass-grid {
-          position: relative;
-          z-index: 1;
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 22px;
-          align-items: start;
-        }
-        @media (min-width: 960px) {
-          .compass-grid {
-            grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.95fr);
-            gap: 36px;
-          }
-        }
-        .compass-copy {
-          padding: 4px 2px;
-          max-width: 560px;
-        }
-        .compass-features {
-          margin-top: 22px;
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 14px;
-          padding: 0;
-          list-style: none;
-        }
-        @media (min-width: 480px) {
-          .compass-features {
-            grid-template-columns: 1fr 1fr;
-            gap: 14px 22px;
-          }
-        }
-        .compass-features li {
-          display: flex;
-          align-items: flex-start;
-          gap: 11px;
-        }
-        .compass-feature-dot {
-          margin-top: 7px;
-          width: 6px;
-          height: 6px;
-          flex-shrink: 0;
-          border-radius: 999px;
-          background: var(--volt);
-          box-shadow: 0 0 8px rgba(210,240,0,.7);
-        }
-        .compass-feature-title {
-          font-family: var(--font-display);
-          font-size: 14px;
-          font-weight: 800;
-          color: #fff;
-          line-height: 1.3;
-        }
-        .compass-feature-body {
-          color: #a1a1aa;
-          font-size: 12.5px;
-          line-height: 1.45;
-          margin-top: 2px;
-        }
-        .compass-cta {
-          margin-top: 24px;
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          min-height: 44px;
-          padding: 6px 0;
-          color: var(--volt);
-          font-family: var(--font-display);
-          font-weight: 800;
-          font-size: 13.5px;
-          letter-spacing: .01em;
-          transition: gap .2s cubic-bezier(.2,.8,.2,1);
-        }
-        .compass-cta:hover { gap: 12px; }
-        .compass-shot {
-          border: 1px solid rgba(255,255,255,.09);
-          border-radius: 14px;
-          background:
-            linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01)),
-            rgba(0,0,0,.32);
-          padding: 18px;
-          box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
-          width: 100%;
-        }
-        @media (min-width: 960px) {
-          .compass-shot {
-            position: sticky;
-            top: 96px;
-            padding: 20px;
-          }
-        }
-        .compass-shot .shot-top {
-          display: flex;
-          align-items: flex-start;
-          justify-content: space-between;
-          gap: 12px;
-          margin-bottom: 16px;
-        }
-        .compass-shot .shot-band {
-          flex-shrink: 0;
-          align-self: center;
-          font-size: 10px;
-          letter-spacing: .04em;
-        }
-        .compass-shot .shot-score {
-          font-family: var(--font-display);
-          font-weight: 900;
-          font-size: clamp(40px, 5.4vw, 56px);
-          line-height: .92;
-          color: var(--volt);
-          font-variant-numeric: tabular-nums;
-          margin-top: 2px;
-        }
-        .compass-shot .shot-score span {
-          color: #71717a;
-          font-size: 16px;
-          font-weight: 700;
-        }
-        .compass-shot .shot-bars {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 9px;
-          margin-bottom: 14px;
-        }
-        .compass-shot .shot-insights {
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 8px;
-          margin-bottom: 4px;
-        }
-        .compass-shot .shot-insights div {
-          border: 1px solid rgba(255,255,255,.07);
-          border-radius: 10px;
-          background: rgba(255,255,255,.025);
-          padding: 9px 10px;
-        }
-        .compass-shot .shot-insights span,
-        .compass-shot .shot-insights strong {
-          display: block;
-        }
-        .compass-shot .shot-insights span {
-          color: #71717a;
-          font-family: var(--font-mono);
-          font-size: 9px;
-          font-weight: 800;
-          letter-spacing: .12em;
-          text-transform: uppercase;
-        }
-        .compass-shot .shot-insights strong {
-          color: #f4f4f5;
-          font-size: 12px;
-          margin-top: 4px;
-        }
-        .compass-shot .shot-list {
-          margin-top: 6px;
-        }
-        .compass-shot .shot-row {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 12px;
-          padding: 11px 0;
-          border-top: 1px solid rgba(255,255,255,.06);
-        }
-        .compass-shot .shot-row b,
-        .compass-shot .shot-row span {
-          display: block;
-        }
-        .compass-shot .shot-row b {
-          font-family: var(--font-display);
-          color: #fff;
-          font-size: 14px;
-        }
-        .compass-shot .shot-row span {
-          color: #71717a;
-          font-size: 11.5px;
-          margin-top: 1px;
-        }
-        .compass-shot .shot-row em {
-          color: var(--volt);
-          font-size: 11px;
-          font-style: normal;
-          font-weight: 800;
-          font-family: var(--font-mono);
-          letter-spacing: .04em;
-          text-transform: uppercase;
-          flex-shrink: 0;
-        }
-        @media (max-width: 380px) {
-          .compass-shot .shot-top {
-            flex-direction: column;
-            align-items: flex-start;
-          }
-          .compass-shot .shot-band {
-            align-self: flex-start;
-          }
-        }
-        @media (hover: none) {
-          .feature-dot-layer {
-            opacity: .78 !important;
-            animation: mobile-dot-breathe 4.2s ease-in-out infinite;
-          }
-        }
-        @keyframes mobile-dot-breathe {
-          0%, 100% { opacity: .32; }
-          50% { opacity: .84; }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .prepos-promo-chip,
-          .feature-dot-layer,
-          .value-tile {
-            animation: none;
-            transition: none;
-          }
-        }
-      `}</style>
+      <PipGuide />
+      <MobileDock note={OFFER.purchasable === 'monthly' ? `Free to start. Pro ₹${OFFER.monthly.rupees}/month.` : 'Five sample questions. No signup.'} label="Try a CUET question" href="/#try-practice" />
     </div>
   );
 }

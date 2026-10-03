@@ -1,6 +1,17 @@
 import 'server-only';
 
 import { getClientIp } from './requestDiagnostics';
+import { createHash } from 'node:crypto';
+import { supabaseAdmin } from '@/lib/supabase';
+
+export async function checkPersistentRateLimit(request, options) {
+  if (process.env.PERSISTENT_LIMITS_ENABLED !== 'true') return checkRateLimit(request, options);
+  const bucket = createHash('sha256').update([options.route,options.identityOnly ? '' : getClientIp(request),...(options.keyParts || [])].join(':')).digest('hex');
+  try {
+    const { data,error } = await supabaseAdmin().rpc('take_rate_limit',{p_bucket:bucket,p_limit:options.limit,p_window_ms:options.windowMs || 60000});
+    return {allowed:!error && data === true,limit:options.limit,remaining:0,retryAfterSeconds:60};
+  } catch {return {allowed:false,limit:options.limit,remaining:0,retryAfterSeconds:60};}
+}
 
 const buckets = new Map();
 const MAX_BUCKETS = 5000;

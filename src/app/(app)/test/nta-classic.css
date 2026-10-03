@@ -1,0 +1,43 @@
+/* Presentation only. The same runner owns answers, timing, scoring and entitlement checks. */
+.nta-interface-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; padding: 10px 24px; background: #171d14; border-bottom: 1px solid #34432b; color: #c5d2bc; font-size: 12px; }
+.nta-interface-toolbar > div { display: flex; border: 1px solid #536445; border-radius: 7px; padding: 3px; gap: 3px; }
+.nta-interface-toolbar button { min-height: 40px; padding: 8px 15px; border: 0; border-radius: 4px; background: transparent; color: #dce5d4; cursor: pointer; }
+.nta-interface-toolbar button[aria-pressed='true'] { background: #d2f000; color: #182000; }
+.nta-interface-toolbar small { margin-left: auto; font-size: 12px; }
+.nta-runner[data-interface='nta'] { background: #eaf0f4; color: #222; font-family: Arial, sans-serif; --text-primary: #222; --text-subtle: #53606c; --text-muted: #53606c; --focus-ring: #286590; color-scheme: light; }
+.nta-runner[data-interface='nta'] .runner-sync-state { color: #465665; background: #eaf0f4; }
+.nta-runner[data-interface='nta'] .nta-test-header { background: #32688f; color: #fff; border-color: #225478; backdrop-filter: none; }
+.nta-runner[data-interface='nta'] :is(.nta-title-stack span, .nta-title-stack strong, .nta-progress-row, .nta-timer) { color: #fff; }
+.nta-runner[data-interface='nta'] :is(.nta-paper, .nta-review-panel, .nta-sheet-panel) { background: #fff; border: 1px solid #c4cfd6; border-radius: 3px; box-shadow: none; }
+.nta-runner[data-interface='nta'] :is(.nta-paper-head, .nta-question-meta, .nta-panel-section) { background: #f0f5f8; border-color: #c4cfd6; }
+.nta-runner[data-interface='nta'] :is(.nta-paper-head h1, .nta-question-text, .nta-question-number, .nta-summary-grid strong, .nta-sheet-head strong, .nta-passage-head strong) { color: #222; font-family: Arial, sans-serif; }
+.nta-runner[data-interface='nta'] :is(.nta-kicker, .nta-paper-tags span, .nta-summary-grid span, .nta-chip, .nta-legend, .nta-passage) { color: #455969; }
+.nta-runner[data-interface='nta'] .nta-question-block { background: white; border-color: #d6dfe5; border-radius: 0; }
+.nta-runner[data-interface='nta'] .nta-option { color: #222; background: #fff; border-color: transparent; border-radius: 0; box-shadow: none; }
+.nta-runner[data-interface='nta'] .nta-option:hover, .nta-runner[data-interface='nta'] .nta-option.is-selected { background: #eaf5ff; border-color: #c5dbeb; }
+.nta-runner[data-interface='nta'] .nta-option-letter { width: 18px; height: 18px; border: 1px solid #7f8b93; border-radius: 50%; font-size: 0; background: #fff; color: transparent; }
+.nta-runner[data-interface='nta'] .nta-option.is-selected .nta-option-letter { background: #2769bd; border: 4px solid #eaf5ff; outline: 1px solid #2769bd; }
+.nta-runner[data-interface='nta'] .nta-navigation { flex-wrap: wrap; justify-content: flex-start; }
+.nta-runner[data-interface='nta'] :is(.nta-nav-button, .nta-text-button) { color: #264963; border-color: #aebdc7; background: #edf2f5; border-radius: 3px; font-family: Arial, sans-serif; letter-spacing: 0; text-transform: none; }
+.nta-runner[data-interface='nta'] .nta-navigation > button:last-child, .nta-runner[data-interface='nta'] .nta-submit-button { background: #348638; border-color: #28712d; color: white; margin-left: auto; }
+.nta-runner[data-interface='nta'] .nta-navigation .nta-classic-review { background: #754b9c; border-color: #68408d; color: white; }
+.nta-runner[data-interface='nta'] .nta-palette-chip { color: #444; background: linear-gradient(#fff, #e4e4e4); border: 1px solid #b3b3b3; border-radius: 3px; font-family: Arial, sans-serif; font-weight: 400; }
+.nta-runner[data-interface='nta'] .nta-palette-chip.is-current { outline-color: #306a92; }
+.nta-runner[data-interface='nta'] :is(.nta-palette-chip--answered, .legend.answered) { background: #309816; border-color: #27820f; color: white; clip-path: polygon(0 0, 100% 12%, 100% 88%, 0 100%); border-radius: 0; }
+.nta-runner[data-interface='nta'] :is(.nta-palette-chip--visited, .legend.visited) { background: #d84500; border-color: #c33d00; color: white; clip-path: polygon(0 0, 100% 12%, 100% 88%, 0 100%); border-radius: 0; }
+.nta-runner[data-interface='nta'] :is(.nta-palette-chip--marked, .nta-palette-chip--marked-answered, .legend.marked, .legend.marked-answered) { background: radial-gradient(circle at 35% 25%, #b797de, #512593 70%); color: white; border-color: #7445a8; border-radius: 50%; }
+.nta-runner[data-interface='nta'] .legend { position: relative; width: 20px; height: 20px; flex-shrink: 0; }
+.nta-runner .legend.marked-answered { position: relative; background: #72529b; }
+.nta-runner .legend.marked-answered::after { content: ''; position: absolute; right: 0; bottom: 0; width: 7px; height: 7px; border-radius: 50%; background: #65d833; }
+.nta-runner[data-interface='nta'] .legend.notvisited { background: #efefef; border-color: #b3b3b3; }
+.nta-runner[data-interface='nta'] .nta-legend { font-family: Arial, sans-serif; font-weight: 400; font-size: 12px; letter-spacing: 0; }
+.nta-runner[data-interface='nta'] :is(.nta-mobile-actions, .nta-sheet-head, .nta-passage) { background: #eaf0f4; border-color: #bdccd5; }
+.nta-runner[data-interface='nta'] .nta-mobile-actions button { background: #32688f; color: white; }
+/* The branded console hides its bottom navigation below 1024px (the fixed action bar
+   replaces it); the NTA-style console keeps it so Mark for Review & Next and Clear
+   response stay available on tablets too. */
+@media (max-width: 1023px) { .nta-runner[data-interface='nta'] .nta-navigation { display: flex; } .nta-runner[data-interface='nta'] .nta-nav-button { flex: 1 1 auto; } }
+@media (max-width: 760px) { .nta-interface-toolbar { padding: 10px 16px; gap: 8px; } .nta-interface-toolbar small { flex-basis: 100%; margin: 0; } }
+/* The NTA-style console never follows the Arena light/dark preference: it pins its own
+   pre-theme token values, so shared runner rules render exactly as before. */
+.nta-runner[data-interface='nta'] { --a-ink: #f4f6ed; --a-ink-2: #d4d4d8; --a-ink-3: #a1a1aa; --a-line: rgba(255,255,255,.1); --a-line-hover: rgba(255,255,255,.24); --a-hover: rgba(255,255,255,.035); --a-topbar: rgba(8,9,7,.92); --a-raised: #0f100d; --a-accent-text: #d2f000; --a-bad-text: #fca5a5; --a-warn-text: #fde68a; --a-good-text: #86efac; --a-purple-text: #c4b5fd; --a-sheet: #0f1612; --a-line-strong: #536445; --a-focus: #d2f000; }

@@ -14,14 +14,16 @@ import {
   AI_CREDIT_PACKS,
   AI_FREE_MONTHLY_CREDITS,
   AI_PRO_INCLUDED_MONTHLY_CREDITS,
-  getAIWallet,
+  isPaidUser,
+  aiCommerceOpen,
+  readAIWallet,
 } from '@/services/credits/aiCreditWallet';
 import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
 
 export const metadata = seoMetadata({
-  title: 'PrepOS Credit Packs for CUET AI Planning',
+  title: 'PrepOS Credits',
   description:
-    'Buy PrepOS credits for CUET mission planning, mock autopsy, Mistake Replay, and DU target guidance. Purchased credits never expire.',
+    'View your preserved PrepOS credits. New top-ups and paid model replies are paused pending spending and staging checks. Purchased credits do not expire.',
   path: '/pricing/prepos',
 });
 
@@ -36,7 +38,7 @@ const faqs = [
   },
   {
     q: 'Is Pro still separate?',
-    a: 'Yes. Pro is the ₹69/month subscription. PrepOS credit packs are one-time top-ups for heavier AI usage.',
+    a: 'Yes. Pro is billed separately from the optional PrepOS wallet. New top-ups are currently paused and existing balances are preserved.',
   },
 ];
 
@@ -44,11 +46,13 @@ const faqs = [
 export default async function PrepOSPricingPage() {
   const session = await auth();
   const currentUser = session?.user?.id ? await Database.getUserById(session.user.id) : null;
-  const wallet = currentUser ? await getAIWallet(currentUser) : null;
-  const isPaid = Boolean(currentUser?.isPremium || currentUser?.subscriptionStatus === 'active');
+  const wallet = currentUser ? await readAIWallet(currentUser) : null;
+  const isPaid = isPaidUser(currentUser);
+  const checkoutOpen = aiCommerceOpen();
+  const figure = (value) => (wallet?.known ? value : '—');
 
   return (
-    <div className="view min-h-screen">
+    <div className="mm">
       <JsonLd
         id="prepos-pricing-breadcrumb-json-ld"
         data={breadcrumbJsonLd([
@@ -63,7 +67,7 @@ export default async function PrepOSPricingPage() {
       />
       <NavBar />
 
-      <main className="container-wide px-5 pb-16 pt-[108px]">
+      <main className="container-wide px-5 pb-16 pt-10">
         <section className="prepos-price-hero">
           <div className="prepos-hero-orb">
             <PrepOSOrb size={118} active label="AI" />
@@ -73,19 +77,22 @@ export default async function PrepOSPricingPage() {
               <ArrowLeft className="h-4 w-4" />
               Back to Pro pricing
             </Link>
-            <div className="mono-label mb-3 !text-volt">PrepOS credit packs</div>
+            <div className="mono-label mb-3 !text-volt">PrepOS credits</div>
             <h1 className="display-lg mb-4">
-              Keep your CUET co-pilot running when the month gets intense.
+              Your existing PrepOS wallet is preserved.
             </h1>
             <p className="max-w-2xl text-base leading-7 text-zinc-400">
-              Free users get {AI_FREE_MONTHLY_CREDITS} credits monthly. Pro users get {AI_PRO_INCLUDED_MONTHLY_CREDITS}. If you need more mock autopsy, mission replans, or DU path guidance, top up without changing your subscription.
+              {checkoutOpen
+                ? `Free accounts include ${AI_FREE_MONTHLY_CREDITS} PrepOS credits a month and Pro includes ${AI_PRO_INCLUDED_MONTHLY_CREDITS}. Purchased credits are separate from practice credits.`
+                : 'PrepOS paid features are temporarily unavailable. Your credits have not been used. New top-ups are paused; purchased credits are preserved and do not expire. Your next practice step on Today does not use PrepOS credits.'}
             </p>
+            {wallet && !wallet.known ? <p className="mt-3 text-sm font-semibold text-zinc-300" role="status">{wallet.message}</p> : null}
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <LiquidGlassButton asChild variant="volt" size="lg">
-                <a href="#prepos-plan-packs">
+                <Link href="/today">
                   <ArrowDown className="h-4 w-4" />
-                  Start planning
-                </a>
+                  Open your next step
+                </Link>
               </LiquidGlassButton>
               <LiquidGlassButton asChild variant="ghost" size="lg">
                 <a href="#prepos-credit-rules">
@@ -95,14 +102,15 @@ export default async function PrepOSPricingPage() {
               </LiquidGlassButton>
             </div>
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
-              <Metric label="Your balance" value={wallet ? wallet.total : 'Login'} />
-              <Metric label="Monthly included" value={wallet ? `${wallet.includedRemaining}/${wallet.includedMonthlyCredits}` : isPaid ? AI_PRO_INCLUDED_MONTHLY_CREDITS : AI_FREE_MONTHLY_CREDITS} />
-              <Metric label="Purchased credits" value={wallet?.bonusCredits ?? 0} />
+              <Metric label="Your balance" value={wallet ? figure(wallet.total) : 'Log in'} />
+              <Metric label="Monthly included" value={wallet ? figure(`${wallet.includedRemaining}/${wallet.includedMonthlyCredits}`) : isPaid ? AI_PRO_INCLUDED_MONTHLY_CREDITS : AI_FREE_MONTHLY_CREDITS} />
+              <Metric label="Purchased credits" value={wallet ? figure(wallet.bonusCredits) : '—'} />
             </div>
           </div>
         </section>
 
-        <section id="prepos-plan-packs" className="mx-auto mt-12 grid max-w-6xl scroll-mt-28 gap-5 lg:grid-cols-3">
+        {/* Packs are listed only while checkout is open; paused packs never look purchasable. */}
+        {checkoutOpen ? <section id="prepos-plan-packs" className="mx-auto mt-12 grid max-w-6xl scroll-mt-28 gap-5 lg:grid-cols-3">
           {AI_CREDIT_PACKS.map((pack) => (
             <article key={pack.key} className={`prepos-pack-card ${pack.featured ? 'is-featured' : ''}`}>
               {pack.featured ? <div className="prepos-pack-badge">Best value</div> : null}
@@ -129,7 +137,7 @@ export default async function PrepOSPricingPage() {
               <PrepOSCreditPurchaseButton pack={pack} className="mt-5" />
             </article>
           ))}
-        </section>
+        </section> : null}
 
         <section id="prepos-credit-rules" className="mx-auto mt-12 max-w-3xl scroll-mt-28">
           <div className="prepos-rules-panel">

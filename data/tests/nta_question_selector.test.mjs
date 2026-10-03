@@ -116,17 +116,20 @@ test('NTA selector rejects truly unusable questions', () => {
   assert.match(result.reasons.join(','), /placeholder_question|options_invalid|answer_missing_or_mismatch/);
 });
 
-test('rejects generic textbook one-liners', () => {
+test('accepts valid direct recall without a depth requirement', () => {
   const result = qualityGateNtaQuestion(validQuestion(5, {
     subject: 'economics',
     chapter: 'Money & Banking',
     body: 'What is money?',
+    options: [{key:'A',text:'Any resource with industrial use'},{key:'B',text:'Anything generally accepted as a medium of exchange'},{key:'C',text:'Only government bonds'},{key:'D',text:'Only coins made from precious metals'}],
+    correct_answer:'B',
+    explanation:'Money is generally accepted as a medium of exchange for goods and services.',
     question_type: 'direct_recall',
     concept_id: 'economics::money_banking',
   }), { subjectId: 'economics' });
 
-  assert.equal(result.accepted, false);
-  assert.match(result.reasons.join(','), /generic_textbook_one_liner/);
+  assert.equal(result.accepted, true);
+  assert.ok(!result.reasons.includes('generic_textbook_one_liner'));
 });
 
 test('NTA selector preserves passage group order', () => {

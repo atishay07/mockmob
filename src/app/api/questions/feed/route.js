@@ -1,3 +1,5 @@
+import { readablePracticeQuestions } from '@/../data/practice_library';
+import { advanceFeedPage, feedWindow } from '@/../data/explore_feed';
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { auth } from '@/lib/auth';
@@ -9,8 +11,6 @@ import {
   startRequestDiagnostics,
 } from '@/lib/server/requestDiagnostics';
 
-const DEFAULT_LIMIT = 20;
-const MAX_LIMIT = 50;
 const ROUTE = '/api/questions/feed';
 const FEED_RATE_LIMIT = 180;
 
@@ -35,7 +35,7 @@ function jsonWithDiagnostics(context, body, init, extra) {
  *   limit    (default 20, max 50)
  *   offset   (default 0)
  *
- * Response: { questions: [...], total: number, hasMore: boolean }
+ * Response: { questions: [...], total: null, nextOffset: number, hasMore: boolean }
  */
 export async function GET(request) {
   const diagnostics = startRequestDiagnostics(request, ROUTE);
@@ -61,10 +61,9 @@ export async function GET(request) {
     const chapter = searchParams.get('chapter') || null;
     const difficulty = searchParams.get('difficulty') || null;
     const search = (searchParams.get('search') || '').trim();
-    const limit = Math.min(Math.max(parseInt(searchParams.get('limit') ?? String(DEFAULT_LIMIT), 10), 1), MAX_LIMIT);
-    const offset = Math.max(parseInt(searchParams.get('offset') ?? '0', 10), 0);
+    const { limit, offset } = feedWindow(searchParams.get('limit'), searchParams.get('offset'));
 
-    const baseSelect = 'id, body, question, subject, chapter, difficulty, options, correct_answer, explanation, tags, ai_tier, ai_score, verification_state';
+    const baseSelect = '*';
     const buildQuery = (withVotes) => {
       let next = supabaseAdmin()
         .from('questions')
@@ -87,6 +86,7 @@ export async function GET(request) {
 
       return next
         .order('created_at', { ascending: false })
+        .order('id', { ascending: false })
         .range(offset, offset + limit - 1);
     };
 
@@ -95,6 +95,9 @@ export async function GET(request) {
       ({ data, count, error } = await buildQuery(false));
     }
     if (error) throw error;
+    const rawCount = (data || []).length;
+    data = await readablePracticeQuestions(data || [], supabaseAdmin());
+    count = null; // Legacy raw row counts are not eligible-content counts.
     const session = await auth().catch(() => null);
     const questionIds = (data || []).map((r) => r.id);
     const voteMap = session?.user?.id
@@ -125,15 +128,17 @@ export async function GET(request) {
         tags: r.tags || [],
         ai_tier: r.ai_tier,
         ai_score: r.ai_score,
-        verification_state: r.verification_state,
+        verification_state: r.evidence?.record?.state || 'legacy',
+        verification_methods: Object.keys(r.evidence?.record?.checks || {}),
+        source_refs: r.evidence?.record?.sources || [],
         upvotes: r.upvotes || 0,
         downvotes: r.downvotes || 0,
         score: r.score || 0,
         userVote: voteMap.get(r.id) || null,
         saved: savedSet.has(r.id),
       })),
-      total: count ?? 0,
-      hasMore: (offset + limit) < (count ?? 0),
+      total: null,
+      ...advanceFeedPage(offset, limit, rawCount),
     }, undefined, { subject, count: data?.length || 0 });
   } catch (e) {
     failRequestDiagnostics(diagnostics, e);

@@ -246,7 +246,7 @@ export default function ModerationPageClient() {
   return (
     <div className="w-full max-w-3xl mx-auto view">
       <div className="mb-6">
-        <div className="eyebrow mb-2">{'// Moderator mode'}</div>
+        <div className="eyebrow mb-2">{'Moderator mode'}</div>
         <h1 className="display-md">Moderation <span className="text-volt italic">Queue</span></h1>
         <p className="text-sm text-zinc-500 mt-2">Review community submissions, publish the good ones, and keep the bank trustworthy.</p>
       </div>
@@ -283,7 +283,7 @@ export default function ModerationPageClient() {
 
       {!loading && !error && queue.length === 0 && (
         <EmptyState
-          eyebrow="// Queue clear"
+          eyebrow="Queue clear"
           title="Nothing waiting for review"
           message={`No questions are pending right now.${approved + rejected > 0 ? ` You reviewed ${approved + rejected} this session.` : ''}`}
           actionLabel="Refresh Queue"

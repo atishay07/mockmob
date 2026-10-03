@@ -4,40 +4,49 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Logo } from '@/components/Logo';
-import { Icon } from '@/components/ui/Icons';
+import { AppIcon, CreditAmount, StatusIcon } from '@/components/ui/Glyph';
+import { useWalletSummary } from '@/components/useWalletSummary';
 import { Avatar } from '@/components/ui/Avatar';
 import { useAuth } from '@/components/AuthProvider';
 import { useRole } from '@/lib/roleContext';
-import { DotPattern } from '@/components/ui/dot-pattern';
 import { AuthSessionScreen } from '@/components/auth/AuthSessionScreen';
+import { ThemeToggle } from '@/components/ThemeToggle';
+import { PipActor } from '@/components/brand/PipActor';
+import './arena.css';
+import './student-pages.css';
+import './explore/explore.css';
+import './arena-support.css';
+import { arenaNavigation, MOBILE_STUDY_NAV } from '@/lib/arenaNavigation';
 
 const TOUR_STEPS = [
-  { title: 'PrepOS', target: 'nav-mentor', body: 'Start here for the prep layer: setup, chat, daily missions, replanning, benchmark guidance, and review.' },
-  { title: 'Arena', target: 'nav-dashboard', body: 'Start timed CUET mocks, choose subjects, chapters, question count, and difficulty controls.' },
-  { title: 'Compass', target: 'nav-admission-compass', body: 'Turn your mock score band into college and course direction.' },
-  { title: 'Explore', target: 'nav-explore', body: 'Practice from the live question feed with subject, unit, chapter, difficulty, and search filters.' },
-  { title: 'Radar', target: 'nav-analytics', body: 'Track accuracy, weak areas, speed, streaks, and chapter priorities.' },
-  { title: 'Saved', target: 'nav-saved', body: 'Keep important questions in one place for revision.' },
-  { title: 'Ranks', target: 'nav-leaderboard', body: 'Compare XP and performance on the community leaderboard.' },
-  { title: 'Contribute', target: 'nav-upload', body: 'Upload useful questions and grow the shared question bank.' },
-  { title: 'My Uploads', target: 'nav-my-uploads', body: 'Watch your submitted questions move through moderation.' },
-  { title: 'Profile', target: 'nav-profile', body: 'Manage account details, subjects, credits, and plan status.' },
-  { title: 'Credits', target: 'credits-pill', body: 'Free users spend credits to generate mocks. Premium removes that friction.' },
-  { title: 'Mobile menu', target: 'mobile-menu-toggle', body: 'Tap the three lines to show or hide navigation on phones.' },
-  { title: 'Premium', target: 'guide-button', body: 'Use Premium for unlimited mocks, advanced Radar, Compass, fast-lane generation, and advanced filters.' },
+  { title: 'Today', target: 'nav-today', body: 'Your next useful step: what to practise now and what is due for review.' },
+  { title: 'Practice', target: 'nav-dashboard', body: 'Choose a subject, a mode and how many questions, then start a timed session. Every answer is scored on the server.' },
+  { title: 'Review', target: 'nav-review', body: 'Go back over sessions that matter and check concepts again on fresh questions.' },
+  { title: 'Progress', target: 'nav-progress', body: 'See which concepts have passed fresh, delayed checks, and which need more evidence.' },
 ];
+// Pip guides the first-run tour only (rare, so it may have character); it nods on each step.
+const TOUR_POSES = ['greeting', 'encouraging', 'thinking', 'celebrating'];
 
-export default function AppLayoutClient({ children }) {
+export default function AppLayoutClient({ children, previewRoute = null, previewLinks = null }) {
   const pathname = usePathname();
   const router = useRouter();
   const { user, status, signOut } = useAuth();
-  const { role, isModerator } = useRole();
+  const { isModerator } = useRole();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [tourOpen, setTourOpen] = useState(false);
   const [tourStep, setTourStep] = useState(0);
   const [tourTarget, setTourTarget] = useState(null);
   const tourSeenKey = user?.id ? `mockmob_app_tour_seen_${user.id}` : 'mockmob_app_tour_seen';
-  const isTestRoute = pathname.startsWith('/test');
+  const activePath = previewRoute || pathname;
+  const isTestRoute = activePath.startsWith('/test');
+  const wallet = useWalletSummary(user?.id);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const closeOnEscape = (event) => { if (event.key === 'Escape') setMobileMenuOpen(false); };
+    document.addEventListener('keydown', closeOnEscape);
+    return () => document.removeEventListener('keydown', closeOnEscape);
+  }, [mobileMenuOpen]);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -56,13 +65,6 @@ export default function AppLayoutClient({ children }) {
     }
   }, [status, pathname, isModerator, router]);
 
-  useEffect(() => {
-    if (status !== 'authenticated' || typeof window === 'undefined') return;
-    if (isTestRoute) return;
-    if (window.localStorage.getItem(tourSeenKey)) return;
-    const id = window.setTimeout(() => setTourOpen(true), 250);
-    return () => window.clearTimeout(id);
-  }, [status, tourSeenKey, isTestRoute]);
 
   useEffect(() => {
     if (!tourOpen || typeof window === 'undefined') {
@@ -81,7 +83,7 @@ export default function AppLayoutClient({ children }) {
         setTourTarget(null);
         return;
       }
-      node.scrollIntoView({ block: 'center', inline: 'center', behavior: 'smooth' });
+      node.scrollIntoView({ block: 'center', inline: 'center', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
       window.setTimeout(() => {
         const rect = node.getBoundingClientRect();
         const padding = 8;
@@ -124,32 +126,25 @@ export default function AppLayoutClient({ children }) {
     );
   }
 
-  const studentTabs = [
-    { id: 'mentor', label: 'PrepOS', icon: 'spark' },
-    { id: 'dashboard', label: 'Arena', icon: 'zap' },
-    { id: 'admission-compass', label: 'Compass', icon: 'target' },
-    { id: 'explore', label: 'Explore', icon: 'radar' },
-    { id: 'analytics', label: 'Radar', icon: 'bar' },
-    { id: 'saved', label: 'Saved', icon: 'book' },
-    { id: 'leaderboard', label: 'Ranks', icon: 'trophy' },
-    { id: 'upload', label: 'Contribute', icon: 'upload' },
-    { id: 'my-uploads', label: 'My Uploads', icon: 'book' },
-    { id: 'profile', label: 'Profile', icon: 'users' },
-  ];
-
-  const modTabs = [
-    { id: 'mentor', label: 'PrepOS', icon: 'spark' },
-    { id: 'dashboard', label: 'Arena', icon: 'zap' },
-    { id: 'admission-compass', label: 'Compass', icon: 'target' },
-    { id: 'moderation', label: 'Mod Queue', icon: 'shield' },
-    { id: 'explore', label: 'Explore', icon: 'radar' },
-    { id: 'saved', label: 'Saved', icon: 'book' },
-    { id: 'profile', label: 'Profile', icon: 'users' },
-  ];
-
-  const tabs = (role === 'moderator' ? modTabs : studentTabs)
-    .filter((tab) => !(isTestRoute && tab.id === 'mentor'));
-  const isActive = (id) => pathname.includes(id);
+  const navGroups = arenaNavigation(isModerator).map((group) => ({ ...group, items: group.items.filter((tab) => !(isTestRoute && tab.id === 'mentor')) }));
+  const allTabs = navGroups.flatMap((group) => group.items);
+  const isActive = (id) => activePath === `/${id}` || activePath.startsWith(`/${id}/`);
+  const renderNavLink = (tab, onNavigate) => (
+    <Link
+      key={tab.id}
+      href={previewLinks?.[tab.id] || tab.href || `/${tab.id}`}
+      className="arena-nav-link"
+      style={{ '--i': allTabs.indexOf(tab) }}
+      aria-current={isActive(tab.id) ? 'page' : undefined}
+      data-tour={`nav-${tab.id}`}
+      onClick={onNavigate}
+    >
+      <AppIcon name={tab.icon} />
+      {tab.label}
+    </Link>
+  );
+  const currentTitle = allTabs.find((tab) => isActive(tab.id))?.label
+    || (activePath.startsWith('/result') ? 'Result' : '');
 
   function closeTour() {
     setTourOpen(false);
@@ -161,239 +156,138 @@ export default function AppLayoutClient({ children }) {
 
   return (
     <div className={`view app-shell ${isTestRoute ? 'app-shell--test' : ''}`} style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <aside className="desktop-sidebar">
+      <aside className="arena-sidebar" aria-label="Arena navigation">
         <Logo />
-        <div className="sidebar-links">
-          {tabs.map((tab) => (
-            <Link
-              key={tab.id}
-              href={`/${tab.id}`}
-              className={`sidebar-link ${isActive(tab.id) ? 'active' : ''}`}
-              data-tour={`nav-${tab.id}`}
-            >
-              <Icon name={tab.icon} style={{ width: '15px', height: '15px' }} />
-              {tab.label}
-            </Link>
-          ))}
+        {navGroups.map((group) => (
+          <nav key={group.label} className="arena-nav-group" aria-label={group.label}>
+            <p className="arena-nav-label">{group.label}</p>
+            {group.items.map((tab) => renderNavLink(tab))}
+          </nav>
+        ))}
+        <div className="arena-sidebar__foot">
+          <button
+            type="button"
+            className="arena-chip"
+            data-tour="guide-button"
+            onClick={() => { setTourStep(0); setTourOpen(true); }}
+          >
+            <AppIcon name="guide" /> Guide
+          </button>
         </div>
       </aside>
 
       {!isTestRoute && (
-      <nav className="top-nav" style={{
-        position: 'sticky', top: 0, zIndex: 40,
-        background: 'rgba(10,10,10,.85)',
-        backdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(255,255,255,.06)',
-      }}>
-        <div className="container-std px-4 py-3 md:py-0 flex flex-wrap md:flex-nowrap items-center gap-3 md:h-[60px]">
-          <Logo />
+      <header className="arena-topbar">
+        <div className="arena-topbar__row">
+          <span className="arena-topbar__logo"><Logo /></span>
+          {currentTitle ? <span className="arena-topbar__title">{currentTitle}</span> : null}
 
-          <button
-            type="button"
-            data-tour="mobile-menu-toggle"
-            className="md:hidden ml-auto inline-flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-zinc-200"
-            onClick={() => setMobileMenuOpen((open) => !open)}
-            aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-            aria-expanded={mobileMenuOpen}
-          >
-            <span className="inline-flex flex-col gap-1">
-              <span className="block h-0.5 w-5 rounded-full bg-current" />
-              <span className="block h-0.5 w-5 rounded-full bg-current" />
-              <span className="block h-0.5 w-5 rounded-full bg-current" />
-            </span>
-          </button>
-
-          <div className="no-scrollbar order-3 md:order-none basis-full md:basis-auto md:flex-1 hidden md:flex items-center gap-2 overflow-x-auto md:mx-2">
-            {tabs.map((tab) => (
-              <Link
-                key={tab.id}
-                href={`/${tab.id}`}
-                className={`nav-link ${isActive(tab.id) ? 'active' : ''}`}
-                data-tour={`nav-${tab.id}`}
-                style={{ whiteSpace: 'nowrap' }}
-              >
-                <Icon name={tab.icon} style={{ width: '13px', height: '13px' }} />
-                {tab.label}
-              </Link>
-            ))}
-          </div>
-
-          <div className="ml-auto hidden md:flex w-full md:w-auto items-center justify-between md:justify-end gap-2 flex-wrap md:flex-nowrap">
+          <div className="arena-topbar__end">
             {isModerator && (
-              <Link
-                href="/moderation"
-                className="btn-ghost"
-                style={{
-                  padding: '6px 10px',
-                  borderRadius: '999px',
-                  border: '1px solid rgba(210,240,0,.22)',
-                  background: 'rgba(210,240,0,.08)',
-                  color: 'var(--volt)',
-                  fontSize: '10px',
-                  letterSpacing: '0.14em',
-                  textTransform: 'uppercase',
-                }}
-              >
-                Moderator Mode
+              <Link href="/moderation" className="arena-chip arena-chip--mod arena-md-up">
+                <AppIcon name="moderation" /> Moderator
               </Link>
             )}
-
+            <Link href="/pricing" className="arena-chip arena-chip--credits" data-tour="credits-pill" aria-label={user?.isPremium ? 'Practice credits: unlimited with Pro' : `Practice credits: ${user?.creditBalance || 0}`}>
+              <CreditAmount kind="practice" amount={user?.isPremium ? 'unlimited' : (user?.creditBalance || 0)} unit={false} />
+            </Link>
+            {wallet.status !== 'idle' && (
+              <Link href="/mentor" className="arena-chip arena-chip--prepos arena-sm-up" data-state={wallet.wallet?.state || 'unknown'} aria-label={wallet.wallet?.known ? `PrepOS credits: ${wallet.wallet.total}${wallet.wallet.state === 'paused' ? ', paused' : ''}` : 'PrepOS credits unavailable'}>
+                <CreditAmount kind="prepos" amount={wallet.wallet?.known ? wallet.wallet.total : null} unit={false} />
+              </Link>
+            )}
+            {user?.isPremium && (
+              <span className="arena-chip arena-chip--pro arena-sm-up">Pro</span>
+            )}
+            <span className="arena-theme arena-sm-up"><ThemeToggle /></span>
+            <Link href="/profile" className="arena-profile arena-desktop-only">
+              <Avatar name={user?.name} size="sm" />
+              <span>{user?.name ?? 'Account'}</span>
+            </Link>
             <button
               type="button"
-              className="btn-ghost"
-              data-tour="guide-button"
-              style={{ padding: '6px 10px', borderRadius: '999px', fontSize: '10px' }}
-              onClick={() => {
-                setTourStep(0);
-                setTourOpen(true);
-              }}
-            >
-              <Icon name="spark" style={{ width: '12px', height: '12px' }} />
-              Guide
-            </button>
-
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: '4px',
-              padding: '4px 10px', borderRadius: '24px',
-              background: 'rgba(210,240,0,.1)',
-              border: '1px solid rgba(210,240,0,.2)',
-              color: 'var(--volt)', fontSize: '12px', fontWeight: 700,
-              fontFamily: 'var(--font-mono)'
-            }} data-tour="credits-pill">
-              <Icon name="spark" style={{ width: '12px', height: '12px' }} />
-              <span style={{ opacity: 0.75 }}>Credits</span>
-              {user?.creditBalance || 0}
-            </div>
-
-            {user?.isPremium && (
-              <div style={{
-                display: 'flex', alignItems: 'center', gap: '5px',
-                padding: '4px 10px', borderRadius: '24px',
-                background: 'var(--volt)',
-                border: '1px solid var(--volt)',
-                color: '#000', fontSize: '11px', fontWeight: 800,
-                fontFamily: 'var(--font-mono)', letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-              }}>
-                <Icon name="zap" style={{ width: '12px', height: '12px' }} />
-                Premium
-              </div>
-            )}
-
-            <Link
-              href="/profile"
-              style={{
-                display: 'flex', alignItems: 'center', gap: '6px',
-                padding: '4px 10px 4px 6px', borderRadius: '24px',
-                background: 'rgba(255,255,255,.04)',
-                border: '1px solid rgba(255,255,255,.07)',
-                textDecoration: 'none',
-                minWidth: 0,
-              }}
-            >
-              <Avatar name={user?.name} size="sm" />
-              <span style={{
-                fontSize: '12px', fontWeight: 600, color: '#d4d4d8',
-                maxWidth: '90px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-              }}>{user?.name ?? 'User'}</span>
-            </Link>
-
-            <button
               onClick={async () => { await signOut(); router.push('/'); }}
               title="Sign out"
-              style={{
-                background: 'none', border: '1px solid rgba(255,255,255,.07)',
-                borderRadius: '8px', padding: '6px 8px', cursor: 'pointer',
-                color: '#52525b', transition: 'color .15s ease',
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = '#f87171'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = '#52525b'; }}
+              aria-label="Sign out"
+              className="arena-iconbtn arena-iconbtn--danger arena-desktop-only"
             >
-              <Icon name="logout" style={{ width: '14px', height: '14px' }} />
+              <AppIcon name="signout" />
+            </button>
+            <button
+              type="button"
+              data-tour="mobile-menu-toggle"
+              className="arena-iconbtn arena-mobile-only"
+              onClick={() => setMobileMenuOpen((open) => !open)}
+              aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="arena-sheet"
+            >
+              {mobileMenuOpen ? <StatusIcon kind="close" /> : (
+                <span className="inline-flex flex-col gap-1" aria-hidden="true">
+                  <span className="block h-0.5 w-5 rounded-full bg-current" />
+                  <span className="block h-0.5 w-5 rounded-full bg-current" />
+                  <span className="block h-0.5 w-5 rounded-full bg-current" />
+                </span>
+              )}
             </button>
           </div>
         </div>
 
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-white/5 px-4 pb-4">
-            <div className="grid grid-cols-2 gap-2 pt-3">
-              {tabs.map((tab) => (
-                <Link
-                  key={tab.id}
-                  href={`/${tab.id}`}
-                  className={`nav-link ${isActive(tab.id) ? 'active' : ''}`}
-                  data-tour={`nav-${tab.id}`}
-                  onClick={() => setMobileMenuOpen(false)}
-                  style={{
-                    width: '100%',
-                    justifyContent: 'flex-start',
-                    borderBottomWidth: 0,
-                    borderRadius: '10px',
-                    background: isActive(tab.id) ? 'rgba(210,240,0,.08)' : 'rgba(255,255,255,.025)',
-                    border: isActive(tab.id) ? '1px solid rgba(210,240,0,.18)' : '1px solid rgba(255,255,255,.06)',
-                    padding: '12px',
-                  }}
-                >
-                  <Icon name={tab.icon} style={{ width: '14px', height: '14px' }} />
-                  {tab.label}
-                </Link>
-              ))}
-            </div>
-
-            <div className="mt-3 flex items-center justify-between gap-2 rounded-xl border border-white/8 bg-white/[0.025] p-2">
-              <Link href="/profile" className="flex min-w-0 items-center gap-2 text-decoration-none" onClick={() => setMobileMenuOpen(false)}>
+          <div className="arena-sheet arena-mobile-only" id="arena-sheet">
+            {navGroups.map((group) => (
+              <nav key={group.label} className="arena-nav-group" aria-label={group.label}>
+                <p className="arena-nav-label">{group.label}</p>
+                {group.items.map((tab) => renderNavLink(tab, () => setMobileMenuOpen(false)))}
+              </nav>
+            ))}
+            <div className="arena-sheet__account">
+              <Link href="/profile" className="flex min-w-0 items-center gap-2 no-underline" onClick={() => setMobileMenuOpen(false)}>
                 <Avatar name={user?.name} size="sm" />
-                <span className="truncate text-sm font-semibold text-zinc-200">{user?.name ?? 'User'}</span>
+                <span className="truncate text-sm font-semibold text-zinc-200">{user?.name ?? 'Account'}</span>
               </Link>
               <div className="flex items-center gap-2">
-                <span className="rounded-full border border-volt/20 bg-volt/10 px-2 py-1 text-[10px] font-bold text-volt">
-                  {user?.creditBalance || 0} credits
-                </span>
+                <span className="arena-theme"><ThemeToggle /></span>
                 <button
+                  type="button"
+                  className="arena-chip"
+                  data-tour="guide-button"
+                  onClick={() => { setMobileMenuOpen(false); setTourStep(0); setTourOpen(true); }}
+                >
+                  <AppIcon name="guide" /> Guide
+                </button>
+                <button
+                  type="button"
                   onClick={async () => { await signOut(); router.push('/'); }}
                   title="Sign out"
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-white/10 text-zinc-300"
+                  aria-label="Sign out"
+                  className="arena-iconbtn arena-iconbtn--danger"
                 >
-                  <Icon name="logout" style={{ width: '14px', height: '14px' }} />
+                  <AppIcon name="signout" />
                 </button>
               </div>
             </div>
-            <button
-              type="button"
-              className="mt-3 flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-volt/25 bg-volt/10 font-display text-sm font-bold text-volt"
-              data-tour="guide-button"
-              onClick={() => {
-                setTourStep(0);
-                setTourOpen(true);
-              }}
-            >
-              <Icon name="spark" style={{ width: '14px', height: '14px' }} />
-              Open guide
-            </button>
           </div>
         )}
 
         {isModerator && (
-          <div style={{
-            background: 'rgba(210,240,0,.06)',
-            borderTop: '1px solid rgba(210,240,0,.15)',
-            padding: '5px 20px',
-            display: 'flex', alignItems: 'center', gap: '8px',
-            fontSize: '10px', color: 'var(--volt)',
-            fontFamily: 'var(--font-mono)', fontWeight: 700, letterSpacing: '0.18em',
-          }}>
-            Moderator access is active for this account.
+          <div className="arena-modbar">
+            <AppIcon name="moderation" /> Moderator access is active for this account.
           </div>
         )}
-      </nav>
+      </header>
       )}
 
       <main className={`app-main ${isTestRoute ? 'app-main--test' : 'px-4 py-6 md:px-5 md:py-8'}`} style={{ flex: 1, position: 'relative' }}>
-        <DotPattern className="fixed inset-0 opacity-10 pointer-events-none" width={24} height={24} />
+        <div className="arena-backdrop" aria-hidden="true" />
         <div className={`${isTestRoute ? 'test-content-host' : 'container-std'} relative z-10`}>
           {children}
         </div>
       </main>
+      {!isTestRoute && <nav className="arena-bottomnav" aria-label="Quick study navigation">
+        {MOBILE_STUDY_NAV.map((tab) => <Link key={tab.id} href={previewLinks?.[tab.id] || tab.href} onClick={() => setMobileMenuOpen(false)} aria-current={isActive(tab.id) ? 'page' : undefined} data-tour={`nav-${tab.id}`}><AppIcon name={tab.icon} /><span>{tab.label}</span></Link>)}
+        <button type="button" aria-expanded={mobileMenuOpen} aria-controls="arena-sheet" onClick={() => { setMobileMenuOpen((open) => !open); requestAnimationFrame(() => document.getElementById('arena-sheet')?.scrollIntoView({ block: 'start', behavior: 'instant' })); }}><AppIcon name="expand" /><span>More</span></button>
+      </nav>}
       {!isTestRoute && tourOpen && (
         <div className="pointer-events-none fixed inset-0 z-[80]">
           {tourTarget ? (
@@ -418,17 +312,18 @@ export default function AppLayoutClient({ children }) {
             />
           )}
           <div
-            className="pointer-events-auto fixed w-[min(380px,calc(100vw-32px))] rounded-2xl border border-volt/25 bg-[#0b0b0b]/95 p-5 shadow-[0_24px_90px_rgba(0,0,0,0.75)]"
+            className="pointer-events-auto fixed w-[min(380px,calc(100vw-32px))] rounded-2xl border border-volt/25 bg-[var(--a-raised)] p-5 shadow-[var(--a-shadow-2)]"
             style={tourTarget ? { left: tourTarget.cardLeft, top: tourTarget.cardTop } : { left: '16px', bottom: '16px' }}
           >
             <div className="mb-4 flex items-center justify-between gap-3">
-              <div>
+              <span className="arena-tour-pip"><PipActor pose={TOUR_POSES[tourStep] || 'greeting'} blink={tourStep + 1} motion={tourStep ? `nod-${tourStep % 2}` : 'land-0'} /></span>
+              <div className="flex-1">
                 <div className="mono-label text-volt">Step {tourStep + 1} of {TOUR_STEPS.length}</div>
                 <h2 className="mt-1 font-display text-[22px] font-extrabold text-white">{TOUR_STEPS[tourStep].title}</h2>
               </div>
               <button
                 type="button"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 text-zinc-400"
+                className="inline-flex h-[44px] w-[44px] items-center justify-center rounded-xl border border-white/10 text-zinc-400"
                 onClick={closeTour}
                 aria-label="Close guide"
               >
@@ -466,50 +361,6 @@ export default function AppLayoutClient({ children }) {
         </div>
       )}
       <style>{`
-        .desktop-sidebar { display: none; }
-        @media (min-width: 1024px) {
-          .desktop-sidebar {
-            display: flex;
-            position: fixed;
-            inset: 0 auto 0 0;
-            z-index: 45;
-            width: 224px;
-            padding: 22px 14px;
-            border-right: 1px solid rgba(255,255,255,.07);
-            background: rgba(10,10,10,.88);
-            backdrop-filter: blur(20px);
-            flex-direction: column;
-            gap: 26px;
-          }
-          .sidebar-links { display: flex; flex-direction: column; gap: 6px; }
-          .sidebar-link {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            min-height: 40px;
-            border-radius: 10px;
-            color: #71717a;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            font-weight: 800;
-            letter-spacing: .14em;
-            padding: 0 12px;
-            text-decoration: none;
-            text-transform: uppercase;
-          }
-          .sidebar-link:hover { color: #fff; background: rgba(255,255,255,.035); }
-          .sidebar-link.active {
-            color: var(--volt);
-            background: rgba(210,240,0,.08);
-            border: 1px solid rgba(210,240,0,.18);
-          }
-          .top-nav .nav-link { display: none; }
-          .top-nav .container-std { padding-left: 244px; }
-          .app-main { padding-left: 244px !important; }
-          .app-shell--test .app-main {
-            padding-left: 224px !important;
-          }
-        }
         .app-shell--test .app-main--test {
           padding: 0;
         }
@@ -517,11 +368,6 @@ export default function AppLayoutClient({ children }) {
           width: 100%;
           max-width: none;
           margin: 0;
-        }
-        @media (min-width: 1024px) {
-          .app-shell--test .app-main--test {
-            padding-left: 224px !important;
-          }
         }
       `}</style>
     </div>

@@ -1,0 +1,149 @@
+.pip-image { display: block; width: 100%; height: 100%; object-fit: contain; }
+.pip-seat { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 14px; align-items: center; margin: 0; width: min(100%, 290px); }
+.pip-seat__art { width: 88px; height: 100px; flex-shrink: 0; }
+.pip-seat figcaption { display: grid; gap: 5px; font-size: 13px; line-height: 1.5; color: var(--text-muted); }
+.pip-seat figcaption b { font-weight: 700; color: var(--text-primary); }
+.mm .pip-seat figcaption { color: var(--ink-2); }
+.mm .pip-seat figcaption b { color: var(--ink); }
+.pip-seat figcaption span { font-size: 12px; }
+.lp-hero__greeting { display: flex; align-items: center; gap: 20px; justify-content: space-between; margin-bottom: 22px; }
+.lp-hero__greeting .lp-pill { margin: 0; flex-shrink: 0; }
+.lp-hero__greeting .pip-seat { grid-template-columns: 68px minmax(0, 1fr); width: 190px; gap: 10px; }
+.lp-hero__greeting .pip-seat__art { width: 68px; height: 78px; }
+.lp-guide-head { display: flex; gap: clamp(20px, 5vw, 80px); justify-content: space-between; align-items: center; }
+.lp-guide-head > .lp-head { flex: 1; min-width: 0; }
+.lp-guide-head > .pip-seat { flex: 0 0 145px; grid-template-columns: 1fr; text-align: center; justify-items: center; align-self: center; }
+.lp-guide-head .pip-seat__art { width: 118px; height: 140px; }
+.lp-close .pip-seat { margin: 0 auto 20px; }
+.pip-drill-reaction { display: flex; gap: 12px; align-items: center; }
+.pip-drill-reaction .pip-image { flex: 0 0 44px; width: 44px; height: 52px; }
+.pip-drill-result { width: 78px; height: 90px; margin: 0 auto 12px; }
+.pip-state { width: 64px; height: 74px; margin-bottom: 12px; }
+.mm .mm-link { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; }
+.mm .mm-crumbs a { display: inline-flex; align-items: center; min-width: 44px; min-height: 44px; }
+.mm a[href='/refunds'] { display: inline-flex; align-items: center; min-height: 44px; }
+@media (max-width: 420px) { .mm .ml__tiles { gap: 3px; } }
+.rl__attribution { display: block; font-size: 12px; line-height: 1.5; color: var(--ink-2); overflow-wrap: anywhere; }
+.arena-fixture-note { margin-left: 232px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; padding: 12px 24px; background: var(--a-raised); border-bottom: 1px solid var(--a-line); color: var(--text-primary); font-size: 12px; }
+.arena-fixture-note > span { flex: 1 1 260px; }
+.arena-fixture-note label { display: flex; align-items: center; gap: 10px; }
+.arena-fixture-note select { min-height: 44px; min-width: 140px; padding: 8px; background: var(--a-bg); color: var(--text-primary); border: 1px solid var(--a-line); border-radius: 8px; }
+@media (max-width: 1023px) {
+  .arena-fixture-note { margin-left: 0; padding: 12px 16px; }
+  body:has(.app-shell) .prepos-launcher { bottom: calc(84px + env(safe-area-inset-bottom)) !important; }
+  body:has(.app-shell) .mm-toast-stack { bottom: calc(92px + env(safe-area-inset-bottom)) !important; }
+  body:has(.student-page--practice) .prepos-launcher { bottom: calc(176px + env(safe-area-inset-bottom)) !important; }
+}
+@media (max-width: 600px) {
+  .lp-hero__greeting { gap: 10px; margin-bottom: 18px; }
+  .lp-hero__greeting .pip-seat { width: 90px; display: block; }
+  .lp-hero__greeting .pip-seat__art { width: 62px; height: 72px; margin-inline: auto; }
+  .lp-hero__greeting .pip-seat figcaption { text-align: center; font-size: 11px; }
+  .lp-hero__greeting .pip-seat figcaption span { display: none; }
+  .lp-guide-head { gap: 14px; align-items: start; }
+  .lp-guide-head > .pip-seat { flex-basis: 74px; }
+  .lp-guide-head .pip-seat__art { width: 70px; height: 82px; }
+  .lp-guide-head .pip-seat figcaption { font-size: 11px; }
+  .lp-guide-head .pip-seat figcaption span { display: none; }
+}
+
+/* ---- Round 4: Pip's perch handoff (PipGuide). Perches stay static without JS or with reduced motion. ---- */
+.pip-seat__art { position: relative; }
+.pip-seat[data-pip-station] .pip-seat__art::after { content: ''; position: absolute; left: 22%; right: 22%; bottom: -3px; height: 7px; border-radius: 50%; background: radial-gradient(closest-side, rgba(8, 12, 6, .34), transparent); pointer-events: none; }
+[data-theme='light'] .pip-seat[data-pip-station] .pip-seat__art::after { background: radial-gradient(closest-side, rgba(40, 48, 20, .2), transparent); }
+[data-pip-guide='on'] .pip-seat[data-pip-station] .pip-seat__art > .pip-image { opacity: 0; }
+.pip-actor { position: absolute; bottom: 0; left: 50%; translate: -50% 0; height: 100%; aspect-ratio: var(--pip-ar); transform-origin: 50% 100%; pointer-events: none; z-index: 1; }
+.pip-actor > .pip-image { width: 100%; height: 100%; }
+.pip-flyer { position: fixed; top: 0; left: 0; z-index: 46; height: 146px; aspect-ratio: var(--pip-ar); transform-origin: 50% 100%; opacity: 0; pointer-events: none; will-change: transform; contain: layout paint; }
+.pip-flyer .pip-actor { position: static; translate: none; display: block; }
+.pip-lids { position: absolute; inset: 0; }
+.pip-lids i { position: absolute; border-radius: 45%; background: rgb(30, 35, 33); transform: scaleY(0); transform-origin: 50% 0; animation: pip-blink 190ms var(--ease-in-out) both; }
+@keyframes pip-blink { 45% { transform: scaleY(1); } 100% { transform: scaleY(0); } }
+/* Motion vocabulary: land (settle after travel), hop (cheer), jump (the peak), nod (acknowledge).
+   Two identical names per motion let a repeat restart cleanly. */
+.pip-actor[data-motion^='land'] { animation: pip-land 380ms var(--ease-out) both; }
+.pip-actor[data-motion='land-1'] { animation-name: pip-land-b; }
+.pip-actor[data-motion^='hop'] { animation: pip-hop 560ms var(--ease-out) both; }
+.pip-actor[data-motion='hop-1'] { animation-name: pip-hop-b; }
+.pip-actor[data-motion^='jump'] { animation: pip-jump 760ms var(--ease-out) both; }
+.pip-actor[data-motion='jump-1'] { animation-name: pip-jump-b; }
+.pip-actor[data-motion^='nod'] { animation: pip-nod 420ms var(--ease-out) both; }
+.pip-actor[data-motion='nod-1'] { animation-name: pip-nod-b; }
+@keyframes pip-land { 0% { transform: translate3d(0, -7px, 0) rotate(-3deg); } 55% { transform: translate3d(0, 1px, 0) rotate(1deg); } 100% { transform: none; } }
+@keyframes pip-land-b { 0% { transform: translate3d(0, -7px, 0) rotate(-3deg); } 55% { transform: translate3d(0, 1px, 0) rotate(1deg); } 100% { transform: none; } }
+@keyframes pip-hop { 0% { transform: none; } 35% { transform: translate3d(0, -14px, 0); } 68% { transform: none; } 84% { transform: translate3d(0, -3px, 0); } 100% { transform: none; } }
+@keyframes pip-hop-b { 0% { transform: none; } 35% { transform: translate3d(0, -14px, 0); } 68% { transform: none; } 84% { transform: translate3d(0, -3px, 0); } 100% { transform: none; } }
+@keyframes pip-jump { 0% { transform: none; } 12% { transform: translate3d(0, 2px, 0); } 40% { transform: translate3d(0, -26px, 0) rotate(-6deg); } 72% { transform: none; } 86% { transform: translate3d(0, -4px, 0) rotate(1deg); } 100% { transform: none; } }
+@keyframes pip-jump-b { 0% { transform: none; } 12% { transform: translate3d(0, 2px, 0); } 40% { transform: translate3d(0, -26px, 0) rotate(-6deg); } 72% { transform: none; } 86% { transform: translate3d(0, -4px, 0) rotate(1deg); } 100% { transform: none; } }
+@keyframes pip-nod { 0% { transform: none; } 40% { transform: rotate(-5deg); } 100% { transform: none; } }
+@keyframes pip-nod-b { 0% { transform: none; } 40% { transform: rotate(-5deg); } 100% { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .pip-actor, .pip-lids i { animation: none !important; } .pip-flyer { display: none; } }
+/* Compass: Pip stands on the leading side so the pointing hand faces the headline. */
+.lp-guide-head--lead { flex-direction: row-reverse; justify-content: flex-end; }
+/* Exam preview perch beside the reassurance line. */
+.lp-exam-bottom .pip-seat--demo { flex: 0 0 auto; width: auto; grid-template-columns: 64px auto; gap: 10px; }
+.lp-exam-bottom .pip-seat--demo .pip-seat__art { width: 64px; height: 74px; }
+.lp-exam-bottom > p { flex: 1 1 auto; }
+@media (max-width: 760px) { .lp-exam-bottom .pip-seat--demo { order: -1; } }
+/* One Pip in view: while the guide rests on the hero perch on screen, the drill's own static
+   Pips step aside and the guide reacts instead. They return wherever the guide is not. */
+[data-pip-perch='hero'][data-pip-perch-visible='true'] .mm-drill .pip-drill-reaction > .pip-image,
+[data-pip-perch='hero'][data-pip-perch-visible='true'] .mm-drill .pip-drill-result { display: none; }
+/* Arena states: Pip settles in once, then stays still (study pages are calm). */
+@media (prefers-reduced-motion: no-preference) {
+  .pip-state .pip-image, .ui-state .pip-image { animation: pip-land 420ms var(--ease-out) 120ms both; }
+}
+/* First-run tour and onboarding: Pip appears once per moment, then holds still. */
+.arena-tour-pip { position: relative; flex: 0 0 52px; width: 52px; height: 60px; }
+.onboarding-pip { width: 72px; height: 84px; margin: 0 auto 14px; }
+@media (prefers-reduced-motion: no-preference) {
+  .onboarding-pip .pip-image { animation: pip-land 460ms var(--ease-out) 160ms both; }
+}
+/* Round 5: reserved character space, never a floating overlay on the reading canvas. */
+.pip-guide-flyer { position: fixed; inset: 0 auto auto 0; width: 160px; height: 180px; z-index: 46; pointer-events: none; transform-origin: 0 0; opacity: 0; will-change: transform; }
+.pip-guide-flyer .pip-actor { width: auto; aspect-ratio: var(--pip-ar); }
+.lp-hero__greeting .pip-seat { grid-template-columns: 120px minmax(0,1fr); width: 265px; }
+.lp-hero__greeting .pip-seat__art { width: 120px; height: 160px; }
+.lp-guide-head .pip-seat__art { width: 140px; height: 170px; }
+.lp-exam-bottom .pip-seat--demo { grid-template-columns: 120px minmax(0,1fr); }
+.lp-exam-bottom .pip-seat--demo .pip-seat__art { width: 120px; height: 150px; }
+.lp-close .pip-seat { grid-template-columns: 140px minmax(0,1fr); width: 330px; }
+.lp-close .pip-seat__art { width: 140px; height: 180px; }
+@media (min-width: 1100px) and (prefers-reduced-motion: no-preference) {
+  .mm.lp main { padding-right: 180px; }
+  .lp-hero__greeting { position: relative; }
+  .lp-hero__greeting .pip-seat { position: absolute; top: 0; }
+  .mm.lp .pip-seat[data-pip-station] { width: 160px; grid-template-columns: 1fr; text-align: center; justify-items: center; flex-basis: 160px; }
+  .mm.lp .pip-seat[data-pip-station] .pip-seat__art { width: 160px; height: 180px; }
+}
+@media (max-width: 760px) {
+  .lp-hero__greeting .pip-seat { width: 110px; display: block; }
+  .lp-hero__greeting .pip-seat__art { width: 100px; height: 120px; }
+  .lp-guide-head > .pip-seat { flex-basis: 100px; }
+  .lp-guide-head .pip-seat__art { width: 96px; height: 116px; }
+  .lp-exam-bottom .pip-seat--demo { grid-template-columns: 96px minmax(0,1fr); }
+  .lp-exam-bottom .pip-seat--demo .pip-seat__art { width: 96px; height: 116px; }
+  .lp-close .pip-seat { grid-template-columns: 110px minmax(0,1fr); width: min(100%,290px); }
+  .lp-close .pip-seat__art { width: 110px; height: 136px; }
+}
+@media (prefers-reduced-motion: reduce) { .pip-guide-flyer { display:none; } }
+.arena-companion { display: flex; align-items: center; gap: 20px; margin: 0 0 24px; color: var(--text-primary); }
+.arena-companion__art { width: 112px; height: 136px; flex: 0 0 112px; }
+.arena-companion > div:last-child { min-width: 0; max-width: 54ch; overflow-wrap: anywhere; }
+.arena-companion b { font-family: var(--font-display); font-size: 1.125rem; }
+.arena-companion p { font-size: .875rem; line-height: 1.6; color: var(--text-secondary); margin: 5px 0 0; }
+.arena-companion--compact .arena-companion__art { width: 88px; height: 104px; flex-basis: 88px; }
+.prepos-console .arena-companion { padding-bottom: 16px; border-bottom: 1px solid var(--a-line, #253026); }
+.prepos-console > header { background: rgba(22,30,24,.95); }
+@supports (backdrop-filter: blur(12px)) { .prepos-console > header { background: rgba(22,30,24,.85); backdrop-filter: blur(12px) saturate(140%); } }
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) { .prepos-console > header { background: #161e18; backdrop-filter: none; } }
+@media (max-width: 600px) { .arena-companion { gap: 14px; } .arena-companion__art { width: 96px; height: 116px; flex-basis: 96px; } .arena-companion--compact .arena-companion__art { width: 88px; height: 104px; flex-basis: 88px; } }
+.pip-art-direction,.pip-pose-in { position:absolute; inset:0; }
+/* One face at a time: overlapping visors made the old dissolve look like a grimace. */
+.pip-pose-in { animation:pip-pose-in 140ms var(--ease-out) both; }
+.pip-actor[data-pose='pointing'][data-facing='left'] .pip-art-direction,
+.pip-image[data-facing='left'] { transform:scaleX(-1); }
+@keyframes pip-pose-in { from {opacity:.65} to {opacity:1} }
+@media(prefers-reduced-motion:reduce){.pip-pose-in{animation:none}}
+.pip-seat--utility { margin: 0 0 24px auto; }
+@media(min-width:1100px) and (prefers-reduced-motion:no-preference){.pip-seat--utility{height:0;margin-bottom:0;overflow:visible}}

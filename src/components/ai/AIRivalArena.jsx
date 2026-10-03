@@ -263,10 +263,10 @@ export default function AIRivalArena() {
           <div>
             <div className="mono-label text-volt">MockMob / Shadow Benchmark</div>
             <h1 className="mt-2 max-w-3xl font-display text-[clamp(30px,5vw,58px)] font-black leading-[1.01] text-zinc-50">
-              Pressure checks that explain the leak.
+              Check your pace against a practice rival.
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-zinc-400">
-              Shadow Benchmark is not another mock. It is a short timed challenge that tells you whether today&apos;s leak is speed, accuracy, skips, or pressure.
+              A short timed challenge comparing pace, accuracy and skipped questions. Your rival is a simulated benchmark, not a student or a CUET rank prediction.
             </p>
           </div>
           <DailyChallenge profile={selectedProfile} onStart={() => startBattle(selectedRival)} disabled={!access.allowed || starting} />
@@ -282,11 +282,12 @@ export default function AIRivalArena() {
               <button
                 key={profile.id}
                 type="button"
+                aria-pressed={selected}
                 onClick={() => {
                   setSelectedRival(profile.id);
                   setError(cardAccess.allowed ? null : lockMessage(cardAccess));
                 }}
-                className="group min-h-[230px] rounded-2xl border bg-white/[0.03] p-4 text-left transition hover:-translate-y-0.5 hover:bg-white/[0.045]"
+                className="group min-h-[230px] rounded-2xl border bg-white/[0.03] p-4 text-left hover:bg-white/[0.045]"
                 style={{
                   borderColor: selected ? `${profile.accent}88` : 'rgba(255,255,255,0.1)',
                   boxShadow: selected ? `0 0 0 1px ${profile.accent}44, 0 18px 60px rgba(0,0,0,0.28)` : 'none',
@@ -326,6 +327,7 @@ export default function AIRivalArena() {
                   <button
                     key={subject}
                     type="button"
+                    aria-pressed={activeSubjects.includes(subject)}
                     onClick={() => toggleSubject(subject)}
                     className={`inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition ${
                       activeSubjects.includes(subject)
@@ -346,6 +348,7 @@ export default function AIRivalArena() {
                 <button
                   key={count}
                   type="button"
+                  aria-pressed={questionCount === count}
                   onClick={() => setQuestionCount(count)}
                   className={`min-h-11 rounded-full border px-4 text-xs font-black ${
                     questionCount === count ? 'border-volt bg-volt text-black' : 'border-white/10 text-zinc-400'
@@ -376,16 +379,17 @@ export default function AIRivalArena() {
 
 function RivalShell({ children, usage }) {
   const wallet = usage?.aiWallet || null;
-  const total = usage?.aiCreditBalance ?? wallet?.total ?? usage?.creditBalance ?? '--';
+  // Unknown or paused wallets show no number; practice credits are a different ledger.
+  const total = wallet?.known ? wallet.total : '—';
   return (
-    <div className="mx-auto w-full max-w-7xl">
+    <div className="arena-dark-island mx-auto w-full max-w-7xl">
       <div className="rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(18,18,16,0.96),rgba(7,8,7,0.96))] p-4 shadow-[0_28px_100px_rgba(0,0,0,0.45)] md:p-6">
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
           <div className="inline-flex items-center gap-2 rounded-full border border-volt/25 bg-volt/10 px-3 py-1 font-mono text-[10px] font-extrabold uppercase tracking-[0.14em] text-volt">
             <Zap size={13} /> Daily pressure loop
           </div>
           <div className="flex flex-wrap gap-2">
-            <UsagePill label="AI Credits" value={total} />
+            <UsagePill label="PrepOS credits" value={total} />
             <UsagePill label="Free daily" value={formatFreeRival(usage)} />
           </div>
         </div>
@@ -434,6 +438,7 @@ function BattleScreen({ battle, question, index, answers, timeLeftMs, onSelect, 
             <button
               key={`${question.id}_${optionIndex}`}
               type="button"
+              aria-pressed={selected === optionIndex}
               onClick={() => onSelect(optionIndex)}
               className={`flex min-h-14 items-start gap-3 rounded-xl border px-4 py-3 text-left transition ${
                 selected === optionIndex
@@ -580,7 +585,7 @@ function DailyChallenge({ profile, onStart, disabled }) {
 }
 
 function LockHint({ access }) {
-  const href = access.kind === 'credits' ? '/pricing?reason=ai_credits' : '/pricing?reason=benchmark';
+  const href = access.kind === 'credits' || access.kind === 'paused' ? '/pricing/prepos' : '/pricing?reason=benchmark';
   return (
     <Link href={href} className="inline-flex min-h-11 items-center rounded-xl border border-red-400/25 bg-red-400/[0.08] px-3 py-2 text-xs font-bold leading-5 text-red-100 no-underline">
       {lockMessage(access)}
@@ -637,14 +642,17 @@ function getClientAccess({ rivalId, profile, isPaid, usage }) {
   }
 
   if (!isPaid) return { allowed: false, kind: 'plan' };
-  const available = Number(usage?.aiCreditBalance ?? usage?.aiWallet?.total ?? usage?.creditBalance ?? 0);
+  const wallet = usage?.aiWallet;
+  if (!wallet?.spendable) return { allowed: false, kind: wallet?.state === 'empty' ? 'credits' : 'paused', required: profile.creditCost || 1, balance: wallet?.known ? wallet.total : null };
+  const available = Number(wallet.total);
   if (available >= (profile.creditCost || 1)) return { allowed: true, kind: 'credits' };
   return { allowed: false, kind: 'credits', required: profile.creditCost || 1, balance: available };
 }
 
 function lockMessage(access) {
   if (access.kind === 'daily_used') return 'Free Daily Benchmark is used for today. Upgrade for more pressure checks.';
-  if (access.kind === 'credits') return `Need ${access.required || 1} AI credit(s) for this benchmark.`;
+  if (access.kind === 'paused') return 'PrepOS paid features are temporarily unavailable. Your credits have not been used.';
+  if (access.kind === 'credits') return `Need ${access.required || 1} PrepOS credit(s) for this benchmark.`;
   if (access.kind === 'plan') return 'This benchmark is Premium.';
   return 'Benchmark unavailable.';
 }
@@ -653,7 +661,7 @@ function serverStartError(data) {
   if (data?.message) return data.message;
   if (data?.planRequired) return 'This benchmark is Premium. Upgrade to unlock it.';
   if (data?.error === 'free_daily_rival_used') return 'Free Daily Benchmark is used for today. Upgrade for more pressure checks.';
-  if (data?.error === 'insufficient_credits') return `Need ${data.required || 1} AI credit(s). Current balance: ${data.balance || 0}.`;
+  if (data?.error === 'insufficient_credits') return `Need ${data.required || 1} PrepOS credit(s).${data.balance == null ? '' : ` Current balance: ${data.balance}.`}`;
   if (data?.error === 'no_subjects_configured') return 'Add subjects in Profile before starting a benchmark.';
   if (data?.error === 'no_questions_available') return 'No complete question set is available for this benchmark. Try another subject or a shorter diagnostic mock.';
   if (data?.error === 'battle_insert_failed') {

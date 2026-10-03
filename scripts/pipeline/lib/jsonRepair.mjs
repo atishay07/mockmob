@@ -1,3 +1,4 @@
+import { budgetedFetch } from './budgetLedger.mjs';
 import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
 import OpenAI from 'openai';
 import { loadEnvFile } from 'node:process';
@@ -31,10 +32,10 @@ const JSON_REPAIR_SECOND_FALLBACK_MODEL = process.env.JSON_REPAIR_SECOND_FALLBAC
 const JSON_REPAIR_MAX_OUTPUT_TOKENS = Number(process.env.JSON_REPAIR_MAX_OUTPUT_TOKENS || 4000);
 const JSON_REPAIR_TIMEOUT_MS = Number(process.env.JSON_REPAIR_TIMEOUT_MS || 30000);
 
-const gemini = process.env.GEMINI_API_KEY ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY) : null;
-const openai = process.env.OPENAI_API_KEY ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY }) : null;
+const gemini = null; // Paused until this transport supports reserved Gemini billing.
+const openai = process.env.OPENAI_API_KEY ? new OpenAI({ fetch: budgetedFetch(), maxRetries: 0, apiKey: process.env.OPENAI_API_KEY }) : null;
 const deepseek = process.env.DEEPSEEK_API_KEY
-  ? new OpenAI({
+  ? new OpenAI({ fetch: budgetedFetch(), maxRetries: 0,
       apiKey: process.env.DEEPSEEK_API_KEY,
       baseURL: process.env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com',
     })

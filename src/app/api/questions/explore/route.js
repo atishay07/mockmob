@@ -1,3 +1,4 @@
+import { readablePracticeQuestions } from '@/../data/practice_library';
 // FIX 4  (Critical): per-difficulty cursors replace the single shared cursor.
 // FIX 10 (High):     strip correct_answer, explanation, recommended_difficulty
 //                    from the explore response — answers must never appear in
@@ -122,21 +123,7 @@ async function fetchBucket({ subject, chapter, difficulty, lane, limit, cursor }
       skip_rate,
       report_rate,
       exploration_lane,
-      questions!inner (
-        id,
-        subject,
-        chapter,
-        body,
-        options,
-        difficulty,
-        tags,
-        ai_tier,
-        ai_score,
-        verification_state,
-        quality_band,
-        ${withVotes ? 'upvotes, downvotes, score,' : ''}
-        live_at
-      )
+      questions!inner (*)
     `)
       .eq('subject', subject)
       .eq('difficulty', difficulty)
@@ -162,7 +149,10 @@ async function fetchBucket({ subject, chapter, difficulty, lane, limit, cursor }
     return []
   }
 
-  return (data ?? []).sort((a, b) => {
+  const eligible=data ?? [];
+  const allowed=await readablePracticeQuestions(eligible.map(row=>row.questions),supabase);
+  const allowedIds=new Set(allowed.map(q=>q.id));
+  return eligible.filter(row=>allowedIds.has(row.questions.id)).sort((a, b) => {
     const aScore = a.questions?.score ?? 0
     const bScore = b.questions?.score ?? 0
     const aBoost = aScore > 5 ? 1000 : 0

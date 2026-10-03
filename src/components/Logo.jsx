@@ -8,7 +8,7 @@ export function Logo({ className = '' }) {
       <span className="bolt">
         <Icon name="zap" style={{ width: '14px', height: '14px', color: '#000' }} />
       </span>
-      MockMob<span className="dot">.</span>
+      <span className="logo__word">MockMob<span className="dot">.</span></span>
     </Link>
   );
 }

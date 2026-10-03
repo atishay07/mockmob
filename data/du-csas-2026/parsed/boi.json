@@ -1,0 +1,3421 @@
+[
+ {
+  "heading": "B.A.(Hons.) Arabic",
+  "line": 646,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) Bengali",
+  "line": 664,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Bengali from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "specific": [
+       "bengali"
+      ]
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Bengali and one Language from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "specific": [
+       "bengali"
+      ],
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   },
+   {
+    "label": "Combination III",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination IV",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects.",
+   "Candidates who opted for Combination III & IV for admission will be considered only if seats remain vacant after considering all the candidates who opted for Combination I & II."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A.(Hons.) English",
+  "line": 690,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "English from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "specific": [
+       "english"
+      ]
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "English and one Language from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "specific": [
+       "english"
+      ],
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) French",
+  "line": 712,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects"
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) German",
+  "line": 733,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) Hindi",
+  "line": 749,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Hindi from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "specific": [
+       "hindi"
+      ]
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Hindi and one Language from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "specific": [
+       "hindi"
+      ],
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) Italian",
+  "line": 772,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) Persian",
+  "line": 791,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) Punjabi",
+  "line": 807,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Punjabi from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "specific": [
+       "punjabi"
+      ]
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Punjabi and one Language from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "specific": [
+       "punjabi"
+      ],
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   },
+   {
+    "label": "Combination III",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination IV",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects.",
+   "Candidates who opted for Combination III & IV for admission will be considered only if seats remain vacant after considering all the candidates who opted for Combination I & II."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) Russian",
+  "line": 840,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) Sanskrit",
+  "line": 858,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Sanskrit from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "lang",
+      "specific": [
+       "sanskrit"
+      ]
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Sanskrit from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "specific": [
+       "sanskrit"
+      ]
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination III",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination IV",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects.",
+   "Candidates who opted for Combination III & IV for admission will be considered only if seats remain vacant after considering all the candidates who opted for Combination I, II."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) Spanish",
+  "line": 891,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects"
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) Urdu",
+  "line": 910,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Urdu from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "specific": [
+       "urdu"
+      ]
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Urdu and one Language from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "specific": [
+       "urdu"
+      ],
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   },
+   {
+    "label": "Combination III",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination IV",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects.",
+   "Candidates who opted for Combination III & IV for admission will be considered only if seats remain vacant after considering all the candidates who opted for Combination I & II."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) Applied Psychology",
+  "line": 947,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects"
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) Psychology",
+  "line": 966,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) Economics",
+  "line": 990,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Mathematics/Applied Mathematics + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET scores obtained from any of the above-mentioned combinations of subjects."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) Geography",
+  "line": 1008,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the best CUET scores obtained from any of the above-mentioned combinations of subjects."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) Hindi Patrakarita",
+  "line": 1025,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Hindi from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "specific": [
+       "hindi"
+      ]
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Hindi from List A + General Aptitude Test",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "specific": [
+       "hindi"
+      ]
+     },
+     {
+      "type": "gat"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects.",
+   "Note: As the weightage of the CUET Sections is not the same, appropriate proration will be done."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) History",
+  "line": 1051,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the best CUET scores obtained from any of the above-mentioned combinations of subjects."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) Humanities & Social Sciences",
+  "line": 1066,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combination of subjects."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) Journalism",
+  "line": 1082,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "English from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "specific": [
+       "english"
+      ]
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "English from List A + General Aptitude Test",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "specific": [
+       "english"
+      ]
+     },
+     {
+      "type": "gat"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects.",
+   "Note: As the weightage of the CUET Sections is not the same, appropriate proration will be done.",
+   "Five Year Integrated Programme in Journalism",
+   "This programme is offered by the Delhi School of Journalism (DSJ), for the candidates who choose to build a career in journalism. The programme also gives an opportunity to leave the programme at the end of the third year. The programme is offered in bilingual mode (in English and Hindi). It is a self-financed programme. Candidates are advised to check the fee structure."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "Five Year Integrated Programme in Journalism",
+  "line": 1103,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Mass Media/Mass Communication from List B + General Aptitude Test",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "domain",
+      "subject": "mass_media"
+     },
+     {
+      "type": "gat"
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any one Language from List A + General Aptitude Test",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "gat"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET scores obtained from any of the above-mentioned combinations of subjects.",
+   "Note: As the weightage of the CUET Sections is not the same, appropriate proration will be done."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) Multimedia and Mass Communication",
+  "line": 1122,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Any one subject from List B + General Aptitude Test",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 1
+     },
+     {
+      "type": "gat"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the CUET scores obtained from the above-mentioned combination of subjects."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) Philosophy",
+  "line": 1140,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) Political Science",
+  "line": 1164,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET scores obtained from any of the above-mentioned combinations of subjects."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) Social Work",
+  "line": 1184,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET scores obtained from any of the above-mentioned combinations of subjects."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) Sociology",
+  "line": 1201,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET scores obtained from any of the above-mentioned combinations of subjects."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Programme)",
+  "line": 1223,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   },
+   {
+    "label": "Combination III",
+    "text": "Any one Language from List A + Any one subject from List B + General Aptitude Test",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 1
+     },
+     {
+      "type": "gat"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects.",
+   "Note: As the weightage of the CUET Sections is not the same, appropriate proration will be done. B.A. (Programme) combination, where Mathematics/ Statistics/ Computer Applications/Computer Science is one of the two core disciplines, it is mandatory that the candidate must have studied and passed Mathematics in Class XII examination. Similarly, wherever a Language is being offered as one of the two disciplines, the candidate must have a working knowledge of that Language"
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. (Hons.) Anthropology",
+  "line": 1257,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Physics + Chemistry + Biology/ Biological Studies/ Biotechnology/ Biochemistry",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     },
+     {
+      "type": "domain",
+      "subject": "biology"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the CUET scores obtained from the above-mentioned combination of subjects. Candidates must appear in any one language from List A in CUET"
+  ],
+  "requiresLanguage": true,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. (Hons.) Biological Science",
+  "line": 1274,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Physics + Chemistry + Biology/ Biological Studies/ Biotechnology/ Biochemistry",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     },
+     {
+      "type": "domain",
+      "subject": "biology"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the CUET scores obtained from the above-mentioned combination of subjects. Candidates must appear in any one language from List A in CUET."
+  ],
+  "requiresLanguage": true,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc.(Hons.) Biomedical Science",
+  "line": 1284,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Chemistry + Physics + Biology/Biological Studies/Biotechnology/ Biochemistry",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     },
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "biology"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the CUET scores obtained from the above-mentioned combination of subjects. Candidates must appear in any one language from List A in CUET"
+  ],
+  "requiresLanguage": true,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. (Hons.) Biochemistry",
+  "line": 1308,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Chemistry + Biology/ Biological Studies/ Biotechnology/ Biochemistry + Physics",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     },
+     {
+      "type": "domain",
+      "subject": "biology"
+     },
+     {
+      "type": "domain",
+      "subject": "physics"
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Chemistry + Biology/Biological Studies/ Biotechnology/ Biochemistry + Mathematics/Applied Mathematics",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     },
+     {
+      "type": "domain",
+      "subject": "biology"
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET scores obtained from any of the above-mentioned combinations of subjects.",
+   "Candidates must appear in any one language from List A in CUET"
+  ],
+  "requiresLanguage": true,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. (Hons.) Botany",
+  "line": 1328,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Physics + Chemistry + Biology/Biological Studies/ Biotechnology/Biochemistry",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     },
+     {
+      "type": "domain",
+      "subject": "biology"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the CUET scores obtained from the above-mentioned combination of subjects. Candidates must appear in any one language from List A in CUET"
+  ],
+  "requiresLanguage": true,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. (Hons.) Chemistry",
+  "line": 1345,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Physics + Chemistry + Mathematics/Applied Mathematics",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the CUET scores obtained from the above-mentioned combination of subjects. Candidates must appear in any one language from List A in CUET"
+  ],
+  "requiresLanguage": true,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. (Hons.) Computer Science",
+  "line": 1367,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Mathematics/Applied Mathematics + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Mathematics/Applied Mathematics + Any one subject from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "free",
+      "count": 1
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects"
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. (Hons.) Electronics",
+  "line": 1388,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Physics + Mathematics/Applied Mathematics + Chemistry",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Physics + Mathematics/Applied Mathematics + Computer Science/Informatics Practices",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "domain",
+      "subject": "computer_science"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects.",
+   "Candidates must appear in any one language from List A in CUET"
+  ],
+  "requiresLanguage": true,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. (Hons.) Environmental Science",
+  "line": 1408,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Physics + Chemistry + Biology/Biological Studies/Biotechnology/Biochemistry",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     },
+     {
+      "type": "domain",
+      "subject": "biology"
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Physics + Chemistry + Mathematics/Applied Mathematics",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET scores obtained from the above-mentioned combination of subjects.",
+   "Candidates must appear in any one language from List A in CUET"
+  ],
+  "requiresLanguage": true,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. (Hons.) Food Technology",
+  "line": 1429,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Physics + Chemistry + Biology/Biological Studies/Biotechnology/Biochemistry",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     },
+     {
+      "type": "domain",
+      "subject": "biology"
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Physics + Chemistry + Mathematics/Applied Mathematics",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects.",
+   "Candidates must appear in any one language from List A in CUET"
+  ],
+  "requiresLanguage": true,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. (Hons.) Geology",
+  "line": 1449,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Physics + Chemistry + Mathematics/Applied Mathematics",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Physics + Chemistry + Geography/Geology",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     },
+     {
+      "type": "domain",
+      "subject": "geography"
+     }
+    ]
+   },
+   {
+    "label": "Combination III",
+    "text": "Physics + Chemistry + Biology/Biological Studies/ Biotechnology/ Biochemistry",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     },
+     {
+      "type": "domain",
+      "subject": "biology"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET scores obtained from the above-mentioned combination of subjects.",
+   "Candidates must appear in any one language from List A in CUET"
+  ],
+  "requiresLanguage": true,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. (Hons.) Home Science",
+  "line": 1475,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Biology/Biological Studies/ Biotechnology/ Biochemistry + Physics + Any one subject from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "biology"
+     },
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "free",
+      "count": 1
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Biology/Biological Studies/ Biotechnology/ Biochemistry + Chemistry + Any one subject from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "biology"
+     },
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     },
+     {
+      "type": "free",
+      "count": 1
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET score obtained in any of the above-mentioned combinations of subjects.",
+   "Candidates must appear in any one language from List A in CUET"
+  ],
+  "requiresLanguage": true,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. (Hons.) Instrumentation",
+  "line": 1497,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Physics + Mathematics/Applied Mathematics+ Chemistry",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Physics + Mathematics/Applied Mathematics + Computer Science/Informatics Practices",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "domain",
+      "subject": "computer_science"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET scores obtained from any of the above-mentioned combinations of subjects.",
+   "Candidates must appear in any one language from List A in CUET"
+  ],
+  "requiresLanguage": true,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. (Hons.) Mathematics",
+  "line": 1518,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Mathematics/Applied Mathematics + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Mathematics/ Applied Mathematics + Any one subject from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "free",
+      "count": 1
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the CUET score obtained from the above-mentioned combinations of subjects"
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. (Hons.) Microbiology",
+  "line": 1539,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Physics + Chemistry + Biology/Biological Studies/ Biotechnology/ Biochemistry",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     },
+     {
+      "type": "domain",
+      "subject": "biology"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the CUET scores obtained from the above-mentioned combination of subjects. Candidates must appear in any one language from List A in CUET"
+  ],
+  "requiresLanguage": true,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. (Hons.) Physics",
+  "line": 1559,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Physics + Chemistry + Mathematics/Applied Mathematics",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the CUET scores obtained from the above-mentioned combination of subjects. Candidates must appear in any one language from List A in CUET"
+  ],
+  "requiresLanguage": true,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. (Hons.) Polymer Science",
+  "line": 1580,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Physics + Chemistry + Mathematics/Applied Mathematics",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the CUET scores obtained from the above-mentioned combination of subjects. Candidates must appear in any one language from List A in CUET"
+  ],
+  "requiresLanguage": true,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc (Hons.) Statistics",
+  "line": 1597,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Mathematics/Applied Mathematics + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Mathematics/Applied Mathematics + Any one subject from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "free",
+      "count": 1
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the CUET score obtained from the above-mentioned combinations of subjects."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. (Hons.) Zoology",
+  "line": 1620,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Physics + Chemistry + Biology/Biological Studies/ Biotechnology/ Biochemistry",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     },
+     {
+      "type": "domain",
+      "subject": "biology"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the CUET scores obtained from the above-mentioned combination of subjects. Candidates must appear in any one language from List A in CUET."
+  ],
+  "requiresLanguage": true,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Tech. Information Technology and Mathematical Innovation (IT & MI)",
+  "line": 1641,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Mathematics/Applied Mathematics + General Aptitude Test",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "gat"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the CUET scores obtained from the above-mentioned combination."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. (Prog.) Applied Life Science",
+  "line": 1656,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Chemistry + Physics + Biology/Biological Studies/ Biotechnology/Biochemistry",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     },
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "biology"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the CUET scores obtained from the above-mentioned combination of subjects. Candidates must appear in any one language from List A in CUET.",
+   "B.Sc. (Prog.) Applied Physical Science with Analytical Methods in Chemistry & Biochemistry",
+   "The programme reviews the structure of the atom, which is a necessary pre-requisite in understanding the nature of chemical bonding in compounds. It provides basic knowledge about ionic, covalent and metallic bonding and explains that chemical bonding is best regarded as a continuum between the three cases. It discusses the Periodicity in properties with reference to the s and p block, which is necessary in understanding their group chemistry. The programme is also infused with the recapitulation of fundamentals of organic chemistry and the introduction of a new concept of visualizing the organic molecules in a three dimensional space. To establish the applications of these concepts, the classes of alkanes, alkenes, alkynes and aromatic hydrocarbons are introduced. The constitution of the programme strongly aids in the paramount learning of the concepts and their applications."
+  ],
+  "requiresLanguage": true,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. (Prog.) Applied Physical Science with Analytical Methods in Chemistry & Biochemistry",
+  "line": 1676,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Physics + Mathematics/Applied Mathematics + Chemistry",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the CUET scores obtained from the above-mentioned combination of subjects. Candidates must appear in any one language from List A in CUET"
+  ],
+  "requiresLanguage": true,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. (Prog.) Applied Physical Science with Industrial Chemistry",
+  "line": 1693,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Physics + Mathematics/Applied Mathematics + Chemistry",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the CUET scores obtained from the above-mentioned combination of subjects. Candidates must appear in any one language from List A in CUET"
+  ],
+  "requiresLanguage": true,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. (Pass) Home Science",
+  "line": 1705,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   },
+   {
+    "label": "Combination III",
+    "text": "Any one Language from List A + Any one subject from List B + General Aptitude Test",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 1
+     },
+     {
+      "type": "gat"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects.",
+   "Note: As the weightage of the CUET Sections is not the same, appropriate proration will be done."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. (Prog.) Life Science",
+  "line": 1726,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Chemistry + Physics + Biology/Biological Studies/ Biotechnology/Biochemistry",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     },
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "biology"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the CUET scores obtained from the above-mentioned combination of subjects. Candidates must appear in any one language from List A in CUET."
+  ],
+  "requiresLanguage": true,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. (Prog.) Mathematical Science",
+  "line": 1745,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one language from List A + Mathematics/ Applied Mathematics + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two languages from List A + Mathematics/ Applied Mathematics + Any one subject from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "free",
+      "count": 1
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. In Physical Education, Health Education & Sports",
+  "line": 1766,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Physical Education from List B + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "domain",
+      "subject": "physical_education"
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Physical Education from List B + Any one subject from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "domain",
+      "subject": "physical_education"
+     },
+     {
+      "type": "free",
+      "count": 1
+     }
+    ]
+   },
+   {
+    "label": "Combination III",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination IV",
+    "text": "Any two Language from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in both CUET and Performance-based test.",
+   "Performance-Based Test",
+   "Merit will be calculated by considering the combined 'CUET score (50% weightage) and Performance-based test score (50% weightage)'",
+   "CUET score will be the best CUET score obtained from any one of the above-mentioned combinations of subjects."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": true
+ },
+ {
+  "heading": "B.Sc. (Prog.) Physical Science with Chemistry",
+  "line": 1798,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Physics + Mathematics/Applied Mathematics + Chemistry",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the CUET score obtained from the above-mentioned combination of subjects. Candidates must appear in any one language from List A in CUET"
+  ],
+  "requiresLanguage": true,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. (Prog.) Physical Science with Electronics",
+  "line": 1814,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Physics + Mathematics/Applied Mathematics + Chemistry",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Physics + Mathematics/Applied Mathematics + Computer Science/Informatics Practices",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "domain",
+      "subject": "computer_science"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects.",
+   "Candidates must appear in any one language from List A in CUET.",
+   "B.Sc. (Prog.) Physical Science with Computer Science/Informatics Practices",
+   "The programme provides skills to design, implement, and evaluate the computer-based system and apply knowledge of computing to solve computational problems by understanding computer systems, fundamentals, and their application related to physical sciences. In addition, it provides the ability to communicate effectively with arrange of audiences."
+  ],
+  "requiresLanguage": true,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Sc. (Prog.) Physical Science with Computer Science/Informatics Practices",
+  "line": 1833,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Physics + Mathematics/Applied Mathematics + Chemistry",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "domain",
+      "subject": "chemistry"
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Physics + Mathematics/Applied Mathematics + Computer Science/Informatics Practices",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "domain",
+      "subject": "physics"
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "domain",
+      "subject": "computer_science"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET score obtained from any of the above-mentioned combinations of subjects.",
+   "Candidates must appear in any one language from List A in CUET."
+  ],
+  "requiresLanguage": true,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Com. (Hons.)",
+  "line": 1862,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Mathematics/ Applied Mathematics + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any one Language from List A + Accountancy/Book Keeping + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "domain",
+      "subject": "accountancy"
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET scores obtained from any of the above-mentioned combinations of subjects."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Com.",
+  "line": 1883,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any one Language from List A + Any one subject from List B + General Aptitude Test",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 1
+     },
+     {
+      "type": "gat"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET scores obtained from any of the above-mentioned combinations of subjects.",
+   "Note: As the weightage of the CUET Sections is not the same, appropriate proration will be done.",
+   "Bachelor of Business Administration (Financial Investment Analysis) BBA (FIA)",
+   "This programme will offer students develop skills and capabilities to understand the current business challenges and issues by providing an in-depth theoretical understanding. The programme is focused on creating financial expertise to contribute to emerging India and provide skills to analyze any financial statement, value any organization or develop financial and risk models for their application."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "Bachelor of Business Administration (Financial Investment Analysis) BBA (FIA)",
+  "line": 1907,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Mathematics/Applied Mathematics + Any one subject from List B + General Aptitude Test",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "free",
+      "count": 1
+     },
+     {
+      "type": "gat"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the CUET scores obtained from the above-mentioned combination of subjects."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) Business Economics",
+  "line": 1924,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Mathematics/Applied Mathematics + Any one subject from List B + General Aptitude Test",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "free",
+      "count": 1
+     },
+     {
+      "type": "gat"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the CUET scores obtained from the above-mentioned combination of subjects."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "Bachelor of Management Studies (BMS)",
+  "line": 1942,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Mathematics/Applied Mathematics + Any one subject from List B + General Aptitude Test",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "free",
+      "count": 1
+     },
+     {
+      "type": "gat"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in CUET in the following subject combination:",
+   "Merit will be based on the CUET scores obtained from the above-mentioned combination of subjects."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Voc. Banking Financial Services and Insurance",
+  "line": 1964,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   },
+   {
+    "label": "Combination III",
+    "text": "Any one Language from List A + Any one subject from List B + General Aptitude Test",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 1
+     },
+     {
+      "type": "gat"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET scores obtained from the above-mentioned combination of subjects.",
+   "Note: As the weightage of the CUET Sections is not the same, appropriate proration will be done."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Voc. Health Care Management",
+  "line": 1979,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   },
+   {
+    "label": "Combination III",
+    "text": "Any one Language from List A + Any one subject from either List B + General Aptitude Test",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 1
+     },
+     {
+      "type": "gat"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET scores obtained from the above-mentioned combination of subjects.",
+   "Note: As the weightage of the CUET Sections is not the same, appropriate proration will be done."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Voc. Retail Management and IT",
+  "line": 1995,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   },
+   {
+    "label": "Combination III",
+    "text": "Any one Language from List A + Any one subject from List B + General Aptitude Test",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 1
+     },
+     {
+      "type": "gat"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET scores obtained from the above-mentioned combination of subjects.",
+   "Note: As the weightage of the CUET Sections is not the same, appropriate proration will be done"
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.Voc. Software Development",
+  "line": 2012,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Mathematics/ Applied Mathematics + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Mathematics/ Applied Mathematics + Any one subject from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "free",
+      "count": 1
+     }
+    ]
+   },
+   {
+    "label": "Combination III",
+    "text": "Any one Language from List A + Mathematics/Applied Mathematics + General Aptitude Test",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "domain",
+      "subject": "mathematics"
+     },
+     {
+      "type": "gat"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the CUET scores obtained from the above-mentioned combinations of subjects.",
+   "Note: As the weightage of the CUET Sections is not the same, appropriate proration will be done."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Vocational Studies)",
+  "line": 2027,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   },
+   {
+    "label": "Combination III",
+    "text": "Any one Language from List A+ Any one subject from List B + General Aptitude Test",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 1
+     },
+     {
+      "type": "gat"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Merit will be based on the best CUET scores obtained from any of the above-mentioned combinations of subjects.",
+   "Note: As the weightage of the CUET Sections is not the same, appropriate proration will be done."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "B.A. (Hons.) - Hindustani Music: Vocal/Instrumental (Star/Sarod/Guitar/Violin/Santoor)",
+  "line": 2057,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Performing Arts from List B + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "domain",
+      "subject": "performing_arts"
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Performing Arts from List B + Any one subject from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "domain",
+      "subject": "performing_arts"
+     },
+     {
+      "type": "free",
+      "count": 1
+     }
+    ]
+   },
+   {
+    "label": "Combination III",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination IV",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in both CUET and Performance-based test.",
+   "Performance-Based Test",
+   "Merit will be calculated by considering the combined 'CUET score (50% weightage) and Performance-based test score (50% weightage)'",
+   "CUET score will be the best score obtained from any one of the above-mentioned combinations of subjects"
+  ],
+  "requiresLanguage": false,
+  "performanceTest": true
+ },
+ {
+  "heading": "B.A. (Hons.) - Hindustani Music: Percussion (Tabla/Pakhawaj)",
+  "line": 2090,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Performing Arts from List B + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "domain",
+      "subject": "performing_arts"
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Performing Arts from List B + Any one subject from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "domain",
+      "subject": "performing_arts"
+     },
+     {
+      "type": "free",
+      "count": 1
+     }
+    ]
+   },
+   {
+    "label": "Combination III",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination IV",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in both CUET and Performance-based test.",
+   "Performance-Based Test",
+   "Merit will be calculated by considering the combined 'CUET score (50% weightage) and Performance-based test score (50% weightage)' CUET score will be the best score obtained from any one of the above-mentioned combinations of subjects"
+  ],
+  "requiresLanguage": false,
+  "performanceTest": true
+ },
+ {
+  "heading": "B.A. (Hons.) - Karnataka Music: Vocal / Instrumental (Veena/Violin)",
+  "line": 2124,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Performing Arts from List B + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "domain",
+      "subject": "performing_arts"
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Performing Arts from List B + Any one subject from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "domain",
+      "subject": "performing_arts"
+     },
+     {
+      "type": "free",
+      "count": 1
+     }
+    ]
+   },
+   {
+    "label": "Combination III",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination IV",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in both CUET and Performance-based test.",
+   "AND Performance-Based Test",
+   "Merit will be calculated by considering the combined 'CUET score (50% weightage) and Performance-based test score (50% weightage)' CUET score will be the best score obtained from any one of the above-mentioned combinations of subjects"
+  ],
+  "requiresLanguage": false,
+  "performanceTest": true
+ },
+ {
+  "heading": "Bachelor of Elementary Education B. El. Ed",
+  "line": 2158,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + Any three subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "free",
+      "count": 3
+     }
+    ]
+   },
+   {
+    "label": "Combination II",
+    "text": "Any two Languages from List A + Any two subjects from List B",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 2
+     },
+     {
+      "type": "free",
+      "count": 2
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidate must appear in CUET in the following subject combination:",
+   "Merit will be based on the best CUET scores obtained from any of the above-mentioned combination ned combinations of subjects."
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ },
+ {
+  "heading": "Bachelor of Fine Arts (B.F.A.)",
+  "line": 2184,
+  "combinations": [
+   {
+    "label": "Combination I",
+    "text": "Any one Language from List A + General Aptitude Test",
+    "parsed": true,
+    "slots": [
+     {
+      "type": "lang",
+      "any": 1
+     },
+     {
+      "type": "gat"
+     }
+    ]
+   }
+  ],
+  "notes": [
+   "Candidates must appear in both CUET and Practical-based test.",
+   "Candidates must appear in CUET in the following subject combinations:",
+   "AND Practical-Based Test (to be conducted by College of Art) � For specialization in Art History it will based on Analysis / Premise and View / Critique � For other five specializations it will be based on Drawing and relevant Specialization (weightage will be 50 : 50)",
+   "Merit will be calculated by considering the combined 'CUET score (50% weightage) and Practical-based test score (50% weightage)'",
+   "The Reservation policy and seat matrix for admissions to BFA programme is as per the prescribed rules and norms of the College of Art. For further details refer to the website of the College: http://colart.delhigovt.nic.in / admission website of University of Delhi.",
+   "RESERVATION POLICIES"
+  ],
+  "requiresLanguage": false,
+  "performanceTest": false
+ }
+]

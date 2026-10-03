@@ -1,0 +1,14 @@
+.release-hold { min-height: 100svh; display: flex; flex-direction: column; }
+.release-hold__header { display: flex; align-items: center; justify-content: space-between; padding-block: 24px; }
+.release-hold__body { display: grid; grid-template-columns: minmax(0,1fr) 260px; align-items: center; gap: 60px; flex: 1; padding-block: 48px; }
+.release-hold__body h1 { margin: 16px 0 24px; font-size: clamp(36px,6vw,64px); }
+.release-hold__note { max-width: 52ch; color: var(--ink-2); font-size: 14px; line-height: 1.65; margin: 24px 0; }
+.release-hold__body .pip-seat { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+.release-hold__body .pip-seat__art { width: 160px; height: 190px; }
+.release-hold .coming-soon-form { max-width: 520px; }
+.release-hold .coming-soon-input { background: var(--paper-raised); color: var(--ink); border-color: var(--line-strong); min-height: 48px; }
+.release-hold .coming-soon-button { min-height: 48px; }
+.release-hold .coming-soon-message.is-error { color: var(--bad-text); }
+.release-hold .coming-soon-message.is-success { color: var(--good-text); }
+.release-hold__footer { font-size: 12px; line-height: 1.65; color: var(--ink-3); padding-block: 24px; border-top: 1px solid var(--line); }
+@media (max-width:760px) { .release-hold__body { grid-template-columns: minmax(0,1fr); gap: 32px; padding-block: 28px; } .release-hold__body .pip-seat { grid-template-columns: 80px minmax(0,1fr); text-align: left; justify-items: start; } .release-hold__body .pip-seat__art { width: 80px; height: 94px; } }

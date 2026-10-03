@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { AlertCircle, BadgeCheck, CheckCircle2, Loader2, ShieldCheck, Tag } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
-import { LiquidGlassButton } from '@/components/ui/LiquidGlassButton';
 
 const REF_STORAGE_KEY = 'mm_ref';
 const CODE_PATTERN = /^(offer_[A-Za-z0-9]{6,64}|[a-z0-9._-]{1,64})$/;
@@ -90,6 +89,7 @@ export function RazorpayPaymentButton({
   amount,
   label = 'Go Pro',
   initialIsPremium = false,
+  billing = 'once',
 }) {
   const { refreshSession } = useAuth();
   const [status, setStatus] = useState('idle');
@@ -143,7 +143,7 @@ export function RazorpayPaymentButton({
       if (user.isPremium) {
         setIsPremium(true);
         setStatus('success');
-        setMessage('CUET 2026 access is already active.');
+        setMessage('Pro is already active on this account.');
         return;
       }
 
@@ -151,6 +151,50 @@ export function RazorpayPaymentButton({
 
       const normalized = normalizeCodeInput(code);
       const codeForServer = normalized && CODE_PATTERN.test(normalized) ? normalized : undefined;
+
+      if (billing === 'monthly') {
+        const { keyId, subscription, plan, referral } = await postJson('/create-monthly-subscription', {
+          userId: user.id,
+          planId,
+          amount,
+          code: codeForServer,
+        });
+        if (referral?.code) setMessage(`Referral ${referral.code} tracked. The monthly price does not change.`);
+        const monthly = new window.Razorpay({
+          key: keyId,
+          name: 'MockMob',
+          description: `${plan.name} · ₹${Math.round(plan.amount / 100)} a month, cancel anytime`,
+          subscription_id: subscription.id,
+          prefill: { name: user.name || '', email: user.email || '' },
+          notes: { userId: user.id, planId },
+          theme: { color: '#d2f000' },
+          handler: async (response) => {
+            try {
+              setStatus('loading');
+              await postJson('/verify-payment', {
+                razorpay_subscription_id: response.razorpay_subscription_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                userId: user.id,
+              });
+              await refreshSession({ silent: false });
+              setIsPremium(true);
+              setStatus('success');
+              setMessage('Payment verified. Pro is active and renews monthly until you cancel in Account.');
+            } catch (error) {
+              setStatus('error');
+              setMessage(error.message);
+            }
+          },
+          modal: { ondismiss: () => { setStatus('idle'); setMessage('Checkout closed. Nothing was charged.'); } },
+        });
+        monthly.on('payment.failed', (response) => {
+          setStatus('error');
+          setMessage(response?.error?.description || 'Payment failed. Please try again.');
+        });
+        monthly.open();
+        return;
+      }
 
       const { keyId, order, plan, applied, referral } = await postJson('/create-order', {
         userId: user.id,
@@ -203,7 +247,7 @@ export function RazorpayPaymentButton({
             await refreshSession({ silent: false });
             setIsPremium(true);
             setStatus('success');
-            setMessage('Payment verified. CUET 2026 access is active.');
+            setMessage('Payment verified. Pro is active.');
           } catch (error) {
             setStatus('error');
             setMessage(error.message);
@@ -233,24 +277,23 @@ export function RazorpayPaymentButton({
 
   if (isPremium) {
     return (
-      <div className="w-full rounded-xl border border-volt/25 bg-volt/10 px-4 py-3 text-sm font-semibold text-volt">
-        <div className="flex items-center justify-center gap-2">
-          <ShieldCheck className="h-4 w-4" />
-          <span>CUET 2026 access is already active</span>
-        </div>
+      <div className="mm-checkout__active">
+        <ShieldCheck aria-hidden="true" />
+        <span>Pro is already active on this account</span>
       </div>
     );
   }
 
   return (
-    <div className="w-full">
-      <label className="mb-3 block">
-        <span className="mono-label mb-1.5 flex items-center gap-1.5 !text-zinc-400">
-          <Tag className="h-3 w-3" />
-          Have a referral / discount code?
+    <div className="mm-checkout">
+      <label className="mm-checkout__field">
+        <span className="mm-checkout__label">
+          <Tag aria-hidden="true" />
+          Referral or discount code
+          <em>optional</em>
         </span>
         <input
-          className="input w-full"
+          className="mm-checkout__input"
           type="text"
           autoComplete="off"
           inputMode="text"
@@ -260,36 +303,49 @@ export function RazorpayPaymentButton({
             setMessage('');
             setCode(event.target.value);
           }}
-          placeholder="creator code"
+          placeholder="Paste a creator code"
           maxLength={64}
           disabled={isLoading}
         />
         {appliedCode ? (
-          <span className="mt-1.5 inline-flex items-center gap-1.5 text-xs text-volt">
-            <BadgeCheck className="h-3.5 w-3.5" />
-            {appliedCode.status === 'tracked_no_offer' ? 'Referral' : 'Code'} <strong className="font-semibold">{appliedCode.code}</strong> {appliedCode.status === 'tracked_no_offer' ? 'tracked' : 'applied'}
+          <span className="mm-checkout__applied">
+            <BadgeCheck aria-hidden="true" />
+            {appliedCode.status === 'tracked_no_offer' ? 'Referral' : 'Code'}{' '}
+            <strong>{appliedCode.code}</strong>{' '}
+            {appliedCode.status === 'tracked_no_offer' ? 'tracked' : 'applied'}
           </span>
         ) : null}
       </label>
 
-      <LiquidGlassButton
+      <button
         type="button"
-        size="lg"
-        variant="volt"
-        className="w-full"
+        className="mm-btn mm-btn--primary mm-checkout__submit"
         disabled={isLoading}
         onClick={handlePayment}
       >
-        {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-        {isLoading ? 'Processing' : label}
-      </LiquidGlassButton>
+        {isLoading ? <Loader2 className="mm-checkout__spin" aria-hidden="true" /> : null}
+        {isLoading ? 'Opening secure checkout' : label}
+      </button>
 
       {message ? (
-        <div className={`mt-3 flex items-center gap-2 text-xs ${status === 'success' ? 'text-volt' : 'text-zinc-400'}`}>
-          {status === 'success' ? <CheckCircle2 className="h-4 w-4" /> : <AlertCircle className="h-4 w-4" />}
-          <span>{message}</span>
-        </div>
+        <p className="mm-checkout__msg" data-tone={status === 'success' ? 'ok' : status === 'error' ? 'bad' : 'info'} role="status">
+          {status === 'success' ? (
+            <CheckCircle2 aria-hidden="true" />
+          ) : (
+            <AlertCircle aria-hidden="true" />
+          )}
+          <span>
+            {message}
+            {status === 'error' ? ' Nothing has been charged — you can try again.' : ''}
+          </span>
+        </p>
       ) : null}
+
+      <p className="mm-checkout__trust">
+        <ShieldCheck aria-hidden="true" />
+        Secured by Razorpay · UPI, cards, netbanking ·{' '}
+        <a href="/refunds">Refund policy</a>
+      </p>
     </div>
   );
 }

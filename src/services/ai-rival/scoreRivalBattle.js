@@ -1,6 +1,7 @@
 import 'server-only';
 import { supabaseAdmin } from '@/lib/supabase';
 import { getRivalProfile } from './rivalProfiles';
+import { validateRivalAnswers } from '@/../data/rival_answers';
 
 /**
  * Score a submitted Shadow Benchmark deterministically.
@@ -25,9 +26,6 @@ export async function scoreRivalBattle({ battleId, userId, answers }) {
   if (battleErr || !battle) {
     return { ok: false, error: 'battle_not_found', status: 404 };
   }
-  if (battle.status === 'submitted') {
-    return { ok: false, error: 'battle_already_submitted', status: 409 };
-  }
 
   const profile = getRivalProfile(battle.rival_type);
   const questionIds = battle.question_ids || [];
@@ -41,6 +39,9 @@ export async function scoreRivalBattle({ battleId, userId, answers }) {
   }
 
   const questionById = new Map(questions.map((q) => [q.id, q]));
+  try { validateRivalAnswers(questionIds,answers,questions); }
+  catch(error) { return {ok:false,error:error.message,status:422}; }
+  if (questions.some(q=>resolveCorrectIndex(q)<0 || resolveCorrectIndex(q)>=q.options.length)) return {ok:false,error:'invalid_answer_key',status:503};
 
   let correct = 0;
   let answered = 0;
@@ -84,34 +85,7 @@ export async function scoreRivalBattle({ battleId, userId, answers }) {
   const shareCard = buildShareCard({ result, profile, score, rivalScore: battle.rival_score, accuracy });
   const nextMoveHint = buildNextMoveHint({ result, accuracy, totalTime, totalQuestions: total, profile });
 
-  // Persist answers + update battle.
-  if (detailRows.length) {
-    const { error: ansErr } = await sb.from('rival_battle_answers').insert(detailRows);
-    if (ansErr) console.error('[rival] answer insert failed:', ansErr);
-  }
-
-  const submittedAt = new Date().toISOString();
-  const { error: updErr } = await sb
-    .from('rival_battles')
-    .update({
-      status: 'submitted',
-      user_score: score,
-      user_accuracy: accuracy,
-      user_time_seconds: totalTime,
-      result,
-      submitted_at: submittedAt,
-      metadata: { ...(battle.metadata || {}), shareCard, nextMoveHint },
-    })
-    .eq('id', battleId);
-
-  if (updErr) {
-    console.error('[rival] battle update failed:', updErr);
-    return { ok: false, error: 'battle_update_failed', status: 500 };
-  }
-
-  await persistSharePayload({ battleId, shareCard });
-
-  return {
+  const response = {
     ok: true,
     result,
     user: {
@@ -132,6 +106,9 @@ export async function scoreRivalBattle({ battleId, userId, answers }) {
     shareCard,
     nextMoveHint,
   };
+  const {data,error} = await sb.rpc('submit_rival_battle',{p_id:battleId,p_user:userId,p_answers:detailRows,p_update:{user_score:score,user_accuracy:accuracy,user_time_seconds:totalTime,result},p_response:response});
+  if(error)return {ok:false,error:/conflict/.test(error.message)?'submission_conflict':'battle_submission_temporarily_unavailable',status:/conflict/.test(error.message)?409:503};
+  return data;
 }
 
 async function persistSharePayload({ battleId, shareCard }) {

@@ -1,6 +1,7 @@
+import { budgetedFetch } from './budgetLedger.mjs';
 import Anthropic from '@anthropic-ai/sdk';
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+const client = new Anthropic({ fetch: budgetedFetch(), maxRetries: 0, apiKey: process.env.ANTHROPIC_API_KEY });
 
 /**
  * Generates 3-5 original variants from a base PYQ.

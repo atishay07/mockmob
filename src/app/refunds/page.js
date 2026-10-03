@@ -11,12 +11,12 @@ export const metadata = seoMetadata({
 
 export default function RefundsPage() {
   return (
-    <div className="view min-h-screen">
+    <div className="mm">
       <NavBar />
-      <main className="container-narrow px-5 pb-20 pt-32">
+      <main className="container-narrow px-5 pb-20 pt-10">
         <div className="eyebrow mb-3">{'// Legal'}</div>
         <h1 className="display-lg mb-5">Refund Policy</h1>
-        <p className="mb-10 text-zinc-400">Last updated: April 27, 2026</p>
+        <p className="mb-10 text-zinc-400">Last updated: 2 October 2026</p>
 
         <div className="legal-copy">
           <section>
@@ -25,11 +25,11 @@ export default function RefundsPage() {
           </section>
           <section>
             <h2>Cancellations</h2>
-            <p>You can cancel future auto-payments anytime. Cancellation stops upcoming renewal charges, while access remains active only for the already paid billing period.</p>
+            <p>Current CUET 2027 access is a one-time payment ending 31 July 2027, with no auto-renewal. Historical recurring subscriptions, if still active, can be cancelled to stop future renewals while preserving their paid period.</p>
           </section>
           <section>
             <h2>How to cancel</h2>
-            <p>Cancel the subscription from your auto-payment or Razorpay mandate screen before the next billing date. If you need help, mail us from your registered email with your payment reference and cancellation request.</p>
+            <p>For historical recurring subscriptions only, cancel from your auto-payment or Razorpay mandate screen before the next billing date. If you need help, mail us from your registered email with your payment reference and cancellation request.</p>
           </section>
           <section>
             <h2>Failed or duplicate payments</h2>
@@ -46,11 +46,11 @@ export default function RefundsPage() {
         .legal-copy {
           display: grid;
           gap: 22px;
-          color: #a1a1aa;
+          color: var(--ink-2);
           line-height: 1.8;
         }
         .legal-copy h2 {
-          color: #fff;
+          color: var(--ink);
           font-family: var(--font-display);
           font-size: 22px;
           font-weight: 800;

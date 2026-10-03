@@ -1,0 +1,392 @@
+{
+  "metadata": {
+    "source": "codex_offline_generation",
+    "subject": "Economics",
+    "chapter": "Money & Banking",
+    "quality_mode": "balanced",
+    "batch_number": 1,
+    "question_count": 10
+  },
+  "questions": [
+    {
+      "local_id": "economics_money_banking_batch_001_q001",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "statement_based",
+      "difficulty": "hard",
+      "concept": "Money Supply Components",
+      "question_text": "Read the following statements about Money Supply Components. Statement I: M1 includes currency with the public, demand deposits with banks, and other deposits with the RBI. Statement II: Demand deposits are included because they can transfer purchasing power through cheques or digital instructions.. Which option is correct?",
+      "options": {
+        "A": "Both Statement I and Statement II are correct",
+        "B": "Statement I only is correct",
+        "C": "Statement II only is correct",
+        "D": "Neither Statement I nor Statement II is correct"
+      },
+      "correct_option": "A",
+      "answer_explanation": "Option A is correct because Statement I states the rule accurately and Statement II gives the related monetary effect without changing the concept.",
+      "answer_check": "The correct key is A: M1 includes currency with the public, demand deposits with banks, and other deposits with the RBI; Demand deposits are included because they can transfer purchasing power through cheques or digital instructions.",
+      "trap_option": "C",
+      "strong_distractors": [
+        "B",
+        "C"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"Both Statement I and Statement II are correct\". It is correct because it matches the monetary rule tested in Money Supply Components.",
+        "B": "Option B states \"Statement I only is correct\". It is tempting because it uses monetary vocabulary, but it misstates the Money Supply Components relationship.",
+        "C": "Option C states \"Statement II only is correct\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Money Supply Components mechanism.",
+        "D": "Option D states \"Neither Statement I nor Statement II is correct\". It is tempting because it uses monetary vocabulary, but it misstates the Money Supply Components relationship."
+      },
+      "template_id": "statement_money_supply_components",
+      "pattern_tags": [
+        "statement-based",
+        "elimination",
+        "trap"
+      ],
+      "ncert_alignment": "Money Supply Components is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Tests the narrow-money composition used in NCERT macroeconomics.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_001_q002",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "case_based",
+      "difficulty": "medium",
+      "concept": "Statutory Liquidity Ratio",
+      "question_text": "In a monetary-policy situation, A bank must hold a larger share of its liabilities in approved securities. Which effect is most likely?",
+      "options": {
+        "B": "Credit expansion is restrained because more resources must be held in specified liquid assets.",
+        "A": "Credit expansion rises because approved securities can be lent directly to households.",
+        "C": "SLR is the same as CRR because both are cash balances kept only with the RBI.",
+        "D": "A higher SLR lowers the repo rate automatically and therefore expands credit."
+      },
+      "correct_option": "B",
+      "answer_explanation": "Option B is correct because credit expansion is restrained because more resources must be held in specified liquid assets.",
+      "answer_check": "The correct key is B: Credit expansion is restrained because more resources must be held in specified liquid assets.",
+      "trap_option": "C",
+      "strong_distractors": [
+        "A",
+        "C"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"Credit expansion rises because approved securities can be lent directly to households.\". It is tempting because it uses monetary vocabulary, but it misstates the Statutory Liquidity Ratio relationship.",
+        "B": "Option B states \"Credit expansion is restrained because more resources must be held in specified liquid assets.\". It is correct because it matches the monetary rule tested in Statutory Liquidity Ratio.",
+        "C": "Option C states \"SLR is the same as CRR because both are cash balances kept only with the RBI.\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Statutory Liquidity Ratio mechanism.",
+        "D": "Option D states \"A higher SLR lowers the repo rate automatically and therefore expands credit.\". It is tempting because it uses monetary vocabulary, but it misstates the Statutory Liquidity Ratio relationship."
+      },
+      "template_id": "application_slr_1",
+      "pattern_tags": [
+        "application",
+        "elimination",
+        "money-banking"
+      ],
+      "ncert_alignment": "Statutory Liquidity Ratio is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Separates SLR from CRR and repo rate.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_001_q003",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "assertion_reason",
+      "difficulty": "hard",
+      "concept": "High Powered Money",
+      "question_text": "In a liquidity-policy application, Assertion (A): High powered money includes bank reserves.. Reason (R): Bank reserves support deposit expansion even though they are not retail currency.. Which option correctly evaluates the Assertion and Reason?",
+      "options": {
+        "C": "Both Assertion and Reason are true, and the Reason correctly explains the Assertion",
+        "A": "Both Assertion and Reason are true, but the Reason does not correctly explain the Assertion",
+        "B": "Assertion is true, but Reason is false",
+        "D": "Assertion is false, but Reason is true"
+      },
+      "correct_option": "C",
+      "answer_explanation": "Option C is correct because the Reason explains why reserves are part of the monetary base.",
+      "answer_check": "The correct key is C: both A and R are true; the Reason explains why reserves are part of the monetary base.",
+      "trap_option": "B",
+      "strong_distractors": [
+        "A",
+        "B"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"Both Assertion and Reason are true, but the Reason does not correctly explain the Assertion\". It is tempting because it uses monetary vocabulary, but it misstates the High Powered Money relationship.",
+        "B": "Option B states \"Assertion is true, but Reason is false\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual High Powered Money mechanism.",
+        "C": "Option C states \"Both Assertion and Reason are true, and the Reason correctly explains the Assertion\". It is correct because it matches the monetary rule tested in High Powered Money.",
+        "D": "Option D states \"Assertion is false, but Reason is true\". It is tempting because it uses monetary vocabulary, but it misstates the High Powered Money relationship."
+      },
+      "template_id": "assertion_high_powered_money",
+      "pattern_tags": [
+        "assertion-reason",
+        "reasoning",
+        "trap"
+      ],
+      "ncert_alignment": "High Powered Money is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Connects monetary base to money creation.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_001_q004",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "match_the_following",
+      "difficulty": "medium",
+      "concept": "Repo Rate vs Reverse Repo Rate",
+      "question_text": "In a commercial-bank decision case, compare repo rate and reverse repo rate in a banking liquidity situation. Which option is correct?",
+      "options": {
+        "D": "Repo rate applies when banks borrow short-term funds from the RBI; reverse repo applies when banks park surplus funds with the RBI.",
+        "A": "Repo rate is paid by households on bank loans; reverse repo is paid by firms on working-capital loans.",
+        "B": "Repo rate absorbs liquidity from banks; reverse repo injects liquidity into banks in the same way as a fresh RBI loan.",
+        "C": "Repo and reverse repo are both reserve ratios that require banks to keep deposits idle."
+      },
+      "correct_option": "D",
+      "answer_explanation": "Option D is correct because Repo rate applies when banks borrow short-term funds from the RBI; reverse repo applies when banks park surplus funds with the RBI.",
+      "answer_check": "The correct key is D: Repo rate applies when banks borrow short-term funds from the RBI; reverse repo applies when banks park surplus funds with the RBI.",
+      "trap_option": "B",
+      "strong_distractors": [
+        "A",
+        "B"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"Repo rate is paid by households on bank loans; reverse repo is paid by firms on working-capital loans.\". It is tempting because it uses monetary vocabulary, but it misstates the Repo Rate vs Reverse Repo Rate relationship.",
+        "B": "Option B states \"Repo rate absorbs liquidity from banks; reverse repo injects liquidity into banks in the same way as a fresh RBI loan.\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Repo Rate vs Reverse Repo Rate mechanism.",
+        "C": "Option C states \"Repo and reverse repo are both reserve ratios that require banks to keep deposits idle.\". It is tempting because it uses monetary vocabulary, but it misstates the Repo Rate vs Reverse Repo Rate relationship.",
+        "D": "Option D states \"Repo rate applies when banks borrow short-term funds from the RBI; reverse repo applies when banks park surplus funds with the RBI.\". It is correct because it matches the monetary rule tested in Repo Rate vs Reverse Repo Rate."
+      },
+      "template_id": "comparison_repo_rate_vs_reverse_repo_rate",
+      "pattern_tags": [
+        "comparison",
+        "elimination",
+        "trap"
+      ],
+      "ncert_alignment": "Repo Rate vs Reverse Repo Rate is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Tests two close monetary-policy instruments through direction of funds.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_001_q005",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "simple_numerical",
+      "difficulty": "medium",
+      "concept": "Deposit Multiplier",
+      "question_text": "If the required reserve ratio is 20 percent and banks do not hold excess reserves, what is the simple deposit multiplier?",
+      "options": {
+        "A": "5, because multiplier = 1 / 0.2",
+        "B": "4, because it treats the reserve ratio as about 25 percent",
+        "C": "6, because it adjusts the multiplier by one lending round instead of using the reserve ratio",
+        "D": "20, because it mistakes the 20 percent reserve ratio for the multiplier"
+      },
+      "correct_option": "A",
+      "answer_explanation": "Option A is correct because the multiplier is 1 divided by the reserve ratio, so 1 / 0.2 = 5.",
+      "answer_check": "The correct key is A: 5, because multiplier = 1 / 0.2",
+      "trap_option": "C",
+      "strong_distractors": [
+        "B",
+        "C"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"5, because multiplier = 1 / 0.2\". It is correct because it matches the monetary rule tested in Deposit Multiplier.",
+        "B": "Option B states \"4, because it treats the reserve ratio as about 25 percent\". It is tempting because it uses monetary vocabulary, but it misstates the Deposit Multiplier relationship.",
+        "C": "Option C states \"6, because it adjusts the multiplier by one lending round instead of using the reserve ratio\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Deposit Multiplier mechanism.",
+        "D": "Option D states \"20, because it mistakes the 20 percent reserve ratio for the multiplier\". It is tempting because it uses monetary vocabulary, but it misstates the Deposit Multiplier relationship."
+      },
+      "template_id": "numerical_deposit_multiplier",
+      "pattern_tags": [
+        "simple-numerical",
+        "money-multiplier",
+        "trap"
+      ],
+      "ncert_alignment": "Deposit Multiplier is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Uses a one-step multiplier calculation.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_001_q006",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "statement_based",
+      "difficulty": "medium",
+      "concept": "M3 Broad Money",
+      "question_text": "Read the following statements about M3 Broad Money. Statement I: M3 is broader than M1 because it adds time deposits with banks to the liquid components of M1. Statement II: Time deposits make M3 less liquid than M1 but broader in coverage.. Which option is correct?",
+      "options": {
+        "B": "Both Statement I and Statement II are correct",
+        "A": "Statement I only is correct",
+        "C": "Statement II only is correct",
+        "D": "Neither Statement I nor Statement II is correct"
+      },
+      "correct_option": "B",
+      "answer_explanation": "Option B is correct because Statement I states the rule accurately and Statement II gives the related monetary effect without changing the concept.",
+      "answer_check": "The correct key is B: M3 is broader than M1 because it adds time deposits with banks to the liquid components of M1; Time deposits make M3 less liquid than M1 but broader in coverage.",
+      "trap_option": "C",
+      "strong_distractors": [
+        "A",
+        "C"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"Statement I only is correct\". It is tempting because it uses monetary vocabulary, but it misstates the M3 Broad Money relationship.",
+        "B": "Option B states \"Both Statement I and Statement II are correct\". It is correct because it matches the monetary rule tested in M3 Broad Money.",
+        "C": "Option C states \"Statement II only is correct\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual M3 Broad Money mechanism.",
+        "D": "Option D states \"Neither Statement I nor Statement II is correct\". It is tempting because it uses monetary vocabulary, but it misstates the M3 Broad Money relationship."
+      },
+      "template_id": "statement_broad_money_m3",
+      "pattern_tags": [
+        "statement-based",
+        "elimination",
+        "trap"
+      ],
+      "ncert_alignment": "M3 Broad Money is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Keeps the distinction between liquidity and aggregate coverage clear.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_001_q007",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "application_based",
+      "difficulty": "medium",
+      "concept": "Legal Tender",
+      "question_text": "In a money-supply application, A shopkeeper refuses a cheque but accepts currency notes for an old debt settlement. Which idea best explains the difference?",
+      "options": {
+        "C": "Currency has compulsory legal acceptability for debt settlement, while a cheque depends on bank acceptance and account conditions.",
+        "A": "A cheque is compulsory legal tender whenever the payer has a bank account.",
+        "B": "Currency loses legal-tender status when digital payments are available.",
+        "D": "Fixed deposits have stronger legal-tender status than currency because they earn interest."
+      },
+      "correct_option": "C",
+      "answer_explanation": "Option C is correct because currency has compulsory legal acceptability for debt settlement, while a cheque depends on bank acceptance and account conditions.",
+      "answer_check": "The correct key is C: Currency has compulsory legal acceptability for debt settlement, while a cheque depends on bank acceptance and account conditions.",
+      "trap_option": "B",
+      "strong_distractors": [
+        "A",
+        "B"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"A cheque is compulsory legal tender whenever the payer has a bank account.\". It is tempting because it uses monetary vocabulary, but it misstates the Legal Tender relationship.",
+        "B": "Option B states \"Currency loses legal-tender status when digital payments are available.\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Legal Tender mechanism.",
+        "C": "Option C states \"Currency has compulsory legal acceptability for debt settlement, while a cheque depends on bank acceptance and account conditions.\". It is correct because it matches the monetary rule tested in Legal Tender.",
+        "D": "Option D states \"Fixed deposits have stronger legal-tender status than currency because they earn interest.\". It is tempting because it uses monetary vocabulary, but it misstates the Legal Tender relationship."
+      },
+      "template_id": "application_legal_tender_0",
+      "pattern_tags": [
+        "application",
+        "elimination",
+        "money-banking"
+      ],
+      "ncert_alignment": "Legal Tender is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Separates legal acceptability from common banking instruments.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_001_q008",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "assertion_reason",
+      "difficulty": "hard",
+      "concept": "Reverse Repo Rate",
+      "question_text": "For a reserve-management application, Assertion (A): A higher reverse repo rate can absorb liquidity from banks.. Reason (R): Banks may prefer parking surplus funds with the RBI when the return is more attractive.. Which option correctly evaluates the Assertion and Reason?",
+      "options": {
+        "D": "Both Assertion and Reason are true, and the Reason correctly explains the Assertion",
+        "A": "Both Assertion and Reason are true, but the Reason does not correctly explain the Assertion",
+        "B": "Assertion is true, but Reason is false",
+        "C": "Assertion is false, but Reason is true"
+      },
+      "correct_option": "D",
+      "answer_explanation": "Option D is correct because the Reason explains why funds move from banks to the RBI.",
+      "answer_check": "The correct key is D: both A and R are true; the Reason explains why funds move from banks to the RBI.",
+      "trap_option": "B",
+      "strong_distractors": [
+        "A",
+        "B"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"Both Assertion and Reason are true, but the Reason does not correctly explain the Assertion\". It is tempting because it uses monetary vocabulary, but it misstates the Reverse Repo Rate relationship.",
+        "B": "Option B states \"Assertion is true, but Reason is false\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Reverse Repo Rate mechanism.",
+        "C": "Option C states \"Assertion is false, but Reason is true\". It is tempting because it uses monetary vocabulary, but it misstates the Reverse Repo Rate relationship.",
+        "D": "Option D states \"Both Assertion and Reason are true, and the Reason correctly explains the Assertion\". It is correct because it matches the monetary rule tested in Reverse Repo Rate."
+      },
+      "template_id": "assertion_reverse_repo_rate",
+      "pattern_tags": [
+        "assertion-reason",
+        "reasoning",
+        "trap"
+      ],
+      "ncert_alignment": "Reverse Repo Rate is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Tests the direction of liquidity flow under reverse repo.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_001_q009",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "comparison_based",
+      "difficulty": "medium",
+      "concept": "CRR vs SLR",
+      "question_text": "During a bank liquidity review, compare CRR and SLR for a commercial bank that must follow both rules. Which option is most accurate?",
+      "options": {
+        "A": "CRR is the cash balance kept with the RBI, while SLR is a required holding of liquid assets such as cash, gold, or approved securities.",
+        "B": "CRR is maintained as gold and securities, while SLR is maintained only as cash with the RBI.",
+        "C": "CRR is a policy interest rate, while SLR is the rate at which banks borrow from the RBI.",
+        "D": "CRR and SLR both mean the bank can lend the entire deposit base after reporting it to the RBI."
+      },
+      "correct_option": "A",
+      "answer_explanation": "Option A is correct because CRR is the cash balance kept with the RBI, while SLR is a required holding of liquid assets such as cash, gold, or approved securities.",
+      "answer_check": "The correct key is A: CRR is the cash balance kept with the RBI, while SLR is a required holding of liquid assets such as cash, gold, or approved securities.",
+      "trap_option": "C",
+      "strong_distractors": [
+        "B",
+        "C"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"CRR is the cash balance kept with the RBI, while SLR is a required holding of liquid assets such as cash, gold, or approved securities.\". It is correct because it matches the monetary rule tested in CRR vs SLR.",
+        "B": "Option B states \"CRR is maintained as gold and securities, while SLR is maintained only as cash with the RBI.\". It is tempting because it uses monetary vocabulary, but it misstates the CRR vs SLR relationship.",
+        "C": "Option C states \"CRR is a policy interest rate, while SLR is the rate at which banks borrow from the RBI.\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual CRR vs SLR mechanism.",
+        "D": "Option D states \"CRR and SLR both mean the bank can lend the entire deposit base after reporting it to the RBI.\". It is tempting because it uses monetary vocabulary, but it misstates the CRR vs SLR relationship."
+      },
+      "template_id": "comparison_crr_vs_slr",
+      "pattern_tags": [
+        "comparison",
+        "elimination",
+        "trap"
+      ],
+      "ncert_alignment": "CRR vs SLR is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Targets the common CRR-SLR confusion.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_001_q010",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "case_based",
+      "difficulty": "hard",
+      "concept": "Demand Deposits",
+      "question_text": "In a monetary-policy situation, A student pays exam fees through a bank transfer from a demand deposit account. Why can the deposit perform a money function? Choose the option that best follows from the case.",
+      "options": {
+        "B": "The demand deposit works as money because it can transfer purchasing power on demand.",
+        "A": "It cannot be money because no currency note changes hands.",
+        "C": "It is a time deposit because the bank can use part of it for loans.",
+        "D": "It is high powered money because it is recorded in a commercial bank ledger."
+      },
+      "correct_option": "B",
+      "answer_explanation": "Option B is correct because the demand deposit works as money because it can transfer purchasing power on demand.",
+      "answer_check": "The correct key is B: The demand deposit works as money because it can transfer purchasing power on demand.",
+      "trap_option": "C",
+      "strong_distractors": [
+        "A",
+        "C"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"It cannot be money because no currency note changes hands.\". It is tempting because it uses monetary vocabulary, but it misstates the Demand Deposits relationship.",
+        "B": "Option B states \"The demand deposit works as money because it can transfer purchasing power on demand.\". It is correct because it matches the monetary rule tested in Demand Deposits.",
+        "C": "Option C states \"It is a time deposit because the bank can use part of it for loans.\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Demand Deposits mechanism.",
+        "D": "Option D states \"It is high powered money because it is recorded in a commercial bank ledger.\". It is tempting because it uses monetary vocabulary, but it misstates the Demand Deposits relationship."
+      },
+      "template_id": "case_demand_deposits_0",
+      "pattern_tags": [
+        "case-based",
+        "monetary-policy",
+        "trap"
+      ],
+      "ncert_alignment": "Demand Deposits is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Connects bank deposits to medium-of-exchange function without overclaiming legal tender status.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    }
+  ]
+}

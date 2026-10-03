@@ -14,7 +14,17 @@ import {
   getPlanCheckoutAmount,
   getPlanAccessUntil,
   isLiveOneTimeAccessPlan,
+  mappedPlanOffer,
 } from '../../src/lib/payments/plans.js';
+
+test('new ₹299 plan is versioned, gated, and never inherits a historical offer',()=>{
+  const plan=getPaymentPlan('pro_cuet_2027_v2');
+  assert.equal(plan.amount,29900);assert.equal(isLiveOneTimeAccessPlan(plan),false);
+  assert.equal(getPaymentPlan('pro_cuet_2027').amount,9900);
+  assert.equal(getPlanCheckoutAmount(plan,'offer_Sl0iH8LNWcFE7Y'),29900);
+  assert.equal(mappedPlanOffer(plan,'offer_Sl0iH8LNWcFE7Y'),null);
+  assert.equal(getPlanAccessUntil(plan),getPlanAccessUntil(getPaymentPlan('pro_cuet_2027')));
+});
 
 test('paid-through date prefers Razorpay invoice billing end', () => {
   const paidThrough = resolvePaidThrough({
@@ -129,14 +139,22 @@ test('refund revocation audit only blocks matching payment identifiers', () => {
   }), false);
 });
 
-test('CUET 2026 Pro checkout is a live one-time Rs 99 access plan', () => {
-  const plan = getPaymentPlan('pro_cuet_2026');
+test('CUET 2027 Pro checkout is a live one-time Rs 99 access plan', () => {
+  const plan = getPaymentPlan('pro_cuet_2027');
 
   assert.equal(isLiveOneTimeAccessPlan(plan), true);
   assert.equal(plan.amount, 9900);
   assert.equal(plan.currency, 'INR');
   assert.equal(getPlanCheckoutAmount(plan), 9900);
   assert.equal(getPlanCheckoutAmount(plan, 'offer_Sl0iH8LNWcFE7Y'), 6900);
+  assert.equal(getPlanAccessUntil(plan), '2027-07-31T18:29:59.999Z');
+});
+
+test('CUET 2026 plan stays resolvable for old orders but is closed to new checkout', () => {
+  const plan = getPaymentPlan('pro_cuet_2026');
+
+  assert.equal(isLiveOneTimeAccessPlan(plan), false);
+  assert.equal(plan.billingType, 'one_time');
   assert.equal(getPlanAccessUntil(plan), '2026-12-31T18:29:59.999Z');
 });
 

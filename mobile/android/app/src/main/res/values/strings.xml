@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">MockMob Beta</string>
+    <string name="title_activity_main">MockMob Beta</string>
+    <string name="package_name">in.mockmob.beta</string>
+    <string name="custom_url_scheme">in.mockmob.beta</string>
+</resources>

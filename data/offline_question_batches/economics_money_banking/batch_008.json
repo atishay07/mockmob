@@ -1,0 +1,392 @@
+{
+  "metadata": {
+    "source": "codex_offline_generation",
+    "subject": "Economics",
+    "chapter": "Money & Banking",
+    "quality_mode": "balanced",
+    "batch_number": 8,
+    "question_count": 10
+  },
+  "questions": [
+    {
+      "local_id": "economics_money_banking_batch_008_q001",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "statement_based",
+      "difficulty": "medium",
+      "concept": "High Powered Money",
+      "question_text": "Read the following statements about High Powered Money. Statement I: High powered money is monetary base: currency with the public plus reserves held by banks. Statement II: Bank reserves are part of the monetary base even though the public does not use them directly for retail payments.. Which option is correct?",
+      "options": {
+        "C": "Both Statement I and Statement II are correct",
+        "A": "Statement I only is correct",
+        "B": "Statement II only is correct",
+        "D": "Neither Statement I nor Statement II is correct"
+      },
+      "correct_option": "C",
+      "answer_explanation": "Option C is correct because Statement I states the rule accurately and Statement II gives the related monetary effect without changing the concept.",
+      "answer_check": "The correct key is C: High powered money is monetary base: currency with the public plus reserves held by banks; Bank reserves are part of the monetary base even though the public does not use them directly for retail payments.",
+      "trap_option": "B",
+      "strong_distractors": [
+        "A",
+        "B"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"Statement I only is correct\". It is tempting because it uses monetary vocabulary, but it misstates the High Powered Money relationship.",
+        "B": "Option B states \"Statement II only is correct\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual High Powered Money mechanism.",
+        "C": "Option C states \"Both Statement I and Statement II are correct\". It is correct because it matches the monetary rule tested in High Powered Money.",
+        "D": "Option D states \"Neither Statement I nor Statement II is correct\". It is tempting because it uses monetary vocabulary, but it misstates the High Powered Money relationship."
+      },
+      "template_id": "statement_high_powered_money",
+      "pattern_tags": [
+        "statement-based",
+        "elimination",
+        "trap"
+      ],
+      "ncert_alignment": "High Powered Money is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Connects monetary base to money creation.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_008_q002",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "case_based",
+      "difficulty": "medium",
+      "concept": "Commercial Bank Credit Creation",
+      "question_text": "For an inflation-control case, A bank receives a fresh deposit and keeps the required reserve before issuing a loan. What is the immediate monetary implication?",
+      "options": {
+        "D": "The bank can create credit by lending excess reserves, and that loan can become a deposit elsewhere.",
+        "A": "Credit creation means the bank prints new currency notes for the borrower.",
+        "B": "The bank must lend the entire deposit for credit creation to occur.",
+        "C": "Credit creation stops after the first loan because loans cannot become deposits."
+      },
+      "correct_option": "D",
+      "answer_explanation": "Option D is correct because the bank can create credit by lending excess reserves, and that loan can become a deposit elsewhere.",
+      "answer_check": "The correct key is D: The bank can create credit by lending excess reserves, and that loan can become a deposit elsewhere.",
+      "trap_option": "B",
+      "strong_distractors": [
+        "A",
+        "B"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"Credit creation means the bank prints new currency notes for the borrower.\". It is tempting because it uses monetary vocabulary, but it misstates the Commercial Bank Credit Creation relationship.",
+        "B": "Option B states \"The bank must lend the entire deposit for credit creation to occur.\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Commercial Bank Credit Creation mechanism.",
+        "C": "Option C states \"Credit creation stops after the first loan because loans cannot become deposits.\". It is tempting because it uses monetary vocabulary, but it misstates the Commercial Bank Credit Creation relationship.",
+        "D": "Option D states \"The bank can create credit by lending excess reserves, and that loan can become a deposit elsewhere.\". It is correct because it matches the monetary rule tested in Commercial Bank Credit Creation."
+      },
+      "template_id": "application_commercial_bank_credit_creation_1",
+      "pattern_tags": [
+        "application",
+        "elimination",
+        "money-banking"
+      ],
+      "ncert_alignment": "Commercial Bank Credit Creation is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Uses the textbook deposit-loan-deposit chain at CUET level.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_008_q003",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "assertion_reason",
+      "difficulty": "hard",
+      "concept": "Central Bank Function",
+      "question_text": "In a CUET monetary reasoning item, Assertion (A): The central bank is not a profit-maximising commercial bank.. Reason (R): Its role includes currency issue, reserve regulation, and monetary stability.. Which option correctly evaluates the Assertion and Reason?",
+      "options": {
+        "A": "Both Assertion and Reason are true, and the Reason correctly explains the Assertion",
+        "B": "Both Assertion and Reason are true, but the Reason does not correctly explain the Assertion",
+        "C": "Assertion is true, but Reason is false",
+        "D": "Assertion is false, but Reason is true"
+      },
+      "correct_option": "A",
+      "answer_explanation": "Option A is correct because the Reason correctly distinguishes central-bank functions from retail banking.",
+      "answer_check": "The correct key is A: both A and R are true; the Reason correctly distinguishes central-bank functions from retail banking.",
+      "trap_option": "C",
+      "strong_distractors": [
+        "B",
+        "C"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"Both Assertion and Reason are true, and the Reason correctly explains the Assertion\". It is correct because it matches the monetary rule tested in Central Bank Function.",
+        "B": "Option B states \"Both Assertion and Reason are true, but the Reason does not correctly explain the Assertion\". It is tempting because it uses monetary vocabulary, but it misstates the Central Bank Function relationship.",
+        "C": "Option C states \"Assertion is true, but Reason is false\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Central Bank Function mechanism.",
+        "D": "Option D states \"Assertion is false, but Reason is true\". It is tempting because it uses monetary vocabulary, but it misstates the Central Bank Function relationship."
+      },
+      "template_id": "assertion_central_bank_function",
+      "pattern_tags": [
+        "assertion-reason",
+        "reasoning",
+        "trap"
+      ],
+      "ncert_alignment": "Central Bank Function is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Distinguishes central banking from commercial banking and fiscal authority.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_008_q004",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "comparison_based",
+      "difficulty": "medium",
+      "concept": "OMO Purchase vs OMO Sale",
+      "question_text": "In a CUET elimination item, compare an RBI open-market purchase with an open-market sale of government securities. Which liquidity effect is correct?",
+      "options": {
+        "B": "A purchase injects liquidity because the RBI pays for securities; a sale absorbs liquidity because buyers pay funds to the RBI.",
+        "A": "A purchase absorbs liquidity because securities leave the market; a sale injects liquidity because securities enter the market.",
+        "C": "Both purchase and sale increase bank reserves by the same amount.",
+        "D": "Open market operations change only the maturity of securities and leave banking-system liquidity unchanged."
+      },
+      "correct_option": "B",
+      "answer_explanation": "Option B is correct because A purchase injects liquidity because the RBI pays for securities; a sale absorbs liquidity because buyers pay funds to the RBI.",
+      "answer_check": "The correct key is B: A purchase injects liquidity because the RBI pays for securities; a sale absorbs liquidity because buyers pay funds to the RBI.",
+      "trap_option": "C",
+      "strong_distractors": [
+        "A",
+        "C"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"A purchase absorbs liquidity because securities leave the market; a sale injects liquidity because securities enter the market.\". It is tempting because it uses monetary vocabulary, but it misstates the OMO Purchase vs OMO Sale relationship.",
+        "B": "Option B states \"A purchase injects liquidity because the RBI pays for securities; a sale absorbs liquidity because buyers pay funds to the RBI.\". It is correct because it matches the monetary rule tested in OMO Purchase vs OMO Sale.",
+        "C": "Option C states \"Both purchase and sale increase bank reserves by the same amount.\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual OMO Purchase vs OMO Sale mechanism.",
+        "D": "Option D states \"Open market operations change only the maturity of securities and leave banking-system liquidity unchanged.\". It is tempting because it uses monetary vocabulary, but it misstates the OMO Purchase vs OMO Sale relationship."
+      },
+      "template_id": "comparison_omo_purchase_vs_omo_sale",
+      "pattern_tags": [
+        "comparison",
+        "elimination",
+        "trap"
+      ],
+      "ncert_alignment": "OMO Purchase vs OMO Sale is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Tests direction of liquidity under OMO.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_008_q005",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "simple_numerical",
+      "difficulty": "medium",
+      "concept": "Required Cash Reserve",
+      "question_text": "A commercial bank has Rs 600 crore of deposits and the CRR is 10 percent. What cash reserve must it keep with the RBI?",
+      "options": {
+        "C": "Rs 60 crore, because CRR is applied to the bank deposit base",
+        "A": "Rs 540 crore, because it uses the lendable balance instead of cash reserve",
+        "B": "Rs 600 crore, because it subtracts the reserve from deposits",
+        "D": "Rs 66 crore, because it adds a small adjustment instead of applying CRR"
+      },
+      "correct_option": "C",
+      "answer_explanation": "Option C is correct because CRR required cash reserve is 10 percent of Rs 600 crore, which equals Rs 60 crore.",
+      "answer_check": "The correct key is C: Rs 60 crore, because CRR is applied to the bank deposit base",
+      "trap_option": "B",
+      "strong_distractors": [
+        "A",
+        "B"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"Rs 540 crore, because it uses the lendable balance instead of cash reserve\". It is tempting because it uses monetary vocabulary, but it misstates the Required Cash Reserve relationship.",
+        "B": "Option B states \"Rs 600 crore, because it subtracts the reserve from deposits\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Required Cash Reserve mechanism.",
+        "C": "Option C states \"Rs 60 crore, because CRR is applied to the bank deposit base\". It is correct because it matches the monetary rule tested in Required Cash Reserve.",
+        "D": "Option D states \"Rs 66 crore, because it adds a small adjustment instead of applying CRR\". It is tempting because it uses monetary vocabulary, but it misstates the Required Cash Reserve relationship."
+      },
+      "template_id": "numerical_cash_reserve_required",
+      "pattern_tags": [
+        "simple-numerical",
+        "money-multiplier",
+        "trap"
+      ],
+      "ncert_alignment": "Required Cash Reserve is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Tests direct CRR reserve calculation.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_008_q006",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "statement_based",
+      "difficulty": "medium",
+      "concept": "Open Market Operations",
+      "question_text": "Read the following statements about Open Market Operations. Statement I: Open market operations change liquidity through central bank purchase or sale of government securities. Statement II: An RBI purchase of government securities injects funds into the banking system.. Which option is correct?",
+      "options": {
+        "D": "Both Statement I and Statement II are correct",
+        "A": "Statement I only is correct",
+        "B": "Statement II only is correct",
+        "C": "Neither Statement I nor Statement II is correct"
+      },
+      "correct_option": "D",
+      "answer_explanation": "Option D is correct because Statement I states the rule accurately and Statement II gives the related monetary effect without changing the concept.",
+      "answer_check": "The correct key is D: Open market operations change liquidity through central bank purchase or sale of government securities; An RBI purchase of government securities injects funds into the banking system.",
+      "trap_option": "B",
+      "strong_distractors": [
+        "A",
+        "B"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"Statement I only is correct\". It is tempting because it uses monetary vocabulary, but it misstates the Open Market Operations relationship.",
+        "B": "Option B states \"Statement II only is correct\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Open Market Operations mechanism.",
+        "C": "Option C states \"Neither Statement I nor Statement II is correct\". It is tempting because it uses monetary vocabulary, but it misstates the Open Market Operations relationship.",
+        "D": "Option D states \"Both Statement I and Statement II are correct\". It is correct because it matches the monetary rule tested in Open Market Operations."
+      },
+      "template_id": "statement_open_market_operations",
+      "pattern_tags": [
+        "statement-based",
+        "elimination",
+        "trap"
+      ],
+      "ncert_alignment": "Open Market Operations is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Uses liquidity direction in OMO without drifting into government budget.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_008_q007",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "application_based",
+      "difficulty": "medium",
+      "concept": "Leakages In Credit Creation",
+      "question_text": "In a credit-creation case, Borrowers withdraw part of loan proceeds as currency and keep it outside banks. What happens to credit creation?",
+      "options": {
+        "A": "Credit creation weakens because withdrawn currency does not immediately return as deposits for further lending.",
+        "B": "Credit creation strengthens because currency outside banks automatically multiplies deposits.",
+        "C": "Leakages do not matter once the first bank has created a loan.",
+        "D": "Excess reserves raise the multiplier because banks lend less than they can."
+      },
+      "correct_option": "A",
+      "answer_explanation": "Option A is correct because credit creation weakens because withdrawn currency does not immediately return as deposits for further lending.",
+      "answer_check": "The correct key is A: Credit creation weakens because withdrawn currency does not immediately return as deposits for further lending.",
+      "trap_option": "C",
+      "strong_distractors": [
+        "B",
+        "C"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"Credit creation weakens because withdrawn currency does not immediately return as deposits for further lending.\". It is correct because it matches the monetary rule tested in Leakages In Credit Creation.",
+        "B": "Option B states \"Credit creation strengthens because currency outside banks automatically multiplies deposits.\". It is tempting because it uses monetary vocabulary, but it misstates the Leakages In Credit Creation relationship.",
+        "C": "Option C states \"Leakages do not matter once the first bank has created a loan.\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Leakages In Credit Creation mechanism.",
+        "D": "Option D states \"Excess reserves raise the multiplier because banks lend less than they can.\". It is tempting because it uses monetary vocabulary, but it misstates the Leakages In Credit Creation relationship."
+      },
+      "template_id": "application_reserve_leakages_0",
+      "pattern_tags": [
+        "application",
+        "elimination",
+        "money-banking"
+      ],
+      "ncert_alignment": "Leakages In Credit Creation is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Adds a realistic limitation to the simple multiplier idea.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_008_q008",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "assertion_reason",
+      "difficulty": "hard",
+      "concept": "Cash Reserve Ratio",
+      "question_text": "For a commercial-bank credit case, Assertion (A): An increase in CRR can reduce credit creation.. Reason (R): Banks must keep a larger cash balance with the RBI and have fewer lendable resources.. Which option correctly evaluates the Assertion and Reason?",
+      "options": {
+        "B": "Both Assertion and Reason are true, and the Reason correctly explains the Assertion",
+        "A": "Both Assertion and Reason are true, but the Reason does not correctly explain the Assertion",
+        "C": "Assertion is true, but Reason is false",
+        "D": "Assertion is false, but Reason is true"
+      },
+      "correct_option": "B",
+      "answer_explanation": "Option B is correct because the Reason explains the lending constraint created by CRR.",
+      "answer_check": "The correct key is B: both A and R are true; the Reason explains the lending constraint created by CRR.",
+      "trap_option": "C",
+      "strong_distractors": [
+        "A",
+        "C"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"Both Assertion and Reason are true, but the Reason does not correctly explain the Assertion\". It is tempting because it uses monetary vocabulary, but it misstates the Cash Reserve Ratio relationship.",
+        "B": "Option B states \"Both Assertion and Reason are true, and the Reason correctly explains the Assertion\". It is correct because it matches the monetary rule tested in Cash Reserve Ratio.",
+        "C": "Option C states \"Assertion is true, but Reason is false\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Cash Reserve Ratio mechanism.",
+        "D": "Option D states \"Assertion is false, but Reason is true\". It is tempting because it uses monetary vocabulary, but it misstates the Cash Reserve Ratio relationship."
+      },
+      "template_id": "assertion_crr",
+      "pattern_tags": [
+        "assertion-reason",
+        "reasoning",
+        "trap"
+      ],
+      "ncert_alignment": "Cash Reserve Ratio is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Distinguishes CRR from SLR and fiscal tools.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_008_q009",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "match_the_following",
+      "difficulty": "medium",
+      "concept": "Repo Rate vs Reverse Repo Rate",
+      "question_text": "For a credit-conditions case, compare repo rate and reverse repo rate in a banking liquidity situation. Which option is correct?",
+      "options": {
+        "C": "Repo rate applies when banks borrow short-term funds from the RBI; reverse repo applies when banks park surplus funds with the RBI.",
+        "A": "Repo rate is paid by households on bank loans; reverse repo is paid by firms on working-capital loans.",
+        "B": "Repo rate absorbs liquidity from banks; reverse repo injects liquidity into banks in the same way as a fresh RBI loan.",
+        "D": "Repo and reverse repo are both reserve ratios that require banks to keep deposits idle."
+      },
+      "correct_option": "C",
+      "answer_explanation": "Option C is correct because Repo rate applies when banks borrow short-term funds from the RBI; reverse repo applies when banks park surplus funds with the RBI.",
+      "answer_check": "The correct key is C: Repo rate applies when banks borrow short-term funds from the RBI; reverse repo applies when banks park surplus funds with the RBI.",
+      "trap_option": "B",
+      "strong_distractors": [
+        "A",
+        "B"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"Repo rate is paid by households on bank loans; reverse repo is paid by firms on working-capital loans.\". It is tempting because it uses monetary vocabulary, but it misstates the Repo Rate vs Reverse Repo Rate relationship.",
+        "B": "Option B states \"Repo rate absorbs liquidity from banks; reverse repo injects liquidity into banks in the same way as a fresh RBI loan.\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Repo Rate vs Reverse Repo Rate mechanism.",
+        "C": "Option C states \"Repo rate applies when banks borrow short-term funds from the RBI; reverse repo applies when banks park surplus funds with the RBI.\". It is correct because it matches the monetary rule tested in Repo Rate vs Reverse Repo Rate.",
+        "D": "Option D states \"Repo and reverse repo are both reserve ratios that require banks to keep deposits idle.\". It is tempting because it uses monetary vocabulary, but it misstates the Repo Rate vs Reverse Repo Rate relationship."
+      },
+      "template_id": "comparison_repo_rate_vs_reverse_repo_rate",
+      "pattern_tags": [
+        "comparison",
+        "elimination",
+        "trap"
+      ],
+      "ncert_alignment": "Repo Rate vs Reverse Repo Rate is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Tests two close monetary-policy instruments through direction of funds.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    },
+    {
+      "local_id": "economics_money_banking_batch_008_q010",
+      "subject": "Economics",
+      "chapter": "Money & Banking",
+      "question_type": "case_based",
+      "difficulty": "medium",
+      "concept": "Money Supply Components",
+      "question_text": "For an inflation-control case, A household shifts money from wallet cash to a current-account balance that can be used by cheque. How should this be treated in narrow money? Choose the option that best follows from the case.",
+      "options": {
+        "D": "It remains within M1 because both currency with the public and demand deposits are narrow-money components.",
+        "A": "It leaves M1 because chequeable deposits are not physical currency.",
+        "B": "It enters only M3 because every bank balance is treated as a time deposit.",
+        "C": "It becomes high powered money because the commercial bank now holds the account."
+      },
+      "correct_option": "D",
+      "answer_explanation": "Option D is correct because it remains within M1 because both currency with the public and demand deposits are narrow-money components.",
+      "answer_check": "The correct key is D: It remains within M1 because both currency with the public and demand deposits are narrow-money components.",
+      "trap_option": "B",
+      "strong_distractors": [
+        "A",
+        "B"
+      ],
+      "distractor_rationales": {
+        "A": "Option A states \"It leaves M1 because chequeable deposits are not physical currency.\". It is tempting because it uses monetary vocabulary, but it misstates the Money Supply Components relationship.",
+        "B": "Option B states \"It enters only M3 because every bank balance is treated as a time deposit.\". It is a trap because it uses a nearby banking idea but reverses or confuses the actual Money Supply Components mechanism.",
+        "C": "Option C states \"It becomes high powered money because the commercial bank now holds the account.\". It is tempting because it uses monetary vocabulary, but it misstates the Money Supply Components relationship.",
+        "D": "Option D states \"It remains within M1 because both currency with the public and demand deposits are narrow-money components.\". It is correct because it matches the monetary rule tested in Money Supply Components."
+      },
+      "template_id": "case_money_supply_components_1",
+      "pattern_tags": [
+        "case-based",
+        "monetary-policy",
+        "trap"
+      ],
+      "ncert_alignment": "Money Supply Components is part of Class 12 Introductory Macroeconomics under Money & Banking.",
+      "chapter_alignment_note": "Tests the narrow-money composition used in NCERT macroeconomics.",
+      "why_this_is_cuet_level": "The item uses NCERT concepts with one-step reasoning, close distractors, and a CUET-style elimination pattern rather than a direct definition."
+    }
+  ]
+}

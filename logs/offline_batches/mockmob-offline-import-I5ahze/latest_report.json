@@ -1,0 +1,87 @@
+{
+  "generated_at": "2026-05-09T17:41:26.680Z",
+  "route": {
+    "subject": "Economics",
+    "chapter": "Money & Banking",
+    "quality_mode": "balanced",
+    "directory": "C:\\Users\\atish\\AppData\\Local\\Temp\\mockmob-offline-import-I5ahze"
+  },
+  "counts": {
+    "raw_questions": 10,
+    "schema_valid": 10,
+    "alignment_pass": 10,
+    "selfcheck_pass": 10,
+    "mini_validator_accepted": 0,
+    "strict_validator_accepted": 0,
+    "final_accepted": 0,
+    "final_rejected": 10
+  },
+  "quality": {
+    "average_score": 0,
+    "average_exam_quality": 0,
+    "average_distractor_quality": 0,
+    "average_answer_confidence": 0
+  },
+  "top_rejection_reasons": [
+    {
+      "reason": "validator_not_accept",
+      "count": 10
+    },
+    {
+      "reason": "score_below_7_5",
+      "count": 10
+    },
+    {
+      "reason": "exam_quality_below_7_0",
+      "count": 10
+    },
+    {
+      "reason": "distractor_quality_below_7_0",
+      "count": 10
+    },
+    {
+      "reason": "balanced_score_floor_failed",
+      "count": 10
+    },
+    {
+      "reason": "weak_distractors",
+      "count": 10
+    }
+  ],
+  "cost_estimate": {
+    "generator": "deterministic_codex_file_factory",
+    "external_llm_calls": 0,
+    "estimated_usd": 0
+  },
+  "import_results": {
+    "dir": "C:\\Users\\atish\\AppData\\Local\\Temp\\mockmob-offline-import-I5ahze",
+    "quality_mode": "balanced",
+    "dry_run": true,
+    "write_requested": false,
+    "allow_db_write": false,
+    "db_lookup": {
+      "available": false,
+      "reason": "supabase_env_missing",
+      "count": 0
+    },
+    "accepted_candidates_count": 0,
+    "db_duplicate_count": 0,
+    "passage_child_rejected_count": 0,
+    "importable_count": 0,
+    "inserted_count": 0,
+    "skipped_count": 0,
+    "blocked_reasons": [
+      "write_flag_not_passed",
+      "dry_run_enabled"
+    ],
+    "duplicate_rejections": [],
+    "passage_child_rejections": [],
+    "inserted": [],
+    "failed": []
+  },
+  "recommendation": {
+    "good_enough_to_import": false,
+    "reason": "Do not import yet; acceptance or quality target is below the requested threshold.",
+    "real_import_command": "OFFLINE_IMPORT_ALLOW_DB_WRITE=true node scripts/pipeline/tools/importOfflineQuestionBatch.mjs --dir=\"data/offline_question_batches/economics_money_banking\" --quality=balanced --write"
+  }
+}

@@ -2,9 +2,7 @@ import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
 import { getUsageSnapshot, planTierFor } from '@/services/usage/getDailyUsage';
-import { consumeAIAllowance } from '@/services/credits/consumeAIAllowance';
-import { AI_CREDIT_PACKS } from '@/services/credits/aiCreditWallet';
-import { logAIUsage } from '@/services/ai/usageLogger';
+import { AI_CREDIT_PACKS, aiCommerceOpen, PREPOS_PAUSED_MESSAGE } from '@/services/credits/aiCreditWallet';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -74,17 +72,9 @@ export async function POST(request) {
         }, { status: 400 });
       }
 
-      let chargeRecord = null;
-      if (params.custom === true) {
-        const charged = await chargeActionAllowance({
-          user: dbUser,
-          action: 'custom_mock_plan',
-          prefix: 'custom_mock_plan',
-          params,
-        });
-        if (charged.error) return NextResponse.json(charged.error, { status: charged.status });
-        chargeRecord = charged.record;
-      }
+      // Routing is part of core access. Ordinary practice is charged only after
+      // the session service creates a usable set.
+      const chargeRecord = {kind:'core_plan',amount:0,creditUnits:0};
 
       return NextResponse.json({
         ok: true,
@@ -184,8 +174,8 @@ export async function POST(request) {
         ok: true,
         kind: 'redirect',
         target: '/pricing/prepos',
-        message: 'Open PrepOS credit packs to top up without changing your subscription.',
-        params: { reason: 'ai_credits', balance: snapshot.creditBalance || 0 },
+        message: aiCommerceOpen() ? 'Open PrepOS credit packs to top up without changing your subscription.' : `${PREPOS_PAUSED_MESSAGE} New top-ups are paused; your existing wallet is preserved.`,
+        params: { reason: 'ai_credits', balance: snapshot.aiWallet?.known ? snapshot.aiWallet.total : null },
         packs: AI_CREDIT_PACKS,
       });
 
@@ -202,37 +192,6 @@ export async function POST(request) {
   }
 }
 
-async function chargeActionAllowance({ user, action, prefix, params }) {
-  const allowance = await consumeAIAllowance({
-    user,
-    action,
-    params,
-    referencePrefix: prefix,
-  });
-
-  if (!allowance.ok) {
-    return {
-      error: {
-        error: allowance.error || 'insufficient_credits',
-        required: allowance.required,
-        balance: allowance.balance,
-        upgrade: true,
-      },
-      status: allowance.status || 402,
-    };
-  }
-
-  await logAIUsage({
-    userId: user.id,
-    feature: action,
-    provider: 'none',
-    model: 'none',
-    actionTriggered: action,
-    metadata: { charge: allowance.charge, creditUnits: allowance.charge?.creditUnits || 0 },
-  });
-
-  return { ok: true, record: allowance.charge };
-}
 
 function clampInt(v, lo, hi, fallback) {
   const n = Number(v);

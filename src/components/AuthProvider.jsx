@@ -6,8 +6,10 @@ import {
   signInWithGoogle as signInWithGoogleOAuth,
   verifyEmailOtp as verifyEmailOtpAuth,
 } from '@/lib/supabase-browser';
+import {clearStudyDrafts} from '@/../data/session_draft';
 
-const AuthContext = createContext(null);
+// Exported for the development-only Arena preview (/preview/arena); app code uses useAuth().
+export const AuthContext = createContext(null);
 const AUTH_ME_RETRY_DELAYS = [0, 250, 600, 1000, 1600, 2400, 3200];
 const SESSION_RETRY_DELAYS = [0, 120, 300, 650];
 const SESSION_CHECK_TIMEOUT_MS = 2500;
@@ -264,9 +266,10 @@ export function AuthProvider({ children }) {
   const signOut = useCallback(async () => {
     const supabase = getSupabaseBrowserClient();
     await supabase.auth.signOut();
+    try{clearStudyDrafts(window.localStorage,user?.id);}catch{/* Storage is optional. */}
     requestIdRef.current += 1;
     applyUnauthenticated();
-  }, [applyUnauthenticated]);
+  }, [applyUnauthenticated, user]);
 
   const value = useMemo(
     () => ({

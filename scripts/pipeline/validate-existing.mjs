@@ -138,6 +138,7 @@ function makeSupabase() {
 function makeGemini() {
   const key = process.env.GEMINI_API_KEY;
   if (!key) throw new Error('GEMINI_API_KEY is required.');
+  throw new Error('Gemini verification paused until persistent transport billing is supported');
   const client = new GoogleGenerativeAI(key);
   return client.getGenerativeModel({
     model: MODEL_NAME,

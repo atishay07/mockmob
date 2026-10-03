@@ -1,0 +1,28 @@
+/* Score Recovery · Mistake Repair. Uses Arena tokens so both themes stay legible. */
+.mr { margin-top: 14px; display: grid; gap: 10px; }
+.mr-start {
+  display: inline-flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  min-height: 48px; padding: 10px 16px; border-radius: 14px; justify-self: start; max-width: 100%;
+  border: 1px solid var(--a-accent-text, #d2f000); background: transparent; color: var(--a-ink, #f2f4ec);
+  font: 700 14px/1.2 var(--font-display, inherit); cursor: pointer;
+}
+.mr-start small { font: 600 11px/1.3 var(--font-mono, monospace); letter-spacing: .04em; text-transform: uppercase; color: var(--a-accent-text, #d2f000); }
+.mr-start:hover { background: color-mix(in oklab, var(--a-accent-text, #d2f000) 10%, transparent); }
+.mr-start:focus-visible, .mr-retry:focus-visible, .mr-practice:focus-visible { outline: 2px solid var(--a-accent-text, #d2f000); outline-offset: 2px; }
+.mr-wait, .mr-note { margin: 0; font-size: 14px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); max-width: 65ch; }
+.mr-retry { justify-self: start; min-height: 44px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--a-line-strong, #354139); background: transparent; color: var(--a-ink, #f2f4ec); font-weight: 650; cursor: pointer; }
+.mr--done { padding: 16px; border-radius: 16px; border: 1px solid var(--a-line, #253026); background: var(--a-sunken, #0f1512); }
+.mr-head { display: flex; justify-content: space-between; align-items: baseline; gap: 6px 14px; flex-wrap: wrap; }
+.mr-head b { font: 700 16px/1.2 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); }
+.mr-head span { font: 600 11px/1.4 var(--font-mono, monospace); letter-spacing: .04em; text-transform: uppercase; color: var(--a-ink-3, #9aa795); }
+.mr-steps { display: grid; gap: 12px; margin: 0; }
+.mr-steps div { display: grid; gap: 3px; }
+.mr-steps dt { font: 600 11px/1.4 var(--font-mono, monospace); letter-spacing: .04em; text-transform: uppercase; color: var(--a-accent-text, #d2f000); }
+.mr-steps dd { margin: 0; font-size: 15px; line-height: 1.6; color: var(--a-ink, #f2f4ec); overflow-wrap: anywhere; }
+.mr-practice {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 12px; justify-self: start; max-width: 100%;
+  background: #d2f000; color: #0a0a0a; font-weight: 700; text-decoration: none;
+}
+.mr-fine { margin: 0; font-size: 12px; line-height: 1.5; color: var(--a-ink-3, #9aa795); }
+@media (prefers-reduced-motion: no-preference) { .mr--done { animation: mr-in 220ms cubic-bezier(.23, 1, .32, 1); } }
+@keyframes mr-in { from { opacity: 0; } to { opacity: 1; } }

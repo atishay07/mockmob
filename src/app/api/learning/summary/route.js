@@ -226,8 +226,8 @@ export async function GET(request) {
         mockCost: isPremium ? 0 : 10,
         mockAllowance: isPremium ? 'Unlimited mocks' : 'Credit-gated mocks',
         speedBenefit: isPremium
-          ? 'Fast-lane generation and deeper speed diagnostics are active.'
-          : 'Premium unlocks fast-lane generation, unlimited mocks, and deeper speed diagnostics.',
+          ? 'Available practice and deeper speed diagnostics are active.'
+          : 'Premium unlocks available practice, unlimited mocks, and deeper speed diagnostics.',
         bookmarkBenefit: isPremium ? 'Unlimited bookmarks' : `${FREE_BOOKMARK_LIMIT} saved questions included`,
         arenaBenefit: isPremium ? 'Arena sprints run without credit friction.' : 'Upgrade to remove credit friction in Arena.',
       },

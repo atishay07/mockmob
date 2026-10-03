@@ -1,3 +1,4 @@
+import { budgetedFetch } from '../lib/budgetLedger.mjs';
 import OpenAI from 'openai';
 import { spawnSync } from 'node:child_process';
 import { loadEnvFile } from 'node:process';
@@ -29,7 +30,7 @@ const models = [
 ].filter((model, index, array) => model && array.indexOf(model) === index);
 const timeoutMs = Number(process.env.DEEPSEEK_HEALTHCHECK_TIMEOUT_MS || 45000);
 const client = apiKey
-  ? new OpenAI({ apiKey, baseURL: process.env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com' })
+  ? new OpenAI({ fetch: budgetedFetch(), maxRetries: 0, apiKey, baseURL: process.env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com' })
   : null;
 
 function withTimeout(promise, ms, message) {

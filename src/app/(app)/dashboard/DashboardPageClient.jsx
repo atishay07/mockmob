@@ -2,24 +2,26 @@
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { Icon } from '@/components/ui/Icons';
-import { StatCard } from '@/components/ui/StatCard';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { AppIcon, CreditAmount, ModeIcon, StatusIcon, SubjectIcon } from '@/components/ui/Glyph';
 import { Button } from '@/components/ui/Button';
 import { SkeletonCard, ErrorState, EmptyState } from '@/components/ui/Skeleton';
 import { apiGet } from '@/lib/fetcher';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/ToastProvider';
 import { CreditsRemainingModal } from '@/components/CreditsRemainingModal';
+import NtaConsolePreview from '@/components/arena/NtaConsolePreview';
+import ArenaCompanion from '@/components/brand/ArenaCompanion';
 import { TEST_MODES, resolveCount } from '@/../data/test_modes';
+import { MODE_CAPABILITIES } from '@/../data/capabilities';
 
-const TEST_START_CREDIT_COST = 10;
-const MODE_LIST = ['quick', 'smart', 'full', 'nta'];
+const MODE_LIST = ['quick', 'full', 'smart'];
 
 export default function DashboardPageClient() {
   const { user, status: authStatus } = useAuth();
   const toast = useToast();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [subjects, setSubjects] = useState([]);
   const [attempts, setAttempts] = useState([]);
@@ -39,13 +41,24 @@ export default function DashboardPageClient() {
   const [difficultyMode, setDifficultyMode] = useState('auto');
   // null until the user picks one — defaults are derived from plan during render.
   const [selMode, setSelMode] = useState(null);
-  const [count, setCount] = useState(10);
+  // Today/PrepOS hand over the size of the session they planned (?count=), so the time the
+  // student chose is the session they get.
+  const [count, setCount] = useState(() => {
+    const requested = Number(searchParams.get('count'));
+    return TEST_MODES.quick.countOptions.includes(requested) ? requested : 10;
+  });
   const [chapterOpen, setChapterOpen] = useState(false);
+  // Which console NTA Mode opens in: MockMob's own layout, or the conventional exam-style screen.
+  const [ntaScreen, setNtaScreen] = useState(() => (searchParams.get('interface') === 'nta' ? 'nta' : 'mockmob'));
   const [isLaunching, setIsLaunching] = useState(false);
   const launchingKeyRef = useRef(null);
   const [creditError, setCreditError] = useState(null);
   const [launchSuccess, setLaunchSuccess] = useState(null);
   const [showCreditsModal, setShowCreditsModal] = useState(false);
+  // Server launch quote. The launch button renders this; it never guesses from credits.
+  const [quote, setQuote] = useState(null);
+  const [quoteStatus, setQuoteStatus] = useState('idle');
+  const [quoteNonce, setQuoteNonce] = useState(0);
 
   // After a mock attempt the test page sets `mm:postTest=1` in sessionStorage
   // before redirecting. When the user lands back here (Arena), pop the modal
@@ -73,7 +86,7 @@ export default function DashboardPageClient() {
         const [subs, atts, board, statData, myQs, learning] = await Promise.all([
           apiGet('/api/subjects'),
           apiGet(`/api/attempts?userId=${user.id}`),
-          apiGet('/api/leaderboard'),
+          apiGet('/api/leaderboard').catch(() => []),
           apiGet('/api/stats'),
           apiGet('/api/questions/mine').catch(() => []),
           apiGet('/api/learning/summary').catch(() => null),
@@ -85,7 +98,7 @@ export default function DashboardPageClient() {
         setStats(statData || { bankSize: 0, subjectCounts: {} });
         setLearningSummary(learning);
         setSubmissions(Array.isArray(myQs) ? myQs : []);
-        const mySubs = subs.filter((subject) => user.subjects?.includes(subject.id));
+        const mySubs = subs.filter((subject) => user.subjects?.includes(subject.id) && subject.practice === 'supported');
         if (mySubs.length > 0) setSelSubj(mySubs[0].id);
         setStatus('ready');
       } catch (e) {
@@ -129,35 +142,61 @@ export default function DashboardPageClient() {
   }, [selSubj]);
 
   const mySubs = useMemo(
-    () => subjects.filter((subject) => user?.subjects?.includes(subject.id)),
+    () => subjects.filter((subject) => user?.subjects?.includes(subject.id) && subject.practice === 'supported'),
+    [subjects, user],
+  );
+  // Stored choices that cannot launch (not offered, merged or retired) are shown, never launched.
+  const staleSubs = useMemo(
+    () => (user?.subjects || [])
+      .map((id) => subjects.find((subject) => subject.id === id) || { id, name: id, practice: 'unknown', practiceReason: 'This saved subject is no longer recognised. Edit your subjects to choose a current CUET subject.' })
+      .filter((subject) => subject.practice !== 'supported'),
     [subjects, user],
   );
   const myRankIdx = leaderboard.findIndex((entry) => entry.userId === user?.id);
   const avg = attempts.length ? Math.round(attempts.reduce((sum, attempt) => sum + attempt.score, 0) / attempts.length) : 0;
   const rank = myRankIdx >= 0 ? myRankIdx + 1 : null;
   const isPremium = Boolean(user?.isPremium || learningSummary?.plan?.isPremium);
-  const effectiveModeId = selMode && TEST_MODES[selMode] ? selMode : 'quick';
+  const requestedMode = searchParams.get('mode');
+  const effectiveModeId = selMode && TEST_MODES[selMode] ? selMode : requestedMode === 'nta' ? 'nta' : 'quick';
   const mode = TEST_MODES[effectiveModeId];
-  const modeIsLockedForUser = mode.premium && !isPremium;
-  // Mode-specific cost: Quick = 10, Full = 50, Smart/NTA = 0 (premium-only).
-  // Premium users always pay 0.
-  const mockCreditCost = isPremium ? 0 : (mode.creditCost ?? TEST_START_CREDIT_COST);
   const balance = user?.creditBalance || 0;
-  const runsAtCurrentMode = mode.creditCost > 0 ? Math.floor(balance / mode.creditCost) : 0;
+  const quoteCount = mode.fixedCount || count;
+  const quoteMatches = Boolean(quote && quote.subject?.storedId === selSubj && quote.mode?.id === mode.id && quote.count === quoteCount);
+  const quoteLaunchable = quoteStatus === 'ready' && quoteMatches && quote.launchable === true;
   const filteredChapters = useMemo(() => {
     const needle = chapterSearch.trim().toLowerCase();
     if (!needle) return chapters;
     return chapters.filter((chapter) => chapter.name?.toLowerCase().includes(needle));
   }, [chapters, chapterSearch]);
 
-  // Click handler — also clamps count and resets difficulty when needed.
+  useEffect(() => {
+    if (status !== 'ready' || !selSubj) return;
+    let alive = true;
+    const params = new URLSearchParams({ subject: selSubj, mode: effectiveModeId, count: String(quoteCount) });
+    const id = window.setTimeout(() => {
+      setQuoteStatus('loading');
+      fetch(`/api/practice/quote?${params}`, { cache: 'no-store' })
+        .then(async (response) => {
+          const body = await response.json().catch(() => null);
+          if (!alive) return;
+          if (!body || typeof body.state !== 'string') throw new Error('bad_quote');
+          setQuote(body);
+          setQuoteStatus('ready');
+        })
+        .catch(() => {
+          if (!alive) return;
+          setQuote(null);
+          setQuoteStatus('error');
+        });
+    }, 0);
+    return () => { alive = false; window.clearTimeout(id); };
+  }, [status, selSubj, effectiveModeId, quoteCount, quoteNonce, user?.id]);
+
+  // Click handler — also clamps count and resets difficulty when needed. Locked modes
+  // stay selectable so the server quote can say what access they need.
   function chooseMode(id) {
     const next = TEST_MODES[id];
     if (!next) return;
-    if (next.premium && !isPremium) {
-      router.push('/pricing?reason=premium_mode');
-      return;
-    }
     setSelMode(id);
     setCount((current) => resolveCount(next, current));
     if (!next.allowDifficultyOverride) setDifficultyMode('auto');
@@ -167,7 +206,7 @@ export default function DashboardPageClient() {
     return (
       <div className="flex flex-col gap-6">
         <div>
-          <div className="eyebrow mb-2">{'// Command centre'}</div>
+          <div className="eyebrow mb-2">Practice</div>
           <div className="h-10 w-72 max-w-full skeleton mb-2" />
           <div className="h-4 w-64 max-w-full skeleton" />
         </div>
@@ -199,9 +238,11 @@ export default function DashboardPageClient() {
     ? `&difficulty=${encodeURIComponent(difficultyMode)}`
     : '';
   const modeParam = `&mode=${encodeURIComponent(mode.id)}`;
-  const launchHref = `/test?subject=${selSubj}&count=${count}${modeParam}${chapterParam}${difficultyParam}`;
+  const interfaceParam = effectiveModeId === 'nta' && ntaScreen === 'nta' ? '&interface=nta' : '';
+  const launchHref = `/test?subject=${selSubj}&count=${count}${modeParam}${chapterParam}${difficultyParam}${interfaceParam}`;
   const selectedSubject = subjects.find((entry) => entry.id === selSubj);
-  const selectedSubjectCount = stats.subjectCounts?.[selSubj] || 0;
+  const selectedSubjectCount = stats.subjectCounts?.[selectedSubject?.internalId || selSubj] ?? 0;
+  const statsAvailable = stats?.state !== 'unavailable' && stats?.bankSize != null;
 
   function togglePremiumChapter(chapterName) {
     setSelectedChapters((prev) => (
@@ -211,609 +252,362 @@ export default function DashboardPageClient() {
     ));
   }
 
+  const modeBadge = (id) => {
+    const capability = MODE_CAPABILITIES[id];
+    if (capability.state !== 'available') return { text: 'Unavailable', tone: 'muted' };
+    if (isPremium) return { text: 'Included', tone: 'included' };
+    if (capability.entitlement === 'access') return { text: 'Needs access', tone: 'locked' };
+    return { text: `${TEST_MODES[id].creditCost} credits`, tone: 'cost' };
+  };
+  const minutes = (() => {
+    const seconds = quoteMatches && quote.durationSec ? quote.durationSec : mode.fixedDurationSec || quoteCount * (mode.durationPerQuestionSec || 60);
+    return Math.round(seconds / 60);
+  })();
+  const approximate = quoteMatches && quote.durationEstimated;
+  const costLabel = quoteStatus === 'ready' && quoteMatches
+    ? !quote.launchable ? 'Not available'
+      : isPremium ? 'Included with access'
+        : quote.creditCost === 0 ? 'Free: today’s included set'
+          : `${quote.creditCost} credits`
+    : '—';
+  const startLabel = isLaunching ? 'Starting…'
+    : quoteStatus === 'loading' ? 'Checking…'
+      : !quoteLaunchable ? 'Not available'
+        : `Start ${mode.label}`;
+
   return (
-    <div className="flex flex-col gap-6 view">
+    <div className="pr view">
       {!isPremium && (
-        <CreditsRemainingModal
-          open={showCreditsModal}
-          credits={user?.creditBalance ?? 0}
-          onClose={() => setShowCreditsModal(false)}
-        />
+        <CreditsRemainingModal open={showCreditsModal} credits={user?.creditBalance ?? 0} offer={quote?.offer} onClose={() => setShowCreditsModal(false)} />
       )}
-      <div>
-        <div className="eyebrow mb-2">{'// Command centre'}</div>
-        <h1 className="display-md">What are we <span className="text-volt italic">grinding</span> today, {user?.name?.split(' ')[0]}?</h1>
-        <p className="text-sm text-zinc-500 mt-2">Your arena is live. Pick a subject, drop a mock, and own the board.</p>
-        {creditError && (
-          <div className="mt-4 p-3 rounded-lg border border-red-500/30 bg-red-500/10 text-red-400 text-sm">
-            <Icon name="spark" className="inline-block mr-2" style={{ width: '14px', height: '14px' }} />
-            {creditError}
-          </div>
-        )}
-        {launchSuccess && (
-          <div className="mt-4 p-3 rounded-lg border border-volt/25 bg-volt/10 text-volt text-sm">
-            <Icon name="check" className="inline-block mr-2" style={{ width: '14px', height: '14px' }} />
-            {launchSuccess}
-          </div>
-        )}
-      </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <StatCard label="Bank size · questions" value={stats.bankSize} icon="book" />
-        <StatCard label="Tests crushed · attempts" value={attempts.length} icon="target" />
-        <StatCard label="Avg score · all-time" value={`${avg}%`} icon="trend" highlight={avg >= 70} />
-        <StatCard label="Your rank · on board" value={rank ? `#${rank}` : '—'} icon="trophy" highlight />
-      </div>
-
-      <div className="glass p-4 md:p-6">
-        <div className="glass volt-soft p-4 mb-4">
-          <div className="flex items-center justify-between gap-3 flex-wrap">
-            <div>
-              <div className="mono-label mb-1">Credits</div>
-              <div className="flex items-baseline gap-2">
-                <div className="display-md text-volt" style={{ fontVariantNumeric: 'tabular-nums' }}>
-                  {isPremium ? '∞' : balance}
-                </div>
-                {!isPremium && mode.creditCost > 0 && (
-                  <div className="text-xs text-zinc-500">
-                    · <span className="text-zinc-300 font-semibold">{runsAtCurrentMode}</span> {mode.label} run{runsAtCurrentMode === 1 ? '' : 's'} remaining
-                  </div>
-                )}
-              </div>
-            </div>
-            <div className="text-sm text-zinc-400 text-right">
-              {mode.label} <span className="text-volt font-semibold">{mockCreditCost === 0 ? 'Premium · 0 Credits' : `- ${mockCreditCost} Credits`}</span>
-            </div>
-          </div>
-          {!isPremium && (
-            <div
-              className="mt-3 h-1.5 rounded-full overflow-hidden"
-              style={{ background: 'rgba(255,255,255,0.06)' }}
-              aria-hidden
-            >
-              <div
-                style={{
-                  width: `${Math.min(100, (balance / 100) * 100)}%`,
-                  height: '100%',
-                  background: balance < 30
-                    ? 'linear-gradient(90deg, #f59e0b, #f97316)'
-                    : 'linear-gradient(90deg, var(--volt), #b8e600)',
-                  transition: 'width 400ms ease',
-                }}
-              />
-            </div>
-          )}
-          {!isPremium && balance < mockCreditCost && mockCreditCost > 0 && (
-            <div className="mt-3 flex items-center justify-between gap-3 flex-wrap text-xs">
-              <span className="text-red-400">
-                Need {mockCreditCost - balance} more credits to start a {mode.label}.
-              </span>
-              <Link href="/pricing" className="text-volt font-semibold underline-offset-2 hover:underline">
-                Upgrade →
-              </Link>
-            </div>
-          )}
-          {!isPremium && balance < 30 && balance >= mockCreditCost && mockCreditCost > 0 && (
-            <div className="mt-3 flex items-center justify-between gap-3 flex-wrap text-xs">
-              <span className="text-amber-300">
-                Low balance — {runsAtCurrentMode} {mode.label} run{runsAtCurrentMode === 1 ? '' : 's'} left.
-              </span>
-              <Link href="/pricing" className="text-volt font-semibold underline-offset-2 hover:underline">
-                Unlock unlimited →
-              </Link>
-            </div>
-          )}
+      <header className="pr-head">
+        <div>
+          <div className="eyebrow">Practice</div>
+          <h1 className="display-md">{user?.name ? `${user.name.split(' ')[0]}, what are we practising?` : 'What are we practising?'}</h1>
+          <p>Pick a subject and a mode. Every session is timed, marked +5 / −1 on the server and saved to Radar.</p>
         </div>
+        <div className="pr-wallet" aria-label="Your credits">
+          <div className="pr-wallet__row">
+            <span className="pr-wallet__label">Practice credits</span>
+            <CreditAmount kind="practice" amount={isPremium ? 'unlimited' : balance} unit={false} size={18} />
+          </div>
+          <p className="pr-wallet__note">{isPremium ? 'Quick Practice and Full Mock cost nothing with your access.' : 'Quick Practice costs 10 credits and Full Mock costs 50.'}</p>
+        </div>
+      </header>
 
-        <div className="flex items-start justify-between flex-wrap gap-3 mb-5">
+      {creditError && <div className="pr-alert" data-tone="error" role="alert"><StatusIcon kind="error" />{creditError}</div>}
+      <ArenaCompanion compact pose="attentive" title={effectiveModeId === 'nta' ? 'Meet the exam before exam day.' : `Set up ${mode.label}.`}>{effectiveModeId === 'nta' ? 'Choose your screen below. Pip stays outside while you answer.' : 'Check the subject, time and access before you start.'}</ArenaCompanion>
+      {launchSuccess && <div className="pr-alert" data-tone="success" role="status"><StatusIcon kind="success" />{launchSuccess}</div>}
+
+      <dl className="pr-stats">
+        <div><dt><AppIcon name="review" />Usable questions</dt><dd>{statsAvailable ? Number(stats.bankSize || 0).toLocaleString('en-IN') : 'Unavailable'}</dd></div>
+        <div><dt><AppIcon name="practice" />Sessions</dt><dd>{attempts.length}</dd></div>
+        <div><dt><AppIcon name="progress" />Average score</dt><dd>{attempts.length ? `${avg}%` : '—'}</dd></div>
+        <div><dt><AppIcon name="ranks" />Leaderboard</dt><dd>{rank ? `#${rank}` : '—'}</dd></div>
+      </dl>
+
+      {staleSubs.length > 0 && (
+        <div className="pr-alert" data-tone="warning" role="status">
+          <StatusIcon kind="warning" />
           <div>
-            <div className="eyebrow mb-2">{'// Drop a mock'}</div>
-            <h2 className="heading text-[22px] text-white">Start a test</h2>
-          </div>
-          <div className="mono-label flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-volt animate-pulse-slow" />
-            CUET +5/-1 scoring
+            <strong>Some saved subjects cannot start practice</strong>
+            <ul>{staleSubs.map((subject) => <li key={subject.id}><b>{subject.name}:</b> {subject.practiceReason}</li>)}</ul>
+            <Link href="/onboarding?edit=true">Edit subjects</Link>
           </div>
         </div>
+      )}
 
-        {mySubs.length === 0 ? (
-          <EmptyState
-            eyebrow="// No subjects"
-            title="Pick your subjects first"
-            message="Tell us what you're targeting and we’ll tune your arena around those chapters."
-            actionLabel="Go to Onboarding"
-            onAction={() => router.push('/onboarding')}
-          />
-        ) : (
-          <>
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-3 mb-5">
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
-                {mySubs.slice(0, 5).map((subject) => (
-                  <button
-                    key={subject.id}
-                    className={`arena-subject-card ${selSubj === subject.id ? 'selected' : ''}`}
-                  onClick={() => {
-                    setSelSubj(subject.id);
-                    setSelChapter(null);
-                    setSelectedChapters([]);
-                    setDifficultyMode('auto');
-                  }}
-                >
-                    <div className="flex items-center justify-between gap-2 mb-1">
-                      <span className="mono-label">{subject.short}</span>
-                      <span className="text-[18px] text-volt leading-none">{subject.glyph}</span>
-                    </div>
-                    <div className="font-display font-bold text-[13px] leading-tight text-white line-clamp-2">{subject.name}</div>
-                    <div className="text-xs text-zinc-500 mt-1" style={{ fontVariantNumeric: 'tabular-nums' }}>
-                      {stats.subjectCounts?.[subject.id] || 0} questions
-                    </div>
-                </button>
-              ))}
-            </div>
-              <div className="flex flex-col gap-2">
-                <div className="flex justify-between items-center">
-                  <span className="mono-label">Select subject</span>
-                  <Link href="/onboarding?edit=true" className="text-volt font-mono text-[10px] uppercase tracking-wider font-bold hover:underline">Edit</Link>
-                </div>
-                <select
-                  className="select"
-                  value={selSubj || ''}
-                  onChange={(event) => {
-                    setSelSubj(event.target.value);
-                    setSelChapter(null);
-                    setSelectedChapters([]);
-                    setDifficultyMode('auto');
-                  }}
-                >
-                  {mySubs.map((subject) => (
-                    <option key={subject.id} value={subject.id}>
-                      {subject.name} ({stats.subjectCounts?.[subject.id] || 0} qs)
-                    </option>
-                  ))}
-                </select>
-                <span className="text-xs text-zinc-500">
-                  {selectedSubject?.name || 'Subject'} has <span className="text-volt">{selectedSubjectCount}</span> available questions.
-                </span>
+      {mySubs.length === 0 ? (
+        <EmptyState
+          eyebrow="Subjects"
+          title={staleSubs.length ? 'Choose a subject with practice' : 'Pick your subjects first'}
+          message={staleSubs.length ? 'None of your saved subjects has practice yet. Add a supported CUET subject to start.' : 'Choose the CUET UG subjects you want to practise.'}
+          actionLabel="Edit subjects"
+          onAction={() => router.push('/onboarding?edit=true')}
+        />
+      ) : (
+        <div className="pr-layout">
+          <div className="pr-steps">
+            <section className="pr-step" aria-labelledby="pr-s1">
+              <div className="pr-step__head">
+                <h2 id="pr-s1"><span>1</span>Subject</h2>
+                <Link href="/onboarding?edit=true" className="pr-link">Edit subjects</Link>
               </div>
-            </div>
-
-            {selSubj && (
-              <div className="flex flex-col gap-4 pt-4 border-t border-white/5">
-                {/* ── Mode picker (Step 2) ── */}
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="mono-label">Mode</span>
-                    <span className="text-xs text-zinc-500">{mode.blurb}</span>
-                  </div>
-                  <div className="mb-3 rounded-2xl border border-volt/20 bg-volt/[0.06] px-4 py-3 text-xs leading-5 text-zinc-300">
-                    <span className="font-bold text-volt">Quality note:</span>{' '}
-                    Quick Practice and Full Mock are built for volume and speed. Premium Smart Practice and NTA Mode use the highest-quality selection layer for stricter, exam-style question picks.
-                    {!isPremium && (
-                      <Link href="/pricing?reason=arena_quality" className="ml-1 font-bold text-volt underline-offset-2 hover:underline">
-                        Upgrade for premium question quality.
-                      </Link>
-                    )}
-                  </div>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                    {MODE_LIST.map((id) => {
-                      const m = TEST_MODES[id];
-                      const locked = m.premium && !isPremium;
-                      const active = effectiveModeId === id;
-                      const costLabel = isPremium
-                        ? 'Free with Pro'
-                        : m.creditCost > 0
-                          ? `${m.creditCost} credits`
-                          : 'Premium';
-                      // Badge precedence: Premium (locked) > Most Popular > Free.
-                      const badgeText = m.badge;
-                      const badgeClass =
-                        badgeText === 'Premium' ? 'badge premium'
-                        : badgeText === 'Most Popular' ? 'badge popular'
-                        : 'badge free';
-                      return (
-                        <button
-                          key={id}
-                          type="button"
-                          className={`mode-card ${active ? 'selected' : ''} ${locked ? 'locked' : ''}`}
-                          onClick={() => chooseMode(id)}
-                        >
-                          <div className="flex items-center justify-between mb-2">
-                            <span className={badgeClass}>{badgeText}</span>
-                            {active && <span className="mono-label text-volt">Selected</span>}
-                          </div>
-                          <div className="font-display font-bold text-[14px] leading-tight text-white">{m.label}</div>
-                          <div className="text-[11px] text-zinc-500 mt-1 line-clamp-2">{m.blurb}</div>
-                          <div className="mode-card-foot">{costLabel}</div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* ── Difficulty (Step 4) — only for modes that allow it ── */}
-                {mode.allowDifficultyOverride && (
-                  <div>
-                    <div className="flex items-center justify-between gap-3 mb-2">
-                      <span className="mono-label">Difficulty</span>
-                      {!isPremium && <span className="pill volt">Premium override</span>}
-                    </div>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                      {['auto', 'easy', 'medium', 'hard'].map((d) => (
-                        <button
-                          key={d}
-                          className={`count-btn ${difficultyMode === d ? 'active' : ''}`}
-                          disabled={!isPremium && d !== 'auto'}
-                          onClick={() => setDifficultyMode(d)}
-                          style={{ width: '100%', textTransform: 'capitalize' }}
-                        >
-                          {d}
-                        </button>
-                      ))}
-                    </div>
-                    <p className="text-[11px] text-zinc-500 mt-2">
-                      {difficultyMode === 'auto'
-                        ? `${mode.label} uses a balanced mix by default.`
-                        : `Forcing ${difficultyMode} difficulty across the test.`}
-                    </p>
-                  </div>
-                )}
-
-                {/* ── Optional chapter filter — collapsed by default to reduce clutter ── */}
-                {chapters.length > 0 && (
-                  <div className="chapter-filter">
-                    <button
-                      type="button"
-                      className="chapter-filter-toggle"
-                      onClick={() => setChapterOpen((value) => !value)}
-                      aria-expanded={chapterOpen}
-                    >
-                      <span className="mono-label">Filter by chapter</span>
-                      <span className="text-xs text-zinc-500">
-                        {selectedChapters.length === 0
-                          ? 'Optional · all chapters'
-                          : `${selectedChapters.length} selected`}
+              <div className="pr-subjects">
+                {mySubs.map((subject) => {
+                  const on = selSubj === subject.id;
+                  const count = stats.subjectCounts?.[subject.internalId || subject.id];
+                  return (
+                    <button key={subject.id} type="button" aria-pressed={on} className="pr-tile pr-subject"
+                      onClick={() => { setSelSubj(subject.id); setSelChapter(null); setSelectedChapters([]); setDifficultyMode('auto'); }}>
+                      <span className="pr-subject__icon"><SubjectIcon id={subject.internalId || subject.id} size={20} /></span>
+                      <span className="pr-subject__name">{subject.name}</span>
+                      <span className="pr-subject__meta">
+                        {subject.officialCode ? <i>{subject.officialCode}</i> : null}
+                        {statsAvailable ? `${Number(count ?? 0).toLocaleString('en-IN')} questions` : 'Count unavailable'}
                       </span>
-                      <Icon
-                        name={chapterOpen ? 'chevL' : 'chevR'}
-                        style={{ width: '12px', height: '12px', transform: chapterOpen ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform .15s' }}
-                      />
+                      {on ? <span className="pr-tile__tick" aria-hidden="true"><StatusIcon kind="check" size={14} /></span> : null}
                     </button>
-                    {chapterOpen && (
-                      <div className="mt-3">
-                        <input
-                          className="input mb-3"
-                          value={chapterSearch}
-                          onChange={(event) => setChapterSearch(event.target.value)}
-                          placeholder="Search chapters..."
-                        />
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-[210px] overflow-y-auto pr-1">
-                          <button
-                            className={`count-btn ${selChapter === null && selectedChapters.length === 0 ? 'active' : ''}`}
-                            style={{ width: '100%', padding: '0 14px', justifyContent: 'flex-start' }}
-                            onClick={() => { setSelChapter(null); setSelectedChapters([]); }}
-                          >
-                            Any chapter
-                          </button>
-                          {filteredChapters.map((chapter) => (
-                            <button
-                              key={chapter.id || chapter.name}
-                              className={`count-btn ${selectedChapters.includes(chapter.name) ? 'active' : ''}`}
-                              style={{ width: '100%', padding: '0 14px', justifyContent: 'flex-start', overflow: 'hidden', textOverflow: 'ellipsis' }}
-                              onClick={() => togglePremiumChapter(chapter.name)}
-                              title={chapter.name}
-                            >
-                              {chapter.name}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-                  {mode.fixedCount ? (
-                    <>
-                      <span className="mono-label">Questions</span>
-                      <div className="flex gap-1.5">
-                        <span className="count-btn active" style={{ pointerEvents: 'none' }}>
-                          {mode.fixedCount}
-                        </span>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <span className="mono-label">Questions</span>
-                      <div className="flex gap-1.5">
-                        {(mode.countOptions || [5, 10, 15, 20]).map((n) => (
-                          <button
-                            key={n}
-                            className={`count-btn ${count === n ? 'active' : ''}`}
-                            onClick={() => setCount(n)}
-                          >
-                            {n}
-                          </button>
-                        ))}
-                      </div>
-                    </>
-                  )}
-                  <div className="sm:ml-auto flex items-center gap-3 flex-wrap">
-                    <span className="text-xs text-zinc-500 font-mono" style={{ fontVariantNumeric: 'tabular-nums' }}>
-                      {(() => {
-                        const c = mode.fixedCount || count;
-                        const sec = mode.fixedDurationSec || c * (mode.durationPerQuestionSec || 60);
-                        const mins = Math.round(sec / 60);
-                        return `${mins}m · ${c * 5} pts max`;
-                      })()}
-                    </span>
-                    <Button
-                      variant="volt"
-                      size="md"
-                      disabled={isLaunching || modeIsLockedForUser || (user?.creditBalance || 0) < mockCreditCost}
-                      onClick={async () => {
-                        if (modeIsLockedForUser) {
-                          router.push('/pricing?reason=premium_mode');
-                          return;
-                        }
-                        setCreditError(null);
-                        setLaunchSuccess(null);
-                        if (isLaunching) return;
-                        setIsLaunching(true);
-                        launchingKeyRef.current = launchingKeyRef.current || crypto.randomUUID();
-                        try {
-                          setLaunchSuccess(`Launching ${mode.label}...`);
-                          toast.success('Entering the arena...');
-                          router.push(`${launchHref}&generationKey=${encodeURIComponent(launchingKeyRef.current)}`);
-                        } catch {
-                          const message = 'Failed to verify credits. Please try again.';
-                          setCreditError(message);
-                          toast.error(message);
-                          setIsLaunching(false);
-                          launchingKeyRef.current = null;
-                        }
-                      }}
-                    >
-                      <Icon name="play" /> {isLaunching
-                        ? 'Verifying...'
-                        : modeIsLockedForUser
-                          ? `${mode.label} — Premium`
-                          : mockCreditCost === 0
-                            ? `Start ${mode.label}`
-                            : `Start ${mode.label} · ${mockCreditCost} cr`}
-                    </Button>
-                  </div>
-                </div>
+                  );
+                })}
               </div>
-            )}
-          </>
-        )}
-      </div>
+            </section>
 
-      {/* ── My Submissions ── */}
-      <div className="glass p-6">
-        <div className="flex items-center justify-between mb-3">
-          <div className="eyebrow">{'// My submissions'}</div>
-          <button
-            onClick={refreshSubmissions}
-            disabled={subRefreshing}
-            className="btn-outline sm"
-            style={{ borderRadius: '999px', fontSize: '10px', minHeight: '44px', padding: '0 14px' }}
-          >
-            {subRefreshing ? 'Refreshing…' : 'Refresh'}
-          </button>
-        </div>
-        {submissions.length === 0 ? (
-          <EmptyState
-            eyebrow="// Nothing yet"
-            title="No questions uploaded"
-            message="Upload a question and track its moderation status here."
-          />
-        ) : (
-          <div>
-            {submissions.slice(0, 10).map((q) => {
-              const STATUS = {
-                live:     { label: 'Approved', color: '#4ade80', bg: 'rgba(74,222,128,.08)',    border: 'rgba(74,222,128,.2)'    },
-                pending:  { label: 'Pending',  color: '#fbbf24', bg: 'rgba(251,191,36,.08)',   border: 'rgba(251,191,36,.2)'   },
-                rejected: { label: 'Rejected', color: '#f87171', bg: 'rgba(248,113,113,.08)', border: 'rgba(248,113,113,.2)' },
-              };
-              const s = STATUS[q.status] ?? STATUS.pending;
+            <section className="pr-step" aria-labelledby="pr-s2">
+              <div className="pr-step__head"><h2 id="pr-s2"><span>2</span>Mode</h2><span className="pr-hint">Same checked library in every mode.</span></div>
+              <div className="pr-modes">
+                {MODE_LIST.map((id) => {
+                  const m = TEST_MODES[id];
+                  const badge = modeBadge(id);
+                  const on = effectiveModeId === id;
+                  return (
+                    <button key={id} type="button" aria-pressed={on} className="pr-tile pr-mode" data-tone={badge.tone} onClick={() => chooseMode(id)}>
+                      <span className="pr-mode__top">
+                        <span className="pr-mode__icon"><ModeIcon id={id} size={20} /></span>
+                        <span className="pr-badge" data-tone={badge.tone}>{badge.tone === 'locked' ? <AppIcon name="lock" size={12} /> : null}{badge.text}</span>
+                      </span>
+                      <span className="pr-mode__name">{m.label}</span>
+                      <span className="pr-mode__spec">{MODE_SPECS[id]}</span>
+                      {on ? <span className="pr-tile__tick" aria-hidden="true"><StatusIcon kind="check" size={14} /></span> : null}
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+
+            {/* NTA Mode: the closest thing to exam day, so it gets its own row. */}
+            {(() => {
+              const badge = modeBadge('nta');
+              const on = effectiveModeId === 'nta';
               return (
-                <div key={q.id} className="flex items-start justify-between gap-3 py-2.5 border-b border-white/5 last:border-0">
-                  <div className="min-w-0 flex-1">
-                    <div className="font-display font-medium text-[13px] text-white truncate">{q.question}</div>
-                    <div className="mono-label mt-0.5">
-                      {q.subject}{q.chapter ? ` · ${q.chapter}` : ''} · {new Date(q.createdAt).toLocaleDateString()}
+                <div className="pr-nta-wrap" data-on={on}>
+                  <button type="button" aria-pressed={on} className="pr-tile pr-nta" data-tone={badge.tone} onClick={() => chooseMode('nta')}>
+                    <span className="pr-nta__copy">
+                      <span className="pr-mode__top">
+                        <span className="pr-mode__icon"><ModeIcon id="nta" size={20} /></span>
+                        <span className="pr-nta__kicker">Closest to exam day</span>
+                        <span className="pr-badge" data-tone={badge.tone}>{badge.tone === 'locked' ? <AppIcon name="lock" size={12} /> : null}{badge.text}</span>
+                      </span>
+                      <span className="pr-mode__name">NTA Mode</span>
+                      <span className="pr-mode__spec">50 questions in 60 minutes on an exam-style screen: question palette, mark for review, clear response, a countdown that submits for you. Original practice questions, not official papers.</span>
+                      <span className="pr-nta__chips"><i>50 Q</i><i>60 min</i><i>Question palette</i><i>Mark for review</i></span>
+                    </span>
+                    <NtaConsolePreview subject={selectedSubject?.name || 'Accountancy'} />
+                    {on ? <span className="pr-tile__tick" aria-hidden="true"><StatusIcon kind="check" size={14} /></span> : null}
+                  </button>
+                  {on ? (
+                    <div className="pr-nta__screen">
+                      {isPremium ? (
+                        <>
+                          <span className="pr-fine__label">Exam screen</span>
+                          <Segmented label="Exam screen" value={ntaScreen} onChange={setNtaScreen}
+                            options={[{ value: 'mockmob', label: 'MockMob style' }, { value: 'nta', label: 'NTA style' }]} />
+                          <span className="pr-hint">Same questions, timing and scoring. You can switch inside the test.</span>
+                        </>
+                      ) : (
+                        <p className="pr-hint">NTA Mode needs Pro. See how both screens look first: <Link href="/#exam-experience" className="pr-link">Free exam-screen preview</Link></p>
+                      )}
                     </div>
-                  </div>
-                  <span style={{
-                    flexShrink: 0, padding: '2px 8px', borderRadius: '4px',
-                    fontSize: '10px', fontFamily: 'var(--font-mono)', fontWeight: 700,
-                    letterSpacing: '0.1em', textTransform: 'uppercase',
-                    color: s.color, background: s.bg, border: `1px solid ${s.border}`,
-                  }}>
-                    {s.label}
-                  </span>
+                  ) : null}
                 </div>
               );
-            })}
-          </div>
-        )}
-      </div>
+            })()}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
-        <div className="glass p-6">
-          <div className="eyebrow mb-3">{'// Premium speed'}</div>
-          <h3 className="heading mb-2 text-[18px]">{isPremium ? 'Fast lane active' : 'Remove credit friction'}</h3>
-          <p className="text-sm text-zinc-400 mb-4 max-w-sm">
-            {isPremium
-              ? 'Arena mocks launch at zero credits with fast-lane generation and deeper speed diagnostics.'
-              : 'Premium keeps unlimited mocks, fast-lane generation, and speed diagnostics ready for longer grind sessions.'}
-          </p>
-          <div className="grid grid-cols-3 gap-2">
-            <div className="glass p-3">
-              <div className="mono-label mb-1">Mock cost</div>
-              <div className="font-display font-bold text-volt">{mockCreditCost}</div>
-            </div>
-            <div className="glass p-3">
-              <div className="mono-label mb-1">Solved</div>
-              <div className="font-display font-bold text-white">{learningSummary?.progress?.solvedTotal || 0}</div>
-            </div>
-            <div className="glass p-3">
-              <div className="mono-label mb-1">Speed</div>
-              <div className="font-display font-bold text-white">
-                {learningSummary?.progress?.avgDwellMs ? `${Math.round(learningSummary.progress.avgDwellMs / 1000)}s` : '—'}
-              </div>
-            </div>
+            <section className="pr-step" aria-labelledby="pr-s3">
+              <div className="pr-step__head"><h2 id="pr-s3"><span>3</span>Questions</h2><span className="pr-hint">{mode.fixedCount ? 'Fixed for this mode' : `About ${minutes} minutes`}</span></div>
+              {mode.fixedCount ? (
+                <p className="pr-fixed"><b>{mode.fixedCount} questions</b><span>{minutes} minutes, one sitting, exam timing</span></p>
+              ) : (
+                <Segmented label="Number of questions" value={count} options={(mode.countOptions || [5, 10, 15, 20]).map((n) => ({ value: n, label: String(n) }))} onChange={setCount} />
+              )}
+            </section>
+
+            <details className="pr-step pr-fine" open={chapterOpen || difficultyMode !== 'auto' || selectedChapters.length > 0} onToggle={(event) => setChapterOpen(event.currentTarget.open)}>
+              <summary>
+                <span>Fine-tune</span>
+                <span className="pr-hint">{difficultyMode === 'auto' && selectedChapters.length === 0 ? 'Optional · balanced mix, all chapters' : `${difficultyMode === 'auto' ? 'Balanced mix' : `${difficultyMode} only`} · ${selectedChapters.length ? `${selectedChapters.length} chapters` : 'all chapters'}`}</span>
+                <AppIcon name="expand" size={16} className="pr-fine__chev" />
+              </summary>
+              {mode.allowDifficultyOverride && (
+                <div className="pr-fine__block">
+                  <div className="pr-fine__label">Difficulty {!isPremium ? <span className="pr-badge" data-tone="locked"><AppIcon name="lock" size={12} />Needs access</span> : null}</div>
+                  <Segmented label="Difficulty" value={difficultyMode} disabledValues={isPremium ? [] : ['easy', 'medium', 'hard']}
+                    options={['auto', 'easy', 'medium', 'hard'].map((d) => ({ value: d, label: d === 'auto' ? 'Balanced' : d[0].toUpperCase() + d.slice(1) }))} onChange={setDifficultyMode} />
+                </div>
+              )}
+              {chapters.length > 0 && (
+                <div className="pr-fine__block">
+                  <div className="pr-fine__label">Chapters</div>
+                  <label className="sr-only" htmlFor="pr-chapter-search">Search chapters</label>
+                  <input id="pr-chapter-search" className="input" value={chapterSearch} onChange={(event) => setChapterSearch(event.target.value)} placeholder="Search chapters" />
+                  <div className="pr-chapters">
+                    <button type="button" aria-pressed={selectedChapters.length === 0} onClick={() => { setSelChapter(null); setSelectedChapters([]); }}>All chapters</button>
+                    {filteredChapters.map((chapter) => (
+                      <button key={chapter.id || chapter.name} type="button" aria-pressed={selectedChapters.includes(chapter.name)} title={chapter.name} onClick={() => togglePremiumChapter(chapter.name)}>{chapter.name}</button>
+                    ))}
+                    {filteredChapters.length === 0 && <p className="pr-hint">No chapter matches that search.</p>}
+                  </div>
+                </div>
+              )}
+            </details>
           </div>
+
+          <aside className="pr-summary" aria-label="Session summary">
+            <h2>Your session</h2>
+            <dl>
+              <div><dt>Subject</dt><dd>{selectedSubject?.name || '—'}</dd></div>
+              <div><dt>Mode</dt><dd>{mode.label}</dd></div>
+              <div><dt>Questions</dt><dd>{quoteCount}</dd></div>
+              <div><dt>Time</dt><dd>{approximate ? 'About ' : ''}{minutes} min</dd></div>
+              <div><dt>Marking</dt><dd>+5 / −1</dd></div>
+              <div data-emph="true"><dt>Cost</dt><dd>{costLabel}</dd></div>
+            </dl>
+            <p className="pr-summary__reason" role="status" aria-live="polite">
+              {quoteStatus === 'loading' && 'Checking access, credits and questions…'}
+              {quoteStatus === 'error' && <>Could not check this session. Nothing was charged. <button type="button" onClick={() => setQuoteNonce((n) => n + 1)}>Check again</button></>}
+              {quoteStatus === 'ready' && quoteMatches && quote.reason}
+              {quoteStatus === 'ready' && quoteMatches && !quote.launchable && quote.upgradeHref && (
+                <> <Link href={quote.upgradeHref}>{quote.reasonCode === 'access_required' ? 'See Pro' : 'See options'}</Link></>
+              )}
+            </p>
+            <Button variant="volt" size="md" className="pr-summary__cta" disabled={isLaunching || !quoteLaunchable}
+              onClick={() => {
+                if (isLaunching || !quoteLaunchable) return;
+                if (Date.parse(quote.expiresAt) <= Date.now()) { setQuoteNonce((n) => n + 1); return; }
+                setCreditError(null);
+                setIsLaunching(true);
+                launchingKeyRef.current = launchingKeyRef.current || quote.idempotencyToken;
+                setLaunchSuccess(`Launching ${mode.label}…`);
+                toast.success('Entering the arena…');
+                const tonight = new URLSearchParams();
+                for (const name of ['tonightKey','tonightMinutes']) if (searchParams.get(name)) tonight.set(name,searchParams.get(name));
+                router.push(`${launchHref}&generationKey=${encodeURIComponent(launchingKeyRef.current)}${tonight.size ? `&${tonight}` : ''}`);
+              }}>
+              <AppIcon name="practice" size={18} />{startLabel}
+            </Button>
+          </aside>
         </div>
+      )}
 
-        <div className="glass p-6 relative overflow-hidden">
-          <div className="absolute top-[-20px] right-[-20px] w-[150px] h-[150px] bg-volt opacity-5 blur-[60px] rounded-full" />
-          <div className="relative">
-            <Icon name="upload" style={{ color: 'var(--volt)', width: '24px', height: '24px', marginBottom: '12px', strokeWidth: '1.5' }} />
-            <h3 className="heading mb-2 text-[18px]">Feed the bank</h3>
-            <p className="text-sm text-zinc-400 mb-4 max-w-sm">Upload a question. Pass moderation, earn credits, and unlock more premium mocks.</p>
-            <Link href="/upload" className="btn-ghost font-bold text-volt">
-              Upload now <Icon name="arrow" style={{ width: '12px', height: '12px' }} />
-            </Link>
-          </div>
-        </div>
-
-        <div className="glass p-6">
-          <div className="eyebrow mb-3">{'// Recent attempts'}</div>
+      <div className="pr-lower">
+        <section className="pr-panel" aria-labelledby="pr-recent">
+          <div className="pr-panel__head"><h2 id="pr-recent">Recent sessions</h2>{attempts.length > 0 && <Link href="/review" className="pr-link">Review mistakes</Link>}</div>
           {attempts.length === 0 ? (
-            <EmptyState
-              eyebrow="// No attempts"
-              title="No tests yet"
-              message="Your recent mocks will show up here once you generate your first sprint."
-            />
+            <p className="pr-empty">Your sessions appear here after you submit your first one.</p>
           ) : (
-            <div>
+            <ul className="pr-recent">
               {attempts.slice(0, 5).map((attempt) => {
                 const subject = subjects.find((entry) => entry.id === attempt.subject);
-                const cls = attempt.score >= 70 ? 'text-volt' : attempt.score >= 40 ? 'verdict-mid' : 'verdict-bad';
+                const tone = attempt.score >= 70 ? 'good' : attempt.score >= 40 ? 'mid' : 'low';
                 return (
-                  <Link
-                    key={attempt.id}
-                    href={`/result/${attempt.id}`}
-                    className="flex items-center justify-between gap-3 py-2.5 border-b border-white/5 last:border-0 hover:bg-white/[0.02] px-2 -mx-2 rounded transition-colors"
-                  >
-                    <div className="flex items-center gap-3 min-w-0">
-                      <span className="text-[20px] font-display text-volt">{subject?.glyph}</span>
-                      <div className="min-w-0">
-                        <div className="font-display font-bold text-[13px] text-white truncate">{subject?.name || attempt.subject}</div>
-                        <div className="mono-label">{new Date(attempt.completedAt).toLocaleDateString()} · {attempt.correct}/{attempt.total} correct</div>
-                      </div>
-                    </div>
-                    <div className={`font-display font-bold text-[18px] ${cls}`} style={{ fontVariantNumeric: 'tabular-nums' }}>{attempt.score}%</div>
-                  </Link>
+                  <li key={attempt.id}>
+                    <Link href={`/result/${attempt.id}`}>
+                      <span className="pr-recent__icon"><SubjectIcon id={subject?.internalId || attempt.subject} size={18} /></span>
+                      <span className="pr-recent__text"><b>{subject?.name || attempt.subject}</b><i>{new Date(attempt.completedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })} · {attempt.correct}/{attempt.total} correct</i></span>
+                      <span className="pr-recent__score" data-tone={tone}>{attempt.score}%</span>
+                    </Link>
+                  </li>
                 );
               })}
-            </div>
+            </ul>
           )}
-        </div>
+        </section>
+
+        <section className="pr-panel" aria-labelledby="pr-access">
+          <div className="pr-panel__head"><h2 id="pr-access">{isPremium ? 'Your access' : 'MockMob Pro'}</h2></div>
+          <p className="pr-panel__lead">{isPremium
+            ? `Quick Practice, Full Mock, Smart Practice and NTA Mode are included${user?.premiumUntil ? ` until ${new Date(user.premiumUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}` : ''}, subject to available questions.`
+            : 'Adds Smart Practice and NTA Mode, and removes per-session credits for Quick Practice and Full Mock, subject to available questions.'}</p>
+          <div className="pr-panel__row">
+            <CreditAmount kind="practice" amount={isPremium ? 'unlimited' : balance} unit={!isPremium} />
+            {!isPremium && <Link className="pr-link" href="/pricing">See Pro</Link>}
+          </div>
+        </section>
+
+        <section className="pr-panel" aria-labelledby="pr-bank">
+          <div className="pr-panel__head"><h2 id="pr-bank">Feed the bank</h2></div>
+          <p className="pr-panel__lead">Upload a question. If it passes moderation, you earn credits for Quick Practice and Full Mock.</p>
+          <Link href="/upload" className="pr-link pr-link--strong">Upload a question<AppIcon name="contribute" size={16} /></Link>
+          {submissions.length > 0 && (
+            <>
+              <div className="pr-panel__head pr-panel__head--sub"><h3>My submissions</h3>
+                <button type="button" className="pr-link" onClick={refreshSubmissions} disabled={subRefreshing}><AppIcon name="refresh" size={14} />{subRefreshing ? 'Refreshing' : 'Refresh'}</button>
+              </div>
+              <ul className="pr-subs">
+                {submissions.slice(0, 5).map((q) => {
+                  const s = SUBMISSION_STATUS[q.status] || SUBMISSION_STATUS.pending;
+                  return (
+                    <li key={q.id}>
+                      <span className="pr-subs__q" title={q.question}>{q.question}</span>
+                      <span className="pr-badge" data-tone={s.tone}><StatusIcon kind={s.icon} size={12} />{s.label}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </>
+          )}
+        </section>
       </div>
-      <style>{`
-        .arena-subject-card {
-          min-height: 104px;
-          border-radius: 10px;
-          border: 1px solid rgba(255,255,255,.07);
-          background: rgba(255,255,255,.018);
-          padding: 12px;
-          text-align: left;
-          transition: border-color .15s ease, background .15s ease;
-        }
-        .arena-subject-card:hover {
-          border-color: rgba(255,255,255,.18);
-        }
-        .arena-subject-card.selected {
-          border-color: rgba(210,240,0,.55);
-          background: rgba(210,240,0,.055);
-        }
-        .mode-card {
-          position: relative;
-          min-height: 116px;
-          border-radius: 10px;
-          border: 1px solid rgba(255,255,255,.08);
-          background: rgba(255,255,255,.02);
-          padding: 14px;
-          text-align: left;
-          cursor: pointer;
-          display: flex;
-          flex-direction: column;
-          transition: border-color .15s ease, background .15s ease, transform .15s ease;
-        }
-        .mode-card:hover {
-          border-color: rgba(255,255,255,.22);
-          background: rgba(255,255,255,.035);
-          transform: translateY(-1px);
-        }
-        .mode-card.selected {
-          border-color: rgba(210,240,0,.6);
-          background: rgba(210,240,0,.06);
-          box-shadow: 0 0 0 1px rgba(210,240,0,.35) inset;
-        }
-        .mode-card.locked {
-          opacity: .72;
-        }
-        .mode-card-foot {
-          margin-top: auto;
-          padding-top: 10px;
-          font-family: var(--font-mono);
-          font-size: 10px;
-          letter-spacing: .12em;
-          text-transform: uppercase;
-          color: #71717a;
-        }
-        .mode-card.selected .mode-card-foot {
-          color: var(--volt);
-        }
-        .badge {
-          display: inline-flex;
-          align-items: center;
-          padding: 2px 8px;
-          border-radius: 999px;
-          border: 1px solid;
-          font-family: var(--font-mono);
-          font-size: 9px;
-          font-weight: 700;
-          letter-spacing: .12em;
-          text-transform: uppercase;
-        }
-        .badge.free {
-          color: #a1a1aa;
-          border-color: rgba(255,255,255,.14);
-          background: rgba(255,255,255,.04);
-        }
-        .badge.premium {
-          color: var(--volt);
-          border-color: rgba(210,240,0,.45);
-          background: rgba(210,240,0,.08);
-        }
-        .badge.popular {
-          color: #000;
-          border-color: var(--volt);
-          background: var(--volt);
-        }
-        .chapter-filter {
-          border: 1px solid rgba(255,255,255,.07);
-          border-radius: 10px;
-          background: rgba(255,255,255,.02);
-          padding: 12px;
-        }
-        .chapter-filter-toggle {
-          width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 10px;
-          background: transparent;
-          border: 0;
-          color: #fff;
-          cursor: pointer;
-          padding: 0;
-        }
-      `}</style>
+    </div>
+  );
+}
+
+const MODE_SPECS = {
+  quick: '5 to 20 questions, 1 minute each',
+  full: '50 questions, 60 minutes',
+  smart: 'Weights chapters you have missed',
+  nta: '50 questions, 60 minutes, exam console',
+};
+
+const SUBMISSION_STATUS = {
+  live: { label: 'Approved', icon: 'success', tone: 'good' },
+  pending: { label: 'In review', icon: 'info', tone: 'mid' },
+  rejected: { label: 'Rejected', icon: 'error', tone: 'low' },
+};
+
+// A single-choice control: one tab stop per option, state exposed with aria-checked.
+function Segmented({ label, value, options, onChange, disabledValues = [] }) {
+  const enabledOptions = options.filter((option) => !disabledValues.includes(option.value));
+  const tabStop = enabledOptions.find((option) => option.value === value) || enabledOptions[0];
+
+  return (
+    <div
+      className="pr-seg"
+      role="radiogroup"
+      aria-label={label}
+      onKeyDown={(event) => {
+        const keyDirection = ['ArrowRight', 'ArrowDown'].includes(event.key) ? 1
+          : ['ArrowLeft', 'ArrowUp'].includes(event.key) ? -1 : 0;
+        if (!keyDirection && event.key !== 'Home' && event.key !== 'End') return;
+        if (!enabledOptions.length) return;
+        event.preventDefault();
+        const currentIndex = enabledOptions.findIndex((option) => option.value === value);
+        const nextIndex = event.key === 'Home' ? 0
+          : event.key === 'End' ? enabledOptions.length - 1
+            : (Math.max(0, currentIndex) + keyDirection + enabledOptions.length) % enabledOptions.length;
+        const next = enabledOptions[nextIndex];
+        event.currentTarget.querySelector(`[data-radio-value="${String(next.value)}"]`)?.focus();
+        onChange(next.value);
+      }}
+    >
+      {options.map((option) => {
+        const disabled = disabledValues.includes(option.value);
+        return (
+          <button
+            key={String(option.value)}
+            type="button"
+            role="radio"
+            data-radio-value={String(option.value)}
+            aria-checked={value === option.value}
+            tabIndex={!disabled && tabStop?.value === option.value ? 0 : -1}
+            disabled={disabled}
+            onClick={() => onChange(option.value)}
+          >
+            {option.label}
+          </button>
+        );
+      })}
     </div>
   );
 }

@@ -17,6 +17,7 @@
 
 # next.js
 /.next/
+/.next-dev/
 /out/
 
 # production
@@ -48,3 +49,16 @@ next-env.d.ts
 
 # pipeline runtime data
 scripts/pipeline/data/
+
+# Persistent private content-production ledger (back up outside Git)
+data/pipeline-budget.sqlite*
+mobile/node_modules/
+mobile/dist/
+mobile/ios/
+mobile/android/**/*.jks
+mobile/android/**/*.keystore
+
+!mobile/.env.example
+
+# DU source PDFs (public, re-downloadable; SHA-256 recorded in public/du/2026/index.json)
+/data/du-csas-2026/source/

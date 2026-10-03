@@ -15,6 +15,8 @@ import {
   refundRevocationMatchesPayment,
 } from '@/lib/payments/entitlements';
 import { SEED_QUESTIONS } from './questions';
+import { publicationEligibility } from './evidence_registry';
+import { readablePracticeQuestions } from './practice_library';
 import { toPublicSubjectId } from './cuet_controls';
 import { getMode } from './test_modes';
 import { rankCandidates, pickWithConstraints, buildSelectionUsageMeta } from './mock_question_selector';
@@ -169,6 +171,7 @@ const questionOut = (r) => r && ({
   topic: r.topic || null,
   concept: r.concept || null,
   conceptId: r.concept_id || null,
+  familyId: r.family_id || r.template_id || r.evidence?.record?.family_id || null,
   pyqAnchorId: r.pyq_anchor_id || null,
   questionType: r.question_type || null,
   passageGroupId: r.passage_group_id || r.group_id || null,
@@ -185,7 +188,8 @@ const questionOut = (r) => r && ({
   authorId: r.author_id ?? r.uploaded_by,
   aiTier: r.ai_tier,
   aiScore: r.ai_score,
-  verificationState: r.verification_state,
+  verificationState: r.evidence?.record?.state || r.verification_state,
+  verificationEvidence: r.evidence?.record || null,
   qualityBand: r.quality_band,
   upvotes: r.upvotes || 0,
   downvotes: r.downvotes || 0,
@@ -1146,7 +1150,7 @@ export const Database = {
       return rows;
     };
 
-    const buildQuery = (withScore) => {
+    const buildQuery = (withScore, offset = null) => {
       let query = supabaseAdmin()
         .from('questions')
         .select('*')
@@ -1161,15 +1165,22 @@ export const Database = {
       if (withScore) {
         query = query.gte('score', -2);
       }
-      return query
-        .order('created_at', { ascending: false })
-        .order('score', { ascending: false })
-        .limit(poolSize);
+      query = query.order('created_at', { ascending: false }).order('score', { ascending: false }).order('id');
+      return offset === null ? query.limit(poolSize) : query.range(offset, offset + 999);
     };
 
     let pool = [];
     if (mode.id === 'nta') {
       pool = await fetchNtaPool();
+    } else if (opts.excludeQuestionIds || opts.excludeFamilyIds) {
+      // Freshness must be tested against the full subject pool, not a recent sample.
+      for (let offset = 0; ; offset += 1000) {
+        let { data, error } = await buildQuery(true, offset);
+        if (error && isMissingPhase1VoteSchema(error)) ({ data, error } = await buildQuery(false, offset));
+        if (error) throw error;
+        pool.push(...(data || []));
+        if (!data || data.length < 1000) break;
+      }
     } else {
       let { data, error } = await buildQuery(true);
       if (error && isMissingPhase1VoteSchema(error)) {
@@ -1183,6 +1194,12 @@ export const Database = {
     }
     if (mode.id === 'nta') {
       pool = await this._attachPassageMetadata(pool);
+    }
+    pool = await readablePracticeQuestions(pool, supabaseAdmin(), { requireEvidence: opts.requireEvidence !== false });
+    // Freshness is a hard constraint before ranking/selection, never a post-filter.
+    if (opts.excludeQuestionIds || opts.excludeFamilyIds) {
+      const ids = new Set(opts.excludeQuestionIds || []), families = new Set(opts.excludeFamilyIds || []);
+      pool = pool.filter(row => !ids.has(row.id) && (row.family_id || row.template_id || row.evidence?.record?.family_id) && !families.has(row.family_id || row.template_id || row.evidence?.record?.family_id));
     }
 
     // Recency: drop questions seen in the user's last N attempts for this subject.
@@ -1534,6 +1551,12 @@ export const Database = {
 
   async moderateQuestion(id, action) {
     if (!['approve', 'reject'].includes(action)) return null;
+    if(action==='approve'){
+      const {data:question,error}=await supabaseAdmin().from('questions').select('*').eq('id',id).maybeSingle();
+      if(error)throw error;
+      if(!question)return null;
+      if(!publicationEligibility(question).eligible)throw new Error('automated_evidence_required');
+    }
 
     const { data, error } = await supabaseAdmin().rpc('moderate_question_with_credit', {
       p_question_id: id,
@@ -1559,11 +1582,16 @@ export const Database = {
   // ATTEMPTS
   // =====================================================================
   async getAttempts(userId) {
-    const q = supabaseAdmin().from('attempts').select('*')
-      .order('completed_at', { ascending: false });
-    const { data, error } = userId ? await q.eq('user_id', userId) : await q;
-    if (error) throw error;
-    return data.map(attemptOut);
+    if (!userId) throw new Error('attempt_owner_required');
+    const rows = [];
+    for (let offset = 0; ; offset += 1000) {
+      const { data, error } = await supabaseAdmin().from('attempts').select('*').eq('user_id', userId)
+        .order('completed_at', { ascending: false }).order('id').range(offset, offset + 999);
+      if (error) throw error;
+      rows.push(...(data || []));
+      if (!data || data.length < 1000) break;
+    }
+    return rows.map(attemptOut);
   },
 
   async getAttemptById(id) {
@@ -1670,9 +1698,18 @@ export const Database = {
   // =====================================================================
   async getLeaderboard() {
     // Denormalized aggregate: one row per user with >= 1 attempt.
-    const { data: attempts, error: ae } = await supabaseAdmin()
-      .from('attempts').select('user_id, score');
-    if (ae) throw ae;
+    // PostgREST caps a response at 1000 rows, so page through every attempt.
+    const attempts = [];
+    const PAGE = 1000;
+    for (let from = 0; ; from += PAGE) {
+      const { data: page, error: ae } = await supabaseAdmin()
+        .from('attempts').select('user_id, score')
+        .order('id', { ascending: true })
+        .range(from, from + PAGE - 1);
+      if (ae) throw ae;
+      attempts.push(...page);
+      if (page.length < PAGE) break;
+    }
 
     const stats = new Map();
     for (const a of attempts) {
@@ -1685,9 +1722,14 @@ export const Database = {
     if (stats.size === 0) return [];
 
     const userIds = [...stats.keys()];
-    const { data: users, error: ue } = await supabaseAdmin()
-      .from('users').select('id, name, image').in('id', userIds);
-    if (ue) throw ue;
+    // A single .in() with hundreds of ids overflows the request URL, so chunk it.
+    const users = [];
+    for (let i = 0; i < userIds.length; i += 100) {
+      const { data: chunk, error: ue } = await supabaseAdmin()
+        .from('users').select('id, name, image').in('id', userIds.slice(i, i + 100));
+      if (ue) throw ue;
+      users.push(...chunk);
+    }
     const byId = new Map(users.map(u => [u.id, u]));
 
     const rows = userIds.map(uid => {

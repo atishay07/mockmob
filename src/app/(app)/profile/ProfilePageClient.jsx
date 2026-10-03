@@ -8,7 +8,9 @@ import { Icon } from '@/components/ui/Icons';
 import { SkeletonCard, ErrorState } from '@/components/ui/Skeleton';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/ToastProvider';
+import { PlanCard } from '@/components/billing/PlanCard';
 import { apiGet, apiPatch } from '@/lib/fetcher';
+import ArenaHead from '@/components/arena/ArenaHead';
 
 export default function ProfilePageClient() {
   const { user, status, refreshSession } = useAuth();
@@ -52,9 +54,9 @@ export default function ProfilePageClient() {
 
   if (pageStatus === 'loading') {
     return (
-      <div className="flex flex-col gap-6">
+      <div className="student-page student-page--profile flex flex-col gap-6">
         <div>
-          <div className="eyebrow mb-2">{'// Identity'}</div>
+          <div className="eyebrow mb-2">{'Identity'}</div>
           <div className="h-10 w-64 skeleton mb-2" />
           <div className="h-4 w-56 skeleton" />
         </div>
@@ -67,20 +69,17 @@ export default function ProfilePageClient() {
   }
 
   if (pageStatus === 'error') {
-    return <ErrorState message={error} onRetry={() => window.location.reload()} />;
+    return <div className="student-page student-page--profile"><ErrorState message={error} onRetry={() => window.location.reload()} /></div>;
   }
 
   return (
-    <div className="flex flex-col gap-6 view">
-      <div>
-        <div className="eyebrow mb-2">{'// Identity'}</div>
-        <h1 className="display-md">Your <span className="text-volt italic">profile</span></h1>
-        <p className="text-sm text-zinc-500 mt-2">Keep your public identity polished while the backend handles the serious stuff.</p>
-      </div>
+    <div className="student-page student-page--profile flex flex-col gap-6 view">
+      <ArenaHead eyebrow="Account" title="Your corner of the Arena." lede="Update your name, subjects and plan. Your practice history stays with your account." />
 
       {saveState.message && (
         <div
           className={`glass p-4 text-sm ${saveState.type === 'error' ? '' : 'volt-soft'}`}
+          role={saveState.type === 'error' ? 'alert' : 'status'}
           style={saveState.type === 'error' ? { borderColor: 'rgba(248,113,113,0.25)', color: '#fca5a5' } : { color: '#d2f000' }}
         >
           <div className="flex items-center gap-2">
@@ -114,14 +113,14 @@ export default function ProfilePageClient() {
 
                 <div className="glass p-4 volt-soft">
                   <div className="mono-label mb-2">Avatar</div>
-                  <p className="text-sm text-zinc-400">Avatar upload is queued for a future pass. Your initials are used as the fallback today.</p>
+                  <p className="text-sm text-zinc-400">Your initials are your avatar. Change your display name to update them.</p>
                 </div>
               </div>
             </div>
           </div>
 
           <div className="mt-6 flex items-center justify-between gap-3 flex-wrap border-t border-white/5 pt-4">
-            <div className="text-sm text-zinc-500">Changes sync instantly across the dashboard and navbar.</div>
+            <div className="text-sm text-zinc-500">Save your name to update it across the Arena.</div>
             <Button
               variant="volt"
               size="md"
@@ -144,35 +143,13 @@ export default function ProfilePageClient() {
                 }
               }}
             >
-              {isSaving ? 'Saving...' : 'Save Changes'}
+              {isSaving ? 'Saving…' : 'Save name'}
             </Button>
           </div>
         </section>
 
         <section className="flex flex-col gap-4">
-          <div className="glass p-6 volt-soft">
-            <div className="flex items-center justify-between gap-3 mb-2">
-              <div className="mono-label">Plan</div>
-              <span className={`pill ${user?.isPremium ? 'volt' : 'subtle'}`}>
-                {user?.isPremium ? 'Premium' : 'Free'}
-              </span>
-            </div>
-            <div className="display-md text-volt">{user?.isPremium ? 'Active' : `${user?.creditBalance || 0}`}</div>
-            <p className="text-sm text-zinc-400 mt-2">
-              {user?.isPremium
-                ? 'Unlimited mocks, multi-chapter targeting, difficulty controls, and premium speed diagnostics are active.'
-                : 'Use credits to generate mocks. Upgrade for unlimited mocks and premium controls.'}
-            </p>
-            {!user?.isPremium && (
-              <Link
-                href="/pricing"
-                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-volt px-4 py-3 text-sm font-black uppercase tracking-[0.08em] text-black shadow-[0_0_26px_rgba(210,240,0,0.18)] transition hover:brightness-110"
-              >
-                <Icon name="zap" style={{ width: '15px', height: '15px' }} />
-                Go Premium for unlimited mocks
-              </Link>
-            )}
-          </div>
+          <PlanCard />
 
           <div className="grid grid-cols-2 gap-3">
             <div className="glass p-5">
@@ -186,13 +163,13 @@ export default function ProfilePageClient() {
             <div className="glass p-5">
               <div className="flex items-center justify-between mb-2">
                 <div className="mono-label">Subjects</div>
-                <Link href="/onboarding?edit=true" className="text-volt text-xs font-semibold hover:underline">Edit</Link>
+                <Link href="/onboarding?edit=true" className="account-edit text-volt text-xs font-semibold hover:underline">Edit subjects</Link>
               </div>
               <div className="display-md">{user?.subjects?.length || 0}</div>
             </div>
             <div className="glass p-5">
-              <div className="mono-label mb-2">Streak</div>
-              <div className="display-md">Soon</div>
+              <div className="mono-label mb-2">Next session</div>
+              <Link href="/today" className="account-edit">Open Today ↗</Link>
             </div>
           </div>
         </section>

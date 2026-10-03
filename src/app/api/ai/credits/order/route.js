@@ -3,6 +3,7 @@ import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
 import { getRazorpayClient, getRazorpayKeyId } from '@/lib/payments/razorpay';
 import { getAICreditPack } from '@/services/credits/aiCreditWallet';
+import { CAPABILITIES } from '@/../data/capabilities';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -13,6 +14,7 @@ export async function POST(request) {
     if (!session?.user?.id) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
     }
+    if (CAPABILITIES.aiTopUps.state !== 'available') return NextResponse.json({error:'PREPOS_TOPUPS_PAUSED',message:CAPABILITIES.aiTopUps.reason},{status:503});
 
     const body = await request.json().catch(() => ({}));
     const pack = getAICreditPack(body?.packKey);

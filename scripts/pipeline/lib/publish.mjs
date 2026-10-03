@@ -2,6 +2,9 @@ import { createClient } from '@supabase/supabase-js';
 import { evaluateGeneratedQuestionAnswerGuard } from '../../../data/answer_integrity.js';
 import { getCanonicalUnitForChapter, isValidTopSyllabusPair } from '../../../data/canonical_syllabus.js';
 import { validateTraceability } from '../../../data/cuet_controls.js';
+import { publicationEligibility } from '../../../data/evidence_registry.js';
+import { randomUUID } from 'node:crypto';
+import { evidenceSignature } from '../../../data/content_evidence.js';
 
 const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -29,7 +32,13 @@ let questionColumnSupportPromise = null;
  */
 export async function publishQuestion(question, apiSecret, options = {}) {
   try {
+    const evidence = publicationEligibility(question);
+    if (!evidence.eligible) return { success: false, error: 'evidence_required', reasons: evidence.reasons };
     if (!supabase) return { success: false, error: 'supabase_unavailable' };
+    if(!process.env.CUET_CONTENT_AUTHOR_ID)return {success:false,error:'content_author_configuration_required'};
+    const {data:hold,error:holdError}=await supabase.from('recovery_family_holds').select('family_id').eq('family_id',question.family_id).maybeSingle();
+    if(holdError)return {success:false,error:'family_hold_lookup_required'};
+    if(hold)return {success:false,error:'family_quarantined'};
     const now = new Date().toISOString();
     const difficulty = normalizeDifficulty(question.difficulty);
     const difficultyWeight = getDifficultyWeight(difficulty);
@@ -85,9 +94,7 @@ export async function publishQuestion(question, apiSecret, options = {}) {
       });
       return { success: false, error: traceability.reason };
     }
-    if (!String(question.pyq_anchor_id || '').trim()) {
-      return { success: false, error: 'draft_only_anchor_source_none' };
-    }
+    // Original source-backed families do not masquerade as authentic PYQs.
     const answerGuard = evaluateGeneratedQuestionAnswerGuard(question, { subjectId: question.subject });
     if (!answerGuard.accepted) {
       console.warn('[publish] answer_integrity_guard_rejected', {
@@ -117,15 +124,17 @@ export async function publishQuestion(question, apiSecret, options = {}) {
       ...(question.tags || []),
       `topic:${traceability.concept.topic}`,
       `concept:${traceability.concept.concept_id}`,
-      `pyq_anchor:${question.pyq_anchor_id}`,
+      ...(question.anchor_source_quality === 'real_pyq' && question.pyq_anchor_id ? [`pyq_anchor:${question.pyq_anchor_id}`] : []),
       `anchor_tier:${Number(question.anchor_tier)}`,
       `difficulty_weight:${difficultyWeight}`,
       `question_type:${question.question_type || 'direct_concept'}`,
     ];
 
     const questionColumnSupport = await getQuestionColumnSupport();
+    const publishedRecord={...question.evidence.record,state:'published',published_at:now};
     const questionInsert = {
-      author_id: 'test-user',
+      id: question.id || question.candidate_id || question.local_id,
+      author_id: process.env.CUET_CONTENT_AUTHOR_ID,
       subject: question.subject.trim(),
       chapter,
       body: question.body.trim(),
@@ -136,6 +145,9 @@ export async function publishQuestion(question, apiSecret, options = {}) {
       tags: Array.from(new Set(traceTags)),
       topic: traceability.concept.topic,
       status: 'live',
+      evidence: {record:publishedRecord,signature:evidenceSignature(publishedRecord,process.env.CUET_EVIDENCE_SIGNING_KEY)},
+      family_id: question.family_id,
+      passage_text: question.passage_text || question.passageText || null,
       ai_tier: 'A',
       verification_state: 'verified',
       quality_band: 'strong',
@@ -154,6 +166,10 @@ export async function publishQuestion(question, apiSecret, options = {}) {
     addOptionalQuestionColumn(questionInsert, questionColumnSupport, 'passage_id', question.passage_id || null);
     addOptionalQuestionColumn(questionInsert, questionColumnSupport, 'passage_type', question.passage_type || null);
     addOptionalQuestionColumn(questionInsert, questionColumnSupport, 'order_index', Number(question.order_index || 0) || null);
+
+    const persistedEvidence = publicationEligibility(questionInsert);
+    if (!persistedEvidence.eligible) return { success: false, error: `persisted_evidence_invalid:${persistedEvidence.reasons.join(',')}` };
+    if(options.prepareOnly)return {success:true,row:questionInsert};
 
     const { data: qData, error: qError } = await supabase
       .from('questions')
@@ -200,6 +216,24 @@ export async function publishQuestion(question, apiSecret, options = {}) {
 }
 
 export async function publishPassageGroup(group, questions, apiSecret, options = {}) {
+  if(!supabase)return {success:false,error:'supabase_unavailable'};
+  const children=Array.isArray(questions)?questions:[];
+  if(children.length<Math.max(2,Number(options.minValidatedChildren || 2)))return {success:false,error:'passage_complete_unit_required'};
+  const id=randomUUID(),first=children[0];
+  const passage=String(group?.passage_text || first.passage_text || '').trim();
+  if(!passage || children.some(q=>q.evidence?.record?.route!=='passage' || String(q.passage_text || q.passageText || '').trim()!==passage))return {success:false,error:'passage_integrity_conflict'};
+  const prepared=[];
+  for(const child of children){
+    const result=await publishQuestion({...child,passage_group_publish_allowed:true,passage_group_id:id},apiSecret,{...options,prepareOnly:true});
+    if(!result.success)return result;
+    prepared.push(result.row);
+  }
+  const groupRow={id,subject:first.subject,chapter:first.chapter,passage_text:passage,passage_type:group?.passage_type || null,title:group?.title || null,source:'generated',difficulty:normalizeDifficulty(first.difficulty),status:'live',discoverable:true,mode_visibility:['full_mock','nta_mode'],created_at:new Date().toISOString()};
+  const {data,error}=await supabase.rpc('publish_recovery_passage',{p_group:groupRow,p_questions:prepared});
+  return error?{success:false,error:'atomic_passage_publish_failed'}:{success:true,group_id:id,child_ids:data};
+}
+// Superseded: retained only as a comparison for the old partial-write failure.
+async function legacyPublishPassageGroup(group, questions, apiSecret, options = {}) {
   try {
     if (!supabase) return { success: false, error: 'supabase_unavailable' };
     const validQuestions = Array.isArray(questions) ? questions.filter(Boolean) : [];
@@ -218,6 +252,8 @@ export async function publishPassageGroup(group, questions, apiSecret, options =
       return { success: false, error: 'invalid_subject_unit_chapter_mapping' };
     }
     for (const question of validQuestions) {
+      const evidence=publicationEligibility(question);
+      if(!evidence.eligible) return {success:false,error:'passage_evidence_required',reasons:evidence.reasons};
       const answerGuard = evaluateGeneratedQuestionAnswerGuard(
         { ...question, subject: question.subject || subject },
         { subjectId: subject },

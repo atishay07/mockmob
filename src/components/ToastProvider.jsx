@@ -31,11 +31,12 @@ export function ToastProvider({ children }) {
   return (
     <ToastContext.Provider value={value}>
       {children}
-      <div className="fixed inset-x-4 bottom-4 z-[120] flex flex-col gap-2 md:left-auto md:right-4 md:max-w-sm">
+      <div className="mm-toast-stack fixed inset-x-4 bottom-4 z-[120] flex flex-col gap-2 md:left-auto md:right-4 md:max-w-sm">
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className={`glass px-4 py-3 text-sm ${toast.type === 'success' ? 'volt-soft text-volt' : 'text-red-300'}`}
+            role={toast.type === 'error' ? 'alert' : 'status'}
+            className={`glass mm-toast mm-toast--${toast.type} px-4 py-3 text-sm ${toast.type === 'success' ? 'volt-soft text-volt' : 'text-red-300'}`}
             style={toast.type === 'error' ? { borderColor: 'rgba(248,113,113,0.22)', background: 'rgba(248,113,113,0.08)' } : undefined}
           >
             <div className="flex items-center justify-between gap-3">
