@@ -44,7 +44,16 @@ Verified after apply: cap 25, prices for claude-haiku-4-5, claude-sonnet-5-5, gp
   states, light theme; result page renders the panel only under wrong answers.
 - Month-to-date runtime spend after all tests: ≈ $0.008 of $25.
 
-**Not done / gates:** deploy (Vercel env `AI_*` vars + deploy are owner actions); signed-in production
+**Deployed (owner chose "commit and push to main"):** `3c88f92` (all source/docs in the tree, incl.
+the owner's and earlier agents' uncommitted work; untracked `artifacts/` 121 MB deliberately not committed).
+**Incident:** that tree contained an earlier agent's www→apex redirect in next.config.mjs while Vercel
+redirects apex→www, so production looped (50 redirects) for ~15–20 minutes. Hotfix `499475a` removed the
+rule; site verified 200 at 01:03 IST on /, /pricing, /cuet-subject-combination, /api/stats; new
+/api/recovery/repair and /api/ai/mentor/chat answer 401 signed out. Lesson: before pushing a dirty tree,
+diff next.config/middleware against the deployed commit and probe redirects right after deploy. To make
+the apex canonical, change Vercel's domain redirect first, then add the rule.
+**Not done / gates:** Vercel `AI_*` env vars (code defaults to OpenAI gpt-4o-mini/gpt-4.1-mini, both
+priced, so replies work if Vercel has OPENAI_API_KEY — unverified); signed-in production
 check of a real PrepOS reply and repair; Anthropic key; learning/recovery migrations (triggers on live
 `questions`) still unapplied; homepage/store copy not yet renamed to "Score Recovery"; AI purchases
 closed; AI dispute quarantine relies on one model family tonight (both opinions from OpenAI).
