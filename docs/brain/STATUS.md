@@ -1,5 +1,18 @@
 # Implementation status — latest update: 4 October 2026
 
+## 5 October 2026 — Mistake Repair on GPT-6 Luna (Claude)
+
+Owner chose GPT-6 Luna (USD 0.10 in / 0.50 out per 1M) for Mistake Repair: reasoning effort `low` for
+the repair, `high` for the blind second opinion (`REPAIR_ROUTE`/`REPAIR_EFFORT` in
+`src/services/recovery/mistakeRepair.js`; `AI_REPAIR_MODEL` overrides). `providers.js` now sends
+`max_completion_tokens` + `reasoning_effort` (no temperature) to GPT-5/6/o-series and reserves budget
+for hidden reasoning tokens. gpt-4o-mini remains the fallback. Price row inserted in production
+`runtime_ai_prices` (owner instruction to ship now; file `20261005090000_runtime_ai_price_gpt6_luna.sql`).
+Not verified: a live GPT-6 Luna call (the live eval run was blocked by the local permission
+classifier). If Luna rejects a parameter, repairs fall back to gpt-4o-mini rather than failing.
+Open: key disputes ("No repair for this one") still are not logged as evidence about the key; the
+dispute flow designed on 5 October (soft flags, proposed key, student-was-right signal) is next.
+
 ## 4 October 2026 (late night) — Result page + Score Recovery Lab redesign after owner test (Claude)
 
 Owner tried a 10-question quick practice (3 right, 7 wrong) and rated the Lab 5/10: no meaningful use,

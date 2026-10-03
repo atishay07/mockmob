@@ -29,6 +29,11 @@ async function withheldForRecheck(db, { questionId, userId, attemptId, firstInde
     .eq('id', questionId).neq('status', 'rejected');
 }
 
+// Owner, 5 October 2026: GPT-6 Luna for Mistake Repair; low effort for the repair, high for the blind
+// second opinion. AI_REPAIR_MODEL overrides the model; the fallback (gpt-4o-mini) still applies on failure.
+export const REPAIR_ROUTE = Object.freeze({ provider: 'openai', model: process.env.AI_REPAIR_MODEL || 'gpt-6-luna' });
+export const REPAIR_EFFORT = Object.freeze({ repair: 'low', secondOpinion: 'high' });
+
 export async function repairMistake({ user, attemptId, questionId, requestId, generate = generateAIResponse }) {
   if (!REQUEST_ID.test(String(requestId || ''))) return out(400, { ok: false, error: 'request_id_required', message: 'Something went wrong. Nothing was charged. Try again.' });
   const db = supabaseAdmin();
@@ -70,7 +75,7 @@ export async function repairMistake({ user, attemptId, questionId, requestId, ge
 
   const prompt = buildRepairPrompt({ question: eligible.question, chosenIndex: eligible.chosenIndex, keyIndex: eligible.keyIndex, subject: attempt.subject });
   let ai;
-  try { ai = await generate({ requestKey: operationKey, tier: 'fast', systemPrompt: prompt.system, userMessage: prompt.user, responseSchema: MISTAKE_REPAIR_SCHEMA }); }
+  try { ai = await generate({ requestKey: operationKey, tier: 'fast', ...REPAIR_ROUTE, reasoningEffort: REPAIR_EFFORT.repair, systemPrompt: prompt.system, userMessage: prompt.user, responseSchema: MISTAKE_REPAIR_SCHEMA }); }
   catch { return await fail('provider_error', 502, 'The repair service did not answer.'); }
   if (!ai?.data) return await fail('unusable_output', 502, 'The repair could not be prepared reliably this time.');
   const verdict = interpretRepair(ai.data, { keyIndex: eligible.keyIndex, optionCount: eligible.question.options.length });
@@ -80,7 +85,7 @@ export async function repairMistake({ user, attemptId, questionId, requestId, ge
     // Second, blind opinion (the key is not shown). Two disagreements withhold the question.
     const blindPrompt = buildBlindSolvePrompt({ question: eligible.question, subject: attempt.subject });
     let blind = null;
-    try { blind = await generate({ requestKey: `${operationKey}:blind`, tier: 'smart', systemPrompt: blindPrompt.system, userMessage: blindPrompt.user, responseSchema: { required: ['solved_index'], types: { solved_index: 'number' } } }); }
+    try { blind = await generate({ requestKey: `${operationKey}:blind`, tier: 'smart', ...REPAIR_ROUTE, reasoningEffort: REPAIR_EFFORT.secondOpinion, systemPrompt: blindPrompt.system, userMessage: blindPrompt.user, responseSchema: { required: ['solved_index'], types: { solved_index: 'number' } } }); }
     catch { blind = null; }
     const blindIndex = blind?.data?.solved_index;
     const confirmed = Number.isInteger(blindIndex) && blindIndex !== eligible.keyIndex;

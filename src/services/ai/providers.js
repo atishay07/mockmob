@@ -79,9 +79,19 @@ const COST_TABLE = {
   'gpt-5-nano': { in: 0.05, out: 0.4 },
   'gpt-4o-mini': { in: 0.15, out: 0.6 },
   'gpt-4o': { in: 2.5, out: 10 },
+  'gpt-6-luna': { in: 0.1, out: 0.5 },
   'claude-haiku-4-5': { in: 1, out: 5 },
   'claude-sonnet-5-5': { in: 2, out: 10 },
 };
+
+// OpenAI reasoning models (GPT-5 and later, o-series) reject temperature and max_tokens. Their hidden
+// reasoning is billed as output, so the output bound grows with the effort level.
+const REASONING_HEADROOM = { none: 0, minimal: 500, low: 2500, medium: 5000, high: 10000, xhigh: 16000, max: 32000 };
+export function isReasoningModel(model) { return /^(gpt-(5|6)|o\d)/.test(String(model || '')); }
+export function outputBound(model, maxTokens, reasoningEffort) {
+  if (!isReasoningModel(model)) return maxTokens;
+  return maxTokens + (REASONING_HEADROOM[reasoningEffort || 'medium'] ?? REASONING_HEADROOM.medium);
+}
 
 function estimateCostUsd(model, inputTokens, outputTokens) {
   const rates = COST_TABLE[model];
@@ -114,7 +124,7 @@ function safeParseJson(text) {
   }
 }
 
-async function callOnce({ requestKey, provider, model, systemPrompt, userMessage, context, jsonMode, maxTokens = 950 }) {
+async function callOnce({ requestKey, provider, model, systemPrompt, userMessage, context, jsonMode, maxTokens = 950, reasoningEffort = null }) {
   const client = getClient(provider);
   if (!client) {
     return { ok: false, error: `provider_unavailable:${provider}` };
@@ -133,7 +143,7 @@ async function callOnce({ requestKey, provider, model, systemPrompt, userMessage
 
   let reservation;
   try {
-    reservation = await reserveRuntime({requestKey,provider,model,messages,maxTokens});
+    reservation = await reserveRuntime({requestKey,provider,model,messages,maxTokens:outputBound(model,maxTokens,reasoningEffort)});
     if (!reservation.dispatch) return reservation.receipt?.response || {ok:false,error:'runtime_request_pending'};
   } catch { return {ok:false,error:'runtime_ai_temporarily_unavailable'}; }
   if (provider === 'anthropic') return callAnthropic({ client, requestKey, provider, model, messages, jsonMode, maxTokens, reservation });
@@ -141,8 +151,9 @@ async function callOnce({ requestKey, provider, model, systemPrompt, userMessage
     const completion = await client.chat.completions.create({
       model,
       messages,
-      temperature: 0.4,
-      max_tokens: maxTokens,
+      ...(isReasoningModel(model)
+        ? { max_completion_tokens: outputBound(model, maxTokens, reasoningEffort), reasoning_effort: reasoningEffort || 'medium' }
+        : { temperature: 0.4, max_tokens: maxTokens }),
       ...(jsonMode ? { response_format: { type: 'json_object' } } : {}),
     });
     const choice = completion.choices?.[0];
@@ -219,6 +230,10 @@ export async function generateAIResponse({
   context = null,
   responseSchema = null,
   maxRetries = 1,
+  // Optional per-call routing (for example Mistake Repair pins GPT-6 Luna and its effort level).
+  provider = null,
+  model = null,
+  reasoningEffort = null,
 } = {}) {
   if (!systemPrompt || !userMessage) {
     return {
@@ -231,12 +246,12 @@ export async function generateAIResponse({
     };
   }
 
-  const primaryProvider =
-    tier === 'fast'
+  const primaryProvider = provider ||
+    (tier === 'fast'
       ? (process.env.AI_FAST_PROVIDER || process.env.AI_DEFAULT_PROVIDER || 'openai')
-      : (process.env.AI_DEFAULT_PROVIDER || 'openai');
+      : (process.env.AI_DEFAULT_PROVIDER || 'openai'));
   const fallbackProvider = process.env.AI_FALLBACK_PROVIDER || 'openai';
-  const primaryModel = pickModelForTier(tier);
+  const primaryModel = model || pickModelForTier(tier);
   const fallbackModel = process.env.AI_FALLBACK_MODEL || 'gpt-4o-mini';
   const maxTokens = tier === 'smart' ? 900 : 950;
 
@@ -250,6 +265,7 @@ export async function generateAIResponse({
     context,
     jsonMode: true,
     maxTokens,
+    reasoningEffort,
   });
 
   let parsed = attempt.ok ? safeParseJson(attempt.raw) : null;
@@ -261,6 +277,7 @@ export async function generateAIResponse({
       requestKey: requestKey ? `${requestKey}:repair` : null,
       provider: primaryProvider,
       model: primaryModel,
+      reasoningEffort,
       systemPrompt:
         systemPrompt +
         '\n\nCRITICAL: Your previous reply was not valid JSON in the required schema. Return ONLY a single JSON object that exactly matches the schema. No prose, no markdown, no code fences.',
