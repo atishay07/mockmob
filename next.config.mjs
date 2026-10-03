@@ -21,14 +21,8 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // Consolidate on the apex host: canonicals and the sitemap already point
-      // to mockmob.in, so www must redirect there or Google splits link equity.
-      {
-        source: '/:path*',
-        has: [{ type: 'host', value: 'www.mockmob.in' }],
-        destination: 'https://mockmob.in/:path*',
-        permanent: true,
-      },
+      // Do not add a www -> apex redirect here while Vercel's domain setting redirects apex -> www:
+      // together they loop (production outage, 4 Oct 2026). Choose the canonical host in Vercel first.
       {
         source: '/home',
         destination: '/',
