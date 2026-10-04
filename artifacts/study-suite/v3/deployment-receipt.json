@@ -1,11 +1,11 @@
 {
-  "commit": "86accc33b4591c2f562793af1b12a3e16a24f7ce",
+  "commit": "23ac1ddac20600865d94cd04843fdc36113e0a08",
   "project": "mockmob",
   "environment": "Production",
   "state": "Ready",
-  "deploymentUrl": "https://vercel.com/atishay07s-projects/mockmob/63WAusDST9US1pFBq9ZEhMMb4W42",
-  "deploymentDomain": "mockmob-q70qa5gus-atishay07s-projects.vercel.app",
-  "createdAtIST": "2026-10-05 02:06:43",
-  "durationSeconds": 39,
+  "deploymentUrl": "https://vercel.com/atishay07s-projects/mockmob/628qJMZ5zB1ABCnb2iu1GiN4scG9",
+  "deploymentDomain": "mockmob-bsfiu20bb-atishay07s-projects.vercel.app",
+  "createdAtIST": "2026-10-05 02:21:12",
+  "durationSeconds": 40,
   "evidence": "Authenticated Vercel deployment list; production domain separately checked by public-live-receipt.json and signed-in browser smoke"
 }

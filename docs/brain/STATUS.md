@@ -54,6 +54,15 @@ Learn showed 21 lessons and the new chapter entries; Pro mixed revision opened i
 five-card run directly. The owner's corrected old run now links to the current vocabulary
 lesson. The new Planning run resumes across localhost/production with the same saved step.
 Share-capital v1 was quarantined after deployment; all 107 current hashes still match.
+The follow-up session-scoped validation and recorded live checks are published as
+`23ac1ddac20600865d94cd04843fdc36113e0a08`. Vercel production deployment
+`628qJMZ5zB1ABCnb2iu1GiN4scG9` is Ready (40s build), created 5 October at 02:21:12 IST.
+The post-release public smoke at 20:51 UTC passed the same public/auth/redirect checks.
+The live Planning lesson completed all nine saved steps and both keyboard-selected checks.
+Its completion surface explained the three free cards and correctly deferred introductions
+until tomorrow because this owner QA account had already started five new cards today.
+Its Apply link selected Business Studies / Planning / ten-question Quick Practice and
+displayed the retained Pro access quote before Start. No timed session was started.
 Rollback keeps records: revert the release commit or disable the existing independent
 study flags and redeploy; no deletes.
 New rows are ignored by the preceding release manifest. Remaining: 39 chapters without
