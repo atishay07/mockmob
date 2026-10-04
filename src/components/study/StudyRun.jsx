@@ -8,20 +8,19 @@ import { BLOCK_LABEL, RATINGS, friendlyError, itemLabel, practiceHref, subjectNa
 const newKey = () => (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`).replace(/[^a-zA-Z0-9_-]/g, '');
 
 export default function StudyRun({ run: initial, api, onOpenRun, onExit }) {
-  const [run, setRun] = useState(initial), [busy, setBusy] = useState(false), [error, setError] = useState(null), [saved, setSaved] = useState('');
+  const [run, setRun] = useState(initial), [busy, setBusy] = useState(false), [error, setError] = useState(null), [saved, setSaved] = useState(''), [hasPending, setHasPending] = useState(false);
   const pending = useRef(null), heading = useRef(null);
   const { speak, notice, cancel } = usePronounce();
   useEffect(() => () => cancel(), []); // eslint-disable-line react-hooks/exhaustive-deps
-  useEffect(() => { setRun(initial); }, [initial]);
   const item = run.item, isLesson = run.mode === 'learn', unit = run.units?.[0];
 
   const send = async event => {
     if (busy) return;
     const input = pending.current || { ...event, itemId: item.id, expectedRevision: run.revision, requestKey: newKey() };
-    pending.current = input; setBusy(true); setError(null);
+    pending.current = input; setHasPending(true); setBusy(true); setError(null);
     try {
       const next = await api.post(`/api/study/runs/${run.id}/events`, input);
-      pending.current = null;
+      pending.current = null; setHasPending(false);
       if (next.cursor !== run.cursor || next.state !== run.state) {
         // After a card is finished, say when it returns: the scheduling is the point of review.
         setSaved(!isLesson && next.lastReview?.cardId === run.item.id ? `Saved. “${run.item.word || run.item.title || 'That card'}” comes back ${whenDue(next.lastReview.due) || 'later'}.` : '');
@@ -31,14 +30,14 @@ export default function StudyRun({ run: initial, api, onOpenRun, onExit }) {
     } catch (e) { setError(friendlyError(e)); } finally { setBusy(false); }
   };
   const reload = async () => {
-    pending.current = null; setBusy(true); setError(null);
+    pending.current = null; setHasPending(false); setBusy(true); setError(null);
     try { setRun(await api.get(`/api/study/runs/${run.id}`)); } catch (e) { setError(friendlyError(e)); } finally { setBusy(false); }
   };
 
   const total = run.total, step = Math.min(run.cursor + 1, total);
   const back = <Link className="sx-back" href={unit && isLesson ? `/learn/${unit.id}` : '/learn'} onClick={onExit ? e => { e.preventDefault(); onExit(); } : undefined}><ArrowLeft size={16} aria-hidden="true" />{isLesson ? 'Lesson overview' : 'Learn'}</Link>;
   const errorBox = error ? <div className="sx-alert" role="alert"><p>{error.text}</p><div className="sx-actions">
-    {pending.current && error.retry ? <button type="button" className="sx-secondary" onClick={() => send(pending.current)} disabled={busy}><RotateCcw size={16} aria-hidden="true" />Try again</button> : null}
+    {hasPending && error.retry ? <button type="button" className="sx-secondary" onClick={() => send(pending.current)} disabled={busy}><RotateCcw size={16} aria-hidden="true" />Try again</button> : null}
     {error.reload || error.retry ? <button type="button" className="sx-quiet" onClick={reload} disabled={busy}>Reload saved step</button> : null}
     {error.updated && unit ? <Link className="sx-secondary" href={`/learn/${unit.id}`}>Open the current lesson</Link> : null}
     {error.signIn ? <Link className="sx-secondary" href="/login">Sign in</Link> : null}
@@ -77,7 +76,7 @@ export default function StudyRun({ run: initial, api, onOpenRun, onExit }) {
         </> : item.type === 'reveal' ? <>
           <p className="sx-hint">Say or write your answer first, then check it.</p>
           <div className="sx-actions sx-actions--sticky"><button className="btn-volt md" type="button" onClick={() => send({ type: 'reveal' })} disabled={busy}>Show the answer</button></div>
-        </> : <AnswerForm key={`${item.id}-${run.revision}`} item={item} busy={busy} locked={!!pending.current} assistedToggle={!isLesson}
+        </> : <AnswerForm key={`${item.id}-${run.revision}`} item={item} busy={busy} locked={hasPending} assistedToggle={!isLesson}
           onSubmit={(value, assisted) => send({ type: 'answer', value: item.type === 'choice' ? value : String(value), assisted })} onSkip={(value, assisted) => send({ type: 'answer', value, assisted })} />}
       </>}
       {notice ? <p className="sx-small" role="status">{notice}</p> : null}

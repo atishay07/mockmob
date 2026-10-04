@@ -62,3 +62,24 @@ test('study transactions preserve owners, immutable retries, scheduling, exposur
     await db.exec('reset role;set role service_role');await assert.rejects(db.query("update study_events set event='{}'"),/permission denied/);
   }finally{await db.close();}
 });
+test('a set-aside lesson lets the owner open a different lesson; an active one is resumed instead', async () => {
+  const db = new PGlite();
+  try {
+    await db.exec(`create role anon;create role authenticated;create role service_role;create table users(id text primary key);insert into users values('owner');
+      create table learning_episodes(id text,pathway jsonb);create table learning_family_exposure(user_id text,family_id text,reference text,created_at timestamptz default now(),primary key(user_id,family_id));`);
+    await db.exec(migration);
+    await db.exec(readFileSync(new URL('../../supabase/migrations/20261004172214_study_review_backlog.sql', import.meta.url), 'utf8'));
+    await db.exec("insert into study_units values('a',1,'accountancy','Admission of Partner','x','{}','ha','published'),('b',1,'economics','National Income','y','{}','hb','published')");
+    const row = (id, unit) => ({ id, user_id: 'owner', request_key: `request_${id}_1234`, request: { mode: 'learn', unitId: unit }, mode: 'learn', content: { units: [{ id: unit, version: 1, contentHash: `h${unit}` }], items: [{ id: 'step', familyId: `study:${unit}:teaching:v1` }] }, projection: createStudyRun({ id, mode: 'learn', unitIds: [unit] }) });
+    const start = r => db.query('select start_study_run($1,$2,$3) as result', [r, [], '2026-10-05']).then(x => x.rows[0].result);
+    assert.equal((await start(row('first', 'a'))).id, 'first');
+    // The database resumes any active run of the same mode; the server sets it aside first.
+    assert.equal((await start(row('second', 'b'))).id, 'first');
+    const aside = studyTransition(createStudyRun({ id: 'first', mode: 'learn', unitIds: ['a'] }), null, { type: 'set_aside', expectedRevision: 0, requestKey: 'set_aside_key_1234' }).projection;
+    await db.query('select advance_study_run($1,$2,$3,$4,$5,$6,$7,$8)', ['owner', 'first', 'set_aside_key_1234', { type: 'set_aside' }, 0, aside, { state: 'set_aside' }, null]);
+    assert.equal((await start(row('third', 'b'))).id, 'third');
+    const states = (await db.query("select id,projection->>'state' as state from study_runs order by id")).rows;
+    assert.deepEqual(states, [{ id: 'first', state: 'set_aside' }, { id: 'third', state: 'active' }]);
+    assert.equal((await db.query('select count(*)::int n from study_events')).rows[0].n, 1);
+  } finally { await db.close(); }
+});

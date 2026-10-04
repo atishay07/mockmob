@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, BookOpenText, Brain, Target, Timer, ChevronRight } from 'lucide-react';
 import { SubjectIcon } from '@/components/ui/Glyph';
@@ -10,12 +10,12 @@ const newKey = () => crypto.randomUUID().replace(/[^a-zA-Z0-9_-]/g, '');
 export default function StudyLibrary({ catalog, api, onOpenRun, onOpenUnit, initialSubject, prefsSlot }) {
   const firstSubject = SUBJECTS.some(s => s[0] === initialSubject) ? initialSubject : (catalog.nextUnit?.subject || catalog.preferences?.subjects?.[0] || 'english');
   const [subject, setSubject] = useState(firstSubject), [busy, setBusy] = useState(false), [error, setError] = useState(null);
-  const reviewKey = useRef(null);
+  const [reviewKey, setReviewKey] = useState(newKey);
   const q = catalog.queue;
   const startReview = async () => {
-    setBusy(true); setError(null); reviewKey.current ||= newKey();
-    try { onOpenRun(await api.post('/api/study/runs', { mode: 'recall', requestKey: reviewKey.current })); }
-    catch (e) { reviewKey.current = null; setError(friendlyError(e)); } finally { setBusy(false); }
+    setBusy(true); setError(null);
+    try { onOpenRun(await api.post('/api/study/runs', { mode: 'recall', requestKey: reviewKey })); }
+    catch (e) { setReviewKey(newKey()); setError(friendlyError(e)); } finally { setBusy(false); }
   };
   const open = (e, id) => { if (onOpenUnit) { e.preventDefault(); onOpenUnit(id); } };
   const bySubject = useMemo(() => Object.fromEntries(SUBJECTS.map(([id]) => [id, catalog.units.filter(u => u.subject === id)])), [catalog.units]);

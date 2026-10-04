@@ -261,3 +261,8 @@ html[data-theme='light'] .rp-options li:is([data-state='key'], [data-state='mine
 @keyframes rp-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes rp-pop { 0% { opacity: 0; transform: scale(.5); } 70% { opacity: 1; transform: scale(1.12); } 100% { opacity: 1; transform: none; } }
 @keyframes rp-pip { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.srl-lessons { margin: 4px 0 14px; display: grid; gap: 6px; }
+.srl-lessons ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.srl-lessons li { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 10px; }
+.srl-lessons .pr-link { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 700; }
+.srl-lessons small { color: var(--a-ink-3, #93a08f); font-size: 12px; }

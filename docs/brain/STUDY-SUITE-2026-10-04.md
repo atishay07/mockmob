@@ -43,3 +43,13 @@ Earlier fixture checks covered keyboard reveal/grading, heading focus, spelling-
 Still required: real budget Android with keyboard open, physical assistive technology, actual 200% browser text/zoom and OS reduced-motion checks, controlled performance lab/field CWV, unseen-question learning outcomes with adequate samples, formal source/calibration expansion and CLI history reconciliation. Online interruption recovery is included; downloadable offline packs follow only after online correctness. Content expansion to the remaining concepts/chapters must pass the same versioned source/content gates. Existing consent/privacy and recovery pilot sample thresholds remain authoritative.
 
 Local evidence is in `artifacts/study-suite/`: migration/content receipts, rollback smoke, schema dry run, release build/lint/test logs, responsive results and screenshots. Production deployment status and actual live smoke belong in `STATUS.md`; a local build is not proof of publication.
+
+## Content v2 and the connected loop (5 October 2026)
+
+Learn is now organised around one loop per concept: Learn → Lock it in → Apply. Authored sources live in
+`data/study/authored/*.mjs`; `node scripts/learning/build-study-content.mjs` writes `pilot.json` and WordNet
+excerpts; `node scripts/learning/validate-study-content.mjs --write --strict` writes `release.json` (needs the
+git-ignored NCERT PDFs and `data/study/sources/dict`; without them NCERT/vocabulary units quarantine);
+`node scripts/learning/study-content-v2-import.mjs` writes and dry-runs the two-phase SQL; production uses
+`apply-study-content-v2.mjs insert|supersede|verify` against the authorised project only. Coverage, verification
+and rollback: STATUS.md, 5 October entry.

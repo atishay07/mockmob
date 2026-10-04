@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { CAPABILITIES, recoveryReleased, newOfferReleased } from '@/../data/capabilities';
 import { publicOffer } from '@/lib/payments/offer';
-import { ArrowRight, Check, History, Timer, Wrench, Radar, Sparkles, Compass, Combine, Trophy, Monitor, Target, GraduationCap, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Check, History, Timer, Wrench, Radar, Sparkles, Compass, Combine, Trophy, Monitor, Target, GraduationCap, ShieldCheck, BookOpenText } from 'lucide-react';
+import STUDY_RELEASE from '@/../data/study/release.json';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
 import { MobileDock } from '@/components/MobileDock';
@@ -56,6 +57,10 @@ const DU_FACTS = duIndexFacts();
 // The statement scrubs word by word with the scroll. Words marked with * carry the accent.
 const STATEMENT = 'One mock. A clearer *next step. See what cost you marks, choose a chapter for *tonight, and check the DU subject rules behind your *shortlist.';
 
+// Learn is marketed only while study content is switched on; counts come from the release proof.
+const STUDY_LIVE = process.env.STUDY_CONTENT_ENABLED === 'true' && process.env.STUDY_RECALL_ENABLED === 'true';
+const STUDY_LESSONS = Object.keys(STUDY_RELEASE.units || {}).length;
+const STUDY_SUBJECTS = new Set(Object.keys(STUDY_RELEASE.units || {}).map(id => id.split('-')[0])).size;
 // The feature tour: every product area, one idea per slide. Screens are labelled illustrations; the
 // chips say what is true of the product. Each slide's demo screen lives in TourScreens.jsx, keyed by id.
 // Add `video: '/demos/<id>.mp4'` to a slide to play a real screen recording in its place.
@@ -66,6 +71,9 @@ const TOUR = [
   { id: 'repair', label: 'Mistake Repair', icon: <Wrench size={18} aria-hidden="true" />, line: 'Fix why you got it wrong, not just the answer', kicker: 'Score Recovery', title: 'Fix why you missed it, not just what the answer was.',
     body: 'After a wrong answer, the AI solves the question itself first. Only when it lands on the official key does it explain why your pick was tempting and what to remember.',
     points: ['If the AI and the key disagree, we hold the question back and you pay nothing', 'A 10-minute next step, then 5 fresh questions to test the fix'], chip: 'The AI double-checks itself before it teaches you', href: '/signup', cta: 'Try Mistake Repair' },
+  ...(STUDY_LIVE && STUDY_LESSONS ? [{ id: 'learn', label: 'Learn', icon: <BookOpenText size={18} aria-hidden="true" />, line: 'Learn the idea, then keep it', kicker: 'Learn', title: 'Learn the idea behind the mark, then keep it.',
+    body: 'Short lessons with worked examples and the common mistake, then recall cards that return before you are likely to forget. When a chapter keeps costing you marks, its lesson is linked from your result.',
+    points: [`${STUDY_LESSONS} lessons across ${STUDY_SUBJECTS} subjects so far; more chapters as each passes its source checks`, 'Lessons and recall are free and use no credits', 'Then practise the same chapter with marks'], chip: 'A companion to your textbook, not a replacement', href: '/learn', cta: 'Open Learn' }] : []),
   { id: 'replay', label: 'Replay', icon: <History size={18} aria-hidden="true" />, line: 'See where the marks actually went', kicker: 'Mistake Replay', title: 'See exactly where the marks went.',
     body: 'Replay a finished session: answers you changed, questions that ate your time, ones you skipped. Then turn the costly ones into a short drill.',
     points: ['An answer-by-answer timeline', 'Save any question to revisit later'], chip: 'It shows what happened; you decide what to do', href: '/review', cta: 'Review your mistakes' },

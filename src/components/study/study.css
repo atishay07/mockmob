@@ -238,3 +238,14 @@
   .sx-print-only table { border-collapse: collapse; } .sx-print-only td { border: 1px solid #999; padding: 4px 8px; }
 }
 @media (prefers-reduced-motion: reduce) { .sx * { transition: none !important; animation: none !important; } }
+@media (max-width: 560px) {
+  .sx-table--stack { overflow: visible; }
+  .sx-table--stack thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .sx-table--stack table, .sx-table--stack tbody, .sx-table--stack tr, .sx-table--stack th, .sx-table--stack td { display: block; width: auto; }
+  .sx-table--stack tr { padding: 10px 12px; border-bottom: 1px solid var(--a-line); }
+  .sx-table--stack tr:last-child { border-bottom: 0; }
+  .sx-table--stack tbody th { padding: 0 0 6px; border: 0; font-family: var(--font-display); }
+  .sx-table--stack td { padding: 4px 0; border: 0; }
+  .sx-table--stack td::before { content: attr(data-label); display: block; color: var(--a-ink-3); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.01em; }
+  .sx-table--stack td:empty { display: none; }
+}

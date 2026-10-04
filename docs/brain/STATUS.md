@@ -1331,3 +1331,127 @@ Source changes (not yet deployed; deploy needs `AI_LUNA_MODEL` optional and the 
 - See `STUDY-SUITE-2026-10-04.md` and local `artifacts/study-suite/` receipts. Real Android/keyboard,
   screen reader, actual 200% text/zoom/reduced-motion settings, field CWV and delayed unseen-question
   outcomes remain unverified. Rollback disables study flags and retains learning records.
+
+### 4 October 2026 — preparation suite published
+
+- Commit `a6a61cc276d9df36b43e4760c08df0dfe83802a3` is on `origin/main`.
+  Domain-verified Vercel project `mockmob` deployment is Ready:
+  https://vercel.com/atishay07s-projects/mockmob/FeimHt2rAGpA3qG4Eepoqfa43PNJ.
+  Vercel showed 49 seconds and 23:21:17 IST on 4 October. Production flags are enabled.
+- Live HTTP smoke passed: apex 307 once to www then 200; www and Learn 200; anonymous
+  study catalog 401; dev-only study preview 404. Public Learn redirects signed-out users
+  through existing authentication. Live signed-in browser check awaits owner Google sign-in;
+  the Google chooser shows the existing account signed out. No credential was generated,
+  transferred from localhost or changed to bypass login.
+- Authenticated current-project readback passed: English lesson complete, recall cursor one
+  after the first card, answer hidden on the next card, one persisted FSRS review whose due
+  date matches the run receipt, and original twenty-minute preference restored. Actual
+  owner QA records remain resumable; they are not student outcome evidence.
+- Final authenticated release library and recall checks across 320/390/768/1024/1440 plus
+  short landscape showed zero root overflow and no study buttons/links below 44px. Dark
+  phone library also had no overflow. Full-mock shortcut selected the existing Full Mock
+  and displayed its access quote without starting or charging a practice session.
+- Evidence: `artifacts/study-suite/{production-release-receipt.json,production-deployed.png,
+  live-http.json,authenticated-study-receipt.json,responsive-release-library.json,
+  responsive-release-recall.json,phone-library-dark.png}`. This post-release receipt remains
+  local; application source and pre-release verification status are already published.
+- Original dirty checkout and unrelated owner edits remain intact; release checkout/branch is
+  `artifacts/study-suite/release` / `codex/connected-study-suite`. Original local main still
+  points at its prior commit; reconcile intentionally before later publishing owner edits.
+  Full curriculum/offline packs, formal calibration, CLI migration-history reconciliation,
+  physical-device/assistive-technology/200%-zoom and field performance/outcome gates remain open.
+
+
+### 4 October 2026 — signed-in preparation-suite production smoke passed
+
+- Owner completed normal Google sign-in. Live library rendered both English and Accountancy
+  units, existing Pro access, the completed lesson and recall progress. The existing recall run
+  resumed at card two. A live reveal was saved and survived page reload; its answer, optional
+  pronunciation, linked lesson and four rating controls rendered correctly. No scored session,
+  practice-credit charge, purchased-entitlement change or paid AI call was made.
+- Actual live library viewport checks passed at 320/390/768/1024/1440 and short landscape.
+  Revealed recall passed at 320/390/1440 and short landscape. Each measurement asserted actual
+  width/height, zero root overflow and no study buttons/links below 44px. No error logs were
+  captured in the final live test tab. Earlier viewport results that targeted the build-queue
+  tab were discarded and replaced with these measurements; they are not release evidence.
+- Evidence: `live-responsive-library.json`, `live-responsive-recall.json`, `live-phone-library.png`,
+  `live-phone-recall.png` and updated `production-release-receipt.json` in `artifacts/study-suite/`.
+  Physical-device, assistive-technology, actual zoom/reduced-motion, field performance and
+  curriculum/calibration/offline/history-reconciliation gates listed above remain open.
+
+
+- Final signed-in live Today showed the same resumable study run, twenty-minute preference and
+  the 4/6/10-minute sequence plus full-mock shortcut. Temporary viewport overrides were reset.
+
+
+### 5 October 2026 — Learn rebuilt as one connected loop; content v2 across four subjects
+
+Owner feedback: "Even I cannot understand what Learn actually does." Diagnosis from the live/local walk-through:
+Learn opened on "Start recall" before anything was taught; the English "lesson" taught the recall method and no
+words; cards were bare dictionary definitions; lesson completion did not lead to recall or practice; starting a
+second lesson silently resumed the first (the database resumes any active run of the same mode).
+
+What changed (branch `codex/connected-study-suite`, on top of a6a61cc):
+- One loop per concept, stated everywhere: **Learn (5–7 min) → Lock it in (2–3 min recall) → Apply (chapter
+  practice with marks)**. Learn home gives one next action (continue / due review / recommended lesson, subjects
+  rotated by fewest lessons read or by recent practice mistakes), then subject → chapter → concept with status,
+  "practice available, lessons later" for untaught chapters, study record and mock shortcut.
+- Lesson overview: objectives ("You'll be able to"), "How CUET asks this", three-step status, contents, sources.
+- Lessons: idea, formula, method, worked example tables, common-mistake callouts, word sets with WordNet examples,
+  numbered practice passages; quick checks with per-option "why that is wrong" feedback. Completion screen offers
+  Lock it in (that lesson's cards), then Practise <chapter> (`/dashboard?subject&chapter&mode=quick&count=10`).
+- Recall: one card = one memory with rotating task variants (meaning in context, gap fill/spelling, synonym or
+  opposite; numeric/ratio calculations; scenario classification). Answers checked exactly (equivalent fractions,
+  ratios in lowest terms, ₹/commas, British/US spelling from the source). After each card: when it returns.
+  Summary lists remembered/forgot with next review, reread links and the Apply step.
+- Server: `set_aside` transition closes an older active session (history kept, nothing introduced) when a
+  different lesson or focused recall starts; same request resumes. Per-unit memory status, lock-in availability,
+  explicit `DAILY_NEW_LIMIT_REACHED` / `NOTHING_DUE`. Unchanged: 5 new cards per IST day, >20 overdue pauses new
+  cards, FSRS 5.4.2 defaults at 0.90, append-only events, revision checks, DB-enforced daily limit, RLS/grants.
+- Today steps carry purpose, minutes and what "done" means; practice step links the recommended chapter.
+  Result page Repair step links every mistaken chapter that has a lesson (count + minutes). Review/Progress
+  study card reworded. Homepage tour gains a flag-gated Learn slide; its counts come from `release.json`.
+
+Content v2 (released 14 units / 65 cards / 179 task variants; zero paid model calls):
+| Subject | Units | Chapters with lessons |
+| --- | --- | --- |
+| English | 6 vocabulary sets (30 WordNet words; 10 new) + main idea + stated/inferred | Vocabulary, Factual Passage, Narrative Passage (3 of 7) |
+| Accountancy | sacrificing/gaining ratios (v2), revaluation | Change in Profit Sharing Ratio, Admission of Partner (2 of 16) |
+| Business Studies | delegation/decentralisation, planning/controlling | Organising, Controlling (2 of 13) |
+| Economics | what GDP counts (final goods, value added, GVA/NVA, non-monetary), nominal/real/deflator | National Income & Related Aggregates (1 of 18) |
+All eight concept blueprints now have teaching units. This is **not** full syllabus coverage and does not release
+formal recovery pathways or assessment families.
+
+Validation (`scripts/learning/validate-study-content.mjs --write --strict`): every number recomputed
+independently; WordNet meanings/examples/synonyms/antonyms re-derived from hashed source lines (licence kept);
+NCERT reconciliation phrases found on cited PDF pages (leac102 p.3,5,6,30,31; leac103 p.3; leec102 p.3,10,21,23;
+lebs105 p.20,26; lebs108 p.5,6,8; PDFs downloaded with owner approval, sha256 in registry, git-ignored);
+original reading passages checked for evidence/not-stated/key structure; family IDs disjoint from recovery
+pathways. Tamper tests prove changed arithmetic, definitions, relations, reading keys and answer keys quarantine.
+
+Production data (owner-authorised project isrxrxzjocewrdureyhp): phase 1 insert-only applied 5 Oct via
+`scripts/learning/apply-study-content-v2.mjs insert` after the PGlite dry run
+(`artifacts/study-suite/content-v2-import-dry-run-report.json`: idempotent, invisible to old code, changed
+same-version content refused, supersede quarantines not deletes, stale run invalidated with event, unrelated
+data unchanged). Receipt: 14/14 units, 65/65 cards present and hash-matched. Phase 2 (`supersede`, retires
+english-vocabulary-01@1 and accountancy-sacrificing-gaining@1) runs only after the v2 deploy is live.
+
+Verification (local, release checkout): tests recovery 35, learning 80, study 19, answer-integrity 6, NTA 22,
+payment entitlements 12, landing/UI 9 — all pass; full lint clean; production build passes. Fixture walk-through
+(dev-only `/preview/study`, real engine and scheduler) and **owner-signed-in walk-through on production data**
+on localhost: revaluation lesson resumed at step 3 after reload; triple click advanced one step; stale second-tab
+event returned 409 with server state unchanged; wrong choice explained; "₹3,000" accepted; completion → Lock in 5
+cards → summary with next review times → reread link → practice opened with Accountancy / Admission of Partner
+preselected and "Included" (nothing started or charged); different lesson set the earlier one aside, same lesson
+resumed; Today led with the unfinished lesson. 320 px library/overview/lesson: zero overflow, no study targets
+<44 px; wide comparison tables stack on phones. Both themes checked. These are owner QA records, not student
+outcome evidence.
+
+Still open: real budget Android with keyboard, physical screen reader, actual 200% zoom/OS reduced motion, field
+Core Web Vitals, delayed unseen-question outcomes, comprehension testing with real students, offline packs
+(print summary only), remaining chapters, CLI migration-history reconciliation. Device TTS pronunciation is
+labelled as device voice; no licensed pronunciation source is bundled.
+
+Rollback: set STUDY_CONTENT_ENABLED/STUDY_RECALL_ENABLED/STUDY_GUIDED_PLAN_ENABLED to false and redeploy (records
+kept), or `git revert` the release commit and redeploy. If phase 2 has run and the old code is restored, set the
+two v1 units back to `published` (no deletes are needed; v2 rows are ignored by the old release proof).

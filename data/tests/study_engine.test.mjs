@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import { preferences, recallQueue, createStudyRun, studyTransition, publicStudyItem, istDay, guidedSequence } from '../study_engine.js';
 import { scheduleReview } from '../study_scheduler.mjs';
 import { canonicalStudyJSON } from '../study_content.js';
+import { createHash } from 'node:crypto';
 const at=Date.parse('2026-10-04T10:00:00Z');
 const cards=Array.from({length:30},(_,i)=>({id:`c${i}`,version:1,type:'reveal',answer:'answer',familyId:`study:${i}`}));
 const run=()=>createStudyRun({id:'r',mode:'recall',unitIds:['u'],cardIds:['c0','c1'],at});
@@ -79,11 +80,14 @@ test('Today keeps active work and formal checks ahead of recall and allocates a 
   }
   assert.deepEqual(guidedSequence({primary:{kind:'ordinary_practice'}},{...study,active:{id:'saved',mode:'recall'}},20).map(step=>step.kind),['resume_study','learn','ordinary_practice']);
 });
-test('canonical content digests survive jsonb key ordering and public pilot never contains formal check keys',()=>{
+test('canonical content digests survive jsonb key ordering and every released item is bound to the current pilot',()=>{
   assert.equal(canonicalStudyJSON({b:[{z:1,a:2}],a:3}),canonicalStudyJSON({a:3,b:[{a:2,z:1}]}));
   const pilot=JSON.parse(readFileSync(new URL('../study/pilot.json',import.meta.url)));
-  assert.equal(pilot.cards.filter(c=>c.subject==='english').length,20);assert.ok(pilot.cards.every(c=>c.familyId.startsWith('study:')));
-  const release=JSON.parse(readFileSync(new URL('../study/release.json',import.meta.url)));assert.equal(Object.keys(release.cards).length,23);
-  assert.match(release.units['accountancy-sacrificing-gaining@1'].validation,/no formal recovery certification/);
+  const release=JSON.parse(readFileSync(new URL('../study/release.json',import.meta.url)));
+  assert.ok(pilot.cards.every(c=>c.familyId.startsWith('study:')));
   assert.ok(pilot.units.every(unit=>!unit.checks && !unit.probes));
+  for(const unit of pilot.units) assert.equal(release.units[`${unit.id}@${unit.version}`]?.contentHash,createHash('sha256').update(canonicalStudyJSON(unit)).digest('hex'),unit.id);
+  for(const card of pilot.cards) assert.equal(release.cards[`${card.id}@${card.version}`]?.contentHash,createHash('sha256').update(canonicalStudyJSON(card)).digest('hex'),card.id);
+  assert.ok(Object.values(release.units).every(u=>/no formal recovery certification|WordNet|Original practice passages/.test(u.validation)));
+  for(const subject of ['english','accountancy','business_studies','economics']) assert.ok(pilot.units.filter(u=>u.subject===subject).length>=2,subject);
 });

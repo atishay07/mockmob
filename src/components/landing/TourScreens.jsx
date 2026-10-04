@@ -115,6 +115,31 @@ export function RepairScreen({ play }) {
   );
 }
 
+// ---------- 2b. Learn ----------
+// A real released recall card (WordNet 3.0 sense and example), shown as it appears after a lesson.
+const LEARN_T = [300, 700, 1100, 1500, 2300, 3000];
+const LEARN_OPTS = ['not eager', 'characterized by directness in manner or speech; without subtlety or evasion','easily tricked because of being too trusting'];
+export function LearnScreen({ play }) {
+  const step = useSteps(play, LEARN_T);
+  return (
+    <Frame title="Lock it in · Vocabulary" step={step} right={<span className="ts__badge">Card 1 of 5</span>}>
+      <p className="ts__meta">Meaning in context</p>
+      <p className="ts__q">“I gave them my <b>candid</b> opinion.” What does candid mean here?</p>
+      <ul className="ts__opts">
+        {LEARN_OPTS.map((text, i) => (
+          <li key={text} data-in={on(step > i)} data-picked={on(i === 1 && step >= 4)}>
+            <b>{'ABC'[i]}</b><span>{text}</span>
+            {i === 1 ? <span className="ts__tap" data-on={on(step === 4)} aria-hidden="true" /> : null}
+            {i === 1 && step >= 5 ? <Check size={15} className="ts__tick" aria-hidden="true" /> : null}
+          </li>
+        ))}
+      </ul>
+      <p className="ts__meta ts__meta--row"><span data-on={on(step >= 5)} className="ts__saved">Correct</span><span>{step >= 6 ? 'Comes back in a few days' : ' '}</span></p>
+      <p className="ts__cta" data-in={on(step >= 6)}>Then: practise Vocabulary questions<ArrowRight size={14} aria-hidden="true" /></p>
+    </Frame>
+  );
+}
+
 // ---------- 3. Mistake Replay ----------
 const REPLAY_T = [300, 800, 1300, 2100, 2800];
 export function ReplayScreen({ play }) {
@@ -249,6 +274,7 @@ export function BenchmarkScreen({ play }) {
 export const TOUR_SCREENS = {
   arena: PracticeScreen,
   repair: RepairScreen,
+  learn: LearnScreen,
   replay: ReplayScreen,
   radar: RadarScreen,
   prepos: PrepOSScreen,

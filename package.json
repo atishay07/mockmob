@@ -11,7 +11,7 @@
     "nta:sample": "node --use-system-ca scripts/nta-sample.mjs",
     "nta:diagnose": "node --use-system-ca scripts/nta-diagnose.mjs",
     "test:nta": "node --test data/tests/nta_question_selector.test.mjs",
-    "test:study": "node --test data/tests/study_engine.test.mjs data/tests/study_database.test.mjs",
+    "test:study": "node --test data/tests/study_engine.test.mjs data/tests/study_content.test.mjs data/tests/study_database.test.mjs",
     "test:answer-integrity": "node --test data/tests/answer_integrity.test.mjs",
     "db:seed": "node scripts/seed.mjs",
     "autonomous": "node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start",

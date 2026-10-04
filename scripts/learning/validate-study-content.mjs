@@ -11,7 +11,9 @@ import { parseSynset } from './lib/wordnet.mjs';
 
 const sha = v => createHash('sha256').update(v).digest('hex');
 const digest = v => sha(canonicalStudyJSON(v));
-const content = JSON.parse(readFileSync('data/study/pilot.json', 'utf8'));
+const contentPath = process.argv.find(a => a.startsWith('--content='))?.slice(10) || 'data/study/pilot.json';
+const content = JSON.parse(readFileSync(contentPath, 'utf8'));
+const skipSources = process.argv.includes('--skip-pdf'); // tests without the ignored PDFs
 const registry = JSON.parse(readFileSync('data/study/sources/registry.json', 'utf8'));
 const wordnet = JSON.parse(readFileSync('data/study/sources/wordnet-excerpts.json', 'utf8'));
 const problems = new Map();
@@ -154,7 +156,7 @@ function pages(sourceId) {
 }
 function checkSources(unit) {
   for (const ref of unit.sourceRefs) if (!registry.sources[ref.id]?.permission || registry.sources[ref.id].url !== ref.url) flag(unit.id, `UNREGISTERED_SOURCE:${ref.id}`);
-  for (const [sourceId, page, phrases] of PDF_CHECKS[unit.id] || []) {
+  for (const [sourceId, page, phrases] of skipSources ? [] : PDF_CHECKS[unit.id] || []) {
     try { const text = pages(sourceId)[page - 1] || ''; for (const phrase of phrases) if (!text.includes(phrase.replace(/\s+/g, ' '))) flag(unit.id, `SOURCE_PHRASE_NOT_FOUND:${sourceId}:p${page}:${phrase}`); }
     catch (error) { flag(unit.id, `${error.message}:${sourceId}`); }
   }
@@ -211,6 +213,7 @@ mkdirSync('artifacts/study-suite', { recursive: true });
 const write = process.argv.includes('--write');
 const imports = { units: content.units.filter(u => report.units[`${u.id}@${u.version}`]).map(u => ({ id: u.id, version: u.version, subject: u.subject, chapter: u.chapter, concept_id: u.conceptId, content: u, content_hash: digest(u), publication_state: 'published' })),
   cards: content.cards.filter(c => report.cards[`${c.id}@${c.version}`]).map(c => ({ id: c.id, version: c.version, unit_id: c.unitId, unit_version: content.units.find(u => u.id === c.unitId).version, content: c, content_hash: digest(c) })) };
+if (write && contentPath !== 'data/study/pilot.json') throw new Error('Refusing to write release proof for a non-canonical content file');
 if (write) {
   writeFileSync('data/study/release.json', JSON.stringify(report, null, 2) + '\n');
   writeFileSync('artifacts/study-suite/content-v2-dry-run.json', JSON.stringify({ ...report, problems: Object.fromEntries(problems) }, null, 2) + '\n');

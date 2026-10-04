@@ -20,19 +20,22 @@ export default function StudyWorkspace({ unitId = null, runId = null, preview = 
   }), [transport]);
   // Preview keeps navigation in memory; the real app uses URLs so reload and back always work.
   const [view, setView] = useState({ runId, unitId });
-  const [loaded, setLoaded] = useState(null), [error, setError] = useState(null), [attempt, setAttempt] = useState(0);
+  const [loaded, setLoaded] = useState(null), [startError, setStartError] = useState(null), [attempt, setAttempt] = useState(0);
   const autoStarted = useRef(false);
   const current = transport ? view : { runId, unitId };
   const viewKey = current.runId ? `run:${current.runId}` : current.unitId ? `unit:${current.unitId}` : 'library';
-  // Data is bound to the view it was loaded for, so a view change never renders stale data.
-  const data = loaded?.key === viewKey ? loaded.value : null;
+  const loadKey = `${viewKey}#${attempt}`;
+  const path = current.runId ? `/api/study/runs/${encodeURIComponent(current.runId)}` : current.unitId ? `/api/study/units/${encodeURIComponent(current.unitId)}` : '/api/study/catalog';
+  // Results are bound to the view they were loaded for, so a view change never renders stale data.
+  const data = loaded?.key === loadKey ? loaded.value : null;
+  const error = startError || (loaded?.key === loadKey ? loaded.error : null);
+  const setError = setStartError;
   useEffect(() => {
-    let alive = true; const key = viewKey; setError(null);
-    const path = current.runId ? `/api/study/runs/${encodeURIComponent(current.runId)}` : current.unitId ? `/api/study/units/${encodeURIComponent(current.unitId)}` : '/api/study/catalog';
-    api.get(path).then(d => { if (alive) setLoaded({ key, value: d }); }).catch(e => { if (alive) setError(friendlyError(e)); });
+    let alive = true;
+    api.get(path).then(value => { if (alive) setLoaded({ key: loadKey, value }); }).catch(e => { if (alive) setLoaded({ key: loadKey, error: friendlyError(e) }); });
     return () => { alive = false; };
-  }, [api, current.runId, current.unitId, attempt]);
-  const openRun = run => { if (transport) { setLoaded({ key: `run:${run.id}`, value: run }); setView({ runId: run.id }); } else router.push(`/study/${run.id}`); };
+  }, [api, path, loadKey]);
+  const openRun = run => { if (transport) { setLoaded({ key: `run:${run.id}#${attempt}`, value: run }); setView({ runId: run.id }); } else router.push(`/study/${run.id}`); };
   const openUnit = transport ? id => setView({ unitId: id }) : null;
   const back = transport ? () => setView({}) : null;
 
@@ -44,11 +47,11 @@ export default function StudyWorkspace({ unitId = null, runId = null, preview = 
   }, [autoRecall, data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (error) return <div className="sx"><div className="sx-alert" role="alert"><p>{error.text}</p><div className="sx-actions">
-    <button type="button" className="sx-secondary" onClick={() => setAttempt(n => n + 1)}>Try again</button>
+    <button type="button" className="sx-secondary" onClick={() => { setStartError(null); setAttempt(n => n + 1); }}>Try again</button>
     {error.signIn ? <Link className="sx-secondary" href="/login">Sign in</Link> : null}
     <Link className="sx-quiet" href="/learn" onClick={back ? e => { e.preventDefault(); back(); } : undefined}>Back to Learn</Link><Link className="sx-quiet" href="/dashboard">Practise questions</Link></div></div></div>;
   if (!data) return <div className="sx" role="status" aria-label="Loading"><div className="sx-skeleton"><i /><i /><i /></div></div>;
-  if (current.runId) return <StudyRun run={data} api={api} onOpenRun={openRun} onExit={back} />;
+  if (current.runId) return <StudyRun key={data.id} run={data} api={api} onOpenRun={openRun} onExit={back} />;
   if (current.unitId) return <LessonOverview unit={data} api={api} onOpenRun={openRun} onBack={back} />;
   if (data.state === 'disabled') return <div className="sx"><h1>Learn</h1><p className="sx-lede">Lessons are switched off right now. Your saved progress is kept. You can still practise questions and take mocks.</p><Link className="btn-volt md" href="/dashboard">Practise questions</Link></div>;
   return <StudyLibrary catalog={data} api={api} onOpenRun={openRun} onOpenUnit={openUnit} initialSubject={subject}

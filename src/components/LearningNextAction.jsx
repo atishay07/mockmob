@@ -76,7 +76,7 @@ export default function LearningNextAction({ compact = false }) {
           {plan.tonight?.state === 'recorded' ? <div className="pr-alert" data-tone="good" role="status"><AppIcon name="check" size={18} /><div><b>Tonight’s practice is recorded.</b> <Link className="pr-link" href={`/result/${plan.tonight.sessionId}`}>Review that session</Link>{plan.tonight.reviewMinutes ? <p>Your 30-minute plan also includes 10 minutes of review. Recording practice does not mark that review as done.</p> : null}</div></div> : null}
           <h2 className="na__title na__title--lg">{plan.primary.title}</h2>
           <p className="na__reason">{plan.primary.reason}</p>
-          {plan.sequence?.length > 1 ? <ol className="study-sequence" aria-label="Your study session">{plan.sequence.map((step,index)=><li key={`${step.kind}-${index}`}><span aria-hidden="true">{index+1}</span><div><Link href={step.href}>{step.title}</Link><small>About {step.estimatedMinutes} min · skip or return whenever you need</small></div></li>)}</ol> : null}
+          {plan.sequence?.length > 1 ? <ol className="study-sequence" aria-label="Your study session">{plan.sequence.map((step,index)=><li key={`${step.kind}-${index}`}><span aria-hidden="true">{index+1}</span><div><Link href={step.href}>{step.title}</Link>{step.purpose ? <p>{step.purpose}</p> : null}<small>About {step.estimatedMinutes} min{step.done ? ` · ${step.done}` : ''}</small></div></li>)}</ol> : null}
           <div className="na__actions">
             <Link className="btn-volt md na__cta" href={startHref}>{plan.primary.title}<ArrowRight size={16} aria-hidden="true" /></Link>
             {plan.sequence?.[1] && <Link className="na__alt" href={plan.sequence[1].href}>Skip to the next step</Link>}

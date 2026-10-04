@@ -23,8 +23,10 @@ const Paragraphs = ({ text }) => text ? String(text).split(/\n\n+/).map((p, i) =
 function Table({ rows, caption }) {
   if (!rows?.length) return null;
   const [head, ...body] = rows;
-  return <div className="sx-table" role="region" aria-label={caption} tabIndex={0}><table><caption className="sr-only">{caption}</caption><thead><tr>{head.map((h, i) => <th key={i} scope="col">{h}</th>)}</tr></thead>
-    <tbody>{body.map((row, r) => <tr key={r}>{row.map((cell, c) => c === 0 ? <th key={c} scope="row">{cell}</th> : <td key={c}>{cell}</td>)}</tr>)}</tbody></table></div>;
+  // Wide tables stack into labelled rows on phones, so no column hides behind a sideways scroll.
+  const stack = head.length >= 3;
+  return <div className={`sx-table${stack ? ' sx-table--stack' : ''}`} role="region" aria-label={caption} tabIndex={0}><table><caption className="sr-only">{caption}</caption><thead><tr>{head.map((h, i) => <th key={i} scope="col">{h}</th>)}</tr></thead>
+    <tbody>{body.map((row, r) => <tr key={r}>{row.map((cell, c) => c === 0 ? <th key={c} scope="row">{cell}</th> : <td key={c} data-label={head[c]}>{cell}</td>)}</tr>)}</tbody></table></div>;
 }
 function Highlight({ text, words }) {
   if (!words?.length || !text) return text;

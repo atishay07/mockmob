@@ -20,7 +20,7 @@ const vaVariant = (firm, output, input) => ({ type: 'numeric', prompt: `${firm} 
   answer: String(output - input), explanation: `Value added = value of output − intermediate goods used = ${rupees(output)} − ${rupees(input)} = ${rupees(output - input)}.`, calc: { op: 'value_added', output, input } });
 const gvaVariant = (output, input, dep, ask) => ({ type: 'numeric', prompt: `A firm produces goods worth ${rupees(output)} in a year, uses intermediate goods worth ${rupees(input)}, and its machines wear out by ${rupees(dep)}. What is its ${ask === 'gross' ? 'gross' : 'net'} value added (in ₹)?`, inputHint: 'Type the amount in rupees',
   answer: String(ask === 'gross' ? output - input : output - input - dep), explanation: `Gross value added = ${rupees(output)} − ${rupees(input)} = ${rupees(output - input)}. Net value added also subtracts depreciation: ${rupees(output - input)} − ${rupees(dep)} = ${rupees(output - input - dep)}.`, calc: { op: ask === 'gross' ? 'gva' : 'nva', output, input, dep } });
-const useVariant = (text, final, why, wrong) => choice(`${text}. In GDP, is this a final good or an intermediate good?`, ['Final good', 'Intermediate good'], final ? 0 : 1, why, { optionNotes: final ? [null, wrong] : [wrong, null] });
+const usageVariant = (text, final, why, wrong) => choice(`${text}. In GDP, is this a final good or an intermediate good?`, ['Final good', 'Intermediate good'], final ? 0 : 1, why, { optionNotes: final ? [null, wrong] : [wrong, null] });
 const countedVariant = (text, counted, why) => choice(`${text}. Is it counted in GDP as usually measured?`, ['Counted', 'Not counted'], counted ? 0 : 1, why, { optionNotes: counted ? [null, 'It is produced and sold for money in the period, so it is measured.'] : ['No money changes hands, so it is not registered as economic activity.', null] });
 gdpUnit.blocks = [
   { id: 'gdp-what', type: 'reading', kind: 'explanation', title: 'GDP adds up final goods, measured in money',
@@ -42,10 +42,10 @@ gdpUnit.blocks = [
 ];
 const gdpCards = [
   makeCard(gdpUnit, { id: 'economics-gdp-final-intermediate', objective: 'Classify by use, not by the product’s name', title: 'Final or intermediate', cue: 'Ask: is it used up to make something else this period?', variants: [
-    useVariant('Steel sheets bought by a car maker and used up making cars', false, 'They are inputs transformed into cars, so they are intermediate.', 'The steel is transformed into cars, so it is not final.'),
-    useVariant('A machine bought by a factory to use for many years', true, 'Capital goods are final goods: they are not transformed into the output.', 'The machine is not used up in one round of production; it is a capital good.'),
-    useVariant('Bread bought by a household for its meals', true, 'It reaches its final user and is not transformed further.', 'No further production uses it, so it is final.'),
-    useVariant('Copper bought by a firm to make utensils', false, 'It is a material input used up in making utensils.', 'The copper becomes part of the utensils, so it is intermediate.'),
+    usageVariant('Steel sheets bought by a car maker and used up making cars', false, 'They are inputs transformed into cars, so they are intermediate.', 'The steel is transformed into cars, so it is not final.'),
+    usageVariant('A machine bought by a factory to use for many years', true, 'Capital goods are final goods: they are not transformed into the output.', 'The machine is not used up in one round of production; it is a capital good.'),
+    usageVariant('Bread bought by a household for its meals', true, 'It reaches its final user and is not transformed further.', 'No further production uses it, so it is final.'),
+    usageVariant('Copper bought by a firm to make utensils', false, 'It is a material input used up in making utensils.', 'The copper becomes part of the utensils, so it is intermediate.'),
   ] }),
   makeCard(gdpUnit, { id: 'economics-gdp-value-added', objective: 'Calculate value added', title: 'Value added', cue: 'Output minus inputs bought from other firms.', variants: [vaVariant('A tailoring firm', 900, 550), vaVariant('A furniture maker', 2400, 1500), vaVariant('A juice company', 650, 260)] }),
   makeCard(gdpUnit, { id: 'economics-gdp-gross-net', objective: 'Separate gross and net value added', title: 'Gross and net value added', cue: 'Net = gross − depreciation.', variants: [gvaVariant(500, 200, 30, 'net'), gvaVariant(800, 350, 50, 'gross'), gvaVariant(1200, 700, 80, 'net')] }),

@@ -175,7 +175,7 @@ export default function ScoreRecoveryLab({ attempt, analysis, repaired, handled 
           <div className="srl-step__num" aria-hidden="true">{mistakes.length && done === mistakes.length ? <Check size={16} strokeWidth={3} /> : 2}</div>
           <div className="srl-step__main">
             <div className="srl-step__head"><h3>Repair</h3><p>Fix each wrong answer, one at a time</p></div>
-            <MistakeLessonLink subject={attempt.subject} chapter={topChapter} conceptIds={analysis.mistakes.map(row=>row.q.conceptId).filter(Boolean)} />
+            <MistakeLessonLink subject={attempt.subject} chapter={topChapter} chapters={Object.entries(analysis.mistakes.reduce((m,row)=>{if(row.chapter)m[row.chapter]=(m[row.chapter]||0)+1;return m;},{})).sort((x,y)=>y[1]-x[1]).map(([chapter,count])=>({chapter,count}))} conceptIds={analysis.mistakes.map(row=>row.q.conceptId).filter(Boolean)} />
             {mistakes.length ? <>
               <p>Each repair shows why your answer felt right, where it breaks, and the one idea to keep. It’s checked against the answer key before you see it.</p>
               <div className="srl-progress">
