@@ -1,0 +1,44 @@
+{
+  "at": "2026-10-04T17:38:11.282Z",
+  "scope": "Primary-source reconciliation and exact arithmetic for teaching only. Not independent academic calibration, exam fit, mastery or recovery certification.",
+  "unitId": "accountancy-sacrificing-gaining",
+  "unitHash": "b36cadbf8a920e2e5a7c0a42c495c1d58a1ddbd4e08e84d5e26b3eb86707581b",
+  "cards": {
+    "accountancy-ratio-sacrifice": "d5435e37d3b0a43bd5f73eb499697aa39d02af1292ca5843ff675d37cd7249bc",
+    "accountancy-ratio-gain": "740e9195ff782e8893b95b96d2c986fd660ccc45b73955f4038092954ab183bd",
+    "accountancy-ratio-contrast": "c593aaeced58ad5d8b4f735fcdc94421c47fe64031855498c362c53dab6428ba"
+  },
+  "sources": [
+    {
+      "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+      "version": "Reprint 2026-27",
+      "permission": "Reference to factual formulas only; MockMob teaching prose and calculations are original",
+      "locator": "Section 2.4, PDF pages 5-6; section 2.3, PDF page 3",
+      "retrieval": "Official PDF source viewer; direct local download unavailable",
+      "verifiedOn": "2026-10-04",
+      "formulaExcerpt": "Old Share of Profit – New Share of Profit",
+      "checkedRule": "When a new ratio is specified, subtract each partner's new share from the old share. The old ratio applies when sacrifice occurs in that ratio."
+    },
+    {
+      "url": "https://ncert.nic.in/textbook/pdf/leac103.pdf",
+      "version": "Reprint 2026-27",
+      "permission": "Reference to factual formulas only; MockMob teaching prose and calculations are original",
+      "locator": "Section 3.3, PDF page 3",
+      "retrieval": "Official PDF downloaded and extracted with pypdf",
+      "sha256": "bcbabbaf795413a519afcab242d08749739adc1084fbdb3bbe5456f59c8ebae6",
+      "verifiedOn": "2026-10-04",
+      "formulaExcerpt": "new profit share minus old profit share"
+    }
+  ],
+  "claimChecks": [
+    "sacrifice and gain directions",
+    "sign of share change",
+    "old/new/change ratio distinction",
+    "old-ratio condition",
+    "worked example table",
+    "unscored calculation key",
+    "three recall keys"
+  ],
+  "state": "passed",
+  "paidCalls": 0
+}

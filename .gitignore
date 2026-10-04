@@ -62,3 +62,8 @@ mobile/android/**/*.keystore
 
 # DU source PDFs (public, re-downloadable; SHA-256 recorded in public/du/2026/index.json)
 /data/du-csas-2026/source/
+
+# Re-downloadable study references; selected licensed receipts remain tracked.
+/data/study/sources/dict/
+/data/study/sources/*.tar.gz
+/data/study/sources/*.pdf

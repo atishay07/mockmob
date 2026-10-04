@@ -3,7 +3,7 @@
 // Full form: a time choice, the step, why, and alternatives. Compact form: one slim card.
 import { useEffect, useState, useId } from 'react';
 import Link from 'next/link';
-import { apiGet } from '@/lib/fetcher';
+import { api, apiGet } from '@/lib/fetcher';
 import { ArrowRight } from 'lucide-react';
 import { AppIcon, StatusIcon } from '@/components/ui/Glyph';
 import ArenaCompanion from '@/components/brand/ArenaCompanion';
@@ -13,14 +13,26 @@ const TIMES = [10, 20, 30];
 
 export default function LearningNextAction({ compact = false }) {
   const tonightKey = `tonight-plan-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
-  const [plan, setPlan] = useState(null), [minutes, setMinutes] = useState(10), [error, setError] = useState(''), [retryCount, setRetryCount] = useState(0);
+  const [plan, setPlan] = useState(null), [minutes, setMinutes] = useState(null), [error, setError] = useState(''), [retryCount, setRetryCount] = useState(0),[choosing,setChoosing]=useState(false);
   useEffect(() => {
     let alive = true;
-    apiGet(`/api/learning/plan?minutes=${minutes}`).then(p => { if (alive) { setPlan(p); setError(''); } }).catch(() => { if (alive) setError('Your plan could not be loaded. Your saved attempts are still available in Review.'); });
+    apiGet(`/api/learning/plan${minutes===null?'':`?minutes=${minutes}`}`).then(p => { if (alive) { setPlan(p); setError(''); } }).catch(() => { if (alive) setError('Your plan could not be loaded. Your saved attempts are still available in Review.'); });
     return () => { alive = false; };
   }, [minutes, retryCount]);
   const retry = () => { setPlan(null); setError(''); setRetryCount(n => n + 1); };
-  const startHref = !compact && plan?.primary.kind === 'ordinary_practice'
+  const chooseTime=async n=>{
+    if(choosing || n===(minutes ?? plan?.minutes))return;
+    if(!plan?.study?.preferences){setPlan(null);setError('');setMinutes(n);return;}
+    setChoosing(true);setError('');
+    try{
+      const prefs=plan.study.preferences;
+      const input={minutes:n,expectedRevision:prefs.revision};
+      if(prefs.premium && prefs.weeklyPlan)input.weeklyPlan=prefs.weeklyPlan.map((day,index)=>index===plan.study.weekday?{...day,minutes:n}:day);
+      await api('/api/study/preferences',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(input)});
+      setMinutes(null);setPlan(null);setRetryCount(value=>value+1);
+    }catch{setError('Your time preference could not be saved. Reload your plan and try again.');}finally{setChoosing(false);}
+  };
+  const startHref = !compact && !plan?.sequence?.length && plan?.primary.kind === 'ordinary_practice'
     ? `${plan.primary.href}${plan.primary.href.includes('?') ? '&' : '?'}${new URLSearchParams({ tonightKey, tonightMinutes: String(plan.minutes) })}`
     : plan?.primary.href;
 
@@ -51,7 +63,7 @@ export default function LearningNextAction({ compact = false }) {
         <fieldset className="na__time">
           <legend className="sr-only">Time for practice</legend>
           <div className="na__seg" role="group" aria-label="Time for practice">
-            {TIMES.map(n => <button type="button" key={n} aria-pressed={minutes === n} onClick={() => { if(n !== minutes){setPlan(null);setError('');setMinutes(n);} }}>{n} min</button>)}
+            {TIMES.map(n => <button type="button" key={n} aria-pressed={(minutes ?? plan?.minutes) === n} disabled={choosing} onClick={()=>chooseTime(n)}>{n} min</button>)}
           </div>
         </fieldset>
       </div>
@@ -64,11 +76,14 @@ export default function LearningNextAction({ compact = false }) {
           {plan.tonight?.state === 'recorded' ? <div className="pr-alert" data-tone="good" role="status"><AppIcon name="check" size={18} /><div><b>Tonight’s practice is recorded.</b> <Link className="pr-link" href={`/result/${plan.tonight.sessionId}`}>Review that session</Link>{plan.tonight.reviewMinutes ? <p>Your 30-minute plan also includes 10 minutes of review. Recording practice does not mark that review as done.</p> : null}</div></div> : null}
           <h2 className="na__title na__title--lg">{plan.primary.title}</h2>
           <p className="na__reason">{plan.primary.reason}</p>
+          {plan.sequence?.length > 1 ? <ol className="study-sequence" aria-label="Your study session">{plan.sequence.map((step,index)=><li key={`${step.kind}-${index}`}><span aria-hidden="true">{index+1}</span><div><Link href={step.href}>{step.title}</Link><small>About {step.estimatedMinutes} min · skip or return whenever you need</small></div></li>)}</ol> : null}
           <div className="na__actions">
             <Link className="btn-volt md na__cta" href={startHref}>{plan.primary.title}<ArrowRight size={16} aria-hidden="true" /></Link>
+            {plan.sequence?.[1] && <Link className="na__alt" href={plan.sequence[1].href}>Skip to the next step</Link>}
+            {plan.sequence?.length > 0 && <Link className="na__alt" href="/dashboard?mode=full">Take a mock</Link>}
             {plan.alternatives.map(a => <Link key={a.kind} className="na__alt" href={a.href}>{a.title}</Link>)}
           </div>
-          <p className="na__note">Planned for {plan.minutes || minutes} minutes. Access and credits are checked before the session starts; nothing is charged if it cannot be built.</p>
+          <p className="na__note">{choosing?'Saving your time preference…':`Planned for ${plan.minutes || minutes || 10} minutes.`} Access and credits are checked before the session starts; nothing is charged if it cannot be built.</p>
         </>
       )}
     </section></>

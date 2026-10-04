@@ -8,6 +8,7 @@ import { randomUUID } from 'node:crypto';
 import { LAUNCH_SUBJECTS, publicSessionView } from '@/../shared/recoveryContract';
 import { episodeCheckQuestion, respondEpisode } from './learning';
 import { replayExposures } from '@/../data/mistake_replay';
+import { studyExposures } from './studyExposure';
 
 export function publicSession(row) {
   return publicSessionView(row);
@@ -61,7 +62,7 @@ export async function startSession(userId, input) {
   const result = await Database.getQuestions(selection.internalSubject, count, {
     mode: mode.id, userId, returnMeta: true, requestedCount: count,
     requireEvidence: true,
-    ...(input.recoveryFrom ? replayExposures([{ questionsSnapshot: exposures }]) : {}),
+    ...(input.recoveryFrom ? await studyExposures(userId,replayExposures([{ questionsSnapshot: exposures }])) : {}),
     chapter: typeof input.chapter === 'string' ? input.chapter : undefined,
     chapters: typeof input.chapters === 'string' ? input.chapters.split(',').slice(0,12) : undefined,
     generationKey: input.generationKey,

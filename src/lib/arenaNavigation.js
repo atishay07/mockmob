@@ -3,7 +3,8 @@ import { CAPABILITIES } from '@/../data/capabilities';
 const item = (id, label, icon = id, href = `/${id}`) => ({ id, label, icon, href });
 export const STUDY_NAV = [
   item('today', 'Today'), item('dashboard', 'Practice', 'practice', CAPABILITIES.practice.href),
-  item('explore', 'Explore'), item('review', 'Review', 'review', CAPABILITIES.review.href),
+  item('learn', 'Learn'), item('review', 'Review', 'review', CAPABILITIES.review.href),
+  item('explore', 'Explore'),
   item('saved', 'Saved'), item('progress', 'Progress'),
 ];
 export function arenaNavigation(moderator = false) {
@@ -15,4 +16,4 @@ export function arenaNavigation(moderator = false) {
     { label: 'Account', items: [item('profile', 'Account', 'account')] },
   ];
 }
-export const MOBILE_STUDY_NAV = STUDY_NAV.filter((tab) => ['today', 'dashboard', 'explore', 'review'].includes(tab.id));
+export const MOBILE_STUDY_NAV = STUDY_NAV.filter((tab) => ['today', 'dashboard', 'learn', 'review'].includes(tab.id));

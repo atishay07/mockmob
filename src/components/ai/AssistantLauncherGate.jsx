@@ -31,6 +31,7 @@ const OFF_PREFIXES = [
   '/terms',
   '/refunds',
   '/test',
+  '/preview/study',
 ];
 
 export default function AssistantLauncherGate(props) {

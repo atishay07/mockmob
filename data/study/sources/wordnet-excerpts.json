@@ -1,0 +1,146 @@
+{
+  "version": "3.0",
+  "facts": [
+    {
+      "word": "candid",
+      "offset": "00764484",
+      "definition": "characterized by directness in manner or speech; without subtlety or evasion",
+      "line": "00764484 00 s 09 blunt 0 candid 0 forthright 1 frank 0 free-spoken 0 outspoken 0 plainspoken 0 point-blank 0 straight-from-the-shoulder 0 007 & 00763901 a 0000 + 04650731 n 0602 + 04650731 n 0401 + 04871720 n 0404 + 04871720 n 0306 + 04871720 n 0203 + 04846383 n 0101 | characterized by directness in manner or speech; without subtlety or evasion; \"blunt talking and straight shooting\"; \"a blunt New England farmer\"; \"I gave them my candid opinion\"; \"forthright criticism\"; \"a forthright approach to the problem\"; \"tell me what you think--and you may just as well be frank\"; \"it is possible to be outspoken without being rude\"; \"plainspoken and to the point\"; \"a point-blank accusation\"  ",
+      "sha256": "9eab8c789f6bafeade903ead76cde5f74a36dcb1809f9e3a8fc82738f4fec967"
+    },
+    {
+      "word": "lucid",
+      "offset": "00429355",
+      "definition": "(of language) transparently clear; easily understandable",
+      "line": "00429355 00 s 06 limpid 0 lucid 0 luculent 0 pellucid 0 crystal_clear 0 perspicuous 0 007 & 00428404 a 0000 ;c 06282651 n 0000 + 04821615 n 0602 + 04821615 n 0601 + 04820258 n 0404 + 04820258 n 0202 + 04820258 n 0106 | (of language) transparently clear; easily understandable; \"writes in a limpid style\"; \"lucid directions\"; \"a luculent oration\"- Robert Burton; \"pellucid prose\"; \"a crystal clear explanation\"; \"a perspicuous argument\"  ",
+      "sha256": "b286b0445e894f3fd493662a44f6857d46e39ff75fe166948cb20db016367bd0"
+    },
+    {
+      "word": "ambiguous",
+      "offset": "00102201",
+      "definition": "having more than one possible meaning",
+      "line": "00102201 00 a 01 ambiguous 0 011 ^ 00895442 a 0000 ^ 00430191 a 0000 + 04825114 n 0101 ! 00103696 a 0101 & 00102578 a 0000 & 00102786 a 0000 & 00102930 a 0000 & 00103196 a 0000 & 00103302 a 0000 & 00103447 a 0000 & 00103567 a 0000 | having more than one possible meaning; \"ambiguous words\"; \"frustrated by ambiguous instructions, the parents were unable to assemble the toy\"  ",
+      "sha256": "fbbcbcfb9afc347ec6407a47fb8a8e57ac6d465fb9bb3ee7944078e40069232c"
+    },
+    {
+      "word": "diligent",
+      "offset": "00754107",
+      "definition": "characterized by care and perseverance in carrying out tasks",
+      "line": "00754107 00 a 01 diligent 0 006 ^ 00292937 a 0000 ^ 00309021 a 0000 + 04865114 n 0101 ! 00754873 a 0101 & 00754393 a 0000 & 00754682 a 0000 | characterized by care and perseverance in carrying out tasks; \"a diligent detective investigates all clues\"; \"a diligent search of the files\"  ",
+      "sha256": "f4d1ce252c2c4e005345c331ef8465e2dcab8718cc45c4dbb29c6fbe58811b4f"
+    },
+    {
+      "word": "prudent",
+      "offset": "01898129",
+      "definition": "careful and sensible; marked by sound judgment",
+      "line": "01898129 00 a 01 prudent 0 010 ^ 00309021 a 0000 ^ 01894758 a 0000 ^ 01996377 a 0000 ^ 02569130 a 0000 + 05615500 n 0104 ! 01899360 a 0101 & 01898490 a 0000 & 01898722 a 0000 & 01898974 a 0000 & 01899167 a 0000 | careful and sensible; marked by sound judgment; \"a prudent manager\"; \"prudent rulers\"; \"prudent hesitation\"; \"more prudent to hide than to fight\"  ",
+      "sha256": "154b0072de8350fad82f53b55aee3608bb9099d54fd4bce85457ee08a53fb482"
+    },
+    {
+      "word": "frugal",
+      "offset": "02421364",
+      "definition": "avoiding waste",
+      "line": "02421364 00 s 05 economical 0 frugal 0 scotch 0 sparing 0 stinting 0 005 & 02421158 a 0000 ;u 07075172 n 0000 + 04893358 n 0202 + 04893358 n 0201 + 04893787 n 0101 | avoiding waste; \"an economical meal\"; \"an economical shopper\"; \"a frugal farmer\"; \"a frugal lunch\"; \"a sparing father and a spending son\"; \"sparing in their use of heat and light\"; \"stinting in bestowing gifts\"; \"thrifty because they remember the great Depression\"; \"`scotch' is used only informally\"  ",
+      "sha256": "14ab7dd877c14ccc1f75c8fa3daa615ec67b84e085ec85362152b4084ce71796"
+    },
+    {
+      "word": "concise",
+      "offset": "00546646",
+      "definition": "expressing much in few words",
+      "line": "00546646 00 a 01 concise 0 012 ^ 02383380 a 0000 = 07090108 n 0000 + 07089024 n 0101 ! 00548781 a 0101 & 00546951 a 0000 & 00547166 a 0000 & 00547317 a 0000 & 00547641 a 0000 & 00547930 a 0000 & 00548029 a 0000 & 00548316 a 0000 & 00548579 a 0000 | expressing much in few words; \"a concise explanation\"  ",
+      "sha256": "ac694b0e01238333a3ff16e60d93ef715b06630dc465875654e3236c1a350149"
+    },
+    {
+      "word": "obscure",
+      "offset": "00431004",
+      "definition": "not clearly understood or expressed",
+      "line": "00431004 00 s 02 obscure 0 vague 0 004 & 00430191 a 0000 + 04824350 n 0201 + 04823416 n 0102 + 04823416 n 0101 | not clearly understood or expressed; \"an obscure turn of phrase\"; \"an impulse to go off and fight certain obscure battles of his own spirit\"-Anatole Broyard; \"their descriptions of human behavior become vague, dull, and unclear\"- P.A.Sorokin; \"vague...forms of speech...have so long passed for mysteries of science\"- John Locke  ",
+      "sha256": "938b495a839406cfe07ca47df41ec88cc0010b6b678556b7431981bc8729b488"
+    },
+    {
+      "word": "resilient",
+      "offset": "02280566",
+      "definition": "recovering readily from adversity, depression, or the like",
+      "line": "02280566 00 s 01 resilient 0 001 & 02278939 a 0000 | recovering readily from adversity, depression, or the like  ",
+      "sha256": "1bac59a35a6905aab7c712bb917e1080d95b7504c9de884cfa052e6f206001db"
+    },
+    {
+      "word": "meticulous",
+      "offset": "00984879",
+      "definition": "marked by extreme care in treatment of details",
+      "line": "00984879 00 s 01 meticulous 0 003 & 00983862 a 0000 + 04672605 n 0102 + 04672605 n 0101 | marked by extreme care in treatment of details; \"a meticulous craftsman\"; \"almost worryingly meticulous in his business formalities\"  ",
+      "sha256": "85ee3001b8719f806be195648b8ba0b617f09bd69f5f982460743ca8195c118c"
+    },
+    {
+      "word": "benevolent",
+      "offset": "02661446",
+      "definition": "intending or showing kindness",
+      "line": "02661446 01 a 01 benevolent 0 002 + 01226679 n 0101 \\ 01226679 n 0101 | intending or showing kindness; \"a benevolent society\"  ",
+      "sha256": "28fa3896963e312473e5c323dadeaa34d640cd4966e46482c693be465d58da63"
+    },
+    {
+      "word": "arbitrary",
+      "offset": "00718924",
+      "definition": "based on or subject to individual discretion or preference or sometimes impulse or caprice",
+      "line": "00718924 00 a 01 arbitrary 0 005 + 04671841 n 0102 ! 00720082 a 0101 & 00719328 a 0000 & 00719442 a 0000 & 00719819 a 0000 | based on or subject to individual discretion or preference or sometimes impulse or caprice; \"an arbitrary decision\"; \"the arbitrary rule of a dictator\"; \"an arbitrary penalty\"; \"of arbitrary size and shape\"; \"an arbitrary choice\"; \"arbitrary division of the group into halves\"  ",
+      "sha256": "1fd10ae8e7f3e939a54be147d0ddb58d3361eaa6f319f863b3ea798b5f77399b"
+    },
+    {
+      "word": "coherent",
+      "offset": "00464513",
+      "definition": "marked by an orderly, logical, and aesthetically consistent relation of parts",
+      "line": "00464513 00 a 04 coherent 0 consistent 1 logical 5 ordered 6 009 ^ 01430111 a 0000 ^ 01925372 a 0000 + 04745932 n 0202 + 04821277 n 0102 + 04821277 n 0101 + 02753642 v 0101 + 02753426 v 0101 ! 00464962 a 0101 & 00464845 a 0000 | marked by an orderly, logical, and aesthetically consistent relation of parts; \"a coherent argument\"  ",
+      "sha256": "727c5fedc1181c83f866031e4bc7032c9afb0978a7457fde4f24c8a55fe903c1"
+    },
+    {
+      "word": "inevitable",
+      "offset": "00343015",
+      "definition": "incapable of being avoided or prevented",
+      "line": "00343015 00 a 01 inevitable 0 006 + 04754056 n 0102 + 04754056 n 0101 ! 00343700 a 0101 & 00343226 a 0000 & 00343360 a 0000 & 00343552 a 0000 | incapable of being avoided or prevented; \"the inevitable result\"  ",
+      "sha256": "c22afd2b1c58f2bb7140ea4ba399e0439663d7cf74baa3b24a740e0e486c0358"
+    },
+    {
+      "word": "substantial",
+      "offset": "00625055",
+      "definition": "fairly large",
+      "line": "00625055 00 s 02 significant 0 substantial 0 001 & 00624026 a 0000 | fairly large; \"won by a substantial margin\"  ",
+      "sha256": "a3445c7be546fe8f192a1b9f02e3399e2303df5e02e5af2de1fa51131b0e1589"
+    },
+    {
+      "word": "abundant",
+      "offset": "00013887",
+      "definition": "present in great quantity",
+      "line": "00013887 00 a 01 abundant 0 021 ^ 00105746 a 0000 ^ 02021905 a 0000 = 05108740 n 0000 + 02715279 v 0101 + 05115040 n 0101 ! 00016756 a 0101 & 00014358 a 0000 & 00014490 a 0000 & 00014858 a 0000 & 00015097 a 0000 & 00015247 a 0000 & 00015480 a 0000 & 00015589 a 0000 & 00015720 a 0000 & 00015854 a 0000 & 00016005 a 0000 & 00016135 a 0000 & 00016247 a 0000 & 00016350 a 0000 & 00016532 a 0000 & 00016647 a 0000 | present in great quantity; \"an abundant supply of water\"  ",
+      "sha256": "18594a9b11d3dff4868ed4a79ef817998d0791db863f81e650b77349e3222dd2"
+    },
+    {
+      "word": "reluctant",
+      "offset": "00811969",
+      "definition": "not eager",
+      "line": "00811969 00 s 01 reluctant 0 002 & 00811820 a 0000 + 04645943 n 0101 | not eager; \"foreigners stubbornly reluctant to accept our ways\"; \"fresh from college and reluctant for the moment to marry him\"  ",
+      "sha256": "6acfd15450b9cff9f134b2fd90879b4546ced475b7b81454db760fd7056074d6"
+    },
+    {
+      "word": "obsolete",
+      "offset": "00669021",
+      "definition": "no longer in use",
+      "line": "00669021 00 s 02 disused 0 obsolete 1 002 & 00668571 a 0000 + 04925577 n 0201 | no longer in use; \"obsolete words\"  ",
+      "sha256": "599ab710d47dd75b559cd4cc5e412b1b4c1135955d4a40fafaac2221dbaece0f"
+    },
+    {
+      "word": "impartial",
+      "offset": "01723308",
+      "definition": "showing lack of favoritism",
+      "line": "01723308 00 a 01 impartial 0 007 ^ 00956131 a 0000 + 06202686 n 0101 ! 01722965 a 0101 & 01723543 a 0000 & 01723648 a 0000 & 01723856 a 0000 & 01724072 a 0000 | showing lack of favoritism; \"the cold neutrality of an impartial judge\"  ",
+      "sha256": "6ccc7cae50106f8790b0d51f93227d1050d8395f04ee84c5451c60d631606c03"
+    },
+    {
+      "word": "sceptical",
+      "offset": "02463847",
+      "definition": "marked by or given to doubt",
+      "line": "02463847 00 s 04 doubting 0 questioning 0 skeptical 0 sceptical 0 006 & 02463154 a 0000 + 05980051 n 0403 + 10604634 n 0402 + 10604634 n 0301 + 05980051 n 0302 + 05698982 n 0303 | marked by or given to doubt; \"a skeptical attitude\"; \"a skeptical listener\"  ",
+      "sha256": "d46c1d0fc183b5da4664c5435794cbc50b958f2d2a830a97e21daaa4912e2132"
+    }
+  ],
+  "license": "WordNet Release 3.0\n\nThis software and database is being provided to you, the LICENSEE, by  \nPrinceton University under the following license.  By obtaining, using  \nand/or copying this software and database, you agree that you have  \nread, understood, and will comply with these terms and conditions.:  \n  \nPermission to use, copy, modify and distribute this software and  \ndatabase and its documentation for any purpose and without fee or  \nroyalty is hereby granted, provided that you agree to comply with  \nthe following copyright notice and statements, including the disclaimer,  \nand that the same appear on ALL copies of the software, database and  \ndocumentation, including modifications that you make for internal  \nuse or for distribution.  \n  \nWordNet 3.0 Copyright 2006 by Princeton University.  All rights reserved.  \n  \nTHIS SOFTWARE AND DATABASE IS PROVIDED \"AS IS\" AND PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR  \nIMPLIED.  BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-  \nABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE  \nOF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT  \nINFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR  \nOTHER RIGHTS.  \n  \nThe name of Princeton University or Princeton may not be used in  \nadvertising or publicity pertaining to distribution of the software  \nand/or database.  Title to copyright in this software, database and  \nany associated documentation shall at all times remain with  \nPrinceton University and LICENSEE agrees to preserve same.  \n"
+}
