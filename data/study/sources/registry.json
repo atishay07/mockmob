@@ -1,23 +1,26 @@
 {
-  "version": 1,
+  "version": 2,
   "scope": "Self-study teaching and recall. This registry does not release formal recovery assessment families.",
   "sources": {
     "wordnet-3.0": {
       "url": "https://wordnet.princeton.edu/",
       "version": "WordNet 3.0",
       "permission": "WordNet license; full notice retained in excerpts and student source attribution",
-      "locator": "Selected adjective synsets in wordnet-excerpts.json",
-      "verifiedOn": "2026-10-04"
+      "locator": "Selected adjective synsets (data.adj offsets) in wordnet-excerpts.json, with antonym proof lines",
+      "verifiedOn": "2026-10-05",
+      "archiveSha256": "658b1ba191f5f98c2e9bae3e25c186013158f30ef779f191d2a44e5d25046dc8"
     },
     "ncert-admission": {
       "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
       "version": "Reprint 2026-27",
       "permission": "Reference to factual formulas only; MockMob teaching prose and calculations are original",
-      "locator": "Section 2.4, PDF pages 5-6; section 2.3, PDF page 3",
-      "retrieval": "Official PDF source viewer; direct local download unavailable",
-      "verifiedOn": "2026-10-04",
+      "locator": "Section 2.3 PDF p.3-4; section 2.4 PDF p.5-6; section 2.7 PDF p.30-31",
+      "retrieval": "Official PDF downloaded 5 Oct 2026 with owner approval; text extracted with pdfplumber",
+      "verifiedOn": "2026-10-05",
       "formulaExcerpt": "Old Share of Profit – New Share of Profit",
-      "checkedRule": "When a new ratio is specified, subtract each partner's new share from the old share. The old ratio applies when sacrifice occurs in that ratio."
+      "checkedRule": "When a new ratio is specified, subtract each partner's new share from the old share. The old ratio applies when sacrifice occurs in that ratio.",
+      "label": "NCERT Accountancy Part I, ch. 2 Admission of a Partner",
+      "sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239"
     },
     "ncert-retirement": {
       "url": "https://ncert.nic.in/textbook/pdf/leac103.pdf",
@@ -28,6 +31,47 @@
       "sha256": "bcbabbaf795413a519afcab242d08749739adc1084fbdb3bbe5456f59c8ebae6",
       "verifiedOn": "2026-10-04",
       "formulaExcerpt": "new profit share minus old profit share"
+    },
+    "ncert-macro-national-income": {
+      "url": "https://ncert.nic.in/textbook/pdf/leec102.pdf",
+      "version": "Reprint 2026-27",
+      "permission": "Reference to facts and terms only; MockMob teaching prose, examples and scenarios are original",
+      "locator": "Introductory Macroeconomics ch. 2: final/intermediate goods PDF p.3; value added and depreciation p.9-10; nominal/real GDP and deflator p.21-22; non-monetary exchanges p.23",
+      "retrieval": "Official PDF downloaded 5 Oct 2026 with owner approval; text extracted with pdfplumber",
+      "sha256": "89f1eea66614cbcab4057897828bba25f7e27192aeaa612bb8450ebcc37ebc0f",
+      "verifiedOn": "2026-10-05"
+    },
+    "ncert-bst-organising": {
+      "url": "https://ncert.nic.in/textbook/pdf/lebs105.pdf",
+      "version": "Reprint 2026-27",
+      "permission": "Reference to facts and terms only; MockMob teaching prose, examples and scenarios are original",
+      "locator": "Business Studies Part I ch. 5: elements of delegation PDF p.20; delegation vs decentralisation table p.26",
+      "retrieval": "Official PDF downloaded 5 Oct 2026 with owner approval; text extracted with pdfplumber",
+      "sha256": "7cd6d31631994f439b5d347adf65ea0bc24c6a299ff73896addfad03c30c2145",
+      "verifiedOn": "2026-10-05"
+    },
+    "ncert-bst-controlling": {
+      "url": "https://ncert.nic.in/textbook/pdf/lebs108.pdf",
+      "version": "Reprint 2026-27",
+      "permission": "Reference to facts and terms only; MockMob teaching prose, examples and scenarios are original",
+      "locator": "Business Studies Part I ch. 8: planning and controlling PDF p.5; controlling process p.5-6; critical point control and management by exception p.8",
+      "retrieval": "Official PDF downloaded 5 Oct 2026 with owner approval; text extracted with pdfplumber",
+      "sha256": "16e4751fcdf1fbd8de8c3386743baad13b299c9c5b094efceef6f5019dfdc4d3",
+      "verifiedOn": "2026-10-05"
+    },
+    "cuet-2026-english-syllabus": {
+      "url": "https://cuet.nta.nic.in/",
+      "version": "CUET (UG) 2026 English 101",
+      "permission": "Reference only; topic list used to choose task types",
+      "locator": "Repository file data/CUET 2026/english.pdf, page 1 (Reading Comprehension a-c; Verbal Ability a-d)",
+      "sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+      "verifiedOn": "2026-10-05"
+    },
+    "mockmob-original-passages": {
+      "url": "https://www.mockmob.in/learn",
+      "version": "2026-10-05",
+      "permission": "Original MockMob practice text; no third-party passage is reproduced",
+      "locator": "data/study/authored/english.mjs"
     }
   }
 }

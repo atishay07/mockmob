@@ -1,134 +1,342 @@
 {
-  "version": 1,
-  "validator": "study-source-contract-v1",
-  "createdAt": "2026-10-04T17:38:11.414Z",
+  "version": 2,
+  "validator": "study-content-contract-v2",
+  "createdAt": "2026-10-04T19:04:44.671Z",
   "units": {
-    "english-vocabulary-01@1": {
-      "contentHash": "9c501b09161263e4c8371fed36fb83bc876f6b2631b1c59d2ced2f7d5e5996d8",
-      "sourceIdentity": "WordNet3.0",
-      "validation": "Exact selected dictionary senses and spelling keys, licensed attribution present"
+    "english-vocabulary-01@2": {
+      "contentHash": "9334ac2d10cf7b236dc00fcaba0d237dbe82e96dc2eefe8df53a4afbb2061600",
+      "sourceIdentity": "wordnet-3.0,cuet-2026-english-syllabus",
+      "validation": "WordNet 3.0 senses, examples and relations re-derived from hashed source lines; licence retained"
     },
-    "accountancy-sacrificing-gaining@1": {
-      "contentHash": "b36cadbf8a920e2e5a7c0a42c495c1d58a1ddbd4e08e84d5e26b3eb86707581b",
-      "sourceIdentity": "NCERT2026-27:leac102:2.4;leac103:3.3",
-      "validation": "Bound primary-source teaching reconciliation and exact arithmetic; no formal recovery certification"
+    "english-vocabulary-02@1": {
+      "contentHash": "0e7fa2e06e906795806b89bd476d4b2a90df916d6db5e39c2f12d09c9d048619",
+      "sourceIdentity": "wordnet-3.0,cuet-2026-english-syllabus",
+      "validation": "WordNet 3.0 senses, examples and relations re-derived from hashed source lines; licence retained"
+    },
+    "english-vocabulary-03@1": {
+      "contentHash": "ee3099cf2c1f07b451c7a73b675e1b6a4d500124be3119ed6bde12e0ac8a820d",
+      "sourceIdentity": "wordnet-3.0,cuet-2026-english-syllabus",
+      "validation": "WordNet 3.0 senses, examples and relations re-derived from hashed source lines; licence retained"
+    },
+    "english-vocabulary-04@1": {
+      "contentHash": "f35cc6d1f0ca04f483572439b6853d1b37b31fc242f742242c00a0c64639b59e",
+      "sourceIdentity": "wordnet-3.0,cuet-2026-english-syllabus",
+      "validation": "WordNet 3.0 senses, examples and relations re-derived from hashed source lines; licence retained"
+    },
+    "english-vocabulary-05@1": {
+      "contentHash": "857874c405b119d26ed735d088d8c0e160adb10964e4e5728f9690e3c89b31f7",
+      "sourceIdentity": "wordnet-3.0,cuet-2026-english-syllabus",
+      "validation": "WordNet 3.0 senses, examples and relations re-derived from hashed source lines; licence retained"
+    },
+    "english-vocabulary-06@1": {
+      "contentHash": "b719b4b5ad0204e55b1d7761fea05d104471006d266ad7605958e3976102accd",
+      "sourceIdentity": "wordnet-3.0,cuet-2026-english-syllabus",
+      "validation": "WordNet 3.0 senses, examples and relations re-derived from hashed source lines; licence retained"
+    },
+    "english-main-idea@1": {
+      "contentHash": "75d953ce3af50fd1d73661bd1bb9913c06ca27a98740ac309f2f48d1c1530d74",
+      "sourceIdentity": "mockmob-original-passages,cuet-2026-english-syllabus",
+      "validation": "Original practice passages; evidence, not-stated and key structure checked mechanically"
+    },
+    "english-explicit-inference@1": {
+      "contentHash": "c4187570919bc64d9792bd576dee3230cbbdd2cae1f11c9e8bb40ce327fb13dc",
+      "sourceIdentity": "mockmob-original-passages,cuet-2026-english-syllabus",
+      "validation": "Original practice passages; evidence, not-stated and key structure checked mechanically"
+    },
+    "accountancy-sacrificing-gaining@2": {
+      "contentHash": "86f28d56e9f759b253c81c128aab12174f9ac8cfac18071e646b368ac7617a05",
+      "sourceIdentity": "ncert-admission,ncert-retirement",
+      "validation": "NCERT reference phrases found on the cited pages; every number recomputed independently; no formal recovery certification"
+    },
+    "accountancy-revaluation@1": {
+      "contentHash": "7e2a32408e27812bfcee2ac9152613162dce9947ce8b6cdb2fbc77738f5d8f17",
+      "sourceIdentity": "ncert-admission",
+      "validation": "NCERT reference phrases found on the cited pages; every number recomputed independently; no formal recovery certification"
+    },
+    "business-studies-delegation-decentralisation@1": {
+      "contentHash": "6e256ce6f103b34c57d847ec3ede659712386a423434b5251ccaebd0e46404d6",
+      "sourceIdentity": "ncert-bst-organising",
+      "validation": "NCERT reference phrases found on the cited pages; every number recomputed independently; no formal recovery certification"
+    },
+    "business-studies-planning-controlling@1": {
+      "contentHash": "cb72102679b5c0011fc6f812ddce6d23f583e1a634d21ceb0410ee2187278abc",
+      "sourceIdentity": "ncert-bst-controlling",
+      "validation": "NCERT reference phrases found on the cited pages; every number recomputed independently; no formal recovery certification"
+    },
+    "economics-what-gdp-counts@1": {
+      "contentHash": "2c9051efec754225cf676a2b91d6604d8969ab0df8a4f72c4401ab493da8c8f7",
+      "sourceIdentity": "ncert-macro-national-income",
+      "validation": "NCERT reference phrases found on the cited pages; every number recomputed independently; no formal recovery certification"
+    },
+    "economics-nominal-real@1": {
+      "contentHash": "9eb6b826df940381537502b47eedf5cffe678bf22fde16f8a9c28c7bb51f32fe",
+      "sourceIdentity": "ncert-macro-national-income",
+      "validation": "NCERT reference phrases found on the cited pages; every number recomputed independently; no formal recovery certification"
     }
   },
   "cards": {
-    "english-word-candid@1": {
-      "contentHash": "8d67116761ee80485b2bf590e7c939695cae2d900b4c2a266489df6b63e16c89",
-      "sourceIdentity": "WordNet3.0:adj:00764484",
-      "sourceHash": "9eab8c789f6bafeade903ead76cde5f74a36dcb1809f9e3a8fc82738f4fec967"
+    "english-word-lucid@2": {
+      "contentHash": "2d3e322b07dfb08e012a7f097d21fb757a6fc908d09eb5f3350367b0919ec862",
+      "sourceIdentity": "WordNet3.0:adj:00429355"
     },
-    "english-word-lucid@1": {
-      "contentHash": "c47ec24604d30bd0e1511a41c06833f2874b8605d0ef89d4e86d025f0794dd2c",
-      "sourceIdentity": "WordNet3.0:adj:00429355",
-      "sourceHash": "b286b0445e894f3fd493662a44f6857d46e39ff75fe166948cb20db016367bd0"
+    "english-word-concise@2": {
+      "contentHash": "3c123de399f07b3ee59e8526185209f343c123fe3ae58390897ba3cee3a02099",
+      "sourceIdentity": "WordNet3.0:adj:00546646"
     },
-    "english-word-ambiguous@1": {
-      "contentHash": "d3ff02598628be14d80f2413c213519691286feaffcf28c247200f81e965c73f",
-      "sourceIdentity": "WordNet3.0:adj:00102201",
-      "sourceHash": "fbbcbcfb9afc347ec6407a47fb8a8e57ac6d465fb9bb3ee7944078e40069232c"
+    "english-word-coherent@2": {
+      "contentHash": "fb31cad00efd714c79a118686fac4e2668d5fa376c65a07304459dce3ea1edf9",
+      "sourceIdentity": "WordNet3.0:adj:00464513"
     },
-    "english-word-diligent@1": {
-      "contentHash": "dd0e94589254e2010430353a76f382f2e442c2d693bdae986bda7fc64d56ec7d",
-      "sourceIdentity": "WordNet3.0:adj:00754107",
-      "sourceHash": "f4d1ce252c2c4e005345c331ef8465e2dcab8718cc45c4dbb29c6fbe58811b4f"
+    "english-word-ambiguous@2": {
+      "contentHash": "5d422c68f5627208d3a631d537b173d6bfb168ca16a3a45bf89d0fb896863ff9",
+      "sourceIdentity": "WordNet3.0:adj:00102201"
     },
-    "english-word-prudent@1": {
-      "contentHash": "ee68aa6380a01d3b890de4efde3cbb659ef867647316e9aac5737e4128f1863c",
-      "sourceIdentity": "WordNet3.0:adj:01898129",
-      "sourceHash": "154b0072de8350fad82f53b55aee3608bb9099d54fd4bce85457ee08a53fb482"
+    "english-word-obscure@2": {
+      "contentHash": "d1d34831b939c503581489a30d742f6a094c5f5169bb561754d478575ba0f4a4",
+      "sourceIdentity": "WordNet3.0:adj:00431004"
     },
-    "english-word-frugal@1": {
-      "contentHash": "d1680c296628bc3825eeeead0e19aea81229f72d126e5e1c36fb62d0d8551e48",
-      "sourceIdentity": "WordNet3.0:adj:02421364",
-      "sourceHash": "14ab7dd877c14ccc1f75c8fa3daa615ec67b84e085ec85362152b4084ce71796"
+    "english-word-candid@2": {
+      "contentHash": "0068def6714d1440cf41cb6a55b42b391870b3c3cbacfc5c47db5e1bea39630d",
+      "sourceIdentity": "WordNet3.0:adj:00764484"
     },
-    "english-word-concise@1": {
-      "contentHash": "e77885656d44e10cdf6e8d524447354f6fb10ba45c9582088c6a44f5ed3b9aea",
-      "sourceIdentity": "WordNet3.0:adj:00546646",
-      "sourceHash": "ac694b0e01238333a3ff16e60d93ef715b06630dc465875654e3236c1a350149"
+    "english-word-sceptical@2": {
+      "contentHash": "4a51582253b33a8d28f344323c5bee55f672c2e056253b42033f3bb5451b8f95",
+      "sourceIdentity": "WordNet3.0:adj:02463847"
     },
-    "english-word-obscure@1": {
-      "contentHash": "977403a18305659e1624a99ba6627b463c20ac2465a0ef77163dccd74cdcd8d8",
-      "sourceIdentity": "WordNet3.0:adj:00431004",
-      "sourceHash": "938b495a839406cfe07ca47df41ec88cc0010b6b678556b7431981bc8729b488"
+    "english-word-gullible@1": {
+      "contentHash": "e322232095d756a447bd3f50a3732b763f503a1d30a212ab8a5d9fd2d79be2c7",
+      "sourceIdentity": "WordNet3.0:adj:00163315"
     },
-    "english-word-resilient@1": {
-      "contentHash": "225e5dfe1692440f8890382fa7a0a5b47fb8d3e71491c60ab6117d701b905610",
-      "sourceIdentity": "WordNet3.0:adj:02280566",
-      "sourceHash": "1bac59a35a6905aab7c712bb917e1080d95b7504c9de884cfa052e6f206001db"
+    "english-word-reluctant@2": {
+      "contentHash": "d14d4ca7b72a5053581cd60b0eeb18bfebe33930f1e791d8f9efc0cc31054c4d",
+      "sourceIdentity": "WordNet3.0:adj:00811969"
     },
-    "english-word-meticulous@1": {
-      "contentHash": "76a0c5db12a99a643dde9119eccdd11440ce888dbf7d5b0d3ad15d2759b9b067",
-      "sourceIdentity": "WordNet3.0:adj:00984879",
-      "sourceHash": "85ee3001b8719f806be195648b8ba0b617f09bd69f5f982460743ca8195c118c"
+    "english-word-benevolent@2": {
+      "contentHash": "311f7ed1c7a8ddee64fc5e01f4fe5b90fa5bec008e5e0a0988db8044cde7331f",
+      "sourceIdentity": "WordNet3.0:adj:02661446"
     },
-    "english-word-benevolent@1": {
-      "contentHash": "a32869aff2a681d5e645bf8dba81ca5e2384a25557e9eeb7ded897fd1d48a6ed",
-      "sourceIdentity": "WordNet3.0:adj:02661446",
-      "sourceHash": "28fa3896963e312473e5c323dadeaa34d640cd4966e46482c693be465d58da63"
+    "english-word-impartial@2": {
+      "contentHash": "9528ef2c917c62e78e3c1806df19728ed6fbb37f55ea4574773a3e9adcb63826",
+      "sourceIdentity": "WordNet3.0:adj:01723308"
     },
-    "english-word-arbitrary@1": {
-      "contentHash": "f086192fc6910db37ae63f33e62f70a21e41544e58b56ba52efdf16bbbdc5195",
-      "sourceIdentity": "WordNet3.0:adj:00718924",
-      "sourceHash": "1fd10ae8e7f3e939a54be147d0ddb58d3361eaa6f319f863b3ea798b5f77399b"
+    "english-word-biased@1": {
+      "contentHash": "5b9ab4abe85ae96b006cf4a83b59f793f399ba51ba8ed326e779d71f31f8bd1e",
+      "sourceIdentity": "WordNet3.0:adj:01723091"
     },
-    "english-word-coherent@1": {
-      "contentHash": "148cefcec72feaf569dd315f82e386714425131c16ea381418985bb8f78bb0bb",
-      "sourceIdentity": "WordNet3.0:adj:00464513",
-      "sourceHash": "727c5fedc1181c83f866031e4bc7032c9afb0978a7457fde4f24c8a55fe903c1"
+    "english-word-arbitrary@2": {
+      "contentHash": "805e34bef026cabcad5587258d0c37d21813deca757f27fb04979ef8905ff22f",
+      "sourceIdentity": "WordNet3.0:adj:00718924"
     },
-    "english-word-inevitable@1": {
-      "contentHash": "43588b092d935b3e71e9bff23820b91f6d13476e76aa7bc604f028907a6801f2",
-      "sourceIdentity": "WordNet3.0:adj:00343015",
-      "sourceHash": "c22afd2b1c58f2bb7140ea4ba399e0439663d7cf74baa3b24a740e0e486c0358"
+    "english-word-rational@1": {
+      "contentHash": "f6cb723f21f13154be5a02fdb13f90b4c1dafeb33b69c643244447402f0de90e",
+      "sourceIdentity": "WordNet3.0:adj:01925372"
     },
-    "english-word-substantial@1": {
-      "contentHash": "63d3e34a2db5221a97ee895cc410774c9d4bfb4ef75c6527b81499f2d9a3583b",
-      "sourceIdentity": "WordNet3.0:adj:00625055",
-      "sourceHash": "a3445c7be546fe8f192a1b9f02e3399e2303df5e02e5af2de1fa51131b0e1589"
+    "english-word-prudent@2": {
+      "contentHash": "d51fb914908634bd2754a555c32d0e8550b0b31d5b2e7abaf195562f421997f3",
+      "sourceIdentity": "WordNet3.0:adj:01898129"
     },
-    "english-word-abundant@1": {
-      "contentHash": "d9f88d81b83cae6c2f86a45cc6c55dd50a86fd463168be86cda8bc2e5b805843",
-      "sourceIdentity": "WordNet3.0:adj:00013887",
-      "sourceHash": "18594a9b11d3dff4868ed4a79ef817998d0791db863f81e650b77349e3222dd2"
+    "english-word-diligent@2": {
+      "contentHash": "75dbd3e9e46d540c8abef827658d54dde2ff94d0d5ba2447b12e6acec21945c0",
+      "sourceIdentity": "WordNet3.0:adj:00754107"
     },
-    "english-word-reluctant@1": {
-      "contentHash": "6f4d979405fe90e71d1a2211dfbbe6d4e607bb9b1b6346ee67699e876da7cc41",
-      "sourceIdentity": "WordNet3.0:adj:00811969",
-      "sourceHash": "6acfd15450b9cff9f134b2fd90879b4546ced475b7b81454db760fd7056074d6"
+    "english-word-meticulous@2": {
+      "contentHash": "689227f3bf805fd7f1a792436410872d1a15a534420f5b4a78505b39ecfac3af",
+      "sourceIdentity": "WordNet3.0:adj:00984879"
     },
-    "english-word-obsolete@1": {
-      "contentHash": "a7b1e08213ddc0f1e9e2d27948ca837a133849c734fcf9a48077eb50fa7defb2",
-      "sourceIdentity": "WordNet3.0:adj:00669021",
-      "sourceHash": "599ab710d47dd75b559cd4cc5e412b1b4c1135955d4a40fafaac2221dbaece0f"
+    "english-word-tenacious@1": {
+      "contentHash": "0439a98096248d66c140f40b6f1b67b78ca03cd3fd07fad571251fc52229a8a6",
+      "sourceIdentity": "WordNet3.0:adj:02327569"
     },
-    "english-word-impartial@1": {
-      "contentHash": "ea1d10d65c238429772bd0d1f996df9796505e00051eceac2c523124199fabe1",
-      "sourceIdentity": "WordNet3.0:adj:01723308",
-      "sourceHash": "6ccc7cae50106f8790b0d51f93227d1050d8395f04ee84c5451c60d631606c03"
+    "english-word-lethargic@1": {
+      "contentHash": "7b3e1db403f1b82b7dac35439ef1da46b78452ed3af92999c31f9aaaab8d0cbd",
+      "sourceIdentity": "WordNet3.0:adj:00875712"
     },
-    "english-word-sceptical@1": {
-      "contentHash": "13fdacd9e6ae8cfd5413b218c47093d062dd01779edd754b139321bde4c25ab9",
-      "sourceIdentity": "WordNet3.0:adj:02463847",
-      "sourceHash": "d46c1d0fc183b5da4664c5435794cbc50b958f2d2a830a97e21daaa4912e2132"
+    "english-word-resilient@2": {
+      "contentHash": "3a887f4092c3d7c95a3941856c56852b7658d3899ff0fb0ff0040833285cc373",
+      "sourceIdentity": "WordNet3.0:adj:02280566"
     },
-    "accountancy-ratio-sacrifice@1": {
-      "contentHash": "d5435e37d3b0a43bd5f73eb499697aa39d02af1292ca5843ff675d37cd7249bc",
-      "sourceIdentity": "NCERT2026-27:leac102:2.4;leac103:3.3"
+    "english-word-abundant@2": {
+      "contentHash": "793bfd123e2fb1602d997c8b42452561ad5891a05070aab556dcf9d79564a075",
+      "sourceIdentity": "WordNet3.0:adj:00013887"
     },
-    "accountancy-ratio-gain@1": {
-      "contentHash": "740e9195ff782e8893b95b96d2c986fd660ccc45b73955f4038092954ab183bd",
-      "sourceIdentity": "NCERT2026-27:leac102:2.4;leac103:3.3"
+    "english-word-scarce@1": {
+      "contentHash": "c68d6eef9b9a48db9b5fa6e64cf9a74d58cd8917d55b6783dcae569a270555ff",
+      "sourceIdentity": "WordNet3.0:adj:00016756"
     },
-    "accountancy-ratio-contrast@1": {
-      "contentHash": "c593aaeced58ad5d8b4f735fcdc94421c47fe64031855498c362c53dab6428ba",
-      "sourceIdentity": "NCERT2026-27:leac102:2.4;leac103:3.3"
+    "english-word-substantial@2": {
+      "contentHash": "322e9fe8dabee7e0db51073bb0aec266e00e0a76e94982b2ce5689ed6361d64b",
+      "sourceIdentity": "WordNet3.0:adj:00625055"
+    },
+    "english-word-trivial@1": {
+      "contentHash": "0db2a7ef48581be2581f8fc9ba6addcda352f2ff3c359384ca3a3ffb65dd28cd",
+      "sourceIdentity": "WordNet3.0:adj:02165432"
+    },
+    "english-word-frugal@2": {
+      "contentHash": "0b357a1cd976f3eae3aa5f92b8e8409052db0936296f43cb10b17b8ca1d8f46d",
+      "sourceIdentity": "WordNet3.0:adj:02421364"
+    },
+    "english-word-transient@1": {
+      "contentHash": "6117fb9aa7865e9efa159c4eb07adbae2c834cd785a2a43a896c5fd2c0ce15ac",
+      "sourceIdentity": "WordNet3.0:adj:01756292"
+    },
+    "english-word-durable@1": {
+      "contentHash": "690e718afdc4ed9a28c2a200019893d07fe84bd118a2b9d03ab037abb0153995",
+      "sourceIdentity": "WordNet3.0:adj:01439496"
+    },
+    "english-word-perpetual@1": {
+      "contentHash": "17da5ca6a13ca3bafb916091a7f95f75711adbd34a4584b9ddeff0610fff9fcd",
+      "sourceIdentity": "WordNet3.0:adj:00595299"
+    },
+    "english-word-obsolete@2": {
+      "contentHash": "d834626e588239de4a49721d3816422c49fcbd4971ef626cf0c1f36364ce5856",
+      "sourceIdentity": "WordNet3.0:adj:00669021"
+    },
+    "english-word-inevitable@2": {
+      "contentHash": "b406a884cd5a93fbadec8606d1fb4c46c4627ae372c24c064c3f93d06edabf54",
+      "sourceIdentity": "WordNet3.0:adj:00343015"
+    },
+    "english-main-idea-find@1": {
+      "contentHash": "f19649b289190884219aee3606e06b96121a31b251a5967a1478a675c181f559",
+      "sourceIdentity": "mockmob-original-passages,cuet-2026-english-syllabus"
+    },
+    "english-main-idea-traps@1": {
+      "contentHash": "127e80e06856a53927b9b5204c0121b7a50c6b3c164f83f02ff6ff38ed816a39",
+      "sourceIdentity": "mockmob-original-passages,cuet-2026-english-syllabus"
+    },
+    "english-main-idea-test@1": {
+      "contentHash": "86f807a4a17efca35fb97ef22c06fc4d62a6bedf2292e60c54eca5bb4bdb67cf",
+      "sourceIdentity": "mockmob-original-passages,cuet-2026-english-syllabus"
+    },
+    "english-inference-classify@1": {
+      "contentHash": "07f04ef0b851e7768ee9d917fd951beece1a4c250448c9a6ba4969566b7a8650",
+      "sourceIdentity": "mockmob-original-passages,cuet-2026-english-syllabus"
+    },
+    "english-inference-strong-words@1": {
+      "contentHash": "38027ba9d72be1cbb573c93fc59953ba0ae78785c4f015085c147e57e287c5df",
+      "sourceIdentity": "mockmob-original-passages,cuet-2026-english-syllabus"
+    },
+    "english-inference-rule@1": {
+      "contentHash": "a835cae734b4a84716d762ceedea5d1f629d653c423df7b9d6f05f3549a365f1",
+      "sourceIdentity": "mockmob-original-passages,cuet-2026-english-syllabus"
+    },
+    "accountancy-ratio-formula@2": {
+      "contentHash": "b5a31a93054a07901f9e0808af9c6c4bc5e7f3fe7d1ed07fc4dc56f0a3c3285f",
+      "sourceIdentity": "ncert-admission,ncert-retirement"
+    },
+    "accountancy-ratio-sacrifice-calc@1": {
+      "contentHash": "c0ee32f5988356467892c2e4f9ddc5c3fed22d7c727e25d46381d69f614a650d",
+      "sourceIdentity": "ncert-admission,ncert-retirement"
+    },
+    "accountancy-ratio-sacrificing@1": {
+      "contentHash": "9d72abf67da5278c1b7e678d2caf8b5fdcb745e10d0ca2115972fc9e4e16768c",
+      "sourceIdentity": "ncert-admission,ncert-retirement"
+    },
+    "accountancy-ratio-gain-calc@1": {
+      "contentHash": "3fef516c2948325f7983b339a05f623dc88fe8b692f4e9f1230fe96bd9fda390",
+      "sourceIdentity": "ncert-admission,ncert-retirement"
+    },
+    "accountancy-ratio-reading@1": {
+      "contentHash": "f9884a273c7f8b29c30e1d0ff9d1335ac087f9f0259dc002cb6de4d67bb9db6a",
+      "sourceIdentity": "ncert-admission,ncert-retirement"
+    },
+    "accountancy-reval-side@1": {
+      "contentHash": "ad53a6696f5727f641863f69459489878113776f3bf61f8b60eb01e99e76b873",
+      "sourceIdentity": "ncert-admission"
+    },
+    "accountancy-reval-who@1": {
+      "contentHash": "62996543d88ef07d4b5c2d617f421e5ddc16f2d31a9f81bbe382f97f7a98b56a",
+      "sourceIdentity": "ncert-admission"
+    },
+    "accountancy-reval-net@1": {
+      "contentHash": "9e76406c70891c73e36e78a71bc38fb7267998a2ac759515713ee0f836207651",
+      "sourceIdentity": "ncert-admission"
+    },
+    "accountancy-reval-share@1": {
+      "contentHash": "7e6296a179506503f9a5d845873a582acb6ec4b08b54388eb7410dc263b7dd80",
+      "sourceIdentity": "ncert-admission"
+    },
+    "accountancy-reval-entry@1": {
+      "contentHash": "c339bcf319c6971ff117fbb5c592a772bc605b2808d559ca00b1e6b3a123593a",
+      "sourceIdentity": "ncert-admission"
+    },
+    "bst-del-elements@1": {
+      "contentHash": "c001bd23c654a945729dc7573d964a482d5de46ac009b42e50de1a86e6e8eef1",
+      "sourceIdentity": "ncert-bst-organising"
+    },
+    "bst-del-scenario@1": {
+      "contentHash": "287ec8825aa1e0a4eec48774fd92d3e85245dfa5f75a7c3c97c62addc8d9b264",
+      "sourceIdentity": "ncert-bst-organising"
+    },
+    "bst-del-basis@1": {
+      "contentHash": "57a07b14f8c1c252f15e111ec43f299b36fabe32247f50236a787132d41f7a13",
+      "sourceIdentity": "ncert-bst-organising"
+    },
+    "bst-del-balance@1": {
+      "contentHash": "b8fec2af24dd93015aeacbedb26f7d91c086bb9ce6ebdda362c2abeda853e951",
+      "sourceIdentity": "ncert-bst-organising"
+    },
+    "bst-ctl-step@1": {
+      "contentHash": "a5c5230b9d552a88120de7c77b4c84990648e575e95969e116360e47f4de2f27",
+      "sourceIdentity": "ncert-bst-controlling"
+    },
+    "bst-ctl-order@1": {
+      "contentHash": "a4083381eac8ed7937d95d36a92dd57cb0aa013223c62f5f966810f4662b0c07",
+      "sourceIdentity": "ncert-bst-controlling"
+    },
+    "bst-ctl-relationship@1": {
+      "contentHash": "44c8275346e7228cae7ac23aa88fbccb73b3d5a679798b73356959b3e31bc34b",
+      "sourceIdentity": "ncert-bst-controlling"
+    },
+    "bst-ctl-focus@1": {
+      "contentHash": "6d101a3abe68c358f4f01fef7d13e6faa6b27b6d13ed1a3b79a3775bda8e97f1",
+      "sourceIdentity": "ncert-bst-controlling"
+    },
+    "bst-ctl-direction@1": {
+      "contentHash": "dfa08af021c7436a28b24e53aed87e75ba3fc5d8149acb98a277e0d532d28bd0",
+      "sourceIdentity": "ncert-bst-controlling"
+    },
+    "economics-gdp-final-intermediate@1": {
+      "contentHash": "07cf760aa24d684ef0f82f08492c72742b72f9ad76cf54cd7e0a5e28946b9873",
+      "sourceIdentity": "ncert-macro-national-income"
+    },
+    "economics-gdp-value-added@1": {
+      "contentHash": "cecfc0fd807ccb85994974b73f8e32304642c9dd0fc6823813be0011ae000888",
+      "sourceIdentity": "ncert-macro-national-income"
+    },
+    "economics-gdp-gross-net@1": {
+      "contentHash": "3c4b68c9bd851f9da85f63af6fed072de167919432c8f91b45e0e5aa10a376af",
+      "sourceIdentity": "ncert-macro-national-income"
+    },
+    "economics-gdp-double-counting@1": {
+      "contentHash": "2791c90b85dbf1ff1e7ef55cc78f758bb7847556015fe43d8f1430e4a88e99b4",
+      "sourceIdentity": "ncert-macro-national-income"
+    },
+    "economics-gdp-counted@1": {
+      "contentHash": "423d950315747b6adba7a5469af05a2b9d855b8ae9d2418ae40280437ed8e34a",
+      "sourceIdentity": "ncert-macro-national-income"
+    },
+    "economics-real-deflator@1": {
+      "contentHash": "caeed07148a7009701e00b0aeadf698ab020d96496580a14aa949f70aeb50d73",
+      "sourceIdentity": "ncert-macro-national-income"
+    },
+    "economics-real-gdp@1": {
+      "contentHash": "74a46c849988cd24bd67f12133af490befa72403b9d6f772bf354266754627cf",
+      "sourceIdentity": "ncert-macro-national-income"
+    },
+    "economics-real-quantities@1": {
+      "contentHash": "857c3687a650cdab3b19f0f68dc3b203472a551a6c35c89b79f8710cd06820d1",
+      "sourceIdentity": "ncert-macro-national-income"
+    },
+    "economics-real-interpret@1": {
+      "contentHash": "9d61746b7d4164202c88423aa891d81b64dc374b2b1fc5c1ff87953217850442",
+      "sourceIdentity": "ncert-macro-national-income"
+    },
+    "economics-real-definition@1": {
+      "contentHash": "5675d6eb8af1fe8cdf44d389a535213220aa696f0b52c1680882e844edbad33f",
+      "sourceIdentity": "ncert-macro-national-income"
     }
   },
   "quarantined": [],
-  "scope": "Teaching and recall only; no academic recovery certification or full-syllabus claim",
+  "scope": "Self-study teaching and recall only. No formal recovery assessment, mastery claim or full-syllabus claim.",
   "paidCalls": 0
 }

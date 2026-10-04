@@ -1,146 +1,694 @@
 {
   "version": "3.0",
+  "source": "WordNet 3.0 data.adj",
+  "archiveSha256": "658b1ba191f5f98c2e9bae3e25c186013158f30ef779f191d2a44e5d25046dc8",
   "facts": [
-    {
-      "word": "candid",
-      "offset": "00764484",
-      "definition": "characterized by directness in manner or speech; without subtlety or evasion",
-      "line": "00764484 00 s 09 blunt 0 candid 0 forthright 1 frank 0 free-spoken 0 outspoken 0 plainspoken 0 point-blank 0 straight-from-the-shoulder 0 007 & 00763901 a 0000 + 04650731 n 0602 + 04650731 n 0401 + 04871720 n 0404 + 04871720 n 0306 + 04871720 n 0203 + 04846383 n 0101 | characterized by directness in manner or speech; without subtlety or evasion; \"blunt talking and straight shooting\"; \"a blunt New England farmer\"; \"I gave them my candid opinion\"; \"forthright criticism\"; \"a forthright approach to the problem\"; \"tell me what you think--and you may just as well be frank\"; \"it is possible to be outspoken without being rude\"; \"plainspoken and to the point\"; \"a point-blank accusation\"  ",
-      "sha256": "9eab8c789f6bafeade903ead76cde5f74a36dcb1809f9e3a8fc82738f4fec967"
-    },
     {
       "word": "lucid",
       "offset": "00429355",
-      "definition": "(of language) transparently clear; easily understandable",
       "line": "00429355 00 s 06 limpid 0 lucid 0 luculent 0 pellucid 0 crystal_clear 0 perspicuous 0 007 & 00428404 a 0000 ;c 06282651 n 0000 + 04821615 n 0602 + 04821615 n 0601 + 04820258 n 0404 + 04820258 n 0202 + 04820258 n 0106 | (of language) transparently clear; easily understandable; \"writes in a limpid style\"; \"lucid directions\"; \"a luculent oration\"- Robert Burton; \"pellucid prose\"; \"a crystal clear explanation\"; \"a perspicuous argument\"  ",
       "sha256": "b286b0445e894f3fd493662a44f6857d46e39ff75fe166948cb20db016367bd0"
     },
     {
-      "word": "ambiguous",
-      "offset": "00102201",
-      "definition": "having more than one possible meaning",
-      "line": "00102201 00 a 01 ambiguous 0 011 ^ 00895442 a 0000 ^ 00430191 a 0000 + 04825114 n 0101 ! 00103696 a 0101 & 00102578 a 0000 & 00102786 a 0000 & 00102930 a 0000 & 00103196 a 0000 & 00103302 a 0000 & 00103447 a 0000 & 00103567 a 0000 | having more than one possible meaning; \"ambiguous words\"; \"frustrated by ambiguous instructions, the parents were unable to assemble the toy\"  ",
-      "sha256": "fbbcbcfb9afc347ec6407a47fb8a8e57ac6d465fb9bb3ee7944078e40069232c"
-    },
-    {
-      "word": "diligent",
-      "offset": "00754107",
-      "definition": "characterized by care and perseverance in carrying out tasks",
-      "line": "00754107 00 a 01 diligent 0 006 ^ 00292937 a 0000 ^ 00309021 a 0000 + 04865114 n 0101 ! 00754873 a 0101 & 00754393 a 0000 & 00754682 a 0000 | characterized by care and perseverance in carrying out tasks; \"a diligent detective investigates all clues\"; \"a diligent search of the files\"  ",
-      "sha256": "f4d1ce252c2c4e005345c331ef8465e2dcab8718cc45c4dbb29c6fbe58811b4f"
-    },
-    {
-      "word": "prudent",
-      "offset": "01898129",
-      "definition": "careful and sensible; marked by sound judgment",
-      "line": "01898129 00 a 01 prudent 0 010 ^ 00309021 a 0000 ^ 01894758 a 0000 ^ 01996377 a 0000 ^ 02569130 a 0000 + 05615500 n 0104 ! 01899360 a 0101 & 01898490 a 0000 & 01898722 a 0000 & 01898974 a 0000 & 01899167 a 0000 | careful and sensible; marked by sound judgment; \"a prudent manager\"; \"prudent rulers\"; \"prudent hesitation\"; \"more prudent to hide than to fight\"  ",
-      "sha256": "154b0072de8350fad82f53b55aee3608bb9099d54fd4bce85457ee08a53fb482"
-    },
-    {
-      "word": "frugal",
-      "offset": "02421364",
-      "definition": "avoiding waste",
-      "line": "02421364 00 s 05 economical 0 frugal 0 scotch 0 sparing 0 stinting 0 005 & 02421158 a 0000 ;u 07075172 n 0000 + 04893358 n 0202 + 04893358 n 0201 + 04893787 n 0101 | avoiding waste; \"an economical meal\"; \"an economical shopper\"; \"a frugal farmer\"; \"a frugal lunch\"; \"a sparing father and a spending son\"; \"sparing in their use of heat and light\"; \"stinting in bestowing gifts\"; \"thrifty because they remember the great Depression\"; \"`scotch' is used only informally\"  ",
-      "sha256": "14ab7dd877c14ccc1f75c8fa3daa615ec67b84e085ec85362152b4084ce71796"
-    },
-    {
       "word": "concise",
       "offset": "00546646",
-      "definition": "expressing much in few words",
       "line": "00546646 00 a 01 concise 0 012 ^ 02383380 a 0000 = 07090108 n 0000 + 07089024 n 0101 ! 00548781 a 0101 & 00546951 a 0000 & 00547166 a 0000 & 00547317 a 0000 & 00547641 a 0000 & 00547930 a 0000 & 00548029 a 0000 & 00548316 a 0000 & 00548579 a 0000 | expressing much in few words; \"a concise explanation\"  ",
       "sha256": "ac694b0e01238333a3ff16e60d93ef715b06630dc465875654e3236c1a350149"
     },
     {
-      "word": "obscure",
-      "offset": "00431004",
-      "definition": "not clearly understood or expressed",
-      "line": "00431004 00 s 02 obscure 0 vague 0 004 & 00430191 a 0000 + 04824350 n 0201 + 04823416 n 0102 + 04823416 n 0101 | not clearly understood or expressed; \"an obscure turn of phrase\"; \"an impulse to go off and fight certain obscure battles of his own spirit\"-Anatole Broyard; \"their descriptions of human behavior become vague, dull, and unclear\"- P.A.Sorokin; \"vague...forms of speech...have so long passed for mysteries of science\"- John Locke  ",
-      "sha256": "938b495a839406cfe07ca47df41ec88cc0010b6b678556b7431981bc8729b488"
-    },
-    {
-      "word": "resilient",
-      "offset": "02280566",
-      "definition": "recovering readily from adversity, depression, or the like",
-      "line": "02280566 00 s 01 resilient 0 001 & 02278939 a 0000 | recovering readily from adversity, depression, or the like  ",
-      "sha256": "1bac59a35a6905aab7c712bb917e1080d95b7504c9de884cfa052e6f206001db"
-    },
-    {
-      "word": "meticulous",
-      "offset": "00984879",
-      "definition": "marked by extreme care in treatment of details",
-      "line": "00984879 00 s 01 meticulous 0 003 & 00983862 a 0000 + 04672605 n 0102 + 04672605 n 0101 | marked by extreme care in treatment of details; \"a meticulous craftsman\"; \"almost worryingly meticulous in his business formalities\"  ",
-      "sha256": "85ee3001b8719f806be195648b8ba0b617f09bd69f5f982460743ca8195c118c"
-    },
-    {
-      "word": "benevolent",
-      "offset": "02661446",
-      "definition": "intending or showing kindness",
-      "line": "02661446 01 a 01 benevolent 0 002 + 01226679 n 0101 \\ 01226679 n 0101 | intending or showing kindness; \"a benevolent society\"  ",
-      "sha256": "28fa3896963e312473e5c323dadeaa34d640cd4966e46482c693be465d58da63"
-    },
-    {
-      "word": "arbitrary",
-      "offset": "00718924",
-      "definition": "based on or subject to individual discretion or preference or sometimes impulse or caprice",
-      "line": "00718924 00 a 01 arbitrary 0 005 + 04671841 n 0102 ! 00720082 a 0101 & 00719328 a 0000 & 00719442 a 0000 & 00719819 a 0000 | based on or subject to individual discretion or preference or sometimes impulse or caprice; \"an arbitrary decision\"; \"the arbitrary rule of a dictator\"; \"an arbitrary penalty\"; \"of arbitrary size and shape\"; \"an arbitrary choice\"; \"arbitrary division of the group into halves\"  ",
-      "sha256": "1fd10ae8e7f3e939a54be147d0ddb58d3361eaa6f319f863b3ea798b5f77399b"
-    },
-    {
       "word": "coherent",
       "offset": "00464513",
-      "definition": "marked by an orderly, logical, and aesthetically consistent relation of parts",
       "line": "00464513 00 a 04 coherent 0 consistent 1 logical 5 ordered 6 009 ^ 01430111 a 0000 ^ 01925372 a 0000 + 04745932 n 0202 + 04821277 n 0102 + 04821277 n 0101 + 02753642 v 0101 + 02753426 v 0101 ! 00464962 a 0101 & 00464845 a 0000 | marked by an orderly, logical, and aesthetically consistent relation of parts; \"a coherent argument\"  ",
       "sha256": "727c5fedc1181c83f866031e4bc7032c9afb0978a7457fde4f24c8a55fe903c1"
     },
     {
-      "word": "inevitable",
-      "offset": "00343015",
-      "definition": "incapable of being avoided or prevented",
-      "line": "00343015 00 a 01 inevitable 0 006 + 04754056 n 0102 + 04754056 n 0101 ! 00343700 a 0101 & 00343226 a 0000 & 00343360 a 0000 & 00343552 a 0000 | incapable of being avoided or prevented; \"the inevitable result\"  ",
-      "sha256": "c22afd2b1c58f2bb7140ea4ba399e0439663d7cf74baa3b24a740e0e486c0358"
+      "word": "ambiguous",
+      "offset": "00102201",
+      "line": "00102201 00 a 01 ambiguous 0 011 ^ 00895442 a 0000 ^ 00430191 a 0000 + 04825114 n 0101 ! 00103696 a 0101 & 00102578 a 0000 & 00102786 a 0000 & 00102930 a 0000 & 00103196 a 0000 & 00103302 a 0000 & 00103447 a 0000 & 00103567 a 0000 | having more than one possible meaning; \"ambiguous words\"; \"frustrated by ambiguous instructions, the parents were unable to assemble the toy\"  ",
+      "sha256": "fbbcbcfb9afc347ec6407a47fb8a8e57ac6d465fb9bb3ee7944078e40069232c"
     },
     {
-      "word": "substantial",
-      "offset": "00625055",
-      "definition": "fairly large",
-      "line": "00625055 00 s 02 significant 0 substantial 0 001 & 00624026 a 0000 | fairly large; \"won by a substantial margin\"  ",
-      "sha256": "a3445c7be546fe8f192a1b9f02e3399e2303df5e02e5af2de1fa51131b0e1589"
+      "word": "obscure",
+      "offset": "00431004",
+      "line": "00431004 00 s 02 obscure 0 vague 0 004 & 00430191 a 0000 + 04824350 n 0201 + 04823416 n 0102 + 04823416 n 0101 | not clearly understood or expressed; \"an obscure turn of phrase\"; \"an impulse to go off and fight certain obscure battles of his own spirit\"-Anatole Broyard; \"their descriptions of human behavior become vague, dull, and unclear\"- P.A.Sorokin; \"vague...forms of speech...have so long passed for mysteries of science\"- John Locke  ",
+      "sha256": "938b495a839406cfe07ca47df41ec88cc0010b6b678556b7431981bc8729b488"
     },
     {
-      "word": "abundant",
-      "offset": "00013887",
-      "definition": "present in great quantity",
-      "line": "00013887 00 a 01 abundant 0 021 ^ 00105746 a 0000 ^ 02021905 a 0000 = 05108740 n 0000 + 02715279 v 0101 + 05115040 n 0101 ! 00016756 a 0101 & 00014358 a 0000 & 00014490 a 0000 & 00014858 a 0000 & 00015097 a 0000 & 00015247 a 0000 & 00015480 a 0000 & 00015589 a 0000 & 00015720 a 0000 & 00015854 a 0000 & 00016005 a 0000 & 00016135 a 0000 & 00016247 a 0000 & 00016350 a 0000 & 00016532 a 0000 & 00016647 a 0000 | present in great quantity; \"an abundant supply of water\"  ",
-      "sha256": "18594a9b11d3dff4868ed4a79ef817998d0791db863f81e650b77349e3222dd2"
-    },
-    {
-      "word": "reluctant",
-      "offset": "00811969",
-      "definition": "not eager",
-      "line": "00811969 00 s 01 reluctant 0 002 & 00811820 a 0000 + 04645943 n 0101 | not eager; \"foreigners stubbornly reluctant to accept our ways\"; \"fresh from college and reluctant for the moment to marry him\"  ",
-      "sha256": "6acfd15450b9cff9f134b2fd90879b4546ced475b7b81454db760fd7056074d6"
-    },
-    {
-      "word": "obsolete",
-      "offset": "00669021",
-      "definition": "no longer in use",
-      "line": "00669021 00 s 02 disused 0 obsolete 1 002 & 00668571 a 0000 + 04925577 n 0201 | no longer in use; \"obsolete words\"  ",
-      "sha256": "599ab710d47dd75b559cd4cc5e412b1b4c1135955d4a40fafaac2221dbaece0f"
-    },
-    {
-      "word": "impartial",
-      "offset": "01723308",
-      "definition": "showing lack of favoritism",
-      "line": "01723308 00 a 01 impartial 0 007 ^ 00956131 a 0000 + 06202686 n 0101 ! 01722965 a 0101 & 01723543 a 0000 & 01723648 a 0000 & 01723856 a 0000 & 01724072 a 0000 | showing lack of favoritism; \"the cold neutrality of an impartial judge\"  ",
-      "sha256": "6ccc7cae50106f8790b0d51f93227d1050d8395f04ee84c5451c60d631606c03"
+      "word": "candid",
+      "offset": "00764484",
+      "line": "00764484 00 s 09 blunt 0 candid 0 forthright 1 frank 0 free-spoken 0 outspoken 0 plainspoken 0 point-blank 0 straight-from-the-shoulder 0 007 & 00763901 a 0000 + 04650731 n 0602 + 04650731 n 0401 + 04871720 n 0404 + 04871720 n 0306 + 04871720 n 0203 + 04846383 n 0101 | characterized by directness in manner or speech; without subtlety or evasion; \"blunt talking and straight shooting\"; \"a blunt New England farmer\"; \"I gave them my candid opinion\"; \"forthright criticism\"; \"a forthright approach to the problem\"; \"tell me what you think--and you may just as well be frank\"; \"it is possible to be outspoken without being rude\"; \"plainspoken and to the point\"; \"a point-blank accusation\"  ",
+      "sha256": "9eab8c789f6bafeade903ead76cde5f74a36dcb1809f9e3a8fc82738f4fec967"
     },
     {
       "word": "sceptical",
       "offset": "02463847",
-      "definition": "marked by or given to doubt",
       "line": "02463847 00 s 04 doubting 0 questioning 0 skeptical 0 sceptical 0 006 & 02463154 a 0000 + 05980051 n 0403 + 10604634 n 0402 + 10604634 n 0301 + 05980051 n 0302 + 05698982 n 0303 | marked by or given to doubt; \"a skeptical attitude\"; \"a skeptical listener\"  ",
       "sha256": "d46c1d0fc183b5da4664c5435794cbc50b958f2d2a830a97e21daaa4912e2132"
+    },
+    {
+      "word": "gullible",
+      "offset": "00163315",
+      "line": "00163315 00 s 01 gullible 0 002 & 00162990 a 0000 + 04881156 n 0102 | easily tricked because of being too trusting; \"gullible tourists taken in by the shell game\"  ",
+      "sha256": "0acbe136454222b13f2d3972e26d3f938cae7ee7e62a11e0ee61da7696353127"
+    },
+    {
+      "word": "reluctant",
+      "offset": "00811969",
+      "line": "00811969 00 s 01 reluctant 0 002 & 00811820 a 0000 + 04645943 n 0101 | not eager; \"foreigners stubbornly reluctant to accept our ways\"; \"fresh from college and reluctant for the moment to marry him\"  ",
+      "sha256": "6acfd15450b9cff9f134b2fd90879b4546ced475b7b81454db760fd7056074d6"
+    },
+    {
+      "word": "benevolent",
+      "offset": "02661446",
+      "line": "02661446 01 a 01 benevolent 0 002 + 01226679 n 0101 \\ 01226679 n 0101 | intending or showing kindness; \"a benevolent society\"  ",
+      "sha256": "28fa3896963e312473e5c323dadeaa34d640cd4966e46482c693be465d58da63"
+    },
+    {
+      "word": "impartial",
+      "offset": "01723308",
+      "line": "01723308 00 a 01 impartial 0 007 ^ 00956131 a 0000 + 06202686 n 0101 ! 01722965 a 0101 & 01723543 a 0000 & 01723648 a 0000 & 01723856 a 0000 & 01724072 a 0000 | showing lack of favoritism; \"the cold neutrality of an impartial judge\"  ",
+      "sha256": "6ccc7cae50106f8790b0d51f93227d1050d8395f04ee84c5451c60d631606c03"
+    },
+    {
+      "word": "biased",
+      "offset": "01723091",
+      "line": "01723091 00 s 05 biased 0 colored 0 coloured 0 one-sided 0 slanted 0 001 & 01722965 a 0000 | favoring one person or side over another; \"a biased account of the trial\"; \"a decision that was partial to the defendant\"  ",
+      "sha256": "b28ff0162678c3487faf785a101ed91a356a05568cdd2d733959075bfd6fe715"
+    },
+    {
+      "word": "arbitrary",
+      "offset": "00718924",
+      "line": "00718924 00 a 01 arbitrary 0 005 + 04671841 n 0102 ! 00720082 a 0101 & 00719328 a 0000 & 00719442 a 0000 & 00719819 a 0000 | based on or subject to individual discretion or preference or sometimes impulse or caprice; \"an arbitrary decision\"; \"the arbitrary rule of a dictator\"; \"an arbitrary penalty\"; \"of arbitrary size and shape\"; \"an arbitrary choice\"; \"arbitrary division of the group into halves\"  ",
+      "sha256": "1fd10ae8e7f3e939a54be147d0ddb58d3361eaa6f319f863b3ea798b5f77399b"
+    },
+    {
+      "word": "rational",
+      "offset": "01925372",
+      "line": "01925372 00 a 01 rational 0 010 ^ 01430111 a 0000 ^ 01943406 a 0000 ^ 02073443 a 0000 + 04784978 n 0102 + 14379829 n 0101 ! 01926376 a 0101 & 01925708 a 0000 & 01925979 a 0000 & 01926089 a 0000 & 01926229 a 0000 | consistent with or based on or using reason; \"rational behavior\"; \"a process of rational inference\"; \"rational thought\"  ",
+      "sha256": "0fd38821b1900f6c04573d562cb65a0603ff85deeb322a6ad13f010a9e9f77ad"
+    },
+    {
+      "word": "prudent",
+      "offset": "01898129",
+      "line": "01898129 00 a 01 prudent 0 010 ^ 00309021 a 0000 ^ 01894758 a 0000 ^ 01996377 a 0000 ^ 02569130 a 0000 + 05615500 n 0104 ! 01899360 a 0101 & 01898490 a 0000 & 01898722 a 0000 & 01898974 a 0000 & 01899167 a 0000 | careful and sensible; marked by sound judgment; \"a prudent manager\"; \"prudent rulers\"; \"prudent hesitation\"; \"more prudent to hide than to fight\"  ",
+      "sha256": "154b0072de8350fad82f53b55aee3608bb9099d54fd4bce85457ee08a53fb482"
+    },
+    {
+      "word": "diligent",
+      "offset": "00754107",
+      "line": "00754107 00 a 01 diligent 0 006 ^ 00292937 a 0000 ^ 00309021 a 0000 + 04865114 n 0101 ! 00754873 a 0101 & 00754393 a 0000 & 00754682 a 0000 | characterized by care and perseverance in carrying out tasks; \"a diligent detective investigates all clues\"; \"a diligent search of the files\"  ",
+      "sha256": "f4d1ce252c2c4e005345c331ef8465e2dcab8718cc45c4dbb29c6fbe58811b4f"
+    },
+    {
+      "word": "meticulous",
+      "offset": "00984879",
+      "line": "00984879 00 s 01 meticulous 0 003 & 00983862 a 0000 + 04672605 n 0102 + 04672605 n 0101 | marked by extreme care in treatment of details; \"a meticulous craftsman\"; \"almost worryingly meticulous in his business formalities\"  ",
+      "sha256": "85ee3001b8719f806be195648b8ba0b617f09bd69f5f982460743ca8195c118c"
+    },
+    {
+      "word": "tenacious",
+      "offset": "02327569",
+      "line": "02327569 00 s 06 dogged 0 dour 0 persistent 0 pertinacious 0 tenacious 0 unyielding 0 007 & 02326695 a 0000 + 04863793 n 0603 + 04864515 n 0506 + 04864515 n 0505 + 04864515 n 0407 + 04864515 n 0303 + 04864515 n 0101 | stubbornly unyielding; \"dogged persistence\"; \"dour determination\"; \"the most vocal and pertinacious of all the critics\"; \"a mind not gifted to discover truth but tenacious to hold it\"- T.S.Eliot; \"men tenacious of opinion\"  ",
+      "sha256": "c6b75e86c2054f28802af8c4ffb7431b7489572e3fb14af2ff86e5a6fc5e9596"
+    },
+    {
+      "word": "lethargic",
+      "offset": "00875712",
+      "line": "00875712 00 a 02 lethargic 0 unenrgetic 4 006 ^ 00033574 a 0000 + 04635953 n 0102 ! 00873603 a 0101 & 00875962 a 0000 & 00876204 a 0000 & 00876465 a 0000 | deficient in alertness or activity; \"bullfrogs became lethargic with the first cold nights\"  ",
+      "sha256": "e9d85321beb2de20606ecbe408a8a938404bc108db78d23bd21c0619fe3c4759"
+    },
+    {
+      "word": "resilient",
+      "offset": "02280566",
+      "line": "02280566 00 s 01 resilient 0 001 & 02278939 a 0000 | recovering readily from adversity, depression, or the like  ",
+      "sha256": "1bac59a35a6905aab7c712bb917e1080d95b7504c9de884cfa052e6f206001db"
+    },
+    {
+      "word": "abundant",
+      "offset": "00013887",
+      "line": "00013887 00 a 01 abundant 0 021 ^ 00105746 a 0000 ^ 02021905 a 0000 = 05108740 n 0000 + 02715279 v 0101 + 05115040 n 0101 ! 00016756 a 0101 & 00014358 a 0000 & 00014490 a 0000 & 00014858 a 0000 & 00015097 a 0000 & 00015247 a 0000 & 00015480 a 0000 & 00015589 a 0000 & 00015720 a 0000 & 00015854 a 0000 & 00016005 a 0000 & 00016135 a 0000 & 00016247 a 0000 & 00016350 a 0000 & 00016532 a 0000 & 00016647 a 0000 | present in great quantity; \"an abundant supply of water\"  ",
+      "sha256": "18594a9b11d3dff4868ed4a79ef817998d0791db863f81e650b77349e3222dd2"
+    },
+    {
+      "word": "scarce",
+      "offset": "00016756",
+      "line": "00016756 00 a 01 scarce 0 007 ^ 00106456 a 0000 = 05108740 n 0000 + 05116953 n 0102 + 05116953 n 0101 ! 00013887 a 0101 & 00017024 a 0000 & 00017186 a 0000 | deficient in quantity or number compared with the demand; \"fresh vegetables were scarce during the drought\"  ",
+      "sha256": "f813493bd1302eadf50f5b5950d5ad9680953e364f516fddc3937e16db0e46a0"
+    },
+    {
+      "word": "substantial",
+      "offset": "00625055",
+      "line": "00625055 00 s 02 significant 0 substantial 0 001 & 00624026 a 0000 | fairly large; \"won by a substantial margin\"  ",
+      "sha256": "a3445c7be546fe8f192a1b9f02e3399e2303df5e02e5af2de1fa51131b0e1589"
+    },
+    {
+      "word": "trivial",
+      "offset": "02165432",
+      "line": "02165432 00 s 02 superficial 0 trivial 0 004 & 02164402 a 0000 + 00840413 v 0201 + 04486445 n 0202 + 05820462 n 0203 | of little substance or significance; \"a few superficial editorial changes\"; \"only trivial objections\"  ",
+      "sha256": "2067c7b64e543bbc89f66444b880c0d898389bcc218a7b52d8448680d2a9da1e"
+    },
+    {
+      "word": "frugal",
+      "offset": "02421364",
+      "line": "02421364 00 s 05 economical 0 frugal 0 scotch 0 sparing 0 stinting 0 005 & 02421158 a 0000 ;u 07075172 n 0000 + 04893358 n 0202 + 04893358 n 0201 + 04893787 n 0101 | avoiding waste; \"an economical meal\"; \"an economical shopper\"; \"a frugal farmer\"; \"a frugal lunch\"; \"a sparing father and a spending son\"; \"sparing in their use of heat and light\"; \"stinting in bestowing gifts\"; \"thrifty because they remember the great Depression\"; \"`scotch' is used only informally\"  ",
+      "sha256": "14ab7dd877c14ccc1f75c8fa3daa615ec67b84e085ec85362152b4084ce71796"
+    },
+    {
+      "word": "transient",
+      "offset": "01756292",
+      "line": "01756292 00 s 06 ephemeral 0 passing 0 short-lived 0 transient 0 transitory 0 fugacious 0 011 & 01755627 a 0000 + 05055503 n 0602 + 05055503 n 0601 + 05055278 n 0503 + 10725149 n 0401 + 07347468 n 0401 + 05055278 n 0402 + 05053042 n 0403 + 15247410 n 0101 + 05055689 n 0102 + 05055689 n 0101 | lasting a very short time; \"the ephemeral joys of childhood\"; \"a passing fancy\"; \"youth's transient beauty\"; \"love is transitory but it is eternal\"; \"fugacious blossoms\"  ",
+      "sha256": "13236739fcad2d1fb779e7dc379e4294e40ae9f8fa5d861c88bb635efc9dbcae"
+    },
+    {
+      "word": "durable",
+      "offset": "01439496",
+      "line": "01439496 00 s 04 durable 0 lasting 0 long-lasting 0 long-lived 0 003 & 01437963 a 0000 + 05053688 n 0201 + 05053688 n 0102 | existing for a long time; \"hopes for a durable peace\"; \"a long-lasting friendship\"  ",
+      "sha256": "884a709daba75ab2f0594b7e023c2a2077a48be66e63db09cd014cfeb7fb4b07"
+    },
+    {
+      "word": "perpetual",
+      "offset": "00595299",
+      "line": "00595299 00 s 07 ceaseless 0 constant 0 incessant 0 never-ending 0 perpetual 0 unceasing 0 unremitting 0 005 & 00594413 a 0000 + 05053527 n 0501 + 05052587 n 0304 + 05052587 n 0303 + 05052587 n 0102 | uninterrupted in time and indefinitely long continuing; \"the ceaseless thunder of surf\"; \"in constant pain\"; \"night and day we live with the incessant noise of the city\"; \"the never-ending search for happiness\"; \"the perpetual struggle to maintain standards in a democracy\"; \"man's unceasing warfare with drought and isolation\"; \"unremitting demands of hunger\"  ",
+      "sha256": "a15745d4673b2e87eb5d63172b4dc1e1b3de9fe0cd06fb4a49b5ca8ab5a723c4"
+    },
+    {
+      "word": "obsolete",
+      "offset": "00669021",
+      "line": "00669021 00 s 02 disused 0 obsolete 1 002 & 00668571 a 0000 + 04925577 n 0201 | no longer in use; \"obsolete words\"  ",
+      "sha256": "599ab710d47dd75b559cd4cc5e412b1b4c1135955d4a40fafaac2221dbaece0f"
+    },
+    {
+      "word": "inevitable",
+      "offset": "00343015",
+      "line": "00343015 00 a 01 inevitable 0 006 + 04754056 n 0102 + 04754056 n 0101 ! 00343700 a 0101 & 00343226 a 0000 & 00343360 a 0000 & 00343552 a 0000 | incapable of being avoided or prevented; \"the inevitable result\"  ",
+      "sha256": "c22afd2b1c58f2bb7140ea4ba399e0439663d7cf74baa3b24a740e0e486c0358"
     }
   ],
+  "lines": {
+    "00429355": {
+      "line": "00429355 00 s 06 limpid 0 lucid 0 luculent 0 pellucid 0 crystal_clear 0 perspicuous 0 007 & 00428404 a 0000 ;c 06282651 n 0000 + 04821615 n 0602 + 04821615 n 0601 + 04820258 n 0404 + 04820258 n 0202 + 04820258 n 0106 | (of language) transparently clear; easily understandable; \"writes in a limpid style\"; \"lucid directions\"; \"a luculent oration\"- Robert Burton; \"pellucid prose\"; \"a crystal clear explanation\"; \"a perspicuous argument\"  ",
+      "sha256": "b286b0445e894f3fd493662a44f6857d46e39ff75fe166948cb20db016367bd0"
+    },
+    "00428404": {
+      "line": "00428404 00 a 01 clear 0 014 ^ 00532892 a 0000 ^ 00700451 a 0000 ^ 00779374 a 0000 ^ 00103696 a 0000 = 04820258 n 0000 + 04820258 n 0101 + 04820258 n 0105 ! 00430191 a 0101 & 00428878 a 0000 & 00429016 a 0000 & 00429355 a 0000 & 00429793 a 0000 & 00429909 a 0000 & 00430041 a 0000 | readily apparent to the mind; \"a clear and present danger\"; \"a clear explanation\"; \"a clear case of murder\"; \"a clear indication that she was angry\"; \"gave us a clear idea of human nature\"  ",
+      "sha256": "98eaef7ab79490066c0851d3eda7881e186e981f679efe5f6d0b9b52937ea3c3"
+    },
+    "00430191": {
+      "line": "00430191 00 a 01 unclear 0 011 ^ 00102201 a 0000 ^ 00701479 a 0000 ^ 00533851 a 0000 ^ 00781168 a 0000 ^ 00433115 a 0000 = 04820258 n 0000 + 04823866 n 0101 ! 00428404 a 0101 & 00430545 a 0000 & 00430756 a 0000 & 00431004 a 0000 | not clear to the mind; \"the law itself was unclear on that point\"; \"the reason for their actions is unclear to this day\"  ",
+      "sha256": "56af7ac6c3d06defafaae4487d5d4c834cf3ad851fe00d6f334cdbd2f8c07b5f"
+    },
+    "00546646": {
+      "line": "00546646 00 a 01 concise 0 012 ^ 02383380 a 0000 = 07090108 n 0000 + 07089024 n 0101 ! 00548781 a 0101 & 00546951 a 0000 & 00547166 a 0000 & 00547317 a 0000 & 00547641 a 0000 & 00547930 a 0000 & 00548029 a 0000 & 00548316 a 0000 & 00548579 a 0000 | expressing much in few words; \"a concise explanation\"  ",
+      "sha256": "ac694b0e01238333a3ff16e60d93ef715b06630dc465875654e3236c1a350149"
+    },
+    "00548781": {
+      "line": "00548781 00 a 01 prolix 0 009 ^ 02383831 a 0000 = 07090108 n 0000 + 07090108 n 0102 + 07090108 n 0101 ! 00546646 a 0101 & 00549133 a 0000 & 00549236 a 0000 & 00549675 a 0000 & 00549826 a 0000 | tediously prolonged or tending to speak or write at great length; \"editing a prolix manuscript\"; \"a prolix lecturer telling you more than you want to know\"  ",
+      "sha256": "8235883ff2bf224622d3d34ef5f3f564cf03677e37c79196ad19cdc790fab1d0"
+    },
+    "00546951": {
+      "line": "00546951 00 s 03 aphoristic 0 apothegmatic 0 epigrammatic 0 004 & 00546646 a 0000 + 07153727 n 0301 + 07153130 n 0202 + 07153130 n 0101 | terse and witty and like a maxim; \"much given to apothegmatic instruction\"  ",
+      "sha256": "00a120d5828da6569c23ccb988d8f10e34e12e06d2c0aafdcac00b6a51cb0ad9"
+    },
+    "00547166": {
+      "line": "00547166 00 s 01 brief 0 003 & 00546646 a 0000 + 07089431 n 0101 + 05053042 n 0102 | concise and succinct; \"covered the matter in a brief statement\"  ",
+      "sha256": "7d1707f716f9c87417082ebe68b5f87c0c65ffa1e1177607b09b0a76b0b15139"
+    },
+    "00547317": {
+      "line": "00547317 00 s 04 compendious 0 compact 0 succinct 0 summary 0 004 & 00546646 a 0000 + 06467007 n 0401 + 07089024 n 0304 + 06467996 n 0101 | briefly giving the gist of something; \"a short and compendious book\"; \"a compact style is brief and pithy\"; \"succinct comparisons\"; \"a summary formulation of a wide-ranging subject\"  ",
+      "sha256": "7d9a65bb826971de026e2d5c3e206459e19d5365453e019349a0139ab9c92282"
+    },
+    "00547641": {
+      "line": "00547641 00 s 04 crisp 0 curt 0 laconic 0 terse 0 003 & 00546646 a 0000 + 07088438 n 0401 + 07089276 n 0101 | brief and to the point; effectively cut short; \"a crisp retort\"; \"a response so curt as to be almost rude\"; \"the laconic reply; `yes'\"; \"short and terse and easy to understand\"  ",
+      "sha256": "496f0c47656635b0702d85c4233d896c8e48288d426ca4610ae3363b4957e469"
+    },
+    "00547930": {
+      "line": "00547930 00 s 01 cryptic 0 001 & 00546646 a 0000 | having a puzzling terseness; \"a cryptic note\"  ",
+      "sha256": "8604334a7db1860bd41b753a9fa37dcfe03453ddd9150945164cfaf28d6f98ac"
+    },
+    "00548029": {
+      "line": "00548029 00 s 02 elliptic 0 elliptical 0 001 & 00546646 a 0000 | characterized by extreme economy of expression or omission of superfluous elements; \"the dialogue is elliptic and full of dark hints\"; \"the explanation was concise, even elliptical to the verge of obscurity\"- H.O.Taylor  ",
+      "sha256": "3f552487c1ef7fd32a4d78692d54e2c8cc163b529a6fed0599057c1c1341cb74"
+    },
+    "00548316": {
+      "line": "00548316 00 s 02 pithy 0 sententious 0 003 & 00546646 a 0000 + 05921123 n 010e + 07089024 n 0103 | concise and full of meaning; \"welcomed her pithy comments\"; \"the peculiarly sardonic and sententious style in which Don Luis composed his epigrams\"- Hervey Allen  ",
+      "sha256": "c6e7cddd60b0f8f236980bfafdb07697f6e4cf871c8a1abec3e655d5b213bc2b"
+    },
+    "00548579": {
+      "line": "00548579 00 s 01 telegraphic 0 001 & 00546646 a 0000 | having the style of a telegram with many short words left out; \"telegraphic economy of words\"; \"the strange telegraphic speech of some aphasics\"  ",
+      "sha256": "f813ec9b148fc73273b80dd5bbe810da54c687c942681b93281306fe5a54bb20"
+    },
+    "00464513": {
+      "line": "00464513 00 a 04 coherent 0 consistent 1 logical 5 ordered 6 009 ^ 01430111 a 0000 ^ 01925372 a 0000 + 04745932 n 0202 + 04821277 n 0102 + 04821277 n 0101 + 02753642 v 0101 + 02753426 v 0101 ! 00464962 a 0101 & 00464845 a 0000 | marked by an orderly, logical, and aesthetically consistent relation of parts; \"a coherent argument\"  ",
+      "sha256": "727c5fedc1181c83f866031e4bc7032c9afb0978a7457fde4f24c8a55fe903c1"
+    },
+    "00464962": {
+      "line": "00464962 00 a 01 incoherent 0 008 ^ 01430847 a 0000 ^ 01926376 a 0000 + 14418103 n 0102 + 14418103 n 0101 + 06608977 n 0101 ! 00464513 a 0101 & 00465221 a 0000 & 00465585 a 0000 | without logical or meaningful connection; \"a turgid incoherent presentation\"  ",
+      "sha256": "b24dce33c3c9e3312127f80d2765de33ba45f595606d84efe5d059656edae721"
+    },
+    "00464845": {
+      "line": "00464845 00 s 01 seamless 0 001 & 00464513 a 0000 | perfectly consistent and coherent; \"the novel's seamless plot\"  ",
+      "sha256": "7988a8220bc6bddeab8abe5b1401805069f10fdd6356923e120140bd02250c0b"
+    },
+    "00102201": {
+      "line": "00102201 00 a 01 ambiguous 0 011 ^ 00895442 a 0000 ^ 00430191 a 0000 + 04825114 n 0101 ! 00103696 a 0101 & 00102578 a 0000 & 00102786 a 0000 & 00102930 a 0000 & 00103196 a 0000 & 00103302 a 0000 & 00103447 a 0000 & 00103567 a 0000 | having more than one possible meaning; \"ambiguous words\"; \"frustrated by ambiguous instructions, the parents were unable to assemble the toy\"  ",
+      "sha256": "fbbcbcfb9afc347ec6407a47fb8a8e57ac6d465fb9bb3ee7944078e40069232c"
+    },
+    "00103696": {
+      "line": "00103696 00 a 01 unambiguous 0 005 ^ 00428404 a 0000 ^ 00896555 a 0000 + 04821802 n 0101 ! 00102201 a 0101 & 00103953 a 0000 | having or exhibiting a single clearly defined meaning; \"As a horror, apartheid...is absolutely unambiguous\"- Mario Vargas Llosa  ",
+      "sha256": "89626e401687c82e0074c7e39087f3e5bf221f0141cefe71967509bc0181eaa6"
+    },
+    "00102578": {
+      "line": "00102578 00 s 02 double-barreled 0 double-barrelled 0 001 & 00102201 a 0000 | having two purposes; twofold; \"our double-barreled desire to make things profitable as well as attractive\"- Louis Kronenbergers  ",
+      "sha256": "12eed7557c9eb2a53e1146e10490ffe5643f78759687f9e5dd9bb552a64eaa86"
+    },
+    "00102786": {
+      "line": "00102786 00 s 01 double-edged 0 001 & 00102201 a 0000 | capable of being interpreted in two usually contradictory ways; \"double-edged praise\"  ",
+      "sha256": "d5fd0a45eb60de5a98b69ca341241c5e0e473bb8383295f52c73ba2413bb178f"
+    },
+    "00102930": {
+      "line": "00102930 00 s 02 enigmatic 0 oracular 0 003 & 00102201 a 0000 + 10483530 n 0203 + 05685538 n 0102 | resembling an oracle in obscurity of thought; \"the oracular sayings of Victorian poets\"; \"so enigmatic that priests might have to clarify it\"; \"an enigmatic smile\"  ",
+      "sha256": "dd0311267a94e9622065deb7aced0feff2037bb7eb07e754df5f5f56a63192db"
+    },
+    "00103196": {
+      "line": "00103196 00 s 01 left-handed 0 001 & 00102201 a 0000 | ironically ambiguous; \"a left-handed compliment\"  ",
+      "sha256": "f082af08c4210dcfddef063e1e86fff7f7527a7c63f8738b293e552bf954ae3f"
+    },
+    "00103302": {
+      "line": "00103302 00 s 02 multivalent 0 multi-valued 0 001 & 00102201 a 0000 | having many values, meanings, or appeals; \"subtle, multivalent allegory\"  ",
+      "sha256": "b1d985401b9f3ef4560ae2043974f7616c9dab8d4a6fdf44f0b42ac33b02e889"
+    },
+    "00103447": {
+      "line": "00103447 00 s 02 polysemous 0 polysemantic 0 002 & 00102201 a 0000 + 04825576 n 0101 | of words; having many meanings  ",
+      "sha256": "84243bd9a66154d15d532658f2ed396fb6117e3820435595049f2f14f63ef0fa"
+    },
+    "00103567": {
+      "line": "00103567 00 s 01 uncertain 0 001 & 00102201 a 0000 | ambiguous (especially in the negative); \"she spoke in no uncertain terms\"  ",
+      "sha256": "1558062651ed2640d6a0d0127307134eb5764f5621355f67714037067e0c85ba"
+    },
+    "00431004": {
+      "line": "00431004 00 s 02 obscure 0 vague 0 004 & 00430191 a 0000 + 04824350 n 0201 + 04823416 n 0102 + 04823416 n 0101 | not clearly understood or expressed; \"an obscure turn of phrase\"; \"an impulse to go off and fight certain obscure battles of his own spirit\"-Anatole Broyard; \"their descriptions of human behavior become vague, dull, and unclear\"- P.A.Sorokin; \"vague...forms of speech...have so long passed for mysteries of science\"- John Locke  ",
+      "sha256": "938b495a839406cfe07ca47df41ec88cc0010b6b678556b7431981bc8729b488"
+    },
+    "00764484": {
+      "line": "00764484 00 s 09 blunt 0 candid 0 forthright 1 frank 0 free-spoken 0 outspoken 0 plainspoken 0 point-blank 0 straight-from-the-shoulder 0 007 & 00763901 a 0000 + 04650731 n 0602 + 04650731 n 0401 + 04871720 n 0404 + 04871720 n 0306 + 04871720 n 0203 + 04846383 n 0101 | characterized by directness in manner or speech; without subtlety or evasion; \"blunt talking and straight shooting\"; \"a blunt New England farmer\"; \"I gave them my candid opinion\"; \"forthright criticism\"; \"a forthright approach to the problem\"; \"tell me what you think--and you may just as well be frank\"; \"it is possible to be outspoken without being rude\"; \"plainspoken and to the point\"; \"a point-blank accusation\"  ",
+      "sha256": "9eab8c789f6bafeade903ead76cde5f74a36dcb1809f9e3a8fc82738f4fec967"
+    },
+    "00763901": {
+      "line": "00763901 00 a 01 direct 2 013 ^ 01222360 a 0000 + 04871720 n 0105 ! 00766457 a 0101 & 00764301 a 0000 & 00764484 a 0000 & 00765173 a 0000 & 00765289 a 0000 & 00765410 a 0000 & 00765537 a 0000 & 00765666 a 0000 & 00765862 a 0000 & 00766102 a 0000 & 00766348 a 0000 | straightforward in means or manner or behavior or language or action; \"a direct question\"; \"a direct response\"; \"a direct approach\"  ",
+      "sha256": "2d29f8a8478168130df3722dc17f52bffcecf954fa134e4e1c5022654a6d8d2f"
+    },
+    "00766457": {
+      "line": "00766457 00 a 01 indirect 2 010 ! 00763901 a 0101 & 00766957 a 0000 & 00767133 a 0000 & 00767349 a 0000 & 00767626 a 0000 & 00768098 a 0000 & 00768397 a 0000 & 00768808 a 0000 & 00768927 a 0000 & 00769121 a 0000 | extended senses; not direct in manner or language or behavior or action; \"making indirect but legitimate inquiries\"; \"an indirect insult\"; \"doubtless they had some indirect purpose in mind\"; \"though his methods are indirect they are not dishonest\"; \"known as a shady indirect fellow\"  ",
+      "sha256": "1de4e7436df9d5ac3a5e7038c89a537b1afd843946d876e0da54bb4c8792aebe"
+    },
+    "02463847": {
+      "line": "02463847 00 s 04 doubting 0 questioning 0 skeptical 0 sceptical 0 006 & 02463154 a 0000 + 05980051 n 0403 + 10604634 n 0402 + 10604634 n 0301 + 05980051 n 0302 + 05698982 n 0303 | marked by or given to doubt; \"a skeptical attitude\"; \"a skeptical listener\"  ",
+      "sha256": "d46c1d0fc183b5da4664c5435794cbc50b958f2d2a830a97e21daaa4912e2132"
+    },
+    "02463154": {
+      "line": "02463154 00 a 01 distrustful 0 009 ^ 00647070 a 0000 + 04895773 n 0102 ! 02462619 a 0101 & 02463582 a 0000 & 02463847 a 0000 & 02464105 a 0000 & 02464277 a 0000 & 02464491 a 0000 & 02464615 a 0000 | having or showing distrust; \"a man of distrustful nature\"; \"my experience...in other fields of law has made me distrustful of rules of thumb generally\"- B.N.Cardozo; \"vigilant and distrustful superintendence\"- Thomas Jefferson  ",
+      "sha256": "b6c9a0b8899149f76f4be4a03b73fe3df0e4dc8babbc9be87b885521187d38c8"
+    },
+    "02462619": {
+      "line": "02462619 00 a 02 trustful 0 trusting 2 006 ^ 00646413 a 0000 + 04895246 n 0202 + 04895246 n 0103 ! 02463154 a 0101 & 02462883 a 0000 & 02463029 a 0000 | inclined to believe or confide readily; full of trust; \"great brown eye, true and trustful\"- Nordhoff & Hall  ",
+      "sha256": "e0f1009c139adfb47e2c0ad54522a06d7b175bf7d9e9ed4ad83530a35fc96627"
+    },
+    "00163315": {
+      "line": "00163315 00 s 01 gullible 0 002 & 00162990 a 0000 + 04881156 n 0102 | easily tricked because of being too trusting; \"gullible tourists taken in by the shell game\"  ",
+      "sha256": "0acbe136454222b13f2d3972e26d3f938cae7ee7e62a11e0ee61da7696353127"
+    },
+    "00162990": {
+      "line": "00162990 00 a 01 unwary 0 005 = 04664413 n 0000 + 04665406 n 0101 ! 00162386 a 0101 & 00163315 a 0000 & 00163480 a 0000 | not alert to danger or deception; \"the shrieks of unwary animals taken by surprise\"; \"some thieves prey especially on unwary travelers\"; \"seduce the unwary reader into easy acquiescence\"- O.J.Campbell  ",
+      "sha256": "6cd5567fb7e1d6f2694a1013bdf92ec6a0d7fe631b05daa63b3980ffda1e5239"
+    },
+    "00162386": {
+      "line": "00162386 00 a 01 wary 0 005 = 04664413 n 0000 + 04664413 n 0101 ! 00162990 a 0101 & 00162661 a 0000 & 00162863 a 0000 | marked by keen caution and watchful prudence; \"they were wary in their movements\"; \"a wary glance at the black clouds\"; \"taught to be wary of strangers\"  ",
+      "sha256": "fc686dc69072335ee0f2be15437ceb7ffd53d0afe1849ae64cc7932bbbdde346"
+    },
+    "00811969": {
+      "line": "00811969 00 s 01 reluctant 0 002 & 00811820 a 0000 + 04645943 n 0101 | not eager; \"foreigners stubbornly reluctant to accept our ways\"; \"fresh from college and reluctant for the moment to marry him\"  ",
+      "sha256": "6acfd15450b9cff9f134b2fd90879b4546ced475b7b81454db760fd7056074d6"
+    },
+    "00811820": {
+      "line": "00811820 00 a 01 uneager 0 002 ! 00810916 a 0101 & 00811969 a 0000 | lacking interest or spirit or animation; \"decrepit, colorless uneager things\"  ",
+      "sha256": "e106f6e279d8959c3bdce1df03085ec596fbff4d0a224ab830bfd70c784764ff"
+    },
+    "00810916": {
+      "line": "00810916 00 a 01 eager 0 007 ^ 00885695 a 0000 + 07555184 n 0101 ! 00811820 a 0101 & 00811248 a 0000 & 00811421 a 0000 & 00811536 a 0000 & 00811707 a 0000 | having or showing keen interest or intense desire or impatient expectancy; \"eager to learn\"; \"eager to travel abroad\"; \"eager for success\"; \"eager helpers\"; \"an eager look\"  ",
+      "sha256": "1e3cd102fde90a962cdc1219f9f6f45b8852e0d338f5aca2970eb5657798d465"
+    },
+    "02661446": {
+      "line": "02661446 01 a 01 benevolent 0 002 + 01226679 n 0101 \\ 01226679 n 0101 | intending or showing kindness; \"a benevolent society\"  ",
+      "sha256": "28fa3896963e312473e5c323dadeaa34d640cd4966e46482c693be465d58da63"
+    },
+    "01723308": {
+      "line": "01723308 00 a 01 impartial 0 007 ^ 00956131 a 0000 + 06202686 n 0101 ! 01722965 a 0101 & 01723543 a 0000 & 01723648 a 0000 & 01723856 a 0000 & 01724072 a 0000 | showing lack of favoritism; \"the cold neutrality of an impartial judge\"  ",
+      "sha256": "6ccc7cae50106f8790b0d51f93227d1050d8395f04ee84c5451c60d631606c03"
+    },
+    "01722965": {
+      "line": "01722965 00 a 01 partial 1 004 ^ 00957176 a 0000 + 06201136 n 0101 ! 01723308 a 0101 & 01723091 a 0000 | showing favoritism  ",
+      "sha256": "41378d3a172fadc47bf8ceafacb8f2091f3f784e0867cf359f566a92fb9a1afd"
+    },
+    "01723543": {
+      "line": "01723543 00 s 01 disinterested 0 002 & 01723308 a 0000 + 06202907 n 0101 | unaffected by self-interest  ",
+      "sha256": "a2e7dcc4403e11beac8fbc8693878abfdfe1bae4b5e31f01d840b83fbdd319fb"
+    },
+    "01723648": {
+      "line": "01723648 00 s 02 dispassionate 0 cold-eyed 0 003 & 01723308 a 0000 + 04630137 n 0101 + 04630137 n 0102 | unaffected by strong emotion or prejudice; \"a journalist should be a dispassionate reporter of fact\"  ",
+      "sha256": "0daefe6b343d8d816198f4604baab068c8d767cd4dca4c492b4b532aab255e35"
+    },
+    "01723856": {
+      "line": "01723856 00 s 03 indifferent 0 unbiased 0 unbiassed 0 002 & 01723308 a 0000 + 07505676 n 0101 | characterized by a lack of partiality; \"a properly indifferent jury\"; \"an unbiasgoted account of her family problems\"  ",
+      "sha256": "215e43d9bf62568c2ef12b42349a0869e68b81bec2ae7c74eefc54fcf8086a20"
+    },
+    "01724072": {
+      "line": "01724072 00 s 01 indifferent 2 003 & 01723308 a 0000 + 07505676 n 0101 + 04673470 n 0103 | marked by no especial liking or dislike or preference for one thing over another; \"indifferent about which book you would give them\"; \"was indifferent to their acceptance or rejection of her invitation\"  ",
+      "sha256": "4228f2d248ba36db23b2738911f8a8420d157e88c3d485bbc3a59c12187fc89b"
+    },
+    "01723091": {
+      "line": "01723091 00 s 05 biased 0 colored 0 coloured 0 one-sided 0 slanted 0 001 & 01722965 a 0000 | favoring one person or side over another; \"a biased account of the trial\"; \"a decision that was partial to the defendant\"  ",
+      "sha256": "b28ff0162678c3487faf785a101ed91a356a05568cdd2d733959075bfd6fe715"
+    },
+    "00718924": {
+      "line": "00718924 00 a 01 arbitrary 0 005 + 04671841 n 0102 ! 00720082 a 0101 & 00719328 a 0000 & 00719442 a 0000 & 00719819 a 0000 | based on or subject to individual discretion or preference or sometimes impulse or caprice; \"an arbitrary decision\"; \"the arbitrary rule of a dictator\"; \"an arbitrary penalty\"; \"of arbitrary size and shape\"; \"an arbitrary choice\"; \"arbitrary division of the group into halves\"  ",
+      "sha256": "1fd10ae8e7f3e939a54be147d0ddb58d3361eaa6f319f863b3ea798b5f77399b"
+    },
+    "00720082": {
+      "line": "00720082 00 a 02 nonarbitrary 0 unarbitrary 0 002 ! 00718924 a 0101 & 00720212 a 0000 | not subject to individual determination  ",
+      "sha256": "aab9f3135f11a6de5dda8f8153421d3e444e013d175710baceb8768b9405f763"
+    },
+    "00719328": {
+      "line": "00719328 00 s 01 absolute 0 002 & 00718924 a 0000 + 04738398 n 0101 | not limited by law; \"an absolute monarch\"  ",
+      "sha256": "7678ea8fc0d7cb9b8c40121005c446585da5442697db0bb15da03276d006afdc"
+    },
+    "00719442": {
+      "line": "00719442 00 s 03 capricious 0 impulsive 0 whimsical 0 007 & 00718924 a 0000 + 05919549 n 0303 + 04671841 n 0304 + 04671841 n 0303 + 04662504 n 0201 + 07490579 n 0101 + 04671841 n 0106 | determined by chance or impulse or whim rather than by necessity or reason; \"a capricious refusal\"; \"authoritarian rulers are frequently capricious\"; \"the victim of whimsical persecutions\"  ",
+      "sha256": "910a0b59961020d4029e41fbfe396fde7ccb00d753df50d7d01114684d72ee67"
+    },
+    "00719819": {
+      "line": "00719819 00 s 02 discretionary 0 discretional 0 003 & 00718924 a 0000 + 13995824 n 0101 + 05198756 n 0102 | having or using the ability to act or decide according to your own discretion or judgment; \"The commission has discretionary power to award extra funds\"  ",
+      "sha256": "796beaf90269af90a6edbe70f45efc440e88bdd8d5690b390c6dab12579c4e8e"
+    },
+    "01925372": {
+      "line": "01925372 00 a 01 rational 0 010 ^ 01430111 a 0000 ^ 01943406 a 0000 ^ 02073443 a 0000 + 04784978 n 0102 + 14379829 n 0101 ! 01926376 a 0101 & 01925708 a 0000 & 01925979 a 0000 & 01926089 a 0000 & 01926229 a 0000 | consistent with or based on or using reason; \"rational behavior\"; \"a process of rational inference\"; \"rational thought\"  ",
+      "sha256": "0fd38821b1900f6c04573d562cb65a0603ff85deeb322a6ad13f010a9e9f77ad"
+    },
+    "01926376": {
+      "line": "01926376 00 a 01 irrational 0 009 ^ 01430847 a 0000 ^ 00464962 a 0000 ^ 01944660 a 0000 + 14397563 n 0101 ! 01925372 a 0101 & 01926654 a 0000 & 01926803 a 0000 & 01926921 a 0000 & 01927061 a 0000 | not consistent with or using reason; \"irrational fears\"; \"irrational animals\"  ",
+      "sha256": "69b891afda001b8664dae6a87ecf7688d0722de00fbfa42a9637b99cf31bfc92"
+    },
+    "01925708": {
+      "line": "01925708 00 s 03 coherent 0 logical 0 lucid 0 003 & 01925372 a 0000 + 04784664 n 0202 + 04821277 n 0102 | capable of thinking and expressing yourself in a clear and consistent manner; \"a lucid thinker\"; \"she was more coherent than she had been just after the accident\"  ",
+      "sha256": "94d627b124c0150addf8cb4c51ee62f3a2e1181dff649b27644e7f013db15458"
+    },
+    "01925979": {
+      "line": "01925979 00 s 02 demythologized 0 demythologised 0 001 & 01925372 a 0000 | having mythical elements removed  ",
+      "sha256": "cc69d003aa84a9edd8f26907d9e49b59ce7507fc84c6b9095f62edb86c781e2d"
+    },
+    "01926089": {
+      "line": "01926089 00 s 03 intelligent 0 reasoning(a) 0 thinking(a) 0 002 & 01925372 a 0000 + 05617606 n 0101 | endowed with the capacity to reason  ",
+      "sha256": "dae9fa08f5053a0d7fcc7ab577b7d38407a98bf33b72e070f95b33632c758429"
+    },
+    "01926229": {
+      "line": "01926229 00 s 02 reasonable 0 sane 0 003 & 01925372 a 0000 + 14379501 n 0202 + 14379829 n 0103 | marked by sound judgment; \"sane nuclear policy\"  ",
+      "sha256": "c7f145185a5dc3e24b8bd87aa91d99588ed0778852d6b753b39750664f478477"
+    },
+    "01898129": {
+      "line": "01898129 00 a 01 prudent 0 010 ^ 00309021 a 0000 ^ 01894758 a 0000 ^ 01996377 a 0000 ^ 02569130 a 0000 + 05615500 n 0104 ! 01899360 a 0101 & 01898490 a 0000 & 01898722 a 0000 & 01898974 a 0000 & 01899167 a 0000 | careful and sensible; marked by sound judgment; \"a prudent manager\"; \"prudent rulers\"; \"prudent hesitation\"; \"more prudent to hide than to fight\"  ",
+      "sha256": "154b0072de8350fad82f53b55aee3608bb9099d54fd4bce85457ee08a53fb482"
+    },
+    "01899360": {
+      "line": "01899360 00 a 01 imprudent 0 008 ^ 00311663 a 0000 ^ 02570282 a 0000 ^ 01895837 a 0000 + 04894037 n 0101 ! 01898129 a 0101 & 01899742 a 0000 & 01899970 a 0000 & 01900188 a 0000 | not prudent or wise; \"very imprudent of her mother to encourage her in such silly romantic ideas\"; \"would be imprudent for a noneconomist to talk about the details of economic policy\"- A.M.Schlesinger  ",
+      "sha256": "0e274c491f293936cea43beb85e2c1a775ee2d7e0c9afc5f650be02aa8643338"
+    },
+    "01898490": {
+      "line": "01898490 00 s 02 circumspect 0 discreet 0 002 & 01898129 a 0000 + 05615500 n 0202 | heedful of potential consequences; \"circumspect actions\"; \"physicians are now more circumspect about recommending its use\"; \"a discreet investor\"  ",
+      "sha256": "d06dbe97e0af16b9dffaff53448b98fcac24852009ee16d85a43bbc0b8446f33"
+    },
+    "01898722": {
+      "line": "01898722 00 s 03 judicious 0 wise 0 heady 0 004 & 01898129 a 0000 + 05159948 n 0202 + 05615373 n 0101 + 04890361 n 0101 | marked by the exercise of good judgment or common sense in practical matters; \"judicious use of one's money\"; \"a wise decision\"  ",
+      "sha256": "004a0bf5412c7063d723ecdc8dfdd4b524685875b103218e294c6f29ff6706cf"
+    },
+    "01898974": {
+      "line": "01898974 00 s 01 provident 0 002 & 01898129 a 0000 + 04892970 n 0101 | careful in regard to your own interests; \"the prudent use and development of resources\"; \"wild squirrels are provident\"  ",
+      "sha256": "a7d7872f296a496e25b992776d407a22c9385bca7e33285cfeae8770c2d36378"
+    },
+    "01899167": {
+      "line": "01899167 00 s 01 prudential 0 002 & 01898129 a 0000 + 04892794 n 0101 | arising from or characterized by prudence especially in business matters; \"he abstained partly for prudential reasons\"  ",
+      "sha256": "047965d76b977104728511c7c5ac7dfb79154992b30fde67fa59b8ea8e0feaf9"
+    },
+    "00754107": {
+      "line": "00754107 00 a 01 diligent 0 006 ^ 00292937 a 0000 ^ 00309021 a 0000 + 04865114 n 0101 ! 00754873 a 0101 & 00754393 a 0000 & 00754682 a 0000 | characterized by care and perseverance in carrying out tasks; \"a diligent detective investigates all clues\"; \"a diligent search of the files\"  ",
+      "sha256": "f4d1ce252c2c4e005345c331ef8465e2dcab8718cc45c4dbb29c6fbe58811b4f"
+    },
+    "00754873": {
+      "line": "00754873 00 a 01 negligent 0 010 ^ 00311663 a 0000 ^ 00164863 a 0000 + 04665813 n 0101 + 00616153 v 0101 + 00616857 v 0101 ! 00754107 a 0101 & 00755220 a 0000 & 00755482 a 0000 & 00755742 a 0000 & 00755876 a 0000 | characterized by neglect and undue lack of concern; \"negligent parents\"; \"negligent of detail\"; \"negligent in his correspondence\"  ",
+      "sha256": "7a6350151f641c874d660f29c16f25a53a2d96b6f13ee021f7018b63723af88f"
+    },
+    "00754393": {
+      "line": "00754393 00 s 02 assiduous 0 sedulous 0 005 & 00754107 a 0000 + 04866078 n 0202 + 04866078 n 0201 + 04865502 n 0101 + 04865502 n 0102 | marked by care and persistent effort; \"her assiduous attempts to learn French\"; \"assiduous research\"; \"sedulous pursuit of legal and moral principles\"  ",
+      "sha256": "9919962c16abf944c4afbc8f7293b2abbb96b79be102eb3c4a42e5656ff844bc"
+    },
+    "00754682": {
+      "line": "00754682 00 s 04 hardworking 0 industrious 0 tireless 0 untiring 0 004 & 00754107 a 0000 + 04864824 n 0303 + 04865114 n 0203 + 04865114 n 0202 | characterized by hard work and perseverance  ",
+      "sha256": "07c5e33ced832803bcb002b3794f781356d3ab00bee11d3c10d3442bd73a6aec"
+    },
+    "00984879": {
+      "line": "00984879 00 s 01 meticulous 0 003 & 00983862 a 0000 + 04672605 n 0102 + 04672605 n 0101 | marked by extreme care in treatment of details; \"a meticulous craftsman\"; \"almost worryingly meticulous in his business formalities\"  ",
+      "sha256": "85ee3001b8719f806be195648b8ba0b617f09bd69f5f982460743ca8195c118c"
+    },
+    "00983862": {
+      "line": "00983862 00 a 01 fastidious 0 010 ^ 01947266 a 0000 ^ 02422685 a 0000 + 04896317 n 0101 ! 00985387 a 0101 & 00984251 a 0000 & 00984333 a 0000 & 00984624 a 0000 & 00984879 a 0000 & 00985104 a 0000 & 00985297 a 0000 | giving careful attention to detail; hard to please; excessively concerned with cleanliness; \"a fastidious and incisive intellect\"; \"fastidious about personal cleanliness\"  ",
+      "sha256": "d2a44fca0e0f153af76bb08be55649364e924ca487d657f6a7355a8ff28f24e8"
+    },
+    "00985387": {
+      "line": "00985387 00 a 01 unfastidious 0 003 ^ 01949149 a 0000 ^ 02424254 a 0000 ! 00983862 a 0101 | marked by an absence of due or proper care or attention to detail; not concerned with cleanliness; \"unfastidious in her dress\"  ",
+      "sha256": "131ecda5dd61d19783cd2b535d4ca2eae29d4964c87bd7082553b018fcc0f14f"
+    },
+    "02327569": {
+      "line": "02327569 00 s 06 dogged 0 dour 0 persistent 0 pertinacious 0 tenacious 0 unyielding 0 007 & 02326695 a 0000 + 04863793 n 0603 + 04864515 n 0506 + 04864515 n 0505 + 04864515 n 0407 + 04864515 n 0303 + 04864515 n 0101 | stubbornly unyielding; \"dogged persistence\"; \"dour determination\"; \"the most vocal and pertinacious of all the critics\"; \"a mind not gifted to discover truth but tenacious to hold it\"- T.S.Eliot; \"men tenacious of opinion\"  ",
+      "sha256": "c6b75e86c2054f28802af8c4ffb7431b7489572e3fb14af2ff86e5a6fc5e9596"
+    },
+    "02326695": {
+      "line": "02326695 00 a 03 stubborn 0 obstinate 0 unregenerate 1 014 ^ 01613463 a 0000 ^ 02451951 a 0000 ^ 01025913 a 0000 + 04863074 n 0101 ! 02328659 a 0101 & 02327078 a 0000 & 02327315 a 0000 & 02327428 a 0000 & 02327569 a 0000 & 02328012 a 0000 & 02328108 a 0000 & 02328297 a 0000 & 02328445 a 0000 & 02328559 a 0000 | tenaciously unwilling or marked by tenacious unwillingness to yield  ",
+      "sha256": "610b6aceadd1164fb41c49b961be06be5e6da653a831fdbfa53e07c901c2a9af"
+    },
+    "02328659": {
+      "line": "02328659 00 a 01 docile 0 007 ^ 01612053 a 0000 ^ 02451113 a 0000 + 04905697 n 0101 ! 02326695 a 0101 & 02328916 a 0000 & 02329075 a 0000 & 02329220 a 0000 | willing to be taught or led or supervised or directed; \"the docile masses of an enslaved nation\"  ",
+      "sha256": "59c453f453c8f4039270825b15941ce677c0f7b16d813b589667162bcbb63dd5"
+    },
+    "00875712": {
+      "line": "00875712 00 a 02 lethargic 0 unenrgetic 4 006 ^ 00033574 a 0000 + 04635953 n 0102 ! 00873603 a 0101 & 00875962 a 0000 & 00876204 a 0000 & 00876465 a 0000 | deficient in alertness or activity; \"bullfrogs became lethargic with the first cold nights\"  ",
+      "sha256": "e9d85321beb2de20606ecbe408a8a938404bc108db78d23bd21c0619fe3c4759"
+    },
+    "00873603": {
+      "line": "00873603 00 a 01 energetic 0 016 ^ 00031974 a 0000 ^ 00808191 a 0000 ^ 00884778 a 0000 ^ 00804695 a 0000 ^ 02278939 a 0000 + 14050143 n 0101 + 05035961 n 0101 ! 00875712 a 0101 & 00874092 a 0000 & 00874226 a 0000 & 00874547 a 0000 & 00874634 a 0000 & 00874781 a 0000 & 00874920 a 0000 & 00875235 a 0000 & 00875422 a 0000 | possessing or exerting or displaying energy; \"an energetic fund raiser for the college\"; \"an energetic group of hikers\"; \"it caused an energetic chemical reaction\"  ",
+      "sha256": "3d47aaad5515f4fd92787d309b72da70a85dfbb732f746fe04e72b324586abcb"
+    },
+    "00875962": {
+      "line": "00875962 00 s 05 dazed 0 foggy 0 groggy 0 logy 0 stuporous 0 005 & 00875712 a 0000 + 05679906 n 0502 + 14018432 n 0401 + 14018918 n 0301 + 14018318 n 0301 | stunned or confused and slow to react (as from blows or drunkenness or exhaustion)  ",
+      "sha256": "cde6b75f6bf6ea4331464d04d9bda78f8ed949ddb7db0812a2effdbb436e4412"
+    },
+    "00876204": {
+      "line": "00876204 00 s 04 dreamy 0 lackadaisical 0 languid 0 languorous 0 003 & 00875712 a 0000 + 04635953 n 0401 + 07516222 n 0102 | lacking spirit or liveliness; \"a lackadaisical attempt\"; \"a languid mood\"; \"a languid wave of the hand\"; \"a hot languorous afternoon\"  ",
+      "sha256": "0d9d8deb09188e253d2fadbab590a98146b61717a34bcdf472d2e323a63fb3ba"
+    },
+    "00876465": {
+      "line": "00876465 00 s 01 listless 0 003 & 00875712 a 0000 + 07484109 n 0103 + 04636881 n 0101 | lacking zest or vivacity; \"he was listless and bored\"  ",
+      "sha256": "fe14b1905c588391932cd7690db4e3a50644c0baa859c3ad46a8401f390cdf05"
+    },
+    "02280566": {
+      "line": "02280566 00 s 01 resilient 0 001 & 02278939 a 0000 | recovering readily from adversity, depression, or the like  ",
+      "sha256": "1bac59a35a6905aab7c712bb917e1080d95b7504c9de884cfa052e6f206001db"
+    },
+    "02278939": {
+      "line": "02278939 00 a 01 spirited 0 019 ^ 00873603 a 0000 ^ 00885695 a 0000 ^ 00804695 a 0000 = 04631700 n 0000 + 04631700 n 0102 ! 02281325 a 0101 & 02279360 a 0000 & 02279523 a 0000 & 02279622 a 0000 & 02279723 a 0000 & 02279900 a 0000 & 02280090 a 0000 & 02280333 a 0000 & 02280457 a 0000 & 02280566 a 0000 & 02280680 a 0000 & 02280821 a 0000 & 02280969 a 0000 & 02281182 a 0000 | displaying animation, vigor, or liveliness  ",
+      "sha256": "96b00197c61fe6debbd397a8eaa30d3bebfb39949c0b4effcff19cbd41c2dd94"
+    },
+    "02281325": {
+      "line": "02281325 00 a 01 spiritless 0 010 ^ 00806512 a 0000 ^ 00887062 a 0000 = 04631700 n 0000 + 04636610 n 0104 ! 02278939 a 0101 & 02281611 a 0000 & 02281813 a 0000 & 02281938 a 0000 & 02282171 a 0000 & 02282277 a 0000 | lacking ardor or vigor or energy; \"a spiritless reply to criticism\"  ",
+      "sha256": "b5a4026aace017e5f5ef416f3a1c86ded3eb4cafa4dde8d1f7f773fec06e8142"
+    },
+    "00013887": {
+      "line": "00013887 00 a 01 abundant 0 021 ^ 00105746 a 0000 ^ 02021905 a 0000 = 05108740 n 0000 + 02715279 v 0101 + 05115040 n 0101 ! 00016756 a 0101 & 00014358 a 0000 & 00014490 a 0000 & 00014858 a 0000 & 00015097 a 0000 & 00015247 a 0000 & 00015480 a 0000 & 00015589 a 0000 & 00015720 a 0000 & 00015854 a 0000 & 00016005 a 0000 & 00016135 a 0000 & 00016247 a 0000 & 00016350 a 0000 & 00016532 a 0000 & 00016647 a 0000 | present in great quantity; \"an abundant supply of water\"  ",
+      "sha256": "18594a9b11d3dff4868ed4a79ef817998d0791db863f81e650b77349e3222dd2"
+    },
+    "00016756": {
+      "line": "00016756 00 a 01 scarce 0 007 ^ 00106456 a 0000 = 05108740 n 0000 + 05116953 n 0102 + 05116953 n 0101 ! 00013887 a 0101 & 00017024 a 0000 & 00017186 a 0000 | deficient in quantity or number compared with the demand; \"fresh vegetables were scarce during the drought\"  ",
+      "sha256": "f813493bd1302eadf50f5b5950d5ad9680953e364f516fddc3937e16db0e46a0"
+    },
+    "00014358": {
+      "line": "00014358 00 s 02 abounding 0 galore(ip) 0 001 & 00013887 a 0000 | existing in abundance; \"abounding confidence\"; \"whiskey galore\"  ",
+      "sha256": "515f8e25d9ed5416da3151f7c73218a93a094b8b25ab478d6c26ffc50eef2365"
+    },
+    "00014490": {
+      "line": "00014490 00 s 05 ample 0 copious 1 plenteous 0 plentiful 1 rich 0 008 & 00013887 a 0000 + 05115804 n 0503 + 05115568 n 0402 + 13774404 n 0312 + 05115568 n 0301 + 05115568 n 0303 + 05115040 n 0202 + 05112910 n 0101 | affording an abundant supply; \"had ample food for the party\"; \"copious provisions\"; \"food is plentiful\"; \"a plenteous grape harvest\"; \"a rich supply\"  ",
+      "sha256": "dbcd2e2193b7616c3950dbce12d33ab9f3f4d76c47e88c726d74a6c8c975e2a1"
+    },
+    "00014858": {
+      "line": "00014858 00 s 02 copious 2 voluminous 0 004 & 00013887 a 0000 + 05106024 n 0203 + 05106024 n 0202 + 05115040 n 0102 | large in number or quantity (especially of discourse); \"she took copious notes\"; \"a subject of voluminous legislation\"  ",
+      "sha256": "cef3a7ea380e8bec9f7536fdc7e8c8f497d1418a689ae55eccd8818b85798f28"
+    },
+    "00015097": {
+      "line": "00015097 00 s 01 easy 0 002 & 00013887 a 0000 ;c 06149484 n 0000 | obtained with little effort or sacrifice, often obtained illegally; \"easy money\"  ",
+      "sha256": "cf339c6609923b53720b8dc551613802ec571e80759aa80e1de0fa0ef290325c"
+    },
+    "00015247": {
+      "line": "00015247 00 s 05 exuberant 0 lush 0 luxuriant 0 profuse 0 riotous 0 005 & 00013887 a 0000 + 05115804 n 0402 + 00310812 v 0301 + 05116243 n 0301 + 05116243 n 0202 | produced or growing in extreme abundance; \"their riotous blooming\"  ",
+      "sha256": "731490780a904fbeb8bd48c06f1bad8abdd196785c21d557330c913db6cf544b"
+    },
+    "00015480": {
+      "line": "00015480 00 s 01 thick 0 001 & 00013887 a 0000 | abounding; having a lot of; \"the top was thick with dust\"  ",
+      "sha256": "0cd792a612b7a89370ccfea6a9ef84593373036f0d2511865e51731fb0331d58"
+    },
+    "00015589": {
+      "line": "00015589 00 s 01 long 0 001 & 00013887 a 0000 | having or being more than normal or necessary:\"long on brains\"; \"in long supply\"  ",
+      "sha256": "a4e06e9877eb0751279156f1f582a002a48f871cd4ff3e48d37f5f387f826cc9"
+    },
+    "00015720": {
+      "line": "00015720 00 s 03 overabundant 0 plethoric 0 rife 0 003 & 00013887 a 0000 + 05120116 n 0202 + 05119367 n 0101 | excessively abundant  ",
+      "sha256": "9a201b99067453028e5bcecde17661e0a50b5982ebacc02f3541ba8891d51bdc"
+    },
+    "00015854": {
+      "line": "00015854 00 s 01 plentiful 2 002 & 00013887 a 0000 + 05115568 n 0102 | existing in great number or quantity; \"rhinoceroses were once plentiful here\"  ",
+      "sha256": "353231e08961fdba66328dff77ab27e44fb9ea185c12cf454a1deec5b8a34582"
+    },
+    "00016005": {
+      "line": "00016005 00 s 01 rampant 0 001 & 00013887 a 0000 | (of a plant) having a lush and unchecked growth; \"a rampant growth of weeds\"  ",
+      "sha256": "24e2de68ba57f27ab8a588ccfbd5f1f5ea1040e8b82622739a51ac57f0851929"
+    },
+    "00016135": {
+      "line": "00016135 00 s 01 rank 0 002 & 00013887 a 0000 + 05147586 n 0102 | growing profusely; \"rank jungle vegetation\"  ",
+      "sha256": "b84dbf0852ee0cf0fc9670ba320e2bae43c4f2f5055ac52773d354b69e146ec2"
+    },
+    "00016247": {
+      "line": "00016247 00 s 01 superabundant 0 002 & 00013887 a 0000 + 05119367 n 0104 | most excessively abundant  ",
+      "sha256": "96354af5fdb65f0b562f14bbd0a7d7011bbbe4a0479239aa4edb67302ce49af1"
+    },
+    "00016350": {
+      "line": "00016350 00 s 01 teeming 0 002 & 00013887 a 0000 + 05115040 n 0103 | abundantly filled with especially living things; \"the Third World's teeming millions\"; \"the teeming boulevard\"  ",
+      "sha256": "4e03a376a06d70d762bf96608a0d6aa50b940ac1a564b8da8fcb966ca76e684e"
+    },
+    "00016532": {
+      "line": "00016532 00 s 01 torrential 0 002 & 00013887 a 0000 + 11502102 n 0105 | pouring in abundance; \"torrential rains\"  ",
+      "sha256": "74f046ee4275444a50db0fe42604fc46b1c3a332108129f74813594f00f77d7a"
+    },
+    "00016647": {
+      "line": "00016647 00 s 01 verdant 0 002 & 00013887 a 0000 + 05116590 n 0102 | characterized by abundance of verdure  ",
+      "sha256": "e4ea81af61932044bc2b5101103c96dbf86dc345a5e6fab93b99d3f2dadc0432"
+    },
+    "00017024": {
+      "line": "00017024 00 s 01 rare 0 003 & 00016756 a 0000 + 05117237 n 0102 + 05117237 n 0101 | not widely distributed; \"rare herbs\"; \"rare patches of green in the desert\"  ",
+      "sha256": "698912eaa816a1df5cda4069ae755239b0a349f221ff27185efdcaf2675bd0d9"
+    },
+    "00017186": {
+      "line": "00017186 00 s 01 tight 0 003 & 00016756 a 0000 ;c 06149484 n 0000 + 14450540 n 0102 | affected by scarcity and expensive to borrow; \"tight money\"; \"a tight market\"  ",
+      "sha256": "cf840b27a4fbd0dadac122117bf6c58ed4d37623bcf261c550aca8c85c55077b"
+    },
+    "00625055": {
+      "line": "00625055 00 s 02 significant 0 substantial 0 001 & 00624026 a 0000 | fairly large; \"won by a substantial margin\"  ",
+      "sha256": "a3445c7be546fe8f192a1b9f02e3399e2303df5e02e5af2de1fa51131b0e1589"
+    },
+    "00624026": {
+      "line": "00624026 00 a 01 considerable 0 006 ^ 01382086 a 0000 ! 00625170 a 0101 & 00624416 a 0000 & 00624576 a 0000 & 00624913 a 0000 & 00625055 a 0000 | large or relatively large in number or amount or extent or degree; \"a considerable quantity\"; \"the economy was a considerable issue in the campaign\"; \"went to considerable trouble for us\"; \"spent a considerable amount of time on the problem\"  ",
+      "sha256": "434e635d49620aaafe04b3c89a8e90be48536140d78c4d2fcf7d5f53d3348ac2"
+    },
+    "00625170": {
+      "line": "00625170 00 a 01 inconsiderable 0 001 ! 00624026 a 0101 | too small or unimportant to merit attention; \"passed his life in an inconsiderable village\"; \"their duties were inconsiderable\"; \"had no inconsiderable influence\"  ",
+      "sha256": "5065cc54c5111e365dac840b59aa06c1704662c81d163197f65711b06fe0bf4e"
+    },
+    "02165432": {
+      "line": "02165432 00 s 02 superficial 0 trivial 0 004 & 02164402 a 0000 + 00840413 v 0201 + 04486445 n 0202 + 05820462 n 0203 | of little substance or significance; \"a few superficial editorial changes\"; \"only trivial objections\"  ",
+      "sha256": "2067c7b64e543bbc89f66444b880c0d898389bcc218a7b52d8448680d2a9da1e"
+    },
+    "02164402": {
+      "line": "02164402 00 a 02 insignificant 0 unimportant 4 012 ^ 01497736 a 0000 ^ 01279978 a 0000 = 05169813 n 0000 + 14436438 n 0202 + 05172596 n 0201 + 05173579 n 0101 ! 02161432 a 0101 & 02164713 a 0000 & 02164913 a 0000 & 02165171 a 0000 & 02165318 a 0000 & 02165432 a 0000 | devoid of importance, meaning, or force  ",
+      "sha256": "b0b8fb79cda0bc43d458f4ad5c9fd6d242501f5b459fe03f4335ec9db9291462"
+    },
+    "02161432": {
+      "line": "02161432 00 a 02 significant 0 important 4 017 ^ 01275562 a 0000 ^ 01496976 a 0000 = 05169813 n 0000 + 05168261 n 0201 + 05169813 n 0101 ! 02164402 a 0101 & 02161982 a 0000 & 02162179 a 0000 & 02162458 a 0000 & 02162733 a 0000 & 02162934 a 0000 & 02163307 a 0000 & 02163468 a 0000 & 02163602 a 0000 & 02163774 a 0000 & 02164050 a 0000 & 02164165 a 0000 | important in effect or meaning; \"a significant change in tax laws\"; \"a significant change in the Constitution\"; \"a significant contribution\"; \"significant details\"; \"statistically significant\"  ",
+      "sha256": "dc8bf1963dcb3dfef0ebf25efebe277751a8b740fe86854320da2390a0165a17"
+    },
+    "02421364": {
+      "line": "02421364 00 s 05 economical 0 frugal 0 scotch 0 sparing 0 stinting 0 005 & 02421158 a 0000 ;u 07075172 n 0000 + 04893358 n 0202 + 04893358 n 0201 + 04893787 n 0101 | avoiding waste; \"an economical meal\"; \"an economical shopper\"; \"a frugal farmer\"; \"a frugal lunch\"; \"a sparing father and a spending son\"; \"sparing in their use of heat and light\"; \"stinting in bestowing gifts\"; \"thrifty because they remember the great Depression\"; \"`scotch' is used only informally\"  ",
+      "sha256": "14ab7dd877c14ccc1f75c8fa3daa615ec67b84e085ec85362152b4084ce71796"
+    },
+    "02421158": {
+      "line": "02421158 00 a 01 thrifty 0 007 ^ 01894758 a 0000 + 04893525 n 0103 + 04893787 n 0102 ! 02422068 a 0101 & 02421364 a 0000 & 02421833 a 0000 & 02421919 a 0000 | careful and diligent in the use of resources  ",
+      "sha256": "f6857011589c4254de97eadffa44f9341c492c2849a49f96dc1ae0c1e3b97584"
+    },
+    "02422068": {
+      "line": "02422068 00 a 01 wasteful 0 006 ^ 01895837 a 0000 + 04894964 n 0103 ! 02421158 a 0101 & 02422242 a 0000 & 02422499 a 0000 & 02422592 a 0000 | tending to squander and waste  ",
+      "sha256": "5c2ff3e1a8d7df5a1cc5c4007611807437387e47cd507830867eeb04afa6c052"
+    },
+    "01756292": {
+      "line": "01756292 00 s 06 ephemeral 0 passing 0 short-lived 0 transient 0 transitory 0 fugacious 0 011 & 01755627 a 0000 + 05055503 n 0602 + 05055503 n 0601 + 05055278 n 0503 + 10725149 n 0401 + 07347468 n 0401 + 05055278 n 0402 + 05053042 n 0403 + 15247410 n 0101 + 05055689 n 0102 + 05055689 n 0101 | lasting a very short time; \"the ephemeral joys of childhood\"; \"a passing fancy\"; \"youth's transient beauty\"; \"love is transitory but it is eternal\"; \"fugacious blossoms\"  ",
+      "sha256": "13236739fcad2d1fb779e7dc379e4294e40ae9f8fa5d861c88bb635efc9dbcae"
+    },
+    "01755627": {
+      "line": "01755627 00 a 02 impermanent 0 temporary 0 018 ^ 02291843 a 0000 = 05053215 n 0000 + 05055141 n 0201 + 05054863 n 0102 + 05054863 n 0101 ! 01754421 a 0101 & 01756166 a 0000 & 01756292 a 0000 & 01756758 a 0000 & 01756940 a 0000 & 01757082 a 0000 & 01757211 a 0000 & 01757483 a 0000 & 01757608 a 0000 & 01757782 a 0000 & 01757914 a 0000 & 01758038 a 0000 & 01758194 a 0000 | not permanent; not lasting; \"politics is an impermanent factor of life\"- James Thurber; \"impermanent palm cottages\"; \"a temperary arrangement\"; \"temporary housing\"  ",
+      "sha256": "3a23b1830293b79d8f66a37dade24900e243ab7881f58c80ecc9f5f90b2e54ac"
+    },
+    "01754421": {
+      "line": "01754421 00 a 02 permanent 0 lasting 4 013 ^ 00898289 a 0000 ^ 02290998 a 0000 ^ 00346991 a 0000 = 05053215 n 0000 + 05053688 n 0201 + 05260533 n 0102 + 05053215 n 0102 + 05053215 n 0101 ! 01755627 a 0101 & 01754873 a 0000 & 01755024 a 0000 & 01755418 a 0000 & 01755508 a 0000 | continuing or enduring without marked change in status or condition or place; \"permanent secretary to the president\"; \"permanent address\"; \"literature of permanent value\"  ",
+      "sha256": "4fd3f46aa41caa5a68d5bfeb515e2ec6754777299b21e60bf64c68d7d5cd21b8"
+    },
+    "01439496": {
+      "line": "01439496 00 s 04 durable 0 lasting 0 long-lasting 0 long-lived 0 003 & 01437963 a 0000 + 05053688 n 0201 + 05053688 n 0102 | existing for a long time; \"hopes for a durable peace\"; \"a long-lasting friendship\"  ",
+      "sha256": "884a709daba75ab2f0594b7e023c2a2077a48be66e63db09cd014cfeb7fb4b07"
+    },
+    "01437963": {
+      "line": "01437963 00 a 01 long 2 027 = 05051249 n 0000 + 05051601 n 0101 ! 01442186 a 0101 & 01438743 a 0000 & 01438853 a 0000 & 01438963 a 0000 & 01439072 a 0000 & 01439155 a 0000 & 01439496 a 0000 & 01439706 a 0000 & 01439784 a 0000 & 01440058 a 0000 & 01440159 a 0000 & 01440331 a 0000 & 01440422 a 0000 & 01440574 a 0000 & 01440641 a 0000 & 01440776 a 0000 & 01440889 a 0000 & 01441000 a 0000 & 01441271 a 0000 & 01441418 a 0000 & 01441530 a 0000 & 01441729 a 0000 & 01441866 a 0000 & 01441965 a 0000 & 01442079 a 0000 | primarily temporal sense; being or indicating a relatively great or greater than average duration or passage of time or a duration as specified; \"a long life\"; \"a long boring speech\"; \"a long time\"; \"a long friendship\"; \"a long game\"; \"long ago\"; \"an hour long\"  ",
+      "sha256": "7a490e9c57738bf61e9abe909ac65991c78cd0eb09262c45f1d4e2816303ccf3"
+    },
+    "01442186": {
+      "line": "01442186 00 a 01 short 2 011 = 05051249 n 0000 + 05052832 n 0101 ! 01437963 a 0101 & 01442597 a 0000 & 01442826 a 0000 & 01442974 a 0000 & 01443097 a 0000 & 01443402 a 0000 & 01443581 a 0000 & 01443733 a 0000 & 01443842 a 0000 | primarily temporal sense; indicating or being or seeming to be limited in duration; \"a short life\"; \"a short flight\"; \"a short holiday\"; \"a short story\"; \"only a few short months\"  ",
+      "sha256": "42dc0997d70dbe8fb3112eb14857d30568a2846f11d5752d95e3cd11e55b6f52"
+    },
+    "00595299": {
+      "line": "00595299 00 s 07 ceaseless 0 constant 0 incessant 0 never-ending 0 perpetual 0 unceasing 0 unremitting 0 005 & 00594413 a 0000 + 05053527 n 0501 + 05052587 n 0304 + 05052587 n 0303 + 05052587 n 0102 | uninterrupted in time and indefinitely long continuing; \"the ceaseless thunder of surf\"; \"in constant pain\"; \"night and day we live with the incessant noise of the city\"; \"the never-ending search for happiness\"; \"the perpetual struggle to maintain standards in a democracy\"; \"man's unceasing warfare with drought and isolation\"; \"unremitting demands of hunger\"  ",
+      "sha256": "a15745d4673b2e87eb5d63172b4dc1e1b3de9fe0cd06fb4a49b5ca8ab5a723c4"
+    },
+    "00594413": {
+      "line": "00594413 00 a 02 continuous 1 uninterrupted 0 015 ^ 00290923 a 0000 = 05054130 n 0000 + 15123754 n 0101 + 05052587 n 0101 + 14422035 n 0101 + 05054130 n 0101 ! 00596769 a 0101 & 00595147 a 0000 & 00595299 a 0000 & 00595863 a 0000 & 00596043 a 0000 & 00596211 a 0000 & 00596358 a 0000 & 00596511 a 0000 & 00596639 a 0000 | continuing in time or space without interruption; \"a continuous rearrangement of electrons in the solar atoms results in the emission of light\"- James Jeans; \"a continuous bout of illness lasting six months\"; \"lived in continuous fear\"; \"a continuous row of warehouses\"; \"a continuous line has no gaps or breaks in it\"; \"moving midweek holidays to the nearest Monday or Friday allows uninterrupted work weeks\"  ",
+      "sha256": "f090abd1bcf60939a8017f8820e2aed2a2c65132fb4c8251c023502d794105a2"
+    },
+    "00596769": {
+      "line": "00596769 00 a 02 discontinuous 1 noncontinuous 0 006 ^ 00593374 a 0000 ^ 00289983 a 0000 + 14417551 n 0101 ! 00594413 a 0101 & 00597148 a 0000 & 00597267 a 0000 | not continuing without interruption in time or space; \"discontinuous applause\"; \"the landscape was a discontinuous mosaic of fields and forest areas\"; \"he received a somewhat haphazard and discontinuous schooling\"  ",
+      "sha256": "03142b8567a2df554c22b59edfacce216ad19ea2baffc01a2feed7520ccec928"
+    },
+    "00669021": {
+      "line": "00669021 00 s 02 disused 0 obsolete 1 002 & 00668571 a 0000 + 04925577 n 0201 | no longer in use; \"obsolete words\"  ",
+      "sha256": "599ab710d47dd75b559cd4cc5e412b1b4c1135955d4a40fafaac2221dbaece0f"
+    },
+    "00668571": {
+      "line": "00668571 00 a 01 noncurrent 0 009 ^ 01638438 a 0000 ^ 01727926 a 0000 = 05050379 n 0000 ! 00666058 a 0101 & 00668816 a 0000 & 00668919 a 0000 & 00669021 a 0000 & 00669138 a 0000 & 00669367 a 0000 | not current or belonging to the present time  ",
+      "sha256": "d0efe7717c0a8b620465d07b71390ed49242194d951ef922188297d7c658d785"
+    },
+    "00666058": {
+      "line": "00666058 00 a 01 current 0 019 ^ 01535709 a 0000 ^ 01640850 a 0000 = 05050379 n 0000 + 05050379 n 0102 + 05050379 n 0101 ! 00668571 a 0101 & 00666610 a 0000 & 00666784 a 0000 & 00666960 a 0000 & 00667079 a 0000 & 00667208 a 0000 & 00667353 a 0000 & 00667463 a 0000 & 00667641 a 0000 & 00667822 a 0000 & 00667936 a 0000 & 00668053 a 0000 & 00668208 a 0000 & 00668366 a 0000 | occurring in or belonging to the present time; \"current events\"; \"the current topic\"; \"current negotiations\"; \"current psychoanalytic theories\"; \"the ship's current position\"  ",
+      "sha256": "5f5fe917447b0f9078474b2b43676e7efa637b3670737abae9ac53a69b6a2209"
+    },
+    "00343015": {
+      "line": "00343015 00 a 01 inevitable 0 006 + 04754056 n 0102 + 04754056 n 0101 ! 00343700 a 0101 & 00343226 a 0000 & 00343360 a 0000 & 00343552 a 0000 | incapable of being avoided or prevented; \"the inevitable result\"  ",
+      "sha256": "c22afd2b1c58f2bb7140ea4ba399e0439663d7cf74baa3b24a740e0e486c0358"
+    },
+    "00343700": {
+      "line": "00343700 00 a 04 evitable 0 avoidable 0 avertible 0 avertable 0 004 + 02453321 v 0406 + 02453321 v 0306 + 02453321 v 020a ! 00343015 a 0101 | capable of being avoided or warded off  ",
+      "sha256": "788aa1eb3dbe73cccda4ea328bde0ad1de0c17d3d7b285da0edd9fc5342f97d5"
+    },
+    "00343226": {
+      "line": "00343226 00 s 02 fatal 0 fateful 0 001 & 00343015 a 0000 | controlled or decreed by fate; predetermined; \"a fatal series of events\"  ",
+      "sha256": "319e9c9db59e3ffbbca28b62627fb30b94647e74a9c4ab7b8178a4d1d7fdc0b9"
+    },
+    "00343360": {
+      "line": "00343360 00 s 03 ineluctable 0 inescapable 0 unavoidable 0 001 & 00343015 a 0000 | impossible to avoid or evade:\"inescapable conclusion\"; \"an ineluctable destiny\"; \"an unavoidable accident\"  ",
+      "sha256": "50bf97b2175a2954ca6749afca1a1f8c01c02a5a8300abb0c3fd0c76a1650a18"
+    },
+    "00343552": {
+      "line": "00343552 00 s 01 necessary 0 001 & 00343015 a 0000 | unavoidably determined by prior circumstances; \"the necessary consequences of one's actions\"  ",
+      "sha256": "f7a67b6a9909cfac569fa5e9e21bda161aa9073eb04274ffb0853c04b4f73599"
+    }
+  },
   "license": "WordNet Release 3.0\n\nThis software and database is being provided to you, the LICENSEE, by  \nPrinceton University under the following license.  By obtaining, using  \nand/or copying this software and database, you agree that you have  \nread, understood, and will comply with these terms and conditions.:  \n  \nPermission to use, copy, modify and distribute this software and  \ndatabase and its documentation for any purpose and without fee or  \nroyalty is hereby granted, provided that you agree to comply with  \nthe following copyright notice and statements, including the disclaimer,  \nand that the same appear on ALL copies of the software, database and  \ndocumentation, including modifications that you make for internal  \nuse or for distribution.  \n  \nWordNet 3.0 Copyright 2006 by Princeton University.  All rights reserved.  \n  \nTHIS SOFTWARE AND DATABASE IS PROVIDED \"AS IS\" AND PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR  \nIMPLIED.  BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-  \nABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE  \nOF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT  \nINFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR  \nOTHER RIGHTS.  \n  \nThe name of Princeton University or Princeton may not be used in  \nadvertising or publicity pertaining to distribution of the software  \nand/or database.  Title to copyright in this software, database and  \nany associated documentation shall at all times remain with  \nPrinceton University and LICENSEE agrees to preserve same.  \n"
 }

@@ -73,7 +73,9 @@ export async function learningRecord(userId, { subject, minutes } = {}) {
   if (process.env.STUDY_GUIDED_PLAN_ENABLED === 'true') {
     try {
       const weakConcepts=attempts.flatMap(attempt=>(attempt.details || []).filter(answer=>answer.isCorrect===false).map(answer=>attempt.questionsSnapshot?.find(q=>q.id===answer.qid)?.conceptId).filter(Boolean));
-      const study = await studyRecord(userId,{subject:subject || undefined,weakConcepts});
+      // Chapters behind recent ordinary mistakes point to the matching lesson, if one is published.
+      const weakChapters=attempts.slice(0,10).flatMap(attempt=>(attempt.details || []).filter(answer=>answer.isCorrect===false).map(answer=>{const q=attempt.questionsSnapshot?.find(q=>q.id===answer.qid);return q?.chapter ? {subject:q.subject || attempt.subject,chapter:q.chapter} : null;}).filter(Boolean));
+      const study = await studyRecord(userId,{subject:subject || undefined,weakConcepts,weakChapters});
       if (study.state === 'ready') {
         const sequence = guidedSequence(plan,study,plan.minutes);
         suite = { sequence, primary:sequence[0] || plan.primary, study:{dueCards:study.queue.dueCount,lessonsRead:study.progress.lessonsRead,preferences:study.preferences,weekday:(new Date(`${istDay(Date.now())}T00:00:00Z`).getUTCDay()+6)%7} };
