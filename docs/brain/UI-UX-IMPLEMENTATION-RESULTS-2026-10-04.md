@@ -57,3 +57,19 @@ No paid model calls, real attempts, outbound messages, signup completion, paymen
 Review the scoped diff and the current untracked tour/helper/test files. Do not reset this checkout or revert all of `page.js`, `public-polish.css`, `home-refinements.css` or the tour: they contain earlier owner work. Roll back only the implementation-specific hunks in the files described above, including the optional-request split and outcome/retained-body changes. The pure helpers are `data/demo_playback.mjs` and `data/repair_presentation.mjs`; meaningful state tests are `data/tests/ui_ux_state.test.mjs`.
 
 Local preview processes created for this work: development 3010 and production 3020; PID/log files are in the evidence directory. They are local previews, not publications.
+
+## Authorized publication follow-up
+
+Owner subsequently requested publication. UI source and preflight documentation were pushed as
+`f70e385909ff454f10bf83e60d96a6883bb31c17`; Vercel production deployment
+`6VA6xyZTYuXB87urHXQLAgeusbAx` completed successfully at `2026-10-04T12:50:34Z`.
+The exact isolated UI release passed production build, lint and all 179 tests before the push.
+Unrelated local model-routing, commerce enablement, pricing/payment and backend-test edits were excluded.
+
+Live `www.mockmob.in` serves the new UI with 200; apex redirects once to www with no loop.
+Home light/dark 320/390/1440px smoke found no horizontal overflow and one main. Sample feedback,
+native tour feature selection/pause, one active/seven inert slides, 44px tour controls and live
+DU arrow navigation/search-clear focus/16px input passed. Captured error logs were empty.
+Release evidence is in `artifacts/ui-ux-release-2026-10-04/`. This receipt remains a local record
+after publication; earlier no-deploy statements describe the implementation pass before authorization.
+Physical-device/CWV/screen-reader/actual-zoom and real accounting gates remain open.

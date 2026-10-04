@@ -179,9 +179,8 @@ export default function LandingPage() {
         <section className="lp-sec lp-sec--tour" id="your-prep">
           <div className="mm-wrap">
             <Reveal className="lp-head lp-head--left">
-              <p className="lp-kicker">What’s inside</p>
-              <h2 className="lp-h2">Everything you need to turn mocks into marks.</h2>
-              <p className="lp-sub">Practise, find the leak, fix it, plan the night, check the colleges. One record of your practice sits behind all of it. The screens below are illustrations; yours fill in from your own attempts.</p>
+              <h2 className="lp-h2">What’s inside MockMob.</h2>
+              <p className="lp-sub">Watch each tool in five seconds. Pick a chapter or let the tour take you through. Illustrative demos; your screens use your own practice.</p>
             </Reveal>
             <Reveal delay={100}><FeatureTour slides={TOUR} /></Reveal>
           </div>

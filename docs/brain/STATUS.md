@@ -1263,3 +1263,39 @@ Source changes (not yet deployed; deploy needs `AI_LUNA_MODEL` optional and the 
   the successful build used a real dependency copy. No application workaround was introduced.
 - Push/Vercel readiness and live-domain/mobile/desktop smoke are pending at this preflight entry.
   Hardware, screen-reader, measured throttled performance/CWV and real transaction gates remain open.
+
+### 4 October 2026 — UI release live verification
+
+- Pushed `f70e385909ff454f10bf83e60d96a6883bb31c17` to `origin/main`. `Vercel – mockmob`
+  reached success at `2026-10-04T12:50:34Z`; deployment:
+  https://vercel.com/atishay07s-projects/mockmob/6VA6xyZTYuXB87urHXQLAgeusbAx.
+- `https://www.mockmob.in/` serves the new tour, short hero lead and sample CTA with HTTP 200.
+  Apex redirects once (307) to www, then 200. Calculator returns 200; no redirect loop.
+- Live home light/dark checks at 320/390/1440px: no horizontal overflow, one main.
+  Sample CANDID/Frank feedback works; selecting Mistake Repair pauses the tour with one active,
+  seven inert slides and 44x44px controls. Live calculator at 390px: category ArrowRight selects
+  and focuses OBC-NCL with one tab stop; clear empties search, restores focus, and input is 16px.
+  No captured browser error logs in this smoke. Phone and desktop screenshots saved.
+- Evidence: `artifacts/ui-ux-release-2026-10-04/{github-status.json,live-http.json,live-ui.json}`
+  and build/test/lint logs. This post-deployment receipt is a local status update; deployed source
+  and preflight documentation are in the release commit above.
+- Existing unrelated AI/commerce/payment edits remain local. No production migration, paid model
+  call, real attempt, purchase or signup completion was performed. Physical devices, screen reader,
+  actual zoom, controlled performance/field CWV and real accounting receipts remain unresolved.
+
+### 4 October 2026 — guided tour follow-up
+
+- Owner rejected the phone dropdown and easily interrupted/slow feature playback after the UI
+  publication. Rebuilt the tour as an automatic 4.8-second chapter sequence with shared progress,
+  explicit Pause, a chapter strip and an Up next nudge. Normal vertical browsing no longer turns
+  rotation off. Pointer navigation resumes its cycle; horizontal input holds briefly while settling.
+- Preserved keyboard reading holds, explicit resume, reduced motion, inactive-slide isolation and
+  hidden/offscreen suspension. Phone product panels fit without overhang; the sample dock steps
+  aside during the tour. Nearby Mistake Lab stages also use 4.8 seconds. Official-key copy retained.
+- Final isolated application source build and lint passed; nine relevant tests passed. Both-theme
+  320/390/768/1024/1440 matrices have zero root overflow, no screen overhang and 44px controls.
+  Browser observed auto progression/loopback, scrolling/navigation without sticky pause, explicit
+  pause, and keyboard hold/resume. No measured wall-clock/FPS/device performance claim.
+- See `TOUR-REFINEMENT-2026-10-04.md` and `artifacts/tour-refinement-2026-10-04/` for details.
+  Production readiness/live smoke pending at this entry. Physical phones, screen reader and CWV
+  gates remain open. Unrelated AI/commerce/payment edits retained locally; no migration/paid call.

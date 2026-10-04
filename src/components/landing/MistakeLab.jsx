@@ -24,10 +24,10 @@ const SESSION = [
 ];
 const MARK = { right: 5, wrong: -1, skip: 0 };
 const STEPS = [
-  { key: 'replay', title: 'Replay the session', body: 'See recorded answers and timing beside the session score.', ms: 6200 },
-  { key: 'leak', title: 'Find where marks leaked', body: 'Compare mistakes, skips and answer changes when the session has timing data.', ms: 6200 },
-  { key: 'move', title: 'Get one next move', body: 'One suggestion from your record, shared by Today, Radar and PrepOS. A next step, not a diagnosis.', ms: 5600 },
-  { key: 'check', title: 'Check it on fresh questions', body: 'A fresh question checks what you remember later. The panel below shows whether this pathway is available.', ms: 5600 },
+  { key: 'replay', title: 'Replay the session', body: 'See recorded answers and timing beside the session score.', ms: 4800 },
+  { key: 'leak', title: 'Find where marks leaked', body: 'Compare mistakes, skips and answer changes when the session has timing data.', ms: 4800 },
+  { key: 'move', title: 'Get one next move', body: 'One suggestion from your record, shared by Today, Radar and PrepOS. A next step, not a diagnosis.', ms: 4800 },
+  { key: 'check', title: 'Check it on fresh questions', body: 'A fresh question checks what you remember later. The panel below shows whether this pathway is available.', ms: 4800 },
 ];
 const REVEAL_MS = 360;
 
