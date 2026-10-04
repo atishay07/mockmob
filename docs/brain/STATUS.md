@@ -1455,3 +1455,15 @@ labelled as device voice; no licensed pronunciation source is bundled.
 Rollback: set STUDY_CONTENT_ENABLED/STUDY_RECALL_ENABLED/STUDY_GUIDED_PLAN_ENABLED to false and redeploy (records
 kept), or `git revert` the release commit and redeploy. If phase 2 has run and the old code is restored, set the
 two v1 units back to `published` (no deletes are needed; v2 rows are ignored by the old release proof).
+
+### 5 October 2026 — Learn v2 published
+
+- Commit `78a627f` pushed to `origin/main`; www.mockmob.in served it about 80 s later. Live HTTP: home 200 with
+  the flag-gated Learn tour slide, `/learn` 200, anonymous study catalog 401, dev preview 404.
+- Content phase 2 applied after the deploy: english-vocabulary-01@1 and accountancy-sacrificing-gaining@1
+  quarantined (v2 published); the correction trigger invalidated the 5 owner QA runs on v1, one event each; no
+  deletes. Receipts: `artifacts/study-suite/v2/apply-{insert,supersede}-receipt.json`, `live-receipt.json`.
+- Signed-in live check (owner Pro account, 375px): Learn led with the unfinished lesson and due cards; the
+  lesson completed with check feedback and the daily new-card limit message; Organising practice linked.
+- Local `main` in the original checkout still points at 6c5e05b with the owner's uncommitted work; it is now
+  three commits behind `origin/main`. Reconcile deliberately before publishing those edits.
