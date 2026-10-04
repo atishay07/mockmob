@@ -1,0 +1,210 @@
+/* Feature tour + phone polish for the landing page (5 Oct 2026).
+   Motion rule: opacity, transform and filter only; nothing here animates layout.
+   Phone: a swipeable track of equal-height glass cards, then the same tools as rows.
+   Desktop: tool pills on top, one wide stage below (copy left, product screen right). */
+
+.ft { position: relative; isolation: isolate; display: flex; flex-direction: column; gap: 1.25rem; }
+.ft__aurora { position: absolute; z-index: -1; inset: -6% -25% auto; height: 62%; pointer-events: none; filter: blur(36px); opacity: .9;
+  background: radial-gradient(38% 52% at 22% 34%, rgba(210,240,0,.34), transparent 72%), radial-gradient(34% 46% at 82% 18%, rgba(110,160,255,.2), transparent 72%); }
+html[data-theme='dark'] .ft__aurora { opacity: .5; }
+
+/* ---------- Track and cards (phone first) ---------- */
+.ft__stage { position: relative; display: grid; gap: .9rem; }
+.ft__track { list-style: none; position: relative; display: flex; align-items: stretch; gap: .8rem; margin: 0 calc(var(--gutter, 1rem) * -1); padding: .25rem var(--gutter, 1rem) .5rem;
+  overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter, 1rem); overscroll-behavior-x: contain; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.ft__track::-webkit-scrollbar { display: none; }
+.ft__slide { flex: 0 0 86%; max-width: 27rem; scroll-snap-align: start; scroll-snap-stop: always; display: grid; }
+
+.ft__card { position: relative; display: grid; grid-template-rows: auto 1fr; overflow: hidden; border-radius: 28px; border: 1px solid var(--line-strong, rgba(23,32,22,.16));
+  background: color-mix(in srgb, var(--paper-raised, #fff) 78%, transparent);
+  -webkit-backdrop-filter: blur(22px) saturate(1.5); backdrop-filter: blur(22px) saturate(1.5);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 30px 56px -38px rgba(20,32,14,.5);
+  transition: transform .5s var(--ease-out, cubic-bezier(.23,1,.32,1)); }
+html[data-theme='dark'] .ft__card { box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 30px 56px -38px rgba(0,0,0,.7); }
+.ft__slide[data-active='false'] .ft__card { transform: scale(.97); }
+
+/* The product screen is cropped to a fixed height and fades out, so every card is the same size and
+   the screen reads as a window onto the product rather than a pasted screenshot. */
+.ft__media { position: relative; padding: .8rem .8rem 0; background: radial-gradient(80% 70% at 20% 0%, rgba(210,240,0,.2), transparent 70%); }
+.ft__shot { position: relative; height: 15.5rem; overflow: hidden; border-radius: 18px 18px 0 0;
+  -webkit-mask-image: linear-gradient(#000 62%, transparent); mask-image: linear-gradient(#000 62%, transparent); }
+.ft__shot .mm-screen, .ft__shot .recovery-preview { margin: 0; }
+.ft__shot .lp-caption, .ft__shot figcaption { display: none; }
+.ft__shot .lp-legend { display: none; }
+.ft__shot video { width: 100%; height: 100%; object-fit: cover; display: block; background: #0b100a; }
+.ft__chip { position: absolute; z-index: 2; left: 1.3rem; right: 1.3rem; bottom: .75rem; margin: 0; display: flex; align-items: center; gap: .55rem; padding: .55rem .8rem; border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.18); background: rgba(14,18,14,.7); color: #f4f5f0; font: 600 .78rem/1.3 var(--font-body);
+  -webkit-backdrop-filter: blur(16px) saturate(1.6); backdrop-filter: blur(16px) saturate(1.6); box-shadow: 0 12px 26px -14px rgba(0,0,0,.6); }
+.ft__chip i { flex: 0 0 8px; width: 8px; height: 8px; border-radius: 50%; background: #d2f000; box-shadow: 0 0 0 4px rgba(210,240,0,.2); animation: ft-pulse 2.4s ease-in-out infinite; }
+@keyframes ft-pulse { 50% { box-shadow: 0 0 0 7px rgba(210,240,0,0); } }
+
+.ft__copy { display: grid; gap: .45rem; align-content: start; padding: 1.1rem 1.15rem 1.15rem; }
+.ft__kicker { margin: 0; font: 700 .72rem var(--font-body); letter-spacing: .08em; text-transform: uppercase; color: var(--accent-text, #4f6400); }
+.ft__title { margin: 0; font: 800 clamp(1.3rem, 5.6vw, 1.55rem)/1.12 var(--font-display); letter-spacing: -.03em; color: var(--ink); text-wrap: balance; }
+.ft__body { margin: 0; color: var(--ink-2); font-size: .92rem; line-height: 1.5; }
+.ft__points { list-style: none; margin: .3rem 0 0; padding: 0; display: grid; gap: .45rem; }
+.ft__points li { position: relative; padding-left: 1.45rem; font-size: .86rem; line-height: 1.4; color: var(--ink); }
+.ft__points li::before { content: ''; position: absolute; left: 0; top: .2em; width: 1rem; height: 1rem; border-radius: 50%; background: #d2f000 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8.4l2.2 2.2 4.8-5' fill='none' stroke='%230b1000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat; }
+.ft__foot { display: flex; align-items: center; justify-content: space-between; gap: .75rem; margin-top: .3rem; }
+.ft__cta { margin: 0; }
+.ft__tag { font: 600 .7rem var(--font-body); color: var(--ink-3); }
+
+/* ---------- Controls ---------- */
+.ft__controls { display: flex; align-items: center; justify-content: center; gap: .55rem; }
+.ft__arrow, .ft__play { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line-strong, rgba(23,32,22,.2)); background: color-mix(in srgb, var(--paper-raised, #fff) 75%, transparent); color: var(--ink); cursor: pointer;
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); transition: transform .14s ease; }
+.ft__arrow:active, .ft__play:active { transform: scale(.92); }
+.ft__play { width: 44px; height: 44px; }
+.ft__play:disabled { opacity: .45; cursor: default; }
+.ft__dots { display: flex; align-items: center; }
+.ft__dot { display: grid; place-items: center; width: 20px; height: 44px; padding: 0; border: 0; background: transparent; cursor: pointer; }
+.ft__dot i { position: relative; display: block; width: 7px; height: 7px; border-radius: 99px; overflow: hidden; background: color-mix(in srgb, var(--ink) 22%, transparent); transition: width .35s var(--ease-out, ease); }
+.ft__dot[data-on='true'] i { width: 22px; }
+.ft__dot[data-on='true'] i::after { content: ''; position: absolute; inset: 0; background: var(--ink); transform-origin: left; }
+.ft[data-playing='true'] .ft__dot[data-on='true'] i::after { animation: ft-fill 7s linear both; }
+@keyframes ft-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* ---------- Tool list (rows on phones, pills on desktop) ---------- */
+.ft__list { list-style: none; margin: .25rem 0 0; padding: 0; display: grid; gap: .45rem; }
+.ft__row { position: relative; overflow: hidden; display: flex; align-items: center; gap: .8rem; width: 100%; padding: .7rem .85rem; text-align: left; cursor: pointer; border-radius: 16px; border: 1px solid var(--line, rgba(23,32,22,.12)); color: var(--ink);
+  background: color-mix(in srgb, var(--paper-raised, #fff) 62%, transparent); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); transition: background .25s ease, border-color .25s ease, transform .14s ease; }
+.ft__row:active { transform: scale(.985); }
+.ft__row[data-on='true'] { border-color: color-mix(in srgb, #9db400 70%, transparent); background: color-mix(in srgb, #d2f000 15%, var(--paper-raised, #fff)); }
+.ft__row[data-on='true']::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: #9db400; transform-origin: left; }
+.ft[data-playing='true'] .ft__row[data-on='true']::after { animation: ft-fill 7s linear both; }
+.ft__ico { flex: 0 0 36px; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 11px; background: var(--slate, #131a14); color: #d2f000; }
+.ft__rowtext { display: grid; gap: .08rem; min-width: 0; }
+.ft__rowtext b { font: 700 .92rem var(--font-body); }
+.ft__rowtext span { font-size: .78rem; line-height: 1.35; color: var(--ink-2); }
+
+/* ---------- Desktop ---------- */
+@media (min-width: 900px) {
+  .ft { gap: 1.75rem; }
+  .ft__list { order: -1; display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; margin: 0; }
+  .ft__row { width: auto; padding: .45rem 1rem .45rem .45rem; border-radius: 999px; gap: .6rem; }
+  .ft__row[data-on='true'] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+  .ft__row[data-on='true'] .ft__ico { background: #d2f000; color: #0b1000; }
+  .ft__row[data-on='true']::after { height: 3px; background: #d2f000; }
+  .ft__ico { flex-basis: 30px; width: 30px; height: 30px; border-radius: 50%; }
+  .ft__rowtext span { display: none; }
+  .ft__rowtext b { font-size: .88rem; }
+  .ft__stage { gap: 0; }
+  .ft__track { display: block; margin: 0; padding: 0; overflow: visible; }
+  .ft__slide { display: none; max-width: none; }
+  .ft__slide[data-active='true'] { display: grid; animation: ft-stage-in .55s var(--ease-out, ease) both; }
+  .ft__slide[data-active='false'] .ft__card { transform: none; }
+  .ft__card { grid-template-rows: none; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); border-radius: 34px; min-height: 34rem; }
+  .ft__copy { order: -1; align-content: center; gap: .7rem; padding: 3rem 2.5rem 3rem 3.25rem; }
+  .ft__kicker { font-size: .78rem; }
+  .ft__title { font-size: clamp(1.9rem, 3vw, 2.6rem); line-height: 1.06; }
+  .ft__body { font-size: 1.02rem; max-width: 34rem; }
+  .ft__points { gap: .6rem; margin-top: .6rem; }
+  .ft__points li { font-size: .95rem; }
+  .ft__foot { justify-content: flex-start; gap: 1.25rem; margin-top: .9rem; }
+  .ft__media { display: grid; place-items: center; padding: 2.5rem 2rem;
+    background: radial-gradient(70% 60% at 20% 15%, rgba(210,240,0,.34), transparent 70%), radial-gradient(60% 60% at 90% 90%, rgba(110,160,255,.22), transparent 72%), color-mix(in srgb, var(--paper-sunken, #eef0e8) 80%, transparent);
+    border-left: 1px solid var(--line, rgba(23,32,22,.1)); }
+  .ft__shot { width: 100%; max-width: 26rem; height: auto; max-height: 29rem; border-radius: 22px; -webkit-mask-image: none; mask-image: none; box-shadow: 0 34px 60px -30px rgba(10,16,8,.6); }
+  .ft__shot .mm-screen { box-shadow: none; }
+  .ft__chip { left: 1.5rem; right: auto; bottom: 1.5rem; max-width: 22rem; }
+  /* Only the pause control survives on a wide screen; the pills already pick the slide. */
+  .ft__controls { position: absolute; z-index: 3; top: 1.1rem; right: 1.1rem; }
+  .ft__arrow, .ft__dots { display: none; }
+}
+@media (min-width: 900px) and (hover: hover) { .ft__row:not([data-on='true']):hover { background: color-mix(in srgb, var(--paper-raised, #fff) 92%, transparent); border-color: var(--line-strong); } }
+@keyframes ft-stage-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Phone polish ---------- */
+/* Progressive blur: a masked backdrop filter under the header, so content eases out instead of being
+   cut by a hard edge. One layer, so it stays cheap on a budget Android. */
+@media (max-width: 899px) {
+  html[data-theme] .mm.lp .mm-nav { background: color-mix(in srgb, var(--paper) 62%, transparent); -webkit-backdrop-filter: blur(18px) saturate(1.5); backdrop-filter: blur(18px) saturate(1.5); }
+  .mm.lp .mm-nav::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 26px; pointer-events: none; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    -webkit-mask-image: linear-gradient(#000, transparent); mask-image: linear-gradient(#000, transparent); }
+  html[data-theme] .mm.lp .mm-dock { left: .7rem; right: .7rem; bottom: calc(.55rem + env(safe-area-inset-bottom)); padding: .5rem .55rem .5rem .95rem; border: 1px solid var(--line-strong, rgba(23,32,22,.16)); border-radius: 22px;
+    background: color-mix(in srgb, var(--paper-raised, #fff) 66%, transparent); -webkit-backdrop-filter: blur(20px) saturate(1.6); backdrop-filter: blur(20px) saturate(1.6);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 18px 40px -18px rgba(20,32,14,.5); }
+  .lp .rv { filter: blur(6px); transition: opacity .8s var(--ease) var(--d, 0ms), transform .8s var(--ease) var(--d, 0ms), filter .8s var(--ease) var(--d, 0ms); }
+  .lp .rv[data-in="true"] { filter: none; }
+  .lp-hero__tool, .lp-hero__exam-link { display: none; }
+}
+@media (max-width: 700px) { .lp-cpro__list { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .lp .rv { filter: none; }
+  .ft__card, .ft__dot i, .lp-rival__lane b { transition: none; }
+  .ft__slide[data-active='true'] { animation: none; }
+  .ft__chip i { animation: none; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .ft__card, .ft__row, .ft__arrow, .ft__play, .ft__chip { -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .ft__card { background: var(--paper-raised, #fff); }
+  .ft__chip { background: #0e120e; }
+}
+
+/* If a live figure fails to load it is dropped, so the band closes up instead of leaving a gap. */
+@media (min-width: 768px) { .lp .mm-figures { grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); } }
+
+@media (min-width: 900px) {
+  .ft__list { justify-content: flex-start; }
+  .ft__chip { left: 50%; right: auto; transform: translateX(-50%); width: max-content; max-width: calc(100% - 3rem); }
+}
+
+/* Phone: the note straddles the screen's lower edge instead of covering the screen. */
+@media (max-width: 899px) {
+  .ft__shot { height: 17rem; }
+  .ft__chip { bottom: -1rem; }
+  .ft__copy { padding-top: 1.9rem; }
+}
+.ft__foot { flex-wrap: wrap; row-gap: 0; }
+.ft__cta { white-space: nowrap; }
+
+/* Tour screens are built to fit, so nothing is cropped: the whole demo is visible on a phone. */
+.ft__shot { height: auto; overflow: visible; border-radius: 0; -webkit-mask-image: none; mask-image: none; }
+.ft__media { padding: .8rem .8rem 1.5rem; }
+@media (max-width: 899px) {
+  .ft__shot { height: auto; }
+  .ft__chip { bottom: -.95rem; }
+}
+@media (min-width: 900px) {
+  .ft__shot { max-width: 25rem; max-height: none; box-shadow: none; }
+  .ft__media { padding: 2.5rem 2.25rem 3.25rem; }
+  .ft__chip { bottom: 1.1rem; }
+}
+
+/* Phone: one card must fit one screen. The chip carries the key point, so the bullet list steps aside. */
+@media (max-width: 899px) {
+  .ft__points { display: none; }
+  .ft__copy { gap: .4rem; padding-bottom: 1rem; }
+  .ft__body { font-size: .9rem; }
+}
+.ft__copy { display: flex; flex-direction: column; }
+.ft__foot { margin-top: auto; padding-top: .5rem; }
+@media (max-width: 899px) {
+  .ft__media { min-height: 23.5rem; display: flex; align-items: center; }
+  .ft__shot { width: 100%; }
+}
+
+/* Desktop: the demo screen is drawn at phone scale, so it is zoomed up to fill the panel, and the note
+   sits in flow right under it. */
+@media (min-width: 900px) {
+  .ft__media { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.4rem; }
+  .ft__shot { max-width: 23rem; zoom: 1.22; }
+  .ft__chip { position: static; transform: none; width: auto; max-width: 26rem; }
+}
+@media (min-width: 900px) {
+  .ft__copy { justify-content: center; }
+  .ft__foot { margin-top: 1rem; padding-top: 0; }
+}
+
+/* One selector per layout; manual browsing always waits for an explicit Play. */
+.ft__choose { display: block; padding-inline: 1rem; }
+.ft__choose select { width: 100%; min-height: 44px; padding: .5rem .75rem; border: 1px solid var(--line-strong); border-radius: 12px; background: var(--paper-raised); color: var(--ink); font: 500 16px var(--font-body); }
+.ft__counter { min-width: 3rem; text-align: center; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+.ft[data-playing='false'] .ts *, .ft__slide[data-active='false'] .ts * { animation-play-state: paused; }
+.ft :is(button, select, a):focus-visible { outline: 3px solid var(--focus, var(--ink)); outline-offset: 3px; }
+@media (max-width: 899px) {
+  .ft__list { display: none; }
+  .ft__media { min-height: 20rem; }
+  .ft__copy { min-height: 15rem; }
+}
+@media (min-width: 900px) { .ft__choose, .ft__counter { display: none; } }

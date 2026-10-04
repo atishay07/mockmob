@@ -25,3 +25,22 @@
     transition: none;
   }
 }
+
+/* PrepOS credit top-ups on /pricing */
+.mm-packs { list-style: none; margin: 1.25rem 0 0; padding: 0; display: grid; gap: 0.85rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); }
+.mm-pack { display: grid; gap: 0.35rem; align-content: start; padding: 1.1rem; border-radius: 18px; border: 1px solid var(--line, rgba(23,32,22,.14)); background: var(--paper-raised, #fff); }
+.mm-pack[data-featured='true'] { border-color: var(--accent, #9db400); box-shadow: 0 18px 40px -28px rgba(80,100,0,.55); }
+.mm-pack p { margin: 0; }
+.mm-pack__name { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; font: 700 0.9rem var(--font-body); color: var(--ink-2); }
+.mm-pack__name span { padding: 0.15rem 0.5rem; border-radius: 999px; background: #d2f000; color: #0b1000; font: 700 0.68rem var(--font-body); }
+.mm-pack__price { font: 800 2rem/1 var(--font-display); letter-spacing: -0.03em; color: var(--ink); }
+.mm-pack__credits { font: 600 0.95rem var(--font-body); color: var(--ink); margin-bottom: 0.5rem; }
+.mm-pack__credits small { display: block; font-weight: 500; color: var(--ink-3); }
+.mm-pack__name span { margin-left: 0.5rem; white-space: nowrap; }
+.mm-pack button { width: 100%; min-height: 46px; border-radius: 14px; border: 1.5px solid var(--line-strong, rgba(23,32,22,.28)); background: transparent; color: var(--ink, #172016); font: 700 0.9rem var(--font-body); box-shadow: none; }
+.mm-pack[data-featured='true'] button { background: #d2f000; border-color: #9db400; color: #0b1000; box-shadow: 0 3px 0 #9db400; }
+.mm-pack button:disabled { opacity: .6; }
+/* Editable phone fields retain native zoom without triggering focus magnification. */
+@media (max-width: 760px) {
+  .mm :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), textarea, select) { font-size: 16px; }
+}

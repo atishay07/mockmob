@@ -247,7 +247,7 @@
 .du-finder input {
   width: 100%;
   min-height: 48px;
-  padding: 0.55rem 2.5rem 0.55rem 2.4rem;
+  padding: 0.55rem 3.4rem 0.55rem 2.4rem;
   border: 1px solid var(--line-strong);
   border-radius: var(--r-2);
   background: var(--paper);
@@ -270,8 +270,8 @@
   right: 0.4rem;
   display: grid;
   place-items: center;
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 44px;
+  height: 44px;
   transform: translateY(-50%);
   border: 0;
   border-radius: 50%;
@@ -1274,10 +1274,12 @@
 }
 .du-teaser__streams b {
   display: block;
+  width: 100%;
   height: 100%;
   border-radius: 3px;
   background: var(--volt);
-  transition: width 0.45s var(--ease);
+  transform-origin: left;
+  transition: transform 0.45s var(--ease);
 }
 .du-teaser__streams em {
   font-style: normal;
@@ -1515,3 +1517,7 @@
     background: #fff;
   }
 }
+@media (max-width: 899px) {
+  .mm :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), textarea, select), .du-finder input, .du-search input, .du-input, .du-select select { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { .du-teaser__streams b { transition: none; } }

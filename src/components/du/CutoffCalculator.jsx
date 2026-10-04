@@ -472,8 +472,16 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
             <div className="du-field">
               <span className="du-label" id="du-cat-label">Category</span>
               <div className="du-seg" role="radiogroup" aria-labelledby="du-cat-label">
-                {MAIN_CATEGORIES.map((c) => (
-                  <button key={c} type="button" role="radio" aria-checked={category === c} className="du-seg__btn" onClick={() => setCategory(c)}>
+                {MAIN_CATEGORIES.map((c, index) => (
+                  <button key={c} type="button" role="radio" aria-checked={category === c} tabIndex={category === c || (!MAIN_CATEGORIES.includes(category) && index === 0) ? 0 : -1}
+                    onKeyDown={event => {
+                      const keys = ['ArrowRight', 'ArrowDown', 'ArrowLeft', 'ArrowUp', 'Home', 'End'];
+                      if (!keys.includes(event.key) || event.altKey || event.ctrlKey || event.metaKey) return;
+                      event.preventDefault();
+                      const next = event.key === 'Home' ? 0 : event.key === 'End' ? MAIN_CATEGORIES.length - 1 : (index + (['ArrowRight', 'ArrowDown'].includes(event.key) ? 1 : -1) + MAIN_CATEGORIES.length) % MAIN_CATEGORIES.length;
+                      setCategory(MAIN_CATEGORIES[next]);
+                      event.currentTarget.parentElement.querySelectorAll('[role="radio"]')[next]?.focus();
+                    }} className="du-seg__btn" onClick={() => setCategory(c)}>
                     {c}
                   </button>
                 ))}

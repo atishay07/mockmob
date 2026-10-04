@@ -93,6 +93,7 @@
 .app-shell .ex-page :is(button, select):focus-visible, .app-shell .con-page summary:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; }
 .app-shell .student-page--result .count-btn { min-height: 44px; }
 @media (max-width: 1023px) {
+  .app-shell :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), textarea, select) { font-size: 16px; }
   .app-shell .arena-bottomnav { position: fixed; inset: auto 0 0; z-index: 44; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid var(--a-line-strong); background: var(--a-bg); padding: 5px 6px calc(5px + env(safe-area-inset-bottom)); }
   .app-shell .arena-bottomnav :is(a, button) { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; min-height: 54px; min-width: 0; padding: 5px 2px; border: none; border-radius: 9px; background: transparent; color: var(--a-ink-3); text-decoration: none; font: 650 11px/1.25 var(--font-body); cursor: pointer; }
   .app-shell .arena-bottomnav svg { width: 19px; height: 19px; }
@@ -164,3 +165,13 @@
 .app-shell .pr-link, .app-shell .pr-chapters button, .app-shell .na__seg button { min-height: 44px; }
 .app-shell .nta-interface-toolbar [role='group'] button { min-height: 44px; }
 .app-shell .recovery-next a { display: inline-flex; align-items: center; min-height: 44px; }
+
+@media (max-width: 1023px) {
+  .app-shell .pr-summary dl { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px; }
+  .app-shell .pr-summary dl > div:not([data-emph]) { display: flex; flex-wrap: wrap; gap: 4px 10px; padding-block: 7px; }
+  .app-shell .pr-summary dl > div[data-emph] { grid-column: 1 / -1; padding-top: 10px; }
+}
+@media (max-width: 760px) {
+  .app-shell .pr-wallet { padding: 12px 14px; }
+  .app-shell .pr-wallet__note { font-size: 12px; }
+}

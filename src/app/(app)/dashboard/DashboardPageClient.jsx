@@ -28,7 +28,8 @@ export default function DashboardPageClient() {
   const [leaderboard, setLeaderboard] = useState([]);
   const [status, setStatus] = useState('loading');
   const [error, setError] = useState(null);
-  const [stats, setStats] = useState({ bankSize: 0 });
+  const [loadNonce, setLoadNonce] = useState(0);
+  const [stats, setStats] = useState({ state: 'loading' });
   const [learningSummary, setLearningSummary] = useState(null);
   const [submissions, setSubmissions] = useState([]);
   const [subRefreshing, setSubRefreshing] = useState(false);
@@ -81,25 +82,25 @@ export default function DashboardPageClient() {
     if (authStatus === 'loading' || !user?.id) return;
 
     let alive = true;
+    // Optional panels cannot hold the practice setup behind slow inventory or leaderboard reads.
+    const optional = (path, apply, fallback) => apiGet(path)
+      .then(value => { if (alive) apply(value ?? fallback); })
+      .catch(() => { if (alive) apply(fallback); });
+    optional('/api/leaderboard', setLeaderboard, []);
+    optional('/api/stats', setStats, { state: 'unavailable' });
+    optional('/api/questions/mine', value => setSubmissions(Array.isArray(value) ? value : []), []);
+    optional('/api/learning/summary', setLearningSummary, null);
     async function load() {
       try {
-        const [subs, atts, board, statData, myQs, learning] = await Promise.all([
+        const [subs, atts] = await Promise.all([
           apiGet('/api/subjects'),
           apiGet(`/api/attempts?userId=${user.id}`),
-          apiGet('/api/leaderboard').catch(() => []),
-          apiGet('/api/stats'),
-          apiGet('/api/questions/mine').catch(() => []),
-          apiGet('/api/learning/summary').catch(() => null),
         ]);
         if (!alive) return;
         setSubjects(subs);
         setAttempts(atts);
-        setLeaderboard(board);
-        setStats(statData || { bankSize: 0, subjectCounts: {} });
-        setLearningSummary(learning);
-        setSubmissions(Array.isArray(myQs) ? myQs : []);
         const mySubs = subs.filter((subject) => user.subjects?.includes(subject.id) && subject.practice === 'supported');
-        if (mySubs.length > 0) setSelSubj(mySubs[0].id);
+        if (mySubs.length > 0) setSelSubj(current => mySubs.some(subject => subject.id === current) ? current : mySubs[0].id);
         setStatus('ready');
       } catch (e) {
         if (!alive) return;
@@ -110,7 +111,7 @@ export default function DashboardPageClient() {
 
     load();
     return () => { alive = false; };
-  }, [user, authStatus]);
+  }, [user, authStatus, loadNonce]);
 
   async function refreshSubmissions() {
     setSubRefreshing(true);
@@ -228,7 +229,7 @@ export default function DashboardPageClient() {
   }
 
   if (status === 'error') {
-    return <ErrorState message={error} onRetry={() => window.location.reload()} />;
+    return <ErrorState message={error} onRetry={() => { setError(null); setStatus('loading'); setLoadNonce(n => n + 1); }} />;
   }
 
   const chapterParam = selectedChapters.length > 0
@@ -297,15 +298,10 @@ export default function DashboardPageClient() {
       </header>
 
       {creditError && <div className="pr-alert" data-tone="error" role="alert"><StatusIcon kind="error" />{creditError}</div>}
-      <ArenaCompanion compact pose="attentive" title={effectiveModeId === 'nta' ? 'Meet the exam before exam day.' : `Set up ${mode.label}.`}>{effectiveModeId === 'nta' ? 'Choose your screen below. Mobi stays outside while you answer.' : 'Check the subject, time and access before you start.'}</ArenaCompanion>
+
       {launchSuccess && <div className="pr-alert" data-tone="success" role="status"><StatusIcon kind="success" />{launchSuccess}</div>}
 
-      <dl className="pr-stats">
-        <div><dt><AppIcon name="review" />Usable questions</dt><dd>{statsAvailable ? Number(stats.bankSize || 0).toLocaleString('en-IN') : 'Unavailable'}</dd></div>
-        <div><dt><AppIcon name="practice" />Sessions</dt><dd>{attempts.length}</dd></div>
-        <div><dt><AppIcon name="progress" />Average score</dt><dd>{attempts.length ? `${avg}%` : '—'}</dd></div>
-        <div><dt><AppIcon name="ranks" />Leaderboard</dt><dd>{rank ? `#${rank}` : '—'}</dd></div>
-      </dl>
+
 
       {staleSubs.length > 0 && (
         <div className="pr-alert" data-tone="warning" role="status">
@@ -345,7 +341,7 @@ export default function DashboardPageClient() {
                       <span className="pr-subject__name">{subject.name}</span>
                       <span className="pr-subject__meta">
                         {subject.officialCode ? <i>{subject.officialCode}</i> : null}
-                        {statsAvailable ? `${Number(count ?? 0).toLocaleString('en-IN')} questions` : 'Count unavailable'}
+                        {statsAvailable ? `${Number(count ?? 0).toLocaleString('en-IN')} questions` : stats.state === 'loading' ? 'Checking question count…' : 'Count unavailable'}
                       </span>
                       {on ? <span className="pr-tile__tick" aria-hidden="true"><StatusIcon kind="check" size={14} /></span> : null}
                     </button>
@@ -473,7 +469,7 @@ export default function DashboardPageClient() {
             </p>
             <Button variant="volt" size="md" className="pr-summary__cta" disabled={isLaunching || !quoteLaunchable}
               onClick={() => {
-                if (isLaunching || !quoteLaunchable) return;
+                if (isLaunching || launchingKeyRef.current || !quoteLaunchable) return;
                 if (Date.parse(quote.expiresAt) <= Date.now()) { setQuoteNonce((n) => n + 1); return; }
                 setCreditError(null);
                 setIsLaunching(true);
@@ -489,6 +485,15 @@ export default function DashboardPageClient() {
           </aside>
         </div>
       )}
+
+      <ArenaCompanion compact pose="attentive" title={effectiveModeId === 'nta' ? 'Meet the exam before exam day.' : `Set up ${mode.label}.`}>{effectiveModeId === 'nta' ? 'Choose your screen below. Mobi stays outside while you answer.' : 'Check the subject, time and access before you start.'}</ArenaCompanion>
+
+      <dl className="pr-stats">
+        <div><dt><AppIcon name="review" />Usable questions</dt><dd>{statsAvailable ? Number(stats.bankSize || 0).toLocaleString('en-IN') : stats.state === 'loading' ? 'Checking…' : 'Unavailable'}</dd></div>
+        <div><dt><AppIcon name="practice" />Sessions</dt><dd>{attempts.length}</dd></div>
+        <div><dt><AppIcon name="progress" />Average score</dt><dd>{attempts.length ? `${avg}%` : '—'}</dd></div>
+        <div><dt><AppIcon name="ranks" />Leaderboard</dt><dd>{rank ? `#${rank}` : '—'}</dd></div>
+      </dl>
 
       <div className="pr-lower">
         <section className="pr-panel" aria-labelledby="pr-recent">

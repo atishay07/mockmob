@@ -1,13 +1,12 @@
 import Link from 'next/link';
 import { CAPABILITIES, recoveryReleased, newOfferReleased } from '@/../data/capabilities';
 import { publicOffer } from '@/lib/payments/offer';
-import { ArrowRight, ArrowUpRight, Check, History, Bookmark, Trophy, Monitor, Target, GraduationCap, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Check, History, Timer, Wrench, Radar, Sparkles, Compass, Combine, Trophy, Monitor, Target, GraduationCap, ShieldCheck } from 'lucide-react';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
 import { MobileDock } from '@/components/MobileDock';
 import { JsonLd } from '@/components/JsonLd';
 import { LandingActions } from '@/components/LandingActions';
-import { PrepOSOrb } from '@/components/ui/PrepOSOrb';
 import { DemoDrill } from '@/components/landing/DemoDrill';
 import { HeroBackdrop } from '@/components/landing/HeroBackdrop';
 import { Reveal } from '@/components/landing/Reveal';
@@ -15,9 +14,7 @@ import { LiveStatsBand } from '@/components/landing/LiveStatsBand';
 import { EligibilityTeaser } from '@/components/du/EligibilityTeaser';
 import { CollegeDestinations } from '@/components/landing/CollegeDestinations';
 import { ExamComparator } from '@/components/landing/ExamComparator';
-import { ChapterReadout } from '@/components/landing/ChapterReadout';
-import { SubjectGrid } from '@/components/landing/SubjectGrid';
-import { ArenaScreen, CompassScreen, PlanScreen } from '@/components/landing/ProductScreens';
+import FeatureTour from '@/components/landing/FeatureTour';
 import MistakeLab from '@/components/landing/MistakeLab';
 import { publishedVoices } from '@/lib/voices';
 import { INSTAGRAM, STATS_AS_OF, rankedReels } from '@/lib/social';
@@ -34,44 +31,8 @@ import './mistake-lab.css';
 import './compass-ladder.css';
 import './social-proof.css';
 import './hero-depth.css';
-
-const MARQUEE = [
-  'English', 'Accountancy', 'Business Studies', 'Economics', 'History', 'Political Science', 'Psychology',
-  'Mathematics', 'Physics', 'Chemistry', 'Biology', 'Computer Science', 'General Test',
-];
-
-const steps = [
-  ['Pick a subject and a pace', 'A five-question drill tonight, or a full 50-question, 60-minute mock at the weekend.', 'pick'],
-  ['Practise against the clock', 'Every answer is scored on the server. Reload mid-session and you resume where you left off.', 'time'],
-  ['Fix the chapter, not the score', 'Review explanations and follow the same next action in Today, Radar and PrepOS.', 'fix'],
-];
-
-function StepVisual({ kind }) {
-  if (kind === 'pick') {
-    return (
-      <div className="lp-stepvis" aria-hidden="true">
-        <span>Accountancy</span>
-        <span data-on="true">Partnership</span>
-        <span>20 questions</span>
-      </div>
-    );
-  }
-  if (kind === 'time') {
-    return (
-      <div className="lp-stepvis lp-stepvis--timer" aria-hidden="true">
-        <span className="mm-measure">38:12 left</span>
-        <i className="lp-stepvis__track"><b /></i>
-      </div>
-    );
-  }
-  return (
-    <div className="lp-stepvis lp-stepvis--bars" aria-hidden="true">
-      <i style={{ '--w': '38%' }} data-low="true" />
-      <i style={{ '--w': '61%' }} />
-      <i style={{ '--w': '84%' }} />
-    </div>
-  );
-}
+import './feature-tour.css';
+import './tour-screens.css';
 
 const freePlan = newOfferReleased() ? ['One baseline per launch subject', 'One included daily 10-question set', 'One new recovery episode per week', 'Fresh checks for started episodes', '25 saved questions'] : [
   'Quick Practice and Full Mock on credits',
@@ -94,6 +55,36 @@ const DU_FACTS = duIndexFacts();
 
 // The statement scrubs word by word with the scroll. Words marked with * carry the accent.
 const STATEMENT = 'One mock. A clearer *next step. See what cost you marks, choose a chapter for *tonight, and check the DU subject rules behind your *shortlist.';
+
+// The feature tour: every product area, one idea per slide. Screens are labelled illustrations; the
+// chips say what is true of the product. Each slide's demo screen lives in TourScreens.jsx, keyed by id.
+// Add `video: '/demos/<id>.mp4'` to a slide to play a real screen recording in its place.
+const TOUR = [
+  { id: 'arena', label: 'Practice', icon: <Timer size={18} aria-hidden="true" />, line: 'Drills and full mocks on the exam clock', kicker: 'Arena', title: 'Practise the way the exam runs.',
+    body: 'A short drill for a free evening, or a full 50-question, 60-minute mock for the weekend. Same timer, same question palette, same pressure.',
+    points: ['Quick drills and full mocks', 'NTA-style screen and Smart Practice with Pro', 'Close the tab mid-test and pick up where you left'], chip: 'Every answer is scored on our server', href: '/dashboard', cta: 'Start practising' },
+  { id: 'repair', label: 'Mistake Repair', icon: <Wrench size={18} aria-hidden="true" />, line: 'Fix why you got it wrong, not just the answer', kicker: 'Score Recovery', title: 'Fix why you missed it, not just what the answer was.',
+    body: 'After a wrong answer, the AI solves the question itself first. Only when it lands on the official key does it explain why your pick was tempting and what to remember.',
+    points: ['If the AI and the key disagree, we hold the question back and you pay nothing', 'A 10-minute next step, then 5 fresh questions to test the fix'], chip: 'The AI double-checks itself before it teaches you', href: '/signup', cta: 'Try Mistake Repair' },
+  { id: 'replay', label: 'Replay', icon: <History size={18} aria-hidden="true" />, line: 'See where the marks actually went', kicker: 'Mistake Replay', title: 'See exactly where the marks went.',
+    body: 'Replay a finished session: answers you changed, questions that ate your time, ones you skipped. Then turn the costly ones into a short drill.',
+    points: ['An answer-by-answer timeline', 'Save any question to revisit later'], chip: 'It shows what happened; you decide what to do', href: '/review', cta: 'Review your mistakes' },
+  { id: 'radar', label: 'Radar', icon: <Radar size={18} aria-hidden="true" />, line: 'The chapter to fix first', kicker: 'Radar', title: 'Know which chapter to fix first.',
+    body: 'A score is just a number. Radar traces every miss back to its chapter, so tonight’s session has a target. Pro adds pace and changed-answer detail for every chapter.',
+    points: ['Your weakest chapters, free after every mock', 'Built only from questions you attempted'], chip: 'Based on your own attempts, nobody else’s', href: '/analytics', cta: 'Explore Radar' },
+  { id: 'prepos', label: 'PrepOS', icon: <Sparkles size={18} aria-hidden="true" />, line: 'Ask what to do tonight', kicker: 'PrepOS', title: 'Ask what to do tonight. Get one clear step.',
+    body: 'PrepOS reads your practice record and answers with the leak, the pace problem and a single next step: the same one you see on Today and in Radar.',
+    points: ['Questions about your own record are free', 'AI replies use monthly credits: 10 on Free, 50 on Pro', 'Need more? Top-up credits never expire'], chip: 'One next step, the same everywhere', href: '/mentor', cta: 'Meet PrepOS' },
+  { id: 'compass', label: 'DU Compass', icon: <Compass size={18} aria-hidden="true" />, line: 'Your shortlist against real DU cutoffs', kicker: 'Admission Compass', title: 'Test your DU shortlist against real cutoffs.',
+    body: 'Compare a score with published 2026 DU cutoffs by college, category and round, free. With Pro, Compass turns your practice into a paper-by-paper range for your shortlist.',
+    points: ['Programme eligibility rules, free', 'Pro: your practice projected onto your shortlist, and the paper to improve first'], chip: 'A projection from your practice, not an admission promise', href: '/admission-compass', cta: 'Open Compass' },
+  { id: 'combo', label: 'Combo Planner', icon: <Combine size={18} aria-hidden="true" />, line: 'Choose your five CUET papers', kicker: 'Subject Combo Planner', title: 'Choosing five papers? Check the combination first.',
+    body: 'Pick your DU goals and the subjects you can take, then see which five-paper combinations the published 2026 rules keep open. Recheck once the 2027 rules arrive.',
+    points: ['Free to use', 'Compare combinations side by side'], chip: 'Eligibility is not admission', href: '/cuet-subject-combination', cta: 'Plan my subjects' },
+  { id: 'rival', label: 'Benchmarks', icon: <Trophy size={18} aria-hidden="true" />, line: 'Beat a target score under the clock', kicker: 'Benchmarks and leaderboard', title: 'Beat the score you’re aiming for.',
+    body: 'Take a short timed run against a fixed target for accuracy and pace, set at daily, college or DU level. It shows whether you can hold that standard when the clock is running.',
+    points: ['The daily benchmark is free', 'Every mock earns XP for accuracy and speed on the leaderboard'], chip: 'A target to beat, not another student', href: '/leaderboard', cta: 'See the leaderboard' },
+];
 
 const faqs = [
   { question: 'Can I try it before signing up?', answer: 'Yes. Try five original sample questions here. They show how practice feels, not a subject diagnosis or an official previous-year paper.' },
@@ -131,7 +122,7 @@ export default function LandingPage() {
                 </>}
               </h1>
               <p className="lp-lead" data-hero style={{ '--h': 1 }}>
-                {recoveryReleased() ? 'Find the missing step. Practise it. Check it on fresh questions. Built for CUET Commerce and English.' : 'Take a timed session. Review the answers you missed. Choose what to practise next in English, Accountancy, Business Studies and Economics.'}
+                {recoveryReleased() ? 'Find the missing step. Practise it. Check it on fresh questions. Built for CUET Commerce and English.' : 'Take a timed session. Review missed answers. Choose your next step.'}
               </p>
               <div className="lp-cta" data-hero style={{ '--h': 2 }}>
                 <LandingActions />
@@ -166,7 +157,7 @@ export default function LandingPage() {
               <a href="#try-practice"><Target size={18} aria-hidden="true" /><b>5 questions</b><span>Try the sample before you sign up</span></a>
               {DU_FACTS ? <a href="#du-eligibility"><GraduationCap size={18} aria-hidden="true" /><b>{DU_FACTS.programmes}</b><span>DU programmes · check subject rules free</span></a> : null}
               <a href="#exam-experience"><Monitor size={18} aria-hidden="true" /><b>2 screens</b><span>MockMob or NTA style · your choice</span></a>
-              <a href="#how-it-works"><ShieldCheck size={18} aria-hidden="true" /><b>60 min</b><span>50 questions · one full CUET mock</span></a>
+              <a href="#your-prep"><ShieldCheck size={18} aria-hidden="true" /><b>60 min</b><span>50 questions · one full CUET mock</span></a>
             </nav>
           </div>
         </section>
@@ -181,6 +172,18 @@ export default function LandingPage() {
                 </span>
               ))}
             </p>
+          </div>
+        </section>
+
+        {/* --------------------------- FEATURE TOUR -------------------------- */}
+        <section className="lp-sec lp-sec--tour" id="your-prep">
+          <div className="mm-wrap">
+            <Reveal className="lp-head lp-head--left">
+              <p className="lp-kicker">What’s inside</p>
+              <h2 className="lp-h2">Everything you need to turn mocks into marks.</h2>
+              <p className="lp-sub">Practise, find the leak, fix it, plan the night, check the colleges. One record of your practice sits behind all of it. The screens below are illustrations; yours fill in from your own attempts.</p>
+            </Reveal>
+            <Reveal delay={100}><FeatureTour slides={TOUR} /></Reveal>
           </div>
         </section>
 
@@ -199,16 +202,6 @@ export default function LandingPage() {
             </Reveal>
           </div>
         </section>
-
-        {/* ----------------------------- MARQUEE ---------------------------- */}
-        <div className="lp-marquee" aria-label="CUET subjects you can practise">
-          <div className="lp-marquee__track" aria-hidden="true">
-            {[...MARQUEE, ...MARQUEE].map((name, i) => (
-              <span key={`${name}-${i}`}>{name}</span>
-            ))}
-          </div>
-          <ul className="lp-sr">{MARQUEE.map((name) => <li key={name}>{name}</li>)}</ul>
-        </div>
 
         {/* ---------------------------- COMPASS LADDER ---------------------------- */}
         {SHOWCASE.programmes.length > 0 ? (
@@ -273,120 +266,6 @@ export default function LandingPage() {
             <Reveal>
               <LiveStatsBand offer={OFFER} />
             </Reveal>
-          </div>
-        </section>
-
-        {/* ------------------------------ BENTO ----------------------------- */}
-        <section className="lp-sec" id="your-prep">
-          <div className="mm-wrap">
-            <Reveal className="lp-head">
-              <h2 className="lp-h2">A clearer plan, from practice to your shortlist.</h2>
-              <p className="lp-sub">
-                Practise, find the weak chapter, plan the next session, and check which Delhi University courses your subjects unlock.
-                The screens below are illustrative; yours fill in from your own attempts.
-              </p>
-            </Reveal>
-
-            <div className="lp-bento">
-              <Reveal as="article" className="lp-tile lp-tile--arena">
-                <div className="lp-tile__copy">
-                  <h3 className="lp-h3">Arena. Practice that fits your day.</h3>
-                  <p>Choose subject, chapter and pace. Start with a short drill, or sit a full 50-question, 60-minute mock in an interface built to feel like the real thing.</p>
-                  <Link href="/dashboard" className="lp-link">Open the Arena<ArrowRight size={16} aria-hidden="true" /></Link>
-                </div>
-                <div className="lp-tile__media"><ArenaScreen /></div>
-              </Reveal>
-
-              <Reveal as="article" className="lp-tile lp-tile--radar" delay={90}>
-                <div className="lp-tile__copy">
-                  <h3 className="lp-h3">Radar. Know which chapter to fix first.</h3>
-                  <p>A score is only a number. Radar maps every miss back to a chapter so tonight’s session has a target.</p>
-                  <Link href="/analytics" className="lp-link">Explore Radar<ArrowRight size={16} aria-hidden="true" /></Link>
-                </div>
-                <div className="lp-tile__media"><ChapterReadout /></div>
-              </Reveal>
-
-              <Reveal as="article" className="lp-tile lp-tile--prepos">
-                <div className="lp-tile__copy">
-                  <div className="lp-tile__orb"><PrepOSOrb size={52} /></div>
-                  <h3 className="lp-h3">PrepOS. Your record, explained.</h3>
-                  <p>Ask what to do next. PrepOS reads your sessions and shows the leak, the pace problem and the one step to take, the same step you see in Today and Radar. The basics of your record are free and use no credits; Pro adds the full chapter list, pace and changed-answer detail.</p>
-                  <Link href="/mentor" className="lp-link">Meet PrepOS<ArrowRight size={16} aria-hidden="true" /></Link>
-                </div>
-                <div className="lp-tile__media"><PlanScreen /></div>
-              </Reveal>
-
-              <Reveal as="article" className="lp-tile lp-tile--compass" delay={90}>
-                <div className="lp-tile__copy">
-                  <h3 className="lp-h3">Admission Compass. Keep the college goal in view.</h3>
-                  <p>Check programme eligibility and published DU cutoffs free. With Pro, Compass projects your practice paper by paper and maps it to your shortlist of colleges.</p>
-                  <ul className="lp-ticks">
-                    <li><Check size={16} aria-hidden="true" />Sourced historical cutoff comparisons</li>
-                    <li><Check size={16} aria-hidden="true" />Subject and course eligibility</li>
-                    <li><Check size={16} aria-hidden="true" />Pro: practice projection, DU shortlist, next move</li>
-                  </ul>
-                  <Link href="/admission-compass" className="lp-link">Open Compass<ArrowRight size={16} aria-hidden="true" /></Link>
-                  <Link href="/cuet-cutoff-calculator" className="lp-link">See real DU cutoffs, free<ArrowRight size={16} aria-hidden="true" /></Link>
-                </div>
-                <div className="lp-tile__media"><CompassScreen /></div>
-              </Reveal>
-
-              <Reveal as="article" className="lp-tile lp-tile--mini">
-                <History size={20} aria-hidden="true" />
-                <h3 className="lp-h4">Mistake Replay</h3>
-                <p>Reopen the questions that actually cost you marks and turn them into short drills.</p>
-                <Link href="/review" className="lp-link">Review mistakes<ArrowRight size={16} aria-hidden="true" /></Link>
-              </Reveal>
-              <Reveal as="article" className="lp-tile lp-tile--mini" delay={80}>
-                <Bookmark size={20} aria-hidden="true" />
-                <h3 className="lp-h4">Saved questions</h3>
-                <p>Keep the questions worth another look and revise them on your own schedule.</p>
-                <Link href="/saved" className="lp-link">Open saved<ArrowRight size={16} aria-hidden="true" /></Link>
-              </Reveal>
-              <Reveal as="article" className="lp-tile lp-tile--mini" delay={160}>
-                <Trophy size={20} aria-hidden="true" />
-                <h3 className="lp-h4">Leaderboard and AI Rival</h3>
-                <p>See how your scores stack up, then race a timed practice rival to train speed and nerve.</p>
-                <Link href="/leaderboard" className="lp-link">See the board<ArrowRight size={16} aria-hidden="true" /></Link>
-              </Reveal>
-            </div>
-          </div>
-        </section>
-
-        {/* ---------------------------- HOW IT WORKS ------------------------ */}
-        <section className="lp-sec lp-sec--band" id="how-it-works">
-          <div className="mm-wrap">
-            <Reveal className="lp-head">
-              <h2 className="lp-h2">Practise. Review. Fix. Repeat until exam day.</h2>
-            </Reveal>
-            <Reveal as="ol" className="lp-steps">
-              {steps.map(([title, body, kind], i) => (
-                <li className="lp-step rv-item" style={{ '--i': i }} key={title}>
-                  <span className="lp-step__num mm-measure">{String(i + 1).padStart(2, '0')}</span>
-                  <h3 className="lp-h4">{title}</h3>
-                  <p>{body}</p>
-                  <StepVisual kind={kind} />
-                </li>
-              ))}
-            </Reveal>
-          </div>
-        </section>
-
-        {/* ------------------------------ SUBJECTS -------------------------- */}
-        <section className="lp-sec lp-sec--band" id="subjects">
-          <div className="mm-wrap">
-            <Reveal className="lp-head">
-              <h2 className="lp-h2">Start with the subjects that carry your score.</h2>
-              <p className="lp-sub">
-                Recovery is being prepared for four subjects. These counts describe ordinary practice, not complete recovery pathways.
-              </p>
-            </Reveal>
-            <Reveal><SubjectGrid /></Reveal>
-            <p className="lp-more">
-              <Link href="/cuet-2027" className="lp-link">CUET 2027 guide<ArrowUpRight size={16} aria-hidden="true" /></Link>
-              <Link href="/cuet-previous-year-questions" className="lp-link">Previous year questions<ArrowUpRight size={16} aria-hidden="true" /></Link>
-              <Link href="/cuet-mock-test-free" className="lp-link">Free CUET mock test<ArrowUpRight size={16} aria-hidden="true" /></Link>
-            </p>
           </div>
         </section>
 

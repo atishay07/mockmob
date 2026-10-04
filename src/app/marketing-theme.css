@@ -84,3 +84,15 @@ html[data-theme] .mm :is(.mm-screen, .mm-foot) { --ink: #f2f4ec; --ink-2: #bdc8b
   --accent-text: #d2f000; --accent-line: rgba(210, 240, 0, 0.5); --accent-wash: rgba(210, 240, 0, 0.06); --tint: 244 245 240; --surface-hover: #1a2418; --edge-light: rgba(244, 245, 240, 0.28); --warn-text: #e0b93f; --bad-text: #ff9d92; --good-text: #b6e36e; }
 @media (min-width: 1024px) and (max-width: 1150px) { .mm .mm-nav__link { padding-inline: .55rem; font-size: .875rem; } .mm .mm-nav__row { gap: .7rem; } }
 @media (prefers-reduced-motion: reduce) { .mm-theme-toggle *, .mm-theme-toggle__sky::before, .mm-theme-toggle__sky::after { transition: none !important; } }
+
+/* First-visit prompt that points at the light/dark switch. Quiet: one soft pulse, one small note. */
+.mm-theme-toggle { position: relative; }
+.mm-theme-toggle[data-hint='true'] .mm-theme-toggle__sky { animation: mm-theme-nudge 1.8s ease-in-out 3; }
+.mm-theme-hint { position: absolute; z-index: 60; top: calc(100% + 10px); right: -6px; display: grid; gap: 1px; width: max-content; max-width: 180px; padding: 0.55rem 0.8rem; border-radius: 14px; background: #172016; color: #f4f5f0; font: 600 0.78rem/1.3 var(--font-body); text-align: left; box-shadow: 0 14px 34px -14px rgba(10,16,8,.55); pointer-events: none; animation: mm-theme-hint-in .32s cubic-bezier(.22,1,.36,1) both; }
+.mm-theme-hint b { color: #d2f000; font-weight: 700; }
+.mm-theme-hint::before { content: ''; position: absolute; top: -5px; right: 26px; width: 10px; height: 10px; background: inherit; transform: rotate(45deg); border-radius: 2px; }
+html[data-theme='dark'] .mm-theme-hint { background: #f4f5f0; color: #172016; }
+html[data-theme='dark'] .mm-theme-hint b { color: #4f6400; }
+@keyframes mm-theme-nudge { 0%, 100% { box-shadow: 0 0 0 0 rgba(150,185,0,0); } 50% { box-shadow: 0 0 0 7px rgba(150,185,0,.28); } }
+@keyframes mm-theme-hint-in { from { opacity: 0; transform: translateY(-6px) scale(.96); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .mm-theme-toggle[data-hint='true'] .mm-theme-toggle__sky { animation: none; box-shadow: 0 0 0 4px rgba(150,185,0,.28); } .mm-theme-hint { animation: none; } }

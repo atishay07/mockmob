@@ -34,9 +34,11 @@ function useCountUp(target, enabled) {
   return typeof displayed === 'number' ? displayed : target;
 }
 
-function Figure({ value, fallback, label, note, animate }) {
+function Figure({ value, fallback, label, note, animate, failed = false }) {
   const counted = useCountUp(value, animate);
   const isLive = typeof value === 'number' && value >= 0;
+  // A marketing page never prints "Unavailable": a figure that could not load simply is not shown.
+  if (failed) return null;
 
   return (
     <div className="mm-figure">
@@ -52,6 +54,7 @@ function Figure({ value, fallback, label, note, animate }) {
 export function LiveStatsBand({ offer = null } = {}) {
   const [bankSize, setBankSize] = useState(null);
   const [subjectCount, setSubjectCount] = useState(null);
+  const [failed, setFailed] = useState(false);
   const [seen, setSeen] = useState(false);
   const ref = useRef(null);
 
@@ -79,14 +82,14 @@ export function LiveStatsBand({ offer = null } = {}) {
     fetch('/api/stats', { signal: controller.signal })
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
-        if (!data) return;
+        if (!data || data.state === 'unavailable') { setFailed(true); return; }
         if (Number.isFinite(data.bankSize) && data.bankSize >= 0) setBankSize(data.bankSize);
         const counts = data.subjectCounts || {};
         const covered = Object.values(counts).filter((n) => Number(n) > 0).length;
         setSubjectCount(covered);
       })
-      .catch(() => {
-        /* the truthful static floor stays */
+      .catch((error) => {
+        if (error?.name !== 'AbortError') setFailed(true);
       });
     return () => controller.abort();
   }, []);
@@ -95,14 +98,16 @@ export function LiveStatsBand({ offer = null } = {}) {
     <div className="mm-figures" ref={ref}>
       <Figure
         value={bankSize}
-        fallback="Unavailable"
+        fallback="…"
+        failed={failed}
         label="questions in the live bank"
         note="Counts use practice eligibility. Legacy library content is still being audited; bank size does not establish recovery coverage."
         animate={seen}
       />
       <Figure
         value={subjectCount}
-        fallback="Unavailable"
+        fallback="…"
+        failed={failed}
         label="CUET subjects covered"
         note="Subjects with available ordinary practice questions. Question counts may be temporarily unavailable."
         animate={seen}

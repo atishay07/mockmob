@@ -1,12 +1,13 @@
 "use client";
 
-import { useRef, useSyncExternalStore } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 
 const KEY = 'mm:theme:v1';
+const HINT_KEY = 'mm:theme-hint:v1';
 const subscribe = (notify) => {
   const sync = (event) => {
     if (event.key !== KEY) return;
-    document.documentElement.dataset.theme = event.newValue === 'light' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = event.newValue === 'dark' ? 'dark' : 'light';
     notify();
   };
   window.addEventListener('mm-theme', notify);
@@ -16,7 +17,7 @@ const subscribe = (notify) => {
     window.removeEventListener('storage', sync);
   };
 };
-const snapshot = () => document.documentElement.dataset.theme !== 'light';
+const snapshot = () => document.documentElement.dataset.theme === 'dark';
 
 function applyTheme(theme) {
   document.documentElement.dataset.theme = theme;
@@ -24,11 +25,30 @@ function applyTheme(theme) {
   window.dispatchEvent(new Event('mm-theme'));
 }
 
-export function ThemeToggle() {
-  const dark = useSyncExternalStore(subscribe, snapshot, () => true);
+// Light is the default. A first-time visitor gets one quiet prompt pointing at the switch; it goes
+// away on its own, on any press of the switch, and never returns once seen.
+export function ThemeToggle({ hint = false }) {
+  const dark = useSyncExternalStore(subscribe, snapshot, () => false);
   const buttonRef = useRef(null);
+  const [showHint, setShowHint] = useState(false);
+
+  useEffect(() => {
+    if (!hint) return undefined;
+    let seen = true;
+    try { seen = localStorage.getItem(HINT_KEY) === '1' || localStorage.getItem(KEY) !== null; } catch { seen = true; }
+    if (seen) return undefined;
+    const open = window.setTimeout(() => setShowHint(true), 1400);
+    const close = window.setTimeout(() => dismissHint(), 9000);
+    return () => { window.clearTimeout(open); window.clearTimeout(close); };
+  }, [hint]);
+
+  function dismissHint() {
+    setShowHint(false);
+    try { localStorage.setItem(HINT_KEY, '1'); } catch { /* Hint may repeat without storage. */ }
+  }
 
   function toggle() {
+    if (showHint) dismissHint();
     const theme = dark ? 'light' : 'dark';
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce || typeof document.startViewTransition !== 'function') {
@@ -54,13 +74,14 @@ export function ThemeToggle() {
 
   return (
     <button ref={buttonRef} type="button" className="mm-theme-toggle" role="switch" aria-checked={dark}
-      aria-label="Dark mode" title={dark ? 'Switch to light mode' : 'Switch to dark mode'} onClick={toggle}>
+      aria-label="Dark mode" data-hint={showHint ? 'true' : undefined} title={dark ? 'Switch to light mode' : 'Switch to dark mode'} onClick={toggle}>
       <span className="mm-theme-toggle__sky" aria-hidden="true">
         <i className="mm-theme-toggle__star" />
         <i className="mm-theme-toggle__star" />
         <i className="mm-theme-toggle__star" />
         <span className="mm-theme-toggle__thumb" />
       </span>
+      {showHint ? <span className="mm-theme-hint" aria-hidden="true">Light or dark? <b>Your call</b></span> : null}
     </button>
   );
 }

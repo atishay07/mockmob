@@ -103,7 +103,7 @@ function Hub({ variant = 'drawer', initialTab = 'plan', onClose }) {
         ))}
       </nav>
 
-      <main className="min-h-0 flex-1 overflow-y-auto px-4 py-5 md:px-6">
+      <div className="min-h-0 flex-1 overflow-y-auto px-4 py-5 md:px-6">
         {section === 'plan' ? <div className="pp-handover"><ArenaCompanion compact pose="attentive" title="Read it. Then decide.">Your sessions tell the story. Choose one useful step.</ArenaCompanion></div> : null}
         {!isAuthenticated ? (
           <SignedOut onNavigate={navigate} />
@@ -115,7 +115,7 @@ function Hub({ variant = 'drawer', initialTab = 'plan', onClose }) {
           <ToolsSection onNavigate={navigate} />
         ) : null}
         {isAuthenticated ? <div hidden={section !== 'ask'}><AskSection pathname={pathname} onNavigate={navigate} insightsState={insightsState} pro={pro} wallet={wallet} readWallet={readWallet} /></div> : null}
-      </main>
+      </div>
     </div></>
   );
 }

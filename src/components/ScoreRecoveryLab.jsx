@@ -101,7 +101,7 @@ function DecisionLog({ attempt, analysis }) {
   );
 }
 
-export default function ScoreRecoveryLab({ attempt, analysis, repaired, onJump, onRepairNext }) {
+export default function ScoreRecoveryLab({ attempt, analysis, repaired, handled = repaired, onJump, onRepairNext }) {
   const { marks, chapters, observations, mistakes } = analysis;
   const [ref, inView] = useInView();
   const device = attemptScoring(attempt) !== 'server';
@@ -178,8 +178,9 @@ export default function ScoreRecoveryLab({ attempt, analysis, repaired, onJump, 
               <p>Each repair shows why your answer felt right, where it breaks, and the one idea to keep. It’s checked against the answer key before you see it.</p>
               <div className="srl-progress">
                 <div className="srl-progress__track" aria-hidden="true"><span style={{ width: `${(done / mistakes.length) * 100}%` }} /></div>
-                <span>{done} of {mistakes.length} repaired</span>
+                <span>{done} of {mistakes.length} explanations ready</span>
               </div>
+              {handled.size > done ? <p className="srl-fine">{handled.size - done} held or without an explanation. These do not count as repaired.</p> : null}
               <div className="srl-queue">
                 {mistakes.map(r => (
                   <button key={r.q.id} type="button" className="srl-queue__item" data-done={repaired.has(r.q.id) || undefined} onClick={() => onJump(r.number)}>
@@ -187,9 +188,9 @@ export default function ScoreRecoveryLab({ attempt, analysis, repaired, onJump, 
                   </button>
                 ))}
               </div>
-              {done < mistakes.length ? (
-                <button type="button" className="srl-cta" onClick={onRepairNext}>{`Repair Q${mistakes.find(r => !repaired.has(r.q.id)).number}`} <ArrowRight size={16} aria-hidden="true" /></button>
-              ) : <p className="srl-done">All {mistakes.length} mistakes repaired. Now prove it.</p>}
+              {handled.size < mistakes.length ? (
+                <button type="button" className="srl-cta" onClick={onRepairNext}>{`Repair Q${mistakes.find(r => !handled.has(r.q.id)).number}`} <ArrowRight size={16} aria-hidden="true" /></button>
+              ) : done === mistakes.length ? <p className="srl-done">All explanations ready. Try fresh questions when you are ready.</p> : <p className="srl-fine">Review the recorded answers below or continue with ordinary practice.</p>}
               <p className="srl-fine">1 credit per repair · reopening a repair is free · no charge if a question is held for review</p>
             </> : <p>No wrong answers to repair this session.</p>}
           </div>

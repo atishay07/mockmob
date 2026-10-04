@@ -716,7 +716,7 @@ function TestRunner() {
         </div>
       </header>
 
-      <main className="nta-shell">
+      <div className="nta-shell">
         {selectionMeta?.insufficientHighQualityPool && (
           <div className="nta-alert" role="status">
             <Icon name="alert" />
@@ -802,7 +802,7 @@ function TestRunner() {
             </button>
           </aside>
         </div>
-      </main>
+      </div>
 
       <div className="nta-mobile-actions">
         <button type="button" disabled={block.startIdx === 0} onClick={() => gotoQuestion(block.startIdx - 1)}>

@@ -24,12 +24,12 @@ export function LandingActions({ mode = 'hero' }) {
 
   return (
     <div className="mm-actions">
-      <Link href={primaryHref} className="mm-btn mm-btn--primary">
-        {primaryText}
+      <Link href={isAuthenticated ? primaryHref : '/#try-practice'} className="mm-btn mm-btn--primary">
+        {isAuthenticated ? primaryText : 'Try five questions'}
         <Icon name="arrow" className="mm-btn__icon" aria-hidden="true" />
       </Link>
-      <Link href="/#try-practice" className="mm-btn mm-btn--secondary">
-        Try five questions
+      <Link href={isAuthenticated ? '/#try-practice' : primaryHref} className="mm-btn mm-btn--secondary">
+        {isAuthenticated ? 'Try five questions' : primaryText}
       </Link>
     </div>
   );

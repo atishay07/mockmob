@@ -1148,3 +1148,118 @@ paste-ready Claude prompt: `CLAUDE-PIP-PREPOS-HANDOFF-2026-10-03.md`.
   Durable client retry after reload/drawer closure, physical phones, screen reader and prior
   authenticated staging/payment acceptance remain unverified. This refinement preserves the
   retry ID across section changes only; it does not claim paid-request reload recovery.
+
+## 5 October 2026 — Luna-only routing, shorter mobile home, light default, AI purchases
+
+Source changes (not yet deployed; deploy needs `AI_LUNA_MODEL` optional and the Razorpay env below):
+- **Model routing:** `src/services/ai/providers.js` now runs GPT-6 Luna only. `fast` tier = no reasoning, `smart` tier =
+  low effort; callers that solve/generate questions pass `reasoningEffort` explicitly (medium+). Fallback is Luna, no
+  reasoning. Question moderation (`src/lib/moderation/ai.js`) moved from a direct Claude call to the budget-guarded
+  router, Luna at medium effort. `AI_FAST_MODEL`/`AI_SMART_MODEL`/`AI_FALLBACK_*` no longer route anywhere.
+- **Homepage:** removed Subjects, Marquee, How-it-works, Proof band, mini tiles, Compass Pro box, college destinations;
+  Instagram moved up under the statement; stats are now combined followers, reel views (owner-stated 100K+ floor,
+  `REEL_VIEWS_FLOOR`) and recorded likes+comments. Product screens hidden under 700px. Mobile page 20.2k → 15.1k px.
+- **Theme:** light is the default (`layout.js`); first-visit hint on the switch (`ThemeToggle hint`), shown once.
+- **Payments:** `RELEASE_GATES.aiCommerce = true` (owner, 5 Oct); PrepOS top-up packs (₹10/50, ₹20/150, ₹50/400) now sell
+  on `/pricing`. Monthly Pro ₹99 opens when `RAZORPAY_PLAN_ID_PRO_MONTHLY_99` is set; create it with
+  `scripts/payments/create-razorpay-plan.mjs`. Pro keeps 50 PrepOS credits/month, Free 10.
+- Verification: `test:learning` 80/80, `test:recovery` 35/35, payment + landing tests 16/16; browser checks on 375px.
+- **Unresolved gates:** Razorpay keys + plan ID + webhook secret are empty in `.env.local`; no real captured top-up or
+  subscription charge has been verified; Vercel env not updated.
+
+### 5 October 2026 (later) — landing page restructure, feature tour
+- Reverted the over-trimmed homepage: Compass Pro box, college destinations, stats band restored. Removed only the Subjects
+  block (owner), the subject marquee and the three-step "how it works". Instagram stays where Subjects was.
+- New `FeatureTour` (`src/components/landing/FeatureTour.jsx`, `src/app/feature-tour.css`): eight tools, one idea per slide,
+  swipe on phones (scroll-snap), list + stage on desktop, autoplay with pause, only while on screen. Replaces the bento.
+  Slides accept `video: '/demos/<id>.mp4'`; no recordings exist yet, so the animated screens play.
+- Phone polish: glass header with progressive blur, floating glass dock, blur-in reveals (`.lp .rv`, reduced-motion safe).
+- Reference studied: ug.preparoo.app (Webflow + GSAP; 7.1k px on mobile; one feature carousel, product mocks, sticky CTA).
+- Tour v2 (same day): desktop is tool pills + a split stage (copy left, screen right); phones get equal-height cropped glass cards.
+  Copy rewritten; Rival slide now says what it is (a fixed accuracy-and-pace target, not other students).
+  `LiveStatsBand` drops a figure that fails to load instead of printing "Unavailable". Cause of the "unavailable" the owner saw:
+  the preview dev server lacked `--use-system-ca` (TLS to Supabase failed); `.claude/launch.json` now uses it. Production unaffected.
+- Tour v3 (same day): slides now use `TourScreens.jsx` + `tour-screens.css`, compact demo screens that play a scripted
+  sequence each time their slide becomes active while the tour is on screen (timer ticks, options tapped, rows arriving,
+  typing, bars filling), then hold the finished state; reduced motion shows the finished state. Nothing is cropped on phones.
+  Verified frame by frame in a foreground Chrome (chrome-devtools) at 390x844 mobile and 1440x900: all 8 demos play and settle.
+  Note: the desktop app's Browser pane throttles timers when hidden, so it is not reliable for checking motion.
+
+## 4 October 2026 — UI/UX audit (audit-session date)
+
+- Documentation-only audit saved to `docs/brain/UI-UX-AUDIT-2026-10-04.md`; raw evidence and screenshots in
+  `artifacts/ui-ux-audit-2026-10-04/`. Independent visual and implementation reviewers completed before synthesis.
+- Design health 26/40; technical health 14/20. Ten accepted groups: P0 0, P1 1, P2 8, P3 1. Highest priority:
+  illustrative key agreement must not imply official correctness or explanation safety. Other priorities:
+  phone journey/feature repetition, result mascot overlap and split percentage, touch/keyboard semantics.
+- Homepage checked at widths 320/360/390/430/768/1024/1440/1920; all observed MockMob global widths fit.
+  Public pages, 15 student fixture views, both themes, live home/signup and three live competitors sampled.
+  Initial profile/test loading frames are not full-state verification. Incorrectly labelled initial desktop rows
+  are retained as provenance and excluded; corrected 1440 measurements are the desktop evidence.
+- Sampled answer feedback/focus, menu Escape, tour ArrowRight, timed palette, malformed email without sending,
+  and long-name/empty/error fixtures. Contrast sampling had no eligible content-text failures within its limited
+  coverage; gradients/animation and other unsupported cases were skipped. No whole-site WCAG certification.
+- Detector ran once: 137 raw alerts, largely contextual advisories; no bulk theme/runner normalization warranted.
+  Current aiCommerce=true supersedes the older closed-top-up assessment; target-size equivalent-control exception
+  prevents declaring a definitive WCAG failure from dots alone. Both reconciliations are explicit in the report.
+- No UI code changes, tests/builds, paid model calls, real attempts, migrations, auth completion, emails, payments or
+  deploys performed. Existing dirty tree/dev server preserved. Audit tabs and temporary viewport overrides cleaned up.
+- Open gates: real phone keyboards/safe areas, screen reader, 200% text zoom, full hover/focus/reduced-motion matrix,
+  background interruption and budget-device/slow-network performance; authenticated persistence/payments/AI receipts.
+  Live landing differs from local; this audit does not establish deployment of the new feature tour or configured AI.
+
+### 4 October 2026 — owner-selected UI/UX implementation plan
+
+- Saved `UI-UX-IMPLEMENTATION-PLAN-2026-10-04.md` and linked it from the brain README/audit.
+  Owner retains official-key trust wording; wording-first audit priority is superseded for this sprint.
+- Order: reproducible baseline → phone performance/composition → accessibility → student/error states
+  → activation flow → final measurement and release evidence. Cosmetic detector cleanup, unused demos,
+  arbitrary competitor page-height targets and blanket motion/feature removal are excluded/deferred.
+- Current source review found held/not-explained repair outcomes enter the Result `repaired` set, which
+  drives a Repaired badge. Plan requires fixture reproduction and separate handled/outcome states;
+  no runtime reproduction or fix is claimed in this planning pass.
+- Planning only: no UI edits, performance runs, tests, paid calls, migration or deployment performed.
+  Performance acceptance separates controlled production-build traces from real-user Core Web Vitals.
+
+### 4 October 2026 — UI/UX plan implementation
+
+- Implemented phone hero/sample composition; tour carousel controls, inert slides, focus/manual pause,
+  bounded pausable demo timelines, hidden/offscreen gating and 44px controls; official-key wording retained.
+- Practice setup now precedes supplementary commentary/statistics and no longer waits for optional panel
+  reads. Pending/unavailable counts are explicit; matching/expiry/idempotent server quote guards remain.
+  Scoped load retry retains choices; phone summary exposes subject, mode, count, time, marking and cost.
+- Result mascot height/entrance and metric units fixed; distinct explanation/held/unexplained outcomes,
+  handled queue vs explanation progress, retained visited answer state across collapse/filter, and safe
+  same-ID retry/in-progress/released handling. No scoring, wallet, model, budget or entitlement changes.
+- DU category arrows/Home/End and clear focus fixed; editable phone/tablet fields 16px; key targets 44px;
+  transform progress bars; one main in timed runner and PrepOS.
+- Baseline/final production builds and final lint passed; 179 tests passed (35 recovery, 80 learning,
+  59 payment/question/NTA/DU, 5 new UI state tests). Final key-route light 320/390/768/1440 and dark
+  320/390/1440 matrices have zero horizontal overflow and no result mascot/metric overlap.
+  Fixtures cover distinct repair outcomes, pending/error states and retained held panels. Browser
+  checked DU keyboard, menu Escape focus return, sample feedback, tour freeze and one-main wrappers.
+- Local production preview on 3020 checked public home, themes and sample; existing authenticated
+  setup was read-only. Signup redirected to setup, so current-run native email validation is unverified.
+  No new real session/paid repair/payment/signup completion, data migration or deploy performed.
+- Several local inventory reads took 7.5-11s and had blocked setup; dependency removed and tested with
+  never-resolving-statistics fixture. No device speedup, Core Web Vitals or field gains claimed.
+- Full evidence/open gates: UI-UX-IMPLEMENTATION-RESULTS-2026-10-04.md and
+  artifacts/ui-ux-implementation-2026-10-04/. Physical phone, screen reader, actual 200% zoom,
+  reduced-motion browser/full contrast matrix, controlled throttled traces/field CWV, real transaction
+  receipts and production deployment remain open. Measurements cannot be replaced with screenshots.
+- Existing checkout changes retained. Diff check only reported the pre-existing ProductScreens.jsx EOF
+  blank line. Do not bulk-reset/revert these files; review the scoped implementation hunks.
+
+### 4 October 2026 — authorized UI production release preflight
+
+- Owner requested publication of the UI changes. The staged release includes the reviewed landing/tour,
+  mobile/accessibility, dashboard, result/repair presentation and DU refinements with their source dependencies.
+- Existing AI-routing/moderation, aiCommerce enablement, pricing, payment scripts and corresponding
+  backend-test edits are excluded and retained locally. This release does not activate new commerce,
+  change model routing, migrate data or call a paid model.
+- Exact staged source tree `7cfe2abf1d958767fb32f5bcd270560900cddd58` was exported independently:
+  production build and lint passed, with 179/179 recovery/learning/payment/question/NTA/DU/UI-state tests.
+  Evidence: `artifacts/ui-ux-release-2026-10-04/`. Shared dependency junction was rejected by Turbopack;
+  the successful build used a real dependency copy. No application workaround was introduced.
+- Push/Vercel readiness and live-domain/mobile/desktop smoke are pending at this preflight entry.
+  Hardware, screen-reader, measured throttled performance/CWV and real transaction gates remain open.

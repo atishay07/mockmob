@@ -5,7 +5,7 @@
 // only after activation, and the original link remains available if Instagram blocks it.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, ExternalLink, Heart, MessageCircle, Play, Users } from 'lucide-react';
-import { combinedReach, compactCount, creatorReach, embedSrc, permalink } from '@/lib/social';
+import { REEL_VIEWS_AS_OF, REEL_VIEWS_FLOOR, combinedReach, compactCount, embedSrc, floorForPlus, permalink, recordedEngagement } from '@/lib/social';
 
 function IgGlyph({ size = 16 }) {
   return (
@@ -100,8 +100,7 @@ function Card({ item, active, onPlay }) {
 export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
   const creators = items.filter((item) => item.kind === 'reel' && item.followers);
   const reach = combinedReach(creators);
-  const biggest = creators.reduce((top, item) => (creatorReach(item) > creatorReach(top || {}) ? item : top), null);
-  const loudest = creators.reduce((top, item) => ((item.comments || 0) > (top?.comments || 0) ? item : top), null);
+  const engagement = floorForPlus(recordedEngagement(items));
   const trackRef = useRef(null);
   const [activeCode, setActiveCode] = useState(null);
   const [ends, setEnds] = useState({ start: true, end: true });
@@ -139,9 +138,8 @@ export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
       {creators.length ? (
         <dl className="rl__summary">
           <div><dt>Combined followers</dt><dd className="mm-measure">{compactCount(Math.floor(reach / 1000) * 1000)}+</dd></div>
-          <div><dt>CUET creators</dt><dd className="mm-measure">{creators.length}</dd></div>
-          {biggest ? <div><dt>Largest profile</dt><dd><span>{compactCount(biggest.followers)}</span> <small>@{biggest.handle}</small></dd></div> : null}
-          {loudest?.comments ? <div><dt>Comments on one reel</dt><dd><span>{loudest.comments.toLocaleString('en-IN')}</span></dd></div> : null}
+          <div><dt>Reel views</dt><dd className="mm-measure">{compactCount(REEL_VIEWS_FLOOR)}+</dd></div>
+          {engagement ? <div><dt>Likes and comments</dt><dd className="mm-measure">{engagement.toLocaleString('en-IN')}+</dd></div> : null}
         </dl>
       ) : null}
       <div className="rl__bar">
@@ -159,7 +157,7 @@ export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
           <Card key={`${item.code}-${activeCode === item.code ? 'active' : 'idle'}`} item={item} active={activeCode === item.code} onPlay={() => setActiveCode(item.code)} />
         ))}
       </ul>
-      <p className="rl__note">Public Instagram profile counts{asOf ? ` checked on ${asOf}` : ''}. Combined followers add accounts; audiences may overlap. Posts marked Partner are paid collaborations. Instagram loads only when you choose a card.</p>
+      <p className="rl__note">Follower counts are public profile numbers{asOf ? ` checked on ${asOf}` : ''}; audiences may overlap. Reel views are our running total as of {REEL_VIEWS_AS_OF}, and likes and comments count only what is recorded on the featured reels. Posts marked Partner are paid collaborations. Instagram loads only when you choose a card.</p>
     </div>
   );
 }

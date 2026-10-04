@@ -154,7 +154,7 @@ export function EligibilityTeaser() {
                 {byStream.map(([name, n]) => (
                   <li key={name}>
                     <span>{name}</span>
-                    <i aria-hidden="true"><b style={{ width: `${Math.round((n / max) * 100)}%` }} /></i>
+                    <i aria-hidden="true"><b style={{ transform: `scaleX(${n / max})` }} /></i>
                     <em className="mm-measure">{n}</em>
                   </li>
                 ))}

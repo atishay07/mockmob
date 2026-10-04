@@ -76,7 +76,7 @@ export function NavBar() {
         </div>
 
         <div className="mm-nav__end">
-          <ThemeToggle />
+          <ThemeToggle hint />
           {isAuthenticated ? (
             <Link href="/dashboard" className="mm-btn mm-btn--primary mm-nav__cta">
               My Arena

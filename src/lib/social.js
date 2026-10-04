@@ -34,6 +34,11 @@ export const CREATOR_REELS = Object.freeze([
   },
 ]);
 
+// Owner-reported on 5 October 2026: the featured reels have roughly 100K+ views in total. Instagram
+// does not expose a single sum we can read, so this is a floor the owner stated, not a computed value.
+export const REEL_VIEWS_FLOOR = 100000;
+export const REEL_VIEWS_AS_OF = '5 October 2026';
+
 export const MOCKMOB_POSTS = Object.freeze([
   { code: 'DXsBiyhkz6V', kind: 'p', creator: 'MockMob', handle: 'mockmob.in', date: '2026-04-28' },
   { code: 'DXr9zpuk1TZ', kind: 'p', creator: 'MockMob', handle: 'mockmob.in', date: '2026-04-28' },
@@ -60,3 +65,13 @@ export function compactCount(n) {
 
 export const permalink = (item) => `https://www.instagram.com/${item.kind === 'reel' ? 'reel' : 'p'}/${item.code}/`;
 export const embedSrc = (item) => `${permalink(item)}embed`;
+
+/** Likes and comments recorded on the featured reels (only counts we actually read). */
+export const recordedEngagement = (items = CREATOR_REELS) => items.reduce((sum, i) => sum + (i.likes || 0) + (i.comments || 0), 0);
+
+/** 695 -> 690, 1234 -> 1200: round down so the "+" in the label stays true. */
+export function floorForPlus(n) {
+  if (!Number.isFinite(n) || n <= 0) return 0;
+  const step = n >= 10000 ? 1000 : n >= 1000 ? 100 : 10;
+  return Math.floor(n / step) * step;
+}

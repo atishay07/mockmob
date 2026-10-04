@@ -9,6 +9,13 @@ Day 2 AI-verified error-free questions + NTA mode, then the Google Play app. Bud
 USD 25/IST month (DB-enforced), content generation USD 50 lifetime. Marketing name "Score Recovery";
 feature "Score Recovery Lab"; action "Mistake Repair". Model choice: AI-MODEL-REPORT-2026-10-04.md.
 
+**UI/UX execution plan (owner follow-up, 4 Oct): UI-UX-IMPLEMENTATION-PLAN-2026-10-04.md** —
+phone performance, accessibility, stable layout, student states/error prevention and activation.
+It narrows the UI audit priorities; owner-retained official-key trust wording is outside this sprint.
+It does not replace the product working plan or change runtime/payment/evidence contracts.
+**Local implementation evidence (4 Oct): UI-UX-IMPLEMENTATION-RESULTS-2026-10-04.md** —
+implemented changes, 179 passing tests, responsive/state checks and remaining hardware/performance/deploy gates.
+
 One direction: **repair that holds** is the primary bet (diagnose a reasoning slip, repair it,
 check it later on unseen questions), proven on one pathway before eight. Trustworthy practice
 supports it; goal-aware DU tools are maintained, not expanded. Label every claim with one

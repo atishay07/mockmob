@@ -1,5 +1,6 @@
 /* Result page: summary, Score Recovery Lab, answer by answer. Arena tokens so both themes work. */
 .rp { display: grid; gap: 20px; padding-top: 12px; }
+.rp [hidden] { display: none !important; }
 .rp :is(h1, h2, h3) { margin: 0; }
 .rp-eyebrow, .srl-eyebrow { margin: 0; font: 600 13px/1.4 var(--font-display, inherit); color: var(--a-ink-3, #93a08f); }
 
@@ -9,7 +10,7 @@
   padding: clamp(18px, 3vw, 28px); border-radius: var(--a-radius, 18px); border: 1px solid var(--a-line, #253026);
   background: var(--a-raised, #131a16); box-shadow: var(--a-shadow-1);
 }
-.rp-hero__pip { width: clamp(76px, 12vw, 112px); margin: 0; }
+.rp-hero__pip { width: clamp(76px, 12vw, 112px); height: auto; margin: 0; align-self: start; }
 .rp-hero__pip :is(img, svg) { width: 100%; height: auto; }
 .rp-hero__main { display: grid; gap: 6px; min-width: 0; }
 .rp-hero__score { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; font-family: var(--font-display, inherit); }
@@ -19,15 +20,18 @@
 .rp-hero__score span { font-size: 18px; font-weight: 600; color: var(--a-ink-3, #93a08f); }
 .rp-hero__line { margin: 0; font-size: 15px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); max-width: 60ch; }
 .rp-stats { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 0; }
-.rp-stats div { padding: 10px 12px; border-radius: 12px; background: var(--a-sunken, #0f1512); border: 1px solid var(--a-line, #253026); }
+.rp-stats div { min-width: 0; padding: 10px 12px; border-radius: 12px; background: var(--a-sunken, #0f1512); border: 1px solid var(--a-line, #253026); }
 .rp-stats dt { font-size: 12px; color: var(--a-ink-3, #93a08f); }
-.rp-stats dd { margin: 2px 0 0; display: flex; align-items: baseline; gap: 6px; font: 700 22px/1.1 var(--font-display, inherit); font-variant-numeric: tabular-nums; color: var(--a-ink, #f2f4ec); }
+.rp-stats dd { margin: 2px 0 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px; font: 700 22px/1.1 var(--font-display, inherit); font-variant-numeric: tabular-nums; color: var(--a-ink, #f2f4ec); }
+.rp-stat__value { white-space: nowrap; flex-shrink: 0; }
+.rp-q__meta [data-verdict='held'] { color: var(--a-warn-text, #e0b93f); }
+.rp .srl-qchips button, .rp .rp-filters button, .rp .rp-report, .rp .rp-links a, .rp .srl-queue__item { min-height: 44px; }
 .rp-stats dd small { font: 500 12px/1 var(--font-mono, monospace); color: var(--a-ink-3, #93a08f); }
 .rp-stats [data-kind='right'] dd { color: var(--a-good-text, #b6e36e); }
 .rp-stats [data-kind='wrong'] dd { color: var(--a-bad-text, #ff9d92); }
 .rp-strip { grid-column: 1 / -1; list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
 .rp-strip button {
-  position: relative; width: 40px; height: 40px; border-radius: 10px; font: 700 14px/1 var(--font-display, inherit); font-variant-numeric: tabular-nums; cursor: pointer;
+  position: relative; width: 44px; height: 44px; border-radius: 10px; font: 700 14px/1 var(--font-display, inherit); font-variant-numeric: tabular-nums; cursor: pointer;
   border: 1px solid var(--a-line-strong, #384736); background: transparent; color: var(--a-ink-3, #93a08f);
 }
 .rp-strip button[data-verdict='correct'] { background: color-mix(in oklab, var(--a-good-text, #b6e36e) 18%, transparent); border-color: color-mix(in oklab, var(--a-good-text, #b6e36e) 55%, transparent); color: var(--a-ink, #f2f4ec); }
@@ -256,4 +260,4 @@ html[data-theme='light'] .rp-options li:is([data-state='key'], [data-state='mine
 @keyframes rp-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 @keyframes rp-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes rp-pop { 0% { opacity: 0; transform: scale(.5); } 70% { opacity: 1; transform: scale(1.12); } 100% { opacity: 1; transform: none; } }
-@keyframes rp-pip { 0% { opacity: 0; transform: translateY(14px) rotate(-8deg); } 60% { opacity: 1; transform: translateY(-4px) rotate(3deg); } 100% { transform: none; } }
+@keyframes rp-pip { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }

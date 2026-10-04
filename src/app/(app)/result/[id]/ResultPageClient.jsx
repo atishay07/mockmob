@@ -7,6 +7,7 @@ import { PageSpinner, ErrorState } from '@/components/ui/Skeleton';
 import { apiGet, apiPost } from '@/lib/fetcher';
 import ScoreRecoveryLab from '@/components/ScoreRecoveryLab';
 import MistakeRepair from '@/components/recovery/MistakeRepair';
+import { REPAIR_OUTCOMES, hasExplanation, repairLabel, repairProgress } from '@/../data/repair_presentation.mjs';
 import { analyseSession, formatDuration } from '@/../data/session_recovery';
 import { AppIcon } from '@/components/ui/Glyph';
 import { Mascot } from '@/components/brand/Mascot';
@@ -52,7 +53,8 @@ export default function ResultPageClient({ previewId = null }) {
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState('all'); // all | correct | wrong | skipped
   const [open, setOpen] = useState(() => new Set());
-  const [repaired, setRepaired] = useState(() => new Set());
+  const [visited, setVisited] = useState(() => new Set());
+  const [repairOutcomes, setRepairOutcomes] = useState({});
   const [autoRepair, setAutoRepair] = useState(null);
   const [reporting, setReporting] = useState({});
   const [reported, setReported] = useState({});
@@ -61,9 +63,9 @@ export default function ResultPageClient({ previewId = null }) {
 
   useEffect(() => {
     let alive = true;
-    queueMicrotask(() => { if (alive) { setAttempt(null); setError(null); setFilter('all'); setReporting({}); setReported({}); setReportError(null); setRepaired(new Set()); setAutoRepair(null); } });
+    queueMicrotask(() => { if (alive) { setAttempt(null); setError(null); setFilter('all'); setReporting({}); setReported({}); setReportError(null); setRepairOutcomes({}); setAutoRepair(null); } });
     apiGet(`/api/attempts/${id}`)
-      .then(data => { if (!alive) return; setAttempt(data); const firstWrong = (data.details || []).find(d => d.isCorrect === false); setOpen(new Set(firstWrong ? [firstWrong.qid] : [])); })
+      .then(data => { if (!alive) return; setAttempt(data); const firstWrong = (data.details || []).find(d => d.isCorrect === false); const initial = new Set(firstWrong ? [firstWrong.qid] : []); setOpen(initial); setVisited(initial); })
       .catch(e => { if (alive) setError(e.message); });
     return () => { alive = false; };
   }, [id, retry]);
@@ -76,6 +78,7 @@ export default function ResultPageClient({ previewId = null }) {
     if (!row) return;
     setFilter(f => (f === 'all' || f === row.verdict ? f : 'all'));
     setOpen(s => new Set(s).add(row.q.id));
+    setVisited(s => new Set(s).add(row.q.id));
     if (repair) setAutoRepair(row.q.id);
     requestAnimationFrame(() => requestAnimationFrame(() => {
       const el = document.getElementById(`q-${number}`);
@@ -84,13 +87,16 @@ export default function ResultPageClient({ previewId = null }) {
     }));
   }, [analysis]);
 
+  const repaired = useMemo(() => new Set((analysis?.mistakes || []).filter(r => hasExplanation(repairOutcomes[r.q.id])).map(r => r.q.id)), [analysis, repairOutcomes]);
+  const handled = useMemo(() => repairProgress(analysis?.mistakes || [], repairOutcomes).handled, [analysis, repairOutcomes]);
+
   const repairNext = useCallback(() => {
-    const next = analysis?.mistakes.find(r => !repaired.has(r.q.id));
+    const next = analysis?.mistakes.find(r => !handled.has(r.q.id));
     if (next) jumpTo(next.number, { repair: true });
-  }, [analysis, repaired, jumpTo]);
+  }, [analysis, handled, jumpTo]);
 
   const settled = useCallback((qid, status) => {
-    if (['explained', 'stored', 'held_for_recheck', 'not_explained'].includes(status)) setRepaired(s => new Set(s).add(qid));
+    if (REPAIR_OUTCOMES.includes(status)) setRepairOutcomes(s => ({ ...s, [qid]: status }));
   }, []);
 
   if (error)    return <div className="container-narrow student-page student-page--result pt-8"><ErrorState mascot message="This session did not load. Try again to see your recorded result." onRetry={() => { setError(null); setRetry((count) => count + 1); }} /></div>;
@@ -100,7 +106,7 @@ export default function ResultPageClient({ previewId = null }) {
   const answered = marks.right + marks.wrong;
   const accuracy = answered ? Math.round((marks.right / answered) * 100) : 0;
   const isPass = attempt.score >= 40;
-  const toggle = (qid) => setOpen(s => { const n = new Set(s); if (n.has(qid)) n.delete(qid); else n.add(qid); return n; });
+  const toggle = (qid) => { setVisited(s => new Set(s).add(qid)); setOpen(s => { const n = new Set(s); if (n.has(qid)) n.delete(qid); else n.add(qid); return n; }); };
 
   async function handleReport(row) {
     const qid = row?.q?.id;
@@ -148,10 +154,10 @@ export default function ResultPageClient({ previewId = null }) {
           <p className="rp-hero__line">{verdictLine(analysis)}</p>
         </div>
         <dl className="rp-stats">
-          <div data-kind="right"><dt>Right</dt><dd>{marks.right}<small>+{marks.right * 5}</small></dd></div>
-          <div data-kind="wrong"><dt>Wrong</dt><dd>{marks.wrong}<small>−{marks.wrong}</small></dd></div>
-          <div data-kind="blank"><dt>Blank</dt><dd>{marks.blank}<small>0</small></dd></div>
-          <div><dt>Accuracy</dt><dd>{`${accuracy}%`}<small>of answered</small></dd></div>
+          <div data-kind="right"><dt>Right</dt><dd><span className="rp-stat__value">{marks.right}</span><small>+{marks.right * 5}</small></dd></div>
+          <div data-kind="wrong"><dt>Wrong</dt><dd><span className="rp-stat__value">{marks.wrong}</span><small>−{marks.wrong}</small></dd></div>
+          <div data-kind="blank"><dt>Blank</dt><dd><span className="rp-stat__value">{marks.blank}</span><small>0</small></dd></div>
+          <div><dt>Accuracy</dt><dd><span className="rp-stat__value">{`${accuracy}%`}</span><small>of answered</small></dd></div>
         </dl>
         <ol className="rp-strip" aria-label="Questions in this session">
           {analysis.rows.map(r => (
@@ -164,7 +170,7 @@ export default function ResultPageClient({ previewId = null }) {
       </header>
 
       {/* ---------- 2. Score Recovery Lab ---------- */}
-      <ScoreRecoveryLab attempt={attempt} analysis={analysis} repaired={repaired} onJump={jumpTo} onRepairNext={repairNext} />
+      <ScoreRecoveryLab attempt={attempt} analysis={analysis} repaired={repaired} handled={handled} onJump={jumpTo} onRepairNext={repairNext} />
 
       {/* ---------- 3. Answer by answer ---------- */}
       <section className="rp-review" aria-labelledby="rp-review-title">
@@ -184,13 +190,14 @@ export default function ResultPageClient({ previewId = null }) {
         {reportError ? <div role="alert" className="rp-alert">{reportError}</div> : null}
 
         <ol className="rp-list">
-          {visible.length === 0 ? <li className="rp-empty">Nothing in this group.</li> : visible.map(row => {
+          {visible.length === 0 ? <li className="rp-empty">Nothing in this group.</li> : null}
+          {analysis.rows.map(row => {
             const { q, d, verdict, number } = row;
             const isOpen = open.has(q.id);
             const given = d?.givenIndex;
             const isWrong = verdict === 'wrong';
             return (
-              <li key={q.id} id={`q-${number}`} className="rp-q" data-verdict={verdict} data-open={isOpen || undefined}>
+              <li key={q.id} id={`q-${number}`} className="rp-q" hidden={filter !== 'all' && filter !== verdict} data-verdict={verdict} data-open={isOpen || undefined}>
                 <h3 className="rp-q__h"><button type="button" className="rp-q__bar" aria-expanded={isOpen} aria-controls={`q-${number}-body`} onClick={() => toggle(q.id)}>
                   <span className="rp-q__badge" aria-hidden="true">{number}</span>
                   <span className="rp-q__summary">
@@ -200,13 +207,13 @@ export default function ResultPageClient({ previewId = null }) {
                       <span>{row.chapter}</span>
                       {Number.isFinite(row.ms) ? <span>{formatDuration(row.ms)}</span> : null}
                       {row.changed ? <span>Answer changed</span> : null}
-                      {repaired.has(q.id) ? <span data-verdict="repaired">Repaired</span> : null}
+                      {repairLabel(repairOutcomes[q.id]) ? <span data-verdict={hasExplanation(repairOutcomes[q.id]) ? "repaired" : "held"}>{repairLabel(repairOutcomes[q.id])}</span> : null}
                     </span>
                   </span>
                   <span className="rp-q__chev" aria-hidden="true" />
                 </button></h3>
-                {isOpen ? (
-                  <div className="rp-q__body" id={`q-${number}-body`}>
+                  <div className="rp-q__body" id={`q-${number}-body`} hidden={!isOpen}>
+                    {visited.has(q.id) ? <>
                     <ul className="rp-options">
                       {q.options.map((opt, j) => {
                         const mine = given === j, key = q.correctIndex === j;
@@ -227,15 +234,15 @@ export default function ResultPageClient({ previewId = null }) {
                     {isWrong && Number.isInteger(given) ? (
                       <MistakeRepair key={q.id} attemptId={attempt.id} questionId={q.id} chosen={LETTERS[given]} answer={Number.isInteger(q.correctIndex) ? LETTERS[q.correctIndex] : null}
                         autoStart={autoRepair === q.id} onSettled={settled}
-                        next={(() => { const n = analysis.mistakes.find(m => m.number > number && !repaired.has(m.q.id)) || analysis.mistakes.find(m => m.q.id !== q.id && !repaired.has(m.q.id)); return n ? { number: n.number, go: () => jumpTo(n.number, { repair: true }) } : null; })()} />
+                        next={(() => { const n = analysis.mistakes.find(m => m.number > number && !handled.has(m.q.id)) || analysis.mistakes.find(m => m.q.id !== q.id && !handled.has(m.q.id)); return n ? { number: n.number, go: () => jumpTo(n.number, { repair: true }) } : null; })()} />
                     ) : null}
                     <div className="rp-q__foot">
                       <button type="button" className="rp-report" disabled={!!reporting[q.id] || !!reported[q.id]} onClick={() => handleReport(row)}>
                         {reported[q.id] ? 'Reported. Thank you.' : reporting[q.id] ? 'Sending…' : 'Report a problem with this question'}
                       </button>
                     </div>
+                    </> : null}
                   </div>
-                ) : null}
               </li>
             );
           })}

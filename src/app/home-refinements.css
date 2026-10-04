@@ -222,3 +222,13 @@ button.lp-exam__num:active .lp-exam__cell { transform: scale(.94); }
   .lp-exam__clock[data-running='true'] svg { animation: lp-exam-tick 1s steps(1, end) infinite; }
 }
 @keyframes lp-exam-tick { 50% { opacity: .45; } }
+
+@media (max-width: 760px) {
+  .lp .lp-hero { padding-block: 1rem 2rem; }
+  .lp .lp-hero__grid { gap: 1.25rem; }
+  .lp .lp-hero__copy { gap: .7rem; }
+  .lp .lp-hero__greeting { margin-bottom: 0; }
+  .lp .lp-hero__greeting .pip-seat__art { width: 48px; height: 58px; }
+  .lp .lp-lead { font-size: 16px; line-height: 1.45; }
+  .lp .lp-trust { gap: .3rem .75rem; }
+}

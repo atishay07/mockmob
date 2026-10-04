@@ -1,6 +1,7 @@
 "use client";
 
 import { Check, Search, X } from 'lucide-react';
+import { useId, useRef } from 'react';
 import { searchSubjects } from '@/lib/du/search';
 
 // Subject chips for CUET List A (languages), List B (domain subjects) and the General
@@ -23,6 +24,8 @@ function Chip({ pressed, onClick, title, children }) {
 const GAT_WORDS = ['gat', 'general', 'aptitude', 'test'];
 
 export function SubjectPicker({ catalog, selection, onToggle, query, onQuery }) {
+  const finderId = useId();
+  const finderRef = useRef(null);
   const q = query.trim();
   const found = searchSubjects(q, catalog);
   const searching = q.length >= 2;
@@ -38,10 +41,12 @@ export function SubjectPicker({ catalog, selection, onToggle, query, onQuery }) 
 
   return (
     <div className="du-picker">
-      <label className="du-finder">
+      <div className="du-finder">
         <Search size={16} aria-hidden="true" />
-        <span className="du-sr">Find your subject</span>
+        <label htmlFor={finderId} className="du-sr">Find your subject</label>
         <input
+          id={finderId}
+          ref={finderRef}
           type="search"
           value={query}
           onChange={(e) => onQuery(e.target.value)}
@@ -49,11 +54,11 @@ export function SubjectPicker({ catalog, selection, onToggle, query, onQuery }) 
           autoComplete="off"
         />
         {query ? (
-          <button type="button" className="du-finder__clear" onClick={() => onQuery('')} aria-label="Clear search">
+          <button type="button" className="du-finder__clear" onClick={() => { onQuery(''); finderRef.current?.focus(); }} aria-label="Clear search">
             <X size={14} aria-hidden="true" />
           </button>
         ) : null}
-      </label>
+      </div>
 
       {aliasNotes.length > 0 ? (
         <ul className="du-alias" aria-live="polite">
