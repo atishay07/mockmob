@@ -27,7 +27,11 @@
     "recovery:validate": "node scripts/learning/validate-pathway.mjs sacrificing_gaining --check",
     "test:du": "node --test data/tests/du_eligibility.test.mjs data/tests/du_combos.test.mjs",
     "du:build": "python scripts/du-csas/parse_cutoffs.py data/du-csas-2026/source/cutoff-r1.pdf round-1 data/du-csas-2026/parsed/round-1.json && python scripts/du-csas/parse_cutoffs.py data/du-csas-2026/source/cutoff-r2.pdf round-2 data/du-csas-2026/parsed/round-2.json && python scripts/du-csas/parse_cutoffs.py data/du-csas-2026/source/minscore-r3.pdf round-3 data/du-csas-2026/parsed/round-3.json && python scripts/du-csas/parse_boi.py data/du-csas-2026/source/boi.txt data/du-csas-2026/parsed/boi.json data/du-csas-2026/source/boi.pdf && python scripts/du-csas/build_dataset.py",
-    "test:learning": "node --test data/tests/learning_engine.test.mjs data/tests/learning_database.test.mjs data/tests/runtime_ai_database.test.mjs data/tests/rival_submission.test.mjs data/tests/practice_quote.test.mjs data/tests/prepos_wallet.test.mjs data/tests/monthly_billing.test.mjs data/tests/prepos_insights.test.mjs data/tests/compass_projection.test.mjs data/tests/prepos_reservations.test.mjs data/tests/prepos_model_reply.test.mjs data/tests/landing_content.test.mjs data/tests/mistake_repair.test.mjs data/tests/runtime_ai_monthly_cap.test.mjs"
+    "test:learning": "node --test data/tests/learning_engine.test.mjs data/tests/learning_database.test.mjs data/tests/runtime_ai_database.test.mjs data/tests/rival_submission.test.mjs data/tests/practice_quote.test.mjs data/tests/prepos_wallet.test.mjs data/tests/monthly_billing.test.mjs data/tests/prepos_insights.test.mjs data/tests/compass_projection.test.mjs data/tests/prepos_reservations.test.mjs data/tests/prepos_model_reply.test.mjs data/tests/landing_content.test.mjs data/tests/mistake_repair.test.mjs data/tests/runtime_ai_monthly_cap.test.mjs",
+    "study:build": "node scripts/learning/build-study-content.mjs",
+    "study:validate": "node scripts/learning/validate-study-content.mjs --write --strict",
+    "study:coverage": "node scripts/learning/study-coverage.mjs",
+    "study:prepare": "npm run study:build && npm run study:validate && npm run study:coverage && node scripts/learning/study-content-v2-import.mjs --artifact-dir=artifacts/study-suite/v3"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.90.0",

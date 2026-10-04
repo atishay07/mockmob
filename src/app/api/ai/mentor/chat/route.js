@@ -8,9 +8,11 @@ import { getStudentAIContext } from '@/services/ai/getStudentAIContext';
 import { getUsageSnapshot } from '@/services/usage/getDailyUsage';
 import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { supabaseAdmin } from '@/lib/supabase';
-import { runModelReply, PREPOS_PAUSED_MESSAGE } from '@/services/prepos/modelReply';
+import { runModelReply, operationKeyFor, PREPOS_PAUSED_MESSAGE } from '@/services/prepos/modelReply';
 import { buildReplyDeps, modelRepliesOpen } from '@/services/prepos/replyDeps';
 import { isPaidUser } from '@/services/credits/aiCreditWallet';
+import { studyTutorContext } from '@/lib/server/study';
+import {studyHelpReplay} from '@/../data/study_help';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -44,14 +46,20 @@ export async function POST(request) {
   const dbUser = await Database.getUserById(session.user.id);
   if (!dbUser) return NextResponse.json({ error: 'user_not_found' }, { status: 404 });
   const userId = session.user.id;
+  let studyLesson=null;
+  if(payload.studyRunId !== undefined) {
+    if(typeof payload.studyRunId!=='string' || payload.studyRunId.length>100 || !Number.isInteger(payload.studyRevision) || typeof payload.studyItemId!=='string' || payload.studyItemId.length>150) return NextResponse.json({error:'invalid_run'}, {status:400});
+    try { studyLesson=await studyTutorContext(userId,payload.studyRunId,{expectedRevision:payload.studyRevision,itemId:payload.studyItemId}); }
+    catch(error) { return NextResponse.json({error:error.message,message:'Answer the current card first, or reopen the current lesson. No credits used.'},{status:422}); }
+  }
   const sessionId = typeof payload.sessionId === 'string' ? payload.sessionId : null;
 
   // 1. Questions about the student's own record are answered from the record: free, instant, no model.
   let insights = null;
   try {
-    insights = computePrepOSInsights((await Database.getAttempts(userId)).slice(0, 60), { subjectNames: SUBJECT_NAMES });
+    if(!studyLesson) insights = computePrepOSInsights((await Database.getAttempts(userId)).slice(0, 60), { subjectNames: SUBJECT_NAMES });
   } catch { /* the record is unavailable; fall through to the plan or model path */ }
-  const fromRecord = insights ? answerFromInsights(message, insights, { pro: isPaidUser(dbUser) }) : null;
+  const fromRecord = !studyLesson && insights ? answerFromInsights(message, insights, { pro: isPaidUser(dbUser) }) : null;
   if (fromRecord) {
     const response = {
       reply: fromRecord.reply, origin: 'record', confidence: 0, reason: 'From your own sessions. No credits used.', cards: [],
@@ -60,7 +68,8 @@ export async function POST(request) {
     return reply(await persist({ userId, sessionId, message, response, mode }), response, dbUser, 'record');
   }
 
-  const context = await getStudentAIContext({ user: dbUser });
+  // Lesson help needs current teaching, not the student's unrelated record or personal details.
+  const context = studyLesson ? {exam:'CUET',contextVersion:1} : await getStudentAIContext({ user: dbUser });
   // The explicit free-record surface can never fall through to a billed model.
   if (payload.replyKind === 'record') {
     const next=context.sharedPlan?.primary;
@@ -87,14 +96,24 @@ export async function POST(request) {
     ? { n: insights.questions, sessions: insights.sessions, ledger: insights.ledger, accuracy: insights.accuracy, topChapters: insights.chapters.ranked.slice(0, 3).map((c) => ({ chapter: c.chapter, n: c.n, right: c.right, wrong: c.wrong, skip: c.skip })), changes: insights.changes, pace: insights.pace.usable ? { medianSec: insights.pace.medianSec, n: insights.pace.questionsTimed } : null }
     : { n: 0 };
   const out = await runModelReply({
-    user: dbUser, message, mode, requestId: payload.requestId, creditCost: 1, tier: SMART_MODES.has(mode) ? 'smart' : 'fast',
-    gateOpen: true, context: { ...context, recordInsights: compact }, deps: buildReplyDeps({ user: dbUser }),
+    user: dbUser, message, mode:studyLesson ? 'revision' : mode, requestId: payload.requestId, creditCost: 1, tier: !studyLesson && SMART_MODES.has(mode) ? 'smart' : 'fast',
+    gateOpen: true, context: { ...context, recordInsights: compact, ...(studyLesson ? {studyLesson} : {}) }, deps: buildReplyDeps({ user: dbUser }),
   });
   if (out.status !== 'answered') {
+    // A response lost in transit can be recovered from owner-bound history without another call.
+    if(studyLesson && out.status==='duplicate') {
+      const key=operationKeyFor(userId,payload.requestId);
+      const {data:saved,error}=await supabaseAdmin().from('mentor_messages').select('structured_payload').eq('user_id',userId).eq('role','assistant').eq('structured_payload->charge->>reference',key).limit(1).maybeSingle();
+      const previous=studyHelpReplay(saved?.structured_payload,{runId:payload.studyRunId,revision:payload.studyRevision,itemId:payload.studyItemId});
+      if(!error && previous) {
+        return reply(null,previous,dbUser,'replayed');
+      }
+    }
     return NextResponse.json({ ok: false, error: out.error || out.status, status: out.status, message: out.message, required: out.required, balance: out.balance, charged: 0 }, { status: out.http });
   }
   const response = {
     ...out.response, origin: 'model', mode, usage: { ...NO_USAGE, ...out.receipt },
+    ...(studyLesson ? {study:{runId:payload.studyRunId,revision:payload.studyRevision,itemId:payload.studyItemId}} : {}),
     charge: { kind: 'prepos_credit', creditUnits: 1, amount: out.charged, reference: out.operationKey },
   };
   return reply(await persist({ userId, sessionId, message, response, mode }), response, dbUser, 'live');

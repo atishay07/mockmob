@@ -4,7 +4,7 @@ import { AuthContext } from '@/components/AuthProvider';
 import { RoleProvider } from '@/lib/roleContext';
 import AppLayoutClient from '@/app/(app)/AppLayoutClient';
 import StudyWorkspace from '@/components/study/StudyWorkspace';
-import { createStudyRun, studyTransition, publicStudyItem, DEFAULT_PREFERENCES, preferences, recallQueue, cardItem, istDay, NEW_CARDS_PER_DAY } from '@/../data/study_engine';
+import { createStudyRun, studyTransition, publicStudyItem, DEFAULT_PREFERENCES, preferences, recallQueue, taughtRecallCards, cardItem, istDay, NEW_CARDS_PER_DAY } from '@/../data/study_engine';
 import { scheduleReview } from '@/../data/study_scheduler.mjs';
 
 // Development-only, in-memory mirror of src/lib/server/study.js. No student storage, payment, AI or
@@ -23,8 +23,8 @@ export default function StudyPreview({ content }) {
     };
     const activeLearn = id => [...store.runs.values()].find(r => r.mode === 'learn' && r.projection.state === 'active' && r.units[0].id === id);
     const unitView = u => { const m = memory(u), l = activeLearn(u.id); return { ...u, blocks: undefined, read: store.read.has(u.id), inProgress: l ? { runId: l.projection.id, step: l.projection.cursor + 1, total: l.items.length } : null, cardCount: m.cards, memory: m, status: l ? 'in_progress' : !store.read.has(u.id) ? 'new' : m.due ? 'due' : m.unseen ? 'lock_in' : 'learned' }; };
-    const queueFor = units => recallQueue(content.cards.filter(c => units.some(u => u.id === c.unitId)), states(), Date.now(), today(), 10, content.cards);
-    const view = row => { const p = row.projection; return { ...p, title: row.title, total: row.items.length, item: publicStudyItem(row.items[p.cursor], p.revealed), units: row.units.map(u => ({ id: u.id, title: u.title, subject: u.subject, chapter: u.chapter })), focus: row.focus }; };
+    const queueFor = units => recallQueue(taughtRecallCards(content.cards.filter(c => units.some(u => u.id === c.unitId)), states(), store.read), states(), Date.now(), today(), 10, content.cards);
+    const view = row => { const p = row.projection; return { ...p, title: row.title, total: row.items.length, item: publicStudyItem(row.items[p.cursor], p.revealed), steps:row.mode==='learn' ? row.items.map(i=>({id:i.id,kind:i.kind,title:i.title})) : undefined, units: row.units.map(u => ({ id: u.id, title: u.title, subject: u.subject, chapter: u.chapter })), focus: row.focus }; };
     const active = () => { const r = [...store.runs.values()].find(r => r.projection.state === 'active'); return r ? { id: r.projection.id, mode: r.mode, title: r.title, step: r.projection.cursor + 1, total: r.items.length, unitId: r.units[0]?.id } : null; };
     const transport = async (method, path, input) => {
       if (!window.location.pathname.startsWith('/preview/study')) throw new Error('PREVIEW_ONLY');

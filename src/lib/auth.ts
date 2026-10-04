@@ -1,7 +1,6 @@
 import 'server-only';
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import CredentialsProvider from "next-auth/providers/credentials";
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { Database } from "@/../data/db";
@@ -13,20 +12,6 @@ export const authOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID || 'mock',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'mock',
     }),
-    CredentialsProvider({
-      name: "Demo Login",
-      credentials: {
-        username: { label: "Username", type: "text", placeholder: "rank_chaser_07" }
-      },
-      async authorize(credentials) {
-        if (!credentials?.username) return null;
-        let user = await Database.getUserByName(credentials.username);
-        if (!user) {
-          user = await Database.createUser({ name: credentials.username });
-        }
-        return { id: user.id, name: user.name, email: user.email, image: user.image };
-      }
-    })
   ],
   callbacks: {
     async signIn({ user, account }) {

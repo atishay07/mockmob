@@ -9,9 +9,11 @@ import { accountancy } from '../../data/study/authored/accountancy.mjs';
 import { economics } from '../../data/study/authored/economics.mjs';
 import { businessStudies } from '../../data/study/authored/business-studies.mjs';
 import { english } from '../../data/study/authored/english.mjs';
+import { compilePacket } from '../../data/study/authored/packetCompiler.mjs';
 
 const sha = value => createHash('sha256').update(value).digest('hex');
-const subjects = [english, accountancy, businessStudies, economics];
+const packets=JSON.parse(readFileSync('data/study/authored/expansion.json','utf8'));
+const subjects = [english, accountancy, businessStudies, economics,...packets.map(compilePacket)];
 const units = subjects.flatMap(s => s.units);
 const cards = subjects.flatMap(s => s.cards);
 

@@ -5,9 +5,40 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { checkAnswer, parseRatio, cardItem, publicStudyItem, studyTransition, createStudyRun, guidedSequence } from '../study_engine.js';
+import { taughtRecallCards,recallQueue } from '../study_engine.js';
+import { studyHelpEvidence,studyHelpReplay } from '../study_help.js';
 
 const pilot = JSON.parse(readFileSync(new URL('../study/pilot.json', import.meta.url)));
 const event = (type, extras = {}, revision = 0, itemId = 'c') => ({ type, itemId, expectedRevision: revision, requestKey: 'request-key-12345', ...extras });
+test('a saved explanation replays only for its bound run and step, with no repeat charge',()=>{
+  const saved={reply:'Published contrast explained',study:{runId:'r',revision:3,itemId:'contrast'},charge:{kind:'prepos_credit',creditUnits:1,amount:1}};
+  const bound={runId:'r',revision:3,itemId:'contrast'};
+  assert.equal(studyHelpReplay(saved,bound).reply,saved.reply);
+  assert.equal(studyHelpReplay(saved,bound).charge.amount,0);
+  for(const override of [{runId:'another-owner-run'},{revision:4},{itemId:'unanswered-card'}]) assert.equal(studyHelpReplay(saved,{...bound,...override}),null);
+  assert.equal(studyHelpReplay(null,bound),null);
+});
+test('new students learn before new recall, while due reviews survive preferences',()=>{
+  const cards=[{id:'a',unitId:'first',version:1},{id:'b',unitId:'second',version:1}];
+  assert.deepEqual(taughtRecallCards(cards,[],[]),[]);
+  const queue=recallQueue(taughtRecallCards(cards,[],[]),[]);
+  const sequence=guidedSequence({primary:{kind:'ordinary_practice',href:'/dashboard'}},{queue,nextUnit:{id:'first',title:'First lesson'}});
+  assert.equal(sequence[0].kind,'learn');
+  assert.deepEqual(taughtRecallCards(cards,[],['first']).map(c=>c.id),['a']);
+  const states=[{card_id:'b',content_version:1,schedule:{due:new Date(0).toISOString()}}];
+  assert.deepEqual(taughtRecallCards(cards,states,['first']).map(c=>c.id),['a','b']);
+  assert.deepEqual(taughtRecallCards(cards,[{...states[0],content_version:0}],[]),[]);
+});
+test('AI study help cannot see hidden answers, future items or assessment keys',()=>{
+  const row={content:{title:'Lesson',units:[{id:'u',version:2}],items:[{type:'choice',prompt:'Current',answer:0,explanation:'Why'},{type:'choice',answer:'future secret'}]},projection:{state:'active',cursor:0,revealed:false}};
+  assert.throws(()=>studyHelpEvidence(row),/ANSWER_FIRST/);
+  const revealed={...row,projection:{...row.projection,revealed:true,feedback:{answer:'Current answer'}}};
+  assert.equal(studyHelpEvidence(revealed).teaching.prompt,'Current');
+  assert.equal(JSON.stringify(studyHelpEvidence(revealed)).includes('future secret'),false);
+  const reading={...row,content:{...row.content,items:[{type:'reading',body:'Published explanation'}]}};
+  assert.equal(studyHelpEvidence(reading).teaching.body,'Published explanation');
+  assert.throws(()=>studyHelpEvidence({...row,projection:{...row.projection,state:'invalidated'}}),/UNAVAILABLE/);
+});
 
 test('numeric and ratio answers accept equivalent forms and reject near misses', () => {
   const numeric = { type: 'numeric', answer: '3/20' };
@@ -70,6 +101,7 @@ test('Today steps say what they improve, how long they take and link practice to
 });
 
 test('the content gate quarantines changed arithmetic, unsourced vocabulary and unsupported reading keys', () => {
+  assert.throws(()=>execFileSync(process.execPath,['scripts/learning/validate-study-content.mjs','--skip-pdf','--write'],{encoding:'utf8',stdio:'pipe'}),/SOURCE_CHECK_REQUIRED/);
   const dir = mkdtempSync(join(tmpdir(), 'study-gate-'));
   const run = mutate => {
     const copy = JSON.parse(JSON.stringify(pilot)); mutate(copy);
@@ -78,6 +110,9 @@ test('the content gate quarantines changed arithmetic, unsourced vocabulary and 
   };
   const clean = run(() => {});
   assert.equal(clean.quarantined.length, 0, JSON.stringify(clean.problems));
+  const packet = run(c=>{c.cards.find(x=>x.id==='economics-budget-deficits-fact-2').variants[1].answer='999';});
+  assert.match(JSON.stringify(packet.problems),/PACKET_CARD_CHANGED|ARITHMETIC_MISMATCH/);
+  assert.ok(packet.quarantined.some(q=>q.id.startsWith('economics-budget-deficits')));
   const arithmetic = run(c => { c.cards.find(x => x.id === 'accountancy-ratio-sacrifice-calc').variants[0].answer = '1/20'; });
   assert.ok(arithmetic.quarantined.some(q => q.id.startsWith('accountancy-sacrificing-gaining')));
   assert.match(JSON.stringify(arithmetic.problems), /ARITHMETIC_MISMATCH/);

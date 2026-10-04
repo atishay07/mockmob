@@ -2127,6 +2127,1261 @@
           "title": "Rearrange it"
         }
       ]
+    },
+    {
+      "id": "business-studies-plan-types",
+      "version": 1,
+      "subject": "business_studies",
+      "chapter": "Planning",
+      "conceptId": "business-studies-plan-types",
+      "order": 30,
+      "title": "Policy, procedure or rule?",
+      "summary": "Identify the kind of plan by how much freedom it leaves and whether it specifies a sequence.",
+      "estimatedMinutes": 5,
+      "skill": "Scenario",
+      "objectives": [
+        "Recognise and apply policy",
+        "Recognise and apply procedure",
+        "Recognise and apply rule"
+      ],
+      "examLink": "Use the distinguishing feature in the question. These are original learning activities, separate from timed chapter practice.",
+      "sourceRefs": [
+        {
+          "id": "ncert-lebs104",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs104.pdf",
+          "label": "NCERT Business Studies, Planning",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "state": "candidate",
+      "packetId": "business-studies-plan-types",
+      "sourceEvidence": [
+        [
+          "ncert-lebs104",
+          13,
+          [
+            "Policies define the broad"
+          ]
+        ],
+        [
+          "ncert-lebs104",
+          14,
+          [
+            "specified in a chronological order"
+          ]
+        ],
+        [
+          "ncert-lebs104",
+          14,
+          [
+            "allow for any flexibility or discretion"
+          ]
+        ]
+      ],
+      "blocks": [
+        {
+          "id": "idea",
+          "type": "reading",
+          "kind": "explanation",
+          "title": "What to look for",
+          "body": "Identify the kind of plan by how much freedom it leaves and whether it specifies a sequence."
+        },
+        {
+          "id": "contrast",
+          "type": "reading",
+          "kind": "contrast",
+          "title": "Three ideas, compared",
+          "rows": [
+            [
+              "Concept",
+              "Keep this distinction"
+            ],
+            [
+              "Policy",
+              "A broad guide for decisions that leaves room for a manager's judgement."
+            ],
+            [
+              "Procedure",
+              "An ordered series of steps for carrying out an activity."
+            ],
+            [
+              "Rule",
+              "A specific instruction allowing no discretion about the action required."
+            ]
+          ]
+        },
+        {
+          "id": "decision",
+          "type": "reading",
+          "kind": "diagram",
+          "title": "Recognise the clue",
+          "flow": [
+            {
+              "label": "Policy",
+              "detail": "A guide leaves room to decide."
+            },
+            {
+              "label": "Procedure",
+              "detail": "Procedure = sequence."
+            },
+            {
+              "label": "Rule",
+              "detail": "A rule does not leave a choice."
+            }
+          ]
+        },
+        {
+          "id": "example-0",
+          "type": "reading",
+          "kind": "worked_example",
+          "title": "Apply policy",
+          "body": "A shop prefers local suppliers, but managers may choose another supplier when quality is better.\n\nThe guideline allows judgement; it does not impose an unchanging sequence or prohibition.",
+          "note": "A guide leaves room to decide."
+        },
+        {
+          "id": "example-1",
+          "type": "reading",
+          "kind": "worked_example",
+          "title": "Apply procedure",
+          "body": "To buy supplies, first submit a request, then obtain approval, then place the order.\n\nThe defining feature is the order of steps.",
+          "note": "Procedure = sequence."
+        },
+        {
+          "id": "example-2",
+          "type": "reading",
+          "kind": "worked_example",
+          "title": "Apply rule",
+          "body": "No visitor may enter the factory without a safety helmet.\n\nThe instruction has no discretion: the required action must be followed.",
+          "note": "A rule does not leave a choice."
+        },
+        {
+          "id": "trap",
+          "type": "reading",
+          "kind": "mistake",
+          "title": "Avoid the usual mix-up",
+          "body": "Do not classify every instruction as a rule. Look for discretion in a policy and ordered steps in a procedure."
+        },
+        {
+          "id": "check-0",
+          "kind": "knowledge_check",
+          "title": "Try the distinction",
+          "type": "choice",
+          "prompt": "A shop prefers local suppliers, but managers may choose another supplier when quality is better. Which concept is being used?",
+          "options": [
+            "Policy",
+            "Procedure",
+            "Rule"
+          ],
+          "answer": 0,
+          "explanation": "The guideline allows judgement; it does not impose an unchanging sequence or prohibition.",
+          "optionNotes": [
+            null,
+            "This describes policy: A broad guide for decisions that leaves room for a manager's judgement.",
+            "This describes policy: A broad guide for decisions that leaves room for a manager's judgement."
+          ]
+        },
+        {
+          "id": "check-1",
+          "kind": "knowledge_check",
+          "title": "Try the distinction",
+          "type": "choice",
+          "prompt": "To buy supplies, first submit a request, then obtain approval, then place the order. Which concept is being used?",
+          "options": [
+            "Policy",
+            "Procedure",
+            "Rule"
+          ],
+          "answer": 1,
+          "explanation": "The defining feature is the order of steps.",
+          "optionNotes": [
+            "This describes procedure: An ordered series of steps for carrying out an activity.",
+            null,
+            "This describes procedure: An ordered series of steps for carrying out an activity."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "business-studies-staffing",
+      "version": 1,
+      "subject": "business_studies",
+      "chapter": "Staffing",
+      "conceptId": "business-studies-staffing",
+      "order": 30,
+      "title": "Attract, choose, train",
+      "summary": "Separate recruitment from selection and recognise training for a specific job.",
+      "estimatedMinutes": 5,
+      "skill": "Scenario",
+      "objectives": [
+        "Recognise and apply recruitment",
+        "Recognise and apply selection",
+        "Recognise and apply training"
+      ],
+      "examLink": "Use the distinguishing feature in the question. These are original learning activities, separate from timed chapter practice.",
+      "sourceRefs": [
+        {
+          "id": "ncert-lebs106",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+          "label": "NCERT Business Studies, Staffing",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "state": "candidate",
+      "packetId": "business-studies-staffing",
+      "sourceEvidence": [
+        [
+          "ncert-lebs106",
+          7,
+          [
+            "stimulating them to apply for jobs"
+          ]
+        ],
+        [
+          "ncert-lebs106",
+          8,
+          [
+            "pool of the prospective job"
+          ]
+        ],
+        [
+          "ncert-lebs106",
+          22,
+          [
+            "jobs are increased"
+          ]
+        ]
+      ],
+      "blocks": [
+        {
+          "id": "idea",
+          "type": "reading",
+          "kind": "explanation",
+          "title": "What to look for",
+          "body": "Separate recruitment from selection and recognise training for a specific job."
+        },
+        {
+          "id": "contrast",
+          "type": "reading",
+          "kind": "contrast",
+          "title": "Three ideas, compared",
+          "rows": [
+            [
+              "Concept",
+              "Keep this distinction"
+            ],
+            [
+              "Recruitment",
+              "Finding prospective employees and encouraging them to apply for jobs."
+            ],
+            [
+              "Selection",
+              "Choosing suitable employees from the pool of applicants."
+            ],
+            [
+              "Training",
+              "Increasing the skills and abilities needed to perform a specific job."
+            ]
+          ]
+        },
+        {
+          "id": "decision",
+          "type": "reading",
+          "kind": "diagram",
+          "title": "Recognise the clue",
+          "flow": [
+            {
+              "label": "Recruitment",
+              "detail": "Recruitment builds the applicant pool."
+            },
+            {
+              "label": "Selection",
+              "detail": "Selection chooses from the pool."
+            },
+            {
+              "label": "Training",
+              "detail": "Training improves a specific job skill."
+            }
+          ]
+        },
+        {
+          "id": "example-0",
+          "type": "reading",
+          "kind": "worked_example",
+          "title": "Apply recruitment",
+          "body": "A hotel advertises vacancies and invites applications.\n\nIt is attracting candidates, not yet choosing among them.",
+          "note": "Recruitment builds the applicant pool."
+        },
+        {
+          "id": "example-1",
+          "type": "reading",
+          "kind": "worked_example",
+          "title": "Apply selection",
+          "body": "After interviews and tests, the hotel chooses two applicants for the vacancies.\n\nThe pool exists; the company is now deciding who will join.",
+          "note": "Selection chooses from the pool."
+        },
+        {
+          "id": "example-2",
+          "type": "reading",
+          "kind": "worked_example",
+          "title": "Apply training",
+          "body": "A new cashier practises using the billing software before serving customers.\n\nThe focus is skill for the current job, rather than attracting or choosing employees.",
+          "note": "Training improves a specific job skill."
+        },
+        {
+          "id": "trap",
+          "type": "reading",
+          "kind": "mistake",
+          "title": "Avoid the usual mix-up",
+          "body": "Recruitment is not the final hiring decision. Training is also distinct from broader, longer-term development."
+        },
+        {
+          "id": "check-0",
+          "kind": "knowledge_check",
+          "title": "Try the distinction",
+          "type": "choice",
+          "prompt": "A hotel advertises vacancies and invites applications. Which concept is being used?",
+          "options": [
+            "Recruitment",
+            "Selection",
+            "Training"
+          ],
+          "answer": 0,
+          "explanation": "It is attracting candidates, not yet choosing among them.",
+          "optionNotes": [
+            null,
+            "This describes recruitment: Finding prospective employees and encouraging them to apply for jobs.",
+            "This describes recruitment: Finding prospective employees and encouraging them to apply for jobs."
+          ]
+        },
+        {
+          "id": "check-1",
+          "kind": "knowledge_check",
+          "title": "Try the distinction",
+          "type": "choice",
+          "prompt": "After interviews and tests, the hotel chooses two applicants for the vacancies. Which concept is being used?",
+          "options": [
+            "Recruitment",
+            "Selection",
+            "Training"
+          ],
+          "answer": 1,
+          "explanation": "The pool exists; the company is now deciding who will join.",
+          "optionNotes": [
+            "This describes selection: Choosing suitable employees from the pool of applicants.",
+            null,
+            "This describes selection: Choosing suitable employees from the pool of applicants."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "business-studies-directing",
+      "version": 1,
+      "subject": "business_studies",
+      "chapter": "Directing",
+      "conceptId": "business-studies-directing",
+      "order": 30,
+      "title": "What makes people act?",
+      "summary": "Distinguish supervision, motivation and leadership in workplace situations.",
+      "estimatedMinutes": 5,
+      "skill": "Scenario",
+      "objectives": [
+        "Recognise and apply supervision",
+        "Recognise and apply motivation",
+        "Recognise and apply leadership"
+      ],
+      "examLink": "Use the distinguishing feature in the question. These are original learning activities, separate from timed chapter practice.",
+      "sourceRefs": [
+        {
+          "id": "ncert-lebs107",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs107.pdf",
+          "label": "NCERT Business Studies, Directing",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "state": "candidate",
+      "packetId": "business-studies-directing",
+      "sourceEvidence": [
+        [
+          "ncert-lebs107",
+          6,
+          [
+            "day-to-day"
+          ]
+        ],
+        [
+          "ncert-lebs107",
+          8,
+          [
+            "stimulating people to action"
+          ]
+        ],
+        [
+          "ncert-lebs107",
+          16,
+          [
+            "strive voluntarily towards"
+          ]
+        ]
+      ],
+      "blocks": [
+        {
+          "id": "idea",
+          "type": "reading",
+          "kind": "explanation",
+          "title": "What to look for",
+          "body": "Distinguish supervision, motivation and leadership in workplace situations."
+        },
+        {
+          "id": "contrast",
+          "type": "reading",
+          "kind": "contrast",
+          "title": "Three ideas, compared",
+          "rows": [
+            [
+              "Concept",
+              "Keep this distinction"
+            ],
+            [
+              "Supervision",
+              "Overseeing employees' work and guiding their efforts while tasks are carried out."
+            ],
+            [
+              "Motivation",
+              "Stimulating people to act towards desired goals."
+            ],
+            [
+              "Leadership",
+              "Influencing people to strive willingly towards organisational goals."
+            ]
+          ]
+        },
+        {
+          "id": "decision",
+          "type": "reading",
+          "kind": "diagram",
+          "title": "Recognise the clue",
+          "flow": [
+            {
+              "label": "Supervision",
+              "detail": "Supervision stays close to the work."
+            },
+            {
+              "label": "Motivation",
+              "detail": "Motivation supplies the reason to act."
+            },
+            {
+              "label": "Leadership",
+              "detail": "Leadership creates willing effort."
+            }
+          ]
+        },
+        {
+          "id": "example-0",
+          "type": "reading",
+          "kind": "worked_example",
+          "title": "Apply supervision",
+          "body": "A shift supervisor watches the work, explains the method and corrects a machine-setting error.\n\nThe manager is overseeing and guiding the actual work.",
+          "note": "Supervision stays close to the work."
+        },
+        {
+          "id": "example-1",
+          "type": "reading",
+          "kind": "worked_example",
+          "title": "Apply motivation",
+          "body": "A company recognises good work to encourage employees to keep improving.\n\nRecognition is used as an incentive to encourage goal-directed action.",
+          "note": "Motivation supplies the reason to act."
+        },
+        {
+          "id": "example-2",
+          "type": "reading",
+          "kind": "worked_example",
+          "title": "Apply leadership",
+          "body": "A manager earns the team's trust and inspires it to work willingly towards a shared goal.\n\nThe emphasis is willing effort produced through influence.",
+          "note": "Leadership creates willing effort."
+        },
+        {
+          "id": "trap",
+          "type": "reading",
+          "kind": "mistake",
+          "title": "Avoid the usual mix-up",
+          "body": "Real managers use several elements together. In a question, choose the element most directly described by the evidence."
+        },
+        {
+          "id": "check-0",
+          "kind": "knowledge_check",
+          "title": "Try the distinction",
+          "type": "choice",
+          "prompt": "A shift supervisor watches the work, explains the method and corrects a machine-setting error. Which concept is being used?",
+          "options": [
+            "Supervision",
+            "Motivation",
+            "Leadership"
+          ],
+          "answer": 0,
+          "explanation": "The manager is overseeing and guiding the actual work.",
+          "optionNotes": [
+            null,
+            "This describes supervision: Overseeing employees' work and guiding their efforts while tasks are carried out.",
+            "This describes supervision: Overseeing employees' work and guiding their efforts while tasks are carried out."
+          ]
+        },
+        {
+          "id": "check-1",
+          "kind": "knowledge_check",
+          "title": "Try the distinction",
+          "type": "choice",
+          "prompt": "A company recognises good work to encourage employees to keep improving. Which concept is being used?",
+          "options": [
+            "Supervision",
+            "Motivation",
+            "Leadership"
+          ],
+          "answer": 1,
+          "explanation": "Recognition is used as an incentive to encourage goal-directed action.",
+          "optionNotes": [
+            "This describes motivation: Stimulating people to act towards desired goals.",
+            null,
+            "This describes motivation: Stimulating people to act towards desired goals."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "economics-money-functions",
+      "version": 1,
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "conceptId": "economics-money-functions",
+      "order": 30,
+      "title": "Why money makes exchange easier",
+      "summary": "Recognise exchange, valuation and saving functions without treating them as interchangeable.",
+      "estimatedMinutes": 5,
+      "skill": "Classify",
+      "objectives": [
+        "Recognise and apply medium of exchange",
+        "Recognise and apply unit of account",
+        "Recognise and apply store of value"
+      ],
+      "examLink": "Use the distinguishing feature in the question. These are original learning activities, separate from timed chapter practice.",
+      "sourceRefs": [
+        {
+          "id": "ncert-leec103",
+          "url": "https://ncert.nic.in/textbook/pdf/leec103.pdf",
+          "label": "NCERT Introductory Macroeconomics, Money and Banking",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "state": "candidate",
+      "packetId": "economics-money-functions",
+      "sourceEvidence": [
+        [
+          "ncert-leec103",
+          1,
+          [
+            "commonly accepted medium of exchange"
+          ]
+        ],
+        [
+          "ncert-leec103",
+          1,
+          [
+            "convenient unit of account"
+          ]
+        ],
+        [
+          "ncert-leec103",
+          2,
+          [
+            "store of value for individuals"
+          ]
+        ]
+      ],
+      "blocks": [
+        {
+          "id": "idea",
+          "type": "reading",
+          "kind": "explanation",
+          "title": "What to look for",
+          "body": "Recognise exchange, valuation and saving functions without treating them as interchangeable."
+        },
+        {
+          "id": "contrast",
+          "type": "reading",
+          "kind": "contrast",
+          "title": "Three ideas, compared",
+          "rows": [
+            [
+              "Concept",
+              "Keep this distinction"
+            ],
+            [
+              "Medium of exchange",
+              "Money is accepted in payment, so buying does not require a matching barter partner."
+            ],
+            [
+              "Unit of account",
+              "Money provides a common unit for stating and comparing values."
+            ],
+            [
+              "Store of value",
+              "Money can hold purchasing power for future use, although inflation may reduce that purchasing power."
+            ]
+          ]
+        },
+        {
+          "id": "decision",
+          "type": "reading",
+          "kind": "diagram",
+          "title": "Recognise the clue",
+          "flow": [
+            {
+              "label": "Medium of exchange",
+              "detail": "Exchange: paying for the purchase."
+            },
+            {
+              "label": "Unit of account",
+              "detail": "Account: comparing prices."
+            },
+            {
+              "label": "Store of value",
+              "detail": "Store: keeping value for later."
+            }
+          ]
+        },
+        {
+          "id": "example-0",
+          "type": "reading",
+          "kind": "worked_example",
+          "title": "Apply medium of exchange",
+          "body": "A farmer sells grain for money, then uses money to buy shoes from someone else.\n\nMoney separates selling from buying; the shoe seller need not want grain.",
+          "note": "Exchange: paying for the purchase."
+        },
+        {
+          "id": "example-1",
+          "type": "reading",
+          "kind": "worked_example",
+          "title": "Apply unit of account",
+          "body": "A notebook is priced at ₹40 and a pen at ₹10, so their prices can be compared in the same unit.\n\nThe amounts express values in one common monetary unit.",
+          "note": "Account: comparing prices."
+        },
+        {
+          "id": "example-2",
+          "type": "reading",
+          "kind": "worked_example",
+          "title": "Apply store of value",
+          "body": "A worker keeps some of this month's income to spend next month.\n\nMoney transfers purchasing power across time; it does not guarantee a constant real value.",
+          "note": "Store: keeping value for later."
+        },
+        {
+          "id": "trap",
+          "type": "reading",
+          "kind": "mistake",
+          "title": "Avoid the usual mix-up",
+          "body": "Money's ability to store value is not a promise that its purchasing power never falls."
+        },
+        {
+          "id": "check-0",
+          "kind": "knowledge_check",
+          "title": "Try the distinction",
+          "type": "choice",
+          "prompt": "A farmer sells grain for money, then uses money to buy shoes from someone else. Which concept is being used?",
+          "options": [
+            "Medium of exchange",
+            "Unit of account",
+            "Store of value"
+          ],
+          "answer": 0,
+          "explanation": "Money separates selling from buying; the shoe seller need not want grain.",
+          "optionNotes": [
+            null,
+            "This describes medium of exchange: Money is accepted in payment, so buying does not require a matching barter partner.",
+            "This describes medium of exchange: Money is accepted in payment, so buying does not require a matching barter partner."
+          ]
+        },
+        {
+          "id": "check-1",
+          "kind": "knowledge_check",
+          "title": "Try the distinction",
+          "type": "choice",
+          "prompt": "A notebook is priced at ₹40 and a pen at ₹10, so their prices can be compared in the same unit. Which concept is being used?",
+          "options": [
+            "Medium of exchange",
+            "Unit of account",
+            "Store of value"
+          ],
+          "answer": 1,
+          "explanation": "The amounts express values in one common monetary unit.",
+          "optionNotes": [
+            "This describes unit of account: Money provides a common unit for stating and comparing values.",
+            null,
+            "This describes unit of account: Money provides a common unit for stating and comparing values."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "economics-budget-deficits",
+      "version": 1,
+      "subject": "economics",
+      "chapter": "Government Budget & the Economy",
+      "conceptId": "economics-budget-deficits",
+      "order": 30,
+      "title": "Which deficit are you calculating?",
+      "summary": "Choose the correct receipts and expenditure before subtracting.",
+      "estimatedMinutes": 5,
+      "skill": "Calculate",
+      "objectives": [
+        "Recognise and apply revenue deficit",
+        "Recognise and apply fiscal deficit",
+        "Recognise and apply primary deficit"
+      ],
+      "examLink": "Use the distinguishing feature in the question. These are original learning activities, separate from timed chapter practice.",
+      "sourceRefs": [
+        {
+          "id": "ncert-leec105",
+          "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+          "label": "NCERT Introductory Macroeconomics, Government Budget and the Economy",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "state": "candidate",
+      "packetId": "economics-budget-deficits",
+      "sourceEvidence": [
+        [
+          "ncert-leec105",
+          6,
+          [
+            "Revenue deficit = Revenue expenditure"
+          ]
+        ],
+        [
+          "ncert-leec105",
+          7,
+          [
+            "Non-debt creating capital receipts"
+          ]
+        ],
+        [
+          "ncert-leec105",
+          7,
+          [
+            "fiscal deficit minus the interest payments"
+          ]
+        ]
+      ],
+      "blocks": [
+        {
+          "id": "idea",
+          "type": "reading",
+          "kind": "explanation",
+          "title": "What to look for",
+          "body": "Choose the correct receipts and expenditure before subtracting."
+        },
+        {
+          "id": "contrast",
+          "type": "reading",
+          "kind": "contrast",
+          "title": "Three ideas, compared",
+          "rows": [
+            [
+              "Concept",
+              "Keep this distinction"
+            ],
+            [
+              "Revenue deficit",
+              "Revenue expenditure minus revenue receipts."
+            ],
+            [
+              "Fiscal deficit",
+              "Total expenditure minus receipts other than borrowings."
+            ],
+            [
+              "Primary deficit",
+              "Fiscal deficit minus interest payments."
+            ]
+          ]
+        },
+        {
+          "id": "decision",
+          "type": "reading",
+          "kind": "diagram",
+          "title": "Recognise the clue",
+          "flow": [
+            {
+              "label": "Revenue deficit",
+              "detail": "Revenue compares only revenue items."
+            },
+            {
+              "label": "Fiscal deficit",
+              "detail": "Fiscal measures the borrowing requirement."
+            },
+            {
+              "label": "Primary deficit",
+              "detail": "Primary removes past debt's interest cost."
+            }
+          ]
+        },
+        {
+          "id": "example-0",
+          "type": "reading",
+          "kind": "worked_example",
+          "title": "Apply revenue deficit",
+          "body": "Revenue expenditure is 900 and revenue receipts are 700, in the same units.\n\nOnly revenue items enter this calculation.",
+          "note": "Revenue compares only revenue items.",
+          "formula": "Answer: 200",
+          "calc": {
+            "op": "revenue_deficit",
+            "expenditure": 900,
+            "receipts": 700,
+            "expect": "200"
+          }
+        },
+        {
+          "id": "example-1",
+          "type": "reading",
+          "kind": "worked_example",
+          "title": "Apply fiscal deficit",
+          "body": "Total expenditure is 1,200; revenue receipts are 700 and non-debt capital receipts are 100.\n\nBorrowings are excluded from receipts; 1,200 − (700 + 100) = 400.",
+          "note": "Fiscal measures the borrowing requirement.",
+          "formula": "Answer: 400",
+          "calc": {
+            "op": "fiscal_deficit",
+            "expenditure": 1200,
+            "revenue": 700,
+            "capital": 100,
+            "expect": "400"
+          }
+        },
+        {
+          "id": "example-2",
+          "type": "reading",
+          "kind": "worked_example",
+          "title": "Apply primary deficit",
+          "body": "Fiscal deficit is 400 and interest payments are 150, in the same units.\n\nSubtract the interest payments: 400 − 150 = 250.",
+          "note": "Primary removes past debt's interest cost.",
+          "formula": "Answer: 250",
+          "calc": {
+            "op": "primary_deficit",
+            "fiscal": 400,
+            "interest": 150,
+            "expect": "250"
+          }
+        },
+        {
+          "id": "trap",
+          "type": "reading",
+          "kind": "mistake",
+          "title": "Avoid the usual mix-up",
+          "body": "Do not include borrowing as a receipt when calculating fiscal deficit, or subtract all government spending when calculating revenue deficit."
+        },
+        {
+          "id": "check-0",
+          "kind": "knowledge_check",
+          "title": "Try the distinction",
+          "type": "choice",
+          "prompt": "Revenue expenditure is 900 and revenue receipts are 700, in the same units. Which concept is being used?",
+          "options": [
+            "Revenue deficit",
+            "Fiscal deficit",
+            "Primary deficit"
+          ],
+          "answer": 0,
+          "explanation": "Only revenue items enter this calculation.",
+          "optionNotes": [
+            null,
+            "This describes revenue deficit: Revenue expenditure minus revenue receipts.",
+            "This describes revenue deficit: Revenue expenditure minus revenue receipts."
+          ]
+        },
+        {
+          "id": "check-1",
+          "kind": "knowledge_check",
+          "title": "Try the distinction",
+          "type": "choice",
+          "prompt": "Total expenditure is 1,200; revenue receipts are 700 and non-debt capital receipts are 100. Which concept is being used?",
+          "options": [
+            "Revenue deficit",
+            "Fiscal deficit",
+            "Primary deficit"
+          ],
+          "answer": 1,
+          "explanation": "Borrowings are excluded from receipts; 1,200 − (700 + 100) = 400.",
+          "optionNotes": [
+            "This describes fiscal deficit: Total expenditure minus receipts other than borrowings.",
+            null,
+            "This describes fiscal deficit: Total expenditure minus receipts other than borrowings."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "accountancy-capital-stages",
+      "version": 2,
+      "subject": "accountancy",
+      "chapter": "Share Capital",
+      "conceptId": "accountancy-capital-stages",
+      "order": 30,
+      "title": "Authorised, issued or subscribed?",
+      "summary": "Follow these three stages of share capital without confusing an issue with payment.",
+      "estimatedMinutes": 5,
+      "skill": "Classify",
+      "objectives": [
+        "Recognise and apply authorised capital",
+        "Recognise and apply issued capital",
+        "Recognise and apply subscribed capital"
+      ],
+      "examLink": "Use the distinguishing feature in the question. These are original learning activities, separate from timed chapter practice.",
+      "sourceRefs": [
+        {
+          "id": "ncert-leac201",
+          "url": "https://ncert.nic.in/textbook/pdf/leac201.pdf",
+          "label": "NCERT Accountancy, Accounting for Share Capital",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "state": "candidate",
+      "packetId": "accountancy-capital-stages",
+      "sourceEvidence": [
+        [
+          "ncert-leac201",
+          4,
+          [
+            "authorised to issue by its Memorandum"
+          ]
+        ],
+        [
+          "ncert-leac201",
+          4,
+          [
+            "including the shares allotted to vendors"
+          ]
+        ],
+        [
+          "ncert-leac201",
+          4,
+          [
+            "actually subscribed by the public"
+          ]
+        ]
+      ],
+      "blocks": [
+        {
+          "id": "idea",
+          "type": "reading",
+          "kind": "explanation",
+          "title": "What to look for",
+          "body": "Follow these three stages of share capital without confusing an issue with payment."
+        },
+        {
+          "id": "contrast",
+          "type": "reading",
+          "kind": "contrast",
+          "title": "Three ideas, compared",
+          "rows": [
+            [
+              "Concept",
+              "Keep this distinction"
+            ],
+            [
+              "Authorised capital",
+              "The share-capital ceiling permitted by the company's Memorandum of Association."
+            ],
+            [
+              "Issued capital",
+              "The part of authorised capital actually issued for subscription, including relevant allotments to vendors and memorandum signatories."
+            ],
+            [
+              "Subscribed capital",
+              "The part of issued capital actually subscribed for by the public."
+            ]
+          ]
+        },
+        {
+          "id": "decision",
+          "type": "reading",
+          "kind": "diagram",
+          "title": "Recognise the clue",
+          "flow": [
+            {
+              "label": "Authorised capital",
+              "detail": "Authorised: permitted ceiling."
+            },
+            {
+              "label": "Issued capital",
+              "detail": "Issued: actually offered or allotted."
+            },
+            {
+              "label": "Subscribed capital",
+              "detail": "Subscribed: taken up by subscribers."
+            }
+          ]
+        },
+        {
+          "id": "example-0",
+          "type": "reading",
+          "kind": "worked_example",
+          "title": "Apply authorised capital",
+          "body": "The memorandum permits the company to issue up to ₹10 lakh of share capital.\n\nThis is the permitted ceiling, not an amount necessarily offered or collected.",
+          "note": "Authorised: permitted ceiling."
+        },
+        {
+          "id": "example-1",
+          "type": "reading",
+          "kind": "worked_example",
+          "title": "Apply issued capital",
+          "body": "Within its authorised limit, the company issues ₹6 lakh of shares for subscription.\n\nIt has issued shares; applications and payment are separate stages.",
+          "note": "Issued: actually offered or allotted."
+        },
+        {
+          "id": "example-2",
+          "type": "reading",
+          "kind": "worked_example",
+          "title": "Apply subscribed capital",
+          "body": "Of the ₹6 lakh offered, subscribers take up ₹5 lakh of shares.\n\n₹5 lakh is subscribed capital; it need not all be called or paid yet.",
+          "note": "Subscribed: taken up by subscribers."
+        },
+        {
+          "id": "trap",
+          "type": "reading",
+          "kind": "mistake",
+          "title": "Avoid the usual mix-up",
+          "body": "Subscribed, called-up and paid-up capital are different. Money received cannot be inferred from the amount subscribed alone."
+        },
+        {
+          "id": "check-0",
+          "kind": "knowledge_check",
+          "title": "Try the distinction",
+          "type": "choice",
+          "prompt": "The memorandum permits the company to issue up to ₹10 lakh of share capital. Which concept is being used?",
+          "options": [
+            "Authorised capital",
+            "Issued capital",
+            "Subscribed capital"
+          ],
+          "answer": 0,
+          "explanation": "This is the permitted ceiling, not an amount necessarily offered or collected.",
+          "optionNotes": [
+            null,
+            "This describes authorised capital: The share-capital ceiling permitted by the company's Memorandum of Association.",
+            "This describes authorised capital: The share-capital ceiling permitted by the company's Memorandum of Association."
+          ]
+        },
+        {
+          "id": "check-1",
+          "kind": "knowledge_check",
+          "title": "Try the distinction",
+          "type": "choice",
+          "prompt": "Within its authorised limit, the company issues ₹6 lakh of shares for subscription. Which concept is being used?",
+          "options": [
+            "Authorised capital",
+            "Issued capital",
+            "Subscribed capital"
+          ],
+          "answer": 1,
+          "explanation": "It has issued shares; applications and payment are separate stages.",
+          "optionNotes": [
+            "This describes issued capital: The part of authorised capital actually issued for subscription, including relevant allotments to vendors and memorandum signatories.",
+            null,
+            "This describes issued capital: The part of authorised capital actually issued for subscription, including relevant allotments to vendors and memorandum signatories."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "accountancy-liquidity-ratios",
+      "version": 1,
+      "subject": "accountancy",
+      "chapter": "Accounting Ratios",
+      "conceptId": "accountancy-liquidity-ratios",
+      "order": 30,
+      "title": "Current ratio and quick ratio",
+      "summary": "Compare short-term resources with liabilities, then remove assets that are not quick.",
+      "estimatedMinutes": 5,
+      "skill": "Calculate",
+      "objectives": [
+        "Recognise and apply current ratio",
+        "Recognise and apply quick assets",
+        "Recognise and apply quick ratio"
+      ],
+      "examLink": "Use the distinguishing feature in the question. These are original learning activities, separate from timed chapter practice.",
+      "sourceRefs": [
+        {
+          "id": "ncert-leac205",
+          "url": "https://ncert.nic.in/textbook/pdf/leac205.pdf",
+          "label": "NCERT Accountancy, Accounting Ratios",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "state": "candidate",
+      "packetId": "accountancy-liquidity-ratios",
+      "sourceEvidence": [
+        [
+          "ncert-leac205",
+          7,
+          [
+            "proportion of current assets to current liabilities"
+          ]
+        ],
+        [
+          "ncert-leac205",
+          8,
+          [
+            "such as prepaid expenses"
+          ]
+        ],
+        [
+          "ncert-leac205",
+          8,
+          [
+            "Quick Assets : Current Liabilities"
+          ]
+        ]
+      ],
+      "blocks": [
+        {
+          "id": "idea",
+          "type": "reading",
+          "kind": "explanation",
+          "title": "What to look for",
+          "body": "Compare short-term resources with liabilities, then remove assets that are not quick."
+        },
+        {
+          "id": "contrast",
+          "type": "reading",
+          "kind": "contrast",
+          "title": "Three ideas, compared",
+          "rows": [
+            [
+              "Concept",
+              "Keep this distinction"
+            ],
+            [
+              "Current ratio",
+              "Current assets divided by current liabilities."
+            ],
+            [
+              "Quick assets",
+              "Current assets excluding inventories and other non-quick current assets such as prepaid expenses."
+            ],
+            [
+              "Quick ratio",
+              "Quick assets divided by current liabilities."
+            ]
+          ]
+        },
+        {
+          "id": "decision",
+          "type": "reading",
+          "kind": "diagram",
+          "title": "Recognise the clue",
+          "flow": [
+            {
+              "label": "Current ratio",
+              "detail": "Current uses all current assets."
+            },
+            {
+              "label": "Quick assets",
+              "detail": "Inventory and prepayments are not quick cash."
+            },
+            {
+              "label": "Quick ratio",
+              "detail": "Quick uses the narrower asset measure."
+            }
+          ]
+        },
+        {
+          "id": "example-0",
+          "type": "reading",
+          "kind": "worked_example",
+          "title": "Apply current ratio",
+          "body": "Current assets are ₹60,000 and current liabilities are ₹30,000.\n\n60,000 ÷ 30,000 = 2, or 2:1.",
+          "note": "Current uses all current assets.",
+          "formula": "Answer: 2",
+          "calc": {
+            "op": "liquidity_ratio",
+            "assets": 60000,
+            "liabilities": 30000,
+            "expect": "2"
+          }
+        },
+        {
+          "id": "example-1",
+          "type": "reading",
+          "kind": "worked_example",
+          "title": "Apply quick assets",
+          "body": "Current assets of ₹60,000 include inventory of ₹15,000 and prepaid expenses of ₹5,000.\n\nQuick assets = 60,000 − 15,000 − 5,000 = ₹40,000.",
+          "note": "Inventory and prepayments are not quick cash.",
+          "formula": "Answer: 40000",
+          "calc": {
+            "op": "quick_assets",
+            "assets": 60000,
+            "inventory": 15000,
+            "prepaid": 5000,
+            "expect": "40000"
+          }
+        },
+        {
+          "id": "example-2",
+          "type": "reading",
+          "kind": "worked_example",
+          "title": "Apply quick ratio",
+          "body": "Quick assets are ₹40,000 and current liabilities are ₹20,000.\n\n40,000 ÷ 20,000 = 2, or 2:1.",
+          "note": "Quick uses the narrower asset measure.",
+          "formula": "Answer: 2",
+          "calc": {
+            "op": "liquidity_ratio",
+            "assets": 40000,
+            "liabilities": 20000,
+            "expect": "2"
+          }
+        },
+        {
+          "id": "trap",
+          "type": "reading",
+          "kind": "mistake",
+          "title": "Avoid the usual mix-up",
+          "body": "A ratio is not a guarantee of solvency. Do not leave prepaid expenses inside quick assets."
+        },
+        {
+          "id": "check-0",
+          "kind": "knowledge_check",
+          "title": "Try the distinction",
+          "type": "choice",
+          "prompt": "Current assets are ₹60,000 and current liabilities are ₹30,000. Which concept is being used?",
+          "options": [
+            "Current ratio",
+            "Quick assets",
+            "Quick ratio"
+          ],
+          "answer": 0,
+          "explanation": "60,000 ÷ 30,000 = 2, or 2:1.",
+          "optionNotes": [
+            null,
+            "This describes current ratio: Current assets divided by current liabilities.",
+            "This describes current ratio: Current assets divided by current liabilities."
+          ]
+        },
+        {
+          "id": "check-1",
+          "kind": "knowledge_check",
+          "title": "Try the distinction",
+          "type": "choice",
+          "prompt": "Current assets of ₹60,000 include inventory of ₹15,000 and prepaid expenses of ₹5,000. Which concept is being used?",
+          "options": [
+            "Current ratio",
+            "Quick assets",
+            "Quick ratio"
+          ],
+          "answer": 1,
+          "explanation": "Quick assets = 60,000 − 15,000 − 5,000 = ₹40,000.",
+          "optionNotes": [
+            "This describes quick assets: Current assets excluding inventories and other non-quick current assets such as prepaid expenses.",
+            null,
+            "This describes quick assets: Current assets excluding inventories and other non-quick current assets such as prepaid expenses."
+          ]
+        }
+      ]
     }
   ],
   "cards": [
@@ -7108,6 +8363,1004 @@
             "The deflator measures prices, not production.",
             "They move apart whenever prices change."
           ]
+        }
+      ]
+    },
+    {
+      "id": "business-studies-plan-types-fact-1",
+      "version": 1,
+      "unitId": "business-studies-plan-types",
+      "subject": "business_studies",
+      "chapter": "Planning",
+      "conceptId": "business-studies-plan-types",
+      "familyId": "study:business_studies:business-studies-plan-types-fact-1:v1",
+      "objective": "Distinguish policy from the neighbouring concepts",
+      "title": "Policy",
+      "cue": "A guide leaves room to decide.",
+      "sourceRefs": [
+        {
+          "id": "ncert-lebs104",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs104.pdf",
+          "label": "NCERT Business Studies, Planning",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "variants": [
+        {
+          "variantId": "business-studies-plan-types-fact-1-v1",
+          "type": "choice",
+          "prompt": "A broad guide for decisions that leaves room for a manager's judgement. Which concept is this?",
+          "options": [
+            "Policy",
+            "Procedure",
+            "Rule"
+          ],
+          "answer": 0,
+          "explanation": "The guideline allows judgement; it does not impose an unchanging sequence or prohibition.",
+          "optionNotes": [
+            null,
+            "Compare the definitions: A broad guide for decisions that leaves room for a manager's judgement.",
+            "Compare the definitions: A broad guide for decisions that leaves room for a manager's judgement."
+          ]
+        },
+        {
+          "variantId": "business-studies-plan-types-fact-1-v2",
+          "type": "reveal",
+          "prompt": "Explain policy in your own words, and give its distinguishing feature.",
+          "answer": "A broad guide for decisions that leaves room for a manager's judgement.",
+          "explanation": "The guideline allows judgement; it does not impose an unchanging sequence or prohibition."
+        }
+      ]
+    },
+    {
+      "id": "business-studies-plan-types-fact-2",
+      "version": 1,
+      "unitId": "business-studies-plan-types",
+      "subject": "business_studies",
+      "chapter": "Planning",
+      "conceptId": "business-studies-plan-types",
+      "familyId": "study:business_studies:business-studies-plan-types-fact-2:v1",
+      "objective": "Distinguish procedure from the neighbouring concepts",
+      "title": "Procedure",
+      "cue": "Procedure = sequence.",
+      "sourceRefs": [
+        {
+          "id": "ncert-lebs104",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs104.pdf",
+          "label": "NCERT Business Studies, Planning",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "variants": [
+        {
+          "variantId": "business-studies-plan-types-fact-2-v1",
+          "type": "choice",
+          "prompt": "An ordered series of steps for carrying out an activity. Which concept is this?",
+          "options": [
+            "Policy",
+            "Procedure",
+            "Rule"
+          ],
+          "answer": 1,
+          "explanation": "The defining feature is the order of steps.",
+          "optionNotes": [
+            "Compare the definitions: An ordered series of steps for carrying out an activity.",
+            null,
+            "Compare the definitions: An ordered series of steps for carrying out an activity."
+          ]
+        },
+        {
+          "variantId": "business-studies-plan-types-fact-2-v2",
+          "type": "reveal",
+          "prompt": "Explain procedure in your own words, and give its distinguishing feature.",
+          "answer": "An ordered series of steps for carrying out an activity.",
+          "explanation": "The defining feature is the order of steps."
+        }
+      ]
+    },
+    {
+      "id": "business-studies-plan-types-fact-3",
+      "version": 1,
+      "unitId": "business-studies-plan-types",
+      "subject": "business_studies",
+      "chapter": "Planning",
+      "conceptId": "business-studies-plan-types",
+      "familyId": "study:business_studies:business-studies-plan-types-fact-3:v1",
+      "objective": "Distinguish rule from the neighbouring concepts",
+      "title": "Rule",
+      "cue": "A rule does not leave a choice.",
+      "sourceRefs": [
+        {
+          "id": "ncert-lebs104",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs104.pdf",
+          "label": "NCERT Business Studies, Planning",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "variants": [
+        {
+          "variantId": "business-studies-plan-types-fact-3-v1",
+          "type": "choice",
+          "prompt": "A specific instruction allowing no discretion about the action required. Which concept is this?",
+          "options": [
+            "Policy",
+            "Procedure",
+            "Rule"
+          ],
+          "answer": 2,
+          "explanation": "The instruction has no discretion: the required action must be followed.",
+          "optionNotes": [
+            "Compare the definitions: A specific instruction allowing no discretion about the action required.",
+            "Compare the definitions: A specific instruction allowing no discretion about the action required.",
+            null
+          ]
+        },
+        {
+          "variantId": "business-studies-plan-types-fact-3-v2",
+          "type": "reveal",
+          "prompt": "Explain rule in your own words, and give its distinguishing feature.",
+          "answer": "A specific instruction allowing no discretion about the action required.",
+          "explanation": "The instruction has no discretion: the required action must be followed."
+        }
+      ]
+    },
+    {
+      "id": "business-studies-staffing-fact-1",
+      "version": 1,
+      "unitId": "business-studies-staffing",
+      "subject": "business_studies",
+      "chapter": "Staffing",
+      "conceptId": "business-studies-staffing",
+      "familyId": "study:business_studies:business-studies-staffing-fact-1:v1",
+      "objective": "Distinguish recruitment from the neighbouring concepts",
+      "title": "Recruitment",
+      "cue": "Recruitment builds the applicant pool.",
+      "sourceRefs": [
+        {
+          "id": "ncert-lebs106",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+          "label": "NCERT Business Studies, Staffing",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "variants": [
+        {
+          "variantId": "business-studies-staffing-fact-1-v1",
+          "type": "choice",
+          "prompt": "Finding prospective employees and encouraging them to apply for jobs. Which concept is this?",
+          "options": [
+            "Recruitment",
+            "Selection",
+            "Training"
+          ],
+          "answer": 0,
+          "explanation": "It is attracting candidates, not yet choosing among them.",
+          "optionNotes": [
+            null,
+            "Compare the definitions: Finding prospective employees and encouraging them to apply for jobs.",
+            "Compare the definitions: Finding prospective employees and encouraging them to apply for jobs."
+          ]
+        },
+        {
+          "variantId": "business-studies-staffing-fact-1-v2",
+          "type": "reveal",
+          "prompt": "Explain recruitment in your own words, and give its distinguishing feature.",
+          "answer": "Finding prospective employees and encouraging them to apply for jobs.",
+          "explanation": "It is attracting candidates, not yet choosing among them."
+        }
+      ]
+    },
+    {
+      "id": "business-studies-staffing-fact-2",
+      "version": 1,
+      "unitId": "business-studies-staffing",
+      "subject": "business_studies",
+      "chapter": "Staffing",
+      "conceptId": "business-studies-staffing",
+      "familyId": "study:business_studies:business-studies-staffing-fact-2:v1",
+      "objective": "Distinguish selection from the neighbouring concepts",
+      "title": "Selection",
+      "cue": "Selection chooses from the pool.",
+      "sourceRefs": [
+        {
+          "id": "ncert-lebs106",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+          "label": "NCERT Business Studies, Staffing",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "variants": [
+        {
+          "variantId": "business-studies-staffing-fact-2-v1",
+          "type": "choice",
+          "prompt": "Choosing suitable employees from the pool of applicants. Which concept is this?",
+          "options": [
+            "Recruitment",
+            "Selection",
+            "Training"
+          ],
+          "answer": 1,
+          "explanation": "The pool exists; the company is now deciding who will join.",
+          "optionNotes": [
+            "Compare the definitions: Choosing suitable employees from the pool of applicants.",
+            null,
+            "Compare the definitions: Choosing suitable employees from the pool of applicants."
+          ]
+        },
+        {
+          "variantId": "business-studies-staffing-fact-2-v2",
+          "type": "reveal",
+          "prompt": "Explain selection in your own words, and give its distinguishing feature.",
+          "answer": "Choosing suitable employees from the pool of applicants.",
+          "explanation": "The pool exists; the company is now deciding who will join."
+        }
+      ]
+    },
+    {
+      "id": "business-studies-staffing-fact-3",
+      "version": 1,
+      "unitId": "business-studies-staffing",
+      "subject": "business_studies",
+      "chapter": "Staffing",
+      "conceptId": "business-studies-staffing",
+      "familyId": "study:business_studies:business-studies-staffing-fact-3:v1",
+      "objective": "Distinguish training from the neighbouring concepts",
+      "title": "Training",
+      "cue": "Training improves a specific job skill.",
+      "sourceRefs": [
+        {
+          "id": "ncert-lebs106",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+          "label": "NCERT Business Studies, Staffing",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "variants": [
+        {
+          "variantId": "business-studies-staffing-fact-3-v1",
+          "type": "choice",
+          "prompt": "Increasing the skills and abilities needed to perform a specific job. Which concept is this?",
+          "options": [
+            "Recruitment",
+            "Selection",
+            "Training"
+          ],
+          "answer": 2,
+          "explanation": "The focus is skill for the current job, rather than attracting or choosing employees.",
+          "optionNotes": [
+            "Compare the definitions: Increasing the skills and abilities needed to perform a specific job.",
+            "Compare the definitions: Increasing the skills and abilities needed to perform a specific job.",
+            null
+          ]
+        },
+        {
+          "variantId": "business-studies-staffing-fact-3-v2",
+          "type": "reveal",
+          "prompt": "Explain training in your own words, and give its distinguishing feature.",
+          "answer": "Increasing the skills and abilities needed to perform a specific job.",
+          "explanation": "The focus is skill for the current job, rather than attracting or choosing employees."
+        }
+      ]
+    },
+    {
+      "id": "business-studies-directing-fact-1",
+      "version": 1,
+      "unitId": "business-studies-directing",
+      "subject": "business_studies",
+      "chapter": "Directing",
+      "conceptId": "business-studies-directing",
+      "familyId": "study:business_studies:business-studies-directing-fact-1:v1",
+      "objective": "Distinguish supervision from the neighbouring concepts",
+      "title": "Supervision",
+      "cue": "Supervision stays close to the work.",
+      "sourceRefs": [
+        {
+          "id": "ncert-lebs107",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs107.pdf",
+          "label": "NCERT Business Studies, Directing",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "variants": [
+        {
+          "variantId": "business-studies-directing-fact-1-v1",
+          "type": "choice",
+          "prompt": "Overseeing employees' work and guiding their efforts while tasks are carried out. Which concept is this?",
+          "options": [
+            "Supervision",
+            "Motivation",
+            "Leadership"
+          ],
+          "answer": 0,
+          "explanation": "The manager is overseeing and guiding the actual work.",
+          "optionNotes": [
+            null,
+            "Compare the definitions: Overseeing employees' work and guiding their efforts while tasks are carried out.",
+            "Compare the definitions: Overseeing employees' work and guiding their efforts while tasks are carried out."
+          ]
+        },
+        {
+          "variantId": "business-studies-directing-fact-1-v2",
+          "type": "reveal",
+          "prompt": "Explain supervision in your own words, and give its distinguishing feature.",
+          "answer": "Overseeing employees' work and guiding their efforts while tasks are carried out.",
+          "explanation": "The manager is overseeing and guiding the actual work."
+        }
+      ]
+    },
+    {
+      "id": "business-studies-directing-fact-2",
+      "version": 1,
+      "unitId": "business-studies-directing",
+      "subject": "business_studies",
+      "chapter": "Directing",
+      "conceptId": "business-studies-directing",
+      "familyId": "study:business_studies:business-studies-directing-fact-2:v1",
+      "objective": "Distinguish motivation from the neighbouring concepts",
+      "title": "Motivation",
+      "cue": "Motivation supplies the reason to act.",
+      "sourceRefs": [
+        {
+          "id": "ncert-lebs107",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs107.pdf",
+          "label": "NCERT Business Studies, Directing",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "variants": [
+        {
+          "variantId": "business-studies-directing-fact-2-v1",
+          "type": "choice",
+          "prompt": "Stimulating people to act towards desired goals. Which concept is this?",
+          "options": [
+            "Supervision",
+            "Motivation",
+            "Leadership"
+          ],
+          "answer": 1,
+          "explanation": "Recognition is used as an incentive to encourage goal-directed action.",
+          "optionNotes": [
+            "Compare the definitions: Stimulating people to act towards desired goals.",
+            null,
+            "Compare the definitions: Stimulating people to act towards desired goals."
+          ]
+        },
+        {
+          "variantId": "business-studies-directing-fact-2-v2",
+          "type": "reveal",
+          "prompt": "Explain motivation in your own words, and give its distinguishing feature.",
+          "answer": "Stimulating people to act towards desired goals.",
+          "explanation": "Recognition is used as an incentive to encourage goal-directed action."
+        }
+      ]
+    },
+    {
+      "id": "business-studies-directing-fact-3",
+      "version": 1,
+      "unitId": "business-studies-directing",
+      "subject": "business_studies",
+      "chapter": "Directing",
+      "conceptId": "business-studies-directing",
+      "familyId": "study:business_studies:business-studies-directing-fact-3:v1",
+      "objective": "Distinguish leadership from the neighbouring concepts",
+      "title": "Leadership",
+      "cue": "Leadership creates willing effort.",
+      "sourceRefs": [
+        {
+          "id": "ncert-lebs107",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs107.pdf",
+          "label": "NCERT Business Studies, Directing",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "variants": [
+        {
+          "variantId": "business-studies-directing-fact-3-v1",
+          "type": "choice",
+          "prompt": "Influencing people to strive willingly towards organisational goals. Which concept is this?",
+          "options": [
+            "Supervision",
+            "Motivation",
+            "Leadership"
+          ],
+          "answer": 2,
+          "explanation": "The emphasis is willing effort produced through influence.",
+          "optionNotes": [
+            "Compare the definitions: Influencing people to strive willingly towards organisational goals.",
+            "Compare the definitions: Influencing people to strive willingly towards organisational goals.",
+            null
+          ]
+        },
+        {
+          "variantId": "business-studies-directing-fact-3-v2",
+          "type": "reveal",
+          "prompt": "Explain leadership in your own words, and give its distinguishing feature.",
+          "answer": "Influencing people to strive willingly towards organisational goals.",
+          "explanation": "The emphasis is willing effort produced through influence."
+        }
+      ]
+    },
+    {
+      "id": "economics-money-functions-fact-1",
+      "version": 1,
+      "unitId": "economics-money-functions",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "conceptId": "economics-money-functions",
+      "familyId": "study:economics:economics-money-functions-fact-1:v1",
+      "objective": "Distinguish medium of exchange from the neighbouring concepts",
+      "title": "Medium of exchange",
+      "cue": "Exchange: paying for the purchase.",
+      "sourceRefs": [
+        {
+          "id": "ncert-leec103",
+          "url": "https://ncert.nic.in/textbook/pdf/leec103.pdf",
+          "label": "NCERT Introductory Macroeconomics, Money and Banking",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "variants": [
+        {
+          "variantId": "economics-money-functions-fact-1-v1",
+          "type": "choice",
+          "prompt": "Money is accepted in payment, so buying does not require a matching barter partner. Which concept is this?",
+          "options": [
+            "Medium of exchange",
+            "Unit of account",
+            "Store of value"
+          ],
+          "answer": 0,
+          "explanation": "Money separates selling from buying; the shoe seller need not want grain.",
+          "optionNotes": [
+            null,
+            "Compare the definitions: Money is accepted in payment, so buying does not require a matching barter partner.",
+            "Compare the definitions: Money is accepted in payment, so buying does not require a matching barter partner."
+          ]
+        },
+        {
+          "variantId": "economics-money-functions-fact-1-v2",
+          "type": "reveal",
+          "prompt": "Explain medium of exchange in your own words, and give its distinguishing feature.",
+          "answer": "Money is accepted in payment, so buying does not require a matching barter partner.",
+          "explanation": "Money separates selling from buying; the shoe seller need not want grain."
+        }
+      ]
+    },
+    {
+      "id": "economics-money-functions-fact-2",
+      "version": 1,
+      "unitId": "economics-money-functions",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "conceptId": "economics-money-functions",
+      "familyId": "study:economics:economics-money-functions-fact-2:v1",
+      "objective": "Distinguish unit of account from the neighbouring concepts",
+      "title": "Unit of account",
+      "cue": "Account: comparing prices.",
+      "sourceRefs": [
+        {
+          "id": "ncert-leec103",
+          "url": "https://ncert.nic.in/textbook/pdf/leec103.pdf",
+          "label": "NCERT Introductory Macroeconomics, Money and Banking",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "variants": [
+        {
+          "variantId": "economics-money-functions-fact-2-v1",
+          "type": "choice",
+          "prompt": "Money provides a common unit for stating and comparing values. Which concept is this?",
+          "options": [
+            "Medium of exchange",
+            "Unit of account",
+            "Store of value"
+          ],
+          "answer": 1,
+          "explanation": "The amounts express values in one common monetary unit.",
+          "optionNotes": [
+            "Compare the definitions: Money provides a common unit for stating and comparing values.",
+            null,
+            "Compare the definitions: Money provides a common unit for stating and comparing values."
+          ]
+        },
+        {
+          "variantId": "economics-money-functions-fact-2-v2",
+          "type": "reveal",
+          "prompt": "Explain unit of account in your own words, and give its distinguishing feature.",
+          "answer": "Money provides a common unit for stating and comparing values.",
+          "explanation": "The amounts express values in one common monetary unit."
+        }
+      ]
+    },
+    {
+      "id": "economics-money-functions-fact-3",
+      "version": 1,
+      "unitId": "economics-money-functions",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "conceptId": "economics-money-functions",
+      "familyId": "study:economics:economics-money-functions-fact-3:v1",
+      "objective": "Distinguish store of value from the neighbouring concepts",
+      "title": "Store of value",
+      "cue": "Store: keeping value for later.",
+      "sourceRefs": [
+        {
+          "id": "ncert-leec103",
+          "url": "https://ncert.nic.in/textbook/pdf/leec103.pdf",
+          "label": "NCERT Introductory Macroeconomics, Money and Banking",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "variants": [
+        {
+          "variantId": "economics-money-functions-fact-3-v1",
+          "type": "choice",
+          "prompt": "Money can hold purchasing power for future use, although inflation may reduce that purchasing power. Which concept is this?",
+          "options": [
+            "Medium of exchange",
+            "Unit of account",
+            "Store of value"
+          ],
+          "answer": 2,
+          "explanation": "Money transfers purchasing power across time; it does not guarantee a constant real value.",
+          "optionNotes": [
+            "Compare the definitions: Money can hold purchasing power for future use, although inflation may reduce that purchasing power.",
+            "Compare the definitions: Money can hold purchasing power for future use, although inflation may reduce that purchasing power.",
+            null
+          ]
+        },
+        {
+          "variantId": "economics-money-functions-fact-3-v2",
+          "type": "reveal",
+          "prompt": "Explain store of value in your own words, and give its distinguishing feature.",
+          "answer": "Money can hold purchasing power for future use, although inflation may reduce that purchasing power.",
+          "explanation": "Money transfers purchasing power across time; it does not guarantee a constant real value."
+        }
+      ]
+    },
+    {
+      "id": "economics-budget-deficits-fact-1",
+      "version": 1,
+      "unitId": "economics-budget-deficits",
+      "subject": "economics",
+      "chapter": "Government Budget & the Economy",
+      "conceptId": "economics-budget-deficits",
+      "familyId": "study:economics:economics-budget-deficits-fact-1:v1",
+      "objective": "Distinguish revenue deficit from the neighbouring concepts",
+      "title": "Revenue deficit",
+      "cue": "Revenue compares only revenue items.",
+      "sourceRefs": [
+        {
+          "id": "ncert-leec105",
+          "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+          "label": "NCERT Introductory Macroeconomics, Government Budget and the Economy",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "variants": [
+        {
+          "variantId": "economics-budget-deficits-fact-1-v1",
+          "type": "choice",
+          "prompt": "Revenue expenditure minus revenue receipts. Which concept is this?",
+          "options": [
+            "Revenue deficit",
+            "Fiscal deficit",
+            "Primary deficit"
+          ],
+          "answer": 0,
+          "explanation": "Only revenue items enter this calculation.",
+          "optionNotes": [
+            null,
+            "Compare the definitions: Revenue expenditure minus revenue receipts.",
+            "Compare the definitions: Revenue expenditure minus revenue receipts."
+          ]
+        },
+        {
+          "variantId": "economics-budget-deficits-fact-1-v2",
+          "type": "numeric",
+          "prompt": "Revenue expenditure is 900 and revenue receipts are 700, in the same units. Calculate the result.",
+          "answer": "200",
+          "explanation": "Only revenue items enter this calculation.",
+          "calc": {
+            "op": "revenue_deficit",
+            "expenditure": 900,
+            "receipts": 700
+          }
+        }
+      ]
+    },
+    {
+      "id": "economics-budget-deficits-fact-2",
+      "version": 1,
+      "unitId": "economics-budget-deficits",
+      "subject": "economics",
+      "chapter": "Government Budget & the Economy",
+      "conceptId": "economics-budget-deficits",
+      "familyId": "study:economics:economics-budget-deficits-fact-2:v1",
+      "objective": "Distinguish fiscal deficit from the neighbouring concepts",
+      "title": "Fiscal deficit",
+      "cue": "Fiscal measures the borrowing requirement.",
+      "sourceRefs": [
+        {
+          "id": "ncert-leec105",
+          "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+          "label": "NCERT Introductory Macroeconomics, Government Budget and the Economy",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "variants": [
+        {
+          "variantId": "economics-budget-deficits-fact-2-v1",
+          "type": "choice",
+          "prompt": "Total expenditure minus receipts other than borrowings. Which concept is this?",
+          "options": [
+            "Revenue deficit",
+            "Fiscal deficit",
+            "Primary deficit"
+          ],
+          "answer": 1,
+          "explanation": "Borrowings are excluded from receipts; 1,200 − (700 + 100) = 400.",
+          "optionNotes": [
+            "Compare the definitions: Total expenditure minus receipts other than borrowings.",
+            null,
+            "Compare the definitions: Total expenditure minus receipts other than borrowings."
+          ]
+        },
+        {
+          "variantId": "economics-budget-deficits-fact-2-v2",
+          "type": "numeric",
+          "prompt": "Total expenditure is 1,200; revenue receipts are 700 and non-debt capital receipts are 100. Calculate the result.",
+          "answer": "400",
+          "explanation": "Borrowings are excluded from receipts; 1,200 − (700 + 100) = 400.",
+          "calc": {
+            "op": "fiscal_deficit",
+            "expenditure": 1200,
+            "revenue": 700,
+            "capital": 100
+          }
+        }
+      ]
+    },
+    {
+      "id": "economics-budget-deficits-fact-3",
+      "version": 1,
+      "unitId": "economics-budget-deficits",
+      "subject": "economics",
+      "chapter": "Government Budget & the Economy",
+      "conceptId": "economics-budget-deficits",
+      "familyId": "study:economics:economics-budget-deficits-fact-3:v1",
+      "objective": "Distinguish primary deficit from the neighbouring concepts",
+      "title": "Primary deficit",
+      "cue": "Primary removes past debt's interest cost.",
+      "sourceRefs": [
+        {
+          "id": "ncert-leec105",
+          "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+          "label": "NCERT Introductory Macroeconomics, Government Budget and the Economy",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "variants": [
+        {
+          "variantId": "economics-budget-deficits-fact-3-v1",
+          "type": "choice",
+          "prompt": "Fiscal deficit minus interest payments. Which concept is this?",
+          "options": [
+            "Revenue deficit",
+            "Fiscal deficit",
+            "Primary deficit"
+          ],
+          "answer": 2,
+          "explanation": "Subtract the interest payments: 400 − 150 = 250.",
+          "optionNotes": [
+            "Compare the definitions: Fiscal deficit minus interest payments.",
+            "Compare the definitions: Fiscal deficit minus interest payments.",
+            null
+          ]
+        },
+        {
+          "variantId": "economics-budget-deficits-fact-3-v2",
+          "type": "numeric",
+          "prompt": "Fiscal deficit is 400 and interest payments are 150, in the same units. Calculate the result.",
+          "answer": "250",
+          "explanation": "Subtract the interest payments: 400 − 150 = 250.",
+          "calc": {
+            "op": "primary_deficit",
+            "fiscal": 400,
+            "interest": 150
+          }
+        }
+      ]
+    },
+    {
+      "id": "accountancy-capital-stages-fact-1",
+      "version": 2,
+      "unitId": "accountancy-capital-stages",
+      "subject": "accountancy",
+      "chapter": "Share Capital",
+      "conceptId": "accountancy-capital-stages",
+      "familyId": "study:accountancy:accountancy-capital-stages-fact-1:v2",
+      "objective": "Distinguish authorised capital from the neighbouring concepts",
+      "title": "Authorised capital",
+      "cue": "Authorised: permitted ceiling.",
+      "sourceRefs": [
+        {
+          "id": "ncert-leac201",
+          "url": "https://ncert.nic.in/textbook/pdf/leac201.pdf",
+          "label": "NCERT Accountancy, Accounting for Share Capital",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "variants": [
+        {
+          "variantId": "accountancy-capital-stages-fact-1-v1",
+          "type": "choice",
+          "prompt": "The share-capital ceiling permitted by the company's Memorandum of Association. Which concept is this?",
+          "options": [
+            "Authorised capital",
+            "Issued capital",
+            "Subscribed capital"
+          ],
+          "answer": 0,
+          "explanation": "This is the permitted ceiling, not an amount necessarily offered or collected.",
+          "optionNotes": [
+            null,
+            "Compare the definitions: The share-capital ceiling permitted by the company's Memorandum of Association.",
+            "Compare the definitions: The share-capital ceiling permitted by the company's Memorandum of Association."
+          ]
+        },
+        {
+          "variantId": "accountancy-capital-stages-fact-1-v2",
+          "type": "reveal",
+          "prompt": "Explain authorised capital in your own words, and give its distinguishing feature.",
+          "answer": "The share-capital ceiling permitted by the company's Memorandum of Association.",
+          "explanation": "This is the permitted ceiling, not an amount necessarily offered or collected."
+        }
+      ]
+    },
+    {
+      "id": "accountancy-capital-stages-fact-2",
+      "version": 2,
+      "unitId": "accountancy-capital-stages",
+      "subject": "accountancy",
+      "chapter": "Share Capital",
+      "conceptId": "accountancy-capital-stages",
+      "familyId": "study:accountancy:accountancy-capital-stages-fact-2:v2",
+      "objective": "Distinguish issued capital from the neighbouring concepts",
+      "title": "Issued capital",
+      "cue": "Issued: actually offered or allotted.",
+      "sourceRefs": [
+        {
+          "id": "ncert-leac201",
+          "url": "https://ncert.nic.in/textbook/pdf/leac201.pdf",
+          "label": "NCERT Accountancy, Accounting for Share Capital",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "variants": [
+        {
+          "variantId": "accountancy-capital-stages-fact-2-v1",
+          "type": "choice",
+          "prompt": "The part of authorised capital actually issued for subscription, including relevant allotments to vendors and memorandum signatories. Which concept is this?",
+          "options": [
+            "Authorised capital",
+            "Issued capital",
+            "Subscribed capital"
+          ],
+          "answer": 1,
+          "explanation": "It has issued shares; applications and payment are separate stages.",
+          "optionNotes": [
+            "Compare the definitions: The part of authorised capital actually issued for subscription, including relevant allotments to vendors and memorandum signatories.",
+            null,
+            "Compare the definitions: The part of authorised capital actually issued for subscription, including relevant allotments to vendors and memorandum signatories."
+          ]
+        },
+        {
+          "variantId": "accountancy-capital-stages-fact-2-v2",
+          "type": "reveal",
+          "prompt": "Explain issued capital in your own words, and give its distinguishing feature.",
+          "answer": "The part of authorised capital actually issued for subscription, including relevant allotments to vendors and memorandum signatories.",
+          "explanation": "It has issued shares; applications and payment are separate stages."
+        }
+      ]
+    },
+    {
+      "id": "accountancy-capital-stages-fact-3",
+      "version": 2,
+      "unitId": "accountancy-capital-stages",
+      "subject": "accountancy",
+      "chapter": "Share Capital",
+      "conceptId": "accountancy-capital-stages",
+      "familyId": "study:accountancy:accountancy-capital-stages-fact-3:v2",
+      "objective": "Distinguish subscribed capital from the neighbouring concepts",
+      "title": "Subscribed capital",
+      "cue": "Subscribed: taken up by subscribers.",
+      "sourceRefs": [
+        {
+          "id": "ncert-leac201",
+          "url": "https://ncert.nic.in/textbook/pdf/leac201.pdf",
+          "label": "NCERT Accountancy, Accounting for Share Capital",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "variants": [
+        {
+          "variantId": "accountancy-capital-stages-fact-3-v1",
+          "type": "choice",
+          "prompt": "The part of issued capital actually subscribed for by the public. Which concept is this?",
+          "options": [
+            "Authorised capital",
+            "Issued capital",
+            "Subscribed capital"
+          ],
+          "answer": 2,
+          "explanation": "₹5 lakh is subscribed capital; it need not all be called or paid yet.",
+          "optionNotes": [
+            "Compare the definitions: The part of issued capital actually subscribed for by the public.",
+            "Compare the definitions: The part of issued capital actually subscribed for by the public.",
+            null
+          ]
+        },
+        {
+          "variantId": "accountancy-capital-stages-fact-3-v2",
+          "type": "reveal",
+          "prompt": "Explain subscribed capital in your own words, and give its distinguishing feature.",
+          "answer": "The part of issued capital actually subscribed for by the public.",
+          "explanation": "₹5 lakh is subscribed capital; it need not all be called or paid yet."
+        }
+      ]
+    },
+    {
+      "id": "accountancy-liquidity-ratios-fact-1",
+      "version": 1,
+      "unitId": "accountancy-liquidity-ratios",
+      "subject": "accountancy",
+      "chapter": "Accounting Ratios",
+      "conceptId": "accountancy-liquidity-ratios",
+      "familyId": "study:accountancy:accountancy-liquidity-ratios-fact-1:v1",
+      "objective": "Distinguish current ratio from the neighbouring concepts",
+      "title": "Current ratio",
+      "cue": "Current uses all current assets.",
+      "sourceRefs": [
+        {
+          "id": "ncert-leac205",
+          "url": "https://ncert.nic.in/textbook/pdf/leac205.pdf",
+          "label": "NCERT Accountancy, Accounting Ratios",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "variants": [
+        {
+          "variantId": "accountancy-liquidity-ratios-fact-1-v1",
+          "type": "choice",
+          "prompt": "Current assets divided by current liabilities. Which concept is this?",
+          "options": [
+            "Current ratio",
+            "Quick assets",
+            "Quick ratio"
+          ],
+          "answer": 0,
+          "explanation": "60,000 ÷ 30,000 = 2, or 2:1.",
+          "optionNotes": [
+            null,
+            "Compare the definitions: Current assets divided by current liabilities.",
+            "Compare the definitions: Current assets divided by current liabilities."
+          ]
+        },
+        {
+          "variantId": "accountancy-liquidity-ratios-fact-1-v2",
+          "type": "numeric",
+          "prompt": "Current assets are ₹60,000 and current liabilities are ₹30,000. Calculate the result. Enter a number, for example 2 for 2:1.",
+          "answer": "2",
+          "explanation": "60,000 ÷ 30,000 = 2, or 2:1.",
+          "calc": {
+            "op": "liquidity_ratio",
+            "assets": 60000,
+            "liabilities": 30000
+          }
+        }
+      ]
+    },
+    {
+      "id": "accountancy-liquidity-ratios-fact-2",
+      "version": 1,
+      "unitId": "accountancy-liquidity-ratios",
+      "subject": "accountancy",
+      "chapter": "Accounting Ratios",
+      "conceptId": "accountancy-liquidity-ratios",
+      "familyId": "study:accountancy:accountancy-liquidity-ratios-fact-2:v1",
+      "objective": "Distinguish quick assets from the neighbouring concepts",
+      "title": "Quick assets",
+      "cue": "Inventory and prepayments are not quick cash.",
+      "sourceRefs": [
+        {
+          "id": "ncert-leac205",
+          "url": "https://ncert.nic.in/textbook/pdf/leac205.pdf",
+          "label": "NCERT Accountancy, Accounting Ratios",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "variants": [
+        {
+          "variantId": "accountancy-liquidity-ratios-fact-2-v1",
+          "type": "choice",
+          "prompt": "Current assets excluding inventories and other non-quick current assets such as prepaid expenses. Which concept is this?",
+          "options": [
+            "Current ratio",
+            "Quick assets",
+            "Quick ratio"
+          ],
+          "answer": 1,
+          "explanation": "Quick assets = 60,000 − 15,000 − 5,000 = ₹40,000.",
+          "optionNotes": [
+            "Compare the definitions: Current assets excluding inventories and other non-quick current assets such as prepaid expenses.",
+            null,
+            "Compare the definitions: Current assets excluding inventories and other non-quick current assets such as prepaid expenses."
+          ]
+        },
+        {
+          "variantId": "accountancy-liquidity-ratios-fact-2-v2",
+          "type": "numeric",
+          "prompt": "Current assets of ₹60,000 include inventory of ₹15,000 and prepaid expenses of ₹5,000. Calculate the result.",
+          "answer": "40000",
+          "explanation": "Quick assets = 60,000 − 15,000 − 5,000 = ₹40,000.",
+          "calc": {
+            "op": "quick_assets",
+            "assets": 60000,
+            "inventory": 15000,
+            "prepaid": 5000
+          }
+        }
+      ]
+    },
+    {
+      "id": "accountancy-liquidity-ratios-fact-3",
+      "version": 1,
+      "unitId": "accountancy-liquidity-ratios",
+      "subject": "accountancy",
+      "chapter": "Accounting Ratios",
+      "conceptId": "accountancy-liquidity-ratios",
+      "familyId": "study:accountancy:accountancy-liquidity-ratios-fact-3:v1",
+      "objective": "Distinguish quick ratio from the neighbouring concepts",
+      "title": "Quick ratio",
+      "cue": "Quick uses the narrower asset measure.",
+      "sourceRefs": [
+        {
+          "id": "ncert-leac205",
+          "url": "https://ncert.nic.in/textbook/pdf/leac205.pdf",
+          "label": "NCERT Accountancy, Accounting Ratios",
+          "permission": "reference only; MockMob explanations and scenarios are original"
+        }
+      ],
+      "variants": [
+        {
+          "variantId": "accountancy-liquidity-ratios-fact-3-v1",
+          "type": "choice",
+          "prompt": "Quick assets divided by current liabilities. Which concept is this?",
+          "options": [
+            "Current ratio",
+            "Quick assets",
+            "Quick ratio"
+          ],
+          "answer": 2,
+          "explanation": "40,000 ÷ 20,000 = 2, or 2:1.",
+          "optionNotes": [
+            "Compare the definitions: Quick assets divided by current liabilities.",
+            "Compare the definitions: Quick assets divided by current liabilities.",
+            null
+          ]
+        },
+        {
+          "variantId": "accountancy-liquidity-ratios-fact-3-v2",
+          "type": "numeric",
+          "prompt": "Quick assets are ₹40,000 and current liabilities are ₹20,000. Calculate the result. Enter a number, for example 2 for 2:1.",
+          "answer": "2",
+          "explanation": "40,000 ÷ 20,000 = 2, or 2:1.",
+          "calc": {
+            "op": "liquidity_ratio",
+            "assets": 40000,
+            "liabilities": 20000
+          }
         }
       ]
     }

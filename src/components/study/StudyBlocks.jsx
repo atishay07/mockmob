@@ -46,6 +46,7 @@ export function ReadingBlock({ block, speak }) {
     {block.passage ? <Passage passage={block.passage} /> : null}
     {block.kind === 'worked_example' && block.passage ? <Paragraphs text={block.body} /> : null}
     {block.steps ? <ol className="sx-steps">{block.steps.map((s, i) => <li key={i}>{s}</li>)}</ol> : null}
+    {block.flow ? <ol className="sx-concept-map" aria-label={block.title}>{block.flow.map(s=><li key={s.label}><b>{s.label}</b><span>{s.detail}</span></li>)}</ol> : null}
     <Table rows={block.rows} caption={block.title} />
     {block.words ? <ul className="sx-words">{block.words.map(w => <li key={w.word}>
       <div className="sx-words__head"><b lang="en">{w.word}</b>{w.spellings?.length ? <small>also {w.spellings.join(', ')}</small> : null}{speak ? <HearButton word={w.word} speak={speak} /> : null}</div>
@@ -68,7 +69,7 @@ export function AnswerForm({ item, busy, locked, onSubmit, onSkip, assistedToggl
       <input type="text" inputMode={item.type === 'numeric' ? 'decimal' : 'text'} value={value} onChange={e => setValue(e.target.value)} maxLength={200} autoComplete="off" autoCapitalize="none" autoCorrect="off" spellCheck={false} disabled={busy || locked} enterKeyHint="done" />
     </label>}
     {item.hint ? <p className="sx-hint">{item.hint}</p> : null}
-    {assistedToggle ? <label className="sx-check"><input type="checkbox" checked={assisted} onChange={e => setAssisted(e.target.checked)} disabled={busy || locked} />I looked it up or got help</label> : null}
+    {assistedToggle ? <div className="sx-retrieval"><p className="sx-small">How are you answering?</p><div role="group" aria-label="Recall assistance"><button type="button" aria-pressed={!assisted} disabled={busy || locked} onClick={()=>setAssisted(false)}>From memory</button><button type="button" aria-pressed={assisted} disabled={busy || locked} onClick={()=>setAssisted(true)}>I used help</button></div></div> : null}
     <div className="sx-actions">
       <button className="btn-volt md" type="submit" disabled={busy || locked || !ready}>Check answer</button>
       <button className="sx-quiet" type="button" disabled={busy || locked} onClick={() => onSkip(item.type === 'choice' ? -1 : '', assisted)}>I don’t know</button>

@@ -3,10 +3,11 @@ import { readFileSync } from 'node:fs';
 import { randomUUID, createHash } from 'node:crypto';
 import { supabaseAdmin } from '@/lib/supabase';
 import { Database } from '@/../data/db';
-import { DEFAULT_PREFERENCES, createStudyRun, preferences, recallQueue, studyTransition, publicStudyItem, requestKeyValid, istDay, SCHEDULER_VERSION, cardItem, NEW_CARDS_PER_DAY } from '@/../data/study_engine';
+import { DEFAULT_PREFERENCES, createStudyRun, preferences, recallQueue, taughtRecallCards, studyTransition, publicStudyItem, requestKeyValid, istDay, SCHEDULER_VERSION, cardItem, NEW_CARDS_PER_DAY } from '@/../data/study_engine';
 import { scheduleReview } from '@/../data/study_scheduler.mjs';
 import { createEmptyCard } from 'ts-fsrs';
 import { canonicalStudyJSON } from '@/../data/study_content';
+import { studyHelpEvidence } from '@/../data/study_help';
 
 export const studyContentEnabled = () => process.env.STUDY_CONTENT_ENABLED === 'true';
 export const studyRecallEnabled = () => studyContentEnabled() && process.env.STUDY_RECALL_ENABLED === 'true';
@@ -71,11 +72,11 @@ export async function studyRecord(userId,{subject,limit=10,weakConcepts=[],weakC
   const cards=allCards.filter(card=>units.some(unit=>unit.id===card.unitId));
   const queueCards=allSubjects && !subject ? cards.filter(c=>units.some(u=>u.id===c.unitId && prefs.subjects.includes(u.subject))) : cards;
   const introducedToday=(states||[]).filter(s=>s.introduced_day===istDay(at)).length;
-  const queue = recallQueue(queueCards,states || [],at,introducedToday,limit,allCards);
   const validRuns = (runs||[]).filter(r=>runIsCurrent(r,allUnits));
   const active = validRuns.find(r=>r.projection.state==='active');
   const activeLearn = new Map(validRuns.filter(r=>r.mode==='learn' && r.projection.state==='active').map(r=>[r.content.units[0]?.id,r]));
   const read = new Set((progress?.completedUnits || []).filter(completed=>allUnits.some(u=>u.id===completed.id && u.version===completed.version && u.contentHash===completed.contentHash)).map(u=>u.id));
+  const queue = recallQueue(taughtRecallCards(queueCards,states || [],read),states || [],at,introducedToday,limit,allCards);
   const view = u => {
     const memory = unitMemory(allCards.filter(c=>c.unitId===u.id),states || [],at);
     const learning = activeLearn.get(u.id);
@@ -135,7 +136,29 @@ function publicRun(row) {
 async function runRow(userId,id) {
   const {data,error} = await supabaseAdmin().from('study_runs').select('*').eq('user_id',userId).eq('id',id).maybeSingle(); fail(error); if(!data) throw new Error('RUN_NOT_FOUND'); return data;
 }
-export async function getStudyRun(userId,id) { const row=await runRow(userId,id);await validateRun(row);return publicRun(row); }
+export async function getStudyRun(userId,id) {
+  const row=await runRow(userId,id);
+  try { await validateRun(row); return publicRun(row); }
+  catch(error) {
+    if(error.message !== 'STUDY_CONTENT_CHANGED') throw error;
+    const current=await publishedContent();
+    // Return only replacement navigation, never withdrawn teaching or answer keys.
+    return {id:row.id,mode:row.mode,state:'invalidated',title:row.content.title,
+      units:row.content.units.filter(u=>current.some(c=>c.id===u.id)).map(({id,title,subject,chapter})=>({id,title,subject,chapter}))};
+  }
+}
+export async function studyTutorContext(userId,id,{expectedRevision,itemId}={}) {
+  const row=await runRow(userId,id);
+  await validateRun(row);
+  if(row.revision!==expectedRevision || row.content.items[row.projection.cursor]?.id!==itemId) throw new Error('REVISION_CONFLICT');
+  return studyHelpEvidence(row);
+}
+export async function studyChapterSummary(userId,subject,chapter) {
+  const units=(await publishedContent()).filter(u=>u.subject===subject && u.chapter===chapter);
+  if(!units.length) throw new Error('CHAPTER_NOT_FOUND');
+  for(const unit of units){const {error}=await supabaseAdmin().rpc('record_study_exposure',{p_user:userId,p_unit:unit.id,p_version:unit.version,p_hash:unit.contentHash});fail(error);}
+  return {subject,chapter,partial:true,units:units.map(u=>({id:u.id,title:u.title,version:u.version,objectives:u.objectives,sourceRefs:u.sourceRefs,blocks:u.blocks.filter(b=>b.type==='reading').map(b=>publicStudyItem(b))}))};
+}
 // Close an older active session so a student can open another lesson. History and schedules stay.
 async function setAside(userId,row) {
   const key=`set_aside_${randomUUID().replaceAll('-','')}`;
@@ -173,7 +196,11 @@ export async function startStudyRun(userId,input,attempt=0) {
     if(!studyRecallEnabled()) throw new Error('STUDY_RECALL_UNAVAILABLE');
     const {data:stored,error:stateError}=await db.from('study_card_states').select('*').eq('user_id',userId);fail(stateError);
     const allCards=await publishedCards(allUnits);
-    const queue=recallQueue(allCards.filter(card=>units.some(unit=>unit.id===card.unitId)),stored || [],Date.now(),(stored || []).filter(s=>s.introduced_day===istDay(Date.now())).length,10,allCards);
+    const record=await studyRecord(userId,{allSubjects:true});
+    const selected=allCards.filter(card=>units.some(unit=>unit.id===card.unitId));
+    const eligible=taughtRecallCards(selected,stored || [],record.units.filter(u=>u.read).map(u=>u.id));
+    if(!eligible.length && selected.length) throw new Error('LESSON_NOT_READ');
+    const queue=recallQueue(eligible,stored || [],Date.now(),(stored || []).filter(s=>s.introduced_day===istDay(Date.now())).length,10,allCards);
     if(!queue.items.length) throw new Error(queue.newAllowance===0 && queue.unseenCount ? 'DAILY_NEW_LIMIT_REACHED' : 'NOTHING_DUE');
     items=queue.items.map(x=>cardItem(x.card,x.stored?.schedule?.reps || 0));
     states=queue.items.filter(x=>!x.stored).map(x=>({card_id:x.card.id,content_version:x.card.version,schedule:JSON.parse(JSON.stringify(createEmptyCard())),scheduler_version:SCHEDULER_VERSION}));

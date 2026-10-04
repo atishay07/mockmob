@@ -1,0 +1,11 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+import {canonicalStudyJSON} from '../../data/study_content.js';
+const before=JSON.parse(execFileSync('git',['show','d3ec177:data/study/pilot.json'],{encoding:'utf8',maxBuffer:64<<20}));
+const after=JSON.parse(readFileSync('data/study/pilot.json','utf8'));
+const hash=v=>createHash('sha256').update(canonicalStudyJSON(v)).digest('hex');
+const changed=kind=>before[kind].filter(row=>{const current=after[kind].find(x=>x.id===row.id&&x.version===row.version);return !current||hash(row)!==hash(current);}).map(x=>`${x.id}@${x.version}`);
+const out={at:new Date().toISOString(),baseline:'d3ec177',baselineUnits:before.units.length,baselineCards:before.cards.length,changedUnits:changed('units'),changedCards:changed('cards')};
+writeFileSync('artifacts/study-suite/v3/baseline-receipt.json',JSON.stringify(out,null,2)+'\n');console.log(JSON.stringify(out));
+if(out.changedUnits.length||out.changedCards.length)process.exit(1);

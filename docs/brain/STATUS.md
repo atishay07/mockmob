@@ -1,4 +1,55 @@
-# Implementation status — latest update: 4 October 2026
+# Implementation status — latest update: 5 October 2026
+
+## 5 October 2026 — Source-linked study expansion and journey fixes
+
+Implemented in the isolated `artifacts/study-suite/release` checkout; the original dirty
+checkout and its unfinished owner edits are preserved. Existing Android/offline work is
+retained. See `STUDY-CONTENT-WORKFLOW.md` for inexpensive expansion and correction rules.
+
+- Current manifest: 21 lessons / 86 cards / 221 task variants; partial lesson coverage
+  in 15 of 54 chapters, up from 8. Seven new concept packets cover Planning, Staffing,
+  Directing, Money & Banking, Government Budget, Share Capital and Accounting Ratios.
+  The preceding 14 lessons and 65 cards retain their exact canonical content hashes.
+- Source-linked authoring compiles teaching, contrasts, concept maps, original checks,
+  recall and printable material once. Strict PDF/digest reconciliation, independent
+  arithmetic and packet/key checks passed with no quarantine. Skipping PDF checks cannot
+  publish; same-version mutations fail. No paid content generation ran.
+- Saved SQL and PGlite receipts preceded current-project inserts. Read-only live plan
+  matched all 79 preceding rows; insert verification matches all 107 current unit/card
+  rows. Share-capital title narrowed to the three stages actually taught through an
+  immutable v2 correction, not an overwrite. Superseded v1 withdrawal follows deployment.
+  No question-bank, attempt, entitlement or balance changes were made by the importer.
+- Recall introduces new cards only after teaching. Corrected sessions link to current
+  lessons. Mixed revision navigates directly and lists learned concepts within the
+  20-concept limit. Results show all matched lessons. Student controls use large selection
+  tiles, explicit assistance choices, specific next actions and reduced-motion-safe reveals.
+- Owner-authorised chapter summaries return reading blocks only, record teaching
+  exposure and do not certify completion. Browser print/PDF action and print CSS included.
+- Optional one-credit tutor uses only the current published lesson or already revealed
+  feedback, validated against owner, version, revision and item before credit reservation.
+  Existing $25/IST-month runtime guard and 10/50 Free/Pro allowances retained. One owner QA
+  explanation completed: one credit committed, provider receipt $0.00032835. Content
+  generation spend remains $0. Same-step saved explanations can replay without a second
+  charge. Removed the obsolete Demo Login provider; server-validated Supabase auth retained.
+- Fresh verification: recovery 35, learning 80, study 22, payment/answer-integrity/NTA/UI
+  45 — 182 distinct tests, all passed without skips. Lint and production build passed.
+  Sandbox build stalled; the normal-filesystem build completed, with no config workaround.
+  Canonical source/content validation and isolated import/correction dry runs passed.
+- Browser preview completed a new Planning lesson, two keyboard checks and the transition
+  into three recall cards. Real signed-in run saved and resumed step 2 after reload;
+  the tutor returned a correct policy/procedure/rule explanation. Server-backed chapter
+  summary loaded in both themes. Comparison/summary at 320/390/768/1024/1440 and short
+  landscape: no document overflow; inspected controls at least 44px. These are owner QA
+  and viewport-emulation checks, not student outcomes or physical-device performance.
+
+Evidence: `artifacts/study-suite/v3/` and `artifacts/study-suite/coverage.json`.
+Publication and live smoke pending at this entry. Rollback keeps records: revert the
+release commit or disable the existing independent study flags and redeploy; no deletes.
+New rows are ignored by the preceding release manifest. Remaining: 39 chapters without
+lessons, deeper coverage within the 15 touched chapters, real-device/offline-pack checks,
+screen reader/200% zoom/OS reduced motion, actual print output, field CWV, delayed unseen
+question outcomes and Supabase CLI migration-history reconciliation. No full-coverage,
+mastery or superiority claim is authorized by this source/self-study gate.
 
 ## 4 October 2026 — Mobile refinement publication authorized (Codex)
 

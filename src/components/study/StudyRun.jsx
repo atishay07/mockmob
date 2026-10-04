@@ -4,18 +4,20 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowRight, Check, X, BookOpenText, Target, RotateCcw } from 'lucide-react';
 import { ReadingBlock, AnswerForm, Feedback, HearButton, usePronounce, Passage } from './StudyBlocks';
 import { BLOCK_LABEL, RATINGS, friendlyError, itemLabel, practiceHref, subjectName, whenDue } from './studyCopy';
+import StudyHelp from './StudyHelp';
 
 const newKey = () => (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`).replace(/[^a-zA-Z0-9_-]/g, '');
 
 export default function StudyRun({ run: initial, api, onOpenRun, onExit }) {
   const [run, setRun] = useState(initial), [busy, setBusy] = useState(false), [error, setError] = useState(null), [saved, setSaved] = useState(''), [hasPending, setHasPending] = useState(false);
-  const pending = useRef(null), heading = useRef(null);
+  const pending = useRef(null), heading = useRef(null), flight=useRef(false);
   const { speak, notice, cancel } = usePronounce();
   useEffect(() => () => cancel(), []); // eslint-disable-line react-hooks/exhaustive-deps
   const item = run.item, isLesson = run.mode === 'learn', unit = run.units?.[0];
 
   const send = async event => {
-    if (busy) return;
+    if (flight.current) return;
+    flight.current=true;
     const input = pending.current || { ...event, itemId: item.id, expectedRevision: run.revision, requestKey: newKey() };
     pending.current = input; setHasPending(true); setBusy(true); setError(null);
     try {
@@ -27,7 +29,7 @@ export default function StudyRun({ run: initial, api, onOpenRun, onExit }) {
         requestAnimationFrame(() => heading.current?.focus());
       }
       setRun(next);
-    } catch (e) { setError(friendlyError(e)); } finally { setBusy(false); }
+    } catch (e) { setError(friendlyError(e)); } finally { flight.current=false;setBusy(false); }
   };
   const reload = async () => {
     pending.current = null; setHasPending(false); setBusy(true); setError(null);
@@ -57,12 +59,12 @@ export default function StudyRun({ run: initial, api, onOpenRun, onExit }) {
     <ol className="sx-pips" aria-label={`${isLesson ? 'Step' : 'Card'} ${step} of ${total}`}>{Array.from({ length: total }, (_, i) => <li key={i} className={i < run.cursor ? 'done' : i === run.cursor ? 'now' : ''} />)}</ol>
     {saved ? <p className="sx-saved" role="status"><Check size={16} aria-hidden="true" />{saved}</p> : null}
     {errorBox}
-    <section className="sx-stage" aria-busy={busy}>
+    <section className={`sx-stage ${!isLesson ? 'sx-memory-card' : ''}`} aria-busy={busy} data-revealed={run.revealed || undefined}>
       <p className="sx-stage__label">{label}</p>
       <h1 ref={heading} tabIndex={-1} className="sx-focus">{item.title && (isLesson || item.type === 'reading') ? item.title : item.prompt}</h1>
       {item.type === 'reading' ? <>
         <ReadingBlock block={item} speak={speak} />
-        <div className="sx-actions sx-actions--sticky"><button className="btn-volt md" type="button" onClick={() => send({ type: 'continue' })} disabled={busy}>{step === total ? 'Finish lesson' : 'Continue'}<ArrowRight size={16} aria-hidden="true" /></button></div>
+        <div className="sx-actions sx-actions--sticky"><button className="btn-volt md" type="button" onClick={() => send({ type: 'continue' })} disabled={busy}>{step === total ? 'Finish lesson' : run.steps?.[run.cursor+1]?.kind === 'knowledge_check' ? 'Try a quick check' : 'Next: '+(run.steps?.[run.cursor+1]?.title || 'continue')}<ArrowRight size={16} aria-hidden="true" /></button></div>
       </> : <>
         {item.context ? (item.context.length > 160 ? <Passage passage={{ label: 'Read this', sentences: item.context.split(/(?<=[.!?])\s+/) }} /> : <blockquote className="sx-context">{item.context}</blockquote>) : null}
         {item.title && item.prompt && (isLesson || item.type === 'reading') ? <p className="sx-prompt">{item.prompt}</p> : null}
@@ -75,12 +77,13 @@ export default function StudyRun({ run: initial, api, onOpenRun, onExit }) {
           {!isLesson && unit && item.unitId ? <p className="sx-small"><Link className="sx-link" href={`/learn/${item.unitId}`}>Reread the lesson for this card</Link></p> : null}
         </> : item.type === 'reveal' ? <>
           <p className="sx-hint">Say or write your answer first, then check it.</p>
-          <div className="sx-actions sx-actions--sticky"><button className="btn-volt md" type="button" onClick={() => send({ type: 'reveal' })} disabled={busy}>Show the answer</button></div>
+          <div className="sx-actions sx-actions--sticky"><button className="btn-volt md sx-turn" type="button" onClick={() => send({ type: 'reveal' })} disabled={busy} aria-label="Turn card and show the answer">Turn card · check your recall<RotateCcw size={18} aria-hidden="true" /></button></div>
         </> : <AnswerForm key={`${item.id}-${run.revision}`} item={item} busy={busy} locked={hasPending} assistedToggle={!isLesson}
           onSubmit={(value, assisted) => send({ type: 'answer', value: item.type === 'choice' ? value : String(value), assisted })} onSkip={(value, assisted) => send({ type: 'answer', value, assisted })} />}
       </>}
       {notice ? <p className="sx-small" role="status">{notice}</p> : null}
     </section>
+    {(item.type==='reading' || run.revealed) ? <StudyHelp key={`${item.id}-${run.revision}`} runId={run.id} revision={run.revision} itemId={item.id} preview={!!onExit} /> : null}
     {run.lastReview?.lessonRecommended ? <p className="sx-alert">You’ve missed this card a few times. <Link className="sx-link" href={`/learn/${run.lastReview.unitId}`}>Reread its lesson</Link> before the next review.</p> : null}
     <p className="sx-small sx-autosave">{busy ? 'Saving…' : 'Every answer is saved as you go. You can leave and continue later from Learn or Today.'}</p>
   </div>;
@@ -106,6 +109,7 @@ function LessonDone({ run, api, onOpenRun }) {
     {info?.objectives?.length ? <><h2 className="sx-h3">This lesson covered</h2><ul className="sx-ticks">{info.objectives.map(o => <li key={o}><Check size={16} aria-hidden="true" />{o}</li>)}</ul></> : null}
     <div className="sx-next">
       <h2 className="sx-h3">Next: lock it in</h2>
+      <p className="sx-small">Your lesson’s recall cards are ready. Answer from memory, then we’ll bring them back when they’re due. Included — no AI credits.</p>
       {!info ? <p className="sx-small" role="status">Checking your review cards…</p>
         : available ? <><p>Answer {available} {available === 1 ? 'card' : 'cards'} from this lesson from memory — about {Math.max(2, Math.ceil(available * 0.6))} minutes. Each answer sets when you’ll see that card again, so the idea is still there on exam day.</p>
           <button className="btn-volt md" type="button" onClick={lockIn} disabled={busy}>Lock it in · {available} {available === 1 ? 'card' : 'cards'}<ArrowRight size={16} aria-hidden="true" /></button></>

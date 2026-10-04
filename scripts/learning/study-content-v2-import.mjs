@@ -12,6 +12,8 @@ import { canonicalStudyJSON } from '../../data/study_content.js';
 const digest = v => createHash('sha256').update(canonicalStudyJSON(v)).digest('hex');
 const pilot = JSON.parse(readFileSync('data/study/pilot.json', 'utf8'));
 const release = JSON.parse(readFileSync('data/study/release.json', 'utf8'));
+const artifactDir=process.argv.find(a=>a.startsWith('--artifact-dir='))?.slice(15) || 'artifacts/study-suite';
+if(!/^artifacts\/study-suite(?:\/v\d+)?$/.test(artifactDir)) throw new Error('INVALID_ARTIFACT_DIRECTORY');
 const literal = value => `'${JSON.stringify(value).replaceAll("'", "''")}'::jsonb`;
 const units = pilot.units.filter(u => release.units[`${u.id}@${u.version}`]?.contentHash === digest(u));
 const cards = pilot.cards.filter(c => release.cards[`${c.id}@${c.version}`]?.contentHash === digest(c));
@@ -35,14 +37,14 @@ ${superseded.map(s => `update public.study_units set publication_state='quaranti
 commit;
 select id,version,publication_state from public.study_units where id in (${superseded.map(s => `'${s.id}'`).join(',')}) order by id,version;
 `;
-mkdirSync('artifacts/study-suite', { recursive: true });
-writeFileSync('artifacts/study-suite/content-v2-phase1.sql', phase1);
-writeFileSync('artifacts/study-suite/content-v2-phase2.sql', phase2);
+mkdirSync(artifactDir, { recursive: true });
+writeFileSync(`${artifactDir}/content-v2-phase1.sql`, phase1);
+writeFileSync(`${artifactDir}/content-v2-phase2.sql`, phase2);
 
 // ---------- Dry run against the four applied migrations with the current production shape ----------
 const old = JSON.parse(execFileSync('git', ['show', 'a6a61cc:data/study/pilot.json'], { encoding: 'utf8', maxBuffer: 64 << 20 }));
 const db = new PGlite();
-const report = { at: new Date().toISOString(), scope: 'Isolated PGlite dry run of the saved two-phase import; not production evidence', checks: {} };
+const report = { at: new Date().toISOString(), contentDigest:digest(pilot), scope: 'Isolated PGlite dry run of the saved two-phase import; not production evidence', checks: {} };
 try {
   await db.exec(`create role anon;create role authenticated;create role service_role bypassrls;
     create table users(id text primary key,credit_balance int,is_premium boolean,premium_until timestamptz);
@@ -78,6 +80,6 @@ try {
   report.counts = { releasedUnits: units.length, releasedCards: cards.length, supersededUnits: superseded.map(s => `${s.id}@<${s.below}`) };
 } finally { await db.close(); }
 report.state = Object.values(report.checks).every(Boolean) ? 'passed' : 'failed';
-writeFileSync('artifacts/study-suite/content-v2-import-dry-run-report.json', JSON.stringify(report, null, 2) + '\n');
+writeFileSync(`${artifactDir}/content-v2-import-dry-run-report.json`, JSON.stringify(report, null, 2) + '\n');
 console.log(JSON.stringify(report, null, 1));
 if (report.state !== 'passed') process.exit(1);

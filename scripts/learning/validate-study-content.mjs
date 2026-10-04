@@ -8,12 +8,14 @@ import { execFileSync } from 'node:child_process';
 import { canonicalStudyJSON } from '../../data/study_content.js';
 import { parseRational, parseRatio, cardItem } from '../../data/study_engine.js';
 import { parseSynset } from './lib/wordnet.mjs';
+import { compilePacket } from '../../data/study/authored/packetCompiler.mjs';
 
 const sha = v => createHash('sha256').update(v).digest('hex');
 const digest = v => sha(canonicalStudyJSON(v));
 const contentPath = process.argv.find(a => a.startsWith('--content='))?.slice(10) || 'data/study/pilot.json';
 const content = JSON.parse(readFileSync(contentPath, 'utf8'));
 const skipSources = process.argv.includes('--skip-pdf'); // tests without the ignored PDFs
+if (skipSources && process.argv.includes('--write')) throw new Error('SOURCE_CHECK_REQUIRED: cannot publish with PDF reconciliation disabled');
 const registry = JSON.parse(readFileSync('data/study/sources/registry.json', 'utf8'));
 const wordnet = JSON.parse(readFileSync('data/study/sources/wordnet-excerpts.json', 'utf8'));
 const problems = new Map();
@@ -45,6 +47,11 @@ function compute(calc) {
     case 'real_gdp': { const [n, d] = F(calc.nominal * 100, calc.deflator); return { kind: 'number', value: `${n}/${d}` }; }
     case 'nominal_q': return { kind: 'number', value: String(calc.q * calc.p) };
     case 'real_q': return { kind: 'number', value: String(calc.q * calc.base) };
+    case 'revenue_deficit': return {kind:'number',value:String(calc.expenditure-calc.receipts)};
+    case 'fiscal_deficit': return {kind:'number',value:String(calc.expenditure-(calc.revenue+calc.capital))};
+    case 'primary_deficit': return {kind:'number',value:String(calc.fiscal-calc.interest)};
+    case 'liquidity_ratio': return {kind:'number',value:String(calc.assets/calc.liabilities)};
+    case 'quick_assets': return {kind:'number',value:String(calc.assets-(calc.inventory+calc.prepaid))};
     default: return { kind: 'error' };
   }
 }
@@ -59,7 +66,7 @@ function checkCalc(owner, item) {
 }
 
 // ---------- Structure and keys ----------
-const KINDS = ['explanation', 'worked_example', 'contrast', 'mistake', 'steps', 'word_set', 'knowledge_check'];
+const KINDS = ['explanation', 'worked_example', 'contrast', 'mistake', 'steps', 'word_set', 'knowledge_check','diagram'];
 const TYPES = ['reading', 'choice', 'text', 'numeric', 'ratio', 'reveal'];
 function checkItem(owner, item, { card = false } = {}) {
   if (!TYPES.includes(item.type) || (card && item.type === 'reading')) return flag(owner, `INVALID_TYPE:${item.id || item.variantId}`);
@@ -144,7 +151,7 @@ const PDF_CHECKS = {
   'business-studies-delegation-decentralisation': [['ncert-bst-organising', 20, ['Flow Flows downward Flows upward from Flows upward from', 'Delegation Can be delegated. Cannot be entirely Cannot be delegated', 'it may lead to misuse', 'may make a person ineffective']], ['ncert-bst-organising', 26, ['Delegation is a compulsory', 'Decentralisation is an optional', 'More control by superiors Less control over executives', 'It has narrow scope as it is It has wide scope as it implies', 'To lessen the burden of the To increase the role of']]],
   'business-studies-planning-controlling': [['ncert-bst-controlling', 5, ['planning involves looking ahead and', 'both backward-looking as well as a', 'prescriptive whereas, controlling is', '1. Setting performance standards']], ['ncert-bst-controlling', 6, ['4. Analysing deviations', '5. Taking corrective action']], ['ncert-bst-controlling', 8, ['Critical Point Control', 'Management by Exception']]],
 };
-const PDF_FILES = { 'ncert-admission': 'ncert-leac102.pdf', 'ncert-retirement': 'ncert-retirement.pdf', 'ncert-macro-national-income': 'ncert-leec102.pdf', 'ncert-bst-organising': 'ncert-lebs105.pdf', 'ncert-bst-controlling': 'ncert-lebs108.pdf' };
+const PDF_FILES = { 'ncert-admission': 'ncert-leac102.pdf', 'ncert-retirement': 'ncert-retirement.pdf', 'ncert-macro-national-income': 'ncert-leec102.pdf', 'ncert-bst-organising': 'ncert-lebs105.pdf', 'ncert-bst-controlling': 'ncert-lebs108.pdf',...Object.fromEntries(['lebs104','lebs106','lebs107','leec103','leec105','leac201','leac205'].map(id=>[`ncert-${id}`,`ncert-${id}.pdf`])) };
 const pdfPages = {};
 function pages(sourceId) {
   if (pdfPages[sourceId]) return pdfPages[sourceId];
@@ -156,11 +163,13 @@ function pages(sourceId) {
 }
 function checkSources(unit) {
   for (const ref of unit.sourceRefs) if (!registry.sources[ref.id]?.permission || registry.sources[ref.id].url !== ref.url) flag(unit.id, `UNREGISTERED_SOURCE:${ref.id}`);
-  for (const [sourceId, page, phrases] of skipSources ? [] : PDF_CHECKS[unit.id] || []) {
+  const checks=PDF_CHECKS[unit.id] || unit.sourceEvidence;
+  if(checks && (!Array.isArray(checks) || checks.some(c=>!Array.isArray(c) || !unit.sourceRefs.some(r=>r.id===c[0]) || !Number.isInteger(c[1]) || c[1]<1 || !Array.isArray(c[2]) || !c[2].length || c[2].some(s=>typeof s!=='string' || s.length<(PDF_CHECKS[unit.id]?3:8))))) {flag(unit.id,'INVALID_SOURCE_EVIDENCE');return;}
+  for (const [sourceId, page, phrases] of skipSources ? [] : checks || []) {
     try { const text = pages(sourceId)[page - 1] || ''; for (const phrase of phrases) if (!text.includes(phrase.replace(/\s+/g, ' '))) flag(unit.id, `SOURCE_PHRASE_NOT_FOUND:${sourceId}:p${page}:${phrase}`); }
     catch (error) { flag(unit.id, `${error.message}:${sourceId}`); }
   }
-  if (unit.sourceRefs.some(r => r.id.startsWith('ncert-')) && !PDF_CHECKS[unit.id]) flag(unit.id, 'NO_SOURCE_RECONCILIATION');
+  if (unit.sourceRefs.some(r => r.id.startsWith('ncert-')) && !checks?.length) flag(unit.id, 'NO_SOURCE_RECONCILIATION');
   if (unit.sourceRefs.some(r => r.id === 'cuet-2026-english-syllabus')) {
     const path = '../../../data/CUET 2026/english.pdf';
     const local = existsSync('data/CUET 2026/english.pdf') ? 'data/CUET 2026/english.pdf' : path;
@@ -169,6 +178,13 @@ function checkSources(unit) {
 }
 
 // ---------- Run ----------
+const packets=JSON.parse(readFileSync('data/study/authored/expansion.json','utf8'));
+const compiled=packets.map(compilePacket);
+for(const packet of compiled) {
+  const expected=packet.units[0],actual=content.units.find(u=>u.id===expected.id);
+  if(actual && digest(actual)!==digest(expected)) flag(actual.id,'PACKET_UNIT_CHANGED');
+  for(const card of packet.cards){const actualCard=content.cards.find(c=>c.id===card.id);if(actualCard && digest(actualCard)!==digest(card)) flag(card.id,'PACKET_CARD_CHANGED');}
+}
 if (!licenseOk) flag('wordnet', 'LICENSE_UNAVAILABLE');
 const recoveryFamilies = new Set(JSON.stringify(JSON.parse(readFileSync('data/recovery_pathways.json', 'utf8'))).match(/"familyId":"[^"]+"/g)?.map(x => x.slice(12, -1)) || []);
 const seenIds = new Set();

@@ -1,0 +1,58 @@
+[
+  {
+    "id":"business-studies-plan-types","subject":"business_studies","chapter":"Planning","title":"Policy, procedure or rule?","summary":"Identify the kind of plan by how much freedom it leaves and whether it specifies a sequence.","source":"lebs104","sourceLabel":"NCERT Business Studies, Planning","skill":"Scenario",
+    "facts":[
+      {"label":"Policy","definition":"A broad guide for decisions that leaves room for a manager's judgement.","cue":"A guide leaves room to decide.","page":13,"anchor":"Policies define the broad","case":"A shop prefers local suppliers, but managers may choose another supplier when quality is better.","why":"The guideline allows judgement; it does not impose an unchanging sequence or prohibition."},
+      {"label":"Procedure","definition":"An ordered series of steps for carrying out an activity.","cue":"Procedure = sequence.","page":14,"anchor":"specified in a chronological order","case":"To buy supplies, first submit a request, then obtain approval, then place the order.","why":"The defining feature is the order of steps."},
+      {"label":"Rule","definition":"A specific instruction allowing no discretion about the action required.","cue":"A rule does not leave a choice.","page":14,"anchor":"allow for any flexibility or discretion","case":"No visitor may enter the factory without a safety helmet.","why":"The instruction has no discretion: the required action must be followed."}
+    ],"trap":"Do not classify every instruction as a rule. Look for discretion in a policy and ordered steps in a procedure."
+  },
+  {
+    "id":"business-studies-staffing","subject":"business_studies","chapter":"Staffing","title":"Attract, choose, train","summary":"Separate recruitment from selection and recognise training for a specific job.","source":"lebs106","sourceLabel":"NCERT Business Studies, Staffing","skill":"Scenario",
+    "facts":[
+      {"label":"Recruitment","definition":"Finding prospective employees and encouraging them to apply for jobs.","cue":"Recruitment builds the applicant pool.","page":7,"anchor":"stimulating them to apply for jobs","case":"A hotel advertises vacancies and invites applications.","why":"It is attracting candidates, not yet choosing among them."},
+      {"label":"Selection","definition":"Choosing suitable employees from the pool of applicants.","cue":"Selection chooses from the pool.","page":8,"anchor":"pool of the prospective job","case":"After interviews and tests, the hotel chooses two applicants for the vacancies.","why":"The pool exists; the company is now deciding who will join."},
+      {"label":"Training","definition":"Increasing the skills and abilities needed to perform a specific job.","cue":"Training improves a specific job skill.","page":22,"anchor":"jobs are increased","case":"A new cashier practises using the billing software before serving customers.","why":"The focus is skill for the current job, rather than attracting or choosing employees."}
+    ],"trap":"Recruitment is not the final hiring decision. Training is also distinct from broader, longer-term development."
+  },
+  {
+    "id":"business-studies-directing","subject":"business_studies","chapter":"Directing","title":"What makes people act?","summary":"Distinguish supervision, motivation and leadership in workplace situations.","source":"lebs107","sourceLabel":"NCERT Business Studies, Directing","skill":"Scenario",
+    "facts":[
+      {"label":"Supervision","definition":"Overseeing employees' work and guiding their efforts while tasks are carried out.","cue":"Supervision stays close to the work.","page":6,"anchor":"day-to-day","case":"A shift supervisor watches the work, explains the method and corrects a machine-setting error.","why":"The manager is overseeing and guiding the actual work."},
+      {"label":"Motivation","definition":"Stimulating people to act towards desired goals.","cue":"Motivation supplies the reason to act.","page":8,"anchor":"stimulating people to action","case":"A company recognises good work to encourage employees to keep improving.","why":"Recognition is used as an incentive to encourage goal-directed action."},
+      {"label":"Leadership","definition":"Influencing people to strive willingly towards organisational goals.","cue":"Leadership creates willing effort.","page":16,"anchor":"strive voluntarily towards","case":"A manager earns the team's trust and inspires it to work willingly towards a shared goal.","why":"The emphasis is willing effort produced through influence."}
+    ],"trap":"Real managers use several elements together. In a question, choose the element most directly described by the evidence."
+  },
+  {
+    "id":"economics-money-functions","subject":"economics","chapter":"Money & Banking","title":"Why money makes exchange easier","summary":"Recognise exchange, valuation and saving functions without treating them as interchangeable.","source":"leec103","sourceLabel":"NCERT Introductory Macroeconomics, Money and Banking","skill":"Classify",
+    "facts":[
+      {"label":"Medium of exchange","definition":"Money is accepted in payment, so buying does not require a matching barter partner.","cue":"Exchange: paying for the purchase.","page":1,"anchor":"commonly accepted medium of exchange","case":"A farmer sells grain for money, then uses money to buy shoes from someone else.","why":"Money separates selling from buying; the shoe seller need not want grain."},
+      {"label":"Unit of account","definition":"Money provides a common unit for stating and comparing values.","cue":"Account: comparing prices.","page":1,"anchor":"convenient unit of account","case":"A notebook is priced at ₹40 and a pen at ₹10, so their prices can be compared in the same unit.","why":"The amounts express values in one common monetary unit."},
+      {"label":"Store of value","definition":"Money can hold purchasing power for future use, although inflation may reduce that purchasing power.","cue":"Store: keeping value for later.","page":2,"anchor":"store of value for individuals","case":"A worker keeps some of this month's income to spend next month.","why":"Money transfers purchasing power across time; it does not guarantee a constant real value."}
+    ],"trap":"Money's ability to store value is not a promise that its purchasing power never falls."
+  },
+  {
+    "id":"economics-budget-deficits","subject":"economics","chapter":"Government Budget & the Economy","title":"Which deficit are you calculating?","summary":"Choose the correct receipts and expenditure before subtracting.","source":"leec105","sourceLabel":"NCERT Introductory Macroeconomics, Government Budget and the Economy","skill":"Calculate",
+    "facts":[
+      {"label":"Revenue deficit","definition":"Revenue expenditure minus revenue receipts.","cue":"Revenue compares only revenue items.","page":6,"anchor":"Revenue deficit = Revenue expenditure","case":"Revenue expenditure is 900 and revenue receipts are 700, in the same units.","why":"Only revenue items enter this calculation.","calculation":{"op":"revenue_deficit","expenditure":900,"receipts":700}},
+      {"label":"Fiscal deficit","definition":"Total expenditure minus receipts other than borrowings.","cue":"Fiscal measures the borrowing requirement.","page":7,"anchor":"Non-debt creating capital receipts","case":"Total expenditure is 1,200; revenue receipts are 700 and non-debt capital receipts are 100.","why":"Borrowings are excluded from receipts; 1,200 − (700 + 100) = 400.","calculation":{"op":"fiscal_deficit","expenditure":1200,"revenue":700,"capital":100}},
+      {"label":"Primary deficit","definition":"Fiscal deficit minus interest payments.","cue":"Primary removes past debt's interest cost.","page":7,"anchor":"fiscal deficit minus the interest payments","case":"Fiscal deficit is 400 and interest payments are 150, in the same units.","why":"Subtract the interest payments: 400 − 150 = 250.","calculation":{"op":"primary_deficit","fiscal":400,"interest":150}}
+    ],"trap":"Do not include borrowing as a receipt when calculating fiscal deficit, or subtract all government spending when calculating revenue deficit."
+  },
+  {
+    "id":"accountancy-capital-stages","version":2,"subject":"accountancy","chapter":"Share Capital","title":"Authorised, issued or subscribed?","summary":"Follow these three stages of share capital without confusing an issue with payment.","source":"leac201","sourceLabel":"NCERT Accountancy, Accounting for Share Capital","skill":"Classify",
+    "facts":[
+      {"label":"Authorised capital","definition":"The share-capital ceiling permitted by the company's Memorandum of Association.","cue":"Authorised: permitted ceiling.","page":4,"anchor":"authorised to issue by its Memorandum","case":"The memorandum permits the company to issue up to ₹10 lakh of share capital.","why":"This is the permitted ceiling, not an amount necessarily offered or collected."},
+      {"label":"Issued capital","definition":"The part of authorised capital actually issued for subscription, including relevant allotments to vendors and memorandum signatories.","cue":"Issued: actually offered or allotted.","page":4,"anchor":"including the shares allotted to vendors","case":"Within its authorised limit, the company issues ₹6 lakh of shares for subscription.","why":"It has issued shares; applications and payment are separate stages."},
+      {"label":"Subscribed capital","definition":"The part of issued capital actually subscribed for by the public.","cue":"Subscribed: taken up by subscribers.","page":4,"anchor":"actually subscribed by the public","case":"Of the ₹6 lakh offered, subscribers take up ₹5 lakh of shares.","why":"₹5 lakh is subscribed capital; it need not all be called or paid yet."}
+    ],"trap":"Subscribed, called-up and paid-up capital are different. Money received cannot be inferred from the amount subscribed alone."
+  },
+  {
+    "id":"accountancy-liquidity-ratios","subject":"accountancy","chapter":"Accounting Ratios","title":"Current ratio and quick ratio","summary":"Compare short-term resources with liabilities, then remove assets that are not quick.","source":"leac205","sourceLabel":"NCERT Accountancy, Accounting Ratios","skill":"Calculate",
+    "facts":[
+      {"label":"Current ratio","definition":"Current assets divided by current liabilities.","cue":"Current uses all current assets.","page":7,"anchor":"proportion of current assets to current liabilities","case":"Current assets are ₹60,000 and current liabilities are ₹30,000.","why":"60,000 ÷ 30,000 = 2, or 2:1.","calculation":{"op":"liquidity_ratio","assets":60000,"liabilities":30000}},
+      {"label":"Quick assets","definition":"Current assets excluding inventories and other non-quick current assets such as prepaid expenses.","cue":"Inventory and prepayments are not quick cash.","page":8,"anchor":"such as prepaid expenses","case":"Current assets of ₹60,000 include inventory of ₹15,000 and prepaid expenses of ₹5,000.","why":"Quick assets = 60,000 − 15,000 − 5,000 = ₹40,000.","calculation":{"op":"quick_assets","assets":60000,"inventory":15000,"prepaid":5000}},
+      {"label":"Quick ratio","definition":"Quick assets divided by current liabilities.","cue":"Quick uses the narrower asset measure.","page":8,"anchor":"Quick Assets : Current Liabilities","case":"Quick assets are ₹40,000 and current liabilities are ₹20,000.","why":"40,000 ÷ 20,000 = 2, or 2:1.","calculation":{"op":"liquidity_ratio","assets":40000,"liabilities":20000}}
+    ],"trap":"A ratio is not a guarantee of solvency. Do not leave prepaid expenses inside quick assets."
+  }
+]

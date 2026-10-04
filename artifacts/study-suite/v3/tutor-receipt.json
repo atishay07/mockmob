@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-04T20:28:56.832Z",
+  "scope": "One owner QA lesson explanation; not evidence of student learning outcomes",
+  "studentCreditAmount": 1,
+  "studentCreditState": "committed",
+  "providerRequests": [
+    {
+      "state": "receipted",
+      "costUsd": 0.00032835,
+      "provider": "openai",
+      "model": "gpt-4o-mini"
+    }
+  ],
+  "costUsd": 0.00032835
+}

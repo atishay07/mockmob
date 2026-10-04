@@ -1,0 +1,84 @@
+{
+  "comparison": [
+    {
+      "buttonHeight": 48,
+      "heading": "Three ideas, compared",
+      "height": 640,
+      "overflow": false,
+      "width": 320
+    },
+    {
+      "buttonHeight": 48,
+      "heading": "Three ideas, compared",
+      "height": 1024,
+      "overflow": false,
+      "width": 768
+    },
+    {
+      "buttonHeight": 48,
+      "heading": "Three ideas, compared",
+      "height": 768,
+      "overflow": false,
+      "width": 1024
+    },
+    {
+      "buttonHeight": 48,
+      "heading": "Three ideas, compared",
+      "height": 900,
+      "overflow": false,
+      "width": 1440
+    },
+    {
+      "buttonHeight": 48,
+      "heading": "Three ideas, compared",
+      "height": 390,
+      "overflow": false,
+      "width": 844
+    }
+  ],
+  "summary": [
+    {
+      "height": 640,
+      "overflow": false,
+      "printHeight": 44.5,
+      "readingChecks": 0,
+      "width": 320
+    },
+    {
+      "height": 844,
+      "overflow": false,
+      "printHeight": 44.5,
+      "readingChecks": 0,
+      "width": 390
+    },
+    {
+      "height": 1024,
+      "overflow": false,
+      "printHeight": 44.5,
+      "readingChecks": 0,
+      "width": 768
+    },
+    {
+      "height": 768,
+      "overflow": false,
+      "printHeight": 44.5,
+      "readingChecks": 0,
+      "width": 1024
+    },
+    {
+      "height": 900,
+      "overflow": false,
+      "printHeight": 44.5,
+      "readingChecks": 0,
+      "width": 1440
+    },
+    {
+      "height": 390,
+      "overflow": false,
+      "printHeight": 44.5,
+      "readingChecks": 0,
+      "width": 844
+    }
+  ],
+  "scope": "Browser viewport emulation, not physical-device or CWV evidence"
+}

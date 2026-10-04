@@ -1,0 +1,499 @@
+{
+  "at": "2026-10-04T20:24:27.260Z",
+  "lessons": 21,
+  "cards": 86,
+  "chaptersWithLessons": 15,
+  "totalChapters": 54,
+  "subjects": [
+    {
+      "subject": "english",
+      "totalChapters": 7,
+      "chapters": [
+        {
+          "chapter": "Factual Passage",
+          "status": "partial",
+          "lessons": [
+            "english-main-idea"
+          ]
+        },
+        {
+          "chapter": "Narrative Passage",
+          "status": "partial",
+          "lessons": [
+            "english-explicit-inference"
+          ]
+        },
+        {
+          "chapter": "Literary Passage",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Para Jumbles",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Match the Following",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Vocabulary",
+          "status": "partial",
+          "lessons": [
+            "english-vocabulary-01",
+            "english-vocabulary-02",
+            "english-vocabulary-03",
+            "english-vocabulary-04",
+            "english-vocabulary-05",
+            "english-vocabulary-06"
+          ]
+        },
+        {
+          "chapter": "Correct Word Usage",
+          "status": "no_lessons",
+          "lessons": []
+        }
+      ]
+    },
+    {
+      "subject": "accountancy",
+      "totalChapters": 16,
+      "chapters": [
+        {
+          "chapter": "Partnership Fundamentals",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Profit & Loss Appropriation Account",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Change in Profit Sharing Ratio",
+          "status": "partial",
+          "lessons": [
+            "accountancy-sacrificing-gaining"
+          ]
+        },
+        {
+          "chapter": "Goodwill Valuation",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Admission of Partner",
+          "status": "partial",
+          "lessons": [
+            "accountancy-revaluation"
+          ]
+        },
+        {
+          "chapter": "Retirement & Death of Partner",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Dissolution of Partnership",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Dissolution of Partnership Firm",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Share Capital",
+          "status": "partial",
+          "lessons": [
+            "accountancy-capital-stages"
+          ]
+        },
+        {
+          "chapter": "Debentures",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Financial Statements of Company",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Analysis of Financial Statements",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Comparative & Common Size Statements",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Accounting Ratios",
+          "status": "partial",
+          "lessons": [
+            "accountancy-liquidity-ratios"
+          ]
+        },
+        {
+          "chapter": "Cash Flow Statement",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Computerized Accounting System",
+          "status": "no_lessons",
+          "lessons": []
+        }
+      ]
+    },
+    {
+      "subject": "business_studies",
+      "totalChapters": 13,
+      "chapters": [
+        {
+          "chapter": "Nature & Significance of Management",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Principles of Management",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Business Environment",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Planning",
+          "status": "partial",
+          "lessons": [
+            "business-studies-plan-types"
+          ]
+        },
+        {
+          "chapter": "Organising",
+          "status": "partial",
+          "lessons": [
+            "business-studies-delegation-decentralisation"
+          ]
+        },
+        {
+          "chapter": "Staffing",
+          "status": "partial",
+          "lessons": [
+            "business-studies-staffing"
+          ]
+        },
+        {
+          "chapter": "Directing",
+          "status": "partial",
+          "lessons": [
+            "business-studies-directing"
+          ]
+        },
+        {
+          "chapter": "Controlling",
+          "status": "partial",
+          "lessons": [
+            "business-studies-planning-controlling"
+          ]
+        },
+        {
+          "chapter": "Financial Management",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Financial Markets",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Marketing Management",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Consumer Protection",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Entrepreneurship Development",
+          "status": "no_lessons",
+          "lessons": []
+        }
+      ]
+    },
+    {
+      "subject": "economics",
+      "totalChapters": 18,
+      "chapters": [
+        {
+          "chapter": "Introduction & Theory of Consumer Behaviour",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Production & Costs",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Theory of Firms under Perfect Competition",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Market Equilibrium & Simple Applications",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "National Income & Related Aggregates",
+          "status": "partial",
+          "lessons": [
+            "economics-what-gdp-counts",
+            "economics-nominal-real"
+          ]
+        },
+        {
+          "chapter": "Money & Banking",
+          "status": "partial",
+          "lessons": [
+            "economics-money-functions"
+          ]
+        },
+        {
+          "chapter": "Income Determination",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Government Budget & the Economy",
+          "status": "partial",
+          "lessons": [
+            "economics-budget-deficits"
+          ]
+        },
+        {
+          "chapter": "Balance of Payments",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Indian Economy on the Eve of Independence",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Indian Economic Development 1950–1990",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Economic Reforms Since 1991",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Human Capital Formation",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Rural Development",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Employment",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Infrastructure",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Environment & Sustainable Development",
+          "status": "no_lessons",
+          "lessons": []
+        },
+        {
+          "chapter": "Development Experiences of India",
+          "status": "no_lessons",
+          "lessons": []
+        }
+      ]
+    }
+  ],
+  "next": [
+    {
+      "subject": "english",
+      "chapter": "Literary Passage"
+    },
+    {
+      "subject": "english",
+      "chapter": "Para Jumbles"
+    },
+    {
+      "subject": "english",
+      "chapter": "Match the Following"
+    },
+    {
+      "subject": "english",
+      "chapter": "Correct Word Usage"
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Partnership Fundamentals"
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Profit & Loss Appropriation Account"
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Goodwill Valuation"
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Retirement & Death of Partner"
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Dissolution of Partnership"
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Dissolution of Partnership Firm"
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Debentures"
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Financial Statements of Company"
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Analysis of Financial Statements"
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Comparative & Common Size Statements"
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement"
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Computerized Accounting System"
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Nature & Significance of Management"
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Principles of Management"
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Business Environment"
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Financial Management"
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Financial Markets"
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Marketing Management"
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Consumer Protection"
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Entrepreneurship Development"
+    },
+    {
+      "subject": "economics",
+      "chapter": "Introduction & Theory of Consumer Behaviour"
+    },
+    {
+      "subject": "economics",
+      "chapter": "Production & Costs"
+    },
+    {
+      "subject": "economics",
+      "chapter": "Theory of Firms under Perfect Competition"
+    },
+    {
+      "subject": "economics",
+      "chapter": "Market Equilibrium & Simple Applications"
+    },
+    {
+      "subject": "economics",
+      "chapter": "Income Determination"
+    },
+    {
+      "subject": "economics",
+      "chapter": "Balance of Payments"
+    },
+    {
+      "subject": "economics",
+      "chapter": "Indian Economy on the Eve of Independence"
+    },
+    {
+      "subject": "economics",
+      "chapter": "Indian Economic Development 1950–1990"
+    },
+    {
+      "subject": "economics",
+      "chapter": "Economic Reforms Since 1991"
+    },
+    {
+      "subject": "economics",
+      "chapter": "Human Capital Formation"
+    },
+    {
+      "subject": "economics",
+      "chapter": "Rural Development"
+    },
+    {
+      "subject": "economics",
+      "chapter": "Employment"
+    },
+    {
+      "subject": "economics",
+      "chapter": "Infrastructure"
+    },
+    {
+      "subject": "economics",
+      "chapter": "Environment & Sustainable Development"
+    },
+    {
+      "subject": "economics",
+      "chapter": "Development Experiences of India"
+    }
+  ],
+  "paidCalls": 0,
+  "note": "A chapter with lessons has partial concept coverage. A passing source gate is not independent academic calibration."
+}

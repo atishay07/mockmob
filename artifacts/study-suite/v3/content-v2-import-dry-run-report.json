@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-04T20:24:27.927Z",
+  "contentDigest": "b59997630fb26ee47cd0b66fdad077e84ec4ee4f82eafdfeb43e9259abef1dbe",
+  "scope": "Isolated PGlite dry run of the saved two-phase import; not production evidence",
+  "checks": {
+    "phase1Idempotent": true,
+    "oldVersionsStillPublishedAfterPhase1": true,
+    "ownerRunUntouchedByPhase1": true,
+    "changedSameVersionRejected": true,
+    "supersededQuarantinedNotDeleted": true,
+    "ownerRunInvalidatedWithEvent": true,
+    "unrelatedDataUnchanged": true
+  },
+  "counts": {
+    "releasedUnits": 21,
+    "releasedCards": 86,
+    "supersededUnits": [
+      "english-vocabulary-01@<2",
+      "accountancy-sacrificing-gaining@<2",
+      "accountancy-capital-stages@<2"
+    ]
+  },
+  "state": "passed"
+}

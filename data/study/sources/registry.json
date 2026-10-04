@@ -72,6 +72,62 @@
       "version": "2026-10-05",
       "permission": "Original MockMob practice text; no third-party passage is reproduced",
       "locator": "data/study/authored/english.mjs"
+    },
+    "ncert-lebs104": {
+      "url": "https://ncert.nic.in/textbook/pdf/lebs104.pdf",
+      "version": "NCERT source downloaded 2026-10-05; digest is authoritative",
+      "permission": "Reference only; factual distinctions/formulas paraphrased with original examples; no textbook page reproduced",
+      "locator": "NCERT Business Studies, Planning; PDF pages 13, 14, 14",
+      "sha256": "98696984995ac5fb70bb21ef5015f2647fa9c1dafa65b7790aa4cc0333d75c82",
+      "verifiedOn": "2026-10-05"
+    },
+    "ncert-lebs106": {
+      "url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+      "version": "NCERT source downloaded 2026-10-05; digest is authoritative",
+      "permission": "Reference only; factual distinctions/formulas paraphrased with original examples; no textbook page reproduced",
+      "locator": "NCERT Business Studies, Staffing; PDF pages 7, 8, 22",
+      "sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970",
+      "verifiedOn": "2026-10-05"
+    },
+    "ncert-lebs107": {
+      "url": "https://ncert.nic.in/textbook/pdf/lebs107.pdf",
+      "version": "NCERT source downloaded 2026-10-05; digest is authoritative",
+      "permission": "Reference only; factual distinctions/formulas paraphrased with original examples; no textbook page reproduced",
+      "locator": "NCERT Business Studies, Directing; PDF pages 6, 8, 16",
+      "sha256": "64d3468ab4013752040834ff7b718915a1683bfae1b218ac2ba5791c8857645b",
+      "verifiedOn": "2026-10-05"
+    },
+    "ncert-leec103": {
+      "url": "https://ncert.nic.in/textbook/pdf/leec103.pdf",
+      "version": "NCERT source downloaded 2026-10-05; digest is authoritative",
+      "permission": "Reference only; factual distinctions/formulas paraphrased with original examples; no textbook page reproduced",
+      "locator": "NCERT Introductory Macroeconomics, Money and Banking; PDF pages 1, 2, 2",
+      "sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+      "verifiedOn": "2026-10-05"
+    },
+    "ncert-leec105": {
+      "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+      "version": "NCERT source downloaded 2026-10-05; digest is authoritative",
+      "permission": "Reference only; factual distinctions/formulas paraphrased with original examples; no textbook page reproduced",
+      "locator": "NCERT Introductory Macroeconomics, Government Budget and the Economy; PDF pages 6, 7, 7",
+      "sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149",
+      "verifiedOn": "2026-10-05"
+    },
+    "ncert-leac201": {
+      "url": "https://ncert.nic.in/textbook/pdf/leac201.pdf",
+      "version": "NCERT source downloaded 2026-10-05; digest is authoritative",
+      "permission": "Reference only; factual distinctions/formulas paraphrased with original examples; no textbook page reproduced",
+      "locator": "NCERT Accountancy, Accounting for Share Capital; PDF pages 4, 4, 4",
+      "sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+      "verifiedOn": "2026-10-05"
+    },
+    "ncert-leac205": {
+      "url": "https://ncert.nic.in/textbook/pdf/leac205.pdf",
+      "version": "NCERT source downloaded 2026-10-05; digest is authoritative",
+      "permission": "Reference only; factual distinctions/formulas paraphrased with original examples; no textbook page reproduced",
+      "locator": "NCERT Accountancy, Accounting Ratios; PDF pages 7, 8, 8",
+      "sha256": "20eb1c6702a9153ef899664183e603b927283e6bd834c85b58f2b4abda1f78e0",
+      "verifiedOn": "2026-10-05"
     }
   }
 }

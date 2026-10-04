@@ -4,7 +4,7 @@
 
 Mocks retain their existing session builder, eligibility checks, credit quote and payment entitlements. The study layer adds Learn, scheduled Recall, durable study runs, shared Today recommendations, separate reading/recall progress, Free preferences and Pro weekly planning/custom mixed revision. Mobile navigation is Today, Practice, Learn and Review, with the existing destinations in More. New study screens advance only after student actions.
 
-The first content release is **two units and 23 cards**: a twenty-word English deck with spelling retrieval and optional device pronunciation, plus an Accountancy lesson and three recall tasks about sacrificing/gaining ratios. The four-subject syllabus map is visible with publication gaps. It uses currently sourced specifications; 2027 specifications remain provisional. This release does not claim full four-subject coverage or comparative learning superiority.
+The current content release is **21 lessons and 86 cards**, with partial lesson coverage in **15 of 54 mapped chapters**. The initial two-unit release grew to fourteen through Learn v2, then seven source-linked packets added Planning, Staffing, Directing, Money & Banking, Government Budget, Share Capital and Accounting Ratios. The four-subject syllabus map keeps publication gaps visible; 2027 specifications remain provisional. This release does not claim full four-subject coverage or comparative learning superiority. Maintenance workflow: `STUDY-CONTENT-WORKFLOW.md`.
 
 ## Content and integrity
 
@@ -53,3 +53,13 @@ git-ignored NCERT PDFs and `data/study/sources/dict`; without them NCERT/vocabul
 `node scripts/learning/study-content-v2-import.mjs` writes and dry-runs the two-phase SQL; production uses
 `apply-study-content-v2.mjs insert|supersede|verify` against the authorised project only. Coverage, verification
 and rollback: STATUS.md, 5 October entry.
+
+## Source-linked expansion and clearer recall (5 October 2026)
+
+- New students finish a current lesson before its new cards enter the queue. Existing current-version reviews keep their schedules. A corrected run returns safe replacement navigation instead of an unrecoverable error.
+- Recall uses a contained card surface, explicit answer/reveal controls and two large assistance choices. Selected subject tiles retain semantic keyboard-operable inputs. Next buttons name the next reading activity or quick check. Reduced-motion CSS disables the reveal transition.
+- Pro mixed revision opens the returned run directly, selects learned concepts and respects the 20-concept limit. Results expose all matching lessons. Reading, recall and exam marks remain separate.
+- Published chapter summaries contain teaching blocks only and record exposure without completing lessons. They offer browser printing/PDF saving. Print layout is implemented; actual printed output is a separate verification gate.
+- Optional help uses the current owner-bound run/step, validated before reservation. It sees current published teaching or revealed feedback, not future answers or unrelated student history. One existing PrepOS credit buys an explanation; a saved same-step reply can be replayed without another call/charge. Free static learning and recall remain usable when AI is unavailable.
+- A single source-linked packet compiles teaching, checks, recall variants and summaries. `npm run study:prepare` validates and produces digest-bound SQL/dry-run receipts. Skipping PDF checks cannot publish. Source changes and same-version content changes are refused. The seven new units used zero paid content-generation calls; one guarded owner tutor QA call cost $0.00032835 and committed one credit.
+- Existing Android/offline work is preserved. This change does not rebuild it or claim new real-device/offline evidence. Remaining coverage and device/performance/outcome gates are recorded in STATUS.md.

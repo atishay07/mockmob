@@ -1,7 +1,7 @@
 {
   "version": 2,
   "validator": "study-content-contract-v2",
-  "createdAt": "2026-10-04T19:10:33.518Z",
+  "createdAt": "2026-10-04T20:24:26.016Z",
   "units": {
     "english-vocabulary-01@2": {
       "contentHash": "9334ac2d10cf7b236dc00fcaba0d237dbe82e96dc2eefe8df53a4afbb2061600",
@@ -71,6 +71,41 @@
     "economics-nominal-real@1": {
       "contentHash": "9eb6b826df940381537502b47eedf5cffe678bf22fde16f8a9c28c7bb51f32fe",
       "sourceIdentity": "ncert-macro-national-income",
+      "validation": "NCERT reference phrases found on the cited pages; every number recomputed independently; no formal recovery certification"
+    },
+    "business-studies-plan-types@1": {
+      "contentHash": "32fad0a808519a197651f15caca21483cc2cf2d16fe0f3e1814092106ad47d12",
+      "sourceIdentity": "ncert-lebs104",
+      "validation": "NCERT reference phrases found on the cited pages; every number recomputed independently; no formal recovery certification"
+    },
+    "business-studies-staffing@1": {
+      "contentHash": "caf9af3fdc8ba0d76208ba66d6f32bc8c070c4de528488a7a53d1bca0f796949",
+      "sourceIdentity": "ncert-lebs106",
+      "validation": "NCERT reference phrases found on the cited pages; every number recomputed independently; no formal recovery certification"
+    },
+    "business-studies-directing@1": {
+      "contentHash": "6189e39ac305ce8ad96bb1bb9e02eb5552a176f2acbe7007c7f9ab13810b6f9e",
+      "sourceIdentity": "ncert-lebs107",
+      "validation": "NCERT reference phrases found on the cited pages; every number recomputed independently; no formal recovery certification"
+    },
+    "economics-money-functions@1": {
+      "contentHash": "8feada150c8febafdcef82748338c0dedb0a9e0ef09fc70582ff1fdb06247c9d",
+      "sourceIdentity": "ncert-leec103",
+      "validation": "NCERT reference phrases found on the cited pages; every number recomputed independently; no formal recovery certification"
+    },
+    "economics-budget-deficits@1": {
+      "contentHash": "a0b0f94b29a4c4bad5db81c3ca3985f72a528e51cc3f6520c6fa28ec7b3f651f",
+      "sourceIdentity": "ncert-leec105",
+      "validation": "NCERT reference phrases found on the cited pages; every number recomputed independently; no formal recovery certification"
+    },
+    "accountancy-capital-stages@2": {
+      "contentHash": "772059b4c145056db03a09ed81396570ac9e11d5b8cad3ec1c7cda948c6a02fa",
+      "sourceIdentity": "ncert-leac201",
+      "validation": "NCERT reference phrases found on the cited pages; every number recomputed independently; no formal recovery certification"
+    },
+    "accountancy-liquidity-ratios@1": {
+      "contentHash": "1634d070bda561737f116751f005c993eb3239059ce792bdab925498d547491e",
+      "sourceIdentity": "ncert-leac205",
       "validation": "NCERT reference phrases found on the cited pages; every number recomputed independently; no formal recovery certification"
     }
   },
@@ -334,6 +369,90 @@
     "economics-real-definition@1": {
       "contentHash": "5675d6eb8af1fe8cdf44d389a535213220aa696f0b52c1680882e844edbad33f",
       "sourceIdentity": "ncert-macro-national-income"
+    },
+    "business-studies-plan-types-fact-1@1": {
+      "contentHash": "10cf040c08496be81f3e9055a478368d205c463f7b461f617c67e6033e353038",
+      "sourceIdentity": "ncert-lebs104"
+    },
+    "business-studies-plan-types-fact-2@1": {
+      "contentHash": "4a932ff8b354afff847e02bfba3c3507ff5571d5df1ca4f771dec55e80d5532a",
+      "sourceIdentity": "ncert-lebs104"
+    },
+    "business-studies-plan-types-fact-3@1": {
+      "contentHash": "517a618c91847b7876c1184fad7af4be2d2d029c0ea1204342cfa7fe4f799659",
+      "sourceIdentity": "ncert-lebs104"
+    },
+    "business-studies-staffing-fact-1@1": {
+      "contentHash": "1b5bd5086a50f7984206012c58c4ca18734c8819ead3effe39643402a098ca53",
+      "sourceIdentity": "ncert-lebs106"
+    },
+    "business-studies-staffing-fact-2@1": {
+      "contentHash": "5007329496defffc92253b5b786b55ae12113ec67b24057a5bc4389832f7dc36",
+      "sourceIdentity": "ncert-lebs106"
+    },
+    "business-studies-staffing-fact-3@1": {
+      "contentHash": "b364481088e8ae578ef77eb1b5864b6168fa99ca97ce35e4df58671c44c8132d",
+      "sourceIdentity": "ncert-lebs106"
+    },
+    "business-studies-directing-fact-1@1": {
+      "contentHash": "b1b33b21add56894d6a38e58d2fb0d5ff9d567bb3d76407dee4795eebca532d6",
+      "sourceIdentity": "ncert-lebs107"
+    },
+    "business-studies-directing-fact-2@1": {
+      "contentHash": "122ec03e8b8244dec4a54ebdf4c14cf2ad07c4ed38ad0192dfdb248fa0182597",
+      "sourceIdentity": "ncert-lebs107"
+    },
+    "business-studies-directing-fact-3@1": {
+      "contentHash": "6ace0f9eae30cca591ef4f212ad5fdf2963299b73453e8cf221d7532ea01f580",
+      "sourceIdentity": "ncert-lebs107"
+    },
+    "economics-money-functions-fact-1@1": {
+      "contentHash": "82bc22910d309cc9bbbd4ecc1f01ff1eca4b6f0363fd355a3192c15ea6da0ff3",
+      "sourceIdentity": "ncert-leec103"
+    },
+    "economics-money-functions-fact-2@1": {
+      "contentHash": "c9c73c35fae10d37d43af15b847ef936ded63bc5291ccaeab5ad905f9de24290",
+      "sourceIdentity": "ncert-leec103"
+    },
+    "economics-money-functions-fact-3@1": {
+      "contentHash": "a849b838dc584811f6201386c82397ff196ac30036a2fa38666b26147ea36162",
+      "sourceIdentity": "ncert-leec103"
+    },
+    "economics-budget-deficits-fact-1@1": {
+      "contentHash": "86af5fb28bbb21f42b918754fa6ec3e21148f93d126e1fb524698541ec72b800",
+      "sourceIdentity": "ncert-leec105"
+    },
+    "economics-budget-deficits-fact-2@1": {
+      "contentHash": "a0182f26d9d0f57bf7c2c380b9e7e4887c789c130f51f66ad9308348ba668dbd",
+      "sourceIdentity": "ncert-leec105"
+    },
+    "economics-budget-deficits-fact-3@1": {
+      "contentHash": "7d64dd74f914d3ff9235862a886de8e76bafdbc0220cba223c0e0f27fd9cb10e",
+      "sourceIdentity": "ncert-leec105"
+    },
+    "accountancy-capital-stages-fact-1@2": {
+      "contentHash": "5ea32658e9ecae30b48977ba8eb667c1e68b005a9e21d05a3e19d1282e37b626",
+      "sourceIdentity": "ncert-leac201"
+    },
+    "accountancy-capital-stages-fact-2@2": {
+      "contentHash": "8989057218451f40149980a17ee127950857ed1a182958fb9f00aa611abf0310",
+      "sourceIdentity": "ncert-leac201"
+    },
+    "accountancy-capital-stages-fact-3@2": {
+      "contentHash": "fd98431bb47584a902f666c67fc2b8d8d1b5da63c4e7dbdd4bb48dbc157260a2",
+      "sourceIdentity": "ncert-leac201"
+    },
+    "accountancy-liquidity-ratios-fact-1@1": {
+      "contentHash": "1ab0ff9b8da5762efc3316de495cffa53214fb5d96cc35b2b970dfa855c5002f",
+      "sourceIdentity": "ncert-leac205"
+    },
+    "accountancy-liquidity-ratios-fact-2@1": {
+      "contentHash": "be2586ad8a49e181078ef944ab72aaca7950aa862cde4d72d99ec3786dd7dc56",
+      "sourceIdentity": "ncert-leac205"
+    },
+    "accountancy-liquidity-ratios-fact-3@1": {
+      "contentHash": "ebc82c4cd249775465894197e266eacf9f8e9048054d9751eaa92a0b61f04afb",
+      "sourceIdentity": "ncert-leac205"
     }
   },
   "quarantined": [],

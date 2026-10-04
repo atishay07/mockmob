@@ -61,6 +61,7 @@ export default function StudyLibrary({ catalog, api, onOpenRun, onOpenUnit, init
       <p className="sx-small">{units.length ? `${units.length} ${units.length === 1 ? 'lesson' : 'lessons'} across ${taught.length} of ${syllabus?.chapters.length || 0} chapters in ${subjectName(subject)}. More are added as each one passes its source checks.` : `${subjectName(subject)} lessons are still being prepared. Practice questions are available now.`}</p>
       {taught.map(chapter => <div key={chapter.id} className="sx-chapter">
         <div className="sx-chapter__head"><h2>{chapter.title}</h2><Link className="sx-link" href={practiceHref(subject, chapter.title)}>Practise</Link></div>
+        <Link className="sx-link sx-small" href={`/learn/summary?${new URLSearchParams({subject,chapter:chapter.title})}`}>Read or print the chapter summary</Link>
         <ul className="sx-units">{units.filter(u => u.chapter === chapter.title).map(u => <li key={u.id}>
           <Link href={`/learn/${u.id}`} onClick={e => open(e, u.id)} className="sx-unit">
             <span className="sx-unit__main"><b>{u.title}</b><span className="sx-unit__summary">{u.summary}</span>

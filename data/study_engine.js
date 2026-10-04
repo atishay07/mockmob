@@ -4,6 +4,11 @@ export const SCHEDULER_VERSION = 'fsrs-5.4.2-retention-090-v1';
 export const NEW_CARDS_PER_DAY = 5;
 export const DEFAULT_PREFERENCES = { subjects: STUDY_SUBJECTS, minutes: 20, newCardsPerDay: NEW_CARDS_PER_DAY, weeklyPlan: null, revision: 0 };
 export const istDay = at => new Date(+new Date(at) + 19800000).toISOString().slice(0, 10);
+// Due cards survive a changed preference; new cards require a completed current lesson.
+export function taughtRecallCards(cards, states, completedUnitIds) {
+  const taught = new Set(completedUnitIds);
+  return cards.filter(card => taught.has(card.unitId) || states.some(s => s.card_id === card.id && s.content_version === card.version));
+}
 export function preferences(input, previous = DEFAULT_PREFERENCES, premium = false) {
   const subjects = input.subjects ?? previous.subjects;
   if (!Array.isArray(subjects) || !subjects.length || subjects.some(s => !STUDY_SUBJECTS.includes(s))) throw new Error('INVALID_SUBJECTS');

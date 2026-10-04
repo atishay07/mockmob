@@ -21,7 +21,7 @@ export default function MistakeLessonLink({ subject, chapter, chapters = [], con
     return () => { live = false; };
   }, [key]); // eslint-disable-line react-hooks/exhaustive-deps
   if (!units?.length) return null;
-  const shown = units.slice(0, 3);
+  const shown = units;
   return <div className="srl-lessons">
     <p className="srl-muted">Lessons cover the ideas behind {shown.length === 1 ? 'this chapter' : 'these chapters'}. Read one, lock it in with recall, then practise the chapter again.</p>
     <ul>{shown.map(u => { const c = wanted.find(w => w.chapter === u.chapter); return <li key={u.id}><Link className="pr-link" href={`/learn/${u.id}`}><BookOpenText size={16} aria-hidden="true" />{u.title}</Link><small>{u.chapter}{c?.count ? ` · ${c.count} ${c.count === 1 ? 'mistake' : 'mistakes'} here` : ''} · {u.estimatedMinutes} min{u.read ? ' · read' : ''}</small></li>; })}</ul>

@@ -4,7 +4,7 @@
 export const SUBJECTS = [['english', 'English'], ['accountancy', 'Accountancy'], ['business_studies', 'Business Studies'], ['economics', 'Economics']];
 export const subjectName = id => SUBJECTS.find(s => s[0] === id)?.[1] || id;
 
-export const BLOCK_LABEL = { explanation: 'The idea', worked_example: 'Worked example', contrast: 'Compare', mistake: 'Common mistake', steps: 'Method', word_set: 'New words', knowledge_check: 'Quick check · not scored' };
+export const BLOCK_LABEL = { explanation: 'The idea', worked_example: 'Worked example', contrast: 'Compare', mistake: 'Common mistake', steps: 'Method', word_set: 'New words',diagram:'Concept map', knowledge_check: 'Quick check · not scored' };
 export const TASK_LABEL = { meaning: 'Meaning in context', gap_fill: 'Fill the gap', spelling: 'Spell it', synonym: 'Synonym', antonym: 'Opposite', main_idea: 'Main idea', inference: 'Stated or inferred?' };
 export const itemLabel = item => TASK_LABEL[item?.task] || (item?.type === 'numeric' || item?.type === 'ratio' ? 'Calculate' : item?.type === 'reveal' ? 'Recall' : 'Choose');
 
@@ -32,7 +32,7 @@ export const STATUS = {
   in_progress: { label: 'In progress' },
   lock_in: { label: 'Read · lock it in' },
   due: { label: 'Review due' },
-  learned: { label: 'Learned' },
+  learned: { label: 'In review' },
 };
 
 export function friendlyError(error) {
@@ -42,6 +42,7 @@ export function friendlyError(error) {
   if (error?.status === 409 || /CONFLICT/.test(code)) return { text: 'This session moved on in another tab or device. Reload to continue from the latest saved step.', reload: true };
   if (/DAILY_NEW_LIMIT_REACHED/.test(code)) return { text: 'You have started today’s 5 new cards. These cards join your reviews tomorrow; anything already due can still be reviewed.' };
   if (/NOTHING_DUE/.test(code)) return { text: 'Nothing is due right now. Read a lesson to add new cards, or practise questions.' };
+  if (/LESSON_NOT_READ/.test(code)) return { text: 'Read the lesson first. Its recall cards become available when you finish; reviews and practice remain available.' };
   if (/CONTENT_CHANGED/.test(code)) return { text: 'This lesson has been updated since you started. Your earlier answers are kept; open the current version to continue.', updated: true };
   if (/PREMIUM_REQUIRED/.test(code)) return { text: 'Saved weekly plans and custom mixed revision are part of Pro. Lessons and reviews stay free.' };
   if (/NOT_FOUND|UNAVAILABLE/.test(code)) return { text: 'This activity isn’t available right now. Choose another lesson from Learn, or practise questions.' };

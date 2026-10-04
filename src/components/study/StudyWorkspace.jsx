@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { Check } from 'lucide-react';
 import { api as fetchApi, apiGet, apiPost } from '@/lib/fetcher';
 import StudyLibrary from './StudyLibrary';
 import LessonOverview from './LessonOverview';
@@ -55,14 +56,15 @@ export default function StudyWorkspace({ unitId = null, runId = null, preview = 
   if (current.unitId) return <LessonOverview unit={data} api={api} onOpenRun={openRun} onBack={back} />;
   if (data.state === 'disabled') return <div className="sx"><h1>Learn</h1><p className="sx-lede">Lessons are switched off right now. Your saved progress is kept. You can still practise questions and take mocks.</p><Link className="btn-volt md" href="/dashboard">Practise questions</Link></div>;
   return <StudyLibrary catalog={data} api={api} onOpenRun={openRun} onOpenUnit={openUnit} initialSubject={subject}
-    prefsSlot={data.preferences ? <StudyPreferences prefs={data.preferences} units={data.units} api={api} /> : null} />;
+    prefsSlot={data.preferences ? <StudyPreferences prefs={data.preferences} units={data.units} api={api} onOpenRun={openRun} /> : null} />;
 }
 
-function StudyPreferences({ prefs: initial, units, api }) {
+function StudyPreferences({ prefs: initial, units, api, onOpenRun }) {
   const [prefs, setPrefs] = useState(initial);
   const [subjects, setSubjects] = useState(initial.subjects), [minutes, setMinutes] = useState(initial.minutes), [saving, setSaving] = useState(false), [message, setMessage] = useState(null);
   const [weekly, setWeekly] = useState(initial.weeklyPlan || Array.from({ length: 7 }, (_, i) => ({ subject: initial.subjects[i % initial.subjects.length], minutes: initial.minutes })));
-  const [mixedUnits, setMixedUnits] = useState(units.map(u => u.id));
+  const reviewableUnits=units.filter(u=>u.read || u.memory?.reviewed);
+  const [mixedUnits, setMixedUnits] = useState(reviewableUnits.slice(0,20).map(u => u.id));
   const save = async (plan = false) => {
     setSaving(true); setMessage(null);
     try { const next = await api.put('/api/study/preferences', { subjects, minutes, expectedRevision: prefs.revision, ...(plan ? { weeklyPlan: weekly } : {}) }); setPrefs(next); setMessage({ ok: true, text: 'Saved. Today will plan around these choices.' }); }
@@ -70,11 +72,11 @@ function StudyPreferences({ prefs: initial, units, api }) {
   };
   const mixed = async () => {
     setSaving(true); setMessage(null);
-    try { await api.post('/api/study/runs', { mode: 'recall', mixed: true, unitIds: mixedUnits, requestKey: crypto.randomUUID().replace(/[^a-zA-Z0-9_-]/g, '') }); setMessage({ ok: true, text: 'Mixed revision is ready. Continue it from the top of Learn or from Today.' }); }
+    try { onOpenRun(await api.post('/api/study/runs', { mode: 'recall', mixed: true, unitIds: mixedUnits, requestKey: crypto.randomUUID().replace(/[^a-zA-Z0-9_-]/g, '') })); }
     catch (e) { setMessage({ ok: false, text: friendlyError(e).text }); } finally { setSaving(false); }
   };
   return <details className="sx-prefs"><summary>Study preferences{prefs.premium ? ' and weekly plan' : ''}</summary>
-    <fieldset><legend>Subjects to plan for</legend>{SUBJECTS.map(([id, title]) => <label className="sx-check" key={id}><input type="checkbox" checked={subjects.includes(id)} onChange={e => setSubjects(e.target.checked ? [...subjects, id] : subjects.filter(s => s !== id))} />{title}</label>)}</fieldset>
+    <fieldset><legend>Subjects to plan for</legend>{SUBJECTS.map(([id, title]) => <label className="sx-check" key={id}><input type="checkbox" checked={subjects.includes(id)} onChange={e => setSubjects(e.target.checked ? [...subjects, id] : subjects.filter(s => s !== id))} /><span className="sx-check__mark" aria-hidden="true"><Check size={16} /></span><span>{title}</span></label>)}</fieldset>
     <label className="sx-field"><span>Usual study time</span><select value={minutes} onChange={e => setMinutes(Number(e.target.value))}>{[10, 20, 30].map(n => <option key={n} value={n}>{n} minutes</option>)}</select></label>
     <div className="sx-actions"><button className="sx-secondary" type="button" disabled={saving || !subjects.length} onClick={() => save()}>Save preferences</button></div>
     <h3 className="sx-h3">Weekly plan and mixed revision</h3>
@@ -83,8 +85,10 @@ function StudyPreferences({ prefs: initial, units, api }) {
         <label><span className="sr-only">{day} subject</span><select value={weekly[i].subject} onChange={e => setWeekly(weekly.map((d, j) => j === i ? { ...d, subject: e.target.value } : d))}>{SUBJECTS.map(([id, title]) => <option key={id} value={id}>{title}</option>)}</select></label>
         <label><span className="sr-only">{day} minutes</span><select value={weekly[i].minutes} onChange={e => setWeekly(weekly.map((d, j) => j === i ? { ...d, minutes: Number(e.target.value) } : d))}>{[10, 20, 30].map(n => <option key={n} value={n}>{n} min</option>)}</select></label></div>)}</div>
       <div className="sx-actions"><button type="button" className="sx-secondary" disabled={saving || !subjects.length} onClick={() => save(true)}>Save weekly plan</button></div>
-      <fieldset><legend>Concepts to mix in one revision session</legend>{units.map(u => <label className="sx-check" key={u.id}><input type="checkbox" checked={mixedUnits.includes(u.id)} onChange={e => setMixedUnits(e.target.checked ? [...mixedUnits, u.id] : mixedUnits.filter(id => id !== u.id))} />{u.title}</label>)}</fieldset>
-      <div className="sx-actions"><button type="button" className="sx-secondary" disabled={saving || !mixedUnits.length} onClick={mixed}>Prepare mixed revision</button></div>
+      <p className="sx-small">Review concepts you have already learned. New cards appear after you finish their lesson.</p>
+      {!reviewableUnits.length ? <p className="sx-small">Finish a lesson first, then choose it here for mixed revision.</p> : null}
+      <fieldset><legend>Concepts to mix in one revision session · up to 20</legend>{reviewableUnits.map(u => <label className="sx-check" key={u.id}><input type="checkbox" checked={mixedUnits.includes(u.id)} disabled={!mixedUnits.includes(u.id) && mixedUnits.length>=20} onChange={e => setMixedUnits(e.target.checked ? [...mixedUnits, u.id] : mixedUnits.filter(id => id !== u.id))} /><span className="sx-check__mark" aria-hidden="true"><Check size={16} /></span><span>{u.title}</span></label>)}</fieldset>
+      <div className="sx-actions"><button type="button" className="sx-secondary" disabled={saving || !mixedUnits.length} onClick={mixed}>Start mixed revision</button></div>
     </> : <p className="sx-small">A saved day-by-day plan and custom mixed revision come with Pro. Lessons, reviews and Today’s plan are free. <Link className="sx-link" href="/pricing">See plans</Link></p>}
     {message ? <p className={message.ok ? 'sx-small' : 'sx-alert'} role={message.ok ? 'status' : 'alert'}>{message.text}</p> : null}
   </details>;
