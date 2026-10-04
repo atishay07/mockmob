@@ -23,6 +23,7 @@ is an automatic, compact product story with a visible next chapter and a 3–5 s
   on narrow phones. The floating sample dock steps aside during the visible tour and returns when
   it is left; keyboard focus on the dock restores visibility.
 - `page.js`: shorter tour heading/introduction. Original sample activation remains available.
+- Phone supporting copy uses each tool's existing reassurance rather than repeating its headline.
 - `MistakeLab.jsx`: nearby explanatory stages use 4.8 seconds instead of 5.6–6.2 seconds.
 - Official-key demo wording retained. No product/scoring/model/credit/payment/entitlement changes.
 

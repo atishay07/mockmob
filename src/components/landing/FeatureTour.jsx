@@ -174,7 +174,7 @@ export default function FeatureTour({ slides = [] }) {
                 <div className="ft__copy">
                   <h3 className="ft__title">{slide.title}</h3>
                   <p className="ft__body">{slide.body}</p>
-                  <p className="ft__summary">{slide.line}</p>
+                  <p className="ft__summary">{slide.chip || slide.line}</p>
                   {slide.points?.length ? <ul className="ft__points">{slide.points.map(point => <li key={point}>{point}</li>)}</ul> : null}
                   <Link href={slide.href} className="lp-link ft__cta">{slide.cta}<ArrowRight size={16} aria-hidden="true" /></Link>
                 </div>
