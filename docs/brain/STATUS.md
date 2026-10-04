@@ -23,6 +23,9 @@ retained. See `STUDY-CONTENT-WORKFLOW.md` for inexpensive expansion and correcti
   lessons. Mixed revision navigates directly and lists learned concepts within the
   20-concept limit. Results show all matched lessons. Student controls use large selection
   tiles, explicit assistance choices, specific next actions and reduced-motion-safe reveals.
+- Session validation reads only its bound lesson IDs, with current publication and canonical
+  hash checks retained. Catalog growth no longer increases records transferred on every
+  Continue/answer request. No latency or field-CWV improvement is claimed without measurement.
 - Owner-authorised chapter summaries return reading blocks only, record teaching
   exposure and do not certify completion. Browser print/PDF action and print CSS included.
 - Optional one-credit tutor uses only the current published lesson or already revealed
@@ -43,8 +46,16 @@ retained. See `STUDY-CONTENT-WORKFLOW.md` for inexpensive expansion and correcti
   and viewport-emulation checks, not student outcomes or physical-device performance.
 
 Evidence: `artifacts/study-suite/v3/` and `artifacts/study-suite/coverage.json`.
-Publication and live smoke pending at this entry. Rollback keeps records: revert the
-release commit or disable the existing independent study flags and redeploy; no deletes.
+Published as `86accc3` on `origin/main`. Vercel production deployment
+`63WAusDST9US1pFBq9ZEhMMb4W42` is Ready (39s build), created 5 October at 02:06:43 IST.
+Live public/auth checks passed: home/Learn/summary shell 200, anonymous catalog/summary
+API 401, dev preview 404, Google-only auth providers and apex-to-www 307. Signed-in live
+Learn showed 21 lessons and the new chapter entries; Pro mixed revision opened its saved
+five-card run directly. The owner's corrected old run now links to the current vocabulary
+lesson. The new Planning run resumes across localhost/production with the same saved step.
+Share-capital v1 was quarantined after deployment; all 107 current hashes still match.
+Rollback keeps records: revert the release commit or disable the existing independent
+study flags and redeploy; no deletes.
 New rows are ignored by the preceding release manifest. Remaining: 39 chapters without
 lessons, deeper coverage within the 15 touched chapters, real-device/offline-pack checks,
 screen reader/200% zoom/OS reduced motion, actual print output, field CWV, delayed unseen

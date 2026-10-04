@@ -17,9 +17,11 @@ const proof = () => JSON.parse(readFileSync(`${process.cwd()}/data/study/release
 const fail = error => { if (error) throw new Error(/conflict/.test(error.message) ? 'REVISION_CONFLICT' : /content changed|reserved/.test(error.message) ? 'STUDY_CONTENT_CHANGED' : 'STUDY_STORAGE_UNAVAILABLE'); };
 const DAY = 86400000;
 
-async function publishedContent() {
+async function publishedContent(unitIds=null) {
   if (!studyContentEnabled()) return [];
-  const { data, error } = await supabaseAdmin().from('study_units').select('*').eq('publication_state','published');
+  let query=supabaseAdmin().from('study_units').select('*').eq('publication_state','published');
+  if(unitIds) query=query.in('id',[...new Set(unitIds)]);
+  const { data, error } = await query;
   fail(error);
   let release; try { release = proof(); } catch { return []; }
   return (data || []).filter(row => release.units?.[`${row.id}@${row.version}`]?.contentHash === row.content_hash && hash(row.content) === row.content_hash).filter((row,_,all) => !all.some(x=>x.id===row.id && x.version>row.version)).map(row=>({ ...row.content, contentHash:row.content_hash }));
@@ -114,7 +116,9 @@ export async function studyUnit(userId,id) {
   return { ...safeUnit(unit), progress, siblings, recall:{available:lockIn.items.length,due:lockIn.dueCount,newAllowance:lockIn.newAllowance,unseen:lockIn.unseenCount,newCardsPerDay:NEW_CARDS_PER_DAY}, active: record.active };
 }
 async function validateRun(row) {
-  const units = await publishedContent();
+  // Revalidate current publication and digests for the bound session, without transferring
+  // an ever-growing curriculum from the database on every Continue/answer action.
+  const units = await publishedContent(row.content.units.map(u=>u.id));
   if (!runIsCurrent(row,units)) throw new Error('STUDY_CONTENT_CHANGED');
   if (row.mode==='recall' && !studyRecallEnabled()) throw new Error('STUDY_RECALL_UNAVAILABLE');
   if (row.mode==='recall') {
@@ -141,7 +145,7 @@ export async function getStudyRun(userId,id) {
   try { await validateRun(row); return publicRun(row); }
   catch(error) {
     if(error.message !== 'STUDY_CONTENT_CHANGED') throw error;
-    const current=await publishedContent();
+    const current=await publishedContent(row.content.units.map(u=>u.id));
     // Return only replacement navigation, never withdrawn teaching or answer keys.
     return {id:row.id,mode:row.mode,state:'invalidated',title:row.content.title,
       units:row.content.units.filter(u=>current.some(c=>c.id===u.id)).map(({id,title,subject,chapter})=>({id,title,subject,chapter}))};

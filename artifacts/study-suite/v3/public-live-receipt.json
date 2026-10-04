@@ -1,0 +1,42 @@
+{
+  "at": "2026-10-04T20:37:03.794Z",
+  "checks": [
+    {
+      "path": "/",
+      "status": 200
+    },
+    {
+      "path": "/learn",
+      "status": 200
+    },
+    {
+      "path": "/learn/summary?subject=business_studies&chapter=Planning",
+      "status": 200
+    },
+    {
+      "path": "/api/study/catalog",
+      "status": 401
+    },
+    {
+      "path": "/api/study/summary?subject=business_studies&chapter=Planning",
+      "status": 401
+    },
+    {
+      "path": "/api/auth/providers",
+      "status": 200,
+      "providers": [
+        "google"
+      ],
+      "demoRemoved": true
+    },
+    {
+      "path": "/preview/study",
+      "status": 404
+    }
+  ],
+  "apex": {
+    "status": 307,
+    "location": "https://www.mockmob.in/"
+  },
+  "scope": "Public/authentication checks only; does not establish signed-in flows or deployment commit"
+}

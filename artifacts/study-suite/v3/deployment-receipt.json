@@ -1,0 +1,11 @@
+{
+  "commit": "86accc33b4591c2f562793af1b12a3e16a24f7ce",
+  "project": "mockmob",
+  "environment": "Production",
+  "state": "Ready",
+  "deploymentUrl": "https://vercel.com/atishay07s-projects/mockmob/63WAusDST9US1pFBq9ZEhMMb4W42",
+  "deploymentDomain": "mockmob-q70qa5gus-atishay07s-projects.vercel.app",
+  "createdAtIST": "2026-10-05 02:06:43",
+  "durationSeconds": 39,
+  "evidence": "Authenticated Vercel deployment list; production domain separately checked by public-live-receipt.json and signed-in browser smoke"
+}
