@@ -42,12 +42,6 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, a
           onSettled?.(questionId, 'held_for_recheck');
           return;
         }
-        // Already being re-checked (earlier today, or after a reload): same acknowledgement, no retry.
-        if (isKeyReview(null, body?.error)) {
-          setState({ status: 'held_for_recheck', ...body, ok: true });
-          onSettled?.(questionId, 'held_for_recheck');
-          return;
-        }
         // A released attempt cannot be reused; the next try starts a fresh request.
         const retry = repairRetryPolicy(res.status, body?.error);
         if (retry.resetRequest) requestId.current = null;

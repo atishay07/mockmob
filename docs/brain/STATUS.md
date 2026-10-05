@@ -1529,3 +1529,26 @@ two v1 units back to `published` (no deletes are needed; v2 rows are ignored by 
   lesson completed with check feedback and the daily new-card limit message; Organising practice linked.
 - Local `main` in the original checkout still points at 6c5e05b with the owner's uncommitted work; it is now
   three commits behind `origin/main`. Reconcile deliberately before publishing those edits.
+
+## 5 Oct 2026: Key Review + NTA integrity guard + Luna routing
+- Key Review: when Mistake Repair's solve and blind second check both disagree with the key, the student sees an
+  acknowledgement ("We may have got this one wrong") with who picked what, plus a result-page log of held keys.
+  A reload shows the same panel via `question_under_review`. Marks are NOT changed automatically; copy says so.
+  No migration, no extra model calls.
+- NTA integrity guard: leaving the tab/window = strike; warnings 1-2 show an animated modal, strike 3 submits the
+  session. Strikes persist across reload (`<session key>:integrity`); copy/paste/context menu blocked. Browser-side
+  deterrent only: strikes are NOT sent to the server (attempt events accept only answer/visit), so there is no
+  server-verified proctoring record.
+- Also shipped: GPT-6 Luna-only model routing (providers.js, moderation/ai.js, live-eval scripts).
+- Deliberately NOT shipped: AI top-up opening (RELEASE_GATES.aiCommerce, pricing pages) from the local tree; needs an explicit owner go-ahead and Razorpay keys.
+- Verified: unit tests and eslint (see commit); preview walkthrough of both flows. Not verified: real multi-window/mobile
+  app-switch behaviour, signed-in NTA run, live Luna calls.
+
+## 6 Oct 2026: Key Review / NTA release verification
+- Prepared an isolated normal checkout from 82d3341 (base origin/main 23ac1dd), preserving the owner's dirty main checkout.
+- The handoff commit omitted seven new component/data/test files plus package.json and this status entry. Recovered these exact files from the handoff worktree; no AI commerce, pricing, artifacts, study-suite edits or migration included.
+- Removed a duplicate question_under_review response handler; corrected the illustrative held-response fixture so both checks actually disagree with its key.
+- Actual checks: npm run build passed with physical node_modules (Next.js 16.2.4 / Turbopack); eslint passed; test:learning 84/84, test:recovery 35/35, answer-integrity plus payment-entitlements 18/18 passed. No paid-model invocation or production-data migration performed.
+- Earlier preview interaction evidence is from the handoff, not repeated in this release check. Browser-only strikes are not a server proctoring record. After reload, Key Review is returned on a repair request for the already-held question; the result-page log is rebuilt from those responses.
+- Deployment is pending the non-forced main push and Vercel verification. Live Luna compatibility, signed-in NTA, real mobile/multi-window focus behaviour and captured AI top-up checkout remain unverified. AI top-up purchasing remains closed.
+- Rollback: revert the feature commit and release-completion commit; no database rollback is needed.

@@ -232,7 +232,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     if (url.pathname === '/api/recovery/repair' && method === 'POST') {
       const kind = fixture.get('repair') || 'explained';
       const base = { practiceHref: '/test?subject=accountancy&mode=quick&count=5&chapter=Partnership+Fundamentals&recoveryFrom=fixture-attempt', chosenIndex: 0, keyIndex: 2 };
-      if (kind === 'held') return json({ ok: true, status: 'held_for_recheck', charged: 0, ...base, dispute: { ourIndex: 2, secondIndex: 2 }, message: 'Our check of this question didn’t match its answer key, so we’ve held it for review instead of explaining it. You weren’t charged, and it won’t appear in practice until it’s cleared.' });
+      if (kind === 'held') return json({ ok: true, status: 'held_for_recheck', charged: 0, ...base, dispute: { ourIndex: 1, secondIndex: 1 }, message: 'Our check of this question didn’t match its answer key, so we’ve held it for review instead of explaining it. You weren’t charged, and it won’t appear in practice until it’s cleared.' });
       if (kind === 'unexplained') return json({ ok: true, status: 'not_explained', charged: 0, ...base, message: 'Illustrative: no explanation was prepared. Review the recorded answer or try another question.' });
       if (kind === 'malformed') return json({ ok: true, status: 'unexpected' });
       if (kind === 'released') return json({ ok: false, error: 'operation_released', message: 'Illustrative: that request was released. Nothing was charged. Try again.' }, 409);
