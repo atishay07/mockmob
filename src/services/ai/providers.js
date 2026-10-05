@@ -7,21 +7,16 @@ import { reserveRuntime, receiptRuntime } from './runtimeGuard';
  * AI provider abstraction for MockMob.
  *
  * Tiered model routing (env-driven, no hard-coded model names):
- *   AI_DEFAULT_PROVIDER   = 'anthropic' | 'openai' | 'deepseek'   (default 'openai')
- *   ANTHROPIC_API_KEY     (owner choice 4 Oct 2026: claude-haiku-4-5 fast, claude-sonnet-5-5 smart)
- *   AI_FAST_MODEL         = e.g. 'gpt-4o-mini'      (cheap PrepOS chat)
- *   AI_SMART_MODEL        = e.g. 'gpt-4.1-mini'     (autopsy / recovery)
- *   AI_FALLBACK_PROVIDER  = e.g. 'openai'
- *   AI_FAST_PROVIDER      = optional override for fast replies
- *   AI_FALLBACK_MODEL     = e.g. 'gpt-5-nano'
- *   DEEPSEEK_API_KEY, DEEPSEEK_BASE_URL (default https://api.deepseek.com)
+ * Owner rule (5 Oct 2026): GPT-6 Luna only. 'fast' = no reasoning, 'smart' = low reasoning.
+ * Callers that solve or generate questions pass reasoningEffort explicitly (medium or higher).
  *   OPENAI_API_KEY
+ *   AI_LUNA_MODEL         = optional model-id override (default 'gpt-6-luna')
  *
  * Public API:
  *   generateAIResponse({ tier, systemPrompt, userMessage, context, responseSchema, maxRetries })
  *     -> { ok, data, raw, usage, fallbackUsed, error }
  *
- *   tier is 'smart' or 'fast' (smart -> AI_SMART_MODEL, fast -> AI_FAST_MODEL)
+ *   tier is 'smart' (low effort) or 'fast' (no reasoning); both run GPT-6 Luna
  */
 
 let _deepseek = null;
@@ -64,10 +59,15 @@ function getClient(provider) {
   return null;
 }
 
-function pickModelForTier(tier) {
-  const fast = process.env.AI_FAST_MODEL || 'gpt-4o-mini';
-  const smart = process.env.AI_SMART_MODEL || 'gpt-4.1-mini';
-  return tier === 'smart' ? smart : fast;
+// Owner, 5 October 2026: GPT-6 Luna is the only model MockMob calls. Everyday LLM work (PrepOS replies,
+// Rival lines, plain explanations) runs with no reasoning; the heavier 'smart' tier uses low effort.
+// Medium or higher effort is reserved for solving and generating questions, and must be requested
+// explicitly by that caller. AI_LUNA_MODEL is the single override; the older per-tier model variables
+// no longer route anywhere.
+export const LUNA_MODEL = process.env.AI_LUNA_MODEL || 'gpt-6-luna';
+export const DEFAULT_EFFORT = Object.freeze({ fast: 'none', smart: 'low' });
+function pickModelForTier() {
+  return LUNA_MODEL;
 }
 
 // Rough cost table (USD per 1M tokens). Used for telemetry only, never billing.
@@ -90,7 +90,7 @@ const REASONING_HEADROOM = { none: 0, minimal: 500, low: 2500, medium: 5000, hig
 export function isReasoningModel(model) { return /^(gpt-(5|6)|o\d)/.test(String(model || '')); }
 export function outputBound(model, maxTokens, reasoningEffort) {
   if (!isReasoningModel(model)) return maxTokens;
-  return maxTokens + (REASONING_HEADROOM[reasoningEffort || 'medium'] ?? REASONING_HEADROOM.medium);
+  return maxTokens + (REASONING_HEADROOM[reasoningEffort || 'none'] ?? REASONING_HEADROOM.medium);
 }
 
 function estimateCostUsd(model, inputTokens, outputTokens) {
@@ -152,7 +152,7 @@ async function callOnce({ requestKey, provider, model, systemPrompt, userMessage
       model,
       messages,
       ...(isReasoningModel(model)
-        ? { max_completion_tokens: outputBound(model, maxTokens, reasoningEffort), reasoning_effort: reasoningEffort || 'medium' }
+        ? { max_completion_tokens: outputBound(model, maxTokens, reasoningEffort), reasoning_effort: reasoningEffort || 'none' }
         : { temperature: 0.4, max_tokens: maxTokens }),
       ...(jsonMode ? { response_format: { type: 'json_object' } } : {}),
     });
@@ -246,13 +246,11 @@ export async function generateAIResponse({
     };
   }
 
-  const primaryProvider = provider ||
-    (tier === 'fast'
-      ? (process.env.AI_FAST_PROVIDER || process.env.AI_DEFAULT_PROVIDER || 'openai')
-      : (process.env.AI_DEFAULT_PROVIDER || 'openai'));
-  const fallbackProvider = process.env.AI_FALLBACK_PROVIDER || 'openai';
+  const primaryProvider = provider || 'openai';
+  const fallbackProvider = 'openai';
   const primaryModel = model || pickModelForTier(tier);
-  const fallbackModel = process.env.AI_FALLBACK_MODEL || 'gpt-4o-mini';
+  const fallbackModel = LUNA_MODEL;
+  reasoningEffort = reasoningEffort || DEFAULT_EFFORT[tier] || DEFAULT_EFFORT.fast;
   const maxTokens = tier === 'smart' ? 900 : 950;
 
   // ---- attempt 1: primary provider, JSON mode ----
@@ -300,6 +298,7 @@ export async function generateAIResponse({
       requestKey: requestKey ? `${requestKey}:fallback` : null,
       provider: fallbackProvider,
       model: fallbackModel,
+      reasoningEffort: 'none',
       systemPrompt,
       userMessage,
       context,

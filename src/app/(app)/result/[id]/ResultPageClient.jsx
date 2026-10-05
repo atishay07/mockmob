@@ -7,6 +7,7 @@ import { PageSpinner, ErrorState } from '@/components/ui/Skeleton';
 import { apiGet, apiPost } from '@/lib/fetcher';
 import ScoreRecoveryLab from '@/components/ScoreRecoveryLab';
 import MistakeRepair from '@/components/recovery/MistakeRepair';
+import KeyReviewLog from '@/components/recovery/KeyReviewLog';
 import { REPAIR_OUTCOMES, hasExplanation, repairLabel, repairProgress } from '@/../data/repair_presentation.mjs';
 import { analyseSession, formatDuration } from '@/../data/session_recovery';
 import { AppIcon } from '@/components/ui/Glyph';
@@ -90,6 +91,8 @@ export default function ResultPageClient({ previewId = null }) {
   const repaired = useMemo(() => new Set((analysis?.mistakes || []).filter(r => hasExplanation(repairOutcomes[r.q.id])).map(r => r.q.id)), [analysis, repairOutcomes]);
   const handled = useMemo(() => repairProgress(analysis?.mistakes || [], repairOutcomes).handled, [analysis, repairOutcomes]);
 
+  const keyReviews = (analysis?.mistakes || []).filter(r => repairOutcomes[r.q.id] === 'held_for_recheck').map(r => ({ number: r.number, chapter: r.chapter }));
+
   const repairNext = useCallback(() => {
     const next = analysis?.mistakes.find(r => !handled.has(r.q.id));
     if (next) jumpTo(next.number, { repair: true });
@@ -171,6 +174,8 @@ export default function ResultPageClient({ previewId = null }) {
 
       {/* ---------- 2. Score Recovery Lab ---------- */}
       <ScoreRecoveryLab attempt={attempt} analysis={analysis} repaired={repaired} handled={handled} onJump={jumpTo} onRepairNext={repairNext} />
+
+      <KeyReviewLog items={keyReviews} onJump={jumpTo} />
 
       {/* ---------- 3. Answer by answer ---------- */}
       <section className="rp-review" aria-labelledby="rp-review-title">

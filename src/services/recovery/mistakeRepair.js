@@ -30,7 +30,7 @@ async function withheldForRecheck(db, { questionId, userId, attemptId, firstInde
 }
 
 // Owner, 5 October 2026: GPT-6 Luna for Mistake Repair; low effort for the repair, high for the blind
-// second opinion. AI_REPAIR_MODEL overrides the model; the fallback (gpt-4o-mini) still applies on failure.
+// second opinion. AI_REPAIR_MODEL overrides the model; the fallback is Luna with no reasoning.
 export const REPAIR_ROUTE = Object.freeze({ provider: 'openai', model: process.env.AI_REPAIR_MODEL || 'gpt-6-luna' });
 export const REPAIR_EFFORT = Object.freeze({ repair: 'low', secondOpinion: 'high' });
 
@@ -92,7 +92,7 @@ export async function repairMistake({ user, attemptId, questionId, requestId, ge
     if (confirmed) await withheldForRecheck(db, { questionId, userId: user.id, attemptId, firstIndex: verdict.solvedIndex, blindIndex, model: ai.usage?.model || null }).catch(() => {});
     try { await deps.release(operationKey, confirmed ? 'ai_key_dispute' : 'ai_inconsistent'); } catch { /* the expiry sweep returns it */ }
     return out(200, confirmed
-      ? { ok: true, status: 'held_for_recheck', charged: 0, ...base, message: 'Our check of this question didn’t match its answer key, so we’ve held it for review instead of explaining it. You weren’t charged, and it won’t appear in practice until it’s cleared.' }
+      ? { ok: true, status: 'held_for_recheck', charged: 0, ...base, dispute: { ourIndex: verdict.solvedIndex, secondIndex: blindIndex }, message: 'Our check of this question didn’t match its answer key, so we’ve held it for review instead of explaining it. You weren’t charged, and it won’t appear in practice until it’s cleared.' }
       : { ok: true, status: 'not_explained', charged: 0, ...base, storedExplanation: eligible.question.explanation || null, message: 'We couldn’t write a repair for this one that met our bar, so we’re not showing one. You weren’t charged.' });
   }
 
