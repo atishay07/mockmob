@@ -8,6 +8,8 @@ import { apiGet, apiPost } from '@/lib/fetcher';
 import ScoreRecoveryLab from '@/components/ScoreRecoveryLab';
 import MistakeRepair from '@/components/recovery/MistakeRepair';
 import KeyReviewLog from '@/components/recovery/KeyReviewLog';
+import AnswerCorrectionNotice from '@/components/recovery/AnswerCorrectionNotice';
+import KeyReviewNotice from '@/components/recovery/KeyReviewNotice';
 import { REPAIR_OUTCOMES, hasExplanation, repairLabel, repairProgress } from '@/../data/repair_presentation.mjs';
 import { analyseSession, formatDuration } from '@/../data/session_recovery';
 import { AppIcon } from '@/components/ui/Glyph';
@@ -66,7 +68,7 @@ export default function ResultPageClient({ previewId = null }) {
     let alive = true;
     queueMicrotask(() => { if (alive) { setAttempt(null); setError(null); setFilter('all'); setReporting({}); setReported({}); setReportError(null); setRepairOutcomes({}); setAutoRepair(null); } });
     apiGet(`/api/attempts/${id}`)
-      .then(data => { if (!alive) return; setAttempt(data); const firstWrong = (data.details || []).find(d => d.isCorrect === false); const initial = new Set(firstWrong ? [firstWrong.qid] : []); setOpen(initial); setVisited(initial); })
+      .then(data => { if (!alive) return; setAttempt(data); setRepairOutcomes(Object.fromEntries(Object.entries(data.answerReviews || {}).map(([qid, review]) => [qid, review.state === 'corrected' ? 'corrected_key' : 'held_for_recheck']))); const firstWrong = (data.details || []).find(d => d.isCorrect === false); const initial = new Set(firstWrong ? [firstWrong.qid] : []); setOpen(initial); setVisited(initial); })
       .catch(e => { if (alive) setError(e.message); });
     return () => { alive = false; };
   }, [id, retry]);
@@ -91,7 +93,13 @@ export default function ResultPageClient({ previewId = null }) {
   const repaired = useMemo(() => new Set((analysis?.mistakes || []).filter(r => hasExplanation(repairOutcomes[r.q.id])).map(r => r.q.id)), [analysis, repairOutcomes]);
   const handled = useMemo(() => repairProgress(analysis?.mistakes || [], repairOutcomes).handled, [analysis, repairOutcomes]);
 
-  const keyReviews = (analysis?.mistakes || []).filter(r => repairOutcomes[r.q.id] === 'held_for_recheck').map(r => ({ number: r.number, chapter: r.chapter }));
+  const keyReviews = (analysis?.rows || []).filter(r => repairOutcomes[r.q.id] === 'held_for_recheck').map(r => ({ number: r.number, chapter: r.chapter }));
+  const correctedRows = (analysis?.rows || []).filter(r => attempt.answerReviews?.[r.q.id]?.state === 'corrected');
+  const correctionAdjustment = correctedRows.reduce((sum, r) => sum + attempt.answerReviews[r.q.id].adjustment, 0);
+  const reviewReceived = useCallback((qid, review) => {
+    setAttempt(a => ({ ...a, answerReviews: { ...a.answerReviews, [qid]: review } }));
+    setRepairOutcomes(s => ({ ...s, [qid]: review.state === 'corrected' ? 'corrected_key' : 'held_for_recheck' }));
+  }, []);
 
   const repairNext = useCallback(() => {
     const next = analysis?.mistakes.find(r => !handled.has(r.q.id));
@@ -176,6 +184,8 @@ export default function ResultPageClient({ previewId = null }) {
       <ScoreRecoveryLab attempt={attempt} analysis={analysis} repaired={repaired} handled={handled} onJump={jumpTo} onRepairNext={repairNext} />
 
       <KeyReviewLog items={keyReviews} onJump={jumpTo} />
+      {attempt.answerReviewState === 'unavailable' ? <p className="rp-alert" role="status">Current answer-key checks could not load. The options below show the key used in your original session.</p> : null}
+      {correctedRows.length ? <section className="kr-log" aria-label="Answer corrections"><h2>We corrected {correctedRows.length === 1 ? 'an answer key' : `${correctedRows.length} answer keys`}. We’re sorry.</h2><p>Your original result is preserved. Applying these checked corrections gives a separate adjustment of {correctionAdjustment > 0 ? '+' : ''}{correctionAdjustment} marks. This has not changed your account or leaderboard score.</p><ul>{correctedRows.map(r => <li key={r.q.id}><button type="button" onClick={() => jumpTo(r.number)}><b>Q{r.number}</b><span>{r.chapter}</span><em>See correction</em></button></li>)}</ul></section> : null}
 
       {/* ---------- 3. Answer by answer ---------- */}
       <section className="rp-review" aria-labelledby="rp-review-title">
@@ -201,6 +211,7 @@ export default function ResultPageClient({ previewId = null }) {
             const isOpen = open.has(q.id);
             const given = d?.givenIndex;
             const isWrong = verdict === 'wrong';
+            const review = attempt.answerReviews?.[q.id];
             return (
               <li key={q.id} id={`q-${number}`} className="rp-q" hidden={filter !== 'all' && filter !== verdict} data-verdict={verdict} data-open={isOpen || undefined}>
                 <h3 className="rp-q__h"><button type="button" className="rp-q__bar" aria-expanded={isOpen} aria-controls={`q-${number}-body`} onClick={() => toggle(q.id)}>
@@ -208,7 +219,7 @@ export default function ResultPageClient({ previewId = null }) {
                   <span className="rp-q__summary">
                     <span className="rp-q__text">{displayValue(q.question ?? q.body, 'Question unavailable')}</span>
                     <span className="rp-q__meta">
-                      <span data-verdict={verdict}>{verdict === 'correct' ? 'Right +5' : isWrong ? 'Wrong −1' : 'Blank 0'}</span>
+                      <span data-verdict={verdict}>{review ? 'Recorded: ' : ''}{verdict === 'correct' ? 'Right +5' : isWrong ? 'Wrong −1' : 'Blank 0'}</span>
                       <span>{row.chapter}</span>
                       {Number.isFinite(row.ms) ? <span>{formatDuration(row.ms)}</span> : null}
                       {row.changed ? <span>Answer changed</span> : null}
@@ -222,25 +233,27 @@ export default function ResultPageClient({ previewId = null }) {
                     <ul className="rp-options">
                       {q.options.map((opt, j) => {
                         const mine = given === j, key = q.correctIndex === j;
+                        const corrected = review?.state === 'corrected' && review.currentIndex === j;
                         return (
-                          <li key={j} data-state={key ? 'key' : mine ? 'mine' : undefined}>
+                          <li key={j} data-state={corrected || (!review && key) ? 'key' : mine ? 'mine' : undefined}>
                             <span className="rp-options__letter">{LETTERS[j]}</span>
                             <span className="rp-options__text">{displayValue(opt, 'Option')}</span>
-                            {mine || key ? <span className="rp-options__tag">{key && mine ? 'Your pick · correct' : key ? 'Correct' : 'Your pick'}</span> : null}
+                            {mine || key || corrected ? <span className="rp-options__tag">{corrected ? mine ? 'Your pick · corrected answer' : 'Corrected answer' : key ? mine ? 'Your pick · key at submission' : 'Key at submission' : 'Your pick'}</span> : null}
                           </li>
                         );
                       })}
                     </ul>
-                    {q.explanation ? (
+                    {q.explanation && !review ? (
                       isWrong ? (
                         <details className="rp-expl"><summary>Book explanation</summary><p>{displayValue(q.explanation)}</p></details>
                       ) : <div className="rp-expl rp-expl--open"><span>Explanation</span><p>{displayValue(q.explanation)}</p></div>
                     ) : null}
                     {isWrong && Number.isInteger(given) ? (
                       <MistakeRepair key={q.id} attemptId={attempt.id} questionId={q.id} chosen={LETTERS[given]} answer={Number.isInteger(q.correctIndex) ? LETTERS[q.correctIndex] : null}
-                        autoStart={autoRepair === q.id} onSettled={settled}
+                        autoStart={autoRepair === q.id} onSettled={settled} initialReview={review} onReview={reviewReceived}
                         next={(() => { const n = analysis.mistakes.find(m => m.number > number && !handled.has(m.q.id)) || analysis.mistakes.find(m => m.q.id !== q.id && !handled.has(m.q.id)); return n ? { number: n.number, go: () => jumpTo(n.number, { repair: true }) } : null; })()} />
                     ) : null}
+                    {review && !(isWrong && Number.isInteger(given)) ? review.state === 'corrected' || review.state === 'key_changed_unverified' ? <AnswerCorrectionNotice review={review} /> : <KeyReviewNotice chosenLetter={Number.isInteger(given) ? LETTERS[given] : null} keyLetter={LETTERS[q.correctIndex]} reviewState={review.state} /> : null}
                     <div className="rp-q__foot">
                       <button type="button" className="rp-report" disabled={!!reporting[q.id] || !!reported[q.id]} onClick={() => handleReport(row)}>
                         {reported[q.id] ? 'Reported. Thank you.' : reporting[q.id] ? 'Sending…' : 'Report a problem with this question'}

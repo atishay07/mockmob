@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { applyViolation, readStoredStrikes, INTEGRITY_STRIKES } from '../exam_integrity.mjs';
+import { applyViolation, readStoredStrikes, INTEGRITY_STRIKES, createIntegrityMonitor } from '../exam_integrity.mjs';
 import { isKeyReview, keyReviewEvidence } from '../repair_presentation.mjs';
 
 test('two warnings, the third strike ends the session', () => {
@@ -14,6 +14,23 @@ test('stored strikes are sanitised', () => {
   assert.equal(readStoredStrikes('abc'), 0);
   assert.equal(readStoredStrikes('2'), 2);
   assert.equal(readStoredStrikes('99'), 3);
+});
+test('fullscreen exit, blur and hidden coalesce; the third separate episode terminates once', () => {
+  const warnings = []; let submits = 0;
+  const monitor = createIntegrityMonitor({ onViolation: event => warnings.push(event), onTerminate: () => submits++ });
+  assert.equal(monitor.violation('blur'), null); // permission/setup is not a strike
+  monitor.enter(); monitor.violation('fullscreen'); monitor.violation('hidden'); monitor.violation('blur');
+  assert.equal(monitor.count, 1); assert.equal(warnings.length, 1);
+  monitor.enter(); monitor.violation('blur'); monitor.returned(); monitor.violation('hidden');
+  assert.equal(monitor.count, 3); assert.equal(submits, 1);
+  monitor.returned(); monitor.violation('blur'); assert.equal(submits, 1);
+});
+test('restored strikes continue and intentional submission cleanup does not add a strike', () => {
+  let submits = 0;
+  const monitor = createIntegrityMonitor({ count: 2, onTerminate: () => submits++ });
+  monitor.enter(); monitor.violation('fullscreen'); assert.equal(submits, 1);
+  const finished = createIntegrityMonitor({ count: 1 });
+  finished.enter(); finished.stop(); assert.equal(finished.violation('fullscreen'), null); assert.equal(finished.count, 1);
 });
 test('key review covers fresh disputes and already-held questions only', () => {
   assert.equal(isKeyReview('held_for_recheck'), true);

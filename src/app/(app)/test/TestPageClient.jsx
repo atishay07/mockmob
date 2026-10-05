@@ -173,6 +173,8 @@ function TestRunner() {
   const mobilePaletteTriggerRef = useRef(null);
   const mobilePaletteCloseRef = useRef(null);
   const mobilePaletteDialogRef = useRef(null);
+  const fullscreenTarget = useRef(null);
+  const finishExamRef = useRef(null);
 
   const userId = user?.id;
   const key = useMemo(
@@ -190,14 +192,6 @@ function TestRunner() {
       at: Math.max(prior?.at || 0, Date.now() - startedRef.current),
       ...(type === 'answer' ? { answer } : {}) });
   }, []);
-  const chooseAnswer = useCallback((qid, answer) => {
-    if(submitting || pendingSubmission || (endsAt && Date.now()>=endsAt))return;
-    recordEvent(qid, 'answer', answer);
-    setAnswers(prev => {
-      const next = { ...prev }; if (answer === null) delete next[qid]; else next[qid] = answer;
-      answersRef.current = next; return next;
-    });
-  }, [recordEvent,pendingSubmission,endsAt,submitting]);
   const questionsRef = useRef(questions);
   const submittedRef = useRef(false);
   useEffect(() => { answersRef.current = answers; }, [answers]);
@@ -386,6 +380,7 @@ function TestRunner() {
     return () => window.removeEventListener('beforeunload', onBeforeUnload);
   }, [loading]);
 
+  const integrityKey = `${key}:integrity:${selectionMeta?.sessionId || generationKey || endsAt}`;
   const submitTest = useCallback(async () => {
     if (submittedRef.current) return;
     if (!user) return;
@@ -400,7 +395,8 @@ function TestRunner() {
         answers: answersRef.current,
         events: eventsRef.current.filter(e => e.at <= endsAt - startedRef.current),
       });
-      try { window.localStorage.removeItem(key); window.localStorage.removeItem(`${key}:integrity`); } catch {}
+      await finishExamRef.current?.();
+      try { window.localStorage.removeItem(key); window.localStorage.removeItem(integrityKey); window.localStorage.removeItem(`${key}:integrity`); } catch {}
       try { window.sessionStorage.setItem('mm:postTest', '1'); } catch {}
       try { await refreshSession({ silent: true }); } catch {}
       router.push(`/result/${data.id}`);
@@ -418,10 +414,20 @@ function TestRunner() {
         if(e.message === 'SESSION_EXPIRED')setError('The server’s submission window has ended. This session cannot be recorded.');
       }
     }
-  }, [user, key, router, refreshSession, selectionMeta, endsAt]);
+  }, [user, key, integrityKey, router, refreshSession, selectionMeta, endsAt]);
 
   // NTA mode only: leaving the tab is a strike; the third submits the session.
-  const integrity = useExamIntegrity({ enabled: isNtaMode && !loading && !!endsAt, storageKey: `${key}:integrity`, onTerminate: submitTest });
+  const integrity = useExamIntegrity({ enabled: isNtaMode && !loading && !!endsAt, storageKey: integrityKey, fullscreenTarget, onTerminate: submitTest });
+  const canAnswer = integrity.canAnswer;
+  useEffect(() => { finishExamRef.current = integrity.finish; }, [integrity.finish]);
+  const chooseAnswer = useCallback((qid, answer) => {
+    if (!canAnswer() || submittedRef.current || submitting || pendingSubmission || (endsAt && Date.now() >= endsAt)) return;
+    recordEvent(qid, 'answer', answer);
+    setAnswers(prev => {
+      const next = { ...prev }; if (answer === null) delete next[qid]; else next[qid] = answer;
+      answersRef.current = next; return next;
+    });
+  }, [canAnswer, recordEvent, pendingSubmission, endsAt, submitting]);
 
   const timeLeft = endsAt ? Math.max(0, Math.floor((endsAt - now) / 1000)) : 0;
   useEffect(()=>{const reconnect=()=>{if(pendingSubmission && Date.now() <= endsAt+SUBMISSION_GRACE_MS)submitTest();};window.addEventListener('online',reconnect);return()=>window.removeEventListener('online',reconnect);},[pendingSubmission,endsAt,submitTest]);
@@ -433,6 +439,7 @@ function TestRunner() {
   useEffect(() => {
     if (loading || !questions.length) return;
     const onKeyDown = (event) => {
+      if (!canAnswer()) return;
       const tag = event.target?.tagName;
       if (mobilePaletteOpen || event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey || event.target?.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(tag)) return;
       const block = getQuestionBlock(questionsRef.current, idx);
@@ -450,7 +457,7 @@ function TestRunner() {
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [loading, questions.length, idx, gotoQuestion, chooseAnswer, mobilePaletteOpen]);
+  }, [loading, questions.length, idx, gotoQuestion, chooseAnswer, mobilePaletteOpen, canAnswer]);
 
   useEffect(() => {
     if (!mobilePaletteOpen) return undefined;
@@ -653,10 +660,10 @@ function TestRunner() {
   );
 
   return (
-    <div className="nta-runner" data-interface={classicInterface ? 'nta' : 'mockmob'}>
+    <div ref={fullscreenTarget} className="nta-runner" data-interface={classicInterface ? 'nta' : 'mockmob'}>
       <div role="status" className="runner-sync-state">{pendingSubmission ? 'Waiting for server confirmation. Answers are held on this device until the submission window ends.' : !online ? 'You are offline. Answers stay on this device and the timer continues. Reconnect before submitting.' : selectionMeta?.sessionTicket ? 'Answers are saved on this device. Stay online when submitting. Existing practice-bank content is still being audited.' : syncStatus === 'pending' ? 'Waiting for connection. Answers stay on this device; synchronize before the timer ends.' : 'Practice saves to your account while online.'}</div>
-      {isNtaMode ? <IntegrityOverlay alert={integrity.alert} onResume={integrity.dismiss} submitting={submitting} /> : null}
-      {error && <div role="alert" className="runner-submit-error">{error}<button type="button" onClick={submitTest}>Retry submission</button></div>}
+      {isNtaMode ? <IntegrityOverlay alert={integrity.alert} onResume={integrity.resume} onRetry={submitTest} submitting={submitting} error={error} supported={integrity.supported} entering={integrity.entering} fullscreenError={integrity.fullscreenError} /> : null}
+      {error && integrity.alert?.phase !== 'terminated' && <div role="alert" className="runner-submit-error">{error}<button type="button" onClick={submitTest}>Retry submission</button></div>}
       {showVoteCoach && (
         <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/70 backdrop-blur-sm px-4">
           <div className="glass volt-soft max-w-lg w-full p-5 md:p-6 relative overflow-hidden">
@@ -689,7 +696,7 @@ function TestRunner() {
       </div>}
       <header className="nta-test-header">
         <div className="nta-header-left">
-          <button
+          {!isNtaMode && <button
             type="button"
             className="nta-icon-button"
             onClick={() => {
@@ -700,7 +707,7 @@ function TestRunner() {
             aria-label="Exit test"
           >
             <Icon name="x" />
-          </button>
+          </button>}
           <div className="nta-title-stack">
             <span>{attemptLabel}</span>
             <strong>{subjectLabel}</strong>
@@ -715,12 +722,12 @@ function TestRunner() {
           <ProgressBar value={progress} />
         </div>
 
-        {isNtaMode ? <IntegrityPill strikes={integrity.strikes} /> : null}
         <div className={`nta-timer ${lowTime ? 'is-low' : ''}`} role="timer" aria-label={`Time remaining: ${mins} minutes ${secs} seconds`}>
           <Icon name="clock" />
           <span>{mins}:{secs.toString().padStart(2, '0')}</span>
         </div>
       </header>
+      {isNtaMode ? <div className="nta-integrity-status"><IntegrityPill strikes={integrity.strikes} /></div> : null}
 
       <div className="nta-shell">
         {selectionMeta?.insufficientHighQualityPool && (

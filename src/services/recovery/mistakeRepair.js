@@ -9,6 +9,8 @@ import { generateAIResponse } from '@/services/ai/providers';
 import { buildReplyDeps, modelRepliesOpen } from '@/services/prepos/replyDeps';
 import { PREPOS_PAUSED_MESSAGE } from '@/services/prepos/modelReply';
 import { readAIWallet } from '@/services/credits/aiCreditWallet';
+import { answerReview } from '@/../data/answer_corrections.mjs';
+import { publicationEligibility } from '@/../data/evidence_registry';
 import {
   repairEligibility, buildRepairPrompt, buildBlindSolvePrompt, interpretRepair,
   MISTAKE_REPAIR_SCHEMA, REPAIR_CREDIT_COST, practiceHref,
@@ -21,12 +23,13 @@ const mistakeId = (userId, attemptId, questionId) => createHash('sha256').update
 
 async function withheldForRecheck(db, { questionId, userId, attemptId, firstIndex, blindIndex, model }) {
   // Same path as a student report: recorded, then withheld from practice until re-checked.
-  await db.from('question_interactions').insert({
+  const report = await db.from('question_interactions').insert({
     question_id: questionId, user_id: userId, interaction_type: 'report', flow_context: 'review', session_id: attemptId,
     metadata: { source: 'ai_key_dispute', solved_index: firstIndex, blind_index: blindIndex, model },
   });
-  await db.from('questions').update({ status: 'pending', verification_state: 'disputed', exploration_state: 'pending_review', updated_at: new Date().toISOString() })
-    .eq('id', questionId).neq('status', 'rejected');
+  const held = await db.from('questions').update({ status: 'pending', verification_state: 'disputed', exploration_state: 'pending_review', updated_at: new Date().toISOString() })
+    .eq('id', questionId).neq('status', 'rejected').select('id');
+  if (report.error || held.error || !held.data?.length) throw new Error('quarantine_not_confirmed');
 }
 
 // Owner, 5 October 2026: GPT-6 Luna for Mistake Repair; low effort for the repair, high for the blind
@@ -41,7 +44,12 @@ export async function repairMistake({ user, attemptId, questionId, requestId, ge
   const { data: current, error } = await db.from('questions').select('*').eq('id', questionId).maybeSingle();
   if (error) return out(503, { ok: false, error: 'question_unavailable', message: 'This question could not be loaded. Nothing was charged.' });
   const eligible = repairEligibility({ attempt, questionId, userId: user.id, current });
-  if (!eligible.ok) return out(eligible.http, { ok: false, error: eligible.code, message: eligible.message });
+  if (!eligible.ok) {
+    const snapshot = (attempt?.questionsSnapshot || []).find(q => q.id === questionId);
+    const detail = (attempt?.details || []).find(d => d.qid === questionId);
+    const review = snapshot && attempt.userId === user.id ? answerReview(snapshot, current, detail, { evidenceEligible: !!current && publicationEligibility(current).eligible }) : null;
+    return out(eligible.http, { ok: false, error: eligible.code, message: eligible.message, ...(review ? { review, charged: 0 } : {}) });
+  }
 
   const id = mistakeId(user.id, attemptId, questionId);
   const base = { practiceHref: practiceHref({ subject: attempt.subject, chapter: eligible.question.chapter, attemptId }), chosenIndex: eligible.chosenIndex, keyIndex: eligible.keyIndex };
@@ -88,8 +96,11 @@ export async function repairMistake({ user, attemptId, questionId, requestId, ge
     try { blind = await generate({ requestKey: `${operationKey}:blind`, tier: 'smart', ...REPAIR_ROUTE, reasoningEffort: REPAIR_EFFORT.secondOpinion, systemPrompt: blindPrompt.system, userMessage: blindPrompt.user, responseSchema: { required: ['solved_index'], types: { solved_index: 'number' } } }); }
     catch { blind = null; }
     const blindIndex = blind?.data?.solved_index;
-    const confirmed = Number.isInteger(blindIndex) && blindIndex !== eligible.keyIndex;
-    if (confirmed) await withheldForRecheck(db, { questionId, userId: user.id, attemptId, firstIndex: verdict.solvedIndex, blindIndex, model: ai.usage?.model || null }).catch(() => {});
+    const confirmed = Number.isInteger(blindIndex) && blindIndex >= 0 && blindIndex < eligible.question.options.length && blindIndex !== eligible.keyIndex;
+    if (confirmed) {
+      try { await withheldForRecheck(db, { questionId, userId: user.id, attemptId, firstIndex: verdict.solvedIndex, blindIndex, model: ai.usage?.model || null }); }
+      catch { return await fail('quarantine_not_confirmed', 503, 'Our checks disagree with the key, but we could not confirm that the question was withheld. Please report this question.'); }
+    }
     try { await deps.release(operationKey, confirmed ? 'ai_key_dispute' : 'ai_inconsistent'); } catch { /* the expiry sweep returns it */ }
     return out(200, confirmed
       ? { ok: true, status: 'held_for_recheck', charged: 0, ...base, dispute: { ourIndex: verdict.solvedIndex, secondIndex: blindIndex }, message: 'Our check of this question didn’t match its answer key, so we’ve held it for review instead of explaining it. You weren’t charged, and it won’t appear in practice until it’s cleared.' }

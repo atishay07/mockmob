@@ -31,6 +31,7 @@ import AIRivalArena from '@/components/ai/AIRivalArena';
 import OnboardingPageClient from '@/app/onboarding/OnboardingPageClient';
 import ModerationPageClient from '@/app/(app)/moderation/ModerationPageClient';
 import { FIXTURE_SUBJECTS, fixtureFeed, fixtureChapters, fixtureUploads, fixtureAttempt } from './previewFixtures';
+import { CIRCULAR_QUEUE_CORRECTION, answerReview } from '@/../data/answer_corrections.mjs';
 
 // Original illustrative questions (the homepage sample set), never real bank rows.
 const SAMPLE = [
@@ -144,7 +145,21 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       { userId: 'preview-user', name: state === 'long' ? 'An exceptionally long illustrative display name for responsive checks' : 'Preview Student', tests: 2, totalScore: 112 },
       { userId: 'fixture-student', name: 'Illustrative student', tests: 1, totalScore: 50 },
     ]);
-    if (url.pathname.startsWith('/api/attempts/')) return state === 'empty' ? json({ error: 'No fixture attempt' }, 404) : json(fixtureAttempt());
+    if (url.pathname.startsWith('/api/attempts/')) {
+      if (state === 'empty') return json({ error: 'No fixture attempt' }, 404);
+      const attempt = fixtureAttempt(); const kind = fixture.get('repair');
+      if (['corrected', 'key-unverified', 'held'].includes(kind)) {
+        const receipt = CIRCULAR_QUEUE_CORRECTION;
+        const qid = attempt.questionsSnapshot[1].id;
+        attempt.questionsSnapshot[1] = { ...attempt.questionsSnapshot[1], question: receipt.body, options: receipt.options, correctIndex: 0 };
+        attempt.details[1].givenIndex = 1;
+        const snapshot = { ...attempt.questionsSnapshot[1], id: receipt.questionId };
+        const current = { ...receipt, id: receipt.questionId, status: 'live', verification_state: 'verified' };
+        const review = answerReview(snapshot, current, { givenIndex: 1 });
+        attempt.answerReviews = { [qid]: kind === 'held' ? { state: 'under_review', originalIndex: 0 } : kind === 'key-unverified' ? { state: 'key_changed_unverified', originalIndex: 0, currentIndex: 3 } : review };
+      }
+      return json({ ...attempt, answerReviewState: 'ready' });
+    }
     if (url.pathname.startsWith('/api/users/') && method === 'PATCH') return state === 'save-error' ? json({ error: 'Fixture profile save failure' }, 503) : json({ ok: true });
     if (url.pathname === '/api/bookmarks' && method === 'POST') return state === 'save-error' ? json({ error: 'Save limit', limit: 25 }, 402) : json({ saved: JSON.parse(init.body || '{}').saved });
     if (url.pathname.startsWith('/api/questions/') && url.pathname.endsWith('/interact')) return json({ ok: true });

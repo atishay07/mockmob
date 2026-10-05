@@ -11,7 +11,7 @@ export default function KeyReviewLog({ items, onJump }) {
         <span className="kr-icon" aria-hidden="true"><ShieldAlert size={18} strokeWidth={2.3} /></span>
         <div>
           <h2 id="kr-log-title">Answer keys we are re-checking</h2>
-          <p>{items.length === 1 ? 'One question in this session may have a wrong key.' : `${items.length} questions in this session may have a wrong key.`} We hold them out of practice and tell you here instead of hiding it.</p>
+          <p>{items.length === 1 ? 'One recorded answer needs attention.' : `${items.length} recorded answers need attention.`} Open a question to see what changed or why its explanation was withheld.</p>
         </div>
       </header>
       <ul>

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { Database } from '@/../data/db';
 import { auth } from '@/lib/auth';
+import { readAnswerReviews } from '@/services/recovery/answerReviews';
 
 export async function GET(request, { params }) {
   try {
@@ -11,7 +12,7 @@ export async function GET(request, { params }) {
     if (!attempt || attempt.userId !== session.user.id) {
       return NextResponse.json({ error: 'Attempt not found' }, { status: 404 });
     }
-    return NextResponse.json(attempt);
+    return NextResponse.json({ ...attempt, ...await readAnswerReviews(attempt) }, { headers: { 'Cache-Control': 'no-store' } });
   } catch (e) {
     console.error('[api/attempts/:id] GET failed:', e);
     return NextResponse.json({ error: 'Failed to load attempt' }, { status: 500 });

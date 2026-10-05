@@ -1,94 +1,103 @@
 "use client";
-// NTA mode integrity: leaving the test tab or window is a strike. Two warnings, then the third ends
-// the session and submits what is answered. Strikes survive a reload (stored per session key).
-// The timer keeps running throughout; nothing here pauses it.
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ShieldAlert, Eye } from 'lucide-react';
-import { INTEGRITY_STRIKES, INTEGRITY_GRACE_MS, applyViolation, readStoredStrikes, VIOLATION_LABEL } from '@/../data/exam_integrity.mjs';
+import { ShieldAlert, Maximize, Eye } from 'lucide-react';
+import { INTEGRITY_STRIKES, createIntegrityMonitor, readStoredStrikes, VIOLATION_LABEL } from '@/../data/exam_integrity.mjs';
 import './exam-integrity.css';
 
-export function useExamIntegrity({ enabled, storageKey, onTerminate }) {
+export function useExamIntegrity({ enabled, storageKey, fullscreenTarget, onTerminate }) {
   const [strikes, setStrikes] = useState(0);
-  const [alert, setAlert] = useState(null); // { reason, count, phase, remaining }
-  const armedAt = useRef(0);
-  const away = useRef(false);
-  const strikesRef = useRef(strikes);
-  const terminate = useRef(onTerminate);
+  const [alert, setAlert] = useState(null);
+  const [fullscreenError, setFullscreenError] = useState('');
+  const [entering, setEntering] = useState(false);
+  const [supported, setSupported] = useState(true);
+  const monitor = useRef(null); const requesting = useRef(false); const terminate = useRef(onTerminate);
+  const blocked = useRef(true);
   useEffect(() => { terminate.current = onTerminate; }, [onTerminate]);
-
-  const strike = useCallback((reason) => {
-    if (Date.now() - armedAt.current < INTEGRITY_GRACE_MS || strikesRef.current >= INTEGRITY_STRIKES) return;
-    const v = applyViolation(strikesRef.current);
-    strikesRef.current = v.count;
-    setStrikes(v.count);
-    setAlert({ reason, ...v });
-    try { window.localStorage.setItem(storageKey, String(v.count)); } catch { /* the in-memory count still holds */ }
-    if (v.phase === 'terminated') terminate.current?.();
-  }, [storageKey]);
 
   useEffect(() => {
     if (!enabled) return undefined;
-    armedAt.current = Date.now();
-    // Strikes survive a reload; a session already at three is ended again rather than resumed.
-    let stored = 0;
-    try { stored = readStoredStrikes(window.localStorage.getItem(storageKey)); } catch { /* start clean */ }
-    strikesRef.current = stored;
+    let stored = 0; let disposed = false; let blurTimer;
+    try { stored = readStoredStrikes(window.localStorage.getItem(storageKey)); } catch {}
+    const fullscreenSupported = !!fullscreenTarget.current?.requestFullscreen && document.fullscreenEnabled !== false;
+    const controller = createIntegrityMonitor({ count: stored,
+      onViolation: violation => {
+        blocked.current = true;
+        setStrikes(violation.count); setAlert(violation);
+        try { window.localStorage.setItem(storageKey, String(violation.count)); } catch {}
+      }, onTerminate: () => terminate.current?.() });
+    monitor.current = controller;
+    blocked.current = true;
     queueMicrotask(() => {
-      setStrikes(stored);
-      if (stored >= INTEGRITY_STRIKES) { setAlert({ reason: 'hidden', ...applyViolation(INTEGRITY_STRIKES - 1) }); terminate.current?.(); }
+      if (disposed) return;
+      setSupported(fullscreenSupported); setStrikes(stored);
+      setAlert(stored >= INTEGRITY_STRIKES ? { phase: 'terminated', count: stored, reason: 'reload' } : { phase: 'entry', count: stored });
+      if (stored >= INTEGRITY_STRIKES) terminate.current?.();
     });
-    // One episode of being away is one strike, however many events it fires (hidden + blur together).
-    const leave = (reason) => { if (away.current) return; away.current = true; strike(reason); };
-    const back = () => { if (!document.hidden) away.current = false; };
-    const onVis = () => (document.hidden ? leave('hidden') : back());
-    const onBlur = () => setTimeout(() => { if (!document.hasFocus()) leave('blur'); }, 150);
-    const stop = (e) => e.preventDefault();
-    document.addEventListener('visibilitychange', onVis);
-    window.addEventListener('blur', onBlur);
-    window.addEventListener('focus', back);
-    document.addEventListener('copy', stop); document.addEventListener('cut', stop);
-    document.addEventListener('paste', stop); document.addEventListener('contextmenu', stop);
-    return () => {
-      document.removeEventListener('visibilitychange', onVis);
-      window.removeEventListener('blur', onBlur);
-      window.removeEventListener('focus', back);
-      document.removeEventListener('copy', stop); document.removeEventListener('cut', stop);
-      document.removeEventListener('paste', stop); document.removeEventListener('contextmenu', stop);
+    const back = () => {
+      if (!document.hidden && document.hasFocus() && (!fullscreenSupported || document.fullscreenElement === fullscreenTarget.current)) controller.returned();
     };
-  }, [enabled, strike, storageKey]);
+    const onVis = () => document.hidden ? controller.violation('hidden') : back();
+    const onBlur = () => {
+      clearTimeout(blurTimer);
+      blurTimer = setTimeout(() => { if (!disposed && !requesting.current && !document.hasFocus()) controller.violation('blur'); }, 150);
+    };
+    const onFullscreen = () => {
+      if (!requesting.current && document.fullscreenElement !== fullscreenTarget.current) controller.violation('fullscreen');
+    };
+    const stop = event => event.preventDefault();
+    document.addEventListener('fullscreenchange', onFullscreen);
+    document.addEventListener('visibilitychange', onVis);
+    window.addEventListener('blur', onBlur); window.addEventListener('focus', back);
+    for (const type of ['copy', 'cut', 'paste', 'contextmenu']) document.addEventListener(type, stop);
+    return () => {
+      disposed = true; controller.stop(); clearTimeout(blurTimer);
+      document.removeEventListener('fullscreenchange', onFullscreen);
+      document.removeEventListener('visibilitychange', onVis);
+      window.removeEventListener('blur', onBlur); window.removeEventListener('focus', back);
+      for (const type of ['copy', 'cut', 'paste', 'contextmenu']) document.removeEventListener(type, stop);
+    };
+  }, [enabled, storageKey, fullscreenTarget]);
 
-  const dismiss = useCallback(() => setAlert(a => (a && a.phase === 'warning' ? null : a)), []);
-  return { strikes, alert, dismiss };
+  const resume = useCallback(async () => {
+    if (requesting.current || monitor.current?.count >= INTEGRITY_STRIKES) return;
+    requesting.current = true; setEntering(true); setFullscreenError('');
+    try {
+      if (supported && document.fullscreenElement !== fullscreenTarget.current) await fullscreenTarget.current.requestFullscreen();
+      monitor.current?.enter(); blocked.current = false; setAlert(null);
+    } catch {
+      setFullscreenError('Fullscreen could not open. Allow fullscreen in your browser, then try again. The timer is still running.');
+    } finally { requesting.current = false; setEntering(false); }
+  }, [supported, fullscreenTarget]);
+  const finish = useCallback(async () => {
+    monitor.current?.stop();
+    if (document.fullscreenElement === fullscreenTarget.current) await document.exitFullscreen().catch(() => {});
+  }, [fullscreenTarget]);
+  const canAnswer = useCallback(() => !enabled || !blocked.current, [enabled]);
+  return { strikes, alert, resume, finish, canAnswer, supported, entering, fullscreenError };
 }
 
-// Header pill: always visible in NTA mode so the rule is never a surprise.
 export function IntegrityPill({ strikes }) {
-  return (
-    <span className="ei-pill" data-strikes={strikes} title="Leaving this tab or window is a warning. The third ends the session.">
-      <Eye size={14} aria-hidden="true" />
-      <span>Warnings {strikes}/{INTEGRITY_STRIKES}</span>
-    </span>
-  );
+  return <span className="ei-pill" data-strikes={strikes} title="Fullscreen exit or leaving the test is a warning. Warning 3 submits your answers."><Eye size={14} aria-hidden="true" />Warnings {strikes}/{INTEGRITY_STRIKES}</span>;
 }
 
-export function IntegrityOverlay({ alert, onResume, submitting }) {
-  const btn = useRef(null);
-  useEffect(() => { if (alert?.phase === 'warning') btn.current?.focus(); }, [alert]);
+export function IntegrityOverlay({ alert, onResume, onRetry, submitting, error, supported, entering, fullscreenError }) {
+  const dialog = useRef(null);
+  useEffect(() => {
+    if (alert && !dialog.current?.open) dialog.current?.showModal();
+    else if (!alert && dialog.current?.open) dialog.current.close();
+  }, [alert]);
   if (!alert) return null;
-  const ended = alert.phase === 'terminated';
-  return (
-    <div className="ei-scrim" role="alertdialog" aria-modal="true" aria-labelledby="ei-title" aria-describedby="ei-body" data-phase={alert.phase}>
-      <div className="ei-card" key={alert.count}>
-        <span className="ei-icon" aria-hidden="true"><ShieldAlert size={30} strokeWidth={2.2} /></span>
-        <h2 id="ei-title">{ended ? 'Session ended' : `Warning ${alert.count} of ${INTEGRITY_STRIKES}`}</h2>
-        <p id="ei-body">
-          {VIOLATION_LABEL[alert.reason] || 'You left the test.'}. {ended
-            ? (submitting ? 'This was your third warning. Submitting your answers now…' : 'This was your third warning, so your answers are being submitted.')
-            : `The timer kept running. ${alert.remaining === 1 ? 'One more and your session ends and is submitted.' : `${alert.remaining} more and your session ends and is submitted.`}`}
-        </p>
-        <ol className="ei-strikes" aria-hidden="true">{Array.from({ length: INTEGRITY_STRIKES }, (_, i) => <li key={i} data-on={i < alert.count} />)}</ol>
-        {ended ? null : <button ref={btn} type="button" className="ei-btn" onClick={onResume}>Return to test</button>}
-      </div>
+  const entry = alert.phase === 'entry'; const ended = alert.phase === 'terminated';
+  return <dialog ref={dialog} className="ei-dialog" onCancel={event => event.preventDefault()} aria-labelledby="ei-title" aria-describedby="ei-body" data-phase={alert.phase}>
+    <div className="ei-card" key={alert.count}>
+      {entry ? <Maximize size={28} aria-hidden="true" /> : <ShieldAlert size={28} aria-hidden="true" />}
+      <h2 id="ei-title">{entry ? 'Enter your exam space' : ended ? 'Session ended' : `Warning ${alert.count} of ${INTEGRITY_STRIKES}`}</h2>
+      <p id="ei-body">{entry ? supported ? 'NTA Mode uses the entire screen. Enter fullscreen to answer. Your session timer is already running.' : 'This browser does not support fullscreen. Stay in this test window; leaving it still counts as a warning.' : ended ? 'You reached three warnings. Answering is locked. We will submit the answers you already saved.' : `${VIOLATION_LABEL[alert.reason] || 'You left the test'}. The timer keeps running. ${alert.remaining === 1 ? 'One more warning will end and submit your session.' : 'Two more warnings will end and submit your session.'}`}</p>
+      {!ended ? <ul className="ei-rules"><li>Fullscreen exits, tab switches and leaving the window count as warnings.</li><li>Copy, paste and right-click are disabled.</li><li>The third warning submits your current answers.</li></ul> : null}
+      <ol className="ei-strikes" aria-label={`${alert.count} of ${INTEGRITY_STRIKES} warnings`}>{Array.from({ length: INTEGRITY_STRIKES }, (_, i) => <li key={i} data-on={i < alert.count} aria-hidden="true" />)}</ol>
+      {fullscreenError ? <p className="ei-error" role="alert">{fullscreenError}</p> : null}
+      {ended ? <><p className="ei-submission" role="status">{submitting ? 'Submitting your saved answers…' : error || 'Confirming your result…'}</p>{!submitting && error ? <button type="button" className="ei-btn" onClick={onRetry}>Retry submission</button> : null}</> : <button type="button" className="ei-btn" disabled={entering} onClick={onResume}>{entering ? 'Opening fullscreen…' : supported ? entry ? 'Enter fullscreen' : 'Return to fullscreen' : 'Continue in this window'}</button>}
+      <p className="ei-fine">Browser safeguards let you exit with Escape or switch apps. These exits are detected here; this is not server-verified proctoring.</p>
     </div>
-  );
+  </dialog>;
 }

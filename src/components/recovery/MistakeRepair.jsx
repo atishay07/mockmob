@@ -6,13 +6,14 @@ import Link from 'next/link';
 import { Wrench, Check, ArrowRight } from 'lucide-react';
 import { REPAIR_OUTCOMES, hasExplanation, repairRetryPolicy, isKeyReview } from '@/../data/repair_presentation.mjs';
 import KeyReviewNotice from './KeyReviewNotice';
+import AnswerCorrectionNotice from './AnswerCorrectionNotice';
 import './mistake-repair.css';
 
 const newRequestId = () => (globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random()}`).replace(/[^A-Za-z0-9_-]/g, '').slice(0, 40).padEnd(16, '0');
 // The stages the server runs, in order. The display advances on a timer; the result decides the outcome.
 const STAGES = ['Working through the question', 'Checking against the answer key', 'Writing your repair'];
 
-export default function MistakeRepair({ attemptId, questionId, chosen, answer, autoStart = false, onSettled, next = null }) {
+export default function MistakeRepair({ attemptId, questionId, chosen, answer, autoStart = false, onSettled, onReview, initialReview = null, next = null }) {
   const [state, setState] = useState({ status: 'idle' });
   const [stage, setStage] = useState(0);
   // One request ID per repair attempt: a retry after a lost response reuses it, so it is never charged twice.
@@ -36,6 +37,11 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, a
         return;
       }
       if (!res.ok || !body?.ok) {
+        if (body?.review) {
+          onReview?.(questionId, body.review);
+          setState({ status: 'answer_review', review: body.review });
+          return;
+        }
         // Already being re-checked (earlier, or after a reload): same acknowledgement, no retry.
         if (isKeyReview(null, body?.error)) {
           setState({ status: 'held_for_recheck', ...body, ok: true });
@@ -64,14 +70,18 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, a
   }, [state.status]);
 
   useEffect(() => {
-    if (!autoStart || started.current) return;
+    if (!autoStart || started.current || initialReview) return;
     started.current = true;
     queueMicrotask(run);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [autoStart]);
+  }, [autoStart, initialReview]);
 
   const nextButton = next ? <button type="button" className="mr-next-btn" onClick={next.go}>Next mistake: Q{next.number} <ArrowRight size={16} aria-hidden="true" /></button> : null;
   const pick = chosen ? `option ${chosen}` : 'your answer';
+
+  const review = state.review || initialReview;
+  if (review?.state === 'corrected' || review?.state === 'key_changed_unverified') return <AnswerCorrectionNotice review={review} next={nextButton} />;
+  if (review) return <KeyReviewNotice chosenLetter={chosen} keyLetter={answer} reviewState={review.state} next={nextButton} />;
 
   if (state.status === 'idle') {
     return (
