@@ -7,7 +7,7 @@ const baseIndex=process.argv.indexOf('--base'),base=baseIndex>=0?process.argv[ba
 if(!base||!(new URL(base).protocol===('http:')&&new URL(base).hostname==='localhost'||new URL(base).protocol==='https:'))throw Error('explicit_application_base_required');
 const url=staging?process.env.STAGING_SUPABASE_URL:process.env.NEXT_PUBLIC_SUPABASE_URL,key=staging?process.env.STAGING_SUPABASE_SERVICE_ROLE_KEY:process.env.SUPABASE_SERVICE_ROLE_KEY,anon=staging?process.env.STAGING_SUPABASE_ANON_KEY:process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 if(url!=='https://'+(staging?'onwkqxmjqjrhfbjjdydu':'isrxrxzjocewrdureyhp')+'.supabase.co')throw Error('environment_identity_mismatch');
-const boundedFetch=(url,init={})=>fetch(url,{...init,signal:AbortSignal.timeout(30000)});
+const boundedFetch=(url,init={},timeoutMs=30000)=>fetch(url,{...init,signal:AbortSignal.timeout(timeoutMs)});
 const db=createClient(url,key,{auth:{persistSession:false},global:{fetch:boundedFetch}}),root='artifacts/question-factory/continuation-500/',all=JSON.parse(readFileSync(root+'all-candidates.json'));
 console.log(JSON.stringify({check_environment:staging?'staging':'production',stage:'read_actual_publications'}));
 const publications=await readAllRows(db,'question_factory_publications','question_id','question_id'),published=new Set(publications.map(p=>p.question_id));
@@ -19,7 +19,9 @@ const owner=staging?null:await db.auth.admin.getUserById(process.env.CUET_CONTEN
 if(production&&(owner.error||!owner.data.user?.email))throw Error('existing_production_owner_required');
 const admin=await login(staging?'atishay07jain@gmail.com':owner.data.user.email),student=staging?await login('factory-staging-student@example.com'):null;
 console.log(JSON.stringify({stage:'existing_sessions_established',emails_sent:0}));
-async function request(path,{cookie=student,action,status=200,origin=base}={}){const r=await boundedFetch(base+path,{headers:{...(cookie?{Cookie:cookie}:{}),...(action?{Origin:origin,'Content-Type':'application/json'}:{})},...(action?{method:'POST',body:JSON.stringify({action})}:{})});const data=await r.json();assert.equal(r.status,status,path+':'+JSON.stringify(data));return data;}
+// The production admin inventory traverses the complete retained bank. The
+// observed deployed HTTP 200 took 30.5 seconds; student requests keep 30 seconds.
+async function request(path,{cookie=student,action,status=200,origin=base}={}){const r=await boundedFetch(base+path,{headers:{...(cookie?{Cookie:cookie}:{}),...(action?{Origin:origin,'Content-Type':'application/json'}:{})},...(action?{method:'POST',body:JSON.stringify({action})}:{})},path.startsWith('/api/admin/question-factory')?90000:30000);const data=await r.json();assert.equal(r.status,status,path+':'+JSON.stringify(data));return data;}
 const checks=[];await request('/api/admin/question-factory',{cookie:null,status:401});const overview=await request('/api/admin/question-factory',{cookie:admin});assert.equal(overview.available,true);assert.equal(overview.counts.total,publications.length);if(staging)assert.equal(overview.counts.usable_factory,expected.size);checks.push({name:'authenticated admin publication history and current usable count',count:overview.counts.total,usable_factory:overview.counts.usable_factory});
 if(staging){await request('/api/admin/question-factory',{status:404});await request('/api/admin/question-factory',{cookie:admin,action:'pause',origin:'https://example.com',status:403});
  await request('/api/admin/question-factory',{cookie:admin,action:'release_1000'});await request('/api/admin/question-factory',{cookie:admin,action:'release_1000'});checks.push({name:'funded 1000 checkpoint release and replay, completed original pilot retained',passed:true});

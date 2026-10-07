@@ -32,10 +32,15 @@ export async function factoryOverview() {
     const {data:disputes,error:disputeError}=await db.from('question_content_disputes').select('id,question_id,content_hash,reason,state,created_at').eq('state','open').order('created_at',{ascending:false}).limit(50);
     if(jobsError || disputeError)throw new Error('factory_status_unavailable');
     const [inventory,holds]=await Promise.all([readBankSnapshot(db),readAllRows(db,'recovery_family_holds','family_id','family_id')]);
-    const usable=detailedCoverage(inventory,registry,{heldFamilies:holds.map(h=>h.family_id),eligible:q=>publicationEligibility(q,{registry,manifest})});
+    const publicationIds=new Set(publications.map(p=>p.question_id)),evidenceRejections={};
+    const usable=detailedCoverage(inventory,registry,{heldFamilies:holds.map(h=>h.family_id),eligible:q=>{
+      const verdict=publicationEligibility(q,{registry,manifest});
+      if(publicationIds.has(q.id)&&!verdict.eligible)for(const reason of verdict.reasons)evidenceRejections[reason]=(evidenceRejections[reason]||0)+1;
+      return verdict;
+    }});
     const coverage=usable.cells.map(c=>({...c,published:publications.filter(p=>p.subject===c.subject && p.chapter===c.chapter).length,reference_available:base.sources.find(s=>s.subject===c.subject)?.chapters.includes(c.chapter)}));
     const scope_coverage=base.sources.map(s=>({subject:s.subject,chapters:coverage.filter(c=>c.subject===s.subject).map(c=>({...c,ready:c.reference_available}))}));
-    return {...base,scope_coverage,available:true,control,jobs,disputes,coverage,counts_snapshot_at:usable.inventory_at,counts:{...factoryInventoryCounts(publications,usable),total:publications.length,usable:usable.total_usable,by_subject:Object.fromEntries(FACTORY_SUBJECTS.map(s=>[s,publications.filter(p=>p.subject===s).length])),
+    return {...base,scope_coverage,available:true,control,jobs,disputes,coverage,verification_diagnostics:{signing_key_configured:Boolean(process.env.CUET_EVIDENCE_SIGNING_KEY),publication_rejection_reasons:evidenceRejections},counts_snapshot_at:usable.inventory_at,counts:{...factoryInventoryCounts(publications,usable),total:publications.length,usable:usable.total_usable,by_subject:Object.fromEntries(FACTORY_SUBJECTS.map(s=>[s,publications.filter(p=>p.subject===s).length])),
       authentic:publications.filter(p=>p.kind==='authentic_pyq').length,adapted:publications.filter(p=>p.kind==='pyq_adapted').length,original:publications.filter(p=>p.kind==='original_practice').length}};
   } catch(e) {return {...base,available:false,blocker:e.message,counts:{total:0,by_subject:{}},jobs:[],disputes:[]};}
 }
