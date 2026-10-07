@@ -1,6 +1,6 @@
 import 'server-only';
 import { supabaseAdmin } from '@/lib/supabase';
-import { currentRegistry } from '@/../data/evidence_registry';
+import { currentRegistry,publicationEligibility } from '@/../data/evidence_registry';
 import {syllabusCoverage} from '@/../scripts/pipeline/lib/factoryAcceptance.mjs';
 import { sourceReadiness } from '@/../scripts/pipeline/lib/sourcePacks.mjs';
 import { mechanicalScreen, reviewBundles, importSubscriptionReview } from '@/../scripts/pipeline/lib/subscriptionScreening.mjs';
@@ -22,8 +22,8 @@ async function readAll(db,table,select='*') {
   return rows;
 }
 export async function factoryOverview() {
-  const db=supabaseAdmin(),registry=currentRegistry();
-  const base={scope_coverage:syllabusCoverage(registry,JSON.parse(readFileSync(resolve('data/question_factory_scope.json'),'utf8'))),sources:sourceReadiness(registry),target:10000,subject_target:2500,calibration:JSON.parse(readFileSync(resolve('data/calibration_manifest.json'),'utf8')).state};
+  const db=supabaseAdmin(),registry=currentRegistry(),manifest=JSON.parse(readFileSync(resolve('data/calibration_manifest.json'),'utf8'));
+  const base={scope_coverage:syllabusCoverage(registry,JSON.parse(readFileSync(resolve('data/question_factory_scope.json'),'utf8'))),sources:sourceReadiness(registry),target:10000,subject_target:2500,calibration:manifest.state};
   try {
     const {data:control,error}=await db.from('question_factory_control').select('*').eq('id',1).single();
     if(error)throw new Error('factory_migration_required');
@@ -32,7 +32,7 @@ export async function factoryOverview() {
     const {data:disputes,error:disputeError}=await db.from('question_content_disputes').select('id,question_id,content_hash,reason,state,created_at').eq('state','open').order('created_at',{ascending:false}).limit(50);
     if(jobsError || disputeError)throw new Error('factory_status_unavailable');
     const [inventory,holds]=await Promise.all([readBankSnapshot(db),readAllRows(db,'recovery_family_holds','family_id','family_id')]);
-    const usable=detailedCoverage(inventory,registry,{heldFamilies:holds.map(h=>h.family_id)});
+    const usable=detailedCoverage(inventory,registry,{heldFamilies:holds.map(h=>h.family_id),eligible:q=>publicationEligibility(q,{registry,manifest})});
     const coverage=usable.cells.map(c=>({...c,published:publications.filter(p=>p.subject===c.subject && p.chapter===c.chapter).length,reference_available:base.sources.find(s=>s.subject===c.subject)?.chapters.includes(c.chapter)}));
     const scope_coverage=base.sources.map(s=>({subject:s.subject,chapters:coverage.filter(c=>c.subject===s.subject).map(c=>({...c,ready:c.reference_available}))}));
     return {...base,scope_coverage,available:true,control,jobs,disputes,coverage,counts_snapshot_at:usable.inventory_at,counts:{...factoryInventoryCounts(publications,usable),total:publications.length,usable:usable.total_usable,by_subject:Object.fromEntries(FACTORY_SUBJECTS.map(s=>[s,publications.filter(p=>p.subject===s).length])),
