@@ -55,9 +55,12 @@ function firstPresent(row, fields) {
 }
 
 function normalizeComparable(value) {
-  const scalar = textValue(value).replace(/\u2212/g, '-').match(/^([₹$]?)\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+))\s*(%?)$/);
-  if (scalar && Number.isFinite(Number(scalar[2]))) {
-    return `scalar:${scalar[1]}:${Number(scalar[2])}:${scalar[3]}`;
+  const scalar = textValue(value).replace(/\u2212/g, '-').match(/^([+-]?)\s*([₹$]?)\s*([+-]?)\s*(\d+(?:,\d+)*(?:\.\d+)?|\.\d+)\s*(%?)$/);
+  const integer = scalar?.[4].split('.')[0];
+  const groupingValid = integer !== undefined && (!integer.includes(',') || /^\d{1,3}(?:,\d{3})+$/.test(integer) || /^\d{1,2}(?:,\d{2})*,\d{3}$/.test(integer));
+  const numeric = scalar && Number((scalar[1] || scalar[3]) + scalar[4].replaceAll(',', ''));
+  if (scalar && !(scalar[1] && scalar[3]) && groupingValid && Number.isFinite(numeric)) {
+    return `scalar:${scalar[2]}:${numeric}:${scalar[5]}`;
   }
   return textValue(value)
     .toLowerCase()

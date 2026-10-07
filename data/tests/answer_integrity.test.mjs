@@ -38,6 +38,14 @@ test('signed scalar distractors stay distinct while mathematically equal scalar 
   assert.equal(verifyAnswerIntegrity(q).accepted,true);
   for(const equivalent of ['+3.75','3.750','03.75'])assert.equal(verifyAnswerIntegrity({...q,options:['3.75',equivalent,'1.50','-3.75']}).accepted,false,equivalent);
   assert.equal(verifyAnswerIntegrity({...q,options:['3.75','0.27','1.50','−3.75']}).accepted,true);
+  assert.equal(verifyAnswerIntegrity({...q,options:['.5','-.5','1','2']}).accepted,true);
+  assert.equal(verifyAnswerIntegrity({...q,options:['.5','0.50','1','2']}).accepted,false);
+});
+test('signed rupee scalars preserve Indian grouping and equivalent currency placements', () => {
+  const q=validQuestion({subject:'economics',body:'What adjustment is required? Treat increases as positive and decreases as negative.',options:['₹0','₹60,000','₹30,000','-₹30,000'],correct_answer:'C',explanation:'Increase the reported amount by ₹30,000.'});
+  assert.equal(verifyAnswerIntegrity(q).accepted,true);
+  assert.equal(verifyAnswerIntegrity({...q,options:['₹0','₹60,000','₹30,000','₹-30,000']}).accepted,true);
+  for(const pair of [['₹3,00,000','₹300000'],['₹1,000','₹1000'],['-₹30,000','₹-30000']])assert.equal(verifyAnswerIntegrity({...q,options:[...pair,'₹0','₹60,000']}).accepted,false,JSON.stringify(pair));
 });
 test('ordinary truth-related vocabulary definitions are not answer-verdict assertions', () => {
   const q=validQuestion({body:'Which phrase is the antonym of plausible?',options:['Reasonable, but unlikely to be true','Unreasonable, but not independently verified','Reasonable and likely to be true','Unreasonable and unlikely to be true'],correct_answer:'D',explanation:'The antonym means unreasonable and unlikely to be true.'});
