@@ -22,7 +22,7 @@
     "answer-integrity:apply": "node --use-system-ca --env-file=.env.local scripts/answer-integrity-cleanup.mjs --mode=apply --subjects=top15 --scope=visible",
     "answer-integrity:semantic-dry-run": "node --use-system-ca --env-file=.env.local scripts/answer-integrity-semantic-sweep.mjs --mode=dry-run --subjects=top15 --scope=visible",
     "answer-integrity:semantic-apply": "node --use-system-ca --env-file=.env.local scripts/answer-integrity-semantic-sweep.mjs --mode=apply --subjects=top15 --scope=visible",
-    "test:recovery": "node --test data/tests/recovery.test.mjs scripts/pipeline/tests/recoverySafety.test.mjs scripts/pipeline/tests/evidencePipeline.test.mjs scripts/pipeline/tests/sourceAdapters.test.mjs data/tests/recoveryDatabase.test.mjs data/tests/recovery_pathway_candidate.test.mjs data/tests/session_recovery.test.mjs",
+    "test:recovery": "node --test data/tests/recovery.test.mjs scripts/pipeline/tests/recoverySafety.test.mjs scripts/pipeline/tests/evidencePipeline.test.mjs scripts/pipeline/tests/sourceAdapters.test.mjs data/tests/recoveryDatabase.test.mjs data/tests/recovery_pathway_candidate.test.mjs data/tests/session_recovery.test.mjs data/tests/practice_ticket.test.mjs",
     "audit:bank": "node --use-system-ca --env-file=.env.local scripts/pipeline/tools/auditBank.mjs --database",
     "recovery:validate": "node scripts/learning/validate-pathway.mjs sacrificing_gaining --check",
     "test:du": "node --test data/tests/du_eligibility.test.mjs data/tests/du_combos.test.mjs",
