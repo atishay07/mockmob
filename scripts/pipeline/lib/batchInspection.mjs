@@ -1,6 +1,7 @@
 import {hashJSON,inventoryFingerprint} from '../../../data/question_factory_policy.mjs';
 import {publicationEligibility} from '../../../data/evidence_registry.js';
 import {factoryPassageGroup} from './factoryCore.mjs';
+export const BATCH_INSPECTION_CONTRACT='evidence-content-idea-inspection-v2';
 const normalized=s=>String(s||'').normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N}₹]+/gu,' ').trim();
 const readingWords=s=>new Set(normalized(String(s).replace(/\b(\w+)['’]s\b/g,'$1')).split(' ').filter(w=>!['a','an','the','of','to','for','in','on','if','did','does','do','their','its','his','her','what','which','under','that','it'].includes(w)).map(w=>w.length>6&&w.endsWith('ing')?w.slice(0,-3):w));
 const overlap=(a,b)=>[...a].filter(w=>b.has(w)).length/Math.max(a.size,b.size,1);
@@ -65,7 +66,7 @@ export function inspectBatch(rows,{eligible=publicationEligibility}={}){
  const kept=approved.filter(j=>!decisions.some(d=>d.id===j.id));
  const count=key=>Object.fromEntries([...new Set(kept.map(j=>j.candidate[key]))].map(k=>[k,kept.filter(j=>j.candidate[key]===k).length]));
  const positions=count('correct_answer'),formatPositions={};for(const j of kept){const q=j.candidate;formatPositions[q.question_type]??={};formatPositions[q.question_type][q.correct_answer]=(formatPositions[q.question_type][q.correct_answer]||0)+1;}
- return {contract:'evidence-content-idea-inspection-v2',content_hash:hashJSON(rows.map(j=>({id:j.id,candidate:j.candidate,result:j.result}))),decisions,duplicate_pairs:pairs,
+ return {contract:BATCH_INSPECTION_CONTRACT,content_hash:hashJSON(rows.map(j=>({id:j.id,candidate:j.candidate,result:j.result}))),decisions,duplicate_pairs:pairs,
   denominator:rows.length,approved:kept.length,answer_positions:positions,answer_positions_by_format:formatPositions,formats:count('question_type'),difficulty:count('difficulty'),
   longest_same_answer_run:kept.reduce((a,j)=>{const p=j.candidate.correct_answer;a.run=a.last===p?a.run+1:1;a.last=p;a.maximum=Math.max(a.maximum,a.run);return a;},{last:null,run:0,maximum:0}).maximum,
   limitation:'Deterministic duplicate detection and independent novelty gates reduce repeated content; semantic equivalence beyond these checks is not guaranteed.',

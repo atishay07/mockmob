@@ -8,12 +8,13 @@ import {publicationEligibility} from '../../../data/evidence_registry.js';
 import {BudgetLedger} from '../lib/budgetLedger.mjs';
 import {factoryCostReport} from '../lib/factoryCosts.mjs';
 import {readCohortAccounting} from '../lib/cohortAccounting.mjs';
+import {BATCH_INSPECTION_CONTRACT} from '../lib/batchInspection.mjs';
 loadEnvFile('.env.local');
 const directory=process.argv[2];
 if(!process.argv.includes('--approved-production')||!directory||!resolve(directory).startsWith(resolve('artifacts/question-factory')+'\\'))throw Error('explicit_approved_production_cohort_required');
 if(process.env.NEXT_PUBLIC_SUPABASE_URL!=='https://isrxrxzjocewrdureyhp.supabase.co')throw Error('production_target_mismatch');
 const read=name=>JSON.parse(readFileSync(directory+'/'+name)),report=read('batch-report.json'),all=read('all-100.json'),inspection=read('batch-inspection.json'),registry=JSON.parse(readFileSync('data/source_registry.json'));
-if(!report.complete||inspection.ready!==true||inspection.content_hash!==hashJSON(all.map(j=>({id:j.id,candidate:j.candidate,result:j.result}))))throw Error('complete_inspected_cohort_required');
+if(!report.complete||inspection.contract!==BATCH_INSPECTION_CONTRACT||inspection.ready!==true||inspection.content_hash!==hashJSON(all.map(j=>({id:j.id,candidate:j.candidate,result:j.result}))))throw Error('complete_inspected_cohort_required');
 const accountingLedger=new BudgetLedger(process.env.CUET_BUDGET_LEDGER||'data/pipeline-budget.sqlite');let accounting;
 try{accountingLedger.assertHistoryReconciled();accounting=readCohortAccounting(accountingLedger,all);if(!accounting.ready)throw Error('complete_bounded_terminal_cohort_required');}finally{accountingLedger.close();}
 const approved=all.filter(j=>['eligible','published'].includes(j.state));

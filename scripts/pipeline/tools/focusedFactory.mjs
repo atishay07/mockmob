@@ -16,7 +16,7 @@ import {readBankSnapshot,readAllRows} from '../lib/bankSnapshot.mjs';
 import {coverageSnapshot} from '../lib/focusedCoverage.mjs';
 import {factoryCostReport} from '../lib/factoryCosts.mjs';
 import {detailedCoverage} from '../lib/topicCoverage.mjs';
-import {inspectBatch,inspectAgainstInventory} from '../lib/batchInspection.mjs';
+import {inspectBatch,inspectAgainstInventory,BATCH_INSPECTION_CONTRACT} from '../lib/batchInspection.mjs';
 import {stopsFactory} from '../lib/factoryFailure.mjs';
 import {originalQuoteIntegrity} from '../lib/generationIntegrity.mjs';
 import {constrainedAuthoring} from '../lib/constrainedAuthoring.mjs';
@@ -142,7 +142,7 @@ async function publish(){releaseRequired();if(!process.argv.includes('--staging'
  const db=createClient(url,key,{auth:{persistSession:false}}),r=report();if(!r.complete||!r.publication_accounting.ready)throw Error('complete_bounded_terminal_batch_required');
  const identities=read('.cache/factory-staging-auth.json');process.env.CUET_CONTENT_AUTHOR_ID=identities.admin.id;
  if(!existsSync(`${directory}/batch-inspection.json`))throw Error('batch_inspection_required');
- const inspection=read(`${directory}/batch-inspection.json`);if(inspection.content_hash!==hashJSON(read(`${directory}/all-100.json`).map(j=>({id:j.id,candidate:j.candidate,result:j.result})))||inspection.ready!==true)throw Error('current_batch_inspection_required');
+ const inspection=read(`${directory}/batch-inspection.json`);if(inspection.contract!==BATCH_INSPECTION_CONTRACT||inspection.content_hash!==hashJSON(read(`${directory}/all-100.json`).map(j=>({id:j.id,candidate:j.candidate,result:j.result})))||inspection.ready!==true)throw Error('current_batch_inspection_required');
  const jobs=campaign.jobs.map(j=>store.get(j.id)||j);for(const j of jobs){const {error}=await db.from('question_factory_jobs').upsert({id:j.id,subject:j.subject,chapter:j.candidate?.chapter||j.chapter,anchor_id:null,kind:j.kind,generation_brief:j,state:j.state,stage:jobStage(j.state),candidate:j.candidate,result:j.result,passage_group_id:j.passage_group_id||null});if(error)throw Error('staging_job_import:'+error.code);}
  const {error}=await db.from('question_factory_control').update({paused:false,phase:'1000',publication_enabled:true,worker_id:store.identity,lease_until:new Date(Date.now()+300000).toISOString(),snapshot:{budget:ledger.snapshot(),at:new Date().toISOString(),historical_reconciled:true,batch:r,costs:factoryCostReport(ledger),forecast_usd:r.conditional_10000_forecast_usd,cost_per_published_usd:r.cost_per_approved_usd,pilot:{target:100,total:100,generated:jobs.filter(j=>j.candidate).length,eligible:r.approved_unique,quarantined:r.rejected,complete:r.complete,cost_per_eligible_usd:r.cost_per_approved_usd}}}).eq('id',1);if(error)throw Error('staging_control:'+error.code);
  const groups=new Set();for(const j of jobs.filter(j=>['eligible','published'].includes(j.state))){if(j.passage_group_id){if(groups.has(j.passage_group_id))continue;const siblings=jobs.filter(x=>x.passage_group_id===j.passage_group_id);await publishFactoryGroup(siblings.map(x=>x.candidate),db,registry);siblings.forEach(x=>{x.state='published';store.set(x.id,x);});groups.add(j.passage_group_id);}else{await publishFactoryQuestion(j.candidate,j.id,db);j.state='published';store.set(j.id,j);}}
