@@ -1,12 +1,13 @@
 import {readFileSync,writeFileSync,existsSync} from 'node:fs';
 const root='artifacts/question-factory/continuation-500/',read=p=>JSON.parse(readFileSync(root+p));
-const r=read('aggregate-report.json'),inspection=read('batch-inspection.json'),coverage=read('coverage-current.json');
+const r=read('aggregate-report.json'),inspection=read('batch-inspection.json'),coverage=r.coverage_snapshot||read('coverage-current.json');
 const items=read('all-candidates.json'),reasons={};
 for(const j of items.filter(j=>j.state==='quarantined'))for(const reason of j.result?.reasons||['reason_not_recorded'])reasons[reason]=(reasons[reason]||0)+1;
 const money=v=>v==null?'not measured':'$'+v.toFixed(6),percent=(n,d)=>d?(100*n/d).toFixed(1)+'%':'not measured';
 const table=(headers,rows)=>[headers.join(' | '),headers.map(()=> '---').join(' | '),...rows.map(row=>row.join(' | '))].map(line=>'| '+line+' |').join('\n');
 const proof=environment=>{const p=root+environment+'-retrieval.json';return existsSync(p)?JSON.parse(readFileSync(p)):null;};
 const stage=proof('staging'),prod=proof('production'),productionProofs=[];
+const productionCurrent=prod?.passed===true&&prod.minimum_required>=500&&prod.expected_content_hash===r.published_content_hash&&prod.validation_contract===r.validation_contract;
 const practice=existsSync(root+'practice-launch-checks.json')?read('practice-launch-checks.json'):null;
 for(const c of r.cohorts){const p=c.directory+'/production/publication.json';if(existsSync(p))productionProofs.push(JSON.parse(readFileSync(p)));}
 const stored=productionProofs.reduce((n,p)=>n+p.approved_unique,0),historical=r.economics.all_completed,current=r.economics;
@@ -55,7 +56,8 @@ const lines=[
  'npm.cmd run test:factory', 'npm.cmd run test:recovery', '```',
  '', 'Resume the existing controller only after confirming its process has ended. Its persistent exclusive lease and budget guard retain accepted IDs, receipts and reservations across restart. Preserve the dirty checkout, SQLite ledger and runtime files, private source caches and campaign artifacts. Credentials remain in ignored local files and the owner-controlled deployment configuration.',
  '', '## Remaining work in this snapshot',
- '',`${r.pending_candidates} pending candidates still require their accepted provider work and validation to finish. The completed target also requires current production source-family registry deployment, owner entry of the existing CUET_EVIDENCE_SIGNING_KEY in the prepared Vercel Production secret form, and actual retrieval of at least 500 new approved items. Never substitute queued work, legacy inventory or fixtures for this target.`,
+ '',`${r.pending_candidates} pending candidates still require their accepted provider work and validation to finish. ${productionCurrent?'The saved production retrieval proof covers the current exported approved subset and meets the 500-question minimum.':'The completed target also requires current production source-family registry deployment, owner entry of the existing CUET_EVIDENCE_SIGNING_KEY in the prepared Vercel Production secret form, and actual retrieval of at least 500 new approved items.'} Never substitute queued work, legacy inventory or fixtures for this target.`,
+ '', 'Once every registered candidate is terminal and the usable bank reaches 500, the export performs one actual staging and authorized production retrieval check and refreshes this report automatically. Its attempt is persisted before dispatch. Reuse binds the complete exported content/evidence hash, verification contract and retrieval-script content; a failed or interrupted check remains explicit. After resolving an external configuration problem, rerun the retrieval command or add `--refresh-final-evidence` to the export command. These checks make no paid model calls.',
  '', 'The original report retains staging migration dry runs, authenticated admin controls, worker restart/idempotency, passage-group atomicity, rejected-item exclusion and dispute invalidation evidence. Only the saved additive factory migration was authorized on production. Existing payment/credit RPCs and the $25/IST-month student AI cap remain preserved. Passing local payment tests does not claim a captured live transaction.',
  '', 'Rejection reason counts (a candidate can have multiple reasons): '+JSON.stringify(reasons),
  ''];

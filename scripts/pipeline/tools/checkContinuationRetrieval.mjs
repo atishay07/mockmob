@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';import {readFileSync,writeFileSync} from 'node:fs';import {loadEnvFile} from 'node:process';
 import {createClient} from '@supabase/supabase-js';import {createServerClient} from '@supabase/ssr';import {readAllRows} from '../lib/bankSnapshot.mjs';
+import {contentHash} from '../../../data/content_evidence.js';import {hashJSON} from '../../../data/question_factory_policy.mjs';import {validationContract} from '../lib/compactBenchmark.mjs';
 loadEnvFile('.env.local');const staging=process.argv.includes('--staging'),production=process.argv.includes('--approved-production');
 if(staging===production)throw Error('one_explicit_environment_required');if(staging)loadEnvFile('.env.staging');
 const baseIndex=process.argv.indexOf('--base'),base=baseIndex>=0?process.argv[baseIndex+1]:staging?'http://localhost:3101':null;
@@ -31,7 +32,7 @@ for(const subject of ['english','accountancy','business_studies','economics']){
   for(const q of data.questions||[]){assert.ok(!rejected.has(q.id),'Rejected question available: '+q.id);if(!expected.has(q.id))continue;const e=expected.get(q.id);received.add(q.id);
    assert.equal(q.correct_answer,e.correct_answer);assert.equal(q.explanation,e.explanation);assert.deepEqual(q.options.map(o=>o.key),['A','B','C','D']);assert.deepEqual(q.options.map(o=>o.text),e.options);
    if(e.passage_text){assert.equal(q.passage_text,e.passage_text);assert.ok(q.passage_text.split(/\s+/).length<=300);}
-   if(e.passage_group_id){groups.set(e.passage_group_id,(groups.get(e.passage_group_id)||0)+1);}
+   if(e.passage_group_id){assert.equal(q.passage_group_id,e.passage_group_id);groups.set(q.passage_group_id,(groups.get(q.passage_group_id)||0)+1);}
   }
   if(!data.hasMore)break;assert.ok(data.nextOffset>offset,'Pagination must progress even if all raw rows were withheld');offset=data.nextOffset;
   if(pages%120===0){console.log(JSON.stringify({retrieval_pages:pages,verified_so_far:received.size,rate_limit_backoff_seconds:60}));await new Promise(r=>setTimeout(r,60000));}
@@ -43,5 +44,6 @@ for(const [id,n] of groups)assert.equal(n,[...expected.values()].filter(q=>q.pas
 for(let i=0,ids=[...rejected];i<ids.length;i+=100){const {count,error}=await db.from('questions').select('id',{count:'exact',head:true}).in('id',ids.slice(i,i+100));if(error)throw error;assert.equal(count,0);}
 const {data:cap,error}=await db.from('runtime_ai_budget').select('monthly_cap_usd').eq('id','student_ai').single();if(error)throw error;assert.equal(Number(cap.monthly_cap_usd),25);
 const minimumIndex=process.argv.indexOf('--minimum'),minimum=minimumIndex>=0?Number(process.argv[minimumIndex+1]):50;
-const proof={at:new Date().toISOString(),environment:staging?'staging':'production',base,checks,expected_published:expected.size,unique_retrieved:received.size,missing_ids:missing,passed:missing.length===0&&received.size>=minimum,minimum_required:minimum,complete_passage_groups:groups.size,rejected_received:0,student_ai_monthly_cap:25,paid_provider_calls:0,emails_sent:0,production_writes:0};
+const expectedContentHash=hashJSON([...expected].sort(([a],[b])=>a.localeCompare(b)).map(([id,q])=>({id,content:contentHash(q),group:q.passage_group_id||null,evidence:q.evidence?.signature||null})));
+const proof={at:new Date().toISOString(),environment:staging?'staging':'production',base,checks,expected_published:expected.size,expected_content_hash:expectedContentHash,validation_contract:validationContract(),unique_retrieved:received.size,missing_ids:missing,passed:missing.length===0&&received.size>=minimum,minimum_required:minimum,complete_passage_groups:groups.size,rejected_received:0,student_ai_monthly_cap:25,paid_provider_calls:0,emails_sent:0,production_writes:0};
 writeFileSync(root+(staging?'staging':'production')+'-retrieval.json',JSON.stringify(proof,null,2)+'\n');console.log(JSON.stringify(proof));assert.equal(proof.passed,true,'Current deployment must retrieve every published candidate and meet the required count');
