@@ -276,7 +276,12 @@ function hasObviousMultipleCorrectRisk(row, options, correctIndex) {
   const correctText = normalizeComparable(correct.text);
   if (!correctText) return true;
 
-  const explicitBad = options.some((option) => /\b(all of the above|none of the above|both a and b|both b and c|all statements are correct|more than one)\b/i.test(option.text));
+  const explicitBad = options.some((option) =>
+    /\b(all of the above|none of the above|both a and b|both b and c|all statements are correct)\b/i.test(option.text) ||
+    // "Understood in more than one way" is an ordinary lexical definition,
+    // not a combined-answer option. Retain the guard for answer combinations.
+    /\bmore than one\s+(?:of\b|(?:answer|option|choice|statement)s?\b|(?:is|are)\s+(?:correct|true|valid)\b)/i.test(option.text) ||
+    /^\s*more than one\s*[.!]?\s*$/i.test(option.text));
   if (explicitBad) return true;
 
   if (hasStatementCombinationBody(body)) return false;

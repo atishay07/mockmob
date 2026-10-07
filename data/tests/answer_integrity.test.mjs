@@ -34,6 +34,27 @@ function validQuestion(overrides = {}) {
   };
 }
 
+test('ordinary more-than-one lexical definitions are not combined-answer claims', () => {
+  const check = verifyAnswerIntegrity(validQuestion({
+    body: 'Which phrase expresses the opposite of impartial in this debate context?',
+    options: ['Supporting one debate team rather than the other',
+      'Being capable of being understood in more than one way',
+      'Being no longer used because something new has been invented',
+      'Showing no interest in either debate team'],
+    correct_answer: 'A', explanation: 'Impartial means not supporting one side more than another.',
+  }));
+  assert.equal(check.accepted, true);
+});
+
+test('combined-answer more-than-one options remain withheld', () => {
+  for (const text of ['More than one', 'More than one of the above',
+    'More than one statement is true', 'More than one option', 'More than one is correct']) {
+    const check = verifyAnswerIntegrity(validQuestion({options:['Careless','Precise',text,'Ordinary']}));
+    assert.equal(check.accepted, false, text);
+    assert.ok(check.reasons.includes('answer_guard_multiple_correct_risk'), text);
+  }
+});
+
 test('top15 answer guard subjects match the popularity rollout list', () => {
   assert.deepEqual(TOP_15_ANSWER_GUARD_SUBJECTS, [
     'english',

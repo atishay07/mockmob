@@ -3,6 +3,15 @@ const accounts={'Partnership Fundamentals':'I','Profit & Loss Appropriation Acco
 const economy={'Introduction & Theory of Consumer Behaviour':/Introduction,? Theory of Consumer Behaviour/i,'Production & Costs':/Production and Costs/i,'Theory of Firms under Perfect Competition':/firms under perfect competition/i,'Market Equilibrium & Simple Applications':/Market Equilibrium and Simple Applications/i,'National Income & Related Aggregates':/National Income Accounting/i,'Money & Banking':/Money and Banking/i,'Income Determination':/Determination of Income and Employment/i,'Government Budget & the Economy':/Government Budget and the Economy/i,'Balance of Payments':/Open Economy Macroeconomics/i,'Indian Economy on the Eve of Independence':/Development Policies and Experience/i,'Indian Economic Development 1950–1990':/Development Policies and Experience/i,'Economic Reforms Since 1991':/Economic Reforms since 1991/i,'Human Capital Formation':/Current challenges/i,'Rural Development':/Current challenges/i,'Employment':/Current challenges/i,'Environment & Sustainable Development':/Current challenges/i,'Development Experiences of India':/Development Experiences of India/i};
 export function officialTopics(spec,subject,chapter){
  const text=(spec?.included_topics||[]).join(' ').replace(/\s+/g,' ').trim();
+ // English has numbered sections and lettered alternatives, not "Unit I"
+ // headings. Keep exact official phrases separate instead of treating its
+ // entire PDF header and syllabus as one topic that no validated tag can fill.
+ if(subject==='english'){
+  const phrases={'Factual Passage':['Factual'],'Narrative Passage':['Narrative'],'Literary Passage':['Literary'],
+   'Para Jumbles':['Rearranging the parts'],'Match the Following':['Match the following'],
+   'Correct Word Usage':['Choosing the correct word'],'Vocabulary':['Synonyms','Antonyms']}[chapter]||[];
+  return phrases.flatMap(phrase=>{const match=text.match(new RegExp('\\b'+phrase+'\\b','i'));return match?[match[0]]:[];});
+ }
  // The official Economics document also has "Unit II Economic Reforms..."
  // without a colon after II. Do not silently merge it into the earlier unit.
  const units=text.split(/(?=\bUnit\s+[IVXLC]+\b)/i).filter(t=>/^Unit\s/i.test(t));

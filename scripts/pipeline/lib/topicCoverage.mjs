@@ -21,5 +21,5 @@ export function detailedCoverage(rows,registry,options={}){
    topic.difficulties[q.difficulty||'unclassified']=(topic.difficulties[q.difficulty||'unclassified']||0)+1;
   }
  }
- return {...snapshot,topic_contract:'official-unit-exact-tag-agreement-v2',topic_assignment:'Exact official unit/alternative selection, then a topic fills only when both existing blind validators identify the same unique official syllabus topic. Ambiguous or legacy tags stay unclassified.'};
+ return {...snapshot,topic_contract:'official-unit-and-english-section-exact-tag-agreement-v3',topic_assignment:'Exact official unit/alternative or English section selection, then a topic fills only when both existing blind validators identify the same unique official syllabus topic. Ambiguous or legacy tags stay unclassified.'};
 }

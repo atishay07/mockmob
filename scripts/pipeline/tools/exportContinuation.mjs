@@ -2,6 +2,7 @@ import {readFileSync,writeFileSync,existsSync} from 'node:fs';import {loadEnvFil
 import {createClient} from '@supabase/supabase-js';import {BudgetLedger} from '../lib/budgetLedger.mjs';
 import {readBankSnapshot,readAllRows} from '../lib/bankSnapshot.mjs';import {detailedCoverage} from '../lib/topicCoverage.mjs';
 import {measuredEconomics} from '../lib/cohortEconomics.mjs';import {QUOTE_AUTHOR_CONTRACT} from '../lib/constrainedAuthoring.mjs';
+import {inspectBatch} from '../lib/batchInspection.mjs';
 loadEnvFile('.env.local');loadEnvFile('.env.staging');
 if(!process.argv.includes('--staging')||process.env.STAGING_SUPABASE_URL!=='https://onwkqxmjqjrhfbjjdydu.supabase.co')throw Error('separate_staging_required');
 const root='artifacts/question-factory/',out=root+'continuation-500',read=p=>JSON.parse(readFileSync(p)),save=(p,v)=>writeFileSync(p,JSON.stringify(v,null,2)+'\n');
@@ -25,6 +26,17 @@ try{
  if(candidateIds.size!==items.length||publishedIds.size!==approved.length)throw Error('cross_cohort_identity_duplicate');
  const snapshot=ledger.snapshot(),totals=ledger.db.prepare("SELECT state,sum(actual) actual,sum(reserved) reserved,count(*) requests FROM requests GROUP BY state").all();
  const economics=measuredEconomics(reports,{committedUsd:snapshot.committed_micro/1e6,usable:coverage.total_usable,authorContract:QUOTE_AUTHOR_CONTRACT});
+ const inspection=inspectBatch(approved);
+ const scoreCounts={};let missingScores=0,belowSevenSubscores=0;
+ for(const job of approved){const record=job.candidate?.evidence?.record,checks=record?.checks;
+  const scores=[checks?.presentation_quality?.item_quality_score,checks?.independent_evaluation?.item_quality_score];
+  if(scores.every(Number.isInteger)){const score=Math.min(...scores);scoreCounts[score]=(scoreCounts[score]||0)+1;}else missingScores++;
+  if(record?.criteria?.some(c=>c.kind==='craft'&&c.score<7))belowSevenSubscores++;
+ }
+ save(out+'/batch-inspection.json',{at:new Date().toISOString(),published_denominator:approved.length,
+  ...inspection,ready:undefined,overall_craft_scores:scoreCounts,missing_scores:missingScores,
+  questions_with_any_craft_subscore_below_7:belowSevenSubscores,
+  interpretation:'Overall item scores 7–10 are permitted after every mandatory gate passes. Individual craft subscores are diagnostic. Ratings do not prove perfect accuracy. This aggregate inspection does not replace cohort publication gates.'});
  const count=key=>Object.fromEntries([...new Set(approved.map(j=>j.candidate[key]))].map(k=>[k,approved.filter(j=>j.candidate[key]===k).length]));
  const report={at:new Date().toISOString(),target:500,target_reached:coverage.total_usable>=500,registered_denominator:items.length,
   completed_denominator:reports.filter(r=>r.complete).reduce((n,r)=>n+r.denominator,0),pending_candidates:reports.reduce((n,r)=>n+r.pending,0),
