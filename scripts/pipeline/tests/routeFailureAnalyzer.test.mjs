@@ -31,7 +31,7 @@ test('detects self_check_too_strict', () => {
 test('detects model_routing_bad', () => {
   const result = analyzeRouteFailure({
     route: { subject: 'economics', chapter: 'Money & Banking', route_type: 'standalone' },
-    metrics: { generator_model: 'deepseek-v4-pro', live_questions_per_hour: 20, published_count: 2 },
+    metrics: { generator_model: 'deepseek-v4-pro', generated_count: 4, normalized_count: 4, selfcheck_passed: 4, validator_sent: 4, validator_accepted: 4, live_questions_per_hour: 20, published_count: 2 },
   });
   assert.equal(result.primary_reason, 'MODEL_ROUTING_BAD');
 });
@@ -39,7 +39,7 @@ test('detects model_routing_bad', () => {
 test('detects cost_speed_bottleneck', () => {
   const result = analyzeRouteFailure({
     route: { subject: 'mathematics', chapter: 'Probability', route_type: 'standalone' },
-    metrics: { published_count: 3, cost_per_1000_live: 12, live_questions_per_hour: 150 },
+    metrics: { generated_count: 4, normalized_count: 4, selfcheck_passed: 4, validator_sent: 4, validator_accepted: 4, published_count: 3, cost_per_1000_live: 12, live_questions_per_hour: 150 },
   });
   assert.equal(result.primary_reason, 'COST_SPEED_BOTTLENECK');
 });

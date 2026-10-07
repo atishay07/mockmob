@@ -19,6 +19,9 @@ import {detailedCoverage} from '../lib/topicCoverage.mjs';
 import {inspectBatch,inspectAgainstInventory} from '../lib/batchInspection.mjs';
 import {stopsFactory} from '../lib/factoryFailure.mjs';
 import {originalQuoteIntegrity} from '../lib/generationIntegrity.mjs';
+import {constrainedAuthoring} from '../lib/constrainedAuthoring.mjs';
+import {campaignReceipts} from '../lib/campaignReceipts.mjs';
+import {cohortAccounting} from '../lib/cohortAccounting.mjs';
 try{loadEnvFile('.env.local');}catch{}
 const action=process.argv[2]||'report',dirIndex=process.argv.indexOf('--campaign-dir'),directory=dirIndex>=0?process.argv[dirIndex+1]:'artifacts/question-factory/execution-2026-10-07';
 if(!directory||!resolve(directory).startsWith(resolve('artifacts/question-factory')+'/')&&!resolve(directory).startsWith(resolve('artifacts/question-factory')+'\\'))throw Error('local_factory_artifact_directory_required');
@@ -26,7 +29,7 @@ mkdirSync(directory,{recursive:true});
 const read=p=>JSON.parse(readFileSync(p,'utf8')),save=(p,v)=>writeFileSync(p,JSON.stringify(v,null,2)+'\n');
 const registry=read('data/source_registry.json'),campaign=read(`${directory}/campaign.json`),benchmark=read(`${directory}/benchmark.json`);
 const ledgerPath=process.env.CUET_BUDGET_LEDGER||'data/pipeline-budget.sqlite',ledger=new BudgetLedger(ledgerPath),store=new FactoryStore(ledger,ledgerPath);
-const transport=createFactoryTransport({ledger,queueOpenAI:true,queueGemini:true,realtimeStages:action==='benchmark'?['blind_solution','independent_evaluation','explanation_support']:process.argv.includes('--realtime-luna')?['authoring','blind_solution','explanation_support','repair']:[]}),config={registry,ledger,transport};
+const transport=createFactoryTransport({ledger,queueOpenAI:true,queueGemini:true,realtimeStages:action==='benchmark'?['blind_solution','independent_evaluation','explanation_support']:process.argv.includes('--realtime-luna')?['authoring','blind_solution','explanation_support','repair']:process.argv.includes('--realtime-checks')?['blind_solution','explanation_support','repair']:[]}),config={registry,ledger,transport};
 const calibrationTransport={generate:(p,b,o)=>transport.generate(p,b,{...o,purpose:'calibration'})};
 const waiting=e=>e instanceof BatchPending;
 const fatal=e=>stopsFactory(e,ledger);
@@ -78,7 +81,7 @@ async function runBenchmark(){contract();const fixtures=benchmark.fixtures.map(f
 }
 async function generate(){releaseRequired();await parallel(campaign.jobs,async original=>{
  const job=store.get(original.id)||original;if(job.candidate||job.state==='quarantined')return;
- try{job.candidate=await authorOriginal(job,config);job.state='generated';}
+ try{job.candidate=await authorOriginal(job,{...config,transport:constrainedAuthoring(transport,job)});job.state='generated';}
  catch(e){if(waiting(e)){job.state='waiting_authoring';job.pending=e.batchId;}else if(fatal(e))throw e;else{job.candidate=e.candidate||null;job.state=job.candidate?'generated':'quarantined';job.author_failure=e.message;job.result={state:'quarantined',reasons:[e.message]};}}
  store.set(job.id,job);
  });await transport.flush();report();}
@@ -99,7 +102,9 @@ async function validate(){releaseRequired();await parallel(campaign.jobs,async o
  }catch(e){if(waiting(e)){job.pending=e.batchId;if(job.state!=='waiting_repair')job.state='waiting_validation';}else if(fatal(e))throw e;else{job.state='quarantined';job.result={state:'quarantined',reasons:[e.message]};}}
  store.set(job.id,job);
  });await transport.flush();report();}
-function report(){const rows=campaign.jobs.map(j=>store.get(j.id)||j),receipts=costRows(),ids=new Set(campaign.jobs.map(j=>j.id)),metadata=new Map(ledger.db.prepare("SELECT reservation_id,json_extract(request_json,'$.config.candidate_id') AS candidate_id,json_extract(request_json,'$.config.purpose') AS purpose FROM provider_batches UNION ALL SELECT reservation_id,json_extract(request_json,'$.config.candidate_id'),json_extract(request_json,'$.config.purpose') FROM provider_requests").all().map(r=>[r.reservation_id,r])),batchReceipts=receipts.filter(r=>{
+function report(){const rows=campaign.jobs.map(j=>store.get(j.id)||j),ids=new Set(campaign.jobs.map(j=>j.id)),metadata=new Map(ledger.db.prepare("SELECT reservation_id,id AS provider_key,provider_id,json_extract(request_json,'$.config.candidate_id') AS candidate_id,json_extract(request_json,'$.config.purpose') AS purpose FROM provider_batches UNION ALL SELECT reservation_id,id,NULL,json_extract(request_json,'$.config.candidate_id'),json_extract(request_json,'$.config.purpose') FROM provider_requests").all().map(r=>[r.reservation_id,r]));
+ const calibrationIds=campaign.reused_benchmark_new_cost_usd===0?new Set():new Set([...benchmark.fixtures.map(f=>f.id),...read('artifacts/question-factory/quality-uplift/AUDIT-48.json').items.map(f=>'v6-regression-'+f.id)]);
+ const receipts=campaignReceipts(costRows(),metadata,{candidateIds:ids,calibrationIds}),batchReceipts=receipts.filter(r=>{
  const config=metadata.get(r.id)||{};
  return (r.receipt?.purpose||config.purpose)==='candidate'&&ids.has(r.receipt?.candidate_id||config.candidate_id);
  });
@@ -109,14 +114,15 @@ function report(){const rows=campaign.jobs.map(j=>store.get(j.id)||j),receipts=c
   if(siblings.some(j=>j.state==='quarantined'))for(const job of siblings.filter(j=>j.state==='eligible')){job.state='quarantined';job.result={...job.result,state:'quarantined',reasons:['passage_group_sibling_rejected']};store.set(job.id,job);}}
  const approved=rows.filter(j=>['eligible','published'].includes(j.state)),finished=rows.every(j=>['eligible','quarantined','published'].includes(j.state));
  const count=key=>Object.fromEntries([...new Set(approved.map(j=>j.candidate[key]))].map(k=>[k,approved.filter(j=>j.candidate[key]===k).length]));
- const contentCost=costs(batchReceipts),gross=costs(receipts),price=approved.length?contentCost.gross_usd/approved.length:null;
+ const accounting=cohortAccounting(batchReceipts.map(r=>({...r,...metadata.get(r.id),hold_maximum_micro:ledger.db.prepare('SELECT maximum_micro FROM conservative_holds WHERE reservation_id=?').get(r.id)?.maximum_micro})),{jobs:rows,budget:ledger.snapshot()});
+ const contentCost=costs(batchReceipts),gross=costs(campaign.reused_benchmark_new_cost_usd===0?batchReceipts:receipts),price=approved.length?contentCost.gross_usd/approved.length:null;
  const ideaPairs=[];for(let i=0;i<approved.length;i++)for(let k=i+1;k<approved.length;k++){
   const a=approved[i],b=approved[k];if(a.subject!==b.subject||a.chapter!==b.chapter)continue;
   const words=q=>new Set((q.body||'').toLowerCase().replace(/\d+(?:[.,]\d+)*/g,'#').match(/[a-z#]+/g)||[]),x=words(a.candidate),y=words(b.candidate),overlap=[...x].filter(w=>y.has(w)).length/Math.max(x.size,y.size);
   if(overlap>.68||a.candidate.concept_id===b.candidate.concept_id)ideaPairs.push({a:a.id,b:b.id,similarity:overlap,concept:a.candidate.concept_id});
  }
  const report={id:campaign.id,denominator:100,complete:finished,approved_unique:approved.length,rejected:rows.filter(j=>j.state==='quarantined').length,pending:rows.filter(j=>!['eligible','quarantined','published'].includes(j.state)).length,
-  newly_published:rows.filter(j=>j.state==='published').length,cost:contentCost,gross_campaign_with_benchmark:gross,cost_per_approved_usd:price,
+  newly_published:rows.filter(j=>j.state==='published').length,cost:contentCost,publication_accounting:accounting,provider_processing_complete:finished&&accounting.ready,gross_campaign_with_benchmark:gross,cost_per_approved_usd:price,
   conditional_10000_forecast_usd:price?price*10000:null,forecast_basis:'Gross batch cost includes rejected candidates, repair, all validator and reasoning usage; benchmark preparation is separately additive. Conditional on unchanged mix and yield, not a promise.',
   conditional_lifetime_to_10000_usd:price?ledger.snapshot().committed_micro/1e6+Math.max(0,10000-approved.length)*price:null,
   budget_scenarios:[50,60,70].map(cap=>({cap_usd:cap,authorized:cap===50,additional_approved_affordable:price?Math.max(0,Math.floor((cap-ledger.snapshot().committed_micro/1e6)/price)):null})),
@@ -133,7 +139,7 @@ function report(){const rows=campaign.jobs.map(j=>store.get(j.id)||j),receipts=c
 async function publish(){releaseRequired();if(!process.argv.includes('--staging'))throw Error('explicit_staging_target_required');
  if(!existsSync('.env.staging'))throw Error('staging_credentials_required');loadEnvFile('.env.staging');
  const url=process.env.STAGING_SUPABASE_URL,key=process.env.STAGING_SUPABASE_SERVICE_ROLE_KEY;if(url!=='https://onwkqxmjqjrhfbjjdydu.supabase.co'||!key)throw Error('separate_staging_identity_required');
- const db=createClient(url,key,{auth:{persistSession:false}}),r=report();if(!r.complete||r.cost.held_usd)throw Error('complete_settled_batch_required');
+ const db=createClient(url,key,{auth:{persistSession:false}}),r=report();if(!r.complete||!r.publication_accounting.ready)throw Error('complete_bounded_terminal_batch_required');
  const identities=read('.cache/factory-staging-auth.json');process.env.CUET_CONTENT_AUTHOR_ID=identities.admin.id;
  if(!existsSync(`${directory}/batch-inspection.json`))throw Error('batch_inspection_required');
  const inspection=read(`${directory}/batch-inspection.json`);if(inspection.content_hash!==hashJSON(read(`${directory}/all-100.json`).map(j=>({id:j.id,candidate:j.candidate,result:j.result})))||inspection.ready!==true)throw Error('current_batch_inspection_required');
@@ -164,10 +170,14 @@ async function syncWorker(db){
  const jobs=campaign.jobs.map(j=>store.get(j.id)||j),r=report();
  const remoteJobs=jobs.map(j=>({id:j.id,subject:j.subject,chapter:j.candidate?.chapter||j.chapter,kind:j.kind,anchor_id:null,generation_brief:j,state:j.state||'queued',stage:jobStage(j.state),attempt:j.repair_count||0,candidate:j.candidate||null,result:j.result||null,passage_group_id:j.passage_group_id||null,updated_at:new Date().toISOString()}));
  for(let offset=0;offset<remoteJobs.length;offset+=25){const {error:jobError}=await db.from('question_factory_jobs').upsert(remoteJobs.slice(offset,offset+25));if(jobError)throw Error('factory_job_sync:'+jobError.code);}
+ const initialPath='artifacts/question-factory/execution-2026-10-07/batch-report.json',initial=existsSync(initialPath)?read(initialPath):null;
+ const measured=[initial,r].filter(x=>x?.complete&&x.cost.held_usd===0).at(-1);
+ const pilotReport=initial?.complete&&initial.cost.held_usd===0?initial:r;
+ const pilotGenerated=pilotReport===initial?read('artifacts/question-factory/execution-2026-10-07/all-100.json').filter(j=>j.candidate).length:jobs.filter(j=>j.candidate).length;
  const benchmarkState=manifest().state,snapshot={at:new Date().toISOString(),worker_id:store.identity,budget:ledger.snapshot(),historical_reconciled:true,
-  forecast_usd:r.conditional_10000_forecast_usd,cost_per_published_usd:r.cost_per_approved_usd,costs:factoryCostReport(ledger),
+  forecast_usd:measured?.conditional_10000_forecast_usd||null,cost_per_published_usd:measured?.cost_per_approved_usd||null,cost_measurement_cohort:measured?.id||null,costs:factoryCostReport(ledger),
   blocker:benchmarkState!=='released'?'fresh_benchmark_pending':r.pending?'registered_batch_pending':null,
-  pilot:{target:100,total:100,generated:jobs.filter(j=>j.candidate).length,eligible:r.approved_unique,quarantined:r.rejected,complete:r.complete,cost_per_eligible_usd:r.cost_per_approved_usd},batch:r};
+  pilot:{target:100,total:100,generated:pilotGenerated,eligible:pilotReport.approved_unique,quarantined:pilotReport.rejected,complete:pilotReport.complete,cost_per_eligible_usd:pilotReport.cost_per_approved_usd},batch:r};
  const {error}=await db.from('question_factory_control').update({snapshot,pilot_target:100,updated_at:new Date().toISOString()}).eq('id',1).eq('worker_id',store.identity);
  if(error)throw Error('factory_snapshot_write:'+error.code);return snapshot;
 }
@@ -184,7 +194,7 @@ export async function runFocusedWorker({once=false}={}){
    }
    await syncWorker(db);
    const current=report();
-   if(current.complete&&!current.cost.held_usd){await inspectCampaign();if(control.publication_enabled&&current.newly_published<current.approved_unique)await publish();}
+   if(current.complete&&current.publication_accounting.ready){await inspectCampaign();if(control.publication_enabled&&current.newly_published<current.approved_unique)await publish();}
   }
   if(once||stopped)break;await new Promise(r=>setTimeout(r,30000));
  }while(!stopped);}finally{process.removeListener('SIGINT',stop);process.removeListener('SIGTERM',stop);store.release();ledger.close();}

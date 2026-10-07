@@ -84,12 +84,17 @@ export function createFactoryTransport({ ledger, fetchImpl = fetch, prices = () 
     const valid = Number.isSafeInteger(input) && input >= 0 && Number.isSafeInteger(output) && output >= 0 && searches <= config.toolCalls && partsValid && (!writes || Number.isFinite(writeRate));
     const inputCost=(input-cached-writes)*config.rates.input_per_million+cached*readRate+writes*(writeRate || 0);
     const actual = valid ? Math.ceil(inputCost + output * config.rates.output_per_million + searches * (config.pricing.web_search_per_call_usd || 0) * 1e6) : null;
-    ledger.settle(reservation, actual, { provider: config.provider, model: config.model, cache_rate_reconciliation:config.cache_rate_reconciliation || null,execution_mode:config.execution_mode || (config.input_file_id?'batch':'unknown'), usage, searches,stage:config.stage, purpose:config.purpose || 'candidate',candidate_id:config.candidate_id || null,idempotency_key:config.key || null, source_url: config.pricing.source_url, rates: config.rates, provider_request_id: payload?.id || payload?.responseId || null });
+    ledger.settle(reservation, actual, { provider: config.provider, model: config.model, cache_rate_reconciliation:config.cache_rate_reconciliation || null,execution_mode:config.execution_mode || (config.input_file_id?'batch':'unknown'), usage, searches,stage:config.stage, purpose:config.purpose || 'candidate',candidate_id:config.candidate_id || null,idempotency_key:config.key || null, source_url: config.pricing.source_url, rates: config.rates, provider_request_id: payload?.id || payload?.responseId || null,...config.failure_receipt });
     if (actual === null || actual > config.reserved) throw new Error('provider_usage_unresolved');
   }
   function unresolved(reservation, error) {
-    const row = ledger.db.prepare('SELECT state FROM requests WHERE id=?').get(reservation);
+    const row = ledger.db.prepare('SELECT state,receipt_json FROM requests WHERE id=?').get(reservation);
     if (row && !['settled', 'unresolved'].includes(row.state)) ledger.settle(reservation, null, { error: error.message,...error.providerReceipt });
+    if(row?.state==='unresolved'&&error.providerReceipt?.provider_batch_record){
+      const prior=row.receipt_json?JSON.parse(row.receipt_json):null;
+      if(!prior?.provider_batch_record||digest(prior.provider_batch_record)!==digest(error.providerReceipt.provider_batch_record))
+        ledger.db.prepare('UPDATE requests SET receipt_json=? WHERE id=?').run(JSON.stringify({error:error.message,...error.providerReceipt,prior_failure_receipt:prior}),reservation);
+    }
     const saved=ledger.db.prepare('SELECT request_json,provider_id FROM provider_batches WHERE reservation_id=?').get(reservation)
       || ledger.db.prepare('SELECT request_json,NULL AS provider_id FROM provider_requests WHERE reservation_id=?').get(reservation);
     if(saved) {
@@ -119,6 +124,7 @@ export function createFactoryTransport({ ledger, fetchImpl = fetch, prices = () 
     }
     if (existing) {
       if (existing.state === 'complete') return JSON.parse(existing.response_json);
+      if (existing.state === 'rejected') throw new Error('provider_batch_request_failed_receipt_retained');
       if (['submitted','queued'].includes(existing.state)) throw new BatchPending(key,JSON.parse(existing.request_json).config.stage);
       throw new Error('batch_submission_unresolved');
     }
@@ -196,16 +202,29 @@ export function createFactoryTransport({ ledger, fetchImpl = fetch, prices = () 
     let payload;
     if (row.provider === 'openai') {
       if (!['completed', 'failed', 'expired', 'cancelled'].includes(batch.status)) return null;
-      if (!/^file-[\w-]+$/.test(batch.output_file_id || '')) {
+      const fileIds=[...new Set([batch.output_file_id,batch.error_file_id].filter(id=>/^file-[\w-]+$/.test(id||'')))];
+      if (!fileIds.length) {
         unresolved(row.reservation_id, new Error('batch_terminal_usage_missing'));
         ledger.db.prepare("UPDATE provider_batches SET state='unresolved' WHERE id=?").run(key);
         throw new Error('batch_terminal_usage_missing');
       }
-      let records=outputFiles.get(batch.output_file_id);
-      if(!records){const text = await (await request(row.provider, `/v1/files/${batch.output_file_id}/content`)).text();records=text.trim().split('\n').map(v => JSON.parse(v));outputFiles.set(batch.output_file_id,records);}
+      const records=[];
+      for(const fileId of fileIds){let saved=outputFiles.get(fileId);if(!saved){const text=await(await request(row.provider,`/v1/files/${fileId}/content`)).text();saved=text.trim()?text.trim().split('\n').map(v=>JSON.parse(v)):[];outputFiles.set(fileId,saved);}records.push(...saved);}
       const matches=records.filter(r=>r.custom_id===key);
-      if (matches.length !== 1 || matches[0].response?.status_code !== 200) throw new Error('batch_record_mismatch');
-      payload = matches[0].response.body;
+      if(matches.length!==1)throw Error('batch_record_mismatch');
+      const record=matches[0],status=record.response?.status_code,detail=record.response?.body?.error||record.error;
+      if(status!==200||record.error){
+        const failure={provider_batch_id:row.provider_id,provider_batch_status:batch.status,provider_request_id:record.response?.request_id||record.id||null,http_status:status??null,error:detail||null,provider_batch_record:record};
+        const rejected=status===400&&detail?.type==='invalid_request_error'||status===429&&detail?.type==='insufficient_quota'&&['insufficient_quota','credit_balance_exhausted'].includes(detail.code);
+        const unexecuted=record.response===null&&detail?.code==='batch_expired'&&batch.status==='expired';
+        if(rejected||unexecuted){
+          ledger.settle(row.reservation_id,0,{provider:config.provider,model:config.model,execution_mode:config.execution_mode||'batch',stage:config.stage,purpose:config.purpose||'candidate',candidate_id:config.candidate_id,idempotency_key:key,source_url:config.pricing.source_url,rates:config.rates,...failure,billing_basis:unexecuted?'Provider explicitly reports this request could not execute before batch expiry; completed requests are billed separately.':'Typed parameter/schema or exhausted-quota rejection before inference; not an uncertain-call zero estimate.'});
+        }else if(record.response?.body?.usage){settle(row.reservation_id,{...config,failure_receipt:failure},record.response.body);}
+        else{const error=Error('batch_failed_usage_missing');error.providerReceipt=failure;throw error;}
+        ledger.db.prepare("UPDATE provider_batches SET state='rejected',response_json=? WHERE id=?").run(JSON.stringify(record),key);
+        return {failed:true,receipt_settled:true,record};
+      }
+      payload = record.response.body;
     } else {
       const state = (batch.metadata?.state || batch.state || '').replace(/^BATCH_STATE_/,'JOB_STATE_');
       if (state !== 'JOB_STATE_SUCCEEDED' && !batch.done && !['JOB_STATE_FAILED', 'JOB_STATE_CANCELLED', 'JOB_STATE_EXPIRED'].includes(state)) return null;

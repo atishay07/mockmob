@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { normalizeGenerationPayload } from '../lib/passageNormalizer.mjs';
 
-const passageText = Array(220).fill('urban planning requires careful public communication').join(' ');
+const passageText = Array(36).fill('urban planning requires careful public communication').join(' ');
 
 test('passage_group questions flatten with passage metadata', () => {
   const payload = {
@@ -16,15 +16,16 @@ test('passage_group questions flatten with passage metadata', () => {
         { q: 'Which inference is supported?', o: ['A2', 'B2', 'C2', 'D2'], a: 'B', order_index: 2 },
         { q: 'What is the tone?', o: ['A3', 'B3', 'C3', 'D3'], a: 'C', order_index: 3 },
         { q: 'Which detail supports the conclusion?', o: ['A4', 'B4', 'C4', 'D4'], a: 'D', order_index: 4 },
+        { q: 'Which conclusion follows from the passage?', o: ['A5', 'B5', 'C5', 'D5'], a: 'A', order_index: 5 },
       ],
     },
   };
   const result = normalizeGenerationPayload(payload, { subject: 'english', chapter: 'Factual Passage', requires_passage: true });
   assert.equal(result.passageGroups.length, 1);
-  assert.equal(result.questions.length, 4);
+  assert.equal(result.questions.length, 5);
   assert.equal(result.questions[0].passage_text, passageText);
   assert.equal(result.questions[0].temporary_group_key, 'tmp_passage_1_1');
-  assert.equal(result.passageGroups[0].linked_question_count, 4);
+  assert.equal(result.passageGroups[0].linked_question_count, 5);
 });
 
 test('missing passage_text rejects passage group children', () => {

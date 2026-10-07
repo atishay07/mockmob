@@ -1,0 +1,7 @@
+import {createServer} from 'node:http';import {readFileSync,writeFileSync} from 'node:fs';
+const root='artifacts/question-factory/execution-2026-10-07/production';
+createServer((req,res)=>{
+ if(req.url==='/capture'&&req.method==='GET'){res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'});res.end('<title>Save production evidence screenshot</title><form method="post" action="/capture"><label>Screenshot name<select name="name"><option>migration-success</option><option>release-ready</option><option>admin-published</option><option>student-retrieval</option><option>signing-key-handoff</option></select></label><label>Screenshot data<textarea name="data"></textarea></label><button>Save screenshot</button></form>');return;}
+ if(req.url==='/capture'&&req.method==='POST'){let body='';req.on('data',c=>{body+=c;if(body.length>8000000)req.destroy();});req.on('end',()=>{const form=new URLSearchParams(body),name=form.get('name'),b=Buffer.from(form.get('data')||'','base64');if(!['migration-success','release-ready','admin-published','student-retrieval','signing-key-handoff'].includes(name)||b[0]!==255||b[1]!==216){res.writeHead(400);res.end('Invalid screenshot');return;}writeFileSync(root+'/'+name+'.jpg',b);res.end('Saved production/'+name+'.jpg');});return;}
+ res.writeHead(404);res.end();
+}).listen(3492,'127.0.0.1',()=>console.log('Production proof capture localhost:3492/capture'));

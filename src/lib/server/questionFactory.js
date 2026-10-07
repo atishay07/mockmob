@@ -10,7 +10,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { readBankSnapshot,readAllRows } from '@/../scripts/pipeline/lib/bankSnapshot.mjs';
 import {detailedCoverage} from '@/../scripts/pipeline/lib/topicCoverage.mjs';
-import {phaseBudgetFits} from '@/../data/factory_phase_budget.mjs';
+import {phaseBudgetFits,checkpointEvidenceReady} from '@/../data/factory_phase_budget.mjs';
 
 async function readAll(db,table,select='*') {
   const rows=[];
@@ -57,11 +57,10 @@ export async function controlFactory(action) {
     if(action!=='resume') {
       if(overview.calibration!=='released')throw new Error('route_calibration_required');
       if(action==='release_1000') {
-        const pilot=overview.control.snapshot?.pilot;
-        if(!pilot?.complete || pilot.total!==(overview.control.pilot_target || FACTORY_PILOT_TARGET) || !pilot.eligible || !pilot.cost_per_eligible_usd || !forecast || forecast>50)throw new Error('pilot_quality_and_cost_gate_required');
+        if(!checkpointEvidenceReady(overview.control.snapshot,action,overview.counts.total,overview.control.pilot_target || FACTORY_PILOT_TARGET))throw new Error('pilot_quality_and_cost_gate_required');
         patch.phase='1000';patch.publication_enabled=true;
       } else {
-        if(overview.counts.total<1000 || !forecast || forecast>50)throw new Error('thousand_question_checkpoint_required');
+        if(!checkpointEvidenceReady(overview.control.snapshot,action,overview.counts.total))throw new Error('thousand_question_checkpoint_required');
         patch.phase='10000';patch.publication_enabled=true;
       }
     }

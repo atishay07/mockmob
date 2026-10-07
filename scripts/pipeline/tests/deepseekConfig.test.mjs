@@ -18,9 +18,10 @@ test('DeepSeek timeout or empty response retries once with smaller batch before 
   assert.match(llmSource, /empty_response/);
 });
 
-test('generation model list is DeepSeek-only by default', () => {
+test('legacy generation keeps explicit optional Kimi and credential-dependent DeepSeek routing', () => {
   assert.match(llmSource, /ALLOW_OPENAI_GENERATION/);
-  assert.match(llmSource, /const GENERATION_MODELS = deepseek \? DEEPSEEK_GENERATION_MODELS : \[\]/);
+  assert.match(llmSource, /const KIMI_GENERATION_MODELS = isKimiEnabled\(\) \? \[KIMI_MODEL\] : \[\]/);
+  assert.match(llmSource, /\.\.\.\(deepseek \? DEEPSEEK_GENERATION_MODELS : \[\]\)/);
   assert.doesNotMatch(llmSource, /const OPENAI_GENERATION_MODEL/);
 });
 

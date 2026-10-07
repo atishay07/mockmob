@@ -15029,6 +15029,1564 @@
         "stimulus": "4abe264d3a45760beb73ba6e2e417dffae14fc43c08795f31c51fe7373ecbbe5"
       },
       "source_pack_id": "original-english-reference-v1"
+    },
+    "oxford-quality-ambiguous": {
+      "id": "oxford-quality-ambiguous",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/ambiguous",
+      "title": "ambiguous adjective — Oxford Advanced Learner’s Dictionary",
+      "identity_sha256": "b139829d3f3bba1c0efd3bf7767dbab50739d2c8f612cd6362cea370a23dd39e",
+      "extraction_sha256": "b139829d3f3bba1c0efd3bf7767dbab50739d2c8f612cd6362cea370a23dd39e",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-ambiguous.json",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-ambiguous.json",
+      "capture_scope": "Brief definition copied from the opened official entry; identity binds this capture, not complete remote HTML",
+      "permission": {
+        "basis": "Brief attributed dictionary excerpt for local educational verification; no unrestricted republication claim",
+        "reference": "https://www.oxfordlearnersdictionaries.com/definition/english/ambiguous"
+      },
+      "facts": {
+        "definition": {
+          "text": "that can be understood in more than one way; having different meanings"
+        }
+      },
+      "supports": {
+        "definition": "180f13362b3fb45146abf2ed0beab60de2aba076489e76158b40f7f5dbb3e5e8"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "oxford-quality-resilient": {
+      "id": "oxford-quality-resilient",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/resilient",
+      "title": "resilient adjective — Oxford Advanced Learner’s Dictionary",
+      "identity_sha256": "9ae37cf1d78cf02c3910d26696775c981425d0f497cc5f18a02cbc39689e4ccb",
+      "extraction_sha256": "9ae37cf1d78cf02c3910d26696775c981425d0f497cc5f18a02cbc39689e4ccb",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-resilient.json",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-resilient.json",
+      "capture_scope": "Brief definition copied from the opened official entry; identity binds this capture, not complete remote HTML",
+      "permission": {
+        "basis": "Brief attributed dictionary excerpt for local educational verification; no unrestricted republication claim",
+        "reference": "https://www.oxfordlearnersdictionaries.com/definition/english/resilient"
+      },
+      "facts": {
+        "definition": {
+          "text": "able to recover quickly after something unpleasant such as shock, injury, etc."
+        }
+      },
+      "supports": {
+        "definition": "838ce1a58d0d0ff532667f2154484e2b17226e8778a4fe938aea2da4bf092e38"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "oxford-quality-plausible": {
+      "id": "oxford-quality-plausible",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/plausible",
+      "title": "plausible adjective — Oxford Advanced Learner’s Dictionary",
+      "identity_sha256": "3a61a81e18163e80d781d894b1715007384c6fe868c475b0380ba9dfbc863271",
+      "extraction_sha256": "3a61a81e18163e80d781d894b1715007384c6fe868c475b0380ba9dfbc863271",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-plausible.json",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-plausible.json",
+      "capture_scope": "Brief definition copied from the opened official entry; identity binds this capture, not complete remote HTML",
+      "permission": {
+        "basis": "Brief attributed dictionary excerpt for local educational verification; no unrestricted republication claim",
+        "reference": "https://www.oxfordlearnersdictionaries.com/definition/english/plausible"
+      },
+      "facts": {
+        "definition": {
+          "text": "(of an excuse or explanation) reasonable and likely to be true"
+        }
+      },
+      "supports": {
+        "definition": "831b92f788bcbce41d568f572bf364fe3e2bd6c07ed9831f805b5201acbba763"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "oxford-quality-assertive": {
+      "id": "oxford-quality-assertive",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/assertive",
+      "title": "assertive adjective — Oxford Advanced Learner’s Dictionary",
+      "identity_sha256": "88f0341e9864b671f544d491279ef3ad7590e272f4940e87d6a103474e8a5ce0",
+      "extraction_sha256": "88f0341e9864b671f544d491279ef3ad7590e272f4940e87d6a103474e8a5ce0",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-assertive.json",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-assertive.json",
+      "capture_scope": "Brief definition copied from the opened official entry; identity binds this capture, not complete remote HTML",
+      "permission": {
+        "basis": "Brief attributed dictionary excerpt for local educational verification; no unrestricted republication claim",
+        "reference": "https://www.oxfordlearnersdictionaries.com/definition/english/assertive"
+      },
+      "facts": {
+        "definition": {
+          "text": "expressing opinions or desires strongly and with confidence, so that people take notice"
+        }
+      },
+      "supports": {
+        "definition": "56b3bf779e12e979b1285e68387ccaab86e7f0ff80316e8e287bcc011745fcb2"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "oxford-quality-sceptical": {
+      "id": "oxford-quality-sceptical",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/sceptical",
+      "title": "sceptical adjective — Oxford Advanced Learner’s Dictionary",
+      "identity_sha256": "5f691494e19cc00610b5af30299eca4c3034c26ecf9250db06a78b96ce2d27d1",
+      "extraction_sha256": "5f691494e19cc00610b5af30299eca4c3034c26ecf9250db06a78b96ce2d27d1",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-sceptical.json",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-sceptical.json",
+      "capture_scope": "Brief definition copied from the opened official entry; identity binds this capture, not complete remote HTML",
+      "permission": {
+        "basis": "Brief attributed dictionary excerpt for local educational verification; no unrestricted republication claim",
+        "reference": "https://www.oxfordlearnersdictionaries.com/definition/english/sceptical"
+      },
+      "facts": {
+        "definition": {
+          "text": "having doubts that a claim or statement is true or that something will happen"
+        }
+      },
+      "supports": {
+        "definition": "80a2dca9132240bc0148382f49f4af80e8d2eb2e9cf216a8dd84bbfa647949cf"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "oxford-quality-conscientious": {
+      "id": "oxford-quality-conscientious",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/conscientious",
+      "title": "conscientious adjective — Oxford Advanced Learner’s Dictionary",
+      "identity_sha256": "c48b855e2e6692cc22d5e129ec7eb42383e1dc3ef3a03a247956f365f8514603",
+      "extraction_sha256": "c48b855e2e6692cc22d5e129ec7eb42383e1dc3ef3a03a247956f365f8514603",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-conscientious.json",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-conscientious.json",
+      "capture_scope": "Brief definition copied from the opened official entry; identity binds this capture, not complete remote HTML",
+      "permission": {
+        "basis": "Brief attributed dictionary excerpt for local educational verification; no unrestricted republication claim",
+        "reference": "https://www.oxfordlearnersdictionaries.com/definition/english/conscientious"
+      },
+      "facts": {
+        "definition": {
+          "text": "taking care to do things carefully and correctly"
+        }
+      },
+      "supports": {
+        "definition": "a35e92e227cb43005089981123210283d75761f07e4a6275aa84e91331c8ff98"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "oxford-quality-versatile": {
+      "id": "oxford-quality-versatile",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/versatile",
+      "title": "versatile adjective — Oxford Advanced Learner’s Dictionary",
+      "identity_sha256": "2dfc82f272b799828396460dd8d49e02cdf1c943e0eb2b13a19d949be3adeebe",
+      "extraction_sha256": "2dfc82f272b799828396460dd8d49e02cdf1c943e0eb2b13a19d949be3adeebe",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-versatile.json",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-versatile.json",
+      "capture_scope": "Brief definition copied from the opened official entry; identity binds this capture, not complete remote HTML",
+      "permission": {
+        "basis": "Brief attributed dictionary excerpt for local educational verification; no unrestricted republication claim",
+        "reference": "https://www.oxfordlearnersdictionaries.com/definition/english/versatile"
+      },
+      "facts": {
+        "definition": {
+          "text": "(of a person) able to do many different things"
+        }
+      },
+      "supports": {
+        "definition": "6f64d8b5df1e19607dfeb2c359da94b7aaa823bb2b57946f83d36b7451db098b"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "oxford-quality-reluctant": {
+      "id": "oxford-quality-reluctant",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/reluctant",
+      "title": "reluctant adjective — Oxford Advanced Learner’s Dictionary",
+      "identity_sha256": "2a8cd43310c86bd75372791b69e34d298e98123ffb180760eb132ab0bde131ec",
+      "extraction_sha256": "2a8cd43310c86bd75372791b69e34d298e98123ffb180760eb132ab0bde131ec",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-reluctant.json",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-reluctant.json",
+      "capture_scope": "Brief definition copied from the opened official entry; identity binds this capture, not complete remote HTML",
+      "permission": {
+        "basis": "Brief attributed dictionary excerpt for local educational verification; no unrestricted republication claim",
+        "reference": "https://www.oxfordlearnersdictionaries.com/definition/english/reluctant"
+      },
+      "facts": {
+        "definition": {
+          "text": "hesitating before doing something because you do not want to do it"
+        }
+      },
+      "supports": {
+        "definition": "f75b1d16b75cb4413e21a255fb7ecd57955b0b6caa09a18ac6f96815a691a972"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "oxford-quality-sporadic": {
+      "id": "oxford-quality-sporadic",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/sporadic",
+      "title": "sporadic adjective — Oxford Advanced Learner’s Dictionary",
+      "identity_sha256": "22b01d12c7552af7fc399ad41dea584f9ca9c1d15bf210bd62e3f0fac2b6bd86",
+      "extraction_sha256": "22b01d12c7552af7fc399ad41dea584f9ca9c1d15bf210bd62e3f0fac2b6bd86",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-sporadic.json",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-sporadic.json",
+      "capture_scope": "Brief definition copied from the opened official entry; identity binds this capture, not complete remote HTML",
+      "permission": {
+        "basis": "Brief attributed dictionary excerpt for local educational verification; no unrestricted republication claim",
+        "reference": "https://www.oxfordlearnersdictionaries.com/definition/english/sporadic"
+      },
+      "facts": {
+        "definition": {
+          "text": "happening only occasionally or at intervals that are not regular"
+        }
+      },
+      "supports": {
+        "definition": "a59d59c1fd06e1a4b6886d1b05afbd233c74f86dff1362294f4104098786ac12"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "oxford-quality-vigilant": {
+      "id": "oxford-quality-vigilant",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/vigilant",
+      "title": "vigilant adjective — Oxford Advanced Learner’s Dictionary",
+      "identity_sha256": "80bcc81994d24be2ce1e2f17f1c51e4cb87af74c252bce25ae177383bf90e72b",
+      "extraction_sha256": "80bcc81994d24be2ce1e2f17f1c51e4cb87af74c252bce25ae177383bf90e72b",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-vigilant.json",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-vigilant.json",
+      "capture_scope": "Brief definition copied from the opened official entry; identity binds this capture, not complete remote HTML",
+      "permission": {
+        "basis": "Brief attributed dictionary excerpt for local educational verification; no unrestricted republication claim",
+        "reference": "https://www.oxfordlearnersdictionaries.com/definition/english/vigilant"
+      },
+      "facts": {
+        "definition": {
+          "text": "very careful to notice any signs of danger or trouble"
+        }
+      },
+      "supports": {
+        "definition": "8feb11daf34a8870e0265b910a57dfa66e9cc1db0f76ebe2d4bce1c23e563f4d"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "oxford-quality-indifferent": {
+      "id": "oxford-quality-indifferent",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/indifferent",
+      "title": "indifferent adjective — Oxford Advanced Learner’s Dictionary",
+      "identity_sha256": "981f94b56870ace01e6ce9c452e0c43e4440c7d1b261693b5e8790a44c72587c",
+      "extraction_sha256": "981f94b56870ace01e6ce9c452e0c43e4440c7d1b261693b5e8790a44c72587c",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-indifferent.json",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-indifferent.json",
+      "capture_scope": "Brief definition copied from the opened official entry; identity binds this capture, not complete remote HTML",
+      "permission": {
+        "basis": "Brief attributed dictionary excerpt for local educational verification; no unrestricted republication claim",
+        "reference": "https://www.oxfordlearnersdictionaries.com/definition/english/indifferent"
+      },
+      "facts": {
+        "definition": {
+          "text": "having or showing no interest in somebody/something"
+        }
+      },
+      "supports": {
+        "definition": "c40cf2006e8a62e7605ee4a5659f387ee58c9b66eda1f12c77f9d1f4f8370486"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "oxford-quality-discreet": {
+      "id": "oxford-quality-discreet",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/discreet",
+      "title": "discreet adjective — Oxford Advanced Learner’s Dictionary",
+      "identity_sha256": "f9624a62635d25dcd85596bd7e95be3628547f80607e8cb4398ef77eb93edd5a",
+      "extraction_sha256": "f9624a62635d25dcd85596bd7e95be3628547f80607e8cb4398ef77eb93edd5a",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-discreet.json",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-discreet.json",
+      "capture_scope": "Brief definition copied from the opened official entry; identity binds this capture, not complete remote HTML",
+      "permission": {
+        "basis": "Brief attributed dictionary excerpt for local educational verification; no unrestricted republication claim",
+        "reference": "https://www.oxfordlearnersdictionaries.com/definition/english/discreet"
+      },
+      "facts": {
+        "definition": {
+          "text": "careful in what you say or do, in order to keep something secret"
+        }
+      },
+      "supports": {
+        "definition": "b47a55aed57d642892c58bb0a88404ae45ac8aeebbd53743f766c04386cf5652"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "oxford-quality-inquisitive": {
+      "id": "oxford-quality-inquisitive",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/inquisitive",
+      "title": "inquisitive adjective — Oxford Advanced Learner’s Dictionary",
+      "identity_sha256": "08dac78797ea1ab40131d5fe724ce1f11ef79bd87c4555291b4f0c48cedd4e0a",
+      "extraction_sha256": "08dac78797ea1ab40131d5fe724ce1f11ef79bd87c4555291b4f0c48cedd4e0a",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-inquisitive.json",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-inquisitive.json",
+      "capture_scope": "Brief definition copied from the opened official entry; identity binds this capture, not complete remote HTML",
+      "permission": {
+        "basis": "Brief attributed dictionary excerpt for local educational verification; no unrestricted republication claim",
+        "reference": "https://www.oxfordlearnersdictionaries.com/definition/english/inquisitive"
+      },
+      "facts": {
+        "definition": {
+          "text": "very interested in learning about many different things"
+        }
+      },
+      "supports": {
+        "definition": "4187d01eb138e061222aa1c708cf4e7d04c526464f98958ce9d02c54141a021c"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "oxford-quality-optimistic": {
+      "id": "oxford-quality-optimistic",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/optimistic",
+      "title": "optimistic adjective — Oxford Advanced Learner’s Dictionary",
+      "identity_sha256": "1795be7545a2b1ed1dc9757be54dacf11c2b7b07d10a607304d31f31c2c28809",
+      "extraction_sha256": "1795be7545a2b1ed1dc9757be54dacf11c2b7b07d10a607304d31f31c2c28809",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-optimistic.json",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/oxford-quality-optimistic.json",
+      "capture_scope": "Brief definition copied from the opened official entry; identity binds this capture, not complete remote HTML",
+      "permission": {
+        "basis": "Brief attributed dictionary excerpt for local educational verification; no unrestricted republication claim",
+        "reference": "https://www.oxfordlearnersdictionaries.com/definition/english/optimistic"
+      },
+      "facts": {
+        "definition": {
+          "text": "expecting good things to happen or something to be successful; showing this feeling"
+        }
+      },
+      "supports": {
+        "definition": "ebdb74c34f036bbc994262381a18d7b5d649c39faa98a5e76b2056a693eacda9"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-82f403d58e9dcb6ec291": {
+      "id": "mockmob-original-stimulus-diverse-82f403d58e9dcb6ec291",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Factual Passage"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-82f403d58e9dcb6ec291",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "29fc5fba377b6cf91e65653a10aad806278e8c4c10083be3adb9ab0b97f3c50f",
+      "extraction_sha256": "29fc5fba377b6cf91e65653a10aad806278e8c4c10083be3adb9ab0b97f3c50f",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-82f403d58e9dcb6ec291.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-82f403d58e9dcb6ec291.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-82f403d58e9dcb6ec291.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "In this fictional report, a school canteen tested two ways of reducing disposable cups. During the first week, a sign asked students to bring their own cups. During the second, the canteen also lent washable cups against a refundable deposit. Disposable-cup use fell in both weeks, with a larger fall in the second. However, attendance was lower during the second week because one class was away. The report therefore recommended comparing cups used per student before attributing the larger fall to the lending scheme. It also recorded that most borrowed cups were returned. The trial suggested a possible benefit, while leaving the size of that benefit uncertain."
+        }
+      },
+      "supports": {
+        "stimulus": "f9eb0805a5e7fd60e096492a9e51761e4080959e37329b7af51aa7d78001057e"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-b68ce49974f19052c19e": {
+      "id": "mockmob-original-stimulus-diverse-b68ce49974f19052c19e",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Factual Passage"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-b68ce49974f19052c19e",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "7d6b9fca8118cab98864a52f8afbe080cbb80e3bb82d681936e7d411a55e7103",
+      "extraction_sha256": "7d6b9fca8118cab98864a52f8afbe080cbb80e3bb82d681936e7d411a55e7103",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-b68ce49974f19052c19e.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-b68ce49974f19052c19e.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-b68ce49974f19052c19e.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "A fictional neighbourhood reading room introduced a reservation system for its single discussion table. Groups could book thirty-minute slots, but no group could book consecutive slots. Unreserved time remained available to any visitor. After a month, more groups had used the table, although some regular visitors complained that they could no longer hold long meetings there. The committee kept the reservation rule and offered a separate room for meetings lasting more than thirty minutes. Its decision aimed to share access to a scarce facility while accommodating a different need elsewhere. The report did not suggest that short meetings were inherently better than long ones."
+        }
+      },
+      "supports": {
+        "stimulus": "ed36d8aa4d17deb79410fc5b1e8bf631b7ba1deba98d0c407052d52169d9b8d7"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-c30a4349b9045ae344c0": {
+      "id": "mockmob-original-stimulus-diverse-c30a4349b9045ae344c0",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Factual Passage"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-c30a4349b9045ae344c0",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "a621682b36917d6d7712146af84c9df2a19d59c86c9bcc59354785a94aa3504a",
+      "extraction_sha256": "a621682b36917d6d7712146af84c9df2a19d59c86c9bcc59354785a94aa3504a",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-c30a4349b9045ae344c0.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-c30a4349b9045ae344c0.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-c30a4349b9045ae344c0.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "In a fictional exhibition, visitors received either a printed map or a map containing the same information with larger lettering. Volunteers recorded how often each group asked for directions. Those receiving the larger lettering asked less often. The organisers noted that volunteers had handed out the maps on different days, when different galleries were open. They proposed a second trial in which both versions would be distributed on the same day. Meanwhile, both maps remained available. The first trial provided a reason to investigate readability, but it could not separate the effect of lettering from differences between the days."
+        }
+      },
+      "supports": {
+        "stimulus": "68a47e790a83674e179726c7194e6c103cb230536fa0565ae7adc1a95f9e3c05"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-e582ff65fb4ec14d5e5c": {
+      "id": "mockmob-original-stimulus-diverse-e582ff65fb4ec14d5e5c",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Factual Passage"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-e582ff65fb4ec14d5e5c",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "e791bc1237b527d4f6043d02bb0342632ac42ce5c44c9d2d5097a9d0c920a272",
+      "extraction_sha256": "e791bc1237b527d4f6043d02bb0342632ac42ce5c44c9d2d5097a9d0c920a272",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-e582ff65fb4ec14d5e5c.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-e582ff65fb4ec14d5e5c.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-e582ff65fb4ec14d5e5c.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "A fictional repair club allocated its weekly budget to tools and replacement parts. Members initially proposed buying a new drill. The inventory check then showed that an existing drill worked but lacked a charging cable, while several repairs were waiting for inexpensive switches. The club bought the cable and switches instead. This allowed it to resume the waiting repairs without exhausting the budget. The minutes explained that the decision concerned the club's immediate needs; they did not claim that buying new equipment was always wasteful. Members agreed to reconsider the drill purchase if the repaired equipment could no longer handle their workload."
+        }
+      },
+      "supports": {
+        "stimulus": "52cae6235100193d3f1b7d3e7eb2f244b18db892d945350b331cb1dd0b5dd603"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-1c50ae82eadd1e146363": {
+      "id": "mockmob-original-stimulus-diverse-1c50ae82eadd1e146363",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Factual Passage"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-1c50ae82eadd1e146363",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "2ebdb1f42e06bae78c6614a31b8e108dd9b3141168965f4d1cc1afa3067f2747",
+      "extraction_sha256": "2ebdb1f42e06bae78c6614a31b8e108dd9b3141168965f4d1cc1afa3067f2747",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-1c50ae82eadd1e146363.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-1c50ae82eadd1e146363.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-1c50ae82eadd1e146363.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "A fictional archive asked volunteers to describe old photographs. A description was stored as confirmed only when a dated label or an accompanying document identified its subject. Memories offered by visitors were recorded separately as possible identifications. Several visitors initially disliked this distinction because they were confident about their recollections. The archivist explained that preserving a recollection did not require presenting it as established fact. Later, a letter confirmed one visitor's identification, and that record was updated. The system allowed information to be reconsidered without discarding the history of how it had first been reported."
+        }
+      },
+      "supports": {
+        "stimulus": "55922040766b35e1f5ad79e96636a73379038cc68c9e335a49df89306b6f424a"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-618e03744d2efb5fca2c": {
+      "id": "mockmob-original-stimulus-diverse-618e03744d2efb5fca2c",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Factual Passage"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-618e03744d2efb5fca2c",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "c1eefe0760ebf1c36596942fe4e72c1c04cd6bb5768692eec7fc6144a3550602",
+      "extraction_sha256": "c1eefe0760ebf1c36596942fe4e72c1c04cd6bb5768692eec7fc6144a3550602",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-618e03744d2efb5fca2c.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-618e03744d2efb5fca2c.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-618e03744d2efb5fca2c.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "In a fictional school, a bus timetable was revised after students reported long waits. The school shifted one departure from 4:00 to 4:15, allowing pupils in a late laboratory session to reach it. Pupils whose classes ended earlier consequently waited longer. The school retained an earlier departure on another route and asked students to choose the departure suited to their class schedule. The notice described the revision as a compromise between different finishing times. It neither promised shorter waits for everyone nor described the later departure as a faster journey."
+        }
+      },
+      "supports": {
+        "stimulus": "7bcc4b407053c94c173fd0b1ed18bc8a332656575b186c1a067f1fab0b7fff64"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-07ca1a3512fc187e5f09": {
+      "id": "mockmob-original-stimulus-diverse-07ca1a3512fc187e5f09",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Factual Passage"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-07ca1a3512fc187e5f09",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "0cc1bb41e56c8ff6dd60acb2db4125d0262f05f45aee5ac2f29159edb36b5305",
+      "extraction_sha256": "0cc1bb41e56c8ff6dd60acb2db4125d0262f05f45aee5ac2f29159edb36b5305",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-07ca1a3512fc187e5f09.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-07ca1a3512fc187e5f09.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-07ca1a3512fc187e5f09.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "A fictional garden committee published a watering roster on a noticeboard. When a volunteer could not attend, that person was asked to arrange a replacement and update the board. After two missed sessions, the committee learned that replacements had been arranged but the board had not been changed. Other volunteers therefore believed the slots were empty and duplicated the work. The committee added a simple confirmation step: the replacement would initial the revised slot. The adjustment addressed the recording of responsibility rather than imposing an additional watering session. The report did not attribute the duplication to volunteers being unwilling to help."
+        }
+      },
+      "supports": {
+        "stimulus": "d0029585f1fde6bd791626341161762de0494b524bf645f6661b5b34a835d3e1"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-1db049ea642cfdc07dd9": {
+      "id": "mockmob-original-stimulus-diverse-1db049ea642cfdc07dd9",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Factual Passage"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-1db049ea642cfdc07dd9",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "2daa40e1d54bc9167e846339a93ebe7457940bab49db118fe6b882d5b7d857a3",
+      "extraction_sha256": "2daa40e1d54bc9167e846339a93ebe7457940bab49db118fe6b882d5b7d857a3",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-1db049ea642cfdc07dd9.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-1db049ea642cfdc07dd9.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-1db049ea642cfdc07dd9.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "A fictional community centre offered a beginner's pottery workshop and a more advanced workshop. Registration for the advanced session required completion of the beginner's session or a short demonstration of equivalent skills. An experienced visitor who had never attended the centre passed the demonstration and joined the advanced group. Another visitor chose the beginner's session after finding the demonstration difficult. The organiser explained that the alternative routes recognised prior experience while checking readiness for the work. Attending a particular earlier course was one way to qualify, rather than the only acceptable evidence of the relevant skills."
+        }
+      },
+      "supports": {
+        "stimulus": "a5702009034b3a99ee0d5d7e2d526e6a6204e42a1580316c555cdd68018cdec2"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-510f9bbd4bc64432d387": {
+      "id": "mockmob-original-stimulus-diverse-510f9bbd4bc64432d387",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Narrative Passage"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-510f9bbd4bc64432d387",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "378ec7b72b076a0e1d28d14ffdd3e9a4f3717689bc431713d477a1d17378daa4",
+      "extraction_sha256": "378ec7b72b076a0e1d28d14ffdd3e9a4f3717689bc431713d477a1d17378daa4",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-510f9bbd4bc64432d387.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-510f9bbd4bc64432d387.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-510f9bbd4bc64432d387.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "Leela was asked to announce the winner of the school poster competition. She recognised her friend's poster among the finalists and wanted it to win. Before the judges arrived, she noticed that its entry number was missing. Instead of attaching her friend's number from memory, she asked the coordinator to check the registration sheet. The check revealed that two posters had been placed in the wrong slots. They were moved before judging began. Her friend thanked her for helping. Leela replied that she had helped the entries be judged as they were submitted. She would have asked for the same check if the misplaced poster had belonged to someone else."
+        }
+      },
+      "supports": {
+        "stimulus": "598368bb567b59917744e7ddc9e34aad18afcfb3b693e0a57c57f83b74028098"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-472847ac635002331231": {
+      "id": "mockmob-original-stimulus-diverse-472847ac635002331231",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Narrative Passage"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-472847ac635002331231",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "c4568a82a0187f0be58e04a1a53653c5ff760ec329351abab14155ea1802c903",
+      "extraction_sha256": "c4568a82a0187f0be58e04a1a53653c5ff760ec329351abab14155ea1802c903",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-472847ac635002331231.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-472847ac635002331231.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-472847ac635002331231.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "Kabir built a shelf for his younger sister's books. He carefully measured the wall and made the shelf fit its empty space. When he invited her to use it, she struggled to reach the upper level. Kabir first suggested that she stand on a stool, then stopped when she asked why a shelf intended for her had to be so high. He removed the brackets and lowered the shelf. A strip of unpainted wall remained above it. He decided to leave the painting until the weekend. That evening, his sister arranged her books without help, and Kabir was pleased despite the unfinished wall."
+        }
+      },
+      "supports": {
+        "stimulus": "903b172712fbfe33f3f16786378fca32047760589ea629a829e6114191d7af3f"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-4787dc2aae27c45d836c": {
+      "id": "mockmob-original-stimulus-diverse-4787dc2aae27c45d836c",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Narrative Passage"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-4787dc2aae27c45d836c",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "da44127f40382c73451f019091b4a4b8edcffb9dae9a6e8fdef7e27b041ec6f5",
+      "extraction_sha256": "da44127f40382c73451f019091b4a4b8edcffb9dae9a6e8fdef7e27b041ec6f5",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-4787dc2aae27c45d836c.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-4787dc2aae27c45d836c.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-4787dc2aae27c45d836c.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "At a rehearsal, Nisha played a melody more quickly than the rest of the group. She thought the faster pace made it exciting. Their conductor asked everyone to listen while one drummer kept a steady beat. Nisha noticed that the flute's quieter phrases disappeared when she rushed. During the next attempt, she waited for the drummer's beat and heard the phrases clearly. Afterwards, a classmate praised the performance. Nisha said that she had changed very few notes. What she had changed was the space she gave the other players. She kept her faster version for a solo rehearsal later."
+        }
+      },
+      "supports": {
+        "stimulus": "fb5531a74c9398346ac00088ca53cda101e03a285a835245d149fc4e2af7c5d9"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-1aac0ed9ae1a8577192d": {
+      "id": "mockmob-original-stimulus-diverse-1aac0ed9ae1a8577192d",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Narrative Passage"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-1aac0ed9ae1a8577192d",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "7aa8712d3e7883b7adf6fc40bfd98e99991c80e33867c747d257d9ad28326aed",
+      "extraction_sha256": "7aa8712d3e7883b7adf6fc40bfd98e99991c80e33867c747d257d9ad28326aed",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-1aac0ed9ae1a8577192d.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-1aac0ed9ae1a8577192d.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-1aac0ed9ae1a8577192d.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "Rohan volunteered to carry a box of costumes to the school hall. On the way, he saw a younger pupil looking for a lost notebook. Rohan could not search while holding the large box, and he knew the costumes were needed soon. He took the box directly to the hall and asked another volunteer to help the pupil search. When he returned, the notebook had been found beneath a bench. The pupil thanked both of them. Rohan had initially felt that leaving the search meant refusing to help. Seeing the result, he realised that asking the right person could be useful assistance too."
+        }
+      },
+      "supports": {
+        "stimulus": "c817ea208da28c6f48eae7f433bef7a34772b0e2323f61b8821b32909d2583c5"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-c63fbc9fa21c99a84fed": {
+      "id": "mockmob-original-stimulus-diverse-c63fbc9fa21c99a84fed",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Narrative Passage"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-c63fbc9fa21c99a84fed",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "ced4d81fed67b80496cc074ffa096c5ac542ad19dffcb3ad67ad6ab3a256f70d",
+      "extraction_sha256": "ced4d81fed67b80496cc074ffa096c5ac542ad19dffcb3ad67ad6ab3a256f70d",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-c63fbc9fa21c99a84fed.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-c63fbc9fa21c99a84fed.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-c63fbc9fa21c99a84fed.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "Amina practised a speech until she could recite every sentence. On the morning of the competition, the organiser shortened each speaker's time. She tried to speak faster, but the words became hard to follow. Her teacher asked which idea she most wanted the audience to remember. Amina removed an anecdote and two examples, retaining the central argument and one supporting example. She finished within the new limit. Afterwards, she missed the anecdote she had enjoyed writing, yet she could explain why it had been removed. The shorter speech preserved her purpose even though it did not preserve every sentence."
+        }
+      },
+      "supports": {
+        "stimulus": "bb99b0c7d0fe496355c1777e471e9486779643b882e503bfb98ebb724742e93c"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-91c02ffcf8f4941d3485": {
+      "id": "mockmob-original-stimulus-diverse-91c02ffcf8f4941d3485",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Narrative Passage"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-91c02ffcf8f4941d3485",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "9eb87303fed7258a12e568964a83126eef566e4602c4f37af0c5fe507d036022",
+      "extraction_sha256": "9eb87303fed7258a12e568964a83126eef566e4602c4f37af0c5fe507d036022",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-91c02ffcf8f4941d3485.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-91c02ffcf8f4941d3485.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-91c02ffcf8f4941d3485.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "Dev kept score during a friendly cricket match. As the players packed their bags, he noticed that he had counted one run twice. Correcting it would turn his team's victory into a tie. He showed the scorebook to the captains, who checked the recorded deliveries and agreed on the correction. One teammate said nobody would have noticed. Dev answered that noticing it himself was enough reason to check. The captains changed the result without replaying the match. On the walk home, Dev felt disappointed about the lost victory but relieved that the scorebook now matched the game."
+        }
+      },
+      "supports": {
+        "stimulus": "02a0102fbd48401ae4146deaf61d41cc04ea616a344967cbeb158fe1ceea9418"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-417811c0a74bd16691b0": {
+      "id": "mockmob-original-stimulus-diverse-417811c0a74bd16691b0",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Narrative Passage"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-417811c0a74bd16691b0",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "4d9e138ecce77d93e0a8f7e504fed778263f83b8a2cc2128b0cfe5cfade905ae",
+      "extraction_sha256": "4d9e138ecce77d93e0a8f7e504fed778263f83b8a2cc2128b0cfe5cfade905ae",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-417811c0a74bd16691b0.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-417811c0a74bd16691b0.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-417811c0a74bd16691b0.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "Sana's grandmother asked her to translate a letter aloud. One sentence could mean either that a visit had been postponed or that its timing was still undecided. Sana first chose the interpretation she thought her grandmother would prefer. Then she paused, read the sentence again and explained both possibilities. Her grandmother suggested calling the writer rather than guessing. The call confirmed that no date had yet been fixed. Sana wrote that information beside the letter. She had wanted to give a reassuring answer immediately; instead, the uncertainty became a question they could resolve together."
+        }
+      },
+      "supports": {
+        "stimulus": "9d1eab24da7237b812d5405a2f6d3aa60a68ea647b7a3e12a8681bc0384fa841"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-2217e25a7820dee25623": {
+      "id": "mockmob-original-stimulus-diverse-2217e25a7820dee25623",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Narrative Passage"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-2217e25a7820dee25623",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "dcf52dc5058d1e170c1787b25439c1815ca962114c1ac822a2e8060b166786e4",
+      "extraction_sha256": "dcf52dc5058d1e170c1787b25439c1815ca962114c1ac822a2e8060b166786e4",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-2217e25a7820dee25623.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-2217e25a7820dee25623.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-2217e25a7820dee25623.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "Ishaan was preparing labels for a class display when a classmate suggested including a small model built by the quietest pupil. There was no space left on the table. Ishaan initially proposed displaying only its photograph. After looking again, he moved two large labels onto the wall and made room for the model. Its maker demonstrated a moving part that the photograph would not have shown. Ishaan kept the photograph beside it to show an earlier version. He had not removed another pupil's work; he had changed the arrangement so the display could communicate more of what was already there."
+        }
+      },
+      "supports": {
+        "stimulus": "afe8e00b04308152e3f35f549a378d77e82ceffce7a96f350c236145ba896f0e"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-65ceddcf01346ac5e677": {
+      "id": "mockmob-original-stimulus-diverse-65ceddcf01346ac5e677",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Literary Passage"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-65ceddcf01346ac5e677",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "98817379dfbe6a5c32610dcaa97550cc404514379b51db24a5dbac87fd69db51",
+      "extraction_sha256": "98817379dfbe6a5c32610dcaa97550cc404514379b51db24a5dbac87fd69db51",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-65ceddcf01346ac5e677.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-65ceddcf01346ac5e677.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-65ceddcf01346ac5e677.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "The station clock had stopped at ten past four. Each morning, travellers looked up, checked their watches and continued towards the platform. The tea seller never corrected the clock; it was beyond his reach. One afternoon, a child asked whether the trains had stopped too. He pointed to a train sliding past the far platform. Its windows caught the sun one after another. The child watched until it disappeared, then looked back at the clock. For the first time that day, the tea seller noticed the contrast himself: the hands stood still above a place where almost everything was moving."
+        }
+      },
+      "supports": {
+        "stimulus": "4353d4dcc03f6ba051c2df95fa98882ff2a85deb0a291a734d8e44bfdadaa731"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-cf6856d6e1ff98beb41c": {
+      "id": "mockmob-original-stimulus-diverse-cf6856d6e1ff98beb41c",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Literary Passage"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-cf6856d6e1ff98beb41c",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "27014215ea5b684bd1a68734c4a38ee1ab20c00207068469283f43b18209eebe",
+      "extraction_sha256": "27014215ea5b684bd1a68734c4a38ee1ab20c00207068469283f43b18209eebe",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-cf6856d6e1ff98beb41c.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-cf6856d6e1ff98beb41c.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-cf6856d6e1ff98beb41c.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "The old tailor kept a drawer of buttons. Some were pairs; most had lost their companions long ago. When his niece offered to throw away the unmatched ones, he spread them across the counter. There was a small blue button from her first school shirt. She recognised it by its chipped rim, although she could no longer remember losing it. The tailor did not ask her to keep the whole drawer. He handed her the blue button, and together they sorted the rest. By evening, the drawer was lighter, but it had not become empty."
+        }
+      },
+      "supports": {
+        "stimulus": "a3e7490cf190bccb8e701e4c769a23c8f1547c9b0f4dd3eb400a484f4406a75c"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-d5b819342a779eafd29d": {
+      "id": "mockmob-original-stimulus-diverse-d5b819342a779eafd29d",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Literary Passage"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-d5b819342a779eafd29d",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "0e83481a664384bf53796a9bf7d5bc3c6a5555045d769c4797e50a6ad0d2b6ba",
+      "extraction_sha256": "0e83481a664384bf53796a9bf7d5bc3c6a5555045d769c4797e50a6ad0d2b6ba",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-d5b819342a779eafd29d.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-d5b819342a779eafd29d.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-d5b819342a779eafd29d.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "Rain had washed the chalk game from the lane. The children arrived with fresh chalk and began drawing again. One child remembered the old squares as longer; another insisted that the turning square had been on the left. They argued until a passing neighbour asked whether the new game had to reproduce the old one. After a moment, they drew a wider turning square in the middle. Their feet soon covered the fresh lines with pale dust. From her doorway, the neighbour could no longer tell which marks belonged to yesterday and which belonged to the game they had just invented."
+        }
+      },
+      "supports": {
+        "stimulus": "55ed0f7353e48f1bf6a4498e4c879f9cbe2717f92325a0750c28472f3805cd71"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-5bccc0efd63fcfe655b6": {
+      "id": "mockmob-original-stimulus-diverse-5bccc0efd63fcfe655b6",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Literary Passage"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-5bccc0efd63fcfe655b6",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "21c8b49eb22951ecd46a28e5a607aab673b4425ab992a46e6d8f2af5edf0203a",
+      "extraction_sha256": "21c8b49eb22951ecd46a28e5a607aab673b4425ab992a46e6d8f2af5edf0203a",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-5bccc0efd63fcfe655b6.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-5bccc0efd63fcfe655b6.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-5bccc0efd63fcfe655b6.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "For years, the brass bell above the shop door had announced every visitor. When it cracked, the shopkeeper fitted a quieter bell. His daughter liked being able to hear a conversation without interruption. He still turned towards the door before the new bell rang, expecting the old sound. One evening, he placed the cracked bell beside the till rather than returning it to the doorway. A customer lifted it gently and recognised its worn handle. The shopkeeper smiled. The old bell could remain part of the shop without being required to do its former work."
+        }
+      },
+      "supports": {
+        "stimulus": "4d7abbd2322d13e852ad34a316fecccdbe14ae531343f6d4d53db87a1a1b1dd9"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-05bbe6744d361ebf1979": {
+      "id": "mockmob-original-stimulus-diverse-05bbe6744d361ebf1979",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Literary Passage"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-05bbe6744d361ebf1979",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "b9a221e96d0d9cd54de3dff87778fd42c8163c51c37b0217ad8f767d259cd622",
+      "extraction_sha256": "b9a221e96d0d9cd54de3dff87778fd42c8163c51c37b0217ad8f767d259cd622",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-05bbe6744d361ebf1979.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-05bbe6744d361ebf1979.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-05bbe6744d361ebf1979.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "Meera unfolded a paper boat her brother had left on the windowsill. Beneath the creases she found the drawing they had used to make it: a house, two crooked trees and a sun almost hidden at the edge. She considered flattening the sheet completely, but the folds resisted. Instead, she opened only enough to see the drawing and set it beside a photograph. The boat no longer stood upright. The picture was not smooth either. In the evening light, both forms remained visible, neither restored exactly to what it had been before."
+        }
+      },
+      "supports": {
+        "stimulus": "15a2072b2bca0ff612d61f3fcdfabb3884b15fa0ab1f8346755a4a1d235b90c4"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-9997ffdb62dabf8aacf5": {
+      "id": "mockmob-original-stimulus-diverse-9997ffdb62dabf8aacf5",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Literary Passage"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-9997ffdb62dabf8aacf5",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "3906de556c93c0e8553903e4b8aa9ce39c0ab8a14f51da9053a8e62031102daa",
+      "extraction_sha256": "3906de556c93c0e8553903e4b8aa9ce39c0ab8a14f51da9053a8e62031102daa",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-9997ffdb62dabf8aacf5.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-9997ffdb62dabf8aacf5.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-9997ffdb62dabf8aacf5.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "The lamp in the study cast a circle across the desk. Outside that circle, the shelves looked almost empty, though they held the same books as always. Arjun moved the lamp closer to a page he was struggling to read. The circle tightened, and the rest of the room grew dimmer. After finishing the paragraph, he raised the shade and saw the shelves again. He had changed where the light fell, not what the room contained. He left the lamp slightly higher while choosing his next book."
+        }
+      },
+      "supports": {
+        "stimulus": "0f66e0dbff5a4e5e9269650d4bb06e3a1f0a896ffc07462a1a4c3802b43bf675"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-d2844000ff163a362bd2": {
+      "id": "mockmob-original-stimulus-diverse-d2844000ff163a362bd2",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Literary Passage"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-d2844000ff163a362bd2",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "72570040992ad9e3613c938c3736a946be1cfebb25c36ab38e532ee8ef6c0d9a",
+      "extraction_sha256": "72570040992ad9e3613c938c3736a946be1cfebb25c36ab38e532ee8ef6c0d9a",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-d2844000ff163a362bd2.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-d2844000ff163a362bd2.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-d2844000ff163a362bd2.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "A path crossed the field where Anaya's grandfather had walked every evening. After he moved away, the grass began to cover its edges. Anaya followed it once, trying to place her feet exactly where his had been. At the far fence she saw another narrow track leading towards a new gate. She took that route home. From the window, the two paths looked like lines beginning together and separating near the fence. She wrote to her grandfather that the field had not lost his route; it had made room for another one beside it."
+        }
+      },
+      "supports": {
+        "stimulus": "83b1895dac0ad4a745503e778c548646ec1d695bee9bf95b07329718f8a6b167"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-b064a6420839abc60456": {
+      "id": "mockmob-original-stimulus-diverse-b064a6420839abc60456",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Literary Passage"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-b064a6420839abc60456",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "92f9c510d54fcf152f91b90c1ee21eba3588fb8902406920d1912bde8676057e",
+      "extraction_sha256": "92f9c510d54fcf152f91b90c1ee21eba3588fb8902406920d1912bde8676057e",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-b064a6420839abc60456.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-b064a6420839abc60456.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-b064a6420839abc60456.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "The painter covered a wall with a pale morning sky. Before she could finish the birds, evening sunlight turned the colours warm. She stepped back, displeased that the light had changed what she had planned. A boy standing nearby said the unfinished shapes looked like leaves caught in a breeze. The painter looked again. She did not erase the sky or declare the boy correct. She sketched one clear bird among the remaining shapes and returned the next morning to see the wall in the light for which she had first designed it."
+        }
+      },
+      "supports": {
+        "stimulus": "ad9f114bfaa30f3a58f44d30b90ba0fb517913165552eb1a21c9aafebfe5ef6e"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "ncert-lebs107": {
+      "id": "ncert-lebs107",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Directing"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/lebs107.pdf",
+      "title": "NCERT Business Studies I, Chapter 7: Directing, reprint 2026–27",
+      "identity_sha256": "64d3468ab4013752040834ff7b718915a1683bfae1b218ac2ba5791c8857645b",
+      "extraction_sha256": "f9d3be12bb4672a8b5bb5b08a5e2ff09b6dcebd6d78e2737c873d52f98fc7696",
+      "extraction_checked": true,
+      "extraction_review": {
+        "source_url": "https://ncert.nic.in/textbook/pdf/lebs107.pdf",
+        "identity_sha256": "64d3468ab4013752040834ff7b718915a1683bfae1b218ac2ba5791c8857645b",
+        "extraction_sha256": "f9d3be12bb4672a8b5bb5b08a5e2ff09b6dcebd6d78e2737c873d52f98fc7696",
+        "extraction_contract": "Whole characters assigned by the observed column gutter; first case/objectives page excluded. Exact retained spans still require independent answer support.",
+        "visually_checked_pdf_pages_1based": [
+          2
+        ],
+        "all_pages_visually_checked": false
+      },
+      "reuse_permitted": true,
+      "file": "data/question-factory-runtime/reference-downloads/lebs107.pdf",
+      "extraction_file": "data/question-factory-runtime/reference-downloads/lebs107.column-normalized.txt",
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs107.pdf"
+      },
+      "facts": {
+        "normative-a72a9103340a296e": {
+          "text": "In the context of management of an organisation, directing refers to the process of instructing, guiding, counselling, motivating and leading people in the organisation to achieve its objectives. You can observe here that directing is not a mere issue of communication but encompasses many elements like supervision, motivation and leadership. It is one of the key managerial functions performed by every manager. Directing is a managerial process which takes place throughout the life of an organisation. The main characteristics of directing are discussed below: (i) Directing initiates action: Directing is a key managerial function. A manager has to perform this function along with planning, organising, staffing and controlling while discharging his duties in the organisation. While other functions prepare a setting for action, directing initiates action in the organisation. (ii) Directing takes place at every level of management: Every manager, from top executive to supervisor performs the function of directing. The directing takes place wherever superior – subordinate relations exist. (iii) Directing is a continuous process: Directing is a continuous activity. It takes place throughout the life of the organisation irrespective of people occupying managerial positions. We can observe that in organisations like Infosys, Tata, BHEL, HLL and the managers may change but the directing process continues because without direction the organisational activities can not continue further. (iv) Directing flows from top to bottom: Directing is first initiated at top level and flows to the bottom through organisational hierarchy."
+        },
+        "normative-902f04a68ca971b6": {
+          "text": "It means that every manager c direct his immediate subordin and take instructions from immediate boss. I d Mportance of IrectIng The importance of directing can understood by the fact that ev action in the organisation is initia through directing only. Direct guides towards achievement common objectives. Throu directing, managers not only tell people in the organisation as to w they should do, when they sho do and how they should do also see that their instructions implemented in proper perspect Very often, this becomes an import factor in the efficient and effect functioning of the organisati The points which emphasise importance of directing are presen as follows: (i) Directing helps to initiate action people in the organisation towa attainment of desired objectiv For example, if a supervisor gui his subordinates and clari their doubts in performing a ta it will help the worker to achi work targets given to him. (ii) Directing integrates employe efforts in the organisation in su a way that every individual eff contributes to the organisatio performance. Thus, it ensu that the individuals work organisational goals. For examp an a manager with good leadership ate abilities will be in a position to his convince the employees working under him that individual efforts and team effort will lead to achievement of organisational be goals. ery (iii) Directing guides employees to ted fully realise their potential and ing capabilities by motivating and of providing effective leadership. A gh good leader can always identify the the potential of his employees hat and motivate them to extract uld work up to their full potential."
+        },
+        "normative-250304b312427790": {
+          "text": "but (iv) Directing facilitates introduction are of needed changes in the organi- ive. sation. Generally, people have ant a tendency to resist changes ive in the organisation. Effective on. directing through motivation, the communication and leadership ted helps to reduce such resistance and develop required cooperation by in introducing changes in the rds organisation. For example, if es. a manager wants to introduce des new system of accounting, fies there may be initial resistance sk, from accounting staff. But, if eve manager explains the purpose, provides training and motivates es- with additional rewards, the ch employees may accept change ort and cooperate with manager. nal (v) Effective directing helps to res bring stability and balance in for the organisation since it fosters le, cooperation and commitment among the people and helps to achieve balance among various groups, activities and the departments. p d rIncIples of IrectIng Providing good and effective directing is a challenging task as it involves many complexities. A manager has to deal with people with diverse background, and expectations. This comp licates the directing process. Certain guiding principles of directing may help in directing process. These principles are briefly explained below: (i) Maximum individual contribution: This principle emphasises that directing techniques must help every individual in the organisation to contribute to his maximum potential for achievement of organisational objectives. It should bring out untappted energies of employees for the efficiency of organisation."
+        },
+        "normative-34f28c2e46790f5a": {
+          "text": "For example, a good motivation plan with suitable monetary and non-monetary rewards can motivate an employee to contribute his maximum efforts for the organisation as he or she may feel that their efforts will bring them suitable rewards. (ii) Harmony of objectives: Very often, we find that individual objectives of employees and the organisational objectives as understood are conflicting to each other. For example, an employee may expect attractive salary and monetary benefits to fulfill his personal needs. The organisation may expect employees to improve productivity to achieve expected profits. But, good directing should provide harmony by convincing that employee rewards and work efficiency are complimentary to each other. (iii) Unity of Command: This principle insists that a person in the organisation should receive instructions from one superior only. If instructions are received from more than one, it creates confusion, conflict and disorder in the organisation. Adherence to this principle ensures effective direction. (iv) Appropriateness of direction tech­ nique: According to this principle, appropriate motivational and leadership technique should be used while directing the people based on subordinate needs, capabilities, attitudes and other situational variables. For example, for some people money can act as powerful motivator while for others promotion may act as effective motivator. (v) Managerial communication: Effe- ctive managerial communication across all the levels in the organisation makes direction effective. Directing should convey clear instructions to create total understanding to subordinates."
+        },
+        "normative-c1228343e14551ec": {
+          "text": "Through proper feedback, the managers should ensure t subordinate understands instructions clearly. (vi) Use of informal organisation manager should realise th informal groups or organisatio exist within every form organisation. He should spot a make use of such organisatio for effective directing. (vii) Leadership: While directing subordinates, managers sho exercise good leadership as can influence the subordina positively without caus dissatisfaction among them. (viii)Follow through: Mere giving an order is not sufficie Managers should follow it up reviewing continuously whet orders are being implemen accordingly or any problems being encountered. If necessa suitable modifications should made in the directions. e d leMents of IrectIon The process of directing invol guiding, coaching, instructi motivating, leading the people in organisation to achieve organisatio objectives. Consider the follow examples: (i) A supervisor expla a worker about operations to carried by him on a lathe machi (ii) A mining engineer explains ab safety precautions to be follow while working in a coal mine, (iii Managing Director declares share hat the profits to the managers for their his contribution to inhance profits of the company, and (iv) A manager inspires : A his/her employees by playing a lead at role in performing a work. ns All these examples and many al other activities related to directing nd may broadly be grouped into four ns categories which are the elements of directing. These are: the (i) Supervision uld (ii) Motivation it (iii) Leadership tes (iv) Communication ing To know more about directing, these elements are discussed in detail. of s nt."
+        },
+        "normative-9c6fe1a9e3e37092": {
+          "text": "upervIsIon by The term supervision can be her understood in two ways. Firstly, it ted can be understood as an element of are directing and secondly, as a function ry, performed by supervisors in the be organisational hierarchy. Supervision being an element of directing, every mana ger in the organisation supervises his/her ves subordinates. In this sense, supervision ng, can be understood as the process of an guiding the efforts of employees and nal other resources to accomplish the desired ing objectives. It means overseeing what ins is being done by subordinates and be giving instructions to ensure optimum ne, utilisation of resources and achievement out of work targets. ed Secondly, supervision can be ) A understood as the function to be in performed by supervisor, a managerial"
+        }
+      },
+      "supports": {
+        "normative-a72a9103340a296e": "a72a9103340a296ed5d25b6b0ec099eba170354ea50b3a0035094d5c51a5edf9",
+        "normative-902f04a68ca971b6": "902f04a68ca971b69addbea39a5c5ab6ba191b0b63882243207830baa97e585b",
+        "normative-250304b312427790": "250304b31242779003adbdb6c0d823a3ed133c5f745587004746665329cbe541",
+        "normative-34f28c2e46790f5a": "34f28c2e46790f5aa4f4dce07badc168aa5246e5ee2ef543f341b8044188708b",
+        "normative-c1228343e14551ec": "c1228343e14551ec0558696e5ccb3f41a4062ae652bd1ef29a0be364c936900d",
+        "normative-9c6fe1a9e3e37092": "9c6fe1a9e3e37092d79289ed234aa9add7c4ad13e0d74d3da45e9f30a9e30052"
+      },
+      "source_pack_id": "original-business_studies-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-5afeb19df7f2ee965e1f": {
+      "id": "mockmob-original-stimulus-diverse-5afeb19df7f2ee965e1f",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Para Jumbles"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-5afeb19df7f2ee965e1f",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "9e3faab0de9d83c7149543e1249676f07ab11fa5e56c080e9cedb8491170c425",
+      "extraction_sha256": "9e3faab0de9d83c7149543e1249676f07ab11fa5e56c080e9cedb8491170c425",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-5afeb19df7f2ee965e1f.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-5afeb19df7f2ee965e1f.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-5afeb19df7f2ee965e1f.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "In a fictional class project, Tara first measured the width of the display board. Using that measurement, she cut a sheet of paper to fit it. She then attached the cut sheet to the board and let the adhesive dry. Only after it had dried did she arrange the photographs on the covered board. The account describes that sequence explicitly; it does not prescribe a universal method of preparing every display."
+        }
+      },
+      "supports": {
+        "stimulus": "471f4627f60fd619c43eeb876b3b0211e2697610f28d9c9dd9482635a2a3a4e9"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-fb5bfb09a13085bbffd6": {
+      "id": "mockmob-original-stimulus-diverse-fb5bfb09a13085bbffd6",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Para Jumbles"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-fb5bfb09a13085bbffd6",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "45c6ac59d256a5a110e3ffbc87f55a05d2483d3f73a43beea5194ed1c381e199",
+      "extraction_sha256": "45c6ac59d256a5a110e3ffbc87f55a05d2483d3f73a43beea5194ed1c381e199",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-fb5bfb09a13085bbffd6.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-fb5bfb09a13085bbffd6.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-fb5bfb09a13085bbffd6.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "In this fictional account, Ravi received a sealed parcel addressed to his class. Before opening it, he checked the address against the class's order receipt. Once he had confirmed the match, he opened the parcel and counted the notebooks inside. Finally, he recorded the count on the receipt and placed the notebooks in the cupboard. These events occurred in that stated order."
+        }
+      },
+      "supports": {
+        "stimulus": "4eb7389a769f45c0be50f4e23fd6a66a40f493eb68a9770eb15519b5420fc5f6"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-4efcc3a591240675bfbb": {
+      "id": "mockmob-original-stimulus-diverse-4efcc3a591240675bfbb",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Para Jumbles"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-4efcc3a591240675bfbb",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "7d7eee045637f16b1879aee623b354bfe5af1fa0afa47f6d2e0fb5af0fcabedf",
+      "extraction_sha256": "7d7eee045637f16b1879aee623b354bfe5af1fa0afa47f6d2e0fb5af0fcabedf",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-4efcc3a591240675bfbb.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-4efcc3a591240675bfbb.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-4efcc3a591240675bfbb.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "In a fictional workshop, Noor first drew a design for a wooden bookmark. She used the drawing as a guide to cut the shape. Once the shape had been cut, she smoothed its edges. After smoothing them, she painted the bookmark and left it to dry. The account concerns this particular bookmark, with each later action explicitly following the preceding one."
+        }
+      },
+      "supports": {
+        "stimulus": "a80addc11e4144c89de2cff208bba2bba678e1e01a1f3bdc3060d7fa3d3f7c57"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-b7449defcb67f33e8f15": {
+      "id": "mockmob-original-stimulus-diverse-b7449defcb67f33e8f15",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Para Jumbles"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-b7449defcb67f33e8f15",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "21ecb1b540e1735a1b7b1688b457bebd87e02ccb34c6fdde67d6b07489e2f448",
+      "extraction_sha256": "21ecb1b540e1735a1b7b1688b457bebd87e02ccb34c6fdde67d6b07489e2f448",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-b7449defcb67f33e8f15.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-b7449defcb67f33e8f15.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-b7449defcb67f33e8f15.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "At a fictional rehearsal, the group first read a short scene together. After reading it, they assigned its speaking parts. Each member then practised the assigned part individually. Finally, they performed the scene together using the parts they had practised. This is the reported sequence of events rather than a claim that all rehearsals must follow the same procedure."
+        }
+      },
+      "supports": {
+        "stimulus": "33c6d52009bfb0888e83a8fc43f46a47bd7cb357f3b16edda4fad64ad20cb00b"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-c0e210aa54205cf80a11": {
+      "id": "mockmob-original-stimulus-diverse-c0e210aa54205cf80a11",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Para Jumbles"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-c0e210aa54205cf80a11",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "b56d71bcca201c0041b9c85540d6df7cd981686f01c71b7bda4bfe2adf284fe0",
+      "extraction_sha256": "b56d71bcca201c0041b9c85540d6df7cd981686f01c71b7bda4bfe2adf284fe0",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-c0e210aa54205cf80a11.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-c0e210aa54205cf80a11.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-c0e210aa54205cf80a11.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "In this fictional account, Jaya noticed that a plant's label had become unreadable. She checked the plant's identity in the garden's own planting record. Having found the recorded name, she wrote it on a new label. She then replaced the unreadable label with the new one. The sequence establishes the order of her actions without making an outside claim about the plant itself."
+        }
+      },
+      "supports": {
+        "stimulus": "917b0bbf6103e224c68c5f54c9c150eadba4fc80eb43b7d05401b1d20f739e21"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-da372640fcbd743d7544": {
+      "id": "mockmob-original-stimulus-diverse-da372640fcbd743d7544",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Para Jumbles"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-da372640fcbd743d7544",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "3253a786643c34945305e6f41b736bb7b8b58ee6aac87e0fe538aee08cb39365",
+      "extraction_sha256": "3253a786643c34945305e6f41b736bb7b8b58ee6aac87e0fe538aee08cb39365",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-da372640fcbd743d7544.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-da372640fcbd743d7544.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-da372640fcbd743d7544.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "In a fictional school event, the organiser first asked each group how many chairs it needed. After collecting the replies, she prepared a seating list. Volunteers then placed the chairs according to that completed list. When the arrangement was ready, the organiser checked it against the groups' replies. The account explicitly orders those four stages of this particular event."
+        }
+      },
+      "supports": {
+        "stimulus": "108d1b84c5f62ce2d068a0ee2ed0c6516e9e4548870fbc070295044c6f7b1528"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-357c4b58483657c5c82a": {
+      "id": "mockmob-original-stimulus-diverse-357c4b58483657c5c82a",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Para Jumbles"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-357c4b58483657c5c82a",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "a1cbc10fcad5c743279051cf11fa973490917df4239fc9ccd46ce0579d2fff04",
+      "extraction_sha256": "a1cbc10fcad5c743279051cf11fa973490917df4239fc9ccd46ce0579d2fff04",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-357c4b58483657c5c82a.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-357c4b58483657c5c82a.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-357c4b58483657c5c82a.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "In this fictional account, Aman found that the recording of his interview contained background noise. He first made a copy of the original recording. He then edited the copy to reduce the noise. After editing it, he compared the copy with the untouched original. Finally, he saved the edited version under a different name. The original was retained throughout the stated process."
+        }
+      },
+      "supports": {
+        "stimulus": "1765d61ca1c170c01d374c041ab97ad15638c9b77eacb331054b20de6cbe3360"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "mockmob-original-stimulus-diverse-474baeae3e7118e5d696": {
+      "id": "mockmob-original-stimulus-diverse-474baeae3e7118e5d696",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Para Jumbles"
+      ],
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-474baeae3e7118e5d696",
+      "title": "MockMob original fictional reading stimulus",
+      "identity_sha256": "45b5fbb82f19560a75758372dc87bb00da88ebc88a029b5835d47d13c8b61c71",
+      "extraction_sha256": "45b5fbb82f19560a75758372dc87bb00da88ebc88a029b5835d47d13c8b61c71",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-474baeae3e7118e5d696.txt",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-474baeae3e7118e5d696.txt",
+      "permission": {
+        "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+        "reference": "artifacts/question-factory/source-diversity-2026-10-07/mockmob-original-stimulus-diverse-474baeae3e7118e5d696.txt"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "In a fictional class, the teacher first asked pupils to propose titles for a shared story. She collected their proposals and read the full list aloud. Only then did the class vote on the listed titles. After the votes had been counted, she wrote the selected title on the story's cover. This account establishes what happened without claiming that a vote is always the best way to choose a title."
+        }
+      },
+      "supports": {
+        "stimulus": "228f37c6b99bceb5f777469158f0bf51ae731bc58d0b05b83c3bdfbdf7e3406d"
+      },
+      "source_pack_id": "original-english-reference-v1"
+    },
+    "nism-primary-market-definition": {
+      "id": "nism-primary-market-definition",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Financial Markets"
+      ],
+      "url": "https://www.nism.ac.in/revamp-nism/investor-education/what-is-securities-market/",
+      "title": "NISM: What is securities market?",
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/nism-primary-market-definition.json",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/nism-primary-market-definition.json",
+      "identity_sha256": "b3407c6090af806331e8a6368ef4c25f3755678a882c2eb0dc5bbf57b9680734",
+      "extraction_sha256": "b3407c6090af806331e8a6368ef4c25f3755678a882c2eb0dc5bbf57b9680734",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official investor-education excerpt for local educational verification; no unrestricted republication claim",
+        "reference": "https://www.nism.ac.in/revamp-nism/investor-education/what-is-securities-market/"
+      },
+      "facts": {
+        "definition": {
+          "text": "One of the main objectives of the primary market is to allow companies to raise capital through the issuance of securities"
+        }
+      },
+      "supports": {
+        "definition": "948f44c2ef447d2d0f7ebd53c5425f3885e821b5eca7f99eebc66c1e476232b4"
+      },
+      "source_pack_id": "original-business_studies-reference-v1",
+      "capture_scope": "First normative primary-market clause; examples omitted"
+    },
+    "sebi-secondary-market-definition": {
+      "id": "sebi-secondary-market-definition",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Financial Markets"
+      ],
+      "url": "https://investor.sebi.gov.in/securities-stockmarket.html",
+      "title": "SEBI Investor: Investment in Securities Market",
+      "file": "artifacts/question-factory/source-diversity-2026-10-07/sebi-secondary-market-definition.json",
+      "extraction_file": "artifacts/question-factory/source-diversity-2026-10-07/sebi-secondary-market-definition.json",
+      "identity_sha256": "a3799396ffb2003ca5a40a214e4555a08c06aed81ae2ced7df341defa68eac96",
+      "extraction_sha256": "a3799396ffb2003ca5a40a214e4555a08c06aed81ae2ced7df341defa68eac96",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official investor-education excerpt for local educational verification; no unrestricted republication claim",
+        "reference": "https://investor.sebi.gov.in/securities-stockmarket.html"
+      },
+      "facts": {
+        "definition": {
+          "text": "The Secondary Market is a place where an investor can buy/sell shares or securities from another investor rather than the issuer."
+        }
+      },
+      "supports": {
+        "definition": "c66033a5b777ffa9a641098a94d8bfec3d0ecbebeee6037a1621fffc04e7cc2a"
+      },
+      "source_pack_id": "original-business_studies-reference-v1",
+      "capture_scope": "Complete first secondary-market definition sentence"
     }
   },
   "families": {
@@ -17639,6 +19197,1806 @@
       "version": 1,
       "source_pack_id": "original-economics-reference-v1",
       "kind": "original_practice"
+    },
+    "original:0a27f308377925246465b8c7b64246fa": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:dffb2044ebcb43f66bf26fe470c48227": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:a65d834b667f318d9ce07a34d6cf8daa": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:c203c2a940ad8a1d108e7ef7c802b278": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:802be37438b2e90cc1fb6912b73aa8a6": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:88ed950b9b61ccadc5096692b8695217": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:a7bd660f711431eb12cea1b99dd3ed36": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:5d150ead4cb95cffe2221629901079ba": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:a71cdb82b29b772bcc13f617f52bfef0": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:7e37af3d60a0835b0ed8e531ae2c3bfb": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:783a0d212622dcd4d7e24d3b361e354b": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:efd5073278a5b9862be45fb89c7e7cf6": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:288cc9c74867c52469c363a05e6ec5d6": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:186883495227d500d69134d02e1a5adf": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:b7b7e9358ed2fc2a03d80893a060d198": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:2130f881886cb0899ed42dbb4880e51b": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:05a2f46d60a39f85982d79dfed56548d": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:a68b518be4fdf34048c1a685de2fee51": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:6c03291a2924115aeec20daef514568d": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:9cad22a17f57ed29322e49747ffe701f": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:6e65669238f8a31b656dbe0e711a7e70": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:5dcebe35b11f524fa86438bfd1152cf1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:13baa89b0354877f55f5d8a5c4afaa7e": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:f1d9a9559a3f9b3baba787ccf0352a22": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:65e181043829eb4b07115b16cac9368e": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:0d4d5566fef9f2a3167a96717793eab7": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:c75313e141bddbecc44c62cb699ec822": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:5cd149f756ab4e714141f5d867568278": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:52ba1c880e20cb768ef21babc18c3576": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:78974a8d0b752519fe9b85f1360c082f": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:0ea7587b18211fd4b7a68a8bfbd3ac81": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:cf0cdc1a6ae67bfefbb368b8e96a2685": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:caf64533776f7028ddaf9d21aa5c5a9b": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:1e446d2c4fe8062640b863b9fc58c95c": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:7a4a153298a99d5ad159b702645ebbd2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:dfeee6cd3594e1857279e51d81298c30": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:5555ae878321fe6cf96722a52f4b6a7b": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:a55cd52550264c7f7b367567554bd15d": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:86ce1c38fcc1a0b398e1b772635cf69f": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:4767cbd768b8eb550ab330182c3f929d": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:0166182252bbd35e78a67e62375f3773": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:b0cff23b9f6e32d1a1a334ce7c2f3d31": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:0b39abfc5d9cbf507cee0d0cafd79d16": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:14b9a08153be30e61e5eb1206ef12b88": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:046fbea2fa32f53330c59391022b2bb7": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:0323b52cf7f0559e105b712c855b9c69": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:1d2b08bbf9a859256ec9a15c8ce8981e": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:4115a8da29d5db85791e1ebac2a51510": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:7d4f9cd896720a1363a56c34bc4b9c7f": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:bc63d5a17a5312fff9c3fd219f7a949e": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:09589dc0ae8bb2d6fe9d7da47b9e142c": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:47a4dee6a1ea6f25e5fbe174d719295a": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:08ad320eb1c269d513722c6ccb2aea13": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:5002095300ec7ecc5ee50c532d6410ee": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:8d13890544952cfd5a424abfe1e7a4a2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:6c41b3b4bb651d5bc1ceec2a386935fd": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:a4d80d1a0ff12c6bb111a305e08fdf79": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:f959a64560ef78541891bf9ad5caec87": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:559faf76f7e7e566fc44bf875c5d9370": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:0b91f109767655fcbba9740ce805eeae": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:3c228a8b754b4e9ac6f0cfa37f8f92bd": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:f29bdfa666f5575a28dfe749ec329a45": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:30c559b7cee4ab97a2a9c9c85ca4bd30": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:f11ef5eebac10bd2383fa48f1b3e2ac3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:63d0bf8816190dc2b39ed3a6956ef437": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:b8a35951561b0ad8929b3334534212a9": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:e7da4e590c4ee3a50663a7372e74af63": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:e30a79f8c520a84adbad10ab1e75ec9d": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:1a2c585354c150236adece19594fc02d": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:7171ab3d5c3a800442da13b15e1d4bfa": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:90e1807ce32ab631df636473068579cd": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:7a4cd41414c7d65e47de1f074165fd74": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:7b67fad56805f9aece19574457d968ba": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:5482e7dfb92bb644e603093b75664fe7": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:90ec25792703058c191b0275f1912a44": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:9e62010f5c2d2f0291f8874bd0f108bc": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:a086a294fae62986ef3cc7451ac08f81": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:b3d1f652d7e33e434ffa0ec9bac5705a": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:38cb4b550d35356da23677aea7916afe": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:5b7da85f1e8f63828638edbab860c4c3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:2094d96bab39ffe581a046de8c17d1c1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:7f246a7a17b3c8fcc02e38fc52c002d6": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:c9e19d3d4cee019a266e65fb12d0b210": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:b26c48b73d3af972154a476ba7d8f802": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:39af008bc1378e6241a557b408e9231e": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:c1200fc6d87fe7c96f3b0bb492e919e8": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:d3914d5feb8c26b4f85a31d0a89a65ba": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:f3640bb9d15db1f5760e2a3af21c9de4": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:c8bc69b2f74ad69e04c7281c8711350c": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:3c8d31764c62441ee2a27c97059c5b08": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:95330eb8759182117ede979f793b3730": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:9750891401f489a13a07efd08dd5ef18": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:397e3da3c1165567498dfec7e69441a2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:a4f5009dafb38b88e70ca4a41605931d": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:f6b9ec075f306d1a7094e35b3b7d0810": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:e19e65cb0bf8741eea6dbd48826f6566": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:386dca46542a02901d2837324bf0b69e": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:62e100e42f36266d6d34568360f3952a": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:a0edb4867a7ef1d83ea436bca72ffaa3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:3c554d365bf8cf8ec3b8976f5a1e9ee3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:1aca16379d61c37b5f84487b136b87e8": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:8db21066f07df1c0d4c26f46abb01866": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:74d976848985c48f5b5697a9203b959b": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:576dc4a91d39eee85df6729f99ed8a96": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:66e4697bc7076cb177be755f3046ac71": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:40f5a079c78b73071b6f8e88df589c6e": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:b1203f7f3231b57d0a610f14f17cf1a8": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:c8c84f0d38809205de6570a864ae4a66": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:843dbff98d887fa97d091dd73de2b1c0": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:6e1136f379358985d63524831b9971be": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:e0efc66b54bc8aab89939e99970f901c": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:14eec8eff7926ca92409549e6da4973d": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:c7215261f1e55247d54ae4ebcfa5c7db": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:69c08375f5218d8cc766ab0172bc7d95": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:9d134d424cc6abd3b6e68b7b66773b24": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:d9110e80bb26a1232515cd85ea85c2ea": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:9721d9b0f1f334d38af2ef240c62e70a": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:21380dd66b3bbb0f1ed0379e901ffe14": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:de3f511b3cdd2ae9a202b927930abb80": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:c696b0691dcda100924ef54aad29a825": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:f7119751c3481939c8fbb406810d5ff1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:b71e96d2bb78a3ada6a3a46e7129aa05": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:7b9747022fdea215e8fec49f152d33d1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:82876d025acfb9d500d6c12bcd73b0f5": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:9237512a3a83da1470593cf713987e5d": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:d5a72860eed760cfa88f777f9df2a8c1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:7c913405b9c72a8018916e6973400835": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:7f382445de62bef342181b3af8c40ce9": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:4ce0bf1aeb945873ee29e20bbc291e1e": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:5a5e71057bd2bc1c0f7ff900aa0e25e3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:b9ba1bafc94d058b0749f29b2a6ec259": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:4e6f0b3f57cb181f2829778fd79c8b75": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:439a8aa212beb334290dffd2e0046d87": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:1a110e0153deaeefdb7957fc6fc4adb6": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:e4f0369ebc17d8a8718d8fcc47cb7742": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:2b09339c607845df5a016eef26a33611": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:5e199ce624a9f0d720290c5bb8d7e48b": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:2a725f63f74147af7156c4c7d8fd271b": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:0b9d918c8bf85c6decd4f2cc47920fcd": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:f5dcf4c0d1ccf4c1f1db3e308289742c": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:8d05b5af0b17421d5f30f945d84a0b98": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:e70b85dac7db634d33a1ef94b692c709": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:fe6e286d13655d4c965ceaccbf2b65fc": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:36982fb3d14ee65aff25b2601c9768ed": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:8a44c777772fb954fd0b36b9907e1b47": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:7495561895a7cc62606152590df752e6": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:d969351168999ffc0b7148656e7e361a": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:472649398aea0050e35860544ec8f803": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:f2af0e9817e43ed2da3c4ce215c058bd": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:321aff6a1d23a1e7c42ad48dc61d7bd6": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:058e3838e0aa7b6fd6e856e5f007874c": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:7764c6cc5d247f5a41f9643334807783": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:3a4fb951521a500585e594e37c05655c": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:d569af4c8cb225ac6ce8a9e56e74316c": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:6ea53193d76d8487afcee3793f3e867e": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:e3e527f9757d9efbe3a207bbd753be49": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:618a6b7e123cffb6719a9fd7b0b88e05": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:8902a01efc6678d1e84e74ac155b13ab": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:3c3dc84340e498d008434f1ac09fe859": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:a456cb49a0a5eccf2e12cbbd591f608c": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:2e3bbaa7c7587fca733680c45013ea68": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:1514806a6e8022cb91b0c27a0fce1404": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:8bb58d9e6c26546c0a2f3592424e070a": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:16c797c8408fc9ba8756b60ad446fca1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:8b7de18aae93288768547c30c348e728": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:515954339906a6c49efc4423523f9b6d": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:b73886f6d75f5eeaa07547eaa7d93f31": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:41cc615aea2de7a739208eff94f81af0": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:73c3c2cd2255cbbb03c466b8b3a89273": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:eea59608d26fd48fe31d175d5419027c": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:97c1905bbdc3283108e181a3c8eff727": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:5f2b6c7e884a9c49ce67f2939e5abb6d": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:64beb5aa6c1055b952e57ac43dc13ecf": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:fb730c06677c81e8bc5dfa47822cb49e": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:08dd617023c37fb90cb529db7cfbf13c": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:55758cb8cbdb5096897a4a447c435626": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:99fd8c060e5861d9bdb811e641dd6138": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:749c7d54f592dbfc93ca164595ca5cff": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:20d17d6168c3fbf2eb5c0ee350eaf85e": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:0de322e27637f76ac593c99028e4cafa": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:8b7a12e7cce479ddec3b443b1a09f92a": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:57842ace59d6faa4a4eafedd7411fe40": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:e9b2f62cc47bd224b0a1d39323ed215a": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:6fab29cd296a469da2128386c355f75b": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:c839b6df6f8f5e3d80451821bc4be32e": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:559f599c8fa9caddcb113a5b81282e96": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:22f30f28d5016fafaf9555efee095db3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:04ca2fca91db21c308168c9b235e64d2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:49903f236d25c1673b31b22d90fc7b6f": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:f24037a5c7979713d15504a8f1704fbc": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:fd9eaf33932c7909306fc591a15f48b6": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:1e75296de0cba07b1de99b7755bb4952": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:765c28539460d21e44556e18f6ea5dc3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:9282c0283babc2024ac620ed60b57826": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:503c33acf0f9dcf7fa763bdbe91d9559": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:2c8b0866864628fdac320cbf3f44005b": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:7c338ab4c57c4e44e847e4777a8831f5": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:8a22899760eeac80109c033f919d3933": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:7090d9e2e218732200960586d6371158": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:2ae58f936c168e6cfef75783e9a30e7f": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:aa457563a906481660791e4d051e9e90": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:8db859a1b7eab5aac1eb13818e0863fc": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:a601205cfe584a89b63c47661c258937": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:379191f2d6fa6e4844bf6a8b159f1a10": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:762829e64d0018f9924de752e31fb832": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:eca81275b02255f4ecf591c4ff5b3d47": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:a7bb8bb4cabed4cc11d13a431a776674": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:e75c7604908254529c7572bda2c4b722": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:21ffdb2198b350582fa6e53d8a820211": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:4ce51f89959ceb021a0f5cfd78f63779": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:a1cfa36df1658a324564c0ee4bb3b017": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:bf18390487fde0f4f26df578e1964dce": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:056d994754438131e76f75a3c1895aeb": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:08c9dff7d4a536b90a7b7ad46e092703": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:f547e34627af9ffec31cffd2d0d62be9": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:085008293e76ae369f244c779d29a881": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:9b36b0de835e19b77a09ca3890248ee5": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:2ba43117067ffb85467af3eb10a9a830": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:24e40787d738137e8f0bc0c5b96c3cf6": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:a64559586761c9cafcfd80def1465390": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:8b93316006439c791a59e7a5a664f278": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:8557c1f8bc775dbb27a8c2b573a4c270": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:92d0afb657c60d04ead0b8d703fcf2da": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:e1bb094dfc30c287fd5ac812e36d5e33": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:c5961ca1d655542533164e7482307b11": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:4d1474bbca273433a06f52cef6bdfa0f": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:3e24faaf986f39dacd89d1e110a13977": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:ab88331cb73174bccf711347687aa114": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:a76c2902dc3bd41ab0fa392c8976c038": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:ebf652f74499cc6576e60a66d2431fe7": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:5c0ff3b273ed93f68d50e597fc817afd": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:b9d558f76b4702bad146d381c4289fb7": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:0a5d684ac4445eb4e0cabeca21732272": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:b4a6b9968fb263876b9ddf0dd7f59cd1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:0360649207e9916cce44288fca2e07ad": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:3f85b818e2d559e10cd2f2dc60fc59e7": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:a87b45a648099096ccf7573e8acd92a8": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:d35d364a52e95ed58aba9d18bf93a510": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:a25781f0b866bfc039191e3c39d12110": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:93ed281468941f09ececd8de355f0f25": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:3d6cd0d245c012affa858becdafa9364": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:5d28611ca5fbc546daf8c238a3676a39": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:fc12836b37d00e78eab62562a34926bb": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:4a75b3dbae759dd8001d1f124ba35314": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:b76c0339e7546132fbe0a2bf21aabd63": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:28968dad06b34229528d2e1a3d2beb4b": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:df59a848a1ac8df50851cf914a193e1e": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:7b4662c4e2166c62f863a6ae1da78ba6": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:24bc774e92f50c1d451abdcdaac8d7b4": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:c7e234f4e2e65065d34375bf7cd7f8f7": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:5f26152b53fefae18cd68e26bc206ecf": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:5ff905a96b12e94b7f90e53d699d5160": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:bd6ee0839dba5995f84adf40a31ad10e": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:296e6c135c976583eb0f54b193502fef": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:07d4b9e7ee63d8ec0174de729131afbb": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:3d6eda9fbb38c16c89857de099a99096": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:627e9d4ef2432eaf705e52fcab7b7a99": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:865bfa291ab89dccd088f14affdb8440": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:e60626a40aa29da30296f560b1588371": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:9ce3fb4242533fcf41124b09c530b220": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:e0cfe81041f8ab2aa13c68770042ed62": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:38364514a4867d5284ba67f6bc271711": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:2b79e114731558f4af89074accfbe63e": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:ee105beccb596e159dc0091a541c619f": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:24ff7d610823ce693405abfbdfc938f6": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:16ce97d1487c7f508ba64a0309be38fd": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:dc12ed0398378043105490220f051527": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:3a4c2ec45488f735267ef08d67f61ff9": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:25bdc704a2e39355c5281c510905147e": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:2e373a55b26c273d4a20219f6f2bd3a6": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:03af9b8d66acc25de02057a70a47d0f8": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:3567fb5736b09efcd72b7d417d28aa88": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:daa666e1007ecea50139579ad1e4ef8c": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:ed7bb5598ff5e89266efbdd5501f84a2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:000dbae7a50bc0c0da4bd885d0b1be50": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:afa748cb2aa84953f846bad4cda2c9ad": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:cdc3a551a3bb3c1b64042e7644776205": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:8713294e0e153ddde7b00ad24a2b72a4": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:bd4f58e44864fb13c551cd163812857d": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:9a07155af82a2b624816a95ebef08d77": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:a5a7a58c64716aee1144d2e29d409bb2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:8c1cc9b05e28b915f65be085a1f701f1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:bd47a6f6756de11e42e75967d477b7d4": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:67e0304f12f707fb58d2769d90e85798": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:30c3a34367918e4e32226824d48c4813": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:5740306fa88c829b6907f6410bb4e246": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:b64c22f983e97bbc5e915898ba0085ea": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:642c90266fa0dcdd6f6b1fb8259c144e": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:8ae5b51a291e1e4af741fed6b275739c": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:e28748f678ef9c8fff1c553cb667a2a2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:abe7a511fc305acc8e503d33a8a9db99": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:dfe119a36518933ac33780d01f3d313a": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:a569c7716fbd8a493df492763edd4c21": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:9f7f0f7e4c9d5cb5e6670be2479da5f2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:b9f3a426b4105a7edf8aadd6ef3988dc": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:fe969660f7f1fb6be5d0305e84b3381d": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:1df755826f9078ec6ff1992c51d38b83": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:a43e4ed4da2d61880e22e782b791e212": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:a726aeaa9f7ce193c5ee5ed4e402698e": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:90c0efb048add1dbde2112db46487d91": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
     }
   },
   "note": "Empty deliberately: existing manual seeds and heuristic scores are not authoritative evidence. Register versioned permitted source excerpts and calibrated families before publishing.",
@@ -17795,6 +21153,81 @@
         "a7f5602d503e09f30b82213e7c5488a6",
         "a3296257e1ff5d15070198ae98035985",
         "e057dc90b0f9fce0ace320e654565899"
+      ],
+      "version": 1
+    },
+    "original-passage-0135ed8f8e471127a501": {
+      "state": "active",
+      "kind": "original_practice",
+      "passage_text": "Rohan volunteered to carry a box of costumes to the school hall. On the way, he saw a younger pupil looking for a lost notebook. Rohan could not search while holding the large box, and he knew the costumes were needed soon. He took the box directly to the hall and asked another volunteer to help the pupil search. When he returned, the notebook had been found beneath a bench. The pupil thanked both of them. Rohan had initially felt that leaving the search meant refusing to help. Seeing the result, he realised that asking the right person could be useful assistance too.",
+      "source_pack_id": "original-english-reference-v1",
+      "id": "original-passage-0135ed8f8e471127a501",
+      "candidate_ids": [
+        "288cc9c74867c52469c363a05e6ec5d6",
+        "65e181043829eb4b07115b16cac9368e"
+      ],
+      "version": 1
+    },
+    "original-passage-e61fbe708891c20af994": {
+      "state": "active",
+      "kind": "original_practice",
+      "passage_text": "The painter covered a wall with a pale morning sky. Before she could finish the birds, evening sunlight turned the colours warm. She stepped back, displeased that the light had changed what she had planned. A boy standing nearby said the unfinished shapes looked like leaves caught in a breeze. The painter looked again. She did not erase the sky or declare the boy correct. She sketched one clear bird among the remaining shapes and returned the next morning to see the wall in the light for which she had first designed it.",
+      "source_pack_id": "original-english-reference-v1",
+      "id": "original-passage-e61fbe708891c20af994",
+      "candidate_ids": [
+        "0a27f308377925246465b8c7b64246fa",
+        "a7bd660f711431eb12cea1b99dd3ed36",
+        "6c03291a2924115aeec20daef514568d"
+      ],
+      "version": 1
+    },
+    "original-passage-c661bea9b68ff7abe06d": {
+      "state": "active",
+      "kind": "original_practice",
+      "passage_text": "Dev kept score during a friendly cricket match. As the players packed their bags, he noticed that he had counted one run twice. Correcting it would turn his team's victory into a tie. He showed the scorebook to the captains, who checked the recorded deliveries and agreed on the correction. One teammate said nobody would have noticed. Dev answered that noticing it himself was enough reason to check. The captains changed the result without replaying the match. On the walk home, Dev felt disappointed about the lost victory but relieved that the scorebook now matched the game.",
+      "source_pack_id": "original-english-reference-v1",
+      "id": "original-passage-c661bea9b68ff7abe06d",
+      "candidate_ids": [
+        "c7215261f1e55247d54ae4ebcfa5c7db",
+        "9237512a3a83da1470593cf713987e5d"
+      ],
+      "version": 1
+    },
+    "original-passage-0c5cbbed83a8f6a1c585": {
+      "state": "active",
+      "kind": "original_practice",
+      "passage_text": "For years, the brass bell above the shop door had announced every visitor. When it cracked, the shopkeeper fitted a quieter bell. His daughter liked being able to hear a conversation without interruption. He still turned towards the door before the new bell rang, expecting the old sound. One evening, he placed the cracked bell beside the till rather than returning it to the doorway. A customer lifted it gently and recognised its worn handle. The shopkeeper smiled. The old bell could remain part of the shop without being required to do its former work.",
+      "source_pack_id": "original-english-reference-v1",
+      "id": "original-passage-0c5cbbed83a8f6a1c585",
+      "candidate_ids": [
+        "1aca16379d61c37b5f84487b136b87e8",
+        "b1203f7f3231b57d0a610f14f17cf1a8",
+        "de3f511b3cdd2ae9a202b927930abb80"
+      ],
+      "version": 1
+    },
+    "original-passage-bd9ef81cc82883c1bb47": {
+      "state": "active",
+      "kind": "original_practice",
+      "passage_text": "Amina practised a speech until she could recite every sentence. On the morning of the competition, the organiser shortened each speaker's time. She tried to speak faster, but the words became hard to follow. Her teacher asked which idea she most wanted the audience to remember. Amina removed an anecdote and two examples, retaining the central argument and one supporting example. She finished within the new limit. Afterwards, she missed the anecdote she had enjoyed writing, yet she could explain why it had been removed. The shorter speech preserved her purpose even though it did not preserve every sentence.",
+      "source_pack_id": "original-english-reference-v1",
+      "id": "original-passage-bd9ef81cc82883c1bb47",
+      "candidate_ids": [
+        "056d994754438131e76f75a3c1895aeb",
+        "c5961ca1d655542533164e7482307b11"
+      ],
+      "version": 1
+    },
+    "original-passage-7e691ebb38511efbe5f9": {
+      "state": "active",
+      "kind": "original_practice",
+      "passage_text": "The station clock had stopped at ten past four. Each morning, travellers looked up, checked their watches and continued towards the platform. The tea seller never corrected the clock; it was beyond his reach. One afternoon, a child asked whether the trains had stopped too. He pointed to a train sliding past the far platform. Its windows caught the sun one after another. The child watched until it disappeared, then looked back at the clock. For the first time that day, the tea seller noticed the contrast himself: the hands stood still above a place where almost everything was moving.",
+      "source_pack_id": "original-english-reference-v1",
+      "id": "original-passage-7e691ebb38511efbe5f9",
+      "candidate_ids": [
+        "aa457563a906481660791e4d051e9e90",
+        "a7bb8bb4cabed4cc11d13a431a776674",
+        "24e40787d738137e8f0bc0c5b96c3cf6"
       ],
       "version": 1
     }
@@ -28678,7 +32111,53 @@
         "mockmob-v61-workshop-stimulus",
         "mockmob-v61-bookshop-stimulus",
         "mockmob-v62-birds",
-        "mockmob-v62-museum"
+        "mockmob-v62-museum",
+        "oxford-quality-ambiguous",
+        "oxford-quality-resilient",
+        "oxford-quality-plausible",
+        "oxford-quality-assertive",
+        "oxford-quality-sceptical",
+        "oxford-quality-conscientious",
+        "oxford-quality-versatile",
+        "oxford-quality-reluctant",
+        "oxford-quality-sporadic",
+        "oxford-quality-vigilant",
+        "oxford-quality-indifferent",
+        "oxford-quality-discreet",
+        "oxford-quality-inquisitive",
+        "oxford-quality-optimistic",
+        "mockmob-original-stimulus-diverse-82f403d58e9dcb6ec291",
+        "mockmob-original-stimulus-diverse-b68ce49974f19052c19e",
+        "mockmob-original-stimulus-diverse-c30a4349b9045ae344c0",
+        "mockmob-original-stimulus-diverse-e582ff65fb4ec14d5e5c",
+        "mockmob-original-stimulus-diverse-1c50ae82eadd1e146363",
+        "mockmob-original-stimulus-diverse-618e03744d2efb5fca2c",
+        "mockmob-original-stimulus-diverse-07ca1a3512fc187e5f09",
+        "mockmob-original-stimulus-diverse-1db049ea642cfdc07dd9",
+        "mockmob-original-stimulus-diverse-510f9bbd4bc64432d387",
+        "mockmob-original-stimulus-diverse-472847ac635002331231",
+        "mockmob-original-stimulus-diverse-4787dc2aae27c45d836c",
+        "mockmob-original-stimulus-diverse-1aac0ed9ae1a8577192d",
+        "mockmob-original-stimulus-diverse-c63fbc9fa21c99a84fed",
+        "mockmob-original-stimulus-diverse-91c02ffcf8f4941d3485",
+        "mockmob-original-stimulus-diverse-417811c0a74bd16691b0",
+        "mockmob-original-stimulus-diverse-2217e25a7820dee25623",
+        "mockmob-original-stimulus-diverse-65ceddcf01346ac5e677",
+        "mockmob-original-stimulus-diverse-cf6856d6e1ff98beb41c",
+        "mockmob-original-stimulus-diverse-d5b819342a779eafd29d",
+        "mockmob-original-stimulus-diverse-5bccc0efd63fcfe655b6",
+        "mockmob-original-stimulus-diverse-05bbe6744d361ebf1979",
+        "mockmob-original-stimulus-diverse-9997ffdb62dabf8aacf5",
+        "mockmob-original-stimulus-diverse-d2844000ff163a362bd2",
+        "mockmob-original-stimulus-diverse-b064a6420839abc60456",
+        "mockmob-original-stimulus-diverse-5afeb19df7f2ee965e1f",
+        "mockmob-original-stimulus-diverse-fb5bfb09a13085bbffd6",
+        "mockmob-original-stimulus-diverse-4efcc3a591240675bfbb",
+        "mockmob-original-stimulus-diverse-b7449defcb67f33e8f15",
+        "mockmob-original-stimulus-diverse-c0e210aa54205cf80a11",
+        "mockmob-original-stimulus-diverse-da372640fcbd743d7544",
+        "mockmob-original-stimulus-diverse-357c4b58483657c5c82a",
+        "mockmob-original-stimulus-diverse-474baeae3e7118e5d696"
       ],
       "syllabus_pack": "cuet2024-english-bookA"
     },
@@ -28720,7 +32199,10 @@
         "ncert-lebs103",
         "ncert-lebs106",
         "ncert-lebs203",
-        "ncert-lebs104-focused-v1"
+        "ncert-lebs104-focused-v1",
+        "ncert-lebs107",
+        "nism-primary-market-definition",
+        "sebi-secondary-market-definition"
       ],
       "syllabus_pack": "cuet2024-business_studies-bookA"
     },

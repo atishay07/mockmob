@@ -7,6 +7,8 @@ import {readBankSnapshot,readAllRows} from '../lib/bankSnapshot.mjs';
 import {detailedCoverage} from '../lib/topicCoverage.mjs';
 import {focusedBriefs} from '../lib/focusedCoverage.mjs';
 import {retrieveFocusedSources} from '../lib/focusedSources.mjs';
+import {diversifyBrief} from '../lib/briefDiversity.mjs';
+import {QUOTE_AUTHOR_CONTRACT} from '../lib/constrainedAuthoring.mjs';
 import {FACTORY_VERIFIER_VERSION} from '../lib/factoryEvidence.mjs';
 import {factoryCalibrationReady,hashJSON} from '../../../data/question_factory_policy.mjs';
 try{loadEnvFile('.env.local');}catch{}
@@ -19,20 +21,31 @@ const db=createClient(process.env.STAGING_SUPABASE_URL,process.env.STAGING_SUPAB
 const save=(path,value)=>writeFileSync(path,JSON.stringify(value,null,2)+'\n');
 try{
  ledger.assertHistoryReconciled();const inventory=await readBankSnapshot(db),holds=await readAllRows(db,'recovery_family_holds','family_id','family_id'),coverage=detailedCoverage(inventory,registry,{heldFamilies:holds.map(h=>h.family_id)});
- const jobs=focusedBriefs(coverage,registry,{campaignId:name,perSubject:25,branch:process.argv.includes('--computerized')?'computerized':'financial_analysis'}),plannedTopics=new Map();
+ const {data:pending,error:pendingError}=await db.from('question_factory_jobs').select('generation_brief,candidate').not('state','in','(quarantined,published)');if(pendingError)throw Error('pending_brief_inventory_unavailable:'+pendingError.code);
+ const planningContext=pending.map(j=>j.candidate||j.generation_brief).filter(Boolean);
+ const jobs=focusedBriefs(coverage,registry,{campaignId:name,perSubject:25,branch:process.argv.includes('--computerized')?'computerized':'financial_analysis'}),plannedTopics=new Map(),prepared=[];
  for(const j of jobs){const topics=coverage.cells.find(c=>c.subject===j.subject&&c.chapter===j.chapter)?.topics||[];
   const ranked=[...topics].sort((a,b)=>(a.usable+(plannedTopics.get(a.id)||0))-(b.usable+(plannedTopics.get(b.id)||0))||(a.formats[j.format]||0)-(b.formats[j.format]||0)||(a.difficulties[j.difficulty]||0)-(b.difficulties[j.difficulty]||0)||a.id.localeCompare(b.id));
   if(ranked.length){j.topic=ranked[0].text;plannedTopics.set(ranked[0].id,(plannedTopics.get(ranked[0].id)||0)+1);j.topic_coverage_before={id:ranked[0].id,usable:ranked[0].usable};}
-  j.source_pack_id=`original-${j.subject}-reference-v1`;j.source_pack_version=registry.packs[j.source_pack_id].version;j.research=retrieveFocusedSources(registry,j,ledger);j.source_refs=j.research.refs;
+  j.source_pack_id=`original-${j.subject}-reference-v1`;j.source_pack_version=registry.packs[j.source_pack_id].version;
+  j.official_syllabus_topic=j.topic;j.author_contract=QUOTE_AUTHOR_CONTRACT;
+  j.research=diversifyBrief(j,registry,inventory,{planned:[...planningContext,...prepared]})||retrieveFocusedSources(registry,j,ledger);j.source_refs=j.research.refs;
+  if(j.research.topic)j.topic=j.research.topic;
+  j.avoidance=coverage.cells.find(c=>c.subject===j.subject&&c.chapter===j.chapter)?.ideas.slice(-30).map(q=>q.body)||[];
+  prepared.push(j);
   registry.families[j.family_id]={state:'active',version:1,source_pack_id:j.source_pack_id,kind:'original_practice'};
  }
  for(const subject of ['english','accountancy','business_studies','economics'])jobs.filter(j=>j.subject===subject).sort((a,b)=>hashJSON({position_seed:a.id}).localeCompare(hashJSON({position_seed:b.id}))).forEach((j,i)=>j.requested_answer_position='ABCD'[i%4]);
  for(const chapter of ['Factual Passage','Narrative Passage','Literary Passage']){
   const siblings=jobs.filter(j=>j.subject==='english'&&j.chapter===chapter);if(!siblings.length)continue;
-  const document=Object.values(registry.sources).find(s=>s.id.startsWith('mockmob-original-stimulus-')&&s.state==='active'&&s.chapters?.includes(chapter));
+  const passages=Object.values(registry.sources).filter(s=>s.id.startsWith('mockmob-original-stimulus-')&&s.state==='active'&&s.chapters?.includes(chapter));
+  const use=s=>[...inventory,...planningContext].filter(q=>q.passage_text===s.facts.stimulus.text).length;
+  passages.sort((a,b)=>use(a)-use(b)||hashJSON({name,id:a.id}).localeCompare(hashJSON({name,id:b.id})));
+  const document=passages[0];
   const source=document?{state:'active',kind:'original_practice',passage_text:document.facts.stimulus.text,source_pack_id:'original-english-reference-v1'}:null,id='original-passage-'+hashJSON({name,chapter}).slice(0,20);
   if(!source)throw Error('complete_original_stimulus_required');
-  siblings.forEach(j=>{j.passage_text=source.passage_text;});
+  const passageRef={id:document.id,version:document.version,locator:'stimulus',support_hash:document.supports.stimulus};
+  siblings.forEach(j=>{j.passage_text=source.passage_text;j.source_refs=[passageRef];j.topic=chapter+': test a distinct supported detail, inference or textual relationship in this original fictional stimulus.';j.research={refs:[passageRef],excerpts:[{...passageRef,text:source.passage_text}],cost_usd:0,state:'retrieved_pending_entailment'};});
   // A lone self-contained passage item has no sibling-group contract. Creating
   // a one-child group would deadlock the two-child atomic publication gate.
   if(siblings.length>=2){
@@ -46,6 +59,6 @@ try{
  save('data/source_registry.json',registry);
  const benchmark=JSON.parse(readFileSync('artifacts/question-factory/execution-2026-10-07/benchmark.json'));save(directory+'/benchmark.json',benchmark);
  save(directory+'/campaign.json',{id:name,preregistered_at:new Date().toISOString(),verifier:FACTORY_VERIFIER_VERSION,registry_version:registry.version,denominator:100,per_subject:25,
-  branch:process.argv.includes('--computerized')?'computerized':'financial_analysis',budget_start:ledger.snapshot(),request_ids_before:ledger.db.prepare('SELECT id FROM requests').all().map(r=>r.id),source_retrieval_cost_usd:0,planning_cost_usd:0,maximum_repairs_per_candidate:1,no_regeneration:true,jobs});
+  branch:process.argv.includes('--computerized')?'computerized':'financial_analysis',budget_start:ledger.snapshot(),request_ids_before:ledger.db.prepare('SELECT id FROM requests').all().map(r=>r.id),source_retrieval_cost_usd:0,planning_cost_usd:0,reused_benchmark_new_cost_usd:0,author_contract:QUOTE_AUTHOR_CONTRACT,planning_pending_context:planningContext.length,pending_items_counted_as_usable:0,maximum_repairs_per_candidate:1,no_regeneration:true,jobs});
  console.log(JSON.stringify({directory,jobs:100,coverage:coverage.total_usable,paid_requests:0,calibration_basis:'Existing completed measurement reused under unchanged content and verification contracts'}));
 }finally{ledger.close();}
