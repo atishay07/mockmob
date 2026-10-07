@@ -8,125 +8,72 @@
 - Cohort 004 authoring finished with 87 responses and 13 provider-confirmed invalid-schema failures: strict quote enums cannot contain newline characters. Failed requests remain in its denominator. New author contract v3 uses exact contiguous source spans without control characters. Existing accepted v2 bodies and idempotency keys are preserved byte for byte; no accepted ID is replaced. Regression tests cover both.
 - At 05:59 UTC the actual lifetime ledger was $9.230111 committed, including pending validations and conservative holds. This is a dated snapshot, not a final cost or provider invoice. Cohorts 003–005 are still in progress. **500 registered candidates is not 500 approved questions.** The guarded worker continues toward 500 new usable publications; current-author-contract forecast remains unmeasured until complete cohorts exist. Content cap stays $50; student cap stays $25/IST month.
 
-- Update 05:13 UTC: original 100 remains completed, 50 production database publications. Four fixed continuation cohorts (002–005) are processing; 500 registered candidates including the original is not 500 approved questions. Usable published staging remains 50. Current committed ledger total $8.727080 includes all conservative holds; global accounting is not fully settled and no invoice is obtained.
-- Latest full pipeline suite: 295/295 pass; subsequently added economics tests 3/3 and checkpoint tests 3/3 pass. Legacy test fixtures now reflect the existing five-child contract, current passage limit, optional author metadata and required telemetry. Mandatory independent academic gates remain unchanged.
-- Fixed stale undefined `forecast` references in signed-in checkpoint controls. Actual authenticated staging release_1000 and replay return success; an unfunded release_10000 returns 409. Pending new cohorts retain the completed original pilot and use completed cost measurements for checkpoint funding. Actual paginated student feed returns all 50 approved questions with exact keys/options/explanations/passages; rejected questions absent; monthly student-AI cap 25.
-- New transport recovery collects output and error files, preserves failed usage receipts, and never resubmits saved IDs. Four failure-receipt tests and tested bounded scheduler concurrency/receipt-only continuation pass. New authoring constrains quote selection to actual excerpts; future briefs diversify cached source sections, 14 inspected dictionary definitions and 32 original fictional stimuli. Retrieved actual NCERT Directing columns and brief official NISM/SEBI market definitions are source material pending independent per-question entitlement/entailment, not academic certification.
-- Consolidated denominator/cost export and paginated staging/production retrieval commands are implemented in docs/brain/QUESTION-FACTORY.md. Improved unit costs remain unmeasured until the new fixed cohorts finish. Production signing-key owner handoff remains pending; no final student-access or 500-question completion claim.
 
-- Owner explicitly approved deployment of the 50-question subset and continued bounded generation toward at least 500 usable questions and a conditional 10,000-question forecast below $100. The $50 content ceiling remains unchanged; $70 was a scenario.
-- Applied only the saved additive factory migration to production project isrxrxzjocewrdureyhp; transaction succeeded. Published 50 approved questions through atomic RPCs with current stored evidence valid. Production student retrieval remains unverified until the release and signing configuration are complete.
-- Prepared isolated release 0d961f1f3833732b9a0b5c5db0de48f012312432 on current origin/main, preserving newer product features and the original dirty checkout. Release build passes; factory 107, recovery 35, question/payment 61 checks pass. Dynamic evidence JSON is explicitly included in serverless file tracing.
-- Checkpoint budgeting now measures the requested 1,000/10,000 checkpoint against committed costs and retained holds; a $103 ten-thousand forecast cannot block an affordable 1,000 checkpoint. Persistent per-call enforcement stays $50. Two boundary/missing-measurement tests pass. Cross-cohort duplicates and atomic sibling withholding have two new tests.
-- Next fixed cohort cost-native-cohort-002: 100 candidates, 25 each, actual staging coverage before = 50. All author IDs accepted once in batch_6ac5c5843ad88190b6c2b448588f11f9. Native batch pricing for generation, blind checks, repair and explanation auditing; academic contracts unchanged. It is pending and is not counted as a completed yield. Current conservative committed total $7.490159 includes $0.367300 pending cohort reservation and historical $0.011096 hold.
-- Missing production signing secret: owner handoff requested for the existing CUET_EVIDENCE_SIGNING_KEY from .env.local into the prepared Vercel Production secret form. Browser credential-entry policy requires owner entry. No secret printed or sent in chat; independent batch work continues.
+## Earlier release record (retained)
 
-## 7 October 2026 — completed original live generator execution (staging history)
+# Implementation status — latest update: 5 October 2026
 
-- Working pipeline: usable official-syllabus coverage → focused cached decisive excerpts → GPT-6 Luna generation → blinded Luna and independent Gemini checks → explanation audit → automatic inspection → atomic publication → refreshed coverage. Original practice does not require a PYQ anchor; authentic PYQ labels retain strict authentication. Sixteen mandatory gates among 19 criteria cannot be offset by craft scores; overall craft 7–10 may pass. At most one targeted repair.
-- Finished all 100 preregistered candidates, 25 per subject, including all accepted provider requests and receipts. Unique approved: **50**; withheld: **50**. Approved counts: English 10, Accountancy 19, Business Studies 12, Economics 9. All 50 are newly published in separate staging and retrieved through the actual signed-in student API. Production publications/writes: **0**. No fixtures, historical passes or queued requests contribute to yield.
-- Gross cohort usage cost: **$0.515798**, holds **$0**; gross cost per approved question **$0.01031596**. Fresh final benchmark $0.120406; all calibration/preparation attempts $0.422157; execution with preparation $0.937955. Lifetime settled $7.111763 plus saved historical 503 conservative hold $0.011096 = **$7.122859 committed** under unchanged $50 ceiling. Provider invoices were not obtained; the lifetime amount is not fully settled.
-- Conditional marginal cost for 10,000 approved questions: $103.159600; conditional lifetime cost to that target: $109.766661. It does not fit $50–70 at measured yield/pricing. Remaining $50 capacity conditionally supports 4,156 additional approved questions (4,206 including these 50). $60 and $70 remain scenarios, not authorization. Reasoning, rejected outputs, independent checking and repair are included, with stage costs in REPORT.md.
-- Fresh frozen benchmark: 12/12 valid retained, 0/12 controlled defects accepted; both independent blind providers 12/12 positive keys correct. Eighteen old regression examples withheld separately. The 12-defect sample gives a 22.09% one-sided 95% upper bound, not proof of perfect reliability. Live inspection caught model-passed missing financial-enterprise status, an unsupported clause generalization and uncertain step ordering, and withheld them before publication. Free duplicate/provenance guards also removed surplus items. Model agreement does not prove truth; no extra academic regeneration inflated yield.
-- Staging project onwkqxmjqjrhfbjjdydu: 47 migrations dry-run then applied only to separate staging. Signed-in admin authorization/controls, worker restart preserving the original batch ID, idempotent publication, complete passage-group atomicity/rollback, actual student keys/options/explanations/full passages and dispute invalidation pass. Repeated publication retains exactly 50 rows and no new paid requests. Signed-in 10-question quick quotes are available for English, Accountancy and Business Studies; Economics correctly refuses because only nine exist. No complete 50-question subject paper is claimed.
-- Fixed JSONB key-order changes invalidating signatures using canonical signing with legacy compatibility. Re-signed only matching staging evidence envelopes and retained originals; no key, explanation or provider-receipt edits. Fixed null answer-index fields overriding letter keys. The storage compatibility amendment preserves academic prompts/oracles/decisions; it was not labelled a new unseen paid benchmark. Progress writes now use 25-row chunks after a repeated 100-row write hit a statement timeout, and completed worker ticks do not republish.
-- Current coverage: 50 usable unique questions across 32 of 51 official chapter cells. Format/difficulty/duplicates/branch and independent topic observations are exported. Ambiguous fine-topic tags leave gaps open. Accountancy financial-analysis/common and computerized alternatives remain separate. 2026 rules are provisional for 2027; English passages stay within 300 words.
-- Final checks: **105 factory, 35 recovery, 84 learning, 54 question/payment, 7 discovery-feed tests pass**; final optimized production build passes with the two existing image dimension warnings. Rendered admin and actual student answer/passage screens inspected; screenshots saved in staging/. Separate student AI $25 per IST month, existing entitlements and historical receipts remain intact. No captured production payment verification is claimed.
-- Staging worker is paused after completion. Runbook: docs/brain/QUESTION-FACTORY.md. Completed evidence and exports: artifacts/question-factory/execution-2026-10-07/REPORT.md, original-candidates.json, all-100.json/.csv, approved-records.json, rejected.json, receipts.json, coverage-after.json and staging/.
-- Remaining external gates: owner approval for the prepared additive production migration, reviewed generator deployment and these 50 publications; and exact provider usage/billing confirmation for historical request req_b4d44cd7e2164c18bda70d533c3683d5. Organization usage API returned 403 and the provider billing page needs owner sign-in. Retain its full hold; valid bounded holds permit unrelated work. No production migration was applied. Earlier sections below are historical; 10/10-only requirements are superseded by the owner's 7–10 craft threshold.
+## 5 October 2026 — Source-linked study expansion and journey fixes
 
-## 7 October 2026 — premium factory implementation and explicit unresolved gates (Codex)
+Implemented in the isolated `artifacts/study-suite/release` checkout; the original dirty
+checkout and its unfinished owner edits are preserved. Existing Android/offline work is
+retained. See `STUDY-CONTENT-WORKFLOW.md` for inexpensive expansion and correction rules.
 
-- Implemented frozen ledger-bound unseen-benchmark registration, prior-exposure rejection, current-syllabus/300-word preflight before paid preparation, guarded cache-only recovery, full campaign economics and an acceptance report. Added 14 NCERT reference documents and 21 anchor reference attachments; source foundation is not calibration proof.
-- Fixed underscore exam blanks being falsely rejected as Markdown. Disabled oversized English and out-of-scope legacy generation anchors. Current verifier v5.6 enforces the owner's 10/10 craft floor; no blocking academic defect can be offset by a score. Earlier 7/10 admission is historical.
-- Current source registry 55: English 1/7, Accountancy 9/15, Business Studies 4/12, Economics 5/17 tracked topic groups have active supported generation anchors. 32 gaps remain.
-- OpenAI 503 returned no usage receipt: request req_b4d44cd7e2164c18bda70d533c3683d5; unresolved reservation $0.011096 remains held. Lifetime settled $6.172435, all holds $0.018283, available $43.809282 under unchanged $50 cap. No new paid calls after the unresolved response.
-- Saved v5.4 probe: four candidate checks pending; four of six saved native batch IDs completed, two submitted. Receipt-only recovery does not resubmit accepted IDs. New premium contract requires renewed proof.
-- Frozen v5.4 benchmark preserved: 31 positive observations (16 machine-eligible, 15 quarantined), seven completed negatives with zero accepts, six distinct pending fixtures. Six 335-word English items violate the current 300-word limit; no valid-difficult coverage. The fixture file is rejected by free preflight and cannot release current calibration.
-- Historical v5.5 known-defect regression: 18/18 quarantined. Current v5.6: five completed free quarantines, thirteen uncached checks pending; no false accepts. Neither pending nor historical checks count as current release evidence.
-- Supabase dashboard checked: mockmob has only production project isrxrxzjocewrdureyhp, no branches; Campusos has zero projects. No staging project exists. Production REST factory control lookup returned PGRST205/404. No production migration, deployment, publication or credentials changed.
-- Verified 156 tests (76 factory, 35 recovery, 45 answer/selector/payment), targeted lint, final build, local preview HTTP 200 and browser coverage expansion; admin API unauthenticated HTTP 401. Signed-in admin/restart/atomic publication/dispute flow still requires separate staging. Existing build image-size warnings are unrelated.
-- Evidence: artifacts/question-factory/implementation-2026-10-07/acceptance.json, first-frozen-benchmark-recovery-v54.json, staging-evidence.json and logs; regression campaign history preserves older contracts. No completed premium native-batch cohort supports 10,000 within $50–60. Keep generation/publication paused; do not reset unknown usage holds.
+- Current manifest: 21 lessons / 86 cards / 221 task variants; partial lesson coverage
+  in 15 of 54 chapters, up from 8. Seven new concept packets cover Planning, Staffing,
+  Directing, Money & Banking, Government Budget, Share Capital and Accounting Ratios.
+  The preceding 14 lessons and 65 cards retain their exact canonical content hashes.
+- Source-linked authoring compiles teaching, contrasts, concept maps, original checks,
+  recall and printable material once. Strict PDF/digest reconciliation, independent
+  arithmetic and packet/key checks passed with no quarantine. Skipping PDF checks cannot
+  publish; same-version mutations fail. No paid content generation ran.
+- Saved SQL and PGlite receipts preceded current-project inserts. Read-only live plan
+  matched all 79 preceding rows; insert verification matches all 107 current unit/card
+  rows. Share-capital title narrowed to the three stages actually taught through an
+  immutable v2 correction, not an overwrite. Superseded v1 withdrawal follows deployment.
+  No question-bank, attempt, entitlement or balance changes were made by the importer.
+- Recall introduces new cards only after teaching. Corrected sessions link to current
+  lessons. Mixed revision navigates directly and lists learned concepts within the
+  20-concept limit. Results show all matched lessons. Student controls use large selection
+  tiles, explicit assistance choices, specific next actions and reduced-motion-safe reveals.
+- Session validation reads only its bound lesson IDs, with current publication and canonical
+  hash checks retained. Catalog growth no longer increases records transferred on every
+  Continue/answer request. No latency or field-CWV improvement is claimed without measurement.
+- Owner-authorised chapter summaries return reading blocks only, record teaching
+  exposure and do not certify completion. Browser print/PDF action and print CSS included.
+- Optional one-credit tutor uses only the current published lesson or already revealed
+  feedback, validated against owner, version, revision and item before credit reservation.
+  Existing $25/IST-month runtime guard and 10/50 Free/Pro allowances retained. One owner QA
+  explanation completed: one credit committed, provider receipt $0.00032835. Content
+  generation spend remains $0. Same-step saved explanations can replay without a second
+  charge. Removed the obsolete Demo Login provider; server-validated Supabase auth retained.
+- Fresh verification: recovery 35, learning 80, study 22, payment/answer-integrity/NTA/UI
+  45 — 182 distinct tests, all passed without skips. Lint and production build passed.
+  Sandbox build stalled; the normal-filesystem build completed, with no config workaround.
+  Canonical source/content validation and isolated import/correction dry runs passed.
+- Browser preview completed a new Planning lesson, two keyboard checks and the transition
+  into three recall cards. Real signed-in run saved and resumed step 2 after reload;
+  the tutor returned a correct policy/procedure/rule explanation. Server-backed chapter
+  summary loaded in both themes. Comparison/summary at 320/390/768/1024/1440 and short
+  landscape: no document overflow; inspected controls at least 44px. These are owner QA
+  and viewport-emulation checks, not student outcomes or physical-device performance.
 
-
-## 6 October 2026 (evening) — 100-candidate measurement cohort, independent audit and forecast (Claude)
-
-Owner chose a measure-only run while calibration retention (80.6%) is below the 85% release floor. Nothing is
-publishable: publication eligibility still requires the released manifest. Evidence: `artifacts/question-factory/quality-v5/`
-(`results.json`, `cost-and-cohort-report.json`, `independent-audit.json`, `audit-export-*.txt`).
-
-- Cohort (preregistered, 25 per subject, verifier v5.3): 100 planned, 96 generated, 58 machine-eligible, 0 published.
-  Adaptations 52/84, authentic originals 6/16. By subject: English 7, Accountancy 13, Business Studies 17, Economics 21.
-  58 distinct fingerprints; 36 anchor families; formats include matching, statement selection, assertion-reason,
-  numerical and case items; difficulty 29 easy / 29 medium / 0 hard. Rejections: source support 15, repair abstained 13,
-  evidence quote not in sources 4, syllabus/chapter 4, duplicate inventory 3, other 3.
-- Independent audit (Claude subscription session, not publication evidence): 41 publish-ready, 8 acceptable but weak,
-  7 defective, 2 duplicate ideas. Defect classes: self-labelled options, definition-phrase synonym options, an
-  arguable assertion-reason, a flattened authentic list, near-duplicate ideas across anchors, weak distractors.
-  New deterministic lint now rejects 5 of the 7 defects at zero model cost (tested).
-- Cost: lifetime gross $5.73 of $50 (remaining $44.27); campaign window since top-up
-  $2.57; cohort $1.13 = $0.0194 per machine-eligible item.
-  Largest cohort stages: Luna blind checks, Gemini evaluation, authoring, blueprints. Google credit deductions unverified.
-- Forecast: 10,000 at the measured real-time rate ≈ $200.12 lifetime; achievable with the remaining budget
-  ≈ 2277 eligible. Batch pricing (ESTIMATE, not demonstrated): ≈ $102.92,
-  ≈ 4554 eligible. Bulk spending stays paused: 10,000 within $50 is not met.
-- Remaining gates: calibration retention release (or owner threshold decision); demonstrate batch execution;
-  restore presentation of flattened authentic originals; cross-anchor idea deduplication; staging migration,
-  authenticated worker/dashboard proof and atomic publication before any production step.
-- Checks: factory 54, recovery 35, answer-integrity 6, NTA 22, question/payment 16 pass; targeted lint clean;
-  production build passes.
-
-## 6 October 2026 (afternoon) — Factory v5.3 gates: defect regression passed, calibration retention short; cohort not run (Claude)
-
-Evidence: `artifacts/question-factory/quality-v5/` (every gate run archived in `history/`). No publication or site-database writes.
-
-- Sources: approved NCERT leac102/103/202/206 downloaded once, extracted with `extractReferencePdf.py`
-  (identity SHA-256, URL, syllabus version in `extraction-metadata.json`), registered via the reusable
-  `registerReferenceSpans.mjs`. Every reference document carries source-backed chapter coverage.
-  Generation-ready anchors 31 → 54 (Accountancy 24, Business Studies 15, Economics 12, English 3). Registry v50.
-- Gates made consistent: one shared release predicate (`routeCalibrationReleased` / `factoryCalibrationReady`)
-  now governs calibration, worker, publication eligibility and the ledger. Publication previously still
-  applied the old 95% rules. v4+ receipts must positively carry `polish_gate: true`; academic-only
-  calibration receipts are refused by publication (tested).
-- Verifier v5.3: source-backed chapter rule (cited documents must cover the tag; evaluators agreeing
-  elsewhere, or both leaving the unit, fail); unit-scoped syllabus and per-candidate excerpts (largest
-  request 27.4k → 24.3k bytes); two independent Luna samples must both pass before Gemini is paid;
-  decisive principle must be in the excerpts (journal-entry direction included); missing conditions fail.
-- Correction: the 17 "fresh" fixtures were previously evaluated by v2.6/v3.0 and v4 was tuned on them; all
-  calibration is a previously-observed regression check, not an unseen benchmark. Reclassifications
-  (2 official items to known-bad; anchor q29 chapter metadata) are recorded in the fixture file.
-- v5.3 result: audited-defect regression 0/18 accepted. Calibration retention 25/31 (80.6%) < 85%;
-  numerical 2/3, passage 9/13 < 80%; keys 100% both models; 0/14 known-bad accepted. NOT released.
-- Spend: lifetime ≈ $4.6 gross of $50; the 100-candidate cohort was not generated.
-- Tests: factory 53 pass; targeted lint clean; production build passes. Multiline question rendering
-  verified in the Arena preview (desktop and 375px, no overflow).
-
-## 6 October 2026 — Question factory quality-v4: verifier released, generation blocked on OpenAI credits (Claude)
-
-Owner direction: quality over yield (a 40% pass rate is acceptable once; passing items must be 10/10).
-Evidence: `artifacts/question-factory/quality-v4/`. No publication, no site-database writes.
-
-- Sources: 16 anchors gained exact NCERT spans (`scripts/pipeline/data/quality-v4-anchor-sources.json`,
-  `prepareQualityV4.mjs`); generation-ready anchors 21 → 31. Registry v45. Input byte guard raised
-  24,576 → 32,768 (rates unchanged). Missing chapters (Admission, Retirement, Debentures, Cash Flow,
-  Staffing, Directing, Financial Markets, Consumer Protection) need NCERT PDFs the owner must approve downloading.
-- Authoring `cuet-setter-v4.1`: Luna high, NTA setter rules, verbatim evidence quotes checked locally,
-  deterministic presentation lint. New blueprint stage plans distinct excerpt-grounded items per anchor.
-- Verifier `luna-gemini-cuET-v4.6`: academic gate plus a separate polish gate (both evaluators must score
-  ≥9/10 with zero listed defects); unit-level chapter check, failed when both blind views reject the tag;
-  claim-by-claim explanation audit; evaluation cache keyed on exact prompt text.
-- Calibration (academic, polish off): 31 valid official items incl. 17 fresh held-out; v4.5 released with
-  28/31 kept, keys 100% for both models, 0/14 known-bad accepted. Release policy `strict-quality-v4`
-  (overall survival ≥85%, route ≥80%, answered key accuracy ≥95%, abstention ≤15%) replaces the 95%
-  survival floor; owner may veto. Two official items moved to known-bad after written adjudication.
-- Audited-defect regression: 17/18 rejected at v4.5; the circular-flow explanation was still accepted.
-  v4.6 adds a rule against importing a textbook model's unstated assumptions; its rerun was interrupted.
-- BLOCKER: OpenAI returned HTTP 429 credit_balance_exhausted. Four zero-cost holds reconciled; transport now
-  settles credit refusals at $0. Content ledger: $3.161792 committed of $50. Gemini credits unverified.
-- Next after top-up: `node --use-system-ca scripts/pipeline/tools/qualityCampaign.mjs calibrate`, then
-  `audit-regression`, `plan`, `generate`; then independent audit of every eligible item.
-- Tests: factory 49, recovery 35, question/payment 16, answer-integrity 6, NTA 22 pass; targeted lint clean.
-  Production build not rerun for this change set. Test runner question text now preserves line breaks.
+Evidence: `artifacts/study-suite/v3/` and `artifacts/study-suite/coverage.json`.
+Published as `86accc3` on `origin/main`. Vercel production deployment
+`63WAusDST9US1pFBq9ZEhMMb4W42` is Ready (39s build), created 5 October at 02:06:43 IST.
+Live public/auth checks passed: home/Learn/summary shell 200, anonymous catalog/summary
+API 401, dev preview 404, Google-only auth providers and apex-to-www 307. Signed-in live
+Learn showed 21 lessons and the new chapter entries; Pro mixed revision opened its saved
+five-card run directly. The owner's corrected old run now links to the current vocabulary
+lesson. The new Planning run resumes across localhost/production with the same saved step.
+Share-capital v1 was quarantined after deployment; all 107 current hashes still match.
+Rollback keeps records: revert the release commit or disable the existing independent
+study flags and redeploy; no deletes.
+New rows are ignored by the preceding release manifest. Remaining: 39 chapters without
+lessons, deeper coverage within the 15 touched chapters, real-device/offline-pack checks,
+screen reader/200% zoom/OS reduced motion, actual print output, field CWV, delayed unseen
+question outcomes and Supabase CLI migration-history reconciliation. No full-coverage,
+mastery or superiority claim is authorized by this source/self-study gate.
 
 ## 4 October 2026 — Mobile refinement publication authorized (Codex)
 
@@ -1428,26 +1375,6 @@ Source changes (not yet deployed; deploy needs `AI_LUNA_MODEL` optional and the 
   Production readiness/live smoke pending at this entry. Physical phones, screen reader and CWV
   gates remain open. Unrelated AI/commerce/payment edits retained locally; no migration/paid call.
 
-### 4 October 2026 — guided tour published
-
-- Final commit `6c5e05b6562830fc2e12450a87846eb8c678f0c2` is on `origin/main`.
-  `Vercel – mockmob` succeeded at `2026-10-04T14:16:25Z`; deployment:
-  https://vercel.com/atishay07s-projects/mockmob/5LCkkWSUNNWQU3KoWt1BvLkDpYTd.
-- Live www serves the new chapter strip, progress and Up next controls with HTTP 200.
-  Apex redirects once (307) to www, then 200. The former feature dropdown is absent.
-- Live phone playback advanced to another chapter after ordinary vertical scrolling.
-  Fresh production tab checks confirmed actual 320/390/1440px viewports in light and dark:
-  zero root overflow and no tour controls smaller than 44px. Desktop playback resumes when
-  its media enters view. No captured browser error logs in the final smoke.
-- Evidence: `artifacts/tour-refinement-2026-10-04/{github-status-final.json,live-http.json,
-  live-responsive-final.json,live-phone-light.jpg,live-desktop-light.jpg}` and local build,
-  lint, nine-test and responsive/motion observations. The final small phone-caption change
-  passed targeted lint; the exact final commit passed Vercel's production build.
-- This post-deployment receipt remains local. Unrelated AI/commerce/payment edits remain
-  untouched and unpublished. No migration, paid call, signup or purchase was performed.
-  Physical swipes/momentum, screen reader, actual browser zoom/reduced-motion settings,
-  controlled CPU/network performance and field CWV remain unverified.
-
 ### 4 October 2026 — connected preparation suite verified for rollout
 
 - Implemented shared Today sequence, Learn, server-scheduled Recall, durable versioned runs/events,
@@ -1479,7 +1406,6 @@ Source changes (not yet deployed; deploy needs `AI_LUNA_MODEL` optional and the 
 - See `STUDY-SUITE-2026-10-04.md` and local `artifacts/study-suite/` receipts. Real Android/keyboard,
   screen reader, actual 200% text/zoom/reduced-motion settings, field CWV and delayed unseen-question
   outcomes remain unverified. Rollback disables study flags and retains learning records.
-
 
 ### 4 October 2026 — preparation suite published
 
@@ -1532,412 +1458,124 @@ Source changes (not yet deployed; deploy needs `AI_LUNA_MODEL` optional and the 
 - Final signed-in live Today showed the same resumable study run, twenty-minute preference and
   the 4/6/10-minute sequence plus full-mock shortcut. Temporary viewport overrides were reset.
 
-## 5 October 2026 — Published expansion and clearer study journey
 
-Live implementation is in the isolated `artifacts/study-suite/release` checkout, published
-through `86accc3` and `23ac1ddac20600865d94cd04843fdc36113e0a08` on `origin/main`.
-The latter Vercel production deployment `628qJMZ5zB1ABCnb2iu1GiN4scG9` is Ready
-(40s build; 02:21:12 IST). Original checkout remains at `6c5e05b` with owner edits preserved;
-reconcile deliberately before publishing from this older checkout.
+### 5 October 2026 — Learn rebuilt as one connected loop; content v2 across four subjects
 
-- Seven source-linked concept packets added: current 21 lessons / 86 cards / 221 variants,
-  partial lessons in 15 of 54 chapters. Baseline 14 lessons/65 cards keep their exact hashes.
-- Reusable compiler/source-validation workflow produces lessons, recall and summaries once;
-  no paid content generation. Strict PDF/digest, arithmetic and key checks passed. Saved SQL
-  and dry-run receipts preceded current-project inserts and immutable correction withdrawal.
-- New cards require teaching; mixed revision opens its saved run; corrected sessions link
-  to current content. Large selection tiles, explicit assistance buttons, specific next
-  actions and optional one-credit lesson explanations improve the connected journey.
-- One owner tutor QA call committed one credit, provider cost $0.00032835. Existing AI and
-  wallet budget guards retained. Existing Android/offline work retained, not rebuilt.
-- Recovery/learning/study/payment/integrity/NTA/UI: 182 distinct tests passed, plus lint,
-  production build and live public/auth checks. Signed-in mixed revision, corrected-run
-  navigation, saved lesson resume and Planning completion passed. Its daily cap correctly
-  schedules three new cards tomorrow after five introductions today.
+Owner feedback: "Even I cannot understand what Learn actually does." Diagnosis from the live/local walk-through:
+Learn opened on "Start recall" before anything was taught; the English "lesson" taught the recall method and no
+words; cards were bare dictionary definitions; lesson completion did not lead to recall or practice; starting a
+second lesson silently resumed the first (the database resumes any active run of the same mode).
 
-Detailed status/workflow/evidence are in the release checkout's `docs/brain/STATUS.md`,
-`docs/brain/STUDY-CONTENT-WORKFLOW.md` and `artifacts/study-suite/v3/`.
-Remaining: 39 chapter gaps and depth within touched chapters; actual Android/offline,
-screen reader/OS zoom/reduced-motion, print output, field CWV and delayed outcome checks.
-This is partial curriculum, not a claim of complete coverage or proven learning gains.
+What changed (branch `codex/connected-study-suite`, on top of a6a61cc):
+- One loop per concept, stated everywhere: **Learn (5–7 min) → Lock it in (2–3 min recall) → Apply (chapter
+  practice with marks)**. Learn home gives one next action (continue / due review / recommended lesson, subjects
+  rotated by fewest lessons read or by recent practice mistakes), then subject → chapter → concept with status,
+  "practice available, lessons later" for untaught chapters, study record and mock shortcut.
+- Lesson overview: objectives ("You'll be able to"), "How CUET asks this", three-step status, contents, sources.
+- Lessons: idea, formula, method, worked example tables, common-mistake callouts, word sets with WordNet examples,
+  numbered practice passages; quick checks with per-option "why that is wrong" feedback. Completion screen offers
+  Lock it in (that lesson's cards), then Practise <chapter> (`/dashboard?subject&chapter&mode=quick&count=10`).
+- Recall: one card = one memory with rotating task variants (meaning in context, gap fill/spelling, synonym or
+  opposite; numeric/ratio calculations; scenario classification). Answers checked exactly (equivalent fractions,
+  ratios in lowest terms, ₹/commas, British/US spelling from the source). After each card: when it returns.
+  Summary lists remembered/forgot with next review, reread links and the Apply step.
+- Server: `set_aside` transition closes an older active session (history kept, nothing introduced) when a
+  different lesson or focused recall starts; same request resumes. Per-unit memory status, lock-in availability,
+  explicit `DAILY_NEW_LIMIT_REACHED` / `NOTHING_DUE`. Unchanged: 5 new cards per IST day, >20 overdue pauses new
+  cards, FSRS 5.4.2 defaults at 0.90, append-only events, revision checks, DB-enforced daily limit, RLS/grants.
+- Today steps carry purpose, minutes and what "done" means; practice step links the recommended chapter.
+  Result page Repair step links every mistaken chapter that has a lesson (count + minutes). Review/Progress
+  study card reworded. Homepage tour gains a flag-gated Learn slide; its counts come from `release.json`.
 
+Content v2 (released 14 units / 65 cards / 179 task variants; zero paid model calls):
+| Subject | Units | Chapters with lessons |
+| --- | --- | --- |
+| English | 6 vocabulary sets (30 WordNet words; 10 new) + main idea + stated/inferred | Vocabulary, Factual Passage, Narrative Passage (3 of 7) |
+| Accountancy | sacrificing/gaining ratios (v2), revaluation | Change in Profit Sharing Ratio, Admission of Partner (2 of 16) |
+| Business Studies | delegation/decentralisation, planning/controlling | Organising, Controlling (2 of 13) |
+| Economics | what GDP counts (final goods, value added, GVA/NVA, non-monetary), nominal/real/deflator | National Income & Related Aggregates (1 of 18) |
+All eight concept blueprints now have teaching units. This is **not** full syllabus coverage and does not release
+formal recovery pathways or assessment families.
 
-## 5 Oct 2026: Key Review + NTA integrity guard
-- Key Review: when Mistake Repair's solve and blind second check both disagree with the key, the student now sees an
+Validation (`scripts/learning/validate-study-content.mjs --write --strict`): every number recomputed
+independently; WordNet meanings/examples/synonyms/antonyms re-derived from hashed source lines (licence kept);
+NCERT reconciliation phrases found on cited PDF pages (leac102 p.3,5,6,30,31; leac103 p.3; leec102 p.3,10,21,23;
+lebs105 p.20,26; lebs108 p.5,6,8; PDFs downloaded with owner approval, sha256 in registry, git-ignored);
+original reading passages checked for evidence/not-stated/key structure; family IDs disjoint from recovery
+pathways. Tamper tests prove changed arithmetic, definitions, relations, reading keys and answer keys quarantine.
+
+Production data (owner-authorised project isrxrxzjocewrdureyhp): phase 1 insert-only applied 5 Oct via
+`scripts/learning/apply-study-content-v2.mjs insert` after the PGlite dry run
+(`artifacts/study-suite/content-v2-import-dry-run-report.json`: idempotent, invisible to old code, changed
+same-version content refused, supersede quarantines not deletes, stale run invalidated with event, unrelated
+data unchanged). Receipt: 14/14 units, 65/65 cards present and hash-matched. Phase 2 (`supersede`, retires
+english-vocabulary-01@1 and accountancy-sacrificing-gaining@1) runs only after the v2 deploy is live.
+
+Verification (local, release checkout): tests recovery 35, learning 80, study 19, answer-integrity 6, NTA 22,
+payment entitlements 12, landing/UI 9 — all pass; full lint clean; production build passes. Fixture walk-through
+(dev-only `/preview/study`, real engine and scheduler) and **owner-signed-in walk-through on production data**
+on localhost: revaluation lesson resumed at step 3 after reload; triple click advanced one step; stale second-tab
+event returned 409 with server state unchanged; wrong choice explained; "₹3,000" accepted; completion → Lock in 5
+cards → summary with next review times → reread link → practice opened with Accountancy / Admission of Partner
+preselected and "Included" (nothing started or charged); different lesson set the earlier one aside, same lesson
+resumed; Today led with the unfinished lesson. 320 px library/overview/lesson: zero overflow, no study targets
+<44 px; wide comparison tables stack on phones. Both themes checked. These are owner QA records, not student
+outcome evidence.
+
+Still open: real budget Android with keyboard, physical screen reader, actual 200% zoom/OS reduced motion, field
+Core Web Vitals, delayed unseen-question outcomes, comprehension testing with real students, offline packs
+(print summary only), remaining chapters, CLI migration-history reconciliation. Device TTS pronunciation is
+labelled as device voice; no licensed pronunciation source is bundled.
+
+Rollback: set STUDY_CONTENT_ENABLED/STUDY_RECALL_ENABLED/STUDY_GUIDED_PLAN_ENABLED to false and redeploy (records
+kept), or `git revert` the release commit and redeploy. If phase 2 has run and the old code is restored, set the
+two v1 units back to `published` (no deletes are needed; v2 rows are ignored by the old release proof).
+
+### 5 October 2026 — Learn v2 published
+
+- Commit `78a627f` pushed to `origin/main`; www.mockmob.in served it about 80 s later. Live HTTP: home 200 with
+  the flag-gated Learn tour slide, `/learn` 200, anonymous study catalog 401, dev preview 404.
+- Content phase 2 applied after the deploy: english-vocabulary-01@1 and accountancy-sacrificing-gaining@1
+  quarantined (v2 published); the correction trigger invalidated the 5 owner QA runs on v1, one event each; no
+  deletes. Receipts: `artifacts/study-suite/v2/apply-{insert,supersede}-receipt.json`, `live-receipt.json`.
+- Signed-in live check (owner Pro account, 375px): Learn led with the unfinished lesson and due cards; the
+  lesson completed with check feedback and the daily new-card limit message; Organising practice linked.
+- Local `main` in the original checkout still points at 6c5e05b with the owner's uncommitted work; it is now
+  three commits behind `origin/main`. Reconcile deliberately before publishing those edits.
+
+## 5 Oct 2026: Key Review + NTA integrity guard + Luna routing
+- Key Review: when Mistake Repair's solve and blind second check both disagree with the key, the student sees an
   acknowledgement ("We may have got this one wrong") with who picked what, plus a result-page log of held keys.
   A reload shows the same panel via `question_under_review`. Marks are NOT changed automatically; copy says so.
-  Files: `src/components/recovery/KeyReview{Notice,Log}.jsx`, `data/repair_presentation.mjs`, `dispute` field in
-  `src/services/recovery/mistakeRepair.js`. No migration, no extra model calls.
+  No migration, no extra model calls.
 - NTA integrity guard: leaving the tab/window = strike; warnings 1-2 show an animated modal, strike 3 submits the
-  session. Strikes persist across reload (`<session key>:integrity`), copy/paste/context menu blocked. Browser-side
+  session. Strikes persist across reload (`<session key>:integrity`); copy/paste/context menu blocked. Browser-side
   deterrent only: strikes are NOT sent to the server (attempt events accept only answer/visit), so there is no
-  server-verified proctoring record. Files: `data/exam_integrity.mjs`, `src/components/arena/ExamIntegrityGuard.jsx`.
-- Verified: `npm run test:learning` 84 pass (incl. new `exam_integrity_review.test.mjs`), eslint clean, preview
-  walkthrough of both flows. Not verified: real multi-window/mobile app-switch behaviour, signed-in NTA run.
+  server-verified proctoring record.
+- Also shipped: GPT-6 Luna-only model routing (providers.js, moderation/ai.js, live-eval scripts).
+- Deliberately NOT shipped: AI top-up opening (RELEASE_GATES.aiCommerce, pricing pages) from the local tree; needs an explicit owner go-ahead and Razorpay keys.
+- Verified: unit tests and eslint (see commit); preview walkthrough of both flows. Not verified: real multi-window/mobile
+  app-switch behaviour, signed-in NTA run, live Luna calls.
 
-## 6 October 2026 — Subscription screening and Luna question factory
+## 6 Oct 2026: Key Review / NTA release verification
+- Prepared an isolated normal checkout from 82d3341 (base origin/main 23ac1dd), preserving the owner's dirty main checkout.
+- The handoff commit omitted seven new component/data/test files plus package.json and this status entry. Recovered these exact files from the handoff worktree; no AI commerce, pricing, artifacts, study-suite edits or migration included.
+- Removed a duplicate question_under_review response handler; corrected the illustrative held-response fixture so both checks actually disagree with its key.
+- Actual checks: npm run build passed with physical node_modules (Next.js 16.2.4 / Turbopack); eslint passed; test:learning 84/84, test:recovery 35/35, answer-integrity plus payment-entitlements 18/18 passed. No paid-model invocation or production-data migration performed.
+- Earlier preview interaction evidence is from the handoff, not repeated in this release check. Browser-only strikes are not a server proctoring record. After reload, Key Review is returned on a repair request for the already-held question; the result-page log is rebuilt from those responses.
+- Deployment is pending the non-forced main push and Vercel verification. Live Luna compatibility, signed-in NTA, real mobile/multi-window focus behaviour and captured AI top-up checkout remain unverified. AI top-up purchasing remains closed.
+- Rollback: revert the feature commit and release-completion commit; no database rollback is needed.
+### Production publication evidence (6 Oct 2026)
+- Published 82d3341 plus completion commit d2e3f2b to GitHub main by non-forced fast-forward from 23ac1dd.
+- GitHub check `Vercel – mockmob` succeeded for d2e3f2b. Production deployment 6868841235 succeeded at https://mockmob-9stt6no29-atishay07s-projects.vercel.app (Vercel dashboard: https://vercel.com/atishay07s-projects/mockmob/BXoio53KjaFuPBdUUJ49fc4Sqnxc).
+- Post-deploy live checks: apex https://mockmob.in redirects to https://www.mockmob.in/ with final HTTP 200; www homepage and /pricing return 200; unsigned /test redirects to /signup with final 200. No redirect loop observed.
+- These checks confirm production publication and public entry routes; they do not prove authenticated Key Review/NTA interactions, physical-device focus handling, live model compatibility or payment capture. Those gates remain as recorded above. Other duplicate Vercel projects attached to the repo are outside this live-domain release verification.
 
-Implemented locally in this original checkout; owner edits preserved. No deployment,
-production migration/data write, paid generation call or new question publication occurred.
-The live study-suite changes described above must be reconciled before any release from
-this older checkout (`6c5e05b`). Workflow: `docs/brain/QUESTION-FACTORY-RUNBOOK.md`.
-
-- Legacy complete-bank read-only scan: **9,242** rows, **6,299 mechanically clear**,
-  **2,943 with suspect signals**, 284 bundles of up to 20. Signals are not confirmed
-  academic errors. Included desktop Luna medium screened one clear four-subject sample:
-  15 no-issue-found, three suspect, two incomplete; ID/hash-validated locally, not imported
-  to production and not upgraded to signed publication evidence. Additional API spend $0.
-- Subscription bridge strips provider credentials, checks ChatGPT account/limits, refuses
-  API login/purchased/unknown credits, and pauses without paid fallback. Codex CLI is not
-  logged in here; the actual sample used a signed-in desktop agent. Claude remains optional.
-- Source catalog contains four 2026 syllabus PDF hashes and official 2025/current 2026 final
-  key PDFs. Target-subject provisional extraction: 4,366/4,033 rows, including 55/20
-  excluded rows. 2025 position keys and 2026 official option IDs require distinct exact
-  mappings. The current June 23 key is linked by the hashed official CUET homepage;
-  the earlier June 21 download is recorded as superseded. None are authenticated complete
-  paper anchors or permission to reuse. Source registry/calibration intentionally remain empty.
-- New factory: Luna medium authoring, shared blind Luna high academic/numerical/boundary/
-  exam checks, one Gemini medium independent evaluation, Luna medium explanation audit.
-  Originals skip stem authoring; adapters require source-backed syllabus/patterns, distinct
-  adaptations, complete passage groups, signed version-bound receipts and one persisted
-  repair followed by full revalidation. Default paid Haiku/Sonnet/Sol routes retired.
-- Native Responses/Gemini and asynchronous batch transports reserve before dispatch,
-  count reasoning/tools/failures/retries, persist accepted IDs and reconcile uncertain
-  usage without resubmission. One leased local worker is permanently bound to its persistent
-  ledger identity. Lifetime content ceiling remains $50; historical spending is unreconciled,
-  so the fresh ledger's recorded zero does not establish $50 available. Student $25/IST-month
-  budget, atomic credits and entitlements retained.
-- Protected admin dashboard shows coverage, staged/published counts, disputes/quarantine,
-  actual spend/forecast and 200→1,000→10,000 controls. Publication stays paused on missing
-  evidence or forecast shortfall; no approve-anyway control. Ordinary selectors put eligible
-  factory evidence before prior verified evidence, then current screened/undisputed legacy.
-  NTA/recovery remain evidence-gated; failed evidence-managed items cannot fall back.
-  Mistake Repair disputes bind the reviewed content version and propagate holds.
-- Verification: **186 distinct tests passed** (23 factory, 35 recovery, six answer-integrity,
-  38 selector/NTA/payment, 84 learning/student-AI/wallet), targeted eslint and Next 16.2.4
-  production build passed. Migration executes in isolated PGlite, with atomic passage rollback,
-  stale screening rejection, permanent worker binding and service-only access checks.
-  Desktop/mobile preview and chapter disclosure passed with no horizontal overflow at
-  1440/390 widths; temporary viewport reset. Unauthenticated admin API GET/POST return 401,
-  admin page redirects to login. Saved receipts: `artifacts/question-factory/verification.json`,
-  `migration-dry-run.json`, test/build/lint logs and screenshots.
-
-Remaining release gates: complete authenticated papers/keys/excerpts and reuse permission;
-2027 syllabus revalidation when available; historical spend reconciliation; signing/author
-setup; current prices; officially keyed disjoint calibration and live guarded provider proof;
-actual 200-candidate pilot and cost/acceptance/Gemini-catch measurements. Migration
-`20261005185759_question_factory.sql` is **unapplied**. PGlite is not Supabase staging proof;
-capture authenticated staging import/repair/publication evidence before requesting production
-migration approval under AGENTS.md. Stage legacy screening receipts before deploying stricter
-fallback so ordinary practice does not become empty. Jev receives no integration or budget.
-
-### 6 October 2026 — first pilot commissioning
-
-- Owner requested 50–100 candidates; the pilot now defaults to **100, 25 per subject**,
-  retaining complete passage groups and the same evidence gates. Saved, unapplied migration
-  adds a balanced pilot target; local SQL dry run checks default 100 and rejects target 101.
-- Local evidence signing secret and the existing content author are configured in ignored
-  local environment only. No secrets printed/committed, production environment unchanged.
-- Read-only provider preflight: Luna model and OpenAI batch listing both **200**;
-  Gemini model and native batch listing both **400, invalid API key**. Worker/foundation
-  dispatch checks this before paid work. Native Gemini transport handles raw REST nested
-  inline output and both state enum forms; missing request identity remains unresolved.
-- Dashboard now reports measured spending/tokens by stage, including reasoning in output,
-  separately from open reservation holds. No generated, queued or published pilot questions;
-  new generation requests/spend remain **0 / $0**. Historical spend remains unreconciled.
-- Acquired official 2023 key (1,761 pages) and inspected a 39-page image-only English/General
-  Test mirror. Neither of two visually sampled question IDs matches the full extracted key;
-  mirror is not registered. Incomplete reconstructed 2025 PDFs were excluded. No reuse
-  permission or complete four-subject source pack has been established; calibration paused.
-- Current connected database schema inspected through read-only REST metadata; factory
-  control table absent. No staging project has been supplied. No schema/data write, migration
-  or deployment occurred. Production migration still requires staging evidence and owner
-  approval under this repository's AGENTS.md, after concrete staging/dry-run results exist.
-- Current change verification: **105 tests passed** (26 factory, 35 recovery, 44 question/
-  selector/NTA/payment), targeted eslint clean, Next production build passed. Mobile/desktop
-  preview shows target 100 with no horizontal overflow; viewport reset. These are software
-  checks, not academic or live provider proof. See `artifacts/question-factory/commissioning.json`,
-  supporting logs/screenshots, refreshed migration hash and provider/source reports.
-
-Remaining commissioning gates: replace invalid Gemini key; establish historical content
-spend; authenticated permitted sources; officially keyed development/held-out calibration;
-staging migration and authenticated operation checks. Then dispatch the 100-candidate pilot,
-measure actual usage, acceptance, independent catches and cost, and evaluate checkpoint
-release. No claim of 10/10 academic quality or completed pilot is justified yet.
-
-Owner follow-up during commissioning: local Gemini key updated; repeated read-only model
-lookup and native batch listing now both **200**, with `batchGenerateContent` advertised.
-The credential blocker is cleared; actual submission/completion remains untested. Owner
-states paper reuse permission/access and asks to proceed without a document. Recorded as
-an owner attestation (not independently verified licence proof), without relaxing paper/
-key/extraction authentication. Historical spend remains unanswered; source authentication,
-academic calibration and database staging/migration evidence remain outstanding. The owner
-has no separate staging project. No production migration has been executed implicitly.
-
-
-### 6 October 2026 — usage-limit resume and held-out model comparison
-
-- Continued the existing dirty checkout. Audited 21 factory commissioning files plus related
-  evidence, budget, selector and admin contracts. Git has 50 tracked changes and additional
-  new files; this is not a clean 21-file repository diff. Owner changes were preserved.
-  Audit hashes: artifacts/question-factory/resume-file-audit.json.
-- The interrupted run had accepted 32 held-out Gemini batches per Flash-Lite model.
-  Accepted IDs and holds survived, with no unresolved charge or recorded API quota failure.
-  Reconciliation reused those jobs. Initial resumed network checks failed inside the sandbox;
-  authorized guarded provider reconciliation succeeded outside it. No batch was resubmitted
-  merely because the desktop session/usage ended.
-- Restored Economics Q28–32's 918-character biocomposting passage from both complete
-  saved publisher copies and inspected the rendered PDF page. All 200 ordered paper/key
-  identities pass the audit. Four packs retain 173 authenticated canonical anchors;
-  28 calibration anchors remain reserved. Generation reference coverage is now 19
-  nonreserved anchors (English9, Accountancy4, BusinessStudies3, Economics3), not
-  proof of 800 diverse accepted questions. Source registry version15 is active locally.
-- The 21 keyed held-out items gave 21/21 correct answers for all three Gemini models.
-  Flash3.8 accepted21/21 valid items and no tested defects. Flash-Lite3.1 accepted19/21
-  valid items after exact-reference checks, accepted the orphan-passage fixture, and had
-  two incomplete negative responses. Flash-Lite3.5 accepted21/21 valid items but accepted
-  missing assumptions, an invalid numerical boundary and the orphan-passage fixture.
-  False-citation hashes were rejected locally before dispatch. Explanation faults cannot
-  be assessed by a blind evaluator that does not receive the author explanation.
-  Default remains Gemini3.8Flash MEDIUM; no cheaper model promotion.
-- Measured 32-request evaluation cost: Flash3.8 $0.085462; Flash-Lite3.1 $0.049104;
-  Flash-Lite3.5 $0.050195. These are token-priced gross costs, not cost per published
-  question or confirmed credit deductions. Full detailed model evidence: gemini-benchmark.json.
-- Numerical questions inside passage groups now retain Luna numerical/boundary stages
-  and Gemini numerical/boundary requirements. Requirements are bound to authenticated
-  anchor metadata and signed evidence; changing question-type metadata invalidates checks.
-  Future paper exports exclude a following group's stimulus from the preceding question
-  excerpt. The frozen current comparison is retained rather than tuned into a passing score.
-- Full academic calibration is PAUSED: four valid items currently fail source/passage
-  evidence checks despite correct blind keys (EnglishQ11, AccountancyQ44/Q45, EconomicsQ37).
-  25 accepted explanation checks remain pending. Eleven known-bad fixtures have already
-  quarantined; the explanation-negative fixture awaits its audit. The known valid failures
-  prevent the95% acceptance gate even if all remaining items pass. No pilot enqueue,
-  authoring or publication: target800, actual0generated/0published.
-- Gross settled content usage $0.319079; pending holds $0.038225; available after holds
-  $49.642696 of the $50 lifetime ceiling at this receipt. Historical spend is the owner's
-  best-known $0 estimate, not invoice-audited. Google credits are not counted as zero-cost
-  usage until actual billing deductions confirm their application. StudentAI remains
-  separately guarded at $25/ISTmonth.
-- Verification:114 tests PASS (35factory,35recovery,44question/selector/NTA/payment),
-  targeted eslint PASS, current Next production build PASS. Existing unrelated ProductScreens
-  width/height warnings and a blank line at EOF remain preserved. The migration still passes
-  isolated PGlite checks and remains unapplied. Fresh browser automation could not initialize
-  its kernel assets on resume; earlier1440/390 screenshots are retained as prior proof.
-  Results: artifacts/question-factory/resume-results.json and linked logs.
-
-Remaining gates: reconcile pending explanation jobs without duplicate submissions; investigate
-source/passage and citation-output failures through development examples and a fresh held-out
-evaluation; require academic release before pilot generation. Frozen-set answer agreement
-does not prove universal accuracy. No staging project or authenticated staging publication
-evidence exists. No production migration, bank write, deploy or publication was performed;
-these still require concrete staging evidence and explicit production approval under AGENTS.md.
-
-### Final accepted-batch reconciliation, 6 Oct 2026 11:36 IST
-
-Twenty-two of the 25 Luna explanation audits completed on their original accepted IDs.
-Three remain pending (two development, one held-out). Current held-out pipeline results:
-one eligible valid item, 19 valid rejections, one valid pending; all 12 controlled
-negative fixtures are quarantined. Correct blind keys do not bypass evidence failures.
-The completed audits identify official-key claims and publisher attributions missing
-from the audit input as a recurring reason for rejection. Supply authenticated
-provenance after blind solving and evaluate the revised contract on fresh held-out
-material; retain this frozen result. No new pilot questions were generated.
-
-Final saved ledger: $0.326466 gross settled, $0.004587 held, $49.668947 available after
-holds under the $50 ceiling; zero unresolved usage. Promotional billing deductions
-remain unverified. Final targeted lint and production build passed. The 114 distinct
-factory/recovery/question/NTA/payment tests remain passing. Updated results, hashes and
-runbook are saved. Full academic release, the three outstanding batch receipts and
-staging/production migration evidence remain open.
-
-### Completed 100-question commissioning, 6 Oct 2026
-
-Current authoritative receipt: artifacts/question-factory/commissioning100-report.json.
-The earlier paused/zero-generation entries above are historical observations, not the current state.
-
-- Generated 100 actual question drafts, 25 per subject: 48 eligible, 52 quarantined,
-  zero published. English 5/25 pass; Accountancy 15/25; Business Studies 11/25;
-  Economics 17/25. All 100 have stems, four options and explanations; malformed
-  keys/routes remain quarantined. Passing inventory contains 19 authenticated originals
-  and 29 adaptations; nine numerical questions and one complete five-child passage
-  group pass. Difficulty coverage in this run is easy/medium only.
-- Fixed source-extraction contamination, quoted passage literals rejected by strict
-  schemas, oversized explanation-audit context, and unsupported original explanations.
-  Immutable source passages are attached locally. Explanation audits retain sources,
-  source metadata, official anchor-key scope and blind reasoning. Original explanations
-  receive one repair without editing the official question/options/key. All repairs
-  require full content-version validation. No deterministic numerical receipt is fabricated.
-- Source registry39 and verifier luna-gemini-cuET-v3.1 are current. Final held-out
-  results: both blind evaluators 16/16 official keys; 16/16 valid items eligible;
-  all 12 controlled negative fixtures quarantined. Development25 and held-out16
-  valid items reserve distinct authenticated item/stimulus families. Previous failed
-  cohorts remain archived; four fresh Business Studies items replaced a failed
-  cohort after development fixes. This small, partly reused benchmark does not
-  establish universal accuracy or independent validation on a new paper population.
-- Standard direct commissioning cost $0.769063; token-reported portion $0.765205,
-  plus $0.003858 conservatively debited for an HTTP400 whose original body was lost.
-  Later typed schema rejections retain diagnostics and zero pre-inference usage;
-  uncertain failures retain holds. Repairs, failures and rejected candidates count.
-  Old accepted batches were reconciled on their saved IDs, with no resubmission.
-  Lifetime accounted spend $1.419007; held/unresolved usage zero; available $48.580993.
-  Google promotional deductions remain unverified; student AI retains its separate cap.
-- Observed-token batch equivalent $0.382712; approximately $79.73 for 10,000 eligible
-  at the observed yield. Assuming current eligible drafts later publish, remaining
-  funds project about 6,093 additional eligible questions and a $30.77 shortfall
-  to the target, excluding new source work. Bulk scaling stays paused. No budget
-  increase or validation reduction occurred.
-- Fifty-one repair entitlements were used. Eighteen incomplete model responses
-  remain rejected; future repairs now use a strict key/route schema and 6,000
-  output-token headroom while existing receipts retain their original contract
-  and single-repair limit. That future configuration has regression coverage,
-  but was not retroactively counted as a successful paid rerun.
-- 125 tests PASS:42 factory,35 recovery,26 question/payment/integrity,22 NTA.
-  Targeted lint and production build PASS. Original21 commissioning files plus
-  six related/new files have refreshed hashes and syntax checks. Owner edits
-  remain preserved. Completed worker restart: zero new requests, zero extra cost.
-  All48 eligible drafts pass signature, evidence, complete-group and publication
-  row/hash dry-run checks. No production database writes occurred.
-- Local dashboard: http://localhost:3010/preview/question-factory. HTTP200 and
-  server-rendered final totals verified; preview controls are disabled. Fresh
-  authenticated browser interactions and production admin controls are unverified.
-  Full report, all100 questions CSV, eligible-only JSON, restart check and row
-  dry-run are saved under artifacts/question-factory/commissioning100-*.
-
-Remaining gates: broaden supported anchor/chapter coverage, improve repetitive
-adaptation yield and verify difficult-item generation; demonstrate authenticated
-staging worker/admin/atomic publication with the saved migration and dry-run rows;
-then request production migration approval. No staging project, migration, bank
-publication, deployment or claim of 100% accuracy is implied by this local run.
-
-### Independent quality audit and paused uplift, 6 October 2026
-
-Current status: artifacts/question-factory/quality-uplift/FINAL-STATUS.md and
-final-status.json. The earlier 48 passing drafts and ~$79.73 forecast above are
-historical automated results, superseded for quality/release decisions by this audit.
-
-- Independently reviewed all 48 frozen content hashes using included subscription
-  review. All intended keys matched; 30 have no blocking defect found, 17 need
-  corrections, and one lacks source/syllabus entitlement. This is not a perfection
-  guarantee or a publication receipt. Economics includes overlapping answers and
-  an AND/OR definition defect; Accountancy includes omitted conditions, mapping
-  errors and OCR/format leakage; English includes lost emphasis, raw HTML and
-  unsupported changed vocabulary. The eleven Business Studies items have no
-  blocking academic defect found, subject to recorded qualifications.
-- Implemented cuet-llm-v3 / luna-gemini-cuET-v3.2: separate chapter/topic and
-  presentation receipts, exact task checks, academic quotes excluding paper stems,
-  explicit assumptions/plain-text authoring, per-adaptation chapter selection,
-  one durable completion retry, and campaign-specific queues and reports.
-  Incomplete paid responses and the single permitted retry both count toward
-  the persistent budget. Prior accepted batches remain bound to saved IDs.
-- Registered source registry42: 31 exact scoped NCERT excerpts and 25 directly
-  observed primary dictionary definitions. Disabled unsupported Economics q9,
-  q24 and q49 for generation; disabled literal originals with missing conditions
-  while retaining supported adaptation opportunities. Reserved calibration
-  families remain reserved. Original commissioning artifacts remain frozen.
-- Live stricter regression: 11/16 previously labelled valid fixtures eligible;
-  Luna15/16 intended keys (one abstention), Gemini16/16; all12 controlled negative
-  fixtures quarantined. Five valid-fixture failures concern word-choice/economic
-  ambiguity, exact chapter taxonomy and a dissolution explanation reversing
-  debit/credit direction. This is a previously observed benchmark, not a fresh
-  unseen-paper accuracy claim. Reclassification/repair must preserve this result.
-- Additional independent-audit challenges: 15/18 quarantine; three still pass
-  automated checks (other-instalment payment assumption, direct journal-entry
-  source entitlement, and overgeneralisation of a no-saving circular-flow model).
-  Academic release FAILS. Current calibration is paused; the shared release guard
-  requires the audit-challenge gate as well as the keyed benchmark, so a later
-  calibration run alone cannot bypass the audit misses. No new pilot questions
-  or production publication were performed. Neither >70% yield nor $60/10,000
-  is measured or established.
-- Content ledger: $1.616247 accounted, $0 held, $48.383753 remaining under the
-  unchanged $50 lifetime ceiling; zero unresolved usage. This resumed live
-  validation cost $0.197240. Google promotional deductions remain unverified.
-  The separate student-AI budget and paid entitlements remain intact.
-- 129 tests PASS:45 factory,35 recovery,49 question/payment/NTA. Targeted lint and
-  production build PASS. Factory SQL remains saved and locally checked in PGlite;
-  no production migration ran. Local preview HTTP200 shows the audit, failed gate,
-  historical pass labels and withheld old forecast. Controls remain disabled;
-  authenticated staging/admin/publication and device interactions are unverified.
-
-Remaining: resolve the five fixture failures and three audit misses without
-weakening quality, rerun both release checks, then run the separate preregistered
-100-candidate cohort and measure yield/variety/full costs. Broader source/chapter
-and difficult-item coverage plus authenticated staging/atomic publication remain
-required before production approval. This task is NOT complete or production-ready.
-
-
-### Final question-factory reconciliation and implementation pass — 6 October 2026
-
-Owner clarification: excellent PYQ-faithful Class XII questions remain the aim;
-sound 7–8/10 questions are acceptable when only craft is weak. Correct/unique keys,
-explicit decisive assumptions, source entailment, explanation, syllabus and readable
-CUET format remain mandatory. No routine human review is added.
-
-- Read the entire supplied Claude log and reconciled its saved quality-v5 cohort
-  against the persistent SQLite ledger. Contrary to the handoff's claim, the latest
-  v5.3/$5.73 cohort had not been added to this main STATUS file. Frozen logs remain.
-- Planned100/generated96/historical automated passes58. Claude's included-review
-  record rates41 strong and8 weak. Item57's unseen-list wording is a blocking
-  defect, so unchanged review-supported drafts are41+7=48. Original matching item51
-  now displays its two lists correctly:49 potential usable drafts, including that
-  display restoration awaiting renewed evidence. Seven need correction and two
-  duplicate ideas do not count. Guaranteed10/10 count is unknown; published0.
-  These are cross-checked historical review opinions, not fresh academic receipts.
-- Current ledger: $5.731810 settled gross,
-  $0.013556 held, $44.254634 remaining under
-  the unchanged $50 lifetime ceiling. Additional committed spending in this pass
-  is $0.014042; no new authoring. Google credits,
-  provider invoices and subscription-plan consumption are not reconciled.
-- Saved token partitions exposed omitted cache read/write prices. Future guarded
-  requests now price those separately and reserve at the maximum input rate.
-  Original settlements stay preserved: the read-only historical recomputation
-  shows about $0.019 net overcount, not a large hidden charge. Accepted legacy
-  batches enrich missing cache rates only from verified matching base prices;
-  missing/invalid prices or usage remain held. No ledger reset/refund is inferred.
-- Current reviewed-yield forecast is about $235 real-time / $120 assuming every
-  cost halves, for10,000. Both include prior spending but omit new preparation/
-  validation/staging cost and remain estimates. The $50–60 target is unproven;
-  even the 5,000–7,000 claim is unsupported at this denominator.
-- v5.4 separates optional craft notes from blocking defects, permits sound scores
-  7–8 and retains dual Luna high checks, independent Gemini3.8 medium, source and
-  explanation safeguards. v5.3 calibration is paused and cannot release v5.4.
-  No thresholds in CALIBRATION_RELEASE were loosened. Current fixtures are
-  previously observed/tuned regression evidence, not an unseen benchmark.
-- Shared browser-safe presentation checks now run during authoring, validation
-  and evidence serving, including saved/repaired rows and three-entry matching.
-  Lists restore only at display time; stored stems/options/keys/hashes remain.
-  Subject-wide blueprint skill/task IDs and avoidance context suppress exact
-  repeated skills across anchors; semantic paraphrases are not guaranteed caught.
-- Campaigns now support native --batch execution and resumable pending jobs;
-  pending passage siblings do not quarantine the whole group prematurely.
-  Seven frozen items form a no-authoring/no-repair/no-publication batch probe.
-  Three known faults fail before paid dispatch. One real native batch completed
-  and recorded usage; four items still await complete stage sequences, using
-  saved provider IDs. This is not full batch throughput or quality proof.
-- The local preview now shows latest reviewed counts/current saved ledger totals
-  instead of stale commissioning data. Explicit en-IN number formatting fixes
-  a browser-found hydration mismatch. Receipt loading was separated from React
-  rendering after the previous expanded component caused ESLint memory failure;
-  full targeted lint subsequently passes.
-- 141 tests PASS:62 factory,35 recovery,6 answer-integrity,22 NTA,16 question/
-  payment. Targeted lint and production build PASS. Existing image dimension
-  warnings remain. Real local preview interactions at1440px and375px show both
-  list columns, four choices, preserved selection, no horizontal overflow and
-  no hydration errors. Headless local emulation is not physical-device proof.
-
-Evidence: artifacts/question-factory/final-pass/REPORT.md, reconciliation-report.json,
-review-supported-drafts.json, cache-price-audit.json, batch-probe.json, verification.json
-and browser-check.json/screenshots. All older campaigns and owner edits are preserved.
-
-Remaining, in execution order: reconcile/finish the saved probe IDs; verify revised
-mandatory-negative regression and freeze genuinely unobserved keyed material; add
-English comprehension/verbal anchors and the missing syllabus chapter sources;
-measure a separately preregistered balanced batch cohort including every cost and
-rejection; stage the saved SQL migration and inspect signed-in admin/worker restart/
-atomic publication/dispute behavior; save staging/dry-run evidence before requesting
-production migration approval. No staging project was created or migration applied,
-no production bank writes/publication/deployment occurred, and paid entitlements,
-atomic credits and the separate $25/IST-month student-AI cap remain intact.
-
-This final pass improves implementation and measurement; it does NOT establish
-end-to-end readiness, syllabus completeness, error-free content or10,000/$50–60.
+## 6 Oct 2026: corrective NTA fullscreen and answer-change audit
+- Owner reported that fullscreen rehearsal and confirmed-key correction UX were incomplete. Audit and source-backed question findings: docs/brain/reports/KEY-REVIEW-NTA-CORRECTIVE-AUDIT-2026-10-06.md.
+- NTA now requests actual fullscreen, requires re-entry after warnings, counts one absence once, persists strikes per session, submits on warning 3, removes the in-app Exit shortcut, locks answering behind native themed dialogs and exposes failed-submission retry. Browser/OS exits remain possible; unsupported browsers disclose a focus-only fallback. Timer deadlines are unchanged.
+- Results now hydrate changed/held questions from current server records on reload. Confirmed corrections show an apology, corrected answer/explanation/source and separate marks adjustment; unverified changes do not claim correctness. Old snapshots/account/leaderboard scores remain intact. No paid model calls on reading corrections.
+- Exact screenshot question is already D in production (dea6e298-269e-4b18-afd4-53c0b3be7cf5). Source-backed matching display receipt confirms D; pick B stays wrong, adjustment 0. No production data update or migration performed. The historical A-to-D change has no returned version-history receipt, so its timing/provenance is not claimed.
+- Verified: learning 91/91, recovery 35/35, answer-integrity/payment-entitlements 18/18, eslint and production build. Isolated Chrome exercised real fullscreen entry/exits, warning progression, reload persistence, auto-submit, failure/retry, denial, and Quick Practice. Desktop/390px mobile compositions inspected; controlled visibility/blur events reached the real hook. JSON/screenshots retained locally in artifacts/corrective-checks/.
+- Remaining: corrective deployment verification, signed-in production result/NTA, real OS/tab/window switching, physical phones, screen readers and live Luna. A real headless tab switch did not expose focus change; synthetic events are not hardware proof. Strikes remain browser-only. AI commerce stays closed; entitlements and atomic RPCs untouched.
+- Rollback: revert the corrective code commit. No database rollback needed.
