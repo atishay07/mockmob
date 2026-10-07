@@ -1,6 +1,23 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {inspectBatch,inspectAgainstInventory} from '../lib/batchInspection.mjs';
 const job=(id,body,answer='₹20')=>({id,state:'eligible',candidate:{subject:'economics',chapter:'Production & Costs',question_type:'numerical_calculation',difficulty:'easy',concept_id:'marginal_cost',body,options:[answer,'₹10','₹30','₹40'],correct_answer:'A'}});
 const opts={eligible:()=>({eligible:true})};
+test('same passage fact is withheld despite different concept labels and pronoun paraphrases',()=>{
+ const a=job('a','What condition did the members set for reconsidering the proposed drill purchase?','If the repaired equipment could no longer handle the workload.');
+ Object.assign(a.candidate,{subject:'english',chapter:'Factual Passage',question_type:'reading_comprehension',passage_text:'A complete fictional club passage.'});
+ const b=structuredClone(a);b.id='b';b.candidate.concept_id='another label';b.candidate.body='What condition did the members identify for reconsidering the purchase of a new drill?';b.candidate.options[0]='If the repaired equipment could no longer handle their workload.';
+ assert.equal(inspectBatch([a,b],opts).decisions[0].reason,'duplicate_idea_conservative');
+ b.candidate.body='Under what condition did the members agree to reconsider buying the new drill?';b.candidate.options[0]="The repaired equipment could no longer handle the club's workload.";
+ assert.equal(inspectBatch([a,b],opts).decisions[0].reason,'duplicate_idea_conservative');
+ b.candidate.passage_text='A different complete passage.';assert.equal(inspectBatch([a,b],opts).decisions.length,0);
+});
+test('reading novelty guard preserves different facts, quantities, negations and short common answers',()=>{
+ const a=job('a','What condition did members give?','If repaired equipment could no longer handle 20 repairs.');
+ Object.assign(a.candidate,{subject:'english',chapter:'Factual Passage',question_type:'reading_comprehension',passage_text:'A complete fictional club passage.'});
+ for(const answer of ['If repaired equipment could no longer handle 30 repairs.','If repaired equipment could handle 20 repairs.','To buy a charging cable and inexpensive switches.','Yes']){
+  const b=structuredClone(a);b.id='b';b.candidate.body='Which condition did members give?';b.candidate.concept_id='different';b.candidate.options[0]=answer;
+  assert.equal(inspectBatch([a,b],opts).decisions.length,0,answer);
+ }
+});
 test('publisher passage contracts quarantine mixed chapters, changed stimuli and incomplete groups before RPCs',()=>{
  const a=job('a','First independent question'),b=job('b','Second independent question');
  for(const [index,j] of [a,b].entries())Object.assign(j.candidate,{id:j.id,provenance:{kind:'original_practice'},passage_group_id:'g',passage_text:'Complete registered passage.',order_index:index});

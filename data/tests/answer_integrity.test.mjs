@@ -33,6 +33,17 @@ function validQuestion(overrides = {}) {
     ...overrides,
   };
 }
+test('signed scalar distractors stay distinct while mathematically equal scalar options are rejected', () => {
+  const q=validQuestion({subject:'economics',body:'What is the multiplier?',options:['3.75','0.27','1.50','-3.75'],correct_answer:'A',explanation:'The output change divided by the expenditure change is 3.75.'});
+  assert.equal(verifyAnswerIntegrity(q).accepted,true);
+  for(const equivalent of ['+3.75','3.750','03.75'])assert.equal(verifyAnswerIntegrity({...q,options:['3.75',equivalent,'1.50','-3.75']}).accepted,false,equivalent);
+  assert.equal(verifyAnswerIntegrity({...q,options:['3.75','0.27','1.50','−3.75']}).accepted,true);
+});
+test('ordinary truth-related vocabulary definitions are not answer-verdict assertions', () => {
+  const q=validQuestion({body:'Which phrase is the antonym of plausible?',options:['Reasonable, but unlikely to be true','Unreasonable, but not independently verified','Reasonable and likely to be true','Unreasonable and unlikely to be true'],correct_answer:'D',explanation:'The antonym means unreasonable and unlikely to be true.'});
+  assert.equal(verifyAnswerIntegrity(q).accepted,true);
+  assert.equal(verifyAnswerIntegrity({...q,options:['This is correct','That is true','This is valid','An unrelated phrase']}).accepted,false);
+});
 
 test('ordinary more-than-one lexical definitions are not combined-answer claims', () => {
   const check = verifyAnswerIntegrity(validQuestion({

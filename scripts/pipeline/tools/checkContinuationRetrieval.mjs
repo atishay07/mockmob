@@ -11,7 +11,7 @@ const boundedFetch=(url,init={})=>fetch(url,{...init,signal:AbortSignal.timeout(
 const db=createClient(url,key,{auth:{persistSession:false},global:{fetch:boundedFetch}}),root='artifacts/question-factory/continuation-500/',all=JSON.parse(readFileSync(root+'all-candidates.json'));
 console.log(JSON.stringify({check_environment:staging?'staging':'production',stage:'read_actual_publications'}));
 const publications=await readAllRows(db,'question_factory_publications','question_id','question_id'),published=new Set(publications.map(p=>p.question_id));
-const expected=new Map(all.filter(j=>published.has(j.id)).map(j=>[j.id,j.candidate])),rejected=new Set(all.filter(j=>j.state==='quarantined').map(j=>j.id));
+const expected=new Map(all.filter(j=>published.has(j.id)&&j.state==='published').map(j=>[j.id,j.candidate])),rejected=new Set(all.filter(j=>j.state==='quarantined').map(j=>j.id));
 if(!expected.size)throw Error('no_real_published_candidates');
 async function login(email){const {data,error}=await db.auth.admin.generateLink({type:'magiclink',email});if(error)throw error;let jar=[];const c=createServerClient(url,anon,{global:{fetch:boundedFetch},cookies:{getAll:()=>jar,setAll:v=>{jar=v;}}});const {error:e}=await c.auth.verifyOtp({token_hash:data.properties.hashed_token,type:data.properties.verification_type});if(e)throw e;return jar.map(c=>c.name+'='+c.value).join('; ');}
 // generateLink does not send email or grant a new role. Reuse existing identities.
@@ -41,7 +41,7 @@ for(const subject of ['english','accountancy','business_studies','economics']){
 }
 const missing=[...expected.keys()].filter(id=>!received.has(id));
 for(const [id,n] of groups)assert.equal(n,[...expected.values()].filter(q=>q.passage_group_id===id).length,'Complete validated passage group: '+id);
-for(let i=0,ids=[...rejected];i<ids.length;i+=100){const {count,error}=await db.from('questions').select('id',{count:'exact',head:true}).in('id',ids.slice(i,i+100));if(error)throw error;assert.equal(count,0);}
+for(let i=0,ids=[...rejected];i<ids.length;i+=100){const {data,error}=await db.from('questions').select('id,status,verification_state,is_deleted').in('id',ids.slice(i,i+100));if(error)throw error;assert.ok(data.every(q=>q.is_deleted||q.verification_state==='disputed'||['pending','quarantined','invalid','rejected'].includes(q.status)),'Rejected rows must remain unavailable; historical withheld publications are retained');}
 const {data:cap,error}=await db.from('runtime_ai_budget').select('monthly_cap_usd').eq('id','student_ai').single();if(error)throw error;assert.equal(Number(cap.monthly_cap_usd),25);
 const minimumIndex=process.argv.indexOf('--minimum'),minimum=minimumIndex>=0?Number(process.argv[minimumIndex+1]):50;
 const expectedContentHash=hashJSON([...expected].sort(([a],[b])=>a.localeCompare(b)).map(([id,q])=>({id,content:contentHash(q),group:q.passage_group_id||null,evidence:q.evidence?.signature||null})));

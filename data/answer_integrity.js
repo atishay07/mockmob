@@ -55,6 +55,10 @@ function firstPresent(row, fields) {
 }
 
 function normalizeComparable(value) {
+  const scalar = textValue(value).replace(/\u2212/g, '-').match(/^([₹$]?)\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+))\s*(%?)$/);
+  if (scalar && Number.isFinite(Number(scalar[2]))) {
+    return `scalar:${scalar[1]}:${Number(scalar[2])}:${scalar[3]}`;
+  }
   return textValue(value)
     .toLowerCase()
     .replace(/&/g, ' and ')
@@ -286,7 +290,10 @@ function hasObviousMultipleCorrectRisk(row, options, correctIndex) {
 
   if (hasStatementCombinationBody(body)) return false;
 
-  const repeatedTruthyOptions = options.filter((option) => /\b(correct|true|valid|accurate|appropriate)\b/i.test(option.text)).length;
+  // Definitions such as "likely to be true" describe a word's meaning; they
+  // do not assert that an answer/statement is correct. Require an actual verdict.
+  const repeatedTruthyOptions = options.filter((option) => /^\s*(?:correct|true|valid|accurate|appropriate)\s*[.!]?\s*$/i.test(option.text) ||
+    /\b(?:is|are)\s+(?:correct|true|valid|accurate|appropriate)\b/i.test(option.text)).length;
   return repeatedTruthyOptions >= 3 && !/\bincorrect|not true|not valid|false\b/i.test(body);
 }
 

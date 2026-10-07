@@ -2,6 +2,18 @@ import {hashJSON,inventoryFingerprint} from '../../../data/question_factory_poli
 import {publicationEligibility} from '../../../data/evidence_registry.js';
 import {factoryPassageGroup} from './factoryCore.mjs';
 const normalized=s=>String(s||'').normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N}₹]+/gu,' ').trim();
+const readingWords=s=>new Set(normalized(String(s).replace(/\b(\w+)['’]s\b/g,'$1')).split(' ').filter(w=>!['a','an','the','of','to','for','in','on','if','did','does','do','their','its','his','her','what','which','under','that','it'].includes(w)).map(w=>w.length>6&&w.endsWith('ing')?w.slice(0,-3):w));
+const overlap=(a,b)=>[...a].filter(w=>b.has(w)).length/Math.max(a.size,b.size,1);
+function repeatedPassageFact(x,y){
+ if(!x.passage_text||normalized(x.passage_text)!==normalized(y.passage_text))return false;
+ const answer=q=>String(q.options['ABCD'.indexOf(q.correct_answer)]),a=answer(x),b=answer(y);
+ // Preserve decisive negations and quantities. Shared chapter/concept labels,
+ // common short answers, or a shared passage alone never establish a duplicate.
+ if(/\b(?:not|never|no|neither|without)\b/i.test(a)!==/\b(?:not|never|no|neither|without)\b/i.test(b)||JSON.stringify(a.match(/\d+/g))!==JSON.stringify(b.match(/\d+/g)))return false;
+ const wa=readingWords(a),wb=readingWords(b);
+ const sx=readingWords(x.body),sy=readingWords(y.body);
+ return Math.min(wa.size,wb.size)>=4&&overlap(wa,wb)>=.8&&[...sx].filter(w=>sy.has(w)).length>=4&&overlap(sx,sy)>=.4;
+}
 // Exact content and identical semantic target/answer combinations cannot inflate
 // inventory. Broad chapter or formula tags alone do not prove a duplicate.
 export function inspectBatch(rows,{eligible=publicationEligibility}={}){
@@ -44,7 +56,8 @@ export function inspectBatch(rows,{eligible=publicationEligibility}={}){
   const sameQuestion=normalized(x.body)===normalized(y.body)&&normalized(x.passage_text)===normalized(y.passage_text)&&answer(x)===answer(y);
   // Equal correct text alone is common for numerical or matching options.
   // Require both a specific shared concept and strongly matching actual stems.
-  if(sameQuestion||conceptEqual&&answer(x)===answer(y)&&similarity>=.8){
+  const repeatedReading=x.question_type==='reading_comprehension'&&repeatedPassageFact(x,y);
+  if(sameQuestion||repeatedReading||conceptEqual&&answer(x)===answer(y)&&similarity>=.8){
    pairs.push({a:a.id,b:b.id,similarity,concept:x.concept_id});
    if(!decisions.some(d=>d.id===b.id))decisions.push({id:b.id,reason:'duplicate_idea_conservative',duplicate_of:a.id});
   }
@@ -52,7 +65,7 @@ export function inspectBatch(rows,{eligible=publicationEligibility}={}){
  const kept=approved.filter(j=>!decisions.some(d=>d.id===j.id));
  const count=key=>Object.fromEntries([...new Set(kept.map(j=>j.candidate[key]))].map(k=>[k,kept.filter(j=>j.candidate[key]===k).length]));
  const positions=count('correct_answer'),formatPositions={};for(const j of kept){const q=j.candidate;formatPositions[q.question_type]??={};formatPositions[q.question_type][q.correct_answer]=(formatPositions[q.question_type][q.correct_answer]||0)+1;}
- return {contract:'evidence-content-idea-inspection-v1',content_hash:hashJSON(rows.map(j=>({id:j.id,candidate:j.candidate,result:j.result}))),decisions,duplicate_pairs:pairs,
+ return {contract:'evidence-content-idea-inspection-v2',content_hash:hashJSON(rows.map(j=>({id:j.id,candidate:j.candidate,result:j.result}))),decisions,duplicate_pairs:pairs,
   denominator:rows.length,approved:kept.length,answer_positions:positions,answer_positions_by_format:formatPositions,formats:count('question_type'),difficulty:count('difficulty'),
   longest_same_answer_run:kept.reduce((a,j)=>{const p=j.candidate.correct_answer;a.run=a.last===p?a.run+1:1;a.last=p;a.maximum=Math.max(a.maximum,a.run);return a;},{last:null,run:0,maximum:0}).maximum,
   limitation:'Deterministic duplicate detection and independent novelty gates reduce repeated content; semantic equivalence beyond these checks is not guaranteed.',
