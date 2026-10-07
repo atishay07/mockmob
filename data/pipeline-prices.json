@@ -1,6 +1,61 @@
 {
-  "source_url": null,
-  "expires_at": null,
-  "models": {},
-  "note": "Paid dispatch disabled until current provider prices and maximum input limits are independently configured. Initial persistent budget is $2, lifetime cap $10."
+  "source_url": "https://developers.openai.com/api/docs/pricing",
+  "sources": [
+    "https://developers.openai.com/api/docs/models/gpt-6-luna",
+    "https://ai.google.dev/gemini-api/docs/pricing"
+  ],
+  "verified_at": "2026-10-06T18:14:24.955Z",
+  "expires_at": "2026-10-12T21:37:55.116Z",
+  "web_search_per_call_usd": 0.01,
+  "models": {
+    "gpt-6-luna": {
+      "provider_host": "api.openai.com",
+      "max_input_tokens": 32768,
+      "input_per_million": 0.1,
+      "output_per_million": 0.5,
+      "batch": {
+        "input_per_million": 0.05,
+        "output_per_million": 0.25,
+        "cached_input_per_million": 0.005,
+        "cache_write_per_million": 0.0625
+      },
+      "cached_input_per_million": 0.01,
+      "cache_write_per_million": 0.125
+    },
+    "gemini-3.8-flash": {
+      "provider_host": "generativelanguage.googleapis.com",
+      "max_input_tokens": 32768,
+      "input_per_million": 0.75,
+      "output_per_million": 3.75,
+      "batch": {
+        "input_per_million": 0.375,
+        "output_per_million": 1.875
+      }
+    },
+    "gemini-3.1-flash-lite": {
+      "provider_host": "generativelanguage.googleapis.com",
+      "max_input_tokens": 24576,
+      "input_per_million": 0.25,
+      "output_per_million": 1.5,
+      "batch": {
+        "input_per_million": 0.125,
+        "output_per_million": 0.75
+      },
+      "scope": "calibration_only"
+    },
+    "gemini-3.5-flash-lite": {
+      "provider_host": "generativelanguage.googleapis.com",
+      "max_input_tokens": 24576,
+      "input_per_million": 0.3,
+      "output_per_million": 2.5,
+      "batch": {
+        "input_per_million": 0.15,
+        "output_per_million": 1.25
+      },
+      "scope": "calibration_only"
+    }
+  },
+  "note": "Gross token rates, before promotional credits. Flash-Lite profiles are calibration-only, never an implicit candidate fallback. Output includes reasoning. The USD50 lifetime guard includes historical settled content charges and conservative unresolved holds from the persistent ledger.",
+  "input_bound_note": "max_input_tokens is enforced as a UTF-8 byte bound on the request body (about three times stricter than tokens). Raised from 24576 to 32768 on 2026-10-06 for longer exact NCERT spans; token rates unchanged.",
+  "cache_pricing_note": "OpenAI prompt-cache reads and writes use the published distinct rates; cache input partitions must be subsets of total input. Batch rates are 50% of Standard. Verified against official model/pricing pages on 6 October 2026."
 }

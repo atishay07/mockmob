@@ -3636,7 +3636,7 @@ function getDifficultyWeight(difficulty) {
 }
 
 if (process.argv.includes('--start')) {
-  workerLoop();
+  throw new Error('Historical worker retired; use npm run autonomous for the source-backed Luna/Gemini factory.');
 }
 
 function mergeDropReasons(target, source) {

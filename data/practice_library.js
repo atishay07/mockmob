@@ -2,6 +2,7 @@ import { publicationEligibility } from './evidence_registry';
 import { excludeHeldFamilies } from './evidence_holds';
 import { legacyPracticeVisible } from './practice_availability';
 import { verifyAnswerIntegrity } from './answer_integrity';
+import { FACTORY_POLICY } from './question_factory_policy.mjs';
 
 export async function readablePracticeQuestions(rows, db, { requireEvidence = false } = {}) {
   // Apply the same structural answer and community quality floor to inventory
@@ -9,7 +10,8 @@ export async function readablePracticeQuestions(rows, db, { requireEvidence = fa
   rows = rows.filter(row => String(row.body ?? row.question ?? '').trim() && Number(row.score ?? 0) >= -2 && verifyAnswerIntegrity(row).accepted);
   const eligible = rows.filter(row => publicationEligibility(row).eligible);
   const checked = await excludeHeldFamilies(eligible, db);
-  if (requireEvidence) return checked;
+  const evidenceTier=row=>row.provenance?.kind && row.evidence?.record?.policy_version===FACTORY_POLICY?3:2;
+  if (requireEvidence) return checked.map(row=>({...row,selection_evidence_tier:evidenceTier(row)}));
   const legacy = rows.filter(legacyPracticeVisible);
   // Existing library rows with family identifiers must respect deployed family holds.
   // A missing migration is tolerated only for legacy rows; all other failures stop reads.
@@ -25,5 +27,6 @@ export async function readablePracticeQuestions(rows, db, { requireEvidence = fa
     unheld = legacy.filter(q => !held.has(q.family_id || q.template_id));
   }
   const ids = new Set([...checked, ...unheld].map(row => row.id));
-  return rows.filter(row => ids.has(row.id));
+  const verified = new Set(checked.map(row => row.id));
+  return rows.filter(row => ids.has(row.id)).map(row => ({ ...row, selection_evidence_tier: verified.has(row.id) ? evidenceTier(row) : 1 }));
 }

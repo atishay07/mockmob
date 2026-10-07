@@ -1,0 +1,180 @@
+{
+  "created_at": "2026-10-05T19:58:10.316Z",
+  "documents": [
+    {
+      "subject": "english",
+      "path": "data/CUET 2026/english.pdf",
+      "identity_sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+      "kind": "syllabus",
+      "state": "pending_extraction",
+      "source_url": "https://cuet.nta.nic.in/cuetug-2026-syllabus/",
+      "year": 2026,
+      "reuse_permitted": true,
+      "reason": "Extraction, permission and 2027 applicability require evidence.",
+      "permission_status": "owner_attested",
+      "permission": {
+        "type": "owner_attestation",
+        "basis": "Owner states permission and authorizes proceeding with available materials",
+        "reference": "Owner message in the question-factory commissioning conversation on 6 October 2026",
+        "independently_verified_licence": false
+      }
+    },
+    {
+      "subject": "accountancy",
+      "path": "data/CUET 2026/accountancy.pdf",
+      "identity_sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+      "kind": "syllabus",
+      "state": "pending_extraction",
+      "source_url": "https://cuet.nta.nic.in/cuetug-2026-syllabus/",
+      "year": 2026,
+      "reuse_permitted": true,
+      "reason": "Extraction, permission and 2027 applicability require evidence.",
+      "permission_status": "owner_attested",
+      "permission": {
+        "type": "owner_attestation",
+        "basis": "Owner states permission and authorizes proceeding with available materials",
+        "reference": "Owner message in the question-factory commissioning conversation on 6 October 2026",
+        "independently_verified_licence": false
+      }
+    },
+    {
+      "subject": "business_studies",
+      "path": "data/CUET 2026/business_studies.pdf",
+      "identity_sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+      "kind": "syllabus",
+      "state": "pending_extraction",
+      "source_url": "https://cuet.nta.nic.in/cuetug-2026-syllabus/",
+      "year": 2026,
+      "reuse_permitted": true,
+      "reason": "Extraction, permission and 2027 applicability require evidence.",
+      "permission_status": "owner_attested",
+      "permission": {
+        "type": "owner_attestation",
+        "basis": "Owner states permission and authorizes proceeding with available materials",
+        "reference": "Owner message in the question-factory commissioning conversation on 6 October 2026",
+        "independently_verified_licence": false
+      }
+    },
+    {
+      "subject": "economics",
+      "path": "data/CUET 2026/economics.pdf",
+      "identity_sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+      "kind": "syllabus",
+      "state": "pending_extraction",
+      "source_url": "https://cuet.nta.nic.in/cuetug-2026-syllabus/",
+      "year": 2026,
+      "reuse_permitted": true,
+      "reason": "Extraction, permission and 2027 applicability require evidence.",
+      "permission_status": "owner_attested",
+      "permission": {
+        "type": "owner_attestation",
+        "basis": "Owner states permission and authorizes proceeding with available materials",
+        "reference": "Owner message in the question-factory commissioning conversation on 6 October 2026",
+        "independently_verified_licence": false
+      }
+    },
+    {
+      "year": 2025,
+      "url": "https://nta.ac.in/Download/Notice/Notice_20250701201050.pdf",
+      "file": "data/question-factory-runtime/source-foundation/cuet-2025-final-keys.pdf",
+      "kind": "final_key",
+      "identity_sha256": "662898e7f512e32acf0d4c1dbfb374bc641149d969fd7dc605caf4b834446b3c",
+      "state": "pending_paper_mapping_and_permission",
+      "reuse_permitted": true,
+      "permission_status": "owner_attested",
+      "permission": {
+        "type": "owner_attestation",
+        "basis": "Owner states permission and authorizes proceeding with available materials",
+        "reference": "Owner message in the question-factory commissioning conversation on 6 October 2026",
+        "independently_verified_licence": false
+      }
+    },
+    {
+      "year": 2026,
+      "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2026/06/202606231857909583.pdf",
+      "file": "data/question-factory-runtime/source-foundation/cuet-2026-final-keys.pdf",
+      "kind": "final_key",
+      "identity_sha256": "9ca09966dfcc740abaced4711e7584e1c6b3e4bc04c253a6df74f0005bfc92fb",
+      "state": "pending_paper_mapping_and_permission",
+      "reuse_permitted": true,
+      "official_index_url": "https://cuet.nta.nic.in/",
+      "official_index_file": "data/question-factory-runtime/source-foundation/official-index.html",
+      "official_index_sha256": "7394ce1f3d8694ab0b012a80a586481af970461907b0a7e2f4cf41995fa90a59",
+      "official_link_present": true,
+      "superseded_download": {
+        "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2026/06/202606211155292375.pdf",
+        "identity_sha256": "ed31f6742e572aa474d705234f2f00f1290be9a9ce2f28f65c0392bad6652c24"
+      },
+      "permission_status": "owner_attested",
+      "permission": {
+        "type": "owner_attestation",
+        "basis": "Owner states permission and authorizes proceeding with available materials",
+        "reference": "Owner message in the question-factory commissioning conversation on 6 October 2026",
+        "independently_verified_licence": false
+      }
+    },
+    {
+      "year": 2023,
+      "url": "https://nta.ac.in/Download/ExamPaper/Paper_20240219165704.pdf",
+      "file": "data/question-factory-runtime/source-acquisition-2023/nta-final-key-2023.pdf",
+      "kind": "final_key",
+      "identity_sha256": "e796bba2505c288119b5a66c8cb4c5bf5ddbd0b45330b71382fc9f970bc0ac4f",
+      "state": "pending_paper_mapping_and_permission",
+      "reuse_permitted": true,
+      "permission_status": "owner_attested",
+      "permission": {
+        "type": "owner_attestation",
+        "basis": "Owner states permission and authorizes proceeding with available materials",
+        "reference": "Owner message in the question-factory commissioning conversation on 6 October 2026",
+        "independently_verified_licence": false
+      }
+    },
+    {
+      "year": 2023,
+      "url": "https://cdn-images.prepp.in/public/image/CUET_2023_Eng_Question_Paper_PDF_cb40af11540c66a0e433fb371d4cd4cc.pdf",
+      "file": "data/question-factory-runtime/source-acquisition-2023/english-2023-mirror.pdf",
+      "kind": "paper_candidate",
+      "identity_sha256": "c43700a8013221670efc42b57a77878b5a5b03c2c3ce57c954e64855750ba913",
+      "state": "not_authenticated_unmatched_sample_ids",
+      "reuse_permitted": false
+    },
+    {
+      "year": 2024,
+      "url": "https://www.nta.ac.in/Download/Notice/Notice_20240725154536.pdf",
+      "file": "data/question-factory-runtime/source-acquisition-2024/nta-omr-final-key-2024.pdf",
+      "kind": "final_key",
+      "identity_sha256": "a4d60292d743f13412b1637e3f0bb6317e3643ea9d70fe0018e1d1e3f14e3145",
+      "state": "pending_paper_mapping",
+      "permission_status": "owner_attested",
+      "reuse_permitted": true,
+      "permission": {
+        "type": "owner_attestation",
+        "basis": "Owner states permission and authorizes proceeding with available materials",
+        "reference": "Owner message in the question-factory commissioning conversation on 6 October 2026",
+        "independently_verified_licence": false
+      }
+    },
+    {
+      "year": 2024,
+      "url": "https://www.nta.ac.in/Download/Notice/Notice_20240725154523.pdf",
+      "file": "data/question-factory-runtime/source-acquisition-2024/nta-cbt-final-key-2024.pdf",
+      "kind": "final_key",
+      "identity_sha256": "30214b88f8cf6487de6342d495e25460ddb60b81d6e3f6a0c39824645e561b97",
+      "state": "pending_paper_mapping",
+      "permission_status": "owner_attested",
+      "reuse_permitted": true,
+      "permission": {
+        "type": "owner_attestation",
+        "basis": "Owner states permission and authorizes proceeding with available materials",
+        "reference": "Owner message in the question-factory commissioning conversation on 6 October 2026",
+        "independently_verified_licence": false
+      }
+    }
+  ],
+  "missing": [
+    "authenticated_complete_papers",
+    "paper_to_final_key_mapping",
+    "development_and_held_out_sets"
+  ],
+  "updated_at": "2026-10-05T21:23:25.872Z"
+}

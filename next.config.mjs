@@ -6,7 +6,7 @@ const appRoot = dirname(fileURLToPath(import.meta.url));
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Production builds clean their output. Keep the live preview's chunks separate.
-  distDir: process.env.NODE_ENV === 'development' ? '.next-dev' : '.next',
+  distDir: process.env.MOCKMOB_STAGING_APP === '1' ? '.next-staging' : (process.env.NODE_ENV === 'development' ? '.next-dev' : '.next'),
   // The default bottom-left dev button intercepts the phone's Today dock link.
   devIndicators: false,
   experimental: {
@@ -15,6 +15,10 @@ const nextConfig = {
   },
   poweredByHeader: false,
   compress: true,
+  // Evidence gates load these versioned records at runtime, including in serverless feeds.
+  outputFileTracingIncludes: {
+    '/*': ['./data/source_registry.json', './data/calibration_manifest.json', './data/question_factory_scope.json'],
+  },
   trailingSlash: false,
   turbopack: {
     root: appRoot,

@@ -19,7 +19,7 @@ import { publicationEligibility } from './evidence_registry';
 import { readablePracticeQuestions } from './practice_library';
 import { toPublicSubjectId } from './cuet_controls';
 import { getMode } from './test_modes';
-import { rankCandidates, pickWithConstraints, buildSelectionUsageMeta } from './mock_question_selector';
+import { rankCandidates, pickWithConstraints, buildSelectionUsageMeta, excludeRepeatedFamilies } from './mock_question_selector';
 import { NTA_DURATION_MINUTES, NTA_QUESTION_COUNT, isPassageLinkedQuestion, selectNtaQuestionSetWithAnswerVerification } from './nta_question_selector';
 
 // ---------- id helpers (match legacy formats) ----------
@@ -173,6 +173,7 @@ const questionOut = (r) => r && ({
   conceptId: r.concept_id || null,
   familyId: r.family_id || r.template_id || r.evidence?.record?.family_id || null,
   pyqAnchorId: r.pyq_anchor_id || null,
+  sourceKind: r.provenance?.kind || null,
   questionType: r.question_type || null,
   passageGroupId: r.passage_group_id || r.group_id || null,
   passageId: r.passage_id || null,
@@ -1172,8 +1173,9 @@ export const Database = {
     let pool = [];
     if (mode.id === 'nta') {
       pool = await fetchNtaPool();
-    } else if (opts.excludeQuestionIds || opts.excludeFamilyIds) {
-      // Freshness must be tested against the full subject pool, not a recent sample.
+    } else {
+      // Evidence precedence and freshness need the whole filtered subject pool;
+      // a recent sample can hide older, fully verified inventory.
       for (let offset = 0; ; offset += 1000) {
         let { data, error } = await buildQuery(true, offset);
         if (error && isMissingPhase1VoteSchema(error)) ({ data, error } = await buildQuery(false, offset));
@@ -1181,21 +1183,12 @@ export const Database = {
         pool.push(...(data || []));
         if (!data || data.length < 1000) break;
       }
-    } else {
-      let { data, error } = await buildQuery(true);
-      if (error && isMissingPhase1VoteSchema(error)) {
-        ({ data, error } = await buildQuery(false));
-      }
-      if (error) throw error;
-      pool = Array.isArray(data) ? data : [];
     }
     if (mode.id === 'quick') {
       pool = pool.filter((row) => !isPassageLinkedQuestion(row));
     }
-    if (mode.id === 'nta') {
-      pool = await this._attachPassageMetadata(pool);
-    }
-    pool = await readablePracticeQuestions(pool, supabaseAdmin(), { requireEvidence: opts.requireEvidence !== false });
+    pool = await this._attachPassageMetadata(pool);
+    pool = await readablePracticeQuestions(pool, supabaseAdmin(), { requireEvidence: mode.id === 'nta' || opts.requireEvidence === true });
     // Freshness is a hard constraint before ranking/selection, never a post-filter.
     if (opts.excludeQuestionIds || opts.excludeFamilyIds) {
       const ids = new Set(opts.excludeQuestionIds || []), families = new Set(opts.excludeFamilyIds || []);
@@ -1207,7 +1200,7 @@ export const Database = {
     if (opts.userId && mode.recencyLimit > 0) {
       const recentIds = await this._recentQuestionIds(opts.userId, subjectId, mode.recencyLimit);
       if (recentIds.size) {
-        const trimmed = pool.filter((row) => !recentIds.has(row.id));
+        const trimmed = pool.filter((row) => row.selection_evidence_tier >= 2 || !recentIds.has(row.id));
         // Only honour recency if we still have a viable pool afterwards.
         const minimumAfterRecency = mode.id === 'nta' ? targetCount : Math.ceil(targetCount * 0.7);
         if (trimmed.length >= minimumAfterRecency) {
@@ -1238,7 +1231,7 @@ export const Database = {
 
     const ranked = rankCandidates(pool, { mode, progress, weakConcepts });
     if (mode.id === 'nta') {
-      const { selectedRows, diagnostics } = await selectNtaQuestionSetWithAnswerVerification(ranked, targetCount, {
+      const { selectedRows, diagnostics } = await selectNtaQuestionSetWithAnswerVerification(excludeRepeatedFamilies(ranked), targetCount, {
         subjectId,
         seed: opts.generationKey || opts.seed || '',
       });

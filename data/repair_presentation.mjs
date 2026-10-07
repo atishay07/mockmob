@@ -1,4 +1,4 @@
-export const REPAIR_OUTCOMES = ['explained', 'stored', 'held_for_recheck', 'not_explained', 'corrected_key'];
+export const REPAIR_OUTCOMES = ['explained', 'stored', 'held_for_recheck', 'not_explained'];
 export function hasExplanation(status) { return status === 'explained' || status === 'stored'; }
 export function repairRetryPolicy(httpStatus, error) {
   const resetRequest = error === 'operation_released';
@@ -8,7 +8,6 @@ export function repairLabel(status) {
   if (hasExplanation(status)) return 'Explanation ready';
   if (status === 'held_for_recheck') return 'Held for review';
   if (status === 'not_explained') return 'No explanation';
-  if (status === 'corrected_key') return 'Key corrected';
   return null;
 }
 export function repairProgress(mistakes, outcomes) {

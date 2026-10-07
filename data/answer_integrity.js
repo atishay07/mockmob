@@ -168,6 +168,7 @@ function answerRaw(row) {
 export function resolveAnswerCorrectIndex(row, options) {
   const indexFields = [row?.correctIndex, row?.correct_index, row?.correct_option_index, row?.correctOptionIndex];
   for (const value of indexFields) {
+    if (value == null || value === '') continue;
     const numeric = Number(value);
     if (Number.isInteger(numeric)) {
       if (numeric >= 0 && numeric < options.length) return numeric;

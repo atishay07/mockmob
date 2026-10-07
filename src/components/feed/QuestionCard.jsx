@@ -5,11 +5,12 @@ import { AppIcon, StatusIcon } from '@/components/ui/Glyph';
 import { interactWithQuestion, setQuestionBookmark } from '@/lib/services/questionService';
 import { VoteControls } from '@/components/questions/VoteControls';
 import { useToast } from '@/components/ToastProvider';
-import { questionFeedback } from '@/../data/explore_feed';
+import { questionFeedback,feedOptions } from '@/../data/explore_feed';
+import { formatQuestionText } from '@/../data/question_presentation.mjs';
 
 export const QuestionCard = memo(function QuestionCard({ row, onProgressChange }) {
   const q = row?.questions ?? row ?? {};
-  const options = Array.isArray(q.options) ? q.options : [];
+  const options = feedOptions(q.options);
   const toast = useToast();
   const [selected, setSelected] = useState(null);
   const [revealed, setRevealed] = useState(false);
@@ -66,7 +67,8 @@ export const QuestionCard = memo(function QuestionCard({ row, onProgressChange }
   return (
     <article ref={card} className="ex-question">
       <header className="ex-question__meta"><span>{q.chapter || 'Practice question'}</span><span className="ex-difficulty" data-level={q.difficulty}>{['easy', 'medium', 'hard'].includes(q.difficulty) ? q.difficulty : 'Unlabelled'}</span></header>
-      <h3 className="ex-question__body">{q.body ?? q.question ?? 'Question unavailable'}</h3>
+      {(q.passage_text || q.passageText) && <section aria-label="Reading passage" className="ex-passage"><p className="ex-passage__label">Reading passage</p><div>{q.passage_text || q.passageText}</div></section>}
+      <h3 className="ex-question__body">{formatQuestionText(q.body ?? q.question ?? 'Question unavailable')}</h3>
       <div className="ex-options" role="group" aria-label="Answer options">
         {options.map((option, index) => {
           const correct = revealed && feedback.correctKey != null && String(option.key) === String(feedback.correctKey);

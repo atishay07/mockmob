@@ -31,7 +31,16 @@
     "study:build": "node scripts/learning/build-study-content.mjs",
     "study:validate": "node scripts/learning/validate-study-content.mjs --write --strict",
     "study:coverage": "node scripts/learning/study-coverage.mjs",
-    "study:prepare": "npm run study:build && npm run study:validate && npm run study:coverage && node scripts/learning/study-content-v2-import.mjs --artifact-dir=artifacts/study-suite/v3"
+    "study:prepare": "npm run study:build && npm run study:validate && npm run study:coverage && node scripts/learning/study-content-v2-import.mjs --artifact-dir=artifacts/study-suite/v3",
+    "factory": "node --use-system-ca scripts/pipeline/factory.mjs",
+    "factory:probe": "node --use-system-ca scripts/pipeline/tools/factoryProviderProbe.mjs",
+    "factory:benchmark": "node --use-system-ca scripts/pipeline/tools/focusedFactory.mjs benchmark",
+    "factory:focused": "node --use-system-ca scripts/pipeline/tools/focusedFactory.mjs",
+    "factory:prepare": "node --use-system-ca scripts/pipeline/tools/prepareFocusedFactory.mjs",
+    "factory:staging-app": "node scripts/pipeline/tools/stagingLocalApp.mjs",
+    "test:factory": "node --test scripts/pipeline/tests/questionFactory.test.mjs scripts/pipeline/tests/factoryAcceptance.test.mjs scripts/pipeline/tests/factoryBenchmark.test.mjs scripts/pipeline/tests/budgetContinuation.test.mjs scripts/pipeline/tests/focusedSources.test.mjs scripts/pipeline/tests/batchInspection.test.mjs scripts/pipeline/tests/factoryFailure.test.mjs scripts/pipeline/tests/generationIntegrity.test.mjs scripts/pipeline/tests/evidenceStorage.test.mjs",
+    "factory:acceptance": "node --use-system-ca scripts/pipeline/tools/factoryAcceptanceReport.mjs",
+    "factory:resume-probe": "node --use-system-ca scripts/pipeline/tools/finalPassBatchProbe.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.90.0",

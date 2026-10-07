@@ -1,0 +1,10 @@
+import {loadEnvFile} from 'node:process';import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';import {createHash} from 'node:crypto';import {createClient} from '@supabase/supabase-js';
+loadEnvFile('.env.local');const url=process.env.NEXT_PUBLIC_SUPABASE_URL;
+if(url!=='https://isrxrxzjocewrdureyhp.supabase.co')throw Error('expected_production_readonly_identity_required');
+const db=createClient(url,process.env.SUPABASE_SERVICE_ROLE_KEY,{auth:{persistSession:false}}),checks=[];
+for(const [table,columns] of [['questions','id,body,options,correct_answer,explanation,evidence,family_id,passage_group_id,passage_text,verification_state,exploration_state,question_type,difficulty_weight'],['passage_groups','id,passage_text,status,discoverable,source'],['recovery_family_holds','family_id'],['question_factory_control','id']]){
+ const {error}=await db.from(table).select(columns).limit(0);checks.push({table,readable:!error,error:error?{code:error.code,message:error.message}:null});
+}
+const dir='artifacts/question-factory/execution-2026-10-07/production';mkdirSync(dir,{recursive:true});
+const migration=readFileSync('supabase/migrations/20261005185759_question_factory.sql','utf8'),sql='-- APPROVAL REQUIRED: production isrxrxzjocewrdureyhp. Additive factory schema only; no seed, promotion, balance change or receipt deletion.\nBEGIN;\n'+migration+'\nCOMMIT;\n';
+writeFileSync(dir+'/factory-migration.sql',sql);const report={at:new Date().toISOString(),project_ref:'isrxrxzjocewrdureyhp',checks,prerequisites_readable:checks.filter(x=>x.table!=='question_factory_control').every(x=>x.readable),factory_schema_exists:checks.find(x=>x.table==='question_factory_control').readable,migration_sha256:createHash('sha256').update(sql).digest('hex'),staging_dry_run:'../staging/dry-run.json',staging_atomicity:'../staging/storage-contract-checks.json',production_writes:0,approval_required:true};writeFileSync(dir+'/read-only-preflight.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));

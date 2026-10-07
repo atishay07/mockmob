@@ -350,6 +350,7 @@ export default function AdminDashboardClient({ adminEmail, initialData }) {
           <Link href="/dashboard" className="rounded-md border border-white/10 px-3 py-2 text-sm text-zinc-300 hover:bg-white/10 hover:text-white">
             Dashboard
           </Link>
+          <Link href="/admin/question-factory" className="inline-flex min-h-11 items-center rounded-md border border-volt/30 px-3 py-2 text-sm text-volt hover:bg-volt/10">Question factory</Link>
         </header>
 
         {error ? (

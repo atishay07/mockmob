@@ -29,6 +29,7 @@ test('concurrent processes cannot reserve beyond a shared ceiling', async () => 
 
 test('transport counts every request and stops on absent usage, unknown prices or wrong provider',async()=>{
  const ledger=new BudgetLedger(join(mkdtempSync(join(tmpdir(),'mockmob-transport-')),'ledger.sqlite'));
+ ledger.reconcileHistory({spent_usd:0,basis:'Isolated software fixture; no provider spending exists.',confirmed_at:new Date().toISOString()});
  let calls=0,usage={prompt_tokens:10,completion_tokens:5};
  const price={provider_host:'fixture.invalid',input_per_million:1,output_per_million:2,max_input_tokens:1000};
  const prices={expires_at:'2099-01-01',source_url:'https://fixture.invalid/prices',models:{fixture:price}};
@@ -38,7 +39,7 @@ test('transport counts every request and stops on absent usage, unknown prices o
   await assert.rejects(dispatch('https://other.invalid/chat/completions',{body}),/pricing/);assert.equal(calls,0);
   await assert.rejects(dispatch('https://fixture.invalid/chat/completions',{body:JSON.stringify({model:'unknown',max_tokens:20})}),/pricing/);assert.equal(calls,0);
   await dispatch('https://fixture.invalid/chat/completions',{body});await dispatch('https://fixture.invalid/chat/completions',{body});
-  assert.equal(ledger.snapshot().requests,2);assert.equal(ledger.snapshot().committed_micro,40);
+  assert.equal(ledger.snapshot().requests,3);assert.equal(ledger.snapshot().committed_micro,40);
   usage=undefined;await assert.rejects(dispatch('https://fixture.invalid/chat/completions',{body}),/usage_unresolved/);
   await assert.rejects(dispatch('https://fixture.invalid/chat/completions',{body}),/budget_usage_unresolved/);assert.equal(calls,3);
  }finally{ledger.close();}

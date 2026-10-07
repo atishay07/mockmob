@@ -2,14 +2,15 @@ import { DatabaseSync } from 'node:sqlite';
 import { mkdirSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { randomUUID } from 'node:crypto';
+import { CALIBRATION_RELEASE } from '../../../data/question_factory_policy.mjs';
 
 // Integer micro-dollars; BEGIN IMMEDIATE serializes independent worker processes.
 // Owner authorization, 4 Oct 2026: content generation may spend up to USD 50 in total (lifetime,
-// incremental from this ledger's start), raised from USD 10. Reserve-before-call is unchanged.
+// including reconciled historical spending), raised from USD 10. Reserve-before-call is unchanged.
 export const CONTENT_LIFETIME_CEILING_USD = 50;
 
 export class BudgetLedger {
-  constructor(path, limitUsd = 2) {
+  constructor(path, limitUsd = CONTENT_LIFETIME_CEILING_USD) {
     mkdirSync(dirname(resolve(path)), { recursive: true });
     this.db = new DatabaseSync(path);
     this.db.exec(`PRAGMA busy_timeout=10000; PRAGMA journal_mode=WAL;
@@ -19,16 +20,26 @@ export class BudgetLedger {
       CREATE TABLE IF NOT EXISTS routes (id TEXT PRIMARY KEY, failures INTEGER NOT NULL DEFAULT 0);
       CREATE TABLE IF NOT EXISTS repairs (id TEXT PRIMARY KEY);
       CREATE TABLE IF NOT EXISTS cache (id TEXT PRIMARY KEY, value TEXT NOT NULL);`);
+    this.db.exec(`CREATE TABLE IF NOT EXISTS ledger_metadata (id TEXT PRIMARY KEY, value TEXT NOT NULL);
+      CREATE TABLE IF NOT EXISTS conservative_holds (reservation_id TEXT PRIMARY KEY REFERENCES requests(id),
+        maximum_micro INTEGER NOT NULL, proof_json TEXT NOT NULL);
+      CREATE TABLE IF NOT EXISTS provider_requests (id TEXT PRIMARY KEY, reservation_id TEXT NOT NULL,
+        provider TEXT NOT NULL, state TEXT NOT NULL, request_json TEXT NOT NULL, response_json TEXT);
+      CREATE TABLE IF NOT EXISTS provider_batches (id TEXT PRIMARY KEY, provider TEXT NOT NULL,
+        provider_id TEXT, reservation_id TEXT NOT NULL, state TEXT NOT NULL, request_json TEXT NOT NULL,
+        response_json TEXT, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);`);
     const columns=this.db.prepare('PRAGMA table_info(requests)').all();
     if(!columns.some(c=>c.name==='owner_pid'))this.db.exec('ALTER TABLE requests ADD COLUMN owner_pid INTEGER');
     if(!columns.some(c=>c.name==='receipt_json'))this.db.exec('ALTER TABLE requests ADD COLUMN receipt_json TEXT');
     this.db.prepare('INSERT OR IGNORE INTO budget VALUES (1, ?)').run(Math.min(CONTENT_LIFETIME_CEILING_USD, Math.max(0, limitUsd)) * 1e6);
     this.transaction(()=>{
-      for(const row of this.db.prepare("SELECT id,owner_pid FROM requests WHERE state='reserved'").all()){
+      for(const row of this.db.prepare("SELECT id,owner_pid FROM requests WHERE state='reserved' OR id IN(SELECT reservation_id FROM provider_batches WHERE state='dispatching') OR id IN(SELECT reservation_id FROM provider_requests WHERE state='dispatching')").all()){
         let alive=false;
         if(row.owner_pid)try{process.kill(row.owner_pid,0);alive=true;}catch(error){alive=error.code==='EPERM';}
         if(!alive)this.db.prepare("UPDATE requests SET state='unresolved' WHERE id=?").run(row.id);
       }
+      this.db.exec("UPDATE provider_batches SET state='unresolved' WHERE state='dispatching' AND reservation_id IN(SELECT id FROM requests WHERE state='unresolved')");
+      this.db.exec("UPDATE provider_requests SET state='unresolved' WHERE state='dispatching' AND reservation_id IN(SELECT id FROM requests WHERE state='unresolved')");
     });
   }
   transaction(fn) {
@@ -38,10 +49,12 @@ export class BudgetLedger {
   }
   snapshot() {
     return { ...this.db.prepare('SELECT limit_micro FROM budget WHERE id=1').get(),
-      ...this.db.prepare("SELECT COALESCE(SUM(COALESCE(actual,reserved)),0) AS committed_micro, COUNT(*) AS requests, SUM(CASE WHEN state='unresolved' THEN 1 ELSE 0 END) AS unresolved FROM requests").get() };
+      ...this.db.prepare("SELECT COALESCE(SUM(COALESCE(actual,reserved)),0) AS committed_micro, COUNT(*) AS requests, SUM(CASE WHEN state='unresolved' THEN 1 ELSE 0 END) AS unresolved FROM requests").get(),
+      unbounded_unresolved:this.db.prepare(`SELECT COUNT(*) AS n FROM requests r LEFT JOIN conservative_holds h ON h.reservation_id=r.id
+        WHERE r.state='unresolved' AND (h.reservation_id IS NULL OR h.maximum_micro<>r.reserved OR r.actual>r.reserved)`).get().n };
   }
   releaseAfterCalibration(report, limitUsd = CONTENT_LIFETIME_CEILING_USD) {
-    if(report?.released!==true || report.independent!==true || report.valid_survival<.95 || report.critical_false_accepts!==0 || report.missing_categories?.length!==0) throw new Error('calibration_release_required');
+    if(report?.released!==true || report.independent!==true || !(report.valid_survival>=CALIBRATION_RELEASE.valid_survival_route) || report.critical_false_accepts!==0 || report.missing_categories?.length!==0) throw new Error('calibration_release_required');
     if(!Number.isFinite(limitUsd) || limitUsd<2 || limitUsd>CONTENT_LIFETIME_CEILING_USD) throw new Error('hard_ceiling_exceeded');
     this.transaction(()=>this.db.prepare('UPDATE budget SET limit_micro=? WHERE id=1').run(Math.floor(limitUsd*1e6)));
   }
@@ -49,11 +62,31 @@ export class BudgetLedger {
     if (!Number.isSafeInteger(amountMicro) || amountMicro <= 0) throw new Error('invalid_reservation');
     return this.transaction(() => {
       const state = this.snapshot();
-      if (state.unresolved > 0) throw new Error('budget_usage_unresolved');
+      // A lost receipt is not zero spending. An independently bounded hold stays
+      // committed in full; only unbounded/overrun uncertainty stops other work.
+      const unbounded=this.db.prepare(`SELECT COUNT(*) AS n FROM requests r LEFT JOIN conservative_holds h
+        ON h.reservation_id=r.id WHERE r.state='unresolved' AND
+        (h.reservation_id IS NULL OR h.maximum_micro<>r.reserved OR r.actual>r.reserved)`).get().n;
+      if (unbounded > 0) throw new Error('budget_usage_unresolved');
       if (state.committed_micro + amountMicro > state.limit_micro) throw new Error('budget_exhausted');
       const id = randomUUID();
       this.db.prepare("INSERT INTO requests(id,model,reserved,state,owner_pid) VALUES(?,?,?,'reserved',?)").run(id, model, amountMicro, process.pid);
       return id;
+    });
+  }
+  retainConservativeHold(id, proof) {
+    return this.transaction(()=>{
+      const row=this.db.prepare('SELECT * FROM requests WHERE id=?').get(id);
+      const {input_bound,output_bound,input_rate,output_rate,tool_calls=0,tool_rate=0}=proof || {};
+      const maximum=Math.ceil(input_bound*input_rate+output_bound*output_rate+tool_calls*tool_rate*1e6);
+      if(!row || row.state!=='unresolved' || row.actual>row.reserved || !Number.isSafeInteger(input_bound) || input_bound<=0 ||
+        !Number.isSafeInteger(output_bound) || output_bound<=0 || !Number.isSafeInteger(tool_calls) || tool_calls<0 ||
+        ![input_rate,output_rate,tool_rate].every(n=>Number.isFinite(n)&&n>=0) || maximum!==row.reserved ||
+        proof.model!==row.model || !proof.pricing_source || !proof.contract_hash || !proof.basis || !proof.provider_request_id)
+        throw new Error('conservative_bound_proof_required');
+      this.db.prepare('INSERT INTO conservative_holds VALUES(?,?,?) ON CONFLICT(reservation_id) DO UPDATE SET proof_json=excluded.proof_json')
+        .run(id,maximum,JSON.stringify(proof));
+      return {reservation_id:id,maximum_micro:maximum,state:'unresolved',receipt_resolved:false};
     });
   }
   settle(id, actualMicro, receipt={}) {
@@ -79,6 +112,21 @@ export class BudgetLedger {
   getCache(key) { const row = this.db.prepare('SELECT value FROM cache WHERE id=?').get(key); return row ? JSON.parse(row.value) : null; }
   setCache(key, value) { this.db.prepare('INSERT OR REPLACE INTO cache VALUES(?,?)').run(key, JSON.stringify(value)); }
   close() { this.db.close(); }
+  reconcileHistory({ spent_usd, basis, confirmed_at }) {
+    if (!Number.isFinite(spent_usd) || spent_usd < 0 || spent_usd > CONTENT_LIFETIME_CEILING_USD ||
+        typeof basis !== 'string' || basis.trim().length < 20 || !Number.isFinite(Date.parse(confirmed_at))) throw new Error('historical_spend_report_required');
+    return this.transaction(() => {
+      if (this.db.prepare("SELECT 1 FROM ledger_metadata WHERE id='history'").get()) throw new Error('history_already_reconciled');
+      this.db.prepare("INSERT INTO requests(id,model,reserved,actual,state,receipt_json) VALUES('historical-content-spend','historical',?,?,'settled',?)")
+        .run(Math.ceil(spent_usd * 1e6), Math.ceil(spent_usd * 1e6), JSON.stringify({ basis, confirmed_at }));
+      this.db.prepare("INSERT INTO ledger_metadata VALUES('history',?)").run(JSON.stringify({ spent_usd, basis, confirmed_at }));
+      // The owner's approved ceiling applies from day one; calibration controls publication.
+      this.db.prepare('UPDATE budget SET limit_micro=? WHERE id=1').run(CONTENT_LIFETIME_CEILING_USD * 1e6);
+    });
+  }
+  assertHistoryReconciled() {
+    if (!this.db.prepare("SELECT 1 FROM ledger_metadata WHERE id='history'").get()) throw new Error('historical_spend_reconciliation_required');
+  }
 }
 
 let shared;
@@ -106,6 +154,8 @@ export function budgetedFetch(baseFetch = globalThis.fetch, {getPrices=()=>JSON.
       throw new Error('verified_pricing_and_token_limits_required');
     }
     const ledger = getLedger();
+    ledger.assertHistoryReconciled();
+    if (Buffer.byteLength(JSON.stringify(body),'utf8') > price.max_input_tokens || body.tools?.length || body.functions?.length) throw new Error('input_or_tool_bound_exceeded');
     // Reserve full configured input limit, not a character/token guess.
     const reserved = Math.ceil(price.max_input_tokens * price.input_per_million + output * price.output_per_million);
     const id = ledger.reserve(body.model, reserved);

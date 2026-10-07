@@ -1,5 +1,6 @@
 import { readablePracticeQuestions } from '@/../data/practice_library';
-import { advanceFeedPage, feedWindow } from '@/../data/explore_feed';
+import { attachBankPassages } from '@/../scripts/pipeline/lib/bankSnapshot.mjs';
+import { advanceFeedPage, feedWindow,feedOptions } from '@/../data/explore_feed';
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { auth } from '@/lib/auth';
@@ -96,7 +97,7 @@ export async function GET(request) {
     }
     if (error) throw error;
     const rawCount = (data || []).length;
-    data = await readablePracticeQuestions(data || [], supabaseAdmin());
+    data = await readablePracticeQuestions(await attachBankPassages(supabaseAdmin(),data || []), supabaseAdmin());
     count = null; // Legacy raw row counts are not eligible-content counts.
     const session = await auth().catch(() => null);
     const questionIds = (data || []).map((r) => r.id);
@@ -122,7 +123,10 @@ export async function GET(request) {
         chapter: r.chapter,
         difficulty: r.difficulty,
         body: r.question ?? r.body,
-        options: r.options || [],
+        options: feedOptions(r.options),
+        passage_text: r.passage_text || null,
+        passage_group_id: r.passage_group_id || r.passage_id || null,
+        order_index: r.order_index ?? null,
         correct_answer: r.correct_answer,
         explanation: r.explanation,
         tags: r.tags || [],
