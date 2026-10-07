@@ -1,6 +1,19 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {inspectBatch,inspectAgainstInventory} from '../lib/batchInspection.mjs';
 const job=(id,body,answer='₹20')=>({id,state:'eligible',candidate:{subject:'economics',chapter:'Production & Costs',question_type:'numerical_calculation',difficulty:'easy',concept_id:'marginal_cost',body,options:[answer,'₹10','₹30','₹40'],correct_answer:'A'}});
 const opts={eligible:()=>({eligible:true})};
+test('publisher passage contracts quarantine mixed chapters, changed stimuli and incomplete groups before RPCs',()=>{
+ const a=job('a','First independent question'),b=job('b','Second independent question');
+ for(const [index,j] of [a,b].entries())Object.assign(j.candidate,{id:j.id,provenance:{kind:'original_practice'},passage_group_id:'g',passage_text:'Complete registered passage.',order_index:index});
+ const registry={passage_groups:{g:{id:'g',state:'active',kind:'original_practice',candidate_ids:['a','b'],passage_text:'Complete registered passage.'}}};
+ assert.equal(inspectAgainstInventory([a,b],[],{...opts,registry}).decisions.length,0);
+ for(const change of [{chapter:'Other chapter'},{passage_text:'A rewritten passage.'},{order_index:0}]){
+  const changed={...b,candidate:{...b.candidate,...change}};
+  const result=inspectAgainstInventory([a,changed],[],{...opts,registry});
+  assert.deepEqual(result.decisions.map(d=>d.id).sort(),['a','b']);
+  assert.ok(result.decisions.every(d=>d.reason==='inspection_passage_group_contract'));
+ }
+ assert.equal(inspectAgainstInventory([a],[],{...opts,registry}).decisions[0].reason,'inspection_passage_group_contract');
+});
 test('cross-cohort duplicate detection withholds the newcomer and never modifies prior publication',()=>{
  const old=job('old','A total cost grows from ₹80 to ₹100 for one more unit.');old.candidate.id=old.id;
  const incoming=structuredClone(old);incoming.id='new';incoming.candidate.id='new';incoming.candidate.options.reverse();incoming.candidate.correct_answer='D';

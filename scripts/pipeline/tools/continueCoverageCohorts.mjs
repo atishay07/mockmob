@@ -43,7 +43,13 @@ try{
   state.updated_at=new Date().toISOString();state.usable_published_staging=coverage.total_usable;state.budget=ledger.snapshot();state.reports=reports.map(r=>({name:r.name,complete:r.complete,approved:r.approved_unique||0,published:r.newly_published||0,pending:r.pending,cost:r.cost}));
   state.state=scheduling.complete?'staging_target_complete':scheduling.deliveryComplete?'staging_target_complete_usage_held':stopped?'stopped_with_receipts_retained':control.paused?'admin_paused':'running';state.scheduling=scheduling;save(statePath,state);
   const summary={state:state.state,usable:coverage.total_usable,cohorts:state.cohorts.length,in_flight:scheduling.active,receipt_only:scheduling.receipt_only,budget:state.budget.committed_micro/1e6,pending:state.reports.reduce((n,r)=>n+r.pending,0)};
-  if(hashJSON(summary)!==lastSummary){console.log(JSON.stringify(summary));lastSummary=hashJSON(summary);}
+  if(hashJSON(summary)!==lastSummary){
+   console.log(JSON.stringify(summary));lastSummary=hashJSON(summary);
+   // Refresh reviewable combined exports as delivery changes. A read-only export
+   // outage must not strand accepted provider requests or weaken publication gates.
+   try{await command(['scripts/pipeline/tools/exportContinuation.mjs','--staging'],directory+'/export.log');}
+   catch(error){save(directory+'/export-error.json',{at:new Date().toISOString(),reason:error.message,cohort_exports_retained:true});}
+  }
   if(scheduling.deliveryComplete||stopped)break;
   if(!control.paused&&scheduling.canRegister){
    if(state.cohorts.length>=maxCohorts){state.state='fixed_campaign_ceiling_reached';save(statePath,state);break;}

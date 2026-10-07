@@ -151,11 +151,11 @@ async function publish(){releaseRequired();if(!process.argv.includes('--staging'
 async function inspectCampaign(){
  const r=report();if(!r.complete||r.cost.held_usd)throw Error('complete_settled_batch_required');
  const db=await stagingWorkerDatabase(),inventory=await readBankSnapshot(db);
- let rows=campaign.jobs.map(j=>store.get(j.id)||j),inspection=inspectAgainstInventory(rows,inventory);
+ let rows=campaign.jobs.map(j=>store.get(j.id)||j),inspection=inspectAgainstInventory(rows,inventory,{registry});
  for(const decision of inspection.decisions){const j=rows.find(j=>j.id===decision.id);if(j.state==='published')throw Error('published_content_dispute_required');
   j.state='quarantined';j.result={...j.result,state:'quarantined',reasons:[decision.reason],inspection:decision};store.set(j.id,j);
  }
- if(inspection.decisions.length){report();rows=campaign.jobs.map(j=>store.get(j.id)||j);const applied=inspection.decisions;inspection={...inspectAgainstInventory(rows,inventory),applied_decisions:applied};}
+ if(inspection.decisions.length){report();rows=campaign.jobs.map(j=>store.get(j.id)||j);const applied=inspection.decisions;inspection={...inspectAgainstInventory(rows,inventory,{registry}),applied_decisions:applied};}
  save(`${directory}/batch-inspection.json`,{...inspection,at:new Date().toISOString(),review_requirement:'Automatic evidence and duplicate guards; uncertainty is withheld. No routine human approval.'});
  log({inspection_ready:inspection.ready,approved:inspection.approved,withheld:inspection.applied_decisions?.length||0});return inspection;
 }

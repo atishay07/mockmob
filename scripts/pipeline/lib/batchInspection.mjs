@@ -1,5 +1,6 @@
 import {hashJSON,inventoryFingerprint} from '../../../data/question_factory_policy.mjs';
 import {publicationEligibility} from '../../../data/evidence_registry.js';
+import {factoryPassageGroup} from './factoryCore.mjs';
 const normalized=s=>String(s||'').normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N}₹]+/gu,' ').trim();
 // Exact content and identical semantic target/answer combinations cannot inflate
 // inventory. Broad chapter or formula tags alone do not prove a duplicate.
@@ -60,10 +61,18 @@ export function inspectBatch(rows,{eligible=publicationEligibility}={}){
 
 // Inspect new candidates against the actual usable bank before publication.
 // Existing rows are read-only context, never reclassified by this inspection.
-export function inspectAgainstInventory(rows,inventory,{eligible=publicationEligibility}={}){
+export function inspectAgainstInventory(rows,inventory,{eligible=publicationEligibility,registry}={}){
  const ids=new Set(rows.map(j=>j.id)),existing=inventory.filter(q=>!ids.has(q.id)&&eligible(q).eligible).map(q=>({id:q.id,state:'published',candidate:q}));
  const combined=inspectBatch([...existing,...rows],{eligible});
  const decisions=combined.decisions.filter(d=>ids.has(d.id));
+ // Apply the publisher's existing atomic contract before any RPC. Individually
+ // valid children cannot publish a group with differing chapter classifications,
+ // missing children, changed stimulus text or conflicting order positions.
+ if(registry)for(const groupId of new Set(rows.filter(j=>['eligible','published'].includes(j.state)).map(j=>j.candidate?.passage_group_id).filter(Boolean))){
+  const siblings=rows.filter(j=>['eligible','published'].includes(j.state)&&j.candidate?.passage_group_id===groupId);
+  try{factoryPassageGroup(siblings.map(j=>j.candidate),registry);}
+  catch(error){for(const j of siblings)if(!decisions.some(d=>d.id===j.id))decisions.push({id:j.id,reason:'inspection_passage_group_contract',details:error.message,group_id:groupId});}
+ }
  const failedGroups=new Set(rows.filter(j=>decisions.some(d=>d.id===j.id)).map(j=>j.candidate?.passage_group_id).filter(Boolean));
  for(const j of rows)if(['eligible','published'].includes(j.state)&&failedGroups.has(j.candidate?.passage_group_id)&&!decisions.some(d=>d.id===j.id))decisions.push({id:j.id,reason:'atomic_group_sibling_withheld'});
  const kept=rows.map(j=>decisions.some(d=>d.id===j.id)?{...j,state:'quarantined'}:j),summary=inspectBatch(kept,{eligible});
