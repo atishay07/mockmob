@@ -38,7 +38,7 @@
     "factory:focused": "node --use-system-ca scripts/pipeline/tools/focusedFactory.mjs",
     "factory:prepare": "node --use-system-ca scripts/pipeline/tools/prepareFocusedFactory.mjs",
     "factory:staging-app": "node scripts/pipeline/tools/stagingLocalApp.mjs",
-    "test:factory": "node --test scripts/pipeline/tests/*.test.mjs data/tests/factory_phase_budget.test.mjs data/tests/practice_availability.test.mjs",
+    "test:factory": "node --test scripts/pipeline/tests/*.test.mjs data/tests/factory_phase_budget.test.mjs data/tests/practice_availability.test.mjs data/tests/factory_inventory.test.mjs",
     "factory:acceptance": "node --use-system-ca scripts/pipeline/tools/factoryAcceptanceReport.mjs",
     "factory:resume-probe": "node --use-system-ca scripts/pipeline/tools/finalPassBatchProbe.mjs"
   },

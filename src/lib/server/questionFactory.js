@@ -11,6 +11,7 @@ import { resolve } from 'node:path';
 import { readBankSnapshot,readAllRows } from '@/../scripts/pipeline/lib/bankSnapshot.mjs';
 import {detailedCoverage} from '@/../scripts/pipeline/lib/topicCoverage.mjs';
 import {phaseBudgetFits,checkpointEvidenceReady} from '@/../data/factory_phase_budget.mjs';
+import {factoryInventoryCounts} from '@/../data/factory_inventory.mjs';
 
 async function readAll(db,table,select='*') {
   const rows=[];
@@ -34,7 +35,7 @@ export async function factoryOverview() {
     const usable=detailedCoverage(inventory,registry,{heldFamilies:holds.map(h=>h.family_id)});
     const coverage=usable.cells.map(c=>({...c,published:publications.filter(p=>p.subject===c.subject && p.chapter===c.chapter).length,reference_available:base.sources.find(s=>s.subject===c.subject)?.chapters.includes(c.chapter)}));
     const scope_coverage=base.sources.map(s=>({subject:s.subject,chapters:coverage.filter(c=>c.subject===s.subject).map(c=>({...c,ready:c.reference_available}))}));
-    return {...base,scope_coverage,available:true,control,jobs,disputes,coverage,counts_snapshot_at:usable.inventory_at,counts:{total:publications.length,usable:usable.total_usable,by_subject:Object.fromEntries(FACTORY_SUBJECTS.map(s=>[s,publications.filter(p=>p.subject===s).length])),
+    return {...base,scope_coverage,available:true,control,jobs,disputes,coverage,counts_snapshot_at:usable.inventory_at,counts:{...factoryInventoryCounts(publications,usable),total:publications.length,usable:usable.total_usable,by_subject:Object.fromEntries(FACTORY_SUBJECTS.map(s=>[s,publications.filter(p=>p.subject===s).length])),
       authentic:publications.filter(p=>p.kind==='authentic_pyq').length,adapted:publications.filter(p=>p.kind==='pyq_adapted').length,original:publications.filter(p=>p.kind==='original_practice').length}};
   } catch(e) {return {...base,available:false,blocker:e.message,counts:{total:0,by_subject:{}},jobs:[],disputes:[]};}
 }
@@ -51,16 +52,16 @@ export async function controlFactory(action) {
     if(overview.control.snapshot?.budget?.unbounded_unresolved ?? overview.control.snapshot?.budget?.unresolved)throw new Error('budget_usage_unresolved');
     const heartbeatAt=Date.parse(overview.control.snapshot?.at || '');
     if(!Number.isFinite(heartbeatAt) || Date.now()-heartbeatAt>300000 || heartbeatAt>Date.now()+60000)throw new Error('worker_heartbeat_required');
-    if(!phaseBudgetFits(overview.control.snapshot,action,overview.counts.total))throw new Error('checkpoint_forecast_exceeds_lifetime_budget');
+    if(!phaseBudgetFits(overview.control.snapshot,action,overview.counts.usable_factory))throw new Error('checkpoint_forecast_exceeds_lifetime_budget');
     if((overview.control.snapshot?.budget?.committed_micro ?? Infinity)>=50000000)throw new Error('budget_exhausted');
     patch.paused=false;
     if(action!=='resume') {
       if(overview.calibration!=='released')throw new Error('route_calibration_required');
       if(action==='release_1000') {
-        if(!checkpointEvidenceReady(overview.control.snapshot,action,overview.counts.total,overview.control.pilot_target || FACTORY_PILOT_TARGET))throw new Error('pilot_quality_and_cost_gate_required');
+        if(!checkpointEvidenceReady(overview.control.snapshot,action,overview.counts.usable_factory,overview.control.pilot_target || FACTORY_PILOT_TARGET))throw new Error('pilot_quality_and_cost_gate_required');
         patch.phase='1000';patch.publication_enabled=true;
       } else {
-        if(!checkpointEvidenceReady(overview.control.snapshot,action,overview.counts.total))throw new Error('thousand_question_checkpoint_required');
+        if(!checkpointEvidenceReady(overview.control.snapshot,action,overview.counts.usable_factory))throw new Error('thousand_question_checkpoint_required');
         patch.phase='10000';patch.publication_enabled=true;
       }
     }
