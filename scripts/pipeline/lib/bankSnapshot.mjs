@@ -1,10 +1,15 @@
 // Shared read-only pagination for the worker and protected admin endpoints.
 export async function readAllRows(db, table, select='*', order='id') {
   const rows=[];
-  for(let offset=0;;offset+=1000) {
-    const {data,error}=await db.from(table).select(select).order(order).range(offset,offset+999);
+  let pageSize=1000;
+  for(let offset=0;;) {
+    const {data,error}=await db.from(table).select(select).order(order).range(offset,offset+pageSize-1);
+    // An evidence-heavy page can exceed the database statement timeout. Retry
+    // only this idempotent read once at a smaller page size; never truncate rows.
+    if(error?.code==='57014'&&table==='questions'&&select==='*'&&pageSize===1000){pageSize=100;continue;}
     if(error)throw new Error(`factory_storage_unavailable:${error.code}`);
-    rows.push(...data);if(data.length<1000)break;
+    rows.push(...data);if(data.length<pageSize)break;
+    offset+=pageSize;
   }
   return rows;
 }

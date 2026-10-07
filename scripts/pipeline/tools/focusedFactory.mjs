@@ -169,7 +169,7 @@ async function syncWorker(db){
  if(claimError||!claimed)throw Error('factory_bound_worker_required');
  const jobs=campaign.jobs.map(j=>store.get(j.id)||j),r=report();
  const remoteJobs=jobs.map(j=>({id:j.id,subject:j.subject,chapter:j.candidate?.chapter||j.chapter,kind:j.kind,anchor_id:null,generation_brief:j,state:j.state||'queued',stage:jobStage(j.state),attempt:j.repair_count||0,candidate:j.candidate||null,result:j.result||null,passage_group_id:j.passage_group_id||null,updated_at:new Date().toISOString()}));
- for(let offset=0;offset<remoteJobs.length;offset+=25){const {error:jobError}=await db.from('question_factory_jobs').upsert(remoteJobs.slice(offset,offset+25));if(jobError)throw Error('factory_job_sync:'+jobError.code);}
+ for(const chunk of boundedRowChunks(remoteJobs)){const {error:jobError}=await db.from('question_factory_jobs').upsert(chunk);if(jobError)throw Error('factory_job_sync:'+jobError.code);}
  const initialPath='artifacts/question-factory/execution-2026-10-07/batch-report.json',initial=existsSync(initialPath)?read(initialPath):null;
  const measured=[initial,r].filter(x=>x?.complete&&x.cost.held_usd===0).at(-1);
  const pilotReport=initial?.complete&&initial.cost.held_usd===0?initial:r;
@@ -204,3 +204,4 @@ async function main(){if(action==='worker')return runFocusedWorker({once:process
  finally{store.release();ledger.close();}
 }
 if(resolve(process.argv[1]||'')===fileURLToPath(import.meta.url))await main();
+import {boundedRowChunks} from '../lib/boundedStorage.mjs';

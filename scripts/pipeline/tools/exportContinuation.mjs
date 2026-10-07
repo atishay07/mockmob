@@ -77,6 +77,12 @@ try{
  const productionProof=existsSync(out+'/production-retrieval.json')?read(out+'/production-retrieval.json'):null;
  report.production_student_retrieval_verified=productionProof?.passed===true&&productionProof.minimum_required>=500&&productionProof.expected_content_hash===report.published_content_hash&&productionProof.validation_contract===validationContract();
  save(out+'/aggregate-report.json',report);
+ if(state.production_publication_authorized){
+  // Accounting refresh is independent of publication and must never strand
+  // accepted provider work if the remote status service is unavailable.
+  try{const {syncProductionFactorySnapshot}=await import('./syncProductionFactorySnapshot.mjs');await syncProductionFactorySnapshot(report);}
+  catch(error){save(out+'/production-accounting-sync-error.json',{at:new Date().toISOString(),reason:error.message,accepted_requests_retained:true});}
+ }
  await import('./writeContinuationReport.mjs');
  console.log(JSON.stringify({registered:report.registered_denominator,completed:report.completed_denominator,unique_published:report.unique_published_staging,pending:report.pending_candidates,lifetime_committed:snapshot.committed_micro/1e6,economics}));
 }finally{ledger.close();}
