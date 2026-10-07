@@ -34,7 +34,7 @@ export async function factoryOverview() {
     const usable=detailedCoverage(inventory,registry,{heldFamilies:holds.map(h=>h.family_id)});
     const coverage=usable.cells.map(c=>({...c,published:publications.filter(p=>p.subject===c.subject && p.chapter===c.chapter).length,reference_available:base.sources.find(s=>s.subject===c.subject)?.chapters.includes(c.chapter)}));
     const scope_coverage=base.sources.map(s=>({subject:s.subject,chapters:coverage.filter(c=>c.subject===s.subject).map(c=>({...c,ready:c.reference_available}))}));
-    return {...base,scope_coverage,available:true,control,jobs,disputes,coverage,counts:{total:publications.length,usable:usable.total_usable,by_subject:Object.fromEntries(FACTORY_SUBJECTS.map(s=>[s,publications.filter(p=>p.subject===s).length])),
+    return {...base,scope_coverage,available:true,control,jobs,disputes,coverage,counts_snapshot_at:usable.inventory_at,counts:{total:publications.length,usable:usable.total_usable,by_subject:Object.fromEntries(FACTORY_SUBJECTS.map(s=>[s,publications.filter(p=>p.subject===s).length])),
       authentic:publications.filter(p=>p.kind==='authentic_pyq').length,adapted:publications.filter(p=>p.kind==='pyq_adapted').length,original:publications.filter(p=>p.kind==='original_practice').length}};
   } catch(e) {return {...base,available:false,blocker:e.message,counts:{total:0,by_subject:{}},jobs:[],disputes:[]};}
 }
@@ -66,7 +66,12 @@ export async function controlFactory(action) {
     }
   }
   const {error}=await db.from('question_factory_control').update(patch).eq('id',1);if(error)throw new Error('factory_control_write_failed');
-  return factoryOverview();
+  // Re-read authoritative controls, but do not download/reclassify the entire
+  // bank twice for one action. Inventory counts retain their explicit snapshot
+  // time; worker/publication changes continue to appear on the next overview.
+  const {data:control,error:readError}=await db.from('question_factory_control').select('*').eq('id',1).single();
+  if(readError)throw new Error('factory_control_read_failed');
+  return {...overview,control};
 }
 export async function exportLegacyBundles() {
   const rows=await readBankSnapshot(supabaseAdmin()),receipts=mechanicalScreen(rows),bundles=reviewBundles(rows,receipts,{sources:currentRegistry().sources});

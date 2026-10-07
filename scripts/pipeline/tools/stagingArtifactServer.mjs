@@ -20,4 +20,4 @@ createServer((req,res)=>{
  res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'});
  const sql=readFileSync(file,'utf8').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
  res.end('<title>MockMob empty staging migration</title><pre>'+sql+'</pre>');
-}).listen(3490,'127.0.0.1',()=>console.log('Staging artifacts available at http://localhost:3490/bootstrap'));
+}).listen(3490,'localhost',()=>console.log('Staging artifacts available at http://localhost:3490/bootstrap'));
