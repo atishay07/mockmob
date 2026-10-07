@@ -8,10 +8,11 @@ export function cohortAccounting(requests,{jobs,budget}){
  for(const row of requests){
   if(row.state==='settled')continue;
   const receipt=row.receipt||{},record=receipt.provider_batch_record;
-  const terminal=['completed','failed','expired','cancelled'].includes(receipt.provider_batch_status);
-  const failed=record&&(record.error||record.response?.status_code!==200);
+  const gemini=receipt.provider==='gemini';
+  const terminal=gemini?receipt.provider_batch_done===true||['JOB_STATE_SUCCEEDED','JOB_STATE_FAILED','JOB_STATE_CANCELLED','JOB_STATE_EXPIRED'].includes(String(receipt.provider_batch_status||'').replace(/^BATCH_STATE_/,'JOB_STATE_')):['completed','failed','expired','cancelled'].includes(receipt.provider_batch_status);
+  const failed=record&&(gemini?Boolean(record.error):record.error||record.response?.status_code!==200);
   const bounded=row.hold_maximum_micro===row.reserved&&row.reserved>0&&(row.actual||0)<=row.reserved;
-  const identity=record?.custom_id===row.provider_key&&receipt.provider_batch_id===row.provider_id;
+  const identity=(gemini?record?.metadata?.key:record?.custom_id)===row.provider_key&&receipt.provider_batch_id===row.provider_id&&(!gemini||/^batches\/[\w-]+$/.test(row.provider_id||''));
   if(row.state==='unresolved'&&terminal&&failed&&bounded&&identity&&states.get(row.candidate_id)==='quarantined')held.push(row.id);
   else blocked.push(row.id);
  }

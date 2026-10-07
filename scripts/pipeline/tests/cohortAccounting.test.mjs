@@ -33,3 +33,12 @@ test('an uncertain failed request on an approved item cannot be hidden behind an
  assert.equal(cohortAccounting([failure()],{jobs,budget:{...budget,unbounded_unresolved:1}}).ready,false);
  assert.equal(cohortAccounting([failure()],{jobs,budget:{...budget,committed_micro:50000001}}).ready,false);
 });
+
+test('Gemini native errors require terminal batch state, exact metadata identity and quarantine',()=>{
+ const r={...failure(),provider_id:'batches/saved',receipt:{provider:'gemini',provider_batch_id:'batches/saved',provider_batch_status:'BATCH_STATE_SUCCEEDED',provider_batch_record:{metadata:{key:'key'},error:{code:14}}}};
+ assert.equal(cohortAccounting([r],{jobs,budget}).ready,true);assert.equal(cohortAccounting([r],{jobs,budget}).settled,false);
+ for(const status of ['BATCH_STATE_PENDING','BATCH_STATE_RUNNING',null])assert.equal(cohortAccounting([{...r,receipt:{...r.receipt,provider_batch_status:status}}],{jobs,budget}).ready,false,status);
+ for(const record of [{metadata:{key:'wrong'},error:{code:14}},{custom_id:'key',error:{code:14}},{metadata:{key:'key'},response:{}},{metadata:{key:'key'}}])assert.equal(cohortAccounting([{...r,receipt:{...r.receipt,provider_batch_record:record}}],{jobs,budget}).ready,false);
+ assert.equal(cohortAccounting([{...r,provider_id:'batches/wrong'}],{jobs,budget}).ready,false);
+ assert.equal(cohortAccounting([{...r,candidate_id:'good'}],{jobs,budget}).ready,false);
+});

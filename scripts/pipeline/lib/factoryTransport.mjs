@@ -232,12 +232,27 @@ export function createFactoryTransport({ ledger, fetchImpl = fetch, prices = () 
       const records = Array.isArray(inline)?inline:inline?.inlinedResponses;
       const matches=records?.filter(r=>r.metadata?.key===key);
       if(records?.length && matches?.length!==1)throw Error('batch_record_mismatch');
-      if (matches?.length !== 1 || matches[0].error || !matches[0].response) {
+      if (matches?.length !== 1) {
         unresolved(row.reservation_id, new Error('batch_terminal_usage_missing'));
         ledger.db.prepare("UPDATE provider_batches SET state='unresolved' WHERE id=?").run(key);
         throw new Error('batch_terminal_usage_missing');
       }
-      payload = matches[0].response;
+      const record=matches[0];
+      if(record.error || !record.response){
+        const failure={provider:'gemini',provider_batch_id:row.provider_id,
+          provider_batch_status:batch.metadata?.state||batch.state||null,provider_batch_done:batch.done===true,
+          provider_request_id:record.response?.responseId||null,error:record.error||null,provider_batch_record:record};
+        if(record.error&&record.response?.usageMetadata){
+          settle(row.reservation_id,{...config,failure_receipt:failure},record.response);
+          ledger.db.prepare("UPDATE provider_batches SET state='rejected',response_json=? WHERE id=?").run(JSON.stringify(record),key);
+          return {failed:true,receipt_settled:true,record};
+        }
+        // A terminal per-item service error proves failure, not free inference.
+        // Retain the native record and full maximum; never repost its saved ID.
+        const error=Error(record.error?'batch_failed_usage_missing':'batch_terminal_usage_missing');
+        error.providerReceipt=failure;throw error;
+      }
+      payload = record.response;
     }
     if(ledger.db.prepare('SELECT state FROM requests WHERE id=?').get(row.reservation_id)?.state!=='settled')settle(row.reservation_id, config, payload);
     ledger.db.prepare("UPDATE provider_batches SET state='complete',response_json=? WHERE id=?").run(JSON.stringify(payload), key);
