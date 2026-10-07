@@ -1,6 +1,11 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {inspectBatch,inspectAgainstInventory} from '../lib/batchInspection.mjs';
 const job=(id,body,answer='₹20')=>({id,state:'eligible',candidate:{subject:'economics',chapter:'Production & Costs',question_type:'numerical_calculation',difficulty:'easy',concept_id:'marginal_cost',body,options:[answer,'₹10','₹30','₹40'],correct_answer:'A'}});
 const opts={eligible:()=>({eligible:true})};
+test('dictionary definitions do not establish a universal both-qualities rule for antonyms',()=>{
+ const q=job('a','Which phrase is the antonym of plausible?','Unreasonable and unlikely to be true');Object.assign(q.candidate,{subject:'english',question_type:'antonym',explanation:'Its antonym must oppose both qualities, so this is correct.'});
+ assert.equal(inspectBatch([q],opts).decisions[0].reason,'unsupported_conjunctive_antonym_explanation');
+ q.candidate.explanation='The cited antonym definition describes an explanation as difficult to believe.';assert.equal(inspectBatch([q],opts).decisions.length,0);
+});
 test('same passage fact is withheld despite different concept labels and pronoun paraphrases',()=>{
  const a=job('a','What condition did the members set for reconsidering the proposed drill purchase?','If the repaired equipment could no longer handle the workload.');
  Object.assign(a.candidate,{subject:'english',chapter:'Factual Passage',question_type:'reading_comprehension',passage_text:'A complete fictional club passage.'});

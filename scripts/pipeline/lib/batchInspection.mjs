@@ -1,7 +1,7 @@
 import {hashJSON,inventoryFingerprint} from '../../../data/question_factory_policy.mjs';
 import {publicationEligibility} from '../../../data/evidence_registry.js';
 import {factoryPassageGroup} from './factoryCore.mjs';
-export const BATCH_INSPECTION_CONTRACT='evidence-content-idea-inspection-v2';
+export const BATCH_INSPECTION_CONTRACT='evidence-content-idea-inspection-v3';
 const normalized=s=>String(s||'').normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N}₹]+/gu,' ').trim();
 const readingWords=s=>new Set(normalized(String(s).replace(/\b(\w+)['’]s\b/g,'$1')).split(' ').filter(w=>!['a','an','the','of','to','for','in','on','if','did','does','do','their','its','his','her','what','which','under','that','it'].includes(w)).map(w=>w.length>6&&w.endsWith('ing')?w.slice(0,-3):w));
 const overlap=(a,b)=>[...a].filter(w=>b.has(w)).length/Math.max(a.size,b.size,1);
@@ -21,6 +21,9 @@ export function inspectBatch(rows,{eligible=publicationEligibility}={}){
  const decisions=[],seen=new Map(),lexicalTargets=new Map();
  for(const job of rows.filter(j=>['eligible','published'].includes(j.state))){
   const q=job.candidate,check=eligible(q);if(!check.eligible){decisions.push({id:job.id,reason:'inspection_evidence_invalid',details:check.reasons});continue;}
+  if(q.subject==='english'&&q.question_type==='antonym'&&/antonym\s+(?:must|has to|needs to)\s+(?:oppose|reverse|negate)\s+both\b/i.test(q.explanation||'')){
+   decisions.push({id:job.id,reason:'unsupported_conjunctive_antonym_explanation',basis:'A conjunctive dictionary definition does not establish that an antonym must negate both qualities. Opposing part of the meaning can remain a plausible alternative; the universal explanation rule is unsupported.'});continue;
+  }
   if(q.subject==='english'&&/every english clause has two parts/i.test(q.body)){
    decisions.push({id:job.id,reason:'unsupported_exact_clause_generalization',basis:'The supplied clause reference states at least two parts; the generated universal exact-two assertion removes that qualification.'});continue;
   }
