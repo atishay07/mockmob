@@ -46,7 +46,7 @@ if (args.bundle) {
   const chosen = files.filter(f => f >= from);
   const failed = results.filter(r => !r.ok && r.file >= from);
   if (failed.length) { console.error(`Not bundling: ${failed.length} selected migration(s) failed.`); process.exit(1); }
-  const header = `-- MockMob app migrations for the STAGING project only (onwkqxmjqjrhfbjjdydu).\n-- Generated from supabase/migrations, ${chosen.length} files from ${from}, each verified to apply in order\n-- on a local Postgres (PGlite) after all earlier migrations. Additive only. Do not run on production.\n`;
+  const header = `-- MockMob app migrations for the STAGING project only (onwkqxmjqjrhfbjjdydu).\n-- Generated from supabase/migrations, ${chosen.length} files from ${from}, each verified to apply in order\n-- on a local Postgres (PGlite) on top of the earlier migrations that replay locally (the older history\n-- does not fully replay from scratch). Additive: deletes appear only inside function bodies. Not for production.\n`;
   writeFileSync(args.bundle, header + chosen.map(f => `\n-- ===== ${f} =====\n` + readFileSync(new URL(f, dir), 'utf8')).join('\n'));
   console.log(`Bundled ${chosen.length} migrations into ${args.bundle}`);
 }

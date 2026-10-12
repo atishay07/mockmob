@@ -1,6 +1,7 @@
 -- MockMob app migrations for the STAGING project only (onwkqxmjqjrhfbjjdydu).
 -- Generated from supabase/migrations, 7 files from 20261012120000, each verified to apply in order
--- on a local Postgres (PGlite) after all earlier migrations. Additive only. Do not run on production.
+-- on a local Postgres (PGlite) on top of the earlier migrations that replay locally (the older history
+-- does not fully replay from scratch). Additive: deletes appear only inside function bodies. Not for production.
 
 -- ===== 20261012120000_usage_consent_and_events.sql =====
 -- Optional first-party usage data. Adults only, opt-in, withdrawable. Service role only.
