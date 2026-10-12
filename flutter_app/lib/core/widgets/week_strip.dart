@@ -2,18 +2,22 @@ import 'package:flutter/material.dart';
 
 import '../copy/formatters.dart';
 import '../theme/theme.dart';
+import 'bubbles/bubble_painter.dart';
 
 /// One day of the weekly strip. Days are Monday first.
 class WeekStripDay {
-  const WeekStripDay({this.studyDay = false, this.isToday = false});
+  const WeekStripDay({this.studyDay = false, this.isToday = false, this.rest = false});
 
   final bool studyDay;
   final bool isToday;
+
+  /// A chosen rest day: drawn as its own dashed shape, never as a miss.
+  final bool rest;
 }
 
-/// The weekly rhythm row (spec 6.1): seven 28 dp circles with weekday initials, the caller's
-/// text on the left. A study day is an ink-filled circle with a check, today has a 2 dp
-/// outline, other days are hairline circles. No volt, no flame, no numeric badge.
+/// The weekly rhythm row: the week as seven answer bubbles with weekday initials, the caller's
+/// text on the left. A study day is inked, today is ringed, a rest day has its own dashed shape,
+/// other days are hollow rings. No flame, no numeric badge, nothing punitive.
 ///
 /// At large text scale the text moves above the circles. [onTap] opens the week sheet.
 class WeekStrip extends StatelessWidget {
@@ -95,6 +99,7 @@ class WeekStrip extends StatelessWidget {
   }
 }
 
+/// Paints the week as answer bubbles with the weekday initial inside each.
 class WeekStripPainter extends CustomPainter {
   WeekStripPainter({required this.days, required this.colors, required this.initialStyle});
 
@@ -104,52 +109,39 @@ class WeekStripPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    const r = WeekStrip.circle / 2;
+    const cell = WeekStrip.circle;
+    final bubbles = BubblePaint(colors);
     final cy = size.height / 2;
-    final fill = Paint()..color = colors.ink;
-    final hairline = Paint()
-      ..color = colors.lineStrong
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1;
-    final ring = Paint()
-      ..color = colors.ink
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2;
-    final check = Paint()
-      ..color = colors.ground
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2
-      ..strokeCap = StrokeCap.round
-      ..strokeJoin = StrokeJoin.round;
-
     for (var i = 0; i < days.length; i++) {
       final day = days[i];
-      final center = Offset(r + i * (WeekStrip.circle + WeekStrip.gap), cy);
-
-      if (day.studyDay) {
-        // Today keeps its outline with a gap, so "today and a study day" still reads.
-        canvas.drawCircle(center, day.isToday ? r - 4.5 : r, fill);
-        if (day.isToday) canvas.drawCircle(center, r - 1, ring);
-        final k = day.isToday ? 0.8 : 1.0;
-        final path = Path()
-          ..moveTo(center.dx - 4.5 * k, center.dy + 0.5 * k)
-          ..lineTo(center.dx - 1.5 * k, center.dy + 3.5 * k)
-          ..lineTo(center.dx + 4.5 * k, center.dy - 3 * k);
-        canvas.drawPath(path, check);
-      } else {
-        if (day.isToday) {
-          canvas.drawCircle(center, r - 1, ring);
-        } else {
-          canvas.drawCircle(center, r - 0.5, hairline);
-        }
-        _paintInitial(canvas, center, weekdayInitials[i], day.isToday ? colors.ink : colors.ink3);
+      final center = Offset(cell / 2 + i * (cell + WeekStrip.gap), cy);
+      // Today is ringed in ink; the bubble shrinks a little inside the ring.
+      final r = day.isToday ? cell / 2 - 4 : cell / 2 - 1;
+      if (day.isToday) {
+        canvas.drawCircle(
+          center,
+          cell / 2 - 0.8,
+          Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1.6
+            ..color = colors.ink,
+        );
       }
+      final state = day.studyDay ? BubbleState.filled : (day.rest ? BubbleState.rest : BubbleState.hollow);
+      bubbles.paint(canvas, center, r, state);
+      if (state == BubbleState.rest) continue;
+      _paintInitial(
+        canvas,
+        center,
+        weekdayInitials[i],
+        day.studyDay ? colors.voltInk : (day.isToday ? colors.ink : colors.ink3),
+      );
     }
   }
 
   void _paintInitial(Canvas canvas, Offset center, String initial, Color color) {
     final painter = TextPainter(
-      text: TextSpan(text: initial, style: initialStyle.copyWith(fontSize: 12, height: 1, color: color)),
+      text: TextSpan(text: initial, style: initialStyle.copyWith(fontSize: 11, height: 1, color: color, fontWeight: FontWeight.w700)),
       textDirection: TextDirection.ltr,
       textScaler: TextScaler.noScaling,
     )..layout();
@@ -164,7 +156,9 @@ class WeekStripPainter extends CustomPainter {
   bool _sameDays(List<WeekStripDay> other) {
     if (other.length != days.length) return false;
     for (var i = 0; i < days.length; i++) {
-      if (other[i].studyDay != days[i].studyDay || other[i].isToday != days[i].isToday) return false;
+      if (other[i].studyDay != days[i].studyDay || other[i].isToday != days[i].isToday || other[i].rest != days[i].rest) {
+        return false;
+      }
     }
     return true;
   }

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -17,6 +18,7 @@ import 'transitions.dart';
 final intendedRouteProvider = Provider<IntendedRoute>((ref) => IntendedRoute());
 
 /// The app's router. Every route of spec 4.2 is declared here; screens come from `screens.dart`.
+/// The shell has three tabs (Today, Practice, Review); You and Learn are pushed over it.
 final routerProvider = Provider<GoRouter>((ref) {
   final rootKey = GlobalKey<NavigatorState>(debugLabel: 'root');
   final intended = ref.watch(intendedRouteProvider);
@@ -100,7 +102,7 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
     page('/sign-in', signInScreen, routes: [page('code', signInCodeScreen)]),
     sheet(AppRoutes.beforeYouStart, beforeYouStartScreen),
 
-    // The five tabs. Each branch keeps its own navigation stack and fades in over 140 ms.
+    // The three tabs. Each branch keeps its own navigation stack and fades in on a switch.
     StatefulShellRoute(
       builder: (context, state, shell) => AppShell(shell: shell),
       navigatorContainerBuilder: (context, shell, children) =>
@@ -130,31 +132,35 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
             page('repair/:attemptId/:questionId', reviewRepairScreen, root: true),
           ]),
         ]),
-        StatefulShellBranch(routes: [
-          tabRoot('/learn', learnScreen, routes: [
-            // "run" before the :unitId pattern.
-            page('run/:runId', learnRunScreen, root: true, routes: [
-              page('done', learnRunDoneScreen, transition: MmTransition.fade, root: true),
-            ]),
-            page(':unitId', learnUnitScreen),
-          ]),
-        ]),
-        StatefulShellBranch(routes: [
-          tabRoot('/you', youScreen, routes: [
-            page('goal', youGoalScreen),
-            page('rhythm', youRhythmScreen),
-            page('notifications', youNotificationsScreen),
-            page('privacy', youPrivacyScreen),
-            page('account', youAccountScreen),
-            page('delete', youDeleteScreen),
-            page('milestones', youMilestonesScreen),
-            page('bests', youBestsScreen),
-            page('appearance', youAppearanceScreen),
-            page('help', youHelpScreen),
-          ]),
-        ]),
       ],
     ),
+
+    // You: pushed from the avatar on every tab root, over the dock.
+    page(AppRoutes.you, youScreen, root: true, routes: [
+      page('goal', youGoalScreen, root: true),
+      page('rhythm', youRhythmScreen, root: true),
+      page('notifications', youNotificationsScreen, root: true),
+      page('privacy', youPrivacyScreen, root: true),
+      page('account', youAccountScreen, root: true),
+      page('delete', youDeleteScreen, root: true),
+      page('milestones', youMilestonesScreen, root: true),
+      page('bests', youBestsScreen, root: true),
+      page('appearance', youAppearanceScreen, root: true),
+      page('help', youHelpScreen, root: true),
+    ]),
+
+    // Learn is no longer a tab: its screens stay reachable from Practice (the Concepts shelf)
+    // and from the mistakes they explain.
+    page(AppRoutes.learn, learnScreen, root: true, routes: [
+      // "run" before the :unitId pattern.
+      page('run/:runId', learnRunScreen, root: true, routes: [
+        page('done', learnRunDoneScreen, transition: MmTransition.fade, root: true),
+      ]),
+      page(':unitId', learnUnitScreen, root: true),
+    ]),
+
+    // The design lab (debug builds only): every foundation component in both themes.
+    if (kDebugMode) page(AppRoutes.lab, labScreen, root: true),
 
     // Runner: fullscreen, 120 ms fade.
     page('/run/:sessionId', runScreen, transition: MmTransition.fade, root: true, routes: [

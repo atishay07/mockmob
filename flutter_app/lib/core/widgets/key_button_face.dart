@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../motion/motion.dart';
 import '../theme/theme.dart';
+import 'bubbles/bubble.dart';
+import 'materials/edge_light.dart';
+import 'materials/shape.dart';
 import 'mm_spinner.dart';
 
 enum KeyVariant {
-  /// Volt keycap with a voltEdge lip. One per screen.
+  /// The volt pill: the one primary action on a screen.
   primary,
 
-  /// Raised fill with a lineStrong lip.
+  /// The glass pill: a secondary action, smoked with an edge light.
   secondary,
 
-  /// Transparent, 44 dp, no lift.
+  /// A quiet text button, 48 dp tall.
   quiet,
 
-  /// Answer option: 56 dp, 3 dp dark lip, selected = flush + 2 dp ink border + check.
+  /// A solid answer option, 56 dp, that inks its bubble when chosen.
   option,
 }
 
-/// The pure visual of a key at a given press [depth] (0 raised, 1 flush). `KeyButton` drives
-/// it from a controller; goldens render it at fixed depths.
+/// The pure visual of a button at a given press [depth] (0 at rest, 1 pressed). `KeyButton`
+/// drives it; goldens render it at fixed depths.
 class KeyButtonFace extends StatelessWidget {
   const KeyButtonFace({
     super.key,
@@ -33,12 +36,13 @@ class KeyButtonFace extends StatelessWidget {
     this.expanded = true,
     this.leading,
     this.minHeight,
+    this.scaleWithDepth = true,
   });
 
   final String label;
   final KeyVariant variant;
 
-  /// 0 = raised, 1 = pressed flush. Disabled and selected keys are always flush.
+  /// 0 = rest, 1 = pressed.
   final double depth;
   final bool disabled;
   final bool loading;
@@ -50,11 +54,8 @@ class KeyButtonFace extends StatelessWidget {
   final Widget? leading;
   final double? minHeight;
 
-  double get _lip => switch (variant) {
-        KeyVariant.primary || KeyVariant.secondary => 4,
-        KeyVariant.option => 3,
-        KeyVariant.quiet => 0,
-      };
+  /// Applies the 0.96 pressed scale here. `KeyButton` scales on a spring itself and sets false.
+  final bool scaleWithDepth;
 
   double get _minHeight =>
       minHeight ??
@@ -64,147 +65,157 @@ class KeyButtonFace extends StatelessWidget {
         KeyVariant.quiet => MmTarget.min,
       };
 
+  BorderRadius get _radius => variant == KeyVariant.option ? MmRadius.keyAll : MmRadius.pillAll;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final lip = _lip;
-    final flush = disabled || selected;
-    final effectiveDepth = flush ? 1.0 : depth.clamp(0.0, 1.0);
+    final d = depth.clamp(0.0, 1.0);
 
-    // Disabled is flush at 45% strength. Colours are blended onto the ground instead of using
-    // `Opacity`, so no saveLayer is needed.
-    Color fade(Color c) => disabled ? Color.lerp(colors.ground, c, 0.45)! : c;
-
-    final Color faceColor;
-    final Color edgeColor;
-    final Color textColor;
-    Color? borderColor;
+    final Color fill;
+    final Color text;
+    Color? border;
     var borderWidth = 0.0;
+    var edge = false;
+    List<BoxShadow>? shadow;
+
     switch (variant) {
       case KeyVariant.primary:
-        faceColor = fade(colors.volt);
-        edgeColor = colors.voltEdge;
-        textColor = fade(colors.voltInk);
+        fill = disabled ? colors.raised2 : Color.lerp(colors.volt, colors.voltEdge, 0.16 * d)!;
+        text = disabled ? colors.ink3 : colors.voltInk;
+        if (!disabled) {
+          shadow = [
+            BoxShadow(
+              color: colors.isNight ? colors.voltGlow : colors.voltEdge.withValues(alpha: 0.28),
+              blurRadius: 22 - 8 * d,
+              offset: Offset(0, 8 - 4 * d),
+              spreadRadius: -10,
+            ),
+          ];
+        }
       case KeyVariant.secondary:
-        faceColor = fade(colors.raised);
-        edgeColor = colors.lineStrong;
-        textColor = fade(colors.ink);
-        borderColor = fade(colors.line);
-        borderWidth = 1;
+        fill = Color.lerp(colors.isNight ? colors.raised2 : colors.raised, colors.isNight ? colors.lineStrong : colors.raised2, 0.35 * d)!;
+        text = disabled ? colors.ink4 : colors.ink;
+        edge = !disabled;
+        if (disabled) {
+          border = colors.line;
+          borderWidth = 1;
+        }
+        shadow = disabled ? null : colors.cardShadow;
       case KeyVariant.option:
-        faceColor = fade(colors.raised);
-        edgeColor = colors.optionLip;
-        textColor = fade(colors.ink);
-        borderColor = selected ? colors.ink : fade(colors.line);
-        borderWidth = selected ? 2 : 1;
+        fill = selected ? colors.raised2 : Color.lerp(colors.raised, colors.raised2, 0.6 * d)!;
+        text = disabled ? colors.ink3 : colors.ink;
+        border = selected ? colors.ink : colors.line;
+        borderWidth = selected ? 1.5 : 1;
       case KeyVariant.quiet:
-        faceColor = Color.lerp(colors.sunken.withValues(alpha: 0), colors.sunken, effectiveDepth)!;
-        edgeColor = colors.ground;
-        textColor = fade(colors.ink);
+        fill = Color.lerp(colors.sunken.withValues(alpha: 0), colors.sunken, d)!;
+        text = disabled ? colors.ink4 : colors.ink;
     }
 
     final labelStyle = variant == KeyVariant.option
-        ? type.body.copyWith(color: textColor, fontWeight: FontWeight.w500)
-        : type.button.copyWith(color: textColor);
+        ? type.body.copyWith(color: text, fontWeight: FontWeight.w500)
+        : type.button.copyWith(color: text);
 
-    final Widget content = variant == KeyVariant.option
-        ? _optionContent(colors, labelStyle)
-        : _centeredContent(textColor, labelStyle);
+    final content = variant == KeyVariant.option ? _optionContent(colors, labelStyle) : _centeredContent(text, labelStyle);
 
-    final face = DecoratedBox(
-      decoration: BoxDecoration(
-        color: faceColor,
-        borderRadius: variant == KeyVariant.quiet ? MmRadius.smallAll : MmRadius.keyAll,
-        border: borderColor == null ? null : Border.all(color: borderColor, width: borderWidth),
+    final enamel = variant == KeyVariant.primary && !disabled;
+    Widget face = DecoratedBox(
+      decoration: ShapeDecoration(
+        color: enamel ? null : fill,
+        gradient: enamel
+            ? LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Color.lerp(fill, Colors.white, 0.14)!, fill, Color.lerp(fill, colors.voltEdge, 0.22)!],
+                stops: const [0, 0.55, 1],
+              )
+            : null,
+        shape: mmShapeBorder(_radius, side: border == null ? BorderSide.none : BorderSide(color: border, width: borderWidth)),
+        shadows: shadow,
       ),
-      child: ConstrainedBox(
-        constraints: BoxConstraints(minHeight: _minHeight),
-        child: Padding(
-          // Options keep their inner size whether the border is 1 or 2 dp.
-          padding: EdgeInsets.symmetric(
-            horizontal: variant == KeyVariant.quiet ? MmSpace.s16 : MmSpace.s20,
-            vertical: variant == KeyVariant.option ? MmSpace.s12 + (2 - borderWidth) : MmSpace.s12,
+      child: CustomPaint(
+        foregroundPainter: _foreground(colors, d, edge),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minHeight: _minHeight),
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: switch (variant) {
+                KeyVariant.quiet => MmSpace.s16,
+                KeyVariant.option => MmSpace.s16,
+                _ => MmSpace.s24,
+              },
+              vertical: MmSpace.s12,
+            ),
+            child: content,
           ),
-          child: content,
         ),
       ),
     );
 
-    final Widget key = lip == 0
-        ? face
-        : Stack(
-            clipBehavior: Clip.none,
-            children: [
-              if (effectiveDepth < 1)
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  top: lip,
-                  bottom: 0,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(color: edgeColor, borderRadius: MmRadius.keyAll),
-                  ),
-                ),
-              Padding(
-                padding: EdgeInsets.only(bottom: lip),
-                child: Transform.translate(offset: Offset(0, lip * effectiveDepth), child: face),
-              ),
-            ],
-          );
+    if (scaleWithDepth && d > 0) {
+      face = Transform.scale(scale: 1 - (1 - Springs.pressedScale) * d, child: face);
+    }
 
-    final ring = focused
-        ? Stack(
-            clipBehavior: Clip.none,
-            children: [
-              key,
-              Positioned(
-                left: -4,
-                right: -4,
-                top: -4,
-                bottom: -4,
-                child: IgnorePointer(
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(MmRadius.key + 4),
-                      border: Border.all(color: colors.focusRing, width: 2),
-                    ),
+    if (focused) {
+      face = Stack(
+        clipBehavior: Clip.none,
+        children: [
+          face,
+          Positioned(
+            left: -4,
+            right: -4,
+            top: -4,
+            bottom: -4,
+            child: IgnorePointer(
+              child: DecoratedBox(
+                decoration: ShapeDecoration(
+                  shape: mmShapeBorder(
+                    variant == KeyVariant.option ? BorderRadius.circular(MmRadius.key + 4) : MmRadius.pillAll,
+                    side: BorderSide(color: colors.focusRing, width: 2),
                   ),
                 ),
               ),
-            ],
-          )
-        : key;
-
-    return RepaintBoundary(child: ring);
+            ),
+          ),
+        ],
+      );
+    }
+    return RepaintBoundary(child: face);
   }
 
-  Widget _spinner(Color color) => MmSpinner(color: color);
+  CustomPainter? _foreground(MmColors colors, double d, bool edge) {
+    if (variant == KeyVariant.primary && !disabled) {
+      return _VoltSheen(highlight: Colors.white.withValues(alpha: 0.38 - 0.18 * d));
+    }
+    if (edge) {
+      return EdgeLightPainter(
+        borderRadius: _radius,
+        top: colors.edgeTop,
+        bottom: colors.edgeBottom,
+        boost: 1 + 0.6 * d,
+      );
+    }
+    return null;
+  }
 
   Widget _centeredContent(Color textColor, TextStyle style) {
     Widget row(bool showSpinner) => Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (showSpinner) ...[_spinner(textColor), const SizedBox(width: MmSpace.s8)],
+            if (showSpinner) ...[MmSpinner(color: textColor), const SizedBox(width: MmSpace.s8)],
             Flexible(child: Text(label, style: style, textAlign: TextAlign.center)),
           ],
         );
 
     if (expanded) return Center(child: row(loading));
-    // Quiet keys never load, so they keep their natural width.
     if (variant == KeyVariant.quiet) return row(loading);
-    // Intrinsic-width keys always reserve room for the spinner so width never changes.
+    // Intrinsic-width keys reserve room for the spinner so the width never changes.
     return Stack(
       alignment: Alignment.center,
       children: [
-        Visibility(
-          visible: false,
-          maintainSize: true,
-          maintainAnimation: true,
-          maintainState: true,
-          child: row(true),
-        ),
+        Visibility(visible: false, maintainSize: true, maintainAnimation: true, maintainState: true, child: row(true)),
         row(loading),
       ],
     );
@@ -215,12 +226,41 @@ class KeyButtonFace extends StatelessWidget {
       children: [
         if (leading != null) ...[leading!, const SizedBox(width: MmSpace.s12)],
         Expanded(child: Text(label, style: style)),
-        if (loading) ...[const SizedBox(width: MmSpace.s12), _spinner(colors.ink)],
-        if (selected) ...[
-          const SizedBox(width: MmSpace.s12),
-          Icon(LucideIcons.check, size: 20, color: colors.ink),
-        ],
+        const SizedBox(width: MmSpace.s12),
+        if (loading)
+          MmSpinner(color: colors.ink)
+        else
+          Bubble(state: selected ? BubbleState.filled : BubbleState.hollow, size: 22),
       ],
     );
   }
+}
+
+/// The volt pill's light: a thin bright line inside the top edge, like the lamp catching a
+/// glossy enamel button.
+class _VoltSheen extends CustomPainter {
+  const _VoltSheen({required this.highlight});
+
+  final Color highlight;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final r = size.height / 2;
+    final path = Path()
+      ..moveTo(r, 1.6)
+      ..lineTo(size.width - r, 1.6);
+    canvas.drawPath(
+      path,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.2
+        ..strokeCap = StrokeCap.round
+        ..shader = LinearGradient(
+          colors: [highlight.withValues(alpha: 0), highlight, highlight.withValues(alpha: 0)],
+        ).createShader(Offset.zero & size),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_VoltSheen old) => old.highlight != highlight;
 }

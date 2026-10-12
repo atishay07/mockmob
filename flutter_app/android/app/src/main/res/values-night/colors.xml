@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Ground colour of the dark theme (spec 2.1). -->
-    <color name="splash_ground">#0B100E</color>
+    <!-- Same as the day values: Night is the default identity. -->
+    <color name="splash_ground">#12110E</color>
     <color name="splash_mark">#D2F000</color>
 </resources>

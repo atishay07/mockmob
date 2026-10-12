@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../theme/theme.dart';
 
-/// A static placeholder block. No shimmer: loading is shown by shape, not motion.
+/// A static placeholder block in the warm well colour, with a faint top light so it reads as a
+/// shape waiting to be filled, not a hole. No shimmer: loading is shown by shape, not motion.
 class Skeleton extends StatelessWidget {
   const Skeleton({super.key, this.width, this.height = 16, this.radius = MmRadius.small});
 
@@ -19,7 +20,14 @@ class Skeleton extends StatelessWidget {
       width: width ?? double.infinity,
       height: height,
       child: DecoratedBox(
-        decoration: BoxDecoration(color: context.mmColors.line, borderRadius: BorderRadius.circular(radius)),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(radius),
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [context.mmColors.raised2, Color.lerp(context.mmColors.raised2, context.mmColors.line, 0.6)!],
+          ),
+        ),
       ),
     );
   }

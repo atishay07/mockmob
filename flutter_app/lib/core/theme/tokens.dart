@@ -1,20 +1,24 @@
 import 'package:flutter/widgets.dart';
 
-/// Spacing scale from spec 2.3. Use these instead of ad-hoc numbers.
+/// Spacing scale. Use these instead of ad-hoc numbers.
 abstract final class MmSpace {
+  static const double s2 = 2;
   static const double s4 = 4;
+  static const double s6 = 6;
   static const double s8 = 8;
   static const double s12 = 12;
   static const double s16 = 16;
   static const double s20 = 20;
   static const double s24 = 24;
   static const double s32 = 32;
+  static const double s40 = 40;
   static const double s48 = 48;
+  static const double s64 = 64;
 
   /// Horizontal screen gutter.
   static const double gutter = 16;
 
-  /// Gutter on Today cards.
+  /// Gutter on Today cards and moment screens.
   static const double cardGutter = 20;
 
   /// Padding inside a card.
@@ -27,21 +31,22 @@ abstract final class MmSpace {
   static const double contentMaxWidth = 600;
 }
 
-/// Corner radii from spec 2.3.
+/// Corner radii. Glass and solid surfaces use continuous (superellipse) corners where drawn by
+/// the foundation widgets.
 abstract final class MmRadius {
-  /// Small controls.
-  static const double small = 10;
+  /// Small controls, chips' inner parts.
+  static const double small = 12;
 
-  /// Keys, fields, answer options.
-  static const double key = 14;
+  /// Fields, answer options, selectable rows.
+  static const double key = 18;
 
-  /// Panels and the inner cards of sheets.
-  static const double panel = 20;
+  /// Panels, cards and the inner cards of sheets.
+  static const double panel = 24;
 
-  /// Top corners of a modal sheet.
-  static const double sheetTop = 28;
+  /// Top corners of a sheet.
+  static const double sheetTop = 32;
 
-  /// Pill chips (large enough to always round fully).
+  /// Pills (large enough to always round fully).
   static const double pill = 999;
 
   static const BorderRadius smallAll = BorderRadius.all(Radius.circular(small));
@@ -51,11 +56,37 @@ abstract final class MmRadius {
   static const BorderRadius sheetTopOnly = BorderRadius.vertical(top: Radius.circular(sheetTop));
 }
 
-/// Minimum touch targets from binding rule 7.
+/// Minimum touch targets (48 dp floor, brief section 10).
 abstract final class MmTarget {
-  static const double min = 44;
+  static const double min = 48;
   static const double tab = 48;
-  static const double primaryKey = 54;
+  static const double primaryKey = 56;
   static const double runnerKey = 56;
   static const double option = 56;
+}
+
+/// Layer order of the three planes: the room (art), glass (cards), chrome (dock and sheets).
+abstract final class MmElevation {
+  /// Pressed glass brightens its edge light by this factor.
+  static const double pressedEdgeBoost = 1.6;
+
+  /// Blur sigma per glass role (brief section 5: 20 to 28).
+  static const double sigmaDock = 22;
+  static const double sigmaSheet = 28;
+  static const double sigmaControl = 20;
+}
+
+/// The split glass dock (brief section 6).
+abstract final class MmDock {
+  static const double height = 60;
+  static const double startSize = 60;
+
+  /// Gap between the pill and the Start circle.
+  static const double gap = 12;
+
+  /// Lift above the gesture inset.
+  static const double lift = 10;
+
+  /// Space a tab root leaves at the bottom so its last row clears the dock.
+  static double clearance(BuildContext context) => height + lift + MediaQuery.viewPaddingOf(context).bottom + 16;
 }

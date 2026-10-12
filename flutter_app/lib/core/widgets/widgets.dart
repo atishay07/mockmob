@@ -1,16 +1,44 @@
-/// Public barrel for the shared widgets. Features import this, not the individual files.
+/// Public barrel for the shared widgets of the Night Sheet foundation. Features import this, not
+/// the individual files.
 library;
 
-export 'bottom_nav.dart';
+export 'art/mm_art.dart';
+export 'brand/cold_open.dart';
+export 'brand/mark.dart';
+export 'brand/wordmark.dart';
+export 'bubbles/bubble.dart';
+export 'bubbles/bubble_grid.dart';
+export 'bubbles/bubble_row.dart';
+export 'bubbles/week_bubbles.dart';
+export 'controls/chip.dart';
+export 'controls/glass_quality_picker.dart';
+export 'controls/segmented.dart';
+export 'controls/select_row.dart';
+export 'dock/dock_pill.dart';
+export 'dock/dock_tabs.dart';
+export 'dock/lit_tile.dart';
+export 'dock/morph_sheet_route.dart';
+export 'dock/split_dock.dart';
+export 'dock/start_button.dart';
 export 'inline_banner.dart';
 export 'key_button.dart';
 export 'key_button_face.dart';
+export 'materials/edge_light.dart';
+export 'materials/fake_glass.dart';
+export 'materials/glass_surface.dart';
+export 'materials/grain.dart';
+export 'materials/light_field.dart';
+export 'materials/lit_edge.dart';
+export 'materials/shape.dart';
 export 'mm_sheet.dart';
 export 'mm_spinner.dart';
 export 'mobi.dart';
+export 'monumental_number.dart';
+export 'pressable.dart';
 export 'question_strip.dart';
 export 'receipt_line.dart';
 export 'save_pill.dart';
 export 'skeleton.dart';
 export 'state_view.dart';
+export 'tab_root_header.dart';
 export 'week_strip.dart';

@@ -3,12 +3,12 @@ import 'package:go_router/go_router.dart';
 
 import '../motion/motion.dart';
 
-/// The page transitions of spec 3.2.
+/// The page transitions (Night Sheet brief, section 7: glide in, exit out).
 enum MmTransition {
-  /// Push: 220 ms fade plus a 12 dp slide from the trailing edge; pop 180 ms.
+  /// Push: a 300 ms glide (fade plus a 12 dp slide from the trailing edge); pop 220 ms.
   push,
 
-  /// Runner and focus screens: 120 ms fade both ways, no travel.
+  /// Runner and focus screens: a short fade both ways, no travel.
   fade,
 }
 
@@ -39,7 +39,7 @@ CustomTransitionPage<T> mmPage<T>({
     transitionDuration: forward,
     reverseTransitionDuration: backward,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      final curved = CurvedAnimation(parent: animation, curve: Motion.out, reverseCurve: Curves.easeOut);
+      final curved = CurvedAnimation(parent: animation, curve: Motion.glide, reverseCurve: Motion.exit.flipped);
       final faded = FadeTransition(opacity: curved, child: child);
       if (!slides) return faded;
       final direction = Directionality.of(context) == TextDirection.rtl ? -1.0 : 1.0;

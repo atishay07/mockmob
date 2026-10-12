@@ -1,0 +1,192 @@
+import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
+
+import '../../theme/theme.dart';
+import 'bubble_painter.dart';
+
+/// The answer sheet: one bubble per question in rows of [columns] (50 questions are 5 rows of
+/// 10), each with its number above it, like the sheet in the exam hall.
+///
+/// [sealed] draws every bubble hollow and dim so nothing leaks before the sheet is opened.
+/// [reveal] (0 to 1) inks the bubbles in question order for the result reveal; the bubble being
+/// inked fills from its centre. [current] rings one question (the runner's palette).
+///
+/// The grid stretches its gaps to the width it is given, between [minGap] and [maxGap].
+class BubbleGrid extends StatelessWidget {
+  const BubbleGrid({
+    super.key,
+    required this.states,
+    this.columns = 10,
+    this.bubbleSize = 18,
+    this.minGap = 6,
+    this.maxGap = 16,
+    this.rowGap = 10,
+    this.numbers = true,
+    this.sealed = false,
+    this.reveal,
+    this.current,
+    this.semanticsLabel,
+  }) : assert(columns > 0);
+
+  final List<BubbleState> states;
+  final int columns;
+  final double bubbleSize;
+  final double minGap;
+  final double maxGap;
+  final double rowGap;
+  final bool numbers;
+  final bool sealed;
+  final Animation<double>? reveal;
+  final int? current;
+
+  /// Overrides the generated summary.
+  final String? semanticsLabel;
+
+  static const double _numberHeight = 13;
+
+  int get _rows => (states.length / columns).ceil();
+
+  double _rowHeight() => bubbleSize + (numbers ? _numberHeight + 3 : 0);
+
+  String _describe() {
+    if (sealed) return 'Sealed answer sheet, ${states.length} questions';
+    int count(BubbleState s) => states.where((e) => e == s).length;
+    return [
+      '${count(BubbleState.filled)} right',
+      '${count(BubbleState.wrong)} wrong',
+      '${count(BubbleState.blank) + count(BubbleState.hollow)} left blank',
+      if (count(BubbleState.marked) > 0) '${count(BubbleState.marked)} marked',
+    ].join(', ');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final numberStyle = context.mmType.caption.copyWith(fontSize: 9.5, height: 1, color: colors.ink3, fontWeight: FontWeight.w600);
+    return Semantics(
+      container: true,
+      label: semanticsLabel ?? _describe(),
+      excludeSemantics: true,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final cols = math.min(columns, math.max(states.length, 1));
+          final natural = cols * bubbleSize + (cols - 1) * maxGap;
+          final width = constraints.hasBoundedWidth ? math.min(constraints.maxWidth, natural) : natural;
+          final gap = cols == 1 ? 0.0 : ((width - cols * bubbleSize) / (cols - 1)).clamp(minGap, maxGap);
+          final height = _rows * _rowHeight() + math.max(0, _rows - 1) * rowGap;
+          return RepaintBoundary(
+            child: CustomPaint(
+              size: Size(cols * bubbleSize + (cols - 1) * gap, height),
+              painter: BubbleGridPainter(
+                states: states,
+                columns: columns,
+                bubbleSize: bubbleSize,
+                gap: gap,
+                rowGap: rowGap,
+                numberStyle: numbers ? numberStyle : null,
+                sealed: sealed,
+                reveal: reveal,
+                current: current,
+                colors: colors,
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class BubbleGridPainter extends CustomPainter {
+  BubbleGridPainter({
+    required this.states,
+    required this.columns,
+    required this.bubbleSize,
+    required this.gap,
+    required this.rowGap,
+    required this.numberStyle,
+    required this.sealed,
+    required this.colors,
+    this.reveal,
+    this.current,
+  }) : super(repaint: reveal);
+
+  final List<BubbleState> states;
+  final int columns;
+  final double bubbleSize;
+  final double gap;
+  final double rowGap;
+  final TextStyle? numberStyle;
+  final bool sealed;
+  final MmColors colors;
+  final Animation<double>? reveal;
+  final int? current;
+
+  final Map<int, TextPainter> _numbers = {};
+
+  TextPainter _number(int n) => _numbers.putIfAbsent(
+        n,
+        () => TextPainter(
+          text: TextSpan(text: '$n', style: numberStyle),
+          textDirection: TextDirection.ltr,
+          textScaler: TextScaler.noScaling,
+        )..layout(),
+      );
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final bubbles = BubblePaint(colors);
+    final r = bubbleSize / 2;
+    final numberSpace = numberStyle == null ? 0.0 : BubbleGrid._numberHeight + 3;
+    final progress = reveal?.value;
+    final exact = progress == null ? double.infinity : progress * states.length;
+
+    for (var i = 0; i < states.length; i++) {
+      final col = i % columns;
+      final row = i ~/ columns;
+      final top = row * (bubbleSize + numberSpace + rowGap);
+      final center = Offset(col * (bubbleSize + gap) + r, top + numberSpace + r);
+
+      if (numberStyle != null) {
+        final label = _number(i + 1);
+        label.paint(canvas, Offset(center.dx - label.width / 2, top));
+      }
+
+      if (sealed) {
+        bubbles.paint(canvas, center, r, BubbleState.hollow, dim: 0.55);
+        continue;
+      }
+      final state = states[i];
+      final fill = (exact - i).clamp(0.0, 1.0);
+      if (fill <= 0) {
+        bubbles.paint(canvas, center, r, BubbleState.hollow, emphasis: current == i);
+      } else if (state == BubbleState.filled || state == BubbleState.wrong) {
+        bubbles.paint(canvas, center, r, state, fill: fill, emphasis: current == i);
+      } else {
+        bubbles.paint(canvas, center, r, state, dim: fill, emphasis: current == i);
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(BubbleGridPainter old) =>
+      old.colors != colors ||
+      old.sealed != sealed ||
+      old.columns != columns ||
+      old.bubbleSize != bubbleSize ||
+      old.gap != gap ||
+      old.current != current ||
+      old.reveal != reveal ||
+      old.numberStyle != numberStyle ||
+      !_same(old.states);
+
+  bool _same(List<BubbleState> other) {
+    if (identical(other, states)) return true;
+    if (other.length != states.length) return false;
+    for (var i = 0; i < states.length; i++) {
+      if (other[i] != states[i]) return false;
+    }
+    return true;
+  }
+}

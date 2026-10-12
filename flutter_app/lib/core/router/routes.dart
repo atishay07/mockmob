@@ -21,6 +21,8 @@ abstract final class AppRoutes {
   static const String today = '/today';
   static const String practice = '/practice';
   static const String review = '/review';
+
+  // Pushed over the shell: You from the avatar, Learn from Practice and Review.
   static const String learn = '/learn';
   static const String you = '/you';
 
@@ -74,8 +76,11 @@ abstract final class AppRoutes {
   /// Alias of [today].
   static const String dashboard = '/dashboard';
 
-  /// The shell tab roots in tab order.
-  static const List<String> tabRoots = [today, practice, review, learn, you];
+  /// The shell tab roots in tab order (the split dock: Today, Practice, Review).
+  static const List<String> tabRoots = [today, practice, review];
+
+  /// The debug-only design lab.
+  static const String lab = '/lab';
 
   /// Every path template of spec 4.2, with `:param` placeholders. Used to recognise native
   /// paths and by tests to prove the route table is complete.

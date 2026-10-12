@@ -22,13 +22,15 @@ class MockMobApp extends ConsumerWidget {
     // Keeps the guest carry-over alive and starts reminder planning and tap handling.
     ref.watch(sampleImportProvider);
     ref.watch(notificationsRuntimeProvider);
+    // Steps glass down to Lite once if the raster thread keeps missing its budget.
+    ref.watch(glassPerformanceWatchProvider);
 
     return const ReducedMotionScope(child: _AppView());
   }
 }
 
-/// Edge-to-edge system bars that follow the app theme: a transparent status bar and a navigation
-/// bar in the raised tone that the bottom nav also uses, with icons that contrast with both.
+/// Edge-to-edge system bars that follow the app theme: both bars transparent (the glass dock
+/// floats over the content and the gesture bar), with icons that contrast with the ground.
 SystemUiOverlayStyle _systemBars(BuildContext context) {
   final colors = context.mmColors;
   final iconBrightness = Theme.of(context).brightness == Brightness.dark ? Brightness.light : Brightness.dark;
@@ -36,8 +38,8 @@ SystemUiOverlayStyle _systemBars(BuildContext context) {
     statusBarColor: Colors.transparent,
     statusBarIconBrightness: iconBrightness,
     systemStatusBarContrastEnforced: false,
-    systemNavigationBarColor: colors.raised,
-    systemNavigationBarDividerColor: colors.line,
+    systemNavigationBarColor: colors.ground.withValues(alpha: 0),
+    systemNavigationBarDividerColor: Colors.transparent,
     systemNavigationBarIconBrightness: iconBrightness,
     systemNavigationBarContrastEnforced: false,
   );
@@ -60,9 +62,12 @@ class _AppView extends ConsumerWidget {
         final scaler = MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 2.0);
         return AnnotatedRegion<SystemUiOverlayStyle>(
           value: _systemBars(context),
-          child: MediaQuery(
-            data: MediaQuery.of(context).copyWith(textScaler: scaler),
-            child: child ?? const SizedBox.shrink(),
+          child: GlassScope(
+            quality: ref.watch(glassQualityProvider),
+            child: MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaler: scaler),
+              child: child ?? const SizedBox.shrink(),
+            ),
           ),
         );
       },

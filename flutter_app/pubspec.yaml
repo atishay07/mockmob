@@ -118,18 +118,23 @@ flutter:
   # see https://flutter.dev/to/font-from-package
 
   fonts:
-    - family: Gabarito
+    # Bricolage Grotesque static cuts (tool/cut_fonts.py, OFL in assets/fonts/BricolageGrotesque-OFL.txt).
+    - family: BricolageCondensed
       fonts:
-        - asset: assets/fonts/Gabarito-Regular.ttf
-          weight: 400
-        - asset: assets/fonts/Gabarito-Medium.ttf
-          weight: 500
-        - asset: assets/fonts/Gabarito-SemiBold.ttf
-          weight: 600
-        - asset: assets/fonts/Gabarito-Bold.ttf
+        - asset: assets/fonts/BricolageCondensed-Bold.ttf
           weight: 700
-        - asset: assets/fonts/Gabarito-ExtraBold.ttf
-          weight: 800
+    - family: BricolageHeadline
+      fonts:
+        - asset: assets/fonts/BricolageHeadline-SemiBold.ttf
+          weight: 600
+    - family: BricolageTitle
+      fonts:
+        - asset: assets/fonts/BricolageTitle-SemiBold.ttf
+          weight: 600
+    - family: BricolageWordmark
+      fonts:
+        - asset: assets/fonts/BricolageWordmark-Bold.ttf
+          weight: 700
     - family: HankenGrotesk
       fonts:
         - asset: assets/fonts/HankenGrotesk-Regular.ttf
@@ -142,6 +147,7 @@ flutter:
           weight: 700
 
   assets:
+    - assets/art/
     - assets/mobi/
     - assets/sample/
     # Add assets/sample/ when Module 2 creates that folder.

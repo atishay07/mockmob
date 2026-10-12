@@ -33,10 +33,15 @@ class SavePill extends StatelessWidget {
     final type = context.mmType;
     final words = label ?? state.words;
 
+    // Three glyphs, never colour alone: a phone (kept here), a turning ring (on its way), an
+    // inked bubble with a check (the server has it).
     final Widget glyph = switch (state) {
       SaveState.onThisPhone => Icon(LucideIcons.smartphone, size: 14, color: colors.ink2),
       SaveState.sending => MmSpinner(color: colors.ink2, size: 14, strokeWidth: 2),
-      SaveState.saved => Icon(LucideIcons.check, size: 14, color: colors.ink),
+      SaveState.saved => DecoratedBox(
+          decoration: BoxDecoration(color: colors.volt, shape: BoxShape.circle),
+          child: SizedBox.square(dimension: 16, child: Icon(LucideIcons.check, size: 11, color: colors.voltInk)),
+        ),
     };
 
     return Semantics(
@@ -45,19 +50,18 @@ class SavePill extends StatelessWidget {
       label: words,
       excludeSemantics: true,
       child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.sunken,
-          borderRadius: MmRadius.pillAll,
-          border: Border.all(color: colors.line),
+        decoration: ShapeDecoration(
+          color: colors.isNight ? colors.raised : colors.raised,
+          shape: StadiumBorder(side: BorderSide(color: colors.line)),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s4),
+          padding: const EdgeInsets.fromLTRB(MmSpace.s8, MmSpace.s6, MmSpace.s12, MmSpace.s6),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               glyph,
               const SizedBox(width: MmSpace.s8),
-              Text(words, style: type.label.copyWith(color: colors.ink)),
+              Text(words, style: type.caption.copyWith(color: colors.ink, fontWeight: FontWeight.w600)),
             ],
           ),
         ),

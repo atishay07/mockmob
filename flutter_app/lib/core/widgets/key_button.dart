@@ -9,12 +9,14 @@ import 'key_button_face.dart';
 
 export 'key_button_face.dart' show KeyVariant;
 
-/// The touch keycap (spec 2.4). Press: the face travels down 4 dp in 80 ms and the lip stays;
-/// release returns in 140 ms; the tap commits on pointer up with the `settle` haptic.
+/// The Night Sheet button: [KeyVariant.primary] is the volt pill, [KeyButton.secondary] the glass
+/// pill, [KeyButton.quiet] a text button and [KeyButton.option] a solid answer option whose
+/// bubble inks when chosen.
 ///
-/// Disabled keys sit flush at 45% with an optional one-line [disabledReason] below. A loading
-/// key keeps its label and width and ignores taps. An answer option that is [selected] stays
-/// flush with a 2 dp ink border and a check glyph.
+/// Press: the face sinks to 0.96 the moment a finger lands (80 ms, no tap delay) and settles
+/// back in 140 ms on release; the tap commits on pointer up with the `lightImpact` haptic.
+/// Disabled pills go quiet (no volt) with an optional one-line [disabledReason] below. A
+/// loading key keeps its label and width and ignores taps.
 class KeyButton extends ConsumerStatefulWidget {
   const KeyButton({
     super.key,

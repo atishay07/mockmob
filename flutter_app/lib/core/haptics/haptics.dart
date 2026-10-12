@@ -31,9 +31,17 @@ class PlatformHapticDriver implements HapticDriver {
   Future<void> mediumImpact() => HapticFeedback.mediumImpact();
 }
 
-/// The haptic vocabulary: three verbs plus a guard (spec 3.3). Every call is skipped when the
-/// in-app "Touch feedback" switch is off. The system setting is honoured by Android itself.
-/// Errors and wrong answers have no haptic.
+/// The haptic vocabulary (Night Sheet brief, section 7). Every call is skipped when the in-app
+/// "Touch feedback" switch is off; the system setting is honoured by Android itself.
+///
+/// | Moment | Verb |
+/// | --- | --- |
+/// | Tab change, option select, unfold and drag thresholds, chips | [selection] (`selectionClick`) |
+/// | Start, a flip, a primary commit | [light] (`lightImpact`) |
+/// | Seal complete, a sheet opening | [medium] (`mediumImpact`) |
+/// | Server acknowledged a submission, a repair, a milestone | [success] (only after the ack) |
+///
+/// Nothing on a wrong answer and nothing on errors.
 class Haptics {
   const Haptics({required this.enabled, this.driver = const PlatformHapticDriver()});
 
@@ -53,6 +61,24 @@ class Haptics {
   /// Sheet opened, submission acknowledged by the server, repair finished, weekly goal met.
   Future<void> open() async {
     if (enabled) await driver.mediumImpact();
+  }
+
+  /// `selectionClick`: tab change, option, thresholds.
+  Future<void> selection() => tick();
+
+  /// `lightImpact`: Start, flips, commits.
+  Future<void> light() => settle();
+
+  /// `mediumImpact`: the seal completes.
+  Future<void> medium() => open();
+
+  /// The success pattern: a medium then a light impact 90 ms apart. Call it only after the
+  /// server acknowledged the work (brief section 10).
+  Future<void> success() async {
+    if (!enabled) return;
+    await driver.mediumImpact();
+    await Future<void>.delayed(const Duration(milliseconds: 90));
+    await driver.lightImpact();
   }
 
   /// Destructive confirms: two light impacts 80 ms apart.

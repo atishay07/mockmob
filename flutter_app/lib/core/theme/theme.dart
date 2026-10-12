@@ -6,6 +6,8 @@ import 'mm_type.dart';
 import 'tokens.dart';
 
 export 'fonts.dart';
+export 'glass_quality.dart';
+export 'light_fields.dart';
 export 'mm_colors.dart';
 export 'mm_type.dart';
 export 'tokens.dart';
@@ -33,27 +35,28 @@ class _FadeOnlyTransitionsBuilder extends PageTransitionsBuilder {
   }
 }
 
-// On states use ink and off states use raised with a strong outline. A check glyph or thumb
-// icon marks "on" so the state never depends on colour alone.
+// On states are volt, the one interactive accent; a check glyph marks "on" so the state never
+// depends on colour alone. Off states sit on the sunken well with a strong hairline.
 SwitchThemeData _switchTheme(MmColors colors) => SwitchThemeData(
-      trackColor: WidgetStateProperty.resolveWith((states) => states.contains(WidgetState.selected) ? colors.ink : colors.raised),
-      trackOutlineColor: WidgetStateProperty.resolveWith((states) => states.contains(WidgetState.selected) ? colors.ink : colors.lineStrong),
-      thumbColor: WidgetStateProperty.resolveWith((states) => states.contains(WidgetState.selected) ? colors.ground : colors.ink2),
+      trackColor: WidgetStateProperty.resolveWith((states) => states.contains(WidgetState.selected) ? colors.volt : colors.sunken),
+      trackOutlineColor: WidgetStateProperty.resolveWith((states) => states.contains(WidgetState.selected) ? colors.volt : colors.lineStrong),
+      thumbColor: WidgetStateProperty.resolveWith((states) => states.contains(WidgetState.selected) ? colors.voltInk : colors.ink2),
       thumbIcon: WidgetStateProperty.resolveWith(
-        (states) => states.contains(WidgetState.selected) ? Icon(Icons.check, size: 16, color: colors.ink) : null,
+        (states) => states.contains(WidgetState.selected) ? Icon(Icons.check, size: 16, color: colors.volt) : null,
       ),
       overlayColor: const WidgetStatePropertyAll(Colors.transparent),
     );
 
 CheckboxThemeData _checkboxTheme(MmColors colors) => CheckboxThemeData(
-      fillColor: WidgetStateProperty.resolveWith((states) => states.contains(WidgetState.selected) ? colors.ink : colors.raised),
-      checkColor: WidgetStatePropertyAll(colors.ground),
-      side: BorderSide(color: colors.lineStrong, width: 2),
+      fillColor: WidgetStateProperty.resolveWith((states) => states.contains(WidgetState.selected) ? colors.volt : colors.sunken),
+      checkColor: WidgetStatePropertyAll(colors.voltInk),
+      side: BorderSide(color: colors.lineStrong, width: 1.5),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(6))),
       overlayColor: const WidgetStatePropertyAll(Colors.transparent),
     );
 
 RadioThemeData _radioTheme(MmColors colors) => RadioThemeData(
-      fillColor: WidgetStateProperty.resolveWith((states) => states.contains(WidgetState.selected) ? colors.ink : colors.lineStrong),
+      fillColor: WidgetStateProperty.resolveWith((states) => states.contains(WidgetState.selected) ? colors.accentText : colors.lineStrong),
       overlayColor: const WidgetStatePropertyAll(Colors.transparent),
     );
 
@@ -66,8 +69,8 @@ ThemeData buildTheme(Brightness brightness) {
 
   final scheme = ColorScheme(
     brightness: brightness,
-    // Ink, not volt: framework widgets paint selected and on states in primary, and volt is only
-    // the primary key fill and the active-tab pill (binding rule 12).
+    // Ink, not volt: framework widgets paint text cursors and many small states in primary; the
+    // MockMob controls choose volt themselves where it is the light.
     primary: colors.ink,
     onPrimary: colors.ground,
     secondary: colors.ink,
@@ -146,30 +149,30 @@ ThemeData buildTheme(Brightness brightness) {
     ),
     textSelectionTheme: TextSelectionThemeData(
       cursorColor: colors.ink,
-      selectionColor: colors.lineStrong,
+      selectionColor: Color.alphaBlend(colors.volt.withValues(alpha: 0.32), colors.raised),
       selectionHandleColor: colors.ink,
     ),
     switchTheme: _switchTheme(colors),
     checkboxTheme: _checkboxTheme(colors),
     radioTheme: _radioTheme(colors),
-    progressIndicatorTheme: ProgressIndicatorThemeData(color: colors.ink, linearTrackColor: colors.line, circularTrackColor: colors.line),
+    progressIndicatorTheme: ProgressIndicatorThemeData(color: colors.accentText, linearTrackColor: colors.line, circularTrackColor: colors.line),
     sliderTheme: SliderThemeData(
-      activeTrackColor: colors.ink,
+      activeTrackColor: colors.volt,
       inactiveTrackColor: colors.lineStrong,
       thumbColor: colors.ink,
       overlayColor: Colors.transparent,
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: colors.raised,
+      fillColor: colors.sunken,
       hintStyle: type.body.copyWith(color: colors.ink3),
       border: OutlineInputBorder(
         borderRadius: MmRadius.keyAll,
-        borderSide: BorderSide(color: colors.lineStrong),
+        borderSide: BorderSide(color: colors.line),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: MmRadius.keyAll,
-        borderSide: BorderSide(color: colors.lineStrong),
+        borderSide: BorderSide(color: colors.line),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: MmRadius.keyAll,

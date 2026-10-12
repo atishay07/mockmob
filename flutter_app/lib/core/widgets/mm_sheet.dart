@@ -3,22 +3,45 @@ import 'package:flutter/material.dart';
 import '../motion/motion.dart';
 import '../theme/theme.dart';
 import 'key_button.dart';
+import 'materials/glass_surface.dart';
 
 /// At or above this text scale a sheet becomes a full page with a visible Close (spec 11).
 const double kSheetFullPageTextScale = 1.5;
 
 bool _isLargeText(BuildContext context) => MediaQuery.textScalerOf(context).scale(1) >= kSheetFullPageTextScale;
 
-/// Shared by [showMmSheet] and [MmSheetPage] so both honour reduced motion: a 120 ms linear fade
-/// replaces the slide when the system or the in-app switch asks for less motion.
+/// Shared by [showMmSheet] and [MmSheetPage]: the sheet rises on the emphasized curve (420 ms)
+/// and leaves on the exit curve; a 120 ms linear fade replaces the slide when the system or the
+/// in-app switch asks for less motion.
 AnimationStyle _sheetAnimationStyle(BuildContext context) {
   final reduced = Motion.reduced(context);
   return AnimationStyle(
     duration: reduced ? Motion.reducedFade : Motion.sheetIn,
     reverseDuration: reduced ? Motion.reducedFade : Motion.sheetOut,
-    curve: reduced ? Curves.linear : Motion.drawer,
+    curve: reduced ? Curves.linear : Motion.emphasized,
     reverseCurve: reduced ? Curves.linear : Motion.drawer,
   );
+}
+
+/// The sheet's body: smoked glass with a 32 dp top radius and the edge light, or a solid page
+/// at large text scale.
+class MmSheetGlass extends StatelessWidget {
+  const MmSheetGlass({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (_isLargeText(context)) {
+      return ColoredBox(color: context.mmColors.ground, child: child);
+    }
+    return GlassSurface(
+      role: GlassRole.sheet,
+      borderRadius: MmRadius.sheetTopOnly,
+      shadow: false,
+      child: child,
+    );
+  }
 }
 
 /// The sheet's content frame: a drag handle, an optional title, and a scrollable body. At large
@@ -46,10 +69,10 @@ class MmSheetScaffold extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(top: MmSpace.s12, bottom: MmSpace.s8),
             child: SizedBox(
-              width: 36,
+              width: 40,
               height: 4,
               child: DecoratedBox(
-                decoration: BoxDecoration(color: colors.lineStrong, borderRadius: MmRadius.pillAll),
+                decoration: BoxDecoration(color: colors.ink4, borderRadius: MmRadius.pillAll),
               ),
             ),
           ),
@@ -62,7 +85,7 @@ class MmSheetScaffold extends StatelessWidget {
               Expanded(
                 child: title == null
                     ? const SizedBox.shrink()
-                    : Semantics(header: true, child: Text(title!, style: type.title)),
+                    : Semantics(header: true, child: Text(title!, style: type.screenTitle.copyWith(fontSize: 24))),
               ),
               if (large)
                 KeyButton.quiet(label: 'Close', onPressed: close),
@@ -89,8 +112,8 @@ class MmSheetScaffold extends StatelessWidget {
   }
 }
 
-/// A modal bottom sheet: 28 dp top radius, slides up in 280 ms and out in 200 ms, dismisses by
-/// drag, scrim or back. At large text scale it is a full page with Close.
+/// A modal glass sheet: 32 dp top radius, rises in 420 ms on the emphasized curve and leaves in
+/// 240 ms, dismisses by drag, scrim or back. At large text scale it is a full page with Close.
 Future<T?> showMmSheet<T>({
   required BuildContext context,
   required WidgetBuilder builder,
@@ -107,14 +130,14 @@ Future<T?> showMmSheet<T>({
     useSafeArea: !large,
     isDismissible: isDismissible,
     enableDrag: isDismissible,
-    backgroundColor: colors.raised,
+    backgroundColor: Colors.transparent,
     barrierColor: colors.scrim,
     elevation: 0,
-    clipBehavior: Clip.antiAlias,
-    constraints: BoxConstraints(maxWidth: MmSpace.contentMaxWidth, maxHeight: large ? double.infinity : 640),
-    shape: RoundedRectangleBorder(borderRadius: large ? BorderRadius.zero : MmRadius.sheetTopOnly),
+    clipBehavior: Clip.none,
+    constraints: BoxConstraints(maxWidth: MmSpace.contentMaxWidth, maxHeight: large ? double.infinity : 680),
+    shape: const RoundedRectangleBorder(),
     sheetAnimationStyle: _sheetAnimationStyle(context),
-    builder: (context) => MmSheetScaffold(title: title, child: builder(context)),
+    builder: (context) => MmSheetGlass(child: MmSheetScaffold(title: title, child: builder(context))),
   );
 }
 
@@ -134,14 +157,14 @@ class MmSheetPage<T> extends Page<T> {
       settings: this,
       isScrollControlled: true,
       useSafeArea: !large,
-      backgroundColor: colors.raised,
+      backgroundColor: Colors.transparent,
       modalBarrierColor: colors.scrim,
       elevation: 0,
-      clipBehavior: Clip.antiAlias,
-      constraints: BoxConstraints(maxWidth: MmSpace.contentMaxWidth, maxHeight: large ? double.infinity : 640),
-      shape: RoundedRectangleBorder(borderRadius: large ? BorderRadius.zero : MmRadius.sheetTopOnly),
+      clipBehavior: Clip.none,
+      constraints: BoxConstraints(maxWidth: MmSpace.contentMaxWidth, maxHeight: large ? double.infinity : 680),
+      shape: const RoundedRectangleBorder(),
       sheetAnimationStyle: _sheetAnimationStyle(context),
-      builder: (context) => MmSheetScaffold(title: title, child: child),
+      builder: (context) => MmSheetGlass(child: MmSheetScaffold(title: title, child: child)),
     );
   }
 }

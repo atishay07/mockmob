@@ -29,13 +29,16 @@ class AppPrefs {
   static const _cachedMe = 'cached_auth_me';
   static const _pendingWithdrawal = 'consent_withdrawal_pending';
   static const _notifLedger = 'notif_ledger';
+  static const _glassQuality = 'glass_quality';
+  static const _coldOpenSeen = 'cold_open_seen';
 
   Future<bool> welcomeSeen() async => await _prefs.getBool(_welcomeSeen) ?? false;
   Future<void> setWelcomeSeen(bool v) => _prefs.setBool(_welcomeSeen, v);
 
   Future<ThemeChoice> theme() async {
     final raw = await _prefs.getString(_theme);
-    return ThemeChoice.values.asNameMap()[raw] ?? ThemeChoice.system;
+    // Night is the default identity (Night Sheet brief, section 3).
+    return ThemeChoice.values.asNameMap()[raw] ?? ThemeChoice.dark;
   }
 
   Future<void> setTheme(ThemeChoice v) => _prefs.setString(_theme, v.name);
@@ -117,4 +120,12 @@ class AppPrefs {
   /// Scheduled and posted notifications as `taskId|epochMs`, kept to enforce the caps.
   Future<List<String>> notificationLedger() async => await _prefs.getStringList(_notifLedger) ?? const [];
   Future<void> setNotificationLedger(List<String> entries) => _prefs.setStringList(_notifLedger, entries);
+
+  /// Glass quality (`full`, `lite`, `off`); null until chosen or downgraded automatically.
+  Future<String?> glassQuality() => _prefs.getString(_glassQuality);
+  Future<void> setGlassQuality(String v) => _prefs.setString(_glassQuality, v);
+
+  /// True once the first-launch cold open has played.
+  Future<bool> coldOpenSeen() async => await _prefs.getBool(_coldOpenSeen) ?? false;
+  Future<void> setColdOpenSeen(bool v) => _prefs.setBool(_coldOpenSeen, v);
 }

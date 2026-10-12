@@ -1,14 +1,17 @@
-
 import 'package:flutter/material.dart';
 
 import 'fonts.dart';
 import 'mm_colors.dart';
 
-/// Type roles from spec 2.2. Read with `context.mmType`.
+/// Type roles of the Night Sheet (brief section 4). Read with `context.mmType`.
 ///
-/// Sizes are in sp and scale with the system text scale; only the bottom-nav labels clamp
-/// (see `MmBottomNav`). Every role requests tabular figures (binding rule 2). Bold text
-/// ("Bold text" system setting) is applied by the `Text` widget itself.
+/// Bricolage (condensed, headline, title cuts) is for numbers, moments and screen titles;
+/// Hanken Grotesk is for everything a student reads. Sizes scale with the system text scale;
+/// only the dock labels clamp. Every role requests tabular figures.
+///
+/// The original role names are kept so existing screens adopt the new look without edits:
+/// [figureHero], [figure] and [figureCompact] are condensed numbers, [display] and [headline]
+/// are moment headlines, [title] is the screen title, [subhead] is the card title.
 @immutable
 class MmType extends ThemeExtension<MmType> {
   const MmType({
@@ -27,52 +30,99 @@ class MmType extends ThemeExtension<MmType> {
     required this.question,
     required this.body,
     required this.small,
+    required this.hero,
+    required this.moment,
+    required this.screenTitle,
+    required this.cardTitle,
+    required this.labelLarge,
+    required this.caption,
   });
 
+  /// Monumental number, 96 sp condensed.
   final TextStyle figureHero;
+
+  /// Moment headline, 36/38.
   final TextStyle display;
+
+  /// Smaller moment headline, 28 sp.
   final TextStyle headline;
+
+  /// Section or sheet title, 22 sp Bricolage.
   final TextStyle title;
+
+  /// Card title, Hanken 17/22 bold.
   final TextStyle subhead;
 
-  /// Key figures, 48 sp (the spec allows 40 to 56).
+  /// Key figures, 52 sp condensed.
   final TextStyle figure;
 
   /// The 40 sp end of the figure range.
   final TextStyle figureCompact;
+
+  /// The runner timer and other live counters.
   final TextStyle timer;
+
+  /// Button labels, Hanken 16 semibold.
   final TextStyle button;
+
+  /// Small labels, Hanken 13/18 semibold.
   final TextStyle label;
 
-  /// Bottom-nav labels: 12 sp Gabarito 600.
+  /// Dock labels, 12 sp Hanken 600.
   final TextStyle navLabel;
   final TextStyle lead;
+
+  /// Questions, 17/26.
   final TextStyle question;
+
+  /// Body, 16/24.
   final TextStyle body;
   final TextStyle small;
 
+  /// The biggest number on a moment screen: 112 sp condensed, line 0.86.
+  final TextStyle hero;
+
+  /// Moment headline (welcome, plan reveal, milestone): 36/38, two lines at most.
+  final TextStyle moment;
+
+  /// Screen title at a tab root: 26/30 Bricolage.
+  final TextStyle screenTitle;
+
+  /// Card title: Hanken 17/22 bold.
+  final TextStyle cardTitle;
+
+  /// Labels you act on: Hanken 15/20 semibold.
+  final TextStyle labelLarge;
+
+  /// Captions: Hanken 13/18 medium.
+  final TextStyle caption;
+
   static const List<FontFeature> _tabular = [FontFeature.tabularFigures()];
 
-  static TextStyle _gabarito(double size, double height, FontWeight weight, double trackingPercent, Color color) {
+  static TextStyle _bricolage(String family, double size, double lineHeight, double trackingPercent, Color color) {
     return TextStyle(
-      fontFamily: MmFonts.gabarito,
+      fontFamily: family,
       fontSize: size,
-      height: height,
-      fontWeight: weight,
+      height: lineHeight / size,
+      // Each static cut is registered at its real weight, so the engine never fakes bold.
+      fontWeight: family == MmFonts.condensed ? FontWeight.w700 : FontWeight.w600,
       letterSpacing: size * trackingPercent / 100,
       color: color,
       fontFeatures: _tabular,
+      leadingDistribution: TextLeadingDistribution.even,
     );
   }
 
-  static TextStyle _hanken(double size, double height, FontWeight weight, Color color) {
+  static TextStyle _hanken(double size, double lineHeight, FontWeight weight, Color color, {double tracking = 0}) {
     return TextStyle(
       fontFamily: MmFonts.hanken,
       fontSize: size,
-      height: height,
+      height: lineHeight / size,
       fontWeight: weight,
+      letterSpacing: size * tracking / 100,
       color: color,
       fontFeatures: _tabular,
+      leadingDistribution: TextLeadingDistribution.even,
     );
   }
 
@@ -80,26 +130,37 @@ class MmType extends ThemeExtension<MmType> {
   factory MmType.build(MmColors colors) {
     final ink = colors.ink;
     return MmType(
-      figureHero: _gabarito(96, 1.0, FontWeight.w800, -3.5, ink),
-      display: _gabarito(36, 1.05, FontWeight.w800, -3.5, ink),
-      headline: _gabarito(28, 1.1, FontWeight.w800, -3, ink),
-      title: _gabarito(22, 1.2, FontWeight.w700, -2, ink),
-      subhead: _gabarito(17, 1.3, FontWeight.w700, -1, ink),
-      figure: _gabarito(48, 1.0, FontWeight.w800, -3.5, ink),
-      figureCompact: _gabarito(40, 1.0, FontWeight.w800, -3.5, ink),
-      timer: _gabarito(20, 1.0, FontWeight.w700, 0, ink),
-      button: _gabarito(17, 1.0, FontWeight.w700, 0, ink),
-      label: _gabarito(13, 1.3, FontWeight.w600, 0, ink),
-      navLabel: _gabarito(12, 1.3, FontWeight.w600, 0, ink),
-      lead: _hanken(18, 1.45, FontWeight.w400, ink),
-      question: _hanken(18, 1.5, FontWeight.w500, ink),
-      body: _hanken(16, 1.55, FontWeight.w400, ink),
-      small: _hanken(14, 1.5, FontWeight.w400, ink),
+      figureHero: _bricolage(MmFonts.condensed, 96, 86, -1, ink),
+      display: _bricolage(MmFonts.headline, 36, 38, -2.5, ink),
+      headline: _bricolage(MmFonts.headline, 28, 31, -2, ink),
+      title: _bricolage(MmFonts.title, 22, 27, -1.5, ink),
+      subhead: _hanken(17, 22, FontWeight.w700, ink, tracking: -0.5),
+      figure: _bricolage(MmFonts.condensed, 52, 50, -1, ink),
+      figureCompact: _bricolage(MmFonts.condensed, 40, 40, -0.5, ink),
+      timer: _bricolage(MmFonts.title, 20, 22, 0, ink),
+      button: _hanken(16, 20, FontWeight.w600, ink),
+      label: _hanken(13, 18, FontWeight.w600, ink),
+      navLabel: _hanken(12, 15, FontWeight.w600, ink),
+      lead: _hanken(18, 26, FontWeight.w400, ink),
+      question: _hanken(17, 26, FontWeight.w500, ink),
+      body: _hanken(16, 24, FontWeight.w400, ink),
+      small: _hanken(14, 20, FontWeight.w400, ink),
+      hero: _bricolage(MmFonts.condensed, 112, 96, -1.5, ink),
+      moment: _bricolage(MmFonts.headline, 36, 38, -2.5, ink),
+      screenTitle: _bricolage(MmFonts.title, 26, 30, -1.5, ink),
+      cardTitle: _hanken(17, 22, FontWeight.w700, ink, tracking: -0.5),
+      labelLarge: _hanken(15, 20, FontWeight.w600, ink),
+      caption: _hanken(13, 18, FontWeight.w500, ink),
     );
   }
 
   static final MmType light = MmType.build(MmColors.light);
   static final MmType dark = MmType.build(MmColors.dark);
+
+  List<TextStyle> get all => [
+        figureHero, display, headline, title, subhead, figure, figureCompact, timer, button, label, navLabel, //
+        lead, question, body, small, hero, moment, screenTitle, cardTitle, labelLarge, caption,
+      ];
 
   @override
   MmType copyWith({
@@ -118,6 +179,12 @@ class MmType extends ThemeExtension<MmType> {
     TextStyle? question,
     TextStyle? body,
     TextStyle? small,
+    TextStyle? hero,
+    TextStyle? moment,
+    TextStyle? screenTitle,
+    TextStyle? cardTitle,
+    TextStyle? labelLarge,
+    TextStyle? caption,
   }) {
     return MmType(
       figureHero: figureHero ?? this.figureHero,
@@ -135,6 +202,12 @@ class MmType extends ThemeExtension<MmType> {
       question: question ?? this.question,
       body: body ?? this.body,
       small: small ?? this.small,
+      hero: hero ?? this.hero,
+      moment: moment ?? this.moment,
+      screenTitle: screenTitle ?? this.screenTitle,
+      cardTitle: cardTitle ?? this.cardTitle,
+      labelLarge: labelLarge ?? this.labelLarge,
+      caption: caption ?? this.caption,
     );
   }
 
@@ -158,6 +231,12 @@ class MmType extends ThemeExtension<MmType> {
       question: s(question, other.question),
       body: s(body, other.body),
       small: s(small, other.small),
+      hero: s(hero, other.hero),
+      moment: s(moment, other.moment),
+      screenTitle: s(screenTitle, other.screenTitle),
+      cardTitle: s(cardTitle, other.cardTitle),
+      labelLarge: s(labelLarge, other.labelLarge),
+      caption: s(caption, other.caption),
     );
   }
 }

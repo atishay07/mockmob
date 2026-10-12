@@ -5,13 +5,14 @@ import '../haptics/haptics.dart';
 import '../motion/reduced_motion.dart';
 import '../storage/storage.dart';
 
-/// The Appearance setting: Match phone, Light or Dark. Starts as Match phone and loads the saved
-/// choice once preferences are readable, so the first frame never waits on storage.
+/// The Appearance setting: Match phone, Daylight (light) or Night (dark). Night is the default
+/// identity, so it starts as Night and loads the saved choice once preferences are readable; the
+/// first frame never waits on storage.
 class ThemeModeSetting extends Notifier<ThemeMode> {
   @override
   ThemeMode build() {
     _load();
-    return ThemeMode.system;
+    return ThemeMode.dark;
   }
 
   Future<void> _load() async {

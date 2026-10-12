@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
-/// Colour roles from spec 2.1. Every wash is pre-flattened to an opaque colour, so nothing
-/// here needs alpha-over-alpha or a `saveLayer`. Read with `context.mmColors`.
+/// Colour roles of the Night Sheet (brief section 3). Night is the default identity: a warm
+/// late-night desk, not a cold studio. Daylight is warm paper. Read with `context.mmColors`.
+///
+/// Rules: volt is the only interactive accent; lamp amber is environment light only (glows,
+/// light fields, art), never a button or text colour. Every solid role is opaque, so nothing
+/// here needs alpha-over-alpha; the glass tints and glows are the deliberate exceptions.
 @immutable
 class MmColors extends ThemeExtension<MmColors> {
   const MmColors({
@@ -29,29 +33,43 @@ class MmColors extends ThemeExtension<MmColors> {
     required this.scrim,
     required this.optionLip,
     required this.cardShadow,
+    required this.lamp,
+    required this.voltGlow,
+    required this.glassTint,
+    required this.glassTintLite,
+    required this.edgeTop,
+    required this.edgeBottom,
+    required this.glassShadow,
+    required this.grain,
   });
 
   final Color ground;
   final Color raised;
   final Color raised2;
+
+  /// Wells and pressed fills, a step below the ground.
   final Color sunken;
+
+  /// The hairline.
   final Color line;
   final Color lineStrong;
   final Color ink;
   final Color ink2;
+
+  /// 4.5:1 on ground and raised. On raised 2 (Night) it is 4.4:1, so keep meaning off raised 2.
   final Color ink3;
 
   /// Decorative only. Never use for text that carries meaning.
   final Color ink4;
 
-  /// Action fill: primary keys and the active-tab pill only (binding rule 12).
+  /// Action fill and the one light per screen.
   final Color volt;
   final Color voltInk;
 
-  /// The lip under a primary key.
+  /// A darker volt for strokes on volt (the pressed rim of the primary pill).
   final Color voltEdge;
 
-  /// Accent for text on paper. Volt itself is never text on light.
+  /// Volt as text: volt itself on Night, `#526700` on Daylight.
   final Color accentText;
   final Color focusRing;
   final Color badText;
@@ -64,75 +82,127 @@ class MmColors extends ThemeExtension<MmColors> {
   final Color wrongText;
   final Color scrim;
 
-  /// The lip under an answer option (3 dp). Spec 2.4: `#0A0D09` on night, `lineStrong` on paper.
+  /// The rim under a solid answer option.
   final Color optionLip;
 
-  /// One precomputed shadow for light cards. Empty in dark.
+  /// One precomputed shadow for solid cards.
   final List<BoxShadow> cardShadow;
+
+  /// Warm tungsten desk-lamp light (about 2700 K). Environment only: glows and light fields.
+  final Color lamp;
+
+  /// Volt at 14%: the soft glow beneath the one lit element, never behind text.
+  final Color voltGlow;
+
+  /// Live-glass tint (Full quality, over a blur).
+  final Color glassTint;
+
+  /// Glass tint without blur (Lite quality and fake glass): denser so text keeps 4.5:1.
+  final Color glassTintLite;
+
+  /// The 1 dp edge light along glass: bright at the top, fading down the sides.
+  final Color edgeTop;
+  final Color edgeBottom;
+
+  /// The soft drop under floating glass (rounded rects only, so Impeller draws it analytically).
+  final List<BoxShadow> glassShadow;
+
+  /// Opacity of the static noise tile on moment surfaces.
+  final double grain;
 
   static const Color _volt = Color(0xFFD2F000);
   static const Color _voltInk = Color(0xFF0B1000);
   static const Color _voltEdge = Color(0xFF9DB400);
-  static const Color _scrim = Color(0x66000000);
+  static const Color _lamp = Color(0xFFF2A93B);
 
-  static const MmColors light = MmColors(
-    ground: Color(0xFFF4F5F0),
-    raised: Color(0xFFFFFFFF),
-    raised2: Color(0xFFF8F9F4),
-    sunken: Color(0xFFEEF0E8),
-    line: Color(0xFFDCE1D4),
-    lineStrong: Color(0xFFBCC5B0),
-    ink: Color(0xFF172016),
-    ink2: Color(0xFF3D4A39),
-    ink3: Color(0xFF56624F),
-    ink4: Color(0xFF646F5D),
+  /// Night: warm charcoal, paper-white ink, a lamp in the corner.
+  static const MmColors dark = MmColors(
+    ground: Color(0xFF12110E),
+    raised: Color(0xFF1B1A16),
+    raised2: Color(0xFF25231E),
+    sunken: Color(0xFF0D0C0A),
+    line: Color(0xFF312E27),
+    lineStrong: Color(0xFF4A453B),
+    ink: Color(0xFFF4F0E6),
+    ink2: Color(0xFFBDB6A6),
+    ink3: Color(0xFF8E877A),
+    ink4: Color(0xFF6A645A),
     volt: _volt,
     voltInk: _voltInk,
     voltEdge: _voltEdge,
-    accentText: Color(0xFF4F6400),
-    focusRing: Color(0xFF4F6400),
+    accentText: _volt,
+    focusRing: _volt,
+    badText: Color(0xFFFFA396),
+    warnText: Color(0xFFEDB75A),
+    goodText: Color(0xFFC6E86E),
+    wrongSurface: Color(0xFF2A1614),
+    wrongBorder: Color(0xFF7D3128),
+    wrongText: Color(0xFFFFC9C2),
+    scrim: Color(0x99080705),
+    optionLip: Color(0xFF0A0907),
+    cardShadow: [
+      BoxShadow(color: Color(0x40000000), offset: Offset(0, 1), blurRadius: 1),
+      BoxShadow(color: Color(0x59000000), offset: Offset(0, 18), blurRadius: 36, spreadRadius: -20),
+    ],
+    lamp: _lamp,
+    voltGlow: Color(0x24D2F000),
+    glassTint: Color(0x9E1C1A16),
+    glassTintLite: Color(0xE01C1A16),
+    edgeTop: Color(0x24FFF6E4),
+    edgeBottom: Color(0x08FFF6E4),
+    glassShadow: [
+      BoxShadow(color: Color(0x80000000), offset: Offset(0, 20), blurRadius: 40, spreadRadius: -22),
+      BoxShadow(color: Color(0x33000000), offset: Offset(0, 2), blurRadius: 6, spreadRadius: -2),
+    ],
+    grain: 0.05,
+  );
+
+  /// Daylight: warm paper, dark ink, volt as a fill and `#526700` as text.
+  static const MmColors light = MmColors(
+    ground: Color(0xFFF3EFE6),
+    raised: Color(0xFFFFFDF8),
+    raised2: Color(0xFFE9E4D8),
+    sunken: Color(0xFFEAE5DA),
+    line: Color(0xFFD8D1C2),
+    lineStrong: Color(0xFFBDB4A2),
+    ink: Color(0xFF17150F),
+    ink2: Color(0xFF454036),
+    ink3: Color(0xFF655F53),
+    ink4: Color(0xFF8A8375),
+    volt: _volt,
+    voltInk: _voltInk,
+    voltEdge: _voltEdge,
+    accentText: Color(0xFF526700),
+    focusRing: Color(0xFF526700),
     badText: Color(0xFFB0291F),
     warnText: Color(0xFF845400),
     goodText: Color(0xFF3D6600),
     wrongSurface: Color(0xFFFBE9E7),
     wrongBorder: Color(0xFFB93225),
     wrongText: Color(0xFFB0291F),
-    scrim: _scrim,
-    optionLip: Color(0xFFBCC5B0),
+    scrim: Color(0x6617150F),
+    optionLip: Color(0xFFD8D1C2),
     cardShadow: [
-      BoxShadow(color: Color(0x0F000000), offset: Offset(0, 1), blurRadius: 2),
-      BoxShadow(color: Color(0x2E000000), offset: Offset(0, 12), blurRadius: 32, spreadRadius: -18),
+      BoxShadow(color: Color(0x0F2A2010), offset: Offset(0, 1), blurRadius: 2),
+      BoxShadow(color: Color(0x262A2010), offset: Offset(0, 14), blurRadius: 30, spreadRadius: -18),
     ],
-  );
-
-  static const MmColors dark = MmColors(
-    ground: Color(0xFF0B100E),
-    raised: Color(0xFF131A16),
-    raised2: Color(0xFF18211B),
-    sunken: Color(0xFF0F1512),
-    line: Color(0xFF253026),
-    lineStrong: Color(0xFF384736),
-    ink: Color(0xFFF2F4EC),
-    ink2: Color(0xFFBCC5B9),
-    ink3: Color(0xFF93A08F),
-    ink4: Color(0xFF7F8B7B),
-    volt: _volt,
-    voltInk: _voltInk,
-    voltEdge: _voltEdge,
-    accentText: Color(0xFFD2F000),
-    focusRing: Color(0xFFD2F000),
-    badText: Color(0xFFFF9D92),
-    warnText: Color(0xFFE0B93F),
-    goodText: Color(0xFFB6E36E),
-    wrongSurface: Color(0xFF2A1614),
-    wrongBorder: Color(0xFF7D3128),
-    wrongText: Color(0xFFFFC9C2),
-    scrim: _scrim,
-    optionLip: Color(0xFF0A0D09),
-    cardShadow: [],
+    lamp: _lamp,
+    voltGlow: Color(0x38D2F000),
+    glassTint: Color(0xB8FFFDF8),
+    glassTintLite: Color(0xEBFFFDF8),
+    edgeTop: Color(0xCCFFFFFF),
+    edgeBottom: Color(0x1F2A2010),
+    glassShadow: [
+      BoxShadow(color: Color(0x2E2A2010), offset: Offset(0, 18), blurRadius: 36, spreadRadius: -20),
+      BoxShadow(color: Color(0x142A2010), offset: Offset(0, 1), blurRadius: 3),
+    ],
+    grain: 0.035,
   );
 
   static MmColors forBrightness(Brightness brightness) => brightness == Brightness.dark ? dark : light;
+
+  /// True for Night.
+  bool get isNight => ground.computeLuminance() < 0.2;
 
   @override
   MmColors copyWith({
@@ -160,6 +230,14 @@ class MmColors extends ThemeExtension<MmColors> {
     Color? scrim,
     Color? optionLip,
     List<BoxShadow>? cardShadow,
+    Color? lamp,
+    Color? voltGlow,
+    Color? glassTint,
+    Color? glassTintLite,
+    Color? edgeTop,
+    Color? edgeBottom,
+    List<BoxShadow>? glassShadow,
+    double? grain,
   }) {
     return MmColors(
       ground: ground ?? this.ground,
@@ -186,6 +264,14 @@ class MmColors extends ThemeExtension<MmColors> {
       scrim: scrim ?? this.scrim,
       optionLip: optionLip ?? this.optionLip,
       cardShadow: cardShadow ?? this.cardShadow,
+      lamp: lamp ?? this.lamp,
+      voltGlow: voltGlow ?? this.voltGlow,
+      glassTint: glassTint ?? this.glassTint,
+      glassTintLite: glassTintLite ?? this.glassTintLite,
+      edgeTop: edgeTop ?? this.edgeTop,
+      edgeBottom: edgeBottom ?? this.edgeBottom,
+      glassShadow: glassShadow ?? this.glassShadow,
+      grain: grain ?? this.grain,
     );
   }
 
@@ -218,6 +304,14 @@ class MmColors extends ThemeExtension<MmColors> {
       scrim: c(scrim, other.scrim),
       optionLip: c(optionLip, other.optionLip),
       cardShadow: t < 0.5 ? cardShadow : other.cardShadow,
+      lamp: c(lamp, other.lamp),
+      voltGlow: c(voltGlow, other.voltGlow),
+      glassTint: c(glassTint, other.glassTint),
+      glassTintLite: c(glassTintLite, other.glassTintLite),
+      edgeTop: c(edgeTop, other.edgeTop),
+      edgeBottom: c(edgeBottom, other.edgeBottom),
+      glassShadow: t < 0.5 ? glassShadow : other.glassShadow,
+      grain: grain + (other.grain - grain) * t,
     );
   }
 }

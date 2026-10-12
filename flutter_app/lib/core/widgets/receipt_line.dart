@@ -3,9 +3,11 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../copy/state_words.dart';
 import '../theme/theme.dart';
+import 'bubbles/bubble.dart';
 
-/// The one plain line that ends a finished task and says what was recorded and when (spec 7).
-/// Show a recorded line only after the server acknowledged; until then use [ReceiptLine.pending].
+/// The one plain line that ends a finished task and says what was recorded and when. A recorded
+/// line leads with an inked bubble (the server has it); a pending one with a phone glyph (only
+/// on this phone). Show a recorded line only after the server acknowledged.
 class ReceiptLine extends StatelessWidget {
   const ReceiptLine({super.key, required this.text, this.recorded = true});
 
@@ -32,7 +34,9 @@ class ReceiptLine extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 2),
-            child: Icon(recorded ? LucideIcons.check : LucideIcons.smartphone, size: 16, color: colors.ink2),
+            child: recorded
+                ? const Bubble(state: BubbleState.filled, size: 16, animate: false)
+                : Icon(LucideIcons.smartphone, size: 16, color: colors.ink2),
           ),
           const SizedBox(width: MmSpace.s8),
           Expanded(child: Text(text, style: type.small.copyWith(color: colors.ink2))),

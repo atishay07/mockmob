@@ -9,13 +9,10 @@ import 'package:flutter_test/flutter_test.dart';
 Future<void> loadAppFonts() async {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  await _loadFamily('Gabarito', [
-    'assets/fonts/Gabarito-Regular.ttf',
-    'assets/fonts/Gabarito-Medium.ttf',
-    'assets/fonts/Gabarito-SemiBold.ttf',
-    'assets/fonts/Gabarito-Bold.ttf',
-    'assets/fonts/Gabarito-ExtraBold.ttf',
-  ]);
+  await _loadFamily('BricolageCondensed', ['assets/fonts/BricolageCondensed-Bold.ttf']);
+  await _loadFamily('BricolageHeadline', ['assets/fonts/BricolageHeadline-SemiBold.ttf']);
+  await _loadFamily('BricolageTitle', ['assets/fonts/BricolageTitle-SemiBold.ttf']);
+  await _loadFamily('BricolageWordmark', ['assets/fonts/BricolageWordmark-Bold.ttf']);
   await _loadFamily('HankenGrotesk', [
     'assets/fonts/HankenGrotesk-Regular.ttf',
     'assets/fonts/HankenGrotesk-Medium.ttf',

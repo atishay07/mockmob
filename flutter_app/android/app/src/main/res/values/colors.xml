@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Ground colour of the light theme (spec 2.1) behind the splash and the first frame. -->
-    <color name="splash_ground">#F4F5F0</color>
-    <!-- The mark on the splash: ink on paper. The night variant uses volt. -->
-    <color name="splash_mark">#10140E</color>
-    <!-- Volt, the launcher icon background. -->
-    <color name="ic_launcher_background">#D2F000</color>
+    <!-- Night is the default identity (Night Sheet brief): the splash and the window behind the
+         first frame are the warm Night ground in both system modes, so there is no flash. -->
+    <color name="splash_ground">#12110E</color>
+    <color name="splash_mark">#D2F000</color>
+    <!-- The mark's dark tile, the adaptive launcher icon background. -->
+    <color name="ic_launcher_background">#101210</color>
 </resources>

@@ -3,11 +3,13 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../theme/theme.dart';
 import 'key_button.dart';
+import 'materials/shape.dart';
 
 enum BannerTone { info, warning, error, offline }
 
-/// A non-floating banner: it sits in the layout, never over content. Tone is carried by the
-/// icon and the words, with colour as a second signal only.
+/// A banner that sits in the layout, never over content: a quiet card with a small glyph in a
+/// tinted well. Tone is carried by the glyph and the words, colour is a second signal only.
+/// [InlineBanner.offlineStrip] is the slim full-width strip for "showing what was last loaded".
 class InlineBanner extends StatelessWidget {
   const InlineBanner({
     super.key,
@@ -18,7 +20,7 @@ class InlineBanner extends StatelessWidget {
     this.compact = false,
   });
 
-  /// The 32 dp strip used for the offline cache-time banner (spec 10).
+  /// The 32 dp strip used for the offline cache-time banner.
   const InlineBanner.offlineStrip({super.key, this.message = 'Offline. Showing what was last loaded.'})
       : tone = BannerTone.offline,
         actionLabel = null,
@@ -44,48 +46,85 @@ class InlineBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final iconColor = switch (tone) {
+    final accent = switch (tone) {
       BannerTone.info || BannerTone.offline => colors.ink2,
       BannerTone.warning => colors.warnText,
       BannerTone.error => colors.badText,
     };
 
-    final text = Text(message, style: (compact ? type.small : type.body).copyWith(color: colors.ink));
+    if (compact) {
+      return Semantics(
+        container: true,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: colors.sunken,
+            border: Border(bottom: BorderSide(color: colors.line)),
+          ),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 32),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter, vertical: MmSpace.s6),
+              child: Row(
+                children: [
+                  ExcludeSemantics(child: Icon(_icon, size: 14, color: accent)),
+                  const SizedBox(width: MmSpace.s8),
+                  Expanded(child: Text(message, style: type.caption.copyWith(color: colors.ink2))),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
+    final surface = tone == BannerTone.error ? colors.wrongSurface : (colors.isNight ? colors.raised : colors.raised);
+    final rim = tone == BannerTone.error ? colors.wrongBorder : colors.line;
 
     return Semantics(
       container: true,
       liveRegion: tone == BannerTone.error,
       child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.sunken,
-          border: Border.symmetric(horizontal: BorderSide(color: colors.line)),
+        decoration: ShapeDecoration(
+          color: surface,
+          shape: mmShapeBorder(MmRadius.keyAll, side: BorderSide(color: rim)),
         ),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(minHeight: compact ? 32 : 48),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: MmSpace.gutter, vertical: compact ? MmSpace.s4 : MmSpace.s12),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ExcludeSemantics(child: Icon(_icon, size: compact ? 16 : 20, color: iconColor)),
-                const SizedBox(width: MmSpace.s12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      text,
-                      if (actionLabel != null && onAction != null)
-                        // The quiet key carries 16 dp of inner padding; pull it back so its
-                        // label lines up with the message above.
-                        Transform.translate(
-                          offset: const Offset(-MmSpace.s16, 0),
-                          child: KeyButton.quiet(label: actionLabel!, onPressed: onAction),
-                        ),
-                    ],
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s12, MmSpace.s16, MmSpace.s12),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ExcludeSemantics(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: tone == BannerTone.error ? colors.wrongBorder.withValues(alpha: 0.35) : colors.raised2,
+                    shape: BoxShape.circle,
                   ),
+                  child: SizedBox.square(dimension: 32, child: Icon(_icon, size: 16, color: tone == BannerTone.error ? colors.wrongText : accent)),
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(width: MmSpace.s12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: Text(
+                        message,
+                        style: type.small.copyWith(color: tone == BannerTone.error ? colors.wrongText : colors.ink),
+                      ),
+                    ),
+                    if (actionLabel != null && onAction != null)
+                      // The quiet key carries 16 dp of inner padding; pull it back so its label
+                      // lines up with the message above.
+                      Transform.translate(
+                        offset: const Offset(-MmSpace.s16, 0),
+                        child: KeyButton.quiet(label: actionLabel!, onPressed: onAction),
+                      ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
