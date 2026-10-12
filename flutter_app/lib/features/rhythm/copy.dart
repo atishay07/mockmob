@@ -26,8 +26,7 @@ abstract final class RhythmCopy {
 
   static const String pausedKeepsRun = 'Paused weeks do not break your run.';
 
-  static String goalSentence(int goal) =>
-      goal >= 7 ? 'Your goal is 7 study days.' : 'Your goal is ${plural(goal, 'study day')}. $restDays';
+  static String goalSentence(int goal) => goal >= 7 ? 'Your goal is 7 study days.' : 'Your goal is ${plural(goal, 'study day')}. $restDays';
 
   /// "2 mocks, 7 mistakes repaired", from `mocksThisWeek` and `repairsThisWeek`. Null when both
   /// are unknown or zero.
@@ -74,8 +73,7 @@ abstract final class RhythmCopy {
   // Turn off.
   static const String turnOff = 'Turn off rhythm';
   static const String turnOffConfirmTitle = 'Turn off rhythm?';
-  static const String turnOffConfirmBody =
-      'The week strip is hidden everywhere. Your records stay, and you can turn it back on here.';
+  static const String turnOffConfirmBody = 'The week strip is hidden everywhere. Your records stay, and you can turn it back on here.';
   static const String turnOffConfirm = 'Turn off';
   static const String cancel = 'Cancel';
 
@@ -101,17 +99,17 @@ abstract final class RhythmCopy {
 
   /// Null for an id this app version does not know, so a raw id is never printed.
   static String? milestoneRow(String id, String date) => switch (id) {
-        'first_scored_session' => 'First scored session on $date',
-        'first_full_mock' => 'First full mock on $date',
-        'first_repair' => 'First repair finished on $date',
-        'repairs_5' => '5 repairs finished on $date',
-        'repairs_10' => '10 repairs finished on $date',
-        'repairs_25' => '25 repairs finished on $date',
-        'sessions_10' => '10 sessions finished on $date',
-        'first_week_met' => 'First week met on $date',
-        'weeks_met_4' => '4 weeks met on $date',
-        _ => null,
-      };
+    'first_scored_session' => 'First scored session on $date',
+    'first_full_mock' => 'First full mock on $date',
+    'first_repair' => 'First repair finished on $date',
+    'repairs_5' => '5 repairs finished on $date',
+    'repairs_10' => '10 repairs finished on $date',
+    'repairs_25' => '25 repairs finished on $date',
+    'sessions_10' => '10 sessions finished on $date',
+    'first_week_met' => 'First week met on $date',
+    'weeks_met_4' => '4 weeks met on $date',
+    _ => null,
+  };
 
   // Personal bests.
   static const String bestsTitle = 'Personal bests';
@@ -160,6 +158,7 @@ abstract final class RhythmCopy {
 
   // Late-night line (6.8).
   static const String lateNightStop = 'That is a good place to stop for tonight.';
+  static const String lateNightDismiss = 'Dismiss';
 
   // Celebrations.
   static const String firstRepairSentence = 'That was your first repair.';

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../core/copy/copy.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../rhythm/rhythm.dart' show LateNightLine;
 import '../copy.dart';
 import 'sheet_glyph.dart';
 
@@ -70,6 +71,7 @@ class ResultHeader extends StatelessWidget {
         if (cells.isNotEmpty) ...[const SizedBox(height: MmSpace.s24), _Sheet(cells: cells, reveal: reveal, onCellTap: onCellTap)],
         const SizedBox(height: MmSpace.s24),
         ReceiptLine(text: Receipts.practiceRecorded(recordedAt)),
+        const LateNightLine(),
       ],
     );
   }

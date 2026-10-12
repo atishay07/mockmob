@@ -34,18 +34,12 @@ class LessonBlock extends StatelessWidget {
           child: Text(label, style: type.label.copyWith(color: colors.ink2)),
         ),
       if (showTitle && title != null) Semantics(header: true, child: Text(title, style: type.subhead)),
-      if (body != null) ...[
-        if (showTitle && title != null) const SizedBox(height: MmSpace.s8),
-        Text(body, style: type.body),
-      ],
+      if (body != null) ...[if (showTitle && title != null) const SizedBox(height: MmSpace.s8), Text(body, style: type.body)],
       if (formula != null) ...[const SizedBox(height: MmSpace.s12), _Formula(text: formula)],
       if (steps.isNotEmpty) ...[const SizedBox(height: MmSpace.s12), _Steps(steps: steps)],
       if (rows.isNotEmpty) ...[const SizedBox(height: MmSpace.s12), _RowsTable(rows: rows)],
       for (final w in words) ...[const SizedBox(height: MmSpace.s12), _WordEntry(word: w)],
-      if (note != null) ...[
-        const SizedBox(height: MmSpace.s12),
-        Text(note, style: type.small.copyWith(color: colors.ink2)),
-      ],
+      if (note != null) ...[const SizedBox(height: MmSpace.s12), Text(note, style: type.small.copyWith(color: colors.ink2))],
     ];
 
     final content = Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: children);
@@ -79,14 +73,16 @@ class _Formula extends StatelessWidget {
     // The server joins several formulas with a middle dot; each goes on its own line here.
     final lines = text.split('·').map((l) => l.trim()).where((l) => l.isNotEmpty).toList();
     return DecoratedBox(
-      decoration: BoxDecoration(color: colors.sunken, borderRadius: MmRadius.smallAll, border: Border.all(color: colors.line)),
+      decoration: BoxDecoration(
+        color: colors.sunken,
+        borderRadius: MmRadius.smallAll,
+        border: Border.all(color: colors.line),
+      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            for (final l in lines) Text(l, style: context.mmType.label.copyWith(fontSize: 15, height: 1.5)),
-          ],
+          children: [for (final l in lines) Text(l, style: context.mmType.label.copyWith(fontSize: 15, height: 1.5))],
         ),
       ),
     );
@@ -116,13 +112,17 @@ class _Steps extends StatelessWidget {
                   SizedBox(
                     width: 20,
                     child: Stack(
+                      clipBehavior: Clip.none,
                       alignment: Alignment.topCenter,
                       children: [
                         if (i < steps.length - 1)
                           Positioned(
                             top: 12,
-                            bottom: 0,
-                            child: SizedBox(width: 2, child: DecoratedBox(decoration: BoxDecoration(color: colors.lineStrong))),
+                            bottom: -8,
+                            child: SizedBox(
+                              width: 2,
+                              child: DecoratedBox(decoration: BoxDecoration(color: colors.lineStrong)),
+                            ),
                           ),
                         Positioned(
                           top: 8,
@@ -207,7 +207,11 @@ class _WordEntry extends StatelessWidget {
     final opposite = asString(word['opposite']);
     final example = asString(word['example']);
     return DecoratedBox(
-      decoration: BoxDecoration(color: colors.raised, borderRadius: MmRadius.smallAll, border: Border.all(color: colors.line)),
+      decoration: BoxDecoration(
+        color: colors.raised,
+        borderRadius: MmRadius.smallAll,
+        border: Border.all(color: colors.line),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(MmSpace.s16),
         child: Column(
@@ -216,10 +220,7 @@ class _WordEntry extends StatelessWidget {
             Text(asStringOr(word['word'], ''), style: type.subhead),
             const SizedBox(height: MmSpace.s4),
             Text(asStringOr(word['meaning'], ''), style: type.body),
-            if (example != null) ...[
-              const SizedBox(height: MmSpace.s8),
-              Text(example, style: type.small.copyWith(color: colors.ink2)),
-            ],
+            if (example != null) ...[const SizedBox(height: MmSpace.s8), Text(example, style: type.small.copyWith(color: colors.ink2))],
             if (similar != null) Text('${LearnCopy.similarWord}: $similar', style: type.small.copyWith(color: colors.ink2)),
             if (opposite != null) Text('${LearnCopy.oppositeWord}: $opposite', style: type.small.copyWith(color: colors.ink2)),
           ],

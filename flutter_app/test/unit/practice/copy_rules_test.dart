@@ -35,12 +35,14 @@ void main() {
 
   test('the exact spec sentences', () {
     expect(PracticeCopy.offlineStart, 'Connect to start. Your downloaded reviews still work.');
-    expect(PracticeCopy.startFailed, 'We could not start the session. Nothing was charged. Try again.');
+    expect(
+      PracticeCopy.startFailed,
+      'We could not start the session. Try again. If you were charged, trying again will not charge you twice.',
+    );
     expect(PracticeCopy.notEnoughQuestions, 'We do not have enough questions for this yet. Nothing was charged.');
-    expect(PracticeCopy.sheetMarking, '5 marks for each correct answer, minus 1 for each wrong answer.');
     expect(PracticeCopy.sheetTimer, 'The timer keeps running if you leave the app. Submit ends the mock.');
     expect(PracticeCopy.sheetDnd, 'For fewer interruptions, turn on Do Not Disturb from Quick Settings.');
-    expect(PracticeCopy.fullMockLine(), '50 questions, 60 minutes');
+    expect(PracticeCopy.fullMockLine(questions: 50, minutes: 60), '50 questions, 60 minutes');
     expect(PracticeCopy.quickLine, '5 to 20 questions');
     expect(PracticeCopy.chapterModeLine, 'Practice, not proof');
     expect(PracticeCopy.partOfPro, 'Part of Pro');

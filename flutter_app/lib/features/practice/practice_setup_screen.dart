@@ -294,7 +294,7 @@ class _MockSummary extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          time == null ? PracticeCopy.fullMockLine() : PracticeCopy.fullMockLine(questions: count, minutes: (time!.inSeconds / 60).round()),
+          PracticeCopy.fullMockLine(questions: count, minutes: time == null ? null : (time!.inSeconds / 60).round()),
           style: type.subhead.copyWith(color: colors.ink),
         ),
         const SizedBox(height: MmSpace.s12),

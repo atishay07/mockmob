@@ -20,15 +20,10 @@ void main() {
   });
 
   testWidgets('a signed-out student lands on the welcome screen', (tester) async {
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: [authSnapshotProvider.overrideWith(_SignedOut.new)],
-        child: const MockMobApp(),
-      ),
-    );
+    await tester.pumpWidget(ProviderScope(overrides: [authSnapshotProvider.overrideWith(_SignedOut.new)], child: const MockMobApp()));
     await tester.pumpAndSettle();
 
     expect(find.byType(MaterialApp), findsOneWidget);
-    expect(find.text('Welcome'), findsWidgets);
+    expect(find.text('I already have an account'), findsOneWidget);
   });
 }

@@ -177,7 +177,7 @@ void main() {
     expect(text('Learn'), findsOneWidget);
   });
 
-  testWidgets('a blocked quote shows its reason text only', (tester) async {
+  testWidgets('a blocked quote shows words chosen by its reason code, never the server text', (tester) async {
     final quotes = FakeQuoteRepository(
       (s, m, c, p) => quoteOf(
         state: 'unavailable',
@@ -193,7 +193,8 @@ void main() {
       overrides: practiceOverrides(quotes: quotes),
     );
     await settle(tester);
-    expect(find.textContaining('Economics has 3 usable questions'), findsOneWidget);
+    expect(find.textContaining('Economics has 3 usable questions'), findsNothing);
+    expect(find.text('We do not have enough questions for this yet.'), findsOneWidget);
   });
 
   testWidgets('offline shows the exact offline line and does not start', (tester) async {
@@ -239,7 +240,7 @@ void main() {
     await tester.tap(text('Start practice'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
-    expect(text('We could not start the session. Nothing was charged. Try again.'), findsOneWidget);
+    expect(text('We could not start the session. Try again. If you were charged, trying again will not charge you twice.'), findsOneWidget);
   });
 
   testWidgets('a mock opens one pre-start sheet with the numbered title, then starts', (tester) async {
@@ -258,7 +259,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 400));
     expect(text('Mock 7, Accountancy'), findsOneWidget);
     expect(text('50 questions, 60 minutes.'), findsOneWidget);
-    expect(text('5 marks for each correct answer, minus 1 for each wrong answer.'), findsOneWidget);
+    expect(find.textContaining('5 marks'), findsNothing);
     expect(text('The timer keeps running if you leave the app. Submit ends the mock.'), findsOneWidget);
     expect(text('For fewer interruptions, turn on Do Not Disturb from Quick Settings.'), findsOneWidget);
     // The ticket-mode line needs a ticket-mode session, which only exists after the start.

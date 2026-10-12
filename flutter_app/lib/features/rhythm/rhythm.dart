@@ -14,6 +14,7 @@ export 'data/bests.dart' show bestMocksProvider, bestsRepositoryProvider;
 export 'data/rhythm_prefs.dart' show CelebrationMode, celebrationModeProvider, rhythmPrefsProvider, rhythmVisibleProvider;
 export 'data/rhythm_providers.dart' show RhythmSnapshot, rhythmActionsProvider, rhythmSnapshotProvider, weeklyEndingProvider;
 export 'logic/late_night.dart';
+export 'widgets/late_night_line.dart' show LateNightLine;
 export 'widgets/goal_editor.dart' show GoalEditor, showGoalEditor;
 export 'widgets/returning_card.dart' show ReturningCard, ReturningSection, returningGreetsWithMobi, showReturning;
 export 'widgets/rhythm_body.dart' show CelebrationsPicker;

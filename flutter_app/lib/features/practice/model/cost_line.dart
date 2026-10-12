@@ -31,8 +31,7 @@ CostLine costLineFor(PracticeQuote quote) {
     if (quote.isInsufficientCredits && quote.creditCost != null) {
       return CostLine(CostKind.credits, PracticeCopy.usesCredits(quote.creditCost!, quote.creditBalance));
     }
-    final reason = quote.reason;
-    return CostLine(CostKind.blocked, reason == null || reason.trim().isEmpty ? PracticeCopy.unavailableFallback : reason);
+    return CostLine(CostKind.blocked, blockedTextFor(quote.reasonCode));
   }
   if (quote.freeByAllowance) {
     final kind = quote.allowance!.kind;
@@ -72,3 +71,14 @@ CreditsLow? creditsLowFor(PracticeQuote quote) {
 /// returns it: a quote that says the mode is unknown or unavailable hides the row.
 bool quoteOffersMode(PracticeQuote quote) =>
     quote.reasonCode != 'mode_unknown' && quote.reasonCode != 'mode_unavailable' && quote.reasonCode != 'unauthenticated';
+
+/// The words for a quote that cannot launch, chosen by [reasonCode] only: the server's own
+/// free-form `reason` is never shown.
+String blockedTextFor(String reasonCode) => switch (reasonCode) {
+  'inventory_insufficient' || 'inventory_empty' => PracticeCopy.notEnoughQuestionsYet,
+  'subject_not_offered' || 'subject_retired' || 'subject_unknown' => PracticeCopy.subjectNotOpen,
+  'mode_unknown' || 'mode_unavailable' => PracticeCopy.modeUnavailable,
+  'rate_limited' || 'user_unavailable' || 'inventory_unknown' => PracticeCopy.tryLater,
+  'unauthenticated' => PracticeCopy.signInAgain,
+  _ => PracticeCopy.unavailableFallback,
+};

@@ -82,21 +82,30 @@ class _NotificationSettingsScreenState
     setState(() => _save = _Save.sending);
     try {
       await change();
-      await ref.read(reminderSchedulerProvider).sync();
-      if (!mounted) return;
-      ref.invalidate(reminderStateProvider);
-      ref.invalidate(weeklyCapProvider);
-      setState(() {
-        _save = _Save.saved;
-        _savedAt = ref.read(nowProvider)();
-      });
-    } on ApiError {
+    } on Object {
+      // The server did not confirm (or a local step threw): the pill resolves and offers a retry.
       if (mounted) setState(() => _save = _Save.failed);
+      return;
     }
+    // The server has acknowledged the change. Scheduling this phone is best effort and never
+    // turns a saved change into a failed one.
+    try {
+      await ref.read(reminderSchedulerProvider).sync();
+    } on Object {
+      // The next app open syncs again.
+    }
+    if (!mounted) return;
+    ref.invalidate(reminderStateProvider);
+    ref.invalidate(weeklyCapProvider);
+    setState(() {
+      _save = _Save.saved;
+      _savedAt = ref.read(nowProvider)();
+    });
   }
 
   /// Times are shown in the student's own timezone.
-  DateTime _inStudentZone(DateTime t) => tz.TZDateTime.from(t, locationFor(_prefs.timezone));
+  DateTime _inStudentZone(DateTime t) =>
+      tz.TZDateTime.from(t, locationFor(_prefs.timezone));
 
   NotificationPrefs get _prefs =>
       ref.read(notificationPrefsRepositoryProvider).value ??
@@ -210,7 +219,8 @@ class _NotificationSettingsScreenState
         );
       case _Save.saved:
         return ReceiptLine(
-          text: 'Settings saved on the server at ${formatTime12(_inStudentZone(_savedAt!))}.',
+          text:
+              'Settings saved on the server at ${formatTime12(_inStudentZone(_savedAt!))}.',
         );
       case _Save.failed:
         return InlineBanner(
@@ -253,8 +263,12 @@ class _NotificationSettingsScreenState
           status: _status(),
           stale: prefsState.isStale
               ? (prefsState.error!.isOffline
-                  ? NotificationsCopy.staleBanner(_inStudentZone(prefsState.fetchedAt ?? now))
-                  : NotificationsCopy.staleBannerFailed(_inStudentZone(prefsState.fetchedAt ?? now)))
+                    ? NotificationsCopy.staleBanner(
+                        _inStudentZone(prefsState.fetchedAt ?? now),
+                      )
+                    : NotificationsCopy.staleBannerFailed(
+                        _inStudentZone(prefsState.fetchedAt ?? now),
+                      ))
               : null,
         ),
       );
@@ -264,7 +278,10 @@ class _NotificationSettingsScreenState
           prefsState.error?.kind == ApiErrorKind.timeout;
       content = Column(
         children: [
-          Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: _Header(onBack: _back)),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+            child: _Header(onBack: _back),
+          ),
           Expanded(
             child: StateView(
               kind: offline ? StateViewKind.offline : StateViewKind.error,
@@ -285,7 +302,10 @@ class _NotificationSettingsScreenState
     } else {
       content = Column(
         children: [
-          Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: _Header(onBack: _back)),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+            child: _Header(onBack: _back),
+          ),
           const Padding(
             padding: EdgeInsets.all(MmSpace.gutter),
             child: _LoadingRows(),

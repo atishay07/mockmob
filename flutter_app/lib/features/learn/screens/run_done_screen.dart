@@ -50,8 +50,10 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
 
   void _backToLearn() => context.go(AppRoutes.learn);
 
-  DateTime _recordedAt(StudyRun run, RunUiState ui) {
-    final at = run.serverUpdatedAt ?? ui.ackedAt ?? DateTime.now();
+  /// The server's own time, or null: the device clock is never presented as a record.
+  DateTime? _recordedAt(StudyRun run, RunUiState ui) {
+    final at = run.serverUpdatedAt ?? ui.ackedAt;
+    if (at == null) return null;
     final zone = locationFor(ref.read(studentTimezoneProvider));
     return tz.TZDateTime.from(at, zone);
   }
@@ -80,12 +82,23 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
             padding: EdgeInsets.all(MmSpace.gutter),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [Skeleton(height: 28), SizedBox(height: MmSpace.s12), Skeleton.line(width: 180)],
+              children: [
+                Skeleton(height: 28),
+                SizedBox(height: MmSpace.s12),
+                Skeleton.line(width: 180),
+              ],
             ),
           ),
         );
-      case RunLoad.unavailable:
       case RunLoad.offlineMissing:
+        return StateView(
+          kind: StateViewKind.offline,
+          title: LearnCopy.runOfflineTitle,
+          message: LearnCopy.runOfflineMessage,
+          primary: StateAction(LearnCopy.tryAgain, () => unawaited(ref.read(runControllerProvider(widget.runId).notifier).load())),
+          secondary: StateAction(LearnCopy.backToLearn, _backToLearn),
+        );
+      case RunLoad.unavailable:
         return StateView(
           kind: StateViewKind.error,
           title: LearnCopy.runUnavailableTitle,
@@ -111,7 +124,10 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
         if (run == null) return const SizedBox.shrink();
         if (run.isActive) return _stillActive(run, ui);
         if (run.state == 'set_aside') {
-          return _ended(line: LearnCopy.doneSetAside, keys: [KeyButton(label: LearnCopy.doneBack, onPressed: _backToLearn)]);
+          return _ended(
+            line: LearnCopy.doneSetAside,
+            keys: [KeyButton(label: LearnCopy.doneBack, onPressed: _backToLearn)],
+          );
         }
         return _finished(run, ui);
     }
@@ -126,7 +142,9 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
         if (ui.pending != null)
           KeyButton(label: LearnCopy.doneRetry, onPressed: () => unawaited(ref.read(runControllerProvider(widget.runId).notifier).flush())),
         KeyButton.secondary(label: LearnCopy.resumeKey, onPressed: () => context.go(AppRoutes.learnRun(run.id))),
-        Center(child: KeyButton.quiet(label: LearnCopy.doneBack, onPressed: _backToLearn)),
+        Center(
+          child: KeyButton.quiet(label: LearnCopy.doneBack, onPressed: _backToLearn),
+        ),
       ],
     );
   }
@@ -141,7 +159,9 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
     return _frame(
       keys: [
         KeyButton(label: LearnCopy.doneBack, onPressed: _backToLearn),
-        Center(child: KeyButton.quiet(label: LearnCopy.doneFinish, onPressed: () => context.go(AppRoutes.today))),
+        Center(
+          child: KeyButton.quiet(label: LearnCopy.doneFinish, onPressed: () => context.go(AppRoutes.today)),
+        ),
       ],
       children: [
         if (run.total > 0) SettlingPips(total: run.total),
@@ -188,10 +208,7 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
       children: [
         const SizedBox(height: MmSpace.s24),
         if (pending) const ReceiptLine.pending() else Semantics(header: true, liveRegion: true, child: Text(line, style: type.title)),
-        if (extra != null) ...[
-          const SizedBox(height: MmSpace.s12),
-          Text(extra, style: type.body.copyWith(color: colors.ink2)),
-        ],
+        if (extra != null) ...[const SizedBox(height: MmSpace.s12), Text(extra, style: type.body.copyWith(color: colors.ink2))],
       ],
     );
   }

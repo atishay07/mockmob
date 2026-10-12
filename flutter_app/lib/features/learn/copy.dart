@@ -29,8 +29,7 @@ abstract final class LearnCopy {
 
   static String dueSummary(int n) => '${plural(n, 'card')} due.';
 
-  static String newReady(int n) =>
-      '${plural(n, 'new card')} ${pluralWord(n, 'is', pluralForm: 'are')} ready from lessons you have read.';
+  static String newReady(int n) => '${plural(n, 'new card')} ${pluralWord(n, 'is', pluralForm: 'are')} ready from lessons you have read.';
 
   static String pendingOnPhone(int n) =>
       n == 1 ? '1 review is on this phone. Not sent yet.' : '$n reviews are on this phone. Not sent yet.';
@@ -39,12 +38,12 @@ abstract final class LearnCopy {
 
   // Lesson status words. Never "mastered".
   static String statusWord(StudyUnitStatus status) => switch (status) {
-        StudyUnitStatus.newUnit => 'New',
-        StudyUnitStatus.inProgress || StudyUnitStatus.lockIn => 'In progress',
-        StudyUnitStatus.due => 'Due',
-        StudyUnitStatus.learned => 'Done for now',
-        StudyUnitStatus.unknown => 'New',
-      };
+    StudyUnitStatus.newUnit => 'New',
+    StudyUnitStatus.inProgress || StudyUnitStatus.lockIn => 'In progress',
+    StudyUnitStatus.due => 'Due',
+    StudyUnitStatus.learned => 'Done for now',
+    StudyUnitStatus.unknown => 'New',
+  };
 
   static String minutes(int m) => 'about ${plural(m, 'minute')}';
 
@@ -113,17 +112,16 @@ abstract final class LearnCopy {
   static const String oppositeWord = 'Opposite';
   static const String objectiveLabel = 'Idea';
 
-  static String position(String? mode, int number, int total) =>
-      mode == 'learn' ? stepOf(number, total) : 'Card $number of $total';
+  static String position(String? mode, int number, int total) => mode == 'learn' ? stepOf(number, total) : 'Card $number of $total';
 
   // Lesson block labels, by the server's block kind.
   static String? blockKindLabel(String? kind) => switch (kind) {
-        'worked_example' => 'Worked example',
-        'mistake' => 'Common mistake',
-        'contrast' => 'Compare',
-        'word_set' => 'The words',
-        _ => null,
-      };
+    'worked_example' => 'Worked example',
+    'mistake' => 'Common mistake',
+    'contrast' => 'Compare',
+    'word_set' => 'The words',
+    _ => null,
+  };
 
   static String stepSemantics(int n, int total, String text) => 'Step $n of $total. $text';
 
@@ -139,10 +137,10 @@ abstract final class LearnCopy {
   // The space inside the time is a no-break space so "6:12 PM" never splits across lines.
   static String _time(DateTime at) => formatTime12(at).replaceAll(' ', ' ');
 
-  static String recallFinished(int cards, DateTime at) =>
-      'Run finished. ${plural(cards, 'card')} reviewed. Recorded at ${_time(at)}.';
+  static String recallFinished(int cards, DateTime? at) =>
+      'Run finished. ${plural(cards, 'card')} reviewed.${at == null ? '' : ' Recorded at ${_time(at)}.'}';
 
-  static String lessonFinished(DateTime at) => 'Lesson finished. Recorded at ${_time(at)}.';
+  static String lessonFinished(DateTime? at) => 'Lesson finished.${at == null ? '' : ' Recorded at ${_time(at)}.'}';
 
   static String stillDue(int n) => n == 1 ? '1 card is still due.' : '$n cards are still due.';
 
@@ -159,7 +157,6 @@ abstract final class LearnCopy {
   static String subjectLabel(String id) {
     if (id.isEmpty) return id;
     final words = id.split(RegExp(r'[-_ ]')).where((w) => w.isNotEmpty).toList();
-    return [for (var i = 0; i < words.length; i++) i == 0 ? words[i][0].toUpperCase() + words[i].substring(1) : words[i]]
-        .join(' ');
+    return [for (var i = 0; i < words.length; i++) i == 0 ? words[i][0].toUpperCase() + words[i].substring(1) : words[i]].join(' ');
   }
 }

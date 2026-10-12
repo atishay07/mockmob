@@ -20,6 +20,10 @@ import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/repositories/session_draft_repository.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/practice/data/practice_catalog.dart';
+import 'package:mockmob/core/repositories/notification_prefs_repository.dart' show studentTimezoneProvider;
+import 'package:mockmob/core/storage/prefs_store.dart';
+import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
+import 'package:mockmob/features/you/you_providers.dart' show PrefToggle, lateNightLinesProvider;
 import 'package:mockmob/features/practice/data/practice_notes.dart';
 import 'package:mockmob/features/practice/data/practice_starter.dart';
 import 'package:mockmob/features/practice/model/practice_selection.dart';
@@ -264,6 +268,9 @@ List<Override> practiceOverrides({
   analyticsClientProvider.overrideWithValue(analytics ?? FakeAnalytics()),
   pendingResultRepositoryProvider.overrideWithValue(pending ?? FakePendingResults()),
   nowProvider.overrideWithValue(() => testNow),
+  studentTimezoneProvider.overrideWithValue('Asia/Kolkata'),
+  rhythmPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
+  lateNightLinesProvider.overrideWith(() => PrefToggle(initial: true, read: (_) async => true, write: (_, _) async {})),
   ...extra,
 ];
 

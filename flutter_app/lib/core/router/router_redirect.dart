@@ -48,6 +48,11 @@ String? resolveRedirect({required AuthSnapshot auth, required Uri uri, required 
         intended.remember(here);
         return AppRoutes.signIn;
       }
+      // A session that expired mid-task goes straight to sign-in, where the banner explains it.
+      if (auth.sessionExpired) {
+        if (isDeepTarget) intended.remember(here);
+        return AppRoutes.signIn;
+      }
       return AppRoutes.welcome;
 
     case AuthStatus.signedIn:

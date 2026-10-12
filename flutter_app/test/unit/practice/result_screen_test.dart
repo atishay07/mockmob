@@ -134,7 +134,7 @@ void main() {
       ),
     );
     await tester.pump(const Duration(milliseconds: 500));
-    expect(find.text('This result belongs to another account. Sign in with the right one.'), findsOneWidget);
+    expect(find.text('We could not find this result. It may belong to another account.'), findsOneWidget);
   });
 
   testWidgets('a failed read with nothing cached offers Try again', (tester) async {

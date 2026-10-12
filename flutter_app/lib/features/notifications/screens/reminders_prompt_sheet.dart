@@ -42,9 +42,14 @@ class _RemindersPromptSheetState extends ConsumerState<RemindersPromptSheet> {
 
   Future<void> _allow() async {
     setState(() => _asking = true);
-    final result = await ref
-        .read(permissionRequesterProvider)
-        .requestNotificationPermission();
+    NotificationPermission result;
+    try {
+      result = await ref
+          .read(permissionRequesterProvider)
+          .requestNotificationPermission();
+    } on Object {
+      result = NotificationPermission.denied;
+    }
     if (!mounted) return;
     ref.invalidate(notificationPermissionProvider);
     final granted = result == NotificationPermission.granted;

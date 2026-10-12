@@ -77,7 +77,8 @@ class _MockStartSheetState extends ConsumerState<MockStartSheet> {
     final catalog = ref.watch(practiceSubjectsProvider).value;
     final subject = subjectNameFor(selection.subjectId, catalog);
     final label = ref.watch(completedMockCountProvider(internalSubjectFor(selection.subjectId, catalog))).value;
-    final minutes = widget.minutes ?? ((widget.quote.durationSec ?? 3600) / 60).round();
+    final seconds = widget.quote.durationSec;
+    final minutes = widget.minutes ?? (seconds == null ? null : (seconds / 60).round());
 
     return PopScope(
       canPop: !_starting,
@@ -86,9 +87,12 @@ class _MockStartSheetState extends ConsumerState<MockStartSheet> {
         children: [
           Semantics(header: true, child: Text(PracticeCopy.sheetTitle(mockLabelFor(label), subject), style: type.title)),
           const SizedBox(height: MmSpace.s12),
-          Text(PracticeCopy.sheetSize(selection.effectiveCount, minutes), style: type.body),
-          const SizedBox(height: MmSpace.s8),
-          Text(PracticeCopy.sheetMarking, style: type.body),
+          Text(
+            minutes == null
+                ? PracticeCopy.sheetSizeCount(selection.effectiveCount)
+                : PracticeCopy.sheetSize(selection.effectiveCount, minutes),
+            style: type.body,
+          ),
           const SizedBox(height: MmSpace.s8),
           Text(PracticeCopy.sheetTimer, style: type.body),
           if (widget.ticketBy != null) ...[
@@ -97,6 +101,10 @@ class _MockStartSheetState extends ConsumerState<MockStartSheet> {
           ],
           const SizedBox(height: MmSpace.s12),
           Text(PracticeCopy.sheetDnd, style: type.small.copyWith(color: colors.ink3)),
+          if (minutes == null) ...[
+            const SizedBox(height: MmSpace.s16),
+            Text(PracticeCopy.sheetNoLength, style: type.body.copyWith(color: colors.badText)),
+          ],
           if (_failure != null) ...[
             const SizedBox(height: MmSpace.s16),
             Semantics(
@@ -105,7 +113,7 @@ class _MockStartSheetState extends ConsumerState<MockStartSheet> {
             ),
           ],
           const SizedBox(height: MmSpace.s24),
-          KeyButton(label: PracticeCopy.startMock, loading: _starting, onPressed: _starting ? null : _start),
+          KeyButton(label: PracticeCopy.startMock, loading: _starting, onPressed: _starting || minutes == null ? null : _start),
           const SizedBox(height: MmSpace.s8),
           Align(
             child: KeyButton.quiet(label: PracticeCopy.notNow, onPressed: _starting ? null : () => Navigator.of(context).maybePop()),

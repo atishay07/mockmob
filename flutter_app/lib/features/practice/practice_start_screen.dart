@@ -14,6 +14,7 @@ import 'copy.dart';
 import 'data/launch_flow.dart';
 import 'data/practice_quote.dart';
 import 'data/practice_starter.dart' show StartFailure;
+import 'model/cost_line.dart';
 import 'model/practice_selection.dart';
 import 'widgets/failure_copy.dart';
 
@@ -103,7 +104,7 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
       case LaunchStarted(:final sessionId):
         context.go(AppRoutes.run(sessionId));
       case LaunchNeedsLook(:final quote):
-        _stop(quote.reason ?? PracticeCopy.unavailableFallback, StateViewKind.error);
+        _stop(costLineFor(quote).text ?? PracticeCopy.unavailableFallback, StateViewKind.error);
       case LaunchFailed(:final failure):
         final view = StartFailureView(failure);
         _stop(view.text, failure == StartFailure.offline ? StateViewKind.offline : StateViewKind.error);

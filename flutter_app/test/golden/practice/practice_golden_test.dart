@@ -8,7 +8,9 @@ import 'package:mockmob/core/connectivity/connectivity.dart';
 import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/models/practice_quote.dart';
 import 'package:mockmob/features/practice/data/practice_starter.dart';
+import 'package:mockmob/features/practice/model/practice_selection.dart';
 import 'package:mockmob/features/practice/practice_routes.dart';
+import 'package:mockmob/features/practice/widgets/mock_start_sheet.dart';
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart' show settleImages;
@@ -204,6 +206,30 @@ void main() {
         await _shot(tester, 'mock_sheet', b);
       });
 
+      testWidgets('pre-start sheet for a mock in ticket mode', (tester) async {
+        await pumpRouted(
+          tester,
+          location: '/practice/setup/full?subject=accountancy',
+          routes: _routes(),
+          brightness: b,
+          overrides: practiceOverrides(
+            quotes: FakeQuoteRepository((s, m, c, p) => creditsQuote(cost: 50, balance: 120, mode: 'full', count: 50)),
+          ),
+        );
+        await _settle(tester);
+        final context = tester.element(find.byType(Scaffold).first);
+        unawaited(
+          showMockStartSheet(
+            context,
+            selection: const PracticeSelection(mode: PracticeMode.full, subjectId: 'accountancy'),
+            quote: creditsQuote(cost: 50, balance: 120, mode: 'full', count: 50),
+            ticketBy: DateTime(2026, 10, 12, 23, 42),
+          ),
+        );
+        await _settle(tester, ms: 900);
+        await _shot(tester, 'mock_sheet_ticket', b);
+      });
+
       testWidgets('Pro-gated mode', (tester) async {
         await pumpRouted(
           tester,
@@ -293,11 +319,7 @@ void main() {
           location: '/practice/result/p1',
           routes: _routes(),
           brightness: b,
-          overrides: resultOverrides(
-            attemptId: 'p1',
-            loading: true,
-            cachedAttempt: cached,
-          ),
+          overrides: resultOverrides(attemptId: 'p1', loading: true, cachedAttempt: cached),
         );
         await _settle(tester, ms: 900);
         await _shot(tester, 'result_loading_keys', b);

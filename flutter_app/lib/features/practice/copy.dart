@@ -10,13 +10,17 @@ abstract final class PracticeCopy {
   static const String otherSubjectsTitle = 'Other subjects';
 
   static const String fullMockTitle = 'Full mock';
-  static String fullMockLine({int questions = 50, int minutes = 60}) => '$questions questions, $minutes minutes';
+  static String fullMockLine({required int questions, int? minutes}) =>
+      minutes == null ? '$questions questions' : '$questions questions, $minutes minutes';
   static const String quickTitle = 'Quick practice';
   static const String quickLine = '5 to 20 questions';
   static const String chapterTitle = 'Chapter practice';
   static const String chapterModeLine = 'Practice, not proof';
   static const String ntaTitle = 'NTA-style mode';
-  static String ntaLine({int questions = 50, int minutes = 60}) => 'Exam style, $questions questions, $minutes minutes';
+  static String ntaLine({required int questions, int? minutes}) =>
+      minutes == null ? 'Exam style, $questions questions' : 'Exam style, $questions questions, $minutes minutes';
+  static const String lengthChecking = 'Checking the length.';
+  static const String sheetNoLength = 'We could not confirm how long this mock is. Close this and try again.';
 
   static const String partOfPro = 'Part of Pro';
   static const String partOfProAlternative = 'Part of Pro. You can take a Full mock instead.';
@@ -29,6 +33,11 @@ abstract final class PracticeCopy {
   static String usesCredits(int cost, int? balance) =>
       balance == null ? 'Uses ${plural(cost, 'credit')}.' : 'Uses ${plural(cost, 'credit')}. You have $balance.';
   static const String unavailableFallback = 'This is not available right now.';
+  static const String notEnoughQuestionsYet = 'We do not have enough questions for this yet.';
+  static const String subjectNotOpen = 'This subject is not open for practice right now.';
+  static const String modeUnavailable = 'This mode is not available right now.';
+  static const String tryLater = 'Try again in a little while.';
+  static const String signInAgain = 'Sign in again to continue.';
 
   // Resume slot on the tab.
   static String resumeMock(String label, String subject, DateTime endsAt) =>
@@ -76,7 +85,8 @@ abstract final class PracticeCopy {
   static const String proGateBody = 'Your account includes Full mock, Quick practice and Chapter practice.';
 
   // Start failures.
-  static const String startFailed = 'We could not start the session. Nothing was charged. Try again.';
+  static const String startFailed =
+      'We could not start the session. Try again. If you were charged, trying again will not charge you twice.';
   static const String notEnoughQuestions = 'We do not have enough questions for this yet. Nothing was charged.';
   static const String notEnoughCredits = 'You do not have enough credits for this. Nothing was charged.';
   static const String notIncluded = 'This is part of Pro. Nothing was charged.';
@@ -88,7 +98,7 @@ abstract final class PracticeCopy {
   // Pre-start sheet (mocks).
   static String sheetTitle(String? mockLabel, String subject) => '${mockLabel ?? 'Full mock'}, $subject';
   static String sheetSize(int count, int minutes) => '$count questions, $minutes minutes.';
-  static const String sheetMarking = '5 marks for each correct answer, minus 1 for each wrong answer.';
+  static String sheetSizeCount(int count) => '$count questions.';
   static const String sheetTimer = 'The timer keeps running if you leave the app. Submit ends the mock.';
   static String sheetTicket(DateTime by) => 'If you leave, open MockMob again before ${formatTime12(by)} so your answers can be sent.';
   static const String sheetDnd = 'For fewer interruptions, turn on Do Not Disturb from Quick Settings.';
@@ -138,7 +148,7 @@ abstract final class PracticeCopy {
   static const String loadingAnswers = 'Loading your answers';
   static const String resultLoadFailed = 'We could not load this result. Your practice was recorded. Try again.';
   static const String resultLoadFailedUnknown = 'We could not load this result. Try again.';
-  static const String otherAccount = 'This result belongs to another account. Sign in with the right one.';
+  static const String otherAccount = 'We could not find this result. It may belong to another account.';
   static String lastLoaded(DateTime at) => 'Showing what was last loaded at ${formatTime12(at)}.';
   static const String backSemantics = 'Back';
 }

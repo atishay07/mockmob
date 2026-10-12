@@ -66,12 +66,12 @@ void main() {
       expect(line.text, isNot(contains('Rs')));
     });
 
-    test('a blocked quote shows its reason text only', () {
+    test('a blocked quote shows words chosen by its reason code, never the server text', () {
       final line = costLineFor(
         q(state: 'unavailable', launchable: false, reasonCode: 'inventory_insufficient', reason: 'Economics has 3 usable questions.'),
       );
       expect(line.kind, CostKind.blocked);
-      expect(line.text, 'Economics has 3 usable questions.');
+      expect(line.text, 'We do not have enough questions for this yet.');
     });
 
     test('insufficient credits still states the cost and the balance', () {

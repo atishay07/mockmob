@@ -12,10 +12,8 @@ import 'sign_out_flow.dart';
 
 /// What the server said to a deletion request.
 class DeletionReceipt {
-  const DeletionReceipt({required this.message, required this.requestedAt, required this.alreadyRequested});
+  const DeletionReceipt({required this.requestedAt, required this.alreadyRequested});
 
-  /// The server's own message, shown as it came.
-  final String? message;
   final DateTime requestedAt;
 
   /// A repeat request: the server returns the earlier pending request, so its `requestedAt` is
@@ -30,13 +28,8 @@ Future<DeletionReceipt> requestAccountDeletion(WidgetRef ref, {DateTime Function
   final response = await ref.read(apiClientProvider).post('/api/me/delete', body: {'source': 'android'});
   final map = response.map;
   final requestedAt = DateTime.tryParse('${map['requestedAt']}')?.toLocal() ?? startedAt;
-  final message = map['message'];
   final repeat = requestedAt.isBefore(startedAt.subtract(const Duration(minutes: 2)));
-  return DeletionReceipt(
-    message: message is String && message.trim().isNotEmpty ? message : null,
-    requestedAt: requestedAt,
-    alreadyRequested: repeat,
-  );
+  return DeletionReceipt(requestedAt: requestedAt, alreadyRequested: repeat);
 }
 
 enum _Step { ask, sending, recorded, signingOut }
@@ -133,19 +126,11 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
           Text(YouCopy.deleteUnsent(_unsent), style: type.body.copyWith(color: colors.ink2)),
         ],
         const SizedBox(height: MmSpace.group),
-        if (_error != null) ...[
-          InlineBanner(message: _error!, tone: BannerTone.error),
-          const SizedBox(height: MmSpace.s16),
-        ],
+        if (_error != null) ...[InlineBanner(message: _error!, tone: BannerTone.error), const SizedBox(height: MmSpace.s16)],
         // The safe choice is the dominant key. The destructive key sits flat beside it in weight.
         KeyButton(label: YouCopy.deleteKeep, onPressed: sending ? null : () => Navigator.of(context).maybePop()),
         const SizedBox(height: MmSpace.s12),
-        KeyButton.secondary(
-          label: YouCopy.deleteRequest,
-          loading: sending,
-          hapticOnCommit: false,
-          onPressed: sending ? null : _request,
-        ),
+        KeyButton.secondary(label: YouCopy.deleteRequest, loading: sending, hapticOnCommit: false, onPressed: sending ? null : _request),
       ],
     );
   }
@@ -160,28 +145,16 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
       children: [
         Semantics(
           liveRegion: true,
-          child: Text(
-            receipt.alreadyRequested ? YouCopy.deleteAlready : (receipt.message ?? YouCopy.deleteConsequences),
-            style: type.lead,
-          ),
+          child: Text(receipt.alreadyRequested ? YouCopy.deleteAlready : YouCopy.deleteConsequences, style: type.lead),
         ),
         const SizedBox(height: MmSpace.s16),
         ReceiptLine(
-          text: receipt.alreadyRequested
-              ? YouCopy.deleteRequestedOn(receipt.requestedAt)
-              : YouCopy.deleteRecordedAt(receipt.requestedAt),
+          text: receipt.alreadyRequested ? YouCopy.deleteRequestedOn(receipt.requestedAt) : YouCopy.deleteRecordedAt(receipt.requestedAt),
         ),
-        if (receipt.alreadyRequested && receipt.message != null) ...[
-          const SizedBox(height: MmSpace.s12),
-          Text(receipt.message!, style: type.body.copyWith(color: colors.ink2)),
-        ],
         const SizedBox(height: MmSpace.s12),
         Text(YouCopy.deleteSignOutNote, style: type.small.copyWith(color: colors.ink2)),
         const SizedBox(height: MmSpace.group),
-        if (_error != null) ...[
-          InlineBanner(message: _error!, tone: BannerTone.error),
-          const SizedBox(height: MmSpace.s16),
-        ],
+        if (_error != null) ...[InlineBanner(message: _error!, tone: BannerTone.error), const SizedBox(height: MmSpace.s16)],
         KeyButton(label: YouCopy.signOut, loading: signingOut, onPressed: signingOut ? null : _signOut),
       ],
     );

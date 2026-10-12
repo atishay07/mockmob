@@ -15,6 +15,7 @@ import '../../core/repositories/remote_state.dart';
 import '../../core/router/routes.dart';
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
+import '../rhythm/rhythm.dart' show LateNightLine;
 import 'copy.dart';
 import 'data/practice_catalog.dart';
 import 'data/practice_notes.dart';
@@ -333,7 +334,14 @@ class _Closing extends StatelessWidget {
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(MmSpace.s24),
-            child: Semantics(liveRegion: true, child: ReceiptLine(text: text)),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Semantics(liveRegion: true, child: ReceiptLine(text: text)),
+                const LateNightLine(),
+              ],
+            ),
           ),
         ),
       ),
@@ -378,7 +386,8 @@ class _NoAttempt extends StatelessWidget {
       body = StateView(
         kind: StateViewKind.error,
         title: PracticeCopy.otherAccount,
-        primary: StateAction(PracticeCopy.backToPractice, () => context.go(AppRoutes.practice)),
+        primary: StateAction(PracticeCopy.retry, onRetry),
+        secondary: StateAction(PracticeCopy.backToPractice, () => context.go(AppRoutes.practice)),
       );
     } else if (error.isOffline) {
       body = StateView(

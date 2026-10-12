@@ -53,9 +53,12 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
     };
   }
 
-  String _minutesLine(PracticeQuote? q, String Function({int questions, int minutes}) make) {
-    final seconds = q?.durationSec;
-    return seconds == null ? make() : make(questions: q!.count ?? mockQuestionCount, minutes: (seconds / 60).round());
+  /// The size line comes only from the quote; until it arrives the row says it is checking.
+  String _minutesLine(PracticeQuote? q, String Function({required int questions, int? minutes}) make) {
+    final count = q?.count;
+    if (q == null || count == null) return PracticeCopy.lengthChecking;
+    final seconds = q.durationSec;
+    return make(questions: count, minutes: seconds == null ? null : (seconds / 60).round());
   }
 
   void _open(PracticeMode mode, String subject) =>
