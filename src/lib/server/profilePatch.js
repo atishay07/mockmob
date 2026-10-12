@@ -1,6 +1,9 @@
 import { SUBJECTS } from '../../../data/subjects.js';
+import { toPublicSubjectId } from '../../../data/cuet_controls.js';
 
-const SUBJECT_IDS = new Set(SUBJECTS.map((subject) => subject.id));
+// Accept both the internal ids and the public ids that /api/subjects sends (for example the
+// General Test is 'gat' internally and 'general_test' publicly); store whatever the client sent.
+const SUBJECT_IDS = new Set(SUBJECTS.flatMap((subject) => [subject.id, toPublicSubjectId(subject.id)]));
 const MAX_SUBJECTS = 5;
 
 // Students may change only their display name and subjects here. Entitlements, role, email and

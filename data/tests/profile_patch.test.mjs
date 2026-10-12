@@ -11,6 +11,9 @@ test('profile updates accept only a name and listed subjects', () => {
   const mixed = profilePatch({ name: 'Asha', isPremium: true, role: 'admin' });
   assert.deepEqual(mixed, { patch: { name: 'Asha' } });
   assert.match(profilePatch({ subjects: ['not_a_subject'] }).error, /listed subjects/);
+  // The public id the website sends for the General Test must be accepted, as must the internal one.
+  assert.deepEqual(profilePatch({ subjects: ['general_test', 'english'] }).patch, { subjects: ['general_test', 'english'] });
+  assert.deepEqual(profilePatch({ subjects: ['gat'] }).patch, { subjects: ['gat'] });
   assert.match(profilePatch({ subjects: ['english', 'accountancy', 'economics', 'business_studies', 'history', 'political_science'] }).error, /up to 5/);
   assert.match(profilePatch({ name: '' }).error, /1 to 80/);
   assert.equal(profilePatch(null).error, 'Send a JSON object.');
