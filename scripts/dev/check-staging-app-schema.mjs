@@ -10,7 +10,7 @@ if (process.env.STAGING_SUPABASE_URL !== target) throw Error('wrong_staging_proj
 const db = createClient(target, process.env.STAGING_SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false } });
 
 const tables = ['usage_consent', 'usage_events', 'notification_prefs', 'push_devices', 'study_goals', 'study_goal_history',
-  'account_deletion_requests', 'sample_imports', 'session_check_log'];
+  'account_deletion_requests', 'sample_imports', 'session_check_log', 'public_inventory_snapshot'];
 let ok = true;
 for (const t of tables) {
   const { error } = await db.from(t).select('*', { head: true, count: 'exact' }).limit(0);
