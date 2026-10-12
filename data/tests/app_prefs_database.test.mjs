@@ -5,12 +5,15 @@ import { readFileSync } from 'node:fs';
 
 const migration = readFileSync(new URL('../../supabase/migrations/20261012121000_app_preferences_and_rhythm.sql', import.meta.url), 'utf8');
 
+const historyMigration = readFileSync(new URL('../../supabase/migrations/20261013090000_study_goal_history.sql', import.meta.url), 'utf8');
+
 async function setup() {
   const db = new PGlite();
   await db.exec('create role anon; create role authenticated; create role service_role bypassrls;');
   await db.exec('create table public.users (id text primary key, name text not null default \'x\');');
   await db.exec("insert into public.users(id) values ('u1'),('u2');");
   await db.exec(migration);
+  await db.exec(historyMigration);
   return db;
 }
 
@@ -87,5 +90,34 @@ test('tables are service-role only: RLS on, client roles have no access', async 
     await assert.rejects(db.query('select * from account_deletion_requests'), /permission denied/);
     await db.exec('reset role; set role service_role');
     await db.exec("insert into push_devices(user_id, token) values ('u1','svc-token-aaaaaaaaaaaa')");
+  } finally { await db.close(); }
+});
+
+test('goal history: applies twice, backfills existing goals, enforces Monday and range, keyed by week', async () => {
+  const db = new PGlite();
+  try {
+    await db.exec('create role anon; create role authenticated; create role service_role bypassrls;');
+    await db.exec("create table public.users (id text primary key, name text not null default 'x'); insert into public.users(id) values ('u1'),('u2');");
+    await db.exec(migration);
+    await db.exec("insert into study_goals(user_id, days_per_week) values ('u1', 6);"); // legacy goal before history existed
+    await db.exec(historyMigration);
+    await db.exec(historyMigration); // idempotent, backfill does not duplicate
+    const rows = (await db.query('select user_id, effective_week::text w, days_per_week d from study_goal_history')).rows;
+    assert.deepEqual(rows, [{ user_id: 'u1', w: '2000-01-03', d: 6 }]);
+    await db.exec("insert into study_goal_history(user_id, effective_week, days_per_week) values ('u1','2026-10-12',3)");
+    await assert.rejects(db.exec("insert into study_goal_history(user_id, effective_week, days_per_week) values ('u1','2026-10-13',3)"), /check/i); // Tuesday
+    await assert.rejects(db.exec("insert into study_goal_history(user_id, effective_week, days_per_week) values ('u1','2026-10-19',8)"), /check/i);
+    await assert.rejects(db.exec("insert into study_goal_history(user_id, effective_week, days_per_week) values ('u1','2026-10-12',2)"), /unique|duplicate/i);
+    await db.exec("insert into study_goal_history(user_id, effective_week, days_per_week) values ('u1','2026-10-12',2) on conflict (user_id, effective_week) do update set days_per_week = excluded.days_per_week");
+    assert.equal((await db.query("select days_per_week d from study_goal_history where effective_week='2026-10-12'")).rows[0].d, 2);
+    await assert.rejects(db.exec("insert into study_goal_history(user_id, effective_week, days_per_week) values ('nobody','2026-10-12',2)"), /foreign key/i);
+    assert.ok((await db.query("select relrowsecurity r from pg_class where relname='study_goal_history'")).rows[0].r);
+    await db.exec('set role authenticated');
+    await assert.rejects(db.query('select * from study_goal_history'), /permission denied/);
+    await db.exec('reset role; set role service_role');
+    assert.equal((await db.query('select count(*)::int n from study_goal_history')).rows[0].n, 2);
+    await db.exec('reset role');
+    await db.exec("delete from public.users where id = 'u1'");
+    assert.equal((await db.query('select count(*)::int n from study_goal_history')).rows[0].n, 0); // cascade
   } finally { await db.close(); }
 });
