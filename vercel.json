@@ -1,0 +1,5 @@
+{
+  "crons": [
+    { "path": "/api/internal/refresh-inventory", "schedule": "*/10 * * * *" }
+  ]
+}
