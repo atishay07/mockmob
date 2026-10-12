@@ -71,3 +71,4 @@ mobile/android/**/*.keystore
 
 # App screenshots taken during local verification
 /tmp/app-shots/
+/tmp/workflows/

@@ -228,3 +228,17 @@ test('episode checks are reported through the hook only when a session is actual
     assert.deepEqual(seen, [['ep', 1]]);
   } finally { await db.close(); }
 });
+
+test('deadline finalising honours checked answers and the per-student pass never throws', async () => {
+  const { scoreExpiredSession: score, finaliseExpiredSessionsForUser } = await import('../../src/lib/server/sessionFinaliser.js');
+  const now = Date.parse('2026-10-13T10:00:00Z');
+  const q = (id, key) => ({ id, subject: 'english', options: [{ key: 'A', text: 'a' }, { key: 'B', text: 'b' }], correctIndex: key, correct_index: key, answer: key });
+  const row = { id: 's1', user_id: 'u1', subject: 'english', questions: [q('q1', 0)], selection_meta: { contentEvidence: 'legacy_bank' },
+    events: [{ seq: 1, qid: 'q1', type: 'answer', answer: 1, at: 1000 }], created_at: new Date(now - 3_600_000).toISOString(), expires_at: new Date(now - 600_000).toISOString() };
+  const withoutCheck = score(row);
+  const withCheck = score(row, [{ qid: 'q1', answer: 0 }]);
+  assert.notEqual(withoutCheck.details?.[0]?.givenIndex, withCheck.details?.[0]?.givenIndex);
+  assert.equal(withCheck.details?.[0]?.givenIndex, 0);
+  const broken = { listDue: async () => { throw new Error('FINALISER_STORAGE_UNAVAILABLE'); } };
+  assert.equal(await finaliseExpiredSessionsForUser(broken, { now }), null);
+});

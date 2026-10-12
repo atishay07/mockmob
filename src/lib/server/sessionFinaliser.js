@@ -1,6 +1,7 @@
 // B11: server-side finalisation of durable sessions at their deadline.
 // Free of Next and Supabase imports: the store and episode hook are injected so node:test can run it.
 import { scoreSession, scorePracticeSubmission } from '../../../data/recovery.js';
+import { applyCheckedAnswers, checkedAnswersForSubmit } from './sessionCheck.js';
 
 export const FINALISE_GRACE_MS = 120000;
 export const FINALISE_MARGIN_MS = 2000; // Keeps the app clock from running ahead of the database clock.
@@ -9,10 +10,12 @@ export const FINALISE_BATCH = 50;
 const ms = value => (value instanceof Date ? value.getTime() : Date.parse(value));
 
 /** Builds the attempt payload for one expired durable session from acknowledged events only. */
-export function scoreExpiredSession(row) {
+export function scoreExpiredSession(row, checked = []) {
   const events = Array.isArray(row.events) ? row.events : [];
-  const answers = {};
+  let answers = {};
   for (const event of events) if (event.type === 'answer') answers[event.qid] = event.answer;
+  // A per-answer check (B13) made that answer final; the deadline path honours it like submit does.
+  answers = applyCheckedAnswers(answers, checked);
   const duration = ms(row.expires_at) - ms(row.created_at);
   const ordinary = row.selection_meta?.contentEvidence === 'legacy_bank';
   let invalidTelemetry = false;
@@ -58,8 +61,15 @@ export async function finaliseExpiredSessions(store, { now = Date.now(), limit =
     after = rows[rows.length - 1].expires_at;
     for (const row of rows) {
       let result;
+      let checked = [];
       try {
-        result = scoreExpiredSession(row);
+        checked = store.checkedAnswers ? await store.checkedAnswers(row) : [];
+      } catch {
+        await fail(store, out, row, 'finalise_failed', FINALISE_MAX_FAILURES);
+        continue;
+      }
+      try {
+        result = scoreExpiredSession(row, checked);
       } catch {
         // Deterministic: the snapshot or answers can never be scored, so retrying would only starve the queue.
         await fail(store, out, row, 'unscorable', 1);
@@ -93,12 +103,14 @@ async function fail(store, out, row, code, maxFailures) {
   } catch { out.errors.push({ id: row.id, code: 'quarantine_failed' }); }
 }
 
-export function supabaseSessionStore(db) {
+/** With `userId`, only that student's sessions are listed (the on-demand pass when they open results). */
+export function supabaseSessionStore(db, { userId } = {}) {
   return {
     async listDue(cutoffIso, limit, afterIso) {
       let query = db.from('recovery_sessions')
         .select('id,user_id,subject,mode,questions,selection_meta,events,created_at,expires_at')
         .eq('state', 'active').lt('expires_at', cutoffIso);
+      if (userId) query = query.eq('user_id', userId);
       if (afterIso) query = query.gte('expires_at', afterIso);
       const { data, error } = await query.order('expires_at', { ascending: true }).limit(limit);
       if (error) throw new Error('FINALISER_STORAGE_UNAVAILABLE');
@@ -108,6 +120,9 @@ export function supabaseSessionStore(db) {
       const { data, error } = await db.rpc('finalise_expired_recovery_session', { p_id: id, p_result: result });
       if (error) throw new Error(error.message || 'finalise_failed');
       return data;
+    },
+    async checkedAnswers(row) {
+      return checkedAnswersForSubmit(db, row.id, row.user_id);
     },
     async quarantine(id, reason, maxFailures) {
       const { data, error } = await db.rpc('quarantine_recovery_session', { p_id: id, p_reason: reason, p_max: maxFailures });
@@ -125,4 +140,17 @@ export function episodeCheckInput(row, result) {
     input: { requestKey: `submission_${row.id}`, itemId: row.selection_meta.itemId, type: 'choice', value: unanswered ? null : detail.givenIndex },
     options: { scoredCheck: true, incompleteCheck: unanswered ? 'unanswered' : null },
   };
+}
+
+/**
+ * On-demand pass for one student: finalise their own expired durable sessions before their
+ * results are read, so an abandoned mock appears without waiting for the daily cron. Never throws;
+ * a failure leaves the session for the next pass.
+ */
+export async function finaliseExpiredSessionsForUser(store, options = {}) {
+  try {
+    return await finaliseExpiredSessions(store, { ...options, limit: options.limit ?? 5 });
+  } catch {
+    return null;
+  }
 }

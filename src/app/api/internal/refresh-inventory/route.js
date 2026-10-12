@@ -18,7 +18,8 @@ function authorised(request) {
   return Boolean(internal) && same(request.headers.get('x-internal-secret'), internal);
 }
 
-// Vercel cron (see vercel.json) refreshes the public inventory snapshot every 10 minutes.
+// Vercel cron (see vercel.json) refreshes the public inventory snapshot once a day (3:00 AM IST);
+// between runs, publicInventory refreshes a snapshot older than 15 minutes after a response.
 export async function GET(request) {
   const headers = { 'Cache-Control': 'no-store' };
   if (!authorised(request)) return Response.json({ error: 'forbidden', message: 'Not allowed.' }, { status: 403, headers });

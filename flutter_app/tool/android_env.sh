@@ -8,3 +8,6 @@ if [ -f "$TS" ]; then
   export JAVA_TOOL_OPTIONS="-Djavax.net.ssl.trustStore=$(cygpath -w "$TS") -Djavax.net.ssl.trustStorePassword=changeit"
 fi
 export PATH="/c/flutter/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH"
+
+# Default to the emulator when more than one device is attached (the owner's phone uses -s explicitly).
+export ANDROID_SERIAL="${ANDROID_SERIAL:-emulator-5554}"
