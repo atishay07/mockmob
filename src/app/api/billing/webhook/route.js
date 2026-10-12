@@ -1,3 +1,4 @@
+import { timingSafeEqual } from 'node:crypto';
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 
@@ -25,7 +26,9 @@ export async function POST(request) {
     }
 
     const provided = request.headers.get('x-mockmob-signature');
-    if (provided !== secret) {
+    const providedBuf = Buffer.from(provided || '');
+    const secretBuf = Buffer.from(secret);
+    if (providedBuf.length !== secretBuf.length || !timingSafeEqual(providedBuf, secretBuf)) {
       return NextResponse.json({ error: 'Invalid webhook signature' }, { status: 401 });
     }
 

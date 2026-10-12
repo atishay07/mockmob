@@ -9,6 +9,7 @@ import { cancelMonthlyRenewal } from '@/lib/payments/cancel';
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
+// Cookie-only on purpose: the app does not sell in v1, so this payment route takes no bearer token.
 // Stops future renewals at the end of the paid month. Access already paid for is kept; the
 // webhook (subscription.cancelled) records the final state. One-time access has nothing to cancel.
 export async function POST(request) {

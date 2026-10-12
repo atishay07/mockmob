@@ -82,7 +82,7 @@ export async function GET(request) {
       );
     }
 
-    const session = await auth();
+    const session = await auth(request);
     if (!session?.user) {
       return jsonWithDiagnostics(diagnostics, { error: 'Unauthorized' }, { status: 401 });
     }

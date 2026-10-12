@@ -5,14 +5,22 @@ import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { Database } from "@/../data/db";
 import { supabaseAdmin } from '@/lib/supabase';
+import { randomBytes } from 'node:crypto';
+
+// Vestigial next-auth setup: live login is Supabase (see AuthProvider.jsx). No typed-name demo
+// login provider, no placeholder client ids and no literal secret fallback. Google is enabled only
+// when real env vars exist.
+const googleConfigured = Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET);
 
 export const authOptions = {
-  providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || 'mock',
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'mock',
-    }),
-  ],
+  providers: googleConfigured
+    ? [
+        GoogleProvider({
+          clientId: process.env.GOOGLE_CLIENT_ID as string,
+          clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+        }),
+      ]
+    : [],
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider === 'google') {
@@ -59,7 +67,9 @@ export const authOptions = {
   session: {
     strategy: "jwt"
   },
-  secret: process.env.NEXTAUTH_SECRET || 'fallback_secret_for_dev_only'
+  // A per-process random secret (never a literal) keeps the unused next-auth route from failing
+  // with MissingSecret when no secret is configured. No live login depends on it.
+  secret: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET || randomBytes(32).toString('hex'),
 };
 
 const { handlers } = NextAuth(authOptions);
