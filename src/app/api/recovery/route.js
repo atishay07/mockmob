@@ -3,7 +3,7 @@ import { Database } from '@/../data/db';
 import { supabaseAdmin } from '@/lib/supabase';
 import { improvementEvidence } from '@/../data/recovery';
 import { checkRateLimit } from '@/lib/server/rateLimit';
-import { publicationEligibility } from '@/../data/evidence_registry';
+import { eligibilitySnapshot, publicationEligibility } from '@/../data/evidence_registry';
 import { excludeHeldFamilies } from '@/../data/evidence_holds';
 import { learningRecord } from '@/lib/server/learning';
 
@@ -24,7 +24,8 @@ export async function GET(request) {
     const {data,error}=await db.from('questions').select('*').in('id',questionIds.slice(i,i+300));
     if(error){evidenceUnavailable=true;break;}
     let unheld;try{unheld=await excludeHeldFamilies(data || [],db);}catch{evidenceUnavailable=true;break;}
-    for(const q of unheld)if(publicationEligibility(q).eligible)currentQuestions.set(q.id,q.evidence.record.content_hash);
+    const snapshot=unheld.length?eligibilitySnapshot():undefined;
+    for(const q of unheld)if(publicationEligibility(q,snapshot).eligible)currentQuestions.set(q.id,q.evidence.record.content_hash);
   }
   const concepts={};const seenIds=new Set(),seenFamilies=new Set();let invalidatedChecks=0;
   for(const a of [...attempts].sort((a,b)=>a.completedAt-b.completedAt)) for(const q of a.questionsSnapshot) {

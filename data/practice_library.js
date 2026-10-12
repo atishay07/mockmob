@@ -1,4 +1,4 @@
-import { publicationEligibility } from './evidence_registry';
+import { eligibilitySnapshot, publicationEligibility } from './evidence_registry';
 import { excludeHeldFamilies } from './evidence_holds';
 import { legacyPracticeVisible } from './practice_availability';
 import { verifyAnswerIntegrity } from './answer_integrity';
@@ -8,7 +8,9 @@ export async function readablePracticeQuestions(rows, db, { requireEvidence = fa
   // Apply the same structural answer and community quality floor to inventory
   // aggregates and every selector. These checks do not certify academic truth.
   rows = rows.filter(row => String(row.body ?? row.question ?? '').trim() && Number(row.score ?? 0) >= -2 && verifyAnswerIntegrity(row).accepted);
-  const eligible = rows.filter(row => publicationEligibility(row).eligible);
+  // Read the registry and calibration once for this pass; parsing them per row took ~35 ms each.
+  const snapshot = rows.length ? eligibilitySnapshot() : undefined;
+  const eligible = rows.filter(row => publicationEligibility(row, snapshot).eligible);
   const checked = await excludeHeldFamilies(eligible, db);
   const evidenceTier=row=>row.provenance?.kind && row.evidence?.record?.policy_version===FACTORY_POLICY?3:2;
   if (requireEvidence) return checked.map(row=>({...row,selection_evidence_tier:evidenceTier(row)}));

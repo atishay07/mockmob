@@ -2,7 +2,7 @@ import 'server-only';
 import { after } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { readablePracticeQuestions } from '@/../data/practice_library';
-import { publicationEligibility } from '@/../data/evidence_registry';
+import { eligibilitySnapshot, publicationEligibility } from '@/../data/evidence_registry';
 import { snapshotDecision } from './inventorySnapshot';
 
 // Cache only public aggregates, never keys or personal evidence. Errors are not cached.
@@ -22,9 +22,10 @@ async function computeInventory(db) {
   const visible = rows.filter(q => q.status === 'live' || (q.verification_state === 'verified' && q.exploration_state === 'active'));
   const eligible = await readablePracticeQuestions(visible, db, { requireEvidence: false });
   const subjectCounts = {}, recoverySubjectCounts = {};
+  const snapshot = eligible.length ? eligibilitySnapshot() : undefined;
   for (const q of eligible) {
     subjectCounts[q.subject] = (subjectCounts[q.subject] || 0) + 1;
-    if (publicationEligibility(q).eligible) recoverySubjectCounts[q.subject] = (recoverySubjectCounts[q.subject] || 0) + 1;
+    if (publicationEligibility(q, snapshot).eligible) recoverySubjectCounts[q.subject] = (recoverySubjectCounts[q.subject] || 0) + 1;
   }
   return { state: 'available', bankSize: eligible.length, subjectCounts, recoverySubjectCounts, recoveryEligible: Object.values(recoverySubjectCounts).reduce((a,b)=>a+b,0), checkedAt: new Date().toISOString(), note: 'Ordinary library counts use the same publication and family-hold policies as practice. A count does not establish a complete mock blueprint or recovery pathway.' };
 }
