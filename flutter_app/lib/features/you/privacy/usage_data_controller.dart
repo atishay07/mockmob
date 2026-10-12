@@ -16,6 +16,9 @@ enum UsagePhase {
   /// Turning off: collection is already stopped; the server call is in flight.
   withdrawing,
 
+  /// The server acknowledged turning usage data on.
+  enabled,
+
   /// The server acknowledged the withdrawal. [UsageDataUi.deletedEvents] says what it deleted.
   withdrawn,
 
@@ -48,7 +51,7 @@ class UsageDataController extends Notifier<UsageDataUi> {
     try {
       final result = await ref.read(consentRepositoryProvider.notifier).setAnalyticsAllowed(allowed);
       if (!ref.mounted) return;
-      state = allowed ? const UsageDataUi() : UsageDataUi(phase: UsagePhase.withdrawn, deletedEvents: result.deletedEvents);
+      state = allowed ? const UsageDataUi(phase: UsagePhase.enabled) : UsageDataUi(phase: UsagePhase.withdrawn, deletedEvents: result.deletedEvents);
     } on ApiError catch (e) {
       if (!ref.mounted) return;
       if (allowed) {

@@ -70,6 +70,7 @@ class _Status extends StatelessWidget {
       UsagePhase.idle => null,
       UsagePhase.enabling => _line(type, colors, YouCopy.consentEnabling, spinner: true),
       UsagePhase.withdrawing => _line(type, colors, YouCopy.consentTurningOff, spinner: true),
+      UsagePhase.enabled => _line(type, colors, YouCopy.consentEnabled, done: true),
       UsagePhase.withdrawn => _line(
           type,
           colors,

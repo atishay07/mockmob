@@ -50,6 +50,8 @@ abstract final class NotificationsCopy {
   static const String retry = 'Try again';
   static String staleBanner(DateTime at) =>
       'Showing settings from ${formatTime12(at)}. Changes need a connection.';
+  static String staleBannerFailed(DateTime at) =>
+      'Showing settings from ${formatTime12(at)}. We could not refresh them. Try again soon.';
   static const String saveFailed =
       'We could not save that. Your earlier setting is still in place.';
 

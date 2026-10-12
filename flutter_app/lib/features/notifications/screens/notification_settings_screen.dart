@@ -53,9 +53,17 @@ class _NotificationSettingsScreenState
   @override
   void initState() {
     super.initState();
+    // The prefs load once per sign-in; read them again on open so an earlier failed read does
+    // not leave the screen stale until the app restarts.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) unawaited(_repo.refresh());
+    });
     // A student who turned notifications on in Android settings comes back to a current screen.
     _lifecycle = AppLifecycleListener(
-      onResume: () => ref.invalidate(notificationPermissionProvider),
+      onResume: () {
+        ref.invalidate(notificationPermissionProvider);
+        unawaited(_repo.refresh());
+      },
     );
   }
 
@@ -244,7 +252,9 @@ class _NotificationSettingsScreenState
           onBack: _back,
           status: _status(),
           stale: prefsState.isStale
-              ? NotificationsCopy.staleBanner(_inStudentZone(prefsState.fetchedAt ?? now))
+              ? (prefsState.error!.isOffline
+                  ? NotificationsCopy.staleBanner(_inStudentZone(prefsState.fetchedAt ?? now))
+                  : NotificationsCopy.staleBannerFailed(_inStudentZone(prefsState.fetchedAt ?? now)))
               : null,
         ),
       );

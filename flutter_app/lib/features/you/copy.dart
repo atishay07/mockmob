@@ -117,6 +117,7 @@ abstract final class YouCopy {
   static const consentEnableFailed = 'We could not save that. Usage data is still off. Try again.';
   static const consentWithdrawn =
       'Usage data is off. We stopped collecting it. Earlier usage data was deleted.';
+  static const consentEnabled = 'Usage data is on. Saved. You can turn it off here any time.';
   static const consentWithdrawnShort = 'Usage data is off. We stopped collecting it.';
   static const consentDeleteFailed = 'Your choice was saved, but deleting earlier data failed. Try again.';
   static const consentUnreached =
