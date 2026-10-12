@@ -1,0 +1,210 @@
+import 'dart:async';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../api/api_providers.dart';
+import '../models/notification_prefs.dart';
+import '../repositories/notification_prefs_repository.dart';
+import '../storage/app_prefs.dart';
+import '../storage/storage_providers.dart';
+import 'notification_channels.dart';
+import 'notification_gateway.dart';
+import 'notification_ids.dart';
+import 'notification_planner.dart';
+import 'timezones.dart';
+
+/// Persists the cap ledger between runs.
+abstract class NotificationLedgerStore {
+  Future<List<LedgerEntry>> load();
+  Future<void> save(List<LedgerEntry> entries);
+}
+
+class PrefsNotificationLedgerStore implements NotificationLedgerStore {
+  PrefsNotificationLedgerStore(this._prefs);
+
+  final AppPrefs _prefs;
+
+  @override
+  Future<List<LedgerEntry>> load() async {
+    final out = <LedgerEntry>[];
+    for (final raw in await _prefs.notificationLedger()) {
+      final i = raw.lastIndexOf('|');
+      final ms = i < 0 ? null : int.tryParse(raw.substring(i + 1));
+      if (ms != null) out.add(LedgerEntry(taskId: raw.substring(0, i), at: DateTime.fromMillisecondsSinceEpoch(ms)));
+    }
+    return out;
+  }
+
+  @override
+  Future<void> save(List<LedgerEntry> entries) => _prefs.setNotificationLedger([for (final e in entries) '${e.taskId}|${e.at.millisecondsSinceEpoch}']);
+}
+
+class MemoryNotificationLedgerStore implements NotificationLedgerStore {
+  List<LedgerEntry> entries = [];
+
+  @override
+  Future<List<LedgerEntry>> load() async => List.of(entries);
+
+  @override
+  Future<void> save(List<LedgerEntry> next) async => entries = List.of(next);
+}
+
+class ScheduleOutcome {
+  const ScheduleOutcome({this.deliverAt, this.skipped, this.silent = false});
+
+  /// When it will show. Null when it was skipped.
+  final DateTime? deliverAt;
+  final NotificationSkip? skipped;
+  final bool silent;
+
+  bool get scheduled => skipped == null;
+}
+
+/// Local notifications engine skeleton (design spec 8, amendments A3 and A4).
+///
+/// - Channels are created at first value, not at install.
+/// - Scheduling is inexact only and uses the student's IANA timezone from their prefs.
+/// - Reminders inside quiet hours (default 11:00 PM to 7:00 AM) wait for 7:00 AM.
+/// - A weekly cap (default 3) and one a day apply to reminders.
+/// - Everything is cancelled by task id.
+/// Copy, the permission prompt and the token upload belong to the notifications module.
+class NotificationService {
+  NotificationService({
+    required this._gateway,
+    required this._ledger,
+    required this._prefs,
+    required this._weeklyCap,
+    required this._createdChannels,
+    required this._saveCreatedChannels,
+    DateTime Function()? now,
+  }) : _now = now ?? DateTime.now;
+
+  final LocalNotificationsGateway _gateway;
+  final NotificationLedgerStore _ledger;
+  final NotificationPrefs Function() _prefs;
+  final Future<int> Function() _weeklyCap;
+  final Future<Set<String>> Function() _createdChannels;
+  final Future<void> Function(Set<String>) _saveCreatedChannels;
+  final DateTime Function() _now;
+
+  bool _initialized = false;
+
+  /// Prepares the plugin and the timezone database. Does not create channels or ask for
+  /// permission.
+  Future<void> initialize({void Function(NotificationTap tap)? onTap}) async {
+    if (_initialized) return;
+    ensureTimeZones();
+    await _gateway.initialize(onTap: onTap);
+    _initialized = true;
+  }
+
+  Future<void> _ensureChannel(NotificationChannelSpec channel) async {
+    final created = await _createdChannels();
+    if (created.contains(channel.id)) return;
+    await _gateway.createChannel(channel);
+    await _saveCreatedChannels({...created, channel.id});
+  }
+
+  /// Schedules a reminder, or posts a response to the student's own action. Returns what
+  /// happened: scheduled (with the delivery time), or skipped with the reason.
+  Future<ScheduleOutcome> schedule(NotificationRequest request) async {
+    await initialize();
+    final now = _now();
+    var ledger = await _ledger.load();
+    // Entries older than two weeks no longer matter for any cap.
+    ledger = [for (final e in ledger) if (now.difference(e.at) < const Duration(days: 14)) e];
+
+    final plan = planNotification(
+      request: request,
+      now: now,
+      prefs: _prefs(),
+      weeklyCap: await _effectiveCap(),
+      ledger: ledger,
+    );
+    if (!plan.shouldDeliver) return ScheduleOutcome(skipped: plan.skipped);
+
+    await _ensureChannel(request.channel);
+    final id = notificationIdFor(request.taskId);
+    final at = plan.at!;
+    final immediate = !at.isAfter(now);
+    if (immediate) {
+      await _gateway.show(
+        id: id,
+        channel: request.channel,
+        title: request.title,
+        body: request.body,
+        payload: request.payload,
+        silent: plan.silent,
+        actions: request.actions,
+      );
+    } else {
+      await _gateway.schedule(
+        id: id,
+        channel: request.channel,
+        at: at,
+        title: request.title,
+        body: request.body,
+        payload: request.payload,
+        silent: plan.silent,
+        actions: request.actions,
+      );
+    }
+    if (!request.respondsToStudentAction) {
+      ledger = [for (final e in ledger) if (e.taskId != request.taskId) e, LedgerEntry(taskId: request.taskId, at: at)];
+    }
+    await _ledger.save(ledger);
+    return ScheduleOutcome(deliverAt: at, silent: plan.silent);
+  }
+
+  /// The cap in force: the client-side default, lowered by the server's `weeklyCap` when that
+  /// is smaller (an explicit lower choice, or 0 to switch pushes off).
+  Future<int> _effectiveCap() async {
+    final local = await _weeklyCap();
+    final server = _prefs().weeklyCap;
+    return server < local ? server : local;
+  }
+
+  /// A silent ongoing status (the mock in progress, then sending while a submit is pending).
+  Future<void> showOngoing({required String taskId, required NotificationChannelSpec channel, required String title, required String body, String? payload}) async {
+    await initialize();
+    await _ensureChannel(channel);
+    await _gateway.show(id: notificationIdFor(taskId), channel: channel, title: title, body: body, payload: payload, silent: true, ongoing: true);
+  }
+
+  /// Cancels a scheduled or shown notification by task id and frees its place in the caps.
+  Future<void> cancel(String taskId) async {
+    await initialize();
+    await _gateway.cancel(notificationIdFor(taskId));
+    final ledger = await _ledger.load();
+    if (ledger.any((e) => e.taskId == taskId)) {
+      await _ledger.save([for (final e in ledger) if (e.taskId != taskId) e]);
+    }
+  }
+
+  /// Cancels everything (sign-out, account switch).
+  Future<void> cancelAll() async {
+    await initialize();
+    await _gateway.cancelAll();
+    await _ledger.save(const []);
+  }
+
+  Future<bool> areNotificationsEnabled() => _gateway.areNotificationsEnabled();
+}
+
+final localNotificationsGatewayProvider = Provider<LocalNotificationsGateway>((ref) => FlutterLocalNotificationsGateway());
+
+final notificationLedgerStoreProvider = Provider<NotificationLedgerStore>((ref) => PrefsNotificationLedgerStore(ref.watch(appPrefsProvider)));
+
+/// The engine. It reads the student's prefs when it plans, so it follows edits at once.
+final notificationServiceProvider = Provider<NotificationService>((ref) {
+  final prefs = ref.watch(appPrefsProvider);
+  return NotificationService(
+    gateway: ref.watch(localNotificationsGatewayProvider),
+    ledger: ref.watch(notificationLedgerStoreProvider),
+    prefs: () => ref.read(notificationPrefsRepositoryProvider).value ?? NotificationPrefs.defaults,
+    weeklyCap: prefs.weeklyCap,
+    createdChannels: prefs.createdNotificationChannels,
+    saveCreatedChannels: prefs.setCreatedNotificationChannels,
+    now: ref.watch(nowProvider),
+  );
+});

@@ -116,3 +116,31 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+  fonts:
+    - family: Gabarito
+      fonts:
+        - asset: assets/fonts/Gabarito-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Gabarito-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Gabarito-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Gabarito-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Gabarito-ExtraBold.ttf
+          weight: 800
+    - family: HankenGrotesk
+      fonts:
+        - asset: assets/fonts/HankenGrotesk-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/HankenGrotesk-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/HankenGrotesk-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/HankenGrotesk-Bold.ttf
+          weight: 700
+
+  assets:
+    - assets/mobi/
+    # Add assets/sample/ when Module 2 creates that folder.

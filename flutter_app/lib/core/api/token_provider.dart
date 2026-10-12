@@ -1,0 +1,22 @@
+/// What the API client needs from the auth layer. Implemented by the foreground auth service
+/// and by the headless token refresher used in the WorkManager isolate.
+abstract class ApiTokenProvider {
+  /// The current access token, or null when signed out.
+  Future<String?> accessToken();
+
+  /// Refreshes the session once. True when a new access token is available, false when the
+  /// refresh token was definitely rejected. Throws [RefreshUnavailable] when the answer is
+  /// unknown (no network, a timeout, a busy lock): the session is intact and must be kept.
+  Future<bool> refresh();
+
+  /// Called after a refresh failed or a retried request still returned 401: the session is gone.
+  Future<void> onSessionLost();
+}
+
+/// A refresh could not be attempted or finished, so nothing is known about the session.
+class RefreshUnavailable implements Exception {
+  const RefreshUnavailable();
+
+  @override
+  String toString() => 'RefreshUnavailable';
+}
