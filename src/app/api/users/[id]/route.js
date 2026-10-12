@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { Database } from '@/../data/db';
 import { auth } from '@/lib/auth';
+import { profilePatch } from '@/lib/server/profilePatch';
 
 export async function GET(request, { params }) {
   try {
@@ -30,8 +31,10 @@ export async function PATCH(request, { params }) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const body = await request.json();
-    const updatedUser = await Database.updateUser(id, body);
+    const body = await request.json().catch(() => null);
+    const { patch, error } = profilePatch(body);
+    if (error) return NextResponse.json({ error }, { status: 400 });
+    const updatedUser = await Database.updateUser(id, patch);
 
     if (!updatedUser) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
