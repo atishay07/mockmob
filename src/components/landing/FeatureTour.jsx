@@ -139,7 +139,8 @@ export default function FeatureTour({ slides = [] }) {
       onFocusCapture={event => { if (!event.target.closest('.ft__play') && event.target.matches(':focus-visible')) setKeyboardHold(true); }}
       onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setKeyboardHold(false); }}>
       <ul className="ft__list" ref={navRef} aria-label="Feature chapters">
-        {slides.map((slide, i) => <li key={slide.id} data-chapter={i}>
+        {slides.map((slide, i) => <li key={slide.id} data-chapter={i} data-group-start={slide.group && slide.group !== slides[i - 1]?.group ? 'true' : undefined}>
+          {slide.group && slide.group !== slides[i - 1]?.group ? <span className="ft__group">{slide.group}</span> : null}
           <button type="button" className="ft__row" data-on={active === i ? 'true' : 'false'} aria-current={active === i ? 'step' : undefined} onClick={event => goTo(i, { keyboard: event.detail === 0 })}>
             <span className="ft__ico" aria-hidden="true">{slide.icon}</span><span>{slide.label}</span>
           </button>
@@ -148,7 +149,7 @@ export default function FeatureTour({ slides = [] }) {
 
       <div className="ft__stage">
         <div className="ft__chrome">
-          <div className="ft__chapter"><span className="ft__counter">{String(active + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}</span><b>{slides[active]?.label}</b></div>
+          <div className="ft__chapter">{slides[active]?.group ? <span className="ft__job">{slides[active].group}</span> : null}<span className="ft__counter">{String(active + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}</span><b>{slides[active]?.label}</b></div>
           <span className="ft__status"><i aria-hidden="true" />{reduced ? 'Explore' : paused ? 'Paused' : 'Autoplay'}</span>
           <button type="button" className="ft__play" aria-label={paused ? 'Play the tour' : 'Pause the tour'} disabled={reduced} onClick={() => { setPlaying(paused); setKeyboardHold(false); }}>
             {paused ? <Play size={16} aria-hidden="true" /> : <Pause size={16} aria-hidden="true" />}
@@ -172,6 +173,7 @@ export default function FeatureTour({ slides = [] }) {
                   <span className="ft__tag">{slide.video ? 'Product preview' : 'Illustrative demo'}</span>
                 </div>
                 <div className="ft__copy">
+                  {slide.group ? <p className="ft__jobline">{slide.group}</p> : null}
                   <h3 className="ft__title">{slide.title}</h3>
                   <p className="ft__body">{slide.body}</p>
                   <p className="ft__summary">{slide.chip || slide.line}</p>

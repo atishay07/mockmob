@@ -4,6 +4,17 @@
 .rp :is(h1, h2, h3) { margin: 0; }
 .rp-eyebrow, .srl-eyebrow { margin: 0; font: 600 13px/1.4 var(--font-display, inherit); color: var(--a-ink-3, #93a08f); }
 
+/* Desktop-only handoff to the phone; phones are already on the phone. */
+.rp-handoff { display: none; }
+@media (min-width: 1024px) {
+  .rp-handoff { grid-column: 1 / -1; display: flex; align-items: center; gap: 16px; padding-top: 14px; border-top: 1px solid var(--a-line, #253026); }
+  .rp-handoff__qr { flex: none; border-radius: 10px; }
+  .rp-handoff__copy { display: grid; gap: 4px; min-width: 0; }
+  .rp-handoff h2 { font: 600 14px/1.3 var(--font-display, inherit); color: var(--a-ink-2, #bcc5b9); }
+  .rp-handoff p { margin: 0; max-width: 56ch; font-size: 13px; line-height: 1.5; color: var(--a-ink-3, #93a08f); }
+}
+@media print { .rp-handoff { display: none !important; } }
+
 /* ---------- 1. Summary ---------- */
 .rp-hero {
   display: grid; grid-template-columns: auto 1fr; gap: 16px 22px; align-items: center;

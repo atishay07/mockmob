@@ -14,6 +14,7 @@ import { REPAIR_OUTCOMES, hasExplanation, repairLabel, repairProgress } from '@/
 import { analyseSession, formatDuration } from '@/../data/session_recovery';
 import { AppIcon } from '@/components/ui/Glyph';
 import { Mascot } from '@/components/brand/Mascot';
+import HandoffQr from '@/components/app/HandoffQr';
 import '@/components/recovery/result.css';
 
 function displayValue(value, fallback = '') {
@@ -24,6 +25,7 @@ function displayValue(value, fallback = '') {
 }
 
 const LETTERS = 'ABCDEFGH';
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.mockmob.in').replace(/\/+$/, '');
 
 // The headline number counts up once on arrival; reduced motion shows it at once.
 function CountUp({ value }) {
@@ -178,6 +180,13 @@ export default function ResultPageClient({ previewId = null }) {
             </li>
           ))}
         </ol>
+        <aside className="rp-handoff" aria-labelledby="rp-handoff-title">
+          <HandoffQr value={`${SITE_URL}/result/${encodeURIComponent(id)}`} label="QR code that opens this result on your phone" />
+          <div className="rp-handoff__copy">
+            <h2 id="rp-handoff-title">Continue on your phone</h2>
+            <p>Scan to open this result on your phone. If the MockMob app is installed it opens there; otherwise it opens here in your phone&apos;s browser.</p>
+          </div>
+        </aside>
       </header>
 
       {/* ---------- 2. Score Recovery Lab ---------- */}

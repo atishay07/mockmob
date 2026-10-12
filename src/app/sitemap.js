@@ -20,5 +20,10 @@ export default function sitemap() {
     priority: 0.85,
   }));
 
-  return [...staticRoutes, ...subjectRoutes];
+  const appRoute = absoluteUrl('/app');
+  const appRoutes = staticRoutes.some((route) => route.url === appRoute)
+    ? []
+    : [{ url: appRoute, lastModified: now, changeFrequency: 'monthly', priority: 0.6 }];
+
+  return [...staticRoutes, ...appRoutes, ...subjectRoutes];
 }
