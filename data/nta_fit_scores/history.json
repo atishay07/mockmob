@@ -1,0 +1,27 @@
+{
+ "note": "CUET-fit judgements for NTA mode (data/nta_fit_scores.js). Written by scripts/nta-fit-merge.mjs from three independent judges per question under docs/brain/NTA-CUET-FIT-RUBRIC.md. Majority (2 of 3) type, unit and chapter override the engine's heuristic; NTA mode admits a question only when all three judged the current content, fewer than two raised a fit flag and the median fit score is at or above NTA_MIN_FIT_SCORE. A judge-dependent label, not evidence.",
+ "subject": "history",
+ "rubric_version": "nta-cuet-fit-rubric-1",
+ "rubric": "docs/brain/NTA-CUET-FIT-RUBRIC.md",
+ "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22",
+ "merged_at": null,
+ "models": [],
+ "status": "partial",
+ "measures": {
+  "questions_in_fit_batches": 53,
+  "judged": 0,
+  "judged_by_three": 0,
+  "missing_result_files": 39,
+  "fit_pass_at_8": 0,
+  "fit_pass_at_9": 0,
+  "blocking_flagged": 0,
+  "majority_type": 0,
+  "no_majority_type": 0,
+  "engine_type_disagrees_with_majority": 0,
+  "engine_type_disagreement_pct": null,
+  "no_majority_chapter": 0,
+  "ten_route_agreed": 0,
+  "tens_capped_without_agreed_route": 0
+ },
+ "questions": {}
+}
