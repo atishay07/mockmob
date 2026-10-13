@@ -142,6 +142,8 @@ void main() {
     () => const AccountScreen(),
     overrides: () => youOverrides(drafts: draftsWithUnsent(3)),
     interact: (tester) async {
+      // The Security section pushed the sign-out key below the fold, and the list builds lazily.
+      await tester.scrollUntilVisible(find.text('Sign out'), 200, scrollable: find.byType(Scrollable).first);
       await tester.tap(find.text('Sign out'));
       await tester.pumpAndSettle();
     },

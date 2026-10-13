@@ -10,11 +10,14 @@ import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/models/ai_credits.dart';
 import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/models/repair.dart';
+import 'package:mockmob/core/models/rhythm.dart' show Goal, Rhythm;
 import 'package:mockmob/features/insights/data/insights_repository.dart';
 import 'package:mockmob/features/insights/data/saved_repository.dart';
 import 'package:mockmob/features/review/data/mistake_index.dart';
 import 'package:mockmob/core/repositories/attempts_repository.dart';
 import 'package:mockmob/core/repositories/credits_repository.dart';
+import 'package:mockmob/core/repositories/goal_repository.dart';
+import 'package:mockmob/core/repositories/rhythm_repository.dart';
 import 'package:mockmob/core/repositories/notification_prefs_repository.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/repositories/repair_local_repository.dart';
@@ -52,6 +55,39 @@ class MemoryRhythmSeen implements RhythmSeenRepository {
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
+/// The wallet, held as given. The repair screen asks for a refresh once it is up, and the real
+/// one reads the on-disk cache and then the network (path_provider, connectivity): a golden has
+/// neither, so a refresh here does nothing.
+class StillCredits extends CreditsRepository {
+  StillCredits(this.held);
+
+  final AiCredits? held;
+
+  @override
+  RemoteState<AiCredits> build() => RemoteState(value: held);
+
+  @override
+  Future<void> refresh({bool force = false}) async {}
+}
+
+/// The rhythm and goal the repair ending reads and refreshes: settled and empty, with no
+/// cache or network behind a refresh.
+class StillRhythm extends RhythmRepository {
+  @override
+  RemoteState<Rhythm> build() => const RemoteState<Rhythm>();
+
+  @override
+  Future<void> refresh({bool force = false}) async {}
+}
+
+class StillGoal extends GoalRepository {
+  @override
+  RemoteState<Goal> build() => const RemoteState<Goal>();
+
+  @override
+  Future<void> refresh({bool force = false}) async {}
+}
+
 /// The Review overrides: a signed-in student, fixed clock and zone, the given attempts and
 /// local records, no network.
 List<Override> reviewOverrides({
@@ -79,7 +115,9 @@ List<Override> reviewOverrides({
       records: records,
     ),
   ),
-  creditsRepositoryProvider.overrideWithBuild((ref, n) => RemoteState(value: credits)),
+  creditsRepositoryProvider.overrideWith(() => StillCredits(credits)),
+  rhythmRepositoryProvider.overrideWith(StillRhythm.new),
+  goalRepositoryProvider.overrideWith(StillGoal.new),
   // The record and saved rows on the tab: settled, no network.
   insightsRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState()),
   savedRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState()),
