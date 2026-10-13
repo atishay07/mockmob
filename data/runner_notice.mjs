@@ -29,12 +29,3 @@ export function runnerNotice({ pendingSubmission = false, online = true, syncSta
   }
   return { banner: null, save: { tone: 'ok', text: hasTicket ? 'Answers saved on this device' : 'Answers saved to your account' } };
 }
-
-/**
- * A note for the result page, only for sessions drawn from the practice bank that has not been
- * fully checked yet. It says what to do about a doubtful key rather than apologising up front.
- */
-export function resultContentNote(selectionMeta) {
-  if (selectionMeta?.contentEvidence !== 'legacy_bank') return null;
-  return 'These questions come from our practice bank, which we are still checking. If an answer key looks wrong, use “Report a problem” on that question.';
-}

@@ -5,7 +5,16 @@ html[data-visitor='returning'] .vs-new-only,
 html[data-visitor='member'] .vs-new-only,
 html:not([data-visitor='returning']) .vs-returning-only,
 html:not([data-visitor='member']) .vs-member-only,
-html[data-visitor='member'] .vs-guest-only { display: none !important; }
+html[data-visitor='member'] .vs-guest-only,
+html[data-visitor='member'][data-visitor-plan='pro'] .vs-hide-pro { display: none !important; }
+/* vs-hide-pro: shown to everyone except a Pro student (an upgrade button they have no use for). */
+
+/* The menu sheet's account row while the sign-in check runs: same height as a link, no wording. */
+.mm-nav__sheet-pending { display: flex; align-items: center; min-height: 52px; border-top: 1px solid var(--line); }
+.mm-nav__sheet-pending span { width: 5.5rem; height: .9rem; border-radius: 999px; background: var(--paper-sunken, var(--line)); }
+
+/* A member's dock with no note beside it: the one action takes the full width. */
+.mm-dock .mm-btn.vs-solo { flex: 1 1 auto; }
 
 /* The signed-in heading carries a first name (up to 24 characters) that can be longer than any word the
    guest title was sized for. Without this a long unbroken name runs past the column at 375px and is clipped. */

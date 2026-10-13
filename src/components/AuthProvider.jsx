@@ -8,6 +8,7 @@ import {
 } from '@/lib/supabase-browser';
 import { isDeadSessionError, isTransientAuthError } from '@/lib/supabase-auth-errors';
 import {clearStudyDrafts} from '@/../data/session_draft';
+import { forgetArenaFirst } from '@/../data/visitor_state.mjs';
 
 // Exported for the development-only Arena preview (/preview/arena); app code uses useAuth().
 export const AuthContext = createContext(null);
@@ -218,6 +219,9 @@ export function AuthProvider({ children }) {
 
       if (event === 'SIGNED_OUT') {
         requestIdRef.current += 1;
+        // Another tab or device ended the session, or the refresh token was revoked: the
+        // "open the Arena first" choice belonged to that student, not to this browser.
+        try { forgetArenaFirst(window.localStorage); } catch { /* Storage is optional. */ }
         applyUnauthenticated();
         return;
       }
@@ -305,6 +309,7 @@ export function AuthProvider({ children }) {
     requestIdRef.current += 1;
     await signOutLocally(supabase);
     try{clearStudyDrafts(window.localStorage,userId);}catch{/* Storage is optional. */}
+    try{forgetArenaFirst(window.localStorage);}catch{/* Storage is optional. */}
     applyUnauthenticated();
   }, [applyUnauthenticated]);
 

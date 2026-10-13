@@ -26,6 +26,7 @@ export function NavBar() {
   const toggleRef = useRef(null);
 
   const closeMenu = () => setMenuOpen(false);
+  const authSettled = status === 'authenticated' || status === 'unauthenticated';
 
   // Hairline only appears once the page has actually moved, so the top of the
   // page reads as one uninterrupted sheet of paper.
@@ -128,7 +129,11 @@ export function NavBar() {
             About
             <Icon name="chevR" style={{ width: '18px', height: '18px', marginLeft: 'auto' }} />
           </Link>
-          {isAuthenticated ? (
+          {!authSettled ? (
+            // The check is still running (or MockMob could not be reached): say neither "Log in" nor
+            // "Sign out" yet. A row of the same height keeps everything where it will land.
+            <div className="mm-nav__sheet-pending" aria-hidden="true"><span /></div>
+          ) : isAuthenticated ? (
             <>
               <Link href="/profile" onClick={closeMenu}>
                 Profile

@@ -2,9 +2,13 @@
 //
 // Kinds (also the value of <html data-visitor>, which a tiny script sets before first paint
 // so the right hero shows without a flash):
-//   new        signed out, first visit on this device. The marketing page.
-//   returning  signed out, has been here (or signed in) before. A sign-in path first.
+//   new        signed out and never signed in on this device (a first visit, a reload, a tenth visit
+//              to the sample). The marketing page. Visiting is not a reason to say "welcome back".
+//   returning  signed out, but signed in on this device before. A sign-in path first.
 //   member     signed in. An Enter-the-Arena action first. `plan` is 'free' or 'pro'.
+//
+// <html data-visitor-plan> ('free' | 'pro') is set alongside it so plan-specific parts of the page
+// (an upgrade button a Pro student should not see) can be shown or hidden without a flash.
 //
 // Everything here is pure so it can be unit tested; browser storage is injected.
 import { resumableDraft } from './session_draft.js';
@@ -44,7 +48,7 @@ export function visitorState({ status, user, hint }) {
   const stored = parseHint(hint);
   if (status === 'authenticated') return { kind: 'member', plan: planOf(user), confirmed: true, name: firstName(user) };
   if (status === 'unauthenticated') {
-    // Signed out now. Someone who was here before is a returning visitor either way.
+    // Signed out now. Someone who was signed in on this device before is a returning visitor.
     return { kind: stored.kind === 'new' ? 'new' : 'returning', plan: null, confirmed: true, name: '' };
   }
   // loading or unavailable: trust the hint.
@@ -53,8 +57,9 @@ export function visitorState({ status, user, hint }) {
 
 /**
  * What to remember after an auth change. Returns the hint to store, or null for "leave it".
- * A first visit by a signed-out visitor is recorded as returning so the next visit is
- * recognised; an unavailable check never changes the hint.
+ * Signing in is remembered as a member. Signing out turns a member into a returning visitor.
+ * A visitor who was never signed in stays new however often they visit, and an unavailable
+ * check never changes the hint.
  */
 export function nextHint({ status, user, current }) {
   const stored = parseHint(current);
@@ -62,7 +67,7 @@ export function nextHint({ status, user, current }) {
     const plan = planOf(user);
     return stored.kind === 'member' && stored.plan === plan ? null : { kind: 'member', plan };
   }
-  if (status === 'unauthenticated') return stored.kind === 'returning' ? null : { kind: 'returning' };
+  if (status === 'unauthenticated') return stored.kind === 'member' ? { kind: 'returning' } : null;
   return null;
 }
 
@@ -128,6 +133,14 @@ export function findResumableTest(storage, userId, now = Date.now()) {
 }
 
 /**
+ * "Open the Arena first" belongs to the student who chose it, not to the browser: signing out
+ * forgets it, so the next person to sign in on this device is not sent into the Arena.
+ */
+export function forgetArenaFirst(storage) {
+  try { storage?.removeItem(ARENA_FIRST_KEY); } catch { /* storage is optional */ }
+}
+
+/**
  * Should "/" send this student straight into the Arena? Only when they asked for that, are
  * confirmed signed in, and opened the site fresh (typed the address or followed a link from
  * elsewhere). Coming from a MockMob page, for example the logo, means they want the home page.
@@ -145,8 +158,8 @@ export function shouldEnterArena({ preference, state, landedOnHome, referrer, or
 
 /**
  * Runs in <head> before first paint (inline, so it cannot depend on a bundle). It only sets
- * the attribute; the app keeps it current afterwards. Stay in sync with parseHint.
+ * the attributes; the app keeps them current afterwards. Stay in sync with parseHint.
  */
-export const VISITOR_BOOT_SCRIPT = `(function(){try{var h=JSON.parse(localStorage.getItem('${VISITOR_KEY}')||'null');var k=h&&(h.kind==='member'||h.kind==='returning')?h.kind:'new';document.documentElement.dataset.visitor=k}catch(e){document.documentElement.dataset.visitor='new'}})()`;
+export const VISITOR_BOOT_SCRIPT = `(function(){var d=document.documentElement;try{var h=JSON.parse(localStorage.getItem('${VISITOR_KEY}')||'null');var k=h&&(h.kind==='member'||h.kind==='returning')?h.kind:'new';d.dataset.visitor=k;d.dataset.visitorPlan=k==='member'&&h.plan==='pro'?'pro':'free'}catch(e){d.dataset.visitor='new';d.dataset.visitorPlan='free'}})()`;
 
 export { KINDS };

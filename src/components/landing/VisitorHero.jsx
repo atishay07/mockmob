@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import { Icon } from '@/components/ui/Icons';
-import { readHint, landedOnHome, arenaRedirectDone, markArenaRedirect } from '@/components/VisitorSync';
-import { ARENA_FIRST_KEY, ARENA_HREF, findResumableTest, memberCopy, shouldEnterArena, visitorState } from '@/../data/visitor_state.mjs';
+import { readHint, landedOnHome, arenaRedirectDone, markArenaRedirect, useResumableTest } from '@/components/VisitorSync';
+import { ARENA_FIRST_KEY, ARENA_HREF, memberCopy, shouldEnterArena, visitorState } from '@/../data/visitor_state.mjs';
 
 // The signed-in side of the home page. Each export is shown only to signed-in students (the
 // vs-member-only class is toggled by <html data-visitor>), so signed-out visitors and search
@@ -15,17 +15,12 @@ import { ARENA_FIRST_KEY, ARENA_HREF, findResumableTest, memberCopy, shouldEnter
 function useMember() {
   const { status, user } = useAuth();
   // Read after mount so the server and first client render agree.
-  const [resume, setResume] = useState(null);
+  const resume = useResumableTest();
   const [hint, setHint] = useState(null);
   useEffect(() => {
     let alive = true;
     // Deferred a tick so the effect itself sets no state (the same pattern the result page uses).
-    queueMicrotask(() => {
-      if (!alive) return;
-      setHint(readHint());
-      if (status !== 'authenticated' || !user?.id) { setResume(null); return; }
-      try { setResume(findResumableTest(window.localStorage, user.id)); } catch { setResume(null); }
-    });
+    queueMicrotask(() => { if (alive) setHint(readHint()); });
     return () => { alive = false; };
   }, [status, user?.id]);
   const state = useMemo(() => visitorState({ status, user, hint }), [status, user, hint]);

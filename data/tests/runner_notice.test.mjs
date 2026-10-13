@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { runnerNotice, resultContentNote } from '../runner_notice.mjs';
+import { runnerNotice } from '../runner_notice.mjs';
 
 test('while everything is fine there is no banner, only a quiet save state', () => {
   const ticketed = runnerNotice({ online: true, hasTicket: true, syncStatus: 'saved' });
@@ -36,13 +36,4 @@ test('a submission waiting for the connection wins over every other state', () =
 test('an account session that is waiting to sync says so; a device-saved one does not nag', () => {
   assert.match(runnerNotice({ syncStatus: 'pending', hasTicket: false }).banner.text, /reconnecting/i);
   assert.equal(runnerNotice({ syncStatus: 'pending', hasTicket: true }).banner, null);
-});
-
-test('the result page notes unchecked practice-bank questions and says what to do, only for those sessions', () => {
-  const note = resultContentNote({ contentEvidence: 'legacy_bank' });
-  assert.match(note, /still checking/i);
-  assert.match(note, /report a problem/i);
-  assert.equal(resultContentNote({ contentEvidence: 'released_pathway' }), null);
-  assert.equal(resultContentNote({}), null);
-  assert.equal(resultContentNote(null), null);
 });

@@ -71,7 +71,9 @@ const TOUR = [
     points: ['Quick drills and full mocks', 'NTA-style screen and Smart Practice with Pro', 'Close the tab mid-test and pick up where you left'], chip: 'Every answer is scored on our server', href: '/dashboard', cta: 'Start practising' },
   { id: 'repair', label: 'Mistake Repair', icon: <Wrench size={18} aria-hidden="true" />, line: 'Fix why you got it wrong, not just the answer', kicker: 'Score Recovery', title: 'Fix why you missed it, not just what the answer was.',
     body: 'After a wrong answer, the AI solves the question itself first. Only when it lands on the official key does it explain why your pick was tempting and what to remember.',
-    points: ['If the AI and the key disagree, we hold the question back and you pay nothing', 'A 10-minute next step, then 5 fresh questions to test the fix'], chip: 'The AI double-checks itself before it teaches you', href: '/signup', cta: 'Try Mistake Repair' },
+    points: ['If the AI and the key disagree, we hold the question back and you pay nothing', 'A 10-minute next step, then 5 fresh questions to test the fix'], chip: 'The AI double-checks itself before it teaches you', href: '/signup', cta: 'Try Mistake Repair',
+    // A signed-in student is taken to the feature itself, not to sign-up (FeatureTour shows each link by visitor state).
+    memberHref: recoveryReleased() ? '/recovery' : '/review', memberCta: 'Repair your mistakes' },
   ...(STUDY_LIVE && STUDY_LESSONS ? [{ id: 'learn', label: 'Learn', icon: <BookOpenText size={18} aria-hidden="true" />, line: 'Learn the idea, then keep it', kicker: 'Learn', title: 'Learn the idea behind the mark, then keep it.',
     body: 'Short lessons with worked examples and the common mistake, then recall cards that return before you are likely to forget. When a chapter keeps costing you marks, its lesson is linked from your result.',
     points: [`${STUDY_LESSONS} lessons across ${STUDY_SUBJECTS} subjects so far; more chapters as each passes its source checks`, 'Lessons and recall are free and use no credits', 'Then practise the same chapter with marks'], chip: 'A companion to your textbook, not a replacement', href: '/learn', cta: 'Open Learn' }] : []),
@@ -96,7 +98,8 @@ const TOUR = [
 ];
 
 const faqs = [
-  { question: 'Can I try it before signing up?', answer: 'Yes. Try five original sample questions here. They show how practice feels, not a subject diagnosis or an official previous-year paper.' },
+  // guestOnly: kept in the page and its structured data for visitors and search engines; hidden for signed-in students.
+  { question: 'Can I try it before signing up?', answer: 'Yes. Try five original sample questions here. They show how practice feels, not a subject diagnosis or an official previous-year paper.', guestOnly: true },
   { question: 'What is MockMob built for?', answer: `CUET UG practice, review and one shared next action. ${recoveryReleased() ? 'Recovery pathways support' : 'Recovery content is being prepared for'} English, Accountancy, Business Studies and Economics. DU guidance uses sourced eligibility and historical cutoffs.` },
   { question: 'What is Score Recovery Lab?', answer: recoveryReleased() ? 'Investigate a specific reasoning gap, complete the missing step and return for fresh unassisted checks. Five questions are an initial signal, not a complete subject diagnosis.' : 'A reasoning-repair workflow being built around source-backed probes, interactive repair and fresh delayed checks. It remains unavailable while sources, calibration and the authenticated journey are checked. The decision replay shown here is an illustrative example.' },
   { question: 'What does Pro cost?', answer: OFFER.purchasable === 'monthly' ? `₹${OFFER.monthly.rupees} a month. It renews until you cancel in Account, and you keep Pro to the end of the month you paid for.` : `Monthly Pro at ₹${OFFER.monthly.rupees} a month is opening soon. Until then, ₹${OFFER.oneTime.rupees} once covers access through ${OFFER.oneTime.expires}, with no auto-renewal. Whoever pays now keeps the full term.` },
@@ -322,7 +325,7 @@ export default function LandingPage() {
                 <ul className="lp-ticks">
                   {freePlan.map((item) => <li key={item}><Check size={16} aria-hidden="true" />{item}</li>)}
                 </ul>
-                <Link href="/signup" className="mm-btn mm-btn--secondary">Start free</Link>
+                <Link href="/signup" className="mm-btn mm-btn--secondary vs-guest-only">Start free</Link>
               </div>
               <div className="lp-plan lp-plan--pro">
                 <h3 className="lp-h4">Pro</h3>
@@ -332,7 +335,9 @@ export default function LandingPage() {
                   <li><Check size={16} aria-hidden="true" />Everything in Free</li>
                   {proPlan.map((item) => <li key={item}><Check size={16} aria-hidden="true" />{item}</li>)}
                 </ul>
-                <Link href="/pricing" className="mm-btn mm-btn--primary">{OFFER.purchasable === 'monthly' ? `Go Pro for ₹${OFFER.monthly.rupees}/month` : 'See Pro'}<ArrowRight size={18} aria-hidden="true" /></Link>
+                <Link href="/pricing" className="mm-btn mm-btn--primary vs-guest-only">{OFFER.purchasable === 'monthly' ? `Go Pro for ₹${OFFER.monthly.rupees}/month` : 'See Pro'}<ArrowRight size={18} aria-hidden="true" /></Link>
+                {/* Signed in on the free plan: the same upgrade path, without the sign-up wording. A Pro student sees no button. */}
+                <Link href="/pricing" className="mm-btn mm-btn--primary vs-member-only vs-hide-pro">Go Pro<ArrowRight size={18} aria-hidden="true" /></Link>
               </div>
             </Reveal>
           </div>
@@ -343,8 +348,8 @@ export default function LandingPage() {
           <div className="mm-wrap mm-wrap--tight">
             <Reveal><h2 className="lp-h2">Before your first mock.</h2></Reveal>
             <Reveal className="mm-faqs">
-              {faqs.map(({ question, answer }) => (
-                <details key={question} className="mm-faq">
+              {faqs.map(({ question, answer, guestOnly }) => (
+                <details key={question} className={guestOnly ? 'mm-faq vs-guest-only' : 'mm-faq'}>
                   <summary>{question}</summary>
                   <div className="mm-faq__body">{answer}</div>
                 </details>

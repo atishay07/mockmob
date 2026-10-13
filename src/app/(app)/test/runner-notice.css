@@ -1,6 +1,19 @@
-/* Text colours come from --text-subtle, which both the MockMob and the NTA-style console set,
-   so the notices stay readable in either. State is shown by a dot and wording, not by colour alone. */
-.runner-sync-state--warn { display: flex; align-items: center; gap: 10px; min-height: 44px; font-weight: 600; border-left: 4px solid #d98a00; }
+/* The offline / submit-waiting notice overlays the test instead of pushing it down. On a phone it
+   floats just above the Prev / Palette / Next bar, which carries submit; on a wide screen it sits at
+   the bottom left, clear of the review panel and its Submit button on the right. Taps pass through
+   it, so it can never block an answer or the submit control.
+   Text colours come from the runner's own tokens, which both the MockMob and the NTA-style console
+   set, so the notice stays readable in either. State is shown by wording and a left edge, not by
+   colour alone. */
+.runner-notice { position: fixed; z-index: 60; left: 12px; right: 12px; bottom: calc(84px + env(safe-area-inset-bottom, 0px)); display: flex; justify-content: center; pointer-events: none; }
+@media (min-width: 1024px) {
+  .runner-notice { left: 20px; right: auto; bottom: 20px; width: min(34rem, calc(100vw - 372px)); justify-content: flex-start; }
+}
+.nta-runner .runner-notice .runner-sync-state--warn { display: flex; align-items: center; gap: 10px; box-sizing: border-box; width: 100%; max-width: 34rem; min-height: 44px; padding: 10px 14px; font-size: 13px; line-height: 1.4; font-weight: 600; border: 0; border-left: 4px solid #d98a00; border-radius: 12px; box-shadow: 0 10px 30px rgb(0 0 0 / .3), 0 0 0 1px rgb(127 127 127 / .35); }
+@media (prefers-reduced-motion: no-preference) {
+  .runner-notice .runner-sync-state--warn { animation: runner-notice-in .22s ease-out both; }
+}
+@keyframes runner-notice-in { from { opacity: 0; transform: translateY(8px); } }
 .runner-save { display: flex; align-items: center; gap: 8px; margin: 0 0 10px; font-size: 12.5px; line-height: 1.4; color: var(--text-subtle); }
 .runner-save i { flex: none; width: 8px; height: 8px; border-radius: 50%; background: #2f9e44; }
 .runner-save[data-tone='warn'] { font-weight: 600; color: var(--text-primary); }

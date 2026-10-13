@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import {
-  ARENA_HREF, VISITOR_BOOT_SCRIPT, VISITOR_KEY, findResumableTest, firstName, memberCopy, nextHint, parseHint, serializeHint, shouldEnterArena, visitorState,
+  ARENA_FIRST_KEY, ARENA_HREF, VISITOR_BOOT_SCRIPT, VISITOR_KEY, findResumableTest, firstName, forgetArenaFirst, memberCopy, nextHint, parseHint, serializeHint, shouldEnterArena, visitorState,
 } from '../visitor_state.mjs';
 
 const free = { id: 'u1', name: 'Aarav Mehta', isPremium: false, creditBalance: 8 };
@@ -16,6 +16,22 @@ test('signed-in free and Pro students are members with their plan', () => {
 test('signed out: first visit is new, a remembered visit is returning', () => {
   assert.equal(visitorState({ status: 'unauthenticated', user: null, hint: null }).kind, 'new');
   assert.equal(visitorState({ status: 'unauthenticated', user: null, hint: serializeHint({ kind: 'returning' }) }).kind, 'returning');
+});
+
+test('a visitor who never signed in stays new, however many times they come back', () => {
+  let stored = null;
+  for (let visit = 0; visit < 5; visit++) {
+    // Every page load: the check ends signed out, the visitor is judged on what was stored before it.
+    assert.equal(visitorState({ status: 'unauthenticated', user: null, hint: stored }).kind, 'new', `visit ${visit + 1}`);
+    const next = nextHint({ status: 'unauthenticated', user: null, current: stored });
+    assert.equal(next, null, 'nothing is remembered about a visitor who never had an account');
+    if (next) stored = serializeHint(next);
+  }
+  // Signing in, then out, is what makes someone a returning visitor.
+  stored = serializeHint(nextHint({ status: 'authenticated', user: free, current: stored }));
+  assert.equal(parseHint(stored).kind, 'member');
+  stored = serializeHint(nextHint({ status: 'unauthenticated', user: null, current: stored }));
+  assert.equal(visitorState({ status: 'unauthenticated', user: null, hint: stored }).kind, 'returning');
 });
 
 test('a student who was signed in and is now signed out is a returning visitor, not a stranger', () => {
@@ -41,11 +57,11 @@ test('hints survive corrupt storage and unknown values', () => {
   assert.deepEqual(parseHint('{"kind":"member","plan":"gold"}'), { kind: 'member', plan: 'free' });
 });
 
-test('nextHint records sign-in, plan changes and first visits, and ignores an unreachable server', () => {
+test('nextHint records sign-in, plan changes and sign-out, and ignores an unreachable server', () => {
   assert.deepEqual(nextHint({ status: 'authenticated', user: free, current: null }), { kind: 'member', plan: 'free' });
   assert.equal(nextHint({ status: 'authenticated', user: free, current: serializeHint({ kind: 'member', plan: 'free' }) }), null);
   assert.deepEqual(nextHint({ status: 'authenticated', user: pro, current: serializeHint({ kind: 'member', plan: 'free' }) }), { kind: 'member', plan: 'pro' });
-  assert.deepEqual(nextHint({ status: 'unauthenticated', user: null, current: null }), { kind: 'returning' });
+  assert.deepEqual(nextHint({ status: 'unauthenticated', user: null, current: serializeHint({ kind: 'member', plan: 'pro' }) }), { kind: 'returning' }, 'signing out makes a returning visitor');
   assert.equal(nextHint({ status: 'unauthenticated', user: null, current: serializeHint({ kind: 'returning' }) }), null);
   assert.equal(nextHint({ status: 'unavailable', user: null, current: serializeHint({ kind: 'member', plan: 'pro' }) }), null);
   assert.equal(nextHint({ status: 'loading', user: null, current: null }), null);
@@ -141,20 +157,33 @@ function bootWith(stored, { throws = false } = {}) {
   const documentElement = { dataset: {} };
   const localStorage = { getItem: (key) => { if (throws) throw new Error('blocked'); assert.equal(key, VISITOR_KEY); return stored; } };
   vm.runInNewContext(VISITOR_BOOT_SCRIPT, { document: { documentElement }, localStorage });
-  return documentElement.dataset.visitor;
+  return documentElement.dataset;
 }
 
-test('the boot script sets the visitor kind before first paint and never throws', () => {
-  assert.equal(bootWith(null), 'new');
-  assert.equal(bootWith(serializeHint({ kind: 'returning' })), 'returning');
-  assert.equal(bootWith(serializeHint({ kind: 'member', plan: 'pro' })), 'member');
-  assert.equal(bootWith('{"kind":"admin"}'), 'new');
-  assert.equal(bootWith('garbage'), 'new');
-  assert.equal(bootWith(null, { throws: true }), 'new');
+test('the boot script sets the visitor kind and plan before first paint and never throws', () => {
+  assert.deepEqual({ ...bootWith(null) }, { visitor: 'new', visitorPlan: 'free' });
+  assert.deepEqual({ ...bootWith(serializeHint({ kind: 'returning' })) }, { visitor: 'returning', visitorPlan: 'free' });
+  assert.deepEqual({ ...bootWith(serializeHint({ kind: 'member', plan: 'pro' })) }, { visitor: 'member', visitorPlan: 'pro' });
+  assert.deepEqual({ ...bootWith(serializeHint({ kind: 'member', plan: 'free' })) }, { visitor: 'member', visitorPlan: 'free' });
+  assert.deepEqual({ ...bootWith('{"kind":"admin","plan":"pro"}') }, { visitor: 'new', visitorPlan: 'free' });
+  assert.deepEqual({ ...bootWith('{"kind":"returning","plan":"pro"}') }, { visitor: 'returning', visitorPlan: 'free' }, 'only a member can be pro');
+  assert.deepEqual({ ...bootWith('garbage') }, { visitor: 'new', visitorPlan: 'free' });
+  assert.deepEqual({ ...bootWith(null, { throws: true }) }, { visitor: 'new', visitorPlan: 'free' });
 });
 
 test('the boot script and parseHint agree on every stored value', () => {
-  for (const raw of [null, 'x', '{"kind":"member"}', '{"kind":"returning"}', '{"kind":"new"}', '{"kind":"owner"}']) {
-    assert.equal(bootWith(raw), parseHint(raw).kind, String(raw));
+  for (const raw of [null, 'x', '{"kind":"member"}', '{"kind":"member","plan":"pro"}', '{"kind":"member","plan":"gold"}', '{"kind":"returning"}', '{"kind":"new"}', '{"kind":"owner"}']) {
+    const parsed = parseHint(raw);
+    const booted = bootWith(raw);
+    assert.equal(booted.visitor, parsed.kind, String(raw));
+    assert.equal(booted.visitorPlan, parsed.plan === 'pro' ? 'pro' : 'free', String(raw));
   }
+});
+
+test('signing out forgets the open-the-Arena-first choice and tolerates blocked storage', () => {
+  const removed = [];
+  forgetArenaFirst({ removeItem: (key) => removed.push(key) });
+  assert.deepEqual(removed, [ARENA_FIRST_KEY]);
+  assert.doesNotThrow(() => forgetArenaFirst({ removeItem: () => { throw new Error('blocked'); } }));
+  assert.doesNotThrow(() => forgetArenaFirst(null));
 });
