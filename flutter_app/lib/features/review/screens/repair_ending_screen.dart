@@ -8,6 +8,7 @@ import '../../../core/copy/state_words.dart';
 import '../../../core/domain/repair_candidates.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
+import '../../../core/platform/review_prompt.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -20,6 +21,7 @@ import '../data/repair_run.dart';
 import '../data/review_providers.dart';
 import '../widgets/ending_sheet.dart';
 import '../widgets/life_row.dart';
+import '../widgets/share_card.dart';
 import '../data/ending_model.dart';
 
 /// `/review/repair/:attemptId/ending` (spec 5.8 ending, celebration L1/L2): the handed-back
@@ -41,6 +43,7 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
   late final AnimationController _ink = AnimationController(vsync: this, duration: const Duration(milliseconds: 1100));
   bool _started = false;
   bool _lifeInked = false;
+  Timer? _reviewAsk;
 
   @override
   void didChangeDependencies() {
@@ -61,7 +64,14 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
         if (s == AnimationStatus.completed && mounted) setState(() => _lifeInked = true);
       });
     }
-    if (model.repaired > 0) WidgetsBinding.instance.addPostFrameCallback((_) => unawaited(_celebrate()));
+    if (model.repaired > 0) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => unawaited(_celebrate()));
+      // A finished repair is a good moment for the store review ask, once the celebration has
+      // played. The prompt itself decides whether it is allowed (3 days in, once in 60 days).
+      _reviewAsk = Timer(const Duration(seconds: 4), () {
+        if (mounted) unawaited(ref.read(reviewPromptProvider).maybeAsk(ReviewMoment.repairFinished));
+      });
+    }
   }
 
   /// Fires the moment now that its slot is on screen. A Full moment opens with its own haptic;
@@ -75,6 +85,7 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
 
   @override
   void dispose() {
+    _reviewAsk?.cancel();
     _ink.dispose();
     super.dispose();
   }
@@ -185,6 +196,18 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
                             CelebrationSlot(scope: scope)
                           else
                             ackedAt == null ? const ReceiptLine.pending() : ReceiptLine(text: Receipts.repairFinished(clock.local(ackedAt))),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: KeyButton.quiet(
+                              label: 'Share a card',
+                              onPressed: () => unawaited(
+                                showShareCardSheet(
+                                  context,
+                                  data: ShareCardData.repair(repaired: model.repaired, day: clock.now(), subject: subjectName(model.subjectId)),
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                         if (mobiLine != null) ...[
                           const SizedBox(height: MmSpace.s16),

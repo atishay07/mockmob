@@ -13,6 +13,19 @@ import 'package:mockmob/features/onboarding/data/warmup_pool.dart';
 Map<String, dynamic> _source(String path) =>
     jsonDecode(File('../public/du/2026/$path').readAsStringSync()) as Map<String, dynamic>;
 
+const _addedSubjects = [
+  SheetSubject.physics,
+  SheetSubject.chemistry,
+  SheetSubject.mathematics,
+  SheetSubject.biology,
+  SheetSubject.computerScience,
+  SheetSubject.geography,
+  SheetSubject.history,
+  SheetSubject.politicalScience,
+  SheetSubject.psychology,
+  SheetSubject.sociology,
+];
+
 void main() {
   group('DU CSAS 2026 data', () {
     test('six Commerce courses with the real college counts', () {
@@ -108,7 +121,7 @@ void main() {
   });
 
   group('warm-up pool', () {
-    test('two questions per subject, four distinct options, one answer, a fix', () {
+    test('two or three questions per subject, four distinct options, one answer, a fix', () {
       final ids = <String>{};
       for (final q in kWarmupPool) {
         expect(ids.add(q.id), isTrue, reason: 'duplicate id ${q.id}');
@@ -121,6 +134,28 @@ void main() {
       for (final s in [SheetSubject.english, SheetSubject.accountancy, SheetSubject.businessStudies, SheetSubject.economics, SheetSubject.generalTest]) {
         expect(kWarmupPool.where((q) => q.subject == s).length, 2, reason: s.id);
       }
+      for (final s in _addedSubjects) {
+        expect(kWarmupPool.where((q) => q.subject == s).length, 3, reason: s.id);
+      }
+    });
+
+    test('every added subject has a pool of three and every keyed answer is one of its options', () {
+      expect(warmupSubjects, containsAll(_addedSubjects));
+      for (final s in _addedSubjects) {
+        final pool = kWarmupPool.where((q) => q.subject == s).toList();
+        expect(pool.length, 3, reason: s.id);
+        for (final q in pool) {
+          expect(q.id, contains('-nta'), reason: q.id);
+          expect(q.answer, inInclusiveRange(0, q.options.length - 1), reason: q.id);
+          expect(q.options[q.answer].trim(), isNotEmpty, reason: q.id);
+          expect(q.chapter.trim(), isNotEmpty, reason: q.id);
+          // The shuffle still shows the keyed option exactly once.
+          expect(q.order.where((i) => i == q.answer).length, 1, reason: q.id);
+          expect(q.fix.contains('—'), isFalse, reason: q.id);
+          expect(q.stem.contains('—'), isFalse, reason: q.id);
+        }
+      }
+      expect(kWarmupPoolVersion, 2);
     });
 
     test('the arithmetic answers check out', () {
@@ -141,13 +176,16 @@ void main() {
     test('a subject gets a question the student has not seen', () {
       expect(warmupFor(SheetSubject.accountancy, seen: {'acc-1'})!.id, 'acc-2');
       expect(warmupFor(SheetSubject.accountancy, seen: {'acc-1'}, seed: 7)!.id, 'acc-2');
-      expect(warmupFor(SheetSubject.mathematics), isNull);
+      // Once every question was seen, the whole pool is open again.
+      expect(warmupFor(SheetSubject.mathematics, seen: {'math-nta1', 'math-nta3', 'math-nta5'}), isNotNull);
+      expect(warmupFor(SheetSubject.mathematics, seen: {'math-nta1', 'math-nta3'})!.id, 'math-nta5');
     });
 
     test('the student seed picks the question, the same one every time', () {
       for (final s in warmupSubjects) {
         final ids = {for (var seed = 0; seed < 8; seed++) warmupFor(s, seed: seed)!.id};
-        expect(ids.length, 2, reason: '${s.id}: different students see both questions');
+        final size = kWarmupPool.where((q) => q.subject == s).length;
+        expect(ids.length, size, reason: '${s.id}: different students see every question');
         expect(warmupFor(s, seed: 12345)!.id, warmupFor(s, seed: 12345)!.id);
       }
     });
@@ -181,6 +219,36 @@ void main() {
         'eng-2': [3, 0, 2, 1],
         'gt-1': [2, 3, 1, 0],
         'gt-2': [3, 1, 2, 0],
+        'phy-nta1': [2, 1, 3, 0],
+        'phy-nta5': [1, 3, 2, 0],
+        'phy-nta6': [0, 1, 2, 3],
+        'chem-nta1': [3, 0, 1, 2],
+        'chem-nta2': [1, 0, 3, 2],
+        'chem-nta4': [1, 0, 3, 2],
+        'math-nta1': [1, 2, 0, 3],
+        'math-nta3': [1, 2, 0, 3],
+        'math-nta5': [3, 2, 1, 0],
+        'bio-nta1': [3, 0, 2, 1],
+        'bio-nta3': [3, 2, 0, 1],
+        'bio-nta4': [0, 1, 3, 2],
+        'cs-nta1': [0, 2, 1, 3],
+        'cs-nta2': [2, 1, 0, 3],
+        'cs-nta3': [0, 1, 2, 3],
+        'geo-nta1': [1, 0, 3, 2],
+        'geo-nta2': [3, 2, 1, 0],
+        'geo-nta3': [3, 1, 0, 2],
+        'hist-nta1': [1, 2, 0, 3],
+        'hist-nta2': [1, 2, 0, 3],
+        'hist-nta3': [2, 1, 0, 3],
+        'pol-nta1': [1, 3, 0, 2],
+        'pol-nta2': [3, 1, 2, 0],
+        'pol-nta5': [0, 3, 1, 2],
+        'psy-nta1': [1, 0, 3, 2],
+        'psy-nta2': [0, 3, 2, 1],
+        'psy-nta3': [3, 0, 2, 1],
+        'soc-nta1': [1, 2, 3, 0],
+        'soc-nta2': [0, 1, 3, 2],
+        'soc-nta4': [2, 1, 0, 3],
       });
     });
   });

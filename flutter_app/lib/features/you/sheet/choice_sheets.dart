@@ -208,7 +208,7 @@ class _CollegesBodyState extends ConsumerState<_CollegesBody> {
           MmSelectRow(
             multi: true,
             title: o.college,
-            note: o.scoreFor(category) == null ? EditCopy.noSeat : '${DuCatalog.format(o.scoreFor(category)!)} in ${DuCatalog.source}',
+            note: o.scoreFor(category) == null ? EditCopy.noSeat : '${DuCatalog.format(o.scoreFor(category)!)} last year',
             selected: picks.contains(o.college),
             trailing: picks.contains(o.college)
                 ? Text('${picks.indexOf(o.college) + 1}', style: type.labelLarge.copyWith(color: colors.ink2))

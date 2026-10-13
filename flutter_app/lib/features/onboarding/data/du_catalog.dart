@@ -2,7 +2,7 @@
 /// Economics programmes, their eligibility combinations from the Bulletin, and the Round 1
 /// minimum allocation score of every college for every category, out of 1000.
 ///
-/// The figures are real and last year's: always shown with "CSAS 2026, Round 1" and the scale.
+/// The figures are real and last year's: always shown as last year's closing scores and the scale.
 /// They say nothing about 2027 and never stand for a chance of admission.
 library;
 
@@ -98,7 +98,7 @@ class DuCourse {
 
 abstract final class DuCatalog {
   /// The label every figure carries.
-  static const String source = 'CSAS 2026, Round 1';
+  static const String source = 'Last year\'s DU closing scores';
 
   /// The scale of a CSAS score.
   static const int scale = 1000;

@@ -67,11 +67,10 @@ abstract final class EditCopy {
   static const courseRestored = 'Your course and colleges are back.';
   static const collegesSheet = 'Your colleges, in order';
   static String collegesNote(String category) =>
-      'Pick up to three. Figures are the CSAS 2026 Round 1 minimum for $category, out of 1000. '
-      'They are last year\'s figures.';
+      'Pick up to three. Figures are last year\'s DU closing scores for $category, out of 1000.';
   static const collegesNeedCourse = 'Pick a course first. Colleges belong to a course.';
   static const collegesCap = 'Three is the most. Remove one to add another.';
-  static const noSeat = 'No Round 1 seat';
+  static const noSeat = 'No seat last year';
   static const categorySheet = 'Which category should college figures use?';
   static const categoryNote = 'Only changes the figures you see. It stays on this phone.';
   static const confidenceSheet = 'How solid does each subject feel?';

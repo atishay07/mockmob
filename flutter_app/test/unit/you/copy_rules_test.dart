@@ -54,6 +54,13 @@ void main() {
     }
   });
 
+  test('college figures are described in plain words, with no admission portal wording', () {
+    final all = [source, File('lib/features/you/edit_copy.dart').readAsStringSync()].join('\n');
+    expect(all, isNot(contains('admission.uod')));
+    expect(all, isNot(contains('CSAS')));
+    expect(all, isNot(contains('Round 1')));
+  });
+
   test('times are written in 12-hour form', () {
     final all = strings.join('\n');
     expect(RegExp(r'\b(1[3-9]|2[0-3]):[0-5]\d\b').hasMatch(all), isFalse);

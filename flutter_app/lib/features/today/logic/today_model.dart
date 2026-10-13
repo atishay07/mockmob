@@ -277,10 +277,10 @@ class RoadStop {
   final bool expected;
 }
 
-enum RoadStopKind { registration, boards, exam, counselling }
+enum RoadStopKind { registration, boards, exam }
 
-/// Where the calendar is: counting down to the window, inside it, or past it with CSAS ahead.
-enum RoadPhase { countdown, window, csas }
+/// Where the calendar is: counting down to the window, or inside it.
+enum RoadPhase { countdown, window }
 
 class RoadModel {
   const RoadModel({

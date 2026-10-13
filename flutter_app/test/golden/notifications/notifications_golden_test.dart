@@ -78,6 +78,49 @@ void main() {
     await loadMaterialIcons();
   });
 
+  // Not a picture: the sheet is at most 680 dp tall and its body scrolls inside it, so a wording
+  // that is too long would push a key out of view. Measured with the real fonts, on a 360 dp phone
+  // (the body is 320 dp wide), for the student with a study window and the one without.
+  group('pre-prompt sheet fit', () {
+    testWidgets('every wording keeps both keys in view', (tester) async {
+      // 680 dp less the drag handle (24). The bottom padding below the keys (20) may scroll.
+      const room = 680.0 - 24;
+      final tooTall = <String>[];
+      for (final start in [NotificationPermission.notAsked, NotificationPermission.denied]) {
+        for (final window in [_window, null]) {
+          for (var asks = 0; asks < 6; asks++) {
+            // A fresh scope each time, or the earlier run's providers would be reused.
+            await tester.pumpWidget(const SizedBox());
+            final rig = Rig();
+            await rig.store.update((s) => s.copyWith(prePromptNotNowCount: asks));
+            await pumpMockmob(
+              tester,
+              Align(
+                alignment: Alignment.topLeft,
+                child: SizedBox(
+                  width: 320,
+                  child: SingleChildScrollView(child: RemindersPromptSheet(key: ValueKey('${start.name}${window == null}$asks'))),
+                ),
+              ),
+              size: const Size(360, 1400),
+              overrides: featureOverrides(
+                rig: rig,
+                repo: FakePrefsRepo(prefsWith(window: window)),
+                permission: FakePermissionRequester(start),
+              ),
+            );
+            await tester.pumpAndSettle();
+            final height = tester.getSize(find.byType(RemindersPromptSheet)).height;
+            // ignore: avoid_print
+            print('sheet body, ${start.name}, ${window == null ? 'no window' : 'window'}, ask $asks: $height dp');
+            if (height > room) tooTall.add('${start.name}, ${window == null ? 'no window' : 'window'}, ask $asks: $height dp');
+          }
+        }
+      }
+      expect(tooTall, isEmpty, reason: 'taller than the $room dp that keeps both keys in view');
+    });
+  });
+
   for (final b in [Brightness.dark, Brightness.light]) {
     group('pre-prompt sheet, ${b.name}', () {
       testWidgets('ask', (tester) async {

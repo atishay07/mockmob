@@ -26,7 +26,7 @@ class NotificationPreview extends StatelessWidget {
       label: '$channel. $body',
       excludeSemantics: true,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
+        padding: const EdgeInsets.symmetric(vertical: MmSpace.s8 + MmSpace.s2),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

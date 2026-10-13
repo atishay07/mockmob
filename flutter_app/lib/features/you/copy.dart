@@ -236,7 +236,7 @@ abstract final class YouCopy {
   static const sourceCourses = 'Course eligibility';
   static const sourceCoursesFrom = 'DU Bulletin 2026-27, du.ac.in';
   static const sourceScores = 'College scores';
-  static const sourceScoresFrom = 'CSAS 2026, Round 1, admission.uod.ac.in';
+  static const sourceScoresFrom = 'University of Delhi, 2026 admissions';
   static String helpVersion(String version) => 'Version $version';
   static const supportMailSubject = 'MockMob app help';
 }

@@ -5,6 +5,10 @@ import 'package:mockmob/features/notifications/logic/pre_prompt_variants.dart';
 /// Capital letters that are right in the middle of a sentence.
 const _proper = {'Android', 'MockMob', 'Sunday', 'AM', 'PM'};
 
+/// An emoji, a dingbat, a symbol or an arrow: none belongs in these lines.
+bool _isPictograph(int rune) =>
+    rune >= 0x1F000 || (rune >= 0x2600 && rune <= 0x27BF) || (rune >= 0x2190 && rune <= 0x21FF) || rune == 0xFE0F;
+
 bool _isUpper(String s) => s.isNotEmpty && s[0] != s[0].toLowerCase() && s[0] == s[0].toUpperCase();
 
 /// The words that start with a capital when they should not (sentence case).
@@ -81,12 +85,18 @@ void main() {
   });
 
   group('the tone of every line', () {
+    test('the check itself sees an emoji and an arrow', () {
+      expect('Hello \u{1F600}'.runes.any(_isPictograph), isTrue);
+      expect('Next →'.runes.any(_isPictograph), isTrue);
+      expect('Plain words.'.runes.any(_isPictograph), isFalse);
+    });
+
     test('no exclamation marks, emoji, dashes or middle dots', () {
       for (final s in every()) {
         expect(s.contains('!'), isFalse, reason: s);
         expect(s.contains('—') || s.contains('–'), isFalse, reason: 'dash in: $s');
         expect(s.contains('·') || s.contains('•'), isFalse, reason: s);
-        expect(RegExp(r'\p{Extended_Pictographic}', unicode: true).hasMatch(s), isFalse, reason: 'emoji in: $s');
+        expect(s.runes.any(_isPictograph), isFalse, reason: 'emoji or arrow in: $s');
       }
     });
 

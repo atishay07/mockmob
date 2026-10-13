@@ -219,7 +219,8 @@ class ResultActions {
   }
 
   /// "Not now" on the recap's reminder row: counted exactly like the sheet's Not now (the time
-  /// first, then the count), so the 14 day and two-strike rule holds from either entry point.
+  /// first, then the count), so the sheet's re-ask spacing (2, 4, 7, then every 10 days) holds
+  /// from either entry point.
   Future<void> declineReminder() async {
     try {
       await _ref.read(appPrefsProvider).setLastPrePromptAt(_ref.read(nowProvider)());
@@ -250,8 +251,9 @@ class ResultActions {
 final resultActionsProvider = Provider<ResultActions>(ResultActions.new);
 
 /// The first-result reminder row (spec 5.6.3) follows the same policy as the notifications
-/// module's sheet: [prePromptDueProvider] applies `shouldOfferPrePrompt` (never asked, not put
-/// off twice, not put off in the last 14 days). One policy governs both entry points.
+/// module's sheet: [prePromptDueProvider] applies `shouldOfferPrePrompt` (reminders still off and
+/// the spacing since the last ask passed: 2, 4, 7, then every 10 days). One policy governs both
+/// entry points.
 final reminderOfferProvider = FutureProvider.autoDispose<bool>((ref) async {
   try {
     return await ref.watch(prePromptDueProvider.future);

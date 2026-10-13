@@ -1,8 +1,8 @@
 // "The road to May" (brief 11, 12; owner feedback 13 Oct "the road ... can be improved"): what
-// the calendar really holds between now and the CSAS rounds, made useful. The weeks to the
-// expected window (or, after 1 May 2027, the window being open and CSAS to come), the road drawn
-// to scale with every stop listed under it with its dates, the study days the student's own goal
-// gives them, and the dream ladder with the real CSAS 2026 Round 1 closing score of each pick.
+// the calendar really holds between now and the exam window, made useful. The weeks to the
+// expected window (or, from 1 May 2027, the window being open), the road drawn to scale with
+// every stop listed under it with its dates, the study days the student's own goal gives them,
+// and the dream ladder with last year's closing score of each pick.
 // Calendar arithmetic and the student's choices only: nothing here predicts marks or chances.
 import 'package:flutter/material.dart';
 
@@ -34,7 +34,7 @@ class RoadSection extends StatelessWidget {
               children: [
                 Semantics(
                   header: true,
-                  child: Text(road.phase == RoadPhase.csas ? TodayCopy.roadTitleCsas : TodayCopy.roadTitle, style: type.title),
+                  child: Text(TodayCopy.roadTitle, style: type.title),
                 ),
                 const SizedBox(height: MmSpace.s12),
                 // One hero figure; the road itself is the picture.
@@ -45,7 +45,6 @@ class RoadSection extends StatelessWidget {
                       unit: TodayCopy.windowDaysLeft(road.daysLeft ?? 0),
                       headline: TodayCopy.windowOpen,
                     ),
-                  RoadPhase.csas => _Headline(headline: TodayCopy.csasHeadline, line: TodayCopy.csasLine),
                 },
                 const SizedBox(height: MmSpace.s16),
                 RoadTimeline(today: road.today, stops: road.stops, end: road.end),
@@ -119,28 +118,6 @@ class _Stat extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-/// After the window: no figure to count down, so the state is said in words.
-class _Headline extends StatelessWidget {
-  const _Headline({required this.headline, required this.line});
-
-  final String headline;
-  final String line;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Semantics(header: true, child: Text(headline, style: type.title.copyWith(fontSize: 22, height: 28 / 22, color: colors.isNight ? colors.volt : colors.accentText))),
-        const SizedBox(height: MmSpace.s4),
-        Text(line, style: type.body.copyWith(color: colors.ink2)),
-      ],
     );
   }
 }

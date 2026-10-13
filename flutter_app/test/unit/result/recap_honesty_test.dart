@@ -187,29 +187,47 @@ void main() {
 
     tearDown(() => c.dispose());
 
-    test('Not now from the recap counts like the sheet: the time, the count, then 14 days of quiet', () async {
+    Future<bool> offered() async {
+      c.invalidate(prePromptDueProvider); // a later visit: the providers are built afresh
+      c.invalidate(reminderOfferProvider);
+      return c.read(reminderOfferProvider.future);
+    }
+
+    test('Not now from the recap counts like the sheet: the time, the count, then the sheet cadence (2 days, then 4)', () async {
       expect(await c.read(reminderOfferProvider.future), isTrue);
 
       await c.read(resultActionsProvider).declineReminder();
       expect((await prefs.lastPrePromptAt())!.isAtSameMomentAs(rig.now), isTrue);
       expect((await rig.store.load()).prePromptNotNowCount, 1);
 
-      c.invalidate(reminderOfferProvider);
-      expect(await c.read(reminderOfferProvider.future), isFalse, reason: 'put off today: not asked again on the next open');
+      expect(await offered(), isFalse, reason: 'put off today: not asked again on the next open');
 
-      rig.now = rig.now.add(const Duration(days: 14));
-      c.invalidate(prePromptDueProvider); // a later visit: the providers are built afresh
-      expect(await c.read(reminderOfferProvider.future), isTrue, reason: 'back once, after 14 days');
+      rig.now = rig.now.add(const Duration(days: 2) - const Duration(minutes: 1));
+      expect(await offered(), isFalse, reason: 'a minute short of 2 days after the first ask');
+
+      rig.now = rig.now.add(const Duration(minutes: 1));
+      expect(await offered(), isTrue, reason: 'back 2 days after the first ask');
 
       await c.read(resultActionsProvider).declineReminder();
-      rig.now = rig.now.add(const Duration(days: 60));
-      c.invalidate(prePromptDueProvider);
-      expect(await c.read(reminderOfferProvider.future), isFalse, reason: 'two Not nows: never again from either entry point');
+      expect((await rig.store.load()).prePromptNotNowCount, 2);
+
+      rig.now = rig.now.add(const Duration(days: 3));
+      expect(await offered(), isFalse, reason: 'the second gap is 4 days, not 2');
+
+      rig.now = rig.now.add(const Duration(days: 1));
+      expect(await offered(), isTrue, reason: 'back 4 days after the second ask, from either entry point');
     });
 
-    test('a student who already answered the system question is not offered the row', () async {
+    test('once reminders are on the row never comes back, whatever the history says', () async {
+      await c.read(resultActionsProvider).declineReminder();
+      permission.current = NotificationPermission.granted;
+      rig.now = rig.now.add(const Duration(days: 60));
+      expect(await offered(), isFalse);
+    });
+
+    test('a student Android no longer asks is still offered the row: its key opens Android settings', () async {
       permission.current = NotificationPermission.denied;
-      expect(await c.read(reminderOfferProvider.future), isFalse);
+      expect(await c.read(reminderOfferProvider.future), isTrue);
     });
   });
 }

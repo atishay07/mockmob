@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Below Android 12 the launcher does not round widgets, so the background does. -->
+    <dimen name="widget_radius">20dp</dimen>
+    <dimen name="widget_padding">14dp</dimen>
+</resources>

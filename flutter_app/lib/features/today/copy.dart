@@ -165,11 +165,8 @@ abstract final class TodayCopy {
   static String weeksLabel(int weeks) => '${weeks == 1 ? 'week' : 'weeks'} to the expected\nCUET window, ${CuetDates.windowMonth}';
   static String weeksToBoardsUnit(int weeks) => weeks == 1 ? 'week before\nboards begin' : 'weeks before\nboards begin';
   static const String boardsOn = 'Boards are on. The plan stays light until they end.';
-  static const String roadTitleCsas = 'The road to your college';
   static const String windowOpen = 'Exam window open';
   static String windowDaysLeft(int days) => '${days == 1 ? 'day' : 'days'} left in the expected\nexam window';
-  static const String csasHeadline = 'CSAS rounds: results first';
-  static const String csasLine = 'The rounds open after the results. Your colleges are below.';
   static String sessionsLine(int n, int goal) {
     if (n <= 0) return 'Your first session starts the count.';
     final about = n < 20 ? n : (n / 10).round() * 10;
@@ -182,8 +179,6 @@ abstract final class TodayCopy {
   static const String noteBoards = 'The plan goes lighter from mid-February.';
   static const String stopExam = 'CUET UG';
   static const String whenExam = CuetDates.windowMonth;
-  static const String stopCounselling = 'CSAS rounds';
-  static const String whenCounselling = CuetDates.counsellingWhen;
   /// The tag on a stop whose date NTA or CBSE has not published.
   static const String expectedTag = 'Expected';
   static const String nowLabel = 'Now';
@@ -192,8 +187,8 @@ abstract final class TodayCopy {
   static const String weekNeedsPaused = 'This week is paused. Your run is kept.';
   static const String weekNeedsOutOfReach = 'This week: the goal is out of reach. Each study day still goes on the sheet.';
   static String ladderCaption(String? category) => category == null
-      ? 'CSAS 2026, Round 1 closing scores, unreserved until you choose your category, out of 1000'
-      : 'CSAS 2026, Round 1 closing scores, $category, out of 1000';
+      ? 'Last year\'s DU closing scores, unreserved, out of 1000'
+      : 'Last year\'s DU closing scores, $category, out of 1000';
   static const String ladderTitle = 'Your colleges';
   static const String dreamTag = 'Dream';
   static const String chooseColleges = 'Choose your colleges';

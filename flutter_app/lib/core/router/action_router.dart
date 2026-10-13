@@ -52,6 +52,15 @@ class UnsupportedTarget extends ActionTarget {
   String toString() => 'UnsupportedTarget()';
 }
 
+/// The launcher shortcut types (Android app shortcuts). Fresh check is not here: that flow is
+/// behind its content gate and has no start of its own, so the third shortcut is Practice 10.
+abstract final class AppShortcutType {
+  static const String resume = 'resume';
+  static const String repair = 'repair';
+  static const String practice = 'practice10';
+  static const List<String> all = [resume, repair, practice];
+}
+
 /// Maps web hrefs to native routes. Pure and strict: hrefs are data from a server, so nothing
 /// is opened unless it is recognised, and anything off `https://www.mockmob.in` is refused.
 abstract final class ActionRouter {
@@ -78,6 +87,24 @@ abstract final class ActionRouter {
   static final RegExp _word = RegExp(r'^[a-z][a-z0-9_-]{0,23}$');
   static final RegExp _subject = RegExp(r'^[A-Za-z0-9_.-]{1,64}$');
   static final RegExp _count = RegExp(r'^\d{1,3}$');
+
+  /// Where a launcher shortcut (long-press on the app icon) goes. It builds the same web hrefs
+  /// the rest of the app resolves, so a shortcut can never open anything a link could not.
+  /// [sessionId] is the open session for [AppShortcutType.resume] (none open: Practice) and
+  /// [repairLocation] is tonight's first mistake for [AppShortcutType.repair] (none: Review).
+  static ActionTarget forShortcut(String type, {String? sessionId, String? repairLocation}) {
+    switch (type) {
+      case AppShortcutType.resume:
+        if (sessionId == null) return const NativeTarget(AppRoutes.practice);
+        return resolve(Uri(path: '/test', queryParameters: {'sessionId': sessionId}).toString());
+      case AppShortcutType.repair:
+        final here = repairLocation == null ? null : resolve(repairLocation);
+        return here is NativeTarget && here.location.startsWith('/review/repair/') ? here : resolve('/recovery');
+      case AppShortcutType.practice:
+        return resolve('/test?mode=quick&count=10');
+    }
+    return const UnsupportedTarget();
+  }
 
   static ActionTarget resolve(String? href) {
     if (href == null) return const UnsupportedTarget();

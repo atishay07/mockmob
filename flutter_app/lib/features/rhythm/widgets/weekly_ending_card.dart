@@ -1,6 +1,8 @@
 // The weekly ending card (spec 6.9): what the week that just closed held, with plain keys to
 // carry on, change the goal or rest. No verdict, no comparison, nothing lost. Today hosts
 // `WeeklyEndingSection`; `WeeklyEndingCard` is the pure card for goldens and other hosts.
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -9,6 +11,7 @@ import '../../../core/models/rhythm.dart';
 import '../../../core/repositories/rhythm_repository.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../review/widgets/share_card.dart' show ShareCardData, showShareCardSheet;
 import '../celebration/celebration_controller.dart';
 import '../celebration/celebration_event.dart';
 import '../celebration/ring_sweep.dart';
@@ -27,6 +30,7 @@ class WeeklyEndingCard extends StatelessWidget {
     this.ring = false,
     this.busy = false,
     this.errorText,
+    this.onShare,
   });
 
   final WeeklyEndingData data;
@@ -37,6 +41,9 @@ class WeeklyEndingCard extends StatelessWidget {
   final bool ring;
   final bool busy;
   final String? errorText;
+
+  /// Opens the share preview. Shown only for a week that met its goal; null hides the key.
+  final VoidCallback? onShare;
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +94,10 @@ class WeeklyEndingCard extends StatelessWidget {
                 for (final key in others) ...[
                   const SizedBox(height: MmSpace.s4),
                   FlushQuietKey(label: key.label, onPressed: busy ? null : () => onKey(key)),
+                ],
+                if (onShare != null && data.met) ...[
+                  const SizedBox(height: MmSpace.s4),
+                  FlushQuietKey(label: RhythmCopy.shareWeek, onPressed: busy ? null : onShare),
                 ],
               ],
             ),
@@ -179,6 +190,18 @@ class _WeeklyEndingSectionState extends ConsumerState<WeeklyEndingSection> {
     if (mounted) setState(() => _busy = false);
   }
 
+  /// The week's share card: days studied and the week's dates, never marks.
+  void _share(WeeklyEndingData data) {
+    final start = parseIsoDate(data.weekId);
+    if (start == null) return;
+    unawaited(
+      showShareCardSheet(
+        context,
+        data: ShareCardData.week(studyDays: data.studyDays, start: start, end: start.add(const Duration(days: 6))),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final data = ref.watch(weeklyEndingProvider);
@@ -196,6 +219,7 @@ class _WeeklyEndingSectionState extends ConsumerState<WeeklyEndingSection> {
       busy: _busy,
       errorText: _error,
       onKey: (key) => _onKey(data, key),
+      onShare: data.met ? () => _share(data) : null,
       onDismiss: () => _onKey(data, const EndingKey(EndingAction.keep, '')),
     );
     final done = _confirmation;

@@ -192,6 +192,7 @@ abstract final class RhythmCopy {
   static const String lighterWeek = 'Take a lighter week';
   static String makeIt(int goal) => 'Make it $goal';
   static const String restWeek = 'Take a rest week';
+  static const String shareWeek = 'Share this week';
   static const String dismiss = 'Dismiss';
   static const String endingActionFailed = 'We could not save that. Try again.';
   static String endingGoalNow(int goal) => 'Goal is now ${plural(goal, 'day')} a week.';

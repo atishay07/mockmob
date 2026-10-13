@@ -428,42 +428,39 @@ void main() {
       expect(road.phase, RoadPhase.countdown);
     });
 
-    test('the exam window is a state of its own: open, with the days left and CSAS still ahead', () {
+    test('the exam window is a state of its own: open, with the days left', () {
       final first = buildRoad(ashaInputs(now: DateTime.utc(2027, 5, 1, 8)))!;
       expect(first.phase, RoadPhase.window);
       expect(first.daysLeft, 31);
-      expect(first.stops.map((s) => s.kind.name), ['exam', 'counselling']);
+      expect(first.stops.map((s) => s.kind.name), ['exam']);
       final last = buildRoad(ashaInputs(now: DateTime.utc(2027, 5, 31, 8)))!;
       expect(last.phase, RoadPhase.window);
       expect(last.daysLeft, 1);
       expect(last.ladder, isNotEmpty, reason: 'the colleges ladder stays through the window');
     });
 
-    test('after the window the road is CSAS, results first, and the ladder stays', () {
-      final june = buildRoad(ashaInputs(now: DateTime.utc(2027, 6, 5, 8)))!;
-      expect(june.phase, RoadPhase.csas);
-      expect(june.weeks, 0);
-      expect(june.daysLeft, isNull);
-      expect(june.studyDays, isNull, reason: 'no countdown arithmetic after the window');
-      expect(june.stops.map((s) => s.kind.name), ['counselling']);
-      expect(june.ladder.first.dream, isTrue);
-      // The rounds run on after they begin, so the road and the ladder stay through them.
-      for (final day in [DateTime.utc(2027, 6, 25, 8), DateTime.utc(2027, 7, 2, 8), DateTime.utc(2027, 9, 29, 8)]) {
-        final during = buildRoad(ashaInputs(now: day))!;
-        expect(during.phase, RoadPhase.csas, reason: '$day');
-        expect(during.stops.map((s) => s.kind.name), ['counselling'], reason: '$day');
-        expect(during.ladder, isNotEmpty, reason: '$day');
+    test('the road ends with the exam window, and the card is gone once it closes', () {
+      final road = buildRoad(ashaInputs())!;
+      expect(road.stops.last.kind, RoadStopKind.exam, reason: 'no stop after the exam window');
+      expect(road.end, DateTime.utc(2027, 6, 1));
+      expect(roadEndFor(road.stops), road.end);
+      expect(roadEndFor([road.stops.first]), DateTime.utc(2027, 4, 1), reason: 'derived from the last stop, not a constant');
+      expect(buildRoad(ashaInputs(now: DateTime.utc(2027, 5, 31, 8))), isNotNull, reason: 'the last day of the window');
+      for (final day in [DateTime.utc(2027, 6, 1, 8), DateTime.utc(2027, 6, 5, 8), DateTime.utc(2027, 9, 29, 8)]) {
+        expect(buildRoad(ashaInputs(now: day)), isNull, reason: '$day');
+        expect(buildToday(ashaInputs(now: day)).road, isNull, reason: '$day');
       }
     });
 
-    test('the road ends the month after the CSAS end, and nothing remains after that', () {
-      final road = buildRoad(ashaInputs())!;
-      expect(road.end, DateTime.utc(2027, 10, 1));
-      expect(CuetDates.counsellingEnd.isAfter(CuetDates.counsellingStart), isTrue);
-      expect(roadEndFor(road.stops), road.end);
-      expect(roadEndFor([road.stops.first]), DateTime.utc(2027, 4, 1), reason: 'derived from the last stop, not a constant');
-      expect(buildRoad(ashaInputs(now: DateTime.utc(2027, 9, 30, 8))), isNotNull, reason: 'still inside CSAS');
-      expect(buildRoad(ashaInputs(now: DateTime.utc(2027, 10, 2))), isNull);
+    test('no road copy or date names the CSAS rounds', () {
+      final copy = File('lib/features/today/copy.dart').readAsStringSync();
+      expect(copy, isNot(contains('CSAS')));
+      expect(copy, isNot(contains('Round 1')));
+      expect(TodayCopy.ladderCaption(null), 'Last year${String.fromCharCode(39)}s DU closing scores, unreserved, out of 1000');
+      expect(TodayCopy.ladderCaption('OBC'), 'Last year${String.fromCharCode(39)}s DU closing scores, OBC, out of 1000');
+      final dates = File('lib/core/domain/cuet_dates.dart').readAsStringSync();
+      expect(dates, isNot(contains('CSAS')));
+      expect(dates.toLowerCase(), isNot(contains('counselling')));
     });
 
     test('the registration window reads the same everywhere Today states it', () {
@@ -499,12 +496,12 @@ void main() {
       // The onboarding count: board weeks hold two sessions at most.
       expect(road.studyDays, lessThan(28 * 4));
       expect(road.weekNeeds, isNull, reason: 'the week strip at the top already says it');
-      expect(road.stops.map((s) => s.kind.name), ['registration', 'boards', 'exam', 'counselling']);
+      expect(road.stops.map((s) => s.kind.name), ['registration', 'boards', 'exam']);
       final march = buildRoad(ashaInputs(now: DateTime.utc(2027, 3, 1)))!;
       expect(march.weeksToBoards, 0);
       expect(march.stops.first.kind.name, 'registration');
       final april = buildRoad(ashaInputs(now: DateTime.utc(2027, 4, 10)))!;
-      expect(april.stops.map((s) => s.kind.name), ['exam', 'counselling']);
+      expect(april.stops.map((s) => s.kind.name), ['exam']);
     });
 
     test('the road weeks line never counts a week it does not have', () {

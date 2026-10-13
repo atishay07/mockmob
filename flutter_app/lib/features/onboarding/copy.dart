@@ -64,13 +64,13 @@ abstract final class OnboardingCopy {
 
   // Course and colleges.
   static const String courseTitle = 'Which seat are you after?';
-  static const String courseSupport = 'Commerce at DU, with how many colleges offered seats in CSAS 2026, Round 1.';
+  static const String courseSupport = 'Commerce at DU, with how many colleges offered seats last year.';
   static String collegesCount(int n) => n == 1 ? '1 college' : '$n colleges';
   static String collegesUnit(int n) => n == 1 ? 'college' : 'colleges';
   static const String notSure = 'Not sure yet';
   static const String notSureNote = 'Fine. The plan works without it.';
   static const String ladderTitle = 'Which colleges would you say yes to tomorrow?';
-  static const String ladderSupport = 'The lowest score that got a seat in CSAS 2026, Round 1, out of 1000. Pick up to three.';
+  static const String ladderSupport = 'Last year\'s DU closing scores, out of 1000. Pick up to three.';
   static String showing(String category) => 'Showing $category';
   static const String categoryTitle = 'Category for the figures';
   static const String categoryNote = 'It only changes which figures you see.';
@@ -81,8 +81,8 @@ abstract final class OnboardingCopy {
   static const String changeCourse = 'Change course';
   static const String threeIsPlenty = 'Three is plenty. Drop one to swap it.';
   static String barLine(String college, String score, int perPaper) =>
-      '$college needed $score of 1000 in Round 1. That\'s about $perPaper of 250 a paper.';
-  static String noSeatsFor(String category) => 'No Round 1 seats went to $category here.';
+      '$college needed $score of 1000 last year. That\'s about $perPaper of 250 a paper.';
+  static String noSeatsFor(String category) => 'No seats went to $category here last year.';
 
   // Subjects.
   static const String subjectsTitle = 'Your subjects. How solid is each, honestly?';

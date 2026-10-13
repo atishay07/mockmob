@@ -19,12 +19,12 @@ abstract final class NotificationsCopy {
   // tied to something a reminder really does. Plain, no guilt, no urgency.
   static const String promptStudyTitle = 'A nudge at your study time';
   static String promptStudyLineAt(String time) =>
-      'One reminder when your study window starts at $time. Move it or turn it off whenever you like.';
+      'One reminder when your study window starts at $time. Change it any time.';
   static const String promptStudyLine =
-      'One reminder at the time you choose to study. You pick the time and can change it whenever you like.';
+      'One reminder at the study time you choose. You can change it any time.';
   static const String promptRepairTitle = 'Hear when a repair is waiting';
   static const String promptRepairLine =
-      'When a mock leaves mistakes, one reminder says a short repair is ready. It stops once you have done it.';
+      'One reminder when a short repair is ready. It stops once you have done it.';
   static const String promptResultTitle = 'Know when your result is ready';
   static const String promptResultLine =
       'If you submit a mock and leave the app, a reminder tells you when the result is ready.';
@@ -33,7 +33,7 @@ abstract final class NotificationsCopy {
       'You can add a look at your week on Sunday evening. It stays off until you turn it on.';
   static const String promptOptionalTitle = 'Only if it helps';
   static const String promptOptionalLine =
-      'Studying works the same without reminders. If you want a nudge now and then, you choose which ones.';
+      'Studying works the same without reminders. Turn on only the kinds you want.';
 
   // After Android stopped showing its own question: the key opens its settings instead.
   static const String promptOpenSettings = 'Open settings';

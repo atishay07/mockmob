@@ -158,7 +158,7 @@ class PlanSummary {
     return '${course.short} also needs ${joinWithAnd(check.missing)}.';
   }
 
-  /// "Aim: SRCC 924.3, Hindu 919.9. CSAS 2026, Round 1, UR, out of 1000."
+  /// "Aim: SRCC 924.3, Hindu 919.9. Last year's DU closing scores, UR, out of 1000."
   static String? aimLine(OnboardingAnswers a) {
     final course = a.course;
     if (course == null || a.colleges.isEmpty) return null;

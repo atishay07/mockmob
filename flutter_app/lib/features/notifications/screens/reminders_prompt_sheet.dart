@@ -289,7 +289,7 @@ class _Ask extends StatelessWidget {
           variant.line,
           style: type.body.copyWith(color: colors.ink2),
         ),
-        const SizedBox(height: MmSpace.s20),
+        const SizedBox(height: MmSpace.s16),
         Text(
           NotificationsCopy.promptExamplesLabel,
           style: type.label.copyWith(color: colors.ink3),
@@ -336,18 +336,19 @@ class _Ask extends StatelessWidget {
           ),
         ),
         const SizedBox(height: MmSpace.s12),
-        if (primary == PrePromptPrimary.openSettings) ...[
+        // Once Android no longer asks, the way forward takes the note's place: the sheet must
+        // stay short enough that its main key is in view without scrolling.
+        if (primary == PrePromptPrimary.openSettings)
           Text(
             NotificationsCopy.promptBlockedNote,
             style: type.small.copyWith(color: colors.ink2),
+          )
+        else
+          Text(
+            '${NotificationsCopy.promptQuietLine(formatClock(prefs.quietStart), formatClock(prefs.quietEnd))} ${NotificationsCopy.promptStudyNote}',
+            style: type.small.copyWith(color: colors.ink3),
           ),
-          const SizedBox(height: MmSpace.s8),
-        ],
-        Text(
-          '${NotificationsCopy.promptQuietLine(formatClock(prefs.quietStart), formatClock(prefs.quietEnd))} ${NotificationsCopy.promptStudyNote}',
-          style: type.small.copyWith(color: colors.ink3),
-        ),
-        const SizedBox(height: MmSpace.s24),
+        const SizedBox(height: MmSpace.s20),
         if (primary == PrePromptPrimary.openSettings)
           KeyButton(label: NotificationsCopy.promptOpenSettings, onPressed: onOpenSettings)
         else

@@ -82,6 +82,21 @@
             </intent-filter>
         </activity>
 
+        <!-- Home-screen widget (plan A5): the next move, this week's study days and the days to
+             CUET. Data comes from lib/core/home_widget through home_widget; a tap opens an
+             https://www.mockmob.in link in MainActivity, handled like an App Link. -->
+        <receiver
+            android:name=".platform.TodayWidgetProvider"
+            android:exported="false"
+            android:label="@string/widget_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/today_widget_info" />
+        </receiver>
+
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

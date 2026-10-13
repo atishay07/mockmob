@@ -1,7 +1,6 @@
 // The road to May drawn to scale: one line from this month to the month after the last stop, a
 // month initial under each month, "Now" where the student stands, the registration window and
-// the boards as bands above the line, the expected CUET window as the one volt block and CSAS as
-// an open ring after it. Under it, each stop in words with its real dates, which also serves as
+// the boards as bands above the line and the expected CUET window as the one volt block. Under it, each stop in words with its real dates, which also serves as
 // the key to the marks. Every mark is a date.
 import 'package:flutter/material.dart';
 
@@ -53,7 +52,6 @@ Color roadStopColor(RoadStopKind kind, MmColors c) => switch (kind) {
       RoadStopKind.registration => c.ink3,
       RoadStopKind.boards => c.ink2,
       RoadStopKind.exam => c.isNight ? c.volt : c.accentText,
-      RoadStopKind.counselling => c.ink2,
     };
 
 class _RoadPainter extends CustomPainter {
@@ -103,19 +101,6 @@ class _RoadPainter extends CustomPainter {
           canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromLTRB(a, 26, b, 34), const Radius.circular(4)), Paint()..color = color.withValues(alpha: 0.55));
         case RoadStopKind.exam:
           canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromLTRB(a, axis - 6, b, axis + 6), const Radius.circular(6)), Paint()..color = color);
-        case RoadStopKind.counselling:
-          // The rounds run for months: a faint span, then the open ring where they begin.
-          if (b - a > 2) {
-            canvas.drawRRect(
-              RRect.fromRectAndRadius(Rect.fromLTRB(a, axis - 3, b, axis + 3), const Radius.circular(3)),
-              Paint()..color = color.withValues(alpha: 0.22),
-            );
-          }
-          canvas.drawCircle(Offset(a, axis), 5, Paint()..color = colors.ground);
-          canvas.drawCircle(Offset(a, axis), 5, Paint()
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1.5
-            ..color = color);
       }
     }
 
@@ -234,13 +219,12 @@ class _Key extends StatelessWidget {
         ),
       RoadStopKind.boards => BoxDecoration(color: color.withValues(alpha: 0.55), borderRadius: BorderRadius.circular(3)),
       RoadStopKind.exam => BoxDecoration(color: color, borderRadius: BorderRadius.circular(4)),
-      RoadStopKind.counselling => BoxDecoration(shape: BoxShape.circle, border: Border.all(color: color, width: 1.5)),
     };
     return SizedBox(
       width: 16,
       height: 10,
       child: Center(
-        child: SizedBox(width: kind == RoadStopKind.counselling ? 10 : 16, height: 10, child: DecoratedBox(decoration: decoration)),
+        child: SizedBox(width: 16, height: 10, child: DecoratedBox(decoration: decoration)),
       ),
     );
   }

@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'core/auth/auth.dart';
+import 'core/home_widget/home_widget_sync.dart' show homeWidgetSyncProvider;
 import 'core/motion/reduced_motion.dart';
+import 'core/platform/native_touches.dart';
 import 'core/router/router.dart';
 import 'core/settings/appearance_settings.dart';
 import 'core/theme/theme.dart';
@@ -24,6 +26,9 @@ class MockMobApp extends ConsumerWidget {
     // Keeps the guest carry-over alive and starts reminder planning and tap handling.
     ref.watch(sampleImportProvider);
     ref.watch(notificationsRuntimeProvider);
+    // Launcher shortcuts, the quiet Play update and the first-run mark for the review prompt.
+    ref.watch(nativeTouchesProvider);
+    ref.watch(homeWidgetSyncProvider); // The home-screen widget follows Today (core/home_widget).
     // Steps glass down to Lite once if the raster thread keeps missing its budget.
     ref.watch(glassPerformanceWatchProvider);
 

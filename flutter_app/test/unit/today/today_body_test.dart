@@ -155,7 +155,7 @@ void main() {
     await pumpToday(tester, view);
     await tester.scrollUntilVisible(find.text(TodayCopy.roadTitle), 300, scrollable: find.byType(Scrollable).first);
     final expected = view.road!.stops.where((s) => s.expected).length;
-    expect(expected, 4);
+    expect(expected, 3);
     expect(find.text(TodayCopy.expectedTag), findsNWidgets(expected));
   });
 
@@ -174,6 +174,23 @@ void main() {
     await tester.scrollUntilVisible(find.text(TodayCopy.windowOpen), 300, scrollable: find.byType(Scrollable).first);
     expect(find.text(TodayCopy.windowOpen), findsOneWidget);
     expect(find.text(TodayCopy.ladderTitle), findsOneWidget, reason: 'the college ladder stays');
+  });
+
+  testWidgets('once the exam window has closed Today shows no road and no CSAS wording', (tester) async {
+    final view = buildToday(ashaInputs(now: DateTime.utc(2027, 6, 5, 8)));
+    expect(view.road, isNull);
+    await pumpToday(tester, view);
+    expect(find.text(TodayCopy.roadTitle), findsNothing);
+    expect(find.text(TodayCopy.ladderTitle), findsNothing);
+    expect(find.textContaining('CSAS'), findsNothing);
+  });
+
+  testWidgets('the college ladder caption uses plain words, not portal names', (tester) async {
+    await pumpToday(tester, buildToday(ashaInputs()));
+    await tester.scrollUntilVisible(find.text(TodayCopy.ladderTitle), 300, scrollable: find.byType(Scrollable).first);
+    expect(find.textContaining('CSAS'), findsNothing);
+    expect(find.textContaining('admission.uod'), findsNothing);
+    expect(find.text(TodayCopy.ladderCaption('UR')), findsOneWidget);
   });
 
   testWidgets('the header Mobi keeps pointing at the move card through a scroll and a text-size change', (tester) async {

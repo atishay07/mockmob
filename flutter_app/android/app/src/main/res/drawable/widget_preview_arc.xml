@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The preview's week ring: half full (2 of 4), from the top, clockwise, over widget_ring_track. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="52dp"
+    android:height="52dp"
+    android:viewportWidth="52"
+    android:viewportHeight="52">
+    <path
+        android:pathData="M26,2 A24,24 0 0,1 26,50"
+        android:strokeWidth="4"
+        android:strokeColor="@color/widget_ring"
+        android:strokeLineCap="round" />
+</vector>

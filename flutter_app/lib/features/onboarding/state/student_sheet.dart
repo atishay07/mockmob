@@ -40,7 +40,7 @@ class StudentSheet {
           if (course?.offeringAt(name) case final o?) SheetCollege(name: o.college, short: o.short, score: o.scoreFor(answers.category)),
       ];
 
-  /// Label for the college figures: "CSAS 2026, Round 1, UR, out of 1000".
+  /// Label for the college figures: "Last year's DU closing scores, UR, out of 1000".
   String get collegeSource => '${DuCatalog.source}, ${answers.category}, out of ${DuCatalog.scale}';
   String get category => answers.category;
 
