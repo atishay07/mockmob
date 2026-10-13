@@ -259,3 +259,15 @@ test('sessions that expired before the release floor are never finalised (no imp
     assert.equal((await db.query("select state from recovery_sessions where id='old'")).rows[0].state, 'active');
   } finally { await db.close(); }
 });
+
+test('every finaliser pass reports episode checks, or a closed check session strands its episode', async () => {
+  const { readFileSync } = await import('node:fs');
+  const { fileURLToPath } = await import('node:url');
+  const root = fileURLToPath(new URL('../../', import.meta.url));
+  for (const rel of ['src/app/api/attempts/route.js', 'src/app/api/attempts/summary/route.js', 'src/app/api/internal/finalise-sessions/route.js']) {
+    const src = readFileSync(root + rel, 'utf8');
+    const calls = src.match(/finaliseExpiredSessions(ForUser)?\(/g) || [];
+    assert.ok(calls.length >= 1, `${rel} runs a finaliser pass`);
+    assert.match(src, /onEpisodeCheck/, `${rel} passes onEpisodeCheck`);
+  }
+});
