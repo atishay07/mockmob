@@ -1,5 +1,6 @@
 import '../../../core/domain/domain.dart';
 import '../../../core/models/models.dart';
+import '../../../core/platform/review_prompt.dart' show ReviewMoment;
 import '../../../core/widgets/bubbles/bubble_painter.dart' show BubbleState;
 import 'recap_variant.dart';
 import 'subject_names.dart';
@@ -103,6 +104,24 @@ class RecapModel {
   int get wrong => breakdown.wrong;
   int get unattempted => breakdown.unattempted;
   bool get isHeld => variant == RecapVariant.held;
+
+  /// An NTA mode result: no reminder row and no store review ask here.
+  bool get isNta => mode == 'nta';
+
+  /// The store review moment this result is, or null when it is not one. Only a full mock that
+  /// improved on the one before it, or held steady against it (the server's `higher` and
+  /// `neutral` tones, with that mock on record), is a good moment. Never NTA mode or a quick
+  /// practice, a first mock (nothing to compare), a lower result, or one with answer keys on
+  /// hold or missing: the figure is not final or not whole there. (`held` here is a steady
+  /// result; [isHeld] is the keys on hold.)
+  ReviewMoment? get reviewMoment {
+    if (mode != 'full' || keysUnavailable) return null;
+    return switch (variant) {
+      RecapVariant.higher => ReviewMoment.resultImproved,
+      RecapVariant.standard when previous != null => ReviewMoment.resultHeld,
+      _ => null,
+    };
+  }
 
   /// Default repair size: the 10-minute chip when it exists, else all candidates.
   /// The repair this result asks for, the same pick Today and Review make: the chapter with the

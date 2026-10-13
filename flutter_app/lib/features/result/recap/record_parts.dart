@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import '../../../core/domain/domain.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+// The sheet's own wording, so the row rotates with the same ask count. The notifications module
+// does not export it yet: it is one pure file (copy and an index), no providers.
+import '../../notifications/logic/pre_prompt_variants.dart' show prePromptVariantFor, prePromptVariantIndex;
 import '../copy.dart';
 import '../model/recap_model.dart';
 
@@ -176,10 +179,18 @@ class _Row extends StatelessWidget {
   }
 }
 
-/// First result only, inline (never a system dialog first): the reminder offer.
-class ReminderRow extends StatelessWidget {
-  const ReminderRow({super.key, required this.onSet, required this.onNotNow});
+/// The row's wording after [asks] earlier asks. The first wording is the result's own line; the
+/// others are the sheet's own lines for the same ask count (`prePromptVariantFor`), so the row
+/// and the sheet ask the same way each time and never repeat themselves.
+String reminderRowLine(int asks) => prePromptVariantIndex(asks) == 0 ? ResultCopy.reminderAsk : prePromptVariantFor(asks).line;
 
+/// Inline (never a system dialog first): the reminder offer, when the notifications policy says
+/// it is due.
+class ReminderRow extends StatelessWidget {
+  const ReminderRow({super.key, required this.text, required this.onSet, required this.onNotNow});
+
+  /// What it asks, from [reminderRowLine].
+  final String text;
   final VoidCallback onSet;
   final VoidCallback onNotNow;
 
@@ -194,7 +205,7 @@ class ReminderRow extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(right: MmSpace.s8),
-              child: Text(ResultCopy.reminderAsk, style: type.body),
+              child: Text(text, style: type.body),
             ),
             Row(
               children: [

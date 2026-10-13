@@ -104,6 +104,20 @@ abstract final class InsightsCopy {
   static const offlineMessage = 'Your record loads when you are back online.';
   static const retry = 'Try again';
 
+  // ---- Concept checks and playbook (Progress, `GET /api/recovery`) --------------------------
+  static const checksHeading = 'Concept checks';
+  static const checksCaption = 'Fresh, delayed questions only.';
+  static String checkCount(int n) => n == 1 ? '1 delayed check' : '$n delayed checks';
+  static const checksEmpty = 'No completed recovery checks yet. Ordinary practice is ready.';
+  static const playbookHeading = 'Your playbook';
+  static const playbookCaption = 'Strategies you saved from results.';
+  static const playbookEmpty = 'Nothing here yet. A strategy and reason saved from a result on the website shows up here.';
+  static const playbookUnavailable = 'The playbook could not be read just now. Your sessions are not affected.';
+  static const playbookNoReflection = 'No reason written.';
+  static const playbookEvidence = 'More evidence needed';
+  static const recoveryFailed = 'Your checks and playbook did not load.';
+  static const recoveryOffline = 'You are offline. Checks and playbook show here once they have loaded.';
+
   // ---- Entry points ------------------------------------------------------------------------
   static const insightsEntryTitle = 'Where your marks go';
   static String insightsEntryNote(int net, int sessions) => '$net net marks over ${_n(sessions, 'session')}';

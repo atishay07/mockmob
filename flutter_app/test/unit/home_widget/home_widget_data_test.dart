@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/domain/cuet_dates.dart';
 import 'package:mockmob/core/domain/next_move.dart';
 import 'package:mockmob/core/home_widget/home_widget_data.dart';
 import 'package:mockmob/core/home_widget/home_widget_sync.dart';
@@ -67,8 +69,9 @@ void main() {
       expect(m.overline, 'Next move');
       expect(m.title, 'Repair 4 mistakes from Mock 7');
       expect(m.action, 'Start repair');
-      expect(m.href, 'https://www.mockmob.in/review/repair/m7/m7-q3');
-      expect(_native(m.href), AppRoutes.reviewRepair('m7', 'm7-q3'));
+      // The count the student's chosen length holds travels with the tap.
+      expect(m.href, 'https://www.mockmob.in/review/repair/m7/m7-q3?count=4');
+      expect(_native(m.href), '${AppRoutes.reviewRepair('m7', 'm7-q3')}?count=4');
       expect(m.until, isNull);
     });
 
@@ -84,6 +87,20 @@ void main() {
       final location = Uri.parse(_native(href)!);
       expect(location.path, AppRoutes.practiceSetup('chapter'));
       expect(location.queryParameters, {'subject': 'accountancy', 'chapter': 'Partnership fundamentals', 'count': '10'});
+    });
+
+    test('a first-use practice keeps its baseline purpose, and a repair keeps its count', () {
+      final practice = widgetHref(GoTo(Uri(path: AppRoutes.practiceStart, queryParameters: {
+        'mode': 'quick',
+        'subject': 'accountancy',
+        'count': '10',
+        'purpose': 'baseline',
+      }).toString()));
+      expect(_native(practice), '${AppRoutes.practiceSetup('quick')}?subject=accountancy&count=10&purpose=baseline');
+
+      final repair = widgetHref(const GoTo('/review/repair/m7/m7-q3?count=3&minutes=10&x=1'));
+      expect(repair, 'https://www.mockmob.in/review/repair/m7/m7-q3?count=3');
+      expect(_native(repair), '/review/repair/m7/m7-q3?count=3');
     });
 
     test('a quick practice with no mode is quick', () {
@@ -204,7 +221,7 @@ void main() {
           'overline': 'Next move',
           'title': 'Repair 4 mistakes from Mock 7',
           'action': 'Start repair',
-          'href': 'https://www.mockmob.in/review/repair/m7/m7-q3',
+          'href': 'https://www.mockmob.in/review/repair/m7/m7-q3?count=4',
         },
         'week': {'done': 2, 'goal': 4, 'state': 'open', 'label': 'study days', 'start': '2026-10-12'},
         'updated': {
@@ -215,6 +232,14 @@ void main() {
           'older': 'Updated 13 Oct',
         },
       });
+    });
+
+    test('the Kotlin widget falls back to the same CUET window as cuet_dates.dart', () {
+      final kotlin = File('android/app/src/main/kotlin/in/mockmob/app/platform/TodayWidgetProvider.kt').readAsStringSync();
+      String constant(String name) =>
+          RegExp('const val $name = "' r'(\d{4}-\d{2}-\d{2})' '"').firstMatch(kotlin)!.group(1)!;
+      expect(constant('CUET_START'), isoDate(CuetDates.windowStart));
+      expect(constant('CUET_END'), isoDate(CuetDates.windowEnd));
     });
 
     test('rhythm turned off: no ring', () {

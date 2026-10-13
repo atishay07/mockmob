@@ -3,8 +3,11 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/models/models.dart';
+import 'package:mockmob/core/platform/review_prompt.dart' show ReviewMoment;
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
+import 'package:mockmob/features/notifications/copy.dart' show NotificationsCopy;
+import 'package:mockmob/features/result/copy.dart' show ResultCopy;
 import 'package:mockmob/features/result/data/result_providers.dart';
 import 'package:mockmob/features/result/model/recap_model.dart';
 import 'package:mockmob/features/result/recap/record_card.dart';
@@ -344,7 +347,7 @@ void main() {
       final log = ResultLog();
       await pumpMockmob(
         tester,
-        RecordCard(model: m, firstResult: true, onBack: () {}, onFinish: () {}, onRetryKeys: () {}),
+        RecordCard(model: m, onBack: () {}, onFinish: () {}, onRetryKeys: () {}),
         brightness: Brightness.dark,
         size: const Size(384, 853),
         disableAnimations: true,
@@ -359,12 +362,140 @@ void main() {
       expect(find.text('Not now'), findsNothing);
     });
 
+    Future<void> pumpRecordCard(WidgetTester tester, RecapModel m, {bool due = true, int asks = 0}) async {
+      await pumpMockmob(
+        tester,
+        RecordCard(model: m, onBack: () {}, onFinish: () {}, onRetryKeys: () {}),
+        brightness: Brightness.dark,
+        size: const Size(384, 853),
+        disableAnimations: true,
+        wrapInScaffold: false,
+        overrides: resultOverrides(attemptId: m.attemptId, data: _data(m), reminderDue: due, reminderAsks: asks, log: ResultLog()),
+      );
+      await tester.pump(const Duration(milliseconds: 300));
+    }
+
+    testWidgets('the reminder row is not only for the first result: a later mock shows it when the policy says due', (tester) async {
+      final m = mock7();
+      expect(m.ordinal, 7);
+      await pumpRecordCard(tester, m);
+      expect(find.text('Set a reminder'), findsOneWidget);
+      expect(find.text(ResultCopy.reminderAsk), findsOneWidget);
+    });
+
+    testWidgets('no reminder row when the policy says it is not due (reminders on, or asked too recently)', (tester) async {
+      await pumpRecordCard(tester, mock7(), due: false);
+      expect(find.text('Set a reminder'), findsNothing);
+    });
+
+    testWidgets('an NTA mode result never shows the reminder row', (tester) async {
+      final d = detail(attemptBody: attemptJson(mode: 'nta'));
+      final m = mock7(withDetail: d);
+      expect(m.isNta, isTrue);
+      await pumpRecordCard(tester, m, due: true);
+      expect(find.text('Set a reminder'), findsNothing);
+      expect(find.text(ResultCopy.reminderAsk), findsNothing);
+    });
+
+    testWidgets('after two asks the row says what the sheet says on its third', (tester) async {
+      await pumpRecordCard(tester, mock7(), asks: 2);
+      expect(find.text(NotificationsCopy.promptRepairLine), findsOneWidget);
+      expect(find.text(ResultCopy.reminderAsk), findsNothing);
+    });
+
     testWidgets('a question tile opens that answer in the full result', (tester) async {
       final router = await pump(tester, '/result/a7/recap/3');
       await _run(tester, 1000);
       await tester.tap(find.bySemanticsLabel(RegExp('Question 23, wrong')));
       await tester.pumpAndSettle();
       expect(_at(router), '/result/a7?q=23');
+    });
+  });
+
+  group('the store review ask', () {
+    final higher = detail(recap: {
+      'tone': 'higher',
+      'previousComparable': {'marks': 90, 'max': 250, 'attemptId': 'p5'},
+    });
+    final steady = detail(recap: {
+      'tone': 'neutral',
+      'previousComparable': {'marks': 112, 'max': 250, 'attemptId': 'p5'},
+    });
+
+    /// Opens the sealed sheet, which is when the result is on screen.
+    Future<GoRouter> openSheet(WidgetTester tester, RecapModel m, AttemptDetail d) async {
+      final router = await pump(tester, '/result/a7/sealed', model: m, d: d);
+      await tester.tap(find.text('Open your result'));
+      await _run(tester, 700);
+      expect(actions.opened, ['a7']);
+      return router;
+    }
+
+    testWidgets('an improved full mock asks 4 s after it opens, once', (tester) async {
+      await openSheet(tester, mock7(withDetail: higher), higher);
+      await _run(tester, 3000);
+      expect(actions.reviewAsks, isEmpty, reason: 'not before the 4 s have passed');
+      await _run(tester, 1500);
+      expect(actions.reviewAsks, [(ReviewMoment.resultImproved, false)]);
+      await _run(tester, 6000);
+      expect(actions.reviewAsks, hasLength(1));
+    });
+
+    testWidgets('a full mock that held steady against the one before asks too', (tester) async {
+      await openSheet(tester, mock7(withDetail: steady), steady);
+      await _run(tester, 5000);
+      expect(actions.reviewAsks, [(ReviewMoment.resultHeld, false)]);
+    });
+
+    testWidgets('leaving the recap first cancels the ask', (tester) async {
+      final router = await openSheet(tester, mock7(withDetail: higher), higher);
+      await _run(tester, 2000);
+      router.go('/today');
+      await tester.pumpAndSettle(const Duration(milliseconds: 100));
+      await _run(tester, 8000);
+      expect(actions.reviewAsks, isEmpty);
+    });
+
+    testWidgets('a lower result never asks', (tester) async {
+      final d = detail(recap: {
+        'tone': 'lower',
+        'previousComparable': {'marks': 140, 'max': 250, 'attemptId': 'p5'},
+      });
+      await openSheet(tester, mock7(withDetail: d), d);
+      await _run(tester, 8000);
+      expect(actions.reviewAsks, isEmpty);
+    });
+
+    testWidgets('a first mock, with nothing to compare, never asks', (tester) async {
+      final d = detail(recap: {'tone': 'higher'});
+      await openSheet(tester, mock7(withDetail: d, attempts: [d.attempt]), d);
+      await _run(tester, 8000);
+      expect(actions.reviewAsks, isEmpty);
+    });
+
+    testWidgets('a result with answer keys on hold never asks', (tester) async {
+      final d = detail(
+        reviews: {
+          'q1': {'state': 'under_review'},
+        },
+        recap: {'tone': 'higher'},
+      );
+      await openSheet(tester, mock7(withDetail: d), d);
+      await _run(tester, 8000);
+      expect(actions.reviewAsks, isEmpty);
+    });
+
+    testWidgets('an NTA mode result never asks, even when it improved', (tester) async {
+      final d = detail(
+        attemptBody: attemptJson(mode: 'nta'),
+        recap: {
+          'tone': 'higher',
+          'previousComparable': {'marks': 90, 'max': 250, 'attemptId': 'p5'},
+        },
+      );
+      await openSheet(tester, mock7(withDetail: d), d);
+      await _run(tester, 8000);
+      expect(actions.reviewAsks, isEmpty);
     });
   });
 }

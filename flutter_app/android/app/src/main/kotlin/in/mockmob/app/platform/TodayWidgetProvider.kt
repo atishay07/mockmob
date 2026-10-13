@@ -233,8 +233,12 @@ private class WidgetModel(
         private const val DEFAULT_ZONE = "Asia/Kolkata"
 
         /**
-         * The CUET window when the app has never written (lib/core/domain/cuet_dates.dart holds
-         * the dates; every write carries them).
+         * The CUET window the countdown uses when the app has never written. The source of truth
+         * is CuetDates.windowStart and CuetDates.windowEnd in lib/core/domain/cuet_dates.dart (the
+         * expected exam window, 1 to 31 May 2027); every write from the app carries those dates
+         * in the "cuet" block, so these two only cover a widget added before the first write.
+         * Change them with the Dart file: test/unit/home_widget/home_widget_data_test.dart
+         * checks that the Dart side still sends the same two dates.
          */
         private const val CUET_START = "2027-05-01"
         private const val CUET_END = "2027-05-31"

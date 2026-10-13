@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/analytics/analytics.dart';
 import '../../../core/api/api.dart';
 import '../../../core/motion/motion.dart';
+import '../../../core/platform/review_prompt.dart';
 import '../../../core/repositories/repositories.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
@@ -36,6 +37,10 @@ class RecapFlow extends ConsumerStatefulWidget {
 
   static const int cardCount = 4;
 
+  /// How long after the sheet opens a good result waits before the store review ask: the figure
+  /// has landed and been read by then.
+  static const Duration reviewAskDelay = Duration(seconds: 4);
+
   @override
   ConsumerState<RecapFlow> createState() => _RecapFlowState();
 }
@@ -50,6 +55,7 @@ class _RecapFlowState extends ConsumerState<RecapFlow> {
   late bool _visitedOtherCard = widget.initialCard > 1;
   bool _hintShown = false;
   Timer? _leave;
+  Timer? _reviewAsk;
 
   RecapModel get m => widget.model;
   ResultActions get _actions => ref.read(resultActionsProvider);
@@ -86,6 +92,7 @@ class _RecapFlowState extends ConsumerState<RecapFlow> {
   @override
   void dispose() {
     _leave?.cancel();
+    _reviewAsk?.cancel();
     super.dispose();
   }
 
@@ -94,6 +101,19 @@ class _RecapFlowState extends ConsumerState<RecapFlow> {
     _actions.markOpened(m.attemptId, mode: m.mode, variant: m.variant.wire);
     _actions.track(AnalyticsEvents.recapOpened, {'variant': m.variant.wire, 'screen': 'card_1'});
     _actions.saveProgress(m.attemptId, 1);
+    _scheduleReviewAsk();
+  }
+
+  /// A full mock that held steady or improved is a good moment for the store review ask, once
+  /// the result has settled. Leaving the recap first cancels it. The prompt itself decides
+  /// whether it is allowed (3 days in, once in 60 days, never in NTA mode).
+  void _scheduleReviewAsk() {
+    final moment = m.reviewMoment;
+    if (moment == null) return;
+    _reviewAsk?.cancel();
+    _reviewAsk = Timer(RecapFlow.reviewAskDelay, () {
+      if (mounted) unawaited(ref.read(reviewPromptProvider).maybeAsk(moment, ntaMode: m.isNta));
+    });
   }
 
   void _go(int card) {
@@ -159,7 +179,6 @@ class _RecapFlowState extends ConsumerState<RecapFlow> {
           onBack: _back,
           onFinish: _finish,
           onRetryKeys: () => ref.read(attemptDetailProvider(m.attemptId).notifier).refresh(force: true),
-          firstResult: widget.ritual.firstEver && widget.entry != SheetEntry.open,
           showSkipHint: _showSkipHint,
         );
     }

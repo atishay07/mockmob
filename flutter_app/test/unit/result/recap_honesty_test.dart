@@ -7,7 +7,8 @@ import 'package:mockmob/core/permissions/permission_requester.dart';
 import 'package:mockmob/core/repositories/repositories.dart';
 import 'package:mockmob/core/storage/app_prefs.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
-import 'package:mockmob/features/notifications/services/notification_providers.dart' show prePromptDueProvider;
+import 'package:mockmob/features/notifications/logic/pre_prompt_policy.dart' show PrePromptMoment;
+import 'package:mockmob/features/notifications/services/notification_providers.dart' show prePromptDueAtProvider;
 import 'package:mockmob/features/result/copy.dart';
 import 'package:mockmob/features/result/data/result_providers.dart';
 import 'package:mockmob/features/result/model/recap_model.dart';
@@ -187,14 +188,14 @@ void main() {
 
     tearDown(() => c.dispose());
 
-    Future<bool> offered() async {
-      c.invalidate(prePromptDueProvider); // a later visit: the providers are built afresh
+    Future<bool> offered([PrePromptMoment moment = PrePromptMoment.afterResult]) async {
+      c.invalidate(prePromptDueAtProvider); // a later visit: the providers are built afresh
       c.invalidate(reminderOfferProvider);
-      return c.read(reminderOfferProvider.future);
+      return c.read(reminderOfferProvider(moment).future);
     }
 
     test('Not now from the recap counts like the sheet: the time, the count, then the sheet cadence (2 days, then 4)', () async {
-      expect(await c.read(reminderOfferProvider.future), isTrue);
+      expect(await offered(), isTrue);
 
       await c.read(resultActionsProvider).declineReminder();
       expect((await prefs.lastPrePromptAt())!.isAtSameMomentAs(rig.now), isTrue);
@@ -227,7 +228,22 @@ void main() {
 
     test('a student Android no longer asks is still offered the row: its key opens Android settings', () async {
       permission.current = NotificationPermission.denied;
-      expect(await c.read(reminderOfferProvider.future), isTrue);
+      expect(await offered(), isTrue);
+    });
+
+    test('the row is not only for the first result: it comes back after refusals, on any later result', () async {
+      await c.read(resultActionsProvider).declineReminder();
+      await c.read(resultActionsProvider).declineReminder();
+      permission.current = NotificationPermission.denied;
+      rig.now = rig.now.add(const Duration(days: 30));
+      expect(await offered(), isTrue, reason: 'two refusals and a month later');
+    });
+
+    test('NTA mode, a running session and the app just opening never get the row', () async {
+      expect(await offered(PrePromptMoment.afterResult), isTrue, reason: 'the same student, on a normal result');
+      expect(await offered(PrePromptMoment.ntaMode), isFalse);
+      expect(await offered(PrePromptMoment.inSession), isFalse);
+      expect(await offered(PrePromptMoment.appOpen), isFalse);
     });
   });
 }

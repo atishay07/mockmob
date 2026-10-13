@@ -224,11 +224,11 @@ WidgetWeek? widgetWeekFor(WeekView week) {
 
 /// The https link a widget tap sends, built so `ActionRouter` opens it as a native screen.
 ///
-/// App Links run through ActionRouter, which keeps the query only for the website's own
-/// paths, so a practice start becomes the website's `/test?mode=` link: it opens practice
-/// setup with the subject, chapter and count already chosen, one tap from starting. Native
-/// paths are sent without their query, which ActionRouter would drop anyway. Anything else,
-/// and the taps that only make sense inside Today (try again, alternatives), open Today.
+/// App Links run through ActionRouter, so a practice start becomes the website's `/test?mode=`
+/// link: it opens practice setup with the subject, chapter, count and first-use `purpose`
+/// already chosen, one tap from starting. Native paths keep the query their screen reads and
+/// ActionRouter checks (a repair's `count`), and nothing else. Anything else, and the taps
+/// that only make sense inside Today (try again, alternatives), open Today.
 String widgetHref(TodayTarget target) {
   const today = '$_site${AppRoutes.today}';
   if (target is! GoTo) return today;
@@ -243,6 +243,7 @@ String widgetHref(TodayTarget target) {
       'subject': ?q['subject'],
       'chapter': ?q['chapter'],
       'count': ?q['count'],
+      'purpose': ?q['purpose'],
     };
     return '$_site${Uri(path: '/test', queryParameters: params)}';
   }
@@ -253,7 +254,10 @@ String widgetHref(TodayTarget target) {
   } else if (path.startsWith('/practice/setup/') && uri.pathSegments.length == 3) {
     href = practice(uri.pathSegments[2]);
   } else if (AppRoutes.isNativePath(path) && !AppRoutes.isAuthPath(path) && path != AppRoutes.dashboard) {
-    href = '$_site$path';
+    // The query ActionRouter keeps for this route (the repair's count), so the tap opens the
+    // run the student chose, not every mistake in the chapter.
+    final kept = ActionRouter.resolve('$_site$path${uri.hasQuery ? '?${uri.query}' : ''}');
+    href = '$_site${kept is NativeTarget && kept.location.startsWith(path) ? kept.location : path}';
   } else {
     return today;
   }

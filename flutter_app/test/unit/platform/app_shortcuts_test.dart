@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/platform/app_shortcuts.dart';
@@ -45,6 +47,11 @@ void main() {
         ActionRouter.forShortcut(AppShortcutType.repair, repairLocation: AppRoutes.reviewRepair('m7', 'm7-q0')),
         NativeTarget(AppRoutes.reviewRepair('m7', 'm7-q0')),
       );
+      // The count tonight's repair was sized to travels with it.
+      expect(
+        ActionRouter.forShortcut(AppShortcutType.repair, repairLocation: '${AppRoutes.reviewRepair('m7', 'm7-q0')}?count=3'),
+        NativeTarget('${AppRoutes.reviewRepair('m7', 'm7-q0')}?count=3'),
+      );
       expect(ActionRouter.forShortcut(AppShortcutType.repair), const NativeTarget(AppRoutes.review));
       // A location that is not a repair never wins over Review.
       expect(ActionRouter.forShortcut(AppShortcutType.repair, repairLocation: '/pricing'), const NativeTarget(AppRoutes.review));
@@ -75,6 +82,31 @@ void main() {
       for (final t in titles) {
         expect(t, isNot(contains('!')));
         expect(t.length, lessThanOrEqualTo(25));
+      }
+    });
+  });
+
+  group('shortcut icons', () {
+    final res = Directory('android/app/src/main/res');
+
+    test('every shortcut names an icon, and each icon is a drawable that resource shrinking keeps', () {
+      final items = shortcutItems(hasResume: true);
+      expect([for (final i in items) i.icon], ['ic_shortcut_resume', 'ic_shortcut_repair', 'ic_shortcut_practice']);
+      final keep = File('${res.path}/raw/keep.xml').readAsStringSync();
+      for (final i in items) {
+        final file = File('${res.path}/drawable/${i.icon}.xml');
+        expect(file.existsSync(), isTrue, reason: '${i.icon} drawable');
+        expect(keep, contains('@drawable/${i.icon}'), reason: '${i.icon} keep rule');
+      }
+    });
+
+    test('the icons are monochrome ink on a light circle, with no other colour', () {
+      for (final name in ['resume', 'repair', 'practice']) {
+        final xml = File('${res.path}/drawable/ic_shortcut_$name.xml').readAsStringSync();
+        final colours = RegExp(r'#[0-9A-Fa-f]{6,8}').allMatches(xml).map((m) => m.group(0)!.toUpperCase()).toSet();
+        expect(colours, {'#F3EFE4', '#12110E'}, reason: name);
+        expect(xml, contains('android:viewportWidth="48"'), reason: name);
+        expect(xml, contains('android:strokeLineCap="round"'), reason: name);
       }
     });
   });

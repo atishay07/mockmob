@@ -29,12 +29,21 @@ class QuickActionsSurface implements ShortcutSurface {
 
 final shortcutSurfaceProvider = Provider<ShortcutSurface>((ref) => const QuickActionsSurface());
 
+/// The launcher icons, by drawable name: android/app/src/main/res/drawable/ic_shortcut_*.xml.
+/// The quick_actions plugin looks them up by name, so res/raw/keep.xml keeps them from resource
+/// shrinking.
+abstract final class ShortcutIcons {
+  static const String resume = 'ic_shortcut_resume';
+  static const String repair = 'ic_shortcut_repair';
+  static const String practice = 'ic_shortcut_practice';
+}
+
 /// The shortcuts for the current state: Resume only while a session can be resumed, then the
 /// 10-minute repair and Practice 10. The launcher shows the first ones that fit.
 List<ShortcutItem> shortcutItems({required bool hasResume}) => [
-      if (hasResume) const ShortcutItem(type: AppShortcutType.resume, localizedTitle: 'Resume'),
-      const ShortcutItem(type: AppShortcutType.repair, localizedTitle: '10-min repair'),
-      const ShortcutItem(type: AppShortcutType.practice, localizedTitle: 'Practice 10'),
+      if (hasResume) const ShortcutItem(type: AppShortcutType.resume, localizedTitle: 'Resume', icon: ShortcutIcons.resume),
+      const ShortcutItem(type: AppShortcutType.repair, localizedTitle: '10-min repair', icon: ShortcutIcons.repair),
+      const ShortcutItem(type: AppShortcutType.practice, localizedTitle: 'Practice 10', icon: ShortcutIcons.practice),
     ];
 
 /// What the dispatcher needs to know, read when it acts.

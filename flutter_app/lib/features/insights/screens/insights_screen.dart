@@ -13,18 +13,26 @@ import '../copy.dart';
 import '../data/evidence.dart';
 import '../data/insights_models.dart';
 import '../data/insights_repository.dart';
+import '../data/recovery_record.dart';
 import '../data/subject_names.dart';
 import '../data/trend.dart';
 import '../insights_paths.dart';
 import '../widgets/insights_bits.dart';
 import '../widgets/ledger_hero.dart';
+import '../widgets/recovery_sections.dart';
 import '../widgets/record_sections.dart';
 import '../widgets/trend_chart.dart';
 
 /// What the record page reads, in one place so tests and goldens can replace it whole.
 class InsightsInputs {
-  InsightsInputs({required this.insights, List<Attempt>? attempts, RemoteState<List<Attempt>>? attemptsState, this.pro = false})
-      : attemptsState = attemptsState ?? RemoteState(value: attempts);
+  InsightsInputs({
+    required this.insights,
+    List<Attempt>? attempts,
+    RemoteState<List<Attempt>>? attemptsState,
+    RemoteState<RecoveryRecord>? recovery,
+    this.pro = false,
+  })  : attemptsState = attemptsState ?? RemoteState(value: attempts),
+        recovery = recovery ?? const RemoteState<RecoveryRecord>.idle();
 
   final RemoteState<PrepInsights> insights;
 
@@ -32,6 +40,10 @@ class InsightsInputs {
   /// failed, stale or ready.
   final RemoteState<List<Attempt>> attemptsState;
   final bool pro;
+
+  /// Concept checks and the playbook (`GET /api/recovery`). Idle means not asked for: nothing
+  /// is drawn for it.
+  final RemoteState<RecoveryRecord> recovery;
 
   /// The attempts on the phone, or null until loaded.
   List<Attempt>? get attempts => attemptsState.value;
@@ -47,6 +59,7 @@ final insightsInputsProvider = Provider<InsightsInputs>(
   (ref) => InsightsInputs(
     insights: ref.watch(insightsRepositoryProvider),
     attemptsState: ref.watch(attemptsRepositoryProvider),
+    recovery: ref.watch(recoveryRecordRepositoryProvider),
     pro: ref.watch(insightsProProvider),
   ),
 );
@@ -63,6 +76,7 @@ class InsightsScreen extends ConsumerWidget {
     await Future.wait([
       ref.read(insightsRepositoryProvider.notifier).refresh(force: true),
       ref.read(attemptsRepositoryProvider.notifier).refresh(force: true),
+      ref.read(recoveryRecordRepositoryProvider.notifier).refresh(force: true),
     ]);
   }
 
@@ -103,8 +117,15 @@ class InsightsScreen extends ConsumerWidget {
         child: ListView(
           padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, pad.bottom + MmSpace.s48),
           children: [
-            if (state.isStale || inputs.attemptsState.isStale) ...[const InlineBanner.offlineStrip(), const SizedBox(height: MmSpace.s16)],
+            if (state.isStale || inputs.attemptsState.isStale || inputs.recovery.isStale) ...[const InlineBanner.offlineStrip(), const SizedBox(height: MmSpace.s16)],
             ..._sections(context, ref, value, inputs),
+            if (RecoverySections.shows(inputs.recovery)) ...[
+              const SizedBox(height: MmSpace.group + MmSpace.s8),
+              RecoverySections(
+                state: inputs.recovery,
+                onRetry: () => ref.read(recoveryRecordRepositoryProvider.notifier).refresh(force: true),
+              ),
+            ],
           ],
         ),
       );

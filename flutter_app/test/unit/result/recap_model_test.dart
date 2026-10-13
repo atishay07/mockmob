@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/models/models.dart';
+import 'package:mockmob/core/platform/review_prompt.dart' show ReviewMoment;
 import 'package:mockmob/core/widgets/bubbles/bubble_painter.dart';
 import 'package:mockmob/features/result/model/answer_items.dart';
 import 'package:mockmob/features/result/model/recap_model.dart';
@@ -108,6 +109,48 @@ void main() {
       final m = mock7(withDetail: detail(state: 'unavailable'));
       expect(m.keysUnavailable, isTrue);
       expect(m.variant, RecapVariant.standard);
+    });
+  });
+
+  group('the store review moment', () {
+    const previous = {'marks': 100, 'max': 250, 'attemptId': 'p5'};
+
+    ReviewMoment? moment({String? tone, bool withPrevious = true, String mode = 'full', Map<String, Map<String, dynamic>> reviews = const {}, String state = 'ready', bool first = false}) {
+      final d = detail(
+        attemptBody: attemptJson(mode: mode),
+        reviews: reviews,
+        state: state,
+        recap: {'tone': ?tone, if (withPrevious) 'previousComparable': previous},
+      );
+      return mock7(withDetail: d, attempts: first ? [d.attempt] : null).reviewMoment;
+    }
+
+    test('an improved full mock is a moment, and so is one that held steady against the last', () {
+      expect(moment(tone: 'higher'), ReviewMoment.resultImproved);
+      expect(moment(tone: 'neutral'), ReviewMoment.resultHeld);
+      expect(moment(tone: 'neutral', withPrevious: false), isNull, reason: 'nothing to hold steady against');
+    });
+
+    test('a lower result, a first mock and a result with no tone are not', () {
+      expect(moment(tone: 'lower'), isNull);
+      expect(moment(tone: 'higher', first: true), isNull);
+      expect(moment(withPrevious: false), isNull);
+    });
+
+    test('NTA mode and quick practice never are', () {
+      expect(moment(tone: 'higher', mode: 'nta'), isNull);
+      expect(moment(tone: 'neutral', mode: 'nta'), isNull);
+      expect(mock7(withDetail: detail(attemptBody: attemptJson(mode: 'nta'))).isNta, isTrue);
+      expect(moment(tone: 'higher', mode: 'quick'), isNull);
+    });
+
+    test('a figure that is not final or not whole never is', () {
+      expect(
+        moment(tone: 'higher', reviews: {'q1': {'state': 'under_review'}}),
+        isNull,
+        reason: 'answer keys on hold',
+      );
+      expect(moment(tone: 'higher', state: 'unavailable'), isNull, reason: 'keys unavailable');
     });
   });
 

@@ -142,6 +142,86 @@ void main() {
     expect(AppRoutes.isNativePath('/pricing'), isFalse);
   });
 
+  group('native routes keep the query their screen reads, and nothing else', () {
+    test('a repair keeps its count (the widget tap and the shortcut)', () {
+      expect(_go('/review/repair/m7/m7-q3?count=4'), const NativeTarget('/review/repair/m7/m7-q3?count=4'));
+      expect(_go('https://www.mockmob.in/review/repair/m7/m7-q3?count=3'), const NativeTarget('/review/repair/m7/m7-q3?count=3'));
+      // The repair builder reads `count` only; `minutes` and anything else is dropped.
+      expect(_go('/review/repair/m7/m7-q3?count=4&minutes=15&x=1'), const NativeTarget('/review/repair/m7/m7-q3?count=4'));
+      // A count that is not a whole number from 1 to 999 means no count, never a refusal.
+      for (final bad in ['0', '-2', 'abc', '1000', '4.5']) {
+        expect(_go('/review/repair/m7/m7-q3?count=$bad'), const NativeTarget('/review/repair/m7/m7-q3'), reason: bad);
+      }
+      expect(_go('/review/repair/m7/ending?count=4'), const NativeTarget('/review/repair/m7/ending'));
+    });
+
+    test('a practice link keeps its purpose, but only the two first-use values', () {
+      expect(
+        _go('/dashboard?mode=quick&subject=accountancy&count=10&purpose=baseline'),
+        const NativeTarget('/practice/setup/quick?subject=accountancy&count=10&purpose=baseline'),
+      );
+      expect(
+        _go('/test?mode=full&purpose=full_sample'),
+        const NativeTarget('/practice/setup/full?purpose=full_sample'),
+      );
+      expect(_go('/test?mode=quick&purpose=free_credits'), const NativeTarget('/practice/setup/quick'));
+      expect(_go('/test?mode=quick&purpose=BASELINE'), const NativeTarget('/practice/setup/quick'));
+    });
+
+    test('a practice setup or start route keeps what the practice link reads', () {
+      expect(
+        _go('/practice/setup/quick?count=10&purpose=baseline&subject=economics&x=1'),
+        const NativeTarget('/practice/setup/quick?subject=economics&count=10&purpose=baseline'),
+      );
+      expect(
+        _go('/practice/start?mode=chapter&subject=accountancy&chapter=Partnership%20accounts&count=5&purpose=baseline'),
+        const NativeTarget('/practice/start?mode=chapter&subject=accountancy&chapter=Partnership+accounts&count=5&purpose=baseline'),
+      );
+      expect(_go('/practice/start'), const NativeTarget('/practice/start'));
+      expect(_go('/practice/start?mode=QUICK!'), const UnsupportedTarget());
+      // The exam-day layout still opens its instructions, never a running clock.
+      expect(_go('/practice/start?mode=nta&subject=economics'), const NativeTarget('/exam/nta?subject=economics'));
+    });
+
+    test('a fresh-questions check is carried for chapter practice only', () {
+      expect(
+        _go('/dashboard?mode=chapter&subject=accountancy&count=5&chapter=Staffing&recoveryFrom=att_42'),
+        const NativeTarget('/practice/setup/chapter?subject=accountancy&chapter=Staffing&count=5&recoveryFrom=att_42'),
+      );
+      expect(_go('/dashboard?mode=quick&recoveryFrom=att_42'), const NativeTarget('/practice/setup/quick'));
+      expect(_go('/dashboard?mode=chapter&recoveryFrom=a%2Fb'), const NativeTarget('/practice/setup/chapter'));
+    });
+
+    test('the result keeps the question it opens at, the stream keeps its filters', () {
+      expect(_go('/result/att_42?q=12'), const NativeTarget('/result/att_42?q=12'));
+      expect(_go('/result/att_42?q=abc&x=1'), const NativeTarget('/result/att_42'));
+      expect(_go('/practice/stream?subject=economics&difficulty=hard&x=1'), const NativeTarget('/practice/stream?subject=economics&difficulty=hard'));
+      expect(_go('/practice/stream?source=saved&start=q_9'), const NativeTarget('/practice/stream?source=saved&start=q_9'));
+      expect(_go('/practice/stream?source=elsewhere'), const NativeTarget('/practice/stream'));
+      expect(_go('/exam/nta?subject=economics&x=1'), const NativeTarget('/exam/nta?subject=economics'));
+      expect(_go('/exam/nta'), const NativeTarget('/exam/nta'));
+    });
+
+    test('screens that read no query get none', () {
+      expect(_go('/review/mistakes?count=4&purpose=baseline'), const NativeTarget('/review/mistakes'));
+      expect(_go('/you/notifications?x=1'), const NativeTarget('/you/notifications'));
+    });
+
+    test('unsafe and unknown hosts are still refused with a query', () {
+      for (final href in [
+        'https://evil.example/review/repair/m7/m7-q3?count=4',
+        'https://www.mockmob.in.evil.example/test?mode=quick&purpose=baseline',
+        'http://www.mockmob.in/review/repair/m7/m7-q3?count=4',
+        '//evil.example/review/repair/m7/m7-q3?count=4',
+        'javascript:alert(1)?count=4',
+      ]) {
+        expect(_go(href), const UnsupportedTarget(), reason: href);
+      }
+      expect(_go('/review/repair/m7/../x?count=4'), const UnsupportedTarget());
+      expect(_go('/pricing?mode=quick&purpose=baseline'), const UnsupportedTarget());
+    });
+  });
+
   group('website features with a native home (WEB-PARITY 2.3)', () {
     test('explore, saved, analytics and the mentor', () {
       expect(_go('/explore'), const NativeTarget('/practice/stream'));

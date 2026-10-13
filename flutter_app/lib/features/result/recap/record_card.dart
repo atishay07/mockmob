@@ -8,6 +8,7 @@ import '../../../core/domain/domain.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../notifications/notifications.dart' show PrePromptMoment;
 import '../copy.dart';
 import '../data/result_providers.dart';
 import '../../rhythm/rhythm.dart' show CelebrationScope, CelebrationSlot;
@@ -25,7 +26,6 @@ class RecordCard extends ConsumerStatefulWidget {
     required this.onBack,
     required this.onFinish,
     required this.onRetryKeys,
-    this.firstResult = false,
     this.showSkipHint = false,
   });
 
@@ -33,9 +33,6 @@ class RecordCard extends ConsumerStatefulWidget {
   final VoidCallback onBack;
   final VoidCallback onFinish;
   final VoidCallback onRetryKeys;
-
-  /// The student's first result on this phone: the reminder row may show once.
-  final bool firstResult;
 
   /// After the third reveal, once: "Prefer to skip the reveal?".
   final bool showSkipHint;
@@ -88,7 +85,12 @@ class _RecordCardState extends ConsumerState<RecordCard> {
     final options = repairDurationOptions(m.tonightCount);
     final hasRepair = m.candidates.isNotEmpty;
     final shortfall = hasRepair ? repairWalletShortfall(mistakes: _mistakes, balance: m.creditBalance) : null;
-    final askReminder = widget.firstResult && !_reminderDismissed && hasRepair && (ref.watch(reminderOfferProvider).value ?? false);
+    // The reminder row follows the notifications policy, not "first result only": it comes back
+    // after a Not now or a refusal when the spacing allows, never once reminders are on, and
+    // never on an NTA mode result.
+    final moment = m.isNta ? PrePromptMoment.ntaMode : PrePromptMoment.afterResult;
+    final askReminder = !_reminderDismissed && hasRepair && (ref.watch(reminderOfferProvider(moment)).value ?? false);
+    final asks = askReminder ? (ref.watch(reminderAskCountProvider).value ?? 0) : 0;
     final token = m.variant.allowsTokens ? m.firstMockTokenAt : null;
 
     return RecapCardPage(
@@ -145,6 +147,7 @@ class _RecordCardState extends ConsumerState<RecordCard> {
         if (askReminder) ...[
           const SizedBox(height: MmSpace.s20),
           ReminderRow(
+            text: reminderRowLine(asks),
             onSet: () => context.push(AppRoutes.permissionsNotifications),
             onNotNow: () {
               setState(() => _reminderDismissed = true);

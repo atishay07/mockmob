@@ -8,7 +8,8 @@ import '../../../core/models/models.dart';
 import '../../../core/repositories/repositories.dart';
 import '../../../core/storage/prefs_store.dart';
 import '../../../core/storage/storage.dart';
-import '../../notifications/notifications.dart' show prePromptDueProvider, reminderSchedulerProvider;
+import '../../notifications/notifications.dart'
+    show PrePromptMoment, prePromptDueAtProvider, prePromptDueProvider, reminderSchedulerProvider, reminderStateProvider;
 import '../../rhythm/rhythm.dart'
     show CelebrationEvent, CelebrationScope, celebrationControllerProvider, rhythmPrefsProvider, rhythmVisibleProvider;
 import '../model/recap_model.dart';
@@ -226,6 +227,7 @@ class ResultActions {
       await _ref.read(appPrefsProvider).setLastPrePromptAt(_ref.read(nowProvider)());
       await _ref.read(reminderSchedulerProvider).prePromptDismissed();
       _ref.invalidate(prePromptDueProvider);
+      _ref.invalidate(prePromptDueAtProvider);
     } on Object {
       // The row is already hidden for this visit; the rule simply counts one decline less.
     }
@@ -250,14 +252,26 @@ class ResultActions {
 
 final resultActionsProvider = Provider<ResultActions>(ResultActions.new);
 
-/// The first-result reminder row (spec 5.6.3) follows the same policy as the notifications
-/// module's sheet: [prePromptDueProvider] applies `shouldOfferPrePrompt` (reminders still off and
-/// the spacing since the last ask passed: 2, 4, 7, then every 10 days). One policy governs both
-/// entry points.
-final reminderOfferProvider = FutureProvider.autoDispose<bool>((ref) async {
+/// Whether the recap's reminder row shows at [moment] (spec 5.6.3). It follows the same policy as
+/// the notifications module's sheet: [prePromptDueAtProvider] applies `shouldOfferPrePrompt`. At
+/// [PrePromptMoment.afterResult] the row is due while reminders are still off and the spacing
+/// since the last ask has passed (2, 4, 7, then every 10 days), so it comes back after a Not now
+/// or a refusal and not only on the first result. An NTA mode result asks with
+/// [PrePromptMoment.ntaMode], which is never due. One policy governs both entry points.
+final reminderOfferProvider = FutureProvider.autoDispose.family<bool, PrePromptMoment>((ref, moment) async {
   try {
-    return await ref.watch(prePromptDueProvider.future);
+    return await ref.watch(prePromptDueAtProvider(moment).future);
   } on Object {
     return false;
+  }
+});
+
+/// How many times the reminder ask was already put to the student, the same count the sheet
+/// words itself by. 0 when it cannot be read.
+final reminderAskCountProvider = FutureProvider.autoDispose<int>((ref) async {
+  try {
+    return (await ref.watch(reminderStateProvider.future)).prePromptAskCount;
+  } on Object {
+    return 0;
   }
 });

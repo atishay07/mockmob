@@ -5,9 +5,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/api/api.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
+import 'package:mockmob/core/platform/native_prefs.dart';
+import 'package:mockmob/core/platform/review_prompt.dart';
 import 'package:mockmob/core/repositories/repositories.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/theme/theme.dart';
+import 'package:mockmob/features/notifications/notifications.dart' show prePromptDueAtProvider;
 import 'package:mockmob/features/result/data/result_providers.dart';
 import 'package:mockmob/features/result/result_routes.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
@@ -23,6 +26,32 @@ class ResultLog {
   final List<(String, Map<String, Object?>)> events = [];
   bool hintMarked = false;
   int reminderDeclined = 0;
+
+  /// Each store review ask the result screens made: the moment, and whether it was NTA mode.
+  final List<(ReviewMoment, bool)> reviewAsks = [];
+}
+
+/// The store review prompt, recording what was asked instead of showing anything.
+class FakeReviewPrompt extends ReviewPrompt {
+  FakeReviewPrompt(this.log) : super(prefs: NativePrefs(MemoryPrefsStore()), requester: const _NoReviewDialog(), now: DateTime.now);
+
+  final ResultLog log;
+
+  @override
+  Future<bool> maybeAsk(ReviewMoment moment, {bool ntaMode = false}) async {
+    log.reviewAsks.add((moment, ntaMode));
+    return true;
+  }
+}
+
+class _NoReviewDialog implements ReviewRequester {
+  const _NoReviewDialog();
+
+  @override
+  Future<bool> isAvailable() async => false;
+
+  @override
+  Future<void> request() async {}
 }
 
 /// Records what the screens asked for, without storage.
@@ -81,6 +110,7 @@ List<Override> resultOverrides({
   RecapRitual ritual = const RecapRitual(),
   int? progress,
   bool reminderDue = false,
+  int reminderAsks = 0,
   ResultLog? log,
   FakeHaptics? haptics,
   List<Override> extra = const [],
@@ -90,7 +120,10 @@ List<Override> resultOverrides({
   recapProgressProvider(attemptId).overrideWith((ref) async => progress),
   resultActionsProvider.overrideWith((ref) => FakeResultActions(ref, log)),
   hapticsProvider.overrideWithValue(Haptics(enabled: haptics != null, driver: haptics ?? FakeHaptics())),
-  reminderOfferProvider.overrideWith((ref) async => reminderDue),
+  // The real policy answers per moment: a result may ask, NTA mode never does.
+  prePromptDueAtProvider.overrideWith((ref, moment) async => reminderDue && moment.mayAsk),
+  reminderAskCountProvider.overrideWith((ref) async => reminderAsks),
+  reviewPromptProvider.overrideWithValue(FakeReviewPrompt(log ?? ResultLog())),
   repairLocalRecordsProvider.overrideWith((ref) => Stream.value(const [])),
   nowProvider.overrideWithValue(() => DateTime(2026, 10, 12, 22, 50)),
   studentTimezoneProvider.overrideWithValue('Asia/Kolkata'),

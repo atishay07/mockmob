@@ -88,6 +88,13 @@ abstract final class ActionRouter {
   static final RegExp _subject = RegExp(r'^[A-Za-z0-9_.-]{1,64}$');
   static final RegExp _count = RegExp(r'^\d{1,3}$');
 
+  /// A whole number from 1 to 999: a repair's `count`, a question number.
+  static final RegExp _positive = RegExp(r'^[1-9]\d{0,2}$');
+
+  /// The only `purpose` values a link may claim: the two first-use allowances
+  /// (`PracticeLink.allowedPurpose` applies the same rule when the screen reads them).
+  static const Set<String> _purposes = {'baseline', 'full_sample'};
+
   /// Where a launcher shortcut (long-press on the app icon) goes. It builds the same web hrefs
   /// the rest of the app resolves, so a shortcut can never open anything a link could not.
   /// [sessionId] is the open session for [AppShortcutType.resume] (none open: Practice) and
@@ -178,7 +185,7 @@ abstract final class ActionRouter {
       case 'study':
         if (s.length == 2) return _id.hasMatch(s[1]) ? AppRoutes.learnRun(s[1]) : _reject;
       case 'result':
-        if (s.length == 2) return _id.hasMatch(s[1]) ? AppRoutes.result(s[1]) : _reject;
+        if (s.length == 2) return _id.hasMatch(s[1]) ? _result(s[1], q) : _reject;
       case 'explore':
         if (s.length == 1) return _stream(q);
       case 'saved':
@@ -199,35 +206,73 @@ abstract final class ActionRouter {
         if (s.length == 1 && q['edit'] == 'true') return AppRoutes.youSubjects;
     }
 
-    // Hrefs that already name a native route (for example from a notification payload).
+    // Hrefs that already name a native route (for example from a notification payload or a
+    // widget tap), with the query that route's screen reads.
     if (AppRoutes.isNativePath(path) && path != AppRoutes.dashboard && !AppRoutes.isAuthPath(path)) {
-      return path;
+      return _nativeWithQuery(s, path, q);
     }
     return null;
   }
 
-  /// The question stream, keeping a well-formed subject, chapter and difficulty.
+  /// [path], a route of the app's own table, with only the query parameters its screen builder
+  /// reads, each checked. Any other parameter is dropped: a link can never pass the app
+  /// something no screen asks for. Keep this in step with the route builders:
+  ///  - `/review/repair/:attemptId/:questionId`: `count` (review_routes.dart)
+  ///  - `/result/:attemptId`: `q` (result_routes.dart), mapped in [_mapToNative]
+  ///  - `/practice/setup/:mode` and `/practice/start`: `mode` and what `PracticeLink.of` reads
+  ///  - `/practice/stream`: subject, chapter, difficulty, or `source=saved` with `start`
+  ///  - `/exam/nta`: `subject`
+  static String? _nativeWithQuery(List<String> s, String path, Map<String, String> q) {
+    if (s.length == 3 && s[0] == 'practice' && s[1] == 'setup') {
+      // A mode this table cannot read keeps the bare route, as it always did.
+      return _word.hasMatch(s[2]) ? _setup(s[2], q) : path;
+    }
+    if (path == AppRoutes.practiceStart) return _start(q);
+    if (path == AppRoutes.practiceStream) return _stream(q);
+    if (path == AppRoutes.examNta) {
+      final subject = q['subject'];
+      return _withParams(path, {if (subject != null && _subject.hasMatch(subject)) 'subject': subject});
+    }
+    if (s.length == 4 && s[0] == 'review' && s[1] == 'repair' && s[3] != 'ending') {
+      final count = q['count'];
+      return _withParams(path, {if (count != null && _positive.hasMatch(count)) 'count': count});
+    }
+    return path;
+  }
+
+  static String _withParams(String path, Map<String, dynamic> params) =>
+      params.isEmpty ? path : Uri(path: path, queryParameters: params).toString();
+
+  /// The full result, optionally opened at question `q`.
+  static String _result(String attemptId, Map<String, String> q) {
+    final number = q['q'];
+    return _withParams(AppRoutes.result(attemptId), {if (number != null && _positive.hasMatch(number)) 'q': number});
+  }
+
+  /// The question stream, keeping a well-formed subject, chapter and difficulty, or the saved
+  /// questions (`source=saved`) opened at one question (`start`).
   static String _stream(Map<String, String> q) {
     final params = <String, String>{};
+    if (q['source'] == 'saved') {
+      params['source'] = 'saved';
+      final start = q['start'];
+      if (start != null && _id.hasMatch(start)) params['start'] = start;
+      return _withParams(AppRoutes.practiceStream, params);
+    }
     final subject = q['subject'];
     if (subject != null && _subject.hasMatch(subject)) params['subject'] = subject;
     final chapter = q['chapter'];
     if (chapter != null && chapter.isNotEmpty && chapter.length <= 120) params['chapter'] = chapter;
     final difficulty = q['difficulty'];
     if (difficulty != null && _word.hasMatch(difficulty)) params['difficulty'] = difficulty;
-    return params.isEmpty ? AppRoutes.practiceStream : Uri(path: AppRoutes.practiceStream, queryParameters: params).toString();
+    return _withParams(AppRoutes.practiceStream, params);
   }
 
-  static String? _setup(String mode, Map<String, String> q) {
-    if (!_word.hasMatch(mode)) return _reject;
-    final subject = q['subject'];
-    // The exam-day screen (`mode=nta`) opens its own instructions page, where the clock has not
-    // started yet. On the website `mode=full&interface=nta` is an ordinary full mock (its
-    // `classicInterface` needs NTA mode itself), so that link stays a free full mock here too.
-    if (mode == 'nta' && subject != null && _subject.hasMatch(subject)) {
-      return Uri(path: AppRoutes.examNta, queryParameters: {'subject': subject}).toString();
-    }
+  /// What a practice link may ask for, each value checked: the parameters `PracticeLink.of`
+  /// reads (subject, chapter or chapters, count, difficulty, purpose, recoveryFrom).
+  static Map<String, dynamic> _practiceParams(String mode, Map<String, String> q) {
     final params = <String, dynamic>{};
+    final subject = q['subject'];
     if (subject != null && _subject.hasMatch(subject)) params['subject'] = subject;
     final chapter = q['chapter'];
     if (chapter != null && chapter.isNotEmpty && chapter.length <= 120) params['chapter'] = chapter;
@@ -242,7 +287,35 @@ abstract final class ActionRouter {
     if (count != null && _count.hasMatch(count)) params['count'] = count;
     final difficulty = q['difficulty'];
     if (difficulty != null && _word.hasMatch(difficulty)) params['difficulty'] = difficulty;
-    final path = AppRoutes.practiceSetup(mode);
-    return params.isEmpty ? path : Uri(path: path, queryParameters: params).toString();
+    final purpose = q['purpose'];
+    if (purpose != null && _purposes.contains(purpose)) params['purpose'] = purpose;
+    // A "5 fresh questions" check of an earlier attempt: chapter practice only.
+    final recoveryFrom = q['recoveryFrom'];
+    if (mode == 'chapter' && recoveryFrom != null && _id.hasMatch(recoveryFrom)) {
+      params['recoveryFrom'] = recoveryFrom;
+    }
+    return params;
+  }
+
+  static String? _setup(String mode, Map<String, String> q) {
+    if (!_word.hasMatch(mode)) return _reject;
+    final subject = q['subject'];
+    // The exam-day screen (`mode=nta`) opens its own instructions page, where the clock has not
+    // started yet. On the website `mode=full&interface=nta` is an ordinary full mock (its
+    // `classicInterface` needs NTA mode itself), so that link stays a free full mock here too.
+    if (mode == 'nta' && subject != null && _subject.hasMatch(subject)) {
+      return Uri(path: AppRoutes.examNta, queryParameters: {'subject': subject}).toString();
+    }
+    return _withParams(AppRoutes.practiceSetup(mode), _practiceParams(mode, q));
+  }
+
+  /// `/practice/start`: starts Quick, Smart or chapter practice at once. No `mode` means Quick.
+  static String? _start(Map<String, String> q) {
+    final mode = q['mode'];
+    if (mode == null) return _withParams(AppRoutes.practiceStart, _practiceParams('quick', q));
+    if (!_word.hasMatch(mode)) return _reject;
+    // The exam-day layout always opens its instructions first, never a running clock.
+    if (mode == 'nta') return _setup(mode, q);
+    return _withParams(AppRoutes.practiceStart, {'mode': mode, ..._practiceParams(mode, q)});
   }
 }
