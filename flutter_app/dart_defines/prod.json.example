@@ -1,0 +1,7 @@
+{
+  "API_BASE_URL": "https://www.mockmob.in",
+  "SUPABASE_URL": "https://YOUR-PRODUCTION-PROJECT-REF.supabase.co",
+  "SUPABASE_ANON_KEY": "PASTE-THE-PRODUCTION-ANON-KEY-HERE",
+  "GOOGLE_WEB_CLIENT_ID": "PASTE-THE-WEB-OAUTH-CLIENT-ID.apps.googleusercontent.com",
+  "FRESH_CHECKS_LIVE": "false"
+}
