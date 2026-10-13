@@ -75,7 +75,7 @@ export async function GET(request) {
   const buckets = { easy: easyRows, medium: mediumRows, hard: hardRows }
 
   const { result: merged, lastConsumed } = interleaveByQuota(buckets, DIFFICULTY_QUOTAS, limit)
-  const session = await auth().catch(() => null)
+  const session = await auth(request).catch(() => null)
   if (session?.user?.id && merged.length > 0) {
     const voteMap = await Database.getUserVotes(session.user.id, merged.map((row) => row.question_id))
     for (const row of merged) {

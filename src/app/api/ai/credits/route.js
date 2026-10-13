@@ -16,9 +16,9 @@ export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
 // One coherent, read-only wallet view. Reads the wallet exactly once and never writes.
-export async function GET() {
+export async function GET(request) {
   const headers = { 'Cache-Control': 'no-store' };
-  const session = await auth();
+  const session = await auth(request);
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401, headers });
   }

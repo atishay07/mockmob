@@ -144,6 +144,12 @@ export async function POST(request) {
     const persistent = await checkEmailLoginLimits(request, email);
     if (!persistent.allowed) return rateLimited(persistent.retryAfterSeconds);
 
+    // The isolated staging app (scripts/pipeline/tools/stagingLocalApp.mjs) cannot send email.
+    // It reports success without a code; scripts/dev/staging-otp.mjs prints one for test accounts.
+    if (process.env.MOCKMOB_STAGING_APP === '1' && process.env.NODE_ENV !== 'production') {
+      return NextResponse.json({ ok: true }, { status: 200 });
+    }
+
     if (!hasEmailProvider()) {
       console.error('[api/auth/email-login] RESEND_API_KEY is missing or invalid');
       return NextResponse.json({ ok: false, message: 'Login-code email is not configured yet.' }, { status: 500 });

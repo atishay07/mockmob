@@ -5,7 +5,10 @@ loadEnvFile('.env.staging');
 const target='https://onwkqxmjqjrhfbjjdydu.supabase.co';
 if(process.env.STAGING_SUPABASE_URL!==target) throw Error('wrong_staging_project');
 for(const key of ['STAGING_SUPABASE_ANON_KEY','STAGING_SUPABASE_SERVICE_ROLE_KEY']) if(!process.env[key]) throw Error('missing_'+key);
-const env={...process.env,MOCKMOB_STAGING_APP:'1',NEXT_PUBLIC_SUPABASE_URL:target,SUPABASE_URL:target,NEXT_PUBLIC_SUPABASE_ANON_KEY:process.env.STAGING_SUPABASE_ANON_KEY,SUPABASE_SERVICE_ROLE_KEY:process.env.STAGING_SUPABASE_SERVICE_ROLE_KEY};
+// STAGING_SUPABASE_RELAY (scripts/dev/supabase-usb-relay.mjs) sends server calls through the relay
+// when this PC's preferred network route cannot reach Supabase.
+const relay=/^http:\/\/127\.0\.0\.1:\d+$/.test(process.env.STAGING_SUPABASE_RELAY||'')?process.env.STAGING_SUPABASE_RELAY:target;
+const env={...process.env,MOCKMOB_STAGING_APP:'1',NEXT_PUBLIC_SUPABASE_URL:relay,SUPABASE_URL:relay,NEXT_PUBLIC_SUPABASE_ANON_KEY:process.env.STAGING_SUPABASE_ANON_KEY,SUPABASE_SERVICE_ROLE_KEY:process.env.STAGING_SUPABASE_SERVICE_ROLE_KEY};
 // This isolated app cannot send email or make paid student/payment provider calls.
 for(const key of Object.keys(env)) if(/^(OPENAI|GEMINI|ANTHROPIC|DEEPSEEK|RAZORPAY|RESEND|AI_GATEWAY).*KEY/.test(key)) env[key]='';
 const child=spawn(process.execPath,['--use-system-ca','node_modules/next/dist/bin/next','dev','--port','3101'],{env,stdio:['inherit','pipe','pipe']});

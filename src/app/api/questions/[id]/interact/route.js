@@ -38,7 +38,7 @@ export async function POST(request, { params }) {
 
   // ---- Auth: derive user_id from verified JWT ----
   let user_id
-  const session = await auth().catch(() => null)
+  const session = await auth(request).catch(() => null)
   if (session?.user?.id) {
     user_id = session.user.id
   } else {

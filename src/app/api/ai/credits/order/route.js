@@ -8,6 +8,7 @@ import { CAPABILITIES } from '@/../data/capabilities';
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
+// Cookie-only on purpose: the app does not sell in v1, so this payment route takes no bearer token.
 export async function POST(request) {
   try {
     const session = await auth();

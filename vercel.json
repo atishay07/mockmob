@@ -1,5 +1,12 @@
 {
   "crons": [
-    { "path": "/api/internal/refresh-inventory", "schedule": "30 21 * * *" }
+    {
+      "path": "/api/internal/finalise-sessions",
+      "schedule": "45 21 * * *"
+    },
+    {
+      "path": "/api/internal/refresh-inventory",
+      "schedule": "30 21 * * *"
+    }
   ]
 }

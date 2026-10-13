@@ -9,6 +9,7 @@ import { allowancePeriod } from '@/../data/learning_engine';
 import { allowanceKindFor, buildPracticeQuote } from '@/../data/practice_quote';
 import { resolveSubject } from '@/../data/subject_registry';
 import { publicOffer } from '@/lib/payments/offer';
+import { actionFromHref } from '@/lib/server/actionFields';
 import { TEST_MODES, resolveCount } from '@/../data/test_modes';
 
 export const dynamic = 'force-dynamic';
@@ -52,5 +53,6 @@ export async function GET(request) {
     user: { id: user.id, isPremium: user.isPremium === true, premiumUntil: user.premiumUntil, creditBalance: user.creditBalance },
     subject, mode: modeId, count: requested, purpose, inventory, allowance, token: randomUUID(),
   });
-  return Response.json({ ...quote, offer: publicOffer() }, { headers });
+  const upgrade = typeof quote.upgradeHref === 'string' ? { upgradeAction: actionFromHref(quote.upgradeHref) } : {};
+  return Response.json({ ...quote, ...upgrade, offer: publicOffer() }, { headers });
 }
