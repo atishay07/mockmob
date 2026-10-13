@@ -65,7 +65,6 @@ abstract final class InsightsCopy {
 
   static const changesHeading = 'Changed answers';
   static String changesLine(int count, int gains, int losses) => '${_n(count, 'change')}: $gains helped, $losses hurt';
-  static const changesNote = 'Changes are counted from device events in timed sessions.';
   static const changesNone = 'No changed answers in timed sessions yet.';
 
   static const paceHeading = 'Pace';
@@ -74,7 +73,7 @@ abstract final class InsightsCopy {
   static const paceRight = 'On right answers';
   static const paceWrong = 'On wrong answers';
   static String paceShare(int pct) => '$pct% of your timed minutes went on questions you got wrong.';
-  static String paceBasis(int q) => 'Timing from device events, ${_n(q, 'timed question')}.';
+  static String paceBasis(int q) => 'Timed on this phone, ${_n(q, 'timed question')}.';
   static const paceThin = 'Pace appears after 8 timed questions.';
 
   static const weekHeading = 'This week and last';
@@ -180,7 +179,7 @@ abstract final class InsightsCopy {
 
   // ---- Ask ---------------------------------------------------------------------------------
   static const askTitle = 'Ask your record';
-  static const askIntro = 'Ask about your marks, chapters, timing or week. Those answers come from your own sessions and cost nothing.';
+  static const askIntro = 'Ask about your marks, chapters, timing or week. Those answers come from your own sessions.';
   static const askSuggestions = ['Where am I losing marks?', 'Which chapter should I practise?', 'Am I too slow on wrong answers?'];
   static const askHint = 'Ask a question';
   static const askSend = 'Send';
@@ -189,7 +188,6 @@ abstract final class InsightsCopy {
       balance == null ? 'Other questions use 1 AI credit.' : 'Other questions use 1 AI credit. You have $balance.';
   static const askPausedLine = 'AI replies are paused just now. Questions about your record still work.';
   static const originPhone = 'From your record. No credits used.';
-  static const originRecord = 'From your record. No credits used.';
   static const originModel = 'MockMob AI. 1 credit used.';
   static const originPaused = 'AI replies are paused. No credits used.';
   static const failOffline = 'You are offline. Nothing was sent or charged.';

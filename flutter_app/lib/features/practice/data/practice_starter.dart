@@ -42,17 +42,6 @@ class StartFailed extends StartOutcome {
 String ntaPaperSizeMessage(int n) =>
     'We could put together only $n of the 50 questions an NTA paper needs for this subject. Nothing was charged.';
 
-/// An earlier session for the same selection still has answers the server never received.
-///
-/// The starter no longer returns this: the engine archives such a session (the backup job still
-/// sends it) and starts the new one, so an offline submit never blocks practice. Kept only while
-/// the launch flow and its screens still switch on it.
-class StartPendingElsewhere extends StartOutcome {
-  const StartPendingElsewhere(this.sessionId);
-
-  final String sessionId;
-}
-
 StartFailure failureFor(ApiError e) {
   if (e.isOffline) return StartFailure.offline;
   if (e.hasCode(ApiCodes.insufficientPracticeContent) || e.hasCode(ApiCodes.insufficientVerifiedContent)) {

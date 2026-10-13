@@ -39,12 +39,6 @@ class LaunchFailed extends LaunchResult {
   final String? message;
 }
 
-class LaunchPendingElsewhere extends LaunchResult {
-  const LaunchPendingElsewhere(this.sessionId);
-
-  final String sessionId;
-}
-
 /// True when [fresh] asks the student to pay more than [shown] did.
 bool costWentUp(PracticeQuote shown, PracticeQuote fresh) {
   final before = shown.freeByAllowance ? 0 : (shown.creditCost ?? 0);
@@ -87,7 +81,6 @@ LaunchResult _resultOf(WidgetRef ref, StartOutcome outcome) {
   return switch (outcome) {
     Started(:final sessionId) => LaunchStarted(sessionId),
     StartFailed(:final failure, :final message) => LaunchFailed(failure, message: message),
-    StartPendingElsewhere(:final sessionId) => LaunchPendingElsewhere(sessionId),
   };
 }
 

@@ -81,7 +81,6 @@ class AskMessageView extends StatelessWidget {
     final origin = switch (m.origin) {
       AskOrigin.model => InsightsCopy.originModel,
       AskOrigin.paused => InsightsCopy.originPaused,
-      AskOrigin.record => InsightsCopy.originRecord,
       _ => InsightsCopy.originPhone,
     };
     final actions = [

@@ -89,7 +89,8 @@ class _NtaRunnerViewState extends ConsumerState<NtaRunnerView> with RunnerHost<N
       // A warning earned while the submit page (or the palette) is over the paper: come back to
       // the paper so the warning card is seen, unless a submit is already under way.
       final route = ModalRoute.of(context);
-      if (route != null && !route.isCurrent && !_integrity.terminated && session.submitState.value.stage == SubmitStage.idle) {
+      // The third warning comes back too: the ended card holds the submit page until it is read.
+      if (route != null && !route.isCurrent && (_integrity.terminated || session.submitState.value.stage == SubmitStage.idle)) {
         Navigator.of(context).popUntil((r) => r == route);
       }
     }
@@ -99,6 +100,17 @@ class _NtaRunnerViewState extends ConsumerState<NtaRunnerView> with RunnerHost<N
 
   void _onReceived() {
     if (session.submitState.value.stage == SubmitStage.received) unawaited(_integrity.clear());
+  }
+
+  /// After the third warning the "Session ended" card stays until the student continues, so the
+  /// reason is read before the submit page opens.
+  @override
+  bool get holdSubmitPage => _integrity.showing && _integrity.terminated;
+
+  void _continueAfterEnd() {
+    _integrity.acknowledgeEnded();
+    // Idle here means the submit did not start; the page still opens, with its own Submit key.
+    openSubmit();
   }
 
   bool get _canAnswer => session.canAnswer && !_integrity.locksAnswers;
@@ -112,7 +124,7 @@ class _NtaRunnerViewState extends ConsumerState<NtaRunnerView> with RunnerHost<N
   }
 
   /// The warning card (or the ended notice) is up: "Return to the exam" is the only live control.
-  bool get _modalUp => _integrity.showing;
+  bool get _modalUp => _integrity.locksAnswers;
 
   Future<void> _confirmLeave() async {
     if (_modalUp || session.submitState.value.stage != SubmitStage.idle) return;
@@ -231,7 +243,8 @@ class _NtaRunnerViewState extends ConsumerState<NtaRunnerView> with RunnerHost<N
                 ),
               ),
             ),
-            if (_integrity.showing) NtaWarningOverlay(integrity: _integrity),
+            if (_integrity.showing)
+              NtaWarningOverlay(integrity: _integrity, submitState: session.submitState, onContinue: _continueAfterEnd),
           ],
         ),
       ),

@@ -25,7 +25,7 @@ void main() {
   testWidgets('the sheet subjects seed Compass when nothing is saved', (tester) async {
     await pumpMockmob(tester, const CompassScreen(), size: const Size(384, 1600), wrapInScaffold: false, overrides: toolsOverrides());
     await tester.pump();
-    expect(find.text('Ticked from your sheet. Change them freely here.'), findsOneWidget);
+    expect(find.text('Ticked from your sheet.'), findsOneWidget);
     expect(find.text('35 open to you'), findsOneWidget);
   });
 

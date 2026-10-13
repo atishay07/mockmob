@@ -35,7 +35,7 @@ void main() {
         find.text(
           'We count which parts of the app are used, such as starting a mock or finishing a repair, '
           'along with the app version. We do not collect your answers, marks, questions, contacts, '
-          'location or an advertising ID. Nothing goes to ad or analytics companies. You can turn '
+          'location or an advertising ID. You can turn '
           'this off any time here and collection stops straight away.',
         ),
         findsOneWidget,

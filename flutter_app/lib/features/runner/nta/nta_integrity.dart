@@ -22,7 +22,7 @@ enum NtaViolation {
 
 /// The website's exam-integrity guard (three warnings, the third submits) translated to a
 /// phone. A warning counts once per absence: when the app is hidden or paused, when another
-/// window covers it for longer than [inactiveGrace] (1.5 s, WEB-PARITY decision 4: a quick look at
+/// window covers it for longer than [inactiveGrace] (3 s, owner decision 14 Oct 2026: a quick look at
 /// notifications or a call banner is shorter and free, a split screen is not), or when the paper is opened again after it was closed without a recorded absence.
 /// The count survives a restart. Warnings never reach the server and never change the score.
 class NtaIntegrity extends ChangeNotifier {
@@ -35,7 +35,7 @@ class NtaIntegrity extends ChangeNotifier {
   });
 
   /// How long another window may cover the exam before it counts as a warning.
-  static const Duration defaultInactiveGrace = Duration(milliseconds: 1500);
+  static const Duration defaultInactiveGrace = Duration(seconds: 3);
 
   final String sessionId;
   final PrefsStore store;
@@ -51,6 +51,7 @@ class NtaIntegrity extends ChangeNotifier {
   bool _away = false;
   bool _showing = false;
   bool _terminated = false;
+  bool _endedSeen = false;
   bool _disposed = false;
   NtaViolation? _last;
   Timer? _inactive;
@@ -59,9 +60,12 @@ class NtaIntegrity extends ChangeNotifier {
   bool get terminated => _terminated;
   NtaViolation? get lastViolation => _last;
 
-  /// The warning card is up (or the session ended): answering waits.
-  bool get showing => _showing || _terminated;
-  bool get locksAnswers => showing;
+  /// The warning card is up, or the "Session ended" card is still waiting for the student to
+  /// read it and continue.
+  bool get showing => _showing || (_terminated && !_endedSeen);
+
+  /// Answering waits behind a warning, and stays locked for good once the session has ended.
+  bool get locksAnswers => _showing || _terminated;
 
   String get _strikesKey => 'nta.strikes.$sessionId';
   String get _awayKey => 'nta.away.$sessionId';
@@ -116,6 +120,14 @@ class NtaIntegrity extends ChangeNotifier {
   void acknowledge() {
     if (!_showing || _terminated) return;
     _showing = false;
+    notifyListeners();
+  }
+
+  /// "Continue" on the ended card: the student has read why the session ended, and the submit
+  /// page may open.
+  void acknowledgeEnded() {
+    if (!_terminated || _endedSeen) return;
+    _endedSeen = true;
     notifyListeners();
   }
 

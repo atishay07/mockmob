@@ -45,9 +45,10 @@
                  the Play App Signing SHA-256 on the server (ANDROID_CERT_SHA256); until then the
                  links open in the browser. Pricing and checkout paths are intentionally absent.
 
-                 flutter_deeplinking_enabled is deliberately not set to true: links are read by app_links
-                 (router.dart) and run through ActionRouter, and the Flutter 3.27+ default already
-                 hands the same intent to the engine, so an explicit true would only double-handle them. -->
+                 Links are read by app_links (router.dart) and run through ActionRouter, so Flutter's own
+                 deep-link handling is turned off below (flutter_deeplinking_enabled false) to stop the
+                 engine from handling the same intent a second time. -->
+            <meta-data android:name="flutter_deeplinking_enabled" android:value="false" />
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />

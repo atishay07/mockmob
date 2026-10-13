@@ -28,7 +28,7 @@ abstract final class AccessCopy {
   static const String continueWithGoogle = 'Continue with Google';
   static const String openingGoogle = 'Opening Google';
   static const String signingIn = 'Signing in';
-  static const String finishInBrowser = 'Finish signing in with Google in your browser. You will come straight back here.';
+  static const String finishInBrowser = 'Finish signing in with Google in your browser.';
   static const String browserNotFinished = 'Google sign-in did not finish. Try again when you are ready.';
   static const String useBrowserInstead = 'Use the browser instead';
   static const String cancel = 'Cancel';
@@ -88,7 +88,7 @@ abstract final class AccessCopy {
   static const String phoneTitle = 'Sign in with your phone';
   static const String phoneLead = 'For a number already added to your MockMob account. We text you a 6-digit code.';
   static const String addPhoneTitle = 'Add your phone number';
-  static const String addPhoneLead = 'Then you can sign in with a code by text. We never share your number.';
+  static const String addPhoneLead = 'Then you can sign in with a code by text.';
   static const String phoneLabel = 'Mobile number';
   static const String phoneHint = '98123 45678';
   static const String phonePrefix = '+91';
@@ -120,6 +120,6 @@ abstract final class AccessCopy {
         AccessFailure.googleUnavailable => 'Google sign-in did not work. Try again, or use an email code.',
         AccessFailure.browserUnavailable => 'No browser could be opened on this phone. Use an email code instead.',
         AccessFailure.signedOut => 'You are signed out. Sign in again, then try this.',
-        AccessFailure.unknown => 'Something went wrong on our side. Nothing you typed was lost. Try again.',
+        AccessFailure.unknown => 'Something went wrong on our side. Try again.',
       };
 }

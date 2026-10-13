@@ -68,7 +68,6 @@ class ComposerController extends ChangeNotifier {
 
   bool starting = false;
   StartFailureView? failure;
-  String? pendingSessionId;
   String? costNote;
 
   PracticeSelection get selection => _selection;
@@ -95,7 +94,6 @@ class ComposerController extends ChangeNotifier {
     _debounce?.cancel();
     _selection = next;
     failure = null;
-    pendingSessionId = null;
     costNote = null;
     notifyListeners();
     if (next.quoteQuery == _query) return;
@@ -407,7 +405,6 @@ class _PracticeComposerKeysState extends ConsumerState<PracticeComposerKeys> {
     _c.update(() {
       _c.starting = true;
       _c.failure = null;
-      _c.pendingSessionId = null;
       _c.costNote = null;
     });
     final result = await launchPractice(ref, selection, quote);
@@ -426,11 +423,6 @@ class _PracticeComposerKeysState extends ConsumerState<PracticeComposerKeys> {
         _c.update(() {
           _c.starting = false;
           _c.failure = StartFailureView(failure, message: message);
-        });
-      case LaunchPendingElsewhere(:final sessionId):
-        _c.update(() {
-          _c.starting = false;
-          _c.pendingSessionId = sessionId;
         });
     }
   }
@@ -459,15 +451,6 @@ class _PracticeComposerKeysState extends ConsumerState<PracticeComposerKeys> {
         ],
         if (_c.failure != null) ...[
           InlineBanner(message: _c.failure!.text, tone: BannerTone.error),
-          const SizedBox(height: MmSpace.s12),
-        ],
-        if (_c.pendingSessionId != null) ...[
-          InlineBanner(
-            message: PracticeCopy.earlierPending,
-            tone: BannerTone.warning,
-            actionLabel: PracticeCopy.openEarlier,
-            onAction: () => widget.exits.run(_c.pendingSessionId!),
-          ),
           const SizedBox(height: MmSpace.s12),
         ],
         KeyButton(

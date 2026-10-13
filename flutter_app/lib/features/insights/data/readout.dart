@@ -49,7 +49,7 @@ List<Finding> readout(PrepInsights insights, {int limit = 4}) {
           ? 'Changing answers has cost ${-c.net} marks net'
           : (c.net > 0 ? 'Changing answers has gained ${c.net} marks net' : 'Changing answers has been about even'),
       detail: '${c.count} changes across ${_plural(c.sessionsWithTelemetry, 'timed session')}: ${c.gains} helped '
-          '(${_sign(c.marksGained)} marks) and ${c.losses} hurt (-${c.marksLost}). Both directions are counted.',
+          '(${_sign(c.marksGained)} marks) and ${c.losses} hurt (-${c.marksLost}).',
       actionLabel: 'See your replay in Review',
       actionHref: '/review',
     ));
@@ -63,7 +63,7 @@ List<Finding> readout(PrepInsights insights, {int limit = 4}) {
       kind: 'info',
       n: p.questionsTimed,
       headline: 'Your slowest question took ${_sec(s.seconds)}, against a typical ${_sec(p.medianSec!)}',
-      detail: '${s.chapter} (question ${s.position ?? '?'}). ${share}Timing comes from device events across ${p.questionsTimed} questions.',
+      detail: '${s.chapter} (question ${s.position ?? '?'}). ${share}Timed across ${p.questionsTimed} questions.',
       actionLabel: 'Do a paced 10-question set',
       actionHref: '/dashboard?mode=quick&count=10',
     ));
@@ -92,7 +92,7 @@ List<Finding> readout(PrepInsights insights, {int limit = 4}) {
         n: answered,
         headline: 'Easy questions are right $pct% of the time',
         detail: '${d.right} of $answered (likely range ${d.accuracy.low} to ${d.accuracy.high}%). Misses on easy questions usually '
-            'point to speed or care rather than gaps, though this record cannot tell which.',
+            'point to speed or care rather than gaps.',
         actionLabel: 'Review your easy misses',
         actionHref: '/review',
       ));
@@ -151,8 +151,7 @@ RecordAnswer? answerFromInsights(String text, PrepInsights insights, {bool pro =
         ? 'The week before: ${_plural(l.sessions, 'session')}, ${l.net} net marks.'
         : 'There is no earlier week to compare with yet.';
     return RecordAnswer(
-      'Last 7 days: ${_plural(t.sessions, 'session')}, ${t.questions} questions, ${t.net} net marks$acc. $before '
-      'Two or three more sessions this week will make the comparison steadier.',
+      'Last 7 days: ${_plural(t.sessions, 'session')}, ${t.questions} questions, ${t.net} net marks$acc. $before',
     );
   } else {
     hit = pick('chapter') ?? pick('thin') ?? (found.isEmpty ? null : found.first);
@@ -165,7 +164,7 @@ RecordAnswer? answerFromInsights(String text, PrepInsights insights, {bool pro =
   }
   if (hit == null) {
     return const RecordAnswer(
-      'Nothing stands out yet. Keep practising and your record will point to the biggest leak once there are enough questions.',
+      'Nothing stands out yet.',
       actions: [('Start a practice set', '/dashboard?mode=quick')],
     );
   }

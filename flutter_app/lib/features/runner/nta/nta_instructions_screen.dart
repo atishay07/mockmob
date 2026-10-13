@@ -41,7 +41,6 @@ class _NtaInstructionsScreenState extends ConsumerState<NtaInstructionsScreen> {
   bool _declared = false;
   NtaPrepPhase? _phase;
   String? _error;
-  String? _pendingSessionId;
 
   PracticeSelection get _selection => PracticeSelection(mode: PracticeMode.nta, subjectId: widget.subject);
 
@@ -78,9 +77,6 @@ class _NtaInstructionsScreenState extends ConsumerState<NtaInstructionsScreen> {
         _fail(_gateText(quote));
       case LaunchFailed(:final failure, :final message):
         _fail(StartFailureView(failure, message: message).text);
-      case LaunchPendingElsewhere(:final sessionId):
-        _pendingSessionId = sessionId;
-        _fail(PracticeCopy.earlierPending);
     }
   }
 
@@ -154,9 +150,7 @@ class _NtaInstructionsScreenState extends ConsumerState<NtaInstructionsScreen> {
                         InlineBanner(message: (_error ?? gate)!, tone: BannerTone.warning),
                         const SizedBox(height: MmSpace.s12),
                       ],
-                      if (_pendingSessionId != null)
-                        KeyButton(label: PracticeCopy.openEarlier, onPressed: () => context.go(AppRoutes.run(_pendingSessionId!)))
-                      else if (gate != null)
+                      if (gate != null)
                         KeyButton.secondary(label: PracticeCopy.backToPractice, onPressed: _back)
                       else
                         KeyButton(label: NtaStartCopy.start, onPressed: _declared ? () => unawaited(_start()) : null),

@@ -3,17 +3,39 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/models/practice_quote.dart';
 import 'package:mockmob/core/sync/session/save_state.dart';
+import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/sync/session/session_engine.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/practice/data/practice_quote.dart';
 import 'package:mockmob/features/runner/nta/nta_instructions_parts.dart';
 import 'package:mockmob/features/runner/nta/nta_instructions_screen.dart';
+import 'package:mockmob/features/runner/nta/nta_paper_theme.dart';
 import 'package:mockmob/features/runner/nta/nta_runner_screen.dart';
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart' show FileAssetBundle;
+import '../../unit/runner/support/exam_font.dart';
 import '../../unit/runner/support/fake_session.dart';
 import '../../unit/runner/support/harness.dart';
+
+class _MockmobLook extends NtaStyleNotifier {
+  @override
+  NtaStyle build() => NtaStyle.mockmob;
+}
+
+/// The app goes to the background and comes back: one warning.
+void _leaveAndReturn(WidgetTester tester) {
+  for (final st in [
+    AppLifecycleState.inactive,
+    AppLifecycleState.hidden,
+    AppLifecycleState.paused,
+    AppLifecycleState.hidden,
+    AppLifecycleState.inactive,
+    AppLifecycleState.resumed,
+  ]) {
+    tester.binding.handleAppLifecycleStateChanged(st);
+  }
+}
 
 Map<String, int> _answered(int n) => {for (var i = 1; i <= n; i++) 'q$i': (i * 7) % 4};
 
@@ -68,7 +90,10 @@ Future<void> _pumpPlain(WidgetTester tester, Widget child, Brightness b) async {
 }
 
 void main() {
-  setUpAll(loadAppFonts);
+  setUpAll(() async {
+    await loadAppFonts();
+    await loadExamFont();
+  });
 
   for (final b in [Brightness.dark, Brightness.light]) {
     group(_suffix(b), () {
@@ -194,6 +219,60 @@ void main() {
         await pumpRunner(tester, session: _mid(), brightness: b, size: const Size(1180, 820));
         await settle(tester);
         await _shot(tester, 'nta_tablet', b);
+      });
+
+      // Focus mode hides the status and navigation bars; only the camera cutout keeps an inset.
+      // The exam bar runs up under it in its own blue, so no empty band is left above the paper.
+      for (final size in [const Size(360, 780), const Size(384, 853)]) {
+        testWidgets('focus mode at ${size.width.toInt()} by ${size.height.toInt()}', (tester) async {
+          await pumpRunner(
+            tester,
+            session: FakeRunnerSession(mode: 'nta', remaining: const Duration(minutes: 59, seconds: 52)),
+            brightness: b,
+            size: size,
+            systemInsets: const EdgeInsets.only(top: 28),
+          );
+          await settle(tester);
+          await _shot(tester, 'nta_focus_${size.width.toInt()}', b);
+        });
+      }
+
+      testWidgets('the second warning', (tester) async {
+        final prefs = MemoryPrefsStore()..values['nta.strikes.sess-1'] = 1;
+        await pumpRunner(tester, session: _mid(), brightness: b, prefs: prefs);
+        await settle(tester);
+        _leaveAndReturn(tester);
+        await settle(tester);
+        await _shot(tester, 'nta_warning_2', b);
+      });
+
+      testWidgets('the third warning ends the session', (tester) async {
+        final prefs = MemoryPrefsStore()..values['nta.strikes.sess-1'] = 2;
+        final s = _mid()..nextOutcome = null;
+        await pumpRunner(tester, session: s, brightness: b, prefs: prefs);
+        await settle(tester);
+        _leaveAndReturn(tester);
+        // The ended card holds over the paper, with the answers on their way, until Continue.
+        await settle(tester);
+        await _shot(tester, 'nta_ended', b);
+        expect(find.text('Exam summary'), findsNothing);
+        await tester.tap(find.text('Continue'));
+        await settle(tester);
+        expect(find.text('Exam summary'), findsOneWidget);
+      });
+
+      testWidgets('the leave sheet', (tester) async {
+        await pumpRunner(tester, session: _mid(), brightness: b);
+        await settle(tester);
+        await tester.binding.handlePopRoute();
+        await settle(tester);
+        await _shot(tester, 'nta_leave', b);
+      });
+
+      testWidgets('the MockMob look', (tester) async {
+        await pumpRunner(tester, session: _mid(), brightness: b, overrides: [ntaStyleProvider.overrideWith(_MockmobLook.new)]);
+        await settle(tester);
+        await _shot(tester, 'nta_mockmob', b);
       });
 
       testWidgets('large text on a small phone', (tester) async {

@@ -160,6 +160,56 @@ void main() {
       expect(terminations, 1);
     });
 
+    group('the 3 s inactive grace (owner decision 14 Oct 2026), on a fake clock', () {
+      // The real default, not the short test grace above.
+      NtaIntegrity real() => NtaIntegrity(sessionId: 's1', store: store, onTerminate: () => terminations++, isLive: () => live);
+
+      test('the default is 3 s', () {
+        expect(NtaIntegrity.defaultInactiveGrace, const Duration(seconds: 3));
+        final g = real();
+        expect(g.inactiveGrace, NtaIntegrity.defaultInactiveGrace);
+        g.dispose();
+      });
+
+      testWidgets('a 2 s cover does not count', (tester) async {
+        final g = real();
+        g.onInactive();
+        await tester.pump(const Duration(seconds: 2));
+        g.onReturned();
+        await tester.pump(const Duration(seconds: 4));
+        expect(g.strikes, 0);
+        g.dispose();
+      });
+
+      testWidgets('a 4 s cover counts once', (tester) async {
+        final g = real();
+        g.onInactive();
+        await tester.pump(const Duration(milliseconds: 2999));
+        expect(g.strikes, 0);
+        await tester.pump(const Duration(milliseconds: 1001));
+        expect(g.strikes, 1);
+        expect(g.lastViolation, NtaViolation.window);
+        // Still covered: the same absence is not counted again.
+        g.onInactive();
+        await tester.pump(const Duration(seconds: 5));
+        expect(g.strikes, 1);
+        g.dispose();
+      });
+
+      testWidgets('a return re-arms the grace from zero', (tester) async {
+        final g = real();
+        g.onInactive();
+        await tester.pump(const Duration(seconds: 2));
+        g.onReturned();
+        g.onInactive();
+        await tester.pump(const Duration(seconds: 2));
+        expect(g.strikes, 0, reason: '4 s in all, but never 3 s in one go');
+        await tester.pump(const Duration(milliseconds: 1100));
+        expect(g.strikes, 1);
+        g.dispose();
+      });
+    });
+
     test('clear forgets the session', () async {
       final g = guard();
       await g.load();

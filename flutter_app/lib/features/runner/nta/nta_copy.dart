@@ -91,6 +91,9 @@ abstract final class NtaCopy {
   static const String returnKey = 'Return to the exam';
   static const String endedTitle = 'Session ended';
   static const String submitting = 'Submitting your answers';
+  static const String endedReceived = 'Your answers were received.';
+  static const String endedContinue = 'Continue';
+  static const String endedNotRecorded = 'Your answers could not be recorded.';
   static const String endedBody = 'You reached three warnings. Answering is locked. We will submit the answers you already gave.';
   static const List<String> rules = [
     'Leaving the app, switching apps or locking the screen counts as a warning.',

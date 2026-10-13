@@ -145,7 +145,39 @@ void main() {
     expect(h.prefs.values['nta.strikes.sess-1'], 3);
     await settle(tester);
     expect(s.submitState.value.stage, SubmitStage.sending);
-    expect(find.text('Exam summary'), findsOneWidget, reason: 'the submit page took over');
+    // The reason stays on screen: the ended card holds until the student continues.
+    expect(find.text('Session ended'), findsOneWidget);
+    expect(find.textContaining('You reached three warnings'), findsOneWidget);
+    expect(find.text('Submitting your answers'), findsOneWidget);
+    expect(find.text('Exam summary'), findsNothing, reason: 'the submit page waits for Continue');
+    await tester.tap(find.text('Continue'));
+    await settle(tester);
+    expect(find.text('Exam summary'), findsOneWidget, reason: 'the submit page opens after Continue');
+    expect(find.text('Session ended'), findsNothing);
+  });
+
+  testWidgets('the ended card says when the answers are in, and Continue still opens the submit page', (tester) async {
+    final s = _nta(answers: {'q1': 2});
+    final h = await pumpRunner(tester, session: s);
+    await _flush(tester);
+    for (var i = 0; i < 3; i++) {
+      _lifecycle(tester, [AppLifecycleState.inactive, AppLifecycleState.hidden, AppLifecycleState.paused]);
+      _lifecycle(tester, [AppLifecycleState.hidden, AppLifecycleState.inactive, AppLifecycleState.resumed]);
+      await _flush(tester);
+      if (i < 2) {
+        await tester.tap(find.text('Return to the exam'));
+        await _flush(tester);
+      }
+    }
+    await settle(tester);
+    expect(h.prefs.values['nta.strikes.sess-1'], isNull, reason: 'the count is cleared once the paper is received');
+    expect(find.text('Session ended'), findsOneWidget, reason: 'a fast submit does not skip the reason');
+    expect(find.text('Your answers were received.'), findsOneWidget);
+    expect(find.text('Submitting your answers'), findsNothing);
+    expect(find.text('Exam summary'), findsNothing);
+    await tester.tap(find.text('Continue'));
+    await settle(tester, ms: 2400);
+    expect(h.location, startsWith('/result'), reason: 'Continue opens the submit page, which hands off to the result');
   });
 
   testWidgets('a notification shade pull is free', (tester) async {

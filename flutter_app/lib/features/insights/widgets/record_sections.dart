@@ -165,7 +165,6 @@ class ChangesSection extends StatelessWidget {
         _pair(_Figure(value: '+${c.marksGained}', label: '${c.gains} helped'), _Figure(value: '-${c.marksLost}', label: '${c.losses} hurt')),
         const SizedBox(height: MmSpace.s12),
         Text('${InsightsCopy.changesLine(c.count, c.gains, c.losses)}. Net $net marks.', style: type.small.copyWith(color: colors.ink)),
-        Text(InsightsCopy.changesNote, style: type.caption.copyWith(color: colors.ink3)),
         EvidencePill(attempts: evidence, what: InsightsCopy.behindChanges),
       ],
     );

@@ -111,15 +111,11 @@ class FirstFixCard extends StatelessWidget {
             },
           ),
         ],
-        if (leader != null || tiles.isNotEmpty) ...[
+        if (leader != null && !blanksOnly) ...[
           const SizedBox(height: MmSpace.s20),
-          Row(
-            children: [
-              Expanded(
-                child: Text(ResultCopy.earlySignal, style: context.mmType.small.copyWith(color: context.mmColors.ink3)),
-              ),
-              if (leader != null && !blanksOnly) KeyButton.quiet(label: ResultCopy.whyThis, onPressed: () => _why(context, leader)),
-            ],
+          Align(
+            alignment: Alignment.centerRight,
+            child: KeyButton.quiet(label: ResultCopy.whyThis, onPressed: () => _why(context, leader)),
           ),
         ],
       ],

@@ -5,7 +5,7 @@ import '../../core/domain/cuet_dates.dart';
 abstract final class ToolsCopy {
   // Hub.
   static const hubTitle = 'CUET tools';
-  static const hubLead = 'Plan the papers and the courses. Every figure is DU’s own 2026 data.';
+  static const hubLead = 'Plan the papers and the courses.';
   static const compassTitle = 'Admission Compass';
   static const compassQuestion = 'Which DU courses can your subjects get?';
   static const compassHubNote = 'Eligibility under the 2026-27 Bulletin, then college cutoffs by category and round.';
@@ -25,7 +25,7 @@ abstract final class ToolsCopy {
       'DU programmes your $subjects ${subjects == 1 ? 'subject opens' : 'subjects open'} under the 2026-27 rules.';
 
   // Compass.
-  static const compassLead = 'Tick your CUET subjects. The list updates as you tick.';
+  static const compassLead = 'Tick your CUET subjects.';
   static const programmesOpen = 'DU programmes open to these subjects';
   static const rulesLine = 'Under the UG Bulletin 2026-27 subject rules';
   static const pickSubjects = 'Choose subjects';
@@ -35,7 +35,7 @@ abstract final class ToolsCopy {
   static const emptyHeroTitle = 'Start with your subjects';
   static const emptyHeroBody =
       'Most DU programmes need one language and three domain subjects, or one language, one domain subject and the General Aptitude Test.';
-  static const fromSheet = 'Ticked from your sheet. Change them freely here.';
+  static const fromSheet = 'Ticked from your sheet.';
   static String overLimit(int n, int limit) => 'You have picked $n papers. The limit is $limit.';
 
   static const categoryHeading = 'Category and score';
@@ -87,7 +87,7 @@ abstract final class ToolsCopy {
   static const errorTitle = 'We could not load the DU data';
   static const errorBody = 'Check your connection and try again.';
   static const offlineTitle = 'You are offline';
-  static const offlineBody = 'Your answers and drafts are saved on this phone.';
+  static const offlineBody = 'Connect to continue.';
   static const tryAgain = 'Try again';
 
   // Programme.
@@ -185,7 +185,7 @@ abstract final class ToolsCopy {
   static String proAbove(String by) => 'Your range clears the earliest listed cutoff by $by or more.';
   static String proBelow(String by) => 'Your range is $by or more below the earliest listed cutoff.';
   static const shortlistHeading = 'Your DU shortlist';
-  static const shortlistNote = 'Up to 8 programmes and colleges. They stay on this phone.';
+  static const shortlistNote = 'Up to 8 programmes and colleges.';
   static const shortlistAdd = 'Add a target';
   static const shortlistEmpty = 'Add the colleges you are aiming for to set them against your projection.';
   static const shortlistFull = 'Your shortlist is full. Remove a target to add another.';

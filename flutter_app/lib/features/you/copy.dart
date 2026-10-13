@@ -120,12 +120,12 @@ abstract final class YouCopy {
   static const consentExplanation =
       'We count which parts of the app are used, such as starting a mock or finishing a repair, '
       'along with the app version. We do not collect your answers, marks, questions, contacts, '
-      'location or an advertising ID. Nothing goes to ad or analytics companies. You can turn '
+      'location or an advertising ID. You can turn '
       'this off any time here and collection stops straight away.';
   static const seeEvents = 'See every event we collect';
   static const eventsTitle = 'Every event we collect';
   static const eventsIntro =
-      'These are all of them. Each one has a name, a time, your app version and, at most, a few '
+      'Each one has a name, a time, your app version and, at most, a few '
       'plain labels such as the subject or the kind of practice.';
   static const offForAccount = 'Off for your account.';
   static const offForAccountNote = 'Usage data can only be turned on by someone who says they are 18 or older.';
@@ -145,7 +145,7 @@ abstract final class YouCopy {
   static const consentTurningOff = 'Turning off. Collection has already stopped.';
   static const consentEnableFailed = 'We could not save that. Usage data is still off. Try again.';
   static const consentWithdrawn = 'Usage data is off. We stopped collecting it. Earlier usage data was deleted.';
-  static const consentEnabled = 'Usage data is on. Saved. You can turn it off here any time.';
+  static const consentEnabled = 'Usage data is on. Saved.';
   static const consentWithdrawnShort = 'Usage data is off. We stopped collecting it.';
   static const consentDeleteFailed = 'Your choice was saved, but deleting earlier data failed. Try again.';
   static const consentUnreached =

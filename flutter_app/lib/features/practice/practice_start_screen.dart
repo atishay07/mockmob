@@ -42,7 +42,6 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
   String? _message;
   StateViewKind _kind = StateViewKind.error;
   bool _working = true;
-  String? _pendingSessionId;
   PracticeSelection? _selection;
   final MobiController _mobi = MobiController();
 
@@ -137,9 +136,6 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
           offline ? PracticeCopy.offlineAutoStart : StartFailureView(failure, message: message).text,
           offline ? StateViewKind.offline : StateViewKind.error,
         );
-      case LaunchPendingElsewhere(:final sessionId):
-        _pendingSessionId = sessionId;
-        _stop(PracticeCopy.earlierPending, StateViewKind.error);
     }
   }
 
@@ -164,9 +160,7 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
   }
 
   Widget _stopped() {
-    final primary = _pendingSessionId != null
-        ? StateAction(PracticeCopy.openEarlier, () => context.go(AppRoutes.run(_pendingSessionId!)))
-        : (_selection == null ? null : StateAction(PracticeCopy.retry, _retry));
+    final primary = _selection == null ? null : StateAction(PracticeCopy.retry, _retry);
     final chooseAnother = StateAction(PracticeCopy.chooseAnother, () => context.pushReplacement(_setupLocation));
     return StateView(
       kind: _kind,

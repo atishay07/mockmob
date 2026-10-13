@@ -44,7 +44,7 @@ abstract final class LearnCopy {
   static const String summaryEmptyTitle = 'No lessons in this chapter yet';
   static const String summaryEmptyMessage = 'Its lessons show here once they are published.';
   static const String summaryOfflineTitle = 'This summary is not on this phone';
-  static const String summaryOfflineMessage = 'Connect to read it. Lessons you open can be kept for offline use.';
+  static const String summaryOfflineMessage = 'Connect to read it.';
   static const String summaryFailedTitle = 'We could not open this summary';
 
   static String dueSummary(int n) => '${plural(n, 'card')} due.';
@@ -77,7 +77,7 @@ abstract final class LearnCopy {
   // Offline.
   static const String offlineHeading = 'On this phone';
   static const String keepForOffline = 'Keep for offline';
-  static const String keepNothingYet = 'Lessons you open are kept. Nothing kept yet.';
+  static const String keepNothingYet = 'Nothing kept yet.';
   static String keepSize(String size) => '$size kept on this phone';
   static const String connectToStart = 'Connect to start. Your downloaded reviews still work.';
 

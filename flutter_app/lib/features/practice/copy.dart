@@ -172,7 +172,7 @@ abstract final class PracticeCopy {
   static const String freeReview = 'Your answers and keys, explanations included';
   static const String offlineStart = 'Connect to start. Your downloaded reviews still work.';
   static const String offlineAutoStart =
-      'You are offline. Your answers and drafts are safe on this phone. This starts by itself when you are back online.';
+      'You are offline. Your answers and drafts stay on this phone. This starts by itself when you are back online.';
   static const String quoteFailed = 'We could not check what this takes. Nothing was charged. Try again.';
   static String costChanged(String line) => 'This changed while you were here. $line Check it and start again.';
 
@@ -193,16 +193,13 @@ abstract final class PracticeCopy {
   static const String notEnoughCredits = 'You do not have enough credits for this. Nothing was charged.';
   static const String notIncluded = 'This comes with Pro. Nothing was charged.';
   static const String slowDown = 'Give it a minute and try again. Nothing was charged.';
-  static const String earlierPending =
-      'Your earlier answers for this are on this phone and have not been sent yet. Open that session to finish it first.';
-  static const String openEarlier = 'Open that session';
 
   // Before a mock (on the same confirm sheet, not a wizard).
   static const String sheetMarking = '5 marks for each correct answer, minus 1 for each wrong one.';
   static const String sheetTimer = 'The timer keeps running if you leave the app. Submit ends the mock.';
   static String sheetTicket(DateTime by) => 'If you leave, open MockMob again before ${formatTime12(by)} so your answers can be sent.';
   static const String sheetDnd = 'For fewer interruptions, turn on Do Not Disturb from Quick Settings.';
-  static const String sheetAside = 'Water, pencil, rough sheet. Ready when you are.';
+  static const String sheetAside = 'Water, pencil, rough sheet.';
   static const String sheetNoLength = 'We could not confirm how long this mock is. Close this and try again.';
 
   // Auto start.
@@ -228,8 +225,8 @@ abstract final class PracticeCopy {
     final toLook = _toLook(m.wrong, m.blank);
     return switch (tone) {
       FinishTone.great || FinishTone.good when toLook == null => 'Every one right. Nothing to fix from this set.',
-      FinishTone.great => 'Excellent set. $toLook to look at below.',
-      FinishTone.good => 'Strong run. $toLook to look at below.',
+      FinishTone.great => 'Most of this set is right. $toLook to look at below.',
+      FinishTone.good => 'Most of this set is right. $toLook to look at below.',
       FinishTone.mixed => 'Let’s look at the $toLook. The reasons are below.',
       FinishTone.blank => 'A lot left blank. Try them below, no clock running.',
       FinishTone.low => 'Start with the first one below. The reason is right there.',

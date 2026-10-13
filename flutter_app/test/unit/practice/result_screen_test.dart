@@ -204,7 +204,7 @@ void main() {
     await tester.pump();
     // At the start nothing is inked yet and Mobi has not spoken.
     expect(find.text('0'), findsOneWidget);
-    expect(find.textContaining('Strong run'), findsNothing);
+    expect(find.textContaining('Most of this set'), findsNothing);
     await tester.pump(const Duration(milliseconds: 420));
     await tester.pump(const Duration(milliseconds: 420));
     await tester.pump(const Duration(milliseconds: 600));
@@ -303,7 +303,7 @@ void main() {
       // No moment on an empty sheet: Mobi has not reacted and nothing has inked.
       expect(find.byType(FinishStage), findsNothing);
       expect(find.text('Reading your sheet'), findsOneWidget);
-      expect(find.textContaining('Strong run'), findsNothing);
+      expect(find.textContaining('Most of this set'), findsNothing);
 
       final container = ProviderScope.containerOf(tester.element(find.byType(PracticeResultScreen)));
       (container.read(attemptDetailProvider('p1').notifier) as FakeDetail).deliver(detailOf(_mixed));

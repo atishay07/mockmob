@@ -92,7 +92,7 @@ void main() {
     testWidgets('offline: sleepy Mobi and the promise that the work is saved', (tester) async {
       await compass(tester, prefs: MemoryPrefsStore(), source: FakeSource(offline: true));
       expect(find.text(ToolsCopy.offlineTitle), findsOneWidget);
-      expect(find.text('Your answers and drafts are saved on this phone.'), findsOneWidget);
+      expect(find.text('Connect to continue.'), findsOneWidget);
       expect(_mobi(MobiPose.sleepy), findsOneWidget);
     });
 

@@ -67,7 +67,7 @@ abstract final class ReviewCopy {
   static const tryNotRecorded = 'This try stays here. It is not recorded.';
   static const keyHidden = "This question's answer key is being checked, so it is not shown yet.";
 
-  static String pastLine(String date, int marks, int max) => '$date \u00b7 $marks / $max';
+  static String pastLine(String date, int marks, int max) => '$date, $marks of $max';
 
   static const recordPreviewEmpty = 'Your first repair will show here, with when it was found and when it was repaired.';
 
@@ -102,7 +102,7 @@ abstract final class ReviewCopy {
   static String repairsProgress(int repaired, int found) => '$repaired of $found repaired';
   static String repairsProgressSemantics(int repaired, int found) => '$repaired of ${plural(found, 'mistake')} found so far repaired';
   static const loadErrorTitle = 'We could not load your mistakes';
-  static const loadErrorMessage = 'Your record is safe. Check the connection and try again.';
+  static const loadErrorMessage = 'Check the connection and try again.';
   static const offlineTitle = 'You are offline';
   static const offlineMessage = 'Your mistakes load once you are back online.';
   static const tryAgainKey = 'Try again';

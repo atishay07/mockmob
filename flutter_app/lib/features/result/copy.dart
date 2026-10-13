@@ -133,7 +133,6 @@ abstract final class ResultCopy {
   static String wrongByNumber(int n) =>
       'No chapter had enough questions to single out, so here ${n == 1 ? 'is the one answer' : 'are the $n answers'} you got wrong.';
   static const everyAnswerRight = 'Every answer you gave was correct.';
-  static const earlySignal = 'Early signal from one mock.';
   static const yourAnswersHere = 'Your answers in this chapter';
   static const yourWrongAnswers = 'Your wrong answers';
   static const whyThis = 'Why this?';

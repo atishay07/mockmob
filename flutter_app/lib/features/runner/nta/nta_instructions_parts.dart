@@ -9,7 +9,7 @@ import 'nta_skin.dart';
 /// Words of the instructions page and its preparing stage.
 abstract final class NtaStartCopy {
   static const String heading = 'Read before you start';
-  static const String intro = 'Meet the exam before exam day. Mobi stays outside while you answer.';
+  static const String intro = 'Meet the exam before exam day.';
   static const String questionsUnit = 'questions';
   static const String minutesUnit = 'minutes';
   static const String marking = 'marking';

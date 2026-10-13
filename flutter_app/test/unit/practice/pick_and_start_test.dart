@@ -314,7 +314,7 @@ void main() {
     expect(PracticeCopy.repairThese(m.wrong), 'Repair these 3');
     expect(
       PracticeCopy.finishLine(FinishTone.good, const FinishMarks(correct: 7, wrong: 0, blank: 3, total: 10)),
-      'Strong run. 3 blanks to look at below.',
+      'Most of this set is right. 3 blanks to look at below.',
     );
   });
 

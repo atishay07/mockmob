@@ -6,7 +6,7 @@ abstract final class AuthCopy {
   // Sign-in screen.
   static const String signInTitle = 'Sign in';
   static const String signInLead =
-      'Pick how you want to sign in. An email code needs no password to remember.';
+      'Pick how you want to sign in.';
   static const String newHere =
       'New to MockMob? The same code creates your free account.';
   static const String emailLabel = 'Email address';
@@ -78,6 +78,6 @@ abstract final class AuthCopy {
     SignInProblem.accountNotLoaded =>
       'You are signed in, but your account did not load. Check your connection and try again.',
     SignInProblem.unknown =>
-      'Something went wrong on our side. Your email is still here. Try again.',
+      'Something went wrong on our side. Try again.',
   };
 }

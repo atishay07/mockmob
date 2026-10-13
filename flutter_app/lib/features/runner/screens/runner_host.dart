@@ -33,6 +33,10 @@ mixin RunnerHost<W extends ConsumerStatefulWidget> on ConsumerState<W> {
   /// How long a 5 or 1 minute warning holds the meta line.
   static const Duration warningHold = Duration(seconds: 3);
 
+  /// True while a skin keeps the submit page back on purpose (the NTA "Session ended" card is
+  /// being read). The page then opens when the skin calls [openSubmit].
+  bool get holdSubmitPage => false;
+
   /// A skin's own reaction to the app's lifecycle (the NTA integrity guard).
   void onLifecycleChange(AppLifecycleState state) {}
 
@@ -91,7 +95,7 @@ mixin RunnerHost<W extends ConsumerStatefulWidget> on ConsumerState<W> {
 
   /// Any submit, however it started, is shown on the submit page.
   void onSubmitStage() {
-    if (!mounted || _submitOpen || session.submitState.value.stage == SubmitStage.idle) return;
+    if (!mounted || _submitOpen || holdSubmitPage || session.submitState.value.stage == SubmitStage.idle) return;
     // Opened straight on `/run/:id/submit` (a restart, a deep link): the page is already up.
     if (GoRouter.of(context).routerDelegate.currentConfiguration.uri.path.endsWith('/submit')) return;
     final route = ModalRoute.of(context);

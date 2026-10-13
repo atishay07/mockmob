@@ -1,11 +1,14 @@
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/motion/motion.dart';
+import '../../../core/sync/session/session_engine.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../copy.dart';
 import 'nta_copy.dart';
 import 'nta_integrity.dart';
 import 'nta_paper_theme.dart';
@@ -57,12 +60,18 @@ Future<T?> showNtaDrawer<T>({required BuildContext context, required WidgetBuild
 }
 
 /// The warning card over the paper (ExamIntegrityGuard, phone edition). Answering waits behind
-/// it until "Return to the exam". After the third warning it says the session ended while the
-/// submit page takes over.
+/// it until "Return to the exam". After the third warning it says the session ended and stays
+/// until the student continues, so the reason is read before the submit page opens.
 class NtaWarningOverlay extends StatelessWidget {
-  const NtaWarningOverlay({super.key, required this.integrity});
+  const NtaWarningOverlay({super.key, required this.integrity, this.submitState, this.onContinue});
 
   final NtaIntegrity integrity;
+
+  /// How the submit that the third warning started is going, shown on the ended card.
+  final ValueListenable<SubmitUiState>? submitState;
+
+  /// "Continue" on the ended card.
+  final VoidCallback? onContinue;
 
   @override
   Widget build(BuildContext context) {
@@ -156,13 +165,9 @@ class NtaWarningOverlay extends StatelessWidget {
                               KeyButton(label: NtaCopy.returnKey, onPressed: integrity.acknowledge, hapticOnCommit: false, autofocus: true),
                             ] else ...[
                               const SizedBox(height: MmSpace.s16),
-                              Row(
-                                children: [
-                                  MmSpinner(color: colors.ink2, size: 16, strokeWidth: 2),
-                                  const SizedBox(width: MmSpace.s8),
-                                  Text(NtaCopy.submitting, style: type.caption.copyWith(color: colors.ink2)),
-                                ],
-                              ),
+                              _EndedStatus(submitState: submitState),
+                              const SizedBox(height: MmSpace.s16),
+                              KeyButton(label: NtaCopy.endedContinue, onPressed: onContinue, hapticOnCommit: false, autofocus: true),
                             ],
                           ],
                         ),
@@ -177,6 +182,38 @@ class NtaWarningOverlay extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Where the submit stands while the ended card is up: sending, in, saved on this phone, or not
+/// recorded. Never a spinner once nothing is in flight.
+class _EndedStatus extends StatelessWidget {
+  const _EndedStatus({required this.submitState});
+
+  final ValueListenable<SubmitUiState>? submitState;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final style = context.mmType.caption.copyWith(color: colors.ink2);
+    final listenable = submitState;
+    if (listenable == null) return _line(colors, style, NtaCopy.submitting, busy: true);
+    return ValueListenableBuilder<SubmitUiState>(
+      valueListenable: listenable,
+      builder: (context, state, _) => switch (state.stage) {
+        SubmitStage.idle || SubmitStage.sending => _line(colors, style, NtaCopy.submitting, busy: true),
+        SubmitStage.received => _line(colors, style, NtaCopy.endedReceived),
+        SubmitStage.pending => _line(colors, style, RunnerCopy.pendingBody),
+        SubmitStage.windowClosed || SubmitStage.rejected => _line(colors, style, NtaCopy.endedNotRecorded),
+      },
+    );
+  }
+
+  Widget _line(MmColors colors, TextStyle style, String text, {bool busy = false}) => Row(
+    children: [
+      if (busy) ...[MmSpinner(color: colors.ink2, size: 16, strokeWidth: 2), const SizedBox(width: MmSpace.s8)],
+      Expanded(child: Text(text, style: style)),
+    ],
+  );
 }
 
 class _StrikeBars extends StatelessWidget {

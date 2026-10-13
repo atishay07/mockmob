@@ -76,15 +76,15 @@ class GuideSection {
 }
 
 const guideIntro =
-    'NTA has not announced the 2027 bulletin, so dates, paper rules and marking stay provisional until the official notice is out.';
+    '2027 dates and rules are expected, not published yet.';
 
 const guidePattern = GuideSection('Exam pattern: use the latest cycle as a reference', [
   'The 2027 exam format has not been confirmed. Use the latest completed cycle to understand the kind of preparation to expect, then check the NTA bulletin for the final papers, duration and question rules before you plan around them.',
-  'Subject choices and marking rules can affect your preparation. Confirm both in the official 2027 bulletin when it is published; do not treat historical rules as a guarantee of the next cycle.',
+  'Confirm subject choices and marking rules in the official 2027 bulletin when it is published.',
 ]);
 
 const guideSubjects = GuideSection('Choosing your five subjects', [
-  'Work backwards from the course and check each university’s current eligibility rules before choosing papers. Programme requirements differ, and the 2027 rules may change when institutions publish their bulletins.',
+  'Work backwards from the course and check each university’s current eligibility rules before choosing papers. Programme requirements differ.',
 ]);
 
 const List<(String, String)> guideFaqs = [
@@ -98,7 +98,7 @@ const List<(String, String)> guideFaqs = [
   ),
   (
     'Is CUET 2027 online or offline?',
-    'NTA has not confirmed the 2027 delivery format. Check the official 2027 bulletin for the final details.',
+    'NTA has not confirmed the 2027 delivery format.',
   ),
   (
     'What is the CUET marking scheme?',

@@ -57,17 +57,17 @@ abstract final class TodayCopy {
   static const String repairLength = "Length of today's repair";
 
   // Mobi in the header (a tap says one of these, in turn).
-  static const List<String> mobiIdle = ['One move at a time. This one is ready.', 'Ten focused minutes beat an hour of scrolling.'];
-  static const List<String> mobiPoint = ['That one, just below. Start when you are set.', 'Small repairs add up to marks.'];
+  static const List<String> mobiIdle = ['One move at a time. This one is ready.'];
+  static const List<String> mobiPoint = ['That one, just below. Start when you are set.'];
   /// Only when today's opened result improved or held. A sealed or lower result never gets it.
-  static const List<String> mobiCheer = ["Today's paper held or beat the last one. That counts.", 'That counts for today.'];
+  static const List<String> mobiCheer = ["Today's paper held or beat the last one."];
 
   /// A paper was submitted today and its result is lower or has nothing to compare with.
-  static const List<String> mobiRecorded = ["Today's paper is on your sheet.", 'That counts for today.'];
+  static const List<String> mobiRecorded = ["Today's paper is on your sheet."];
 
   /// A paper from today is still sealed: the line says nothing about how it went.
   static const List<String> mobiSealed = ['Your result is ready when you are.', 'Open it whenever you are set.'];
-  static const List<String> mobiSleepy = ['Late one. Something short, then sleep.', 'Sleep is part of the plan too.'];
+  static const List<String> mobiSleepy = ['Late one. Something short, then sleep.'];
 
   static String questionNumbers(List<int> numbers) {
     final shown = numbers.take(3).map((n) => '$n').toList();
@@ -92,7 +92,7 @@ abstract final class TodayCopy {
   static const String repairedLine = 'Fresh checks are not open yet. Practise another skill while those settle.';
   static const String practiseAnother = 'Practise another skill';
   static const String questionsOfMixed = 'mixed\nquestions';
-  static const String noStrongWeakness = 'Nothing stands out right now. Mixed practice keeps things fresh.';
+  static const String noStrongWeakness = 'Nothing stands out right now.';
   static String startMixed(int count) => 'Start mixed practice, $count questions';
 
   /// A practice key states its length: "Check this skill, 10 questions".
@@ -190,7 +190,7 @@ abstract final class TodayCopy {
   static String weekNeedsOnTrack(int n) => n == 1 ? 'This week: 1 more study day by Sunday.' : 'This week: $n more study days by Sunday.';
   static const String weekNeedsMet = 'This week: your goal is met. Anything more is extra.';
   static const String weekNeedsPaused = 'This week is paused. Your run is kept.';
-  static const String weekNeedsOutOfReach = 'This week: every day you study still counts.';
+  static const String weekNeedsOutOfReach = 'This week: the goal is out of reach. Each study day still goes on the sheet.';
   static String ladderCaption(String? category) => category == null
       ? 'CSAS 2026, Round 1 closing scores, unreserved until you choose your category, out of 1000'
       : 'CSAS 2026, Round 1 closing scores, $category, out of 1000';

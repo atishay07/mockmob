@@ -59,7 +59,7 @@ abstract final class OnboardingCopy {
   static const String weeksPlaceholder = 'Your weeks to May land here.';
   static String weeksUnit(int year) => 'weeks to the expected May $year window';
   static const String datesNotOut = 'Dates not out yet';
-  static const String classElevenNote = 'You\'re early. That helps.';
+  static const String classElevenNote = 'You\'re early.';
   static const String boardsNote = 'Boards land mid-February to early April. The plan goes lighter then.';
 
   // Course and colleges.
@@ -73,7 +73,7 @@ abstract final class OnboardingCopy {
   static const String ladderSupport = 'The lowest score that got a seat in CSAS 2026, Round 1, out of 1000. Pick up to three.';
   static String showing(String category) => 'Showing $category';
   static const String categoryTitle = 'Category for the figures';
-  static const String categoryNote = 'This stays on your phone. It only changes which figures you see.';
+  static const String categoryNote = 'It only changes which figures you see.';
   static const String openToAny = 'Any college is fine';
   static String showAll(int n) => 'Show all $n';
   static const String showFewer = 'Show fewer';
@@ -123,7 +123,7 @@ abstract final class OnboardingCopy {
   static const String minutesLabel = 'Each session';
   static const String daysLabel = 'Study days';
   static const String timeLabel = 'Around';
-  static const String restDays = 'Dotted days are rest days. Rest is part of the plan.';
+  static const String restDays = 'Dotted days are rest days.';
   static const String boardWeeks = 'During boards we count two a week.';
   static String minutes(int m) => '$m min';
 
@@ -151,7 +151,7 @@ abstract final class OnboardingCopy {
   static const String cancelBrowser = 'Cancel';
   static const String useEmailCode = 'Use an email code';
   static const String notNow = 'Not now';
-  static const String offline = 'You\'re offline. Your sheet is safe here; connect to save it.';
+  static const String offline = 'You\'re offline. Connect to save your sheet.';
   static String sealedAt(String time, String chapter) => 'Sealed at $time. Week one starts with $chapter.';
 
   // First move.
@@ -159,13 +159,13 @@ abstract final class OnboardingCopy {
   static const String firstMoveUnit = 'questions to your starting point';
   static String firstMoveChapter(String chapter) => 'Week one starts with $chapter.';
   static const String startNow = 'Start now, about 10 minutes';
-  static const String checkNeedsAccount = 'The check is marked on our server, so it needs your account. Your sheet comes with you.';
+  static const String checkNeedsAccount = 'The check is marked on our server, so it needs your account.';
 
   // First move when none of the subjects has a starting-point check: plain practice, said plainly.
   static const String firstPracticeTitle = 'Your first move';
   static String practiceUnit(String subject) => 'questions in $subject';
   static String startPractice(String subject) => 'Start with 10 questions in $subject';
-  static const String practiceNeedsAccount = 'Practice is marked on our server, so it needs your account. Your sheet comes with you.';
+  static const String practiceNeedsAccount = 'Practice is marked on our server, so it needs your account.';
   static const String mobiFirstMove = 'Ten minutes. I\'ll be here after.';
   static String setFor(String when) => 'Set for ${when[0].toLowerCase()}${when.substring(1)}. It waits here when you open MockMob.';
   static const String saveNow = 'Save my sheet';
@@ -191,8 +191,8 @@ abstract final class OnboardingCopy {
   static const String usageSwitchLabel = 'Allow usage data to improve MockMob';
   static const String usageExplanation =
       'We count which parts of the app are used, such as starting a mock or finishing a repair, along with the app '
-      'version. We do not collect your answers, marks, questions, contacts, location or an advertising ID. Nothing '
-      'goes to ad or analytics companies. You can turn this off any time here and collection stops straight away.';
+      'version. We do not collect your answers, marks, questions, contacts, location or an advertising ID. You '
+      'can turn this off any time here and collection stops straight away.';
   static const String seeEvents = 'See every event we collect';
   static const String hideEvents = 'Hide the event list';
   static const String eventsIntro = 'Each event below is sent with the time and the app version only.';

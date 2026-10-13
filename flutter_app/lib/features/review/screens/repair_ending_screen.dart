@@ -103,7 +103,7 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
     final scope = CelebrationScope.repair(widget.attemptId);
     final moment = ref.watch(celebrationControllerProvider.select((s) => s.byScope[scope]));
     final momentShown = moment != null && moment.showsMoment && ref.watch(rhythmVisibleProvider);
-    final momentSays = momentShown && moment?.sentence != null;
+    final momentSays = momentShown && moment.sentence != null;
     final mobiLine = !model.repairedBefore && !nothing
         ? (momentSays ? null : ReviewCopy.firstRepair)
         : (lateNight && !nothing ? ReviewCopy.goodPlaceToStop(clock.now()) : null);
@@ -160,7 +160,7 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
                                   ),
                                 ),
                               ),
-                              if (full && !(momentShown && (moment?.mobiHop ?? false)))
+                              if (full && !(momentShown && moment.mobiHop))
                                 const MobiCharacter(size: 96, entrance: MobiAct.celebrate, seed: 19),
                             ],
                           ),

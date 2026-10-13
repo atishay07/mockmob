@@ -68,7 +68,7 @@ abstract final class EditCopy {
   static const collegesSheet = 'Your colleges, in order';
   static String collegesNote(String category) =>
       'Pick up to three. Figures are the CSAS 2026 Round 1 minimum for $category, out of 1000. '
-      'They are last year\'s, not a promise for 2027.';
+      'They are last year\'s figures.';
   static const collegesNeedCourse = 'Pick a course first. Colleges belong to a course.';
   static const collegesCap = 'Three is the most. Remove one to add another.';
   static const noSeat = 'No Round 1 seat';
