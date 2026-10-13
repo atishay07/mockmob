@@ -26,3 +26,21 @@ export const EMAIL_LOGIN_LIMITS = [
   { route: '/api/auth/email-login#email', limit: 15, windowMs: HOUR_MS, identityOnly: true, perEmail: true },
 ];
 
+
+// The per-instance bucket map (the fallback limiter in the route) must not grow forever on a
+// long-lived server fed random emails. Once it passes MAX_LOCAL_BUCKETS, buckets with no
+// attempt in the last hour are dropped. Returns the number removed.
+export const MAX_LOCAL_BUCKETS = 5000;
+
+export function pruneLocalBuckets(buckets, now, windowMs = HOUR_MS, max = MAX_LOCAL_BUCKETS) {
+  if (buckets.size <= max) return 0;
+  let removed = 0;
+  for (const [key, bucket] of buckets) {
+    const last = bucket.attempts.length ? bucket.attempts[bucket.attempts.length - 1] : bucket.lastAt;
+    if (now - Math.max(last, bucket.lastAt) >= windowMs) {
+      buckets.delete(key);
+      removed += 1;
+    }
+  }
+  return removed;
+}
