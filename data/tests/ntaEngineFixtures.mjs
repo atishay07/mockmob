@@ -3,6 +3,7 @@
 import { createHash } from 'node:crypto';
 import { getNtaBlueprint } from '../nta_engine.js';
 import { contentHash, evidenceSignature } from '../content_evidence.js';
+import { NTA_FIT_RUBRIC_VERSION, useNtaFitTables } from '../nta_fit_scores.js';
 
 /**
  * A UUID-shaped id for a readable fixture label. NTA mode serves only UUID ids (seed and demo rows such
@@ -19,7 +20,7 @@ export const FIXTURE_SECRET = 'nta-fixture-signing-key';
 process.env.CUET_EVIDENCE_SIGNING_KEY = FIXTURE_SECRET;
 
 /** Signed factory evidence for a row: two judge scores and both blind solvers on the stored key. */
-export function signEvidence(row, { luna = 8, gemini = 9, solvedKey = row.correct_answer, independentKey = solvedKey, secret = FIXTURE_SECRET, extra = {} } = {}) {
+export function signEvidence(row, { luna = 8, gemini = 9, solvedKey = row.correct_answer, independentKey = solvedKey, secret = FIXTURE_SECRET, extra = {}, fit = {} } = {}) {
   const record = {
     candidate_id: row.id,
     content_hash: contentHash(row),
@@ -30,7 +31,52 @@ export function signEvidence(row, { luna = 8, gemini = 9, solvedKey = row.correc
     },
     ...extra,
   };
-  return { ...row, evidence: { record, signature: evidenceSignature(record, secret) } };
+  const signed = { ...row, evidence: { record, signature: evidenceSignature(record, secret) } };
+  // The fit judges see the content, not the evidence column (contentHash ignores it).
+  return withFit(signed, fit);
+}
+
+// CUET-fit judgements (data/nta_fit_scores.js). The engine admits a row only when three judges scored the
+// content it holds, so every fixture row is registered here with three judges at fit 9 and no flags.
+// The registry replaces the committed tables for this process (useNtaFitTables), so a test never reads
+// the real judgements. Rows whose content a test edits afterwards fail with fit_question_changed, as live
+// rows do.
+const FIT_REGISTRY = new Map(); // id -> { subject, table, entry }
+const FIT_TABLE = { subject: 'fixture', rubric_version: NTA_FIT_RUBRIC_VERSION, questions: {} };
+useNtaFitTables(FIT_REGISTRY);
+
+const median3 = (scores) => scores.slice().sort((a, b) => a - b)[1];
+
+/**
+ * The fit entry three judges would leave for a row. options: { scores:[h1,h2,h3] | score, flags:[[],[],[]] |
+ * flagsBy:[judge indexes] with flag, type, unit, chapter (the judges' majority tags, null by default so the
+ * engine's own type guess stands), route, createdContent (the content hash the judges saw) }.
+ */
+export function fitEntryFor(row, { score = 9, scores, flags, flag = 'not_cuet_format', flaggedBy = [], type = null, unit = null, chapter = null, route = null, judges = 3, hash } = {}) {
+  const given = scores || [score, score, score];
+  const names = ['h1', 'h2', 'h3'].slice(0, judges);
+  const judgeRows = names.map((name, i) => ({
+    judge: name, model: 'claude-haiku-5-5', date: '2026-10-13',
+    cuet_type: type, unit, chapter, pyq_closeness: 0, ten_route: route,
+    fit_score: given[i], fit_flags: flags ? flags[i] : (flaggedBy.includes(i) ? [flag] : []), note: 'fixture',
+  }));
+  const flaggedCount = judgeRows.filter((judge) => judge.fit_flags.length).length;
+  const raw = median3(given);
+  return {
+    question_id: row.id, batch: 'fixture', content_hash: hash || contentHash(row), engine_type_guess: null,
+    judges: judgeRows, cuet_type: type, unit, chapter, ten_route: route,
+    fit_scores: given, fit_median: raw === 10 && !route ? 9 : raw, fit_median_raw: raw,
+    flagged_by: flaggedCount, blocking: flaggedCount >= 2,
+  };
+}
+
+/** Registers (or replaces) the fit entry for a row and returns the row. fit === false registers nothing. */
+export function withFit(row, fit = {}) {
+  if (fit === false) { FIT_REGISTRY.delete(row.id); return row; }
+  const entry = fitEntryFor(row, fit);
+  FIT_TABLE.questions[row.id] = entry;
+  FIT_REGISTRY.set(row.id, { subject: row.subject, table: FIT_TABLE, entry });
+  return row;
 }
 
 const LETTERS = 'abcdefghijklmnopqrstuvwxyz';
@@ -219,8 +265,9 @@ export function makeBank(subject, options = {}) {
   }
   // scoreFor(row) gives the mean judge score out of 10 (default 8.5: judges 8 and 9).
   return rows.map((row) => {
-    if (typeof options.scoreFor !== 'function') return signEvidence(row);
+    const fit = typeof options.fitFor === 'function' ? options.fitFor(row) : {};
+    if (typeof options.scoreFor !== 'function') return signEvidence(row, { fit });
     const score = options.scoreFor(row);
-    return signEvidence(row, { luna: score, gemini: score });
+    return signEvidence(row, { luna: score, gemini: score, fit });
   });
 }

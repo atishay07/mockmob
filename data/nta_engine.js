@@ -493,14 +493,13 @@ function createdAtOf(row) {
 }
 
 // Selection preference (owner's recency rule): dated rows by creation day, newest first; rows without a
-// date after them, in id order (highest id first); then the higher quality score, the higher fit
+// date after them; then the higher quality score, the higher fit
 // median, and the seed. So a newer 8 is preferred to an older 9.
 export function ntaPreferenceOrder(a, b) {
   const da = a.createdAt === null || a.createdAt === undefined ? null : Math.floor(a.createdAt / NTA_RECENCY_BUCKET_MS);
   const db = b.createdAt === null || b.createdAt === undefined ? null : Math.floor(b.createdAt / NTA_RECENCY_BUCKET_MS);
   if ((da === null) !== (db === null)) return da === null ? 1 : -1;
   if (da !== null && da !== db) return db - da;
-  if (da === null && a.id !== b.id) return String(b.id).localeCompare(String(a.id));
   return (Number(b.score) || 0) - (Number(a.score) || 0)
     || (Number(b.fitScore) || 0) - (Number(a.fitScore) || 0)
     || (Number(a.rank) || 0) - (Number(b.rank) || 0);

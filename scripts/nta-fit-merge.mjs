@@ -42,6 +42,9 @@ const text = (value) => (value === null || value === undefined ? '' : String(val
 const FLAGS = new Set(NTA_FIT_FLAGS);
 const ROUTES = new Set(['pyq', 'board', 'cbt_staple', 'key_aspect']);
 const SKILLS = new Set(['central_idea', 'detail', 'not_mentioned', 'inference', 'tone_attitude', 'vocabulary_in_context', 'title', 'application', 'calculation', 'other']);
+// Flag names judges wrote that are a known typo of a rubric flag (the rubric's own words win).
+const FLAG_ALIASES = { off_pattern_for_paper: 'off_pattern_for_subject' };
+const otherFlagCounts = {}; // names outside rubric section 8: kept on the judge's record, never blocking
 const int = (value, lo, hi) => Number.isInteger(value) && value >= lo && value <= hi;
 
 const rubricSha = fs.existsSync(RUBRIC) ? createHash('sha256').update(fs.readFileSync(RUBRIC)).digest('hex') : null;
@@ -70,10 +73,17 @@ function check(result, question, allowed) {
   if (!chapters.has(result.chapter)) problems.push('chapter');
   if (result.unit !== null && !(card?.units || []).some((unit) => unit.unit === result.unit)) problems.push('unit');
   if (!int(result.pyq_closeness, 0, 3)) problems.push('pyq_closeness');
+  // A judge that wrote false or an empty string for "no route" means null.
+  if (result.ten_route === false || result.ten_route === '') result = { ...result, ten_route: null };
   if (result.ten_route !== null && !ROUTES.has(result.ten_route)) problems.push('ten_route');
   if (!int(result.fit_score, 0, 10)) problems.push('fit_score');
-  if (!Array.isArray(result.fit_flags) || result.fit_flags.some((flag) => !FLAGS.has(flag))) problems.push('fit_flags');
+  if (!Array.isArray(result.fit_flags)) problems.push('fit_flags');
   if (problems.length) return { problems };
+  // Rubric flags (and their known typos) block; any other name is recorded as an other flag and never blocks.
+  const named = result.fit_flags.map((flag) => FLAG_ALIASES[String(flag)] || String(flag));
+  const fitFlags = [...new Set(named.filter((flag) => FLAGS.has(flag)))];
+  const otherFlags = [...new Set(named.filter((flag) => !FLAGS.has(flag)))];
+  for (const flag of otherFlags) otherFlagCounts[flag] = (otherFlagCounts[flag] || 0) + 1;
   return {
     value: {
       cuet_type: result.cuet_type,
@@ -84,7 +94,8 @@ function check(result, question, allowed) {
       ten_route: result.ten_route,
       est_seconds: Number.isFinite(result.est_seconds) ? result.est_seconds : null,
       fit_score: result.fit_score,
-      fit_flags: [...new Set(result.fit_flags.map(String))],
+      fit_flags: fitFlags,
+      ...(otherFlags.length ? { other_flags: otherFlags } : {}),
       note: text(result.note).slice(0, 200),
     },
   };
@@ -225,6 +236,23 @@ fs.mkdirSync(path.join(DATA, 'nta_fit_scores'), { recursive: true });
 for (const [subject, table] of Object.entries(tables)) {
   fs.writeFileSync(path.join(DATA, 'nta_fit_scores', `${subject}.json`), `${JSON.stringify(table, null, 1)}\n`);
 }
+
+// The missing and invalid result files are recorded next to the tables, so a partial merge says what it lacks.
+fs.writeFileSync(path.join(DATA, 'nta_fit_scores', '_merge-report.json'), `${JSON.stringify({
+  note: 'Written by scripts/nta-fit-merge.mjs. Judge result files absent or unusable at merge time; those questions keep the judges they have and stay out of NTA mode until all three judged them.',
+  merged_at: new Date().toISOString(),
+  batches: batches.size,
+  result_files: resultFiles.size,
+  questions_judged: judged.size,
+  questions_judged_by_three: [...judged.values()].filter((record) => record.results.length === 3).length,
+  missing_count: missing.length,
+  missing,
+  invalid_files: invalidFiles,
+  invalid_results: invalidResults,
+  other_flag_counts: otherFlagCounts,
+  orphans,
+}, null, 1)}
+`);
 
 console.log(JSON.stringify({
   dir: path.relative(process.cwd(), dir) || dir,

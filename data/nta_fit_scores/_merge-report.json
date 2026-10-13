@@ -1,0 +1,525 @@
+{
+ "note": "Written by scripts/nta-fit-merge.mjs. Judge result files absent or unusable at merge time; those questions keep the judges they have and stay out of NTA mode until all three judged them.",
+ "merged_at": "2026-10-13T20:05:39.326Z",
+ "batches": 297,
+ "result_files": 676,
+ "questions_judged": 2292,
+ "questions_judged_by_three": 1857,
+ "missing_count": 219,
+ "missing": [
+  "economics__theory-of-firms-under-perfect-competition__01__h1.json",
+  "english__factual-passage__01__h1.json",
+  "english__factual-passage__01__h2.json",
+  "english__factual-passage__02__h3.json",
+  "english__literary-passage__01__h2.json",
+  "english__literary-passage__01__h3.json",
+  "english__match-the-following__01__h3.json",
+  "english__match-the-following__02__h3.json",
+  "english__narrative-passage__01__h1.json",
+  "english__narrative-passage__01__h3.json",
+  "english__para-jumbles__01__h1.json",
+  "english__para-jumbles__01__h3.json",
+  "english__vocabulary__01__h2.json",
+  "english__vocabulary__01__h3.json",
+  "english__vocabulary__02__h1.json",
+  "gat__current-affairs__01__h1.json",
+  "gat__current-affairs__02__h1.json",
+  "gat__general-knowledge__01__h1.json",
+  "gat__general-knowledge__01__h2.json",
+  "gat__general-knowledge__02__h2.json",
+  "gat__general-knowledge__02__h3.json",
+  "gat__general-science-and-environment-literacy__01__h3.json",
+  "gat__logical-and-analytical-reasoning__01__h1.json",
+  "gat__logical-and-analytical-reasoning__01__h3.json",
+  "gat__statistical-data-analysis__01__h1.json",
+  "gat__statistical-data-analysis__01__h2.json",
+  "gat__statistical-data-analysis__01__h3.json",
+  "geography__human-development__01__h1.json",
+  "geography__human-development__01__h3.json",
+  "geography__human-geography-nature-and-scope__01__h1.json",
+  "geography__human-geography-nature-and-scope__01__h2.json",
+  "geography__international-trade__01__h1.json",
+  "geography__international-trade__01__h2.json",
+  "geography__international-trade__01__h3.json",
+  "geography__manufacturing-industries__01__h3.json",
+  "geography__migration__01__h3.json",
+  "geography__planning-and-sustainable-development__01__h1.json",
+  "geography__planning-and-sustainable-development__01__h2.json",
+  "geography__population-distribution-density-growth__01__h2.json",
+  "geography__population-distribution-density-growth__01__h3.json",
+  "geography__tertiary-and-quaternary-activities__01__h1.json",
+  "geography__tertiary-and-quaternary-activities__01__h2.json",
+  "geography__tertiary-and-quaternary-activities__01__h3.json",
+  "geography__transport-and-communication__01__h1.json",
+  "history__an-imperial-capital-vijayanagara__01__h1.json",
+  "history__an-imperial-capital-vijayanagara__01__h3.json",
+  "history__bhakti-sufi-traditions__01__h3.json",
+  "history__framing-the-constitution__01__h3.json",
+  "history__kings-farmers-and-towns__01__h1.json",
+  "history__kinship-caste-and-class__01__h1.json",
+  "history__kinship-caste-and-class__01__h2.json",
+  "history__kinship-caste-and-class__01__h3.json",
+  "history__mahatma-gandhi-and-the-nationalist-movement__01__h3.json",
+  "history__peasants-zamindars-and-the-state__01__h1.json",
+  "history__rebels-and-the-raj__01__h2.json",
+  "history__rebels-and-the-raj__01__h3.json",
+  "history__thinkers-beliefs-and-buildings__01__h1.json",
+  "history__thinkers-beliefs-and-buildings__01__h3.json",
+  "history__through-the-eyes-of-travellers__01__h3.json",
+  "mathematics__application-of-derivatives__01__h2.json",
+  "mathematics__application-of-derivatives__01__h3.json",
+  "mathematics__application-of-integrals__01__h2.json",
+  "mathematics__application-of-integrals__01__h3.json",
+  "mathematics__continuity-and-differentiability__01__h2.json",
+  "mathematics__continuity-and-differentiability__01__h3.json",
+  "mathematics__differential-equations__01__h1.json",
+  "mathematics__financial-mathematics__01__h2.json",
+  "mathematics__financial-mathematics__01__h3.json",
+  "mathematics__integrals__01__h1.json",
+  "mathematics__integrals__01__h2.json",
+  "mathematics__integrals__01__h3.json",
+  "mathematics__inverse-trigonometric-functions__01__h2.json",
+  "mathematics__inverse-trigonometric-functions__01__h3.json",
+  "mathematics__relations-and-functions__01__h1.json",
+  "mathematics__relations-and-functions__01__h2.json",
+  "mathematics__relations-and-functions__02__h1.json",
+  "mathematics__three-dimensional-geometry__01__h3.json",
+  "mathematics__time-based-data__01__h1.json",
+  "mathematics__time-based-data__01__h2.json",
+  "mathematics__vector-algebra__01__h3.json",
+  "physics__alternating-current__01__h3.json",
+  "physics__atoms__01__h1.json",
+  "physics__atoms__01__h2.json",
+  "physics__atoms__01__h3.json",
+  "physics__current-electricity__01__h2.json",
+  "physics__electric-charges-and-fields__01__h3.json",
+  "physics__electric-charges-and-fields__02__h2.json",
+  "physics__electric-charges-and-fields__03__h3.json",
+  "physics__electromagnetic-waves__01__h1.json",
+  "physics__electrostatic-potential-and-capacitance__01__h2.json",
+  "physics__electrostatic-potential-and-capacitance__02__h1.json",
+  "physics__magnetism-and-matter__01__h1.json",
+  "physics__nuclei__01__h2.json",
+  "physics__ray-optics-and-optical-instruments__01__h3.json",
+  "physics__wave-optics__01__h1.json",
+  "physics__wave-optics__01__h3.json",
+  "political_science__alternative-centres-of-power__01__h1.json",
+  "political_science__alternative-centres-of-power__01__h2.json",
+  "political_science__alternative-centres-of-power__01__h3.json",
+  "political_science__challenges-of-nation-building__01__h1.json",
+  "political_science__challenges-of-nation-building__01__h2.json",
+  "political_science__challenges-of-nation-building__01__h3.json",
+  "political_science__challenges-to-and-restoration-of-the-congress-system__01__h1.json",
+  "political_science__challenges-to-and-restoration-of-the-congress-system__01__h2.json",
+  "political_science__challenges-to-and-restoration-of-the-congress-system__01__h3.json",
+  "political_science__cold-war-era__01__h1.json",
+  "political_science__cold-war-era__01__h2.json",
+  "political_science__cold-war-era__01__h3.json",
+  "political_science__contemporary-south-asia__01__h1.json",
+  "political_science__contemporary-south-asia__01__h2.json",
+  "political_science__contemporary-south-asia__01__h3.json",
+  "political_science__crisis-of-the-democratic-order__01__h1.json",
+  "political_science__crisis-of-the-democratic-order__01__h2.json",
+  "political_science__crisis-of-the-democratic-order__01__h3.json",
+  "political_science__democratic-upsurge-and-coalition-politics__01__h1.json",
+  "political_science__democratic-upsurge-and-coalition-politics__01__h2.json",
+  "political_science__democratic-upsurge-and-coalition-politics__01__h3.json",
+  "political_science__end-of-bipolarity__01__h1.json",
+  "political_science__end-of-bipolarity__01__h2.json",
+  "political_science__end-of-bipolarity__01__h3.json",
+  "political_science__environment-and-natural-resources__01__h1.json",
+  "political_science__environment-and-natural-resources__01__h2.json",
+  "political_science__environment-and-natural-resources__01__h3.json",
+  "political_science__era-of-one-party-dominance__01__h1.json",
+  "political_science__era-of-one-party-dominance__01__h2.json",
+  "political_science__era-of-one-party-dominance__01__h3.json",
+  "political_science__globalisation__01__h1.json",
+  "political_science__globalisation__01__h2.json",
+  "political_science__globalisation__01__h3.json",
+  "political_science__india-s-external-relations__01__h1.json",
+  "political_science__india-s-external-relations__01__h2.json",
+  "political_science__india-s-external-relations__01__h3.json",
+  "political_science__international-organisations__01__h1.json",
+  "political_science__international-organisations__01__h2.json",
+  "political_science__international-organisations__01__h3.json",
+  "political_science__politics-of-planned-development__01__h1.json",
+  "political_science__politics-of-planned-development__01__h2.json",
+  "political_science__politics-of-planned-development__01__h3.json",
+  "political_science__recent-issues-and-challenges__01__h1.json",
+  "political_science__recent-issues-and-challenges__01__h2.json",
+  "political_science__recent-issues-and-challenges__01__h3.json",
+  "political_science__rise-of-popular-movements__01__h1.json",
+  "political_science__rise-of-popular-movements__01__h2.json",
+  "political_science__rise-of-popular-movements__01__h3.json",
+  "political_science__security-in-the-contemporary-world__01__h1.json",
+  "political_science__security-in-the-contemporary-world__01__h2.json",
+  "political_science__security-in-the-contemporary-world__01__h3.json",
+  "political_science__us-hegemony-in-world-politics__01__h1.json",
+  "political_science__us-hegemony-in-world-politics__01__h2.json",
+  "political_science__us-hegemony-in-world-politics__01__h3.json",
+  "psychology__attitude-and-social-cognition__01__h1.json",
+  "psychology__attitude-and-social-cognition__01__h2.json",
+  "psychology__attitude-and-social-cognition__01__h3.json",
+  "psychology__developing-psychological-skills__01__h1.json",
+  "psychology__developing-psychological-skills__01__h2.json",
+  "psychology__developing-psychological-skills__01__h3.json",
+  "psychology__meeting-life-challenges__01__h1.json",
+  "psychology__meeting-life-challenges__01__h2.json",
+  "psychology__meeting-life-challenges__01__h3.json",
+  "psychology__psychological-disorders__01__h1.json",
+  "psychology__psychological-disorders__01__h2.json",
+  "psychology__psychological-disorders__01__h3.json",
+  "psychology__psychology-and-life__01__h1.json",
+  "psychology__psychology-and-life__01__h2.json",
+  "psychology__psychology-and-life__01__h3.json",
+  "psychology__self-and-personality__01__h1.json",
+  "psychology__self-and-personality__01__h2.json",
+  "psychology__self-and-personality__01__h3.json",
+  "psychology__social-influence-and-group-processes__01__h1.json",
+  "psychology__social-influence-and-group-processes__01__h2.json",
+  "psychology__social-influence-and-group-processes__01__h3.json",
+  "psychology__therapeutic-approaches__01__h1.json",
+  "psychology__therapeutic-approaches__01__h2.json",
+  "psychology__therapeutic-approaches__01__h3.json",
+  "psychology__variations-in-psychological-attributes__01__h1.json",
+  "psychology__variations-in-psychological-attributes__01__h2.json",
+  "psychology__variations-in-psychological-attributes__01__h3.json",
+  "sociology__challenges-of-cultural-diversity__01__h1.json",
+  "sociology__challenges-of-cultural-diversity__01__h2.json",
+  "sociology__challenges-of-cultural-diversity__01__h3.json",
+  "sociology__change-and-development-in-industrial-society__01__h1.json",
+  "sociology__change-and-development-in-industrial-society__01__h2.json",
+  "sociology__change-and-development-in-industrial-society__01__h3.json",
+  "sociology__change-and-development-in-rural-society__01__h1.json",
+  "sociology__change-and-development-in-rural-society__01__h2.json",
+  "sociology__change-and-development-in-rural-society__01__h3.json",
+  "sociology__cultural-change__01__h1.json",
+  "sociology__cultural-change__01__h2.json",
+  "sociology__cultural-change__01__h3.json",
+  "sociology__demographic-structure__01__h1.json",
+  "sociology__demographic-structure__01__h2.json",
+  "sociology__demographic-structure__01__h3.json",
+  "sociology__globalisation-and-social-change__01__h1.json",
+  "sociology__globalisation-and-social-change__01__h2.json",
+  "sociology__globalisation-and-social-change__01__h3.json",
+  "sociology__introducing-indian-society__01__h1.json",
+  "sociology__introducing-indian-society__01__h2.json",
+  "sociology__introducing-indian-society__01__h3.json",
+  "sociology__market-as-a-social-institution__01__h1.json",
+  "sociology__market-as-a-social-institution__01__h2.json",
+  "sociology__market-as-a-social-institution__01__h3.json",
+  "sociology__mass-media-and-communications__01__h1.json",
+  "sociology__mass-media-and-communications__01__h2.json",
+  "sociology__mass-media-and-communications__01__h3.json",
+  "sociology__patterns-of-social-inequality__01__h1.json",
+  "sociology__patterns-of-social-inequality__01__h2.json",
+  "sociology__patterns-of-social-inequality__01__h3.json",
+  "sociology__social-institutions__01__h1.json",
+  "sociology__social-institutions__01__h2.json",
+  "sociology__social-institutions__01__h3.json",
+  "sociology__social-movements__01__h1.json",
+  "sociology__social-movements__01__h2.json",
+  "sociology__social-movements__01__h3.json",
+  "sociology__story-of-indian-democracy__01__h1.json",
+  "sociology__story-of-indian-democracy__01__h2.json",
+  "sociology__story-of-indian-democracy__01__h3.json",
+  "sociology__structural-change__01__h1.json",
+  "sociology__structural-change__01__h2.json",
+  "sociology__structural-change__01__h3.json"
+ ],
+ "invalid_files": [],
+ "invalid_results": [
+  {
+   "file": "biology__human-health-and-disease__02__h3.json",
+   "id": "3d3b1a3a-31b2-490c-960a-3f9859855ad7",
+   "problems": [
+    "not an object"
+   ]
+  },
+  {
+   "file": "english__match-the-following__01__h2.json",
+   "id": "2288e437-30c7-499a-b159-075843ddb1cb",
+   "problems": [
+    "unit"
+   ]
+  },
+  {
+   "file": "english__narrative-passage__01__h2.json",
+   "id": "056d994754438131e76f75a3c1895aeb",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "english__narrative-passage__01__h2.json",
+   "id": "c5961ca1d655542533164e7482307b11",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "english__narrative-passage__01__h2.json",
+   "id": "1ed8f3fc9f348753fa08672cfd1d439d",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "english__narrative-passage__01__h2.json",
+   "id": "351b2b5fbb84714d8487272b58aec6df",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "english__narrative-passage__01__h2.json",
+   "id": "288cc9c74867c52469c363a05e6ec5d6",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "english__narrative-passage__01__h2.json",
+   "id": "a9417080710f69ccf49d5ae0ed8c43c9",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "english__narrative-passage__01__h2.json",
+   "id": "c7215261f1e55247d54ae4ebcfa5c7db",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "gat__current-affairs__02__h3.json",
+   "id": "d4754527-4aba-46bb-a706-2639fc688f39",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "gat__current-affairs__02__h3.json",
+   "id": "ebf2d5a0-9dcf-4c8d-aec9-b539ecf55c09",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "gat__current-affairs__02__h3.json",
+   "id": "efcf6ca9-1395-45e7-97f3-af61c8702126",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "gat__current-affairs__02__h3.json",
+   "id": "25a68906-48c1-4310-a25b-5e26a8c596ad",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "gat__current-affairs__02__h3.json",
+   "id": "2d7d2b5c-7119-4218-8b38-76c5f0488f4d",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "gat__current-affairs__02__h3.json",
+   "id": "5ce182f3-c030-4a5d-b7de-7f961f088816",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "gat__current-affairs__02__h3.json",
+   "id": "8584b9b0-3813-4775-a7e0-159e88c4570f",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "gat__current-affairs__02__h3.json",
+   "id": "f10e0ad4-d495-4041-9051-62882de805f4",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "gat__current-affairs__02__h3.json",
+   "id": "7229d63f-38fc-47f0-95dd-89af4eeb6d3c",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "gat__current-affairs__02__h3.json",
+   "id": "82370873-f181-401f-8dda-4f03113ad67d",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "gat__current-affairs__02__h3.json",
+   "id": "9a8db982-0a75-4360-a8ee-d18db22e199c",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "gat__general-science-and-environment-literacy__01__h2.json",
+   "id": "68c140bb-0968-42dc-9e9f-8eddeaea4386",
+   "problems": [
+    "cuet_type",
+    "fit_score",
+    "fit_flags"
+   ]
+  },
+  {
+   "file": "gat__general-science-and-environment-literacy__01__h2.json",
+   "id": "6ae8c839-bf51-455b-a45d-a84746f12752",
+   "problems": [
+    "cuet_type",
+    "fit_score",
+    "fit_flags"
+   ]
+  },
+  {
+   "file": "gat__general-science-and-environment-literacy__01__h2.json",
+   "id": "6d463895-93c9-4dde-b7ef-19cde5336cdb",
+   "problems": [
+    "cuet_type",
+    "fit_score",
+    "fit_flags"
+   ]
+  },
+  {
+   "file": "gat__general-science-and-environment-literacy__01__h2.json",
+   "id": "c373a417-0d25-485b-b069-7dc721723479",
+   "problems": [
+    "cuet_type",
+    "fit_score",
+    "fit_flags"
+   ]
+  },
+  {
+   "file": "gat__general-science-and-environment-literacy__01__h2.json",
+   "id": "e39ac5c1-cc22-4e9f-8ec5-9fee43c1ce9e",
+   "problems": [
+    "cuet_type",
+    "fit_score",
+    "fit_flags"
+   ]
+  },
+  {
+   "file": "gat__general-science-and-environment-literacy__01__h2.json",
+   "id": "fc33f97e-7b23-4998-90bc-ded3b684cfcc",
+   "problems": [
+    "cuet_type",
+    "fit_score",
+    "fit_flags"
+   ]
+  },
+  {
+   "file": "gat__logical-and-analytical-reasoning__01__h2.json",
+   "id": "30714f74-9cff-4fa5-9e32-5114af659f45",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "gat__logical-and-analytical-reasoning__01__h2.json",
+   "id": "43123385-0b89-4594-811d-f858080de5f3",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "gat__logical-and-analytical-reasoning__01__h2.json",
+   "id": "60ef47a7-4b65-4667-8753-82a2e5cc0c89",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "gat__logical-and-analytical-reasoning__01__h2.json",
+   "id": "6b413ad8-1d71-493a-8aab-438cb78bb4c5",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "gat__logical-and-analytical-reasoning__01__h2.json",
+   "id": "98a18da5-5232-44b2-8b1f-4f027a2577ae",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "gat__logical-and-analytical-reasoning__01__h2.json",
+   "id": "bd5467c6-e491-4032-b079-2913cf1647ac",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "gat__logical-and-analytical-reasoning__01__h2.json",
+   "id": "de0c8929-ba42-4fa0-9ff8-e3b409642dee",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "gat__logical-and-analytical-reasoning__01__h2.json",
+   "id": "20c99a92-0503-4ce3-babc-cda1b5fae35b",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "gat__logical-and-analytical-reasoning__01__h2.json",
+   "id": "c420b8d7-1c8f-40a6-a353-4a16a3cf77f2",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "history__through-the-eyes-of-travellers__01__h1.json",
+   "id": "a60974db-8efb-400b-a15b-0abc8ae31227",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "history__through-the-eyes-of-travellers__01__h1.json",
+   "id": "da0cdf26-ff19-41db-aaec-667884ff3b3e",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "history__through-the-eyes-of-travellers__01__h1.json",
+   "id": "2dfe8fcd-d9d7-471d-9bfc-090998a6fd24",
+   "problems": [
+    "ten_route"
+   ]
+  },
+  {
+   "file": "history__through-the-eyes-of-travellers__01__h1.json",
+   "id": "38c1cb98-f613-4163-aabe-e55ef4071d0a",
+   "problems": [
+    "ten_route"
+   ]
+  }
+ ],
+ "other_flag_counts": {
+  "contestable_key": 1,
+  "template_prefix_case": 2,
+  "option_label_duplicated": 5,
+  "absolute_eliminable_distractor": 1
+ },
+ "orphans": []
+}

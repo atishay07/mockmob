@@ -3,25 +3,5085 @@
  "subject": "general_test",
  "rubric_version": "nta-cuet-fit-rubric-1",
  "rubric": "docs/brain/NTA-CUET-FIT-RUBRIC.md",
- "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22",
- "merged_at": null,
- "models": [],
+ "rubric_sha256": "a03b6612289a79a907fe0ea1b55c02c7cab632adf87b5d8c20a74ac7b1491bf2",
+ "merged_at": "2026-10-13T20:05:39.217Z",
+ "models": [
+  "claude-haiku-5-5"
+ ],
  "status": "partial",
  "measures": {
   "questions_in_fit_batches": 101,
-  "judged": 0,
-  "judged_by_three": 0,
-  "missing_result_files": 33,
-  "fit_pass_at_8": 0,
-  "fit_pass_at_9": 0,
+  "judged": 84,
+  "judged_by_three": 36,
+  "missing_result_files": 12,
+  "fit_pass_at_8": 32,
+  "fit_pass_at_9": 8,
   "blocking_flagged": 0,
-  "majority_type": 0,
+  "majority_type": 36,
   "no_majority_type": 0,
   "engine_type_disagrees_with_majority": 0,
-  "engine_type_disagreement_pct": null,
-  "no_majority_chapter": 0,
-  "ten_route_agreed": 0,
+  "engine_type_disagreement_pct": 0,
+  "no_majority_chapter": 3,
+  "ten_route_agreed": 1,
   "tens_capped_without_agreed_route": 0
  },
- "questions": {}
+ "questions": {
+  "35682393-6219-4c66-b31e-7de7c707c872": {
+   "question_id": "35682393-6219-4c66-b31e-7de7c707c872",
+   "batch": "gat__basic-mathematical-concepts__01",
+   "db_chapter": "Basic Mathematical Concepts",
+   "content_hash": "1b12e7565d58d487f2684af0e01a349e2a05a20ee860cac01fd74a4eac105221",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 57,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "One-step ratio (120 / 40). Key correct. Odd 'seats per percentage point' framing; distractors 2, 0.3 and 4 are plausible slips."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 57,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "One division (120/40) in a seats-per-point framing. Fair routine application; the framing is slightly unusual for CUET GAT."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 57,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "One division (120/40) after a rate framing; 'seats per percentage point' wording is odd for CUET. Format 2 caps at 8."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": "Basic Mathematical Concepts",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "3aa78428-e692-4aea-abb8-a4889e57deac": {
+   "question_id": "3aa78428-e692-4aea-abb8-a4889e57deac",
+   "batch": "gat__basic-mathematical-concepts__01",
+   "db_chapter": "Basic Mathematical Concepts",
+   "content_hash": "9b340674aeb2d26dc38b597853b1077e6b8f9f4cf9a724edf8e6581f027fcebc",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 58,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Percentage points versus relative change, a key chapter idea. Key correct (1 pp; 1/6 = 16.7%). The 1% decrease distractor is a real trap. Newspaper framing is fair."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 76,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Percentage points versus relative change; options 1% and 1 pp are real misconceptions. Answer-pair options are wordier than typical CUET items."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": "key_aspect",
+     "est_seconds": 76,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Percentage points vs relative change (1 pp; 1/6 = 16.7%). Core percentage idea and a standard CBT trap; clean key-aspect test."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": "Basic Mathematical Concepts",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    9,
+    8,
+    10
+   ],
+   "fit_median": 9,
+   "fit_median_raw": 9,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "4be21626-b416-4acd-935c-5602e6ee637e": {
+   "question_id": "4be21626-b416-4acd-935c-5602e6ee637e",
+   "batch": "gat__basic-mathematical-concepts__01",
+   "db_chapter": "Basic Mathematical Concepts",
+   "content_hash": "ec32a6fee353099b214a56a1f16b81f6d6265854e75b8a02db9173879ca281b9",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 61,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Two-step percentage-point and relative-change item. Key A correct (2 pp; 2/4 = 50%). Labelled hard but reads as medium. Traps B and C are well built."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 79,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Same percentage-point versus relative-change idea as the unemployment item, with a 50 percent relative change. Clean; pair-style options cap format at 2."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 79,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Same percentage-point vs relative-change idea as the unemployment item. Option C is garbled, so discrimination is 2; no route."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": "Basic Mathematical Concepts",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    9,
+    8,
+    9
+   ],
+   "fit_median": 9,
+   "fit_median_raw": 9,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "53cb4b46-af3a-45d8-92db-1b76eb3c7653": {
+   "question_id": "53cb4b46-af3a-45d8-92db-1b76eb3c7653",
+   "batch": "gat__basic-mathematical-concepts__01",
+   "db_chapter": "Basic Mathematical Concepts",
+   "content_hash": "ef4beb12adde945f954d029b95d3a84febe3215642dbb4c3f52adce40e06f815",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 55,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Compound growth: 1.10 x 1.20 = 1.32, so 32%. Key correct. The 30% simple-sum distractor is the usual student slip."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 73,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Successive percentage change (compound, not additive): a standard CBT staple. The 30 percent additive trap is a real misconception."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 73,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Successive percentage change (1.10 x 1.20 - 1 = 32%). A recurring CBT staple; the additive 30% is a real trap."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": "Basic Mathematical Concepts",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": "cbt_staple",
+   "fit_scores": [
+    9,
+    10,
+    10
+   ],
+   "fit_median": 10,
+   "fit_median_raw": 10,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "96ad5233-34e0-4a50-8d80-e7e41d707690": {
+   "question_id": "96ad5233-34e0-4a50-8d80-e7e41d707690",
+   "batch": "gat__basic-mathematical-concepts__01",
+   "db_chapter": "Basic Mathematical Concepts",
+   "content_hash": "2518f42864a69a237920ce79887b92b02932fb0e01a0c158a8d1eb46fd87456d",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 75,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Average speed over equal distances: 120 / 2.5 = 48. Key correct. The arithmetic-mean distractor 50 is a strong trap. Labelled easy but three steps."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 93,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Average speed over equal distances (harmonic mean, 48). The 50 option is the arithmetic-mean trap. Several steps to compute; fits 2 minutes."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 75,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Average speed over equal distances: a standard speed item in plain CUET style. 50 is the arithmetic-mean trap. No route claimed."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": "Basic Mathematical Concepts",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    9,
+    8,
+    9
+   ],
+   "fit_median": 9,
+   "fit_median_raw": 9,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "9a23d29b-c2e4-4453-abb2-f757bb96794f": {
+   "question_id": "9a23d29b-c2e4-4453-abb2-f757bb96794f",
+   "batch": "gat__basic-mathematical-concepts__01",
+   "db_chapter": "Basic Mathematical Concepts",
+   "content_hash": "c631dd259dee9e1817370ea82449a603dc3f7f94fd97b28ac05420d08c18a99e",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 85,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "SI = 2000, CI = 2100, so CI is 100 more. Key A correct. D (200) is a plausible error. Type set to single_mcq; it is a comparison item in form."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 103,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Simple versus compound interest on Rs 10,000 (difference Rs 100). Core topic; the two-case wording is wordier than typical CUET items. Stored type comparison_based is not a paper type, so single_mcq."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 85,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Simple vs compound interest on Rs 10,000 (SI 2000, CI 2100). Two cases in the stem make it wordier than real items; format 2 caps at 8."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": "Basic Mathematical Concepts",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    9,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "ad15c624-dc50-4e20-9246-5fbe201ff9ba": {
+   "question_id": "ad15c624-dc50-4e20-9246-5fbe201ff9ba",
+   "batch": "gat__basic-mathematical-concepts__01",
+   "db_chapter": "Basic Mathematical Concepts",
+   "content_hash": "28e37aaaff4b6ef07bb2d10001531eb1d58157f7102c94241bad0565f5a093f7",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 82,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Total distance 120 over 3 h = 40; the columnist's 45 is wrong. Key B correct. The 'Case:' and 'columnist' framing is stylised, so format 2."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 100,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Average speed plus harmonic-mean naming plus a judgement of a columnist's claim. Top of the CBT range; naming the mean is peripheral for GAT. Key B is correct (40 km/h)."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 82,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Average speed = 40 (harmonic). Naming the harmonic mean is beyond usual GAT wording and the 'Case:' framing is unusual; level 2 caps at 8."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": "Basic Mathematical Concepts",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    6,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "38f341cf-9618-447b-a4d9-c58c858f7b63": {
+   "question_id": "38f341cf-9618-447b-a4d9-c58c858f7b63",
+   "batch": "gat__basic-mathematical-concepts__01",
+   "db_chapter": "Basic Mathematical Concepts",
+   "content_hash": "512b8199a275695f94bb488bc565a84e8e897b9695194b6f973848b33ba6ab1c",
+   "engine_type_guess": "assertion_reason",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 67,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Independence rule, both statements true; Reason explains Assertion, key A correct. Class XII probability sits near the edge of GAT scope; level and syllabus scored 2."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 67,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Independence product rule with its definition as Reason; both true and R explains A (key A correct). Probability sits at the edge of this chapter; AR format is rare in GAT."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 67,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Independence rule as assertion-reason. Probability is a Class XII idea, so level 2 caps at 8. Option B is a real trap."
+    }
+   ],
+   "cuet_type": "assertion_reason",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": "Basic Mathematical Concepts",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "08767142-d94c-4703-b447-5ae408885877": {
+   "question_id": "08767142-d94c-4703-b447-5ae408885877",
+   "batch": "gat__current-affairs__01",
+   "db_chapter": "Current Affairs",
+   "content_hash": "66f981a3494f1eaf1279e393599ddcfe00b37eafd22289103066777f69fadbc1",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": null,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Weighted-average turnout arithmetic under a news frame. Easy, two steps. Stem tests arithmetic, not current affairs, so chapter is Numerical Ability."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 58,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Weighted average of two turnout rates; 55 is the simple-average trap. Moved to Numerical Ability (pure percent maths). Contrived news framing, format 2."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Numerical Ability",
+   "unit_votes": null,
+   "chapter": "Numerical Ability",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    6,
+    8
+   ],
+   "fit_median": 7,
+   "fit_median_raw": 7,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "101d84cd-2bd4-44f8-a7c5-094aa3ad6dea": {
+   "question_id": "101d84cd-2bd4-44f8-a7c5-094aa3ad6dea",
+   "batch": "gat__current-affairs__01",
+   "db_chapter": "Current Affairs",
+   "content_hash": "93ba83363e265689ae018ecd9a5c0abd12f2c610b5b93829b7e736dcd10410dc",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": null,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Weighted average of three group inflation rates (answer 3.1%). Standard CUET-style weighted average. Easy. Option text repeats the key letter (\"B About 3.1%\")."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 59,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Weighted average of three price changes; 3.5 is the simple-average trap. Moved to Numerical Ability. Economics-style basket wording, format 2."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Numerical Ability",
+   "unit_votes": null,
+   "chapter": "Numerical Ability",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    6,
+    8
+   ],
+   "fit_median": 7,
+   "fit_median_raw": 7,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "1a4b1b9e-2b51-4ecd-bebd-758ac3b888f4": {
+   "question_id": "1a4b1b9e-2b51-4ecd-bebd-758ac3b888f4",
+   "batch": "gat__current-affairs__01",
+   "db_chapter": "Current Affairs",
+   "content_hash": "4ea0eaddbecebe4ed68eb39aec034fa9784e4a883b2e5c92c70632b082112885",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "General Knowledge and Current Affairs",
+     "chapter": "Current Affairs",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": null,
+     "fit_score": 5,
+     "fit_flags": [],
+     "note": "Real current-affairs item: meaning of 'eased' in an inflation headline (rate fell, prices did not). Useful concept, but the correct option is wordy and the item reads more like a reading-comprehension"
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "General Knowledge and Current Affairs",
+     "chapter": "Current Affairs",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 48,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Meaning of eased in an inflation headline: the rate fell, not prices. Plain-definition item rather than a GAT recall form, so format 2."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "General Knowledge and Current Affairs",
+   "unit_votes": null,
+   "chapter": "Current Affairs",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    5,
+    8
+   ],
+   "fit_median": 6.5,
+   "fit_median_raw": 6.5,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "1df5b2fd-e988-4865-a20d-8abb16b9bb82": {
+   "question_id": "1df5b2fd-e988-4865-a20d-8abb16b9bb82",
+   "batch": "gat__current-affairs__01",
+   "db_chapter": "Current Affairs",
+   "content_hash": "e063c0032968661675e8f30bc0ba4b18c487ff160ada72ac46fb2c4dc31470dd",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": null,
+     "fit_score": 5,
+     "fit_flags": [],
+     "note": "Single-step percent increase (40 to 50 = 25%). Very easy for a 72 s slot. Stem tests arithmetic under a news frame."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 55,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Percent change on the old base of 40; 20 percent is the divide-by-new trap. Standard GAT percent-change staple. No PYQ anchor exists for GAT."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Numerical Ability",
+   "unit_votes": null,
+   "chapter": "Numerical Ability",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    5,
+    10
+   ],
+   "fit_median": 7.5,
+   "fit_median_raw": 7.5,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "2518f284-b5e2-4973-afb8-0feeba0aa4b9": {
+   "question_id": "2518f284-b5e2-4973-afb8-0feeba0aa4b9",
+   "batch": "gat__current-affairs__01",
+   "db_chapter": "Current Affairs",
+   "content_hash": "2cc45facc1af66f034a3a0423dfcacb73e23757fe3e74da748ab4b15337ef756",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": null,
+     "fit_score": 5,
+     "fit_flags": [],
+     "note": "CPI 100 to 104 gives 4%. Very easy, one subtraction and one percent. Option text repeats the key letter."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 59,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Annual inflation from two CPI index values; 104 percent is the index-as-rate confusion. One step, direct. Applied CPI, syllabus 2, no route."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Numerical Ability",
+   "unit_votes": null,
+   "chapter": "Numerical Ability",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    5,
+    9
+   ],
+   "fit_median": 7,
+   "fit_median_raw": 7,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "2621de26-21c6-499b-b7f2-19eba044101c": {
+   "question_id": "2621de26-21c6-499b-b7f2-19eba044101c",
+   "batch": "gat__current-affairs__01",
+   "db_chapter": "Current Affairs",
+   "content_hash": "48dc3f3ef70af76619ebca0c1c10b134985e411f422a511dc05a9c66414fb79e",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": null,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Tests percentage points versus percent change (4% to 5%: 1 point, 25% relative). Good conceptual trap, medium-hard. Not a PYQ or known staple, so no 10 route. Stem is wordy with a press-release framin"
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 90,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Percentage point vs relative change; key A checks out (1 point is 25 percent of 4). Level 2 combines two ideas. Wordy 92-word stem, format 2."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "Quantitative Reasoning": 1,
+    "Numerical Ability": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "Basic Mathematical Concepts": 1,
+    "Numerical Ability": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    6,
+    8
+   ],
+   "fit_median": 7,
+   "fit_median_raw": 7,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "50cbb3d0-b263-448e-8e6d-802e7d816ca9": {
+   "question_id": "50cbb3d0-b263-448e-8e6d-802e7d816ca9",
+   "batch": "gat__current-affairs__01",
+   "db_chapter": "Current Affairs",
+   "content_hash": "6c47be9bb43545db928df2f9026c474a6b9477fb444c086af924c172f246c5a5",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": null,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Successive percentage change (-10% then +10% gives -1%). Close to a well-known CUET quant staple, which is why it scores high. Not a clearly met 10 because no PYQ match is authenticated for this subje"
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 80,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Successive plus 10 and minus 10 percent gives minus 1 percent; returned exactly is the classic trap. Level 2 combines two ideas, so capped at 8."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "Quantitative Reasoning": 1,
+    "Numerical Ability": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "Basic Mathematical Concepts": 1,
+    "Numerical Ability": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "5b8b9fc0-60cb-42b0-9c19-60036d765bb9": {
+   "question_id": "5b8b9fc0-60cb-42b0-9c19-60036d765bb9",
+   "batch": "gat__current-affairs__01",
+   "db_chapter": "Current Affairs",
+   "content_hash": "8e8a9abbb9a7937d30aa57d6518ee9000c6b4f4f3191efc7d7061218635e9b31",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": null,
+     "fit_score": 4,
+     "fit_flags": [],
+     "note": "60% of 50 million (answer 30 million). Basic percent of a number, too easy to build exam readiness. Stem is a government bulletin framing with no real current-affairs content."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 56,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "One-step percent of a total; 30 million is correct, 60 million and 20 million are slips. Clean and direct, no route, so capped at 9."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Numerical Ability",
+   "unit_votes": null,
+   "chapter": "Numerical Ability",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    4,
+    9
+   ],
+   "fit_median": 6.5,
+   "fit_median_raw": 6.5,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "8b03a627-fccf-4ea3-a680-9e2082e7677c": {
+   "question_id": "8b03a627-fccf-4ea3-a680-9e2082e7677c",
+   "batch": "gat__current-affairs__01",
+   "db_chapter": "Current Affairs",
+   "content_hash": "292291d7621a760019d32d285668f9058619d7471a4ac715e4bcc84ea20a4783",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": null,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Percentage-point change (7) and relative change (10%) on a reported statistic. Useful, easy to medium. Same skill as the COVID item, which has a harder framing."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 78,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Percentage points (7) against percent change (10 percent): 7 and 14.3 are the slips. Level 2 combines two ideas, so capped at 8."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "Quantitative Reasoning": 1,
+    "Numerical Ability": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "Statistical Data Analysis": 1,
+    "Numerical Ability": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    6,
+    8
+   ],
+   "fit_median": 7,
+   "fit_median_raw": 7,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "9c961ed3-4dfb-473f-9be9-18c4af66a530": {
+   "question_id": "9c961ed3-4dfb-473f-9be9-18c4af66a530",
+   "batch": "gat__current-affairs__01",
+   "db_chapter": "Current Affairs",
+   "content_hash": "750fee134a4db90269f54f4de1361c7fc5765b55aa01e20adf5ba70c896f8627",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "General Knowledge and Current Affairs",
+     "chapter": "Current Affairs",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": null,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Recall: core inflation excludes food and energy. Plausible CBT economics-GK item, but not a clearly met predictable staple, so no 10 route. Option text repeats the key letter."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "General Knowledge and Current Affairs",
+     "chapter": "Current Affairs",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 37,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Core inflation excludes food and energy: direct current-affairs recall. The transport option is the trap. Syllabus 2, no route, so 9."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "General Knowledge and Current Affairs",
+   "unit_votes": null,
+   "chapter": "Current Affairs",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    6,
+    9
+   ],
+   "fit_median": 7.5,
+   "fit_median_raw": 7.5,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "c4a5afc2-445c-46b2-b818-60b6448434d3": {
+   "question_id": "c4a5afc2-445c-46b2-b818-60b6448434d3",
+   "batch": "gat__current-affairs__01",
+   "db_chapter": "Current Affairs",
+   "content_hash": "0a166c81a9c6f632b70bfc2fd9229b237feceba3d7202f14a43eed5a87c17652",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": null,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Two-state combined emissions change (35/400 = 8.75%). Multi-step, fits a medium slot. Explanation contains a stray sentence (\"This makes the calculation more direct for CUET.\") that should be removed."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 96,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Four calculations (two new values, totals, percent) exceed the two-calculation GAT limit. Key 8.75 percent checks out; 12.5 is the simple-average trap."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Numerical Ability",
+   "unit_votes": null,
+   "chapter": "Numerical Ability",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    6,
+    4
+   ],
+   "fit_median": 5,
+   "fit_median_raw": 5,
+   "fit_flags": {
+    "off_pattern_for_subject": 1
+   },
+   "flagged_by": 1,
+   "blocking": false
+  },
+  "d4754527-4aba-46bb-a706-2639fc688f39": {
+   "question_id": "d4754527-4aba-46bb-a706-2639fc688f39",
+   "batch": "gat__current-affairs__02",
+   "db_chapter": "Current Affairs",
+   "content_hash": "dc3e903d129c3a5749af117926f1bdde63238e6fc1c2b87b803808d7c6af311d",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 58,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Two-step ratio split of a budget; the 2:5 mix-up distractor gives some discrimination. Plain arithmetic, Case prefix is light."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "single_mcq": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "Quantitative Reasoning": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "Basic Mathematical Concepts": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    9
+   ],
+   "fit_median": 9,
+   "fit_median_raw": 9,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "ebf2d5a0-9dcf-4c8d-aec9-b539ecf55c09": {
+   "question_id": "ebf2d5a0-9dcf-4c8d-aec9-b539ecf55c09",
+   "batch": "gat__current-affairs__02",
+   "db_chapter": "Current Affairs",
+   "content_hash": "7b6979aed369e5e05788ca3c0b3d7f7373f361e6f20de1be1c1fabd53880f650",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 43,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Single division with a news-style wrapper. Distractors include the inverted division (0.125), which is a fair trap."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "single_mcq": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "Numerical Ability": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "Numerical Ability": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    9
+   ],
+   "fit_median": 9,
+   "fit_median_raw": 9,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "efcf6ca9-1395-45e7-97f3-af61c8702126": {
+   "question_id": "efcf6ca9-1395-45e7-97f3-af61c8702126",
+   "batch": "gat__current-affairs__02",
+   "db_chapter": "Current Affairs",
+   "content_hash": "28084ae3061f3dc7d74496b89c234ba6521b8f8df51ed22bf04b3e060dab902a",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "General Knowledge and Current Affairs",
+     "chapter": "Current Affairs",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 67,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Labour-market interpretation of a news-style statement. Long option sentences make it a little wordier than the CBT norm."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "single_mcq": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "General Knowledge and Current Affairs": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "Current Affairs": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "25a68906-48c1-4310-a25b-5e26a8c596ad": {
+   "question_id": "25a68906-48c1-4310-a25b-5e26a8c596ad",
+   "batch": "gat__current-affairs__02",
+   "db_chapter": "Current Affairs",
+   "content_hash": "c3c01ae1a215379a38fa9498fdf1bf7598a600c90447a366b6212cc6ebfa7aaf",
+   "engine_type_guess": "match_the_following",
+   "judges": [
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "General Knowledge and Current Affairs",
+     "chapter": "Current Affairs",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 87,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Four international bodies matched to flagship publications. Standard GK match; recall-based, so no route claimed for a 10."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "match_the_following": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "General Knowledge and Current Affairs": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "Current Affairs": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    9
+   ],
+   "fit_median": 9,
+   "fit_median_raw": 9,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "2d7d2b5c-7119-4218-8b38-76c5f0488f4d": {
+   "question_id": "2d7d2b5c-7119-4218-8b38-76c5f0488f4d",
+   "batch": "gat__current-affairs__02",
+   "db_chapter": "Current Affairs",
+   "content_hash": "c793d291434b7c171bfe16e611fd49ad9ec26892746b821eaba02bc594ed2870",
+   "engine_type_guess": "match_the_following",
+   "judges": [
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 74,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Chart-type mapping (line, pie, bar, choropleth). Obvious pairings, and the headline framing is loose for a match list."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "match_the_following": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "Quantitative Reasoning": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "Statistical Data Analysis": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "5ce182f3-c030-4a5d-b7de-7f961f088816": {
+   "question_id": "5ce182f3-c030-4a5d-b7de-7f961f088816",
+   "batch": "gat__current-affairs__02",
+   "db_chapter": "Current Affairs",
+   "content_hash": "f72f4938acfe3d6065be9d8c292a029c2f69ce47abef0bf8bec4d2c289b2f940",
+   "engine_type_guess": "match_the_following",
+   "judges": [
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "General Science and Environment Literacy",
+     "chapter": "General Science and Environment Literacy",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 69,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Three-entry environment-monitoring match. Syllabus-relevant; three entries with a mixed-case layout is a slight format drift."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "match_the_following": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "General Science and Environment Literacy": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "General Science and Environment Literacy": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "8584b9b0-3813-4775-a7e0-159e88c4570f": {
+   "question_id": "8584b9b0-3813-4775-a7e0-159e88c4570f",
+   "batch": "gat__current-affairs__02",
+   "db_chapter": "Current Affairs",
+   "content_hash": "8a8192097cfc2aa115d2d8b631419f8275dc517c09542d47015a8987848ec80b",
+   "engine_type_guess": "match_the_following",
+   "judges": [
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "General Science and Environment Literacy",
+     "chapter": "General Science and Environment Literacy",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 64,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Three-entry match of UNEP, WHO and IPCC. Good discrimination between UNEP and WHO; three-entry layout keeps format at 2."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "match_the_following": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "General Science and Environment Literacy": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "General Science and Environment Literacy": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "f10e0ad4-d495-4041-9051-62882de805f4": {
+   "question_id": "f10e0ad4-d495-4041-9051-62882de805f4",
+   "batch": "gat__current-affairs__02",
+   "db_chapter": "Current Affairs",
+   "content_hash": "e6b6aa9a7c0fa8ac07416891d81d66157363da3712d9f2d7dcec9f99cd062144",
+   "engine_type_guess": "match_the_following",
+   "judges": [
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "General Knowledge and Current Affairs",
+     "chapter": "Current Affairs",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 93,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Four economic indicators matched to what they measure. Standard economics-literacy match; reading load pushes time to level 2."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "match_the_following": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "General Knowledge and Current Affairs": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "Current Affairs": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "7229d63f-38fc-47f0-95dd-89af4eeb6d3c": {
+   "question_id": "7229d63f-38fc-47f0-95dd-89af4eeb6d3c",
+   "batch": "gat__current-affairs__02",
+   "db_chapter": "Current Affairs",
+   "content_hash": "9eb4e560b0c12f26f559e63de73f4830081ac329a00089ba596ccda8ec541d2d",
+   "engine_type_guess": "assertion_reason",
+   "judges": [
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Logical and Analytical Reasoning",
+     "chapter": "Logical & Analytical Reasoning",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 84,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Standard assertion-reason on search data and outbreaks. Key is D, checked: assertion false, reason true. Good discrimination."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "assertion_reason": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "Logical and Analytical Reasoning": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "Logical & Analytical Reasoning": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    9
+   ],
+   "fit_median": 9,
+   "fit_median_raw": 9,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "82370873-f181-401f-8dda-4f03113ad67d": {
+   "question_id": "82370873-f181-401f-8dda-4f03113ad67d",
+   "batch": "gat__current-affairs__02",
+   "db_chapter": "Current Affairs",
+   "content_hash": "36e487a45726b6f7bd6fa03d96ebf7e5df482fc8b8df6ea819534166dcdf59a5",
+   "engine_type_guess": "assertion_reason",
+   "judges": [
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 64,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Mean versus median assertion-reason. Key A checked: both true and the reason explains the assertion. Standard statistics concept."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "assertion_reason": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "Quantitative Reasoning": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "Statistical Data Analysis": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    9
+   ],
+   "fit_median": 9,
+   "fit_median_raw": 9,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "9a8db982-0a75-4360-a8ee-d18db22e199c": {
+   "question_id": "9a8db982-0a75-4360-a8ee-d18db22e199c",
+   "batch": "gat__current-affairs__02",
+   "db_chapter": "Current Affairs",
+   "content_hash": "af6852aa80d93c4bdb74295a80e14a3d8d3f4bbe8d207da146f57b4a4befc800",
+   "engine_type_guess": "assertion_reason",
+   "judges": [
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "General Knowledge and Current Affairs",
+     "chapter": "General Knowledge",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Per-capita GDP assertion-reason. Both statements are near-definitional, so discrimination is low. Key A checked."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "assertion_reason": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "General Knowledge and Current Affairs": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "General Knowledge": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    9
+   ],
+   "fit_median": 9,
+   "fit_median_raw": 9,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "02c12943-d164-41fa-975a-8f457e70c7d3": {
+   "question_id": "02c12943-d164-41fa-975a-8f457e70c7d3",
+   "batch": "gat__general-knowledge__01",
+   "db_chapter": "General Knowledge",
+   "content_hash": "708841480ea39f018307213e85eafe0e2e32de8836969b901b766369344a55d2",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "General Knowledge and Current Affairs",
+     "chapter": "General Knowledge",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 30,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Recall of CPI and WPI, a standard economic-terms GK item. Option texts repeat their own letter prefix (A A ...), so format is 2. Key A checks out."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "single_mcq": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "General Knowledge and Current Affairs": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "General Knowledge": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    6
+   ],
+   "fit_median": 6,
+   "fit_median_raw": 6,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "0dd280fb-d1ec-44c2-80ee-3c3ecb4afa4e": {
+   "question_id": "0dd280fb-d1ec-44c2-80ee-3c3ecb4afa4e",
+   "batch": "gat__general-knowledge__01",
+   "db_chapter": "General Knowledge",
+   "content_hash": "42ee91958aa24f38086528ccc6ca7769869af93950220183adefcad32c628e97",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 100,
+     "fit_score": 5,
+     "fit_flags": [],
+     "note": "Compound versus simple growth is a valid quant item, but 1.1^7 needs multi-step work without a calculator and about 100 s, above the 72 s average. Stem is a long caselet. Key A checks out (about 19,48"
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "single_mcq": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "Quantitative Reasoning": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "Basic Mathematical Concepts": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    5
+   ],
+   "fit_median": 5,
+   "fit_median_raw": 5,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "45c3baa5-3c1c-425c-b98f-046f480baf7c": {
+   "question_id": "45c3baa5-3c1c-425c-b98f-046f480baf7c",
+   "batch": "gat__general-knowledge__01",
+   "db_chapter": "General Knowledge",
+   "content_hash": "e6f8234cb661cf93b833c1ced1b4d8d55aa4ba97540429ebfcc5df8fff18cc11",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "General Knowledge and Current Affairs",
+     "chapter": "General Knowledge",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 45,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Polity item on amendment procedure in a federal system, in the GK syllabus. Options are long sentences, which is not CUET-short. Key A checks out. Option prefixes repeat the letter."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "single_mcq": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "General Knowledge and Current Affairs": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "General Knowledge": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    6
+   ],
+   "fit_median": 6,
+   "fit_median_raw": 6,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "527ae9f2-1350-4478-8ce2-4361d4b54277": {
+   "question_id": "527ae9f2-1350-4478-8ce2-4361d4b54277",
+   "batch": "gat__general-knowledge__01",
+   "db_chapter": "General Knowledge",
+   "content_hash": "4a50eb83ee6586748316fbf4c8809dbe70f3be92c57e41ed15261da256f7ff45",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 35,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Two-set minimum overlap (70+60-120=10) is a standard counting item. Key B checks out. Stem uses the word pigeonhole, which is not needed to solve it. Option prefixes repeat the letter."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "single_mcq": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "Quantitative Reasoning": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "Basic Mathematical Concepts": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    6
+   ],
+   "fit_median": 6,
+   "fit_median_raw": 6,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "5875d229-9c0a-49d3-85ff-b16d4d6226b3": {
+   "question_id": "5875d229-9c0a-49d3-85ff-b16d4d6226b3",
+   "batch": "gat__general-knowledge__01",
+   "db_chapter": "General Knowledge",
+   "content_hash": "ddbef2061e7b0de497ff502c9e23e0bbe892a8b9612a78fb8cc7f9b47acf95f9",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Quantitative Reasoning",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 60,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Successive percent changes (+40%, 0%, -20%) on a base of 100 GW is a standard CUET quant caselet, solvable without a calculator. Key A checks out (100x1.4x0.8=112). Option prefixes repeat the letter."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "single_mcq": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "Quantitative Reasoning": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "Quantitative Reasoning": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    6
+   ],
+   "fit_median": 6,
+   "fit_median_raw": 6,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "63e0c54f-1e36-46ca-a6ba-8627442a2a9f": {
+   "question_id": "63e0c54f-1e36-46ca-a6ba-8627442a2a9f",
+   "batch": "gat__general-knowledge__01",
+   "db_chapter": "General Knowledge",
+   "content_hash": "95dd33dbda8bf5d49ccf73332526ed2f32e251fea2f2976fac5bb5dc240c73d2",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Logical and Analytical Reasoning",
+     "chapter": "Logical & Analytical Reasoning",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 40,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Contrapositive of a conditional statement is a standard reasoning item with a single correct form. Key B checks out. Stem is framed in a legal-treaty setting, and options repeat the letter prefix."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "single_mcq": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "Logical and Analytical Reasoning": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "Logical & Analytical Reasoning": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    6
+   ],
+   "fit_median": 6,
+   "fit_median_raw": 6,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "91b6c959-dff0-4d42-9d0d-190544a5db8f": {
+   "question_id": "91b6c959-dff0-4d42-9d0d-190544a5db8f",
+   "batch": "gat__general-knowledge__01",
+   "db_chapter": "General Knowledge",
+   "content_hash": "e69efca62b086c9ccce6b5e44dd4e8a2ca55abdd6ac7deca5051fa17be736a3d",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Quantitative Reasoning",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 50,
+     "fit_score": 5,
+     "fit_flags": [],
+     "note": "Product of intensity and GDP growth (0.8 x 1.3 = 1.04) is a reasonable quant reasoning item, but it is framed as an environmental-economics scenario and the stem says most likely. Key C checks out. Op"
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "single_mcq": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "Quantitative Reasoning": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "Quantitative Reasoning": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    5
+   ],
+   "fit_median": 5,
+   "fit_median_raw": 5,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "9584a929-aeac-4248-81a7-3c4d15e64d87": {
+   "question_id": "9584a929-aeac-4248-81a7-3c4d15e64d87",
+   "batch": "gat__general-knowledge__01",
+   "db_chapter": "General Knowledge",
+   "content_hash": "eebee1eaaf8da0c71859a504d724d790311fae09ee2e4134325502f03341ec43",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "General Science and Environment Literacy",
+     "chapter": "General Science and Environment Literacy",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 60,
+     "fit_score": 5,
+     "fit_flags": [],
+     "note": "Dispatchability of renewables is an environment and energy literacy topic. Key B checks out, but option B is about 45 words, far from CUET-short options, and the stem is long. Option prefixes repeat t"
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "single_mcq": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "General Science and Environment Literacy": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "General Science and Environment Literacy": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    5
+   ],
+   "fit_median": 5,
+   "fit_median_raw": 5,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "a20422ca-a7e5-400b-8e7a-729a374e5cc1": {
+   "question_id": "a20422ca-a7e5-400b-8e7a-729a374e5cc1",
+   "batch": "gat__general-knowledge__01",
+   "db_chapter": "General Knowledge",
+   "content_hash": "57c03dd94e9eadf7fef9df47a3ed3f48cfc80030cdcf3117156051ddb4227e1a",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 75,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Share-times-total arithmetic for renewable generation (100 to 320 TWh, +220%) tests a real distinction between share and absolute value. It needs about 75 s, slightly above average. Key C checks out. "
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "single_mcq": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "Quantitative Reasoning": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "Statistical Data Analysis": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    6
+   ],
+   "fit_median": 6,
+   "fit_median_raw": 6,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "bc36de75-f21d-47b7-8e7c-0337a6a813f9": {
+   "question_id": "bc36de75-f21d-47b7-8e7c-0337a6a813f9",
+   "batch": "gat__general-knowledge__01",
+   "db_chapter": "General Knowledge",
+   "content_hash": "bd8fd8f78e6f3318142122de3014fe13ff068b983a60878e8c87fabe2466520c",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "General Science and Environment Literacy",
+     "chapter": "General Science and Environment Literacy",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 35,
+     "fit_score": 4,
+     "fit_flags": [],
+     "note": "Biodiversity-hotspot criteria (1,500 endemic plants, 70% habitat loss) are a niche fact outside the CBSE and CUET staple set, so syllabus and discrimination are weak. Key A matches the usual definitio"
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "single_mcq": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "General Science and Environment Literacy": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "General Science and Environment Literacy": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    4
+   ],
+   "fit_median": 4,
+   "fit_median_raw": 4,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "be011887-f020-42fb-b9c4-cc3792bab317": {
+   "question_id": "be011887-f020-42fb-b9c4-cc3792bab317",
+   "batch": "gat__general-knowledge__02",
+   "db_chapter": "General Knowledge",
+   "content_hash": "35d59f91f60fede06420bff19bcf8093c27b50c5739ec68652e1f8c88ead119a",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "General Knowledge and Current Affairs",
+     "chapter": "General Knowledge",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 30,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Organisation headquarters recall, a standard GAT GK item. Key B (WIPO, Geneva) checks out; IMO London, ICAO Montreal, FAO Rome are correct as distractors."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "single_mcq": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "General Knowledge and Current Affairs": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "General Knowledge": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "bfe44ae1-ffa4-43d8-bef5-9d6b24cad9f7": {
+   "question_id": "bfe44ae1-ffa4-43d8-bef5-9d6b24cad9f7",
+   "batch": "gat__general-knowledge__02",
+   "db_chapter": "General Knowledge",
+   "content_hash": "0d97b6e2a91257862ffc40cc58d425d944a045a11173a36db462b44e9127d025",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Logical and Analytical Reasoning",
+     "chapter": "Logical & Analytical Reasoning",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 50,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Naming a fallacy is not a CUET GAT reasoning format (GAT reasoning is series, analogy, syllogism, coding, DI, non-verbal). Key A is correct, but option texts repeat the key letter (A Post hoc...), a f"
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "single_mcq": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "Logical and Analytical Reasoning": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "Logical & Analytical Reasoning": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    4
+   ],
+   "fit_median": 4,
+   "fit_median_raw": 4,
+   "fit_flags": {
+    "off_pattern_for_subject": 1
+   },
+   "flagged_by": 1,
+   "blocking": false
+  },
+  "c09309c9-ae1f-4504-a77b-bffd91eb7a26": {
+   "question_id": "c09309c9-ae1f-4504-a77b-bffd91eb7a26",
+   "batch": "gat__general-knowledge__02",
+   "db_chapter": "General Knowledge",
+   "content_hash": "40c06f86444c681d167a796436b72847e16d440fdc970fd41970a70d067e5480",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "General Science and Environment Literacy",
+     "chapter": "General Science and Environment Literacy",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 75,
+     "fit_score": 4,
+     "fit_flags": [],
+     "other_flags": [
+      "contestable_key"
+     ],
+     "note": "Key B is arguable: solar and wind are often treated as sustainable with impact caveats, so the single wrong statement is not clear-cut. Four long options (up to about 25 words each) read slowly."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "single_mcq": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "General Science and Environment Literacy": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "General Science and Environment Literacy": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    4
+   ],
+   "fit_median": 4,
+   "fit_median_raw": 4,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "c568e6e6-edd2-4ad7-a4eb-93e5ab9a0556": {
+   "question_id": "c568e6e6-edd2-4ad7-a4eb-93e5ab9a0556",
+   "batch": "gat__general-knowledge__02",
+   "db_chapter": "General Knowledge",
+   "content_hash": "d4ca85835267b44eee5b2fc3467f1579bdb23ce1af0e1d83f2b7bf4216de8d28",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 60,
+     "fit_score": 7,
+     "fit_flags": [],
+     "note": "Median versus mean in a right-skewed distribution. Key B is correct. Filed under Statistical Data Analysis, not the batch's General Knowledge chapter. Options are wordy with explanations in them."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "single_mcq": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "Quantitative Reasoning": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "Statistical Data Analysis": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    7
+   ],
+   "fit_median": 7,
+   "fit_median_raw": 7,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "cc66a02c-949d-42ca-8703-75e80e53a012": {
+   "question_id": "cc66a02c-949d-42ca-8703-75e80e53a012",
+   "batch": "gat__general-knowledge__02",
+   "db_chapter": "General Knowledge",
+   "content_hash": "b8a78b18c2f881e6dde8fdd4a8ddcccb5382c4efe5e3f260f94d281cea1f53d6",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "General Knowledge and Current Affairs",
+     "chapter": "General Knowledge",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 55,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Green Revolution statement format, typical of CUET GK. Key A is correct: statement 1 true (HYV seeds), statement 2 false (pulses and oilseeds did not surge in the first phase)."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "statement_based": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "General Knowledge and Current Affairs": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "General Knowledge": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "g1": {
+   "question_id": "g1",
+   "batch": "gat__general-knowledge__02",
+   "db_chapter": "General Knowledge",
+   "content_hash": "4079495225b0657304f0f76eb47ca2ea649f1ed4df79586b1f0523acbd62b037",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "General Knowledge and Current Affairs",
+     "chapter": "General Knowledge",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 20,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Constitution adoption date (26 Nov 1949) is a highly predictable CBT staple with easy recall. Key B checks out. The id g1 suggests a manual seed, not a PYQ, so pyq_closeness stays 0."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "single_mcq": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "General Knowledge and Current Affairs": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "General Knowledge": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    10
+   ],
+   "fit_median": 9,
+   "fit_median_raw": 10,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "17e40e00-f515-4ff8-805a-26edf2b92d96": {
+   "question_id": "17e40e00-f515-4ff8-805a-26edf2b92d96",
+   "batch": "gat__general-knowledge__02",
+   "db_chapter": "General Knowledge",
+   "content_hash": "3df48d87f8cc542375872ac2fd821ad19f08163b23568e461d2fc61cbe8a3e60",
+   "engine_type_guess": "match_the_following",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Logical and Analytical Reasoning",
+     "chapter": "Logical & Analytical Reasoning",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 100,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Fallacy-to-headline matching is outside the GAT reasoning pattern, though the match type itself is in the blueprint. Key A (F1-H1, F2-H2, F3-H3, F4-H4) is correct. Four pairs with long headlines take "
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "match_the_following": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "Logical and Analytical Reasoning": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "Logical & Analytical Reasoning": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    4
+   ],
+   "fit_median": 4,
+   "fit_median_raw": 4,
+   "fit_flags": {
+    "off_pattern_for_subject": 1
+   },
+   "flagged_by": 1,
+   "blocking": false
+  },
+  "6567ebe6-ffe9-40df-a183-0cbe5d88383d": {
+   "question_id": "6567ebe6-ffe9-40df-a183-0cbe5d88383d",
+   "batch": "gat__general-knowledge__02",
+   "db_chapter": "General Knowledge",
+   "content_hash": "a5637762911af7263e91332c5a7074acdaad556e669da2f899fb0ce8dae13ada",
+   "engine_type_guess": "match_the_following",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "General Science and Environment Literacy",
+     "chapter": "General Science and Environment Literacy",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 100,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Environment terms (Anthropocene, biomagnification, albedo, permafrost) match the GS and environment syllabus. Key A (A-3, B-1, C-2, D-4) is correct. Four pairs take about 100 s, which is long for a 72"
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "match_the_following": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "General Science and Environment Literacy": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "General Science and Environment Literacy": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    6
+   ],
+   "fit_median": 6,
+   "fit_median_raw": 6,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "ce32a4d4-3f7c-4ce3-9c3b-7ed428abec00": {
+   "question_id": "ce32a4d4-3f7c-4ce3-9c3b-7ed428abec00",
+   "batch": "gat__general-knowledge__02",
+   "db_chapter": "General Knowledge",
+   "content_hash": "857b8dfa50a9d1d09ff74ed1dd825cbc84bc8a1557ae55d7428496ae62a46958",
+   "engine_type_guess": "match_the_following",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 75,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Definition matching for mean, median, mode and variance. Key A (1-b, 2-a, 3-c, 4-d) is correct. Overlaps with the median item in this batch, and the recall is shallow for the quant section."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "match_the_following": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "Quantitative Reasoning": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "Statistical Data Analysis": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    6
+   ],
+   "fit_median": 6,
+   "fit_median_raw": 6,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "04945aef-1818-4ca6-8ba3-932fca911eea": {
+   "question_id": "04945aef-1818-4ca6-8ba3-932fca911eea",
+   "batch": "gat__general-knowledge__02",
+   "db_chapter": "General Knowledge",
+   "content_hash": "21342332ac267ade0a1245e6a94b4e3332b904eda64d71a847c9336a8bd7424a",
+   "engine_type_guess": "assertion_reason",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "General Science and Environment Literacy",
+     "chapter": "General Science and Environment Literacy",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 75,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Cumulative CO2 and warming (carbon-budget logic). Key A is correct: both statements are true and the reason explains the assertion. Depth is above a typical GAT GS item, and the long assertion and rea"
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "assertion_reason": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "General Science and Environment Literacy": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "General Science and Environment Literacy": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    6
+   ],
+   "fit_median": 6,
+   "fit_median_raw": 6,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "49203044-8e0e-4a83-b8cf-364bbb3e8a0b": {
+   "question_id": "49203044-8e0e-4a83-b8cf-364bbb3e8a0b",
+   "batch": "gat__general-mental-ability__01",
+   "db_chapter": "General Mental Ability",
+   "content_hash": "0d4f9407fb3dc5ec0bf3ff74ca443816abbd10d42400306f1c0b0377c6557088",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 30,
+     "fit_score": 7,
+     "fit_flags": [],
+     "note": "Percent increase on a base (20% to 30%). Key A checks out (10/20 = 50%). The 10% distractor is a real percentage-point trap, but the item is easy for CBT level. No GAT PYQ anchors exist for this subje"
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 55,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Percent change on the original base, not percentage points. Staple CBT item; options carry the points and inverted-base slips."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 25,
+     "fit_score": 7,
+     "fit_flags": [],
+     "note": "Percentage-change item in the Numerical Ability syllabus. Distractors cover the absolute-difference trap (10%) and the wrong-base trap (66.7%). Options carry a stray letter prefix ('A 50%'), so format"
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Numerical Ability",
+   "unit_votes": null,
+   "chapter": "Numerical Ability",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    7,
+    10,
+    7
+   ],
+   "fit_median": 7,
+   "fit_median_raw": 7,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "543d1727-f4be-4b86-83b9-98ce628b82d8": {
+   "question_id": "543d1727-f4be-4b86-83b9-98ce628b82d8",
+   "batch": "gat__general-mental-ability__01",
+   "db_chapter": "General Mental Ability",
+   "content_hash": "c1eaf5fef8b224ad18ff661d79a7f4144d9b507411ca24a359fab624c97a05a9",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 25,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Successive +20% then -20% change, a standard quant item that tests multiplicative change. Key A checks out (1.2 x 0.8 = 0.96). The No change option is a strong trap. Easy, so no route claimed."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 55,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Successive +20% and -20% gives 0.96, so 4% down. Two linked factors, so level 2. Key verified."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 40,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Successive percentage change (+20% then -20%); a well-known aptitude staple. The 'No change' distractor is the common trap. Quick to solve within the per-question time. Stray letter prefix in options "
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Numerical Ability",
+   "unit_votes": null,
+   "chapter": "Numerical Ability",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    9
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "75638bef-a83e-4d9e-9dc0-6933d65a39ea": {
+   "question_id": "75638bef-a83e-4d9e-9dc0-6933d65a39ea",
+   "batch": "gat__general-mental-ability__01",
+   "db_chapter": "General Mental Ability",
+   "content_hash": "85e09fe70c25a7e333ce94c4218a2b8afcd129e0ed846d7ae934c41777ed4c9c",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 40,
+     "fit_score": 7,
+     "fit_flags": [],
+     "note": "Ratio split of a total (3:4, sum 56). Key A checks out (3/7 of 56 = 24). Standard and short, but easy; distractors are plausible slips only."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 51,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Ratio share: 3/7 of 56 gives 24. Standard and direct. No route claimed; the ratio share is common but not a named staple."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 45,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Ratio sharing with a sum constraint, a standard Numerical Ability item. Distractors 21, 32 and 28 are plausible misreadings of the ratio. Easy level. Stray letter prefix in options keeps format_authen"
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Numerical Ability",
+   "unit_votes": null,
+   "chapter": "Numerical Ability",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    7,
+    9,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "a3a54e19-c9ad-4733-bf19-ff69beaefbe5": {
+   "question_id": "a3a54e19-c9ad-4733-bf19-ff69beaefbe5",
+   "batch": "gat__general-mental-ability__01",
+   "db_chapter": "General Mental Ability",
+   "content_hash": "eec53b4fa82882cac6bad150e2cba0a5a0ef5353a5b2054b6dddabc58d17292b",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Quantitative Reasoning",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 80,
+     "fit_score": 7,
+     "fit_flags": [],
+     "note": "Two inlet pipes and one drain, combined rate. Key A checks out (1/10 + 1/15 - 1/30 = 2/15, so 7.5 h). Three fraction steps push it to about 80 s, slightly above the 72 s average."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 78,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Three pipes with a drain: three rate steps. Key 7.5 verified. 'Approximately' for an exact answer is a small format slip. Level 2."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Combined work-rate with a drain pipe, a common Numerical Ability form. Arithmetic is three steps and the answer 7.5 checks out (net 2/15 per hour). Stem uses 'approximately' although 7.5 is exact, a s"
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Numerical Ability",
+   "unit_votes": null,
+   "chapter": "Numerical Ability",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    7,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "d3606f32-0de9-4de8-8596-3932c9311731": {
+   "question_id": "d3606f32-0de9-4de8-8596-3932c9311731",
+   "batch": "gat__general-mental-ability__01",
+   "db_chapter": "General Mental Ability",
+   "content_hash": "010861ceb9dde33911c4f5eb09ee6a78f3924cc1b890cf554bb017a8161ac113",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Quantitative Reasoning",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 50,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Dependent probability without replacement, a standard CUET-level counting item. Key B checks out (5/10 x 4/9 = 2/9). The 1/5 and 1/3 options are plausible slips, so discrimination is good. No route cl"
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 56,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Two-stage draw without replacement, 5/10 x 4/9 = 2/9. Key verified. Two linked calculations, so level 2."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Quantitative Reasoning",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 50,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Dependent probability without replacement, 5/10 x 4/9 = 2/9 (key B checks out). Distractor 1/5 and 1/3 are sensible misreadings. Probability sits in Quantitative Reasoning. Stray letter prefix keeps f"
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": "Quantitative Reasoning",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "5cdd2da8-3144-414b-8f07-63e5d8209a56": {
+   "question_id": "5cdd2da8-3144-414b-8f07-63e5d8209a56",
+   "batch": "gat__general-mental-ability__01",
+   "db_chapter": "General Mental Ability",
+   "content_hash": "3ea3076c3e8627583b7510a731bf51ea9483a121f0830394938ebaec76d48355",
+   "engine_type_guess": "match_the_following",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 45,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Three-entry match of rounding, mean and median to definitions. Key A checks out. Match lists are an allowed GAT type, but three entries with definition-level content are too easy for CBT. Options repe"
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 67,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Three quant definitions in one match (rounding, mean, median). Key 1-B 2-A 3-C verified. Options are permutations. No route claimed."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 60,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Match of three statistics and rounding definitions (1-B, 2-A, 3-C; key A checks out). Definitional recall with an obvious pairing, so little discrimination. Type is a match_the_following, which the bl"
+    }
+   ],
+   "cuet_type": "match_the_following",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": "Statistical Data Analysis",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    6,
+    9,
+    6
+   ],
+   "fit_median": 6,
+   "fit_median_raw": 6,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "f1cc74be-6889-4fff-b6fe-9a14384e810f": {
+   "question_id": "f1cc74be-6889-4fff-b6fe-9a14384e810f",
+   "batch": "gat__general-mental-ability__01",
+   "db_chapter": "General Mental Ability",
+   "content_hash": "82638377a12488a444b42317e3e3002bdff1018fae9cdcd11dc16781262cc135",
+   "engine_type_guess": "match_the_following",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "General Science and Environment Literacy",
+     "chapter": "General Science and Environment Literacy",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 40,
+     "fit_score": 7,
+     "fit_flags": [],
+     "note": "Four-entry match of pollutants to primary effects, in the environment-literacy syllabus. Key A checks out (CO2 greenhouse, SO2 acid rain, PM respiratory, lead neurological). Recall-based, so discrimin"
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "General Science and Environment Literacy",
+     "chapter": "General Science and Environment Literacy",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 69,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Pollutant-effect match: CO2 greenhouse, SO2 acid rain, PM respiratory, Pb neurological. Key A verified. NCERT staple CBT fact."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "General Science and Environment Literacy",
+     "chapter": "General Science and Environment Literacy",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 60,
+     "fit_score": 7,
+     "fit_flags": [],
+     "note": "Pollutant to primary-effect match (1-III, 2-I, 3-II, 4-IV; key A checks out). Environment literacy is in the blueprint and general science is a small share of the paper. Four-by-four match is a standa"
+    }
+   ],
+   "cuet_type": "match_the_following",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "General Science and Environment Literacy",
+   "unit_votes": null,
+   "chapter": "General Science and Environment Literacy",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    7,
+    10,
+    7
+   ],
+   "fit_median": 7,
+   "fit_median_raw": 7,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "67e150e7-2be7-4f7b-a93d-1cc7f0676117": {
+   "question_id": "67e150e7-2be7-4f7b-a93d-1cc7f0676117",
+   "batch": "gat__general-mental-ability__01",
+   "db_chapter": "General Mental Ability",
+   "content_hash": "d15cc03a7510f425eb266dee8d48f4d0c4ff7e170d744dc007c3081161dac0dc",
+   "engine_type_guess": "assertion_reason",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Logical and Analytical Reasoning",
+     "chapter": "Logical & Analytical Reasoning",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 40,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Assertion-reason on correlation versus causation, a core reasoning idea in the GAT paper. Key B checks out (A false: confounders create spurious correlation; R true). Assertion-reason is an allowed GA"
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Logical and Analytical Reasoning",
+     "chapter": "Logical & Analytical Reasoning",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Correlation does not prove causation; confounder reason. Key B verified. Standard AR, but it holds two ideas at once, so level 2."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Logical and Analytical Reasoning",
+     "chapter": "Logical & Analytical Reasoning",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 35,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Correlation does not prove causation (A false), and confounding is a valid reason (R true), so key B checks out. Uses the standard four-option assertion-reason frame. Tests reasoning, not recall. Stra"
+    }
+   ],
+   "cuet_type": "assertion_reason",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Logical and Analytical Reasoning",
+   "unit_votes": null,
+   "chapter": "Logical & Analytical Reasoning",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "b2a6dae0-6dc3-488c-b24f-cdeffeea781f": {
+   "question_id": "b2a6dae0-6dc3-488c-b24f-cdeffeea781f",
+   "batch": "gat__general-mental-ability__01",
+   "db_chapter": "General Mental Ability",
+   "content_hash": "cf5704b021d049809e568237d0d951a45c5063ebbf2ca64932cc8a2ed1080d22",
+   "engine_type_guess": "assertion_reason",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 45,
+     "fit_score": 7,
+     "fit_flags": [],
+     "note": "Median is robust to outliers, mean is not. Key A checks out. The reason explains the assertion only implicitly (mean uses all values), and the content is school-level, so format and level are 2. Asser"
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 64,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Median robustness versus mean. Key A verified. The reason gives the mechanism and explains A, so it partly cues the answer. No route."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 45,
+     "fit_score": 7,
+     "fit_flags": [],
+     "note": "Median robust to outliers (A true) and R's reason that the mean uses all values, so key A is defensible. R is a definition-plus-consequence statement rather than a clean causal explanation, so the ite"
+    }
+   ],
+   "cuet_type": "assertion_reason",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": "Statistical Data Analysis",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    7,
+    9,
+    7
+   ],
+   "fit_median": 7,
+   "fit_median_raw": 7,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "68c140bb-0968-42dc-9e9f-8eddeaea4386": {
+   "question_id": "68c140bb-0968-42dc-9e9f-8eddeaea4386",
+   "batch": "gat__general-science-and-environment-literacy__01",
+   "db_chapter": "General Science and Environment Literacy",
+   "content_hash": "deea5ec4b76326d8e7012eb1512e790b0afd40939f9f22b7ab2b37afd511bfe1",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "General Science and Environment Literacy",
+     "chapter": "General Science and Environment Literacy",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 56,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Log scale: pH 7 to 5 is 10^2, so 100 times more H+. Two ideas combined (log scale, then the drop), so level 2 caps it at 8. Key verified."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "single_mcq": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "General Science and Environment Literacy": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "General Science and Environment Literacy": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "6ae8c839-bf51-455b-a45d-a84746f12752": {
+   "question_id": "6ae8c839-bf51-455b-a45d-a84746f12752",
+   "batch": "gat__general-science-and-environment-literacy__01",
+   "db_chapter": "General Science and Environment Literacy",
+   "content_hash": "6f0c862d30435dc86ed867e67338462c3fbc64649bfd2d109086c624622b2436",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "General Science and Environment Literacy",
+     "chapter": "General Science and Environment Literacy",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 39,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Anomalous expansion of water (maximum density at 4 C): direct recall, a classic GK science item. Key verified; options match real misconceptions."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "single_mcq": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "General Science and Environment Literacy": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "General Science and Environment Literacy": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    9
+   ],
+   "fit_median": 9,
+   "fit_median_raw": 9,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "6d463895-93c9-4dde-b7ef-19cde5336cdb": {
+   "question_id": "6d463895-93c9-4dde-b7ef-19cde5336cdb",
+   "batch": "gat__general-science-and-environment-literacy__01",
+   "db_chapter": "General Science and Environment Literacy",
+   "content_hash": "f1f99de42e9bc92d16653e93daf34ab4c1e2d5d5cd3315f206b28bb1fb3b4109",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "General Science and Environment Literacy",
+     "chapter": "General Science and Environment Literacy",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 58,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Percent-of-total in an environment wrapper; stem is wordy, so format 2 caps at 8. Key verified: 400 - 240 = 160. 340 is 400 - 60, a plausible slip."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "single_mcq": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "General Science and Environment Literacy": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "General Science and Environment Literacy": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "c373a417-0d25-485b-b069-7dc721723479": {
+   "question_id": "c373a417-0d25-485b-b069-7dc721723479",
+   "batch": "gat__general-science-and-environment-literacy__01",
+   "db_chapter": "General Science and Environment Literacy",
+   "content_hash": "6dc52615904ee97b1108bcd16aa8edc7c4f3136756cb6ae1eae1f15c2633cc1d",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 56,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "CHAPTER CORRECTED: a mean of daily values is Statistical Data Analysis, not General Science. Stem states the total and the daily values (redundant clause, format 2). Key verified; median 6.5 is a plau"
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "single_mcq": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "Quantitative Reasoning": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "Statistical Data Analysis": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "e39ac5c1-cc22-4e9f-8ec5-9fee43c1ce9e": {
+   "question_id": "e39ac5c1-cc22-4e9f-8ec5-9fee43c1ce9e",
+   "batch": "gat__general-science-and-environment-literacy__01",
+   "db_chapter": "General Science and Environment Literacy",
+   "content_hash": "5f58c940fb4c7aa58ef51b941ef0d07de499dc172c202e274ec6659240b15748",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "General Science and Environment Literacy",
+     "chapter": "General Science and Environment Literacy",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 57,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Echo round trip: halve the time, then multiply by speed. 680 is the round-trip slip. Key verified (340 m). No route: syllabus objective 2."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "single_mcq": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "General Science and Environment Literacy": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "General Science and Environment Literacy": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    9
+   ],
+   "fit_median": 9,
+   "fit_median_raw": 9,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "fc33f97e-7b23-4998-90bc-ded3b684cfcc": {
+   "question_id": "fc33f97e-7b23-4998-90bc-ded3b684cfcc",
+   "batch": "gat__general-science-and-environment-literacy__01",
+   "db_chapter": "General Science and Environment Literacy",
+   "content_hash": "0de7b697a53fbc2c505411ee0966bb41367e574b9c01d6d2345e50739876ff6b",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "General Science and Environment Literacy",
+     "chapter": "General Science and Environment Literacy",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 74,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "10 percent energy law applied twice (5000, 500, 50 J): a predictable CBT staple in ecology. Key 50 J verified; 500 J is the stop-at-primary slip."
+    }
+   ],
+   "cuet_type": null,
+   "cuet_type_votes": {
+    "single_mcq": 1
+   },
+   "passage_skill": null,
+   "unit": null,
+   "unit_votes": {
+    "General Science and Environment Literacy": 1
+   },
+   "chapter": null,
+   "chapter_votes": {
+    "General Science and Environment Literacy": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    10
+   ],
+   "fit_median": 9,
+   "fit_median_raw": 10,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "7cab2ca7-7197-4db9-89ff-aeaba2265e2f": {
+   "question_id": "7cab2ca7-7197-4db9-89ff-aeaba2265e2f",
+   "batch": "gat__numerical-ability__01",
+   "db_chapter": "Numerical Ability",
+   "content_hash": "d1722256297db2c42bbd37a53636a5ab246ca2782589a37c64a3e98521ba58d8",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 72,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Mean-change equation; key B verified (19 x 50 + 90 = 1040 = 20 x 52). Case: prefix is not CUET style, so format 2 caps at 8."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": null,
+     "fit_score": 7,
+     "fit_flags": [],
+     "other_flags": [
+      "template_prefix_case",
+      "option_label_duplicated"
+     ],
+     "note": "Mean-change with one added observation, two-step algebra, answer B 19 verified ((950+90)/20 = 52). Stem starts with a 'Case:' template prefix and option text repeats its key letter; neither is CUET wo"
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 72,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Mean-change equation, n=19. Routine CUET quant item. Stray option letters and 'Case:' prefix keep format at 2, so no 9."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Numerical Ability",
+   "unit_votes": null,
+   "chapter": "Numerical Ability",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    7,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "9bf6babe-8b4a-4dc6-b1d0-37ae6016a178": {
+   "question_id": "9bf6babe-8b4a-4dc6-b1d0-37ae6016a178",
+   "batch": "gat__numerical-ability__01",
+   "db_chapter": "Numerical Ability",
+   "content_hash": "9879a25c9bc2c5f1ea7586b78b38fc9d9849836303749e7e0fe7733620dbf04c",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 76,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Mean 10 and median 10 for 5, 8, 10, 12, 15: equal, key C verified. Case: and Question: labels are off CUET style (format 2). Chapter moved to Statistical Data Analysis."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": null,
+     "fit_score": 7,
+     "fit_flags": [],
+     "other_flags": [
+      "template_prefix_case",
+      "option_label_duplicated",
+      "absolute_eliminable_distractor"
+     ],
+     "note": "Mean vs median of five values (mean 10, median 10), answer C verified. Solvable by inspection; the 'cannot be determined' option is an obvious distractor, so discrimination is 0. 'Case:' and 'Question"
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 76,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Mean vs median on five values (both 10). Stats chapter, not Numerical Ability. Stray option letters and 'Case:' prefix cap format at 2."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": "Statistical Data Analysis",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    7,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "a2d92630-26db-4b86-a45b-34db08ca78c1": {
+   "question_id": "a2d92630-26db-4b86-a45b-34db08ca78c1",
+   "batch": "gat__numerical-ability__01",
+   "db_chapter": "Numerical Ability",
+   "content_hash": "773e5097d637f43daa7eae052fd560abe3eb3321e8c67203c32b951c9f94dce4",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 70,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Ratio chaining through common term b gives 8:15; key A verified. Route cbt_staple: chaining two ratios is a standard CBT question. Options 8:5 and 2:5 are real slips."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": null,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Chained ratio a:b and b:c to a:c, answer A 8:15 verified (scale b to 12). Standard CUET ratio item; the naive-combination distractors (8:5, 10:15) give useful discrimination. Not claimed as a 10."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 70,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Chained ratio a:c = 8:15, with a 10:15 distractor. Good discrimination. Stray option letters keep format at 2."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Numerical Ability",
+   "unit_votes": null,
+   "chapter": "Numerical Ability",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    10,
+    9,
+    8
+   ],
+   "fit_median": 9,
+   "fit_median_raw": 9,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "cbfdeb0c-f5e2-45ff-8c98-56724ee40ba5": {
+   "question_id": "cbfdeb0c-f5e2-45ff-8c98-56724ee40ba5",
+   "batch": "gat__numerical-ability__01",
+   "db_chapter": "Numerical Ability",
+   "content_hash": "afddb04117847ce5e68893cca6fe7d6824a4a86f6b83ed03243d7b3cf5a956eb",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": "key_aspect",
+     "est_seconds": 41,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Median as middle of ordered data is the core idea of the chapter; key A verified. Route key_aspect. Chapter moved to Statistical Data Analysis."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": null,
+     "fit_score": 7,
+     "fit_flags": [],
+     "other_flags": [
+      "option_label_duplicated"
+     ],
+     "note": "Pure definition recall of the median, answer A correct. Other options are clearly different measures, so it tests recall only. Fine for easy recall; low discrimination. Option text repeats key letter."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 41,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Pure recall of the median definition. Easy, low discrimination. Stray option letters keep format at 2."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": "Statistical Data Analysis",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    10,
+    7,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "ec2431a6-82f3-45f0-8c07-d3d6ff52f865": {
+   "question_id": "ec2431a6-82f3-45f0-8c07-d3d6ff52f865",
+   "batch": "gat__numerical-ability__01",
+   "db_chapter": "Numerical Ability",
+   "content_hash": "fd48c7332bdd7f2a318ba906d29038fba6bb4385d9d216e7c2f89bfdc75477cd",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 71,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Weighted mean 81 verified (21 + 24 + 36). Option 80 is the simple-average trap, a real student slip. Weighted average is an application, so syllabus 2 and no route."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": null,
+     "fit_score": 8,
+     "fit_flags": [],
+     "other_flags": [
+      "option_label_duplicated"
+     ],
+     "note": "Weighted average 0.3*70+0.3*80+0.4*90 = 81, answer B verified. The simple-average trap (80) gives real discrimination. Option text repeats key letter."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 71,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Weighted average 81 from three weighted scores. Typical CUET averages item. Stray option letters keep format at 2."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Numerical Ability",
+   "unit_votes": null,
+   "chapter": "Numerical Ability",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    9,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "fa177d41-82ca-44b1-aae1-d0acf7d61825": {
+   "question_id": "fa177d41-82ca-44b1-aae1-d0acf7d61825",
+   "batch": "gat__numerical-ability__01",
+   "db_chapter": "Numerical Ability",
+   "content_hash": "26b718e9c00e5eee5efe322a1eaed32d44dbbcfda119ca8d98379e6d5ccb6436",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 50,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Range 20 - 5 = 15; key A verified. Option 5 (the minimum) is a real slip. Range is a supporting statistic, so no route. Chapter moved to Statistical Data Analysis."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": null,
+     "fit_score": 7,
+     "fit_flags": [],
+     "other_flags": [
+      "option_label_duplicated"
+     ],
+     "note": "Range = 20 - 5 = 15, answer A verified. Direct recall with a routine set of values. Option text repeats key letter."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 50,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Range of a five-value set. Easy recall-level computation. Stray option letters keep format at 2."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": "Statistical Data Analysis",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    9,
+    7,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "76e09026-8c2e-4087-ab12-f4518202e7a2": {
+   "question_id": "76e09026-8c2e-4087-ab12-f4518202e7a2",
+   "batch": "gat__numerical-ability__01",
+   "db_chapter": "Numerical Ability",
+   "content_hash": "3367e1a8481a1fdf7cd33138b7a575c455a342eee16258a25f94282cb1a1d5ed",
+   "engine_type_guess": "match_the_following",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 63,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Skew shape against mean-median relation; key A verified, only option mapping all three. Inline List I/II layout is not the two-column CUET form (format 2). Chapter moved to Statistical Data Analysis."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": null,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Shape of distribution to mean-median relation, key A (1-B, 2-C, 3-A) verified and unique. Matches the CUET List I / List II format. Not claimed as a 10."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 81,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Three-row match of distribution shape with mean vs median, all parallel and correct. Good discrimination. Option letter prefixes keep format at 2."
+    }
+   ],
+   "cuet_type": "match_the_following",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": "Statistical Data Analysis",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    9,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "af96c33a-3146-4282-aac4-83245f78cb80": {
+   "question_id": "af96c33a-3146-4282-aac4-83245f78cb80",
+   "batch": "gat__numerical-ability__01",
+   "db_chapter": "Numerical Ability",
+   "content_hash": "645a8cc37eeee7ac5e786d5612212eb3ca8be58ddef58ee23167460bc7e597a0",
+   "engine_type_guess": "match_the_following",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Typical uses of mean, median and mode; key A verified, only option mapping all three. Inline List I/II layout is format 2, so cap 8. Chapter moved to Statistical Data Analysis."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": null,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Measure to typical use (mean, median, mode), key A (1-C, 2-A, 3-B) verified and unique. Matches the CUET match format. Not claimed as a 10."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 83,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Match mean, median, mode to typical use. Accurate and on syllabus. Option letter prefixes keep format at 2, so no 9."
+    }
+   ],
+   "cuet_type": "match_the_following",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": "Statistical Data Analysis",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    9,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "d57074ef-8a9a-42bf-8905-395e7d15dc1b": {
+   "question_id": "d57074ef-8a9a-42bf-8905-395e7d15dc1b",
+   "batch": "gat__numerical-ability__01",
+   "db_chapter": "Numerical Ability",
+   "content_hash": "4203420804bcc111ccc6848f2edb16c4992d96f9ef773df7a0d842ae3764a01b",
+   "engine_type_guess": "assertion_reason",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 86,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Shift by a constant: mean rises, SD unchanged, and the reason explains it; key A verified. Two linked ideas make level 2, so cap 8. Chapter moved to Statistical Data Analysis."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": null,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Shift of data raises the mean and leaves SD unchanged; reason explains it. Answer A verified. Standard CUET assertion-reason form. Time is tight at about 80 words with a two-part judgement, so time is"
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 86,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Assertion-reason on shift invariance of SD. Correct and explained. Stray option letters keep format at 2, so no 9."
+    }
+   ],
+   "cuet_type": "assertion_reason",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": "Statistical Data Analysis",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "08a07834-b3ee-44c7-b0d8-76e72ebcf094": {
+   "question_id": "08a07834-b3ee-44c7-b0d8-76e72ebcf094",
+   "batch": "gat__quantitative-reasoning__01",
+   "db_chapter": "Quantitative Reasoning",
+   "content_hash": "1e7dc941860bfadd87fe92a4373365690af5e60a3e936e8827769ea97b42b201",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 36,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Rule of 70 gives 70/7 = 10 years, key A correct. B (7) and C (14) are the usual slips. Rule of 70 is a shortcut outside NCERT, so syllabus 2."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Quantitative Reasoning",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 54,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Rule-of-70 doubling time. Standard GAT growth item, but easy recall shortcut."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 54,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Rule-of-70 shortcut named in the stem; not NCERT core, so format 2 and the NTA cap is 8. Level and time are fine."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": null,
+   "chapter_votes": {
+    "Basic Mathematical Concepts": 1,
+    "Quantitative Reasoning": 1,
+    "Numerical Ability": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "1598109f-f902-4e32-bfc9-402a85b3ec09": {
+   "question_id": "1598109f-f902-4e32-bfc9-402a85b3ec09",
+   "batch": "gat__quantitative-reasoning__01",
+   "db_chapter": "Quantitative Reasoning",
+   "content_hash": "7a49c107b1a067cae4fe3d13448a65688da60d09f6e876e50e7dc5b0579f4666",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 55,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Relative change 1.5/6 = 25%, key A correct. C (1.5%) is the percentage-point trap. Clean CBT percentage item."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Quantitative Reasoning",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 55,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Relative vs absolute percent change trap. Correct and fast, but easy for CUET GAT."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": "key_aspect",
+     "est_seconds": 55,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Relative percent change, a core key idea. Traps 20% (divide by new value) and 1.5% (absolute change). Route key_aspect."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": null,
+   "chapter_votes": {
+    "Basic Mathematical Concepts": 1,
+    "Quantitative Reasoning": 1,
+    "Numerical Ability": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    9,
+    8,
+    10
+   ],
+   "fit_median": 9,
+   "fit_median_raw": 9,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "162e1e1a-ee83-4f25-b425-a9e312c509b6": {
+   "question_id": "162e1e1a-ee83-4f25-b425-a9e312c509b6",
+   "batch": "gat__quantitative-reasoning__01",
+   "db_chapter": "Quantitative Reasoning",
+   "content_hash": "eb157ee6e006155d4ff3ea715a3f2a24598e53c5e6aa947a99c9fcf9c7b24bb2",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 56,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Weighted mean 0.4x60+0.3x50+0.3x40 = 51, key A correct. B (50) is the unweighted-mean trap. Stem framing is stylised, format 2."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Quantitative Reasoning",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 74,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Population-weighted average of three states. Correct arithmetic; classic quant format but easy."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 74,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Population-weighted mean of three states. Unweighted-mean trap 50 is a real misconception. Wordy scenario: format 2, cap 8."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": "Statistical Data Analysis",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "545c4ce5-aefc-4d43-938f-a3fdb59170ec": {
+   "question_id": "545c4ce5-aefc-4d43-938f-a3fdb59170ec",
+   "batch": "gat__quantitative-reasoning__01",
+   "db_chapter": "Quantitative Reasoning",
+   "content_hash": "cb12d3dd79376f6925a1fef60f380384bbb6665553d93130e738a10958ab55c5",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 63,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Mean 29.8 vs median 13 for this set, key A correct. Option A carries the longest reason, a mild cue; format 2."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 45,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Mean vs median with outlier. Statistics-concept item, reads more like a verbal judgement than GAT quant."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 63,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Mean vs median with an outlier, core Class X statistics. The 'why' option set is wordier than CUET items; level 2, cap 8."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": "Statistical Data Analysis",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "5ce860f9-b4f2-4458-b295-dfb15c4c89f4": {
+   "question_id": "5ce860f9-b4f2-4458-b295-dfb15c4c89f4",
+   "batch": "gat__quantitative-reasoning__01",
+   "db_chapter": "Quantitative Reasoning",
+   "content_hash": "1cf07f15be2f34303b4613ed5e4f85e3fe668e054a64433ff586411a0870f0f2",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 59,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "120/80 = 1.5 per person, so 150 per 100 people; B gives 100. Key A correct. C and D are weak distractors; discrimination 2."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Quantitative Reasoning",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Doses per 100 people ratio comparison. Valid per-capita trap; reads as a DI-style item, easy level."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Numerical Ability",
+     "chapter": "Numerical Ability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Per-100 rate comparison with two divisions. Raw-total trap (Country B has more doses). Key A verified (150 vs 100). Level 2, cap 8."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": null,
+   "chapter_votes": {
+    "Basic Mathematical Concepts": 1,
+    "Quantitative Reasoning": 1,
+    "Numerical Ability": 1
+   },
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "813afedb-1b71-467f-884c-b1959944b48f": {
+   "question_id": "813afedb-1b71-467f-884c-b1959944b48f",
+   "batch": "gat__quantitative-reasoning__01",
+   "db_chapter": "Quantitative Reasoning",
+   "content_hash": "ddbe90abfdc5e8d44753c81345cbe817bce7bff0bd3c4143f38f3ca51c556d48",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Quantitative Reasoning",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 73,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Cases: 2M+2E 210, 3M+1E 175, 4M 35, total 420, key A correct. Each case is a distinct trap. Combinatorics is near the GAT syllabus edge, syllabus 2."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Quantitative Reasoning",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 91,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Combinations with at-least-two-minister cases. Correct total 420; medium level, but about 91 s so time is capped."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Quantitative Reasoning",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 109,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Three-case combinations with 'at least two'; key 420 verified. Five steps, 109 s, so time 2 and level 2, cap 8."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": "Quantitative Reasoning",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    9,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "857ab92e-20a2-4fac-af72-8baca5c6d5c4": {
+   "question_id": "857ab92e-20a2-4fac-af72-8baca5c6d5c4",
+   "batch": "gat__quantitative-reasoning__01",
+   "db_chapter": "Quantitative Reasoning",
+   "content_hash": "0858b5ad6ab89822168c8ff53424921cbedfd1bd1f3fb167a957b3ca4f11c815",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Quantitative Reasoning",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 40,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Trade balance 120 - 150 = -30, a $30bn deficit, key A correct. Labelled hard but one subtraction, so level 2. Economics content in a quant chapter."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Quantitative Reasoning",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 58,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Trade balance sign reading. Correct (deficit 30). Labelled hard but it is easy arithmetic; low discrimination."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "General Knowledge and Current Affairs",
+     "chapter": "General Knowledge",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 58,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Trade balance: one subtraction and the sign. Distractors include the 270 sum and a surplus sign swap. Standard GK economy item. Stored difficulty 'hard' not used."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": "Quantitative Reasoning",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    9
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "cc28a6ec-fbf8-4ab3-b318-4bf0bc06f17d": {
+   "question_id": "cc28a6ec-fbf8-4ab3-b318-4bf0bc06f17d",
+   "batch": "gat__quantitative-reasoning__01",
+   "db_chapter": "Quantitative Reasoning",
+   "content_hash": "a659ec517dde8a8dfa7023893f2e4f647baf12a28f76975e40b96339836a867c",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 56,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "0.70 x 0.80 = 0.56, key A correct. C (80%) is the ignore-registration trap. Probability is at the GAT syllabus edge, syllabus 2."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Quantitative Reasoning",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 56,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Conditional probability (registered then turnout). Correct 0.56; standard GAT item, easy level."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Basic Mathematical Concepts",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 56,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Chained probability 0.7 x 0.8 with a standard CBT shape. Options 70 and 80 are the single-event misconceptions."
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": "Basic Mathematical Concepts",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    9,
+    8,
+    9
+   ],
+   "fit_median": 9,
+   "fit_median_raw": 9,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "e3f311ee-79bf-4457-a052-1d29df3706ae": {
+   "question_id": "e3f311ee-79bf-4457-a052-1d29df3706ae",
+   "batch": "gat__quantitative-reasoning__01",
+   "db_chapter": "Quantitative Reasoning",
+   "content_hash": "d4f860a0d0f30e1c6b382a339c0e9c6eace2a1e214b4deafc46799dda8186b52",
+   "engine_type_guess": "match_the_following",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Logical and Analytical Reasoning",
+     "chapter": "Logical & Analytical Reasoning",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 74,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Deduction-B, induction-A, analogy-C; key A correct. Content is logical reasoning, so chapter is set to Logical & Analytical Reasoning, not the batch's quant label."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Logical and Analytical Reasoning",
+     "chapter": "Logical & Analytical Reasoning",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 92,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Deduction/induction/analogy matching. Key 1-B,2-A,3-C verified; matches GAT match format but about 92 s."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Logical and Analytical Reasoning",
+     "chapter": "Logical & Analytical Reasoning",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 74,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Deduction/induction/analogy match; key 1-B, 2-A, 3-C verified. List II entries are long sentences, so format 2, cap 8."
+    }
+   ],
+   "cuet_type": "match_the_following",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Logical and Analytical Reasoning",
+   "unit_votes": null,
+   "chapter": "Logical & Analytical Reasoning",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    9,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  },
+  "78f1dd3d-5672-45e6-8d46-792bba399b5f": {
+   "question_id": "78f1dd3d-5672-45e6-8d46-792bba399b5f",
+   "batch": "gat__quantitative-reasoning__01",
+   "db_chapter": "Quantitative Reasoning",
+   "content_hash": "2da51f1dbbf3fbbee65fd9bab952bb4e59341c177f57dd2337d567cc0a828019",
+   "engine_type_guess": "assertion_reason",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 67,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Sampling bias: both statements true and the reason explains the assertion, key A correct. B (true but not explaining) is a real trap. Sampling is at syllabus edge, syllabus 2."
+    },
+    {
+     "judge": "h2",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 67,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Survey sampling bias assertion-reason. Reason correctly explains assertion; medium level, standard CUET A-R format."
+    },
+    {
+     "judge": "h3",
+     "model": "claude-haiku-5-5",
+     "date": "2026-10-13",
+     "cuet_type": "assertion_reason",
+     "passage_skill": null,
+     "unit": "Quantitative Reasoning",
+     "chapter": "Statistical Data Analysis",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 67,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Assertion-reason on survey sampling bias; key A verified. Two claims plus a link, so level 2, cap 8."
+    }
+   ],
+   "cuet_type": "assertion_reason",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Quantitative Reasoning",
+   "unit_votes": null,
+   "chapter": "Statistical Data Analysis",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    9,
+    9,
+    8
+   ],
+   "fit_median": 9,
+   "fit_median_raw": 9,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false
+  }
+ }
 }
