@@ -6,7 +6,7 @@ import { seoMetadata } from '@/lib/seo';
 
 export const metadata = seoMetadata({
   title: 'Delete your MockMob account',
-  description: 'How to ask MockMob to delete your account and study records, what is deleted, what is kept, and how long it takes.',
+  description: 'How to ask MockMob: CUET UG Prep (in.mockmob.app) and mockmob.in to delete your account and study records, what is deleted, what is kept, and how long it takes.',
   path: '/account-deletion',
 });
 
@@ -17,7 +17,8 @@ export default function AccountDeletionPage() {
       <main className="container-narrow px-5 pb-20 pt-10">
         <div className="eyebrow mb-3">Account</div>
         <h1 className="display-lg mb-5">Delete your MockMob account</h1>
-        <p className="mb-10 text-zinc-400">Last updated: 12 October 2026</p>
+        <p className="mb-3 text-zinc-300">This page covers the Android app <strong>MockMob: CUET UG Prep</strong> (package <code>in.mockmob.app</code>) and the MockMob website at mockmob.in.</p>
+        <p className="mb-10 text-zinc-400">Last updated: 14 October 2026</p>
 
         <div className="legal-copy">
           <section>
