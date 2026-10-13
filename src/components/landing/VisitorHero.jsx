@@ -18,9 +18,15 @@ function useMember() {
   const [resume, setResume] = useState(null);
   const [hint, setHint] = useState(null);
   useEffect(() => {
-    setHint(readHint());
-    if (status !== 'authenticated' || !user?.id) { setResume(null); return; }
-    try { setResume(findResumableTest(window.localStorage, user.id)); } catch { setResume(null); }
+    let alive = true;
+    // Deferred a tick so the effect itself sets no state (the same pattern the result page uses).
+    queueMicrotask(() => {
+      if (!alive) return;
+      setHint(readHint());
+      if (status !== 'authenticated' || !user?.id) { setResume(null); return; }
+      try { setResume(findResumableTest(window.localStorage, user.id)); } catch { setResume(null); }
+    });
+    return () => { alive = false; };
   }, [status, user?.id]);
   const state = useMemo(() => visitorState({ status, user, hint }), [status, user, hint]);
   const copy = useMemo(() => memberCopy(state, user, resume), [state, user, resume]);
@@ -34,12 +40,13 @@ function useArenaFirst(state) {
   useEffect(() => {
     let pref = null;
     try { pref = window.localStorage.getItem(ARENA_FIRST_KEY); } catch { /* storage is optional */ }
-    setEnabled(pref === '1');
-    if (arenaRedirectDone()) return;
-    if (shouldEnterArena({ preference: pref, state, landedOnHome: landedOnHome(), referrer: document.referrer, origin: window.location.origin, search: window.location.search })) {
+    let alive = true;
+    queueMicrotask(() => { if (alive) setEnabled(pref === '1'); });
+    if (!arenaRedirectDone() && shouldEnterArena({ preference: pref, state, landedOnHome: landedOnHome(), referrer: document.referrer, origin: window.location.origin, search: window.location.search })) {
       markArenaRedirect();
       router.replace(ARENA_HREF);
     }
+    return () => { alive = false; };
   }, [state, router]);
   const toggle = (on) => {
     setEnabled(on);

@@ -11,7 +11,7 @@
 export function runnerNotice({ pendingSubmission = false, online = true, syncStatus = 'saved', hasTicket = false } = {}) {
   if (pendingSubmission) {
     return {
-      banner: { tone: 'warn', text: 'Not submitted yet. Your answers are safe on this device. Reconnect and they will be sent.' },
+      banner: { tone: 'warn', text: 'Not submitted yet. Your answers are safe on this device. Reconnect soon: they send on their own while the submission window is open.' },
       save: { tone: 'warn', text: 'Waiting to submit' },
     };
   }

@@ -8,8 +8,14 @@ import './runner-notice.css';
 // waiting for a connection). Reuses runner-sync-state so both interfaces keep their colours.
 export function RunnerBanner({ state }) {
   const { banner } = runnerNotice(state);
-  if (!banner) return null;
-  return <div role="status" className="runner-sync-state runner-sync-state--warn">{banner.text}</div>;
+  // The live region stays in the page and only its content comes and goes. A status region that
+  // is inserted already filled is often not announced, and this is how a screen-reader user
+  // learns that the connection dropped or that a submit is waiting.
+  return (
+    <div role="status">
+      {banner ? <div className="runner-sync-state runner-sync-state--warn">{banner.text}</div> : null}
+    </div>
+  );
 }
 
 // The save state, shown beside the submit control. Quiet while everything is fine.

@@ -118,12 +118,15 @@ export default function LandingPage() {
           <HeroBackdrop />
           <div className="mm-wrap lp-hero__grid">
             <div className="lp-hero__copy">
-              <div className="lp-hero__greeting"><a href="#try-practice" className="lp-pill" data-hero style={{ '--h': 0 }}>
+              <div className="lp-hero__greeting"><a href="#try-practice" className="lp-pill vs-guest-only" data-hero style={{ '--h': 0 }}>
                 <span className="lp-pill__dot" aria-hidden="true" />
                 CUET UG 2027
                 <ArrowRight size={14} aria-hidden="true" />
-              </a><MascotSeat station="hero" pose="greeting" label="Mobi’s on your side." note="Even at 11pm." eager /></div>
+              </a>{/* The sample below is hidden from students who are signed in, so their pill is a label, not a dead link. */}
+              <span className="lp-pill vs-static vs-member-only"><span className="lp-pill__dot" aria-hidden="true" />CUET UG 2027</span><MascotSeat station="hero" pose="greeting" label="Mobi’s on your side." note="Even at 11pm." eager /></div>
               <ReturningNote />
+              {/* Hidden unless signed in. Placed before the guest copy so, for a student, the welcome and the Arena action come first in reading and tab order. */}
+              <MemberHeroCopy />
               <h1 className="lp-title vs-guest-only">
                 {recoveryReleased() ? <><span className="lp-title__line">Find the mistake</span><span className="lp-title__line">behind the marks.</span></> : <>
                 <span className="lp-title__line">CUET 2027.</span>
@@ -147,7 +150,6 @@ export default function LandingPage() {
                 <ArrowRight size={16} aria-hidden="true" />
               </Link>
               <a href="#exam-experience" className="lp-hero__exam-link vs-guest-only"><Monitor size={16} aria-hidden="true" />Meet the exam before exam day<ArrowRight size={15} aria-hidden="true" /></a>
-              <MemberHeroCopy />
             </div>
 
             <div className="lp-stage vs-guest-only" id="try-practice" data-hero style={{ '--h': 2 }}>

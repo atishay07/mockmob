@@ -29,6 +29,7 @@ test('offline shows a banner that says what to do and keeps the timer honest', (
 test('a submission waiting for the connection wins over every other state', () => {
   const { banner, save } = runnerNotice({ pendingSubmission: true, online: false, hasTicket: true, syncStatus: 'pending' });
   assert.match(banner.text, /not submitted yet/i);
+  assert.match(banner.text, /submission window/i);
   assert.equal(save.text, 'Waiting to submit');
 });
 

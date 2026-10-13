@@ -32,6 +32,6 @@ export default function VisitorSync() {
     // Judged by what was remembered before this visit, so a first visit stays "new" until the next one.
     const { kind } = visitorState({ status, user: signedIn ? { isPremium } : null, hint: current });
     document.documentElement.dataset.visitor = kind;
-  }, [status, signedIn, isPremium]); // eslint-disable-line react-hooks/exhaustive-deps -- user is reduced to the fields above
+  }, [status, signedIn, isPremium]); // user is reduced to the fields above
   return null;
 }

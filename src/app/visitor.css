@@ -7,6 +7,12 @@ html:not([data-visitor='returning']) .vs-returning-only,
 html:not([data-visitor='member']) .vs-member-only,
 html[data-visitor='member'] .vs-guest-only { display: none !important; }
 
+/* The signed-in heading carries a first name (up to 24 characters) that can be longer than any word the
+   guest title was sized for. Without this a long unbroken name runs past the column at 375px and is clipped. */
+.lp .lp-title.vs-title { overflow-wrap: anywhere; }
+/* The member's CUET UG 2027 label is not a link, so it must not react like one. */
+.lp-pill.vs-static, .lp-pill.vs-static:hover { border-color: var(--line-strong); background: rgb(var(--tint) / .04); color: var(--ink-2); }
+
 .vs-welcome { margin: 0; max-width: 34rem; padding: .7rem 1rem; border: 1px solid var(--accent-line, var(--line-strong)); border-radius: 14px; background: var(--accent-wash, var(--paper-raised)); color: var(--ink); font-size: .9375rem; line-height: 1.45; }
 .vs-welcome b { font-weight: 700; }
 
