@@ -63,6 +63,12 @@ class FakeGateway implements SignInGateway {
 
   @override
   bool get isSignedIn => _signedIn;
+
+  /// The account a sign-in lands on.
+  String signsInAs = 'u1';
+
+  @override
+  String? get userId => _signedIn ? signsInAs : null;
 }
 
 /// A preferences store whose every call fails, like a phone whose storage is not answering.

@@ -2,6 +2,7 @@
 // the same paper, the same chapter, the same first mistake.
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/router/action_router.dart';
 import 'package:mockmob/core/router/routes.dart';
 import 'package:mockmob/features/review/data/mistake_index.dart';
 import 'package:mockmob/features/review/data/review_providers.dart';
@@ -32,6 +33,13 @@ void main() {
     final quick = container.read(quickRepairFromReviewProvider)!;
     expect(quick.location, first);
     expect(quick.chapter, tonight.chapter);
+
+    // The launcher's "10-min repair" starts on the same mistake with a 10-minute count, and
+    // the count survives the shortcut's trip through ActionRouter.
+    final ten = tonight.items.length < 3 ? tonight.items.length : 3;
+    expect(quick.shortcutLocation, '$first?count=$ten');
+    final target = ActionRouter.forShortcut(AppShortcutType.repair, repairLocation: quick.shortcutLocation);
+    expect((target as NativeTarget).location, '$first?count=$ten');
   }
 
   test("Today, Review and Start agree on tonight's repair", () => agree(const [], 'm7'));

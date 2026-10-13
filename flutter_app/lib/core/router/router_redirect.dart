@@ -42,14 +42,28 @@ class IntendedRoute {
     _owner = userId;
   }
 
+  /// The remembered location as [take] would give it to [userId], without forgetting it: null
+  /// when nothing fresh is remembered, or when it was left behind by a different account.
+  String? locationFor(String? userId) {
+    final value = location;
+    final owner = _owner;
+    if (owner != null && owner != userId) return null;
+    return value;
+  }
+
+  /// A copy of what is remembered now. Sign-in reads it before the account loads, because the
+  /// redirect takes (and forgets) the location as soon as it does.
+  IntendedRoute snapshot() => IntendedRoute(clock: _clock, maxAge: maxAge)
+    .._location = _location
+    .._at = _at
+    .._owner = _owner;
+
   /// Returns the remembered location once and forgets it. A stale location is forgotten and
   /// null is returned. A location left behind by one account is never given to another: when
   /// [userId] differs from the account it was remembered for, it is dropped and null returned.
   String? take({String? userId}) {
-    final value = location;
-    final owner = _owner;
+    final value = locationFor(userId);
     clear();
-    if (owner != null && owner != userId) return null;
     return value;
   }
 

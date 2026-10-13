@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/auth/auth.dart';
@@ -235,6 +237,52 @@ void main() {
       expect(intended.location, '/result/abc');
       expect(gateway.sheetLaunches, 0);
       expect(await prefs.getBool('auth_before_you_start_offered'), isNull);
+    });
+
+    test('a route left by another student\'s expired session does not cost a new student the sheet', () async {
+      final prefs = MemoryPrefsStore();
+      final gateway = FakeGateway()..signsInAs = 'u2';
+      final c = _container(gateway, prefs: prefs);
+      // What the redirect remembers when u1's session expires on /result/abc.
+      c.read(intendedRouteProvider).remember('/result/abc', userId: 'u1');
+      c.read(signInControllerProvider.notifier).setEmail('ravi@example.com');
+      await c.read(signInControllerProvider.notifier).verify('12345678');
+      expect(gateway.sheetLaunches, 1, reason: 'u2 lands on Today, so the sheet opens over it');
+      expect(await prefs.getBool('auth_before_you_start_offered'), isTrue);
+    });
+
+    test('the same student back after an expiry returns to their route, with no sheet', () async {
+      final prefs = MemoryPrefsStore();
+      final gateway = FakeGateway()..signsInAs = 'u1';
+      final c = _container(gateway, prefs: prefs);
+      c.read(intendedRouteProvider).remember('/result/abc', userId: 'u1');
+      c.read(signInControllerProvider.notifier).setEmail('asha@example.com');
+      await c.read(signInControllerProvider.notifier).verify('12345678');
+      expect(gateway.sheetLaunches, 0);
+      expect(await prefs.getBool('auth_before_you_start_offered'), isNull);
+    });
+
+    test('Google: a route left by another student does not skip the sheet either', () async {
+      final gateway = FakeGateway()..signsInAs = 'u2';
+      final c = _container(gateway);
+      c.read(intendedRouteProvider).remember('/result/abc', userId: 'u1');
+      await c.read(signInControllerProvider.notifier).signInWithGoogle();
+      expect(gateway.sheetLaunches, 1);
+    });
+
+    test('the decision survives the router taking the route as the account loads', () async {
+      final gateway = FakeGateway()..signsInAs = 'u1';
+      final hold = gateway.verifyHold = Completer<void>();
+      final c = _container(gateway);
+      final intended = c.read(intendedRouteProvider)..remember('/result/abc', userId: 'u1');
+      c.read(signInControllerProvider.notifier).setEmail('asha@example.com');
+      final verifying = c.read(signInControllerProvider.notifier).verify('12345678');
+      await Future<void>.delayed(Duration.zero);
+      // The redirect hands the route to u1 (and forgets it) before verify returns.
+      expect(intended.take(userId: 'u1'), '/result/abc');
+      hold.complete();
+      await verifying;
+      expect(gateway.sheetLaunches, 0, reason: 'u1 went back to their result, not to Today');
     });
 
     test('a failed code opens nothing and remembers nothing', () async {

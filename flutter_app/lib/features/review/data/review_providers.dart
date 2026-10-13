@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 import '../../../core/api/api_providers.dart';
+import '../../../core/domain/repair_candidates.dart' show repairDurationOptions;
 import '../../../core/models/attempt.dart';
 import '../../../core/notifications/timezones.dart';
 import '../../../core/repositories/attempts_repository.dart';
@@ -39,11 +40,26 @@ final reviewIndexProvider = Provider<ReviewIndex?>((ref) {
   return buildReviewIndex(attempts, inputs.records, unopened: {for (final u in inputs.unopened) u.attemptId});
 });
 
-/// Start's "Repair the next mistake": tonight's first mistake, or null when there is none.
+/// How many of tonight's [open] mistakes a 10-minute repair holds: the same count as Today's
+/// 10 min chip (3), or all of them when the chapter has fewer.
+int tenMinuteRepairCount(int open) {
+  for (final option in repairDurationOptions(open)) {
+    if (option.minutes == 10) return option.mistakes;
+  }
+  return open;
+}
+
+/// Start's "Repair the next mistake": tonight's first mistake, or null when there is none. The
+/// launcher's "10-min repair" opens the same mistake with a 10-minute count.
 final quickRepairFromReviewProvider = Provider<QuickRepair?>((ref) {
   final tonight = ref.watch(reviewIndexProvider)?.tonight;
   if (tonight == null) return null;
-  return QuickRepair(location: AppRoutes.reviewRepair(tonight.attemptId, tonight.items.first.questionId), chapter: tonight.chapter);
+  final first = AppRoutes.reviewRepair(tonight.attemptId, tonight.items.first.questionId);
+  return QuickRepair(
+    location: first,
+    chapter: tonight.chapter,
+    tenMinuteLocation: '$first?count=${tenMinuteRepairCount(tonight.items.length)}',
+  );
 });
 
 /// Converts instants to the student's timezone (notification prefs, default Asia/Kolkata), so

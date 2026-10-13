@@ -38,25 +38,66 @@ final todayMinutesProvider = NotifierProvider<TodayMinutes, int?>(TodayMinutes.n
 /// again: every hour on the student's wall clock, at the open session's deadline, and whenever
 /// the screen comes back to the front ([refresh]). Without it a phone left open overnight keeps
 /// yesterday's greeting, mood and date.
+///
+/// The timer only runs while something is listening (Today on screen, or the home-screen
+/// widget). With nobody listening (Today closed or behind another tab) it stops, so no timer
+/// outlives the screen; back in view, a boundary that passed meanwhile re-samples at once.
 class TodayClock extends Notifier<int> {
   Timer? _timer;
   int? _sessionEndsAtMs;
   int _ticks = 0;
 
+  /// When the armed tick is due, kept while paused so a resume knows whether one was missed.
+  DateTime? _due;
+
+  /// Nobody is listening: no timer runs.
+  bool _paused = false;
+
   @override
   int build() {
-    ref.onDispose(() => _timer?.cancel());
+    ref.onDispose(_stop);
+    // Life-cycle callbacks may not use `ref`, so they only stop the timer or schedule [_wake].
+    ref.onCancel(() {
+      _paused = true;
+      _stop();
+    });
+    ref.onResume(() {
+      _paused = false;
+      _stop();
+      _timer = Timer(Duration.zero, _wake);
+    });
+    _paused = false;
     _sessionEndsAtMs = ref.watch(latestSessionDraftProvider).value?.endsAtWallMs;
+    // Rebuilt after the armed tick was due (it was paused): that tick counts now.
+    final due = _due;
+    if (due != null && !ref.read(nowProvider)().isBefore(due)) _ticks++;
     _arm();
     return _ticks;
   }
 
-  void _arm() {
+  void _stop() {
     _timer?.cancel();
-    _timer = Timer(
-      untilNextTodayTick(now: ref.read(nowProvider)(), timezone: ref.read(studentTimezoneProvider), sessionEndsAtMs: _sessionEndsAtMs),
-      refresh,
-    );
+    _timer = null;
+  }
+
+  void _arm() {
+    _stop();
+    final now = ref.read(nowProvider)();
+    final wait = untilNextTodayTick(now: now, timezone: ref.read(studentTimezoneProvider), sessionEndsAtMs: _sessionEndsAtMs);
+    _due = now.add(wait);
+    if (!_paused) _timer = Timer(wait, refresh);
+  }
+
+  /// Listened to again: re-sample if the armed tick fell due meanwhile, else arm what is left.
+  void _wake() {
+    _timer = null;
+    if (!ref.mounted || _paused) return;
+    final due = _due;
+    if (due != null && !ref.read(nowProvider)().isBefore(due)) {
+      refresh();
+    } else {
+      _arm();
+    }
   }
 
   /// Re-samples the clock now (app resumed, or a boundary passed) and arms the next tick.

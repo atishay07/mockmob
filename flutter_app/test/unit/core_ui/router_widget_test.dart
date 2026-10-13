@@ -23,6 +23,8 @@ import 'package:mockmob/features/account_access/screens/forgot_password_screen.d
 import 'package:mockmob/features/account_access/screens/password_sign_in_screen.dart';
 import 'package:mockmob/features/account_access/screens/phone_screens.dart';
 import 'package:mockmob/features/account_access/screens/set_password_screen.dart';
+import 'package:mockmob/features/practice/practice_setup_screen.dart';
+import 'package:mockmob/features/tools/compass/compass_screen.dart';
 
 import '../../helpers/fonts.dart';
 
@@ -124,13 +126,6 @@ String _sample(String template) => template.replaceAllMapped(RegExp(r':(\w+)'), 
     _ => 'x',
   };
 });
-
-/// Today keeps long timers in its providers; a test that ends on Today disposes the container
-/// before the framework checks for pending timers.
-Future<void> _unmountAndDispose(WidgetTester tester, ProviderContainer container) async {
-  await tester.pumpWidget(const SizedBox());
-  container.dispose();
-}
 
 /// Runs [body], then unmounts the app and lets the real screens' timers run out.
 void _test(String name, Future<void> Function(WidgetTester tester) body) {
@@ -317,7 +312,6 @@ void main() {
     container.read(_testAuth.notifier).set(const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u2'));
     await _settle(tester);
     expect(_location(container), '/today');
-    await _unmountAndDispose(tester, container);
   });
 
   _test('an expired session continues for the same student only', (tester) async {
@@ -332,7 +326,6 @@ void main() {
     container.read(_testAuth.notifier).set(const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u2'));
     await _settle(tester);
     expect(_location(container), '/today', reason: 'a different student never lands on the last result');
-    await _unmountAndDispose(tester, container);
   });
 
   _test('an expired session returns the same student to where they were', (tester) async {
@@ -431,6 +424,119 @@ void main() {
       await _settle(tester);
       expect(_location(container), AppRoutes.signIn);
       expect(container.read(intendedRouteProvider).location, AccountAccessRoutes.setPasswordAfterReset);
+    });
+  });
+
+  group('Practice setup over the dock (tools-06)', () {
+    const fromCompass = '/practice/setup/quick?subject=accountancy';
+
+    // A push leaves the base location as it was; the top page's own location is the state's.
+    String top(ProviderContainer container) => _router(container).state.uri.toString();
+    String topPath(ProviderContainer container) => _router(container).state.uri.path;
+
+    _test('Practise from Compass opens setup over it, and Back returns to Compass', (tester) async {
+      final container = await _pump(tester);
+      final router = _router(container);
+      // The way in from the app: Practice, then the tools hub, then Compass.
+      router.go(AppRoutes.practice);
+      await _settle(tester);
+      unawaited(router.push(AppRoutes.tools));
+      await _settle(tester);
+      unawaited(router.push(AppRoutes.toolsCompass));
+      await _settle(tester);
+      expect(find.byType(CompassScreen), findsOneWidget);
+
+      // What the Practise chip and the Pro key do.
+      unawaited(router.push(fromCompass));
+      await _settle(tester);
+      expect(tester.takeException(), isNull, reason: 'the shell is not built a second time');
+      expect(top(container), fromCompass);
+      expect(find.byType(PracticeSetupScreen), findsOneWidget);
+      expect(find.byType(DockPill), findsNothing);
+
+      await tester.binding.handlePopRoute();
+      await _settle(tester);
+      expect(top(container), AppRoutes.toolsCompass);
+      expect(find.byType(CompassScreen), findsOneWidget);
+      expect(find.byType(PracticeSetupScreen), findsNothing);
+
+      // Compass and the hub are still stacked over Practice.
+      await tester.binding.handlePopRoute();
+      await _settle(tester);
+      expect(top(container), AppRoutes.tools);
+      await tester.binding.handlePopRoute();
+      await _settle(tester);
+      expect(top(container), AppRoutes.practice);
+      expect(find.byType(DockPill), findsOneWidget);
+    });
+
+    _test('Compass opened by a link: Practise and Back work the same', (tester) async {
+      final container = await _pump(tester);
+      final router = _router(container);
+      router.go(AppRoutes.toolsCompass);
+      await _settle(tester);
+      unawaited(router.push(fromCompass));
+      await _settle(tester);
+      expect(tester.takeException(), isNull);
+      expect(top(container), fromCompass);
+      expect(find.byType(PracticeSetupScreen), findsOneWidget);
+
+      await tester.binding.handlePopRoute();
+      await _settle(tester);
+      expect(top(container), AppRoutes.toolsCompass);
+      expect(find.byType(CompassScreen), findsOneWidget);
+    });
+
+    _test('Start sheet (go): setup over Practice, Back to the Practice tab', (tester) async {
+      final container = await _pump(tester);
+      final router = _router(container);
+      // QuickStartSheet's Quick 10 row.
+      router.go(Uri(path: AppRoutes.practiceSetup('quick'), queryParameters: {'count': '10'}).toString());
+      await _settle(tester);
+      expect(tester.takeException(), isNull);
+      expect(top(container), '/practice/setup/quick?count=10');
+      expect(find.byType(PracticeSetupScreen), findsOneWidget);
+      expect(find.byType(DockPill), findsNothing);
+
+      await tester.binding.handlePopRoute();
+      await _settle(tester);
+      expect(topPath(container), AppRoutes.practice);
+      expect(find.byType(PracticeSetupScreen), findsNothing);
+      expect(find.byType(DockPill), findsOneWidget);
+    });
+
+    _test('Today (push from the tab): Back returns to Today', (tester) async {
+      final container = await _pump(tester);
+      final router = _router(container);
+      expect(top(container), AppRoutes.today);
+      // Today's "Full mock" link (TodayScreen pushes anything that is not a tab root).
+      unawaited(router.push(Uri(path: AppRoutes.practiceSetup('full'), queryParameters: {'subject': 'accountancy'}).toString()));
+      await _settle(tester);
+      expect(tester.takeException(), isNull);
+      expect(top(container), '/practice/setup/full?subject=accountancy');
+      expect(find.byType(PracticeSetupScreen), findsOneWidget);
+      expect(find.byType(DockPill), findsNothing);
+
+      await tester.binding.handlePopRoute();
+      await _settle(tester);
+      expect(top(container), AppRoutes.today);
+      expect(find.byType(PracticeSetupScreen), findsNothing);
+      expect(find.byType(DockPill), findsOneWidget);
+    });
+
+    _test('a website link through ActionRouter opens setup, Back to Practice', (tester) async {
+      final links = _FakeLinks();
+      final container = await _pump(tester, links: links);
+      links.controller.add(Uri.parse('https://www.mockmob.in/test?mode=quick&subject=accountancy'));
+      await _settle(tester);
+      expect(tester.takeException(), isNull);
+      expect(top(container), fromCompass);
+      expect(find.byType(PracticeSetupScreen), findsOneWidget);
+
+      await tester.binding.handlePopRoute();
+      await _settle(tester);
+      expect(topPath(container), AppRoutes.practice);
+      expect(find.byType(PracticeSetupScreen), findsNothing);
     });
   });
 

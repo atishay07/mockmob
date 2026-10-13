@@ -44,4 +44,28 @@ void main() {
     final intended = IntendedRoute()..remember('/before-you-start');
     expect(resolveRedirect(auth: _signedIn, uri: Uri.parse('/sign-in'), intended: intended), '/before-you-start');
   });
+
+  test('locationFor answers as take would, without forgetting', () {
+    final intended = IntendedRoute()..remember('/run/s1', userId: 'u1');
+    expect(intended.locationFor('u2'), isNull, reason: 'left by u1');
+    expect(intended.locationFor('u1'), '/run/s1');
+    expect(intended.location, '/run/s1', reason: 'still remembered');
+
+    final anyone = IntendedRoute()..remember('/result/abc');
+    expect(anyone.locationFor('u2'), '/result/abc');
+    expect(anyone.locationFor(null), '/result/abc');
+  });
+
+  test('a snapshot keeps its answer after the router takes the original', () {
+    var now = DateTime(2026, 10, 14, 21);
+    final intended = IntendedRoute(clock: () => now)..remember('/run/s1', userId: 'u1');
+    final copy = intended.snapshot();
+    expect(intended.take(userId: 'u1'), '/run/s1');
+    expect(intended.location, isNull);
+    expect(copy.locationFor('u1'), '/run/s1');
+    expect(copy.locationFor('u2'), isNull);
+
+    now = now.add(IntendedRoute.defaultMaxAge + const Duration(seconds: 1));
+    expect(copy.locationFor('u1'), isNull, reason: 'the copy goes stale like the original');
+  });
 }

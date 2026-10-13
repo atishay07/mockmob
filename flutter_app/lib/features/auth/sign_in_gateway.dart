@@ -20,6 +20,9 @@ abstract interface class SignInGateway {
 
   /// True once the profile loaded and the session is usable.
   bool get isSignedIn;
+
+  /// The signed-in account, or null.
+  String? get userId;
 }
 
 /// The real thing: the core [AuthController].
@@ -45,6 +48,9 @@ class CoreSignInGateway implements SignInGateway {
 
   @override
   bool get isSignedIn => _ref.read(authSnapshotProvider).isSignedIn;
+
+  @override
+  String? get userId => _ref.read(authSnapshotProvider).userId;
 }
 
 final signInGatewayProvider = Provider<SignInGateway>(CoreSignInGateway.new);

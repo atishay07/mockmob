@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/api/api.dart' show nowProvider;
 import '../../core/auth/auth.dart' show AuthFailure, GoogleOutcome, OAuthReturn, OAuthReturnKind, SignInException;
 import '../../core/router/router.dart' show intendedRouteProvider;
+import '../../core/router/router_redirect.dart' show IntendedRoute;
 import '../../core/storage/prefs_store.dart';
 import 'after_sign_in.dart';
 import 'sign_in_gateway.dart';
@@ -99,7 +100,7 @@ class SignInController extends Notifier<SignInState> {
       clearProblem: true,
       codeResentNotice: false,
     );
-    final offer = await _shouldOfferSheet();
+    final offer = await _sheetOffer();
     if (!ref.mounted) return;
     try {
       await ref.read(signInGatewayProvider).verifyCode(email, code);
@@ -118,7 +119,7 @@ class SignInController extends Notifier<SignInState> {
   Future<void> signInWithGoogle() async {
     if (state.isBusy) return;
     state = state.copyWith(busy: SignInBusy.google, clearProblem: true, googleInBrowser: false);
-    final offer = await _shouldOfferSheet();
+    final offer = await _sheetOffer();
     if (!ref.mounted) return;
     try {
       final outcome = await ref.read(signInGatewayProvider).signInWithGoogle();
@@ -149,13 +150,13 @@ class SignInController extends Notifier<SignInState> {
   /// browser): the first sign-in on this phone still gets its one sheet. The router moves on by
   /// itself.
   Future<void> googleSignedIn() async {
-    final offer = await _shouldOfferSheet();
-    if (!ref.mounted || !offer) return;
+    final offer = await _sheetOffer();
+    if (!ref.mounted || !offer.forUser(ref.read(signInGatewayProvider).userId)) return;
     ref.read(afterSignInSheetLauncherProvider)();
     await _markOffered();
   }
 
-  void _watchBrowserReturn(bool offer) {
+  void _watchBrowserReturn(_SheetOffer offer) {
     _returns?.cancel();
     _returns = ref.read(signInGatewayProvider).oauthReturns().listen(
       (result) async {
@@ -166,7 +167,7 @@ class SignInController extends Notifier<SignInState> {
             break;
           case OAuthReturnKind.signedIn:
             state = state.copyWith(googleInBrowser: false);
-            if (offer) {
+            if (offer.forUser(ref.read(signInGatewayProvider).userId)) {
               ref.read(afterSignInSheetLauncherProvider)();
               await _markOffered();
             }
@@ -181,15 +182,16 @@ class SignInController extends Notifier<SignInState> {
     );
   }
 
-  Future<void> _finish(bool offer) async {
+  Future<void> _finish(_SheetOffer offer) async {
     if (!ref.mounted) return;
-    if (!ref.read(signInGatewayProvider).isSignedIn) {
+    final gateway = ref.read(signInGatewayProvider);
+    if (!gateway.isSignedIn) {
       // The code worked but the account did not load. Work and email stay; the router keeps
       // the remembered route for when it does.
       _fail(SignInProblem.accountNotLoaded, SignInStep.code);
       return;
     }
-    if (offer) {
+    if (offer.forUser(gateway.userId)) {
       ref.read(afterSignInSheetLauncherProvider)();
       await _markOffered();
     }
@@ -201,13 +203,17 @@ class SignInController extends Notifier<SignInState> {
   /// heading to wins, and so does a phone that has already shown it. The router itself goes to
   /// the remembered route or Today; the sheet opens on top once Today is there.
   ///
+  /// Read before sign-in, because the router takes the remembered route as soon as the account
+  /// loads; [_SheetOffer.forUser] settles it once the account is known.
+  ///
   /// A preferences failure is never allowed to hold sign-in: it answers "no sheet".
-  Future<bool> _shouldOfferSheet() async {
+  Future<_SheetOffer> _sheetOffer() async {
+    final remembered = ref.read(intendedRouteProvider).snapshot();
     try {
-      if (ref.read(intendedRouteProvider).location != null) return false;
-      return !(await ref.read(signInPrefsStoreProvider).getBool(_beforeYouStartOfferedKey) ?? false);
+      final offered = await ref.read(signInPrefsStoreProvider).getBool(_beforeYouStartOfferedKey) ?? false;
+      return _SheetOffer(owed: !offered, remembered: remembered);
     } on Object {
-      return false;
+      return _SheetOffer(owed: false, remembered: remembered);
     }
   }
 
@@ -257,3 +263,19 @@ class SignInController extends Notifier<SignInState> {
 
 final signInControllerProvider =
     NotifierProvider<SignInController, SignInState>(SignInController.new);
+
+/// The after-sign-in sheet decision, read before sign-in and settled once the account is known.
+class _SheetOffer {
+  const _SheetOffer({required this.owed, required this.remembered});
+
+  /// This phone has not shown the sheet yet.
+  final bool owed;
+
+  /// What the router remembered before sign-in (a copy: the router forgets it on sign-in).
+  final IntendedRoute remembered;
+
+  /// The sheet opens unless the router takes this account to a remembered route instead. A
+  /// route left behind by another student's expired session is dropped for [userId], so it
+  /// does not cost them the sheet.
+  bool forUser(String? userId) => owed && remembered.locationFor(userId) == null;
+}

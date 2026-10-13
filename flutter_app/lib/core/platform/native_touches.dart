@@ -57,7 +57,7 @@ class NativeTouches {
         _resumeSessionId = id;
         _sync();
       }, fireImmediately: true))
-      ..add(_ref.listen<String?>(quickStartRepairProvider.select((r) => r?.location), (_, location) => _repairLocation = location,
+      ..add(_ref.listen<String?>(quickStartRepairProvider.select((r) => r?.shortcutLocation), (_, location) => _repairLocation = location,
           fireImmediately: true))
       ..add(_ref.listen<AuthStatus>(authSnapshotProvider.select((s) => s.status), (_, status) {
         _sync();

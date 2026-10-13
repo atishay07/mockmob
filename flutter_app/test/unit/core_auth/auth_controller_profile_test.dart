@@ -21,6 +21,7 @@ import 'package:mockmob/core/storage/app_database.dart';
 import 'package:mockmob/core/storage/app_prefs.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/storage/storage_providers.dart';
+import 'package:mockmob/core/sync/background_tasks.dart' show WorkmanagerScheduler;
 import 'package:mockmob/core/sync/outbox_repository.dart';
 import 'package:mockmob/core/sync/sync_providers.dart';
 import 'package:mocktail/mocktail.dart';
@@ -74,6 +75,29 @@ class _Notifications extends Mock implements NotificationService {}
 class _Sync extends Fake implements SyncCoordinator {
   @override
   Future<List<OutboxResult>> flushNow() async => const [];
+
+  @override
+  Future<void> flushQuietly() async {}
+}
+
+class _NoOutbox extends Fake implements OutboxRepository {}
+
+class _NoFlusher extends Fake implements OutboxFlusher {}
+
+class _NoScheduler extends Fake implements WorkmanagerScheduler {}
+
+/// The real coordinator's [SyncCoordinator.flushQuietly] over a flush that fails, like a
+/// database closed under it.
+class _FailingSync extends SyncCoordinator {
+  _FailingSync() : super(repository: _NoOutbox(), flusher: _NoFlusher(), scheduler: _NoScheduler(), userId: () => 'b', isOnline: () => true);
+
+  int flushes = 0;
+
+  @override
+  Future<List<OutboxResult>> flushNow() {
+    flushes++;
+    return Future<List<OutboxResult>>.error(StateError('database closed'));
+  }
 }
 
 class _Consent extends ConsentRepository {
@@ -100,7 +124,7 @@ void main() {
   late ProviderContainer container;
   late _MeApi api;
 
-  Future<_Auth> start({AppDatabase? database}) async {
+  Future<_Auth> start({AppDatabase? database, SyncCoordinator? sync}) async {
     final db = database ?? AppDatabase(NativeDatabase.memory());
     store = MemoryPrefsStore();
     service = _FakeService();
@@ -118,7 +142,7 @@ void main() {
       analyticsClientProvider.overrideWithValue(analytics),
       notificationServiceProvider.overrideWithValue(notifications),
       consentRepositoryProvider.overrideWith(_Consent.new),
-      syncCoordinatorProvider.overrideWithValue(_Sync()),
+      syncCoordinatorProvider.overrideWithValue(sync ?? _Sync()),
       apiClientProvider.overrideWithValue(api),
       networkRestoredProvider.overrideWith((ref) => restored.stream),
     ]);
@@ -179,6 +203,22 @@ void main() {
       stale.complete(_me('a', 'a@x.com'));
       await pumpEventQueue();
       expect(now().userId, 'b', reason: 'the stale answer for the first account is dropped');
+    });
+  });
+
+  group('the flush that follows sign-in', () {
+    test('a flush that fails is left for the next one, never an unhandled error', () async {
+      final sync = _FailingSync();
+      final auth = await start(sync: sync);
+      service.session = _session('b@x.com');
+      when(() => api.get('/api/auth/me', options: any(named: 'options'))).thenAnswer((_) async => _me('b', 'b@x.com'));
+
+      // An error escaping the fire-and-forget flush would fail this test as an uncaught error.
+      await auth.verifyEmailCode('b@x.com', '12345678');
+      await pumpEventQueue();
+
+      expect(now().status, AuthStatus.signedIn);
+      expect(sync.flushes, 1);
     });
   });
 

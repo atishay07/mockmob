@@ -60,10 +60,16 @@ String subjectDisplayName(String id) => switch (id) {
 /// Where Start's "Repair the next mistake" goes: tonight's first mistake (the pick Today and
 /// Review make). Null hides the row. `main.dart` wires it to Review's index.
 class QuickRepair {
-  const QuickRepair({required this.location, required this.chapter});
+  const QuickRepair({required this.location, required this.chapter, this.tenMinuteLocation});
 
   final String location;
   final String chapter;
+
+  /// The same first mistake with `count` set to what ten minutes holds, or null.
+  final String? tenMinuteLocation;
+
+  /// Where the launcher's "10-min repair" opens: [tenMinuteLocation], else [location].
+  String get shortcutLocation => tenMinuteLocation ?? location;
 }
 
 final quickStartRepairProvider = Provider<QuickRepair?>((ref) => null);
@@ -109,8 +115,8 @@ class QuickStartSheet extends ConsumerWidget {
       final router = GoRouter.of(context);
       Navigator.of(context).pop();
       // Screens that sit outside the tab shell are pushed over it, so system Back returns to the
-      // tab the student started from instead of closing the app. Screens inside a tab's own
-      // stack (Practice setup, a repair under Review) keep `go`, which switches to that tab.
+      // tab the student started from instead of closing the app. Screens that belong to a tab
+      // (Practice setup, a repair under Review) keep `go`, which puts that tab under them.
       if (QuickStartSheet.opensOutsideShell(location)) {
         unawaited(router.push<void>(location));
       } else {

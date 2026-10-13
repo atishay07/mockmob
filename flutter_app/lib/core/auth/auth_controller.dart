@@ -298,7 +298,7 @@ class AuthController extends Notifier<AuthSnapshot> {
     // anything left over from the last run.
     ref.read(consentRepositoryProvider);
     ref.read(analyticsClientProvider);
-    unawaited(ref.read(syncCoordinatorProvider).flushNow());
+    unawaited(ref.read(syncCoordinatorProvider).flushQuietly());
   }
 
   /// Reloads the profile (after onboarding or any change that affects subjects or Pro status).

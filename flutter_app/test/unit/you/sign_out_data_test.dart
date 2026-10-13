@@ -80,6 +80,9 @@ class _MockNotifications extends Mock implements NotificationService {}
 class _FakeSync extends Fake implements SyncCoordinator {
   @override
   Future<List<OutboxResult>> flushNow() async => const [];
+
+  @override
+  Future<void> flushQuietly() async {}
 }
 
 class _MeApi extends Mock implements ApiClient {}

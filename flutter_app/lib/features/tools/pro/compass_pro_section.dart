@@ -151,7 +151,8 @@ class _ProContent extends ConsumerWidget {
                 const SizedBox(height: MmSpace.s16),
                 KeyButton(
                   label: ToolsCopy.proPractise(pro.next!.name),
-                  onPressed: () => context.go(
+                  // Pushed over Compass, so Back returns here.
+                  onPressed: () => context.push(
                     Uri(path: AppRoutes.practiceSetup('quick'), queryParameters: {'subject': pro.next!.subject}).toString(),
                   ),
                 ),

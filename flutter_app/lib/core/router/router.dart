@@ -237,7 +237,10 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
         ]),
         StatefulShellBranch(routes: [
           tabRoot('/practice', practiceScreen, routes: [
-            page('setup/:mode', practiceSetupScreen),
+            // Over the dock like Start, so it can also be pushed from a page outside the shell
+            // (Compass's Practise keys): a push of a route inside the shell from there would
+            // build the shell a second time. Reached with `go`, Back still lands on Practice.
+            page('setup/:mode', practiceSetupScreen, root: true),
             // The untimed question stream (the website's Explore), full screen over the dock.
             page('stream', practiceStreamScreen, root: true),
             page('start', practiceStartScreen, transition: MmTransition.fade, root: true),

@@ -102,8 +102,8 @@ class _AppShellState extends ConsumerState<AppShell> {
     return false;
   }
 
-  /// Pushed confirm and loading pages inside Practice hide the dock, like the runner: they pin
-  /// their own key at the bottom.
+  /// Practice's confirm and loading pages (root-level, over the shell) hide the dock, like the
+  /// runner: they pin their own key at the bottom.
   static bool dockHiddenAt(String path) => path.startsWith('/practice/setup/') || path == AppRoutes.practiceStart;
 
   @override

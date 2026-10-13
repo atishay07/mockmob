@@ -162,6 +162,31 @@ void main() {
     await _settle();
     expect(router.went, ['/review/repair/m7/m7-q0']);
   });
+
+  test('"10-min repair" opens tonight\'s repair with its 10-minute count', () async {
+    final surface = _Surface();
+    final router = _Router();
+    final container = ProviderContainer(
+      overrides: [
+        authSnapshotProvider.overrideWith(() => _Auth(_signedIn)),
+        routerProvider.overrideWithValue(router),
+        shortcutSurfaceProvider.overrideWithValue(surface),
+        nativePrefsProvider.overrideWithValue(NativePrefs(MemoryPrefsStore())),
+        playUpdateGatewayProvider.overrideWithValue(_NoPlay()),
+        nowProvider.overrideWithValue(() => now),
+        latestSessionDraftProvider.overrideWith((ref) => Stream.value(null)),
+        quickStartRepairProvider.overrideWithValue(
+          const QuickRepair(location: '/review/repair/m7/m7-q0', chapter: 'Partnership', tenMinuteLocation: '/review/repair/m7/m7-q0?count=3'),
+        ),
+      ],
+    );
+    addTearDown(container.dispose);
+    container.listen(nativeTouchesProvider, (_, _) {});
+    await _settle();
+    surface.handler!('repair');
+    await _settle();
+    expect(router.went, ['/review/repair/m7/m7-q0?count=3'], reason: 'three mistakes, not the whole chapter');
+  });
 }
 
 class _NoPlay implements PlayUpdateGateway {

@@ -90,6 +90,65 @@ void main() {
       // The test binding fails the test if the disposed clock left a timer behind.
     });
 
+    // `pump(Duration.zero)` runs zero-length timers too (Riverpod's own refresh and the clock's
+    // wake-up); a bare `pump()` only flushes microtasks.
+    testWidgets('no timer outlives the last listener (Today closed, container still alive)', (tester) async {
+      final c = containerAt(() => tuesdayEvening);
+      // Disposed only after the binding's pending-timer check, like the app's own container.
+      addTearDown(c.dispose);
+      final sub = c.listen(todayClockProvider, (_, _) {}, fireImmediately: true);
+      await tester.pump(Duration.zero);
+      sub.close();
+      await tester.pump(Duration.zero);
+      // The binding fails the test here if the clock's next-hour timer is still pending.
+    });
+
+    testWidgets('paused while out of view; back in view a missed hour re-samples once', (tester) async {
+      var now = tuesdayEvening;
+      final c = containerAt(() => now);
+      addTearDown(c.dispose);
+      final seen = <int>[];
+      final sub = c.listen(todayClockProvider, (_, next) => seen.add(next), fireImmediately: true);
+      await tester.pump(Duration.zero);
+      expect(seen, [0]);
+
+      sub.pause(); // Today went behind another tab.
+      now = now.add(const Duration(hours: 2));
+      await tester.pump(const Duration(hours: 2));
+      expect(seen, [0], reason: 'nothing ticks while nobody is looking');
+
+      sub.resume();
+      await tester.pump(Duration.zero);
+      expect(seen, [0, 1], reason: 'the 9:00 PM boundary passed while away');
+
+      // Armed again for the next hour (11:00 PM, 20 minutes on from 10:40 PM).
+      now = now.add(const Duration(minutes: 20));
+      await tester.pump(const Duration(minutes: 20));
+      expect(seen, [0, 1, 2]);
+      sub.close();
+    });
+
+    testWidgets('back in view before the hour: no extra tick', (tester) async {
+      var now = tuesdayEvening;
+      final c = containerAt(() => now);
+      addTearDown(c.dispose);
+      final seen = <int>[];
+      final sub = c.listen(todayClockProvider, (_, next) => seen.add(next), fireImmediately: true);
+      await tester.pump(Duration.zero);
+      sub.pause();
+      now = now.add(const Duration(minutes: 5));
+      await tester.pump(const Duration(minutes: 5));
+      sub.resume();
+      await tester.pump(Duration.zero);
+      expect(seen, [0]);
+
+      // The rest of the 20 minutes to 9:00 PM is still armed.
+      now = now.add(const Duration(minutes: 15));
+      await tester.pump(const Duration(minutes: 15));
+      expect(seen, [0, 1]);
+      sub.close();
+    });
+
     testWidgets('refresh re-samples at once (the app came back to the front)', (tester) async {
       final c = containerAt(() => tuesdayEvening);
       c.listen(todayClockProvider, (_, _) {}, fireImmediately: true);

@@ -13,6 +13,7 @@ import 'core/widgets/brand/brand_opening.dart';
 import 'core/widgets/status_tint.dart';
 import 'features/notifications/notifications.dart';
 import 'features/onboarding/onboarding_routes.dart' show sampleImportProvider;
+import 'features/rhythm/rhythm.dart' show rhythmWatcherProvider;
 
 /// The root widget. It must sit under a [ProviderScope] (see `main.dart`).
 class MockMobApp extends ConsumerWidget {
@@ -26,6 +27,8 @@ class MockMobApp extends ConsumerWidget {
     // Keeps the guest carry-over alive and starts reminder planning and tap handling.
     ref.watch(sampleImportProvider);
     ref.watch(notificationsRuntimeProvider);
+    // Milestones that arrive in any fresh rhythm read get their moment, whichever screen is open.
+    ref.watch(rhythmWatcherProvider);
     // Launcher shortcuts, the quiet Play update and the first-run mark for the review prompt.
     ref.watch(nativeTouchesProvider);
     ref.watch(homeWidgetSyncProvider); // The home-screen widget follows Today (core/home_widget).

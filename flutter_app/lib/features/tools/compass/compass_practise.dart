@@ -42,7 +42,8 @@ class CompassPractise extends ConsumerWidget {
                   label: p.name(state.catalog, short: true),
                   selected: false,
                   leading: LucideIcons.play,
-                  onTap: () => context.go(
+                  // Pushed over Compass, so Back returns to the list the student was working through.
+                  onTap: () => context.push(
                     Uri(path: AppRoutes.practiceSetup('quick'), queryParameters: {'subject': practiceId(p)}).toString(),
                   ),
                 ),
