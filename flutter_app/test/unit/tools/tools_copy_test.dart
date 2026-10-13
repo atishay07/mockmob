@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/tools/copy.dart';
+import 'package:mockmob/features/tools/guide/guide_content.dart';
 
 String _source(String path) => File(path).readAsStringSync();
 
@@ -39,12 +40,12 @@ void main() {
   test('the guide screen takes its page title, note and heading from ToolsCopy', () {
     final source = _source(screens.first);
     expect(source, contains('ToolsCopy.guidePageTitle'));
-    expect(source, contains('ToolsCopy.guideDatesNote'));
     expect(source, contains('ToolsCopy.guideCommonQuestions'));
   });
 
-  test('the calendar note is the plain expected-window line', () {
-    expect(ToolsCopy.guideDatesNote, 'Expected May 2027 window until NTA publishes dates');
+  test('the guide says the dates are not published once, in the lead, with no footnote', () {
+    expect(_source(screens.first), isNot(contains('guideDatesNote')));
+    expect(guideIntro, 'The 2027 dates and rules are not out yet.');
     expect(ToolsCopy.guidePageTitle, 'CUET 2027');
     expect(ToolsCopy.guideCommonQuestions, 'Common questions');
   });

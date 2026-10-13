@@ -5,10 +5,10 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
-import '../../../core/widgets/widgets.dart';
 import '../../practice/data/practice_catalog.dart';
 import '../copy.dart';
 import '../domain/du_models.dart';
+import '../widgets/action_chip.dart';
 import '../widgets/tools_card.dart';
 import 'compass_controller.dart';
 
@@ -38,10 +38,9 @@ class CompassPractise extends ConsumerWidget {
             spacing: MmSpace.s8,
             children: [
               for (final p in picks)
-                MmChip(
+                ToolsActionChip(
                   label: p.name(state.catalog, short: true),
-                  selected: false,
-                  leading: LucideIcons.play,
+                  icon: LucideIcons.play,
                   // Pushed over Compass, so Back returns to the list the student was working through.
                   onTap: () => context.push(
                     Uri(path: AppRoutes.practiceSetup('quick'), queryParameters: {'subject': practiceId(p)}).toString(),

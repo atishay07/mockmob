@@ -154,9 +154,9 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
           ),
         ),
         // Seven 48 dp targets need 336 dp, more than the 328 dp inside the gutters of a 360 dp
-        // phone, so the picker takes the full width less 4 dp a side.
+        // phone, so the picker takes the full width less 12 dp a side (exactly 336 dp at 360).
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
+          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12),
           child: GoalPicker(
             value: days,
             onChanged: _saving
@@ -191,18 +191,17 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
                     ),
                     ),
                     const SizedBox(height: MmSpace.s8),
+                    // One line says what a study day is; at seven days it says there is no rest.
                     Text(
-                      days == 7 ? YouCopy.goalEveryDay : YouCopy.goalRestDays,
+                      days == 7 ? YouCopy.goalEveryDay : YouCopy.goalCounts,
                       style: type.body.copyWith(color: colors.ink2),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: MmSpace.s12),
-              Text(YouCopy.goalCounts, style: type.small.copyWith(color: colors.ink3)),
               if (pause != null) ...[
-                const SizedBox(height: MmSpace.s12),
-                Text(YouCopy.goalPaused(formatDayMonth(pause)), style: type.small.copyWith(color: colors.ink2)),
+                const SizedBox(height: MmSpace.s16),
+                InlineBanner(message: YouCopy.goalPaused(formatDayMonth(pause))),
               ],
               const SizedBox(height: MmSpace.s32),
               if (_error != null) ...[

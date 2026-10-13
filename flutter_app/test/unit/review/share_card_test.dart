@@ -182,7 +182,8 @@ void main() {
           shareSurfaceProvider.overrideWithValue(_Share()),
         ],
       );
-      final key = find.widgetWithText(KeyButton, 'Share a card');
+      // An intrinsic-width key lays its label out twice (one copy hidden, to hold its width).
+      final key = find.widgetWithText(KeyButton, 'Share a card').first;
       expect(key, findsOneWidget);
       await tester.tap(key);
       await tester.pumpAndSettle();

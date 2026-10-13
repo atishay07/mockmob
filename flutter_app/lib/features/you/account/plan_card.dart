@@ -71,14 +71,6 @@ class PlanCard extends StatelessWidget {
                   style: type.small.copyWith(color: colors.ink2),
                 ),
               ],
-              const SizedBox(height: MmSpace.s16),
-              DecoratedBox(
-                decoration: BoxDecoration(border: Border(top: BorderSide(color: colors.line))),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: MmSpace.s12),
-                  child: Text(EditCopy.manage, style: type.caption.copyWith(color: colors.ink2)),
-                ),
-              ),
             ],
           ),
         ),

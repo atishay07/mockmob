@@ -39,7 +39,6 @@ class Guide2027Screen extends ConsumerWidget {
             ),
           ),
         ),
-        const SliverToBoxAdapter(child: ToolsNote(ToolsCopy.guideDatesNote, icon: LucideIcons.info)),
         SliverToBoxAdapter(child: _Section(section: guidePattern)),
         SliverToBoxAdapter(child: _Section(section: guideSubjects)),
         SliverToBoxAdapter(
@@ -101,7 +100,7 @@ class _TimelineRow extends StatelessWidget {
               child: Column(
                 children: [
                   Bubble(
-                    state: passed ? BubbleState.filled : BubbleState.hollow,
+                    state: passed || current ? BubbleState.filled : BubbleState.hollow,
                     emphasis: current,
                     size: 16,
                     animate: false,
@@ -111,7 +110,7 @@ class _TimelineRow extends StatelessWidget {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(top: MmSpace.s4),
-                        child: SizedBox(width: 1, height: double.infinity, child: ColoredBox(color: colors.lineStrong)),
+                        child: SizedBox(width: 1.5, height: double.infinity, child: ColoredBox(color: colors.ink4)),
                       ),
                     ),
                 ],

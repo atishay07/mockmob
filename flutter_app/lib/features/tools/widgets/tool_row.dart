@@ -14,14 +14,16 @@ enum ToolArtKind {
   guide,
 }
 
-/// A 44 dp well with a code-drawn mark for one tool, in the room's own bubbles. Static: it
+/// A 36 dp well with a code-drawn mark for one tool, in the room's own bubbles. Static: it
 /// says what the tool is, it carries no number.
 class ToolArt extends StatelessWidget {
   const ToolArt(this.kind, {super.key});
 
   final ToolArtKind kind;
 
+  /// The mark is drawn on a 44 dp square and scaled to the 36 dp well every You row uses.
   static const double size = 44;
+  static const double well = 36;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,10 @@ class ToolArt extends StatelessWidget {
     return ExcludeSemantics(
       child: DecoratedBox(
         decoration: BoxDecoration(shape: BoxShape.circle, color: colors.isNight ? colors.raised2 : colors.sunken),
-        child: CustomPaint(size: const Size.square(size), painter: _ToolArtPainter(colors, kind)),
+        child: SizedBox.square(
+          dimension: well,
+          child: FittedBox(child: CustomPaint(size: const Size.square(size), painter: _ToolArtPainter(colors, kind))),
+        ),
       ),
     );
   }

@@ -23,6 +23,25 @@ class _CountingDriver implements HapticDriver {
 }
 
 void main() {
+  group('InlineBanner action', () {
+    testWidgets('is a pill with a 48 dp touch target that fires once', (tester) async {
+      var taps = 0;
+      await pumpMockmob(
+        tester,
+        Align(
+          alignment: Alignment.topCenter,
+          child: InlineBanner(message: 'Reminders are paused on this phone.', actionLabel: 'Turn on', onAction: () => taps++),
+        ),
+      );
+      final action = find.bySemanticsLabel('Turn on');
+      expect(action, findsOneWidget);
+      final size = tester.getSize(find.ancestor(of: find.text('Turn on'), matching: find.byType(ConstrainedBox)).first);
+      expect(size.height, greaterThanOrEqualTo(48));
+      await tester.tap(find.text('Turn on'));
+      expect(taps, 1);
+    });
+  });
+
   group('SplitDock', () {
     testWidgets('names each tab with its position and marks the active one selected', (tester) async {
       final handle = tester.ensureSemantics();

@@ -110,7 +110,6 @@ class RhythmBody extends StatelessWidget {
           const SizedBox(height: MmSpace.s32),
           _PauseGroup(
             paused: week.status == WeekStatus.paused,
-            pausedUntil: week.pausedUntil,
             busy: busy,
             onThisWeek: onPauseThisWeek,
             onTwoWeeks: onPauseTwoWeeks,
@@ -199,7 +198,7 @@ class WeekHero extends StatelessWidget {
               ),
               const SizedBox(height: MmSpace.s12),
               Text(status, style: type.small.copyWith(color: colors.ink2)),
-              if (plan == null && onSetDays != null) ...[
+              if (plan == null && onSetDays != null && week.status != WeekStatus.paused) ...[
                 const SizedBox(height: MmSpace.s4),
                 FlushQuietKey(label: RhythmCopy.setStudyDays, onPressed: onSetDays),
               ],
@@ -304,7 +303,6 @@ class _ClosedWeek extends StatelessWidget {
 class _PauseGroup extends StatelessWidget {
   const _PauseGroup({
     required this.paused,
-    this.pausedUntil,
     required this.busy,
     required this.onThisWeek,
     required this.onTwoWeeks,
@@ -314,8 +312,6 @@ class _PauseGroup extends StatelessWidget {
 
   final bool paused;
 
-  /// "26 October", when the server has a pause date.
-  final String? pausedUntil;
   final bool busy;
   final VoidCallback onThisWeek;
   final VoidCallback onTwoWeeks;
@@ -330,18 +326,14 @@ class _PauseGroup extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const GroupHeading(RhythmCopy.pauseTitle),
-        if (!paused)
-          Padding(
-            padding: const EdgeInsets.only(left: 4, bottom: MmSpace.s12),
-            child: Text(RhythmCopy.pausedKeepsRun, style: type.small.copyWith(color: colors.ink2)),
-          ),
-        if (paused) ...[
-          Padding(
-            padding: const EdgeInsets.only(left: 4, bottom: MmSpace.s12),
-            child: Text(RhythmCopy.pausedUntilKept(pausedUntil), style: type.body),
-          ),
-          KeyButton.secondary(label: RhythmCopy.resume, onPressed: busy ? null : onResume),
-        ] else
+        // The date is in the week card above; this says only what pausing does to the run.
+        Padding(
+          padding: const EdgeInsets.only(left: 4, bottom: MmSpace.s12),
+          child: Text(RhythmCopy.pausedKeepsRun, style: type.small.copyWith(color: colors.ink2)),
+        ),
+        if (paused)
+          KeyButton.secondary(label: RhythmCopy.resume, onPressed: busy ? null : onResume)
+        else
           YouPanel(
             margin: EdgeInsets.zero,
             inset: MmSpace.gutter + 36 + MmSpace.s12,

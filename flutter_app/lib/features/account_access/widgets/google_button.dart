@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -166,10 +167,30 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> with Wi
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        KeyButton.secondary(
-          label: label,
-          loading: working,
-          onPressed: widget.busy || _phase != GooglePhase.idle ? null : _continue,
+        Stack(
+          children: [
+            KeyButton.secondary(
+              label: label,
+              loading: working,
+              onPressed: widget.busy || _phase != GooglePhase.idle ? null : _continue,
+            ),
+            // Google's "G" at the left edge of the pill; the label stays centred.
+            Positioned(
+              left: MmSpace.s24,
+              top: 0,
+              bottom: 0,
+              child: ExcludeSemantics(
+                child: IgnorePointer(
+                  child: Center(
+                    child: Opacity(
+                      opacity: widget.busy || _phase != GooglePhase.idle ? 0.5 : 1,
+                      child: const GoogleMark(),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
         if (_phase == GooglePhase.inBrowser) ...[
           const SizedBox(height: MmSpace.s12),
@@ -180,7 +201,11 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> with Wi
           const SizedBox(height: MmSpace.s4),
           Align(
             alignment: Alignment.centerLeft,
-            child: KeyButton.quiet(label: AccessCopy.cancel, onPressed: () => _set(GooglePhase.idle)),
+            // The quiet key carries 16 dp of inner padding; pull it back so its label lines up.
+            child: Transform.translate(
+              offset: const Offset(-MmSpace.s16, 0),
+              child: KeyButton.quiet(label: AccessCopy.cancel, onPressed: () => _set(GooglePhase.idle)),
+            ),
           ),
         ],
         if (_problem != null) ...[
@@ -194,10 +219,70 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> with Wi
           const SizedBox(height: MmSpace.s4),
           Align(
             alignment: Alignment.centerLeft,
-            child: KeyButton.quiet(label: AccessCopy.useBrowserInstead, onPressed: widget.busy ? null : _browser),
+            child: Transform.translate(
+              offset: const Offset(-MmSpace.s16, 0),
+              child: KeyButton.quiet(label: AccessCopy.useBrowserInstead, onPressed: widget.busy ? null : _browser),
+            ),
           ),
         ],
       ],
     );
   }
+}
+
+/// Google's four-colour "G", drawn as a small vector (no asset): a ring of red, yellow, green
+/// and blue arcs open to the upper right, with the blue bar across the middle.
+class GoogleMark extends StatelessWidget {
+  const GoogleMark({super.key, this.size = 20});
+
+  final double size;
+
+  @override
+  Widget build(BuildContext context) => SizedBox.square(dimension: size, child: CustomPaint(painter: _GoogleMarkPainter()));
+}
+
+class _GoogleMarkPainter extends CustomPainter {
+  const _GoogleMarkPainter();
+
+  static const _blue = Color(0xFF4285F4);
+  static const _red = Color(0xFFEA4335);
+  static const _yellow = Color(0xFFFBBC05);
+  static const _green = Color(0xFF34A853);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final unit = size.width / 20;
+    final stroke = 4 * unit;
+    final centre = Offset(size.width / 2, size.height / 2);
+    final ring = Rect.fromCircle(center: centre, radius: 8 * unit);
+    double rad(double deg) => deg * math.pi / 180;
+
+    void arc(Color color, double start, double sweep) {
+      canvas.drawArc(
+        ring,
+        rad(start),
+        rad(sweep),
+        false,
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = stroke
+          ..color = color
+          ..isAntiAlias = true,
+      );
+    }
+
+    arc(_red, -130, 85);
+    arc(_yellow, 130, 100);
+    arc(_green, 45, 85);
+    arc(_blue, 0, 45);
+    canvas.drawRect(
+      Rect.fromLTRB(centre.dx, centre.dy - 2 * unit, size.width, centre.dy + 2 * unit),
+      Paint()
+        ..color = _blue
+        ..isAntiAlias = true,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_GoogleMarkPainter oldDelegate) => false;
 }

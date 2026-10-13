@@ -13,6 +13,10 @@ import 'password_sign_in_form.dart';
 
 enum SignInMethod { emailCode, password }
 
+/// Air above and below the "or" divider, so the Google key and the method choice read as two
+/// separate ways in.
+const double _orGap = MmSpace.s20 + MmSpace.s8;
+
 /// Every way to sign in, for the sign-in screen: Google on top (one tap when it works), then a
 /// choice between the email code (the screen's own form, passed in as [emailCode]) and a
 /// password, and the phone when the build has it. One method works at a time; the others wait.
@@ -102,7 +106,7 @@ class _SignInMethodsState extends ConsumerState<SignInMethods> {
             onSignedIn: widget.onSignedIn,
             onBusyChanged: (v) => _setBusy(google: v),
           ),
-          const SizedBox(height: MmSpace.s20),
+          const SizedBox(height: _orGap),
           Row(
             children: [
               Expanded(child: Divider(color: colors.line, height: 1)),
@@ -113,7 +117,7 @@ class _SignInMethodsState extends ConsumerState<SignInMethods> {
               Expanded(child: Divider(color: colors.line, height: 1)),
             ],
           ),
-          const SizedBox(height: MmSpace.s20),
+          const SizedBox(height: _orGap),
         ],
         MmSegmented<SignInMethod>(
           semanticsLabel: AccessCopy.methodsLabel,
@@ -135,11 +139,15 @@ class _SignInMethodsState extends ConsumerState<SignInMethods> {
           const SizedBox(height: MmSpace.s12),
           Align(
             alignment: Alignment.centerLeft,
-            child: KeyButton.quiet(
-              label: AccessCopy.usePhone,
-              onPressed: _otherBusy || widget.busy
-                  ? null
-                  : widget.onPhone ?? () => context.push(AccountAccessRoutes.phoneSignIn),
+            // The quiet key carries 16 dp of inner padding; pull it back so its label lines up.
+            child: Transform.translate(
+              offset: const Offset(-MmSpace.s16, 0),
+              child: KeyButton.quiet(
+                label: AccessCopy.usePhone,
+                onPressed: _otherBusy || widget.busy
+                    ? null
+                    : widget.onPhone ?? () => context.push(AccountAccessRoutes.phoneSignIn),
+              ),
             ),
           ),
         ],

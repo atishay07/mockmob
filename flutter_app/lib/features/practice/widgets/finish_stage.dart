@@ -255,7 +255,8 @@ class _InkSheet extends StatelessWidget {
   /// (no half-empty row), more in the sheet's columns.
   static ({int columns, double cell, double gap, double left}) geometry(int count, double width) {
     if (count <= 10) {
-      const cell = 28.0;
+      // The bubbles shrink a little rather than run past the card's right padding.
+      final cell = ((width - (count - 1) * gap) / count).clamp(16.0, 28.0);
       final spread = count <= 1 ? 0.0 : ((width - count * cell) / (count - 1)).clamp(gap, 40.0);
       final used = count * cell + (count - 1) * spread;
       return (columns: count, cell: cell, gap: spread, left: ((width - used) / 2).clamp(0.0, width));

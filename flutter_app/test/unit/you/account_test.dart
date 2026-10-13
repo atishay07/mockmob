@@ -44,7 +44,7 @@ void main() {
       expect(find.text('asha.verma@example.com'), findsOneWidget);
       expect(find.text('Free'), findsOneWidget);
       expect(find.text('Credit balance not loaded'), findsOneWidget);
-      expect(find.text('Your plan and credits as of the last check.'), findsOneWidget);
+      expect(find.text('Your plan and credits as of the last check.'), findsNothing);
     });
 
     testWidgets('Pro with a date reads "Pro is active until 31 July 2027."', (tester) async {

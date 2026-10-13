@@ -12,8 +12,8 @@ import 'sign_in_controller.dart';
 import 'sign_in_state.dart';
 
 /// The frame both sign-in screens share, in the Night Sheet room: the desk lamp's warm light
-/// from the upper left over the ground, banners that sit in the layout above a scrolling,
-/// keyboard-safe column of content (at most 600 dp wide), and the MockMob mark at its head with
+/// from the upper left over the ground, banners that float over the top (nothing moves when they
+/// come and go) and a scrolling, keyboard-safe column of content (at most 600 dp wide) with the MockMob mark at its head and
 /// Mobi beside it. Mobi sits in a fixed 56 dp slot, so nothing below it moves: it thinks while a
 /// code is sent or checked, cheers when the code worked and shrugs at a code that did not match.
 /// Under reduced motion it stays still.
@@ -60,12 +60,16 @@ class _AuthPageState extends ConsumerState<AuthPage> {
         _mobi.play(MobiAct.oops);
       } else if (now.problem != null) {
         _mobi.play(MobiAct.idle);
-      } else if (before.busy == SignInBusy.verifying || before.busy == SignInBusy.google) {
+      } else if (before.busy == SignInBusy.verifying ||
+          before.busy == SignInBusy.google) {
         _mobi.play(MobiAct.cheer);
       } else {
         _mobi.play(MobiAct.idle);
       }
-    } else if (!working && before != null && now.problem == SignInProblem.invalidCode && now.problemSerial != before.problemSerial) {
+    } else if (!working &&
+        before != null &&
+        now.problem == SignInProblem.invalidCode &&
+        now.problemSerial != before.problemSerial) {
       _mobi.play(MobiAct.oops);
     }
   }
@@ -84,73 +88,127 @@ class _AuthPageState extends ConsumerState<AuthPage> {
     final expired = ref.watch(
       authSnapshotProvider.select((s) => s.sessionExpired),
     );
+    final showExpired = expired && step == SignInStep.email;
 
     return Scaffold(
       backgroundColor: colors.ground,
       body: Stack(
         children: [
-          const Positioned.fill(child: LampScene(strength: 0.9, vignette: false)),
+          const Positioned.fill(
+            child: LampScene(strength: 0.9, vignette: false),
+          ),
           const Positioned.fill(child: IgnorePointer(child: Grain())),
           SafeArea(
-        child: Column(
-          children: [
-            if (offline)
-              const InlineBanner(
-                message: AuthCopy.offlineBanner,
-                tone: BannerTone.offline,
-              ),
-            if (expired && step == SignInStep.email)
-              const InlineBanner(message: AuthCopy.sessionExpired),
-            Expanded(
-              child: SingleChildScrollView(
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                padding: const EdgeInsets.fromLTRB(
-                  MmSpace.gutter,
-                  MmSpace.s8,
-                  MmSpace.gutter,
-                  MmSpace.s24,
-                ),
-                child: Center(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      maxWidth: MmSpace.contentMaxWidth,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        SizedBox(
-                          height: MmTarget.min,
-                          child: onBack == null
-                              ? null
-                              : Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: BackKey(onPressed: onBack!),
-                                ),
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        keyboardDismissBehavior:
+                            ScrollViewKeyboardDismissBehavior.onDrag,
+                        padding: const EdgeInsets.fromLTRB(
+                          MmSpace.gutter,
+                          MmSpace.s8,
+                          MmSpace.gutter,
+                          MmSpace.s24,
                         ),
-                        const SizedBox(height: MmSpace.s16),
-                        Row(
-                          children: [
-                            // The wordmark alone: a "mo" tile beside it read as "mo mockmob".
-                            const Wordmark(height: 26),
-                            const Spacer(),
-                            SizedBox(
-                              width: 56,
-                              height: 56,
-                              child: Mobi(pose: MobiPose.idle, size: 56, controller: _mobi),
+                        child: Center(
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(
+                              maxWidth: MmSpace.contentMaxWidth,
                             ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                SizedBox(
+                                  height: MmTarget.min,
+                                  child: onBack == null
+                                      ? null
+                                      : Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: BackKey(onPressed: onBack!),
+                                        ),
+                                ),
+                                const SizedBox(height: MmSpace.s16),
+                                // Where a banner would land on the brand row (below a back key, or two
+                                // banners stacked) the row steps aside, so the banner never sits half
+                                // on top of the wordmark. It keeps its space: nothing moves.
+                                AnimatedOpacity(
+                                  opacity:
+                                      (onBack != null &&
+                                              (offline || showExpired)) ||
+                                          (offline && showExpired)
+                                      ? 0
+                                      : 1,
+                                  duration: Motion.of(context, Motion.press),
+                                  child: Row(
+                                    children: [
+                                      // The wordmark alone: a "mo" tile beside it read as "mo mockmob".
+                                      const Wordmark(height: 26),
+                                      const Spacer(),
+                                      SizedBox(
+                                        width: 56,
+                                        height: 56,
+                                        child: Mobi(
+                                          pose: MobiPose.idle,
+                                          size: 56,
+                                          controller: _mobi,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: MmSpace.s20),
+                                child,
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                // Banners float over the top of the page, clear of the screen edges, so the
+                // page never moves when the connection or the session changes. With a back key
+                // they sit below it, so the way back stays reachable.
+                Positioned(
+                  top: onBack == null
+                      ? MmSpace.s8
+                      : MmSpace.s8 + MmTarget.min + MmSpace.s4,
+                  left: MmSpace.gutter,
+                  right: MmSpace.gutter,
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxWidth: MmSpace.contentMaxWidth,
+                      ),
+                      child: AnimatedSwitcher(
+                        duration: Motion.of(context, Motion.press),
+                        child: Column(
+                          key: ValueKey((offline, showExpired)),
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            if (offline)
+                              const InlineBanner(
+                                message: AuthCopy.offlineBanner,
+                                tone: BannerTone.offline,
+                              ),
+                            if (offline && showExpired)
+                              const SizedBox(height: MmSpace.s8),
+                            if (showExpired)
+                              const InlineBanner(
+                                message: AuthCopy.sessionExpired,
+                              ),
                           ],
                         ),
-                        const SizedBox(height: MmSpace.s20),
-                        child,
-                      ],
+                      ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
           ),
         ],
       ),

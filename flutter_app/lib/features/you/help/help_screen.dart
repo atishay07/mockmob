@@ -158,7 +158,7 @@ class _Source extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(what, style: type.caption.copyWith(color: colors.ink3)),
+          Text(what, style: type.small.copyWith(color: colors.ink3)),
           const SizedBox(height: 2),
           SelectableText(from, style: type.labelLarge.copyWith(color: colors.ink)),
         ],

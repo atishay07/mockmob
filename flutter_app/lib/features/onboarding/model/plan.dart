@@ -158,7 +158,8 @@ class PlanSummary {
     return '${course.short} also needs ${joinWithAnd(check.missing)}.';
   }
 
-  /// "Aim: SRCC 924.3, Hindu 919.9. Last year's DU closing scores, UR, out of 1000."
+  /// "Aim: SRCC 924.3, Hindu 919.9. Last year's DU closing scores (UR, out of 1000)." "out of 1000" holds
+  /// together (no-break spaces), so the line never ends on a lone "1000.".
   static String? aimLine(OnboardingAnswers a) {
     final course = a.course;
     if (course == null || a.colleges.isEmpty) return null;
@@ -169,6 +170,6 @@ class PlanSummary {
       if (o != null) parts.add(score == null ? o.short : '${o.short} ${DuCatalog.format(score)}');
     }
     if (parts.isEmpty) return null;
-    return 'Aim: ${parts.join(', ')}. ${DuCatalog.source}, ${a.category}, out of ${DuCatalog.scale}.';
+    return 'Aim: ${parts.join(', ')}. ${DuCatalog.source} (${a.category}, out\u00A0of\u00A0${DuCatalog.scale}).';
   }
 }

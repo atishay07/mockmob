@@ -9,12 +9,20 @@ import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
 import 'night_support.dart';
 
+const _openerKey = ValueKey('golden-opener');
+
 Widget _opener(void Function(BuildContext context) open) {
   return GoldenRoom(
     child: Builder(
       builder: (context) => Align(
         alignment: const Alignment(0, -0.2),
-        child: TextButton(onPressed: () => open(context), child: const Text('Open')),
+        // An invisible opener: the golden pictures the sheet, never a stray button label.
+        child: GestureDetector(
+          key: _openerKey,
+          behavior: HitTestBehavior.opaque,
+          onTap: () => open(context),
+          child: const SizedBox(width: 120, height: 48),
+        ),
       ),
     ),
   );
@@ -64,7 +72,7 @@ void main() {
 
     testWidgets('glass sheet, $tag', (tester) async {
       await pumpMockmob(tester, _opener(_sheet), brightness: brightness, size: kNightSize);
-      await tester.tap(find.text('Open'));
+      await tester.tap(find.byKey(_openerKey));
       for (var i = 0; i < 10; i++) {
         await tester.pump(const Duration(milliseconds: 60));
       }
@@ -84,7 +92,7 @@ void main() {
           quickStartRepairProvider.overrideWithValue(const QuickRepair(location: '/review', chapter: 'Partnership fundamentals')),
         ],
       );
-      await tester.tap(find.text('Open'));
+      await tester.tap(find.byKey(_openerKey));
       for (var i = 0; i < 10; i++) {
         await tester.pump(const Duration(milliseconds: 60));
       }
@@ -107,7 +115,7 @@ void main() {
           quickStartRepairProvider.overrideWithValue(const QuickRepair(location: '/review', chapter: 'Partnership fundamentals')),
         ],
       );
-      await tester.tap(find.text('Open'));
+      await tester.tap(find.byKey(_openerKey));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 110));
       await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/quick_start_morph_$tag.png'));

@@ -142,6 +142,8 @@ class WeekSheetBody extends StatelessWidget {
       content = _Loaded(snapshot: snapshot, onSeeRhythm: onSeeRhythm, plan: plan, onChangeDays: onChangeDays, onPauseWeek: onPauseWeek);
     }
 
+    // The week's dates sit under the title, where they say which week this is.
+    final monday = !rhythmOff && snapshot.hasData ? snapshot.week?.days.first.date : null;
     return Padding(
       padding: const EdgeInsets.only(top: MmSpace.s8),
       child: Column(
@@ -149,6 +151,10 @@ class WeekSheetBody extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Semantics(header: true, child: Text(RhythmCopy.weekTitle, style: type.title)),
+          if (monday != null) ...[
+            const SizedBox(height: MmSpace.s2),
+            Text(RhythmCopy.weekRange(monday), style: type.small.copyWith(color: colors.ink2)),
+          ],
           const SizedBox(height: MmSpace.s16),
           if (savedLine != null && !rhythmOff) ...[
             ReceiptLine(text: savedLine!),
@@ -185,7 +191,6 @@ class _Loaded extends StatelessWidget {
       paused: week.status == WeekStatus.paused,
       planned: plan,
     );
-    final monday = week.days.first.date;
     final days = planWeek(
       studied: [for (final d in week.days) d.studyDay],
       todayIndex: todayIndex < 0 ? null : todayIndex,
@@ -239,11 +244,7 @@ class _Loaded extends StatelessWidget {
         ],
         Text(run, style: type.body.copyWith(color: colors.ink2)),
         const SizedBox(height: MmSpace.s12),
-        Text(RhythmCopy.studyDayRule, style: type.caption.copyWith(color: colors.ink3)),
-        if (monday != null) ...[
-          const SizedBox(height: MmSpace.s2),
-          Text(RhythmCopy.weekRange(monday), style: type.caption.copyWith(color: colors.ink3)),
-        ],
+        Text(RhythmCopy.studyDayRule, style: type.caption.copyWith(color: colors.ink2)),
         const SizedBox(height: MmSpace.s12),
         Wrap(
           spacing: MmSpace.s24,

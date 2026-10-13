@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../core/router/routes.dart';
 import '../../core/theme/theme.dart';
@@ -9,6 +10,7 @@ import '../account_access/widgets/sign_in_methods.dart';
 import 'auth_page.dart';
 import 'copy.dart';
 import 'email_field.dart';
+import 'quiet_action.dart';
 import 'sign_in_controller.dart';
 import 'sign_in_state.dart';
 
@@ -128,7 +130,8 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                 KeyButton(
                   label: sending ? AuthCopy.sendingCode : AuthCopy.sendCode,
                   loading: sending,
-                  onPressed: held ? null : _send,
+                  // Sending keeps the volt key with its spinner (a loading key ignores taps).
+                  onPressed: sending ? () {} : (held ? null : _send),
                 ),
                 if (state.hasCodeFor(typed) && !held) ...[
                   const SizedBox(height: MmSpace.s12),
@@ -140,12 +143,10 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                     ),
                   ),
                   const SizedBox(height: MmSpace.s4),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: KeyButton.quiet(
-                      label: AuthCopy.alreadyHaveCode,
-                      onPressed: _haveCode,
-                    ),
+                  QuietAction(
+                    label: AuthCopy.alreadyHaveCode,
+                    icon: LucideIcons.keyRound,
+                    onPressed: _haveCode,
                   ),
                 ],
               ],

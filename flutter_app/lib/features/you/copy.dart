@@ -68,7 +68,6 @@ abstract final class YouCopy {
   static const goalCounts = 'A study day is a day you finish a practice, a mock or a repair.';
   static String goalFigure(int days) => days == 1 ? '1 day a week' : '$days days a week';
   static String goalUnit(int days) => days == 1 ? 'day a week' : 'days a week';
-  static const goalRestDays = 'The other days are rest days.';
   static const goalEveryDay = 'Every day of the week. There are no rest days at this goal.';
   static const goalStudy = 'study';
   static const goalRest = 'rest';
@@ -120,8 +119,7 @@ abstract final class YouCopy {
   static const consentExplanation =
       'We count which parts of the app are used, such as starting a mock or finishing a repair, '
       'along with the app version. We do not collect your answers, marks, questions, contacts, '
-      'location or an advertising ID. You can turn '
-      'this off any time here and collection stops straight away.';
+      'location or an advertising ID. Turn this off any time and collection stops straight away.';
   static const seeEvents = 'See every event we collect';
   static const eventsTitle = 'Every event we collect';
   static const eventsIntro =
@@ -144,7 +142,7 @@ abstract final class YouCopy {
   static const consentEnabling = 'Saving your choice';
   static const consentTurningOff = 'Turning off. Collection has already stopped.';
   static const consentEnableFailed = 'We could not save that. Usage data is still off. Try again.';
-  static const consentWithdrawn = 'Usage data is off. We stopped collecting it. Earlier usage data was deleted.';
+  static const consentWithdrawn = 'Usage data is off and earlier data was deleted.';
   static const consentEnabled = 'Usage data is on. Saved.';
   static const consentWithdrawnShort = 'Usage data is off. We stopped collecting it.';
   static const consentDeleteFailed = 'Your choice was saved, but deleting earlier data failed. Try again.';
@@ -200,7 +198,8 @@ abstract final class YouCopy {
   static const deleteUnknown = 'We could not check this phone for answers that are not sent. Any that are will be removed when you are signed out.';
   static const deleteWord = 'DELETE';
   static const deleteTypeLabel = 'Type DELETE to confirm';
-  static const deleteTypeNeeded = 'Type DELETE to turn this key on.';
+  static const deleteTypeNeeded = 'Type DELETE to enable this button.';
+  static const deleteHint = 'Type here';
   static String deleteQueued(int count) =>
       '${plural(count, 'study update')} waiting to send will be removed too.';
   static const deleteCancelNote =
@@ -230,9 +229,7 @@ abstract final class YouCopy {
   static const helpPrivacyPolicy = 'Privacy policy';
   static const helpTerms = 'Terms of use';
   static const aboutHeading = 'About';
-  static const helpNonAffiliation =
-      'MockMob is an independent practice app. It is not affiliated with the National Testing Agency '
-      '(NTA) or the University of Delhi.';
+  static const helpNonAffiliation = 'An independent practice app, not affiliated with NTA or the University of Delhi.';
   static const sourcesHeading = 'Where the facts come from';
   static const sourceExam = 'Exam pattern and dates';
   static const sourceExamFrom = 'NTA, cuet.nta.nic.in';

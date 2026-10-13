@@ -94,6 +94,8 @@ void main() {
   testWidgets('the error state offers Try again and a way to practise', (tester) async {
     final events = await pumpToday(tester, buildToday(TodayInputs(now: tuesdayEvening, firstName: 'Asha', attemptsFailed: true)));
     expect(find.text(TodayCopy.unavailableTitle), findsOneWidget);
+    expect(find.text(TodayCopy.unavailableOverline), findsOneWidget, reason: 'a failed read is not labelled as the move');
+    expect(find.textContaining('move'), findsNothing);
     await tester.tap(find.text(TodayCopy.tryAgain));
     await tester.pump();
     expect((events.single as TodayAction).target, isA<RetryLoad>());
@@ -150,13 +152,23 @@ void main() {
     expect(find.text(CuetDates.registrationMonths), findsOneWidget);
   });
 
-  testWidgets('every road stop whose date is not published carries an Expected tag, once each', (tester) async {
+  testWidgets('when every road date is still expected, the word is said once above the stops, not on each row', (tester) async {
     final view = buildToday(ashaInputs());
     await pumpToday(tester, view);
     await tester.scrollUntilVisible(find.text(TodayCopy.roadTitle), 300, scrollable: find.byType(Scrollable).first);
-    final expected = view.road!.stops.where((s) => s.expected).length;
-    expect(expected, 3);
-    expect(find.text(TodayCopy.expectedTag), findsNWidgets(expected));
+    expect(view.road!.stops.where((s) => s.expected).length, 3);
+    expect(find.text(TodayCopy.expectedDates), findsOneWidget);
+    expect(find.text(TodayCopy.expectedTag), findsNothing);
+  });
+
+  testWidgets('a mix of expected and published dates tags only the expected stops', (tester) async {
+    final stops = [
+      for (final (i, s) in buildToday(ashaInputs()).road!.stops.indexed)
+        RoadStop(kind: s.kind, title: s.title, when: s.when, start: s.start, end: s.end, note: s.note, expected: i != 0),
+    ];
+    await pumpMockmob(tester, RoadStops(stops: stops), size: const Size(384, 600), disableAnimations: true, overrides: overrides);
+    expect(find.text(TodayCopy.expectedTag), findsNWidgets(2));
+    expect(find.text(TodayCopy.expectedDates), findsNothing);
   });
 
   testWidgets('a stop that is not expected carries no tag', (tester) async {

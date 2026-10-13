@@ -71,8 +71,10 @@ class ToolsLoadFailed extends ConsumerWidget {
     });
     final phoneOffline = ref.watch(networkStatusProvider) == NetworkStatus.offline;
     final offline = phoneOffline || (error is DuLoadError && (error as DuLoadError).offline);
+    // Sits at about the optical centre of the space under the header, not hard against it.
+    final top = (MediaQuery.sizeOf(context).height * 0.16).clamp(MmSpace.s32, 160.0);
     return Padding(
-      padding: const EdgeInsets.only(top: MmSpace.s32),
+      padding: EdgeInsets.only(top: top),
       child: StateView(
         kind: offline ? StateViewKind.offline : StateViewKind.error,
         pose: offline ? MobiPose.sleepy : MobiPose.think,

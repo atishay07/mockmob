@@ -98,8 +98,6 @@ abstract final class RhythmCopy {
   static const String pauseUntilOn = 'Pause for about 3 months';
   static const String resume = 'Resume rhythm';
   static const String pauseFailed = 'We could not change the pause. Try again.';
-  static String pausedUntilKept(String? untilDate) =>
-      untilDate == null ? 'Paused. Your run is kept.' : 'Paused until $untilDate. Your run is kept.';
 
   // Turn off.
   static const String turnOff = 'Turn off rhythm';
@@ -293,7 +291,7 @@ abstract final class RhythmCopy {
   static const String milestonesIntro = 'Each one is dated by the server the day it happens. Nothing expires.';
 
   // Mobi on the milestones screen.
-  static const String milestonesMobiEmpty = 'Your first one lands with your first scored set of 5 or more answers.';
+  static const String milestonesMobiEmpty = 'Your first lands with a scored set.';
   static const String milestonesMobiComplete = 'Every path has landed. They stay dated here for good.';
   static String stepJustLanded(String name) => '$name just landed.';
 

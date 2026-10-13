@@ -10,6 +10,7 @@ import '../../core/widgets/widgets.dart';
 import 'auth_page.dart';
 import 'code_slots.dart';
 import 'copy.dart';
+import 'quiet_action.dart';
 import 'resend_row.dart';
 import 'sign_in_controller.dart';
 import 'sign_in_state.dart';
@@ -97,6 +98,11 @@ class _SignInCodeScreenState extends ConsumerState<SignInCodeScreen> {
     final verifying = state.busy == SignInBusy.verifying;
     final sending = state.busy == SignInBusy.sending;
     final address = state.email.trim().toLowerCase();
+    final until = state.resendAvailableAt;
+    // "A new code is on its way" belongs to the wait that follows it; once Resend is live
+    // again the note is gone, so the two never contradict each other.
+    final showResentNotice =
+        state.codeResentNotice && until != null && until.isAfter(now());
 
     return AuthPage(
       step: SignInStep.code,
@@ -141,20 +147,33 @@ class _SignInCodeScreenState extends ConsumerState<SignInCodeScreen> {
           const SizedBox(height: MmSpace.s12),
           if (problemText != null)
             ProblemLine(message: problemText)
-          else if (state.codeResentNotice)
+          else if (showResentNotice)
             const _Notice(message: AuthCopy.codeResent)
           else
-            Text(
-              AuthCopy.codeSpamHint,
-              style: type.small.copyWith(color: colors.ink3),
+            // While the code is being checked the hint goes quiet but keeps its line, so
+            // nothing below it moves.
+            Visibility(
+              visible: !verifying,
+              maintainSize: true,
+              maintainAnimation: true,
+              maintainState: true,
+              maintainSemantics: false,
+              child: Text(
+                AuthCopy.codeSpamHint,
+                style: type.small.copyWith(color: colors.ink3),
+              ),
             ),
           const SizedBox(height: MmSpace.s20),
           KeyButton(
             label: verifying ? AuthCopy.verifying : AuthCopy.verify,
             loading: verifying,
-            onPressed: _code.text.length == kCodeLength && !state.isBusy
-                ? _verify
-                : null,
+            // Checking keeps the volt key with its spinner (a loading key ignores taps) rather
+            // than going flat grey, so the screen reads as working.
+            onPressed: verifying
+                ? () {}
+                : (_code.text.length == kCodeLength && !state.isBusy
+                      ? _verify
+                      : null),
           ),
           const SizedBox(height: MmSpace.s8),
           ResendRow(
@@ -162,16 +181,14 @@ class _SignInCodeScreenState extends ConsumerState<SignInCodeScreen> {
             now: now,
             sending: sending,
             onResend: _resend,
+            onElapsed: () {
+              if (mounted) setState(() {});
+            },
           ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Transform.translate(
-              offset: const Offset(-MmSpace.s16, 0),
-              child: KeyButton.quiet(
-                label: AuthCopy.differentEmail,
-                onPressed: _back,
-              ),
-            ),
+          QuietAction(
+            label: AuthCopy.differentEmail,
+            icon: LucideIcons.arrowLeft,
+            onPressed: _back,
           ),
         ],
       ),

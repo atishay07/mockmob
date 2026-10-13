@@ -46,6 +46,12 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
   bool _ticked = false;
   bool _halfTicked = false;
 
+  /// More of the sheet lies below the scroll area's foot (drives the fade above the key).
+  final ValueNotifier<bool> _moreBelow = ValueNotifier<bool>(true);
+
+  /// Under this much room the sheet tightens (small phones).
+  static const double _compactBelow = 640;
+
   @override
   void initState() {
     super.initState();
@@ -91,6 +97,7 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
   void dispose() {
     _flip.dispose();
     _hold.dispose();
+    _moreBelow.dispose();
     super.dispose();
   }
 
@@ -133,14 +140,14 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
     final from = formatWeekdayDate(widget.answers.sealedAt ?? now);
     final lead = PlanSummary.usesDefaults(widget.answers) ? OnboardingCopy.planLeadDefaults : OnboardingCopy.planLead;
 
-    final card = AnimatedBuilder(
+    Widget card(bool compact) => AnimatedBuilder(
       animation: _flip,
       builder: (context, _) {
         final t = Motion.emphasized.transform(_flip.value);
         final back = t >= 0.5;
         if (reduced) {
           return back
-              ? PlanSheet(plan: plan, seal: _hold, sealed: sealed, from: from, lead: lead, revealed: _flip.isCompleted)
+              ? PlanSheet(plan: plan, seal: _hold, sealed: sealed, from: from, lead: lead, revealed: _flip.isCompleted, compact: compact)
               : AnswerSheetCard(answers: widget.answers, now: now, compact: true, animate: false);
         }
         final angle = t * math.pi;
@@ -150,7 +157,7 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
             ..setEntry(3, 2, 0.0012)
             ..rotateY(back ? angle - math.pi : angle),
           child: back
-              ? PlanSheet(plan: plan, seal: _hold, sealed: sealed, from: from, lead: lead, revealed: _flip.isCompleted)
+              ? PlanSheet(plan: plan, seal: _hold, sealed: sealed, from: from, lead: lead, revealed: _flip.isCompleted, compact: compact)
               : AnswerSheetCard(answers: widget.answers, now: now, compact: true, animate: false),
         );
       },
@@ -160,14 +167,66 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.only(top: MmSpace.s32, bottom: MmSpace.s16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                card,
-              ],
-            ),
+          // A short window (a small phone, or the hold row taking its room) tightens the sheet so
+          // it fits; if it still runs long, it scrolls, and a fade at the foot says so.
+          child: LayoutBuilder(
+            builder: (context, box) {
+              final compact = box.maxHeight < _compactBelow;
+              return NotificationListener<ScrollMetricsNotification>(
+                onNotification: (n) {
+                  final more = n.metrics.extentAfter > 1;
+                  if (more != _moreBelow.value) _moreBelow.value = more;
+                  return false;
+                },
+                child: NotificationListener<ScrollNotification>(
+                  onNotification: (n) {
+                    final more = n.metrics.extentAfter > 1;
+                    if (more != _moreBelow.value) _moreBelow.value = more;
+                    return false;
+                  },
+                  child: Stack(
+                    children: [
+                      Positioned.fill(
+                        child: SingleChildScrollView(
+                          padding: EdgeInsets.only(top: compact ? MmSpace.s12 : MmSpace.s32, bottom: MmSpace.s16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [card(compact)],
+                          ),
+                        ),
+                      ),
+                      // A short fade into the ground while there is more sheet below, so a card
+                      // taller than the screen reads as scrolling, not cut off behind the key.
+                      Positioned(
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        height: MmSpace.s32,
+                        child: IgnorePointer(
+                          child: ValueListenableBuilder<bool>(
+                            valueListenable: _moreBelow,
+                            builder: (context, more, child) => AnimatedOpacity(
+                              opacity: more ? 1 : 0,
+                              duration: Motion.reduced(context) ? Duration.zero : const Duration(milliseconds: 160),
+                              child: child,
+                            ),
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [context.mmColors.ground.withValues(alpha: 0), context.mmColors.ground],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
           ),
         ),
         Padding(
@@ -194,20 +253,16 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
                           ),
                         ),
                         const SizedBox(width: MmSpace.s8),
-                        KeyButton.secondary(
-                          label: OnboardingCopy.sealIt,
-                          onPressed: _seal,
-                          expanded: false,
-                          minHeight: MmTarget.primaryKey,
+                        Expanded(
+                          child: KeyButton.secondary(
+                            label: OnboardingCopy.sealIt,
+                            onPressed: _seal,
+                            minHeight: MmTarget.primaryKey,
+                          ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: MmSpace.s6),
-                    Text(
-                      OnboardingCopy.holdHint,
-                      textAlign: TextAlign.center,
-                      style: context.mmType.caption.copyWith(color: context.mmColors.ink2),
-                    ),
+                    const SizedBox(height: MmSpace.s4),
                     Center(child: KeyButton.quiet(label: OnboardingCopy.changeSomething, onPressed: _change)),
                   ],
                 ),

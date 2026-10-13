@@ -56,7 +56,7 @@ class _ToolsHubScreenState extends ConsumerState<ToolsHubScreen> {
           child: Padding(
             padding: const EdgeInsets.only(top: MmSpace.s24),
             child: YouPanel(
-              inset: 72,
+              inset: 64,
               children: [
                 ToolRow(art: ToolArtKind.combo, title: ToolsCopy.comboTitle, note: ToolsCopy.comboNote, onTap: () => context.push(ToolsPaths.combo)),
                 ToolRow(art: ToolArtKind.guide, title: ToolsCopy.guideTitle, note: ToolsCopy.guideNote, onTap: () => context.push(ToolsPaths.guide2027)),

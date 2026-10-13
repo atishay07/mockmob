@@ -98,6 +98,8 @@ abstract final class TodayCopy {
   /// A practice key states its length: "Check this skill, 10 questions".
   static String withCount(String label, int count) => '$label, $count questions';
   static const String practiceLength = 'How many questions?';
+  /// The label on the error card: a failed read is not tonight's move.
+  static const String unavailableOverline = 'Could not load';
   static const String unavailableTitle = 'Your earlier results are still there.';
   static const String unavailableLine = 'We could not load a new suggestion just now.';
   static const String tryAgain = 'Try again';
@@ -182,6 +184,8 @@ abstract final class TodayCopy {
   static const String whenExam = CuetDates.windowMonth;
   /// The tag on a stop whose date NTA or CBSE has not published.
   static const String expectedTag = 'Expected';
+  /// Said once above the stops when every date is still expected.
+  static const String expectedDates = 'Expected dates';
   static const String nowLabel = 'Now';
   static String weekNeedsOnTrack(int n) => n == 1 ? 'This week: 1 more study day by Sunday.' : 'This week: $n more study days by Sunday.';
   static const String weekNeedsMet = 'This week: your goal is met. Anything more is extra.';
@@ -221,9 +225,9 @@ abstract final class TodayCopy {
   static const String altChapter = 'One chapter';
   static const String altChapterLine = 'Pick a chapter and practise only that.';
   static const String altReview = 'Review your mistakes';
-  static const String altReviewLine = 'Read the worked explanations. Free.';
+  static const String altReviewLine = 'Read the worked explanations, free.';
   static const String notToday = 'Not today';
-  static const String notTodayNote = 'Hides this repair until tomorrow. Your mistakes stay in Review.';
+  static const String notTodayNote = 'Hides this repair until tomorrow.';
 
   // Weekly ending page.
   static const String weeklyEndingTitle = 'Your week';

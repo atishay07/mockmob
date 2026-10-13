@@ -9,10 +9,13 @@ import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/repositories/rhythm_seen_repository.dart';
 import 'package:mockmob/core/storage/app_database.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
+import 'package:mockmob/core/widgets/key_button.dart';
 import 'package:mockmob/features/rhythm/celebration/celebration_controller.dart';
 import 'package:mockmob/features/rhythm/celebration/celebration_event.dart';
 import 'package:mockmob/features/rhythm/celebration/celebration_slot.dart';
+import 'package:mockmob/features/rhythm/data/rhythm_providers.dart';
 import 'package:mockmob/features/rhythm/screens/rhythm_screen.dart';
+import 'package:mockmob/features/rhythm/screens/week_sheet.dart';
 import 'package:mockmob/features/rhythm/widgets/week_strip_section.dart';
 import 'package:mockmob/features/rhythm/widgets/weekly_ending_card.dart';
 
@@ -133,9 +136,12 @@ void main() {
         ],
       );
       await settle(tester);
-      final line = find.text('Paused until 21 January. Your run is kept.');
+      // The date is said once, in the week card; the pause group says only that the run is kept.
+      expect(find.text('Rhythm is paused until 21 January.'), findsOneWidget);
+      final line = find.text('Paused weeks do not break your run.');
       await tester.scrollUntilVisible(line, 200, scrollable: find.byType(Scrollable).first);
       expect(line, findsOneWidget);
+      expect(find.textContaining('Paused until'), findsNothing);
       expect(find.text('Resume rhythm'), findsOneWidget);
     });
 
@@ -224,6 +230,38 @@ void main() {
       expect(find.text('2 of 4 study days'), findsOneWidget);
       await tester.tap(find.text('2 of 4 study days'));
       expect(opened, 1);
+    });
+
+    testWidgets('a failed read offers a Try again key of at least 48 dp that retries', (tester) async {
+      var retried = 0;
+      final snapshot = composeSnapshot(
+        rhythmState: kFailedRhythm,
+        goalState: const RemoteState(value: Goal(daysPerWeek: 4)),
+        now: kNow,
+        timezone: 'Asia/Kolkata',
+      );
+      await pumpMockmob(tester, WeekStripBody(snapshot: snapshot, onOpen: () {}, onRetry: () => retried++), overrides: overrides(rhythmFixture()));
+      expect(find.text('We could not load this week.'), findsOneWidget);
+      expect(tester.getSize(find.byType(KeyButton)).height, greaterThanOrEqualTo(48));
+      await tester.tap(find.byType(KeyButton));
+      expect(retried, 1);
+    });
+  });
+
+  group('Week sheet', () {
+    testWidgets('names the week under the title, once', (tester) async {
+      final snapshot = composeSnapshot(
+        rhythmState: loaded(rhythmFixture()),
+        goalState: const RemoteState(value: Goal(daysPerWeek: 4)),
+        now: kNow,
+        timezone: 'Asia/Kolkata',
+      );
+      await pumpMockmob(
+        tester,
+        SingleChildScrollView(child: WeekSheetBody(snapshot: snapshot, rhythmOff: false, onRetry: () {}, onTurnOn: () {}, onSeeRhythm: () {})),
+        overrides: overrides(rhythmFixture()),
+      );
+      expect(find.text('12 to 18 October'), findsOneWidget);
     });
   });
 

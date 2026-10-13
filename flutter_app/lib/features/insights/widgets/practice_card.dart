@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
@@ -47,12 +48,15 @@ class PracticeCard extends ConsumerWidget {
         Text(q.body, style: type.question),
         const SizedBox(height: MmSpace.s16),
         if (!q.hasUsableKey) ...[
-          InlineBanner(message: InsightsCopy.noKey, tone: BannerTone.warning, compact: true),
+          InlineBanner(message: InsightsCopy.noKey, tone: BannerTone.warning),
           const SizedBox(height: MmSpace.s12),
         ],
         for (var i = 0; i < q.options.length; i++) ...[
           if (i > 0) const SizedBox(height: MmSpace.s8),
-          _OptionTile(
+          // With no usable key nothing here can be picked: dim the options so they do not read as live.
+          Opacity(
+            opacity: q.hasUsableKey ? 1 : 0.55,
+            child: _OptionTile(
             option: q.options[i],
             mark: _markFor(q.options[i].key),
             onTap: revealed || !q.hasUsableKey
@@ -61,6 +65,7 @@ class PracticeCard extends ConsumerWidget {
                     ref.read(hapticsProvider).tick();
                     onPick(q.options[i].key);
                   },
+            ),
           ),
         ],
         if (revealed) ...[const SizedBox(height: MmSpace.s20), _Reveal(question: q, picked: picked!)],
@@ -253,6 +258,8 @@ class _Passage extends StatefulWidget {
 class _PassageState extends State<_Passage> {
   bool _open = false;
 
+  static const int _foldedLines = 5;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -266,13 +273,50 @@ class _PassageState extends State<_Passage> {
         decoration: ShapeDecoration(color: colors.sunken, shape: mmShapeBorder(MmRadius.keyAll, side: BorderSide(color: colors.line))),
         child: Padding(
           padding: const EdgeInsets.all(MmSpace.s16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(InsightsCopy.passage, style: type.label.copyWith(color: colors.ink2)),
-              const SizedBox(height: MmSpace.s6),
-              Text(widget.text, style: type.body, maxLines: _open ? null : 5, overflow: _open ? TextOverflow.visible : TextOverflow.fade),
-            ],
+          child: LayoutBuilder(
+            builder: (context, box) {
+              final probe = TextPainter(
+                text: TextSpan(text: widget.text, style: type.body),
+                textDirection: Directionality.of(context),
+                textScaler: MediaQuery.textScalerOf(context),
+                maxLines: _foldedLines,
+              )..layout(maxWidth: box.maxWidth);
+              final overflows = probe.didExceedMaxLines;
+              probe.dispose();
+              final body = Text(widget.text, style: type.body, maxLines: _open || !overflows ? null : _foldedLines, overflow: TextOverflow.clip);
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(InsightsCopy.passage, style: type.label.copyWith(color: colors.ink2)),
+                  const SizedBox(height: MmSpace.s6),
+                  // Folded and long: the last lines fade out so the cut reads as "more below".
+                  if (overflows && !_open)
+                    ShaderMask(
+                      blendMode: BlendMode.dstIn,
+                      shaderCallback: (rect) => const LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Color(0xFFFFFFFF), Color(0xFFFFFFFF), Color(0x00FFFFFF)],
+                        stops: [0, 0.6, 1],
+                      ).createShader(rect),
+                      child: body,
+                    )
+                  else
+                    body,
+                  if (overflows)
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(minHeight: 32),
+                      child: Row(
+                        children: [
+                          Text(_open ? InsightsCopy.passageFold : InsightsCopy.passageReadAll, style: type.label.copyWith(color: colors.ink)),
+                          const SizedBox(width: MmSpace.s4),
+                          ExcludeSemantics(child: Icon(_open ? LucideIcons.chevronUp : LucideIcons.chevronDown, size: 16, color: colors.ink)),
+                        ],
+                      ),
+                    ),
+                ],
+              );
+            },
           ),
         ),
       ),

@@ -170,7 +170,7 @@ void main() {
     });
 
     test('the aim line carries the real figures, the source and the scale', () {
-      expect(PlanSummary.aimLine(_student()), 'Aim: SRCC 924.3, Hindu 919.9. Last year\'s DU closing scores, UR, out of 1000.');
+      expect(PlanSummary.aimLine(_student()), 'Aim: SRCC 924.3, Hindu 919.9. Last year\'s DU closing scores (UR, out\u00A0of\u00A01000).');
     });
 
     test('the eligibility line says when the set keeps the course open', () {

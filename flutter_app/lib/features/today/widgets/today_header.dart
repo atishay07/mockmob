@@ -133,17 +133,24 @@ class TodayWeekRow extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8),
                 child: Row(
                   children: [
-                    Expanded(child: Text(week.count, style: type.labelLarge.copyWith(color: colors.ink))),
-                    if (week.outlook != null) ...[
-                      const SizedBox(width: MmSpace.s8),
-                      Flexible(
-                        child: Text(
-                          week.outlook!,
-                          textAlign: TextAlign.right,
-                          style: type.caption.copyWith(color: week.met ? colors.accentText : colors.ink2, fontWeight: FontWeight.w600),
-                        ),
+                    // The count never breaks mid-phrase: when the outlook does not fit beside it
+                    // (large text), the outlook drops to its own line.
+                    Expanded(
+                      child: Wrap(
+                        alignment: WrapAlignment.spaceBetween,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        spacing: MmSpace.s8,
+                        runSpacing: 2,
+                        children: [
+                          Text(week.count, style: type.labelLarge.copyWith(color: colors.ink)),
+                          if (week.outlook != null)
+                            Text(
+                              week.outlook!,
+                              style: type.caption.copyWith(color: week.met ? colors.accentText : colors.ink2, fontWeight: FontWeight.w600),
+                            ),
+                        ],
                       ),
-                    ],
+                    ),
                     if (onTap != null) ...[
                       const SizedBox(width: MmSpace.s4),
                       Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),

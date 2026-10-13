@@ -77,7 +77,10 @@ class EmailField extends StatelessWidget {
                 hasError ? 1.5 : 1,
               ),
               disabledBorder: border(colors.line, 1),
-              focusedBorder: border(hasError ? colors.badText : colors.focusRing, 1.5),
+              focusedBorder: border(
+                hasError ? colors.badText : colors.focusRing,
+                1.5,
+              ),
             ),
           ),
         ),

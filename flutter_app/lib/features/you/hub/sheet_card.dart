@@ -5,6 +5,7 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/student_target.dart';
 import '../edit_copy.dart';
+import '../widgets/you_page.dart' show PillKey;
 import 'sheet_fields.dart';
 
 /// The student's sheet for the season (brief section 12, You): the identity card at the top of
@@ -125,8 +126,8 @@ class _FinishPrompt extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(YouCopy.finishSheet, style: context.mmType.small.copyWith(color: colors.ink2)),
-                  const SizedBox(height: MmSpace.s4),
-                  KeyButton.quiet(label: YouCopy.finishSheetKey, onPressed: onTap),
+                  const SizedBox(height: MmSpace.s12),
+                  PillKey(label: YouCopy.finishSheetKey, onPressed: onTap),
                 ],
               ),
             ),

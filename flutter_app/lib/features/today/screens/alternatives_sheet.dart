@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/haptics/haptics.dart';
 import '../../../core/router/action_router.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
@@ -125,22 +126,71 @@ class AlternativesSheetBody extends StatelessWidget {
             const SizedBox(height: MmSpace.s20),
           ],
           for (final r in rows) ...[
-            MmSelectRow(
-              title: r.title,
-              note: r.note,
-              selected: false,
-              leading: Icon(r.icon, size: 20, color: colors.ink2),
-              trailing: const SizedBox.shrink(),
-              onTap: () => onRow(r),
-            ),
+            _AlternativeTile(row: r, onTap: () => onRow(r)),
             const SizedBox(height: MmSpace.s8),
           ],
           if (onNotToday != null) ...[
             const SizedBox(height: MmSpace.s4),
             Center(child: KeyButton.quiet(label: TodayCopy.notToday, onPressed: onNotToday)),
-            Text(TodayCopy.notTodayNote, textAlign: TextAlign.center, style: type.caption.copyWith(color: colors.ink3)),
+            Text(TodayCopy.notTodayNote, textAlign: TextAlign.center, style: type.caption.copyWith(color: colors.ink2)),
           ],
         ],
+      ),
+    );
+  }
+}
+
+/// One way to practise: an icon, the title and its line, and a chevron. A row opens its screen
+/// when tapped, so it carries no selection ring. 56 dp minimum.
+class _AlternativeTile extends ConsumerWidget {
+  const _AlternativeTile({required this.row, required this.onTap});
+
+  final AlternativeRow row;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return MmPressable(
+      semanticsLabel: row.note.isEmpty ? row.title : '${row.title}. ${row.note}',
+      focusRadius: MmRadius.keyAll,
+      onTap: () {
+        ref.read(hapticsProvider).selection();
+        onTap();
+      },
+      builder: (context, pressed, _) => DecoratedBox(
+        decoration: ShapeDecoration(
+          color: MmSelection.fill(colors, selected: false, pressed: pressed),
+          shape: mmShapeBorder(MmRadius.keyAll, side: MmSelection.side(colors, selected: false)),
+        ),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 56),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s8, MmSpace.s12, MmSpace.s8),
+            child: Row(
+              children: [
+                Icon(row.icon, size: 20, color: colors.ink2),
+                const SizedBox(width: MmSpace.s12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(row.title, style: type.body.copyWith(fontWeight: FontWeight.w500, color: colors.ink)),
+                      if (row.note.isNotEmpty) ...[
+                        const SizedBox(height: 2),
+                        Text(row.note, style: type.caption.copyWith(color: colors.ink3)),
+                      ],
+                    ],
+                  ),
+                ),
+                const SizedBox(width: MmSpace.s8),
+                Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -16,7 +16,7 @@ void main() {
     expect(AuthCopy.offlineBanner, 'You are offline. Connect to sign in.');
     expect(
       AuthCopy.sessionExpired,
-      'Please sign in again. Your work is still on this phone.',
+      'Please sign in again. Your work is safe.',
     );
     expect(AuthCopy.sendingCode, 'Sending a code');
   });

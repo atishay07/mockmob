@@ -193,7 +193,7 @@ void main() {
       await pump(tester);
       expect(find.text('support@mockmob.in'), findsOneWidget);
       expect(
-        find.text('MockMob is an independent practice app. It is not affiliated with the National Testing Agency (NTA) or the University of Delhi.'),
+        find.text('An independent practice app, not affiliated with NTA or the University of Delhi.'),
         findsOneWidget,
       );
       expect(find.text('NTA, cuet.nta.nic.in'), findsOneWidget);

@@ -61,7 +61,6 @@ class PrivacyScreen extends ConsumerWidget {
             padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12, MmSpace.gutter, 0),
             child: InlineBanner(message: YouCopy.ageChangeFailed, tone: BannerTone.error),
           ),
-        const SizedBox(height: MmSpace.s4),
         const SeeEventsKey(),
         ..._outside(context, ref, consent),
       ];
@@ -74,10 +73,10 @@ class PrivacyScreen extends ConsumerWidget {
         const GroupHeading(YouCopy.operationalHeading),
         const YouParagraph(YouCopy.operationalNote),
         Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s16, MmSpace.gutter, 0),
+          padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s16, MmSpace.gutter, 0),
           child: Align(
             alignment: Alignment.centerLeft,
-            child: KeyButton.quiet(label: YouCopy.changeAnswer, onPressed: () => _changeAnswer(context, ref, consent)),
+            child: PillKey(label: YouCopy.changeAnswer, onPressed: () => _changeAnswer(context, ref, consent)),
           ),
         ),
       ];

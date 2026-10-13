@@ -93,6 +93,7 @@ class _CelebrationMomentState extends State<CelebrationMoment> with SingleTicker
         ),
         if (c.linkLabel != null && link != null)
           FlushQuietKey(
+            chevron: true,
             label: c.linkLabel!,
             onPressed: () => GoRouter.maybeOf(context)?.push(link),
           ),

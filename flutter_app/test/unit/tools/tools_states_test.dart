@@ -7,6 +7,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:mockmob/core/connectivity/connectivity_monitor.dart' show NetworkStatus;
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/widgets/mobi.dart';
@@ -40,13 +41,12 @@ void main() {
   group('Compass with no programme open', () {
     testWidgets('opens the nearest five, names what one more subject unlocks, and Mobi thinks', (tester) async {
       await compass(tester, prefs: savedCompass('english,business_studies,economics'));
-      expect(find.text(ToolsCopy.noneOpenTitle), findsOneWidget);
       expect(find.text(ToolsCopy.noneOpenLine), findsOneWidget);
       expect(_mobi(MobiPose.think), findsOneWidget);
       // The old three-sentence paragraph is gone.
       expect(find.textContaining('one language and three domain subjects'), findsNothing);
       expect(find.text(ToolsCopy.unlocksHeading), findsOneWidget);
-      final chips = tester.widgetList<ToolsActionChip>(find.byType(ToolsActionChip)).toList();
+      final chips = tester.widgetList<ToolsActionChip>(find.byType(ToolsActionChip)).where((c) => c.icon == LucideIcons.plus).toList();
       expect(chips, isNotEmpty);
       expect(chips.every((c) => RegExp(r'^\+\d+$').hasMatch(c.trailing ?? '')), isTrue, reason: 'each chip says how many it opens');
       expect(find.byType(NearRow), findsNWidgets(5));

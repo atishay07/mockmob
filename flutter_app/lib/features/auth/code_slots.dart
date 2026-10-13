@@ -187,38 +187,59 @@ class _Slot extends StatelessWidget {
     final filled = digit != null;
     final borderColor = hasError
         ? colors.badText
-        : (current ? colors.focusRing : (filled ? colors.lineStrong : colors.line));
+        : (current
+              ? colors.focusRing
+              : (filled ? colors.lineStrong : colors.line));
     final borderWidth = hasError || current ? 1.5 : 1.0;
 
-    return DecoratedBox(
-      decoration: ShapeDecoration(
-        color: dimmed ? colors.sunken : (filled ? colors.raised2 : colors.raised),
-        shape: RoundedSuperellipseBorder(
-          borderRadius: BorderRadius.circular(14),
-          side: BorderSide(color: borderColor, width: borderWidth),
+    // While the code is being checked the boxes keep their filled look at 0.7 opacity: still
+    // readable, plainly busy, not switched off.
+    return Opacity(
+      opacity: dimmed ? 0.7 : 1,
+      child: DecoratedBox(
+        decoration: ShapeDecoration(
+          color: filled ? colors.raised2 : colors.raised,
+          shape: RoundedSuperellipseBorder(
+            borderRadius: BorderRadius.circular(14),
+            side: BorderSide(color: borderColor, width: borderWidth),
+          ),
         ),
-      ),
-      child: SizedBox(
-        height: _slotFace,
-        child: Center(
-          child: filled
-              ? TweenAnimationBuilder<double>(
-                  key: ValueKey(digit),
-                  tween: Tween<double>(begin: 0, end: 1),
-                  duration: Motion.of(context, Motion.press),
-                  curve: Motion.out,
-                  builder: (context, t, child) => Opacity(
-                    opacity: t,
-                    child: Transform.scale(scale: 0.9 + 0.1 * t, child: child),
-                  ),
-                  child: Text(
-                    digit!,
-                    style: type.figureCompact.copyWith(fontSize: 30, height: 1, color: dimmed ? colors.ink3 : colors.ink),
-                  ),
-                )
-              : (current
-                  ? Container(width: 2, height: 26, decoration: BoxDecoration(color: colors.focusRing, borderRadius: MmRadius.pillAll))
-                  : null),
+        child: SizedBox(
+          height: _slotFace,
+          child: Center(
+            child: filled
+                ? TweenAnimationBuilder<double>(
+                    key: ValueKey(digit),
+                    tween: Tween<double>(begin: 0, end: 1),
+                    duration: Motion.of(context, Motion.press),
+                    curve: Motion.out,
+                    builder: (context, t, child) => Opacity(
+                      opacity: t,
+                      child: Transform.scale(
+                        scale: 0.9 + 0.1 * t,
+                        child: child,
+                      ),
+                    ),
+                    child: Text(
+                      digit!,
+                      style: type.figureCompact.copyWith(
+                        fontSize: 30,
+                        height: 1,
+                        color: colors.ink,
+                      ),
+                    ),
+                  )
+                : (current
+                      ? Container(
+                          width: 2,
+                          height: 26,
+                          decoration: BoxDecoration(
+                            color: colors.focusRing,
+                            borderRadius: MmRadius.pillAll,
+                          ),
+                        )
+                      : null),
+          ),
         ),
       ),
     );

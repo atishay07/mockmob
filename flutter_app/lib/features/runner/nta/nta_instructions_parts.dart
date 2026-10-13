@@ -38,6 +38,7 @@ abstract final class NtaStartCopy {
   static const String screenTitle = 'Stay on the exam screen';
   static const String declare = 'I have read the instructions and I am ready to begin.';
   static const String start = 'Start NTA mode';
+  static const String startHint = 'Tick the declaration to start.';
   static String preparingTitle(String subject) => 'Building your $subject paper.';
   static const String preparingBody = 'The clock starts once your questions are ready. This can take up to 30 seconds.';
   static const List<String> steps = ['Checking your access', 'Selecting 50 questions and creating your session', 'Opening the exam'];

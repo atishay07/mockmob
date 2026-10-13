@@ -1,14 +1,12 @@
 // Every string the CUET tools show. Labels that come from the website's DU tools are verbatim.
 
-import '../../core/domain/cuet_dates.dart';
-
 abstract final class ToolsCopy {
   // Hub.
   static const hubTitle = 'CUET tools';
   static const hubLead = 'Plan the papers and the courses.';
   static const compassTitle = 'Admission Compass';
   static const compassQuestion = 'Which DU courses can your subjects get?';
-  static const compassHubNote = 'Eligibility under the 2026-27 Bulletin, then college cutoffs by category and round.';
+  static const compassHubNote = 'Your subjects against the 2026-27 Bulletin, then college cutoffs by category.';
   static const openCompass = 'Open Compass';
   static const comboTitle = 'Combo planner';
   static const comboNote = 'The papers that open the courses you want';
@@ -19,7 +17,7 @@ abstract final class ToolsCopy {
   static const sourcesTitle = 'Official DU documents';
   static const sourcesNote = 'The Bulletin and the three round lists';
   /// The one source line the tools keep: where every rule and cutoff comes from.
-  static const dataLine = 'DU data: CSAS 2026, Rounds I to III, and the UG Bulletin 2026-27.';
+  static const dataLine = 'DU data: CSAS 2026 and the UG Bulletin 2026-27.';
 
   static String hubOpens(int subjects) =>
       'DU programmes your $subjects ${subjects == 1 ? 'subject opens' : 'subjects open'} under the 2026-27 rules.';
@@ -35,7 +33,6 @@ abstract final class ToolsCopy {
   static const emptyHeroTitle = 'Start with your subjects';
   static const emptyHeroBody =
       'Most DU programmes need one language and three domain subjects, or one language, one domain subject and the General Aptitude Test.';
-  static const fromSheet = 'Ticked from your sheet.';
   static const fromCombo = 'These are the subjects from that combination. Your own are still saved.';
   static const keepCombo = 'Use these subjects';
   static String overLimit(int n, int limit) => 'You have picked $n papers. The limit is $limit.';
@@ -64,7 +61,6 @@ abstract final class ToolsCopy {
   static const sortName = 'A to Z';
   static const onlyClearing = 'Only where my score clears a cutoff';
   static const nothingMatches = 'Nothing matches these filters.';
-  static const noneOpenTitle = 'No programme is open to these subjects yet.';
   static const noneOpenLine = 'One more subject can change that. Tap one below.';
   static const noneOpenFar = 'Try a different mix with Edit subjects.';
   static String notEligibleHeading(int n) => 'Not eligible yet ($n)';
@@ -153,7 +149,7 @@ abstract final class ToolsCopy {
 
   // Subject picker.
   static const pickerTitle = 'Your CUET subjects';
-  static const finderHint = 'Find your subject, e.g. Informatics Practices';
+  static const finderHint = 'Find a subject';
   static const languages = 'Language';
   static const languagesNote = 'List A, at least one';
   static const domains = 'Domain subjects';
@@ -180,7 +176,6 @@ abstract final class ToolsCopy {
   static String proPractise(String name) => 'Practise $name';
   static const proUnavailable = 'Compass Pro could not read your record just now.';
   static const proReading = 'Reading your practice record';
-  static const proNotListed = 'Not listed';
   static const proNeedsFull = 'A full four-paper projection is needed to compare.';
   static const proWithin = 'The earliest listed cutoff sits inside your range.';
   static const proNoCutoff = 'DU listed no cutoff for this category.';
@@ -199,7 +194,6 @@ abstract final class ToolsCopy {
   // CUET 2027 guide.
   static const guidePageTitle = 'CUET 2027';
   static const guideCommonQuestions = 'Common questions';
-  static const guideDatesNote = 'Expected ${CuetDates.windowMonth} window until NTA publishes dates';
   static const guidePassed = 'Passed';
   static const guideNow = 'Now';
   static const guideExpected = 'Expected';

@@ -21,7 +21,7 @@ abstract final class InsightsCopy {
   static String netOver(int net, int sessions) => '${net > 0 ? '+' : ''}$net net marks over ${sessions == 1 ? '1 session' : '$sessions sessions'}';
 
   // The figure when the share answered right is not known yet (sparse record).
-  static const sparseTitle = 'Record your first 10 answered questions to see your share right';
+  static const sparseTitle = 'Answer 10 questions to see your share right';
   static String sparseLine(int answered) => answered == 0
       ? 'Nothing answered yet. Right and wrong answers both count toward it.'
       : '$answered answered so far. Right and wrong answers both count toward it.';
@@ -57,8 +57,8 @@ abstract final class InsightsCopy {
 
   static const chaptersHeading = 'Chapters by marks left open';
   static const chaptersCaption = 'Ranked once 4 or more questions are answered in a chapter.';
-  static String chapterCounts(int r, int w, int b, int n) => '$r right, $w wrong, $b blank of $n';
-  static String chapterOpen(int marks) => '$marks open';
+  static String chapterCounts(int r, int w, int b, int n) => '$r right, $w wrong, $b blank of ${_n(n, 'question')}';
+  static String chapterOpen(int marks) => '${_n(marks, 'mark')} open';
   static String thinToggle(int n) => '${_n(n, 'chapter')} with fewer than 4 answered';
   static const practiseChapter = 'Practise';
   static const practiseThisChapter = 'Practise this chapter';
@@ -175,6 +175,8 @@ abstract final class InsightsCopy {
   static const flagFailed = 'The flag did not reach us. Try again.';
   static const askWhy = 'Ask why';
   static const passage = 'Passage';
+  static const passageReadAll = 'Read all';
+  static const passageFold = 'Show less';
   static const endTitle = 'That is every ready question here';
   static const endMessage = 'Try another chapter or difficulty, or practise what you saved.';
   static const changeFilters = 'Change filters';

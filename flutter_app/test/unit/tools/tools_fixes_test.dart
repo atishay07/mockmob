@@ -87,7 +87,7 @@ void main() {
         {'g': 'b-com-hons', 'c': 'Shri Ram College of Commerce'},
       ]);
       expect(find.text('Shri Ram College of Commerce'), findsOneWidget);
-      expect(find.text(ToolsCopy.proNotListed), findsNothing);
+      expect(find.text('Not listed'), findsNothing);
       expect(find.text(ToolsCopy.proNoCutoff), findsNothing);
       expect(find.text(ToolsCopy.proNeedsFull), findsNothing);
       expect(find.descendant(of: find.byType(YouPanel), matching: find.byType(SkeletonGroup)), findsWidgets);
@@ -100,7 +100,7 @@ void main() {
       ]);
       expect(find.text(ToolsCopy.cutoffsError), findsOneWidget);
       expect(find.text(ToolsCopy.tryAgain), findsOneWidget);
-      expect(find.text(ToolsCopy.proNotListed), findsNothing);
+      expect(find.text('Not listed'), findsNothing);
       expect(find.text(ToolsCopy.proNoCutoff), findsNothing);
     });
 

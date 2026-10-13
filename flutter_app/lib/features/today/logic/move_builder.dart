@@ -167,7 +167,7 @@ MoveHero buildMove(TodayInputs i) {
       return MoveHero(
         state: state,
         mood: mood,
-        overline: overline,
+        overline: TodayCopy.unavailableOverline,
         art: const HeroArt.mobi(MmArt.mobiThink),
         mobiLine: TodayCopy.unavailableTitle,
         meaning: TodayCopy.unavailableLine,

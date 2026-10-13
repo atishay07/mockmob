@@ -141,7 +141,13 @@ void main() {
           for (var t = 0; t < ms; t += 50) {
             await tester.pump(const Duration(milliseconds: 50));
           }
-          await _shot(tester, 'finish_${ms}ms', b);
+          // The last frame waits out Mobi's typewriter, so it shows the whole line.
+          if (ms == 2400) {
+            for (var i = 0; i < 12; i++) {
+              await tester.pump(const Duration(milliseconds: 250));
+            }
+          }
+          await _shot(tester, ms == 2400 ? 'finish_settled' : 'finish_${ms}ms', b);
           await tester.pump(const Duration(seconds: 3));
         });
       }

@@ -3,7 +3,13 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/api/api.dart' show nowProvider;
-import '../../core/auth/auth.dart' show AuthFailure, GoogleOutcome, OAuthReturn, OAuthReturnKind, SignInException;
+import '../../core/auth/auth.dart'
+    show
+        AuthFailure,
+        GoogleOutcome,
+        OAuthReturn,
+        OAuthReturnKind,
+        SignInException;
 import '../../core/router/router.dart' show intendedRouteProvider;
 import '../../core/router/router_redirect.dart' show IntendedRoute;
 import '../../core/storage/prefs_store.dart';
@@ -118,7 +124,11 @@ class SignInController extends Notifier<SignInState> {
   /// the controller waits for the callback link and reports a cancel or a failure from there.
   Future<void> signInWithGoogle() async {
     if (state.isBusy) return;
-    state = state.copyWith(busy: SignInBusy.google, clearProblem: true, googleInBrowser: false);
+    state = state.copyWith(
+      busy: SignInBusy.google,
+      clearProblem: true,
+      googleInBrowser: false,
+    );
     final offer = await _sheetOffer();
     if (!ref.mounted) return;
     try {
@@ -151,35 +161,36 @@ class SignInController extends Notifier<SignInState> {
   /// itself.
   Future<void> googleSignedIn() async {
     final offer = await _sheetOffer();
-    if (!ref.mounted || !offer.forUser(ref.read(signInGatewayProvider).userId)) return;
+    if (!ref.mounted || !offer.forUser(ref.read(signInGatewayProvider).userId)) {
+      return;
+    }
     ref.read(afterSignInSheetLauncherProvider)();
     await _markOffered();
   }
 
   void _watchBrowserReturn(_SheetOffer offer) {
     _returns?.cancel();
-    _returns = ref.read(signInGatewayProvider).oauthReturns().listen(
-      (result) async {
-        if (!ref.mounted) return;
-        switch (result.kind) {
-          case OAuthReturnKind.exchanging:
-            // Google answered; signedIn or failed follows.
-            break;
-          case OAuthReturnKind.signedIn:
-            state = state.copyWith(googleInBrowser: false);
-            if (offer.forUser(ref.read(signInGatewayProvider).userId)) {
-              ref.read(afterSignInSheetLauncherProvider)();
-              await _markOffered();
-            }
-          case OAuthReturnKind.cancelled:
-            state = state.copyWith(googleInBrowser: false);
-          case OAuthReturnKind.failed:
-            state = state.copyWith(googleInBrowser: false);
-            _fail(SignInProblem.googleUnavailable, SignInStep.email);
-        }
-      },
-      onError: (Object _) {},
-    );
+    _returns = ref.read(signInGatewayProvider).oauthReturns().listen((
+      result,
+    ) async {
+      if (!ref.mounted) return;
+      switch (result.kind) {
+        case OAuthReturnKind.exchanging:
+          // Google answered; signedIn or failed follows.
+          break;
+        case OAuthReturnKind.signedIn:
+          state = state.copyWith(googleInBrowser: false);
+          if (offer.forUser(ref.read(signInGatewayProvider).userId)) {
+            ref.read(afterSignInSheetLauncherProvider)();
+            await _markOffered();
+          }
+        case OAuthReturnKind.cancelled:
+          state = state.copyWith(googleInBrowser: false);
+        case OAuthReturnKind.failed:
+          state = state.copyWith(googleInBrowser: false);
+          _fail(SignInProblem.googleUnavailable, SignInStep.email);
+      }
+    }, onError: (Object _) {});
   }
 
   Future<void> _finish(_SheetOffer offer) async {
@@ -210,7 +221,11 @@ class SignInController extends Notifier<SignInState> {
   Future<_SheetOffer> _sheetOffer() async {
     final remembered = ref.read(intendedRouteProvider).snapshot();
     try {
-      final offered = await ref.read(signInPrefsStoreProvider).getBool(_beforeYouStartOfferedKey) ?? false;
+      final offered =
+          await ref
+              .read(signInPrefsStoreProvider)
+              .getBool(_beforeYouStartOfferedKey) ??
+          false;
       return _SheetOffer(owed: !offered, remembered: remembered);
     } on Object {
       return _SheetOffer(owed: false, remembered: remembered);
@@ -219,7 +234,9 @@ class SignInController extends Notifier<SignInState> {
 
   Future<void> _markOffered() async {
     try {
-      await ref.read(signInPrefsStoreProvider).setBool(_beforeYouStartOfferedKey, true);
+      await ref
+          .read(signInPrefsStoreProvider)
+          .setBool(_beforeYouStartOfferedKey, true);
     } on Object {
       // Offered again next time at worst.
     }
@@ -277,5 +294,6 @@ class _SheetOffer {
   /// The sheet opens unless the router takes this account to a remembered route instead. A
   /// route left behind by another student's expired session is dropped for [userId], so it
   /// does not cost them the sheet.
-  bool forUser(String? userId) => owed && remembered.locationFor(userId) == null;
+  bool forUser(String? userId) =>
+      owed && remembered.locationFor(userId) == null;
 }

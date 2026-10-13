@@ -5,6 +5,7 @@
 // reshapes the task in place without moving the pill.
 import 'package:flutter/material.dart';
 
+import '../../../core/domain/next_move.dart' show NextMoveState;
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -55,6 +56,11 @@ class MoveHeroCard extends StatelessWidget {
     final m = move;
     final mobi = m.art.isMobi;
     final blocked = offline && m.primary.startsSession;
+    // A scheduled first check ("Your check is set for 8:00 PM.") is supporting detail: it sits
+    // under the body copy, not between the title and the number.
+    final headlineBelow = m.state == NextMoveState.newUser && m.headline != null;
+    // A failed read says so in full contrast; every other body is the quieter second ink.
+    final bodyColor = m.state == NextMoveState.historyUnavailable ? colors.ink : colors.ink2;
     // Beside the object: the overline, the subject and the number. Under Mobi: the full width.
     final besideArt = mobi ? 0.0 : heroArtWidth - MmSpace.cardPadding + 4;
 
@@ -77,7 +83,7 @@ class MoveHeroCard extends StatelessWidget {
             MobiMoment(pose: HeroArtView.poseFor(m.art.art), say: moodLine(m), controller: mobiController, lines: top)
           else
             top,
-          if (m.headline != null) ...[
+          if (m.headline != null && !headlineBelow) ...[
             const SizedBox(height: MmSpace.s8),
             Semantics(header: true, child: Text(m.headline!, style: type.labelLarge.copyWith(color: colors.ink, fontSize: 16, height: 22 / 16))),
           ],
@@ -96,12 +102,16 @@ class MoveHeroCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           lines,
-          const SizedBox(height: MmSpace.s12),
+          SizedBox(height: mobi ? MmSpace.s16 : MmSpace.s12),
           AnimatedSwitcher(
             duration: Motion.of(context, Motion.crossFade),
             layoutBuilder: (current, previous) => Stack(alignment: Alignment.topLeft, children: [...previous, ?current]),
-            child: Text(m.meaning, key: ValueKey(m.meaning), style: type.body.copyWith(color: colors.ink2)),
+            child: Text(m.meaning, key: ValueKey(m.meaning), style: type.body.copyWith(color: bodyColor)),
           ),
+          if (headlineBelow) ...[
+            const SizedBox(height: MmSpace.s8),
+            Text(m.headline!, style: type.caption.copyWith(color: colors.ink2)),
+          ],
           if (m.basisLine != null || evidence) ...[
             const SizedBox(height: MmSpace.s8),
             Row(

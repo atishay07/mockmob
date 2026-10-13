@@ -98,7 +98,7 @@ class MilestoneTrackCard extends StatelessWidget {
             else
               Text(RhythmCopy.trackComplete, style: type.caption.copyWith(color: colors.ink2)),
             if (earned > 0 && onOpen != null)
-              Align(alignment: Alignment.centerLeft, child: FlushQuietKey(label: track.track.linkLabel, onPressed: onOpen!)),
+              Align(alignment: Alignment.centerLeft, child: FlushQuietKey(label: track.track.linkLabel, chevron: true, onPressed: onOpen!)),
           ],
         ),
       ),

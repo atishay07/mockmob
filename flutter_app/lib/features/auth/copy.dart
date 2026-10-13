@@ -5,8 +5,7 @@ import 'sign_in_state.dart';
 abstract final class AuthCopy {
   // Sign-in screen.
   static const String signInTitle = 'Sign in';
-  static const String signInLead =
-      'Pick how you want to sign in.';
+  static const String signInLead = 'Pick how you want to sign in.';
   static const String newHere =
       'New to MockMob? The same code creates your free account.';
   static const String emailLabel = 'Email address';
@@ -20,7 +19,7 @@ abstract final class AuthCopy {
   static const String googleInBrowser =
       'Finish signing in with Google in your browser, then come back.';
   static const String sessionExpired =
-      'Please sign in again. Your work is still on this phone.';
+      'Please sign in again. Your work is safe.';
   static const String offlineBanner = 'You are offline. Connect to sign in.';
 
   // The account could not be opened at launch (not a sign-out).
@@ -77,7 +76,6 @@ abstract final class AuthCopy {
       'Google sign-in did not work. You can use an email code instead.',
     SignInProblem.accountNotLoaded =>
       'You are signed in, but your account did not load. Check your connection and try again.',
-    SignInProblem.unknown =>
-      'Something went wrong on our side. Try again.',
+    SignInProblem.unknown => 'Something went wrong on our side. Try again.',
   };
 }

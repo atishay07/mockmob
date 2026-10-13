@@ -32,7 +32,7 @@ void main() {
     await pumpRunner(tester, session: _nta());
     await _flush(tester);
     expect(find.byType(NtaRunnerView), findsOneWidget);
-    expect(find.text('NTA MODE'), findsOneWidget, reason: 'the kicker above the subject');
+    expect(find.text('NTA mode'), findsOneWidget, reason: 'the kicker above the subject');
     expect(find.text('Question 1 of 50'), findsOneWidget);
     expect(find.text('0 answered'), findsOneWidget);
     expect(find.text('47:12'), findsOneWidget);

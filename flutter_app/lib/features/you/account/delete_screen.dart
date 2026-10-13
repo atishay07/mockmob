@@ -191,7 +191,11 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
           style: type.lead,
           onChanged: (_) => setState(() => _error = null),
           onSubmitted: (_) => _confirmed ? _request() : null,
-          decoration: const InputDecoration(hintText: YouCopy.deleteWord, counterText: ''),
+          decoration: InputDecoration(
+            hintText: YouCopy.deleteHint,
+            hintStyle: type.lead.copyWith(color: colors.ink4),
+            counterText: '',
+          ),
         ),
         const SizedBox(height: MmSpace.group),
         if (_error != null) ...[InlineBanner(message: _error!, tone: BannerTone.error), const SizedBox(height: MmSpace.s16)],

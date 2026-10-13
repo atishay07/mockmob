@@ -221,7 +221,6 @@ class _NoneOpen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.mmColors;
     final type = context.mmType;
     return Padding(
       padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s24, MmSpace.gutter + 4, 0),
@@ -230,15 +229,9 @@ class _NoneOpen extends StatelessWidget {
           const Mobi(pose: MobiPose.think, size: 72, motion: MobiMotion.settle),
           const SizedBox(width: MmSpace.s12),
           Expanded(
-            child: MergeSemantics(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Semantics(header: true, child: Text(ToolsCopy.noneOpenTitle, style: type.title.copyWith(fontSize: 18, height: 24 / 18))),
-                  const SizedBox(height: MmSpace.s4),
-                  Text(hasUnlocks ? ToolsCopy.noneOpenLine : ToolsCopy.noneOpenFar, style: type.caption.copyWith(color: colors.ink2)),
-                ],
-              ),
+            child: Text(
+              hasUnlocks ? ToolsCopy.noneOpenLine : ToolsCopy.noneOpenFar,
+              style: type.title.copyWith(fontSize: 18, height: 24 / 18),
             ),
           ),
         ],

@@ -232,14 +232,19 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerPr
         Padding(
           padding: youGutter,
           child: failed
-              ? Row(
-                  children: [
-                    Expanded(child: Text(YouCopy.shelfLoadFailed, style: type.small.copyWith(color: colors.ink2))),
-                    KeyButton.quiet(
-                      label: YouCopy.tryAgain,
-                      onPressed: () => ref.read(rhythmRepositoryProvider.notifier).refresh(force: true),
-                    ),
-                  ],
+              ? Padding(
+                  // Under the heading: the words start where "Milestones" starts.
+                  padding: const EdgeInsets.only(left: MmSpace.s4),
+                  child: Row(
+                    children: [
+                      Expanded(child: Text(YouCopy.shelfLoadFailed, style: type.small.copyWith(color: colors.ink2))),
+                      const SizedBox(width: MmSpace.s8),
+                      PillKey(
+                        label: YouCopy.tryAgain,
+                        onPressed: () => ref.read(rhythmRepositoryProvider.notifier).refresh(force: true),
+                      ),
+                    ],
+                  ),
                 )
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

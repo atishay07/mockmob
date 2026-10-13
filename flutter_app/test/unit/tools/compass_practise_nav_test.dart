@@ -6,11 +6,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:mockmob/core/theme/theme.dart';
-import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/tools/compass/compass_screen.dart';
 import 'package:mockmob/features/tools/copy.dart';
 import 'package:mockmob/features/tools/pro/compass_pro_repository.dart';
 import 'package:mockmob/features/tools/tools_paths.dart';
+import 'package:mockmob/features/tools/widgets/action_chip.dart';
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
@@ -95,8 +95,8 @@ void main() {
   testWidgets('a Practise chip opens setup over Compass, and Back returns to it', (tester) async {
     await pump(tester);
     expect(find.text(ToolsCopy.practiseHeading), findsOneWidget);
-    final chip = find.byWidgetPredicate((w) => w is MmChip && w.leading == LucideIcons.play).first;
-    final label = tester.widget<MmChip>(chip).label;
+    final chip = find.byWidgetPredicate((w) => w is ToolsActionChip && w.icon == LucideIcons.play).first;
+    final label = tester.widget<ToolsActionChip>(chip).label;
     await tester.ensureVisible(chip);
     await tester.tap(chip);
     await tester.pumpAndSettle();

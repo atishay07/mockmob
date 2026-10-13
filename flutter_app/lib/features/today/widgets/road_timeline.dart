@@ -78,7 +78,7 @@ class _RoadPainter extends CustomPainter {
     for (var m = start; m.isBefore(end); m = DateTime.utc(m.year, m.month + 1)) {
       final next = DateTime.utc(m.year, m.month + 1);
       canvas.drawRect(Rect.fromLTWH(x(m), axis - 3, 1, 6), tick);
-      _text(canvas, _monthInitial(m.month), label, Offset((x(m) + x(next)) / 2, axis + 16));
+      _text(canvas, _monthShort(m.month), label, Offset((x(m) + x(next)) / 2, axis + 16));
     }
     canvas.drawRRect(
       RRect.fromRectAndRadius(Rect.fromLTRB(inset, axis - 1, size.width - inset, axis + 1), const Radius.circular(1)),
@@ -115,7 +115,7 @@ class _RoadPainter extends CustomPainter {
     _text(canvas, TodayCopy.nowLabel, now, Offset(n, 6), alignLeft: n < 24);
   }
 
-  static String _monthInitial(int month) => const ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'][month - 1];
+  static String _monthShort(int month) => _monthNames[month - 1].substring(0, 3);
 
   void _text(Canvas canvas, String text, TextStyle style, Offset center, {bool alignLeft = false}) {
     final tp = TextPainter(text: TextSpan(text: text, style: style), textDirection: TextDirection.ltr)..layout();
@@ -139,9 +139,20 @@ class RoadStops extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    // When every date is still expected, the word is said once above the list, not on each row.
+    final allExpected = stops.length > 1 && stops.every((s) => s.expected);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        if (allExpected) ...[
+          Semantics(
+            container: true,
+            label: TodayCopy.expectedDates,
+            excludeSemantics: true,
+            child: Text(TodayCopy.expectedDates, style: type.caption.copyWith(color: colors.ink3, fontWeight: FontWeight.w600)),
+          ),
+          const SizedBox(height: MmSpace.s4),
+        ],
         for (final s in stops)
           Semantics(
             container: true,
@@ -164,7 +175,7 @@ class RoadStops extends StatelessWidget {
                           crossAxisAlignment: WrapCrossAlignment.center,
                           children: [
                             Text(s.title, style: type.labelLarge),
-                            if (s.expected) const _ExpectedTag(),
+                            if (s.expected && !allExpected) const _ExpectedTag(),
                           ],
                         ),
                         Text(s.when, style: type.caption.copyWith(color: colors.ink2)),

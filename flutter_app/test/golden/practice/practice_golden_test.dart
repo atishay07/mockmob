@@ -72,6 +72,13 @@ Future<void> _settle(WidgetTester tester, {int ms = 900}) async {
   await settleImages(tester);
 }
 
+/// Mobi's line types in after the reaction; wait it out so the golden shows the whole sentence.
+Future<void> _typed(WidgetTester tester) async {
+  for (var i = 0; i < 12; i++) {
+    await tester.pump(const Duration(milliseconds: 250));
+  }
+}
+
 Future<void> _shot(WidgetTester tester, String name, Brightness b) async {
   final tag = b == Brightness.dark ? 'night' : 'day';
   await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/${name}_$tag.png'));
@@ -237,12 +244,14 @@ void main() {
       testWidgets('result, mixed', (tester) async {
         await _pump(tester, '/practice/result/p1', b, resultOverrides(attemptId: 'p1', detail: _detail(_mixed), chapter: 'Admission of a partner'));
         await _settle(tester);
+        await _typed(tester);
         await _shot(tester, 'result_mixed', b);
       });
 
       testWidgets('result, all correct', (tester) async {
         await _pump(tester, '/practice/result/p1', b, resultOverrides(attemptId: 'p1', detail: _detail([for (var i = 0; i < 10; i++) ('Goodwill', V.right)])));
         await _settle(tester);
+        await _typed(tester);
         await _shot(tester, 'result_all_correct', b);
       });
 
@@ -250,6 +259,7 @@ void main() {
         final cached = attemptOf(id: 'p1', mode: 'quick', questions: _mixed);
         await _pump(tester, '/practice/result/p1', b, resultOverrides(attemptId: 'p1', cachedAttempt: cached, error: const ApiError(kind: ApiErrorKind.server, code: 'server_error')));
         await _settle(tester);
+        await _typed(tester);
         await _shot(tester, 'result_keys_failed', b);
       });
 

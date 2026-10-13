@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/tools/compass/compass_screen.dart';
 import 'package:mockmob/features/tools/combo/combo_screen.dart';
+import 'package:mockmob/features/tools/copy.dart';
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
@@ -14,7 +15,7 @@ void main() {
     final prefs = savedCompass('english,business_studies,economics');
     await pumpMockmob(tester, const CompassScreen(), size: const Size(384, 2400), wrapInScaffold: false, overrides: toolsOverrides(prefs: prefs));
     await tester.pump();
-    expect(find.text('No programme is open to these subjects yet.'), findsOneWidget);
+    expect(find.text(ToolsCopy.noneOpenLine), findsOneWidget);
 
     await tester.tap(find.textContaining('Mathematics').first);
     await tester.pumpAndSettle();
@@ -25,7 +26,7 @@ void main() {
   testWidgets('the sheet subjects seed Compass when nothing is saved', (tester) async {
     await pumpMockmob(tester, const CompassScreen(), size: const Size(384, 1600), wrapInScaffold: false, overrides: toolsOverrides());
     await tester.pump();
-    expect(find.text('Ticked from your sheet.'), findsOneWidget);
+    expect(find.text('Ticked from your sheet.'), findsNothing);
     expect(find.text('35 open to you'), findsOneWidget);
   });
 

@@ -5,6 +5,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../widgets/subject_art.dart';
+import '../widgets/you_page.dart' show PillKey;
 import '../../rhythm/logic/plan_week.dart' show PlanDay;
 import '../../rhythm/widgets/plan_week_strip.dart';
 
@@ -246,7 +247,8 @@ class WeekField extends StatelessWidget {
       SheetWeekState.failed => Row(
           children: [
             Expanded(child: Text(YouCopy.fieldWeekFailed, style: type.small.copyWith(color: colors.ink2))),
-            KeyButton.quiet(label: YouCopy.tryAgain, onPressed: week.onRetry),
+            const SizedBox(width: MmSpace.s8),
+            PillKey(label: YouCopy.tryAgain, onPressed: week.onRetry),
           ],
         ),
       SheetWeekState.off => Text(YouCopy.rhythmOffLine, style: type.small.copyWith(color: colors.ink2)),

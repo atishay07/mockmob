@@ -61,6 +61,8 @@ class _MobiMomentState extends State<MobiMoment> {
             seed: 7 + widget.pose.index * 13,
           ),
         ),
+        // Clear air between Mobi's feet and the label beside them.
+        const SizedBox(width: MmSpace.s8),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_client.dart';
 import 'package:mockmob/core/api/api_error.dart';
+import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/models/consent.dart';
 import 'package:mockmob/core/models/rhythm.dart';
 import 'package:mockmob/core/repositories/consent_repository.dart';
@@ -134,7 +135,19 @@ void main() {
   sheetGolden(
     'account_pro',
     () => const AccountScreen(),
-    overrides: () => youOverrides(fakeAuth: FakeAuth(userWith(pro: true, until: DateTime(2027, 7, 31, 12)))),
+    overrides: () => youOverrides(
+      fakeAuth: FakeAuth(
+        AuthSnapshot(
+          status: AuthStatus.signedIn,
+          userId: 'u1',
+          email: 'asha.verma@example.com',
+          name: 'Asha Verma',
+          subjects: const ['accountancy', 'business_studies', 'economics', 'english'],
+          isPro: true,
+          premiumUntil: DateTime(2027, 7, 31, 12),
+        ),
+      ),
+    ),
   );
 
   sheetGolden(

@@ -241,7 +241,7 @@ void main() {
         );
       });
 
-      testWidgets('resend ready after a new code', (t) async {
+      testWidgets('resend ready once the wait is over', (t) async {
         await _codeShot(
           t,
           b,
@@ -252,6 +252,20 @@ void main() {
             resendAvailableAt: _clock.value.subtract(
               const Duration(seconds: 1),
             ),
+          ),
+          focus: true,
+        );
+      });
+
+      testWidgets('new code sent, resend waiting again', (t) async {
+        await _codeShot(
+          t,
+          b,
+          'code_resend_sent',
+          SignInState(
+            email: _email,
+            codeSentTo: _email,
+            resendAvailableAt: _clock.value.add(const Duration(seconds: 52)),
             codeResentNotice: true,
           ),
           focus: true,

@@ -3,6 +3,7 @@
 // of You, so moving between them never jumps.
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
@@ -147,21 +148,40 @@ class GroupHeading extends StatelessWidget {
 }
 
 /// A quiet key whose label lines up with the text above it: the key keeps its 48 dp target and
-/// its label sits where the body text starts, not 16 dp in.
+/// its label sits where the body text starts, not 16 dp in. With [chevron] a small arrow follows
+/// the label, so a key that opens another screen reads as a way in and not as plain text.
 class FlushQuietKey extends StatelessWidget {
-  const FlushQuietKey({super.key, required this.label, required this.onPressed});
+  const FlushQuietKey({super.key, required this.label, required this.onPressed, this.chevron = false});
 
   final String label;
   final VoidCallback? onPressed;
+  final bool chevron;
 
   /// The horizontal padding inside a quiet key, which this widget gives back.
   static const double inset = 16;
 
   @override
   Widget build(BuildContext context) {
+    final key = KeyButton.quiet(label: label, onPressed: onPressed);
+    final Widget row = chevron
+        ? Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              key,
+              // Sits inside the key's own right padding, so it adds no width and the key's
+              // whole face stays the target.
+              Transform.translate(
+                offset: const Offset(-14, 0),
+                child: IgnorePointer(
+                  child: ExcludeSemantics(child: Icon(LucideIcons.chevronRight, size: 16, color: onPressed == null ? context.mmColors.ink4 : context.mmColors.ink2)),
+                ),
+              ),
+            ],
+          )
+        : key;
     return Align(
       alignment: Alignment.centerLeft,
-      child: Transform.translate(offset: const Offset(-inset, 0), child: KeyButton.quiet(label: label, onPressed: onPressed)),
+      child: Transform.translate(offset: const Offset(-inset, 0), child: row),
     );
   }
 }

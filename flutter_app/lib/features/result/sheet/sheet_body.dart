@@ -55,8 +55,11 @@ class SheetBody extends StatelessWidget {
                       rowGap: SheetGeometry.rowGap,
                       numberHeight: BubbleGrid.numberHeightFor(MediaQuery.textScalerOf(context)),
                     );
+                    final withNumbersFit = !box.hasBoundedHeight || withNumbers <= box.maxHeight;
+                    // With the numbers gone (large text) the grid is shorter than the body, so it
+                    // sits in the middle of the sheet rather than leaving a band under it.
                     return Align(
-                      alignment: Alignment.topCenter,
+                      alignment: withNumbersFit ? Alignment.topCenter : Alignment.center,
                       child: BubbleGrid(
                         states: cells,
                         columns: geometry.columns,
@@ -64,7 +67,7 @@ class SheetBody extends StatelessWidget {
                         minGap: 4,
                         maxGap: 18,
                         rowGap: SheetGeometry.rowGap,
-                        numbers: !box.hasBoundedHeight || withNumbers <= box.maxHeight,
+                        numbers: withNumbersFit,
                         sealed: sealed,
                         reveal: sealed ? null : reveal,
                         semanticsLabel: semanticsLabel,

@@ -47,13 +47,12 @@ class NtaBar extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              NtaCopy.modeLine.toUpperCase(),
+                              NtaCopy.modeLine,
                               style: type.caption.copyWith(
                                 color: NtaSkin.onBar2,
                                 height: 1.2,
                                 fontWeight: FontWeight.w600,
-                                letterSpacing: 0.8,
-                                fontSize: 11,
+                                fontSize: 12,
                               ),
                             ),
                             const SizedBox(height: 2),

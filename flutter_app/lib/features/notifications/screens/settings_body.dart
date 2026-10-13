@@ -99,18 +99,33 @@ class SettingsBody extends StatelessWidget {
     return null;
   }
 
+  /// The channel's own name, for the one-time hint.
+  static String _reminderName(String key) => switch (key) {
+        NotificationChannelKeys.studyWindow => NotificationsCopy.channelStudy,
+        repairReadyKey => NotificationsCopy.channelRepair,
+        NotificationChannelKeys.weeklyPlan => NotificationsCopy.channelWeekly,
+        NotificationChannelKeys.checkDue => NotificationsCopy.channelCheck,
+        _ => NotificationsCopy.channelResult,
+      };
+
   /// A reminder channel reads as on hold while Android blocks it or a mute runs.
   bool _dim(bool blocked) => blocked || _mutedUntil != null;
 
   @override
   Widget build(BuildContext context) {
     final window = prefs.studyWindow;
-    final hintKey = [
-      for (final e in reminder.categories.entries)
-        if (e.value.hintPending) e.key,
-    ].firstOrNull;
+    // The one-time hint is for a student whose reminders are running; with notifications off the
+    // permission panel is the one thing to read.
+    final hintKey = permission != NotificationPermission.granted
+        ? null
+        : [
+            for (final e in reminder.categories.entries)
+              if (e.value.hintPending) e.key,
+          ].firstOrNull;
     final quietOff = prefs.quietStart == prefs.quietEnd;
     final blocked = permission == NotificationPermission.denied || permission == NotificationPermission.unavailable;
+
+    final mutedUntil = _mutedUntil;
 
     return ListView(
       padding: const EdgeInsets.fromLTRB(
@@ -121,9 +136,17 @@ class SettingsBody extends StatelessWidget {
       ),
       children: [
         ?header,
+        if (mutedUntil != null) ...[
+          InlineBanner(
+            message: NotificationsCopy.mutedBanner(mutedUntil),
+            actionLabel: NotificationsCopy.unmute,
+            onAction: actions.onUnmute,
+          ),
+          const SizedBox(height: MmSpace.s16),
+        ],
         if (hintKey != null) ...[
           InlineBanner(
-            message: NotificationsCopy.fewerReminders,
+            message: NotificationsCopy.fewerReminders(_reminderName(hintKey)),
             actionLabel: NotificationsCopy.fewerRemindersDismiss,
             onAction: () => actions.onHintSeen(hintKey),
           ),
@@ -211,12 +234,13 @@ class SettingsBody extends StatelessWidget {
               child: ConflictLine(text: NotificationsCopy.conflict(formatClock(window.start))),
             ),
           ],
-          const SizedBox(height: MmSpace.s4),
+          const SizedBox(height: MmSpace.s12),
           Align(
             alignment: Alignment.centerLeft,
-            child: Transform.translate(
-              offset: const Offset(-MmSpace.s12, 0),
-              child: KeyButton.quiet(label: NotificationsCopy.windowRemove, onPressed: actions.onRemoveWindow),
+            child: KeyButton.secondary(
+              label: NotificationsCopy.windowRemove,
+              expanded: false,
+              onPressed: actions.onRemoveWindow,
             ),
           ),
         ],

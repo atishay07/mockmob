@@ -170,8 +170,18 @@ class _NtaInstructionsScreenState extends ConsumerState<NtaInstructionsScreen> {
                       ],
                       if (gate != null)
                         KeyButton.secondary(label: PracticeCopy.backToPractice, onPressed: _back)
-                      else
+                      else ...[
+                        // The line keeps its space once the box is ticked, so the page does not move.
+                        ExcludeSemantics(
+                          child: AnimatedOpacity(
+                            duration: const Duration(milliseconds: 120),
+                            opacity: _declared ? 0 : 1,
+                            child: Text(NtaStartCopy.startHint, textAlign: TextAlign.center, style: context.mmType.caption.copyWith(color: colors.ink2)),
+                          ),
+                        ),
+                        const SizedBox(height: MmSpace.s8),
                         KeyButton(label: NtaStartCopy.start, onPressed: _declared ? () => unawaited(_start()) : null),
+                      ],
                     ],
                   ),
                 ),

@@ -89,12 +89,13 @@ class EndingSheet extends StatelessWidget {
           ),
           child: sheet,
         ),
-        // The first-repair token sits inside the card's corner, never clipped by its edge.
+        // The first-repair token sits in the card's top corner, level with the title and above the
+        // grid, so it never covers a bubble or gets clipped by the edge.
         if (firstRepair)
           const Positioned(
-            right: 12,
-            top: 12,
-            child: ArtImage(MmArt.tokenFirstRepair, width: 56, height: 56),
+            right: 14,
+            top: 6,
+            child: ArtImage(MmArt.tokenFirstRepair, width: 40, height: 40),
           ),
       ],
     );

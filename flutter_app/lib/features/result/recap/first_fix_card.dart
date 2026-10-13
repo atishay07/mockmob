@@ -36,7 +36,19 @@ class FirstFixCard extends StatelessWidget {
       tiles = [for (final n in leader.blankNumbers) (n, BubbleState.blank)];
     } else if (leader != null) {
       title = ResultCopy.startWith(leader.chapter);
-      evidence = [_Line(ResultCopy.costMost), const SizedBox(height: MmSpace.s12), _Counts(stat: leader)];
+      evidence = [
+        _Line(ResultCopy.costMost),
+        const SizedBox(height: MmSpace.s12),
+        _Counts(stat: leader),
+        // The way into the reason sits with the claim it explains, flush with the text above.
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Transform.translate(
+            offset: const Offset(-16, 0),
+            child: KeyButton.quiet(label: ResultCopy.whyThis, onPressed: () => _why(context, leader)),
+          ),
+        ),
+      ];
       tiles = [
         ...[for (final n in leader.wrongNumbers) (n, BubbleState.wrong)],
         ...[for (final n in leader.blankNumbers) (n, BubbleState.blank)],
@@ -84,7 +96,7 @@ class FirstFixCard extends StatelessWidget {
           const SizedBox(height: MmSpace.s16),
         ...evidence,
         if (tiles.isNotEmpty) ...[
-          const SizedBox(height: MmSpace.s24),
+          SizedBox(height: leader != null && !blanksOnly ? MmSpace.s8 : MmSpace.s24),
           Text(
             leader == null ? ResultCopy.yourWrongAnswers : ResultCopy.yourAnswersHere,
             style: context.mmType.label.copyWith(color: context.mmColors.ink2),
@@ -111,13 +123,6 @@ class FirstFixCard extends StatelessWidget {
                 ],
               );
             },
-          ),
-        ],
-        if (leader != null && !blanksOnly) ...[
-          const SizedBox(height: MmSpace.s20),
-          Align(
-            alignment: Alignment.centerRight,
-            child: KeyButton.quiet(label: ResultCopy.whyThis, onPressed: () => _why(context, leader)),
           ),
         ],
       ],

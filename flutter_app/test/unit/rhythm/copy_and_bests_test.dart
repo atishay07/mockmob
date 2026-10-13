@@ -51,8 +51,7 @@ void main() {
       for (final id in ['first_scored_session', 'first_full_mock', 'first_repair', 'repairs_5', 'repairs_10', 'repairs_25', 'sessions_10', 'first_week_met', 'weeks_met_4'])
         RhythmCopy.milestoneReceipt(id, '11 October', others: 2),
       RhythmCopy.pauseUntilOn,
-      RhythmCopy.pausedUntilKept('21 January'),
-      RhythmCopy.pausedUntilKept(null),
+      RhythmCopy.pausedKeepsRun,
       RhythmCopy.noPlanYet,
       RhythmCopy.studyDaysSaved(4),
       RhythmCopy.studyDaysRow(['Monday', 'Wednesday']),
@@ -122,7 +121,7 @@ void main() {
 
     test('the long pause says how long it is, and the paused panel keeps the run', () {
       expect(RhythmCopy.pauseUntilOn, 'Pause for about 3 months');
-      expect(RhythmCopy.pausedUntilKept('21 January'), 'Paused until 21 January. Your run is kept.');
+      expect(RhythmCopy.pausedKeepsRun, 'Paused weeks do not break your run.');
     });
   });
 

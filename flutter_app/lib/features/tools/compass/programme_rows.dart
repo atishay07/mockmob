@@ -99,10 +99,10 @@ class NearRow extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(verdict.group.name, style: type.labelLarge.copyWith(color: colors.ink)),
+                Text(verdict.group.name, maxLines: 2, overflow: TextOverflow.ellipsis, style: type.labelLarge.copyWith(color: colors.ink)),
                 if (gaps.isNotEmpty) ...[
                   const SizedBox(height: 2),
-                  Text(gaps, style: type.caption.copyWith(color: colors.ink2)),
+                  Text(gaps, maxLines: 2, overflow: TextOverflow.ellipsis, style: type.caption.copyWith(color: colors.ink2)),
                 ],
               ],
             ),

@@ -329,6 +329,8 @@ class _TrendPainter extends CustomPainter {
       ..strokeWidth = 1;
     for (final v in [geo.maxV, geo.maxV / 2, 0.0]) {
       canvas.drawLine(Offset(plot.left, geo.y(v)), Offset(plot.right, geo.y(v)), grid);
+      // A midpoint that is not a whole mark (12.5) keeps its line but gets no rounded label.
+      if (v != v.roundToDouble()) continue;
       final tp = TextPainter(text: TextSpan(text: v.round().toString(), style: labelStyle), textDirection: TextDirection.ltr)..layout();
       tp.paint(canvas, Offset(0, geo.y(v) - tp.height / 2));
       tp.dispose();

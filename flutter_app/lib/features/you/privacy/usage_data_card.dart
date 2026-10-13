@@ -46,7 +46,6 @@ class UsageDataSwitchCard extends ConsumerWidget {
           padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s16, MmSpace.gutter, 0),
           child: Text(YouCopy.consentExplanation, style: type.body.copyWith(color: colors.ink2)),
         ),
-        const SizedBox(height: MmSpace.s4),
         const SeeEventsKey(),
       ],
     );
@@ -60,10 +59,10 @@ class SeeEventsKey extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: MmSpace.s4),
+      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12, MmSpace.gutter, 0),
       child: Align(
         alignment: Alignment.centerLeft,
-        child: KeyButton.quiet(label: YouCopy.seeEvents, onPressed: () => showEventListSheet(context)),
+        child: PillKey(label: YouCopy.seeEvents, onPressed: () => showEventListSheet(context)),
       ),
     );
   }

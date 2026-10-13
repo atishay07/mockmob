@@ -25,6 +25,7 @@ class PlanSheet extends StatelessWidget {
     this.lead = OnboardingCopy.planLead,
     this.revealed = true,
     this.animate = true,
+    this.compact = false,
   });
 
   final PlanSummary plan;
@@ -40,6 +41,9 @@ class PlanSheet extends StatelessWidget {
   /// False until the flip has landed: the lines wait, then engrave.
   final bool revealed;
   final bool animate;
+
+  /// Tighter rows and a smaller seal, for a short window.
+  final bool compact;
 
   static const BorderRadius radius = MmRadius.panelAll;
   static const Duration stagger = Duration(milliseconds: 140);
@@ -76,6 +80,7 @@ class PlanSheet extends StatelessWidget {
                   show: revealed,
                   delay: stagger * i,
                   animate: animate,
+                  gap: compact ? MmSpace.s8 : MmSpace.s12,
                 ),
               const SizedBox(height: MmSpace.s4),
               Row(
@@ -88,7 +93,7 @@ class PlanSheet extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: MmSpace.s12),
-                  FoilSeal(sealed: sealed, size: 72, animate: animate),
+                  FoilSeal(sealed: sealed, size: compact ? 56 : 72, animate: animate),
                 ],
               ),
             ],
@@ -109,6 +114,7 @@ class _PlanLine extends StatelessWidget {
     required this.show,
     required this.delay,
     required this.animate,
+    required this.gap,
   });
 
   final int number;
@@ -117,6 +123,7 @@ class _PlanLine extends StatelessWidget {
   final bool show;
   final Duration delay;
   final bool animate;
+  final double gap;
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +136,7 @@ class _PlanLine extends StatelessWidget {
       color: colors.ink3,
     );
     return Padding(
-      padding: const EdgeInsets.only(bottom: MmSpace.s12),
+      padding: EdgeInsets.only(bottom: gap),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

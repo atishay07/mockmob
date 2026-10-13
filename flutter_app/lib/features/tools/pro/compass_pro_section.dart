@@ -398,16 +398,20 @@ class _Cutoffs extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if (cutoffs.every((c) => c == null))
+          Text(ToolsCopy.proNoCutoff, style: type.caption.copyWith(color: colors.ink2))
+        else ...[
         Wrap(
           spacing: MmSpace.s16,
           runSpacing: MmSpace.s4,
           children: [
             for (var i = 0; i < 3; i++)
+              if (cutoffs[i] != null)
               Text.rich(
                 TextSpan(children: [
                   TextSpan(text: '${rounds[i]}  ', style: type.caption.copyWith(color: colors.ink3)),
                   TextSpan(
-                    text: cutoffs[i] == null ? ToolsCopy.proNotListed : duFormatScore(cutoffs[i]),
+                    text: duFormatScore(cutoffs[i]),
                     style: type.labelLarge.copyWith(fontSize: 14, fontFeatures: const [FontFeature.tabularFigures()]),
                   ),
                 ]),
@@ -416,6 +420,7 @@ class _Cutoffs extends StatelessWidget {
         ),
         const SizedBox(height: MmSpace.s8),
         Text(verdict, style: type.caption.copyWith(color: colors.ink2)),
+        ],
       ],
     );
   }

@@ -10,6 +10,10 @@ import 'review_golden_support.dart';
 
 Widget repair() => const RepairScreen(attemptId: 'm7', questionId: 'm7-q0');
 
+/// The route of a run that is already past the intro, at step [index]. The screen only keeps a
+/// working run when the route names its current mistake, so the golden has to name that one.
+Widget repairAt(int index) => RepairScreen(attemptId: 'm7', questionId: runOf().steps[index].item.questionId);
+
 void main() {
   reviewGolden(
     'repair_entry',
@@ -66,22 +70,22 @@ void main() {
 
   reviewGolden(
     'repair_set_aside',
-    repair,
+    () => repairAt(1),
     overrides: () => reviewOverrides(run: runOf(outcomes: [explained, const OutcomeSetAside(heldByServer: true)], index: 1)),
   );
 
   reviewGolden(
     'repair_offline',
-    repair,
+    () => repairAt(2),
     overrides: () => reviewOverrides(run: runOf(outcomes: [explained, explained2, const OutcomeFailed(RepairFailure.offline)], index: 2)),
   );
 
   reviewGolden(
     'repair_key_review',
-    repair,
+    () => repairAt(1),
     size: const Size(384, 1300),
     overrides: () => reviewOverrides(
-      run: runOf(outcomes: [const OutcomeKeyReview(KeyReviewReason.outOfCredits)]),
+      run: runOf(outcomes: [explained, const OutcomeKeyReview(KeyReviewReason.outOfCredits)], index: 1),
       credits: credits(0),
     ),
   );

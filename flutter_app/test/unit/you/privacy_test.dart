@@ -23,7 +23,7 @@ Finder get _switch => find.byType(Switch);
 
 bool _on(WidgetTester tester) => tester.widget<Switch>(_switch).value;
 
-const _withdrawn = 'Usage data is off. We stopped collecting it. Earlier usage data was deleted.';
+const _withdrawn = 'Usage data is off and earlier data was deleted.';
 
 void main() {
   group('adult', () {
@@ -35,8 +35,7 @@ void main() {
         find.text(
           'We count which parts of the app are used, such as starting a mock or finishing a repair, '
           'along with the app version. We do not collect your answers, marks, questions, contacts, '
-          'location or an advertising ID. You can turn '
-          'this off any time here and collection stops straight away.',
+          'location or an advertising ID. Turn this off any time and collection stops straight away.',
         ),
         findsOneWidget,
       );

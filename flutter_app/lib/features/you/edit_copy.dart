@@ -13,7 +13,7 @@ abstract final class EditCopy {
   static const subjectsCap = 'Five is the most. Remove one to add another.';
   static const subjectsNeedOne = 'Keep at least one subject.';
   static const subjectsSave = 'Save subjects';
-  static const subjectsUnchanged = 'Change a subject to save.';
+  static const subjectsUnchanged = 'Pick or remove a subject to save.';
   static const subjectsProfileLoading = 'Loading your profile. Save turns on once it has.';
   static const subjectsMobiSaved = 'Done. Practice and Today follow these now.';
   static String subjectsSaved(DateTime at) => 'Subjects saved at ${formatTime12(at)}. Practice and Today now use them.';
@@ -46,10 +46,7 @@ abstract final class EditCopy {
   static const rowWorry = 'What costs you marks';
   static const notSet = 'Not set';
   static const courseNotSure = 'Not sure yet';
-  static const phoneOnly =
-      'Where you are, your course, colleges, category, how solid each subject feels and what costs '
-      'you marks are kept on this phone. Your name, subjects, study days and study time are saved to '
-      'your account, and the usual length too while lessons are open.';
+  static const phoneOnly = 'Setup answers stay on this phone. Your name, subjects and study week are saved to your account.';
   static String confidenceValue(int rated, int total) => '$rated of $total rated';
 
   // Choice sheets.
@@ -86,6 +83,7 @@ abstract final class EditCopy {
   static String minutesLabel(int m) => '$m min';
   static const weekNote = 'How many days becomes your weekly goal. The time sets when reminders come.';
   static const weekSave = 'Save your week';
+  static const weekUnchanged = 'Change a day, time or length to save.';
   static String weekSaved(DateTime at, int days, String plural, String time) =>
       'Week saved at ${formatTime12(at)}. Goal: ${days == 1 ? '1 day' : '$days days'} a week, $plural from $time.';
   static const weekOffline = 'You are offline. Your week was not changed. Try again when you are connected.';
@@ -97,7 +95,7 @@ abstract final class EditCopy {
 
   // Name (WEB-PARITY F2).
   static const nameSheet = 'Your name';
-  static const nameNote = 'How it shows on your sheet. 1 to 80 characters.';
+  static const nameNote = 'Shown on your sheet.';
   static const nameSave = 'Save name';
   static const nameEmpty = 'Write a name first.';
   static const nameTooLong = 'Keep it to 80 characters.';
@@ -119,5 +117,4 @@ abstract final class EditCopy {
   static const creditUnitOne = 'practice credit';
   static const proActive = 'Pro is active.';
   static String proUntil(String date) => 'Pro is active until $date.';
-  static const manage = 'Your plan and credits as of the last check.';
 }

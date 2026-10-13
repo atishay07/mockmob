@@ -10,7 +10,10 @@ import '../../core/router/routes.dart';
 /// state of the student's sheet and the usage-data choice) over Today, once the router has
 /// landed there. Sheets need something under them; opening it as the only page would leave it
 /// floating over an empty screen. Replaced in tests.
-final afterSignInSheetLauncherProvider = Provider<VoidCallback>((ref) => () => _openOverToday(ref));
+final afterSignInSheetLauncherProvider = Provider<VoidCallback>(
+  (ref) =>
+      () => _openOverToday(ref),
+);
 
 void _openOverToday(Ref ref) {
   final router = ref.read(routerProvider);
@@ -24,7 +27,10 @@ void _openOverToday(Ref ref) {
   late final VoidCallback listener;
   // If Today never comes (a deep link took over, the account did not load), give up quietly:
   // the same choices live in You.
-  final giveUp = Timer(const Duration(seconds: 8), () => delegate.removeListener(listener));
+  final giveUp = Timer(
+    const Duration(seconds: 8),
+    () => delegate.removeListener(listener),
+  );
   listener = () {
     if (!atToday()) return;
     delegate.removeListener(listener);

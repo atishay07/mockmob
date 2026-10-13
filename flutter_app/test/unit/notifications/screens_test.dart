@@ -209,13 +209,15 @@ void main() {
       await tester.tap(_text('Mute for 7 days'));
       await tester.pumpAndSettle();
       expect(find.textContaining('Muted on this phone until Monday, 19 October, 6:00 PM.'), findsOneWidget);
+      // And once near the top, with its own way back, so it is not missed below the fold.
+      expect(_text('Reminders are muted until Monday, 19 October.'), findsOneWidget);
       expect(rig.gateway.scheduled, isEmpty);
       // The mute is kept on this phone, and the receipt says exactly that.
       expect(find.textContaining('Saved on this phone at 6:00 PM.'), findsOneWidget);
       expect(find.textContaining('on the server'), findsNothing);
       // The reminder channels read as on hold until the mute ends; Result ready does not.
       expect(find.textContaining('Paused until Monday, 19 October.'), findsWidgets);
-      await tester.tap(_text('Unmute'));
+      await tester.tap(_text('Unmute').first);
       await tester.pumpAndSettle();
       expect(_text('Mute for 7 days'), findsOneWidget);
       expect(find.textContaining('Paused until'), findsNothing);
@@ -263,7 +265,7 @@ void main() {
       await pumpWithPermission(tester, pending);
       expect(find.bySemanticsLabel('Checking notifications'), findsOneWidget);
       expect(_text('Notifications are blocked in Android settings'), findsNothing);
-      expect(_text('Saved. Nothing arrives until Android allows it.'), findsNothing);
+      expect(_text('Android is blocking MockMob, so these will not arrive yet.'), findsNothing);
       expect(_text('Open Android settings'), findsNothing);
 
       pending.answer.complete(NotificationPermission.granted);
@@ -275,14 +277,14 @@ void main() {
     testWidgets('a failed permission read does not claim notifications are blocked', (tester) async {
       await pumpWithPermission(tester, _FailingPermission());
       expect(_text('Notifications are blocked in Android settings'), findsNothing);
-      expect(_text('Saved. Nothing arrives until Android allows it.'), findsNothing);
+      expect(_text('Android is blocking MockMob, so these will not arrive yet.'), findsNothing);
       expect(find.bySemanticsLabel('Checking notifications'), findsNothing);
     });
 
     testWidgets('blocked: keeps the choices, says nothing arrives yet, and opens Android settings', (tester) async {
       await pumpScreen(tester, prefs: prefsWith(), perm: NotificationPermission.denied);
       expect(_text('Notifications are blocked in Android settings'), findsOneWidget);
-      expect(_text('Saved. Nothing arrives until Android allows it.'), findsOneWidget);
+      expect(_text('Android is blocking MockMob, so these will not arrive yet.'), findsOneWidget);
       expect(_text('Open Android settings'), findsOneWidget);
       expect(_text('Turn on'), findsNothing);
     });
@@ -293,12 +295,22 @@ void main() {
       final container = ProviderScope.containerOf(tester.element(find.byType(NotificationSettingsScreen)));
       container.invalidate(reminderStateProvider);
       await tester.pumpAndSettle();
-      expect(_text('Want fewer reminders? You can turn this one off.'), findsOneWidget);
+      expect(_text('Want fewer reminders? You can turn off Study window.'), findsOneWidget);
       expect(find.textContaining('Paused after 3 reminders went unopened'), findsOneWidget);
       await tester.tap(_text('Got it'));
       await tester.pumpAndSettle();
-      expect(_text('Want fewer reminders? You can turn this one off.'), findsNothing);
+      expect(_text('Want fewer reminders? You can turn off Study window.'), findsNothing);
       expect(find.textContaining('Saved on this phone at 6:00 PM.'), findsOneWidget);
+    });
+
+    testWidgets('the fewer-reminders hint waits while notifications are off', (tester) async {
+      await pumpScreen(tester, prefs: prefsWith(), perm: NotificationPermission.notAsked);
+      await rig.store.update((s) => s.withCategory('study_window', const CategoryStatus(ignoredInRow: 3, paused: true, hintPending: true)));
+      final container = ProviderScope.containerOf(tester.element(find.byType(NotificationSettingsScreen)));
+      container.invalidate(reminderStateProvider);
+      await tester.pumpAndSettle();
+      expect(_text('Notifications are off'), findsOneWidget);
+      expect(find.textContaining('Want fewer reminders?'), findsNothing);
     });
 
     testWidgets('loading shows skeleton rows and no stale words', (tester) async {

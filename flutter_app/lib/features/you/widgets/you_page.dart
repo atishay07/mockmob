@@ -211,3 +211,22 @@ class GroupHeading extends StatelessWidget {
     );
   }
 }
+
+/// A glass pill as wide as its label and 48 dp tall: the way a You page offers a side action (Try
+/// again, Remove, See every event) with a visible shape and a full touch target. It is sized to
+/// its label by [IntrinsicWidth] instead of the key's own intrinsic mode, which would draw the
+/// label twice.
+class PillKey extends StatelessWidget {
+  const PillKey({super.key, required this.label, required this.onPressed, this.semanticsLabel});
+
+  final String label;
+  final VoidCallback? onPressed;
+  final String? semanticsLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    return IntrinsicWidth(
+      child: KeyButton.secondary(label: label, minHeight: MmTarget.min, onPressed: onPressed, semanticsLabel: semanticsLabel),
+    );
+  }
+}

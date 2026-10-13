@@ -96,6 +96,23 @@ void main() {
       final container = ProviderScope.containerOf(tester.element(find.byType(SheetEditorScreen)));
       expect(container.read(onboardingAnswersProvider).value?.stage, Stage.classEleven);
     });
+
+    testWidgets('the study times sit in a 2 by 2 grid of equal pills', (tester) async {
+      await _pump(tester, const SheetEditorScreen());
+      await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(find.text('Late, 10:00 PM'), 300, scrollable: find.byType(Scrollable).first);
+      await tester.pump();
+      const early = 'Early, 6:00 AM';
+      const afternoon = 'Afternoon, 5:00 PM';
+      const evening = 'Evening, 8:00 PM';
+      const late = 'Late, 10:00 PM';
+      Offset at(String label) => tester.getTopLeft(find.text(label));
+      // Two columns: the first pills line up, so do the second.
+      expect(at(early).dx, closeTo(at(evening).dx, 3));
+      expect(at(afternoon).dx, closeTo(at(late).dx, 3));
+      expect(at(early).dy, closeTo(at(afternoon).dy, 3));
+      expect(at(evening).dy, greaterThan(at(early).dy));
+    });
   });
 
   group('subjects', () {
@@ -103,7 +120,7 @@ void main() {
       final api = _api();
       final auth = FakeAuth(_user);
       await _pump(tester, const SubjectsScreen(), api: api, auth: auth);
-      expect(find.text('Change a subject to save.'), findsOneWidget);
+      expect(find.text('Pick or remove a subject to save.'), findsOneWidget);
       await _tap(tester, 'General Test');
       expect(find.text('5 of 5 chosen'), findsOneWidget);
       await tester.tap(find.text('Save subjects'));

@@ -117,9 +117,15 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
     final moment = ref.watch(celebrationControllerProvider.select((s) => s.byScope[scope]));
     final momentShown = moment != null && moment.showsMoment && ref.watch(rhythmVisibleProvider);
     final momentSays = momentShown && moment.sentence != null;
-    final mobiLine = !model.repairedBefore && !nothing
+    // A first repair with no fired moment gets the same card the moment would draw (sentence and
+    // receipt together), so the message looks the same either way.
+    final firstCard = !model.repairedBefore && !nothing && !momentShown;
+    final mobiLine = firstCard
+        ? null
+        : !model.repairedBefore && !nothing
         ? (momentSays ? null : ReviewCopy.firstRepair)
         : (lateNight && !nothing ? ReviewCopy.goodPlaceToStop(clock.now()) : null);
+    final receipt = ackedAt == null ? const ReceiptLine.pending() : ReceiptLine(text: Receipts.repairFinished(clock.local(ackedAt)));
 
     return PopScope(
       canPop: false,
@@ -196,12 +202,17 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
                           const SizedBox(height: MmSpace.s12),
                           if (momentShown)
                             CelebrationSlot(scope: scope)
+                          else if (firstCard)
+                            _FirstRepairCard(receipt: receipt)
                           else
-                            ackedAt == null ? const ReceiptLine.pending() : ReceiptLine(text: Receipts.repairFinished(clock.local(ackedAt))),
+                            receipt,
+                          const SizedBox(height: MmSpace.s12),
                           Align(
                             alignment: Alignment.centerLeft,
-                            child: KeyButton.quiet(
+                            child: KeyButton.secondary(
                               label: 'Share a card',
+                              expanded: false,
+                              minHeight: MmTarget.min,
                               onPressed: () => unawaited(
                                 showShareCardSheet(
                                   context,
@@ -252,6 +263,38 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// The first-repair message as a card: the sentence and the receipt, in the same raised panel
+/// the fired moment uses.
+class _FirstRepairCard extends StatelessWidget {
+  const _FirstRepairCard({required this.receipt});
+
+  final Widget receipt;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(MmSpace.s16),
+      decoration: BoxDecoration(
+        color: colors.raised,
+        borderRadius: MmRadius.panelAll,
+        border: Border.all(color: colors.line),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Semantics(container: true, header: true, child: Text(ReviewCopy.firstRepair, style: type.subhead)),
+          const SizedBox(height: MmSpace.s4),
+          receipt,
+        ],
       ),
     );
   }

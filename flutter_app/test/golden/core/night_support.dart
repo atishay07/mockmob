@@ -88,7 +88,7 @@ class GoldenRoom extends StatelessWidget {
                 const SizedBox(height: 12),
                 for (final (label, n) in const [('Mock 7', 4), ('Mock 6', 9), ('Quick 10', 2), ('Mock 5', 6)]) ...[
                   Row(children: [
-                    SizedBox(width: 72, child: Text(label, style: type.labelLarge)),
+                    SizedBox(width: MediaQuery.textScalerOf(context).scale(72), child: Text(label, style: type.labelLarge, maxLines: 1)),
                     BubbleRow(states: [for (var i = 0; i < 16; i++) i % n == 1 ? BubbleState.wrong : BubbleState.filled]),
                   ]),
                   const SizedBox(height: 14),

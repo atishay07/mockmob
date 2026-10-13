@@ -108,10 +108,6 @@ class CompassHero extends ConsumerWidget {
             const SizedBox(height: MmSpace.s4),
             KeyButton.quiet(label: ToolsCopy.keepCombo, onPressed: controller.keepCombination),
           ],
-          if (s.seededFromSheet) ...[
-            const SizedBox(height: MmSpace.s8),
-            Text(ToolsCopy.fromSheet, style: type.caption.copyWith(color: colors.ink2)),
-          ],
           if (s.selection.count > duDefaultMaxPapers) ...[
             const SizedBox(height: MmSpace.s12),
             InlineBanner(message: ToolsCopy.overLimit(s.selection.count, duDefaultMaxPapers), tone: BannerTone.warning),

@@ -160,18 +160,25 @@ class _WeekEditorState extends ConsumerState<WeekEditor> {
               const SizedBox(height: MmSpace.s20),
               Text(EditCopy.weekTime, style: label),
               const SizedBox(height: MmSpace.s8),
-              Wrap(
-                spacing: MmSpace.s8,
-                runSpacing: MmSpace.s8,
-                children: [
-                  for (final w in StudyTime.values)
-                    MmChip(
-                      label: '${w.label}, ${w.time}',
-                      selected: w == _window,
-                      onTap: _saving ? null : () => _edit(() => _window = w),
-                    ),
-                ],
-              ),
+              // A 2 by 2 grid of equal pills, so the times line up whatever their words.
+              for (var row = 0; row < StudyTime.values.length; row += 2)
+                Padding(
+                  padding: EdgeInsets.only(top: row == 0 ? 0 : MmSpace.s8),
+                  child: Row(
+                    children: [
+                      for (var i = row; i < row + 2 && i < StudyTime.values.length; i++) ...[
+                        if (i > row) const SizedBox(width: MmSpace.s8),
+                        Expanded(
+                          child: _TimeChoice(
+                            label: '${StudyTime.values[i].label}, ${StudyTime.values[i].time}',
+                            selected: StudyTime.values[i] == _window,
+                            onTap: _saving ? null : () => _edit(() => _window = StudyTime.values[i]),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
               const SizedBox(height: MmSpace.s20),
               Text(EditCopy.weekLength, style: label),
               const SizedBox(height: MmSpace.s8),
@@ -192,6 +199,7 @@ class _WeekEditorState extends ConsumerState<WeekEditor> {
                 label: EditCopy.weekSave,
                 loading: _saving,
                 onPressed: loaded && _changed && !_saving ? _save : null,
+                disabledReason: loaded && !_changed && !_saving && _savedAt == null ? EditCopy.weekUnchanged : null,
               ),
               if (_savedAt != null) ...[
                 const SizedBox(height: MmSpace.s12),
@@ -201,6 +209,62 @@ class _WeekEditorState extends ConsumerState<WeekEditor> {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// One study time: a full-width 48 dp pill with the answer bubble, so the four share a width.
+class _TimeChoice extends ConsumerWidget {
+  const _TimeChoice({required this.label, required this.selected, required this.onTap});
+
+  final String label;
+  final bool selected;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.mmColors;
+    final disabled = onTap == null;
+    return MmPressable(
+      semanticsLabel: label,
+      selected: selected,
+      onTap: disabled
+          ? null
+          : () {
+              ref.read(hapticsProvider).selection();
+              onTap!();
+            },
+      builder: (context, pressed, _) => SizedBox(
+        height: MmTarget.min,
+        child: DecoratedBox(
+          decoration: ShapeDecoration(
+            color: MmSelection.fill(colors, selected: selected, pressed: pressed),
+            shape: StadiumBorder(side: MmSelection.side(colors, selected: selected)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(left: MmSpace.s12, right: MmSpace.s8),
+            child: Row(
+              children: [
+                SelectBubble(selected: selected),
+                const SizedBox(width: MmSpace.s8),
+                Expanded(
+                  // Shrinks a little on a narrow phone rather than cutting the time.
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      label,
+                      maxLines: 1,
+                      softWrap: false,
+                      style: context.mmType.labelLarge.copyWith(fontSize: 14, color: disabled ? colors.ink4 : colors.ink),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

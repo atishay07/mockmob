@@ -21,7 +21,7 @@ class GuideMilestone {
 
 final List<GuideMilestone> guideTimeline = [
   GuideMilestone(
-    when: 'Now to December 2026',
+    when: 'September to December 2026',
     title: 'Baseline',
     body: 'Finish the NCERT baseline alongside boards prep, and run one short timed drill per subject each week to build format familiarity early.',
     start: DateTime(2026, 9),
@@ -37,7 +37,7 @@ final List<GuideMilestone> guideTimeline = [
   GuideMilestone(
     when: CuetDates.registrationMonths,
     title: 'CUET registration',
-    body: 'Expected around February to March, based on the 2026 cycle. NTA has not released the 2027 bulletin yet.',
+    body: 'Based on the 2026 cycle.',
     start: DateTime(2027, 2),
     end: DateTime(2027, 4),
     expected: true,
@@ -53,7 +53,7 @@ final List<GuideMilestone> guideTimeline = [
   GuideMilestone(
     when: 'May 2027',
     title: 'The exam',
-    body: 'Expected in May. Use timed practice that matches the official format once NTA publishes the 2027 rules, and keep a block for targeted chapter review.',
+    body: 'Based on the 2026 cycle. Practise with timed papers and keep a block for targeted chapter review.',
     start: DateTime(2027, 5),
     end: DateTime(2027, 6),
     expected: true,
@@ -61,7 +61,7 @@ final List<GuideMilestone> guideTimeline = [
   GuideMilestone(
     when: 'Late June or early July 2027',
     title: 'Results, then counselling',
-    body: 'Results expected by late June or early July, followed by university counselling such as DU CSAS.',
+    body: 'Results, then university counselling such as DU CSAS.',
     start: DateTime(2027, 6, 20),
     end: DateTime(2027, 8),
     expected: true,
@@ -75,12 +75,10 @@ class GuideSection {
   final List<String> body;
 }
 
-const guideIntro =
-    '2027 dates and rules are expected, not published yet.';
+const guideIntro = 'The 2027 dates and rules are not out yet.';
 
-const guidePattern = GuideSection('Exam pattern: use the latest cycle as a reference', [
-  'The 2027 exam format has not been confirmed. Use the latest completed cycle to understand the kind of preparation to expect, then check the NTA bulletin for the final papers, duration and question rules before you plan around them.',
-  'Confirm subject choices and marking rules in the official 2027 bulletin when it is published.',
+const guidePattern = GuideSection('Exam pattern', [
+  'Papers, duration and question rules are not confirmed. The latest completed cycle is the best guide to the preparation to expect.',
 ]);
 
 const guideSubjects = GuideSection('Choosing your five subjects', [

@@ -42,31 +42,43 @@ class WeekStripBody extends StatelessWidget {
   final VoidCallback onOpen;
   final VoidCallback onRetry;
 
+  /// The loading and failed rows hold the same height, so nothing jumps between them.
+  static const double _rowHeight = 48;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     if (snapshot.isInitialLoading) {
-      return const SkeletonGroup(
+      // The row's own shape: one line of text, seven day circles.
+      return SkeletonGroup(
         label: RhythmCopy.loadingWeek,
         child: SizedBox(
-          height: 44,
+          height: _rowHeight,
           child: Row(
             children: [
-              Expanded(child: Align(alignment: Alignment.centerLeft, child: Skeleton.line(width: 120))),
-              SizedBox(width: MmSpace.s12),
-              Skeleton(width: WeekStrip.width, height: WeekStrip.circle, radius: 14),
+              const Expanded(child: Align(alignment: Alignment.centerLeft, child: Skeleton.line(width: 120))),
+              const SizedBox(width: MmSpace.s12),
+              for (var i = 0; i < 7; i++) ...[
+                if (i > 0) const SizedBox(width: WeekStrip.gap),
+                const Skeleton.circle(size: WeekStrip.circle),
+              ],
             ],
           ),
         ),
       );
     }
     if (snapshot.isFailedEmpty || !snapshot.hasData) {
-      return Row(
-        children: [
-          Expanded(child: Text(RhythmCopy.weekLoadFailed, style: type.label.copyWith(color: colors.ink))),
-          KeyButton.quiet(label: RhythmCopy.tryAgain, onPressed: onRetry),
-        ],
+      return ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: _rowHeight),
+        child: Row(
+          children: [
+            Expanded(child: Text(RhythmCopy.weekLoadFailed, style: type.label.copyWith(color: colors.ink))),
+            const SizedBox(width: MmSpace.s12),
+            // A pill with its own edge, so the retry reads as a key.
+            KeyButton.secondary(label: RhythmCopy.tryAgain, expanded: false, minHeight: _rowHeight, onPressed: onRetry),
+          ],
+        ),
       );
     }
     final week = snapshot.week!;

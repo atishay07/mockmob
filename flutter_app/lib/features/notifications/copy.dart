@@ -99,7 +99,7 @@ abstract final class NotificationsCopy {
   static const String permissionBlockedBody =
       'Your choices below are saved. Allow notifications for MockMob in Android settings and they start. Studying works the same without them.';
   static const String openAndroidSettings = 'Open Android settings';
-  static const String blockedChannels = 'Saved. Nothing arrives until Android allows it.';
+  static const String blockedChannels = 'Android is blocking MockMob, so these will not arrive yet.';
   static const String settingsDidNotOpen = 'Android did not open its settings. Open Settings, Apps, MockMob, Notifications.';
 
   // Your day.
@@ -127,8 +127,8 @@ abstract final class NotificationsCopy {
   static const String channelCheckBody = 'When a fresh-question check is due.';
   static const String channelPaused =
       'Paused after 3 reminders went unopened. Turn it on to restart.';
-  static const String fewerReminders =
-      'Want fewer reminders? You can turn this one off.';
+  static String fewerReminders(String reminder) =>
+      'Want fewer reminders? You can turn off $reminder.';
   static const String fewerRemindersDismiss = 'Got it';
 
   // Study window.
@@ -162,6 +162,8 @@ abstract final class NotificationsCopy {
   static String muted(DateTime until) =>
       'Muted on this phone until ${formatWeekdayDate(until)}, ${formatTime12(until)}.';
   static const String unmute = 'Unmute';
+  // The same mute, said once near the top so it is not missed below the fold.
+  static String mutedBanner(DateTime until) => 'Reminders are muted until ${formatWeekdayDate(until)}.';
 
   // Time picker sheet.
   static String pickTitle(String what) => 'Set $what';

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../theme/theme.dart';
-import 'key_button.dart';
+import '../haptics/haptics.dart';
+import 'pressable.dart';
 import 'materials/shape.dart';
 
 enum BannerTone { info, warning, error, offline }
@@ -57,7 +59,7 @@ class InlineBanner extends StatelessWidget {
         container: true,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: colors.sunken,
+            color: colors.isNight ? colors.raised : colors.sunken,
             border: Border(bottom: BorderSide(color: colors.line)),
           ),
           child: ConstrainedBox(
@@ -115,16 +117,59 @@ class InlineBanner extends StatelessWidget {
                       ),
                     ),
                     if (actionLabel != null && onAction != null)
-                      // The quiet key carries 16 dp of inner padding; pull it back so its label
-                      // lines up with the message above.
-                      Transform.translate(
-                        offset: const Offset(-MmSpace.s16, 0),
-                        child: KeyButton.quiet(label: actionLabel!, onPressed: onAction),
-                      ),
+                      // A pill, so the action reads as a button. The visible pill is 36 dp tall
+                      // inside a 48 dp touch target; it starts at the message's left edge.
+                      Row(children: [_BannerAction(label: actionLabel!, onTap: onAction!)]),
                   ],
                 ),
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// The banner's action: a 36 dp outlined pill with a small chevron, in a 48 dp touch target.
+class _BannerAction extends ConsumerWidget {
+  const _BannerAction({required this.label, required this.onTap});
+
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return MmPressable(
+      semanticsLabel: label,
+      onTap: () {
+        ref.read(hapticsProvider).settle();
+        onTap();
+      },
+      builder: (context, pressed, _) => ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: MmTarget.min, minWidth: MmTarget.min),
+        child: Center(
+          child: DecoratedBox(
+            decoration: ShapeDecoration(
+              color: pressed ? colors.raised2 : colors.raised2.withValues(alpha: colors.isNight ? 0.6 : 0.5),
+              shape: mmShapeBorder(MmRadius.pillAll, side: BorderSide(color: colors.lineStrong)),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(MmSpace.s16, 0, MmSpace.s12, 0),
+              child: SizedBox(
+                height: 36,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Flexible(child: Text(label, style: type.button.copyWith(color: colors.ink))),
+                    const SizedBox(width: MmSpace.s4),
+                    ExcludeSemantics(child: Icon(LucideIcons.chevronRight, size: 16, color: colors.ink2)),
+                  ],
+                ),
+              ),
+            ),
           ),
         ),
       ),

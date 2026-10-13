@@ -5,6 +5,7 @@ import '../../../core/models/consent.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../edit_copy.dart';
 
 /// "See every event we collect": the whole allowlist, in plain words.
 Future<void> showEventListSheet(BuildContext context) {
@@ -12,6 +13,11 @@ Future<void> showEventListSheet(BuildContext context) {
     context: context,
     title: YouCopy.eventsTitle,
     builder: (context) => const EventList(),
+    footer: (context) => KeyButton.secondary(
+      label: EditCopy.done,
+      minHeight: MmTarget.min,
+      onPressed: () => Navigator.of(context).maybePop(),
+    ),
   );
 }
 

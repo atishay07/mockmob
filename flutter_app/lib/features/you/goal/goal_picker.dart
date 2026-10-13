@@ -67,14 +67,14 @@ class GoalPicker extends ConsumerWidget {
                   child: _Bracket(
                     label: YouCopy.goalStudy,
                     color: colors.isNight ? colors.volt : colors.accentText,
-                    textStyle: type.label.copyWith(color: colors.ink),
+                    textStyle: type.small.copyWith(color: colors.ink, fontWeight: FontWeight.w600),
                   ),
                 ),
                 if (value < 7) ...[
                   const SizedBox(width: MmSpace.s4),
                   Expanded(
                     flex: 7 - value,
-                    child: _Bracket(label: YouCopy.goalRest, color: colors.lineStrong, textStyle: type.label.copyWith(color: colors.ink3)),
+                    child: _Bracket(label: YouCopy.goalRest, color: colors.lineStrong, textStyle: type.small.copyWith(color: colors.ink3)),
                   ),
                 ],
               ],
