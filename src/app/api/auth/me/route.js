@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { auth } from '@/lib/auth';
+import { authWithStatus } from '@/lib/auth';
 import { Database } from '@/../data/db';
 import { checkRateLimit, rateLimitHeaders } from '@/lib/server/rateLimit';
 import {
@@ -32,7 +32,16 @@ export async function GET(request) {
       );
     }
 
-    const session = await auth(request);
+    const { session, transient } = await authWithStatus(request);
+    if (!session?.user && transient) {
+      // Supabase or the network failed; the session may be fine. 503 makes the web and the
+      // Android app retry and keep the student signed in, where 401 would sign them out.
+      return jsonWithDiagnostics(
+        diagnostics,
+        { error: 'auth_unavailable', user: null, needsOnboarding: false },
+        { status: 503, headers: { 'Retry-After': '2', 'Cache-Control': 'no-store' } },
+      );
+    }
     if (!session?.user) {
       return jsonWithDiagnostics(diagnostics, { user: null, needsOnboarding: false }, { status: 401 });
     }

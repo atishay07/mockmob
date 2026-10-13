@@ -10,6 +10,7 @@ import { Avatar } from '@/components/ui/Avatar';
 import { useAuth } from '@/components/AuthProvider';
 import { useRole } from '@/lib/roleContext';
 import { AuthSessionScreen } from '@/components/auth/AuthSessionScreen';
+import { loginPathFor } from '@/lib/auth-redirect';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { PipActor } from '@/components/brand/PipActor';
 import './arena.css';
@@ -31,7 +32,7 @@ const TOUR_POSES = ['greeting', 'encouraging', 'thinking', 'celebrating'];
 export default function AppLayoutClient({ children, previewRoute = null, previewLinks = null, studyEnabled = false }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, status, signOut } = useAuth();
+  const { user, status, signOut, refreshSession } = useAuth();
   const { isModerator } = useRole();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuOpener = useRef(null);
@@ -89,7 +90,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
 
   useEffect(() => {
     if (status === 'unauthenticated') {
-      router.replace('/signup');
+      // A returning student lands on login (not signup) and comes back to this page after.
+      router.replace(loginPathFor(`${window.location.pathname}${window.location.search}`));
     }
   }, [status, router]);
 
@@ -156,6 +158,17 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
       window.removeEventListener('scroll', updateTarget);
     };
   }, [tourOpen, tourStep]);
+
+  if (status === 'unavailable') {
+    return (
+      <AuthSessionScreen
+        errorTitle="Can't reach MockMob"
+        error="You are still signed in. We could not load your account just now. Check your connection, then try again."
+        actionLabel="Try again"
+        onAction={() => refreshSession({ silent: false })}
+      />
+    );
+  }
 
   if (status !== 'authenticated' || (pathname.startsWith('/moderation') && !isModerator)) {
     return (

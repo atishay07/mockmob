@@ -9,6 +9,7 @@ import { SkeletonCard, ErrorState } from '@/components/ui/Skeleton';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/ToastProvider';
 import { PlanCard } from '@/components/billing/PlanCard';
+import { SignOutOtherDevicesSection } from '@/components/auth/SignOutOtherDevices';
 import { apiGet, apiPatch } from '@/lib/fetcher';
 import ArenaHead from '@/components/arena/ArenaHead';
 
@@ -174,6 +175,8 @@ export default function ProfilePageClient() {
           </div>
         </section>
       </div>
+
+      <SignOutOtherDevicesSection />
     </div>
   );
 }

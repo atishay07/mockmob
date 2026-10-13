@@ -179,3 +179,38 @@
 .auth-card__status:empty {
   display: none;
 }
+/* Resend and change-email controls under the code field. */
+.auth-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+}
+.auth-card__textbtn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 0.25rem;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--volt-edge);
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+.auth-card__textbtn:disabled {
+  color: var(--ink-3);
+  text-decoration-color: transparent;
+  cursor: default;
+}
+.auth-card__textbtn:focus-visible {
+  outline: 2px solid var(--volt-edge);
+  outline-offset: 2px;
+  border-radius: var(--r-1);
+}
