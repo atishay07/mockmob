@@ -42,5 +42,8 @@
     "b9214d6f466afd7c117d4880e872a3a2": "eco.government_budget.capital_receipts_loan_and_psu_sale",
     "2ae58f936c168e6cfef75783e9a30e7f": "eco.perfect_competition.shutdown_below_min_avc",
     "90c0efb048add1dbde2112db46487d91": "eco.perfect_competition.shutdown_below_min_avc"
-  }
+  },
+  "agent_questions": {},
+  "agent_note": "agent_questions: one tag per question from the agent pass (scripts/nta-pass-merge.mjs; the tag both judges gave, else the spelling used more often in the subject). Hand-assigned tags in questions take precedence.",
+  "agent_version": "none"
 }

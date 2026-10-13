@@ -26,6 +26,10 @@ const { NTA_MIN_SCORE, NTA_ENGINE_VERSION, NTA_MIN_SERVE_QUESTIONS, assembleNtaP
 const { buildNtaPaper, loadNtaPool, attachPassages, loadOpenDisputes, loadHeldFamilies, NTA_SLIM_COLUMNS } = await import('../data/nta_pool.js');
 const { contentTokens, jaccard, isNumericalItem, objectiveTagOf } = await import('../data/nta_item_checks.js');
 const { getQuestionText, normalizeOptions } = await import('../data/nta_question_selector.js');
+const { ntaAgentTable, ntaAgentAdmissibleIds, NTA_AGENT_RUBRIC_VERSION } = await import('../data/nta_agent_scores.js');
+const keyDisputesFile = JSON.parse(fs.readFileSync('data/nta_key_disputes.json', 'utf8'));
+const difficultyFile = JSON.parse(fs.readFileSync('data/nta_difficulty.json', 'utf8'));
+const objectivesFile = JSON.parse(fs.readFileSync('data/nta_objectives.json', 'utf8'));
 
 // Gates added by the 13 Oct review (data/nta_item_checks.js, quarantine, fail-closed scores).
 const REVIEW_GATES = new Set([
@@ -124,7 +128,26 @@ for (const subject of CUET_PUBLIC_ALLOWED_SUBJECTS) {
     thresholds[minScore] = { eligible, status: trial.status, questions: trial.paper.length, completeSets: trial.pool.completeSets };
   }
   const { count: liveCount } = await db.from('questions').select('id', { count: 'exact', head: true }).eq('subject', internal).eq('status', 'live').eq('is_deleted', false);
-  runs.push({ subject, internal, blueprintVersion: bp.blueprintVersion, kind: bp.kind, live: liveCount, loadedWithScoreSource: pool.length, papers, thresholds, reviewGateCounts, atBarOldGates, keptOut, fresh, slimRead, cachedMs });
+  // The agent pass for this subject: what the committed table holds and what the engine took from it.
+  const agentTable = ntaAgentTable(subject);
+  const agentIds = new Set(Object.keys(agentTable?.questions || {}));
+  const agent = {
+    calibration: agentTable?.calibration?.status || 'missing',
+    threshold: agentTable?.calibration?.threshold ?? null,
+    rubric: agentTable?.rubric_version || null,
+    models: agentTable?.models || [],
+    judged: agentIds.size,
+    judgedByBoth: agentTable?.measures?.judged_by_both ?? 0,
+    admissibleBeforeRowChecks: ntaAgentAdmissibleIds(subject).length,
+    agentRowsRead: pool.agentRows || 0,
+    eligibleAgentScored: papers[0].pool.eligibleBySource?.agent_scored || 0,
+    eligibleFactory: (papers[0].pool.eligibleBySource?.evidence_judges || 0) + (papers[0].pool.eligibleBySource?.nta_index || 0),
+    keyDisputes: Object.values(keyDisputesFile.questions || {}).filter((entry) => entry.subject === subject).length,
+    difficultyCorrections: Object.values(difficultyFile.questions || {}).filter((entry) => entry.subject === subject).length,
+    objectiveTags: [...agentIds].filter((id) => (objectivesFile.agent_questions || {})[id]).length,
+    measures: agentTable?.measures || null,
+  };
+  runs.push({ subject, internal, blueprintVersion: bp.blueprintVersion, kind: bp.kind, live: liveCount, loadedWithScoreSource: pool.length, papers, thresholds, reviewGateCounts, atBarOldGates, keptOut, fresh, slimRead, cachedMs, agent });
   console.log(subject.padEnd(18), papers.map((p) => `${p.status}:${p.questions}:${p.timings.endToEndMs}ms`).join('  '));
 }
 
@@ -140,15 +163,34 @@ lines.push('Each subject gets three papers for one simulated student: paper 2 tr
 lines.push('');
 lines.push('## Summary');
 lines.push('');
-lines.push('| Subject | Live questions | Eligible at the bar | Paper 1 | Paper 2 | Paper 3 | Slowest end to end | Main shortfall |');
-lines.push('|---|---:|---:|---|---|---|---:|---|');
+lines.push('| Subject | Live questions | Eligible at the bar (factory / agent) | Can it start | Paper 1 | Paper 2 | Paper 3 | Structure match | Slowest end to end | Main shortfall |');
+lines.push('|---|---:|---:|---|---|---|---|---|---:|---|');
 for (const run of runs) {
   const p = run.papers;
   const main = p[0].status === 'refused' ? p[0].refusal.reason.replace(/_/g, ' ') : (p[0].notice.items[0] || 'none');
-  lines.push(`| ${run.subject} | ${run.live} | ${p[0].pool.eligible} | ${label(p[0].status)} (${p[0].questions}) | ${label(p[1].status)} (${p[1].questions}) | ${label(p[2].status)} (${p[2].questions}) | ${ms(Math.max(...p.map((x) => x.timings.endToEndMs)))} | ${main.replace(/\|/g, '/')} |`);
+  const starts = p.filter((x) => x.status !== 'refused').length;
+  const canStart = starts === 3 ? 'yes, 3 of 3' : starts ? `partly, ${starts} of 3` : 'no';
+  const structure = p.map((x) => (x.status === 'refused' ? '-' : x.status === 'exact' ? 'exact' : `${x.deviations.length} dev`)).join(' / ');
+  lines.push(`| ${run.subject} | ${run.live} | ${p[0].pool.eligible} (${run.agent.eligibleFactory} / ${run.agent.eligibleAgentScored}) | ${canStart} | ${label(p[0].status)} (${p[0].questions}) | ${label(p[1].status)} (${p[1].questions}) | ${label(p[2].status)} (${p[2].questions}) | ${structure} | ${ms(Math.max(...p.map((x) => x.timings.endToEndMs)))} | ${main.replace(/\|/g, '/')} |`);
 }
 lines.push('');
 lines.push('"Eligible at the bar" counts questions that pass every gate at the current bar: score, signed and unchanged score record from both judges, both blind solvers on the stored key, answer-key guard, content gate, publication, no open dispute, no family hold, chapter in the 2026 syllabus, NTA quarantine, the structural gate (options fit the stem) and the wording gate (no rule stated, no option pointed at, no narrated order, no "the excerpt").');
+lines.push('');
+lines.push('"Structure match" is per paper: exact means the paper matches its blueprint in sections, types, chapters, difficulty and sets; "n dev" is the number of differences the student is told about; "-" is a refusal.');
+lines.push('');
+lines.push('## Agent pass');
+lines.push('');
+const agentTotals = runs.reduce((sum, run) => ({ judged: sum.judged + run.agent.judged, both: sum.both + run.agent.judgedByBoth, eligible: sum.eligible + run.agent.eligibleAgentScored, disputes: sum.disputes + run.agent.keyDisputes }), { judged: 0, both: 0, eligible: 0, disputes: 0 });
+lines.push(`Agent scores come from \`data/nta_agent_scores/<subject>.json\` (merged by \`scripts/nta-pass-merge.mjs\` from two judges per question, rubric \`${NTA_AGENT_RUBRIC_VERSION}\`, \`docs/brain/NTA-AGENT-RUBRIC.md\`). The engine admits an agent-scored question only when the subject's table is calibrated, both judges are at or above the calibrated threshold, both blind answers equal the stored key, neither judge raised a blocking flag, and the question still has the scored content hash (\`data/nta_agent_scores.js\`). Factory evidence always takes precedence. Questions where a judge's blind answer differs from the key are listed in \`data/nta_key_disputes.json\` and kept out whatever their source. This run: ${agentTotals.judged} questions judged, ${agentTotals.both} by both judges, ${agentTotals.eligible} eligible through the agent source, ${agentTotals.disputes} key disputes.`);
+if (!agentTotals.judged) lines.push('', 'No agent result has been merged yet (`scripts/nta-pass-merge.mjs` found no result files), and every table is pending calibration, so the agent source admits nothing and this run equals a factory-only run.');
+lines.push('');
+lines.push('| Subject | Calibration | Judged (both judges) | Pass row-free checks | Read for NTA | Eligible via agent | Key disputes | Difficulty corrections | Objective tags |');
+lines.push('|---|---|---:|---:|---:|---:|---:|---:|---:|');
+for (const run of runs) {
+  const a = run.agent;
+  const calibrationCell = a.calibration === 'calibrated' ? `calibrated, threshold ${a.threshold}` : a.calibration;
+  lines.push(`| ${run.subject} | ${calibrationCell} | ${a.judged} (${a.judgedByBoth}) | ${a.admissibleBeforeRowChecks} | ${a.agentRowsRead} | ${a.eligibleAgentScored} | ${a.keyDisputes} | ${a.difficultyCorrections} | ${a.objectiveTags} |`);
+}
 lines.push('');
 lines.push('## Review fixes: what each gate removed');
 lines.push('');

@@ -1,0 +1,5 @@
+{
+  "note": "Difficulty corrections for NTA mode (data/nta_item_checks.js ntaDifficultyOf). Written by scripts/nta-pass-merge.mjs only where both agent judges independently put the question at the same level and that level differs from the stored label. An entry applies only while the stored label still equals 'from'. Nothing here changes the database.",
+  "version": "none",
+  "questions": {}
+}

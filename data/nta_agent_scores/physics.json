@@ -1,0 +1,37 @@
+{
+  "note": "Agent scores for NTA mode (data/nta_agent_scores.js). Written by scripts/nta-pass-merge.mjs from two independent judges per question under docs/brain/NTA-AGENT-RUBRIC.md. A judge-dependent label, not evidence: it admits a question only while the table is calibrated, both judges are at or above the calibrated threshold, both blind answers equal the key, neither judge raised a blocking flag, and the question content still has the scored hash. Factory evidence, where present, always takes precedence.",
+  "subject": "physics",
+  "rubric_version": "nta-agent-rubric-1",
+  "rubric_sha256": "834fa2b5ea19d2a77db224f4fd6db0f09203929bfc4d78d87517550824a0a19c",
+  "merged_at": null,
+  "models": [],
+  "calibration": {
+    "status": "pending",
+    "threshold": null,
+    "owner_bar": 8,
+    "model": null,
+    "date": null,
+    "source": null,
+    "measures": null,
+    "why": "no calibration decision at tmp\\nta-pass\\calibration.json"
+  },
+  "measures": {
+    "judged_by_both": 0,
+    "judged_by_one": 0,
+    "score_mean_abs_diff": null,
+    "score_exact_agreement_pct": null,
+    "score_within_1_pct": null,
+    "score_pearson_r": null,
+    "key_both_match": 0,
+    "key_one_match": 0,
+    "key_none_match": 0,
+    "blind_answers_agree_pct": null,
+    "tag_agreement_pct": null,
+    "difficulty_agreement_pct": null,
+    "blocking_flagged": 0,
+    "flags": {},
+    "mean_of_means": null,
+    "admissible_before_row_checks": 0
+  },
+  "questions": {}
+}

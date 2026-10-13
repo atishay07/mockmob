@@ -10,8 +10,12 @@
 //    question's content hash is still the one that was scored.
 //  - full (fallback): questions with their evidence records, verified at request time. Used while the
 //    index table does not exist or holds nothing for the subject.
+// Either way, questions that only the agent pass scored (data/nta_agent_scores.js) are added: the ids
+// whose committed agent scores already pass every row-free check, read without the evidence column
+// and only where the question has no factory evidence (factory evidence always wins).
 // Either way the subject's pool is cached in memory for NTA_POOL_CACHE_MS.
 import { assembleNtaPaper, getNtaBlueprint, NTA_TIME_BUDGET_MS } from './nta_engine.js';
+import { ntaAgentAdmissibleIds } from './nta_agent_scores.js';
 
 // Columns the engine, the hard gates and the session snapshot (questionOut in data/db.js) read.
 const SLIM_COLUMNS = [
@@ -96,21 +100,46 @@ export async function loadNtaPoolFromIndex(db, subject, { signal } = {}) {
   return rows;
 }
 
-/** One subject's pool: the index when it exists, else the full read. An array with .source. */
-export async function loadNtaPool(db, subject, { signal, source = 'auto' } = {}) {
+/**
+ * Questions of one subject that only the agent pass scored and that are not already in `have`:
+ * live, undeleted, without factory evidence, without the evidence column. Select only.
+ */
+export async function loadNtaAgentRows(db, subject, have = new Set(), { signal, agentScores } = {}) {
+  const ids = ntaAgentAdmissibleIds(subject, { agentScores }).filter((id) => !have.has(id));
+  const rows = [];
+  for (let i = 0; i < ids.length; i += ID_CHUNK) {
+    const { data, error } = await withSignal(db.from('questions')
+      .select(NTA_SLIM_COLUMNS)
+      .in('id', ids.slice(i, i + ID_CHUNK))
+      .eq('subject', subject)
+      .eq('status', 'live')
+      .eq('is_deleted', false)
+      .is('evidence', null), signal);
+    if (error) throw error;
+    rows.push(...(data || []));
+  }
+  return rows;
+}
+
+/** One subject's pool: the index when it exists, else the full read; plus agent-scored rows. An array with .source. */
+export async function loadNtaPool(db, subject, { signal, source = 'auto', agentScores } = {}) {
+  const withAgentRows = async (rows, label) => {
+    const agentRows = await loadNtaAgentRows(db, subject, new Set(rows.map((row) => row.id)), { signal, agentScores });
+    return Object.assign([...rows, ...agentRows], { source: label, agentRows: agentRows.length });
+  };
   if (source !== 'full') {
     const rows = await loadNtaPoolFromIndex(db, subject, { signal });
-    if (rows) return Object.assign(rows, { source: 'index' });
-    if (source === 'index') return Object.assign([], { source: 'index' });
+    if (rows) return withAgentRows(rows, 'index');
+    if (source === 'index') return withAgentRows([], 'index');
   }
-  return Object.assign(await loadNtaPoolFull(db, subject, { signal }), { source: 'full' });
+  return withAgentRows(await loadNtaPoolFull(db, subject, { signal }), 'full');
 }
 
 // The subject's pool with passages attached, from memory while it is fresh.
-async function cachedPool(db, subject, { signal, cache = true, source } = {}) {
+async function cachedPool(db, subject, { signal, cache = true, source, agentScores } = {}) {
   const hit = cache ? poolCache.get(subject) : null;
   if (hit && Date.now() - hit.at < NTA_POOL_CACHE_MS) return { rows: hit.rows, source: hit.source, cached: true };
-  const pool = await loadNtaPool(db, subject, { signal, source });
+  const pool = await loadNtaPool(db, subject, { signal, source, agentScores });
   const rows = await attachPassages(db, pool, { signal });
   if (cache) poolCache.set(subject, { at: Date.now(), rows, source: pool.source });
   return { rows, source: pool.source, cached: false };
@@ -187,7 +216,7 @@ function timeBudgetError(subject) {
 
 /**
  * Reads the pool and builds one paper. options: { userId, seenIds, variant, seed, timeBudgetMs,
- * cache (default true), source ('auto' | 'index' | 'full') }.
+ * cache (default true), source ('auto' | 'index' | 'full'), agentScores (tests: replaces the committed agent tables) }.
  * Returns the engine result with timings for each stage added.
  */
 export async function buildNtaPaper(db, subject, options = {}) {
@@ -200,7 +229,7 @@ export async function buildNtaPaper(db, subject, options = {}) {
   const signal = controller.signal;
   try {
     const [pool, disputedIds, seenIds] = await Promise.all([
-      cachedPool(db, subject, { signal, cache: options.cache !== false, source: options.source }),
+      cachedPool(db, subject, { signal, cache: options.cache !== false, source: options.source, agentScores: options.agentScores }),
       loadOpenDisputes(db, { signal }),
       options.seenIds ? Promise.resolve(options.seenIds) : loadSeenQuestionIds(db, options.userId, subject, { signal }),
     ]);
@@ -208,7 +237,7 @@ export async function buildNtaPaper(db, subject, options = {}) {
     const rows = pool.rows;
     const heldFamilies = await loadHeldFamilies(db, rows, { signal });
     const loadMs = Date.now() - startedAt;
-    const result = assembleNtaPaper(rows, { subject, variant: options.variant, seed: options.seed, seenIds, disputedIds, heldFamilies, deadline });
+    const result = assembleNtaPaper(rows, { subject, variant: options.variant, seed: options.seed, seenIds, disputedIds, heldFamilies, deadline, agentScores: options.agentScores });
     result.timings = { ...result.timings, readMs, loadMs, endToEndMs: Date.now() - startedAt, budgetMs: budget, poolSource: pool.source, poolCached: pool.cached };
     result.pool.loaded = rows.length;
     result.pool.source = pool.source;

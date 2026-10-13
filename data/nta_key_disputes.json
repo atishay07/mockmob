@@ -1,0 +1,6 @@
+{
+  "note": "Agent key disputes for NTA mode (data/nta_item_checks.js ntaKeyDispute). Written by scripts/nta-pass-merge.mjs: a question lands here when either agent judge's blind answer (rubric docs/brain/NTA-AGENT-RUBRIC.md, step 1) differs from the stored key. Listed questions never enter an NTA paper, whatever their score source. A reviewer settles the key through the content workflow (docs/brain/QUALITY.md, Correction / rollback) and then deletes the entry. Nothing here changes the database.",
+  "version": "none",
+  "resolved": {},
+  "questions": {}
+}

@@ -5,6 +5,8 @@
 import { getQuestionText, normalizeOptions, getPassageText } from './nta_question_selector.js';
 import quarantineFile from './nta_quarantine.json' with { type: 'json' };
 import objectivesFile from './nta_objectives.json' with { type: 'json' };
+import keyDisputesFile from './nta_key_disputes.json' with { type: 'json' };
+import difficultyFile from './nta_difficulty.json' with { type: 'json' };
 
 // Two questions whose stem + options + key text overlap this much are the same question.
 export const NEAR_DUPLICATE_TEXT_JACCARD = 0.5;
@@ -270,10 +272,37 @@ export function ntaQuarantine(id) {
   return QUARANTINE.get(String(id)) || null;
 }
 
-const OBJECTIVES = new Map(Object.entries(objectivesFile.questions || {}));
+const KEY_DISPUTES = new Map(Object.entries(keyDisputesFile.questions || {}));
+
+/**
+ * Questions where an agent judge's blind answer differed from the stored key (data/nta_key_disputes.json,
+ * written by scripts/nta-pass-merge.mjs). Kept out of NTA mode whatever their score source until a
+ * reviewer settles the key and removes the entry.
+ */
+export function ntaKeyDispute(id) {
+  return KEY_DISPUTES.get(String(id)) || null;
+}
+
+const DIFFICULTY = new Map(Object.entries(difficultyFile.questions || {}));
+const DIFFICULTY_LEVELS = new Set(['easy', 'medium', 'hard']);
+
+/**
+ * The question's difficulty for NTA mode: the stored label, or the correction both agent judges agreed
+ * on (data/nta_difficulty.json). A correction applies only while the stored label is still the one it
+ * corrected, so a later edit in the database wins.
+ */
+export function ntaDifficultyOf(row) {
+  const stored = text(row?.difficulty).toLowerCase();
+  const correction = DIFFICULTY.get(String(row?.id));
+  if (correction && DIFFICULTY_LEVELS.has(correction.to) && text(correction.from).toLowerCase() === stored) return correction.to;
+  return DIFFICULTY_LEVELS.has(stored) ? stored : 'medium';
+}
+
+// Hand-assigned tags (questions) win over the agent pass's tags (agent_questions, scripts/nta-pass-merge.mjs).
+const OBJECTIVES = new Map([...Object.entries(objectivesFile.agent_questions || {}), ...Object.entries(objectivesFile.questions || {})]);
 const OBJECTIVE_CAPS = objectivesFile.caps || {};
 
-/** Learning-objective tag for a question: the index row's tag, else data/nta_objectives.json. */
+/** Learning-objective tag for a question: the index row's tag, else data/nta_objectives.json (hand tags, then agent tags). */
 export function objectiveTagOf(row) {
   return text(row?.nta_objective || row?.nta_index?.objective_tag) || OBJECTIVES.get(String(row?.id)) || null;
 }

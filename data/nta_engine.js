@@ -14,9 +14,10 @@ import { verifyAnswerIntegrity } from './answer_integrity.js';
 import { qualityGateNtaQuestion, getPassageKey, getPassageText, getQuestionText, isPassageLinkedQuestion, normalizeOptions } from './nta_question_selector.js';
 import { toInternalSubjectId, toPublicSubjectId } from './cuet_controls.js';
 import {
-  conflictReason, isNumericalItem, isPermutationOptions, isStatementItem, itemFeatures, ntaQuarantine, objectiveCap,
+  conflictReason, isNumericalItem, isPermutationOptions, isStatementItem, itemFeatures, ntaDifficultyOf, ntaKeyDispute, ntaQuarantine, objectiveCap,
   optionPairs, passageWordCount, structuralReasons, wordingReasons,
 } from './nta_item_checks.js';
+import { ntaAgentMean, ntaAgentScoreEntry, ntaAgentScoreIntegrity } from './nta_agent_scores.js';
 import typesFile from './nta_blueprints/_types.json' with { type: 'json' };
 import english from './nta_blueprints/english.json' with { type: 'json' };
 import generalTest from './nta_blueprints/general_test.json' with { type: 'json' };
@@ -45,7 +46,7 @@ export const NTA_MIN_SCORE = 8;
 export const NTA_MIN_SERVE_QUESTIONS = 45;
 // Owner: building the paper "should not take more than 30 seconds". The target is under 3 s.
 export const NTA_TIME_BUDGET_MS = 30_000;
-export const NTA_ENGINE_VERSION = 'nta-engine-2026.10.13-r2';
+export const NTA_ENGINE_VERSION = 'nta-engine-2026.10.13-r3';
 // Version of the signed nta_question_index rows this engine accepts (scripts/nta-index-build.mjs).
 export const NTA_INDEX_VERSION = 'nta-index-1';
 
@@ -154,15 +155,19 @@ function judgeScore(record, check) {
 }
 
 /**
- * The question's score out of 10, read from the database. Three sources exist:
+ * The question's score out of 10. Four sources exist, in this order:
  *  - evidence: the signed factory record's two judge scores, averaged (half points);
  *  - nta_index: the signed slim index row the offline job (scripts/nta-index-build.mjs) wrote after
  *    verifying that evidence record, so the runtime need not read the 38 KB record;
+ *  - agent_scored: two agent judges' scores from data/nta_agent_scores/<subject>.json (averaged),
+ *    admitted only under the provenance checks in data/nta_agent_scores.js. Factory evidence, where
+ *    present, always wins: an agent score never replaces or rescues it;
  *  - quality_score: the column, stored 0-1, multiplied by 10. Nothing signs it, so it is reported
  *    but never admits a question (QUALITY.md: missing checks fail closed).
  * Zero in quality_score is the column default and means "no score", not a score of 0.
+ * options.agentScores replaces the committed agent tables (tests).
  */
-export function ntaScoreOf(row) {
+export function ntaScoreOf(row, { agentScores } = {}) {
   const record = row?.evidence?.record;
   const luna = judgeScore(record, 'exam_fit');
   const gemini = judgeScore(record, 'independent_evaluation');
@@ -173,6 +178,10 @@ export function ntaScoreOf(row) {
   const index = row?.nta_index;
   if (index && Number.isFinite(Number(index.score))) {
     return { score: Number(index.score), source: 'nta_index', luna: index.luna ?? null, gemini: index.gemini ?? null };
+  }
+  const agent = ntaAgentScoreEntry(row?.id, { agentScores });
+  if (agent && ntaAgentMean(agent.entry) !== null) {
+    return { score: ntaAgentMean(agent.entry), source: 'agent_scored', luna: null, gemini: null, agent };
   }
   const column = Number(row?.quality_score ?? row?.qualityScore);
   if (Number.isFinite(column) && column > 0) return { score: Math.round(column * 1000) / 100, source: 'quality_score' };
@@ -218,9 +227,12 @@ export function signNtaIndex(index, secret) {
  * index version (the job only indexes evidence that passed the same checks). Expiry, source registry
  * and calibration state are publication rules, not score rules, and are not checked here.
  */
-export function ntaScoreIntegrity(row, { secret = process.env.CUET_EVIDENCE_SIGNING_KEY } = {}) {
-  const { source, luna, gemini } = ntaScoreOf(row);
+export function ntaScoreIntegrity(row, { secret = process.env.CUET_EVIDENCE_SIGNING_KEY, agentScores, minScore = NTA_MIN_SCORE } = {}) {
+  const { source, luna, gemini, agent } = ntaScoreOf(row, { agentScores });
   if (source === 'quality_score') return ['score_unsigned'];
+  // Agent scores carry their own provenance (rubric, model, date, both judges, calibration, content
+  // hash) and their own bar: both judges at or above the calibrated threshold.
+  if (source === 'agent_scored') return ntaAgentScoreIntegrity(row, agent, { minScore });
   if (source !== 'evidence_judges' && source !== 'nta_index') return [];
   if (!secret) return ['score_unverifiable_no_signing_key'];
   const reasons = [];
@@ -250,7 +262,7 @@ export function ntaScoreIntegrity(row, { secret = process.env.CUET_EVIDENCE_SIGN
 }
 
 /**
- * Hard gates for one row. Context: { subject, minScore, disputedIds:Set, heldFamilies:Set, secret }.
+ * Hard gates for one row. Context: { subject, minScore, disputedIds:Set, heldFamilies:Set, secret, agentScores }.
  */
 export function ntaEligibility(row, context = {}) {
   const subject = toInternalSubjectId(text(context.subject || row?.subject));
@@ -263,11 +275,13 @@ export function ntaEligibility(row, context = {}) {
   const family = row?.family_id || row?.template_id || row?.evidence?.record?.family_id || row?.nta_index?.family_id;
   if (family && context.heldFamilies?.has(family)) reasons.push('family_held');
   if (Number(row?.score ?? 0) < -2) reasons.push('community_voted_down');
-  const { score, source } = ntaScoreOf(row);
+  const { score, source } = ntaScoreOf(row, { agentScores: context.agentScores });
   if (score === null) reasons.push('no_score');
-  else if (score < minScore) reasons.push('score_below_threshold');
-  if (score !== null) reasons.push(...ntaScoreIntegrity(row, { secret: context.secret }));
+  // The mean bar is for the factory scale; an agent score's bar is applied in its integrity check.
+  else if (source !== 'agent_scored' && score < minScore) reasons.push('score_below_threshold');
+  if (score !== null) reasons.push(...ntaScoreIntegrity(row, { secret: context.secret, agentScores: context.agentScores, minScore }));
   if (ntaQuarantine(row?.id)) reasons.push('nta_quarantined');
+  if (ntaKeyDispute(row?.id)) reasons.push('agent_key_dispute');
   const answer = verifyAnswerIntegrity(row);
   if (!answer.accepted) reasons.push(...answer.reasons);
   const content = qualityGateNtaQuestion(row, { subjectId: subject });
@@ -387,8 +401,9 @@ function buildModel(bp, variant) {
 // Candidates
 // ---------------------------------------------------------------------------------------------
 
+// The stored label, or the level both agent judges agreed on (data/nta_difficulty.json).
 function difficultyOf(row) {
-  const value = text(row?.difficulty).toLowerCase();
+  const value = ntaDifficultyOf(row);
   return DIFFICULTIES.includes(value) ? value : 'medium';
 }
 
@@ -419,9 +434,11 @@ function prepareCandidates(rows, model, context) {
   const count = (reason, n = 1) => { excludedReasons[reason] = (excludedReasons[reason] || 0) + n; };
   const items = [];
   const scores = [];
+  const eligibleBySource = {};
   for (const row of rows) {
     const verdict = ntaEligibility(row, { ...context, subject });
     if (verdict.score !== null) scores.push(verdict.score);
+    if (verdict.eligible) eligibleBySource[verdict.scoreSource] = (eligibleBySource[verdict.scoreSource] || 0) + 1;
     if (!verdict.eligible) {
       for (const reason of verdict.reasons) count(reason);
       continue;
@@ -482,7 +499,7 @@ function prepareCandidates(rows, model, context) {
       words: length,
     });
   }
-  return { standalone, sets, excludedReasons, scoredCount: scores.length, eligibleCount: items.length };
+  return { standalone, sets, excludedReasons, scoredCount: scores.length, eligibleCount: items.length, eligibleBySource };
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -1098,7 +1115,7 @@ function englishParagraphJumbles(paper) {
 /**
  * Builds one NTA paper. rows: the subject's candidate pool (any rows; gates are applied here).
  * options: { subject, variant, seed, seenIds:Set, disputedIds:Set, heldFamilies:Set, minScore,
- * secret, deadline (epoch ms), now }.
+ * secret, deadline (epoch ms), now, agentScores (tests: replaces data/nta_agent_scores/*.json) }.
  * Returns { status: 'exact'|'closest'|'refused', rows (ordered), paper (annotated entries),
  * notice: { summary, items }, refusal, deviations, shortfall, structure, timings }.
  */
@@ -1198,7 +1215,7 @@ export function assembleNtaPaper(rows, options = {}) {
     deviations,
     shortfall,
     structure,
-    pool: { scored: prepared.scoredCount, eligible: prepared.eligibleCount, standalone: prepared.standalone.length, completeSets: prepared.sets.length, excluded: prepared.excludedReasons },
+    pool: { scored: prepared.scoredCount, eligible: prepared.eligibleCount, eligibleBySource: prepared.eligibleBySource, standalone: prepared.standalone.length, completeSets: prepared.sets.length, excluded: prepared.excludedReasons },
     timings: { gatesMs, assembleMs, totalMs, levelsTried: results.length },
     engineVersion: NTA_ENGINE_VERSION,
     blueprintVersion: bp.blueprintVersion,
