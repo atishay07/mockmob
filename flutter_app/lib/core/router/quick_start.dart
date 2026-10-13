@@ -55,8 +55,24 @@ class QuickRepair {
 
 final quickStartRepairProvider = Provider<QuickRepair?>((ref) => null);
 
+/// Start's "NTA mode" row: the exam-day screen in the student's practice subject, when the
+/// server offers that mode. Null hides the row. `main.dart` wires it to Practice's quote.
+class QuickNta {
+  const QuickNta({required this.location, required this.subject, required this.proOnly});
+
+  final String location;
+  final String subject;
+
+  /// The quote says this needs Pro: the row carries a quiet Pro tag and still opens the
+  /// instructions page, which explains (there is no purchase path in the app).
+  final bool proOnly;
+}
+
+final quickStartNtaProvider = Provider<QuickNta?>((ref) => null);
+
 /// The quick-start sheet that Start morphs into: resume the open session when there is one,
-/// then Quick 10, Full mock and Repair the next mistake (only when there is one). Costs are not
+/// then Quick 10, Full mock, NTA mode (when offered), Repair the next mistake (only when there
+/// is one) and Ask Mobi, never more than five rows. Costs are not
 /// here; they live on the confirm sheet each choice opens.
 class QuickStartSheet extends ConsumerWidget {
   const QuickStartSheet({super.key});
@@ -68,6 +84,7 @@ class QuickStartSheet extends ConsumerWidget {
     final type = context.mmType;
     final offer = ref.watch(resumeOfferProvider).value;
     final repair = ref.watch(quickStartRepairProvider);
+    final nta = ref.watch(quickStartNtaProvider);
     final now = ref.watch(nowProvider)();
 
     void go(String location) {
@@ -77,11 +94,20 @@ class QuickStartSheet extends ConsumerWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s20, MmSpace.s16, MmSpace.s12),
+      padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, MmSpace.s12),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          // The same grab handle as every other sheet: it drags down to close.
+          Center(
+            child: SizedBox(
+              width: 36,
+              height: 4,
+              child: DecoratedBox(decoration: BoxDecoration(color: context.mmColors.ink4, borderRadius: MmRadius.pillAll)),
+            ),
+          ),
+          const SizedBox(height: MmSpace.s16),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
             child: Semantics(header: true, child: Text(titleFor(now), style: type.screenTitle.copyWith(fontSize: 24))),
@@ -114,6 +140,15 @@ class QuickStartSheet extends ConsumerWidget {
             note: '50 questions, 60 minutes, timed like the exam.',
             onTap: () => go(AppRoutes.practiceSetup('full')),
           ),
+          if (nta != null) ...[
+            const SizedBox(height: MmSpace.s8),
+            QuickStartRow(
+              glyph: SheetGlyph.exam,
+              title: nta.proOnly ? 'NTA mode, with Pro' : 'NTA mode',
+              note: 'The exam-day screen in ${subjectDisplayName(nta.subject)}: palette, Mark for Review.',
+              onTap: () => go(nta.location),
+            ),
+          ],
           if (repair != null) ...[
             const SizedBox(height: MmSpace.s8),
             QuickStartRow(
@@ -121,6 +156,16 @@ class QuickStartSheet extends ConsumerWidget {
               title: 'Repair the next mistake',
               note: 'A worked explanation for your next mistake, in ${repair.chapter}.',
               onTap: () => go(repair.location),
+            ),
+          ],
+          // Never more than five rows: Ask gives way to a resume.
+          if (offer == null || nta == null || repair == null) ...[
+            const SizedBox(height: MmSpace.s8),
+            QuickStartRow(
+              glyph: SheetGlyph.ask,
+              title: 'Ask Mobi',
+              note: 'Questions about your marks and chapters, answered from your record.',
+              onTap: () => go(AppRoutes.ask),
             ),
           ],
         ],

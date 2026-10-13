@@ -24,8 +24,27 @@ abstract final class OnboardingCopy {
   static const String mobiHello = 'Mobi, the MockMob mascot, waving hello';
   static const String mobiSleepy = 'Mobi, the MockMob mascot, yawning';
 
-  /// After 11 PM, above the headline.
+  /// After 11 PM: Mobi says it, yawning.
   static const String lateNight = 'Late one tonight. Two minutes, then sleep.';
+
+  // Mobi's lines. Short, about what happens next, never about the person.
+  static const String mobiWelcome = "Hi, I'm Mobi. Let's find yours.";
+  static const String mobiWelcomeBack = 'Your sheet kept your place.';
+  static String mobiRight(int seconds) => seconds <= 1 ? 'About a second. Clean.' : '$seconds seconds. Clean.';
+  static const String mobiTrap = 'Classic trap. Fix below.';
+  static const String mobiSealed = "Sealed. It's yours.";
+  static const String mobiSave = 'Keep it with you.';
+
+  /// What Mobi says on arriving at each step: short, about the step, never about the student.
+  static const Map<String, String> mobiArrive = {
+    'stage': 'First, where you are now.',
+    'course': 'Now, where you want to get.',
+    'subjects': 'Be honest about each one.',
+    'worry': 'What costs you the most marks?',
+    'question': 'One quick question. Clock on.',
+    'rhythm': 'How often can you sit down?',
+    'plan': 'Here is your plan. Read it through.',
+  };
 
   // Stage.
   static const String stageTitle = 'Which CUET are you writing?';
@@ -63,6 +82,20 @@ abstract final class OnboardingCopy {
   static const String subjectsSupport = 'Be harsh. Your first check shows where your gut was right.';
   static const String fiveMax = 'Five is the most a profile takes. Drop one to add another.';
   static const String pickOne = 'Pick at least one subject.';
+  static const String commonPicks = 'Common picks';
+  static const String addSubject = 'Add a subject';
+  static const String addSubjectNote = 'Science, humanities and the rest of the 15 MockMob offers';
+  static const String pickerTitle = 'Add a subject';
+  static const String searchHint = 'Search subjects';
+  static String pickerCount(int n) => n == 0 ? 'Pick up to five.' : '$n of 5 on your sheet.';
+  static const String notOfferedTitle = 'Not on MockMob yet';
+  static const String notOfferedNote = "CUET has these. There's no practice for them here yet, so they can't go on your plan.";
+  static const String notOfferedShort = 'No practice here yet';
+  static const String languagesLabel = 'Language papers';
+  static const String otherPapersLabel = 'Other papers';
+  static const String checkingList = 'Checking the full CUET list';
+  static const String registryOffline = "Offline, so these are the subjects MockMob offers. The rest of CUET shows when you're back.";
+  static String noMatch(String q) => 'Nothing matches "$q". Try a shorter word.';
 
   // Worry.
   static const String worryTitle = 'Where do your marks actually go?';
@@ -94,6 +127,7 @@ abstract final class OnboardingCopy {
   static const String holdToSeal = 'Hold to seal';
   static const String sealing = 'Keep holding';
   static const String sealIt = 'Seal it';
+  static const String holdHint = 'Press and hold for a second to keep this plan.';
   static const String sealed = 'Sealed';
   static const String changeSomething = 'Change something';
   static const String sharpens = 'It sharpens after your first check.';

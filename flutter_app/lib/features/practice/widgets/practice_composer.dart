@@ -96,7 +96,7 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
   void _pickSubject(String id) {
     if (id == _selection.subjectId) return;
     ref.read(practiceSubjectProvider.notifier).select(id);
-    _change(_selection.copyWith(subjectId: id, clearChapter: true));
+    _change(_selection.copyWith(subjectId: id, clearChapters: true));
   }
 
   Future<void> _pickOtherSubject(List<SubjectChoice> others) async {
@@ -105,14 +105,17 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
   }
 
   Future<void> _pickChapter() async {
-    final name = await showChapterPicker(context, subjectId: _selection.subjectId, selected: _selection.chapter);
-    if (name != null && mounted) {
+    final names = await showChapterPicker(context, subjectId: _selection.subjectId, selected: _selection.chapters);
+    if (names != null && names.isNotEmpty && mounted) {
       ref.read(hapticsProvider).selection();
-      _change(_selection.copyWith(chapter: name));
+      _change(_selection.copyWith(chapters: names));
     }
   }
 
-  void _takeFull() => _change(PracticeSelection(mode: PracticeMode.full, subjectId: _selection.subjectId));
+  /// The open alternative to a Pro-only mode: a Full mock for NTA, Quick practice for Smart.
+  void _takeOpen() => _change(
+    PracticeSelection(mode: _selection.mode == PracticeMode.smart ? PracticeMode.quick : PracticeMode.full, subjectId: _selection.subjectId),
+  );
 
   Future<void> _start(PracticeQuote quote) async {
     if (_starting) return;
@@ -134,10 +137,10 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
           _costNote = costChanged ? PracticeCopy.costChanged(costLineText(quote)) : null;
         });
         ref.invalidate(practiceQuoteProvider(_query));
-      case LaunchFailed(:final failure):
+      case LaunchFailed(:final failure, :final message):
         setState(() {
           _starting = false;
-          _failure = StartFailureView(failure);
+          _failure = StartFailureView(failure, message: message);
         });
       case LaunchPendingElsewhere(:final sessionId):
         setState(() {
@@ -148,7 +151,7 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
   }
 
   String get _startLabel => switch (_selection.mode) {
-        PracticeMode.quick => PracticeCopy.startPractice,
+        PracticeMode.quick || PracticeMode.smart => PracticeCopy.startPractice,
         PracticeMode.chapter => PracticeCopy.startChapter,
         _ => PracticeCopy.startMock,
       };
@@ -185,30 +188,50 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
       canStart = loaded.launchable && (!mode.isMock || mockMinutes != null);
     }
 
-    final title = switch (mode) {
-      PracticeMode.full => PracticeCopy.mockTitle(mockLabelFor(mocksDone), subject),
-      PracticeMode.nta => PracticeCopy.confirmTitle(PracticeCopy.ntaTitle, subject),
-      PracticeMode.quick => PracticeCopy.confirmTitle(PracticeCopy.quickTitle, subject),
-      PracticeMode.chapter => PracticeCopy.confirmTitle(PracticeCopy.chapterTitle, subject),
+    // The mode as an eyebrow, the subject as the title: two short lines, never a wrapped one.
+    final eyebrow = switch (mode) {
+      PracticeMode.full => mockLabelFor(mocksDone) ?? 'Full mock',
+      PracticeMode.nta => PracticeCopy.ntaTitle,
+      PracticeMode.quick => PracticeCopy.quickTitle,
+      PracticeMode.chapter => PracticeCopy.chapterTitle,
+      PracticeMode.smart => PracticeCopy.smartTitle,
     };
+    final isPro = ref.watch(authSnapshotProvider.select((a) => a.isPro));
 
     final children = <Widget>[
-      Semantics(header: true, child: Text(title, style: type.screenTitle.copyWith(fontSize: 24))),
+      Semantics(
+        header: true,
+        label: PracticeCopy.confirmTitle(eyebrow, subject),
+        excludeSemantics: true,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(eyebrow, style: type.caption.copyWith(fontSize: 13, fontWeight: FontWeight.w500, color: colors.ink2)),
+            const SizedBox(height: 2),
+            Text(subject, style: type.screenTitle.copyWith(fontSize: 24)),
+          ],
+        ),
+      ),
       const SizedBox(height: MmSpace.s20),
       if (widget.showSubjects) ...[
         _SubjectPicker(selected: _selection.subjectId, onPick: _pickSubject, onOther: _pickOtherSubject),
         const SizedBox(height: MmSpace.s24),
       ],
       if (mode == PracticeMode.chapter) ...[
-        ChapterField(chapter: _selection.chapter, onTap: _pickChapter),
+        ChapterField(chapters: _selection.chapters, onTap: _pickChapter),
         const SizedBox(height: MmSpace.s20),
       ],
       if (mode.usesCount) ...[
-        LengthPicker(count: _selection.count, onChanged: (c) => _change(_selection.copyWith(count: c))),
+        LengthPicker(count: _selection.count, counts: mode.counts, onChanged: (c) => _change(_selection.copyWith(count: c))),
+        const SizedBox(height: MmSpace.s20),
+      ],
+      if (mode.allowsDifficulty && !gated) ...[
+        DifficultyPicker(value: _selection.difficulty, isPro: isPro, onChanged: (d) => _change(_selection.copyWith(difficulty: d))),
         const SizedBox(height: MmSpace.s20),
       ],
       GetPanel(
         selection: _selection,
+        subjectName: subject,
         quote: pending ? null : quote,
         pending: pending,
         offline: offline,
@@ -226,31 +249,35 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
         const SizedBox(height: MmSpace.s12),
         Text(PracticeCopy.feedbackAfter, style: type.small.copyWith(color: colors.ink2)),
       ],
+    ];
+    // What happened when Start was tapped sits right above Start, where the eye already is.
+    final notes = <Widget>[
       if (_costNote != null) ...[
-        const SizedBox(height: MmSpace.s12),
         Semantics(liveRegion: true, child: Text(_costNote!, style: type.body)),
+        const SizedBox(height: MmSpace.s12),
       ],
       if (_failure != null) ...[
-        const SizedBox(height: MmSpace.s16),
         InlineBanner(message: _failure!.text, tone: BannerTone.error),
+        const SizedBox(height: MmSpace.s12),
       ],
       if (_pendingSessionId != null) ...[
-        const SizedBox(height: MmSpace.s16),
         InlineBanner(
           message: PracticeCopy.earlierPending,
           tone: BannerTone.warning,
           actionLabel: PracticeCopy.openEarlier,
           onAction: () => widget.exits.run(_pendingSessionId!),
         ),
+        const SizedBox(height: MmSpace.s12),
       ],
     ];
     final keys = <Widget>[
+      ...notes,
       KeyButton(
         // A Pro-gated mode has nothing to start: the one action is the open alternative.
-        label: gated ? PracticeCopy.takeFullInstead : _startLabel,
+        label: gated ? (mode == PracticeMode.smart ? PracticeCopy.takeQuickInstead : PracticeCopy.takeFullInstead) : _startLabel,
         loading: _starting,
         disabledReason: disabledReason,
-        onPressed: gated ? _takeFull : (canStart && !_starting && loaded != null ? () => _start(loaded) : null),
+        onPressed: gated ? _takeOpen : (canStart && !_starting && loaded != null ? () => _start(loaded) : null),
       ),
       if (widget.exits.close != null) ...[
         const SizedBox(height: MmSpace.s4),

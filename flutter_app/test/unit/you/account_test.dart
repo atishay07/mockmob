@@ -31,17 +31,19 @@ ApiResponse _deleteResponse({required DateTime requestedAt, String message = 'We
 
 void main() {
   group('account', () {
-    testWidgets('shows the email, "Not on Pro" and the honoured line', (tester) async {
+    testWidgets('shows the email, the Free plan and where plans are managed', (tester) async {
       await _pumpAccount(tester);
       expect(find.text('asha.verma@example.com'), findsOneWidget);
-      expect(find.text('Not on Pro'), findsOneWidget);
-      expect(find.text('Pro bought on mockmob.in is honoured here.'), findsOneWidget);
+      expect(find.text('Free'), findsOneWidget);
+      expect(find.text('Credit balance not loaded'), findsOneWidget);
+      expect(find.text('Plans are managed on mockmob.in. Pro bought there works here.'), findsOneWidget);
     });
 
-    testWidgets('Pro with a date reads "Pro is active until 31 July 2027"', (tester) async {
+    testWidgets('Pro with a date reads "Pro is active until 31 July 2027."', (tester) async {
       await _pumpAccount(tester, pro: true, until: DateTime(2027, 7, 31, 12));
-      expect(find.text('Pro is active until 31 July 2027'), findsOneWidget);
-      expect(find.text('Not on Pro'), findsNothing);
+      expect(find.text('Pro is active until 31 July 2027.'), findsOneWidget);
+      expect(find.text('Unlimited practice'), findsOneWidget);
+      expect(find.text('Free'), findsNothing);
     });
 
     testWidgets('has no price, upgrade or purchase wording anywhere', (tester) async {

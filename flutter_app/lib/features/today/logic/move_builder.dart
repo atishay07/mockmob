@@ -7,10 +7,12 @@ import '../../../core/domain/next_move.dart';
 import '../../../core/domain/repair_candidates.dart';
 import '../../../core/domain/tonight_pick.dart';
 import '../../../core/models/attempt.dart';
+import '../../../core/models/subject.dart' show launchSubjectIds;
 import '../../../core/repositories/dismissal_repository.dart';
 import '../../../core/router/action_router.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/widgets/art/mm_art.dart';
+import '../../../core/widgets/bubbles/bubble_painter.dart';
 import '../copy.dart';
 import 'links.dart';
 import 'subjects.dart';
@@ -122,11 +124,11 @@ MoveHero buildMove(TodayInputs i) {
   HeroArt artFor(String? subject) => switch (mood) {
         TodayMood.returning => const HeroArt.mobi(MmArt.mobiGreet),
         TodayMood.lateNight => const HeroArt.mobi(MmArt.mobiSleepy),
-        _ => HeroArt.object(MmArt.subjectObject(subject == null ? null : canonicalSubject(subject)) ?? MmArt.objAccountancy),
+        _ => HeroArt.object(MmArt.subjectObject(subject == null ? null : canonicalSubject(subject)) ?? MmArt.objLanguage),
       };
   String? headlineFor() => switch (mood) {
         TodayMood.returning => TodayCopy.returningHeadline(f.attempts.isEmpty ? null : i.daysSince(f.attempts.first.completedAt)),
-        TodayMood.lateNight => TodayCopy.lateNight,
+        // Late at night Mobi says the whole line itself (see MoveHeroCard.moodLine).
         _ => null,
       };
 
@@ -137,7 +139,7 @@ MoveHero buildMove(TodayInputs i) {
         mood: mood,
         overline: overline,
         art: const HeroArt.mobi(MmArt.mobiThink),
-        headline: TodayCopy.unavailableTitle,
+        mobiLine: TodayCopy.unavailableTitle,
         meaning: TodayCopy.unavailableLine,
         summary: TodayCopy.unavailableLine,
         primary: const TodayAction(TodayCopy.tryAgain, RetryLoad()),
@@ -146,7 +148,8 @@ MoveHero buildMove(TodayInputs i) {
 
     case NextMoveState.newUser:
     case NextMoveState.subjectChanged:
-      final subject = i.profile?.weakestSubject ?? (i.subjects.isEmpty ? 'accountancy' : i.subjects.first);
+      // No subject anywhere yet: the first launch subject, the same order the catalogue uses.
+      final subject = i.profile?.weakestSubject ?? (i.subjects.isEmpty ? launchSubjectIds.first : i.subjects.first);
       final name = subjectName(subject);
       final at = i.profile?.firstMoveAt;
       final scheduled = at != null && at.isAfter(i.now) && i.daysSince(at) == 0;
@@ -253,7 +256,7 @@ MoveHero _repair(TodayInputs i, MoveFacts f, Attempt b, TodayMood mood, String o
   final date = i.date(b.completedAt);
   final now = i.clock();
   final chapterLine = tonight.hasNamedChapter
-      ? TodayCopy.tonightLine(n, tonight.paperOpen, source, tonight.chapter)
+      ? TodayCopy.tonightLine(n, chapterCount, source, tonight.chapter, date)
       : TodayCopy.questionNumbers([for (final c in tonight.items.take(n)) c.number]);
   final mocksInSubject = f.attempts.where((a) => a.isMock && a.subject == b.subject).length;
   final meaning = mood == TodayMood.returning ? TodayCopy.lastMockStillHere(source, date, tonight.paperOpen) : chapterLine;
@@ -269,6 +272,7 @@ MoveHero _repair(TodayInputs i, MoveFacts f, Attempt b, TodayMood mood, String o
     numberLabel: TodayCopy.mistakesLabel(n, now),
     meaning: meaning,
     evidenceId: b.id,
+    evidence: List.filled(n.clamp(1, 3), BubbleState.wrong),
     durationPrompt: mood == TodayMood.returning && options.isNotEmpty ? TodayCopy.howLong(now) : null,
     durations: options,
     selectedMinutes: choice.minutes,
@@ -280,14 +284,8 @@ MoveHero _repair(TodayInputs i, MoveFacts f, Attempt b, TodayMood mood, String o
       actionType: 'repair',
     ),
     secondary: const TodayAction(TodayCopy.chooseSomethingElse, OpenAlternatives()),
-    caption: mood == TodayMood.normal && tonight.hasNamedChapter && tonight.chapter.length <= 18
-        ? TodayCopy.aajKaRepair(choice.minutes, tonight.chapter)
-        : null,
-    basisLine: mood == TodayMood.returning
-        ? null
-        : mocksInSubject <= 1 && b.isMock
-        ? '${TodayCopy.basedOn(date)} ${TodayCopy.earlySignal}'
-        : TodayCopy.basedOn(date),
+    // The date is in the meaning line; the basis line only says when one paper is all there is.
+    basisLine: mood != TodayMood.returning && mocksInSubject <= 1 && b.isMock ? TodayCopy.earlySignal : null,
   );
 }
 

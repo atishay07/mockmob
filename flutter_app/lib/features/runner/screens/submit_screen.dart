@@ -14,6 +14,10 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/runner_effects.dart';
 import '../data/runner_session.dart';
+import '../nta/nta_action_bar.dart';
+import '../nta/nta_copy.dart';
+import '../nta/nta_header.dart';
+import '../nta/nta_submit_summary.dart';
 import '../widgets/runner_controls.dart';
 import '../widgets/runner_top_bar.dart';
 import '../widgets/submit_sheet_card.dart';
@@ -124,12 +128,22 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
           builder: (context, state, _) {
             final idle = state.stage == SubmitStage.idle;
             final timeUp = _s.endedByTimeUp;
+            final nta = _s.mode == 'nta';
             final page = Padding(
-              padding: EdgeInsets.only(top: padding.top),
+              padding: EdgeInsets.only(top: nta ? 0 : padding.top),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Padding(
+                  if (nta)
+                    NtaBar(
+                      subject: NtaCopy.subject(_s.subject),
+                      leading: idle
+                          ? NtaBarKey(icon: LucideIcons.arrowLeft, semanticsLabel: RunnerCopy.keepWorking, onTap: _keepWorking)
+                          : null,
+                      trailing: [if (idle) NtaTimerChip(remaining: _s.remaining)],
+                    )
+                  else
+                    Padding(
                     padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
                     child: SizedBox(
                       height: 60,
@@ -145,18 +159,23 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
                   ),
                   Expanded(
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s24),
+                      padding: EdgeInsets.fromLTRB(MmSpace.gutter, nta ? MmSpace.s20 : MmSpace.s8, MmSpace.gutter, MmSpace.s24),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Semantics(
                             header: true,
-                            child: Text(_titleFor(state.stage, timeUp: timeUp), style: type.headline),
+                            child: Text(
+                              nta && idle && !timeUp ? NtaCopy.submitTitle : _titleFor(state.stage, timeUp: timeUp),
+                              style: type.headline,
+                            ),
                           ),
-                          const SizedBox(height: MmSpace.s20),
+                          SizedBox(height: nta ? MmSpace.s12 : MmSpace.s20),
                           ListenableBuilder(
                             listenable: _s,
-                            builder: (context, _) => SubmitSheetCard(session: _s, lit: state.stage.index <= SubmitStage.received.index),
+                            builder: (context, _) => nta
+                                ? NtaSubmitSummary(session: _s, showConfirm: idle)
+                                : SubmitSheetCard(session: _s, lit: state.stage.index <= SubmitStage.received.index),
                           ),
                           if (idle) ...[
                             const SizedBox(height: MmSpace.s16),
@@ -177,6 +196,13 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
                       onOpenResult: _openResult,
                       onGoToday: () => _go(AppRoutes.today),
                       onGoPractice: () => _go(AppRoutes.practice),
+                      submitLabel: nta ? NtaCopy.submitTestShort : null,
+                      submitKey: nta
+                          ? SizedBox(
+                              height: 52,
+                              child: NtaKey(label: NtaCopy.submitTestShort, tone: NtaKeyTone.green, onPressed: () => unawaited(_s.submit())),
+                            )
+                          : null,
                     ),
                   ),
                 ],

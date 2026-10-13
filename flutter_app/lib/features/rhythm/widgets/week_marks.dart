@@ -12,10 +12,13 @@ import '../../../core/widgets/widgets.dart' show BubblePaint, BubbleState;
 import '../logic/week_view.dart';
 
 class WeekMarks extends StatefulWidget {
-  const WeekMarks({super.key, required this.week, this.animate = true, this.mark = 36});
+  const WeekMarks({super.key, required this.week, this.animate = true, this.mark = 36, this.restDays = const {}});
 
   final WeekView week;
   final bool animate;
+
+  /// The student's rest days (0 = Monday): drawn with the rest mark unless studied anyway.
+  final Set<int> restDays;
 
   /// Bubble diameter.
   final double mark;
@@ -51,10 +54,12 @@ class _WeekMarksState extends State<WeekMarks> with SingleTickerProviderStateMix
       for (var i = 0; i < 7; i++)
         if (widget.week.days[i].studyDay) weekdayNames[i],
     ];
+    final rest = [for (var i = 0; i < 7; i++) if (widget.restDays.contains(i) && !widget.week.days[i].studyDay) weekdayNames[i]];
     final today = widget.week.days.indexWhere((d) => d.isToday);
     return [
       widget.week.label,
       study.isEmpty ? 'No study days yet this week' : 'Study days: ${joinWithAnd(study)}',
+      if (rest.isNotEmpty) 'Rest days: ${joinWithAnd(rest)}',
       if (today >= 0) 'Today is ${weekdayNames[today]}',
     ].join('. ');
   }
@@ -74,6 +79,7 @@ class _WeekMarksState extends State<WeekMarks> with SingleTickerProviderStateMix
           child: CustomPaint(
             painter: _MarksPainter(
               days: widget.week.days,
+              rest: widget.restDays,
               mark: widget.mark,
               progress: _controller,
               colors: colors,
@@ -87,10 +93,11 @@ class _WeekMarksState extends State<WeekMarks> with SingleTickerProviderStateMix
 }
 
 class _MarksPainter extends CustomPainter {
-  _MarksPainter({required this.days, required this.mark, required this.progress, required this.colors, required this.labelStyle})
+  _MarksPainter({required this.days, required this.rest, required this.mark, required this.progress, required this.colors, required this.labelStyle})
       : super(repaint: progress);
 
   final List<WeekDayMark> days;
+  final Set<int> rest;
   final double mark;
   final Animation<double> progress;
   final MmColors colors;
@@ -116,6 +123,8 @@ class _MarksPainter extends CustomPainter {
         final t = Curves.easeOut.transform(((progress.value - start) / 0.45).clamp(0.0, 1.0));
         bubbles.paint(canvas, c, r, BubbleState.filled, fill: t, origin: const Offset(-0.6, -0.6), emphasis: day.isToday);
         if (t < 1) _letter(canvas, weekdayInitials[i], c, (1 - t) * (day.isToday ? 1 : 0.9));
+      } else if (rest.contains(i)) {
+        bubbles.paint(canvas, c, r, BubbleState.rest, emphasis: day.isToday);
       } else {
         bubbles.paint(canvas, c, r, BubbleState.hollow, emphasis: day.isToday);
         _letter(canvas, weekdayInitials[i], c, day.isToday ? 1 : 0.9, today: day.isToday);
@@ -153,5 +162,5 @@ class _MarksPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_MarksPainter old) =>
-      old.colors != colors || old.labelStyle != labelStyle || old.days != days || old.mark != mark;
+      old.colors != colors || old.labelStyle != labelStyle || old.days != days || old.mark != mark || old.rest != rest;
 }

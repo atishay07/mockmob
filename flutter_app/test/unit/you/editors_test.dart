@@ -1,0 +1,200 @@
+// You's editors: the hub opens them, subjects save only after the server answered, the sixth
+// subject is refused, the name sheet patches the profile, the plan card reads the balance, and
+// the usual length follows the study preferences' revision.
+
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/api/api_client.dart';
+import 'package:mockmob/core/api/api_error.dart';
+import 'package:mockmob/core/api/api_providers.dart';
+import 'package:mockmob/core/auth/auth_state.dart';
+import 'package:mockmob/features/onboarding/model/choices.dart' show Stage;
+import 'package:mockmob/features/onboarding/state/answers_controller.dart';
+import 'package:mockmob/features/you/account/account_screen.dart';
+import 'package:mockmob/features/you/data/study_length.dart';
+import 'package:mockmob/features/you/sheet/sheet_editor_screen.dart';
+import 'package:mockmob/features/you/subjects/subjects_screen.dart';
+import 'package:mockmob/features/you/you_hub_screen.dart';
+import 'package:mocktail/mocktail.dart';
+
+import '../../helpers/golden_harness.dart';
+import 'you_test_support.dart';
+
+const _user = AuthSnapshot(
+  status: AuthStatus.signedIn,
+  userId: 'u1',
+  email: 'asha.verma@example.com',
+  name: 'Asha Verma',
+  subjects: ['accountancy', 'business_studies', 'economics', 'english'],
+  creditBalance: 40,
+);
+
+MockApi _api({Object? error}) {
+  final api = MockApi();
+  when(() => api.patch(any(), body: any(named: 'body'))).thenAnswer((invocation) async {
+    if (error != null) throw error;
+    final body = invocation.namedArguments[#body] as Map<String, Object?>;
+    return ApiResponse(200, {'id': 'u1', ...body});
+  });
+  return api;
+}
+
+Future<void> _pump(WidgetTester tester, Widget screen, {MockApi? api, FakeAuth? auth}) => pumpMockmob(
+      tester,
+      screen,
+      wrapInScaffold: false,
+      disableAnimations: true,
+      size: const Size(384, 1400),
+      overrides: youOverrides(fakeAuth: auth ?? FakeAuth(_user), api: api),
+    );
+
+Future<void> _tap(WidgetTester tester, String text) async {
+  await tester.ensureVisible(find.text(text).first);
+  await tester.pump();
+  await tester.tap(find.text(text).first);
+  await tester.pump();
+}
+
+void main() {
+  group('hub', () {
+    testWidgets('Edit opens the sheet editor', (tester) async {
+      await _pump(tester, const YouHubScreen());
+      await tester.tap(find.bySemanticsLabel('Edit your sheet'));
+      await tester.pumpAndSettle();
+      expect(find.byType(SheetEditorScreen), findsOneWidget);
+    });
+
+    testWidgets('the subjects field opens the subjects editor', (tester) async {
+      await _pump(tester, const YouHubScreen());
+      await tester.tap(find.bySemanticsLabel(RegExp('^Edit subjects')));
+      await tester.pumpAndSettle();
+      expect(find.byType(SubjectsScreen), findsOneWidget);
+    });
+
+    testWidgets('the account row shows the credit balance', (tester) async {
+      await _pump(tester, const YouHubScreen());
+      expect(find.text('40 credits'), findsOneWidget);
+    });
+
+    testWidgets('a tools slot replaces the website rows', (tester) async {
+      await _pump(tester, const YouHubScreen(tools: Text('tools shelf')));
+      await tester.dragUntilVisible(find.text('tools shelf'), find.byType(ListView), const Offset(0, -300));
+      expect(find.text('tools shelf'), findsOneWidget);
+      expect(find.text('Combo Planner'), findsNothing);
+    });
+  });
+
+  group('sheet', () {
+    testWidgets('where you are is kept on the phone sheet', (tester) async {
+      await _pump(tester, const SheetEditorScreen());
+      await tester.tap(find.text('Where you are'));
+      await tester.pumpAndSettle();
+      expect(find.text('Kept on this phone.'), findsOneWidget);
+      await tester.tap(find.text(Stage.classEleven.option));
+      await tester.pumpAndSettle();
+      final container = ProviderScope.containerOf(tester.element(find.byType(SheetEditorScreen)));
+      expect(container.read(onboardingAnswersProvider).value?.stage, Stage.classEleven);
+    });
+  });
+
+  group('subjects', () {
+    testWidgets('save waits for a change, then patches the profile and says saved', (tester) async {
+      final api = _api();
+      final auth = FakeAuth(_user);
+      await _pump(tester, const SubjectsScreen(), api: api, auth: auth);
+      expect(find.text('Change a subject to save.'), findsOneWidget);
+      await _tap(tester, 'General Test');
+      expect(find.text('5 of 5 chosen'), findsOneWidget);
+      await tester.tap(find.text('Save subjects'));
+      await tester.pump();
+      await tester.pump();
+      final body = verify(() => api.patch('/api/users/u1', body: captureAny(named: 'body'))).captured.single as Map;
+      expect(body['subjects'], ['accountancy', 'business_studies', 'economics', 'english', 'general_test']);
+      expect(auth.reloads, 1);
+      expect(find.textContaining('Subjects saved at 10:39 PM'), findsOneWidget);
+    });
+
+    testWidgets('a sixth subject is refused inline', (tester) async {
+      await _pump(tester, const SubjectsScreen(), api: _api());
+      await _tap(tester, 'General Test');
+      await _tap(tester, 'Mathematics');
+      expect(find.text('5 of 5 chosen'), findsOneWidget);
+      expect(find.text('Five is the most. Remove one to add another.'), findsWidgets);
+    });
+
+    testWidgets('a failed save keeps the choice and says nothing changed', (tester) async {
+      await _pump(tester, const SubjectsScreen(), api: _api(error: offlineError()));
+      await _tap(tester, 'General Test');
+      await tester.tap(find.text('Save subjects'));
+      await tester.pump();
+      await tester.pump();
+      expect(find.text('You are offline. Your subjects were not changed. Try again when you are connected.'), findsOneWidget);
+      expect(find.text('5 of 5 chosen'), findsOneWidget);
+      expect(find.textContaining('Subjects saved'), findsNothing);
+    });
+
+    testWidgets('a saved subject practice cannot open is listed with the reason', (tester) async {
+      const auth = AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', subjects: ['accountancy', 'entrepreneurship']);
+      await _pump(tester, const SubjectsScreen(), auth: FakeAuth(auth));
+      expect(find.text('Entrepreneurship'), findsOneWidget);
+      expect(find.text('Practice for this paper is not open yet. Your other subjects are ready.'), findsOneWidget);
+    });
+  });
+
+  group('account', () {
+    testWidgets('the plan card reads the balance; the name sheet patches the name', (tester) async {
+      final api = _api();
+      await _pump(tester, const AccountScreen(), api: api);
+      expect(find.bySemanticsLabel('40 practice credits'), findsOneWidget);
+      await tester.tap(find.text('Asha Verma'));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byType(TextField), '  Asha V.  ');
+      await tester.pump();
+      await tester.tap(find.text('Save name'));
+      await tester.pumpAndSettle();
+      final body = verify(() => api.patch('/api/users/u1', body: captureAny(named: 'body'))).captured.single as Map;
+      expect(body, {'name': 'Asha V.'});
+      expect(find.text('Name saved at 10:39 PM.'), findsOneWidget);
+    });
+  });
+
+  group('usual length', () {
+    late MockApi api;
+    late ProviderContainer container;
+
+    setUp(() {
+      api = MockApi();
+      container = ProviderContainer(overrides: [apiClientProvider.overrideWithValue(api)]);
+      addTearDown(container.dispose);
+    });
+
+    void prefs(Map<String, Object?> answer) =>
+        when(() => api.get(StudyLength.path)).thenAnswer((_) async => ApiResponse(200, answer));
+
+    test('stays on the phone while study preferences are off', () async {
+      prefs({'state': 'disabled', 'minutes': 20});
+      expect(await container.read(studyLengthProvider).save(30), LengthSync.notOpen);
+      verifyNever(() => api.put(any(), body: any(named: 'body')));
+    });
+
+    test('does not write what the server already has', () async {
+      prefs({'state': 'ready', 'minutes': 30, 'revision': 3});
+      expect(await container.read(studyLengthProvider).save(30), LengthSync.unchanged);
+      verifyNever(() => api.put(any(), body: any(named: 'body')));
+    });
+
+    test('writes with the revision it read, and reads again once after a conflict', () async {
+      prefs({'state': 'ready', 'minutes': 20, 'revision': 3});
+      var calls = 0;
+      when(() => api.put(StudyLength.path, body: any(named: 'body'))).thenAnswer((_) async {
+        if (calls++ == 0) throw const ApiError(status: 409, kind: ApiErrorKind.conflict, code: 'conflict');
+        return ApiResponse(200, const {});
+      });
+      expect(await container.read(studyLengthProvider).save(10), LengthSync.saved);
+      final bodies = verify(() => api.put(StudyLength.path, body: captureAny(named: 'body'))).captured;
+      expect(bodies.last, {'minutes': 10, 'expectedRevision': 3});
+      verify(() => api.get(StudyLength.path)).called(2);
+    });
+  });
+}

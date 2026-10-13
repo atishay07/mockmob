@@ -1,12 +1,13 @@
 """Converts the generated Night Sheet art (PNG) into app-ready WebP in assets/art/.
 
 Usage (from flutter_app):
-    python tool/convert_art.py [source folder]
+    python tool/convert_art.py [source folder] [--only PREFIX]
 Default source: ../tmp/design-concepts/assets
+--only obj- converts the subject objects alone and leaves every other file in assets/art as it is.
 
 Brief section 9: quality 82; objects and Mobi 512 px; the hero about 768 px wide; paper 512 px.
 Transparent art is trimmed to its visible bounds (plus a little air) and keeps its alpha. The
-total raster art is kept near 3 MB by lowering quality in steps if needed. Files that are not
+whole assets/art folder is kept under about 1.4 MB by lowering quality in steps if needed. Files that are not
 there yet are skipped, so the script can be run again when generation finishes.
 """
 import io
@@ -18,7 +19,7 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "assets" / "art"
 DEFAULT_SRC = ROOT.parent / "tmp" / "design-concepts" / "assets"
-CAP_BYTES = 3 * 1024 * 1024
+CAP_BYTES = int(1.4 * 1024 * 1024)
 
 # name: (box (w, h) the image is fitted inside, trim transparent margins)
 SPEC = {
@@ -31,7 +32,13 @@ SPEC = {
 }
 for pose in ("greet", "point", "think", "cheer", "rest", "sleepy", "read"):
     SPEC[f"mobi-{pose}"] = ((512, 512), True)
-for subject in ("accountancy", "business", "economics", "english", "generaltest"):
+# Every subject /api/subjects offers, plus "language" for the language papers and anything else.
+SUBJECT_OBJECTS = (
+    "accountancy", "business", "economics", "english", "generaltest", "mathematics", "physics",
+    "chemistry", "biology", "history", "politicalscience", "geography", "psychology", "sociology",
+    "computerscience", "language",
+)
+for subject in SUBJECT_OBJECTS:
     SPEC[f"obj-{subject}"] = ((512, 512), True)
 for token in ("first-mock", "first-repair", "held"):
     SPEC[f"token-{token}"] = ((320, 320), True)
@@ -83,10 +90,12 @@ def encode(im: Image.Image, quality: int) -> bytes:
     return buf.getvalue()
 
 
-def main(src: Path) -> None:
+def main(src: Path, only: str = "") -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     images = {}
     for name, (box, trim) in SPEC.items():
+        if only and not name.startswith(only):
+            continue
         path = src / f"{name}.png"
         if not path.exists():
             print(f"missing  {name}")
@@ -95,7 +104,9 @@ def main(src: Path) -> None:
 
     for quality in (82, 76, 70, 64):
         encoded = {name: encode(im, quality) for name, im in images.items()}
-        total = sum(len(b) for b in encoded.values())
+        # Files this run does not rewrite still count toward the cap.
+        kept = sum(f.stat().st_size for f in OUT.glob("*.webp") if f.stem not in encoded)
+        total = kept + sum(len(b) for b in encoded.values())
         if total <= CAP_BYTES:
             break
     for name, data in encoded.items():
@@ -106,4 +117,10 @@ def main(src: Path) -> None:
 
 
 if __name__ == "__main__":
-    main(Path(sys.argv[1]) if len(sys.argv) > 1 else DEFAULT_SRC)
+    args = sys.argv[1:]
+    prefix = ""
+    if "--only" in args:
+        i = args.index("--only")
+        prefix = args[i + 1]
+        del args[i : i + 2]
+    main(Path(args[0]) if args else DEFAULT_SRC, prefix)

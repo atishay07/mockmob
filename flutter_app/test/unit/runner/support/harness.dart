@@ -5,10 +5,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/connectivity/connectivity_providers.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
+import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/runner/data/runner_effects.dart';
 import 'package:mockmob/features/runner/data/runner_loader.dart';
 import 'package:mockmob/features/runner/data/runner_session.dart';
+import 'package:mockmob/features/runner/nta/nta_integrity.dart';
+import 'package:mockmob/features/runner/nta/nta_runner_screen.dart';
 import 'package:mockmob/features/runner/runner_routes.dart';
 
 import '../../../helpers/golden_harness.dart' show FileAssetBundle;
@@ -40,12 +43,15 @@ class RecordingHaptics implements HapticDriver {
 }
 
 class RunnerHarness {
-  RunnerHarness({required this.router, required this.systemUi, required this.haptics, required this.afterSubmit});
+  RunnerHarness({required this.router, required this.systemUi, required this.haptics, required this.afterSubmit, required this.prefs});
 
   final GoRouter router;
   final RecordingSystemUi systemUi;
   final RecordingHaptics haptics;
   final List<RunnerSession> afterSubmit;
+
+  /// NTA mode's warning count and text size.
+  final MemoryPrefsStore prefs;
 
   String get location => router.routerDelegate.currentConfiguration.uri.toString();
 }
@@ -65,6 +71,8 @@ Future<RunnerHarness> pumpRunner(
   Size size = kRunnerSize,
   double textScale = 1,
   List<Override> overrides = const [],
+  MemoryPrefsStore? prefs,
+  String? candidate = 'Asha Verma',
 }) async {
   tester.view.physicalSize = size * 2;
   tester.view.devicePixelRatio = 2;
@@ -74,6 +82,7 @@ Future<RunnerHarness> pumpRunner(
   final systemUi = RecordingSystemUi();
   final haptics = RecordingHaptics();
   final after = <RunnerSession>[];
+  final store = prefs ?? MemoryPrefsStore();
   final router = GoRouter(
     initialLocation: location,
     routes: [
@@ -86,6 +95,7 @@ Future<RunnerHarness> pumpRunner(
       _stub('/practice/result/:attemptId'),
       _stub('/today'),
       _stub('/result/:attemptId/sealed'),
+      _stub('/exam/nta'),
     ],
   );
   addTearDown(router.dispose);
@@ -98,6 +108,8 @@ Future<RunnerHarness> pumpRunner(
         runnerAfterSubmitProvider.overrideWithValue(after.add),
         networkRestoredProvider.overrideWith((ref) => const Stream<void>.empty()),
         hapticsProvider.overrideWithValue(Haptics(enabled: true, driver: haptics)),
+        ntaPrefsProvider.overrideWithValue(store),
+        ntaCandidateNameProvider.overrideWithValue(candidate),
         ...overrides,
       ],
       child: DefaultAssetBundle(
@@ -118,7 +130,7 @@ Future<RunnerHarness> pumpRunner(
   );
   await tester.pump();
   await tester.pump();
-  return RunnerHarness(router: router, systemUi: systemUi, haptics: haptics, afterSubmit: after);
+  return RunnerHarness(router: router, systemUi: systemUi, haptics: haptics, afterSubmit: after, prefs: store);
 }
 
 /// Lets sheets and page transitions finish.

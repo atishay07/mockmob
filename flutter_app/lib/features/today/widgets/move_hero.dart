@@ -1,7 +1,8 @@
-// Tonight's move: the subject's object in lamp light, one monumental number and what it means,
-// the evidence one tap away, a duration chooser when the task can change size, and the screen's
-// one volt pill. Changing the duration rolls the number and reshapes the task in place; the
-// card's height does not jump.
+// Tonight's move: the subject's object in lamp light (or Mobi at a human moment), one
+// monumental number and what it means, the evidence one tap away, a duration chooser when the
+// task can change size, and the screen's one volt pill. The number sits beside the object, so
+// the card reads top to bottom without a hole; changing the duration rolls the number and
+// reshapes the task in place without moving the pill.
 import 'package:flutter/material.dart';
 
 import '../../../core/motion/motion.dart';
@@ -10,6 +11,7 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../logic/today_model.dart';
 import 'hero_stage.dart';
+import 'mobi_moment.dart';
 import 'number_block.dart';
 import 'show_me_tag.dart';
 
@@ -21,6 +23,7 @@ class MoveHeroCard extends StatelessWidget {
     this.onMinutes,
     this.onShowMe,
     this.offline = false,
+    this.mobiController,
   });
 
   final MoveHero move;
@@ -29,73 +32,89 @@ class MoveHeroCard extends StatelessWidget {
   final VoidCallback? onShowMe;
   final bool offline;
 
+  /// Lets the screen make Mobi react later (a tap on a chip, coming back to the tab).
+  final MobiController? mobiController;
+
+  /// Mobi's line for a mood when the move did not set one.
+  static String? moodLine(MoveHero m) =>
+      m.mobiLine ??
+      switch (m.mood) {
+        TodayMood.returning => TodayCopy.mobiWelcomeBack,
+        TodayMood.lateNight => TodayCopy.lateNight,
+        _ => null,
+      };
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     final m = move;
+    final mobi = m.art.isMobi;
     final blocked = offline && m.primary.startsSession;
+    // Beside the object: the overline, the subject and the number. Under Mobi: the full width.
+    final besideArt = mobi ? 0.0 : heroArtWidth - MmSpace.cardPadding + 4;
 
-    final top = ConstrainedBox(
-      constraints: const BoxConstraints(minHeight: heroArtHeight - MmSpace.cardPadding + 4),
-      child: Padding(
-        padding: EdgeInsets.only(right: m.art.isMobi ? 128 : 196),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // One line each, shrinking at large text rather than breaking a word in two.
-            _OneLine(m.overline, style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600)),
-            if (m.subjectLine != null) ...[
-              const SizedBox(height: 2),
-              _OneLine(m.subjectLine!, style: type.labelLarge.copyWith(color: colors.ink)),
-            ],
-            if (m.headline != null) ...[
-              const SizedBox(height: MmSpace.s12),
-              Semantics(header: true, child: Text(m.headline!, style: type.title.copyWith(fontSize: 20, height: 24 / 20))),
-            ],
+    final top = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _OneLine(m.overline, style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600, letterSpacing: 0.2)),
+        if (m.subjectLine != null) ...[
+          const SizedBox(height: 2),
+          _OneLine(m.subjectLine!, style: type.title.copyWith(fontSize: 20, height: 24 / 20)),
+        ],
+      ],
+    );
+    final lines = Padding(
+      padding: EdgeInsets.only(right: besideArt),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (mobi)
+            MobiMoment(pose: HeroArtView.poseFor(m.art.art), say: moodLine(m), controller: mobiController, lines: top)
+          else
+            top,
+          if (m.headline != null) ...[
+            const SizedBox(height: MmSpace.s8),
+            Semantics(header: true, child: Text(m.headline!, style: type.labelLarge.copyWith(color: colors.ink, fontSize: 16, height: 22 / 16))),
           ],
-        ),
+          if (m.number != null) ...[
+            const SizedBox(height: MmSpace.s12),
+            NumberBlock(number: m.number!, label: m.numberLabel),
+          ],
+        ],
       ),
     );
 
+    final evidence = m.evidenceId != null && onShowMe != null;
     final content = Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.cardPadding, MmSpace.cardPadding, MmSpace.s12),
+      padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.cardPadding, MmSpace.cardPadding, MmSpace.s8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          top,
-          if (m.number != null) ...[
-            const SizedBox(height: MmSpace.s8),
-            NumberBlock(number: m.number!, label: m.numberLabel),
-          ],
+          lines,
           const SizedBox(height: MmSpace.s12),
-          // Two lines are always reserved while the duration can reshape the task, so changing
-          // the chip never moves the pill under the student's thumb.
-          ConstrainedBox(
-            constraints: BoxConstraints(minHeight: m.durations.length > 1 ? 48 : 0),
-            child: AnimatedSwitcher(
-              duration: Motion.of(context, Motion.crossFade),
-              layoutBuilder: (current, previous) => Stack(alignment: Alignment.topLeft, children: [...previous, ?current]),
-              child: Text(m.meaning, key: ValueKey(m.meaning), style: type.body.copyWith(color: colors.ink2)),
-            ),
+          AnimatedSwitcher(
+            duration: Motion.of(context, Motion.crossFade),
+            layoutBuilder: (current, previous) => Stack(alignment: Alignment.topLeft, children: [...previous, ?current]),
+            child: Text(m.meaning, key: ValueKey(m.meaning), style: type.body.copyWith(color: colors.ink2)),
           ),
-          if (m.basisLine != null || (m.evidenceId != null && onShowMe != null))
+          if (m.basisLine != null || evidence) ...[
+            const SizedBox(height: MmSpace.s8),
             Row(
               children: [
-                Expanded(
-                  child: m.basisLine == null ? const SizedBox.shrink() : Text(m.basisLine!, style: type.caption.copyWith(color: colors.ink3)),
-                ),
-                if (m.evidenceId != null && onShowMe != null) ...[const SizedBox(width: MmSpace.s8), ShowMeTag(onTap: onShowMe!)],
+                if (evidence) ...[ShowMeTag(onTap: onShowMe!, marks: m.evidence), const SizedBox(width: MmSpace.s12)],
+                if (m.basisLine != null) Expanded(child: Text(m.basisLine!, style: type.caption.copyWith(color: colors.ink3))),
               ],
             ),
-          if (m.durations.length > 1) ...[
-            SizedBox(height: m.evidenceId != null ? MmSpace.s4 : MmSpace.s16),
-            if (m.durationPrompt != null) ...[
-              Text(m.durationPrompt!, style: type.labelLarge),
-              const SizedBox(height: MmSpace.s8),
-            ],
+          ],
+          // Only when coming back after days away does the card ask how long there is; on an
+          // ordinary day the length is in the key and changes under "Choose something else".
+          if (m.durations.length > 1 && m.durationPrompt != null) ...[
+            const SizedBox(height: MmSpace.s16),
+            Text(m.durationPrompt!, style: type.labelLarge),
+            const SizedBox(height: MmSpace.s8),
             MmSegmented<int>(
-              semanticsLabel: m.durationPrompt ?? 'Time for this',
+              semanticsLabel: m.durationPrompt!,
               segments: [for (final d in m.durations) MmSegment(d.minutes, '${d.minutes} min')],
               value: m.selectedMinutes ?? m.durations.first.minutes,
               onChanged: onMinutes,
@@ -115,7 +134,6 @@ class MoveHeroCard extends StatelessWidget {
               ),
             ),
           if (m.caption != null || m.dismissedLine != null) ...[
-            const SizedBox(height: MmSpace.s4),
             Text(
               m.dismissedLine ?? m.caption!,
               textAlign: TextAlign.center,
@@ -129,7 +147,7 @@ class MoveHeroCard extends StatelessWidget {
 
     return HeroStage(
       subjectId: m.subjectId,
-      art: HeroArtView(art: m.art, mobiLine: m.headline == null ? m.mobiLine : null),
+      art: mobi ? null : HeroArtView(art: m.art),
       child: content,
     );
   }

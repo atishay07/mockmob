@@ -15,7 +15,8 @@ import 'deck.dart';
 class FirstMove {
   const FirstMove({required this.subject, required this.chapter, required this.framing, required this.window});
 
-  /// Always one of the four subjects with a free starting-point check.
+  /// The weakest chosen subject with a free starting-point check, otherwise the weakest chosen
+  /// subject (its confirm sheet shows the cost), Accountancy when nothing was chosen.
   final SheetSubject subject;
 
   /// The first chapter of [subject] in MockMob's order.
@@ -28,8 +29,8 @@ class FirstMove {
   static const int questions = 10;
   static const int minutes = 10;
 
-  /// "First: 10 questions in Accountancy".
-  String get line => 'First: $questions questions in ${subject.label}';
+  /// "First check: 10 questions in Accountancy" (a one-off check, not one of the sessions).
+  String get line => 'First check: $questions questions in ${subject.label}';
 
   /// Opens Quick 10 setup in [subject] with the free starting-point allowance; the confirm
   /// sheet there shows the cost, if any.
@@ -53,17 +54,20 @@ class FirstMove {
   }
 
   static FirstMove of(OnboardingAnswers a) {
-    final ready = a.ranked.where((s) => s.hasStartingPoint).toList();
-    SheetSubject subject = ready.isNotEmpty ? ready.first : SheetSubject.accountancy;
+    final ranked = a.ranked;
+    final ready = ranked.where((s) => s.hasStartingPoint).toList();
+    SheetSubject subject = ready.isNotEmpty ? ready.first : (ranked.isNotEmpty ? ranked.first : SheetSubject.accountancy);
+    bool open(SheetSubject s) => a.subjects.isEmpty || a.subjects.contains(s);
     final worry = a.worry;
-    if (worry == Worry.numericals) subject = SheetSubject.accountancy;
-    if (worry == Worry.passages) subject = SheetSubject.english;
+    if (worry == Worry.numericals && open(SheetSubject.accountancy)) subject = SheetSubject.accountancy;
+    if (worry == Worry.passages && open(SheetSubject.english)) subject = SheetSubject.english;
     final chapter = firstChapter(subject);
     final framing = switch (worry) {
       Worry.knewIt => 'Every slip becomes a repair.',
       Worry.time => 'Answer at exam pace, about a minute each.',
       Worry.numericals => 'Repairs start with the numericals you miss.',
-      Worry.passages => 'English first, since passages cost you most.',
+      Worry.passages when subject == SheetSubject.english => 'English first, since passages cost you most.',
+      Worry.passages => 'Long passages get a method of their own.',
       Worry.syllabus => 'Then $chapter, the first chapter on your plan.',
       Worry.noIdea || null => 'It decides what you repair first.',
     };

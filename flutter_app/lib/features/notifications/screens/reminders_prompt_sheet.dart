@@ -93,7 +93,7 @@ class _RemindersPromptSheetState extends ConsumerState<RemindersPromptSheet> {
       ),
       _Phase.granted => _Outcome(
         key: const ValueKey('granted'),
-        icon: LucideIcons.bellRing,
+        mobi: MobiPose.cheer,
         title: NotificationsCopy.grantedTitle,
         body: NotificationsCopy.grantedBody,
         primaryLabel: NotificationsCopy.grantedPickTime,
@@ -103,7 +103,7 @@ class _RemindersPromptSheetState extends ConsumerState<RemindersPromptSheet> {
       ),
       _Phase.denied => _Outcome(
         key: const ValueKey('denied'),
-        icon: LucideIcons.bellOff,
+        mobi: MobiPose.rest,
         title: NotificationsCopy.deniedTitle,
         body: NotificationsCopy.deniedBody,
         doneLabel: NotificationsCopy.deniedDone,
@@ -142,9 +142,17 @@ class _Ask extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Semantics(
-          header: true,
-          child: Text(NotificationsCopy.promptTitle, style: type.title),
+        Row(
+          children: [
+            Expanded(
+              child: Semantics(
+                header: true,
+                child: Text(NotificationsCopy.promptTitle, style: type.title),
+              ),
+            ),
+            const SizedBox(width: MmSpace.s12),
+            const Mobi(pose: MobiPose.greet, size: 64),
+          ],
         ),
         const SizedBox(height: MmSpace.s8),
         Text(
@@ -230,7 +238,7 @@ class _PreviewRule extends StatelessWidget {
 class _Outcome extends StatelessWidget {
   const _Outcome({
     super.key,
-    required this.icon,
+    required this.mobi,
     required this.title,
     required this.body,
     required this.doneLabel,
@@ -239,7 +247,8 @@ class _Outcome extends StatelessWidget {
     this.onPrimary,
   });
 
-  final IconData icon;
+  /// Mobi cheers once Android granted it, and sits calmly when it did not.
+  final MobiPose mobi;
   final String title;
   final String body;
   final String doneLabel;
@@ -256,11 +265,7 @@ class _Outcome extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: MmSpace.s8),
-        Align(
-          child: ExcludeSemantics(
-            child: Icon(icon, size: 32, color: colors.ink),
-          ),
-        ),
+        Align(child: Mobi(pose: mobi, size: 88)),
         const SizedBox(height: MmSpace.s16),
         Semantics(
           header: true,

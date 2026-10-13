@@ -3,11 +3,14 @@ import '../data/practice_starter.dart';
 
 /// A start failure with the exact words to show.
 class StartFailureView {
-  const StartFailureView(this.failure);
+  const StartFailureView(this.failure, {this.message});
 
   final StartFailure failure;
 
-  String get text => switch (failure) {
+  /// The server's reason, when it gave one.
+  final String? message;
+
+  String get text => message ?? switch (failure) {
     StartFailure.offline => PracticeCopy.offlineStart,
     StartFailure.generic => PracticeCopy.startFailed,
     StartFailure.notEnoughQuestions => PracticeCopy.notEnoughQuestions,

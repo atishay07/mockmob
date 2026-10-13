@@ -36,6 +36,9 @@ class GlassSurface extends StatelessWidget {
     this.quality,
   });
 
+  /// A sheet's tint, with or without the blur: dense enough that text behind it never reads.
+  static const double _sheetAlpha = 0.985;
+
   final Widget child;
   final BorderRadius borderRadius;
   final GlassRole role;
@@ -61,7 +64,12 @@ class GlassSurface extends StatelessWidget {
       // A sheet holds text a student reads over whatever was on screen, so its tint stays
       // dense enough to keep 4.5:1. At that density a blur would add about a seventh of what
       // shows, for the largest blur area in the app, so sheets never blur (see below).
-      GlassQuality.full => role == GlassRole.sheet ? colors.glassTint.withValues(alpha: colors.isNight ? 0.86 : 0.88) : colors.glassTint,
+      // Device finding 1: at 0.86, and still faintly at 0.95 (practice confirm golden, 13 Oct),
+      // the words of the screen behind were legible through a sheet. At 0.985 the backdrop is a
+      // faint wash of colour, never glyphs.
+      GlassQuality.full || GlassQuality.lite when role == GlassRole.sheet =>
+        colors.glassTint.withValues(alpha: _sheetAlpha),
+      GlassQuality.full => colors.glassTint,
       GlassQuality.lite => colors.glassTintLite,
       GlassQuality.off => colors.raised,
     };

@@ -69,10 +69,17 @@ const _optionTable = [
 ];
 
 /// The 5, 10 and 20 minute chips for a repair, capped by the candidates: a chip that holds
-/// more mistakes than exist is not shown, and with 2 or fewer candidates none are shown.
+/// more mistakes than exist is not shown, and with 2 or fewer candidates none are shown. When no
+/// chip holds exactly all of them (4 or 5 mistakes), a last chip does, so the longest choice is
+/// always the whole chapter that Review offers.
 List<RepairDurationOption> repairDurationOptions(int candidateCount) {
   if (candidateCount <= 2) return const [];
-  return [for (final o in _optionTable) if (o.mistakes <= candidateCount) o];
+  final fit = [for (final o in _optionTable) if (o.mistakes <= candidateCount) o];
+  final covered = fit.isEmpty ? 0 : fit.last.mistakes;
+  if (covered < candidateCount && candidateCount < _optionTable.last.mistakes) {
+    fit.add(RepairDurationOption(minutes: repairMinutes(candidateCount)!, mistakes: candidateCount));
+  }
+  return fit;
 }
 
 /// Explanation credits a repair of [mistakes] needs: one per mistake.

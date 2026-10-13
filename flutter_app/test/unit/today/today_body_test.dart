@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/router/routes.dart';
-import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/today/copy.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/logic/today_inputs.dart';
@@ -10,6 +9,7 @@ import 'package:mockmob/features/today/logic/today_model.dart';
 import 'package:mockmob/features/today/logic/why_model.dart';
 import 'package:mockmob/features/today/screens/alternatives_sheet.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
+import 'package:mockmob/features/rhythm/widgets/plan_week_strip.dart';
 
 import '../../helpers/golden_harness.dart';
 import 'support/today_fixtures.dart';
@@ -43,22 +43,22 @@ void main() {
     return events;
   }
 
-  testWidgets('the volt pill starts the repair; the chips and Show me report back', (tester) async {
+  testWidgets('the volt pill starts the repair; Show me reports back; the length is not on the card', (tester) async {
     final events = await pumpToday(tester, buildToday(ashaInputs()));
-    await tester.tap(find.text(TodayCopy.startRepair(10)));
-    await tester.tap(find.text('5 min'));
+    await tester.tap(find.text(TodayCopy.startRepair(15)));
+    expect(find.text('5 min'), findsNothing, reason: 'the length changes under Choose something else');
     await tester.tap(find.text(TodayCopy.showMe));
     await tester.pump();
     final action = events.whereType<TodayAction>().single;
     expect((action.target as GoTo).location, startsWith(AppRoutes.reviewRepair('m7', 'm7-q3')));
-    expect(events, containsAll(['minutes:5', 'why:m7']));
+    expect(events, contains('why:m7'));
   });
 
   testWidgets('offline, a start says why it is unavailable instead of failing', (tester) async {
     final events = await pumpToday(tester, buildToday(ashaInputs(offline: true)));
     expect(find.text(TodayCopy.connectToStart), findsOneWidget);
     expect(find.text('Updated 7:30 PM. You are offline.'), findsOneWidget);
-    await tester.tap(find.text(TodayCopy.startRepair(10)));
+    await tester.tap(find.text(TodayCopy.startRepair(15)));
     await tester.pump();
     expect(events.whereType<TodayAction>(), isEmpty);
   });
@@ -88,7 +88,7 @@ void main() {
     final events = await pumpToday(tester, buildToday(ashaInputs()));
     final week = find.bySemanticsLabel(RegExp('^1 of 4 study days'));
     expect(week, findsOneWidget);
-    await tester.tap(find.byType(WeekBubbles));
+    await tester.tap(find.byType(PlanWeekStrip));
     await tester.pump();
     expect(events, contains('week'));
   });

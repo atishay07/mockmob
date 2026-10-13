@@ -13,9 +13,10 @@ import 'core/router/quick_start.dart';
 import 'core/storage/app_prefs.dart';
 import 'core/storage/prefs_store.dart';
 import 'core/theme/glass_quality.dart';
-import 'features/review/data/review_providers.dart' show quickRepairFromReviewProvider;
 import 'core/sync/sync.dart';
 import 'features/notifications/services/android_permission_requester.dart';
+import 'features/practice/data/start_entries.dart' show practiceQuickNtaProvider;
+import 'features/review/data/review_providers.dart' show quickRepairFromReviewProvider;
 
 void main() {
   runZonedGuarded(_start, (error, stack) => _report(error, stack));
@@ -36,6 +37,8 @@ Future<void> _start() async {
         // Start's "Repair the next mistake" opens tonight's first mistake (one pick for Today,
         // Review and Start).
         quickStartRepairProvider.overrideWith((ref) => ref.watch(quickRepairFromReviewProvider)),
+        // Start's NTA row follows Practice's quote for the student's practice subject.
+        quickStartNtaProvider.overrideWith((ref) => ref.watch(practiceQuickNtaProvider)),
         reviewDotProvider.overrideWith((ref) => ref.watch(hasUnopenedResultProvider)),
         // Module 11: the Android 13 notification permission.
         permissionRequesterProvider.overrideWith((ref) => ref.watch(androidPermissionRequesterProvider)),

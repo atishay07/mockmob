@@ -28,8 +28,10 @@ import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefs
 import 'package:mockmob/features/you/you_providers.dart' show PrefToggle, lateNightLinesProvider;
 import 'package:mockmob/features/practice/data/practice_notes.dart';
 import 'package:mockmob/features/practice/data/practice_starter.dart';
+import 'package:mockmob/features/practice/data/result_actions.dart';
 import 'package:mockmob/features/practice/model/practice_selection.dart';
 import 'package:mockmob/features/practice/practice_result_screen.dart';
+import 'package:mockmob/features/insights/data/saved_repository.dart' show SavedList, savedRepositoryProvider;
 
 import '../../../helpers/golden_harness.dart';
 
@@ -107,10 +109,22 @@ class FakeQuoteRepository implements QuoteRepository {
 }
 
 class FakeCatalog implements PracticeCatalogApi {
-  FakeCatalog({this.mocks = 6, this.failChapters = false});
+  FakeCatalog({this.mocks = 6, this.failChapters = false, this.counts = const {}, this.extra = const []});
 
   int mocks;
   bool failChapters;
+
+  /// `/api/stats` subjectCounts by internal id.
+  Map<String, int> counts;
+
+  /// Registry rows practice cannot start in (for the stale-subject banner).
+  List<CatalogEntry> extra;
+
+  @override
+  Future<List<CatalogEntry>> registry() async => [for (final s in _subjects) CatalogEntry(s), ...extra];
+
+  @override
+  Future<Map<String, int>> questionCounts() async => counts;
 
   static const _subjects = [
     Subject(id: 'english', internalId: 'english', name: 'English', practice: 'supported'),
@@ -187,7 +201,7 @@ class FakeStarter implements PracticeStarting {
   final List<int?> mockNumbers = [];
 
   @override
-  Future<StartOutcome> start(PracticeSelection selection, {required PracticeQuote quote, int? mockNumber}) async {
+  Future<StartOutcome> start(PracticeSelection selection, {PracticeQuote? quote, int? mockNumber}) async {
     started.add(selection);
     mockNumbers.add(mockNumber);
     if (hold != null) await hold!.future;
@@ -253,6 +267,7 @@ List<Override> practiceOverrides({
   FakeCatalog? catalog,
   FakeStarter? starter,
   AuthSnapshot? auth,
+  FakeAuth? authNotifier,
   NetworkStatus network = NetworkStatus.online,
   FakeAnalytics? analytics,
   FakePendingResults? pending,
@@ -268,7 +283,7 @@ List<Override> practiceOverrides({
   quoteRepositoryProvider.overrideWithValue(quotes ?? FakeQuoteRepository((s, m, c, p) => creditsQuote())),
   practiceCatalogApiProvider.overrideWithValue(catalog ?? FakeCatalog()),
   practiceStarterProvider.overrideWithValue(starter ?? FakeStarter()),
-  authSnapshotProvider.overrideWith(() => FakeAuth(auth ?? signedIn())),
+  authSnapshotProvider.overrideWith(() => authNotifier ?? FakeAuth(auth ?? signedIn())),
   networkStatusProvider.overrideWith(() => FakeNetwork(network)),
   latestSessionDraftProvider.overrideWith((ref) => Stream.value(draft)),
   if (draft != null)
@@ -276,6 +291,7 @@ List<Override> practiceOverrides({
       (ref) async => answered == null ? null : DraftSummary(answered: answered, acknowledgedAnswered: answered, total: draft.count),
     ),
   hapticsProvider.overrideWithValue(const Haptics(enabled: false)),
+  savedRepositoryProvider.overrideWithBuild((ref, n) => RemoteState(value: const SavedList(), fetchedAt: testNow)),
   analyticsClientProvider.overrideWithValue(analytics ?? FakeAnalytics()),
   pendingResultRepositoryProvider.overrideWithValue(pending ?? FakePendingResults()),
   nowProvider.overrideWithValue(() => now ?? testNow),
@@ -348,11 +364,14 @@ List<Override> resultOverrides({
   DateTime? fetchedAt,
   FakeAnalytics? analytics,
   FakePendingResults? pending,
+  ReplayInventory? replay,
+  Future<DateTime?>? receivedLater,
 }) => [
   ...practiceOverrides(catalog: catalog, analytics: analytics, pending: pending, attempts: cachedAttempt == null ? null : [cachedAttempt]),
+  replayInventoryProvider.overrideWith((ref, id) async => replay),
   attemptDetailProvider(
     attemptId,
   ).overrideWith(() => FakeDetail(attemptId, detail: detail, error: error, loading: loading, fetchedAt: fetchedAt)),
-  resultReceivedAtProvider.overrideWith((ref, id) async => received ?? DateTime(2026, 10, 12, 23, 51)),
+  resultReceivedAtProvider.overrideWith((ref, id) => receivedLater ?? Future.value(received ?? DateTime(2026, 10, 12, 23, 51))),
   practiceNoteProvider.overrideWith((ref, id) async => PracticeNote(chapter: chapter, mode: 'quick')),
 ];

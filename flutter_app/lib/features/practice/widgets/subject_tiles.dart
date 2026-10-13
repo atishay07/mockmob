@@ -18,10 +18,14 @@ class SubjectTiles extends ConsumerWidget {
     required this.selectedId,
     required this.onSelected,
     this.onMore,
+    this.countFor,
     this.gutter = MmSpace.gutter,
   });
 
   final List<SubjectChoice> choices;
+
+  /// Usable questions in a subject (`/api/stats`), or null when unknown: then nothing is shown.
+  final int? Function(String id)? countFor;
   final String selectedId;
   final ValueChanged<String> onSelected;
 
@@ -54,6 +58,7 @@ class SubjectTiles extends ConsumerWidget {
             return SubjectTile(
               id: c.id,
               name: c.name,
+              questions: countFor?.call(c.id),
               selected: c.id == selectedId,
               onTap: () {
                 if (c.id == selectedId) return;
@@ -69,10 +74,11 @@ class SubjectTiles extends ConsumerWidget {
 }
 
 class SubjectTile extends StatelessWidget {
-  const SubjectTile({super.key, required this.id, required this.name, required this.selected, required this.onTap});
+  const SubjectTile({super.key, required this.id, required this.name, required this.selected, required this.onTap, this.questions});
 
   final String id;
   final String name;
+  final int? questions;
   final bool selected;
   final VoidCallback onTap;
 
@@ -83,7 +89,7 @@ class SubjectTile extends StatelessWidget {
     final light = SubjectLight.forSubject(id);
     final art = MmArt.subjectObject(id);
     return MmPressable(
-      semanticsLabel: name,
+      semanticsLabel: questions == null ? name : '$name, ${PracticeCopy.questionsAvailable(questions!)}',
       selected: selected,
       inMutuallyExclusiveGroup: true,
       focusRadius: MmRadius.keyAll,
@@ -111,18 +117,30 @@ class SubjectTile extends StatelessWidget {
                       left: 16,
                       right: 12,
                       top: 18,
-                      bottom: 40,
+                      bottom: questions == null ? 40 : 52,
                       child: ArtImage(art, width: SubjectTiles.width - 28, opacity: selected ? 1 : 0.86),
                     ),
                   Positioned(
                     left: 10,
                     right: 8,
                     bottom: 10,
-                    // A long name ("Business Studies") shrinks a little rather than losing letters.
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      alignment: Alignment.centerLeft,
-                      child: Text(name, maxLines: 1, style: type.labelLarge.copyWith(fontSize: 14, color: selected ? colors.ink : colors.ink2)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // A long name ("Political Science") shrinks a little rather than losing letters.
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Text(name, maxLines: 1, style: type.labelLarge.copyWith(fontSize: 14, color: selected ? colors.ink : colors.ink2)),
+                        ),
+                        if (questions != null)
+                          Text(
+                            PracticeCopy.questionsAvailable(questions!),
+                            maxLines: 1,
+                            style: type.caption.copyWith(fontSize: 11, color: colors.ink3),
+                          ),
+                      ],
                     ),
                   ),
                   Positioned(top: 10, left: 10, child: SelectBubble(selected: selected)),

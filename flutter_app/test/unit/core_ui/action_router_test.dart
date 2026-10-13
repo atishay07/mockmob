@@ -16,6 +16,11 @@ void main() {
     test('/dashboard is Today, and with a mode is a practice setup', () {
       expect(_go('/dashboard'), const NativeTarget('/today'));
       expect(_go('/dashboard?mode=quick&count=10'), const NativeTarget('/practice/setup/quick?count=10'));
+      // The website joins chapters with commas; the app link repeats them, and difficulty stays.
+      expect(
+        _go('/dashboard?mode=quick&subject=business_studies&count=5&chapters=Staffing%2CControlling&difficulty=hard'),
+        const NativeTarget('/practice/setup/quick?subject=business_studies&chapters=Staffing&chapters=Controlling&count=5&difficulty=hard'),
+      );
       expect(
         _go('/dashboard?mode=quick&count=5&subject=accountancy&chapter=Partnership%20accounts'),
         const NativeTarget('/practice/setup/quick?subject=accountancy&chapter=Partnership+accounts&count=5'),
@@ -135,5 +140,36 @@ void main() {
       expect(AppRoutes.isNativePath(sample), isTrue, reason: sample);
     }
     expect(AppRoutes.isNativePath('/pricing'), isFalse);
+  });
+
+  group('website features with a native home (WEB-PARITY 2.3)', () {
+    test('explore, saved, analytics and the mentor', () {
+      expect(_go('/explore'), const NativeTarget('/practice/stream'));
+      expect(_go('/explore?subject=economics&difficulty=hard'), const NativeTarget('/practice/stream?subject=economics&difficulty=hard'));
+      expect(_go('/saved'), const NativeTarget('/review/saved'));
+      expect(_go('/analytics'), const NativeTarget('/review/insights'));
+      expect(_go('/mentor'), const NativeTarget('/review/insights'));
+      expect(_go('/mentor?tab=ask'), const NativeTarget('/ask'));
+    });
+
+    test('the DU tools and the 2027 guide', () {
+      expect(_go('/admission-compass'), const NativeTarget('/tools/compass'));
+      expect(_go('/cuet-cutoff-calculator'), const NativeTarget('/tools/compass'));
+      expect(_go('/cuet-subject-combination'), const NativeTarget('/tools/combo'));
+      expect(_go('https://www.mockmob.in/cuet-2027'), const NativeTarget('/tools/guide-2027'));
+    });
+
+    test('profile and editing subjects', () {
+      expect(_go('/profile'), const NativeTarget('/you'));
+      expect(_go('/onboarding?edit=true'), const NativeTarget('/you/subjects'));
+      expect(_go('/onboarding'), isA<ExternalTarget>());
+    });
+
+    test('the exam-day layout opens its instructions, never a running clock', () {
+      expect(_go('/dashboard?mode=nta&subject=economics'), const NativeTarget('/exam/nta?subject=economics'));
+      // On the website this is an ordinary full mock, so it stays free here too.
+      expect(_go('/dashboard?mode=full&interface=nta&subject=accountancy'), const NativeTarget('/practice/setup/full?subject=accountancy'));
+      expect(_go('/dashboard?mode=full&subject=accountancy'), const NativeTarget('/practice/setup/full?subject=accountancy'));
+    });
   });
 }

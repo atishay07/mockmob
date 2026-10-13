@@ -5,6 +5,7 @@ import '../../../core/models/question.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../result_copy.dart';
 import '../model/practice_result_model.dart';
 
 /// How a not-attempted question is being shown: hidden answer, a private try, or the answer.
@@ -26,12 +27,28 @@ class ResultQuestionRow extends StatelessWidget {
     this.onTry,
     this.onShowAnswer,
     this.onTryPick,
+    this.save,
+    this.report,
+    this.time,
+    this.changed = false,
   });
 
   final ResultQuestion item;
+
+  /// "Report a problem" under an open question, or null.
+  final Widget? report;
+
+  /// Time on this question ("42s"), only when the session's timing is trustworthy.
+  final String? time;
+
+  /// The student changed this answer during the session (self-reported telemetry only).
+  final bool changed;
   final KeyView keyView;
   final bool expanded;
   final VoidCallback onToggle;
+
+  /// The Save key under an open question, or null where saving is not offered.
+  final Widget? save;
 
   /// Not-attempted rows only.
   final BlankMode blankMode;
@@ -54,7 +71,12 @@ class ResultQuestionRow extends StatelessWidget {
       expanded: expanded,
       child: MmPressable(
       onTap: onToggle,
-      semanticsLabel: '${PracticeCopy.questionNumber(item.number)}, $_status${item.chapter == null ? '' : ', ${item.chapter}'}',
+      semanticsLabel: [
+        '${PracticeCopy.questionNumber(item.number)}, $_status',
+        ?item.chapter,
+        if (time != null) ResultCopy.timeSemantics(time!),
+        if (changed) ResultCopy.answerChanged,
+      ].join(', '),
       focusRadius: MmRadius.keyAll,
       pressedScale: 0.985,
       builder: (context, pressed, _) => ConstrainedBox(
@@ -71,6 +93,11 @@ class ResultQuestionRow extends StatelessWidget {
                 children: [
                   Text('${PracticeCopy.questionNumber(item.number)}, $_status', style: type.cardTitle.copyWith(fontSize: 16)),
                   if (item.chapter != null) Text(item.chapter!, style: type.small.copyWith(color: colors.ink2)),
+                  if (time != null || changed)
+                    Text(
+                      [if (time != null) ResultCopy.timeOn(time!), if (changed) ResultCopy.answerChanged].join(', '),
+                      style: type.caption.copyWith(color: colors.ink3),
+                    ),
                 ],
               ),
             ),
@@ -98,6 +125,11 @@ class ResultQuestionRow extends StatelessWidget {
               onShowAnswer: onShowAnswer,
               onTryPick: onTryPick,
             ),
+          ),
+        if (expanded && item.question != null && (save != null || report != null))
+          Padding(
+            padding: const EdgeInsets.only(bottom: MmSpace.s12),
+            child: Wrap(spacing: MmSpace.s8, children: [?save, ?report]),
           ),
       ],
     );

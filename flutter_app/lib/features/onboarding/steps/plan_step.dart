@@ -22,7 +22,7 @@ import '../widgets/plan_sheet.dart';
 /// Step 9, the climax: the sheet flips over (600 ms, a light tap at the halfway point) and its
 /// back is the plan, engraved line by line, including what the student did not tell us (the
 /// first chapter in MockMob's order, and the board-season taper for Class 12). Holding seals it
-/// (1.2 s, a firm tap when it lands); "Seal it" does the same in one tap.
+/// (1.2 s, a firm tap when it lands); with TalkBack a double tap seals at once.
 class PlanStep extends ConsumerStatefulWidget {
   const PlanStep({super.key, required this.answers, required this.onNext, required this.onChange, this.flipped = false});
 
@@ -186,14 +186,14 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
                       },
                       onSeal: _seal,
                     ),
-                    const SizedBox(height: MmSpace.s4),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(child: KeyButton.quiet(label: OnboardingCopy.changeSomething, onPressed: _change)),
-                        Flexible(child: KeyButton.quiet(label: OnboardingCopy.sealIt, onPressed: _seal)),
-                      ],
+                    const SizedBox(height: MmSpace.s6),
+                    // One control: the hint says how; TalkBack's double tap on the key seals at once.
+                    Text(
+                      OnboardingCopy.holdHint,
+                      textAlign: TextAlign.center,
+                      style: context.mmType.caption.copyWith(color: context.mmColors.ink2),
                     ),
+                    Center(child: KeyButton.quiet(label: OnboardingCopy.changeSomething, onPressed: _change)),
                   ],
                 ),
         ),

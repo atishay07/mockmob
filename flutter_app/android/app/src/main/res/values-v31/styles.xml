@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Android 12 and later: the system splash screen, ground colour with the mark, no wordmark
-         and no Mobi (spec 5.1.1). -->
+    <!-- Android 12 and later: the system splash screen, the "mo" (logo B, full master) on the
+         warm charcoal with no icon background, so it is drawn 288 dp square, exactly where the
+         Flutter brand opening's first frame draws it. -->
     <style name="LaunchTheme" parent="@android:style/Theme.Black.NoTitleBar">
         <item name="android:windowBackground">@drawable/launch_background</item>
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
         <item name="android:windowSplashScreenBackground">@color/splash_ground</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_mark</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_mo</item>
     </style>
     <style name="NormalTheme" parent="@android:style/Theme.Black.NoTitleBar">
         <item name="android:windowBackground">@color/splash_ground</item>

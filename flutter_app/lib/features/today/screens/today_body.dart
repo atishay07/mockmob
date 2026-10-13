@@ -44,6 +44,9 @@ class TodayBody extends StatelessWidget {
     this.controller,
     this.avatar = const YouAvatarButton(),
     this.weeklyEnding,
+    this.insights,
+    this.roadFooter,
+    this.mobiController,
     this.skeletonDelay = const Duration(milliseconds: 400),
   });
 
@@ -54,6 +57,16 @@ class TodayBody extends StatelessWidget {
 
   /// The rhythm module's weekly ending card, hosted under the hero when it has one to show.
   final Widget? weeklyEnding;
+
+  /// The integrator's slot for the record finding (the Insights card, `findings[0]` with Show
+  /// me). Placed under the hero; absent when null.
+  final Widget? insights;
+
+  /// A quiet line under the road to May (the CUET tools link); absent when null.
+  final Widget? roadFooter;
+
+  /// Drives Mobi when the hero is a human moment (day one, coming back, late at night).
+  final MobiController? mobiController;
   final Duration skeletonDelay;
 
   Widget _hero() {
@@ -65,6 +78,7 @@ class TodayBody extends StatelessWidget {
           key: const ValueKey('today-move'),
           move: hero,
           offline: view.offline,
+          mobiController: mobiController,
           onAction: cb.onAction,
           onMinutes: cb.onMinutes,
           onShowMe: hero.evidenceId == null || cb.onShowMe == null ? null : () => cb.onShowMe!(hero.evidenceId!),
@@ -88,17 +102,19 @@ class TodayBody extends StatelessWidget {
     final padding = MediaQuery.paddingOf(context);
     final children = <Widget>[
       TodayHeader(header: view.header, onWeek: callbacks.onWeek, avatar: avatar),
-      const SizedBox(height: MmSpace.s16),
+      const SizedBox(height: MmSpace.s20),
       _hero(),
       if (view.also.isNotEmpty) AlsoSlots(slots: view.also, onAction: callbacks.onAction, offline: view.offline),
+      if (insights != null) ...[const SizedBox(height: MmSpace.s16), insights!],
       ?weeklyEnding,
       if (view.sheet.isNotEmpty) ...[
-        const SizedBox(height: MmSpace.group + MmSpace.s8),
+        const SizedBox(height: MmSpace.group),
         SheetSection(rows: view.sheet, onOpen: callbacks.onTarget),
       ],
       if (view.road != null) ...[
         const SizedBox(height: MmSpace.group),
-        RoadSection(road: view.road!, onChooseColleges: callbacks.onChooseColleges),
+        RoadSection(road: view.road!, onChooseColleges: callbacks.onChooseColleges, onWeek: callbacks.onWeek),
+        if (roadFooter != null) ...[const SizedBox(height: MmSpace.s8), roadFooter!],
       ],
     ];
 

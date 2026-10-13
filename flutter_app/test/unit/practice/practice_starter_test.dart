@@ -88,7 +88,7 @@ void main() {
         engines.add(engine);
         return engine;
       },
-      rememberSession: (id, s) => notes.write(id, chapter: s.effectiveChapter, mode: s.mode.apiMode),
+      rememberSession: (id, s) => notes.write(id, chapter: s.chapterLabel, mode: s.mode.apiMode),
       afterStarted: started.add,
     );
   });
@@ -101,7 +101,7 @@ void main() {
   Map<String, dynamic> bodyOf(int i) =>
       (http.requests[i].body is String ? jsonDecode(http.requests[i].body! as String) : http.requests[i].body) as Map<String, dynamic>;
 
-  const quick = PracticeSelection(mode: PracticeMode.quick, subjectId: 'accountancy');
+  final quick = PracticeSelection(mode: PracticeMode.quick, subjectId: 'accountancy');
 
   test('a start sends the stored key, the string count, experience practice and no chapters field', () async {
     final outcome = await starter.start(quick, quote: _quote());
@@ -118,6 +118,26 @@ void main() {
     expect(started, hasLength(1));
   });
 
+  test('five fresh questions start as a free recovery session for that attempt and chapter', () async {
+    final link = Uri.parse('/practice/start?mode=chapter&subject=business_studies&count=5&chapter=Staffing&recoveryFrom=att-7');
+    final fresh = PracticeSelection(
+      mode: PracticeMode.chapter,
+      subjectId: link.queryParameters['subject']!,
+      count: 5,
+      chapter: link.queryParameters['chapter'],
+      recoveryFrom: link.queryParameters['recoveryFrom'],
+    );
+    await starter.start(fresh);
+    final body = bodyOf(0);
+    expect(body['subject'], 'business_studies');
+    expect(body['mode'], 'quick');
+    expect(body['count'], '5');
+    expect(body['chapter'], 'Staffing');
+    expect(body['recoveryFrom'], 'att-7');
+    expect(body['experience'], 'recovery');
+    expect(body.containsKey('purpose'), isFalse);
+  });
+
   test('the draft and journal are on the phone before the runner opens, and the engine is released', () async {
     await starter.start(quick, quote: _quote());
     final draft = await drafts.bySessionId('sess-9');
@@ -128,7 +148,7 @@ void main() {
   });
 
   test('chapter practice sends the single chapter field, and the chapter is remembered', () async {
-    const chapter = PracticeSelection(mode: PracticeMode.chapter, subjectId: 'accountancy', chapter: 'Admission of a partner', count: 15);
+    final chapter = PracticeSelection(mode: PracticeMode.chapter, subjectId: 'accountancy', chapter: 'Admission of a partner', count: 15);
     await starter.start(chapter, quote: _quote());
     final body = bodyOf(0);
     expect(body['mode'], 'quick');
@@ -139,21 +159,33 @@ void main() {
   });
 
   test('a chapter outside chapter practice is never sent', () async {
-    const sel = PracticeSelection(mode: PracticeMode.quick, subjectId: 'accountancy', chapter: 'Goodwill');
+    final sel = PracticeSelection(mode: PracticeMode.quick, subjectId: 'accountancy', chapter: 'Goodwill');
     await starter.start(sel, quote: _quote());
     expect(bodyOf(0).containsKey('chapter'), isFalse);
   });
 
   test('a mock is 50 questions, and its number reaches the draft', () async {
     http.handler = (_) =>
-        FakeReply(200, sessionViewJson(id: 'sess-9', count: 3, startedAt: 1000000, expiresAt: 1600000, serverNow: 1000000));
-    const mock = PracticeSelection(mode: PracticeMode.full, subjectId: 'accountancy');
+        FakeReply(200, sessionViewJson(id: 'sess-9', count: 50, startedAt: 1000000, expiresAt: 1600000, serverNow: 1000000));
+    final mock = PracticeSelection(mode: PracticeMode.full, subjectId: 'accountancy');
     await starter.start(mock, quote: _quote(), mockNumber: 7);
     final body = bodyOf(0);
     expect(body['mode'], 'full');
     expect(body['count'], '50');
     final draft = await drafts.bySessionId('sess-9');
     expect(draft!.mockNumber, 7);
+  });
+
+  test('an exam paper that is not exactly 50 questions is refused, with the reason, and its key forgotten', () async {
+    http.handler = (_) =>
+        FakeReply(200, sessionViewJson(id: 'sess-short', count: 38, startedAt: 1000000, expiresAt: 1600000, serverNow: 1000000));
+    final nta = PracticeSelection(mode: PracticeMode.nta, subjectId: 'accountancy');
+    final outcome = await starter.start(nta, quote: _quote());
+    expect(outcome, isA<StartFailed>());
+    final failed = outcome as StartFailed;
+    expect(failed.failure, StartFailure.notEnoughQuestions);
+    expect(failed.message, ntaPaperSizeMessage(38));
+    expect(await drafts.bySessionId('sess-short'), isNull, reason: 'no exam opens on a short paper');
   });
 
   test('a double tap creates one session: two starts share one request and one key', () async {
@@ -203,7 +235,7 @@ void main() {
   });
 
   test('purpose is sent only when the quote says the matching allowance is available', () async {
-    const mock = PracticeSelection(mode: PracticeMode.full, subjectId: 'accountancy');
+    final mock = PracticeSelection(mode: PracticeMode.full, subjectId: 'accountancy');
     http.handler = (_) =>
         FakeReply(200, sessionViewJson(id: 'sess-9', count: 3, startedAt: 1000000, expiresAt: 1600000, serverNow: 1000000));
     await starter.start(mock, quote: _quote(allowance: {'kind': 'full_sample:accountancy', 'state': 'available'}));
@@ -225,7 +257,67 @@ void main() {
 
   test('the draft key matches the engine draft key for the same selection', () {
     expect(quick.draftKey('u1'), SessionDraft.keyFor(userId: 'u1', subject: 'accountancy', count: 10, mode: 'quick'));
-    const chapter = PracticeSelection(mode: PracticeMode.chapter, subjectId: 'economics', chapter: 'Money', count: 5);
+    final chapter = PracticeSelection(mode: PracticeMode.chapter, subjectId: 'economics', chapter: 'Money', count: 5);
     expect(chapter.draftKey('u1'), SessionDraft.keyFor(userId: 'u1', subject: 'economics', chapter: 'Money', count: 5, mode: 'quick'));
+  });
+
+  group('the chosen selection reaches the server exactly', () {
+    test('Business Studies, 5 questions starts Business Studies with 5 questions', () async {
+      final bst = PracticeSelection(mode: PracticeMode.quick, subjectId: 'business_studies', count: 5);
+      http.handler = (options) =>
+          FakeReply(200, sessionViewJson(id: 'sess-9', count: 5, startedAt: 1000000, expiresAt: 1600000, serverNow: 1000000));
+      await starter.start(bst, quote: _quote());
+      final body = bodyOf(0);
+      expect(body['subject'], 'business_studies');
+      expect(body['count'], '5');
+      expect(body['mode'], 'quick');
+      final draft = await drafts.bySessionId('sess-9');
+      expect(draft!.subject, 'business_studies');
+      expect(draft.count, 5);
+      expect(started.single.subjectId, 'business_studies');
+    });
+
+    test('every offered length is sent as chosen', () async {
+      for (final (i, count) in practiceCounts.indexed) {
+        http.handler = (options) =>
+            FakeReply(200, sessionViewJson(id: 'sess-c$count', count: count, startedAt: 1000000, expiresAt: 1600000, serverNow: 1000000));
+        await starter.start(PracticeSelection(mode: PracticeMode.quick, subjectId: 'economics', count: count), quote: _quote());
+        expect(bodyOf(i)['count'], '$count');
+        expect(bodyOf(i)['subject'], 'economics');
+      }
+    });
+
+    test('several chapters go in chapters, one in chapter, and difficulty is sent', () async {
+      final two = PracticeSelection(
+        mode: PracticeMode.chapter,
+        subjectId: 'accountancy',
+        chapters: const ['Goodwill', 'Issue of shares'],
+        difficulty: PracticeDifficulty.hard,
+        count: 15,
+      );
+      await starter.start(two, quote: _quote());
+      final body = bodyOf(0);
+      expect(body['chapters'], 'Goodwill,Issue of shares');
+      expect(body.containsKey('chapter'), isFalse);
+      expect(body['difficulty'], 'hard');
+      expect(body['count'], '15');
+    });
+
+    test('Smart practice sends mode smart and never a difficulty', () async {
+      final smart = PracticeSelection(mode: PracticeMode.smart, subjectId: 'english', difficulty: PracticeDifficulty.easy);
+      expect(smart.count, 15);
+      await starter.start(smart, quote: _quote());
+      final body = bodyOf(0);
+      expect(body['mode'], 'smart');
+      expect(body['count'], '15');
+      expect(body.containsKey('difficulty'), isFalse);
+    });
+
+    test('a different difficulty or chapter set never shares a stored key', () {
+      final base = PracticeSelection(mode: PracticeMode.chapter, subjectId: 'accountancy', chapters: const ['Goodwill'], count: 10);
+      final harder = base.copyWith(difficulty: PracticeDifficulty.hard);
+      final more = base.copyWith(chapters: const ['Goodwill', 'Issue of shares']);
+      expect({base.draftKey('u1'), harder.draftKey('u1'), more.draftKey('u1')}, hasLength(3));
+    });
   });
 }

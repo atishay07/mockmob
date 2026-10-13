@@ -125,7 +125,7 @@ void main() {
   testWidgets('the exam-day row says it comes with Pro, warmly and with no price', (tester) async {
     await pumpRouted(tester, location: '/practice', routes: _routes(), overrides: practiceOverrides(quotes: _quotes()));
     await settle(tester);
-    expect(find.text('Exam-day layout'), findsOneWidget);
+    expect(find.text('NTA mode'), findsOneWidget);
     expect(find.text('Pro'), findsOneWidget);
     expect(find.text('Comes with Pro. A Full mock is open to you now.'), findsOneWidget);
     expect(find.textContaining('Rs'), findsNothing);
@@ -135,7 +135,7 @@ void main() {
   testWidgets('the exam-day row is shown only when the quote returns the mode', (tester) async {
     await pumpRouted(tester, location: '/practice', routes: _routes(), overrides: practiceOverrides(quotes: _quotes(nta: false)));
     await settle(tester);
-    expect(find.text('Exam-day layout'), findsNothing);
+    expect(find.text('NTA mode'), findsNothing);
     expect(find.text('Full mock'), findsOneWidget);
   });
 
@@ -149,12 +149,14 @@ void main() {
     );
     await settle(tester);
     await openSheet(tester, find.text('Quick practice'));
-    expect(find.text('Quick practice, Accountancy'), findsOneWidget);
-    await tester.tap(find.text('15'));
+    expect(find.bySemanticsLabel('Quick practice, Accountancy'), findsOneWidget);
+    await tester.tap(find.descendant(of: find.byType(MmSegmented<int>), matching: find.text('15')));
     for (var i = 0; i < 6; i++) {
       await tester.pump(const Duration(milliseconds: 150));
     }
     expect(find.text('15 questions, about 15 minutes.'), findsOneWidget);
+    await tester.ensureVisible(find.text('Start practice'));
+    await tester.pump();
     await tester.tap(find.text('Start practice'));
     await tester.tap(find.text('Start practice'), warnIfMissed: false);
     await settle(tester);
@@ -163,14 +165,18 @@ void main() {
     expect(router.state.uri.path, '/run/sess-1');
   });
 
-  testWidgets('One chapter asks for the chapter first, then confirms with it', (tester) async {
+  testWidgets('By chapter asks for the chapters first, then confirms with it', (tester) async {
     final starter = FakeStarter();
     await pumpRouted(tester, location: '/practice', routes: _routes(), overrides: practiceOverrides(quotes: _quotes(), starter: starter));
     await settle(tester);
-    await openSheet(tester, find.text('One chapter'));
-    await openSheet(tester, find.text('Goodwill'));
-    expect(find.text('One chapter, Accountancy'), findsOneWidget);
-    expect(find.text('Goodwill'), findsOneWidget);
+    await openSheet(tester, find.text('By chapter'));
+    await tester.tap(find.text('Goodwill'));
+    await tester.pump();
+    await openSheet(tester, find.text('Use 1 chapter'));
+    expect(find.bySemanticsLabel('By chapter, Accountancy'), findsOneWidget);
+    expect(find.text('Goodwill'), findsWidgets);
+    await tester.ensureVisible(find.text('Start chapter practice'));
+    await tester.pump();
     await tester.tap(find.text('Start chapter practice'));
     await settle(tester);
     expect(starter.started.single.chapter, 'Goodwill');

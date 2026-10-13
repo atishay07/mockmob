@@ -40,7 +40,15 @@ class QuestionStep extends ConsumerStatefulWidget {
 
 class _QuestionStepState extends ConsumerState<QuestionStep> {
   late final WarmupQuestion _q = warmupQuestionFor(widget.answers);
-  late final DateTime _shownAt = ref.read(nowProvider)();
+  // Set when the question first shows (a lazy initializer would only run at the first tap,
+  // so every answer read as "about a second").
+  late final DateTime _shownAt;
+
+  @override
+  void initState() {
+    super.initState();
+    _shownAt = ref.read(nowProvider)();
+  }
 
   void _choose(int i) {
     if (widget.answers.warmup != null) return;

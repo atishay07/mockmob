@@ -48,18 +48,18 @@ void main() {
       ];
 
   group('You rhythm screen', () {
-    testWidgets('Edit goal saves the new goal only after the server acknowledges', (tester) async {
+    testWidgets('Edit goal picks study days and saves the goal only after the server acknowledges', (tester) async {
       await pumpMockmob(tester, const YouRhythmScreen(), wrapInScaffold: false, disableAnimations: true, overrides: overrides(rhythmFixture()));
       await tester.tap(find.text('Edit goal'));
       await settle(tester);
-      expect(find.text('Weekly goal'), findsOneWidget);
-      await tester.tap(find.text('5'));
+      expect(find.text('Your study days'), findsOneWidget);
+      await tester.tap(find.bySemanticsLabel('Wednesday, rest day'));
       await tester.pump();
-      expect(find.text('Your goal is 5 study days. The other days are rest days.'), findsOneWidget);
-      await tester.tap(find.text('Save goal'));
+      expect(find.text('5 study days a week.'), findsOneWidget);
+      await tester.tap(find.text('Save study days'));
       await settle(tester);
       expect(goalRepo.saved, [5]);
-      expect(find.text('Weekly goal'), findsNothing);
+      expect(find.text('Your study days'), findsNothing);
     });
 
     testWidgets('a pause preset sends the Sunday of this week and keeps the goal', (tester) async {

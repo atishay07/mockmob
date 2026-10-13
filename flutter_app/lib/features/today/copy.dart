@@ -2,6 +2,7 @@
 // Voice: a sharp senior who has been through CUET. Short, specific, warm, never defensive.
 // Sentence case, no exclamation marks, no arrows, 12-hour times, real dates.
 import '../../core/copy/formatters.dart';
+import '../../core/domain/cuet_dates.dart';
 
 abstract final class TodayCopy {
   // Header.
@@ -38,14 +39,25 @@ abstract final class TodayCopy {
   static const String subjectChanged = 'You changed your subjects. Earlier results stay under the old ones.';
 
   // Ready (client-built repair).
-  /// "mistakes\ntonight": the big number is tonight's batch.
-  static String mistakesLabel(int n, DateTime now) => '${pluralWord(n, 'mistake')}\n${tonightOrToday(now)}';
+  /// "to repair\ntonight": the big number is tonight's batch, not mistakes made today.
+  static String mistakesLabel(int n, DateTime now) => 'to repair\n${tonightOrToday(now)}';
 
-  /// Where tonight's batch comes from. Never "holds": that word is kept for a passed fresh check.
-  static String tonightLine(int n, int paperOpen, String source, String chapter) {
-    if (n == paperOpen) return n == 1 ? 'From $source, in $chapter.' : 'All $n from $source are in $chapter.';
-    return '$n of the $paperOpen from $source. ${n == 1 ? 'It is' : 'All $n are'} in $chapter.';
+  /// Where tonight's batch comes from, said the same way on Today and in Review: "3 of the 4 in
+  /// Admission of a partner, from Mock 7 on 11 Oct." Never "holds": that word is kept for a
+  /// passed fresh check.
+  static String tonightLine(int n, int chapterOpen, String source, String chapter, DateTime marked) {
+    final from = 'from $source on ${formatDayMonthShort(marked)}';
+    if (n < chapterOpen) return '$n of the $chapterOpen in $chapter, $from.';
+    return n == 1 ? 'The one in $chapter, $from.' : 'All $n in $chapter, $from.';
   }
+
+  static const String repairLength = "Length of today's repair";
+
+  // Mobi in the header (a tap says one of these, in turn).
+  static const List<String> mobiIdle = ['One move at a time. This one is ready.', 'Ten focused minutes beat an hour of scrolling.'];
+  static const List<String> mobiPoint = ['That one, just below. Start when you are set.', 'Small repairs add up to marks.'];
+  static const List<String> mobiCheer = ['A set is on your sheet today. Nice.', 'That counts for today.'];
+  static const List<String> mobiSleepy = ['Late one. Something short, then sleep.', 'Sleep is part of the plan too.'];
 
   static String questionNumbers(List<int> numbers) {
     final shown = numbers.take(3).map((n) => '$n').toList();
@@ -69,7 +81,7 @@ abstract final class TodayCopy {
   static String repairedNumberLabel(String source) => 'repaired\nfrom $source';
   static const String repairedLine = 'Fresh checks are not open yet. Practise another skill while those settle.';
   static const String practiseAnother = 'Practise another skill';
-  static const String minutesUnit = 'minutes\nof mixed practice';
+  static const String minutesUnit = 'minutes of\nmixed practice';
   static const String noStrongWeakness = 'Nothing stands out right now. Mixed practice keeps things fresh.';
   static String startMixed(int minutes) => 'Start mixed practice, $minutes minutes';
   static const String unavailableTitle = 'Your earlier results are still there.';
@@ -83,8 +95,9 @@ abstract final class TodayCopy {
 
   // Returning and late night (brief 1.1, spec 6.7, 6.8).
   /// The greeting already says the name, so the returning hero never repeats it.
-  static String returningHeadline(int? daysSincePaper) =>
-      daysSincePaper != null && daysSincePaper >= 3 ? '$daysSincePaper days since your last paper.' : 'Good to have you back.';
+  /// Mobi already says hello, so the headline only adds the real gap when there is one.
+  static String? returningHeadline(int? daysSincePaper) =>
+      daysSincePaper != null && daysSincePaper >= 3 ? '$daysSincePaper days since your last paper.' : null;
   static String howLong(DateTime now) => 'How long have you got ${tonightOrToday(now)}?';
   static String lastMockStillHere(String source, DateTime date, int mistakes) => mistakes > 0
       ? 'Your last mock was $source on ${formatDayMonth(date)}. Its ${plural(mistakes, 'mistake')} are still here.'
@@ -123,19 +136,47 @@ abstract final class TodayCopy {
   static String nextUp(String what) => 'Next: $what';
   static String repairWhat(int n, String source) => 'repair ${plural(n, 'mistake')} from $source';
 
-  // Your sheet.
-  static const String yourSheet = 'Your sheet';
-  static String sheetCaption(int n) => n == 1 ? 'Your last paper' : 'Your last $n papers';
+  // Recent papers.
+  static const String yourSheet = 'Recent papers';
+  static String sheetCaption(int n) => n == 1 ? 'Your last paper' : 'Your last $n';
   static const String sealed = 'Sealed';
   static String quickLabel(int total) => 'Quick $total';
   static String marksOf(int outOf) => 'of $outOf';
+  static String changeUp(int by, String than) => '+$by on $than';
+  static String changeDown(int by, String than) => '$minusSign$by on $than';
+  static String changeLevel(String than) => 'Level with $than';
+  static String splitLine(int right, int wrong, int blank) => '$right right, $wrong wrong, $blank blank';
 
   // The road.
   static const String roadTitle = 'The road to May';
-  static String weeksLabel(int weeks) => '${weeks == 1 ? 'week' : 'weeks'} to the expected\nMay 2027 window';
-  static const String boardsLine = 'Boards run mid-February to early April. The plan goes lighter from mid-February.';
-  static String ladderCaption(String category) => 'CSAS 2026, Round 1 minimum scores, $category, out of 1000';
+  static String weeksLabel(int weeks) => '${weeks == 1 ? 'week' : 'weeks'} to the expected\nCUET window, May 2027';
+  static String weeksToBoardsUnit(int weeks) => weeks == 1 ? 'week before\nboards begin' : 'weeks before\nboards begin';
+  static const String boardsOn = 'Boards are on. The plan stays light until they end.';
+  static String sessionsLine(int n, int goal) =>
+      'About ${n < 20 ? n : (n / 10).round() * 10} study sessions at your $goal a week. During boards we count two a week.';
+  static const String stopRegistration = 'CUET registration';
+  static const String whenRegistration = CuetDates.registrationWhen;
+  static const String stopBoards = 'Class 12 boards';
+  static const String whenBoards = 'Mid-February to early April 2027';
+  static const String noteBoards = 'The plan goes lighter from mid-February.';
+  static const String stopExam = 'CUET UG';
+  static const String whenExam = 'Expected May 2027';
+  static const String stopCounselling = 'CSAS rounds';
+  static const String whenCounselling = 'After the results';
+  static const String expectedTag = 'Expected';
+  static const String datesExpected = 'Registration February to March, boards mid-February to early April, the exam in May: all expected, from the 2026 cycle.';
+  static const String nowLabel = 'Now';
+  static String weekNeedsOnTrack(int n) => n == 1 ? 'This week: 1 more study day by Sunday.' : 'This week: $n more study days by Sunday.';
+  static const String weekNeedsMet = 'This week: your goal is met. Anything more is extra.';
+  static const String weekNeedsPaused = 'This week is paused. Your run is kept.';
+  static const String weekNeedsOutOfReach = 'This week: every day you study still counts.';
+  static String ladderCaption(String? category) => category == null
+      ? 'CSAS 2026, Round 1 closing scores, unreserved until you choose your category, out of 1000'
+      : 'CSAS 2026, Round 1 closing scores, $category, out of 1000';
+  static const String ladderTitle = 'Your colleges';
+  static const String dreamTag = 'Dream';
   static const String chooseColleges = 'Choose your colleges';
+  static const String changeColleges = 'Change';
   static const String ladderEmpty = 'Pick up to three colleges and see where each one closed last year.';
 
   // Why this sheet.

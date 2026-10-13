@@ -83,7 +83,7 @@ class _PartPainter extends CustomPainter {
   final double radius;
   final bool track;
 
-  Color get _wrong => colors.isNight ? Color.lerp(colors.wrongBorder, colors.wrongText, 0.5)! : colors.wrongBorder;
+  Color get _wrong => colors.wrongMark;
 
   @override
   void paint(Canvas canvas, Size size) {

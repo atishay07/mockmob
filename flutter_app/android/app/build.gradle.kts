@@ -17,6 +17,13 @@ if (hasReleaseKey) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
 
+// The device demo (test/device_demo/demo_main.dart: fixture student, no real account) installs
+// as a separate app, "MockMob demo" with its own application id, so it can never be mistaken
+// for the real app on a phone. It switches on by itself when Flutter builds the demo entry
+// point (Flutter passes it as the `target` property), or explicitly with -PmockmobDemo=true.
+val demoTarget = (project.findProperty("target") as String?)?.contains("device_demo") == true
+val isDemo = demoTarget || project.findProperty("mockmobDemo") == "true"
+
 android {
     namespace = "in.mockmob.app"
     compileSdk = flutter.compileSdkVersion
@@ -39,6 +46,8 @@ android {
         targetSdk = maxOf(flutter.targetSdkVersion, 36)
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        if (isDemo) applicationIdSuffix = ".demo"
+        manifestPlaceholders["appLabel"] = if (isDemo) "MockMob demo" else "@string/app_name"
     }
 
     signingConfigs {

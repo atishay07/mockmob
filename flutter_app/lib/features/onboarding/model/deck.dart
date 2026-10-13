@@ -103,7 +103,7 @@ final OnboardingDeck kOnboardingDeck = OnboardingDeck(
     const DeckStep(
       id: Steps.worry,
       kind: StepKind.choice,
-      bubble: 'Worry',
+      bubble: 'Marks',
       writes: ['worry'],
       changesNow: 'The first move on the sheet rewrites itself and Mobi says one line.',
       paysOffLater: 'The first check\'s subject and framing, and the first week\'s repairs.',

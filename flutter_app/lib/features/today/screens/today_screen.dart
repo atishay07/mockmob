@@ -11,13 +11,20 @@ import '../../../core/motion/motion.dart';
 import '../../../core/repositories/repositories.dart';
 import '../../../core/router/app_shell.dart';
 import '../../../core/router/routes.dart';
+import '../../../core/widgets/widgets.dart' show MobiAct, MobiController;
 import '../../rhythm/rhythm.dart';
 import '../data/today_providers.dart';
 import '../logic/today_model.dart';
 import 'today_body.dart';
 
 class TodayScreen extends ConsumerStatefulWidget {
-  const TodayScreen({super.key});
+  const TodayScreen({super.key, this.insights, this.roadFooter});
+
+  /// The integrator's record finding card (Insights), shown under the hero when given.
+  final Widget? insights;
+
+  /// A quiet line under the road to May (the CUET tools link), when given.
+  final Widget? roadFooter;
 
   @override
   ConsumerState<TodayScreen> createState() => _TodayScreenState();
@@ -25,6 +32,7 @@ class TodayScreen extends ConsumerStatefulWidget {
 
 class _TodayScreenState extends ConsumerState<TodayScreen> {
   final ScrollController _scroll = ScrollController();
+  final MobiController _mobi = MobiController();
 
   @override
   void initState() {
@@ -41,6 +49,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
   @override
   void dispose() {
     _scroll.dispose();
+    _mobi.dispose();
     super.dispose();
   }
 
@@ -73,7 +82,11 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
   @override
   Widget build(BuildContext context) {
     ref.listen(tabReselectProvider, (previous, next) {
-      if (next == null || next.tabIndex != 0 || !_scroll.hasClients) return;
+      if (next == null || next.tabIndex != 0) return;
+      // Coming back to Today: Mobi, when it is on the hero, says hello again.
+      final hero = ref.read(todayViewProvider).hero;
+      if (hero is MoveHero && hero.art.isMobi) _mobi.play(MobiAct.hello);
+      if (!_scroll.hasClients) return;
       unawaited(_scroll.animateTo(0, duration: Motion.of(context, Motion.emphasizedDuration), curve: Motion.emphasized));
     });
     final view = ref.watch(todayViewProvider);
@@ -81,6 +94,9 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
     return TodayBody(
       view: view,
       controller: _scroll,
+      mobiController: _mobi,
+      insights: widget.insights,
+      roadFooter: widget.roadFooter,
       weeklyEnding: hasEnding ? const Padding(padding: EdgeInsets.only(top: 12), child: WeeklyEndingSection()) : null,
       callbacks: TodayCallbacks(
         onAction: _action,

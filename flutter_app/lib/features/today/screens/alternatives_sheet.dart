@@ -16,6 +16,7 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/today_providers.dart';
 import '../logic/links.dart';
+import '../../../core/domain/repair_candidates.dart' show repairDurationOptions;
 import '../logic/move_builder.dart';
 
 class AlternativeRow {
@@ -54,7 +55,12 @@ class AlternativesSheet extends ConsumerWidget {
       subject: basis?.subject ?? (inputs.subjects.isEmpty ? null : inputs.subjects.first),
       plan: [for (final a in plan?.alternatives ?? const []) (title: a.title, note: a.duration, href: a.href)],
     );
+    final durations = facts.tonight == null || facts.dismissed ? const <int>[] : [for (final o in repairDurationOptions(facts.tonight!.items.length)) o.minutes];
+    final chosen = ref.watch(todayMinutesProvider);
     return AlternativesSheetBody(
+      durations: durations,
+      minutes: durations.contains(chosen) ? chosen : (durations.isEmpty ? null : durations.last),
+      onMinutes: (m) => ref.read(todayMinutesProvider.notifier).choose(m),
       rows: rows,
       onRow: (row) {
         final router = GoRouter.of(context);
@@ -76,9 +82,22 @@ class AlternativesSheet extends ConsumerWidget {
 }
 
 class AlternativesSheetBody extends StatelessWidget {
-  const AlternativesSheetBody({super.key, required this.rows, required this.onRow, this.onNotToday});
+  const AlternativesSheetBody({
+    super.key,
+    required this.rows,
+    required this.onRow,
+    this.onNotToday,
+    this.durations = const [],
+    this.minutes,
+    this.onMinutes,
+  });
 
   final List<AlternativeRow> rows;
+
+  /// The lengths tonight's repair can take ("5 min", "10 min"), when it can change size.
+  final List<int> durations;
+  final int? minutes;
+  final ValueChanged<int>? onMinutes;
   final ValueChanged<AlternativeRow> onRow;
   final VoidCallback? onNotToday;
 
@@ -94,6 +113,17 @@ class AlternativesSheetBody extends StatelessWidget {
         children: [
           Semantics(header: true, child: Text(TodayCopy.alternativesTitle, style: type.title)),
           const SizedBox(height: MmSpace.s12),
+          if (durations.length > 1 && minutes != null) ...[
+            Text(TodayCopy.repairLength, style: type.labelLarge),
+            const SizedBox(height: MmSpace.s8),
+            MmSegmented<int>(
+              semanticsLabel: TodayCopy.repairLength,
+              segments: [for (final d in durations) MmSegment(d, '$d min')],
+              value: minutes!,
+              onChanged: onMinutes,
+            ),
+            const SizedBox(height: MmSpace.s20),
+          ],
           for (final r in rows) ...[
             MmSelectRow(
               title: r.title,

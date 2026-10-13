@@ -13,7 +13,7 @@ class ShowMePill extends StatelessWidget {
     super.key,
     required this.onTap,
     this.semanticsLabel = 'Show me, the questions behind this',
-    this.marks = const [BubbleState.filled, BubbleState.wrong, BubbleState.hollow],
+    this.marks = const [],
   });
 
   final VoidCallback onTap;
@@ -21,7 +21,8 @@ class ShowMePill extends StatelessWidget {
   /// Say what opens ("Show me, the attempt behind this"), never just "Show me".
   final String semanticsLabel;
 
-  /// The three evidence bubbles (Review shows the wrong answers it means).
+  /// Up to three evidence bubbles, only when they stand for real answers (Review shows the wrong
+  /// answers it means). Empty draws no bubbles: a dot must say something.
   final List<BubbleState> marks;
 
   static const String label = 'Show me';
@@ -47,12 +48,14 @@ class ShowMePill extends StatelessWidget {
             child: SizedBox(
               height: 32,
               child: Padding(
-                padding: const EdgeInsets.only(left: 10, right: 12),
+                padding: EdgeInsets.only(left: marks.isEmpty ? 12 : 10, right: 12),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    BubbleRow(states: marks.take(3).toList(), bubbleSize: 6, gap: 3),
-                    const SizedBox(width: MmSpace.s8),
+                    if (marks.isNotEmpty) ...[
+                      BubbleRow(states: marks.take(3).toList(), bubbleSize: 6, gap: 3),
+                      const SizedBox(width: MmSpace.s8),
+                    ],
                     Text(
                       label,
                       style: type.caption.copyWith(fontSize: 13, height: 1.2, fontWeight: FontWeight.w600, color: colors.ink),

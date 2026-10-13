@@ -42,7 +42,7 @@ class SuggestionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final light = SubjectLight.forSubject(subjectId) ?? SubjectLight.accountancy;
+    final light = SubjectLight.forSubject(subjectId) ?? SubjectLight.language;
     final art = MmArt.subjectObject(subjectId);
     final meta = [numberSemantics ?? '$number $unit', ?kicker].join(', ');
 
@@ -81,7 +81,10 @@ class SuggestionCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text(overline, style: type.caption.copyWith(color: colors.ink2)),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 40),
+                                child: Text(overline, style: type.caption.copyWith(color: colors.ink2)),
+                              ),
                               const SizedBox(height: 2),
                               Semantics(header: true, child: Text(title, style: type.labelLarge.copyWith(fontSize: 16), maxLines: 2)),
                               const SizedBox(height: 2),
@@ -115,6 +118,8 @@ class SuggestionCard extends StatelessWidget {
                   ],
                 ),
               ),
+              // Mobi stands in the corner, pointing down at the key.
+              const Positioned(top: 6, right: 12, child: MobiCharacter(size: 48, entrance: MobiAct.point, seed: 17)),
             ],
           ),
         ),

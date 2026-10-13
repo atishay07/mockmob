@@ -28,6 +28,8 @@ class ChapterGroupCard extends StatefulWidget {
 }
 
 class _ChapterGroupCardState extends State<ChapterGroupCard> {
+  static const int _stripMax = 10;
+
   late bool _expanded = widget.initiallyExpanded;
 
   static QuestionCell _cell(MistakeStage s) => switch (s) {
@@ -72,7 +74,7 @@ class _ChapterGroupCardState extends State<ChapterGroupCard> {
                 children: [
                   Row(
                     children: [
-                      SubjectMark(subjectId: g.subjectId, size: 52, art: false),
+                      SubjectGlyphTile(g.subjectId),
                       const SizedBox(width: MmSpace.s12),
                       Expanded(
                         child: Column(
@@ -93,14 +95,25 @@ class _ChapterGroupCardState extends State<ChapterGroupCard> {
                     ],
                   ),
                   const SizedBox(height: MmSpace.s12),
+                  // At most ten marks on one line, then "+3": the count is in the line above.
                   Padding(
-                    padding: const EdgeInsets.only(left: 64),
-                    child: QuestionStrip(
-                      cells: [for (final i in items) _cell(i.stage)],
-                      columns: 12,
-                      cellSize: 15,
-                      gap: 4,
-                      semanticsLabel: summary,
+                    padding: const EdgeInsets.only(left: 52),
+                    child: Row(
+                      children: [
+                        QuestionStrip(
+                          cells: [for (final i in items.take(_stripMax)) _cell(i.stage)],
+                          columns: _stripMax,
+                          cellSize: 14,
+                          gap: 6,
+                          semanticsLabel: summary,
+                        ),
+                        if (items.length > _stripMax) ...[
+                          const SizedBox(width: MmSpace.s6),
+                          ExcludeSemantics(
+                            child: Text('+${items.length - _stripMax}', style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600)),
+                          ),
+                        ],
+                      ],
                     ),
                   ),
                 ],

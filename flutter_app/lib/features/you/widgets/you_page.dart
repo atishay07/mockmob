@@ -16,6 +16,7 @@ class YouPage extends StatelessWidget {
     this.large = true,
     this.padBottom = MmSpace.s48,
     this.lamp = true,
+    this.footer,
   });
 
   final String title;
@@ -28,6 +29,10 @@ class YouPage extends StatelessWidget {
 
   /// The lamp pool in the upper left corner.
   final bool lamp;
+
+  /// A key pinned under the scrolling body (an editor's Save), on the ground with a hairline
+  /// above it. It rides above the keyboard.
+  final Widget? footer;
 
   @override
   Widget build(BuildContext context) {
@@ -44,28 +49,58 @@ class YouPage extends StatelessWidget {
               alignment: Alignment.topCenter,
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
-                child: CustomScrollView(
-                  slivers: [
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.gutter, 0),
-                        child: Row(children: [if (showBack) const BackKey() else const SizedBox(height: MmTarget.min)]),
-                      ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s12, MmSpace.gutter, MmSpace.s8),
-                        child: Semantics(header: true, child: Text(title, style: large ? type.headline : type.title)),
-                      ),
-                    ),
-                    SliverList.list(children: children),
-                    SliverToBoxAdapter(child: SizedBox(height: padBottom + MediaQuery.viewPaddingOf(context).bottom)),
+                child: Column(
+                  children: [
+                    Expanded(child: _scroll(context, type)),
+                    if (footer != null) _Footer(child: footer!),
                   ],
                 ),
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _scroll(BuildContext context, MmType type) {
+    return CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.gutter, 0),
+            child: Row(children: [if (showBack) const BackKey() else const SizedBox(height: MmTarget.min)]),
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s12, MmSpace.gutter, MmSpace.s8),
+            child: Semantics(header: true, child: Text(title, style: large ? type.headline : type.title)),
+          ),
+        ),
+        SliverList.list(children: children),
+        SliverToBoxAdapter(
+          child: SizedBox(height: footer != null ? MmSpace.s24 : padBottom + MediaQuery.viewPaddingOf(context).bottom),
+        ),
+      ],
+    );
+  }
+}
+
+class _Footer extends StatelessWidget {
+  const _Footer({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final bottom = MediaQuery.viewPaddingOf(context).bottom;
+    return DecoratedBox(
+      decoration: BoxDecoration(color: colors.ground, border: Border(top: BorderSide(color: colors.line))),
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12, MmSpace.gutter, MmSpace.s12 + bottom),
+        child: child,
       ),
     );
   }

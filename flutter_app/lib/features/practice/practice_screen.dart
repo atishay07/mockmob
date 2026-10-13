@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/auth/auth_state.dart';
 import '../../core/connectivity/connectivity.dart';
@@ -7,6 +8,7 @@ import '../../core/motion/motion.dart';
 import '../../core/router/app_shell.dart';
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
+import '../runner/runner_routes.dart' show NtaRoutes;
 import 'copy.dart';
 import 'data/practice_catalog.dart';
 import 'data/practice_quote.dart';
@@ -16,7 +18,9 @@ import 'widgets/chapter_picker.dart';
 import 'widgets/concepts_shelf.dart';
 import 'widgets/confirm_sheet.dart';
 import 'widgets/mode_list.dart';
+import 'widgets/more_rows.dart';
 import 'widgets/other_subjects_sheet.dart';
+import 'widgets/stale_subjects_banner.dart';
 import 'widgets/subject_tiles.dart';
 import 'widgets/suggestion_hero.dart';
 
@@ -42,8 +46,10 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
   void _confirm(PracticeSelection selection) => showPracticeConfirm(context, selection: selection);
 
   Future<void> _chapter(String subject) async {
-    final name = await showChapterPicker(context, subjectId: subject);
-    if (name != null && mounted) _confirm(PracticeSelection(mode: PracticeMode.chapter, subjectId: subject, chapter: name));
+    final names = await showChapterPicker(context, subjectId: subject);
+    if (names != null && names.isNotEmpty && mounted) {
+      _confirm(PracticeSelection(mode: PracticeMode.chapter, subjectId: subject, chapters: names));
+    }
   }
 
   Future<void> _pickOther(List<SubjectChoice> others) async {
@@ -72,6 +78,12 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
     final nta = ref.watch(practiceQuoteProvider(QuoteQuery(subject: subject, apiMode: 'nta', count: mockQuestionCount))).value;
     final showNta = nta != null && quoteOffersMode(nta);
     final ntaGated = nta != null && costLineFor(nta).kind == CostKind.proGated;
+    final smartQuery = PracticeSelection(mode: PracticeMode.smart, subjectId: subject).quoteQuery;
+    final smart = ref.watch(practiceQuoteProvider(smartQuery)).value;
+    final showSmart = smart != null && quoteOffersMode(smart);
+    final smartGated = smart != null && costLineFor(smart).kind == CostKind.proGated;
+    final stale = ref.watch(staleSubjectsProvider);
+    final counts = ref.watch(questionCountsProvider).value;
     final fullMinutes = full?.durationSec == null ? null : (full!.durationSec! / 60).round();
 
     final bottom = MediaQuery.paddingOf(context).bottom;
@@ -98,13 +110,25 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                       const Padding(padding: gutter, child: InlineBanner(message: PracticeCopy.offlineStart, tone: BannerTone.offline)),
                       const SizedBox(height: MmSpace.s16),
                     ],
+                    if (stale.isNotEmpty) ...[
+                      Padding(padding: gutter, child: StaleSubjectsBanner(entries: stale)),
+                      const SizedBox(height: MmSpace.s16),
+                    ],
                     const Padding(padding: gutter, child: SuggestionHero()),
                     const SizedBox(height: MmSpace.group + MmSpace.s8),
-                    const Padding(padding: gutter, child: SectionHeading(title: PracticeCopy.chooseOwn)),
+                    Padding(
+                      padding: gutter,
+                      child: SectionHeading(
+                        title: PracticeCopy.chooseOwn,
+                        action: PracticeCopy.editSubjects,
+                        onAction: () => openEditSubjects(context),
+                      ),
+                    ),
                     const SizedBox(height: MmSpace.s12),
                     SubjectTiles(
                       choices: choices,
                       selectedId: subject,
+                      countFor: (id) => counts?[internalSubjectFor(id, catalog)],
                       onSelected: (id) => ref.read(practiceSubjectProvider.notifier).select(id),
                       onMore: others.isEmpty ? null : () => _pickOther(others),
                     ),
@@ -125,6 +149,14 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                             line: PracticeCopy.chapterLine,
                             onTap: () => _chapter(subject),
                           ),
+                          if (showSmart)
+                            ModeChoice(
+                              icon: ModeIcons.smart,
+                              title: PracticeCopy.smartTitle,
+                              tag: smartGated ? PracticeCopy.proTag : null,
+                              line: smartGated ? PracticeCopy.smartGatedLine : PracticeCopy.smartLine,
+                              onTap: () => _confirm(PracticeSelection(mode: PracticeMode.smart, subjectId: subject)),
+                            ),
                           ModeChoice(
                             icon: ModeIcons.full,
                             title: PracticeCopy.fullMockTitle,
@@ -137,11 +169,15 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                               title: PracticeCopy.ntaTitle,
                               tag: ntaGated ? PracticeCopy.proTag : null,
                               line: ntaGated ? PracticeCopy.ntaGatedLine : PracticeCopy.ntaLine(questions: mockQuestionCount),
-                              onTap: () => _confirm(PracticeSelection(mode: PracticeMode.nta, subjectId: subject)),
+                              chips: PracticeCopy.ntaChips,
+                              // The exam's own instructions page: the clock starts only after it.
+                              onTap: () => context.push(NtaRoutes.location(subject)),
                             ),
                         ],
                       ),
                     ),
+                    const SizedBox(height: MmSpace.group),
+                    Padding(padding: gutter, child: PracticeMoreRows(subject: subject)),
                     const ConceptsShelf(),
                   ],
                 ),

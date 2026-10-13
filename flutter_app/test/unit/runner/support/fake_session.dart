@@ -23,6 +23,7 @@ extension on SessionQuestion {
     options: options,
     passageText: passageText,
     passageGroupId: passageGroupId,
+    difficulty: difficulty,
   );
 }
 
@@ -35,6 +36,7 @@ final _accountancy = [
     id: '',
     subject: 'accountancy',
     chapter: 'Admission of a partner',
+    difficulty: 'medium',
     question:
         'A and B share profits in the ratio 3:2. C is admitted for a 1/5 share, which he takes equally from A and B. What is the new profit-sharing ratio?',
     options: _opts(['5:3:2', '3:2:1', '11:5:4', '2:2:1']),
@@ -43,6 +45,7 @@ final _accountancy = [
     id: '',
     subject: 'accountancy',
     chapter: 'Goodwill',
+    difficulty: 'easy',
     question:
         'Average profit of a firm is Rs 60,000 and normal profit is Rs 45,000. What is goodwill at three years\' purchase of super profit?',
     options: _opts(['Rs 45,000', 'Rs 1,35,000', 'Rs 1,80,000', 'Rs 15,000']),
@@ -51,6 +54,7 @@ final _accountancy = [
     id: '',
     subject: 'accountancy',
     chapter: 'Retirement of a partner',
+    difficulty: 'hard',
     question: 'On the retirement of a partner, the gaining ratio is calculated as',
     options: _opts([
       'Old ratio minus new ratio',

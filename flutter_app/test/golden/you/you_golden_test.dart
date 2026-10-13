@@ -33,7 +33,7 @@ void main() {
   sheetGolden(
     'hub_full_page',
     () => const YouHubScreen(),
-    size: const Size(384, 1720),
+    size: const Size(384, 2000),
     overrides: () => youOverrides(target: ashaTarget, rhythm: FakeRhythm(rhythmState(milestones: earnedMilestones))),
   );
 

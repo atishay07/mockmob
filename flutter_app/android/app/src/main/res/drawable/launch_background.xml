@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Window background while the app starts (before Android 12) and behind the first frame. -->
+<!-- Window background while the app starts (before Android 12) and behind the first frame: the
+     "mo" at the size and place the Android 12+ splash and the Flutter first frame draw it. -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@color/splash_ground" />
     <item
-        android:width="108dp"
-        android:height="108dp"
+        android:width="288dp"
+        android:height="288dp"
         android:gravity="center"
-        android:drawable="@drawable/splash_mark" />
+        android:drawable="@drawable/splash_mo" />
 </layer-list>

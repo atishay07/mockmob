@@ -1,14 +1,15 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 
-import '../motion/motion.dart';
+import '../mascot/mascot.dart';
 import '../theme/theme.dart';
 import 'art/mm_art.dart';
 import 'materials/fake_glass.dart';
 
-/// Mobi's poses: the seven warm, lamp-lit renders in `assets/art/` (Night Sheet brief, section
-/// 2), each falling back to the original flat artwork in `assets/mobi/` if its file is missing.
+export '../mascot/mascot.dart';
+
+/// Mobi's poses. Each maps to an act of the living character ([act]); the seven warm renders in
+/// `assets/art/` remain as the raster fallback ([Mobi.rasterFallback]), each falling back in turn
+/// to the original flat artwork in `assets/mobi/`.
 ///
 /// The older pose names are kept so existing screens compile; they map onto the new renders.
 /// Mobi never shows a sad pose and is never in the runner or on a sealed sheet.
@@ -39,9 +40,22 @@ enum MobiPose {
 
   /// The original flat artwork, used when the render is missing.
   String get legacyAsset => 'assets/mobi/$_legacy.webp';
+
+  /// What the living Mobi does for this pose when it appears.
+  MobiAct get act => switch (this) {
+        greet || greeting => MobiAct.hello,
+        point || pointing || encouraging => MobiAct.point,
+        think || thinking => MobiAct.think,
+        cheer || celebrating => MobiAct.cheer,
+        rest => MobiAct.rest,
+        sleepy => MobiAct.sleepy,
+        read => MobiAct.read,
+        attentive || idle => MobiAct.appear,
+      };
 }
 
-/// The single motion Mobi may play, once, when it appears. Transforms only; never an idle loop.
+/// The entrance motion older call sites ask for. The living Mobi plays its pose's own act; this
+/// only picks the rise-in for poses without one (see [Mobi.motion]).
 enum MobiMotion {
   /// Static pose.
   none,
@@ -57,8 +71,13 @@ enum MobiMotion {
 }
 
 /// Mobi, the companion at the human moments: welcome, onboarding guide moments, empty states,
-/// return after a gap, late night, celebrations. It may [say] one short line in a glass bubble,
-/// never evaluative of the person.
+/// return after a gap, late night, celebrations. It may [say] one short line in a speech
+/// bubble, never evaluative of the person.
+///
+/// Mobi is a living vector character ([MobiCharacter]): it plays its [pose]'s act when it appears
+/// (a wave for greet, a hop for cheer, sitting down for rest...), then breathes, blinks and sways
+/// its antenna. Pass a [controller] to make it act, talk, look or point later. Under reduced
+/// motion it holds the pose still. The old raster poses remain behind [rasterFallback].
 class Mobi extends StatefulWidget {
   const Mobi({
     super.key,
@@ -68,105 +87,130 @@ class Mobi extends StatefulWidget {
     this.semanticLabel,
     this.say,
     this.sayLive = false,
+    this.controller,
+    this.interactive = false,
   });
 
   final MobiPose pose;
 
   /// Height in dp.
   final double size;
+
+  /// Kept for older call sites. [MobiMotion.none] skips the plain rise-in for poses without an
+  /// act of their own; every pose still plays its own act when it appears.
   final MobiMotion motion;
 
   /// Mobi is decoration and is excluded from semantics unless a label is given.
   final String? semanticLabel;
 
-  /// One short line in a glass speech bubble beside Mobi.
+  /// One short line in a speech bubble beside Mobi, typed in while Mobi talks.
   final String? say;
 
   /// Announce [say] when it changes (a line that answers the student's own choice).
   final bool sayLive;
 
+  /// Drives Mobi after it appears.
+  final MobiController? controller;
+
+  /// A tap makes Mobi react.
+  final bool interactive;
+
   static const Duration settleDuration = Duration(milliseconds: 420);
   static const Duration hopDuration = Duration(milliseconds: 400);
+
+  /// Build with `--dart-define=MOBI_RASTER=true` to show the old warm renders instead of the
+  /// living character.
+  static const bool rasterFallback = bool.fromEnvironment('MOBI_RASTER');
 
   @override
   State<Mobi> createState() => _MobiState();
 }
 
-class _MobiState extends State<Mobi> with SingleTickerProviderStateMixin {
-  AnimationController? _controller;
-  bool _started = false;
-
-  Duration get _duration => widget.motion == MobiMotion.hop ? Mobi.hopDuration : Mobi.settleDuration;
+class _MobiState extends State<Mobi> {
+  MobiController? _own;
+  MobiController get _controller => widget.controller ?? (_own ??= MobiController());
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (_started || widget.motion == MobiMotion.none) return;
-    _started = true;
-    if (Motion.reduced(context)) return;
-    _controller = AnimationController(vsync: this, duration: _duration)..forward();
+  void initState() {
+    super.initState();
+    final line = widget.say;
+    if (line != null) _controller.say(line, live: widget.sayLive);
+  }
+
+  @override
+  void didUpdateWidget(Mobi old) {
+    super.didUpdateWidget(old);
+    final line = widget.say;
+    if (line != null && line != old.say) _controller.say(line, live: widget.sayLive);
   }
 
   @override
   void dispose() {
-    _controller?.dispose();
+    _own?.dispose();
     super.dispose();
   }
 
-  Widget _transform(double t, Widget child) {
-    switch (widget.motion) {
-      case MobiMotion.none:
-        return child;
-      case MobiMotion.hop:
-        final lift = -widget.size * 0.16 * 4 * t * (1 - t);
-        return Transform.translate(offset: Offset(0, lift), child: child);
-      case MobiMotion.settle:
-        final e = Motion.emphasized.transform(t);
-        return Transform.translate(
-          offset: Offset(0, 6 * (1 - e)),
-          child: Transform.scale(scale: 0.96 + 0.04 * e, alignment: Alignment.bottomCenter, child: child),
-        );
-      case MobiMotion.tilt:
-        final e = Motion.emphasized.transform(t);
-        return Transform.rotate(angle: 5 * math.pi / 180 * e, alignment: Alignment.bottomCenter, child: child);
-    }
+  MobiAct get _entrance {
+    final act = widget.pose.act;
+    if (act == MobiAct.appear && widget.motion == MobiMotion.none) return MobiAct.idle;
+    if (act == MobiAct.appear && widget.motion == MobiMotion.hop) return MobiAct.cheer;
+    if (act == MobiAct.appear && widget.motion == MobiMotion.tilt) return MobiAct.point;
+    return act;
   }
 
   @override
   Widget build(BuildContext context) {
-    final dpr = MediaQuery.devicePixelRatioOf(context);
-    final legacy = Image.asset(
-      widget.pose.legacyAsset,
-      height: widget.size,
-      fit: BoxFit.contain,
-      cacheHeight: (widget.size * dpr).round(),
-      excludeFromSemantics: true,
-      errorBuilder: (context, error, stack) => SizedBox.square(dimension: widget.size),
-    );
-    final image = ArtImage(
-      widget.pose.art,
-      height: widget.size,
-      placeholder: legacy,
-      semanticLabel: widget.semanticLabel,
-    );
+    final Widget body = Mobi.rasterFallback
+        ? _RasterMobi(pose: widget.pose, size: widget.size, semanticLabel: widget.semanticLabel)
+        : MobiCharacter(
+            controller: _controller,
+            size: widget.size,
+            entrance: _entrance,
+            semanticLabel: widget.semanticLabel,
+            interactive: widget.interactive,
+            seed: 7 + widget.pose.index * 13,
+          );
 
-    final controller = _controller;
-    Widget body = controller == null
-        ? (widget.motion == MobiMotion.tilt && !Motion.reduced(context) ? _transform(1, image) : image)
-        : AnimatedBuilder(animation: controller, child: image, builder: (context, child) => _transform(controller.value, child!));
-    body = RepaintBoundary(child: body);
-
-    final line = widget.say;
-    if (line == null) return body;
+    if (widget.say == null) return body;
     return Row(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         body,
-        const SizedBox(width: MmSpace.s8),
-        Flexible(child: MobiLine(line, live: widget.sayLive)),
+        const SizedBox(width: MmSpace.s4),
+        Flexible(
+          child: ValueListenableBuilder<MobiSpeech?>(
+            valueListenable: _controller.speech,
+            builder: (context, speech, _) => speech == null
+                ? const SizedBox.shrink()
+                : MobiBubble(key: ValueKey(speech.id), speech: speech, tail: MobiTail.left, maxWidth: 250),
+          ),
+        ),
       ],
     );
+  }
+}
+
+/// The old warm render of a pose, kept as a fallback.
+class _RasterMobi extends StatelessWidget {
+  const _RasterMobi({required this.pose, required this.size, this.semanticLabel});
+
+  final MobiPose pose;
+  final double size;
+  final String? semanticLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    final dpr = MediaQuery.devicePixelRatioOf(context);
+    final legacy = Image.asset(
+      pose.legacyAsset,
+      height: size,
+      fit: BoxFit.contain,
+      cacheHeight: (size * dpr).round(),
+      excludeFromSemantics: true,
+      errorBuilder: (context, error, stack) => SizedBox.square(dimension: size),
+    );
+    return RepaintBoundary(child: ArtImage(pose.art, height: size, placeholder: legacy, semanticLabel: semanticLabel));
   }
 }
 

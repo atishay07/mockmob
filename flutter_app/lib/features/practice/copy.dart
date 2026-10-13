@@ -1,4 +1,5 @@
 import '../../core/copy/copy.dart';
+import 'model/finish_reaction.dart';
 
 /// Every user-facing string of the practice feature. Voice: a sharp senior who has been through
 /// CUET. Sentence case, no middle dots, no emoji, no exclamation marks, no arrows, 12-hour times,
@@ -8,6 +9,9 @@ abstract final class PracticeCopy {
   static const String tabTitle = 'Practice';
   static const String chooseOwn = 'Choose your own';
   static const String concepts = 'Concepts';
+  static const String moreHeading = 'Explore and plan';
+  static const String toolsTitle = 'CUET tools';
+  static const String toolsNote = 'Which DU courses your subjects open, and last year’s cutoffs.';
   static const String allConcepts = 'See all';
   static const String moreSubjects = 'More subjects';
   static const String otherSubjectsTitle = 'More subjects';
@@ -48,14 +52,18 @@ abstract final class PracticeCopy {
   // The modes, as what you get.
   static const String quickTitle = 'Quick practice';
   static const String quickLine = '5 to 20 questions, your pick.';
-  static const String chapterTitle = 'One chapter';
-  static const String chapterLine = 'Pick a chapter, then 5 to 20 questions.';
+  static const String chapterTitle = 'By chapter';
+  static const String chapterLine = 'Pick up to 12 chapters, then 5 to 20 questions.';
+  static const String smartTitle = 'Smart practice';
+  static const String smartLine = 'Leans toward the chapters you miss. 10 to 20 questions.';
+  static const String smartGatedLine = 'Comes with Pro. Quick practice is open to you now.';
   static const String fullMockTitle = 'Full mock';
   static String fullMockLine({required int questions, int? minutes}) =>
       minutes == null ? '$questions questions, timed like the exam.' : '$questions questions, $minutes minutes, timed like the exam.';
-  static const String ntaTitle = 'Exam-day layout';
-  static String ntaLine({required int questions}) => 'The NTA screen, $questions questions, timed.';
+  static const String ntaTitle = 'NTA mode';
+  static String ntaLine({required int questions}) => 'The exam-day screen, as you will meet it on the day.';
   static const String ntaGatedLine = 'Comes with Pro. A Full mock is open to you now.';
+  static const List<String> ntaChips = ['50 questions', '60 minutes', 'Question palette', 'Mark for review'];
   static const String proTag = 'Pro';
 
   // Confirm sheet and setup page.
@@ -63,10 +71,54 @@ abstract final class PracticeCopy {
   static String mockTitle(String? mockLabel, String subject) => '${mockLabel ?? 'Full mock'}, $subject';
   static const String subjectLabel = 'Subject';
   static const String questionsLabel = 'Questions';
-  static const String chapterLabel = 'Chapter';
-  static const String chooseChapter = 'Choose a chapter';
+  static const String chapterLabel = 'Chapters';
+  static const String chooseChapter = 'Choose chapters';
   static const String chooseChapterFirst = 'Choose a chapter first.';
-  static const String chooseChapterTitle = 'Choose a chapter';
+  static const String chooseChapterTitle = 'Choose chapters';
+  static const String searchChapters = 'Search chapters';
+  static const String noChapterMatch = 'No chapter matches that.';
+  static String useChapters(int n) => n == 0 ? 'Choose at least one' : (n == 1 ? 'Use 1 chapter' : 'Use $n chapters');
+  static const String clearChapters = 'Clear';
+  static const String chapterLimit = 'Up to 12 chapters in one session.';
+  static const String oneChapterOnly = 'This subject takes one chapter at a time for now.';
+
+  /// "Goodwill", "Goodwill and Issue of shares", "Goodwill, Issue of shares and 2 more".
+  static String chaptersSummary(List<String> names) => switch (names.length) {
+    0 => '',
+    1 => names.first,
+    2 => '${names[0]} and ${names[1]}',
+    _ => '${names[0]}, ${names[1]} and ${names.length - 2} more',
+  };
+
+  // Difficulty (Pro, Quick, chapter and Full only).
+  static const String difficultyLabel = 'Difficulty';
+  static const String difficultyBalanced = 'Balanced';
+  static const String difficultyEasy = 'Easy';
+  static const String difficultyMedium = 'Medium';
+  static const String difficultyHard = 'Hard';
+  static const String difficultyProNote = 'Choosing a level comes with Pro. Balanced is the exam’s own mix.';
+
+  // The summary of what starts.
+  static const String summarySubject = 'Subject';
+  static const String summaryMode = 'Mode';
+  static const String summaryQuestions = 'Questions';
+  static const String summaryChapters = 'Chapters';
+  static const String summaryTime = 'Time';
+  static const String summaryMarking = 'Marking';
+  static const String summaryCost = 'Cost';
+  static const String markingValue = '+5 right, ${minusSign}1 wrong, 0 blank';
+  static const String allChapters = 'All chapters';
+  static const String costIncluded = 'Included with Pro';
+  static const String costFree = 'Free';
+  static const String costChecking = 'Checking';
+  static String timeExact(int minutes) => plural(minutes, 'minute');
+  static String timeAbout(int minutes) => 'About ${plural(minutes, 'minute')}';
+
+  // Subjects.
+  static const String editSubjects = 'Edit subjects';
+  static String staleSubject(String name, String? reason) =>
+      reason == null || reason.isEmpty ? '$name is saved on your account but is not open for practice.' : '$name: $reason';
+  static String questionsAvailable(int n) => '${_grouped(n)} questions';
   static const String chaptersLoadFailed = 'We could not load the chapters. Try again.';
   static const String chaptersOffline = 'Connect to see the chapters.';
   static const String whatYouGet = 'What you get';
@@ -110,8 +162,9 @@ abstract final class PracticeCopy {
   // Pro gate, warm and true. No prices, no purchase links.
   static String proGateTitle(String mode) => '$mode comes with Pro';
   static const String proGateBody =
-      'Everything else here is yours: Full mock, Quick practice and One chapter. A Full mock is the same length.';
+      'Everything else here is yours: Full mock, Quick practice and By chapter.';
   static const String takeFullInstead = 'Take a Full mock instead';
+  static const String takeQuickInstead = 'Take Quick practice instead';
 
   // Start failures.
   static const String startFailed =
@@ -149,10 +202,42 @@ abstract final class PracticeCopy {
     return ['$right right', if (wrong > 0) '$wrong wrong', if (blank > 0) '$blank not attempted'].join(', ');
   }
 
+  /// Mobi's line after the reaction. About the sheet, never about the person.
+  static String finishLine(FinishTone tone, FinishMarks m) {
+    final toLook = m.wrong + m.blank;
+    return switch (tone) {
+      FinishTone.great || FinishTone.good when toLook == 0 => 'Every one right. Nothing to fix from this set.',
+      FinishTone.great => 'Excellent set. ${plural(toLook, 'question')} to look at below.',
+      FinishTone.good => 'Strong run. ${plural(toLook, 'question')} to look at below.',
+      FinishTone.mixed => 'Let’s look at the $toLook that slipped. The reasons are below.',
+      FinishTone.blank => 'A lot left blank. Try them below, no clock running.',
+      FinishTone.low => 'Start with the first one below. The reason is right there.',
+    };
+  }
+
+  /// The website's arithmetic: right +5, wrong -1; each wrong answer costs 6 of the marks missed.
+  static String marksLine(FinishMarks m) {
+    final head = '${formatSignedNumber(m.scored)} of ${m.max} marks.';
+    if (m.wrong > 0) return '$head ${plural(m.wrong, 'wrong answer')} cost ${m.lostToWrong} of the ${m.missed} marks you missed.';
+    if (m.blank > 0) return '$head ${plural(m.blank, 'blank')} left ${m.leftOnBlanks} marks on the table.';
+    return head;
+  }
+
+  static String repairThese(int n) => n == 1 ? 'Repair this one' : 'Repair these $n';
+  static const String skipHint = 'Tap to skip';
+  static const String save = 'Save';
+  static const String saved = 'Saved';
+  static const String saveSemantics = 'Save this question to your saved questions';
+  static const String unsaveSemantics = 'Remove this question from your saved questions';
+  static const String saveFull = 'Your 25 free save slots are full. Remove a saved question to make room.';
+  static const String saveFailed = 'We could not save this. Nothing changed. Try again.';
+  static const String saveOffline = 'Connect to save questions.';
+
   static String chapterResultLine(String name) => 'Chapter: ${name.endsWith('.') ? name.substring(0, name.length - 1) : name}.';
   static String recorded(DateTime at) => 'Practice finished. Recorded at ${formatTime12(at)}.';
   static String reviewWrong(int n) => n == 1 ? 'Review 1 wrong answer' : 'Review $n wrong answers';
   static const String practiseAnotherChapter = 'Practise another chapter';
+  static const String tryTheBlanks = 'Try the blanks';
   static const String finishForNow = 'Finish for now';
   static String finished(DateTime at) => 'Practice recorded at ${formatTime12(at)}.';
   static String sectionWrong(int n) => 'Wrong answers ($n)';
@@ -191,5 +276,15 @@ abstract final class PracticeCopy {
     if (days == 1) return 'yesterday';
     if (days < 7) return 'on ${weekdayName(at.weekday)}';
     return 'on ${formatDayMonth(at)}';
+  }
+
+  static String _grouped(int n) {
+    final digits = '$n';
+    final out = StringBuffer();
+    for (var i = 0; i < digits.length; i++) {
+      if (i > 0 && (digits.length - i) % 3 == 0) out.write(',');
+      out.write(digits[i]);
+    }
+    return out.toString();
   }
 }

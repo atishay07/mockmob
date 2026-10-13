@@ -154,3 +154,7 @@ flutter:
   assets:
     - assets/art/
     - assets/mobi/
+    # DU 2026 data (the website's public /du/2026 files), so Compass and Combo work on a first
+    # offline run.
+    - assets/du/2026/
+    - assets/du/2026/offerings/

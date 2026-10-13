@@ -52,10 +52,9 @@ class PlanSheet extends StatelessWidget {
       borderRadius: radius,
       lamp: true,
       opacity: colors.isNight ? 0.7 : 0.84,
-      child: CustomPaint(
-        foregroundPainter: _LeftTimingMarks(colors.ink3.withValues(alpha: 0.4)),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.s24, MmSpace.s20, MmSpace.s20, MmSpace.s16),
+      child: Builder(
+        builder: (context) => Padding(
+          padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s20, MmSpace.s20, MmSpace.s16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
@@ -98,26 +97,7 @@ class PlanSheet extends StatelessWidget {
       ),
     );
 
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        // The lamp pooled behind the card, from the upper left.
-        Positioned(
-          left: -80,
-          top: -90,
-          right: 40,
-          height: 360,
-          child: IgnorePointer(
-            child: LightField(
-              pools: [
-                LightPool(color: colors.lamp.withValues(alpha: colors.isNight ? 0.2 : 0.14), center: const Alignment(-0.3, -0.4), radius: 0.6),
-              ],
-            ),
-          ),
-        ),
-        CustomPaint(foregroundPainter: _SealTrace(progress: seal, color: colors.isNight ? colors.volt : colors.accentText), child: card),
-      ],
-    );
+    return CustomPaint(foregroundPainter: _SealTrace(progress: seal, color: colors.isNight ? colors.volt : colors.accentText), child: card);
   }
 }
 
@@ -146,7 +126,7 @@ class _PlanLine extends StatelessWidget {
       fontSize: 13,
       height: 1.6,
       letterSpacing: 0,
-      color: newest && show ? colors.accentText : colors.ink3,
+      color: colors.ink3,
     );
     return Padding(
       padding: const EdgeInsets.only(bottom: MmSpace.s12),
@@ -163,24 +143,6 @@ class _PlanLine extends StatelessWidget {
       ),
     );
   }
-}
-
-/// The timing marks down the left edge of the sheet's back: 3 by 10 dp bars every 24 dp.
-class _LeftTimingMarks extends CustomPainter {
-  const _LeftTimingMarks(this.color);
-
-  final Color color;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = color;
-    for (var y = 24.0; y < size.height - 24; y += 24) {
-      canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromLTWH(8, y, 3, 10), const Radius.circular(1)), paint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(_LeftTimingMarks old) => old.color != color;
 }
 
 /// The light that runs around the sheet's edge while the student holds to seal.

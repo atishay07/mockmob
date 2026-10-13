@@ -34,7 +34,7 @@ class BubblePaint {
 
   double _stroke(double r) => (r * 0.12).clamp(1.0, 2.0);
 
-  Color get _wrongFill => colors.isNight ? Color.lerp(colors.wrongBorder, colors.wrongText, 0.5)! : colors.wrongBorder;
+  Color get _wrongFill => colors.wrongMark;
 
   /// Draws one bubble of radius [r] at [c].
   ///

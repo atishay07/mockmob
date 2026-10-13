@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter/widgets.dart' show Scrollable;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/connectivity/connectivity.dart';
 import 'package:mockmob/core/models/practice_quote.dart';
@@ -89,10 +91,11 @@ void main() {
     await settle(tester);
     // 13 is not offered: the nearest offered length is chosen.
     expect(text('15 questions, about 15 minutes.'), findsOneWidget);
+    Finder segment(String n) => find.descendant(of: find.byType(MmSegmented<int>), matching: find.text(n));
     for (final n in ['5', '10', '15', '20']) {
-      expect(text(n), findsOneWidget);
+      expect(segment(n), findsOneWidget);
     }
-    await tester.tap(text('5'));
+    await tester.tap(segment('5'));
     await settle(tester);
     expect(text('5 questions, about 5 minutes.'), findsOneWidget);
     expect(quotes.calls.map((c) => c.count).toSet(), {15, 5});
@@ -111,11 +114,13 @@ void main() {
     expect(text('Choose a chapter first.'), findsOneWidget);
     // The quote is the Quick practice quote: chapter practice has no price of its own.
     expect(quotes.calls.every((c) => c.mode == 'quick'), isTrue);
-    await tester.tap(text('Choose a chapter').first);
+    await tester.tap(text('Choose chapters').first);
     await tester.pump(const Duration(milliseconds: 400));
     await tester.pump(const Duration(milliseconds: 400));
     expect(text('Partnership accounts'), findsOneWidget);
     await tester.tap(text('Admission of a partner'));
+    await tester.pump();
+    await tester.tap(text('Use 1 chapter'));
     await tester.pump(const Duration(milliseconds: 500));
     await tester.pump(const Duration(milliseconds: 500));
     expect(text('Choose a chapter first.'), findsNothing);
@@ -134,7 +139,7 @@ void main() {
       overrides: practiceOverrides(quotes: FakeQuoteRepository((s, m, c, p) => creditsQuote())),
     );
     await settle(tester);
-    expect(text('Goodwill'), findsOneWidget);
+    expect(text('Goodwill'), findsWidgets);
     await tester.tap(text('English'));
     await tester.pump(const Duration(milliseconds: 100));
     expect(text('Goodwill'), findsNothing);
@@ -251,9 +256,10 @@ void main() {
     await settle(tester);
     expect(text('50 credits. You have 120.'), findsOneWidget);
     // One confirm step, not a wizard: the before-mock lines are already here.
-    expect(text('Mock 7, Accountancy'), findsOneWidget);
+    expect(find.bySemanticsLabel('Mock 7, Accountancy'), findsOneWidget);
     expect(text('50 questions, 60 minutes.'), findsOneWidget);
-    expect(text('5 marks for each correct answer, minus 1 for each wrong one.'), findsOneWidget);
+    expect(text('+5 right, −1 wrong, 0 blank'), findsOneWidget);
+    await tester.scrollUntilVisible(text('The timer keeps running if you leave the app. Submit ends the mock.'), 120, scrollable: find.byType(Scrollable).first);
     expect(text('The timer keeps running if you leave the app. Submit ends the mock.'), findsOneWidget);
     expect(text('For fewer interruptions, turn on Do Not Disturb from Quick Settings.'), findsOneWidget);
     // The ticket-mode line needs a ticket-mode session, which only exists after the start.
@@ -279,8 +285,8 @@ void main() {
       ),
     );
     await settle(tester);
-    expect(text('Exam-day layout comes with Pro'), findsOneWidget);
-    expect(text('Everything else here is yours: Full mock, Quick practice and One chapter. A Full mock is the same length.'), findsOneWidget);
+    expect(text('NTA mode comes with Pro'), findsOneWidget);
+    expect(text('Everything else here is yours: Full mock, Quick practice and By chapter.'), findsOneWidget);
     expect(text('Take a Full mock instead'), findsOneWidget);
     expect(find.textContaining('Rs'), findsNothing);
     expect(find.textContaining('Upgrade'), findsNothing);
@@ -288,7 +294,7 @@ void main() {
     await tester.ensureVisible(text('Take a Full mock instead'));
     await tester.tap(text('Take a Full mock instead'));
     await settle(tester);
-    expect(text('Mock 7, Accountancy'), findsOneWidget);
+    expect(find.bySemanticsLabel('Mock 7, Accountancy'), findsOneWidget);
     expect(text('Start mock'), findsOneWidget);
   });
 

@@ -20,6 +20,8 @@ class SubmitStageView extends StatelessWidget {
     required this.onOpenResult,
     required this.onGoToday,
     required this.onGoPractice,
+    this.submitLabel,
+    this.submitKey,
   });
 
   final SubmitUiState state;
@@ -31,6 +33,12 @@ class SubmitStageView extends StatelessWidget {
   final VoidCallback onGoToday;
   final VoidCallback onGoPractice;
 
+  /// The submit key's words when the skin names it (NTA mode: "Submit test").
+  final String? submitLabel;
+
+  /// The skin's own submit key (NTA mode: the exam's green "Submit test"), in place of the volt one.
+  final Widget? submitKey;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -38,7 +46,7 @@ class SubmitStageView extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: switch (state.stage) {
         SubmitStage.idle => [
-          KeyButton(label: RunnerCopy.submitKey(isMock), onPressed: onSubmit),
+          submitKey ?? KeyButton(label: submitLabel ?? RunnerCopy.submitKey(isMock), onPressed: onSubmit),
           const SizedBox(height: MmSpace.s8),
           Center(
             child: KeyButton.quiet(label: RunnerCopy.keepWorking, onPressed: onKeepWorking, hapticOnCommit: false),

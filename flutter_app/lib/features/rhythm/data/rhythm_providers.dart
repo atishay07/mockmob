@@ -14,6 +14,7 @@ import '../logic/dates.dart';
 import '../logic/week_view.dart';
 import '../logic/weekly_ending.dart';
 import 'rhythm_prefs.dart';
+import 'study_days.dart';
 
 /// Everything the week sheet, the You rhythm screen and the Today strip need in one value.
 class RhythmSnapshot {
@@ -114,6 +115,13 @@ class RhythmActions {
   Future<void> saveGoal(int days) async {
     await _ref.read(goalRepositoryProvider.notifier).save(daysPerWeek: days.clamp(1, 7), pausedUntil: _pausedUntil);
     await _refreshRhythm();
+  }
+
+  /// Saves the chosen study days: the goal (their number) on the server first, then which days
+  /// they are on this phone, so the plan never runs ahead of an unsaved goal.
+  Future<void> saveStudyDays(Set<int> days) async {
+    await saveGoal(days.length);
+    await _ref.read(plannedDaysProvider.notifier).save(days);
   }
 
   Future<void> _pause(String? until) async {

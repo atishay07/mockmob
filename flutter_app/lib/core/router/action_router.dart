@@ -152,6 +152,24 @@ abstract final class ActionRouter {
         if (s.length == 2) return _id.hasMatch(s[1]) ? AppRoutes.learnRun(s[1]) : _reject;
       case 'result':
         if (s.length == 2) return _id.hasMatch(s[1]) ? AppRoutes.result(s[1]) : _reject;
+      case 'explore':
+        if (s.length == 1) return _stream(q);
+      case 'saved':
+        if (s.length == 1) return AppRoutes.reviewSaved;
+      case 'analytics':
+        if (s.length == 1) return AppRoutes.reviewInsights;
+      case 'mentor':
+        if (s.length == 1) return q['tab'] == 'ask' ? AppRoutes.ask : AppRoutes.reviewInsights;
+      case 'admission-compass' || 'cuet-cutoff-calculator':
+        if (s.length == 1) return AppRoutes.toolsCompass;
+      case 'cuet-subject-combination':
+        if (s.length == 1) return AppRoutes.toolsCombo;
+      case 'cuet-2027':
+        if (s.length == 1) return AppRoutes.toolsGuide2027;
+      case 'profile':
+        if (s.length == 1) return AppRoutes.you;
+      case 'onboarding':
+        if (s.length == 1 && q['edit'] == 'true') return AppRoutes.youSubjects;
     }
 
     // Hrefs that already name a native route (for example from a notification payload).
@@ -161,15 +179,42 @@ abstract final class ActionRouter {
     return null;
   }
 
-  static String? _setup(String mode, Map<String, String> q) {
-    if (!_word.hasMatch(mode)) return _reject;
+  /// The question stream, keeping a well-formed subject, chapter and difficulty.
+  static String _stream(Map<String, String> q) {
     final params = <String, String>{};
     final subject = q['subject'];
     if (subject != null && _subject.hasMatch(subject)) params['subject'] = subject;
     final chapter = q['chapter'];
     if (chapter != null && chapter.isNotEmpty && chapter.length <= 120) params['chapter'] = chapter;
+    final difficulty = q['difficulty'];
+    if (difficulty != null && _word.hasMatch(difficulty)) params['difficulty'] = difficulty;
+    return params.isEmpty ? AppRoutes.practiceStream : Uri(path: AppRoutes.practiceStream, queryParameters: params).toString();
+  }
+
+  static String? _setup(String mode, Map<String, String> q) {
+    if (!_word.hasMatch(mode)) return _reject;
+    final subject = q['subject'];
+    // The exam-day screen (`mode=nta`) opens its own instructions page, where the clock has not
+    // started yet. On the website `mode=full&interface=nta` is an ordinary full mock (its
+    // `classicInterface` needs NTA mode itself), so that link stays a free full mock here too.
+    if (mode == 'nta' && subject != null && _subject.hasMatch(subject)) {
+      return Uri(path: AppRoutes.examNta, queryParameters: {'subject': subject}).toString();
+    }
+    final params = <String, dynamic>{};
+    if (subject != null && _subject.hasMatch(subject)) params['subject'] = subject;
+    final chapter = q['chapter'];
+    if (chapter != null && chapter.isNotEmpty && chapter.length <= 120) params['chapter'] = chapter;
+    // The website joins several chapters with commas (`DashboardPageClient`); the app's setup
+    // link repeats `chapters` instead, so a name is never split twice.
+    final chapters = [
+      for (final name in (q['chapters'] ?? '').split(','))
+        if (name.trim().isNotEmpty && name.trim().length <= 120) name.trim(),
+    ];
+    if (chapters.isNotEmpty) params['chapters'] = chapters.take(12).toList();
     final count = q['count'];
     if (count != null && _count.hasMatch(count)) params['count'] = count;
+    final difficulty = q['difficulty'];
+    if (difficulty != null && _word.hasMatch(difficulty)) params['difficulty'] = difficulty;
     final path = AppRoutes.practiceSetup(mode);
     return params.isEmpty ? path : Uri(path: path, queryParameters: params).toString();
   }

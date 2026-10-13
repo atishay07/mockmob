@@ -32,14 +32,8 @@ class EventList extends StatelessWidget {
             decoration: BoxDecoration(border: Border(bottom: BorderSide(color: colors.line))),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(padding: EdgeInsets.only(top: 6), child: Bubble(state: BubbleState.hollow, size: 12)),
-                  const SizedBox(width: MmSpace.s12),
-                  Expanded(child: Text(text, style: type.body)),
-                ],
-              ),
+              // A plain ruled list: a bubble here would encode nothing (owner feedback 11-10).
+              child: Text(text, style: type.body),
             ),
           ),
       ],

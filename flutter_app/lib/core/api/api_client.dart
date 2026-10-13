@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart' show debugPrint, kDebugMode;
 
 import '../config/app_config.dart';
 import 'api_error.dart';
@@ -158,6 +159,7 @@ class ApiClient {
         rethrow;
       } on DioException catch (e) {
         final error = e.error is ApiError ? e.error! as ApiError : ApiError.fromDio(e);
+        if (kDebugMode && error.kind == ApiErrorKind.unknown) debugPrint('API $method $path failed: ${e.type.name} ${e.error}');
         if (error.isOffline) {
           observer?.onNetworkError();
         } else if (error.status != null) {

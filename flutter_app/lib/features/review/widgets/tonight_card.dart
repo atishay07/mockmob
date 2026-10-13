@@ -30,7 +30,7 @@ class TonightCard extends StatelessWidget {
   /// The student's clock, for "tonight" or "today".
   final DateTime now;
 
-  /// After 11 PM: sleepy Mobi says one line instead of the Hinglish caption.
+  /// After 11 PM: sleepy Mobi says one line.
   final bool lateNight;
 
   @override
@@ -85,11 +85,9 @@ class TonightCard extends StatelessWidget {
                           onTap: onShowMe,
                           semanticsLabel: 'Show me the ${n == 1 ? 'question' : '$n questions'} behind this',
                         ),
-                        const SizedBox(width: MmSpace.s12),
-                        if (!lateNight && minutes != null)
-                          Expanded(
-                            child: Text(ReviewCopy.aajKaRepair(minutes, pick.chapter), style: type.caption.copyWith(color: colors.ink3)),
-                          ),
+                        const Spacer(),
+                        // Mobi stands by the key, pointing at it (asleep on his feet after 11 PM).
+                        if (!lateNight) const Mobi(pose: MobiPose.point, size: 48),
                       ],
                     ),
                     if (lateNight) ...[

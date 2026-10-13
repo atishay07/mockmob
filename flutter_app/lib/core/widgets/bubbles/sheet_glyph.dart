@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../theme/theme.dart';
 import 'bubble_painter.dart';
@@ -8,20 +9,24 @@ enum SheetGlyph {
   /// A row half inked: a paper in progress.
   resume,
 
-  /// Ten bubbles in two rows: a Quick 10.
+  /// A spark: a quick set.
   quick,
 
-  /// One row, its first two inked, under a chapter rule: one chapter.
+  /// An open book: one or more chapters.
   chapter,
 
-  /// A 5 by 5 micro-grid: a full paper.
+  /// A stopwatch: a full timed paper.
   mock,
 
-  /// The micro-grid with a timing mark down its side: the exam-day layout.
+  /// The exam's own question palette in miniature (answered, not answered, marked, not
+  /// visited): the exam-day layout. The only grid glyph, because it is what that screen shows.
   exam,
 
   /// One wrong bubble in a volt ring: the mistake about to be repaired.
   repair,
+
+  /// A speech bubble with three typing dots: ask Mobi about your record.
+  ask,
 }
 
 /// A [SheetGlyph] in a 40 dp tile.
@@ -42,9 +47,12 @@ class SheetGlyphTile extends StatelessWidget {
         ),
         child: SizedBox.square(
           dimension: size,
-          child: CustomPaint(
-            painter: SheetGlyphPainter(glyph, colors: colors),
-          ),
+          child: switch (glyph) {
+            SheetGlyph.quick => Icon(LucideIcons.zap, size: size * 0.5, color: colors.ink),
+            SheetGlyph.chapter => Icon(LucideIcons.bookOpen, size: size * 0.5, color: colors.ink),
+            SheetGlyph.mock => Icon(LucideIcons.timer, size: size * 0.5, color: colors.ink),
+            _ => CustomPaint(painter: SheetGlyphPainter(glyph, colors: colors)),
+          },
         ),
       ),
     );
@@ -62,44 +70,39 @@ class SheetGlyphPainter extends CustomPainter {
     final b = BubblePaint(colors);
     final c = size.center(Offset.zero);
     final volt = colors.isNight ? colors.volt : colors.accentText;
-    void grid({double dx = 0}) {
-      for (var row = 0; row < 5; row++) {
-        for (var col = 0; col < 5; col++) {
-          b.paint(canvas, Offset(c.dx + dx + (col - 2) * 5.5, c.dy + (row - 2) * 5.5), 1.6, BubbleState.hollow);
-        }
-      }
-    }
-
     switch (glyph) {
       case SheetGlyph.resume:
         for (var col = 0; col < 5; col++) {
           b.paint(canvas, Offset(c.dx + (col - 2) * 6.5, c.dy), 2.6, col < 3 ? BubbleState.filled : BubbleState.hollow);
         }
-      case SheetGlyph.quick:
-        for (var row = 0; row < 2; row++) {
-          for (var col = 0; col < 5; col++) {
-            final o = Offset(c.dx + (col - 2) * 6.5, c.dy + (row - 0.5) * 8);
-            b.paint(canvas, o, 2.5, row == 0 && col < 3 ? BubbleState.filled : BubbleState.hollow);
-          }
-        }
-      case SheetGlyph.chapter:
-        canvas.drawLine(
-          Offset(c.dx - 14, c.dy - 6),
-          Offset(c.dx + 14, c.dy - 6),
-          Paint()
-            ..strokeWidth = 1.5
-            ..strokeCap = StrokeCap.round
-            ..color = colors.ink2,
-        );
-        for (var col = 0; col < 5; col++) {
-          b.paint(canvas, Offset(c.dx + (col - 2) * 6.5, c.dy + 4), 2.5, col < 2 ? BubbleState.filled : BubbleState.hollow);
-        }
-      case SheetGlyph.mock:
-        grid();
+      case SheetGlyph.quick || SheetGlyph.chapter || SheetGlyph.mock:
+        // Drawn as icons by [SheetGlyphTile].
+        break;
       case SheetGlyph.exam:
-        grid(dx: 3);
-        for (var row = 0; row < 5; row++) {
-          canvas.drawRect(Rect.fromLTWH(c.dx - 15, c.dy + (row - 2) * 5.5 - 1, 3, 2), Paint()..color = colors.ink2);
+        // Three rows of the palette's chips in the exam's own colours.
+        const states = [
+          [Color(0xFF309816), Color(0xFF309816), Color(0xFFD84500)],
+          [Color(0xFF512593), Color(0xFF309816), Color(0xFFE4E4E4)],
+          [Color(0xFFE4E4E4), Color(0xFFE4E4E4), Color(0xFFE4E4E4)],
+        ];
+        const cell = 6.0;
+        const gap = 2.5;
+        final origin = c.translate(-(cell * 1.5 + gap), -(cell * 1.5 + gap));
+        for (var row = 0; row < 3; row++) {
+          for (var col = 0; col < 3; col++) {
+            final r = Rect.fromLTWH(origin.dx + col * (cell + gap), origin.dy + row * (cell + gap), cell, cell);
+            final fill = states[row][col];
+            canvas.drawRRect(RRect.fromRectAndRadius(r, const Radius.circular(1.5)), Paint()..color = fill);
+            if (fill == const Color(0xFFE4E4E4)) {
+              canvas.drawRRect(
+                RRect.fromRectAndRadius(r.deflate(0.25), const Radius.circular(1.5)),
+                Paint()
+                  ..style = PaintingStyle.stroke
+                  ..strokeWidth = 0.5
+                  ..color = const Color(0xFFB3B3B3),
+              );
+            }
+          }
         }
       case SheetGlyph.repair:
         canvas.drawCircle(
@@ -111,6 +114,23 @@ class SheetGlyphPainter extends CustomPainter {
             ..color = volt,
         );
         b.paint(canvas, c, 8, BubbleState.wrong);
+      case SheetGlyph.ask:
+        final body = RRect.fromRectAndRadius(Rect.fromCenter(center: c.translate(0, -1.5), width: 24, height: 16), const Radius.circular(6));
+        final tail = Path()
+          ..moveTo(c.dx - 6, c.dy + 6)
+          ..lineTo(c.dx - 8, c.dy + 11)
+          ..lineTo(c.dx - 1, c.dy + 6);
+        final stroke = Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.5
+          ..strokeJoin = StrokeJoin.round
+          ..color = colors.ink2;
+        canvas
+          ..drawRRect(body, stroke)
+          ..drawPath(tail, stroke);
+        for (var i = -1; i <= 1; i++) {
+          b.paint(canvas, Offset(c.dx + i * 6, c.dy - 1.5), 1.8, BubbleState.filled);
+        }
     }
   }
 

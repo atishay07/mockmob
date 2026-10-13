@@ -8,6 +8,10 @@ import 'package:go_router/go_router.dart';
 import '../../core/router/routes.dart';
 import 'copy.dart';
 import 'data/runner_loader.dart';
+import 'nta/nta_copy.dart';
+import 'nta/nta_instructions_screen.dart';
+import 'nta/nta_paper_theme.dart';
+import 'nta/nta_runner_screen.dart';
 import 'screens/runner_screen.dart';
 import 'screens/submit_screen.dart';
 import 'widgets/runner_message.dart';
@@ -16,6 +20,27 @@ Widget runScreen(BuildContext context, GoRouterState state) => RunnerRoute(sessi
 
 Widget runSubmitScreen(BuildContext context, GoRouterState state) =>
     RunnerRoute(sessionId: state.pathParameters['sessionId'] ?? '', submit: true);
+
+/// NTA mode's instructions page, before any session exists. Registered in router.dart outside
+/// the shell (no dock, like `/run`); the Practice NTA row and the Start sheet's NTA row open
+/// [NtaRoutes.location].
+abstract final class NtaRoutes {
+  static const String path = AppRoutes.examNta;
+  static String location(String subject) => Uri(path: path, queryParameters: {'subject': subject}).toString();
+}
+
+Widget ntaInstructionsScreen(BuildContext context, GoRouterState state) {
+  final subject = state.uri.queryParameters['subject']?.trim() ?? '';
+  if (subject.isEmpty) {
+    return RunnerMessage(
+      title: NtaCopy.noSubjectTitle,
+      body: NtaCopy.noSubjectBody,
+      actionLabel: RunnerCopy.goToPractice,
+      onAction: () => context.go(AppRoutes.practice),
+    );
+  }
+  return NtaInstructionsScreen(key: ValueKey(subject), subject: subject);
+}
 
 /// Opens the session for `/run/:sessionId` (and its submit page) from the draft on this phone.
 class RunnerRoute extends ConsumerWidget {
@@ -28,6 +53,10 @@ class RunnerRoute extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final load = ref.watch(runnerLoadProvider(sessionId));
     final Widget body = switch (load) {
+      AsyncData(value: RunnerReady(:final session)) when session.mode == 'nta' => NtaPaperTheme(
+        secure: true,
+        child: submit ? SubmitPage(session: session) : NtaRunnerView(session: session),
+      ),
       AsyncData(value: RunnerReady(:final session)) => submit ? SubmitPage(session: session) : RunnerView(session: session),
       AsyncData(value: RunnerEnded(:final isMock)) => RunnerMessage(
         title: RunnerCopy.endedTitle(isMock),

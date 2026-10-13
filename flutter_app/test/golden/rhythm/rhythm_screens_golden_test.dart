@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/models/rhythm.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/features/rhythm/data/bests.dart';
@@ -69,6 +70,7 @@ void main() {
     bool hidden = false,
     RemoteState<List<PersonalBest>> bests = const RemoteState(value: []),
     double scrollBy = 0,
+    List<Attempt> attempts = const [],
   }) async {
     await pumpMockmob(
       tester,
@@ -77,7 +79,7 @@ void main() {
       size: kSheetSize,
       disableAnimations: true,
       wrapInScaffold: false,
-      overrides: rhythmOverrides(rhythm: rhythm, goal: goal, hidden: hidden, bests: bests),
+      overrides: rhythmOverrides(rhythm: rhythm, goal: goal, hidden: hidden, bests: bests, attempts: attempts),
     );
     await tester.pump(const Duration(milliseconds: 100));
     if (scrollBy != 0) {
@@ -125,7 +127,11 @@ void main() {
     });
 
     testWidgets('milestones list, $b', (tester) async {
-      await shoot(tester, 'milestones_list', brightness, const YouMilestonesScreen(), rhythm: loaded(_rhythm));
+      await shoot(tester, 'milestones_list', brightness, const YouMilestonesScreen(), rhythm: loaded(_rhythm), attempts: scoredSets(6));
+    });
+
+    testWidgets('milestones list scrolled, $b', (tester) async {
+      await shoot(tester, 'milestones_list_scrolled', brightness, const YouMilestonesScreen(), rhythm: loaded(_rhythm), attempts: scoredSets(6), scrollBy: 500);
     });
 
     testWidgets('milestones empty, $b', (tester) async {

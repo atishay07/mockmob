@@ -11,6 +11,7 @@ import 'package:mockmob/features/onboarding/model/choices.dart';
 import 'package:mockmob/features/onboarding/model/deck.dart';
 import 'package:mockmob/features/onboarding/onboarding_routes.dart';
 import 'package:mockmob/features/onboarding/state/answers_controller.dart';
+import 'package:mockmob/features/onboarding/widgets/hold_to_seal.dart';
 
 import '../../golden/onboarding/support.dart';
 import '../../helpers/fonts.dart';
@@ -81,7 +82,7 @@ void main() {
     await _tap(tester, OnboardingCopy.next);
 
     await _tap(tester, Worry.knewIt.option);
-    expect(find.text(Worry.knewIt.mobiLine), findsOneWidget);
+    expect(find.text(Worry.knewIt.mobiShort, findRichText: true), findsOneWidget, reason: "Mobi says it in the top bar");
     await _tap(tester, OnboardingCopy.next);
 
     expect(find.text(OnboardingCopy.questionTitle('Accountancy')), findsOneWidget);
@@ -93,7 +94,13 @@ void main() {
     await _tap(tester, OnboardingCopy.next);
 
     expect(find.text('Week one starts with Partnership.'), findsOneWidget);
-    await _tap(tester, OnboardingCopy.sealIt);
+    // One control: hold to seal.
+    final hold = await tester.startGesture(tester.getCenter(find.byType(HoldToSeal)));
+    for (var i = 0; i < 16; i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+    await hold.up();
+    await _settle(tester);
     await _tap(tester, OnboardingCopy.next);
 
     expect(find.text(OnboardingCopy.saveTitle), findsOneWidget);

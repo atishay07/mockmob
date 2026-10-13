@@ -13,6 +13,7 @@ import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/models/practice_quote.dart';
 import 'package:mockmob/features/practice/data/practice_starter.dart';
 import 'package:mockmob/features/practice/practice_routes.dart';
+import 'package:mockmob/features/runner/runner_routes.dart' show ntaInstructionsScreen;
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart' show settleImages;
@@ -28,6 +29,7 @@ List<GoRoute> _routes() => [
   GoRoute(path: '/practice/setup/:mode', builder: (c, s) => practiceSetupScreen(c, s)),
   GoRoute(path: '/practice/start', builder: (c, s) => practiceStartScreen(c, s)),
   GoRoute(path: '/practice/result/:attemptId', builder: (c, s) => practiceResultScreen(c, s)),
+  GoRoute(path: '/exam/nta', builder: (c, s) => ntaInstructionsScreen(c, s)),
   stubRoute('/run/:sessionId'),
   stubRoute('/today'),
 ];
@@ -156,11 +158,11 @@ void main() {
         await _shot(tester, 'confirm_mock', b);
       });
 
-      testWidgets('confirm, exam-day layout comes with Pro', (tester) async {
+      testWidgets('NTA mode opens its instructions, which say it comes with Pro', (tester) async {
         await _pump(tester, '/practice', b, practiceOverrides(quotes: _tabQuotes(), attempts: const [], now: _evening));
         await _settle(tester);
-        await _open(tester, 'Exam-day layout');
-        await _shot(tester, 'confirm_pro', b);
+        await _open(tester, 'NTA mode');
+        await _shot(tester, 'nta_instructions_pro', b);
       });
 
       testWidgets('confirm, credits low', (tester) async {
@@ -205,7 +207,7 @@ void main() {
       testWidgets('chapter picker', (tester) async {
         await _pump(tester, '/practice', b, practiceOverrides(quotes: _tabQuotes(), attempts: const [], now: _evening));
         await _settle(tester);
-        await _open(tester, 'One chapter');
+        await _open(tester, 'By chapter');
         await _shot(tester, 'chapter_picker', b);
       });
 

@@ -14,7 +14,8 @@ import '../data/rhythm_prefs.dart';
 import '../data/rhythm_providers.dart';
 import '../logic/week_view.dart';
 import 'rhythm_page.dart';
-import 'week_marks.dart';
+import '../logic/plan_week.dart';
+import 'plan_week_strip.dart';
 
 class RhythmBody extends StatelessWidget {
   const RhythmBody({
@@ -32,6 +33,7 @@ class RhythmBody extends StatelessWidget {
     required this.onTurnOn,
     required this.onMode,
     this.errorText,
+    this.plan,
   });
 
   final RhythmSnapshot snapshot;
@@ -49,6 +51,9 @@ class RhythmBody extends StatelessWidget {
   final VoidCallback onTurnOff;
   final VoidCallback onTurnOn;
   final ValueChanged<CelebrationMode> onMode;
+
+  /// The student's chosen study days (0 = Monday), or null without a plan.
+  final Set<int>? plan;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +78,7 @@ class RhythmBody extends StatelessWidget {
           InlineBanner(message: errorText!, tone: BannerTone.error),
           const SizedBox(height: MmSpace.s12),
         ],
-        if (rhythmOff) _OffPanel(onTurnOn: onTurnOn) else WeekHero(week: week),
+        if (rhythmOff) _OffPanel(onTurnOn: onTurnOn) else WeekHero(week: week, plan: plan),
         const SizedBox(height: MmSpace.s24),
         YouPanel(
           margin: EdgeInsets.zero,
@@ -118,11 +123,13 @@ class RhythmBody extends StatelessWidget {
   }
 }
 
-/// This week, lit: the count as a monumental number, the seven bubbles, and one plain line.
+/// This week, lit: the count as a monumental number, the planned week (the same strip as Today
+/// and the week sheet: counted, planned, rest, not yet), and one plain line.
 class WeekHero extends StatelessWidget {
-  const WeekHero({super.key, required this.week});
+  const WeekHero({super.key, required this.week, this.plan});
 
   final WeekView week;
+  final Set<int>? plan;
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +160,22 @@ class WeekHero extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: MmSpace.s16),
-              WeekMarks(week: week),
+              Builder(
+                builder: (context) {
+                  final todayIndex = week.days.indexWhere((d) => d.isToday);
+                  final strip = PlanWeekStrip(
+                    days: planWeek(
+                      studied: [for (final d in week.days) d.studyDay],
+                      todayIndex: todayIndex < 0 ? null : todayIndex,
+                      planned: plan,
+                      dates: [for (final d in week.days) d.date?.day],
+                    ),
+                    bubble: 28,
+                    showDates: true,
+                  );
+                  return Semantics(label: strip.describe(), child: strip);
+                },
+              ),
               const SizedBox(height: MmSpace.s12),
               Text(status, style: type.small.copyWith(color: colors.ink2)),
             ],

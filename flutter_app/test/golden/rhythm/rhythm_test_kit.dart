@@ -2,6 +2,8 @@
 // state, a fixed clock (Wednesday 14 October 2026, 10:00 AM in India) and a loaded prefs store.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
+import 'package:mockmob/core/models/attempt.dart';
+import 'package:mockmob/core/repositories/attempts_repository.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/api/api_providers.dart';
 import 'package:mockmob/core/models/rhythm.dart';
@@ -32,6 +34,36 @@ class FakeRhythmRepo extends RhythmRepository {
   @override
   Future<void> refresh({bool force = false}) async {}
 }
+
+class FakeAttemptsRepo extends AttemptsRepository {
+  FakeAttemptsRepo(this.initial);
+
+  final RemoteState<List<Attempt>> initial;
+
+  @override
+  RemoteState<List<Attempt>> build() => initial;
+
+  @override
+  Future<void> refresh({bool force = false}) async {}
+}
+
+/// [n] server-scored sets of ten answers, newest first.
+List<Attempt> scoredSets(int n) => [
+      for (var k = 0; k < n; k++)
+        Attempt.fromJson({
+          'id': 's$k',
+          'subject': 'accountancy',
+          'score': 0,
+          'correct': 7,
+          'wrong': 2,
+          'unattempted': 1,
+          'total': 10,
+          'details': const [],
+          'questionsSnapshot': const [],
+          'selectionMeta': {'mode': 'quick', 'scoringVersion': 'server_practice_v1'},
+          'completedAt': kNow.subtract(Duration(days: k + 1)).millisecondsSinceEpoch,
+        }),
+    ];
 
 class FakeGoalRepo extends GoalRepository {
   FakeGoalRepo(this.initial);
@@ -91,6 +123,7 @@ List<Override> rhythmOverrides({
   RemoteState<List<PersonalBest>> bests = const RemoteState(value: []),
   MemoryPrefsStore? store,
   String zone = 'Asia/Kolkata',
+  List<Attempt> attempts = const [],
 }) {
   final prefsStore = store ?? MemoryPrefsStore();
   prefsStore.values['rhythm_hidden_u1'] = hidden;
@@ -105,6 +138,7 @@ List<Override> rhythmOverrides({
       () => goalRepo ?? FakeGoalRepo(RemoteState(value: goal ?? Goal(daysPerWeek: rhythm.value?.daysGoal ?? 4), fetchedAt: kNow)),
     ),
     bestsRepositoryProvider.overrideWith(() => FakeBestsRepo(bests)),
+    attemptsRepositoryProvider.overrideWith(() => FakeAttemptsRepo(RemoteState(value: attempts, fetchedAt: kNow))),
   ];
 }
 

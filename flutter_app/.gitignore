@@ -44,3 +44,6 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 /android/build/
+
+# Golden diff output (flutter test writes these on a mismatch).
+test/**/failures/

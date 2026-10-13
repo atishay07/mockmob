@@ -37,7 +37,7 @@ void main() {
     });
 
     test('seven bubbles on the sheet; save and the first move come after the seal', () {
-      expect([for (final s in kOnboardingDeck.sheetSteps) s.bubble], ['CUET', 'Aim', 'Subjects', 'Worry', 'Try', 'Pace', 'Plan']);
+      expect([for (final s in kOnboardingDeck.sheetSteps) s.bubble], ['CUET', 'Aim', 'Subjects', 'Marks', 'Try', 'Pace', 'Plan']);
       expect(kOnboardingDeck.visible(OnboardingAnswers.empty).map((s) => s.id), isNot(contains(Steps.firstMove)));
       expect(kOnboardingDeck.visible(const OnboardingAnswers(notNow: true)).last.id, Steps.firstMove);
     });
@@ -78,13 +78,14 @@ void main() {
         'minutes': 17,
         'days': <int>[],
         'category': 'XYZ',
-        'subjects': ['physics', 'english'],
+        'subjects': ['physics', 'astrology', 'english'],
       });
       expect(junk.courseId, isNull);
       expect(junk.minutes, 20);
       expect(junk.days, {0, 1, 3, 5});
       expect(junk.category, 'UR');
-      expect(junk.subjects, [SheetSubject.english]);
+      // Unknown subject ids are dropped; every one of the 15 practice subjects is kept.
+      expect(junk.subjects, [SheetSubject.physics, SheetSubject.english]);
     });
   });
 

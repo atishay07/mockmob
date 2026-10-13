@@ -73,7 +73,8 @@ class _HelpScreenState extends ConsumerState<HelpScreen> {
                 children: [
                   Row(
                     children: [
-                      const IconWell(LucideIcons.mail),
+                      // Mobi waves hello: a person, not a ticket queue, reads the mail.
+                      const Mobi(pose: MobiPose.greet, size: 56, interactive: true),
                       const SizedBox(width: MmSpace.s12),
                       Expanded(child: Text(YouCopy.helpContact, style: type.title)),
                     ],

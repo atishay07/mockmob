@@ -9,6 +9,7 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/rhythm_prefs.dart';
 import '../data/rhythm_providers.dart';
+import '../data/study_days.dart';
 import '../widgets/goal_editor.dart';
 import '../widgets/rhythm_body.dart';
 import '../widgets/rhythm_page.dart';
@@ -75,6 +76,7 @@ class _YouRhythmScreenState extends ConsumerState<YouRhythmScreen> {
         mode: prefs.mode,
         busy: _busy,
         errorText: _error,
+        plan: ref.watch(studyDayPlanProvider),
         onEditGoal: () => _editGoal(snapshot.goal?.daysPerWeek ?? snapshot.rhythm!.daysGoal),
         onPauseThisWeek: () => _run(actions.pauseThisWeek, RhythmCopy.pauseFailed),
         onPauseTwoWeeks: () => _run(actions.pauseTwoWeeks, RhythmCopy.pauseFailed),

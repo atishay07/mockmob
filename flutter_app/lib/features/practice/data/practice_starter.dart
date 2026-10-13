@@ -10,6 +10,7 @@ import '../../../core/repositories/local_scope.dart';
 import '../../../core/repositories/session_draft_repository.dart';
 import '../../../core/sync/session/session_engine.dart';
 import '../../../core/sync/sync_providers.dart';
+import '../copy.dart';
 import '../model/practice_selection.dart';
 import 'practice_notes.dart';
 
@@ -28,10 +29,18 @@ class Started extends StartOutcome {
 }
 
 class StartFailed extends StartOutcome {
-  const StartFailed(this.failure);
+  const StartFailed(this.failure, {this.message});
 
   final StartFailure failure;
+
+  /// The server's own words, when it gave a reason (shown in place of the stock copy).
+  final String? message;
 }
+
+/// The website's rule for an NTA paper (TestPageClient): exactly 50 questions, or no exam. Short
+/// papers would make "of 50" and the marks untrue.
+String ntaPaperSizeMessage(int n) =>
+    'We could put together only $n of the 50 questions an NTA paper needs for this subject. Nothing was charged.';
 
 /// An earlier session for the same selection still has answers the server never received.
 class StartPendingElsewhere extends StartOutcome {
@@ -66,7 +75,8 @@ bool _definitive(ApiError e) =>
 /// What the screens need from a starter, so widget tests replace it without a database.
 abstract interface class PracticeStarting {
   /// [quote] is the fresh quote the caller just checked; its allowance decides the `purpose`.
-  Future<StartOutcome> start(PracticeSelection selection, {required PracticeQuote quote, int? mockNumber});
+  /// A fresh-questions check has no quote: the server starts it free.
+  Future<StartOutcome> start(PracticeSelection selection, {PracticeQuote? quote, int? mockNumber});
 }
 
 /// Starts practice and mocks (spec 5.4): the `generationKey` is stored before the request goes
@@ -94,8 +104,9 @@ class PracticeStarter implements PracticeStarting {
   final Map<String, Future<StartOutcome>> _inFlight = {};
 
   @override
-  Future<StartOutcome> start(PracticeSelection selection, {required PracticeQuote quote, int? mockNumber}) {
-    final draftKey = selection.draftKey(userId());
+  Future<StartOutcome> start(PracticeSelection selection, {PracticeQuote? quote, int? mockNumber}) {
+    // A fresh check keeps its own generation key, apart from an ordinary set of the same shape.
+    final draftKey = selection.draftKey(userId()) + (selection.isFreshCheck ? ':fresh:${selection.recoveryFrom}' : '');
     // A block body on purpose: `remove` returns the very future being completed, and whenComplete
     // waits for a returned future, so an arrow here would wait on itself forever.
     return _inFlight[draftKey] ??= _start(selection, draftKey, quote, mockNumber).whenComplete(() {
@@ -103,23 +114,16 @@ class PracticeStarter implements PracticeStarting {
     });
   }
 
-  Future<StartOutcome> _start(PracticeSelection s, String draftKey, PracticeQuote quote, int? mockNumber) async {
+  Future<StartOutcome> _start(PracticeSelection s, String draftKey, PracticeQuote? quote, int? mockNumber) async {
     final generationKey = await drafts.generationKeyFor(draftKey);
-    final purpose = launchPurposeFor(quote);
+    final purpose = quote == null || s.isFreshCheck ? null : launchPurposeFor(quote);
     final SessionView view;
     try {
       final response = await api.post(
         '/api/sessions',
-        body: {
-          'generationKey': generationKey,
-          'subject': s.subjectId,
-          'mode': s.mode.apiMode,
-          // The web sends every value as a string; the server accepts both.
-          'count': '${s.effectiveCount}',
-          'chapter': ?s.effectiveChapter,
-          'experience': 'practice',
-          'purpose': ?purpose,
-        },
+        // Subject, mode, length, chapters and difficulty exactly as chosen; the web sends every
+        // value as a string and the server accepts both.
+        body: {'generationKey': generationKey, ...s.sessionFields, 'experience': s.isFreshCheck ? 'recovery' : 'practice', 'purpose': ?purpose},
         options: const ApiOptions(retries: 0, receiveTimeout: Duration(seconds: 60)),
       );
       view = SessionView.fromJson(response.map);
@@ -130,6 +134,11 @@ class PracticeStarter implements PracticeStarting {
     if (view.questions.isEmpty || (view.meta.sessionId.isEmpty && view.id.isEmpty)) {
       return const StartFailed(StartFailure.generic);
     }
+    if (s.mode.isMock && view.questions.length != mockQuestionCount) {
+      // Retrying the same key returns the same short paper: forget it.
+      await drafts.clearGenerationKey(draftKey);
+      return StartFailed(StartFailure.notEnoughQuestions, message: view.meta.message ?? ntaPaperSizeMessage(view.questions.length));
+    }
 
     try {
       final engine = await startEngine(
@@ -139,7 +148,8 @@ class PracticeStarter implements PracticeStarting {
           mode: s.mode.apiMode,
           count: s.effectiveCount,
           generationKey: generationKey,
-          chapter: s.effectiveChapter,
+          chapter: s.chapterLabel,
+          difficulty: s.effectiveDifficulty,
           mockNumber: s.mode.isMock ? mockNumber : null,
         ),
       );
@@ -171,7 +181,9 @@ final practiceStarterProvider = Provider<PracticeStarting>((ref) {
     drafts: ref.watch(sessionDraftRepositoryProvider),
     userId: () => ref.read(userIdProvider) ?? (throw const SignedOutException()),
     startEngine: ref.watch(sessionEngineStarterProvider),
-    rememberSession: (id, s) => ref.read(practiceNotesProvider).write(id, chapter: s.effectiveChapter, mode: s.mode.apiMode),
+    rememberSession: (id, s) => ref
+        .read(practiceNotesProvider)
+        .write(id, chapter: s.effectiveChapters.isEmpty ? null : PracticeCopy.chaptersSummary(s.effectiveChapters), mode: s.mode.apiMode),
     afterStarted: (s) {
       unawaited(
         ref

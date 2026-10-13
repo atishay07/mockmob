@@ -8,7 +8,7 @@ abstract final class ReviewCopy {
   static const title = 'Review';
   static String tonightOverline(DateTime now, String subject) => "${tonightOrTodayTitle(now)}'s repair, $subject";
   static const mistakesHeading = 'Mistakes to repair';
-  static const recordHeading = 'Your record';
+  static const recordHeading = 'Repair record';
   static const pastHeading = 'Past results';
   static const seeRecord = 'See your record';
   static const replayRecap = 'Replay recap';
@@ -63,7 +63,7 @@ abstract final class ReviewCopy {
   static const tryNotRecorded = 'This try stays here. It is not recorded.';
   static const keyHidden = "This question's answer key is being checked, so it is not shown yet.";
 
-  static String pastLine(String date, int marks, int max) => '$date. ${formatMarks(marks, max)}';
+  static String pastLine(String date, int marks, int max) => '$date \u00b7 $marks / $max';
 
   static const recordPreviewEmpty = 'Your first repair will show here, with when it was found and when it was repaired.';
 
@@ -180,7 +180,7 @@ abstract final class ReviewCopy {
 
   // ---- Record ---------------------------------------------------------------------------
 
-  static const recordTitle = 'Your record';
+  static const recordTitle = 'Repair record';
   static const onThisPhone = 'On this phone. Repairs made on another phone show here once your record syncs.';
   static const checksGate = 'Fresh checks are not available yet, so Checked and Holds stay open.';
   static String recordTitleLine(int number, String chapter) => 'Question $number, $chapter';

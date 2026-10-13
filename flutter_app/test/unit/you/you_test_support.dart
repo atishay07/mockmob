@@ -22,7 +22,10 @@ import 'package:mockmob/core/storage/app_prefs.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/storage/storage_providers.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart';
+import 'package:mockmob/features/onboarding/state/answers_store.dart';
+import 'package:mockmob/features/you/data/confidence_store.dart';
 import 'package:mockmob/features/you/data/student_target.dart';
+import 'package:mockmob/features/you/data/subject_catalog.dart';
 import 'package:mockmob/features/you/you_providers.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -38,6 +41,20 @@ const youUser = AuthSnapshot(
 const ashaTarget = StudentTarget(
   course: 'B.Com (Hons)',
   colleges: ['Shri Ram College of Commerce', 'Hansraj College', 'Kirori Mal College'],
+);
+
+/// The registry as `GET /api/subjects` gives it: the 15 practice subjects, plus one retired
+/// subject the server says practice cannot open.
+final registryCatalog = SubjectCatalog(
+  options: [
+    for (final e in youSubjectNames.entries) SubjectOption(id: e.key, name: e.value),
+    const SubjectOption(
+      id: 'entrepreneurship',
+      name: 'Entrepreneurship',
+      supported: false,
+      reason: 'Practice for this paper is not open yet. Your other subjects are ready.',
+    ),
+  ],
 );
 
 /// Two of the three tokens earned.
@@ -64,9 +81,14 @@ class FakeAuth extends AuthController {
   final AuthSnapshot initial;
   final Object? signOutError;
   int signOutCalls = 0;
+  int reloads = 0;
 
   @override
   AuthSnapshot build() => initial;
+
+  /// The real one reads `/api/auth/me`; here the test sets [state] itself.
+  @override
+  Future<void> reload() async => reloads++;
 
   @override
   Future<void> signOut() async {
@@ -240,6 +262,7 @@ List<Override> youOverrides({
   AppPrefs? prefs,
   PrefsStore? rhythmStore,
   StudentTarget? target,
+  SubjectCatalog? catalog,
   String? version = '1.0.0 (1)',
 }) {
 
@@ -257,6 +280,9 @@ List<Override> youOverrides({
     appPrefsProvider.overrideWithValue(prefs ?? AppPrefs(MemoryPrefsStore())),
     rhythmPrefsStoreProvider.overrideWithValue(rhythmStore ?? MemoryPrefsStore()),
     studentTargetProvider.overrideWithValue(target ?? StudentTarget.none),
+    answersStoreProvider.overrideWithValue(AnswersStore(MemoryPrefsStore())),
+    youPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
+    youSubjectCatalogProvider.overrideWith((ref) async => catalog ?? registryCatalog),
     userIdProvider.overrideWithValue('u1'),
     studentTimezoneProvider.overrideWithValue('Asia/Kolkata'),
     appVersionProvider.overrideWith((ref) async => version),

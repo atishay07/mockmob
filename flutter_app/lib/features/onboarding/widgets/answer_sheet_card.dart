@@ -26,7 +26,11 @@ class AnswerSheetCard extends StatelessWidget {
     this.full = false,
     this.sealedLine,
     this.animate = true,
+    this.trackKey,
   });
+
+  /// On the bubble row, so Mobi can point at a bubble as it inks ([bubbleCenter]).
+  final GlobalKey? trackKey;
 
   final OnboardingAnswers answers;
   final DateTime now;
@@ -44,6 +48,19 @@ class AnswerSheetCard extends StatelessWidget {
   final bool animate;
 
   static const BorderRadius radius = MmRadius.panelAll;
+
+  /// The global centre of [step]'s bubble on the track carrying [trackKey], or null when it is
+  /// not laid out. The track gives each visible step an equal column; the bubble sits in a 30 dp
+  /// box at its top.
+  static Offset? bubbleCenter(GlobalKey trackKey, OnboardingAnswers answers, String step) {
+    final box = trackKey.currentContext?.findRenderObject();
+    if (box is! RenderBox || !box.hasSize) return null;
+    final steps = kOnboardingDeck.sheetSteps.where((s) => s.visibleFor(answers)).toList();
+    final i = steps.indexWhere((s) => s.id == step);
+    if (i < 0) return null;
+    final column = box.size.width / steps.length;
+    return box.localToGlobal(Offset(column * (i + 0.5), 15));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,10 +82,9 @@ class AnswerSheetCard extends StatelessWidget {
         child: FakeGlass(
           borderRadius: radius,
           opacity: colors.isNight ? 0.62 : 0.78,
-          child: CustomPaint(
-            foregroundPainter: _TimingMarks(colors.ink3.withValues(alpha: 0.5)),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s16, MmSpace.s24, MmSpace.s16),
+          child: Builder(
+            builder: (context) => Padding(
+              padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s16, MmSpace.s20, MmSpace.s16),
               child: _Grow(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -83,7 +99,7 @@ class AnswerSheetCard extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: MmSpace.s12),
-                    _BubbleTrack(steps: steps, answers: answers, current: current, animate: animate),
+                    _BubbleTrack(key: trackKey, steps: steps, answers: answers, current: current, animate: animate),
                     if (!compact) ...[const SizedBox(height: MmSpace.s16), _Weeks(stage: answers.stage, now: now, animate: animate)],
                     if (shown.isNotEmpty) ...[
                       const SizedBox(height: MmSpace.s12),
@@ -145,11 +161,12 @@ class _Grow extends StatelessWidget {
   }
 }
 
-/// One column of the answer sheet per step: the column number printed above, a 22 dp bubble
-/// (inked when answered, dashed when skipped, ringed for the step on screen) and the step's
-/// label beneath. Labels grow with the text size up to 1.3x and shrink rather than clip.
+/// One column of the answer sheet per step: a 22 dp bubble (inked when answered, dashed when
+/// skipped, ringed for the step on screen) in a fixed 30 dp box, so the ring never pushes its
+/// label down, and the step's label beneath ("2 of 7" above already counts). Labels grow with
+/// the text size up to 1.3x and shrink rather than clip.
 class _BubbleTrack extends StatelessWidget {
-  const _BubbleTrack({required this.steps, required this.answers, required this.current, required this.animate});
+  const _BubbleTrack({super.key, required this.steps, required this.answers, required this.current, required this.animate});
 
   final List<DeckStep> steps;
   final OnboardingAnswers answers;
@@ -161,7 +178,6 @@ class _BubbleTrack extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final scaler = MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.3);
-    final number = type.caption.copyWith(fontSize: 11, height: 1, fontWeight: FontWeight.w500, color: colors.ink3);
     final label = type.caption.copyWith(fontSize: 11.5, height: 1.15, fontWeight: FontWeight.w600);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -170,18 +186,21 @@ class _BubbleTrack extends StatelessWidget {
           Expanded(
             child: Column(
               children: [
-                Text('${i + 1}', textScaler: TextScaler.noScaling, style: number),
-                const SizedBox(height: 4),
-                Bubble(
-                  state: answers.isDone(steps[i].id)
-                      ? BubbleState.filled
-                      : (answers.isSkipped(steps[i].id) ? BubbleState.blank : BubbleState.hollow),
-                  size: 22,
-                  emphasis: steps[i].id == current,
-                  inkOrigin: const Offset(-1, 0),
-                  animate: animate,
+                SizedBox(
+                  height: 30,
+                  child: Center(
+                    child: Bubble(
+                      state: answers.isDone(steps[i].id)
+                          ? BubbleState.filled
+                          : (answers.isSkipped(steps[i].id) ? BubbleState.blank : BubbleState.hollow),
+                      size: 22,
+                      emphasis: steps[i].id == current,
+                      inkOrigin: const Offset(-1, 0),
+                      animate: animate,
+                    ),
+                  ),
                 ),
-                const SizedBox(height: 5),
+                const SizedBox(height: 4),
                 FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
@@ -232,25 +251,4 @@ class _Weeks extends StatelessWidget {
       ],
     );
   }
-}
-
-/// The timing marks down the edge of a real OMR sheet: short bars a scanner reads, printed in
-/// the sheet's own ink.
-class _TimingMarks extends CustomPainter {
-  const _TimingMarks(this.color);
-
-  final Color color;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = color;
-    const w = 8.0, h = 2.5, gap = 10.0;
-    final x = size.width - 14;
-    for (var y = 28.0; y < size.height - 20; y += gap) {
-      canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromLTWH(x, y, w, h), const Radius.circular(1)), paint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(_TimingMarks old) => old.color != color;
 }

@@ -26,8 +26,10 @@ class StepLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    // Short phones (360 by 640) give the answers the room: the head tightens by 16 dp.
+    final short = MediaQuery.sizeOf(context).height < 720;
     final head = Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s24, MmSpace.s4, 0),
+      padding: EdgeInsets.fromLTRB(MmSpace.s4, short ? MmSpace.s16 : MmSpace.s24, MmSpace.s4, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -43,14 +45,15 @@ class StepLayout extends StatelessWidget {
             const SizedBox(height: MmSpace.s8),
             Text(support!, style: type.body.copyWith(color: colors.ink2)),
           ],
-          const SizedBox(height: MmSpace.s20),
+          SizedBox(height: short ? MmSpace.s12 : MmSpace.s20),
         ],
       ),
     );
 
     final content = scroll
         ? SingleChildScrollView(
-            padding: const EdgeInsets.only(bottom: MmSpace.s16),
+            // Clear of the 32 dp fade above the pinned key, so the last choice never sits under it.
+            padding: const EdgeInsets.only(bottom: MmSpace.s40),
             child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [head, body]),
           )
         : Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [head, Expanded(child: body)]);

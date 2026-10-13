@@ -30,9 +30,10 @@ class LaunchNeedsLook extends LaunchResult {
 }
 
 class LaunchFailed extends LaunchResult {
-  const LaunchFailed(this.failure);
+  const LaunchFailed(this.failure, {this.message});
 
   final StartFailure failure;
+  final String? message;
 }
 
 class LaunchPendingElsewhere extends LaunchResult {
@@ -77,7 +78,18 @@ Future<LaunchResult> launchPractice(WidgetRef ref, PracticeSelection selection, 
   final outcome = await ref.read(practiceStarterProvider).start(selection, quote: quote, mockNumber: mockNumber);
   return switch (outcome) {
     Started(:final sessionId) => LaunchStarted(sessionId),
-    StartFailed(:final failure) => LaunchFailed(failure),
+    StartFailed(:final failure, :final message) => LaunchFailed(failure, message: message),
+    StartPendingElsewhere(:final sessionId) => LaunchPendingElsewhere(sessionId),
+  };
+}
+
+/// Starts a "5 fresh questions" check (WEB-PARITY A8). No quote: the server starts it free
+/// and rechecks evidence, freshness and access itself.
+Future<LaunchResult> launchFreshCheck(WidgetRef ref, PracticeSelection selection) async {
+  final outcome = await ref.read(practiceStarterProvider).start(selection);
+  return switch (outcome) {
+    Started(:final sessionId) => LaunchStarted(sessionId),
+    StartFailed(:final failure, :final message) => LaunchFailed(failure, message: message),
     StartPendingElsewhere(:final sessionId) => LaunchPendingElsewhere(sessionId),
   };
 }

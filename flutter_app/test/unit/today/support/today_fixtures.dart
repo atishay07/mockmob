@@ -116,7 +116,15 @@ TodayProfile ashaProfileWith({DateTime? firstMoveAt}) => TodayProfile(
       firstMoveAt: firstMoveAt,
     );
 
-const TodayWeek tuesdayWeek = TodayWeek(studied: [true, false, false, false, false, false, false], todayIndex: 1, label: '1 of 4 study days');
+/// Monday counted, Tuesday is today; Asha plans Monday, Tuesday, Thursday and Saturday.
+const TodayWeek tuesdayWeek = TodayWeek(
+  studied: [true, false, false, false, false, false, false],
+  todayIndex: 1,
+  label: '1 of 4 study days',
+  goal: 4,
+  planned: {0, 1, 3, 5},
+  dates: [12, 13, 14, 15, 16, 17, 18],
+);
 
 LearningPlan readyPlan({int minutes = 10}) =>
     LearningPlan.fromJson({'primary': {'kind': 'ordinary_practice', 'title': 'Practise'}, 'minutes': minutes, 'recordState': 'ready'});

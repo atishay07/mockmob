@@ -120,7 +120,7 @@ abstract final class RhythmCopy {
   static const String tokenFirstMock = 'First mock';
   static const String tokenFirstRepair = 'First repair';
   static const String tokenFirstWeek = 'First week in rhythm';
-  static const String tokenFirstMockEmpty = 'Lands with your first full mock';
+  static const String tokenFirstMockEmpty = 'Lands with your first scored set';
   static const String tokenFirstRepairEmpty = 'Lands when a repair is finished';
   static const String tokenFirstWeekEmpty = 'Lands when a week meets your goal';
   static String tokenEarned(String name, String date) => '$name, earned on $date';
@@ -187,4 +187,73 @@ abstract final class RhythmCopy {
   static const String firstWeekSentence = 'Your first week in rhythm is done.';
 
   static String weekReceipt(int days, int goal) => '$days of ${plural(goal, 'study day')}. ${StateWords.savedOnServer}.';
+
+  // The rest of the week (week sheet and Today's week row).
+  static const String outlookMetShort = 'Goal met';
+  static const String outlookPausedShort = 'Paused';
+  static String moreBySunday(int n) => '$n more by Sunday';
+  static const String everyDayCounts = 'Every day still counts';
+  static String moreBySundaySentence(int needed, int daysLeft) =>
+      '${needed == 1 ? 'One more study day meets' : '$needed more study days meet'} your goal, '
+      'with ${plural(daysLeft, 'day')} left this week.';
+  static const String todayPlanned = 'Today is one of your study days.';
+  static String nextPlanned(String weekday) => 'Your next study day is $weekday.';
+  static const String outOfReach =
+      'This week cannot reach your goal now, and that is all right. Every study day still counts, '
+      'and pausing the week keeps your run.';
+  static const String studyDayRule = 'A day counts when you finish a scored set of 5 or more answers, or a repair.';
+  static String weekRange(DateTime monday) {
+    final sunday = monday.add(const Duration(days: 6));
+    return monday.month == sunday.month
+        ? '${monday.day} to ${formatDayMonth(sunday)}'
+        : '${formatDayMonth(monday)} to ${formatDayMonth(sunday)}';
+  }
+
+  static const String changeStudyDays = 'Change study days';
+  static const String pauseThisWeekKey = 'Pause this week';
+  static String restOn(List<String> weekdays) => 'Rest on ${joinWithAnd(weekdays)}.';
+
+  // Study days editor.
+  static const String daysTitle = 'Your study days';
+  static const String daysPrompt = 'Tap the days you plan to study.';
+  static String daysSummary(int n) => n == 7 ? 'Every day of the week.' : '${plural(n, 'study day')} a week.';
+  static const String daysNone = 'Choose at least one day.';
+  static const String restIsPlan = 'Rest is part of the plan. Studying on a rest day still counts.';
+  static const String daysWhere = 'The number of days is your goal, saved to your account. Which days stays on this phone.';
+  static const String saveDays = 'Save study days';
+  static String daysSaved(int n) => 'Saved: ${plural(n, 'study day')} a week.';
+
+  // Milestone tracks.
+  static const String trackPapers = 'Papers';
+  static const String trackRepairs = 'Repairs';
+  static const String trackRhythm = 'Weeks in rhythm';
+  static const String trackPapersLink = 'See your papers';
+  static const String trackRepairsLink = 'See your repair record';
+  static const String trackRhythmLink = 'See your rhythm';
+  static const String stepFirstSet = 'First scored set';
+  static const String stepFirstMock = 'First full mock';
+  static const String stepTenSets = '10 scored sets';
+  static const String stepFirstRepair = 'First repair';
+  static const String stepRepairs5 = '5 repairs';
+  static const String stepRepairs10 = '10 repairs';
+  static const String stepRepairs25 = '25 repairs';
+  static const String stepFirstWeek = 'First week at your goal';
+  static const String stepFourWeeks = '4 weeks at your goal';
+  static const String condFirstSet = 'Lands when a set with 5 or more answers is scored.';
+  static const String condFirstMock = 'Lands when a 50-question full mock is scored.';
+  static const String condTenSets = 'Lands with your 10th scored set of 5 or more answers.';
+  static const String condFirstRepair = 'Lands when you finish your first repair.';
+  static const String condRepairs5 = 'Lands with your 5th finished repair.';
+  static const String condRepairs10 = 'Lands with your 10th finished repair.';
+  static const String condRepairs25 = 'Lands with your 25th finished repair.';
+  static const String condFirstWeek = 'Lands when a week reaches your goal.';
+  static const String condFourWeeks = 'Lands when a fourth week reaches its goal. They need not be in a row.';
+  static const String nextLabel = 'Next';
+  static const String trackComplete = 'Every step on this path has landed.';
+  static String trackCount(int earned, int total) => earned == 0 ? 'Nothing landed yet' : '$earned of $total landed';
+  static String soFar(int count, int target) => '$count of $target so far';
+  static String stepEarned(String name, String date) => '$name, landed on $date';
+  static String stepNext(String name, String condition) => 'Next: $name. $condition';
+  static String stepLater(String name) => '$name, after that';
+  static const String milestonesIntro = 'Each one is dated by the server the day it happens. Nothing expires.';
 }

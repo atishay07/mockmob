@@ -69,6 +69,25 @@ abstract final class AppRoutes {
   static const String youBests = '/you/bests';
   static const String youAppearance = '/you/appearance';
   static const String youHelp = '/you/help';
+  static const String youSubjects = '/you/subjects';
+  static const String youSheet = '/you/sheet';
+
+  // Review: the record and saved questions. Practice: the question stream.
+  static const String reviewInsights = '/review/insights';
+  static const String reviewSaved = '/review/saved';
+  static const String practiceStream = '/practice/stream';
+
+  /// Ask your record.
+  static const String ask = '/ask';
+
+  /// NTA mode's instructions page (`?subject=`), before any session exists.
+  static const String examNta = '/exam/nta';
+
+  // CUET tools, pushed over the shell from You, Practice and Today's road.
+  static const String tools = '/tools';
+  static const String toolsCompass = '/tools/compass';
+  static const String toolsCombo = '/tools/combo';
+  static const String toolsGuide2027 = '/tools/guide-2027';
 
   // Permissions.
   static const String permissionsNotifications = '/permissions/notifications';
@@ -129,6 +148,18 @@ abstract final class AppRoutes {
     '/review/repair/:attemptId/ending',
     '/learn/run/:runId/done',
     dashboard,
+    youSubjects,
+    youSheet,
+    reviewInsights,
+    reviewSaved,
+    practiceStream,
+    ask,
+    examNta,
+    tools,
+    toolsCompass,
+    '/tools/compass/:groupId',
+    toolsCombo,
+    toolsGuide2027,
   ];
 
   static final List<RegExp> _nativePatterns = [

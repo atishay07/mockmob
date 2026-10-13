@@ -2,8 +2,8 @@
 // repositories, rendered by `TodayBody`. Goldens build these directly from fixtures.
 import '../../../core/domain/next_move.dart';
 import '../../../core/widgets/bubbles/bubble_painter.dart';
-import '../../../core/widgets/bubbles/week_bubbles.dart';
 import '../../../core/widgets/art/mm_art.dart';
+import '../../rhythm/logic/plan_week.dart';
 
 /// Where a tap goes. The screen turns each into navigation or a refresh.
 sealed class TodayTarget {
@@ -95,6 +95,7 @@ class MoveHero extends TodayHero {
     this.number,
     this.numberLabel,
     this.evidenceId,
+    this.evidence,
     this.durationPrompt,
     this.durations = const [],
     this.selectedMinutes,
@@ -129,6 +130,10 @@ class MoveHero extends TodayHero {
 
   /// The attempt behind the claim; "Show me" opens the why sheet for it.
   final String? evidenceId;
+
+  /// What the evidence holds, drawn in the "Show me" pill (three wrong answers for a repair of
+  /// three), so its bubbles say something true. Null draws a plain pill.
+  final List<BubbleState>? evidence;
   final String? durationPrompt;
   final List<DurationChoice> durations;
   final int? selectedMinutes;
@@ -200,7 +205,8 @@ class AlsoSlot {
   final TodayAction action;
 }
 
-/// One paper on "Your sheet": a row of bubbles, one per question, in paper order.
+/// One recent paper: its marks, where they went (right, wrong, blank as one bar) and the change
+/// from the last comparable paper. Tapping it opens the result.
 class SheetRow {
   const SheetRow({
     required this.attemptId,
@@ -212,12 +218,15 @@ class SheetRow {
     this.marks,
     this.outOf,
     this.sealed = false,
+    this.change,
   });
 
   final String attemptId;
   final String label;
   final String subject;
   final String date;
+
+  /// One verdict per question, in paper order (hollow while sealed). Read for the counts.
   final List<BubbleState> states;
   final TodayTarget target;
 
@@ -225,6 +234,13 @@ class SheetRow {
   final int? marks;
   final int? outOf;
   final bool sealed;
+
+  /// "+33 since Mock 6": the change from the previous paper of the same kind and length.
+  final String? change;
+
+  int get right => states.where((s) => s == BubbleState.filled).length;
+  int get wrong => states.where((s) => s == BubbleState.wrong).length;
+  int get blank => states.where((s) => s == BubbleState.blank).length;
 }
 
 class LadderRung {
@@ -237,24 +253,100 @@ class LadderRung {
   final bool dream;
 }
 
-class RoadModel {
-  const RoadModel({required this.weeks, this.ladder = const [], this.category = 'UR'});
+/// One stop on the road to May, from the published calendar (brief section 8). [expected] stops
+/// are not announced yet and always say so.
+class RoadStop {
+  const RoadStop({required this.kind, required this.title, required this.when, required this.start, this.end, this.note, this.expected = false});
 
+  final RoadStopKind kind;
+  final String title;
+
+  /// "January to March 2027".
+  final String when;
+  final DateTime start;
+  final DateTime? end;
+  final String? note;
+  final bool expected;
+}
+
+enum RoadStopKind { registration, boards, exam, counselling }
+
+class RoadModel {
+  const RoadModel({
+    required this.weeks,
+    required this.today,
+    this.stops = const [],
+    this.ladder = const [],
+    this.category,
+    this.weeksToBoards,
+    this.studyDays,
+    this.goal,
+    this.weekNeeds,
+  });
+
+  /// Whole weeks to the start of the expected window.
   final int weeks;
+  final DateTime today;
+  final List<RoadStop> stops;
   final List<LadderRung> ladder;
-  final String category;
+
+  /// The student's CSAS category, or null when never chosen (the ladder then says it shows
+  /// unreserved scores until they choose).
+  final String? category;
+
+  /// Whole weeks before boards take the evenings (mid-February), null once they have begun.
+  final int? weeksToBoards;
+
+  /// Study sessions left before the window at the student's own goal, board weeks counted at
+  /// two (the onboarding plan's own arithmetic).
+  final int? studyDays;
+
+  /// The weekly goal behind [studyDays].
+  final int? goal;
+
+  /// What this week still asks for, from the rhythm ("2 more study days by Sunday.").
+  final String? weekNeeds;
+}
+
+/// Today's week row: seven days as planned, the count and what the rest of the week asks.
+class WeekModel {
+  const WeekModel({required this.days, required this.count, this.outlook, this.met = false, this.paused = false});
+
+  final List<PlanDay> days;
+
+  /// "1 of 4 study days".
+  final String count;
+
+  /// "2 more by Sunday", "Goal met", "Paused".
+  final String? outlook;
+  final bool met;
+  final bool paused;
 }
 
 class HeaderModel {
-  const HeaderModel({required this.dateLine, required this.greeting, this.week, this.weekLabel, this.updatedLine});
+  const HeaderModel({required this.dateLine, required this.greeting, this.week, this.updatedLine, this.mobi});
 
   final String dateLine;
   final String greeting;
-  final List<WeekBubbleDay>? week;
-  final String? weekLabel;
+  final WeekModel? week;
 
   /// "Updated 9:40 PM" when Today shows cached data.
   final String? updatedLine;
+
+  /// Mobi beside the greeting, or null when the hero already has him.
+  final HeaderMobiCue? mobi;
+}
+
+/// What Mobi does in Today's header.
+enum HeaderMobiKind { idle, cheer, sleepy, point }
+
+class HeaderMobiCue {
+  const HeaderMobiCue(this.kind, this.lines);
+
+  final HeaderMobiKind kind;
+
+  /// What a tap makes him say, in turn.
+  final List<String> lines;
 }
 
 class TodayView {

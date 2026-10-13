@@ -1,46 +1,52 @@
-// The brass milestone tokens: three server milestones that get an object on the shelf. Each one
-// lands only when `GET /api/me/rhythm` says it was achieved; until then its slot is an honest
-// empty recess with the plain line of what fills it. Nothing is locked, counted or chased.
+// The brass tokens on the shelf: one per milestone track (papers, repairs, weeks in rhythm). A
+// token stands in its slot once the server dates any step of its track, captioned with the step
+// that landed last; until then its slot is an honest empty recess with the line of what fills it.
 import '../../../core/models/rhythm.dart';
 import '../../../core/widgets/art/mm_art.dart';
 import '../copy.dart';
+import 'milestone_tracks.dart';
 
 enum MilestoneToken {
-  firstMock('first_full_mock', MmArt.tokenFirstMock, RhythmCopy.tokenFirstMock, RhythmCopy.tokenFirstMockEmpty),
-  firstRepair('first_repair', MmArt.tokenFirstRepair, RhythmCopy.tokenFirstRepair, RhythmCopy.tokenFirstRepairEmpty),
-  // The turning-arrow token: a week that came round to its goal.
-  firstWeek('first_week_met', MmArt.tokenHeld, RhythmCopy.tokenFirstWeek, RhythmCopy.tokenFirstWeekEmpty);
+  // The paper token: scored sets and full mocks.
+  firstMock(MilestoneTrack.papers, MmArt.tokenFirstMock, RhythmCopy.tokenFirstMockEmpty),
+  // The tick token: finished repairs.
+  firstRepair(MilestoneTrack.repairs, MmArt.tokenFirstRepair, RhythmCopy.tokenFirstRepairEmpty),
+  // The turning-arrow token: weeks that came round to their goal.
+  firstWeek(MilestoneTrack.rhythm, MmArt.tokenHeld, RhythmCopy.tokenFirstWeekEmpty);
 
-  const MilestoneToken(this.milestoneId, this.art, this.label, this.emptyHint);
+  const MilestoneToken(this.track, this.art, this.emptyHint);
 
-  /// The id in `milestones[]`.
-  final String milestoneId;
+  final MilestoneTrack track;
   final MmArt art;
-  final String label;
 
-  /// What fills the slot, said plainly.
+  /// What fills an empty slot, said plainly.
   final String emptyHint;
+
+  String get label => track.title;
 }
 
 class TokenSlot {
-  const TokenSlot(this.token, this.earnedAt);
+  const TokenSlot(this.token, this.earnedAt, {this.title});
 
   final MilestoneToken token;
 
-  /// When the server says it was achieved; null while the slot is empty.
+  /// When the latest step of the track landed; null while the slot is empty.
   final DateTime? earnedAt;
+
+  /// The latest step's name ("5 repairs"), shown under an earned token.
+  final String? title;
 
   bool get earned => earnedAt != null;
 }
 
-/// One slot per token, in shelf order, filled from [milestones].
+/// One slot per track, in shelf order, filled from [milestones].
 List<TokenSlot> tokenSlots(List<RhythmMilestone> milestones) {
-  DateTime? at(String id) {
-    for (final m in milestones) {
-      if (m.id == id && m.achievedAt != null) return m.achievedAt;
-    }
-    return null;
-  }
-
-  return [for (final t in MilestoneToken.values) TokenSlot(t, at(t.milestoneId))];
+  final tracks = {for (final t in milestoneTracks(milestones)) t.track: t};
+  return [
+    for (final token in MilestoneToken.values)
+      () {
+        final latest = tracks[token.track]?.latest;
+        return TokenSlot(token, latest?.earnedAt, title: latest?.step.name);
+      }(),
+  ];
 }

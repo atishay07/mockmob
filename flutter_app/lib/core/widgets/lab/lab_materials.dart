@@ -11,11 +11,12 @@ import '../materials/glass_surface.dart';
 import '../materials/light_field.dart';
 import '../materials/lit_edge.dart';
 import '../mm_sheet.dart';
-import '../mobi.dart';
 import '../receipt_line.dart';
 import '../save_pill.dart';
 import '../skeleton.dart';
 import '../state_view.dart';
+
+export 'lab_mobi.dart' show LabMobi;
 
 /// The desk scene used behind glass samples.
 class LabScene extends StatelessWidget {
@@ -142,24 +143,6 @@ class LabSubjects extends StatelessWidget {
               ),
             ),
           ),
-      ],
-    );
-  }
-}
-
-/// The seven poses and Mobi's line.
-class LabMobi extends StatelessWidget {
-  const LabMobi({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    const poses = [MobiPose.greet, MobiPose.point, MobiPose.think, MobiPose.cheer, MobiPose.rest, MobiPose.sleepy, MobiPose.read];
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Wrap(spacing: 4, runSpacing: 8, children: [for (final p in poses) Mobi(pose: p, size: 72)]),
-        const SizedBox(height: 12),
-        const Mobi(pose: MobiPose.sleepy, size: 88, say: 'Late one tonight. Ten minutes, then sleep.'),
       ],
     );
   }

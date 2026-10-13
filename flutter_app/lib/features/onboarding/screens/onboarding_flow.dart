@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/api/api_providers.dart' show nowProvider;
@@ -12,6 +13,7 @@ import '../copy.dart';
 import '../model/answers.dart';
 import '../model/deck.dart';
 import '../state/answers_controller.dart';
+import '../state/mobi_cues.dart';
 import '../steps/course_step.dart';
 import '../steps/first_move_step.dart';
 import '../steps/plan_step.dart';
@@ -22,6 +24,7 @@ import '../steps/stage_step.dart';
 import '../steps/subjects_step.dart';
 import '../steps/worry_step.dart';
 import '../widgets/answer_sheet_card.dart';
+import '../widgets/guide_bar.dart';
 import 'welcome_view.dart';
 
 /// The onboarding ("Your sheet"): the cold open on first launch, Welcome, then the step deck
@@ -52,7 +55,46 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
   /// The save step was opened from "Start now", so it says why the account is needed.
   bool _startAsked = false;
 
+  /// The guide Mobi in the top bar, and the bubble row he points at.
+  final MobiController _mobi = MobiController();
+  final GlobalKey _track = GlobalKey();
+  Timer? _settle;
+  Timer? _hush;
+
   AnswersController get _c => ref.read(onboardingAnswersProvider.notifier);
+
+  @override
+  void dispose() {
+    _settle?.cancel();
+    _hush?.cancel();
+    _mobi.dispose();
+    super.dispose();
+  }
+
+  /// Plays [cue] on the guide: the act, then the line (Mobi talks over the act), then a point
+  /// at the sheet once the inked bubble is laid out. A point or a line lets go after a beat.
+  void _perform(MobiCue cue, OnboardingAnswers answers) {
+    if (!_inDeck) return;
+    final act = cue.act;
+    if (act != null) _mobi.play(act);
+    final line = cue.line;
+    if (line != null) {
+      _mobi.say(line);
+      _hush?.cancel();
+      final ms = (MobiTyping.duration(line) * 1000).round() + 2600;
+      _hush = Timer(Duration(milliseconds: ms), _mobi.hush);
+    }
+    final step = cue.pointAt;
+    if (step == null) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final at = AnswerSheetCard.bubbleCenter(_track, answers, step);
+      if (at == null) return;
+      _mobi.pointAt(at);
+      _settle?.cancel();
+      _settle = Timer(const Duration(milliseconds: 1500), () => _mobi.play(enterAct(answers.step ?? step)));
+    });
+  }
 
   List<DeckStep> _steps(OnboardingAnswers a) => kOnboardingDeck.visible(a);
 
@@ -102,6 +144,12 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
     final loaded = ref.watch(onboardingAnswersProvider).value;
     // Welcome paints at once; the stored sheet (a few bytes on the phone) fills in when read.
     final answers = loaded ?? OnboardingAnswers.empty;
+    ref.listen(onboardingAnswersProvider, (previous, next) {
+      final after = next.value;
+      if (after == null) return;
+      final cue = mobiCueFor(previous?.value, after);
+      if (cue != null) _perform(cue, after);
+    });
 
     if (!widget.skipColdOpen && cold && !_coldDone) {
       return ColdOpen(
@@ -147,24 +195,40 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
                   constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                    // The guide bar is laid over the column, so Mobi's bubble can run over the
+                    // top of the sheet for a moment without the sheet painting over it.
+                    child: Stack(
                       children: [
-                        _TopBar(
-                          onBack: () => _back(answers),
-                          onSkip: step.skippable && !answers.isDone(step.id) ? () => _skip(answers) : null,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            const SizedBox(height: GuideBar.height),
+                            if (_showsSheet(step))
+                              AnswerSheetCard(
+                                answers: answers,
+                                now: ref.watch(nowProvider)(),
+                                current: step.id,
+                                compact: _compact(step, answers),
+                                trackKey: _track,
+                              ),
+                            Expanded(
+                              child: _StepSwitcher(
+                                forward: _forward,
+                                child: KeyedSubtree(key: ValueKey(step.id), child: _body(step, answers)),
+                              ),
+                            ),
+                          ],
                         ),
-                        if (_showsSheet(step))
-                          AnswerSheetCard(
-                            answers: answers,
-                            now: ref.watch(nowProvider)(),
-                            current: step.id,
-                            compact: _compact(step, answers),
-                          ),
-                        Expanded(
-                          child: _StepSwitcher(
-                            forward: _forward,
-                            child: KeyedSubtree(key: ValueKey(step.id), child: _body(step, answers)),
+                        Positioned(
+                          left: 0,
+                          right: 0,
+                          top: 0,
+                          child: GuideBar(
+                            controller: _mobi,
+                            onBack: () => _back(answers),
+                            onSkip: step.skippable && !answers.isDone(step.id) ? () => _skip(answers) : null,
+                            // The first move has its own Mobi, pointing at Start.
+                            showMobi: step.kind != StepKind.firstMove,
                           ),
                         ),
                       ],
@@ -235,38 +299,6 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
           },
         ),
     };
-  }
-}
-
-/// Back on the left, Skip on the right when the step allows it. 48 dp targets.
-class _TopBar extends StatelessWidget {
-  const _TopBar({required this.onBack, required this.onSkip});
-
-  final VoidCallback onBack;
-  final VoidCallback? onSkip;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    return SizedBox(
-      height: 56,
-      child: Row(
-        children: [
-          // The label sits on the pressable itself, so TalkBack's double tap reaches onTap.
-          MmPressable(
-            semanticsLabel: OnboardingCopy.back,
-            onTap: onBack,
-            pressedScale: 0.9,
-            builder: (context, pressed, _) => SizedBox.square(
-              dimension: 48,
-              child: Center(child: Icon(LucideIcons.arrowLeft, size: 22, color: pressed ? colors.ink2 : colors.ink)),
-            ),
-          ),
-          const Spacer(),
-          if (onSkip != null) KeyButton.quiet(label: OnboardingCopy.skip, onPressed: onSkip),
-        ],
-      ),
-    );
   }
 }
 

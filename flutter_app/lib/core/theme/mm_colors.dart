@@ -204,6 +204,10 @@ class MmColors extends ThemeExtension<MmColors> {
   /// True for Night.
   bool get isNight => ground.computeLuminance() < 0.2;
 
+  /// The one colour of a wrong mark (a wrong bubble, the wrong part of a marks bar), the same on
+  /// every screen of a theme.
+  Color get wrongMark => isNight ? Color.lerp(wrongBorder, wrongText, 0.5)! : wrongBorder;
+
   @override
   MmColors copyWith({
     Color? ground,

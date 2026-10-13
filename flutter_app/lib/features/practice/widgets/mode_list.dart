@@ -6,7 +6,7 @@ import '../../../core/widgets/widgets.dart';
 
 /// One way to practise, said as what you get. No cost here: costs live on the confirm sheet.
 class ModeChoice {
-  const ModeChoice({required this.icon, required this.title, required this.line, required this.onTap, this.tag});
+  const ModeChoice({required this.icon, required this.title, required this.line, required this.onTap, this.tag, this.chips = const []});
 
   /// The answer-sheet drawing for this mode.
   final SheetGlyph icon;
@@ -16,6 +16,9 @@ class ModeChoice {
 
   /// A quiet tag after the title ("Pro").
   final String? tag;
+
+  /// What the mode has, as quiet chips under the line (NTA mode: "50 questions", "Question palette").
+  final List<String> chips;
 }
 
 /// The modes as rows on one solid panel, divided by hairlines (the work layer: calm, no art).
@@ -88,6 +91,10 @@ class _ModeRow extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(c.line, style: type.caption.copyWith(color: colors.ink2)),
+                  if (c.chips.isNotEmpty) ...[
+                    const SizedBox(height: MmSpace.s8),
+                    Wrap(spacing: MmSpace.s6, runSpacing: MmSpace.s6, children: [for (final t in c.chips) _Tag(t, quiet: true)]),
+                  ],
                 ],
               ),
             ),
@@ -101,27 +108,34 @@ class _ModeRow extends StatelessWidget {
 }
 
 class _Tag extends StatelessWidget {
-  const _Tag(this.text);
+  const _Tag(this.text, {this.quiet = false});
 
   final String text;
+
+  /// A fact chip (sunken, no outline) rather than the outlined "Pro" tag.
+  final bool quiet;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     return DecoratedBox(
-      decoration: ShapeDecoration(shape: StadiumBorder(side: BorderSide(color: colors.lineStrong))),
+      decoration: ShapeDecoration(
+        color: quiet ? colors.sunken : null,
+        shape: StadiumBorder(side: quiet ? BorderSide.none : BorderSide(color: colors.lineStrong)),
+      ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: 1),
-        child: Text(text, style: context.mmType.caption.copyWith(fontSize: 11, color: colors.ink2)),
+        padding: EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: quiet ? 3 : 1),
+        child: Text(text, style: context.mmType.caption.copyWith(fontSize: quiet ? 12 : 11, color: colors.ink2)),
       ),
     );
   }
 }
 
-/// The glyphs of the four modes.
+/// The glyphs of the modes.
 abstract final class ModeIcons {
   static const SheetGlyph quick = SheetGlyph.quick;
   static const SheetGlyph chapter = SheetGlyph.chapter;
+  static const SheetGlyph smart = SheetGlyph.repair;
   static const SheetGlyph full = SheetGlyph.mock;
   static const SheetGlyph nta = SheetGlyph.exam;
 }

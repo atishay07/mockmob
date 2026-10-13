@@ -80,6 +80,10 @@ class ApiError implements Exception {
   bool hasCode(String other) => code.toLowerCase() == other.toLowerCase();
 
   bool get isOffline => kind == ApiErrorKind.network || kind == ApiErrorKind.timeout;
+
+  /// The connection was refused as insecure, not missing: "Can't make a secure connection.
+  /// Check your date and time."
+  bool get isInsecureConnection => code == 'tls';
   bool get isUnauthorized => kind == ApiErrorKind.unauthorized;
   bool get isRateLimited => kind == ApiErrorKind.rateLimited;
 
@@ -156,8 +160,11 @@ class ApiError implements Exception {
         const ApiError(kind: ApiErrorKind.timeout, code: 'timeout'),
       DioExceptionType.cancel => const ApiError(kind: ApiErrorKind.cancelled, code: 'cancelled'),
       _ when e.error is FormatException => const ApiError(kind: ApiErrorKind.server, code: 'unusable_response'),
+      // A certificate or handshake failure (a wrong phone clock, an interception proxy) keeps the
+      // offline queue's safe behaviour but carries its own code, so the copy can say what to fix.
+      DioExceptionType.badCertificate => const ApiError(kind: ApiErrorKind.network, code: 'tls'),
+      _ when e.error is TlsException || e.error is HandshakeException => const ApiError(kind: ApiErrorKind.network, code: 'tls'),
       DioExceptionType.connectionError => const ApiError(kind: ApiErrorKind.network, code: 'network'),
-      DioExceptionType.badCertificate => const ApiError(kind: ApiErrorKind.network, code: 'network'),
       _ => e.error is SocketException || e.error is HttpException
           ? const ApiError(kind: ApiErrorKind.network, code: 'network')
           : const ApiError(kind: ApiErrorKind.unknown, code: 'unknown'),

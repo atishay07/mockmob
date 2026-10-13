@@ -7,6 +7,7 @@ import '../../../core/router/app_shell.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../insights/insights_routes.dart' show ReviewInsightsRows;
 import '../../you/you_providers.dart' show lateNightLinesProvider;
 import '../copy.dart';
 import '../data/mistake_index.dart';
@@ -174,6 +175,8 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
           ),
       ],
       if (index.blanks case final blanks?) gutter(NotAttemptedGroup(group: blanks), top: MmSpace.s24),
+      // The record's numbers and the saved questions (the website's analytics and saved pages).
+      gutter(const ReviewInsightsRows(), top: MmSpace.group),
       gutter(SectionHeading(ReviewCopy.recordHeading), top: MmSpace.group),
       if (records.isEmpty)
         gutter(Text(ReviewCopy.recordPreviewEmpty, style: context.mmType.body.copyWith(color: context.mmColors.ink2)))

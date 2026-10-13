@@ -170,6 +170,8 @@ void main() {
   test('chapter order is the data file\'s', () {
     final raw = jsonDecode(File('../data/cuet_chapter_priorities.json').readAsStringSync()) as Map<String, dynamic>;
     for (final e in kChapterOrder.entries) {
+      // Subjects the planner file does not rank keep the syllabus order of data/subjects.js.
+      if (!raw.containsKey(e.key.id)) continue;
       expect(e.value, raw[e.key.id], reason: e.key.id);
     }
   });

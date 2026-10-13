@@ -55,7 +55,7 @@ abstract final class RunnerCopy {
   static const String mark = 'Mark for review';
   static const String marked = 'Marked for review';
   /// A practice has no visible timer, but it does close: say when, once, as plain text.
-  static String practiceNote(DateTime openUntil) => 'Feedback comes after you finish. Open until ${formatTime12(openUntil)}.';
+  static String practiceNote(DateTime openUntil) => 'Feedback comes after you finish.';
   static String openUntil(DateTime at) => 'Open until ${formatTime12(at)}';
 
   // Bottom bar.

@@ -3,6 +3,9 @@
 library;
 
 export 'art/mm_art.dart';
+export 'art/subject_glyph.dart';
+export 'brand/brand_logo.dart';
+export 'brand/brand_opening.dart';
 export 'brand/cold_open.dart';
 export 'brand/mark.dart';
 export 'brand/wordmark.dart';
@@ -41,6 +44,7 @@ export 'receipt_line.dart';
 export 'save_pill.dart';
 export 'skeleton.dart';
 export 'state_view.dart';
+export 'status_tint.dart';
 export 'tab_root_header.dart';
 export 'week_strip.dart';
 export 'show_me_pill.dart';

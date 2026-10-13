@@ -1,141 +1,177 @@
-// "The road to May" (brief 12, 11): the weeks to the expected CUET window and the student's
-// dream ladder, each college with the score that closed it in CSAS 2026 Round 1. The ladder is a
-// rail of bubbles, dream at the top. Real figures only: without onboarding picks, no ladder.
+// "The road to May" (brief 11, 12; owner feedback 13 Oct "the road ... can be improved"): what
+// the calendar really holds between now and the CSAS rounds, made useful. The weeks to the
+// expected window, the weeks before boards take the evenings, the study days the student's own
+// goal gives them, what this week still asks for, the road drawn to scale with its stops in
+// words, and the dream ladder with the real CSAS 2026 Round 1 closing score of each pick.
+// Calendar arithmetic and the student's choices only: nothing here predicts marks or chances.
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../logic/today_model.dart';
+import 'road_timeline.dart';
 
 class RoadSection extends StatelessWidget {
-  const RoadSection({super.key, required this.road, this.onChooseColleges});
+  const RoadSection({super.key, required this.road, this.onChooseColleges, this.onWeek});
 
   final RoadModel road;
   final VoidCallback? onChooseColleges;
+
+  /// Kept for callers; the week lives in the strip at the top of Today.
+  final VoidCallback? onWeek;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    return FakeGlass(
-      borderRadius: MmRadius.panelAll,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.cardPadding, MmSpace.cardPadding, MmSpace.s16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Semantics(header: true, child: Text(TodayCopy.roadTitle, style: type.title)),
-            const SizedBox(height: MmSpace.s12),
-            Semantics(
-              container: true,
-              label: 'About ${road.weeks} ${road.weeks == 1 ? 'week' : 'weeks'} to the expected May 2027 window',
-              excludeSemantics: true,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  MonumentalNumber(value: '${road.weeks}', style: type.figure, roll: false),
-                  const SizedBox(width: MmSpace.s12),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 6),
-                      child: Text(TodayCopy.weeksLabel(road.weeks), style: type.labelLarge.copyWith(color: colors.ink)),
-                    ),
-                  ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        FakeGlass(
+          borderRadius: MmRadius.panelAll,
+          child: Padding(
+            padding: const EdgeInsets.all(MmSpace.cardPadding),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Semantics(header: true, child: Text(TodayCopy.roadTitle, style: type.title)),
+                const SizedBox(height: MmSpace.s12),
+                // One hero number; the road itself is the picture.
+                _Stat(value: '${road.weeks}', unit: TodayCopy.weeksLabel(road.weeks)),
+                const SizedBox(height: MmSpace.s16),
+                RoadTimeline(today: road.today, stops: road.stops),
+                const SizedBox(height: MmSpace.s8),
+                RoadLegend(stops: road.stops),
+                if (road.studyDays case final n? when road.goal != null) ...[
+                  const SizedBox(height: MmSpace.s16),
+                  Text(TodayCopy.sessionsLine(n, road.goal!), style: type.body.copyWith(color: colors.ink2)),
+                ] else if (road.weeksToBoards == 0) ...[
+                  const SizedBox(height: MmSpace.s16),
+                  Text(TodayCopy.boardsOn, style: type.body.copyWith(color: colors.ink2)),
                 ],
-              ),
+              ],
             ),
-            const SizedBox(height: MmSpace.s8),
-            Text(TodayCopy.boardsLine, style: type.caption.copyWith(color: colors.ink2)),
-            const SizedBox(height: MmSpace.s16),
-            Divider(height: 1, thickness: 1, color: colors.line),
-            const SizedBox(height: MmSpace.s16),
-            if (road.ladder.isEmpty)
-              Row(
-                children: [
-                  Expanded(child: Text(TodayCopy.ladderEmpty, style: type.body.copyWith(color: colors.ink2))),
-                  if (onChooseColleges != null) KeyButton.quiet(label: TodayCopy.chooseColleges, onPressed: onChooseColleges),
-                ],
-              )
-            else ...[
-              Text(TodayCopy.ladderCaption(road.category), style: type.caption.copyWith(color: colors.ink3)),
-              const SizedBox(height: MmSpace.s12),
-              _Ladder(rungs: road.ladder),
-            ],
-          ],
+          ),
         ),
+        const SizedBox(height: MmSpace.group),
+        FakeGlass(
+          borderRadius: MmRadius.panelAll,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.s16, MmSpace.cardPadding, MmSpace.s16),
+            child: _Ladder(road: road, onChoose: onChooseColleges),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// The hero figure with its two-line meaning beside it.
+class _Stat extends StatelessWidget {
+  const _Stat({required this.value, required this.unit});
+
+  final String value;
+  final String unit;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Semantics(
+      container: true,
+      label: '$value ${unit.replaceAll('\n', ' ')}',
+      excludeSemantics: true,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          MonumentalNumber(value: value, style: type.figure, roll: false),
+          const SizedBox(width: MmSpace.s12),
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 6),
+              child: Text(unit, style: type.labelLarge.copyWith(color: colors.ink)),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
 class _Ladder extends StatelessWidget {
-  const _Ladder({required this.rungs});
+  const _Ladder({required this.road, this.onChoose});
 
-  final List<LadderRung> rungs;
-
-  static const double _rail = 22;
-
-  /// The fake-glass tint over the ground, as one opaque colour.
-  static Color _cardColour(MmColors c) =>
-      Color.alphaBlend((c.isNight ? c.raised2 : c.raised).withValues(alpha: c.isNight ? 0.56 : 0.7), c.ground);
+  final RoadModel road;
+  final VoidCallback? onChoose;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    return Stack(
+    final rungs = road.ladder;
+    final heading = Row(
       children: [
-        // The rail joining the rungs.
-        Positioned(
-          left: _rail / 2 - 0.5,
-          top: 18,
-          bottom: 18,
-          child: SizedBox(width: 1, child: ColoredBox(color: colors.lineStrong)),
-        ),
-        Column(
-          children: [
-            for (final r in rungs)
-              Semantics(
-                container: true,
-                label: '${r.college}, ${r.course}. Closed at ${r.score}${r.outOf == null ? '' : ' of ${r.outOf}'}${r.dream ? '. Your dream pick' : ''}',
-                excludeSemantics: true,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: _rail,
-                        child: Center(
-                          // A disc of the card's own colour keeps the rail from showing through.
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(shape: BoxShape.circle, color: _cardColour(colors)),
-                            child: Bubble(state: BubbleState.hollow, size: r.dream ? 14 : 12, emphasis: r.dream, animate: false),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: MmSpace.s12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(r.college, style: type.labelLarge, maxLines: 2, overflow: TextOverflow.ellipsis),
-                            Text(r.course, style: type.caption.copyWith(color: colors.ink2)),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: MmSpace.s12),
-                      Text(r.score, style: type.title.copyWith(fontSize: 22, height: 1)),
-                      if (r.outOf != null) ...[
-                        const SizedBox(width: MmSpace.s4),
-                        Text('of ${r.outOf}', style: type.caption.copyWith(color: colors.ink3)),
-                      ],
-                    ],
-                  ),
-                ),
-              ),
+        Expanded(child: Semantics(header: true, child: Text(TodayCopy.ladderTitle, style: type.labelLarge.copyWith(fontSize: 16)))),
+        if (onChoose != null && rungs.isNotEmpty) KeyButton.quiet(label: TodayCopy.changeColleges, onPressed: onChoose),
+      ],
+    );
+    if (rungs.isEmpty) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          heading,
+          const SizedBox(height: MmSpace.s4),
+          Text(TodayCopy.ladderEmpty, style: type.body.copyWith(color: colors.ink2)),
+          if (onChoose != null) ...[
+            const SizedBox(height: MmSpace.s12),
+            KeyButton.secondary(label: TodayCopy.chooseColleges, onPressed: onChoose),
           ],
-        ),
+        ],
+      );
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        heading,
+        Text(TodayCopy.ladderCaption(road.category), style: type.caption.copyWith(color: colors.ink3)),
+        const SizedBox(height: MmSpace.s8),
+        for (final r in rungs)
+          Semantics(
+            container: true,
+            label: '${r.college}, ${r.course}. Closed at ${r.score}${r.outOf == null ? '' : ' of ${r.outOf}'}${r.dream ? '. Your dream pick' : ''}',
+            excludeSemantics: true,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (r.dream)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 2),
+                            child: Text(
+                              TodayCopy.dreamTag.toUpperCase(),
+                              style: type.caption.copyWith(fontSize: 11, height: 14 / 11, letterSpacing: 0.8, fontWeight: FontWeight.w700, color: colors.accentText),
+                            ),
+                          ),
+                        Text(r.college, style: type.labelLarge, maxLines: 2, overflow: TextOverflow.ellipsis),
+                        Text(r.course, style: type.caption.copyWith(color: colors.ink2)),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: MmSpace.s12),
+                  Text(r.score, style: type.title.copyWith(fontSize: 22, height: 1)),
+                  if (r.outOf != null) ...[
+                    const SizedBox(width: MmSpace.s4),
+                    Text('of ${r.outOf}', style: type.caption.copyWith(color: colors.ink3)),
+                  ],
+                ],
+              ),
+            ),
+          ),
       ],
     );
   }

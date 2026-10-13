@@ -5,28 +5,29 @@
 // student was away, then an unopened result as the sealed sheet, then tonight's move. Whatever
 // does not win the hero becomes a compact slot under it, so nothing real is hidden.
 import '../../../core/copy/formatters.dart';
+import '../../../core/domain/next_move.dart' show isLateNight;
 import '../../../core/domain/session_rules.dart';
 import '../../../core/models/attempt.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/widgets/bubbles/bubble_painter.dart';
-import '../../../core/widgets/bubbles/week_bubbles.dart';
+import '../../rhythm/logic/plan_week.dart';
+import '../../rhythm/logic/week_outlook.dart';
 import '../copy.dart';
 import 'move_builder.dart';
+import 'road_builder.dart';
 import 'subjects.dart';
 import 'today_inputs.dart';
 import 'today_model.dart';
 
+export 'road_builder.dart' show buildRoad, expectedWindowStart;
+
 /// Papers shown on "Your sheet".
 const int sheetRowsShown = 4;
 
-/// The start of the expected CUET UG window. NTA has not published 2027 dates, so the copy
-/// always says "expected".
-final DateTime expectedWindowStart = DateTime.utc(2027, 5, 1);
-
 TodayView buildToday(TodayInputs i) {
-  final header = buildHeader(i);
+  final plain = buildHeader(i);
   if (i.attempts == null && !i.attemptsFailed) {
-    return TodayView(header: header, offline: i.offline);
+    return TodayView(header: plain, offline: i.offline);
   }
   final move = buildMove(i);
   final heroes = <TodayHero>[
@@ -34,6 +35,13 @@ TodayView buildToday(TodayInputs i) {
     ?_sealed(i),
   ];
   final hero = heroes.isEmpty ? move : heroes.first;
+  final header = HeaderModel(
+    dateLine: plain.dateLine,
+    greeting: plain.greeting,
+    week: plain.week,
+    updatedLine: plain.updatedLine,
+    mobi: _headerMobi(i, hero),
+  );
   final also = <AlsoSlot>[
     for (final h in heroes.skip(1)) _slotFor(h),
     if (hero is! MoveHero) _moveSlot(move),
@@ -48,24 +56,42 @@ TodayView buildToday(TodayInputs i) {
   );
 }
 
+/// Mobi beside the greeting: every day, unless the hero card already has him.
+HeaderMobiCue? _headerMobi(TodayInputs i, TodayHero hero) {
+  if (hero is MoveHero && hero.art.isMobi) return null;
+  final clock = i.clock();
+  if (isLateNight(clock)) return const HeaderMobiCue(HeaderMobiKind.sleepy, TodayCopy.mobiSleepy);
+  final today = i.date();
+  final recordedToday = (i.attempts ?? const <Attempt>[]).any((a) => i.date(a.completedAt) == today);
+  if (recordedToday) return const HeaderMobiCue(HeaderMobiKind.cheer, TodayCopy.mobiCheer);
+  if (hero is MoveHero && hero.number != null) return const HeaderMobiCue(HeaderMobiKind.point, TodayCopy.mobiPoint);
+  return const HeaderMobiCue(HeaderMobiKind.idle, TodayCopy.mobiIdle);
+}
+
 HeaderModel buildHeader(TodayInputs i) {
   final clock = i.clock();
   final week = i.week;
-  final rest = i.profile?.restWeekdays ?? const <int>{};
   return HeaderModel(
     dateLine: formatWeekdayDate(clock),
     greeting: TodayCopy.greeting(clock.hour, i.firstName),
-    week: week == null
-        ? null
-        : [
-            for (var d = 0; d < 7; d++)
-              WeekBubbleDay(
-                mark: week.studied[d] ? WeekDayMark.done : (rest.contains(d + 1) ? WeekDayMark.rest : WeekDayMark.open),
-                isToday: week.todayIndex == d,
-              ),
-          ],
-    weekLabel: week?.label,
+    week: week == null ? null : _week(i, week),
     updatedLine: _updatedLine(i),
+  );
+}
+
+WeekModel _week(TodayInputs i, TodayWeek w) {
+  // Without a plan saved in the rhythm module, the onboarding's rest days still draw the plan.
+  final rest = i.profile?.restWeekdays ?? const <int>{};
+  final planned = w.planned ?? (rest.isEmpty ? null : {for (var d = 0; d < 7; d++) if (!rest.contains(d + 1)) d});
+  final outlook = w.goal == null
+      ? null
+      : weekOutlook(studied: w.studied, todayIndex: w.todayIndex, goal: w.goal!, paused: w.paused, planned: planned);
+  return WeekModel(
+    days: planWeek(studied: w.studied, todayIndex: w.todayIndex, planned: planned, dates: w.dates),
+    count: w.goal == null || w.paused ? w.label : '${w.studied.where((d) => d).length} of ${plural(w.goal!, 'study day')}',
+    outlook: outlook?.short,
+    met: outlook?.kind == OutlookKind.met || w.met,
+    paused: w.paused,
   );
 }
 
@@ -179,11 +205,30 @@ List<SheetRow> buildSheet(TodayInputs i) {
   final all = i.attempts ?? const <Attempt>[];
   final unopened = {for (final u in i.unopened) u.attemptId};
   return [
-    for (final a in all.take(sheetRowsShown)) _row(i, all, a, sealed: unopened.contains(a.id)),
+    for (final a in all.take(sheetRowsShown)) _row(i, all, a, sealed: unopened.contains(a.id), unopened: unopened),
   ];
 }
 
-SheetRow _row(TodayInputs i, List<Attempt> all, Attempt a, {required bool sealed}) {
+/// The previous paper of the same subject, kind and length, older than [a]. Never one whose
+/// result is still sealed: the change line must not spoil a reveal.
+Attempt? _previousComparable(List<Attempt> all, Attempt a, Set<String> unopened) {
+  final at = all.indexOf(a);
+  for (final b in all.skip(at + 1)) {
+    if (b.subject == a.subject && b.mode == a.mode && b.total == a.total) return unopened.contains(b.id) ? null : b;
+  }
+  return null;
+}
+
+String? _change(List<Attempt> all, Attempt a, Set<String> unopened) {
+  final prev = _previousComparable(all, a, unopened);
+  if (prev == null) return null;
+  final label = paperLabel(all, prev);
+  final by = a.marks - prev.marks;
+  if (by == 0) return TodayCopy.changeLevel(label);
+  return by > 0 ? TodayCopy.changeUp(by, label) : TodayCopy.changeDown(-by, label);
+}
+
+SheetRow _row(TodayInputs i, List<Attempt> all, Attempt a, {required bool sealed, required Set<String> unopened}) {
   final states = <BubbleState>[
     for (final q in a.questions)
       if (sealed)
@@ -213,28 +258,6 @@ SheetRow _row(TodayInputs i, List<Attempt> all, Attempt a, {required bool sealed
     marks: sealed ? null : a.marks,
     outOf: sealed ? null : a.maxMarks,
     sealed: sealed,
+    change: sealed ? null : _change(all, a, unopened),
   );
 }
-
-RoadModel? buildRoad(TodayInputs i) {
-  final days = expectedWindowStart.difference(i.date()).inDays;
-  if (days <= 0) return null;
-  final profile = i.profile;
-  final picks = profile?.ladder.take(3).toList() ?? const [];
-  return RoadModel(
-    weeks: days ~/ 7,
-    category: profile?.category ?? 'UR',
-    ladder: [
-      for (var k = 0; k < picks.length; k++)
-        LadderRung(
-          college: picks[k].college,
-          course: picks[k].course,
-          score: _score(picks[k].closingScore),
-          outOf: picks[k].outOf,
-          dream: k == 0,
-        ),
-    ],
-  );
-}
-
-String _score(num score) => score == score.roundToDouble() ? '${score.round()}' : score.toStringAsFixed(1);

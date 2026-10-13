@@ -1,0 +1,186 @@
+// Goldens for this pass's practice work: the finish moment frame by frame (0, 400, 900 ms),
+// the result's analysis and Prove step, setup with several chapters and a difficulty, and the
+// subject objects of all fifteen practice subjects (owner feedback 1110).
+import 'dart:io';
+import 'dart:ui' as ui;
+
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
+import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mockmob/core/auth/auth_state.dart';
+import 'package:mockmob/core/models/attempt.dart';
+import 'package:mockmob/core/theme/theme.dart';
+import 'package:mockmob/features/practice/data/practice_catalog.dart' show fallbackSubjectNames;
+import 'package:mockmob/features/practice/data/result_actions.dart';
+import 'package:mockmob/features/practice/practice_routes.dart';
+import 'package:mockmob/features/practice/widgets/subject_tiles.dart';
+
+import '../../helpers/fonts.dart';
+import '../../helpers/golden_harness.dart' show settleImages;
+import '../../unit/core_data/support/fixtures.dart';
+import '../../unit/practice/support/harness.dart';
+
+const Size _size = Size(384, 853);
+
+class _ArtSheet extends StatelessWidget {
+  const _ArtSheet();
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    backgroundColor: context.mmColors.ground,
+    body: SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            for (final e in [...fallbackSubjectNames.entries, const MapEntry('hindi', 'Hindi')])
+              Transform.scale(
+                scale: 0.82,
+                alignment: Alignment.topLeft,
+                child: SizedBox(
+                  width: SubjectTiles.width * 0.82,
+                  height: SubjectTiles.height * 0.82,
+                  child: OverflowBox(
+                    alignment: Alignment.topLeft,
+                    maxWidth: SubjectTiles.width,
+                    maxHeight: SubjectTiles.height,
+                    child: SubjectTile(id: e.key, name: e.value, selected: e.key == 'physics', onTap: () {}),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+List<GoRoute> _routes() => [
+  GoRoute(path: '/practice/setup/:mode', builder: (c, s) => practiceSetupScreen(c, s)),
+  GoRoute(path: '/practice/result/:attemptId', builder: (c, s) => practiceResultScreen(c, s)),
+  GoRoute(path: '/art', builder: (c, s) => const _ArtSheet()),
+  stubRoute('/today'),
+  stubRoute('/practice'),
+  stubRoute('/practice/start'),
+  stubRoute('/review/repair/:attemptId/:questionId'),
+];
+
+final _set = [
+  for (var i = 0; i < 6; i++) ('Admission of a partner', V.right),
+  ('Admission of a partner', V.wrong),
+  ('Goodwill', V.wrong),
+  ('Admission of a partner', V.wrong),
+  ('Goodwill', V.blank),
+];
+
+AttemptDetail _detail({Map<String, dynamic>? recovery}) => AttemptDetail.fromJson({
+  ...attemptJson(id: 'p1', mode: 'quick', subject: 'accountancy', questions: _set, extraMeta: {'recovery': ?recovery}),
+  'answerReviews': <String, dynamic>{},
+  'answerReviewState': 'ready',
+});
+
+/// A session the phone timed: steady on the right answers, fast on two of the three wrong.
+Map<String, dynamic> _telemetry() {
+  var at = 0;
+  const secs = [48, 52, 39, 61, 44, 57, 12, 70, 9, 30];
+  return {
+    'telemetry': 'self_reported',
+    'timeline': [
+      for (var i = 0; i < 10; i++) {'qid': 'p1-q${i + 1}', 'at': (at += i == 0 ? 0 : secs[i - 1] * 1000), 'seq': i},
+      {'qid': 'p1-q10', 'at': at + secs[9] * 1000, 'seq': 10},
+    ],
+    'observed': {
+      'answerChanges': [
+        {'qid': 'p1-q7', 'before': 0, 'after': 1, 'markEffect': -6},
+      ],
+    },
+  };
+}
+
+Future<void> _shot(WidgetTester tester, String name, Brightness b) async {
+  final tag = b == Brightness.dark ? 'night' : 'day';
+  await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/${name}_$tag.png'));
+  final dir = Platform.environment['MM_PREVIEW_DIR'];
+  if (dir == null || dir.isEmpty) return;
+  final boundary = previewBoundary.currentContext!.findRenderObject()! as RenderRepaintBoundary;
+  await tester.runAsync(() async {
+    final image = await boundary.toImage(pixelRatio: 2);
+    final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
+    image.dispose();
+    await File('$dir/practice_${name}_$tag.png').writeAsBytes(bytes!.buffer.asUint8List());
+  });
+}
+
+Future<void> _pump(WidgetTester tester, String location, Brightness b, List<Override> overrides) =>
+    pumpRouted(tester, location: location, routes: _routes(), brightness: b, size: _size, overrides: overrides);
+
+Future<void> _settle(WidgetTester tester, {int ms = 900}) async {
+  for (var i = 0; i < 6; i++) {
+    await tester.pump(Duration(milliseconds: ms ~/ 6));
+  }
+  await settleImages(tester);
+}
+
+void main() {
+  setUpAll(loadAppFonts);
+
+  for (final b in [Brightness.dark, Brightness.light]) {
+    group('practice finish, ${b.name}', () {
+      for (final ms in [0, 400, 900, 2400]) {
+        testWidgets('the finish moment at $ms ms', (tester) async {
+          final pending = FakePendingResults()..receivedAt = DateTime(2026, 10, 12, 23, 51);
+          await _pump(tester, '/practice/result/p1', b, resultOverrides(attemptId: 'p1', detail: _detail(), pending: pending, chapter: 'Admission of a partner'));
+          // Two frames for the fresh check to resolve; the moment starts on the second.
+          await tester.pump();
+          await tester.pump();
+          // Frames every 50 ms, as a phone would draw them, so state set mid-moment is painted.
+          for (var t = 0; t < ms; t += 50) {
+            await tester.pump(const Duration(milliseconds: 50));
+          }
+          await _shot(tester, 'finish_${ms}ms', b);
+          await tester.pump(const Duration(seconds: 3));
+        });
+      }
+
+      testWidgets('result analysis: what the set shows and the Prove step', (tester) async {
+        const replay = ReplayInventory(supported: true, chapters: [ReplayChapter(chapter: 'Admission of a partner', available: true)]);
+        await _pump(tester, '/practice/result/p1', b, resultOverrides(attemptId: 'p1', detail: _detail(recovery: _telemetry()), replay: replay));
+        await _settle(tester);
+        await tester.scrollUntilVisible(find.text('What this set shows'), 300, scrollable: find.byType(Scrollable).first);
+        await tester.drag(find.byType(Scrollable).first, const Offset(0, -120));
+        await _settle(tester, ms: 600);
+        await _shot(tester, 'result_analysis', b);
+      });
+
+      testWidgets('result, an open wrong answer with its time, change and report key', (tester) async {
+        await _pump(tester, '/practice/result/p1', b, resultOverrides(attemptId: 'p1', detail: _detail(recovery: _telemetry())));
+        await _settle(tester);
+        await tester.drag(find.byType(Scrollable).first, const Offset(0, -640));
+        await _settle(tester, ms: 600);
+        await _shot(tester, 'result_open_answer', b);
+      });
+
+      testWidgets('setup, three chapters and Hard (Pro)', (tester) async {
+        const pro = AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', email: 'a@b.co', subjects: ['accountancy', 'economics'], isPro: true);
+        await _pump(
+          tester,
+          '/practice/setup/chapter?subject=accountancy&count=15&chapters=Admission%20of%20a%20partner&chapters=Goodwill&chapters=Retirement%20and%20death%20of%20a%20partner&difficulty=hard',
+          b,
+          practiceOverrides(auth: pro, quotes: FakeQuoteRepository((s, m, c, p) => quoteOf(cost: 0, entitlement: 'access', durationSec: (c ?? 10) * 60, count: c ?? 10))),
+        );
+        await _settle(tester);
+        await _shot(tester, 'setup_chapters_hard', b);
+      });
+
+      testWidgets('subject objects for every practice subject', (tester) async {
+        await _pump(tester, '/art', b, practiceOverrides());
+        await _settle(tester);
+        await _shot(tester, 'subject_art_all', b);
+      });
+    });
+  }
+}

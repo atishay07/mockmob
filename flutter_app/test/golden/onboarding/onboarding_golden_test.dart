@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/features/onboarding/copy.dart';
 import 'package:mockmob/features/onboarding/model/answers.dart';
 import 'package:mockmob/features/onboarding/model/choices.dart';
 import 'package:mockmob/features/onboarding/model/deck.dart';
@@ -151,5 +153,62 @@ void main() {
     overrides: () => onboardingOverrides(
       answers: studentUpTo(Steps.plan, step: Steps.firstMove).copyWith(age: AgeAnswer.minor, notNow: true),
     ),
+  );
+
+  // The full subject list: search, the groups, and what CUET has that MockMob does not offer.
+  Future<void> openPicker(WidgetTester tester) async {
+    final add = find.text(OnboardingCopy.addSubject).first;
+    await tester.ensureVisible(add);
+    await tester.pump();
+    await tester.tap(add);
+    await tester.pumpAndSettle();
+  }
+
+  onboardingGolden('picker_open', _flow, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.subjects)), act: openPicker, withOverlays: true);
+  onboardingGolden(
+    'picker_not_offered',
+    _flow,
+    overrides: () => onboardingOverrides(answers: studentUpTo(Steps.subjects)),
+    act: (tester) async {
+      await openPicker(tester);
+      // The sheet's own list is the last scrollable; bring the not-offered block to the top.
+      await tester.scrollUntilVisible(
+        find.text(OnboardingCopy.languagesLabel),
+        300,
+        scrollable: find.byType(Scrollable).last,
+      );
+      await tester.pumpAndSettle();
+    },
+    withOverlays: true,
+  );
+  onboardingGolden(
+    'picker_search',
+    _flow,
+    overrides: () => onboardingOverrides(answers: studentUpTo(Steps.subjects)),
+    act: (tester) async {
+      await openPicker(tester);
+      await tester.enterText(find.byType(TextField), 'his');
+      await tester.pumpAndSettle();
+    },
+    withOverlays: true,
+  );
+
+  // The shortest phone the app supports (360 by 640) and a tall one (430 by 950).
+  const tiny = Size(360, 640);
+  const tall = Size(430, 950);
+  onboardingGolden('tiny_welcome', () => const OnboardingFlow(skipColdOpen: true), size: tiny);
+  onboardingGolden('tiny_subjects', _flow, size: tiny, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.subjects)));
+  onboardingGolden(
+    'tiny_save_ready',
+    _flow,
+    size: tiny,
+    overrides: () => onboardingOverrides(answers: studentUpTo(Steps.plan, step: Steps.save).copyWith(age: AgeAnswer.adult)),
+  );
+  onboardingGolden('tall_welcome', () => const OnboardingFlow(skipColdOpen: true), size: tall);
+  onboardingGolden(
+    'tall_save_ready',
+    _flow,
+    size: tall,
+    overrides: () => onboardingOverrides(answers: studentUpTo(Steps.plan, step: Steps.save).copyWith(age: AgeAnswer.adult)),
   );
 }

@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../haptics/haptics.dart';
 import '../../motion/motion.dart';
 import '../../theme/theme.dart';
-import '../bubbles/bubble.dart';
 import '../materials/glass_surface.dart';
 import '../pressable.dart';
 import 'dock_tabs.dart';
@@ -235,25 +234,19 @@ class _DockTab extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 4),
-            // Shrinks rather than clips on narrow phones with large text.
+            // Shrinks rather than clips on narrow phones with large text. The pill and its volt
+            // arc mark the active tab; the label carries no dot of its own.
             FittedBox(
               fit: BoxFit.scaleDown,
-              child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Bubble(state: active ? BubbleState.filled : BubbleState.hollow, size: 8, inkOrigin: inkFrom),
-                const SizedBox(width: 5),
-                MediaQuery.withClampedTextScaling(
-                  maxScaleFactor: 1.2,
-                  child: Text(
-                    tab.label,
-                    maxLines: 1,
-                    overflow: TextOverflow.clip,
-                    style: type.navLabel.copyWith(color: active ? colors.ink : colors.ink2),
-                  ),
+              child: MediaQuery.withClampedTextScaling(
+                maxScaleFactor: 1.2,
+                child: Text(
+                  tab.label,
+                  maxLines: 1,
+                  overflow: TextOverflow.clip,
+                  style: type.navLabel.copyWith(color: active ? colors.ink : colors.ink2, fontWeight: active ? FontWeight.w600 : null),
                 ),
-              ],
-            ),
+              ),
             ),
           ],
         ),

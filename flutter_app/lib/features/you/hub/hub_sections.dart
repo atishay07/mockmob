@@ -68,6 +68,7 @@ class SettingsPanel extends ConsumerWidget {
     final consent = ref.watch(consentRepositoryProvider);
     final mode = ref.watch(themeModeProvider);
     final pro = ref.watch(authSnapshotProvider.select((a) => a.isPro));
+    final credits = ref.watch(authSnapshotProvider.select((a) => a.creditBalance));
     return YouPanel(
       inset: _rowInset,
       children: [
@@ -87,7 +88,7 @@ class SettingsPanel extends ConsumerWidget {
         YouRow(
           icon: LucideIcons.user,
           title: YouCopy.rowAccount,
-          value: pro ? YouCopy.accountPro : null,
+          value: pro ? YouCopy.accountPro : credits == null ? null : YouCopy.accountCredits(credits),
           onTap: () => context.push(AppRoutes.youAccount),
         ),
         YouRow(icon: LucideIcons.lifeBuoy, title: YouCopy.rowHelp, onTap: () => context.push(AppRoutes.youHelp)),
@@ -126,7 +127,7 @@ class ToolsPanel extends StatelessWidget {
   }
 }
 
-/// The quiet sign-off at the foot of You: the wordmark and the version.
+/// The quiet sign-off at the foot of You: Mobi resting, the wordmark and the version.
 class HubFooter extends ConsumerWidget {
   const HubFooter({super.key});
 
@@ -138,6 +139,9 @@ class HubFooter extends ConsumerWidget {
       padding: const EdgeInsets.only(top: MmSpace.s40),
       child: Column(
         children: [
+          // Mobi sits at the foot of the page; a tap makes him hop.
+          const Mobi(pose: MobiPose.rest, size: 64, interactive: true),
+          const SizedBox(height: MmSpace.s12),
           ExcludeSemantics(child: Wordmark(height: 22, color: colors.ink3)),
           if (version != null) ...[
             const SizedBox(height: MmSpace.s8),

@@ -38,7 +38,6 @@ class OtherSubjectsList extends StatelessWidget {
             focusRadius: MmRadius.keyAll,
             pressedScale: 0.985,
             builder: (context, pressed, _) {
-              final art = MmArt.subjectObject(s.id);
               return DecoratedBox(
                 decoration: ShapeDecoration(
                   color: pressed ? colors.ink.withValues(alpha: 0.06) : Colors.transparent,
@@ -50,10 +49,7 @@ class OtherSubjectsList extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: MmSpace.s8),
                     child: Row(
                       children: [
-                        SizedBox.square(
-                          dimension: 40,
-                          child: art == null ? Icon(LucideIcons.bookMarked, size: 20, color: colors.ink2) : ArtImage(art, width: 40, height: 40),
-                        ),
+                        SubjectGlyphTile(s.id),
                         const SizedBox(width: MmSpace.s12),
                         Expanded(child: Text(s.name, style: type.labelLarge)),
                         Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),

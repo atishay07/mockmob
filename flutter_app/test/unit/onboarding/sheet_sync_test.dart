@@ -116,8 +116,8 @@ void main() {
 
     final sent = {for (final r in writes()) '${r.method} ${r.path}': r.body};
     expect(jsonDecode(jsonEncode(sent['PUT /api/me/consent'])), {'ageBand': 'minor', 'analyticsAllowed': false});
-    // Maths stays on the phone: the app cannot tell Mathematics from Applied Mathematics.
-    expect(jsonDecode(jsonEncode(sent['PATCH /api/users/u1'])), {'subjects': ['english', 'accountancy', 'economics']});
+    // Every chosen subject is a practice subject the profile takes, Maths included.
+    expect(jsonDecode(jsonEncode(sent['PATCH /api/users/u1'])), {'subjects': ['english', 'accountancy', 'economics', 'mathematics']});
     expect(jsonDecode(jsonEncode(sent['PUT /api/me/goal'])), {'daysPerWeek': 3, 'pausedUntil': null});
     expect(jsonDecode(jsonEncode(sent['PUT /api/me/notification-prefs'])), {'studyWindow': {'start': '22:00', 'end': '23:00'}});
     await c.read(onboardingAnswersProvider.notifier).flushed();

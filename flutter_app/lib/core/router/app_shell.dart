@@ -141,6 +141,16 @@ class _AppShellState extends ConsumerState<AppShell> {
           child: Stack(
             children: [
               Positioned.fill(child: content),
+              // The ground under the status bar, so a scrolled page never reads through the
+              // clock and icons.
+              if (media.viewPadding.top > 0)
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  height: media.viewPadding.top + 14,
+                  child: IgnorePointer(child: StatusScrim(solidTo: media.viewPadding.top)),
+                ),
               if (showDock) ...[
                 Positioned(
                   left: 0,
@@ -155,6 +165,33 @@ class _AppShellState extends ConsumerState<AppShell> {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// The ground behind the status bar: solid down to [solidTo], then a short fade.
+class StatusScrim extends StatelessWidget {
+  const StatusScrim({super.key, required this.solidTo});
+
+  final double solidTo;
+
+  @override
+  Widget build(BuildContext context) {
+    final ground = context.mmColors.ground;
+    return LayoutBuilder(
+      builder: (context, box) {
+        final stop = box.maxHeight <= 0 ? 0.0 : (solidTo / box.maxHeight).clamp(0.0, 1.0);
+        return DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              stops: [0, stop * 0.6, stop, 1],
+              colors: [ground.withValues(alpha: 0.9), ground.withValues(alpha: 0.85), ground.withValues(alpha: 0.6), ground.withValues(alpha: 0)],
+            ),
+          ),
+        );
+      },
     );
   }
 }

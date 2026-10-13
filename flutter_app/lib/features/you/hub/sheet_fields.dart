@@ -4,6 +4,9 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../widgets/subject_art.dart';
+import '../../rhythm/logic/plan_week.dart' show PlanDay;
+import '../../rhythm/widgets/plan_week_strip.dart';
 
 /// One field of the sheet card, ruled off like the header boxes of an answer sheet: a hairline
 /// above, a small label, then the value.
@@ -118,16 +121,48 @@ class SubjectList extends StatelessWidget {
             children: [
               SizedBox.square(
                 dimension: 26,
-                child: switch (MmArt.subjectObject(id)) {
-                  final MmArt art => ArtImage(art, height: 26, placeholder: const Bubble(state: BubbleState.filled, size: 12)),
-                  null => const Center(child: Bubble(state: BubbleState.filled, size: 12)),
-                },
+                child: SubjectArt(id, size: 26),
               ),
               const SizedBox(width: MmSpace.s6),
               Text(subjectDisplayName(id), style: type.labelLarge.copyWith(fontSize: 14)),
             ],
           ),
       ],
+    );
+  }
+}
+
+/// The subjects field: the chosen subjects with their objects, and Edit at the end of the
+/// label line. The whole field opens the subjects editor.
+class SubjectsField extends StatelessWidget {
+  const SubjectsField({super.key, required this.subjects, this.onEdit});
+
+  final List<String> subjects;
+  final VoidCallback? onEdit;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final field = SheetField(
+      label: YouCopy.fieldSubjects,
+      trailing: onEdit == null
+          ? null
+          : Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(YouCopy.editSubjects, style: context.mmType.labelLarge.copyWith(fontSize: 14)),
+                const SizedBox(width: MmSpace.s4),
+                Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3),
+              ],
+            ),
+      child: SubjectList(subjects: subjects),
+    );
+    if (onEdit == null) return field;
+    return Semantics(
+      button: true,
+      label: '${YouCopy.editSubjectsLabel}. ${subjects.map(subjectDisplayName).join(', ')}',
+      excludeSemantics: true,
+      child: GestureDetector(behavior: HitTestBehavior.opaque, onTap: onEdit, child: field),
     );
   }
 }
@@ -142,6 +177,7 @@ class SheetWeek {
         count = null,
         note = null,
         description = null,
+        planDays = null,
         onRetry = null;
 
   const SheetWeek.failed(this.onRetry)
@@ -149,7 +185,8 @@ class SheetWeek {
         days = const [],
         count = null,
         note = null,
-        description = null;
+        description = null,
+        planDays = null;
 
   const SheetWeek.off()
       : state = SheetWeekState.off,
@@ -157,14 +194,19 @@ class SheetWeek {
         count = null,
         note = null,
         description = null,
+        planDays = null,
         onRetry = null;
 
-  const SheetWeek.ready({required this.days, required this.count, required this.description, this.note})
+  const SheetWeek.ready({required this.days, required this.count, required this.description, this.note, this.planDays})
       : state = SheetWeekState.ready,
         onRetry = null;
 
   final SheetWeekState state;
   final List<WeekBubbleDay> days;
+
+  /// The week as planned (rest days dashed), the same strip Today and Rhythm draw. Null falls
+  /// back to the plain bubbles.
+  final List<PlanDay>? planDays;
 
   /// "2 of 4 study days".
   final String? count;
@@ -204,7 +246,10 @@ class WeekField extends StatelessWidget {
       SheetWeekState.ready => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            WeekBubbles(days: week.days, bubbleSize: 24, gap: 13, semanticsLabel: week.description),
+            if (week.planDays != null)
+              Semantics(label: week.description, child: PlanWeekStrip(days: week.planDays!, bubble: 20))
+            else
+              WeekBubbles(days: week.days, bubbleSize: 24, gap: 13, semanticsLabel: week.description),
             if (week.note != null) ...[
               const SizedBox(height: MmSpace.s4),
               Text(week.note!, style: type.caption.copyWith(color: colors.ink2)),

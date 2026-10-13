@@ -7,7 +7,6 @@ import '../../core/auth/auth_state.dart';
 import '../../core/copy/copy.dart';
 import '../../core/motion/motion.dart';
 import '../../core/repositories/repositories.dart';
-import '../../core/router/action_router.dart';
 import '../../core/router/external_link_opener.dart';
 import '../../core/router/routes.dart';
 import '../../core/theme/theme.dart';
@@ -22,12 +21,17 @@ import 'hub/hub_sections.dart';
 import 'hub/sheet_card.dart';
 import 'hub/sheet_fields.dart';
 import 'widgets/you_page.dart';
+import 'you_routes.dart';
 
 /// You (brief section 12): identity first, settings second. The student's sheet for the season
 /// sits in the lamp light at the top, the brass milestone tokens stand on their shelf beneath it,
 /// and the calm settings panels follow. Opened from the avatar on every tab root.
 class YouHubScreen extends ConsumerStatefulWidget {
-  const YouHubScreen({super.key});
+  const YouHubScreen({super.key, this.tools});
+
+  /// The CUET tools group (the tools feature's `ToolsShelf`). Null shows the two website rows
+  /// that open in a Custom Tab, so the hub works before the tools routes are registered.
+  final Widget? tools;
 
   @override
   ConsumerState<YouHubScreen> createState() => _YouHubScreenState();
@@ -56,10 +60,10 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerPr
     super.dispose();
   }
 
+  /// The website rows (only when no tools shelf is given): the page itself on www.mockmob.in,
+  /// even though the ActionRouter now sends these paths to the native tools.
   Future<void> _openTool(String path) async {
-    final target = ActionRouter.resolve(path);
-    var ok = false;
-    if (target is ExternalTarget) ok = await ref.read(externalLinkOpenerProvider).open(target.uri);
+    final ok = await ref.read(externalLinkOpenerProvider).open(Uri.https('www.mockmob.in', path));
     if (mounted) setState(() => _openFailed = !ok);
   }
 
@@ -95,7 +99,13 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerPr
     final note = paused ? week.label : (runNote(rhythm) ?? weeksInRhythmText(rhythm));
     final count = YouCopy.weekCount(week.studyDays, week.goal);
     final study = [for (var i = 0; i < 7; i++) if (week.days[i].studyDay) weekdayNames[i]];
+    final today = week.days.indexWhere((d) => d.isToday);
     return SheetWeek.ready(
+      planDays: planWeek(
+        studied: [for (final d in week.days) d.studyDay],
+        todayIndex: today < 0 ? null : today,
+        planned: ref.watch(studyDayPlanProvider),
+      ),
       days: days,
       count: count,
       note: note,
@@ -154,13 +164,15 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerPr
                           subjects: auth.subjects.isNotEmpty ? auth.subjects : target.subjects,
                           week: _week(snapshot, off),
                           onOpenRhythm: () => context.push(AppRoutes.youRhythm),
+                          onEdit: () => openYouPage(context, YouPaths.sheet),
+                          onEditSubjects: () => openYouPage(context, YouPaths.subjects),
                         ),
                       ),
                     ),
                     _rise(1, _shelf(snapshot, now)),
                     _rise(2, const Column(children: [GroupHeading(YouCopy.hubProgress), ProgressPanel()])),
                     _rise(3, const Column(children: [GroupHeading(YouCopy.hubSettings), SettingsPanel()])),
-                    _rise(4, Column(children: [const GroupHeading(YouCopy.hubTools), ToolsPanel(onOpen: _openTool)])),
+                    _rise(4, Column(children: [const GroupHeading(YouCopy.hubTools), widget.tools ?? ToolsPanel(onOpen: _openTool)])),
                     const HubFooter(),
                   ],
                 ),

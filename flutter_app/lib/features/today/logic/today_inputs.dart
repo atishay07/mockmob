@@ -8,9 +8,19 @@ import '../../../core/notifications/timezones.dart';
 import '../../../core/repositories/dismissal_repository.dart';
 import '../data/today_profile.dart';
 
-/// The current week from the rhythm module: which days were study days, which one is today.
+/// The current week from the rhythm module: which days were study days, which one is today,
+/// the goal and the student's own planned days.
 class TodayWeek {
-  const TodayWeek({required this.studied, required this.label, this.todayIndex});
+  const TodayWeek({
+    required this.studied,
+    required this.label,
+    this.todayIndex,
+    this.goal,
+    this.planned,
+    this.paused = false,
+    this.met = false,
+    this.dates,
+  });
 
   /// Seven flags, Monday first.
   final List<bool> studied;
@@ -18,6 +28,17 @@ class TodayWeek {
   /// "2 of 4 study days".
   final String label;
   final int? todayIndex;
+
+  /// Study days a week, from the server.
+  final int? goal;
+
+  /// The student's chosen study days (0 = Monday), null without a plan.
+  final Set<int>? planned;
+  final bool paused;
+  final bool met;
+
+  /// Day of the month for each weekday, when the server's week is known.
+  final List<int?>? dates;
 }
 
 /// The latest local session draft, reduced to what Today says about it.

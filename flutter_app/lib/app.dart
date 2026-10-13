@@ -7,6 +7,8 @@ import 'core/motion/reduced_motion.dart';
 import 'core/router/router.dart';
 import 'core/settings/appearance_settings.dart';
 import 'core/theme/theme.dart';
+import 'core/widgets/brand/brand_opening.dart';
+import 'core/widgets/status_tint.dart';
 import 'features/notifications/notifications.dart';
 import 'features/onboarding/onboarding_routes.dart' show sampleImportProvider;
 
@@ -66,7 +68,8 @@ class _AppView extends ConsumerWidget {
             quality: ref.watch(glassQualityProvider),
             child: MediaQuery(
               data: MediaQuery.of(context).copyWith(textScaler: scaler),
-              child: _StatusBarScrim(child: child ?? const SizedBox.shrink()),
+              // The brand opening covers the app on every cold start, then removes itself.
+              child: BrandOpeningHost(child: _StatusBarScrim(child: child ?? const SizedBox.shrink())),
             ),
           ),
         );
@@ -75,13 +78,16 @@ class _AppView extends ConsumerWidget {
   }
 }
 
-/// Edge to edge, scrolled content would run under the status bar icons. A short fade of the
-/// ground colour behind the bar keeps the clock and icons legible on every screen without a
-/// hard band (it is environment, not chrome, so it never takes touches).
+/// Edge to edge, scrolled content would run under the status bar icons. The ground colour sits
+/// solid behind the bar and fades out over 24 dp below it, so the clock and icons stay legible on
+/// every screen and no title shows through (it is environment, not chrome, so it never takes
+/// touches). A screen whose own bar runs under the status bar (NTA mode) tints it instead.
 class _StatusBarScrim extends StatelessWidget {
   const _StatusBarScrim({required this.child});
 
   final Widget child;
+
+  static const double fade = 24;
 
   @override
   Widget build(BuildContext context) {
@@ -97,17 +103,22 @@ class _StatusBarScrim extends StatelessWidget {
             left: 0,
             right: 0,
             top: 0,
-            height: top + 18,
+            height: top + fade,
             child: IgnorePointer(
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    stops: [0, top / (top + 18), 1],
-                    colors: [ground.withValues(alpha: 0.95), ground.withValues(alpha: 0.86), ground.withValues(alpha: 0)],
-                  ),
-                ),
+              child: ValueListenableBuilder<Color?>(
+                valueListenable: statusTintColor,
+                builder: (context, tint, _) => tint != null
+                    ? Align(alignment: Alignment.topCenter, child: SizedBox(height: top, width: double.infinity, child: ColoredBox(color: tint)))
+                    : DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            stops: [0, top / (top + fade), 1],
+                            colors: [ground, ground, ground.withValues(alpha: 0)],
+                          ),
+                        ),
+                      ),
               ),
             ),
           ),

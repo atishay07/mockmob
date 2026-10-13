@@ -11,6 +11,7 @@ import 'package:mockmob/features/today/logic/move_builder.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/logic/today_inputs.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
+import 'package:mockmob/features/today/widgets/move_hero.dart';
 
 import 'support/today_fixtures.dart';
 
@@ -59,28 +60,29 @@ void main() {
   group('the ready repair', () {
     test('tonight is one chapter of the newest paper: the chapter with the most open mistakes', () {
       final m = _move(ashaInputs());
-      // Partnership holds 4 of Mock 7's 6; a repair run covers one chapter, so the chips stop at 3.
-      expect(m.number, '3');
-      expect(m.numberLabel, 'mistakes\ntonight');
-      expect(m.meaning, '3 of the 6 from Mock 7. All 3 are in Partnership fundamentals.');
-      expect(m.selectedMinutes, 10);
-      expect(m.durations.map((d) => d.minutes), [5, 10]);
+      // Partnership holds 4 of Mock 7's 6; a repair run covers one chapter, and the longest chip
+      // holds the whole chapter, as Review offers it.
+      expect(m.number, '4');
+      expect(m.numberLabel, 'to repair\ntonight');
+      expect(m.meaning, 'All 4 in Partnership fundamentals, from Mock 7 on 11 Oct.');
+      expect(m.selectedMinutes, 15);
+      expect(m.durations.map((d) => d.minutes), [5, 10, 15]);
       expect(m.evidenceId, 'm7');
       expect((m.primary.target as GoTo).location, startsWith(AppRoutes.reviewRepair('m7', 'm7-q3')));
-      expect(m.primary.label, TodayCopy.startRepair(10));
+      expect(m.primary.label, TodayCopy.startRepair(15));
       expect(m.meaning, isNot(contains('holds')), reason: '"Holds" is kept for a passed fresh check');
     });
 
     test('a shorter chip shrinks the task and the number', () {
       final m = _move(ashaInputs(selectedMinutes: 5));
       expect(m.number, '2');
-      expect(m.meaning, '2 of the 6 from Mock 7. All 2 are in Partnership fundamentals.');
+      expect(m.meaning, '2 of the 4 in Partnership fundamentals, from Mock 7 on 11 Oct.');
       expect((m.primary.target as GoTo).location, endsWith('count=2'));
     });
 
     test('in the morning it says today, never tonight', () {
       final m = _move(ashaInputs(now: DateTime.utc(2026, 10, 13, 2, 0)));
-      expect(m.numberLabel, 'mistakes\ntoday');
+      expect(m.numberLabel, 'to repair\ntoday');
       expect(m.overline, "Today's move");
     });
 
@@ -90,13 +92,15 @@ void main() {
       expect(m.selectedMinutes, 10);
       expect(m.number, '3');
       expect(m.art.art, MmArt.mobiSleepy);
-      expect(m.headline, TodayCopy.lateNight);
+      expect(m.headline, isNull);
+      expect(MoveHeroCard.moodLine(m), TodayCopy.lateNight);
     });
 
     test('returning after days away asks how long without repeating the name, says nothing was lost', () {
       final m = _move(ashaInputs(returning: true));
       expect(m.mood, TodayMood.returning);
-      expect(m.headline, 'Good to have you back.');
+      expect(m.headline, isNull);
+      expect(MoveHeroCard.moodLine(m), TodayCopy.mobiWelcomeBack);
       expect(m.headline, isNot(contains('Asha')), reason: 'the greeting above already says the name');
       expect(m.durationPrompt, 'How long have you got tonight?');
       expect(m.selectedMinutes, 10);
@@ -247,10 +251,39 @@ void main() {
       expect(buildHeader(ashaInputs()).updatedLine, isNull);
     });
 
-    test('chosen rest days are drawn as rest', () {
+    test('the week row draws the plan: counted, planned, rest', () {
       final week = buildHeader(ashaInputs()).week!;
-      expect(week.last.mark.name, 'rest');
-      expect(week[1].isToday, isTrue);
+      expect(week.days.map((d) => d.mark.name), ['done', 'planned', 'rest', 'planned', 'rest', 'planned', 'rest']);
+      expect(week.days[1].isToday, isTrue);
+      expect(week.count, '1 of 4 study days');
+      expect(week.outlook, '3 more by Sunday');
+    });
+
+    test('without a saved plan the onboarding rest days still draw it', () {
+      const week = TodayWeek(studied: [true, false, false, false, false, false, false], todayIndex: 1, label: '1 of 4 study days', goal: 4);
+      final days = buildHeader(TodayInputs(now: now, week: week, profile: ashaProfile)).week!.days;
+      expect(days.last.mark.name, 'rest');
+      expect(days[2].mark.name, 'planned');
+    });
+
+    test('a planned day that passed without study is open, never a miss', () {
+      const week = TodayWeek(studied: [false, false, false, false, false, false, false], todayIndex: 3, label: '0 of 4', goal: 4, planned: {0, 1, 3, 5});
+      final days = buildHeader(TodayInputs(now: now, week: week)).week!.days;
+      expect(days[0].mark.name, 'open');
+      expect(days[3].mark.name, 'planned');
+    });
+
+    test('recent papers carry the split and the change from the last comparable paper', () {
+      final rows = buildToday(ashaInputs()).sheet;
+      final m7 = rows.first;
+      expect((m7.right, m7.wrong, m7.blank), (42, 6, 2));
+      expect(m7.change, '+33 on Mock 6');
+      expect(rows[1].change, isNull);
+    });
+
+    test('the change never names a paper that is still sealed', () {
+      final rows = buildToday(ashaInputs(unopened: [(attemptId: 'm6', receivedAt: now)])).sheet;
+      expect(rows.first.change, isNull);
     });
 
     test('weeks to the expected May 2027 window, then gone once it starts', () {
@@ -264,6 +297,20 @@ void main() {
       expect(road.ladder.first.dream, isTrue);
       expect(road.ladder.first.score, '924.3');
       expect(buildRoad(ashaInputs(profile: null))!.ladder, isEmpty);
+    });
+
+    test('the road is calendar arithmetic on real dates and the student goal', () {
+      final road = buildRoad(ashaInputs())!;
+      expect(road.weeksToBoards, 17);
+      // The onboarding count: board weeks hold two sessions at most.
+      expect(road.studyDays, lessThan(28 * 4));
+      expect(road.weekNeeds, isNull, reason: 'the week strip at the top already says it');
+      expect(road.stops.map((s) => s.kind.name), ['registration', 'boards', 'exam', 'counselling']);
+      final march = buildRoad(ashaInputs(now: DateTime.utc(2027, 3, 1)))!;
+      expect(march.weeksToBoards, 0);
+      expect(march.stops.first.kind.name, 'registration');
+      final april = buildRoad(ashaInputs(now: DateTime.utc(2027, 4, 10)))!;
+      expect(april.stops.map((s) => s.kind.name), ['exam', 'counselling']);
     });
   });
 }

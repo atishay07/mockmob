@@ -15,7 +15,7 @@ import 'practice_catalog.dart';
 sealed class PracticeSuggestion {
   const PracticeSuggestion(this.subjectId);
 
-  /// Public subject id (`accountancy`, `general_test`).
+  /// Public subject id (`business_studies`, `general_test`).
   final String subjectId;
 }
 
@@ -51,8 +51,7 @@ class ChapterSuggestion extends PracticeSuggestion {
 
   int get count => defaultPracticeCount;
 
-  PracticeSelection get selection =>
-      PracticeSelection(mode: PracticeMode.chapter, subjectId: subjectId, count: count, chapter: chapter);
+  PracticeSelection get selection => PracticeSelection(mode: PracticeMode.chapter, subjectId: subjectId, count: count, chapters: [chapter]);
 }
 
 /// Quick practice in the subject of the latest paper, when no chapter can be named.
@@ -98,12 +97,13 @@ PracticeSuggestion suggestPractice({
   required DateTime now,
   required List<Attempt>? attempts,
   required List<String> chosenSubjects,
+  required String fallbackSubject,
   List<Subject>? catalog,
 }) {
   if (draft != null && resumableDraft(draft, sessionId: draft.sessionId, nowMs: now.millisecondsSinceEpoch)) {
     return ResumeSuggestion(draft);
   }
-  final first = chosenSubjects.isEmpty ? 'accountancy' : chosenSubjects.first;
+  final first = chosenSubjects.isEmpty ? fallbackSubject : chosenSubjects.first;
   final all = attempts;
   if (all == null || all.isEmpty) return StartingSuggestion(subjectId: first, firstEver: all != null);
 
@@ -137,5 +137,12 @@ final practiceSuggestionProvider = Provider.autoDispose<PracticeSuggestion>((ref
   final subjects = ref.watch(authSnapshotProvider.select((a) => a.subjects));
   final catalog = ref.watch(practiceSubjectsProvider).value;
   final now = ref.watch(nowProvider)();
-  return suggestPractice(draft: draft, now: now, attempts: attempts, chosenSubjects: subjects, catalog: catalog);
+  return suggestPractice(
+    draft: draft,
+    now: now,
+    attempts: attempts,
+    chosenSubjects: subjects,
+    fallbackSubject: ref.watch(practiceSubjectProvider),
+    catalog: catalog,
+  );
 });

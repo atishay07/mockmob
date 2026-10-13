@@ -129,15 +129,19 @@ class HairlineRow extends StatelessWidget {
 
 /// A group heading: sentence case, quiet, no kicker caps.
 class GroupHeading extends StatelessWidget {
-  const GroupHeading(this.text, {super.key});
+  const GroupHeading(this.text, {super.key, this.trailing});
 
   final String text;
 
+  /// An optional action at the end of the line.
+  final Widget? trailing;
+
   @override
   Widget build(BuildContext context) {
+    final label = Semantics(header: true, child: Text(text, style: context.mmType.labelLarge.copyWith(color: context.mmColors.ink2)));
     return Padding(
       padding: const EdgeInsets.only(left: 4, bottom: MmSpace.s8),
-      child: Semantics(header: true, child: Text(text, style: context.mmType.labelLarge.copyWith(color: context.mmColors.ink2))),
+      child: trailing == null ? label : Row(children: [Expanded(child: label), trailing!]),
     );
   }
 }

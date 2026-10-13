@@ -64,7 +64,7 @@ void main() {
       run: runOf(phase: RepairPhase.ending, outcomes: [explained, explained2], index: 1),
     );
     expect(find.text('Repair finished. Recorded at 11:21 PM.'), findsOneWidget);
-    expect(find.byType(Mobi), findsOneWidget);
+    expect(find.byType(MobiCharacter), findsOneWidget);
     expect(find.text('Repair 1 more mistake'), findsOneWidget);
   });
 
@@ -75,7 +75,7 @@ void main() {
       run: runOf(phase: RepairPhase.ending, outcomes: [const OutcomeSetAside(heldByServer: true)]),
     );
     expect(find.text('Nothing was repaired this time'), findsOneWidget);
-    expect(find.byType(Mobi), findsNothing);
+    expect(find.byType(MobiCharacter), findsNothing);
     expect(find.byType(ReceiptLine), findsNothing);
     expect(find.byType(MonumentalNumber), findsNothing);
   });

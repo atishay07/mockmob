@@ -53,6 +53,7 @@ class SessionMeta {
     this.contentEvidence,
     this.sessionTicket,
     this.storage,
+    this.message,
     this.raw = const {},
   });
 
@@ -64,6 +65,7 @@ class SessionMeta {
         contentEvidence: asString(j['contentEvidence']),
         sessionTicket: asString(j['sessionTicket']),
         storage: asString(j['storage']),
+        message: asString(j['message']),
         raw: j,
       );
 
@@ -76,6 +78,9 @@ class SessionMeta {
   /// Present in ticket mode: the server keeps no copy, so the app holds this and sends it back.
   final String? sessionTicket;
   final String? storage;
+
+  /// The server's own sentence about this paper (for example why an NTA paper is short).
+  final String? message;
 
   /// Every field as received, kept so the whole meta can be echoed back on submit.
   final Json raw;

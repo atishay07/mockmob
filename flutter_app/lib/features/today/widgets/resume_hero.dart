@@ -24,31 +24,28 @@ class ResumeHeroCard extends StatelessWidget {
     return HeroStage(
       subjectId: resume.subjectId,
       art: art == null ? null : HeroArtView(art: HeroArt.object(art)),
-      artWidth: 160,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.cardPadding, MmSpace.cardPadding, MmSpace.cardPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: heroArtHeight - MmSpace.cardPadding + 4),
-              child: Padding(
-                padding: const EdgeInsets.only(right: 156),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(TodayCopy.resumeOverline, style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600)),
-                    const SizedBox(height: 2),
-                    Semantics(header: true, child: Text(resume.title, style: type.labelLarge)),
-                  ],
-                ),
+            // Beside the object: the overline, the paper and the answered count, with no hole.
+            Padding(
+              padding: EdgeInsets.only(right: art == null ? 0 : heroArtWidth - MmSpace.cardPadding + 4),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(TodayCopy.resumeOverline, style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600)),
+                  const SizedBox(height: 2),
+                  Semantics(header: true, child: Text(resume.title, style: type.title.copyWith(fontSize: 20, height: 24 / 20))),
+                  const SizedBox(height: MmSpace.s4),
+                  NumberBlock(
+                    number: '${resume.answered}',
+                    label: TodayCopy.answeredLabel(resume.total),
+                    semanticsLabel: '${resume.answered} of ${resume.total} answered',
+                  ),
+                ],
               ),
-            ),
-            const SizedBox(height: MmSpace.s8),
-            NumberBlock(
-              number: '${resume.answered}',
-              label: TodayCopy.answeredLabel(resume.total),
-              semanticsLabel: '${resume.answered} of ${resume.total} answered',
             ),
             const SizedBox(height: MmSpace.s12),
             Text(resume.line, style: type.body.copyWith(color: colors.ink2)),

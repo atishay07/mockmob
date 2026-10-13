@@ -5,9 +5,8 @@ import '../copy.dart';
 
 /// "Hold to seal": a quiet hairline pill (volt is kept for the seal) that fills with volt from
 /// the left while it is held (the seal's
-/// progress, [progress], also runs the light around the sheet). Letting go early drains it. The
-/// plain "Seal it" button beside it does the same in one tap, for TalkBack and anyone who would
-/// rather not hold.
+/// progress, [progress], also runs the light around the sheet). Letting go early drains it.
+/// TalkBack's double tap (or a long press there) seals at once.
 class HoldToSeal extends StatelessWidget {
   const HoldToSeal({super.key, required this.progress, required this.onHoldStart, required this.onHoldEnd, required this.onSeal});
 

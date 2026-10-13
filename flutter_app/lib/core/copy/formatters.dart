@@ -57,6 +57,9 @@ String tonightOrTodayTitle(DateTime time) => isEvening(time) ? 'Tonight' : 'Toda
 /// "12 October".
 String formatDayMonth(DateTime date) => '${date.day} ${_months[date.month - 1]}';
 
+/// "11 Oct": the day and the month's first three letters, for a meta line.
+String formatDayMonthShort(DateTime date) => '${date.day} ${_months[date.month - 1].substring(0, 3)}';
+
 /// "Monday, 12 October".
 String formatWeekdayDate(DateTime date) => '${_weekdays[date.weekday - 1]}, ${formatDayMonth(date)}';
 

@@ -59,7 +59,10 @@ void main() {
 
     test('chips that exceed the candidates are hidden', () {
       expect([for (final o in repairDurationOptions(3)) o.minutes], [5, 10]);
-      expect([for (final o in repairDurationOptions(5)) o.minutes], [5, 10]);
+      // 4 or 5 mistakes: a last chip holds the whole chapter, as Review offers it.
+      expect([for (final o in repairDurationOptions(4)) o.minutes], [5, 10, 15]);
+      expect(repairDurationOptions(4).last.mistakes, 4);
+      expect([for (final o in repairDurationOptions(5)) o.minutes], [5, 10, 15]);
       expect([for (final o in repairDurationOptions(6)) o.minutes], [5, 10, 20]);
       expect(repairDurationOptions(6).last.mistakes, 6);
     });

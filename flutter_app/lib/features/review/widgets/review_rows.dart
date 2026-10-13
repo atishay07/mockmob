@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/copy/formatters.dart';
 import '../../../core/models/attempt.dart';
@@ -8,7 +9,6 @@ import '../copy.dart';
 import '../data/mistake_index.dart';
 import '../data/review_providers.dart';
 import 'answer_sheet.dart';
-import 'review_bits.dart';
 
 /// The quiet group of skipped questions (spec 5.8): never a repair key, only the answer and a
 /// try that is not recorded.
@@ -208,7 +208,8 @@ class PastResultRow extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
                 child: Row(
                   children: [
-                    SubjectMark(subjectId: attempt.subject, size: 40, art: false),
+                    // The paper's subject, not a wrong-answer bubble: the row is a result.
+                    SubjectGlyphTile(attempt.subject),
                     const SizedBox(width: MmSpace.s12),
                     Expanded(
                       child: Column(
@@ -219,13 +220,13 @@ class PastResultRow extends StatelessWidget {
                         ],
                       ),
                     ),
+                    Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3),
                   ],
                 ),
               ),
             ),
           ),
         ),
-        KeyButton.quiet(label: ReviewCopy.replayRecap, semanticsLabel: '${ReviewCopy.replayRecap}, $label', onPressed: onReplay),
       ],
     );
   }

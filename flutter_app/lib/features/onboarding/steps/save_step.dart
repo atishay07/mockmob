@@ -166,13 +166,9 @@ class SaveView extends StatelessWidget {
               child: Text(sealedLine!, style: type.small.copyWith(color: colors.ink2)),
             ),
           ],
-        ],
-      ),
-      // The choices sit low, where a thumb is.
-      bottom: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: [
+          // The age question and the keys follow the sheet directly, so the step reads as one
+          // group at every height (DEVICE-FINDINGS 2) instead of a sheet up top and keys far below.
+          const SizedBox(height: MmSpace.s24),
           Text(OnboardingCopy.ageQuestion, style: type.cardTitle),
           const SizedBox(height: MmSpace.s8),
           Wrap(
@@ -195,6 +191,7 @@ class SaveView extends StatelessWidget {
           Center(
             child: KeyButton.quiet(label: OnboardingCopy.notNow, onPressed: busy ? null : onNotNow),
           ),
+          SizedBox(height: MediaQuery.paddingOf(context).bottom),
         ],
       ),
     );

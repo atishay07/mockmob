@@ -119,6 +119,8 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
         StatefulShellBranch(routes: [
           tabRoot('/practice', practiceScreen, routes: [
             page('setup/:mode', practiceSetupScreen),
+            // The untimed question stream (the website's Explore), full screen over the dock.
+            page('stream', practiceStreamScreen, root: true),
             page('start', practiceStartScreen, transition: MmTransition.fade, root: true),
             page('result/:attemptId', practiceResultScreen, root: true),
           ]),
@@ -127,6 +129,8 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
           tabRoot('/review', reviewScreen, routes: [
             page('mistakes', reviewMistakesScreen),
             page('record', reviewRecordScreen),
+            page('insights', reviewInsightsScreen),
+            page('saved', reviewSavedScreen),
             // Literal "ending" before the :questionId pattern.
             page('repair/:attemptId/ending', reviewRepairEndingScreen, root: true),
             page('repair/:attemptId/:questionId', reviewRepairScreen, root: true),
@@ -147,7 +151,21 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
       page('bests', youBestsScreen, root: true),
       page('appearance', youAppearanceScreen, root: true),
       page('help', youHelpScreen, root: true),
+      page('subjects', youSubjectsScreen, root: true),
+      page('sheet', youSheetScreen, root: true),
     ]),
+
+    // CUET tools: pushed from You, Practice and the quiet link under Today's road.
+    page(AppRoutes.tools, toolsScreen, root: true, routes: [
+      page('compass', toolsCompassScreen, root: true, routes: [
+        page(':groupId', toolsProgrammeScreen, root: true),
+      ]),
+      page('combo', toolsComboScreen, root: true),
+      page('guide-2027', toolsGuide2027Screen, root: true),
+    ]),
+
+    // Ask your record: from the record, the tools hub and the Start sheet.
+    page(AppRoutes.ask, askScreen, root: true),
 
     // Learn is no longer a tab: its screens stay reachable from Practice (the Concepts shelf)
     // and from the mistakes they explain.
@@ -161,6 +179,9 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
 
     // The design lab (debug builds only): every foundation component in both themes.
     if (kDebugMode) page(AppRoutes.lab, labScreen, root: true),
+
+    // NTA mode's instructions, before the session exists (no dock, like the runner).
+    page(AppRoutes.examNta, ntaInstructionsScreen, transition: MmTransition.fade, root: true),
 
     // Runner: fullscreen, 120 ms fade.
     page('/run/:sessionId', runScreen, transition: MmTransition.fade, root: true, routes: [

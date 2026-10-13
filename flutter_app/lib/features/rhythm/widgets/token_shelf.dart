@@ -9,6 +9,7 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../logic/dates.dart';
 import '../logic/tokens.dart';
+import 'locked_coin.dart';
 
 class TokenShelf extends StatelessWidget {
   const TokenShelf({super.key, required this.slots, required this.zone, required this.now, this.loading = false});
@@ -89,7 +90,7 @@ class _Label extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final name = slot.token.label;
+    final name = slot.earned ? (slot.title ?? slot.token.label) : slot.token.label;
     final date = slot.earned ? formatAchievedDate(slot.earnedAt!, zone, now) : null;
     final semantics = date != null ? RhythmCopy.tokenEarned(name, date) : RhythmCopy.tokenWaiting(name, slot.token.emptyHint);
     return Semantics(
@@ -169,7 +170,7 @@ class _Ghost extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox.square(
       dimension: 64,
-      child: loading ? null : ArtImage(token.art, width: 64, height: 64, opacity: 0.25, ghost: true),
+      child: loading ? null : LockedCoin(token),
     );
   }
 }

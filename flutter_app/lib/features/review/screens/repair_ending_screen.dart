@@ -126,15 +126,24 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
                           const SizedBox(height: MmSpace.s8),
                           Text(ReviewCopy.nothingRepaired(model.setAside, model.reviewed), style: type.body.copyWith(color: colors.ink2)),
                         ] else ...[
-                          FittedBox(
-                            fit: BoxFit.scaleDown,
-                            alignment: Alignment.centerLeft,
-                            child: MonumentalNumber(
-                              value: '${model.repaired}',
-                              unit: 'repaired',
-                              roll: full,
-                              semanticsLabel: '${model.repaired} ${ReviewCopy.endingUnit(model.repaired)}',
-                            ),
+                          // Mobi celebrates beside the number, not squeezed above the keys.
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Expanded(
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  alignment: Alignment.centerLeft,
+                                  child: MonumentalNumber(
+                                    value: '${model.repaired}',
+                                    unit: 'repaired',
+                                    roll: full,
+                                    semanticsLabel: '${model.repaired} ${ReviewCopy.endingUnit(model.repaired)}',
+                                  ),
+                                ),
+                              ),
+                              if (full) const MobiCharacter(size: 96, entrance: MobiAct.celebrate, seed: 19),
+                            ],
                           ),
                           const SizedBox(height: MmSpace.s8),
                           Text(
@@ -155,16 +164,11 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
                           const SizedBox(height: MmSpace.s12),
                           ackedAt == null ? const ReceiptLine.pending() : ReceiptLine(text: Receipts.repairFinished(clock.local(ackedAt))),
                         ],
-                        if (full && !nothing) ...[
-                          const SizedBox(height: MmSpace.s12),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Mobi(pose: MobiPose.cheer, size: 72, motion: MobiMotion.hop, say: mobiLine),
-                          ),
-                        ] else if (mobiLine != null) ...[
+                        if (mobiLine != null) ...[
                           const SizedBox(height: MmSpace.s16),
                           Text(mobiLine, style: type.body),
                         ],
+                        const SizedBox(height: MmSpace.s24),
                       ],
                     ),
                   ),

@@ -52,7 +52,15 @@ class MmChip extends ConsumerWidget {
                   SelectBubble(selected: selected),
                   const SizedBox(width: MmSpace.s8),
                   if (leading != null) ...[Icon(leading, size: 16, color: textColor), const SizedBox(width: MmSpace.s6)],
-                  Text(label, style: type.labelLarge.copyWith(fontSize: 14, color: textColor)),
+                  Flexible(
+                    child: Text(
+                      label,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: false,
+                      style: type.labelLarge.copyWith(fontSize: 14, color: textColor),
+                    ),
+                  ),
                 ],
               ),
             ),

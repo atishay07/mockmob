@@ -4,6 +4,7 @@ import '../../../core/theme/theme.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../copy.dart';
 import '../model/practice_result_model.dart';
+import '../model/session_analysis.dart';
 import '../../../core/widgets/widgets.dart';
 import 'result_question_card.dart';
 
@@ -50,10 +51,19 @@ class ResultListController extends ChangeNotifier {
 /// The per-question rows in three groups: wrong answers, not attempted, and correct. The two
 /// groups that need attention are always open; the correct group is one tap away.
 class ResultList extends StatelessWidget {
-  const ResultList({super.key, required this.model, required this.controller, required this.keyFor});
+  const ResultList({super.key, required this.model, required this.controller, required this.keyFor, this.saveFor, this.reportFor, this.analysis});
 
   final PracticeResultModel model;
   final ResultListController controller;
+
+  /// The Save key of one question, or null.
+  final Widget? Function(String qid)? saveFor;
+
+  /// The "Report a problem" key of one question, or null.
+  final Widget? Function(ResultQuestion q)? reportFor;
+
+  /// Time per question and answer changes, when the session recorded them.
+  final SessionAnalysis? analysis;
 
   /// The key view of one question (loading, ready, held, unavailable).
   final KeyView Function(String qid) keyFor;
@@ -72,6 +82,10 @@ class ResultList extends StatelessWidget {
         onTry: isBlank ? () => controller.setBlank(q.qid, BlankMode.trying) : null,
         onShowAnswer: isBlank ? () => controller.setBlank(q.qid, BlankMode.answer) : null,
         onTryPick: isBlank ? (j) => controller.pick(q.qid, j) : null,
+        save: saveFor?.call(q.qid),
+        report: reportFor?.call(q),
+        time: analysis?.dwellMs[q.qid] == null ? null : formatDwell(analysis!.dwellMs[q.qid]!),
+        changed: analysis?.changed(q.qid) ?? false,
       ),
     );
   }

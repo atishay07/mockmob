@@ -10,6 +10,8 @@ import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/models/ai_credits.dart';
 import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/models/repair.dart';
+import 'package:mockmob/features/insights/data/insights_repository.dart';
+import 'package:mockmob/features/insights/data/saved_repository.dart';
 import 'package:mockmob/features/review/data/mistake_index.dart';
 import 'package:mockmob/core/repositories/attempts_repository.dart';
 import 'package:mockmob/core/repositories/credits_repository.dart';
@@ -56,6 +58,9 @@ List<Override> reviewOverrides({
     ),
   ),
   creditsRepositoryProvider.overrideWithBuild((ref, n) => RemoteState(value: credits)),
+  // The record and saved rows on the tab: settled, no network.
+  insightsRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState()),
+  savedRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState()),
   for (final a in attempts ?? allAttempts)
     attemptDetailProvider(a.id).overrideWithBuild(
       (ref, n) => RemoteState(

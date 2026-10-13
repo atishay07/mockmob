@@ -111,11 +111,10 @@ class SheetSync extends Notifier<SheetSyncState> {
     await ref.read(consentRepositoryProvider.notifier).setAgeBand(age.band);
   }
 
+  /// The subjects go last: an account with subjects counts as "already has a plan" on the next
+  /// run, so if the goal or the study time failed first, the retry still writes them instead of
+  /// keeping an account whose week the server never got.
   Future<void> _writeProfile(String userId, OnboardingAnswers a) async {
-    final subjects = [for (final s in a.subjects) if (s.syncs) s.id];
-    if (subjects.isNotEmpty) {
-      await ref.read(apiClientProvider).patch('/api/users/${Uri.encodeComponent(userId)}', body: {'subjects': subjects});
-    }
     await ref.read(goalRepositoryProvider.notifier).save(daysPerWeek: a.days.length.clamp(1, 7));
     await ref.read(notificationPrefsRepositoryProvider.notifier).update(
           studyWindow: prefs.StudyWindow(
@@ -123,6 +122,10 @@ class SheetSync extends Notifier<SheetSyncState> {
             end: prefs.ClockTime(a.window.hour + 1, 0),
           ),
         );
+    final subjects = [for (final s in a.subjects) if (s.syncs) s.id];
+    if (subjects.isNotEmpty) {
+      await ref.read(apiClientProvider).patch('/api/users/${Uri.encodeComponent(userId)}', body: {'subjects': subjects});
+    }
   }
 
   Future<void> _reloadProfile() async {

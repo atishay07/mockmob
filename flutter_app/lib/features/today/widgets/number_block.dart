@@ -19,7 +19,7 @@ class NumberBlock extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final labelStyle = type.title.copyWith(fontSize: 21, height: 24 / 21, color: colors.ink, letterSpacing: -0.2);
+    final labelStyle = type.title.copyWith(fontSize: 19, height: 23 / 19, color: colors.ink, letterSpacing: -0.2);
     return Semantics(
       container: true,
       label: semanticsLabel ?? [number, if (label != null) label!.replaceAll('\n', ' ')].join(' '),
@@ -34,7 +34,13 @@ class NumberBlock extends StatelessWidget {
               child: Padding(
                 // Sits the last line on the number's baseline (the hero cut has a short descent).
                 padding: const EdgeInsets.only(bottom: 12),
-                child: Text(label!, style: labelStyle, maxLines: 2, overflow: TextOverflow.ellipsis),
+                // The label's lines are set by hand; when one is too wide it shrinks rather than
+                // breaking a word.
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.bottomLeft,
+                  child: Text(label!, style: labelStyle, softWrap: false),
+                ),
               ),
             ),
           ],

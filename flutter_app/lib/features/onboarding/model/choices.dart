@@ -25,19 +25,22 @@ enum Stage {
 /// What costs the student the most marks, in their words. Each one really changes the first
 /// move (directions-final 0.7): its subject or its framing, and Mobi's one line.
 enum Worry {
-  knewIt('I knew it and still got it wrong', 'Knew it and still lost it? That\'s a trap, not a gap.'),
-  time('The last 10 questions, no time left', 'Then we train the clock. Short and often.'),
-  numericals('Accounts numericals take me forever', 'Numericals get faster with reps, not with rereading.'),
-  passages('English passages eat my time', 'Passages reward a method. We\'ll build yours.'),
-  syllabus('Too much syllabus, not enough months', 'Then we go in order. One chapter at a time.'),
-  noIdea('No idea yet, honestly', 'Fair. Ten questions will tell us more than a guess.');
+  knewIt('I knew it and still got it wrong', "Knew it and still lost it? That's a trap, not a gap.", 'A trap, not a gap.'),
+  time('The last 10 questions, no time left', 'Then we train the clock. Short and often.', 'We train the clock.'),
+  numericals('Accounts numericals take me forever', 'Numericals get faster with reps, not with rereading.', 'Reps beat rereading.'),
+  passages('English passages eat my time', "Passages reward a method. We'll build yours.", "We'll build a method."),
+  syllabus('Too much syllabus, not enough months', 'Then we go in order. One chapter at a time.', 'One chapter at a time.'),
+  noIdea('No idea yet, honestly', 'Fair. Ten questions will tell us more than a guess.', 'Ten questions will tell.');
 
-  const Worry(this.option, this.mobiLine);
+  const Worry(this.option, this.mobiLine, this.mobiShort);
 
   final String option;
 
   /// Mobi's one line. Never about the person, only about what happens next.
   final String mobiLine;
+
+  /// The same thought in a few words, for Mobi's bubble in the top bar.
+  final String mobiShort;
 
   static Worry? byName(String? name) => _byName(values, name);
 }

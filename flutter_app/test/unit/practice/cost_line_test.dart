@@ -128,26 +128,26 @@ void main() {
 
     test('a Full mock asks the quote with full_sample, Quick practice with nothing', () {
       expect(
-        const PracticeSelection(mode: PracticeMode.full, subjectId: 'accountancy').quoteQuery,
+        PracticeSelection(mode: PracticeMode.full, subjectId: 'accountancy').quoteQuery,
         const QuoteQuery(subject: 'accountancy', apiMode: 'full', count: 50, purpose: 'full_sample'),
       );
       expect(
-        const PracticeSelection(mode: PracticeMode.quick, subjectId: 'accountancy', count: 15).quoteQuery,
+        PracticeSelection(mode: PracticeMode.quick, subjectId: 'accountancy', count: 15).quoteQuery,
         const QuoteQuery(subject: 'accountancy', apiMode: 'quick', count: 15),
       );
     });
 
     test('chapter practice quotes exactly like Quick practice', () {
-      const a = PracticeSelection(mode: PracticeMode.chapter, subjectId: 'economics', chapter: 'Money', count: 10);
-      const b = PracticeSelection(mode: PracticeMode.quick, subjectId: 'economics', count: 10);
+      final a = PracticeSelection(mode: PracticeMode.chapter, subjectId: 'economics', chapter: 'Money', count: 10);
+      final b = PracticeSelection(mode: PracticeMode.quick, subjectId: 'economics', count: 10);
       expect(a.quoteQuery, b.quoteQuery);
       expect(a.mode.apiMode, 'quick');
     });
 
     test('chapter practice is incomplete until a chapter is chosen', () {
-      expect(const PracticeSelection(mode: PracticeMode.chapter, subjectId: 'economics').isComplete, isFalse);
-      expect(const PracticeSelection(mode: PracticeMode.chapter, subjectId: 'economics', chapter: 'Money').isComplete, isTrue);
-      expect(const PracticeSelection(mode: PracticeMode.quick, subjectId: 'economics').isComplete, isTrue);
+      expect(PracticeSelection(mode: PracticeMode.chapter, subjectId: 'economics').isComplete, isFalse);
+      expect(PracticeSelection(mode: PracticeMode.chapter, subjectId: 'economics', chapter: 'Money').isComplete, isTrue);
+      expect(PracticeSelection(mode: PracticeMode.quick, subjectId: 'economics').isComplete, isTrue);
     });
   });
 

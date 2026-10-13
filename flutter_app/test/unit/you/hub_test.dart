@@ -116,12 +116,10 @@ void main() {
 
   testWidgets('earned tokens carry their date; an empty slot says plainly what fills it', (tester) async {
     await _pumpHub(tester, rhythm: FakeRhythm(rhythmState(milestones: earnedMilestones)));
-    expect(find.bySemanticsLabel('First mock, earned on 27 September'), findsOneWidget);
-    expect(find.bySemanticsLabel('First repair, earned on 9 October'), findsOneWidget);
-    expect(
-      find.bySemanticsLabel('First week in rhythm, not earned yet. Lands when a week meets your goal'),
-      findsOneWidget,
-    );
+    // Track names belong to the rhythm feature; You checks the dates and the plain empty line.
+    expect(find.bySemanticsLabel(RegExp(r', earned on 27 September$')), findsOneWidget);
+    expect(find.bySemanticsLabel(RegExp(r', earned on 9 October$')), findsOneWidget);
+    expect(find.bySemanticsLabel(RegExp(r'not earned yet\. Lands when a week meets your goal$')), findsOneWidget);
   });
 
   testWidgets('a failed rhythm read says so in the week field and on the shelf, with a retry', (tester) async {
@@ -162,7 +160,10 @@ void main() {
   testWidgets('CUET tools open in a Custom Tab on www.mockmob.in', (tester) async {
     final opener = RecordingOpener();
     await _pumpHub(tester, opener: opener);
+    await tester.ensureVisible(find.text('Compass'));
     await tester.tap(find.text('Compass'));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Combo Planner'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Combo Planner'));
     await tester.pumpAndSettle();

@@ -4,6 +4,6 @@
          first frame are the warm Night ground in both system modes, so there is no flash. -->
     <color name="splash_ground">#12110E</color>
     <color name="splash_mark">#D2F000</color>
-    <!-- The mark's dark tile, the adaptive launcher icon background. -->
-    <color name="ic_launcher_background">#101210</color>
+    <!-- The adaptive launcher icon background: the logo's warm charcoal, the same as the ground. -->
+    <color name="ic_launcher_background">#12110E</color>
 </resources>

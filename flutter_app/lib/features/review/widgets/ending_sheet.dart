@@ -51,12 +51,6 @@ class EndingSheet extends StatelessWidget {
       child: Stack(
         children: [
           Positioned.fill(child: ColoredBox(color: colors.isNight ? const Color(0xFF1A1915) : colors.raised)),
-          Positioned.fill(
-            child: Opacity(
-              opacity: colors.isNight ? 0.55 : 0.22,
-              child: const ArtImage(MmArt.paperTile, fit: BoxFit.cover),
-            ),
-          ),
           // The lamp catching the sheet from the upper left.
           const Positioned.fill(child: LampScene(strength: 0.9)),
           Positioned.fill(child: Grain(opacity: colors.grain)),
@@ -95,11 +89,12 @@ class EndingSheet extends StatelessWidget {
           ),
           child: sheet,
         ),
+        // The first-repair token sits inside the card's corner, never clipped by its edge.
         if (firstRepair)
-          Positioned(
-            right: -6,
-            top: -18,
-            child: Transform.rotate(angle: 0.18, child: const ArtImage(MmArt.tokenFirstRepair, width: 64, height: 64)),
+          const Positioned(
+            right: 12,
+            top: 12,
+            child: ArtImage(MmArt.tokenFirstRepair, width: 56, height: 56),
           ),
       ],
     );
@@ -129,12 +124,12 @@ class _SheetPainter extends CustomPainter {
       final c = Offset((i % EndingSheet._columns) * (cell + gap) + cell / 2, (i ~/ EndingSheet._columns) * (cell + gap) + cell / 2);
       switch (cells[i]) {
         case SheetCell.right:
-          // Right answers sit back so tonight's rings read first.
-          bubbles.paint(canvas, c, r, BubbleState.filled, dim: 0.42);
+          bubbles.paint(canvas, c, r, BubbleState.filled);
         case SheetCell.blank:
           bubbles.paint(canvas, c, r, BubbleState.blank);
         case SheetCell.wrong:
-          bubbles.paint(canvas, c, r, BubbleState.wrong);
+          // Mistakes not repaired yet sit back, so tonight's rings read first.
+          bubbles.paint(canvas, c, r, BubbleState.wrong, dim: 0.4);
         case SheetCell.repaired:
           _repaired(canvas, bubbles, c, r, ring, 1);
         case SheetCell.repairedNow:

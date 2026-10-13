@@ -1,8 +1,14 @@
-// A device-only demo build: the real app (router, shell, dock, every screen) signed in as a
-// fixture student, with the repositories replaced by the in-memory fixtures the tests use. It
-// exists so the signed-in screens can be driven on an emulator without a real sign-in.
-// Nothing here talks to an account. Not shipped: build it with
+// A device-only demo build: the real app (router, shell, dock, every screen and every derived
+// provider) signed in as a fixture student, with only the data sources replaced. It exists so the
+// signed-in screens can be driven on an emulator without a real sign-in. Nothing here talks to
+// an account. Not shipped: build it with
 //   bash tool/flutter_locked.sh build apk --debug -t test/device_demo/demo_main.dart
+// It installs as a separate app, "MockMob demo" (in.mockmob.app.demo.debug): see docs/DEMO-BUILD.md.
+//
+// One record (demo_book.dart) feeds every screen; Today, Review, the record, the rhythm and the
+// milestones are the app's own providers computed from it. A submit is marked from the answers
+// given and added to the record at the moment it is made; a repair is kept on the phone as the
+// real flow keeps it.
 // ignore_for_file: depend_on_referenced_packages
 import 'dart:async';
 
@@ -12,6 +18,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:mockmob/app.dart';
 import 'package:mockmob/core/analytics/analytics.dart';
+import 'package:mockmob/core/api/api.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/connectivity/connectivity.dart';
 import 'package:mockmob/core/models/models.dart';
@@ -23,36 +30,43 @@ import 'package:mockmob/core/repositories/local_scope.dart' show userIdProvider;
 import 'package:mockmob/core/repositories/notification_prefs_repository.dart'
     show notificationPrefsRepositoryProvider, studentTimezoneProvider;
 import 'package:mockmob/core/repositories/pending_result_repository.dart';
+import 'package:mockmob/core/repositories/plan_repository.dart';
 import 'package:mockmob/core/repositories/quote_repository.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/repositories/repair_local_repository.dart';
 import 'package:mockmob/core/repositories/rhythm_repository.dart';
 import 'package:mockmob/core/repositories/session_draft_repository.dart';
 import 'package:mockmob/core/router/app_shell.dart';
-import 'package:mockmob/core/sync/session/session_submitter.dart';
+import 'package:mockmob/core/router/quick_start.dart';
+import 'package:mockmob/core/widgets/status_tint.dart' show SecureWindow, secureWindowProvider;
+import 'package:mockmob/features/insights/data/insights_repository.dart';
+import 'package:mockmob/features/insights/data/saved_repository.dart';
 import 'package:mockmob/features/learn/data/catalog_repository.dart';
 import 'package:mockmob/features/practice/data/practice_catalog.dart';
 import 'package:mockmob/features/practice/data/practice_notes.dart';
 import 'package:mockmob/features/practice/data/practice_starter.dart';
-import 'package:mockmob/features/practice/practice_result_screen.dart' show resultReceivedAtProvider;
+import 'package:mockmob/features/practice/data/result_actions.dart';
+import 'package:mockmob/features/practice/data/start_entries.dart';
+import 'package:mockmob/features/practice/practice_result_screen.dart' show finishFreshProvider, resultReceivedAtProvider;
 import 'package:mockmob/features/practice/model/practice_selection.dart';
 import 'package:mockmob/features/result/data/result_providers.dart';
-import 'package:mockmob/features/result/model/recap_model.dart' show buildRecapModel;
 import 'package:mockmob/features/review/data/repair_api.dart';
 import 'package:mockmob/features/review/data/review_providers.dart';
+import 'package:mockmob/features/rhythm/rhythm.dart' show studyDayPlanProvider;
 import 'package:mockmob/features/runner/data/runner_loader.dart';
-import 'package:mockmob/features/today/data/today_providers.dart';
-import 'package:mockmob/features/today/logic/today_builder.dart' show buildToday;
+import 'package:mockmob/features/today/data/today_profile.dart';
 import 'package:mockmob/features/you/data/student_target.dart';
 
+import '../unit/insights/support/insights_fixtures.dart' as insights;
 import '../unit/notifications/support.dart' as notif;
 import '../unit/notifications/widget_support.dart' as notif_ui;
 import '../unit/practice/support/harness.dart' as practice;
-import '../unit/review/support/review_fixtures.dart' as review;
-import '../unit/runner/support/fake_session.dart' as runner;
 import '../unit/today/support/today_fixtures.dart' as today;
 import '../unit/you/you_test_support.dart' as you;
-import 'demo_record.dart';
+import 'demo_book.dart';
+import 'demo_insights.dart';
+import 'demo_questions.dart';
+import 'demo_session.dart';
 
 const _asha = AuthSnapshot(
   status: AuthStatus.signedIn,
@@ -62,83 +76,175 @@ const _asha = AuthSnapshot(
   subjects: ['accountancy', 'business_studies', 'economics', 'english'],
 );
 
-/// Starts a quick practice as `demo-quick` and anything else as `demo-mock`.
+/// Starts exactly what was chosen, as a new session every time: the chosen subject, the chosen
+/// length, a 60-minute 50-question paper for a full mock or NTA mode.
 class _Starter implements PracticeStarting {
+  int _n = 0;
+
   @override
-  Future<StartOutcome> start(PracticeSelection selection, {required PracticeQuote quote, int? mockNumber}) async {
+  Future<StartOutcome> start(PracticeSelection selection, {PracticeQuote? quote, int? mockNumber}) async {
     await Future<void>.delayed(const Duration(milliseconds: 600));
-    return Started(selection.mode == PracticeMode.full || selection.mode == PracticeMode.nta ? 'demo-mock' : 'demo-quick');
+    final mock = selection.mode.isMock;
+    final id = '${mock ? 'demo-${selection.mode.apiMode}' : 'demo-p'}${++_n}';
+    final count = selection.effectiveCount;
+    final minutes = mock ? 60 : count;
+    demoSessions[id] = DemoSession(
+      id,
+      questions: demoQuestions(selection.subjectId, count, id),
+      mode: selection.mode.apiMode,
+      subject: selection.subjectId,
+      chapter: selection.chapterLabel,
+      remaining: Duration(minutes: minutes),
+      endsAt: DateTime.now().add(Duration(minutes: minutes)),
+    );
+    return Started(id);
   }
 }
 
-/// The fixture session under the id the demo started, so the runner's own links (submit) find it.
-class _DemoSession extends runner.FakeRunnerSession {
-  _DemoSession(this._id, {super.questions, super.mode, super.remaining, super.endsAt});
-
-  final String _id;
-
-  @override
-  String get sessionId => _id;
-}
-
-final Map<String, runner.FakeRunnerSession> _sessions = {};
-
 Future<RunnerLoad> _open(String sessionId) async {
-  final session = _sessions.putIfAbsent(sessionId, () {
-    final quick = sessionId == 'demo-quick';
-    final s = _DemoSession(
-      sessionId,
-      questions: runner.accountancyQuestions(quick ? 10 : 50),
-      mode: quick ? 'quick' : 'full',
-      remaining: quick ? const Duration(minutes: 10) : const Duration(minutes: 58, seconds: 40),
-      endsAt: DateTime.now().add(quick ? const Duration(minutes: 10) : const Duration(minutes: 58)),
-    );
-    s.nextOutcome = SubmitReceived(attempt: {'id': quick ? 'demo-practice' : 'a7'}, receivedAt: DateTime.now());
-    return s;
-  });
-  return RunnerReady(session);
+  final session = demoSessions[sessionId];
+  return session == null ? const RunnerMissing() : RunnerReady(session);
 }
 
-/// Every repair is explained after a short wait, as the server would.
+/// Explains the mistake that was asked about, from that question's own key and explanation.
 class _RepairApi implements RepairApi {
   @override
   Future<RepairResponse> repair({required String attemptId, required String questionId, required String requestId}) async {
     await Future<void>.delayed(const Duration(milliseconds: 900));
-    return RepairResponse.fromJson(review.explainedJson());
+    final paper = demoBook.detail(attemptId)?.attempt;
+    final q = paper?.questions.where((x) => x.id == questionId).firstOrNull;
+    final chosen = paper?.detailFor(questionId)?.givenIndex;
+    final key = q?.correctIndex ?? 0;
+    String option(int? i) => q == null || i == null || i < 0 || i >= q.options.length ? '' : q.options[i].text;
+    return RepairResponse.fromJson({
+      'status': 'explained',
+      'repair': {
+        'why_tempting': chosen == null ? 'It was left blank, which costs nothing but gains nothing.' : '“${option(chosen)}” uses words from the question, so it looks right at a glance.',
+        'why_wrong': 'The answer is “${option(key)}”${chosen == null ? '' : ', not “${option(chosen)}”'}.',
+        'key_idea': q?.explanation ?? 'Work it from the definition, one line at a time.',
+        'next_step': 'Before you choose, say the rule of ${q?.chapter ?? 'this chapter'} in one line.',
+        'generatedAt': DateTime.now().toUtc().toIso8601String(),
+      },
+      'charged': 1,
+      'wallet': {'state': 'available', 'known': true, 'spendable': 8},
+      'chosenIndex': chosen ?? -1,
+      'keyIndex': key,
+    });
   }
 }
 
-/// The practice result, marked from the answers given in the demo runner (or none yet).
-AttemptDetail _practiceDetail(DateTime now) {
-  final session = _sessions['demo-quick'];
-  final questions = session?.questions ?? runner.accountancyQuestions(10);
-  return practiceDetailFrom(questions, session?.answers ?? const {}, now);
+class _BookAttempts extends AttemptsRepository {
+  @override
+  RemoteState<List<Attempt>> build() {
+    ref.watch(demoBookProvider);
+    return RemoteState(value: demoBook.attempts, fetchedAt: DateTime.now());
+  }
+
+  @override
+  Future<void> refresh({bool force = false}) async {}
 }
+
+class _BookDetail extends AttemptDetailRepository {
+  _BookDetail(super.attemptId);
+
+  @override
+  RemoteState<AttemptDetail> build() {
+    ref.watch(demoBookProvider);
+    final d = demoBook.detail(attemptId);
+    return RemoteState(value: d, error: d == null ? const ApiError(kind: ApiErrorKind.notFound, code: 'not_found') : null, fetchedAt: DateTime.now());
+  }
+
+  @override
+  Future<void> refresh({bool force = false}) async {}
+}
+
+class _Plan extends PlanRepository {
+  _Plan(super.minutes);
+
+  @override
+  RemoteState<LearningPlan> build() => RemoteState(value: today.readyPlan(minutes: minutes), fetchedAt: DateTime.now());
+
+  @override
+  Future<void> refresh({bool force = false}) async {}
+}
+
+/// The rhythm the server would report: study days from the papers and acknowledged repairs,
+/// the goal of four, the milestones as they are earned.
+class _Rhythm extends RhythmRepository {
+  @override
+  RemoteState<Rhythm> build() {
+    ref.watch(demoBookProvider);
+    final repairs = ref.watch(repairLocalRecordsProvider).value ?? const <RepairLocalRecord>[];
+    final now = DateTime.now().toUtc();
+    final week = demoBook.week(now);
+    final days = demoBook.studyDays(repairs);
+    final thisWeek = [for (final d in week.dates) if (days.contains(d)) d];
+    return RemoteState(
+      value: Rhythm(
+        timeZone: 'Asia/Kolkata',
+        weekStart: week.weekStart,
+        studyDays: thisWeek.length,
+        studyDayDates: thisWeek,
+        daysGoal: 4,
+        metThisWeek: thisWeek.length >= 4,
+        paused: false,
+        weeksMetStreak: 3,
+        bestRun: 6,
+        milestones: demoBook.milestones(repairs),
+        repairsThisWeek: [for (final r in repairs) if (r.isRepaired && r.ackedAt != null && thisWeek.contains(dayKey(r.ackedAt!))) r].length,
+        mocksThisWeek: [for (final a in demoBook.attempts) if (a.isMock && thisWeek.contains(dayKey(a.completedAt))) a].length,
+      ),
+      fetchedAt: DateTime.now(),
+    );
+  }
+
+  @override
+  Future<void> refresh({bool force = false}) async {}
+}
+
+/// Screenshots of the demo's exam stay possible; the real app keeps FLAG_SECURE.
+class _OpenWindow implements SecureWindow {
+  @override
+  Future<void> set({required bool on}) async {}
+}
+
+/// Asha's colleges, the same three on Today's ladder and on You.
+const _ashaTarget = StudentTarget(course: 'B.Com (Hons)', colleges: ['Shri Ram College of Commerce', 'Hindu College', 'Deshbandhu College']);
 
 List<Override> _overrides() {
   final now = DateTime.now();
-  // One record behind every screen (demo_record.dart).
-  final todayAttempts = demoAttempts(now.toUtc());
-  final mockDetail = demoMockDetail(now.toUtc());
-  final milestones = demoMilestones(todayAttempts);
   return [
     reviewDotProvider.overrideWith((ref) => false),
+    // Start: the same rows as the real app.
+    quickStartRepairProvider.overrideWith((ref) => ref.watch(quickRepairFromReviewProvider)),
+    quickStartNtaProvider.overrideWith((ref) => ref.watch(practiceQuickNtaProvider)),
     authSnapshotProvider.overrideWith(() => practice.FakeAuth(_asha)),
     networkStatusProvider.overrideWith(() => practice.FakeNetwork(NetworkStatus.online)),
     studentTimezoneProvider.overrideWithValue('Asia/Kolkata'),
     analyticsClientProvider.overrideWithValue(practice.FakeAnalytics()),
     userIdProvider.overrideWithValue('u1'),
+    secureWindowProvider.overrideWithValue(_OpenWindow()),
 
-    // Today.
-    todayViewProvider.overrideWith((ref) => buildToday(today.ashaInputs(now: now.toUtc(), attempts: todayAttempts))),
+    // The record.
+    attemptsRepositoryProvider.overrideWith(_BookAttempts.new),
+    attemptDetailProvider.overrideWith2(_BookDetail.new),
+    planRepositoryProvider.overrideWith2(_Plan.new),
+    rhythmRepositoryProvider.overrideWith(_Rhythm.new),
+    todayProfileProvider.overrideWithValue(today.ashaProfile),
+    studentTargetProvider.overrideWithValue(_ashaTarget),
+    // Asha's study days: Monday, Tuesday, Thursday, Saturday.
+    studyDayPlanProvider.overrideWithValue(const {0, 1, 3, 5}),
+    insightsRepositoryProvider.overrideWithBuild((ref, n) {
+      ref.watch(demoBookProvider);
+      return RemoteState(value: demoInsights(demoBook.attempts, DateTime.now().toUtc()), fetchedAt: DateTime.now());
+    }),
 
     // Practice.
-    attemptsRepositoryProvider.overrideWith(() => practice.FakeAttempts(todayAttempts)),
     learnCatalogProvider.overrideWithBuild((ref, notifier) => const RemoteState.idle()),
     quoteRepositoryProvider.overrideWithValue(
       practice.FakeQuoteRepository((s, m, c, p) {
         if (m == 'full') return practice.creditsQuote(cost: 50, balance: 120, mode: 'full', count: 50);
-        if (m == 'nta') return practice.proGate();
+        if (m == 'nta') return practice.quoteOf(cost: 50, balance: 120, durationSec: 3600, count: 50, mode: 'nta');
         return practice.dailyFree(count: c ?? 10);
       }),
     ),
@@ -146,56 +252,66 @@ List<Override> _overrides() {
     practiceStarterProvider.overrideWithValue(_Starter()),
     latestSessionDraftProvider.overrideWith((ref) => Stream.value(null)),
     pendingResultRepositoryProvider.overrideWithValue(practice.FakePendingResults()),
-    attemptDetailProvider(
-      'demo-practice',
-    ).overrideWith(() => practice.FakeDetail('demo-practice', detail: _practiceDetail(DateTime.now()), fetchedAt: DateTime.now())),
-    resultReceivedAtProvider.overrideWith((ref, id) async => now),
-    practiceNoteProvider.overrideWith((ref, id) async => const PracticeNote(chapter: 'Admission of a partner', mode: 'quick')),
+    unopenedResultsProvider.overrideWith((ref) => Stream.value(const <PendingResult>[])),
+    // The receipt says when this run's submit was acknowledged.
+    resultReceivedAtProvider.overrideWith((ref, id) async => demoBook.receivedAt[id]),
+    finishFreshProvider.overrideWith((ref, id) async => demoBook.fresh.remove(id)),
+    practiceNoteProvider.overrideWith((ref, id) async {
+      final session = demoSessions[id.replaceFirst(RegExp(r'-result$'), '')];
+      return PracticeNote(chapter: session?.chapter, mode: session?.mode ?? 'quick');
+    }),
+
+    // Five fresh questions: offered for a demo practice in a launch subject, from the chapter of
+    // its first wrong answer, as the server's inventory would.
+    replayInventoryProvider.overrideWith((ref, id) async {
+      final paper = demoBook.detail(id)?.attempt;
+      if (paper == null || !const {'english', 'accountancy', 'business_studies', 'economics'}.contains(paper.subject)) {
+        return const ReplayInventory(supported: false);
+      }
+      final wrong = paper.details.where((d) => d.isCorrect == false).firstOrNull;
+      final chapter = wrong == null ? null : paper.questions.where((q) => q.id == wrong.qid).firstOrNull?.chapter;
+      return ReplayInventory(supported: true, chapters: [if (chapter != null) ReplayChapter(chapter: chapter, available: true)]);
+    }),
+
+    // Saved questions: three questions from the papers above.
+    savedRepositoryProvider.overrideWithBuild(
+      (ref, n) => RemoteState(
+        value: SavedList(
+          ids: const ['q1', 'q2', 'q3'],
+          questions: [
+            insights.question('q1', saved: true),
+            insights.question(
+              'q2',
+              saved: true,
+              subject: 'economics',
+              chapter: 'Money and banking',
+              body: 'If the legal reserve ratio is 20%, the money multiplier is',
+            ),
+            insights.question(
+              'q3',
+              saved: true,
+              subject: 'business_studies',
+              chapter: 'Principles of management',
+              body: 'Which principle of Fayol says each employee should receive orders from one superior only?',
+            ),
+          ],
+          count: 3,
+        ),
+        fetchedAt: now,
+      ),
+    ),
 
     // Runner.
     runnerOpenerProvider.overrideWithValue(_open),
 
-    // Result: Mock 7.
-    recapDataProvider('a7').overrideWithValue(
-      RecapData(
-        model: buildRecapModel(
-          attempt: mockDetail.attempt,
-          detail: mockDetail,
-          attempts: todayAttempts,
-          creditBalance: 12,
-          receivedAt: mockDetail.attempt.completedAt.add(const Duration(minutes: 2)),
-          milestones: milestones,
-        ),
-        attempt: mockDetail.attempt,
-        detail: mockDetail,
-        fetchedAt: now,
-      ),
-    ),
-    recapProgressProvider('a7').overrideWith((ref) async => null),
-    repairLocalRecordsProvider.overrideWith((ref) => Stream.value(const [])),
-
-    // Review.
-    reviewInputsProvider.overrideWithValue(
-      ReviewInputs(
-        attempts: RemoteState(value: todayAttempts, fetchedAt: now),
-        records: const [],
-      ),
-    ),
+    // Result and Review.
+    recapProgressProvider.overrideWith((ref, id) async => null),
     creditsRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState()),
     repairApiProvider.overrideWithValue(_RepairApi()),
-    for (final a in todayAttempts)
-      attemptDetailProvider(a.id).overrideWithBuild(
-        (ref, n) => RemoteState(
-          value: a.id == demoMockId ? mockDetail : AttemptDetail(attempt: a),
-          fetchedAt: now,
-        ),
-      ),
 
     // You.
     goalRepositoryProvider.overrideWith(() => you.FakeGoal(you.goalState(4))),
     consentRepositoryProvider.overrideWith(() => you.FakeConsent(you.consentState(AgeBand.adult))),
-    rhythmRepositoryProvider.overrideWith(() => you.FakeRhythm(you.rhythmState(milestones: milestones))),
-    studentTargetProvider.overrideWithValue(you.ashaTarget),
     notificationPrefsRepositoryProvider.overrideWith(() => notif_ui.FakePrefsRepo(notif.prefsWith(), cachedAt: now)),
   ];
 }

@@ -15,6 +15,7 @@ import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/storage/storage_providers.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
+import 'package:mockmob/features/onboarding/data/subject_registry.dart';
 import 'package:mockmob/features/onboarding/data/subjects.dart';
 import 'package:mockmob/features/onboarding/model/answers.dart';
 import 'package:mockmob/features/onboarding/model/choices.dart';
@@ -25,6 +26,7 @@ import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
 import '../../unit/auth/fakes.dart' show FakeNetwork;
 import '../../unit/core_data/support/fakes.dart';
+import 'subject_rows.dart';
 
 /// The Night Sheet frame: 384 by 853 at DPR 2.
 const Size kPhone = Size(384, 853);
@@ -68,17 +70,21 @@ List<Override> onboardingOverrides({
   bool google = true,
   FakeHttpAdapter? http,
   DateTime? now,
+  DateTime Function()? clock,
+  SubjectRegistry? registry,
 }) {
   final store = MemoryPrefsStore();
   store.values[AnswersStore.key] = jsonEncode(answers.toJson());
   final appPrefs = MemoryPrefsStore();
   return [
     answersStoreProvider.overrideWithValue(AnswersStore(store)),
-    nowProvider.overrideWithValue(() => now ?? kNow),
+    nowProvider.overrideWithValue(clock ?? () => now ?? kNow),
     authSnapshotProvider.overrideWithBuild((ref, notifier) => auth),
     networkStatusProvider.overrideWith(() => FakeNetwork(network)),
     appPrefsProvider.overrideWithValue(AppPrefs(appPrefs)),
     shouldPlayColdOpenProvider.overrideWith((ref) async => false),
+    // The picker reads the live list; the default is what the server returns today.
+    onboardingRegistryProvider.overrideWith((ref) async => registry ?? SubjectRegistry.fromRows(kSubjectRows)),
     apiClientProvider.overrideWithValue(newApiClient(http ?? FakeHttpAdapter())),
     appConfigProvider.overrideWithValue(
       AppConfig(apiBaseUrl: 'https://example.test', supabaseUrl: '', supabaseAnonKey: '', googleWebClientId: google ? 'test' : ''),
@@ -95,6 +101,7 @@ void onboardingGolden(
   Size size = kPhone,
   double textScale = 1,
   Future<void> Function(WidgetTester tester)? act,
+  bool withOverlays = false,
 }) {
   setUpAll(loadAppFonts);
   for (final brightness in [Brightness.dark, Brightness.light]) {
@@ -118,7 +125,9 @@ void onboardingGolden(
         await act(tester);
         await settleImages(tester);
       }
-      await expectLater(find.byType(Scaffold).first, matchesGoldenFile('goldens/${name}_$tag.png'));
+      // A sheet opened over the step lives in the navigator's overlay, so it needs the whole app.
+      final target = withOverlays ? find.byType(MaterialApp) : find.byType(Scaffold).first;
+      await expectLater(target, matchesGoldenFile('goldens/${name}_$tag.png'));
       await preview(tester, boundary, '${name}_$tag');
     });
   }

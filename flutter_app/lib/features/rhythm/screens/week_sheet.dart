@@ -11,9 +11,13 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/rhythm_prefs.dart';
 import '../data/rhythm_providers.dart';
+import '../data/study_days.dart';
+import '../logic/week_outlook.dart';
+import '../widgets/goal_editor.dart';
 import '../logic/week_view.dart';
 import '../widgets/rhythm_page.dart';
-import '../widgets/week_marks.dart';
+import '../logic/plan_week.dart';
+import '../widgets/plan_week_strip.dart';
 
 class WeekSheet extends ConsumerStatefulWidget {
   const WeekSheet({super.key});
@@ -46,6 +50,12 @@ class _WeekSheetState extends ConsumerState<WeekSheet> {
         Navigator.of(context).maybePop();
         router.push(AppRoutes.youRhythm);
       },
+      plan: ref.watch(studyDayPlanProvider),
+      onChangeDays: () {
+        final goal = snapshot.goal?.daysPerWeek ?? snapshot.rhythm?.daysGoal ?? 4;
+        showGoalEditor(context, initialDays: goal);
+      },
+      onPauseWeek: () => ref.read(rhythmActionsProvider).pauseThisWeek(),
     );
   }
 }
@@ -59,6 +69,9 @@ class WeekSheetBody extends StatelessWidget {
     required this.onRetry,
     required this.onTurnOn,
     required this.onSeeRhythm,
+    this.plan,
+    this.onChangeDays,
+    this.onPauseWeek,
   });
 
   final RhythmSnapshot snapshot;
@@ -66,6 +79,11 @@ class WeekSheetBody extends StatelessWidget {
   final VoidCallback onRetry;
   final VoidCallback onTurnOn;
   final VoidCallback onSeeRhythm;
+
+  /// The student's study days (0 = Monday); the others are drawn as rest days.
+  final Set<int>? plan;
+  final VoidCallback? onChangeDays;
+  final Future<void> Function()? onPauseWeek;
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +126,7 @@ class WeekSheetBody extends StatelessWidget {
         ],
       );
     } else {
-      content = _Loaded(snapshot: snapshot, onSeeRhythm: onSeeRhythm);
+      content = _Loaded(snapshot: snapshot, onSeeRhythm: onSeeRhythm, plan: plan, onChangeDays: onChangeDays, onPauseWeek: onPauseWeek);
     }
 
     return Padding(
@@ -127,10 +145,13 @@ class WeekSheetBody extends StatelessWidget {
 }
 
 class _Loaded extends StatelessWidget {
-  const _Loaded({required this.snapshot, required this.onSeeRhythm});
+  const _Loaded({required this.snapshot, required this.onSeeRhythm, this.plan, this.onChangeDays, this.onPauseWeek});
 
   final RhythmSnapshot snapshot;
   final VoidCallback onSeeRhythm;
+  final Set<int>? plan;
+  final VoidCallback? onChangeDays;
+  final Future<void> Function()? onPauseWeek;
 
   @override
   Widget build(BuildContext context) {
@@ -139,13 +160,33 @@ class _Loaded extends StatelessWidget {
     final rhythm = snapshot.rhythm!;
     final week = snapshot.week!;
     final counts = RhythmCopy.weekCounts(mocks: rhythm.mocksThisWeek, repairs: rhythm.repairsThisWeek);
-    final note = runNote(rhythm);
+    final todayIndex = week.days.indexWhere((d) => d.isToday);
+    final outlook = weekOutlook(
+      studied: [for (final d in week.days) d.studyDay],
+      todayIndex: todayIndex < 0 ? null : todayIndex,
+      goal: week.goal,
+      paused: week.status == WeekStatus.paused,
+      planned: plan,
+    );
+    final monday = week.days.first.date;
+    final days = planWeek(
+      studied: [for (final d in week.days) d.studyDay],
+      todayIndex: todayIndex < 0 ? null : todayIndex,
+      planned: plan,
+      dates: [for (final d in week.days) d.date?.day],
+    );
+    final strip = PlanWeekStrip(days: days, bubble: 28, showDates: true);
 
     final secondary = switch (week.status) {
       WeekStatus.paused => RhythmCopy.pausedKeepsRun,
-      WeekStatus.open => RhythmCopy.goalSentence(week.goal),
+      WeekStatus.open => outlook?.sentence ?? RhythmCopy.goalSentence(week.goal),
       WeekStatus.met || WeekStatus.extra => null,
     };
+    String sentence(String t) => t.endsWith('.') ? t : '$t.';
+    final run = [
+      sentence(runNote(rhythm) ?? weeksInRhythmText(rhythm)),
+      if (rhythm.weeksMetStreak > 0 && rhythm.bestRun > rhythm.weeksMetStreak) '${RhythmCopy.bestRun(rhythm.bestRun)}.',
+    ].join(' ');
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -154,21 +195,86 @@ class _Loaded extends StatelessWidget {
           Text(RhythmCopy.asOf(snapshot.fetchedAt!), style: type.small.copyWith(color: colors.ink3)),
           const SizedBox(height: MmSpace.s8),
         ],
-        WeekMarks(week: week),
+        Semantics(label: '${week.label}. ${strip.describe()}', child: strip),
         const SizedBox(height: MmSpace.s16),
         Text(week.label, style: type.subhead),
         if (secondary != null) ...[
           const SizedBox(height: MmSpace.s4),
           Text(secondary, style: type.body.copyWith(color: colors.ink2)),
         ],
-        if (counts != null) ...[
+        if (outlook?.kind == OutlookKind.outOfReach && onPauseWeek != null) ...[
           const SizedBox(height: MmSpace.s12),
+          _PauseKey(onPause: onPauseWeek!),
+        ],
+        const SizedBox(height: MmSpace.s16),
+        Divider(height: 1, thickness: 1, color: colors.line),
+        const SizedBox(height: MmSpace.s16),
+        if (counts != null) ...[
           Text(counts, style: type.body),
+          const SizedBox(height: MmSpace.s4),
+        ],
+        Text(run, style: type.body.copyWith(color: colors.ink2)),
+        const SizedBox(height: MmSpace.s12),
+        Text(RhythmCopy.studyDayRule, style: type.caption.copyWith(color: colors.ink3)),
+        if (monday != null) ...[
+          const SizedBox(height: MmSpace.s2),
+          Text(RhythmCopy.weekRange(monday), style: type.caption.copyWith(color: colors.ink3)),
         ],
         const SizedBox(height: MmSpace.s12),
-        Text(note ?? weeksInRhythmText(rhythm), style: type.body.copyWith(color: colors.ink2)),
-        const SizedBox(height: MmSpace.s16),
-        FlushQuietKey(label: RhythmCopy.seeRhythm, onPressed: onSeeRhythm),
+        Wrap(
+          spacing: MmSpace.s24,
+          children: [
+            if (onChangeDays != null) FlushQuietKey(label: RhythmCopy.changeStudyDays, onPressed: onChangeDays!),
+            FlushQuietKey(label: RhythmCopy.seeRhythm, onPressed: onSeeRhythm),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+/// "Pause this week": a secondary key with its own recovery line when the server refuses.
+class _PauseKey extends StatefulWidget {
+  const _PauseKey({required this.onPause});
+
+  final Future<void> Function() onPause;
+
+  @override
+  State<_PauseKey> createState() => _PauseKeyState();
+}
+
+class _PauseKeyState extends State<_PauseKey> {
+  bool _busy = false;
+  bool _failed = false;
+
+  Future<void> _run() async {
+    setState(() {
+      _busy = true;
+      _failed = false;
+    });
+    try {
+      await widget.onPause();
+      if (mounted) setState(() => _busy = false);
+    } on Object {
+      if (mounted) {
+        setState(() {
+          _busy = false;
+          _failed = true;
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        KeyButton.secondary(label: RhythmCopy.pauseThisWeekKey, onPressed: _busy ? null : _run, loading: _busy),
+        if (_failed) ...[
+          const SizedBox(height: MmSpace.s8),
+          InlineBanner(message: RhythmCopy.pauseFailed, tone: BannerTone.error),
+        ],
       ],
     );
   }

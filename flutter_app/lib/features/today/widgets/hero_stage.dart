@@ -13,11 +13,14 @@ import '../logic/today_model.dart';
 const double heroRadius = 28;
 const BorderRadius heroBorderRadius = BorderRadius.all(Radius.circular(heroRadius));
 
-/// Height of the art corner. Content below this line never sits over art.
-const double heroArtHeight = 150;
+/// Height of the art corner. Content beside it keeps clear of it.
+const double heroArtHeight = 104;
+
+/// Width of the art corner, from the right edge (an 88 dp object at a 16 dp inset).
+const double heroArtWidth = 104;
 
 class HeroStage extends StatelessWidget {
-  const HeroStage({super.key, required this.child, this.subjectId, this.art, this.artWidth = 220, this.lit = true, this.lampStrength = 1});
+  const HeroStage({super.key, required this.child, this.subjectId, this.art, this.artWidth = heroArtWidth, this.lit = true, this.lampStrength = 1});
 
   final Widget child;
   final String? subjectId;
@@ -82,13 +85,23 @@ class HeroStage extends StatelessWidget {
   }
 }
 
-/// The hero's art corner: the subject object or Mobi. Arrives once (rise 12 dp, scale 0.96 to
-/// 1, fade, 600 ms emphasized), then never moves. Reduced motion shows it in place.
+/// The hero's art corner: the subject's object in its lamp light. Arrives once (rise 12 dp,
+/// scale 0.96 to 1, fade, 600 ms emphasized), then never moves. Reduced motion shows it in place.
+/// Mobi is not drawn here: at a human moment Mobi stands in the card itself (see MoveHeroCard).
 class HeroArtView extends StatefulWidget {
-  const HeroArtView({super.key, required this.art, this.mobiLine});
+  const HeroArtView({super.key, required this.art});
 
   final HeroArt art;
-  final String? mobiLine;
+
+  static MobiPose poseFor(MmArt art) => switch (art) {
+        MmArt.mobiSleepy => MobiPose.sleepy,
+        MmArt.mobiThink => MobiPose.think,
+        MmArt.mobiRead => MobiPose.read,
+        MmArt.mobiRest => MobiPose.rest,
+        MmArt.mobiCheer => MobiPose.cheer,
+        MmArt.mobiPoint => MobiPose.point,
+        _ => MobiPose.greet,
+      };
 
   @override
   State<HeroArtView> createState() => _HeroArtViewState();
@@ -103,7 +116,7 @@ class _HeroArtViewState extends State<HeroArtView> with SingleTickerProviderStat
     super.didChangeDependencies();
     if (_started) return;
     _started = true;
-    if (Motion.reduced(context) || widget.art.isMobi) {
+    if (Motion.reduced(context)) {
       _arrive.value = 1;
     } else {
       _arrive.forward();
@@ -120,17 +133,12 @@ class _HeroArtViewState extends State<HeroArtView> with SingleTickerProviderStat
   Widget build(BuildContext context) {
     final art = widget.art;
     final Widget image = art.isMobi
-        ? Align(
-            alignment: const Alignment(0.55, 0.4),
-            child: Mobi(pose: _pose(art.art), size: 150, motion: MobiMotion.settle),
-          )
+        ? Align(alignment: const Alignment(0.3, 0.2), child: Mobi(pose: HeroArtView.poseFor(art.art), size: 112))
         : Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 8, 4),
-            child: ArtImage(art.art, alignment: const Alignment(0.6, 0)),
+            padding: const EdgeInsets.fromLTRB(0, 16, 16, 0),
+            child: Align(alignment: Alignment.topRight, child: SizedBox.square(dimension: 88, child: ArtImage(art.art))),
           );
-
-    final line = widget.mobiLine;
-    final body = RepaintBoundary(
+    return RepaintBoundary(
       child: AnimatedBuilder(
         animation: _arrive,
         child: image,
@@ -146,24 +154,5 @@ class _HeroArtViewState extends State<HeroArtView> with SingleTickerProviderStat
         },
       ),
     );
-    if (line == null || !art.isMobi) return body;
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        Positioned.fill(child: body),
-        // Beside Mobi's head, left of it, clear of the overline above and the number below.
-        Positioned(right: 132, top: 76, child: MobiLine(line)),
-      ],
-    );
   }
-
-  static MobiPose _pose(MmArt art) => switch (art) {
-        MmArt.mobiSleepy => MobiPose.sleepy,
-        MmArt.mobiThink => MobiPose.think,
-        MmArt.mobiRead => MobiPose.read,
-        MmArt.mobiRest => MobiPose.rest,
-        MmArt.mobiCheer => MobiPose.cheer,
-        MmArt.mobiPoint => MobiPose.point,
-        _ => MobiPose.greet,
-      };
 }

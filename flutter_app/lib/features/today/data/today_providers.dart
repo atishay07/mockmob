@@ -114,6 +114,11 @@ final todayInputsProvider = Provider<TodayInputs>((ref) {
               return i < 0 ? null : i;
             }(),
             label: week.label,
+            goal: week.goal,
+            planned: ref.watch(studyDayPlanProvider),
+            paused: week.status == WeekStatus.paused,
+            met: week.met,
+            dates: [for (final d in week.days) d.date?.day],
           ),
     returning: rhythm.rhythm?.returning ?? false,
     draft: ref.watch(todayDraftProvider).value,

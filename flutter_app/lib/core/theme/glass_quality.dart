@@ -3,6 +3,7 @@ import 'dart:ui' show FramePhase, FrameTiming, PlatformDispatcher;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart' show MethodChannel;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -31,15 +32,34 @@ class GlassBoot {
   final GlassQuality chosen;
   final bool autoLite;
 
-  static Future<GlassBoot> read(AppPrefs prefs) async {
+  static Future<GlassBoot> read(AppPrefs prefs, {Future<bool> Function()? lowMemory}) async {
     try {
-      return GlassBoot(
-        chosen: GlassQuality.parse(await prefs.glassQuality()) ?? GlassQuality.full,
-        autoLite: await prefs.glassAutoLite(),
-      );
+      final saved = GlassQuality.parse(await prefs.glassQuality());
+      var auto = await prefs.glassAutoLite();
+      // First launch, nothing chosen yet: a phone with little memory (a weak GPU with it)
+      // starts on Lite, as the automatic step, never as the student's choice.
+      if (saved == null && !auto && await (lowMemory ?? deviceHasLowMemory)()) {
+        auto = true;
+        await prefs.setGlassAutoLite(true);
+      }
+      return GlassBoot(chosen: saved ?? GlassQuality.full, autoLite: auto);
     } on Object {
       return const GlassBoot();
     }
+  }
+}
+
+/// True on an Android phone that reports itself low on RAM or has under 4.5 GB in all (the
+/// 3 to 4 GB MediaTek phones many students use). False anywhere it cannot tell.
+Future<bool> deviceHasLowMemory() async {
+  if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) return false;
+  try {
+    final info = await const MethodChannel('in.mockmob.app/device').invokeMapMethod<String, Object?>('memory');
+    if (info == null) return false;
+    final total = info['totalMb'];
+    return info['lowRam'] == true || (total is int && total > 0 && total < 4500);
+  } on Object {
+    return false;
   }
 }
 

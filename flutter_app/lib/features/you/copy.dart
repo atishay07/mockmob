@@ -4,11 +4,17 @@
 library;
 
 import '../../core/copy/copy.dart';
+import 'data/subject_catalog.dart' show youSubjectNames;
 
 abstract final class YouCopy {
   // The sheet card (identity first).
   static const hubTitle = 'You';
   static const sheetOverline = 'Your sheet, CUET UG 2027';
+  static String sheetOverlineFor(int year) => 'Your sheet, CUET UG $year';
+  static const finishSheet = 'Add your course and colleges. Today plans the road from them.';
+  static const finishSheetKey = 'Finish your sheet';
+  static const editSubjects = 'Edit';
+  static const editSubjectsLabel = 'Edit subjects';
   static const sheetNameFallback = 'Your sheet';
   static String signedInAs(String email) => 'Signed in as $email';
   static const fieldCourse = 'Course';
@@ -146,10 +152,9 @@ abstract final class YouCopy {
   static const accountName = 'Name';
   static const accountEmail = 'Email';
   static const accountPlan = 'Plan';
-  static const accountPlanOff = 'Not on Pro';
-  static String planActiveUntil(DateTime date) => 'Pro is active until ${formatDayMonth(date)} ${date.year}';
-  static const planActive = 'Pro is active';
-  static const planHonoured = 'Pro bought on mockmob.in is honoured here.';
+  static const accountProfile = 'Profile';
+  static const accountEmailNote = 'You sign in with this address. It cannot be changed here.';
+  static String accountCredits(int n) => n == 1 ? '1 credit' : '$n credits';
   static const signOut = 'Sign out';
   static const signOutTitle = 'Sign out of MockMob?';
   static const signOutPlain = 'You will need to sign in again to use MockMob on this phone.';
@@ -212,14 +217,11 @@ abstract final class YouCopy {
 
 /// Display names for the public subject ids, so the sheet never prints a raw id.
 String subjectDisplayName(String id) => switch (id) {
-      'accountancy' => 'Accountancy',
-      'business_studies' || 'business' => 'Business Studies',
-      'economics' => 'Economics',
-      'english' => 'English',
-      'general_test' || 'gat' => 'General Test',
-      'mathematics' || 'maths' => 'Mathematics',
+      'business' => 'Business Studies',
+      'gat' => 'General Test',
+      'maths' => 'Mathematics',
       'applied_mathematics' => 'Applied Mathematics',
-      _ => _humanize(id),
+      _ => youSubjectNames[id] ?? _humanize(id),
     };
 
 String _humanize(String id) {

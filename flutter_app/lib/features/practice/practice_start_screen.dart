@@ -15,7 +15,9 @@ import 'data/launch_flow.dart';
 import 'data/practice_quote.dart';
 import 'data/practice_starter.dart' show StartFailure;
 import 'model/cost_line.dart';
+import 'model/practice_link.dart';
 import 'model/practice_selection.dart';
+
 import 'widgets/failure_copy.dart';
 import 'widgets/inking_sheet.dart';
 
@@ -24,13 +26,10 @@ import 'widgets/inking_sheet.dart';
 /// through setup, because they need the pre-start sheet. Anything the student must look at (a
 /// blocked quote, a failure) ends in a designed state with a way out, never a blank screen.
 class PracticeStartScreen extends ConsumerStatefulWidget {
-  const PracticeStartScreen({super.key, this.mode, this.subject, this.count, this.chapter, this.purpose});
+  const PracticeStartScreen({super.key, this.mode, this.link = const PracticeLink()});
 
   final PracticeMode? mode;
-  final String? subject;
-  final int? count;
-  final String? chapter;
-  final String? purpose;
+  final PracticeLink link;
 
   @override
   ConsumerState<PracticeStartScreen> createState() => _PracticeStartScreenState();
@@ -51,31 +50,18 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
 
   String get _setupLocation {
     final mode = widget.mode ?? PracticeMode.quick;
-    return Uri(
-      path: AppRoutes.practiceSetup(mode.name),
-      queryParameters: {
-        'subject': ?widget.subject,
-        if (widget.count != null) 'count': '${widget.count}',
-        'chapter': ?widget.chapter,
-        'purpose': ?widget.purpose,
-      },
-    ).toString();
+    final query = widget.link.query;
+    final path = AppRoutes.practiceSetup(mode.name);
+    return query.isEmpty ? path : Uri(path: path, queryParameters: query).toString();
   }
 
   Future<void> _run() async {
     final mode = widget.mode;
-    final subject = widget.subject;
-    if (mode == null || subject == null || subject.isEmpty) {
+    final selection = mode == null ? null : widget.link.selectionFor(mode);
+    if (mode == null || selection == null) {
       if (mounted) context.go(AppRoutes.practice);
       return;
     }
-    final selection = PracticeSelection(
-      mode: mode,
-      subjectId: subject,
-      count: nearestPracticeCount(widget.count),
-      chapter: widget.chapter,
-      purpose: widget.purpose == 'baseline' || widget.purpose == 'full_sample' ? widget.purpose : null,
-    );
     // Mocks need the pre-start sheet, and chapter practice needs a chapter.
     if (mode.isMock || !selection.isComplete) {
       context.pushReplacement(_setupLocation);
@@ -86,28 +72,33 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
       _stop(PracticeCopy.offlineStart, StateViewKind.offline);
       return;
     }
-    final PracticeQuote quote;
-    try {
-      quote = await ref.read(practiceQuoteProvider(selection.quoteQuery).future);
-    } on ApiError catch (e) {
-      if (mounted) {
-        _stop(
-          e.isOffline ? PracticeCopy.offlineStart : PracticeCopy.quoteFailed,
-          e.isOffline ? StateViewKind.offline : StateViewKind.error,
-        );
+    final LaunchResult result;
+    if (selection.isFreshCheck) {
+      result = await launchFreshCheck(ref, selection);
+    } else {
+      final PracticeQuote quote;
+      try {
+        quote = await ref.read(practiceQuoteProvider(selection.quoteQuery).future);
+      } on ApiError catch (e) {
+        if (mounted) {
+          _stop(
+            e.isOffline ? PracticeCopy.offlineStart : PracticeCopy.quoteFailed,
+            e.isOffline ? StateViewKind.offline : StateViewKind.error,
+          );
+        }
+        return;
       }
-      return;
+      if (!mounted) return;
+      result = await launchPractice(ref, selection, quote);
     }
-    if (!mounted) return;
-    final result = await launchPractice(ref, selection, quote);
     if (!mounted) return;
     switch (result) {
       case LaunchStarted(:final sessionId):
         context.go(AppRoutes.run(sessionId));
       case LaunchNeedsLook(:final quote):
         _stop(costLineFor(quote).text ?? PracticeCopy.unavailableFallback, StateViewKind.error);
-      case LaunchFailed(:final failure):
-        final view = StartFailureView(failure);
+      case LaunchFailed(:final failure, :final message):
+        final view = StartFailureView(failure, message: message);
         _stop(view.text, failure == StartFailure.offline ? StateViewKind.offline : StateViewKind.error);
       case LaunchPendingElsewhere(:final sessionId):
         _pendingSessionId = sessionId;
