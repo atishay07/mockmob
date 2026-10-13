@@ -16,7 +16,7 @@ import {
 import { buildNtaPaper, recordNtaShortfall } from '../nta_pool.js';
 import { contentHash, evidenceSignature } from '../content_evidence.js';
 import { publicSessionView } from '../../shared/recoveryContract.js';
-import { makeBank, stemFor } from './ntaEngineFixtures.mjs';
+import { makeBank, signEvidence, stemFor } from './ntaEngineFixtures.mjs';
 
 const TIME_TARGET_MS = 3000;
 
@@ -110,10 +110,13 @@ test('the score bar is 8 out of 10 and read on the 0-10 scale', () => {
   assert.equal(ntaScoreOf({ quality_score: 0.85 }).score, 8.5);
   assert.deepEqual(ntaScoreOf({ quality_score: 0 }), { score: null, source: null }, 'the column default is no score');
   assert.equal(ntaScoreOf({ evidence: { record: { checks: { exam_fit: { item_quality_score: 8 }, independent_evaluation: { item_quality_score: 9 } } } } }).score, 8.5);
-  const [row] = makeBank('economics', { copies: 1 }).filter((entry) => !entry.passage_group_id);
-  assert.equal(ntaEligibility({ ...row, quality_score: 0.8 }, { subject: 'economics' }).eligible, true);
-  assert.deepEqual(ntaEligibility({ ...row, quality_score: 0.79 }, { subject: 'economics' }).reasons, ['score_below_threshold']);
-  assert.deepEqual(ntaEligibility({ ...row, quality_score: 0 }, { subject: 'economics' }).reasons, ['no_score']);
+  const [signed] = makeBank('economics', { copies: 1 }).filter((entry) => !entry.passage_group_id && !/₹/.test(entry.body));
+  const { evidence, ...row } = signed;
+  assert.equal(ntaEligibility(signEvidence(row, { luna: 8, gemini: 8 }), { subject: 'economics' }).eligible, true);
+  assert.deepEqual(ntaEligibility(signEvidence(row, { luna: 8, gemini: 7 }), { subject: 'economics' }).reasons, ['score_below_threshold'], '7.5 is under the bar');
+  assert.deepEqual(ntaEligibility(row, { subject: 'economics' }).reasons, ['no_score']);
+  // Nothing signs the quality_score column, so it never admits a question on its own.
+  assert.deepEqual(ntaEligibility({ ...row, quality_score: 0.9 }, { subject: 'economics' }).reasons, ['score_unsigned']);
 });
 
 test('an evidence score counts only while it is signed, unchanged and agrees with the key', () => {
@@ -128,7 +131,7 @@ test('an evidence score counts only while it is signed, unchanged and agrees wit
   };
   const signed = { ...row, evidence: { record, signature: evidenceSignature(record, secret) } };
   const check = (value, key = secret) => ntaEligibility(value, { subject: 'accountancy', secret: key });
-  assert.deepEqual(check(signed), { eligible: true, reasons: [], score: 8.5, scoreSource: 'evidence_judges' });
+  assert.deepEqual({ ...check(signed), type: undefined }, { eligible: true, reasons: [], score: 8.5, scoreSource: 'evidence_judges', type: undefined });
   assert.ok(check(signed, '').reasons.includes('score_unverifiable_no_signing_key'));
   assert.ok(check({ ...signed, evidence: { ...signed.evidence, signature: 'f'.repeat(64) } }).reasons.includes('score_signature_invalid'));
   assert.ok(check({ ...signed, body: `${signed.body} changed`, question: `${signed.question} changed` }).reasons.includes('question_changed_since_scored'));
@@ -136,6 +139,14 @@ test('an evidence score counts only while it is signed, unchanged and agrees wit
   assert.ok(check({ ...row, evidence: { record: wrongKey, signature: evidenceSignature(wrongKey, secret) } }).reasons.includes('independent_solver_key_mismatch'));
   const low = { ...record, checks: { exam_fit: { item_quality_score: 7 }, independent_evaluation: { item_quality_score: 8, solved_key: 'A' } } };
   assert.ok(check({ ...row, evidence: { record: low, signature: evidenceSignature(low, secret) } }).reasons.includes('score_below_threshold'), '7.5 is under the bar');
+  // Missing judges or solvers fail closed: both judges and both blind solvers are required.
+  const sign = (value) => ({ ...row, evidence: { record: value, signature: evidenceSignature(value, secret) } });
+  const oneJudge = { ...record, checks: { exam_fit: { item_quality_score: 9 }, independent_evaluation: { solved_key: 'A' } } };
+  assert.ok(check(sign(oneJudge)).reasons.includes('score_needs_both_judges'));
+  const { solved_key: _omit, ...noSolver } = record;
+  assert.ok(check(sign(noSolver)).reasons.includes('blind_solver_key_missing'));
+  const noIndependent = { ...record, checks: { exam_fit: { item_quality_score: 8 }, independent_evaluation: { item_quality_score: 9 } } };
+  assert.ok(check(sign(noIndependent)).reasons.includes('independent_solver_key_missing'));
 });
 
 test('hard gates: publication, disputes, family holds, key integrity and syllabus', () => {
@@ -148,7 +159,8 @@ test('hard gates: publication, disputes, family holds, key integrity and syllabu
   assert.ok(ntaEligibility(row, { subject, heldFamilies: new Set([row.family_id]) }).reasons.includes('family_held'));
   assert.ok(ntaEligibility({ ...row, correct_answer: 'Z', correct_index: null }, { subject }).reasons.some((reason) => /key_unresolved|answer_missing/.test(reason)));
   assert.ok(ntaEligibility({ ...row, explanation: 'The correct answer is B.' }, { subject }).reasons.includes('answer_guard_explanation_contradicts_key'));
-  const bank = [...makeBank(subject), { ...row, id: 'cas-1', family_id: 'fam-cas-1', chapter: 'Computerized Accounting System' }];
+  const { evidence: _evidence, ...plain } = row;
+  const bank = [...makeBank(subject), signEvidence({ ...plain, id: 'cas-1', family_id: 'fam-cas-1', chapter: 'Computerized Accounting System' })];
   const result = assembleNtaPaper(bank, { subject, seed: 'syllabus' });
   assert.equal(result.pool.excluded.chapter_out_of_syllabus, 1);
   assert.ok(!result.paper.some((entry) => entry.id === 'cas-1'));
@@ -205,7 +217,7 @@ test('English without two complete passages is refused, with the reason', () => 
   assert.equal(result.status, 'refused');
   assert.equal(result.refusal.reason, 'no_passage_sets');
   assert.deepEqual(result.rows, []);
-  assert.match(result.notice.summary, /needs 2 complete reading passages with 4 to 5 questions each.*has 1 such passage/);
+  assert.match(result.notice.summary, /needs 2 complete reading passages of 200 to 300 words with 4 to 5 different questions each.*has 1 such passage/);
   const short = assembleNtaPaper(makeBank('english', { setSize: 3 }), { subject: 'english', seed: 'short-sets' });
   assert.equal(short.refusal.reason, 'no_passage_sets', 'sets of 3 are fragments, not CUET passages');
 });

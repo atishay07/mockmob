@@ -2,26 +2,48 @@
 // website runtime (data/db.js, with the service-role client) and the read-only production run
 // (scripts/nta-engine-run.mjs), so both apply exactly the same gates. Every query here is a select,
 // except recordNtaShortfall, which only the runtime calls.
-import { assembleNtaPaper, NTA_TIME_BUDGET_MS } from './nta_engine.js';
+//
+// Two ways to read the pool:
+//  - index (fast): the signed nta_question_index rows that scripts/nta-index-build.mjs writes after
+//    verifying each evidence record offline, then the questions themselves without the evidence
+//    column (about 95% of the bytes). The engine re-checks each index row's signature and that the
+//    question's content hash is still the one that was scored.
+//  - full (fallback): questions with their evidence records, verified at request time. Used while the
+//    index table does not exist or holds nothing for the subject.
+// Either way the subject's pool is cached in memory for NTA_POOL_CACHE_MS.
+import { assembleNtaPaper, getNtaBlueprint, NTA_TIME_BUDGET_MS } from './nta_engine.js';
 
 // Columns the engine, the hard gates and the session snapshot (questionOut in data/db.js) read.
-export const NTA_POOL_COLUMNS = [
+const SLIM_COLUMNS = [
   'id', 'subject', 'chapter', 'topic', 'concept', 'concept_id', 'body', 'question', 'options', 'correct_answer',
   'correct_index', 'explanation', 'difficulty', 'difficulty_weight', 'status', 'is_deleted', 'verification_state',
   'question_type', 'tags', 'passage_group_id', 'passage_id', 'passage_type', 'passage_text', 'order_index',
-  'family_id', 'duplicate_group_id', 'quality_score', 'score', 'upvotes', 'downvotes', 'evidence', 'provenance',
+  'family_id', 'duplicate_group_id', 'quality_score', 'score', 'upvotes', 'downvotes',
   'pyq_anchor_id', 'anchor_tier', 'source', 'ai_tier', 'ai_score', 'quality_band', 'uploaded_by', 'author_id', 'created_at',
-].join(',');
+];
+// Without the evidence and provenance records: what the index path reads.
+export const NTA_SLIM_COLUMNS = SLIM_COLUMNS.join(',');
+export const NTA_POOL_COLUMNS = [...SLIM_COLUMNS, 'evidence', 'provenance'].join(',');
+export const NTA_INDEX_COLUMNS = 'question_id,subject,score,luna,gemini,content_hash,family_id,objective_tag,index_version,verified_at,signature';
+export const NTA_POOL_CACHE_MS = 5 * 60 * 1000;
 
 const MISSING_TABLE = new Set(['42P01', 'PGRST205']);
 const PAGE = 1000;
+const ID_CHUNK = 300;
+const poolCache = new Map(); // subject -> { at, rows, source }
+let shortfallTableMissing = false;
+
+export function clearNtaPoolCache() {
+  poolCache.clear();
+  shortfallTableMissing = false;
+}
 
 function withSignal(query, signal) {
   return signal && typeof query.abortSignal === 'function' ? query.abortSignal(signal) : query;
 }
 
-/** Live, undeleted questions of one subject that carry a score source (evidence record or quality_score). */
-export async function loadNtaPool(db, subject, { signal } = {}) {
+/** Live, undeleted questions of one subject that carry a score source (evidence record or quality_score), evidence included. */
+export async function loadNtaPoolFull(db, subject, { signal } = {}) {
   const rows = [];
   for (let from = 0; ; from += PAGE) {
     const { data, error } = await withSignal(db.from('questions')
@@ -37,6 +59,61 @@ export async function loadNtaPool(db, subject, { signal } = {}) {
     if (!data || data.length < PAGE) break;
   }
   return rows;
+}
+
+/**
+ * The subject's signed index rows and their questions without evidence. Returns null when the
+ * index table is missing or has nothing for the subject, so the caller falls back to the full read.
+ */
+export async function loadNtaPoolFromIndex(db, subject, { signal } = {}) {
+  const index = [];
+  for (let from = 0; ; from += PAGE) {
+    const { data, error } = await withSignal(db.from('nta_question_index')
+      .select(NTA_INDEX_COLUMNS)
+      .eq('subject', subject)
+      .order('question_id')
+      .range(from, from + PAGE - 1), signal);
+    if (error) {
+      if (MISSING_TABLE.has(error.code)) return null;
+      throw error;
+    }
+    index.push(...(data || []));
+    if (!data || data.length < PAGE) break;
+  }
+  if (!index.length) return null;
+  const byId = new Map(index.map((entry) => [entry.question_id, entry]));
+  const ids = [...byId.keys()];
+  const rows = [];
+  for (let i = 0; i < ids.length; i += ID_CHUNK) {
+    const { data, error } = await withSignal(db.from('questions')
+      .select(NTA_SLIM_COLUMNS)
+      .in('id', ids.slice(i, i + ID_CHUNK))
+      .eq('status', 'live')
+      .eq('is_deleted', false), signal);
+    if (error) throw error;
+    for (const row of data || []) rows.push({ ...row, nta_index: byId.get(row.id) });
+  }
+  return rows;
+}
+
+/** One subject's pool: the index when it exists, else the full read. An array with .source. */
+export async function loadNtaPool(db, subject, { signal, source = 'auto' } = {}) {
+  if (source !== 'full') {
+    const rows = await loadNtaPoolFromIndex(db, subject, { signal });
+    if (rows) return Object.assign(rows, { source: 'index' });
+    if (source === 'index') return Object.assign([], { source: 'index' });
+  }
+  return Object.assign(await loadNtaPoolFull(db, subject, { signal }), { source: 'full' });
+}
+
+// The subject's pool with passages attached, from memory while it is fresh.
+async function cachedPool(db, subject, { signal, cache = true, source } = {}) {
+  const hit = cache ? poolCache.get(subject) : null;
+  if (hit && Date.now() - hit.at < NTA_POOL_CACHE_MS) return { rows: hit.rows, source: hit.source, cached: true };
+  const pool = await loadNtaPool(db, subject, { signal, source });
+  const rows = await attachPassages(db, pool, { signal });
+  if (cache) poolCache.set(subject, { at: Date.now(), rows, source: pool.source });
+  return { rows, source: pool.source, cached: false };
 }
 
 /** Copies live passage text onto passage children, as the practice reader does. */
@@ -76,7 +153,7 @@ export async function loadOpenDisputes(db, { signal } = {}) {
 
 /** Families on hold. Any lookup failure stops the paper: a held family must never reach a student. */
 export async function loadHeldFamilies(db, rows, { signal } = {}) {
-  const families = [...new Set(rows.map((row) => row.family_id || row.evidence?.record?.family_id).filter(Boolean))];
+  const families = [...new Set(rows.map((row) => row.family_id || row.evidence?.record?.family_id || row.nta_index?.family_id).filter(Boolean))];
   const held = new Set();
   for (let i = 0; i < families.length; i += 300) {
     const { data, error } = await withSignal(db.from('recovery_family_holds').select('family_id').in('family_id', families.slice(i, i + 300)), signal);
@@ -99,8 +176,18 @@ export async function loadSeenQuestionIds(db, userId, subject, { signal } = {}) 
   return seen;
 }
 
+function timeBudgetError(subject) {
+  const bp = getNtaBlueprint(subject);
+  const label = bp?.subject === 'general_test' ? 'General Test' : String(bp?.officialName || subject).split(' / ')[0];
+  const error = new Error('NTA_TIME_BUDGET_EXCEEDED');
+  error.publicMessage = `Building the ${label} paper took too long, so it was stopped before it started. Please try again in a minute; if it happens again, try a Full Mock for ${label}.`;
+  error.publicDetail = { reason: 'time_budget', items: [] };
+  return error;
+}
+
 /**
- * Reads the pool and builds one paper. options: { userId, seenIds, variant, seed, timeBudgetMs }.
+ * Reads the pool and builds one paper. options: { userId, seenIds, variant, seed, timeBudgetMs,
+ * cache (default true), source ('auto' | 'index' | 'full') }.
  * Returns the engine result with timings for each stage added.
  */
 export async function buildNtaPaper(db, subject, options = {}) {
@@ -113,20 +200,21 @@ export async function buildNtaPaper(db, subject, options = {}) {
   const signal = controller.signal;
   try {
     const [pool, disputedIds, seenIds] = await Promise.all([
-      loadNtaPool(db, subject, { signal }),
+      cachedPool(db, subject, { signal, cache: options.cache !== false, source: options.source }),
       loadOpenDisputes(db, { signal }),
       options.seenIds ? Promise.resolve(options.seenIds) : loadSeenQuestionIds(db, options.userId, subject, { signal }),
     ]);
     const readMs = Date.now() - startedAt;
-    const rows = await attachPassages(db, pool, { signal });
+    const rows = pool.rows;
     const heldFamilies = await loadHeldFamilies(db, rows, { signal });
     const loadMs = Date.now() - startedAt;
     const result = assembleNtaPaper(rows, { subject, variant: options.variant, seed: options.seed, seenIds, disputedIds, heldFamilies, deadline });
-    result.timings = { ...result.timings, readMs, loadMs, endToEndMs: Date.now() - startedAt, budgetMs: budget };
-    result.pool.loaded = pool.length;
+    result.timings = { ...result.timings, readMs, loadMs, endToEndMs: Date.now() - startedAt, budgetMs: budget, poolSource: pool.source, poolCached: pool.cached };
+    result.pool.loaded = rows.length;
+    result.pool.source = pool.source;
     return result;
   } catch (error) {
-    if (signal.aborted) throw new Error('NTA_TIME_BUDGET_EXCEEDED');
+    if (signal.aborted) throw timeBudgetError(subject);
     throw error;
   } finally {
     clearTimeout(timer);
@@ -151,9 +239,12 @@ export async function recordNtaShortfall(db, result) {
     detail: result.shortfall,
   };
   console.warn('[nta-shortfall]', JSON.stringify(row));
+  // Until the migration is applied, one failed insert per server process is enough.
+  if (shortfallTableMissing) return false;
   try {
     const { error } = await db.from('nta_paper_shortfalls').insert(row);
-    if (error && !MISSING_TABLE.has(error.code)) console.warn('[nta-shortfall] not stored:', error.message);
+    if (error && MISSING_TABLE.has(error.code)) shortfallTableMissing = true;
+    else if (error) console.warn('[nta-shortfall] not stored:', error.message);
     return !error;
   } catch (error) {
     console.warn('[nta-shortfall] not stored:', error?.message);

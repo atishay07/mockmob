@@ -1,0 +1,19 @@
+{
+  "note": "NTA-mode quarantine (data/nta_item_checks.js ntaQuarantine). Questions listed here never enter an NTA paper. Reversible: delete an entry to lift it once the question is corrected and re-verified with new evidence. It does not change the question in the database or in any other mode; the correction and the audit trail belong to the content workflow (docs/brain/QUALITY.md, Correction / rollback).",
+  "questions": {
+    "40d8ffd980223cc65286a43053bf04de": {
+      "subject": "accountancy",
+      "since": "2026-10-13",
+      "reason": "likely_wrong_key",
+      "detail": "Dissolution: Rs 1,50,000 remains for capital claims of Rs 1,20,000 (P) and Rs 1,80,000 (Q), profits shared equally. The key pays capital in proportion to capital (P Rs 1,80,000 in total). Under the realisation-loss rule (Partnership Act s.48(a)) the Rs 1,50,000 deficiency is borne 1:1, so P receives Rs 1,20,000 + Rs 45,000 = Rs 1,65,000, which no option offers.",
+      "source": "NTA engine review of 053d2a0, 13 Oct 2026 (paper 1, Q45)"
+    },
+    "24ff7d610823ce693405abfbdfc938f6": {
+      "subject": "business_studies",
+      "since": "2026-10-13",
+      "reason": "broken_item",
+      "detail": "Arrange-in-sequence question whose options are match pairings (A)-(I), (B)-(II)... with no List-II in the stem.",
+      "source": "NTA engine review of 053d2a0, 13 Oct 2026 (paper 1, Q9)"
+    }
+  }
+}

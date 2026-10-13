@@ -1,6 +1,27 @@
 // Synthetic question banks shaped by each NTA blueprint, for engine tests. Software-generated
 // fixtures prove the engine's arithmetic and layout only, never academic quality.
 import { getNtaBlueprint } from '../nta_engine.js';
+import { contentHash, evidenceSignature } from '../content_evidence.js';
+
+// Scores reach the engine only through signed evidence (or a signed index row), so the fixtures sign
+// theirs with a test key that the engine reads from the environment.
+export const FIXTURE_SECRET = 'nta-fixture-signing-key';
+process.env.CUET_EVIDENCE_SIGNING_KEY = FIXTURE_SECRET;
+
+/** Signed factory evidence for a row: two judge scores and both blind solvers on the stored key. */
+export function signEvidence(row, { luna = 8, gemini = 9, solvedKey = row.correct_answer, independentKey = solvedKey, secret = FIXTURE_SECRET, extra = {} } = {}) {
+  const record = {
+    candidate_id: row.id,
+    content_hash: contentHash(row),
+    solved_key: solvedKey,
+    checks: {
+      exam_fit: { item_quality_score: luna },
+      independent_evaluation: { item_quality_score: gemini, solved_key: independentKey },
+    },
+    ...extra,
+  };
+  return { ...row, evidence: { record, signature: evidenceSignature(record, secret) } };
+}
 
 const LETTERS = 'abcdefghijklmnopqrstuvwxyz';
 
@@ -57,6 +78,10 @@ export function stemFor(type, id) {
       return { body: `Identify the part that contains an error: ${w[0]} ${w[1]} ${w[2]} ${w[3]} ${w[4]}.`, options: words(id, 4, 10).map((value) => `(${value})`) };
     case 'fill_in_blank':
       return { body: `Choose the correct option to fill in the blank in the given sentence: The ${w[0]} ______ ${w[1]} ${w[2]} ${w[3]}.`, options: words(id, 4, 10) };
+    case 'numerical': {
+      const n = (k) => 1000 + (hash(`${id}:n${k}`) % 900000);
+      return { body: `What is the ${w[0]} ${w[1]} when the ${w[2]} is ₹${n(1)} and the ${w[3]} is ₹${n(2)}?`, options: [3, 4, 5, 6].map((k) => `₹${n(k)}`) };
+    }
     default:
       return { body: `Which description of ${w[0]} ${w[1]} best explains ${w[2]} ${w[3]} within ${w[4]} ${w[5]}?`, options: words(id, 4, 10).map((value, i) => `${value} ${word(id, 30 + i)}`) };
   }
@@ -83,13 +108,22 @@ function typeCycle(bp) {
   return cycle.sort((a, b) => hash(`${a}:${cycle.indexOf(a)}`) % 7 - hash(`${b}:${cycle.indexOf(b)}`) % 7);
 }
 
+// 225 words: inside every blueprint's passage-length range (English 200-300, domain 120-300).
 function passageText(id) {
-  const sentences = Array.from({ length: 9 }, (_, i) => `${words(id, 9, i * 9).join(' ')}.`);
+  const sentences = Array.from({ length: 25 }, (_, i) => `${words(id, 9, i * 9).join(' ')}.`);
   return sentences.join(' ');
 }
 
+// Share of single-answer rows written as numericals, so a subject's numerical quota can be met.
+function numericalShare(bp) {
+  const range = bp.overlays?.numerical_share;
+  if (!range || !bp.typeQuotas.single_mcq) return 0;
+  return Math.min(1, (range.target * 50) / bp.typeQuotas.single_mcq.target + 0.1);
+}
+
 function baseRow(bp, id, chapter, type, difficulty, extra = {}) {
-  const { body, options } = stemFor(type, id);
+  const numerical = type === 'single_mcq' && (hash(`${id}:numerical`) % 1000) / 1000 < numericalShare(bp);
+  const { body, options } = stemFor(numerical ? 'numerical' : type, id);
   return {
     id,
     subject: bp.internalSubject,
@@ -104,7 +138,7 @@ function baseRow(bp, id, chapter, type, difficulty, extra = {}) {
     status: 'live',
     is_deleted: false,
     verification_state: 'verified',
-    quality_score: 0.85,
+    quality_score: 0,
     family_id: `fam-${id}`,
     question_type: null,
     score: 0,
@@ -172,6 +206,10 @@ export function makeBank(subject, options = {}) {
       });
     }
   }
-  if (typeof options.scoreFor === 'function') for (const row of rows) row.quality_score = options.scoreFor(row);
-  return rows;
+  // scoreFor(row) gives the mean judge score out of 10 (default 8.5: judges 8 and 9).
+  return rows.map((row) => {
+    if (typeof options.scoreFor !== 'function') return signEvidence(row);
+    const score = options.scoreFor(row);
+    return signEvidence(row, { luna: score, gemini: score });
+  });
 }

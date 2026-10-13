@@ -13,6 +13,10 @@ import { canonicalQuestion, contentHash } from './content_evidence.js';
 import { verifyAnswerIntegrity } from './answer_integrity.js';
 import { qualityGateNtaQuestion, getPassageKey, getPassageText, getQuestionText, isPassageLinkedQuestion, normalizeOptions } from './nta_question_selector.js';
 import { toInternalSubjectId, toPublicSubjectId } from './cuet_controls.js';
+import {
+  conflictReason, isNumericalItem, isPermutationOptions, isStatementItem, itemFeatures, ntaQuarantine, objectiveCap,
+  optionPairs, passageWordCount, structuralReasons, wordingReasons,
+} from './nta_item_checks.js';
 import typesFile from './nta_blueprints/_types.json' with { type: 'json' };
 import english from './nta_blueprints/english.json' with { type: 'json' };
 import generalTest from './nta_blueprints/general_test.json' with { type: 'json' };
@@ -41,10 +45,9 @@ export const NTA_MIN_SCORE = 8;
 export const NTA_MIN_SERVE_QUESTIONS = 45;
 // Owner: building the paper "should not take more than 30 seconds". The target is under 3 s.
 export const NTA_TIME_BUDGET_MS = 30_000;
-export const NTA_ENGINE_VERSION = 'nta-engine-2026.10.13';
-// Two stems at or above this token overlap are the same question for the student.
-const NEAR_DUPLICATE_JACCARD = 0.8;
-const PAPER_SIZE = 50;
+export const NTA_ENGINE_VERSION = 'nta-engine-2026.10.13-r2';
+// Version of the signed nta_question_index rows this engine accepts (scripts/nta-index-build.mjs).
+export const NTA_INDEX_VERSION = 'nta-index-1';
 
 const BLUEPRINTS = Object.freeze({
   english, general_test: generalTest, accountancy, business_studies: businessStudies, economics,
@@ -74,11 +77,8 @@ const ENGLISH_CHAPTER_TYPES = Object.freeze({
 });
 const SPECIAL_TYPES = new Set(['match_the_following', 'sequence_ordering', 'statement_based', 'assertion_reason']);
 const DIFFICULTIES = ['easy', 'medium', 'hard'];
-const STOP_WORDS = new Set([
-  'the', 'and', 'for', 'with', 'from', 'that', 'this', 'which', 'what', 'when', 'where', 'does', 'into',
-  'only', 'following', 'correct', 'option', 'options', 'choose', 'select', 'given', 'below', 'answer',
-  'are', 'was', 'were', 'has', 'have', 'its', 'not', 'one', 'list', 'statement', 'statements',
-]);
+// The rest of the app calls this paper "General Test".
+const SUBJECT_LABELS = Object.freeze({ general_test: 'General Test' });
 
 function normalizeDbType(value) {
   return String(value || '').trim().toLowerCase().replace(/[\s-]+/g, '_');
@@ -103,7 +103,7 @@ function jitter(seed, id) {
 }
 
 function subjectLabel(bp) {
-  return text(bp.officialName).split(' / ')[0] || bp.subject;
+  return SUBJECT_LABELS[bp.subject] || text(bp.officialName).split(' / ')[0] || bp.subject;
 }
 
 function typeLabel(type) {
@@ -154,9 +154,12 @@ function judgeScore(record, check) {
 }
 
 /**
- * The question's score out of 10, read from the database. Two sources exist:
+ * The question's score out of 10, read from the database. Three sources exist:
  *  - evidence: the signed factory record's two judge scores, averaged (half points);
- *  - quality_score: the column, stored 0-1 (the code reads it that way), multiplied by 10.
+ *  - nta_index: the signed slim index row the offline job (scripts/nta-index-build.mjs) wrote after
+ *    verifying that evidence record, so the runtime need not read the 38 KB record;
+ *  - quality_score: the column, stored 0-1, multiplied by 10. Nothing signs it, so it is reported
+ *    but never admits a question (QUALITY.md: missing checks fail closed).
  * Zero in quality_score is the column default and means "no score", not a score of 0.
  */
 export function ntaScoreOf(row) {
@@ -167,41 +170,82 @@ export function ntaScoreOf(row) {
     const score = luna !== null && gemini !== null ? (luna + gemini) / 2 : (luna ?? gemini);
     return { score, source: 'evidence_judges', luna, gemini };
   }
+  const index = row?.nta_index;
+  if (index && Number.isFinite(Number(index.score))) {
+    return { score: Number(index.score), source: 'nta_index', luna: index.luna ?? null, gemini: index.gemini ?? null };
+  }
   const column = Number(row?.quality_score ?? row?.qualityScore);
   if (Number.isFinite(column) && column > 0) return { score: Math.round(column * 1000) / 100, source: 'quality_score' };
   return { score: null, source: null };
 }
 
-function signatureMatches(envelope, secret) {
-  const actual = Buffer.from(String(envelope?.signature || ''));
-  for (const body of [canonicalJSON(envelope.record), JSON.stringify(envelope.record)]) {
+function hmacMatches(signature, bodies, secret) {
+  const actual = Buffer.from(String(signature || ''));
+  for (const body of bodies) {
     const expected = Buffer.from(createHmac('sha256', secret).update(body).digest('hex'));
     if (actual.length === expected.length && timingSafeEqual(actual, expected)) return true;
   }
   return false;
 }
 
+function signatureMatches(envelope, secret) {
+  return hmacMatches(envelope?.signature, [canonicalJSON(envelope.record), JSON.stringify(envelope.record)], secret);
+}
+
+/** The fields of an nta_question_index row that its signature covers. */
+export function ntaIndexSignedBody(index) {
+  return {
+    question_id: index.question_id,
+    subject: index.subject,
+    score: Number(index.score),
+    luna: index.luna ?? null,
+    gemini: index.gemini ?? null,
+    content_hash: index.content_hash,
+    index_version: index.index_version,
+    verified_at: index.verified_at,
+  };
+}
+
+export function signNtaIndex(index, secret) {
+  return createHmac('sha256', secret).update(canonicalJSON(ntaIndexSignedBody(index))).digest('hex');
+}
+
 /**
- * An evidence score counts only while it is provably about this exact question and its key: the
- * record is signed by the backend, names this row, matches the current content hash, was not a mock
- * run, and both blind solvers reached the stored key. Expiry, source registry and calibration state
- * are publication rules, not score rules, and are not checked here.
+ * A score counts only while it is provably about this exact question and its key.
+ * Evidence: signed by the backend, names this row, matches the current content hash, not a mock run,
+ * both judges scored it, and both blind solvers reached the stored key. A missing judge or solver
+ * fails closed. Index: signed by the backend job, names this row, the current content hash and this
+ * index version (the job only indexes evidence that passed the same checks). Expiry, source registry
+ * and calibration state are publication rules, not score rules, and are not checked here.
  */
 export function ntaScoreIntegrity(row, { secret = process.env.CUET_EVIDENCE_SIGNING_KEY } = {}) {
-  const { source } = ntaScoreOf(row);
-  if (source !== 'evidence_judges') return [];
-  const envelope = row.evidence;
-  const record = envelope?.record;
+  const { source, luna, gemini } = ntaScoreOf(row);
+  if (source === 'quality_score') return ['score_unsigned'];
+  if (source !== 'evidence_judges' && source !== 'nta_index') return [];
   if (!secret) return ['score_unverifiable_no_signing_key'];
   const reasons = [];
+  if (source === 'nta_index') {
+    const index = row.nta_index;
+    if (!hmacMatches(index.signature, [canonicalJSON(ntaIndexSignedBody(index))], secret)) reasons.push('score_signature_invalid');
+    if (index.question_id !== row.id) reasons.push('score_for_another_question');
+    if (index.content_hash !== contentHash(row)) reasons.push('question_changed_since_scored');
+    if (index.index_version !== NTA_INDEX_VERSION) reasons.push('score_index_outdated');
+    if (luna === null || gemini === null) reasons.push('score_needs_both_judges');
+    return reasons;
+  }
+  const envelope = row.evidence;
+  const record = envelope?.record;
   if (!envelope?.signature || !signatureMatches(envelope, secret)) reasons.push('score_signature_invalid');
   if (record.candidate_id !== row.id) reasons.push('score_for_another_question');
   if (record.content_hash !== contentHash(row)) reasons.push('question_changed_since_scored');
   if (record.mock === true || record.verifier_version === 'mock') reasons.push('score_from_mock_run');
+  if (luna === null || gemini === null) reasons.push('score_needs_both_judges');
   const key = canonicalQuestion(row).key;
-  if (record.solved_key !== undefined && record.solved_key !== key) reasons.push('blind_solver_key_mismatch');
+  if (record.solved_key === undefined || record.solved_key === null || record.solved_key === '') reasons.push('blind_solver_key_missing');
+  else if (record.solved_key !== key) reasons.push('blind_solver_key_mismatch');
   const independentKey = record.checks?.independent_evaluation?.solved_key;
-  if (independentKey !== undefined && independentKey !== null && independentKey !== key) reasons.push('independent_solver_key_mismatch');
+  if (independentKey === undefined || independentKey === null || independentKey === '') reasons.push('independent_solver_key_missing');
+  else if (independentKey !== key) reasons.push('independent_solver_key_mismatch');
   return reasons;
 }
 
@@ -216,18 +260,23 @@ export function ntaEligibility(row, context = {}) {
   if (row?.is_deleted === true || status !== 'live') reasons.push('not_published');
   if (text(row?.verification_state).toLowerCase() === 'disputed') reasons.push('key_disputed');
   if (context.disputedIds?.has(row?.id)) reasons.push('key_disputed');
-  const family = row?.family_id || row?.template_id || row?.evidence?.record?.family_id;
+  const family = row?.family_id || row?.template_id || row?.evidence?.record?.family_id || row?.nta_index?.family_id;
   if (family && context.heldFamilies?.has(family)) reasons.push('family_held');
   if (Number(row?.score ?? 0) < -2) reasons.push('community_voted_down');
   const { score, source } = ntaScoreOf(row);
   if (score === null) reasons.push('no_score');
   else if (score < minScore) reasons.push('score_below_threshold');
   if (score !== null) reasons.push(...ntaScoreIntegrity(row, { secret: context.secret }));
+  if (ntaQuarantine(row?.id)) reasons.push('nta_quarantined');
   const answer = verifyAnswerIntegrity(row);
   if (!answer.accepted) reasons.push(...answer.reasons);
   const content = qualityGateNtaQuestion(row, { subjectId: subject });
   if (!content.accepted) reasons.push(...content.reasons);
-  return { eligible: reasons.length === 0, reasons: [...new Set(reasons)], score, scoreSource: source };
+  // The item must read like an NTA question and its options must fit its own stem.
+  const bp = getNtaBlueprint(subject);
+  const type = classifyNtaType(row, subject, bp ? Object.keys(bp.typeQuotas) : undefined);
+  reasons.push(...structuralReasons(row, type), ...wordingReasons(row, type));
+  return { eligible: reasons.length === 0, reasons: [...new Set(reasons)], score, scoreSource: source, type };
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -244,13 +293,12 @@ function appliesTo(def, subject) {
   return !def.subjects || def.subjects.includes(subject);
 }
 
-function optionShapeType(options) {
-  const texts = options.map((option) => text(option.text));
-  const count = (pattern) => texts.filter((value) => pattern.test(value)).length;
-  if (count(/\(?\b[A-D]\b\)?\s*[-–:]\s*\(?\b(?:I{1,3}|IV|[1-4]|i{1,3}|iv)\b\)?/) >= 3) return 'match_the_following';
-  if (count(/^\s*(?:statements?\s*)?\(?[A-D]\)?(?:\s*(?:,|and)\s*\(?[A-D]\)?)*\s+only\s*$/i) >= 3
-    || count(/^(?:both|all of|neither|none of)\b/i) >= 2 && count(/\bonly\b/i) >= 2) return 'statement_based';
-  if (count(/^\s*\(?(?:[A-D]|I{1,3}|IV|V)\)?(?:\s*(?:,|-|–|→|->)\s*\(?(?:[A-D]|I{1,3}|IV|V)\)?){2,}\s*$/) >= 3) return 'sequence_ordering';
+// What the options alone say about the type. Statement-based needs labelled statements in the stem
+// and options that combine those labels; "Both / Neither / Only P" wording is a plain MCQ.
+function optionShapeType(stem, options) {
+  if (options.filter((option) => optionPairs(option.text)).length >= 3) return 'match_the_following';
+  if (isStatementItem(stem, options)) return 'statement_based';
+  if (isPermutationOptions(options)) return 'sequence_ordering';
   return null;
 }
 
@@ -266,17 +314,22 @@ export function classifyNtaType(row, subject, allowedTypes) {
   const allowed = new Set([...(allowedTypes || TYPE_ORDER), 'single_mcq']);
   const fits = (entry) => allowed.has(entry.type) && appliesTo(entry, publicId);
   const stem = getQuestionText(row);
+  const options = normalizeOptions(row?.options, row);
   const fromDb = (DB_TYPE_MAP.get(storedType(row)) || []).find(fits)?.type || null;
   // English stored types are reliable for vocabulary formats that the stem wording hides.
   if (publicId === 'english' && fromDb && fromDb !== 'single_mcq') return fromDb;
-  const byStem = COMPILED_TYPES.find((entry) => fits(entry) && entry.patterns.some((pattern) => pattern.test(stem)))?.type;
+  const statementItem = isStatementItem(stem, options);
+  const byStem = COMPILED_TYPES.find((entry) => fits(entry) && entry.patterns.some((pattern) => pattern.test(stem))
+    // The statement pattern only sees "(A) ... (B) ... (C)"; the options must combine those labels.
+    && (entry.type !== 'statement_based' || statementItem))?.type;
+  // "Chronological order" in a statements item does not make it a sequence item.
+  if (byStem === 'sequence_ordering' && statementItem && !isPermutationOptions(options)) return 'statement_based';
   if (byStem) return byStem;
-  const byOptions = optionShapeType(normalizeOptions(row?.options, row));
+  const byOptions = optionShapeType(stem, options);
   if (byOptions && allowed.has(byOptions)) return byOptions;
-  if (fromDb && fromDb !== 'single_mcq') {
-    // A stored "statement" type covers one-statement items too; only labelled statements count.
-    if (fromDb !== 'statement_based' || /\(A\)[\s\S]*\(B\)|\bI\.[\s\S]*\bII\./.test(stem)) return fromDb;
-  }
+  // Stored statement, sequence and match types count only with the option shape checked above (a
+  // stored "statement" type covers one-statement items too); other stored types stand.
+  if (fromDb && !['single_mcq', 'statement_based', 'sequence_ordering', 'match_the_following'].includes(fromDb)) return fromDb;
   if (publicId === 'english') {
     const fallback = ENGLISH_CHAPTER_TYPES[text(row?.chapter)];
     if (fallback && allowed.has(fallback)) return fallback;
@@ -324,6 +377,8 @@ function buildModel(bp, variant) {
     sets: { ...sets, enabled: setsEnabled, sectionIndex: 0 },
     order: bp.order,
     difficulty: bp.difficulty,
+    // Share of all questions that are numerical (blueprint overlay), when the pattern sets one.
+    numerical: bp.overlays?.numerical_share || null,
     total: sections.reduce((sum, section) => sum + section.size, 0),
   };
 }
@@ -332,18 +387,6 @@ function buildModel(bp, variant) {
 // Candidates
 // ---------------------------------------------------------------------------------------------
 
-function stemTokens(stem) {
-  return new Set(text(stem).toLowerCase().replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, ' ').split(' ')
-    .filter((token) => token.length > 2 && !STOP_WORDS.has(token)));
-}
-
-function jaccard(left, right) {
-  if (!left.size || !right.size) return 0;
-  let overlap = 0;
-  for (const token of left) if (right.has(token)) overlap += 1;
-  return overlap / (left.size + right.size - overlap);
-}
-
 function difficultyOf(row) {
   const value = text(row?.difficulty).toLowerCase();
   return DIFFICULTIES.includes(value) ? value : 'medium';
@@ -351,17 +394,29 @@ function difficultyOf(row) {
 
 function familyKeys(row) {
   const keys = [];
-  const family = row?.family_id || row?.template_id || row?.evidence?.record?.family_id;
+  const family = row?.family_id || row?.template_id || row?.evidence?.record?.family_id || row?.nta_index?.family_id;
   if (family) keys.push(`family:${family}`);
   if (row?.duplicate_group_id) keys.push(`dup:${row.duplicate_group_id}`);
   return keys;
 }
 
+// Children of one passage that ask the same thing are served once: the first in passage order stays.
+function distinctChildren(children) {
+  const kept = [];
+  let dropped = 0;
+  for (const child of children) {
+    if (kept.some((other) => conflictReason(child.features, other.features, { sameSet: true }))) dropped += 1;
+    else kept.push(child);
+  }
+  return { kept, dropped };
+}
+
 function prepareCandidates(rows, model, context) {
   const subject = model.bp.internalSubject;
+  const english = model.bp.subject === 'english';
   const seen = context.seenIds || new Set();
   const excludedReasons = {};
-  const count = (reason) => { excludedReasons[reason] = (excludedReasons[reason] || 0) + 1; };
+  const count = (reason, n = 1) => { excludedReasons[reason] = (excludedReasons[reason] || 0) + n; };
   const items = [];
   const scores = [];
   for (const row of rows) {
@@ -375,17 +430,18 @@ function prepareCandidates(rows, model, context) {
     if (model.excluded.has(chapter)) { count('chapter_out_of_syllabus'); continue; }
     const slotIds = model.slotsByChapter.get(chapter) || [];
     if (!slotIds.length) { count('chapter_not_in_this_paper'); continue; }
-    const stem = getQuestionText(row);
+    const features = itemFeatures(row, { english });
     items.push({
       id: row.id, row, chapter, slotIds,
-      type: classifyNtaType(row, subject, model.allowedTypes),
+      type: verdict.type,
       difficulty: difficultyOf(row),
+      numerical: isNumericalItem(row),
       seen: seen.has(row.id),
       score: verdict.score,
       rank: jitter(context.seed, row.id),
       families: familyKeys(row),
-      stemKey: stem.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim(),
-      tokens: stemTokens(stem),
+      features,
+      objective: features.objective,
       setKey: getPassageKey(row) || null,
       order: Number(row.order_index ?? row.orderIndex ?? 0) || 0,
     });
@@ -399,15 +455,23 @@ function prepareCandidates(rows, model, context) {
   }
 
   const sets = [];
+  const words = model.sets.passageWords;
   for (const [key, children] of groups) {
     const chapters = new Set(children.map((child) => child.chapter));
-    if (chapters.size !== 1) { for (const _ of children) count('passage_set_spans_chapters'); continue; }
-    if (!model.sets.enabled || children.length < model.sets.size.min) {
-      for (const _ of children) count(model.sets.enabled ? 'passage_set_too_small' : 'passage_set_not_in_this_paper');
+    if (chapters.size !== 1) { count('passage_set_spans_chapters', children.length); continue; }
+    if (!model.sets.enabled) { count('passage_set_not_in_this_paper', children.length); continue; }
+    // The syllabus fixes the passage length (English: at most 300 words; the blueprint's range).
+    const length = passageWordCount(children[0].row);
+    if (words && (length < words.min || length > words.max)) {
+      count(length < words.min ? 'passage_too_short' : 'passage_too_long', children.length);
       continue;
     }
+    const inOrder = children.slice().sort((a, b) => a.order - b.order || String(a.id).localeCompare(String(b.id)));
+    const { kept, dropped } = distinctChildren(inOrder);
+    if (dropped) count('passage_child_repeats_another', dropped);
+    if (kept.length < model.sets.size.min) { count('passage_set_too_small', kept.length); continue; }
     // A long set is served with its best-ranked children, in the passage's own order.
-    const ordered = children.slice().sort((a, b) => Number(a.seen) - Number(b.seen) || a.rank - b.rank);
+    const ordered = kept.slice().sort((a, b) => Number(a.seen) - Number(b.seen) || a.rank - b.rank);
     const chosen = ordered.slice(0, model.sets.size.max).sort((a, b) => a.order - b.order || String(a.id).localeCompare(String(b.id)));
     const passage = getPassageText(chosen[0].row);
     sets.push({
@@ -415,6 +479,7 @@ function prepareCandidates(rows, model, context) {
       size: chosen.length, seen: chosen.some((child) => child.seen), rank: jitter(context.seed, key),
       passageKey: passage.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim().slice(0, 200),
       families: [...new Set(chosen.flatMap((child) => child.families))],
+      words: length,
     });
   }
   return { standalone, sets, excludedReasons, scoredCount: scores.length, eligibleCount: items.length };
@@ -457,6 +522,13 @@ function difficultyLimits(model, total) {
   return limits;
 }
 
+// The blueprint's numerical share as question counts: min rounded up, max rounded down.
+function numericalLimits(model) {
+  const range = model.numerical;
+  if (!range) return null;
+  return { min: Math.ceil(range.min * model.total - 1e-9), target: Math.round(range.target * model.total), max: Math.floor(range.max * model.total + 1e-9) };
+}
+
 function limitsFor(model, level, setQuestions) {
   const standaloneTotal = model.total - setQuestions;
   return {
@@ -465,6 +537,7 @@ function limitsFor(model, level, setQuestions) {
     types: typeLimits(model, standaloneTotal),
     difficulty: difficultyLimits(model, model.total),
     difficultyFree: Boolean(level.difficultyFree),
+    numerical: numericalLimits(model),
   };
 }
 
@@ -480,6 +553,8 @@ function newState(model, pool) {
     section: new Array(model.sections.length).fill(0),
     type: {},
     difficulty: { easy: 0, medium: 0, hard: 0 },
+    numerical: 0,
+    objectives: new Map(), // learning-objective tag -> questions in the paper
     picks: [],          // { item, slotId }
     sets: [],           // { set, slotId }
     usedIds: new Set(),
@@ -489,17 +564,22 @@ function newState(model, pool) {
   };
 }
 
+// Same family, same text, same concept or figures, same headword: one of the two is enough.
 function conflictPair(a, b) {
   if (a.id === b.id) return false;
   if (a.families.some((key) => b.families.includes(key))) return true;
-  if (a.stemKey && a.stemKey === b.stemKey) return true;
-  return jaccard(a.tokens, b.tokens) >= NEAR_DUPLICATE_JACCARD;
+  return Boolean(conflictReason(a.features, b.features, { sameSet: Boolean(a.setKey && a.setKey === b.setKey) }));
+}
+
+// The standalone candidates one question conflicts with, computed once per question.
+function conflictsOf(state, item) {
+  if (!item.conflicts) item.conflicts = state.pool.filter((other) => conflictPair(item, other));
+  return item.conflicts;
 }
 
 // Picking a question blocks every candidate that would repeat it; removing it unblocks them.
 function markBlockers(state, item, sign) {
-  for (const other of state.pool) {
-    if (!conflictPair(item, other)) continue;
+  for (const other of conflictsOf(state, item)) {
     const next = (state.blockers.get(other.id) || 0) + sign;
     if (next > 0) state.blockers.set(other.id, next);
     else state.blockers.delete(other.id);
@@ -517,6 +597,8 @@ function applyDelta(model, state, entry, sign) {
   state.section[slot.sectionIndex] += sign * entry.items.length;
   for (const item of entry.items) {
     state.difficulty[item.difficulty] += sign;
+    if (item.numerical) state.numerical += sign;
+    if (item.objective) state.objectives.set(item.objective, (state.objectives.get(item.objective) || 0) + sign);
     if (item.type !== 'passage_set_item') state.type[item.type] = (state.type[item.type] || 0) + sign;
   }
 }
@@ -554,6 +636,8 @@ function canAdd(model, state, limits, item, slotId, sectionFree) {
   const typeLimit = limits.types[item.type];
   if (!typeLimit || (state.type[item.type] || 0) + 1 > typeLimit.max) return false;
   if (!limits.difficultyFree && state.difficulty[item.difficulty] + 1 > limits.difficulty[item.difficulty].max) return false;
+  if (item.numerical && limits.numerical && state.numerical + 1 > limits.numerical.max) return false;
+  if (item.objective && (state.objectives.get(item.objective) || 0) + 1 > objectiveCap(item.objective)) return false;
   return true;
 }
 
@@ -571,6 +655,10 @@ function gains(model, state, limits, item, slotId) {
   if (state.unit[slot.unitId] < limits.units[slot.unitId].target) targetGain += 1;
   if (typeCount < typeLimit.target) targetGain += 1.5;
   if (state.difficulty[item.difficulty] < limits.difficulty[item.difficulty].target) targetGain += 1;
+  if (item.numerical && limits.numerical) {
+    if (state.numerical < limits.numerical.min) minGain += 2;
+    if (state.numerical < limits.numerical.target) targetGain += 1;
+  }
   return { minGain, targetGain };
 }
 
@@ -599,6 +687,12 @@ function pickSets(model, state, sets, limits) {
       if (state.sets.length >= want) break;
       if (state.sets.some((entry) => entry.set === set)) continue;
       if (state.passageKeys.has(set.passageKey) || set.families.some((key) => state.families.has(key))) continue;
+      // A set never repeats a question already in the paper, inside another set or standalone.
+      if (set.children.some((child) => state.blockers.has(child.id))) continue;
+      if (state.sets.some((entry) => entry.set.children.some((picked) => set.children.some((child) => conflictPair(picked, child))))) continue;
+      const tags = new Map();
+      for (const child of set.children) if (child.objective) tags.set(child.objective, (tags.get(child.objective) || 0) + 1);
+      if ([...tags].some(([tag, n]) => (state.objectives.get(tag) || 0) + n > objectiveCap(tag))) continue;
       // First pass: a new passage kind until the paper has the distinct kinds it needs.
       const kinds = new Set(state.sets.map((entry) => entry.set.chapter));
       if (pass === 0 && kinds.size < kindsWanted && kinds.has(set.chapter)) continue;
@@ -645,6 +739,7 @@ function unmetMinimums(model, state, limits) {
   model.units.forEach((unit, id) => { if (state.unit[id] < limits.units[id].min) unmet.push({ kind: 'unit', id }); });
   for (const [type, range] of Object.entries(limits.types)) if ((state.type[type] || 0) < range.min) unmet.push({ kind: 'type', id: type });
   if (!limits.difficultyFree) for (const key of DIFFICULTIES) if (state.difficulty[key] < limits.difficulty[key].min) unmet.push({ kind: 'difficulty', id: key });
+  if (limits.numerical && state.numerical < limits.numerical.min) unmet.push({ kind: 'numerical', id: 'numerical' });
   return unmet;
 }
 
@@ -653,6 +748,7 @@ function servesDimension(model, dimension, item, slotId) {
   if (dimension.kind === 'slot') return slotId === dimension.id;
   if (dimension.kind === 'unit') return slot.unitId === dimension.id;
   if (dimension.kind === 'type') return item.type === dimension.id;
+  if (dimension.kind === 'numerical') return item.numerical;
   return item.difficulty === dimension.id;
 }
 
@@ -664,6 +760,7 @@ function removable(model, state, limits, pick, incoming, incomingSlot) {
   if (state.unit[slot.unitId] - 1 < limits.units[slot.unitId].min && slot.unitId !== inSlot.unitId) return false;
   if ((state.type[pick.item.type] || 0) - 1 < limits.types[pick.item.type].min && pick.item.type !== incoming.type) return false;
   if (!limits.difficultyFree && state.difficulty[pick.item.difficulty] - 1 < limits.difficulty[pick.item.difficulty].min && pick.item.difficulty !== incoming.difficulty) return false;
+  if (limits.numerical && pick.item.numerical && !incoming.numerical && state.numerical - 1 < limits.numerical.min) return false;
   return true;
 }
 
@@ -820,10 +917,12 @@ export function checkNtaPaper(paper, bp, variantId) {
     if (size !== section.size) add('section_size', section.id, section.size, size);
   }
 
-  // Duplicates.
+  // Duplicates: ids, families, and the same question in other words (passage children included).
   const ids = new Set();
   const families = new Set();
-  const stems = [];
+  const english = bp.subject === 'english';
+  const seenFeatures = [];
+  const objectives = new Map();
   for (const entry of paper) {
     if (ids.has(entry.id)) add('duplicate', entry.id, 'unique question', 'repeated', 'structure');
     ids.add(entry.id);
@@ -831,12 +930,15 @@ export function checkNtaPaper(paper, bp, variantId) {
       if (families.has(key) && entry.setIndex === null) add('duplicate', key, 'one question per family', 'repeated family', 'structure');
       families.add(key);
     }
-    if (entry.setIndex === null) {
-      const tokens = stemTokens(getQuestionText(entry.row));
-      if (stems.some((other) => jaccard(tokens, other) >= NEAR_DUPLICATE_JACCARD)) add('duplicate', entry.id, 'no near-duplicate stems', 'near-duplicate', 'structure');
-      stems.push(tokens);
+    const features = entry.item?.features || itemFeatures(entry.row, { english });
+    for (const other of seenFeatures) {
+      const reason = conflictReason(features, other.features, { sameSet: entry.setIndex !== null && entry.setIndex === other.setIndex });
+      if (reason) { add('duplicate', `${other.id}~${entry.id}`, 'each question tests something different', reason, 'structure'); break; }
     }
+    seenFeatures.push({ id: entry.id, features, setIndex: entry.setIndex });
+    if (features.objective) objectives.set(features.objective, (objectives.get(features.objective) || 0) + 1);
   }
+  for (const [tag, n] of objectives) if (n > objectiveCap(tag)) add('objective_repeated', tag, objectiveCap(tag), n, 'structure');
 
   // Sets: whole, contiguous, placed, sized.
   const setIndexes = [...new Set(paper.filter((entry) => entry.setIndex !== null).map((entry) => entry.setIndex))];
@@ -890,6 +992,14 @@ export function checkNtaPaper(paper, bp, variantId) {
     if (count < slot.min || count > slot.max) add('chapter', `${model.sections[slot.sectionIndex].id}:${slot.name}`, `${slot.min}-${slot.max}`, count);
   });
 
+  // Numerical share, where the pattern sets one.
+  const numericalRange = numericalLimits(model);
+  if (numericalRange) {
+    const numerical = paper.filter((entry) => entry.item?.numerical ?? isNumericalItem(entry.row)).length;
+    if (numerical > numericalRange.max) add('numerical_over', 'numerical', `${numericalRange.min}-${numericalRange.max}`, numerical, 'structure');
+    else if (numerical < numericalRange.min) add('numerical_short', 'numerical', `${numericalRange.min}-${numericalRange.max}`, numerical);
+  }
+
   // Difficulty mix of the whole paper.
   const difficulty = countBy(paper.map((entry) => entry.difficulty));
   for (const key of DIFFICULTIES) {
@@ -899,7 +1009,6 @@ export function checkNtaPaper(paper, bp, variantId) {
   }
 
   // Order: chapter and special-type runs inside the standalone block.
-  const english = bp.subject === 'english';
   const maxChapterRun = model.order?.maxSameChapterRun;
   const maxTypeRun = model.order?.maxSameTypeRun;
   let chapterRun = 0;
@@ -953,6 +1062,8 @@ function describe(deviations, model, paper, extras) {
     const target = DIFFICULTIES.map((key) => Math.round(model.difficulty[key].target * 100));
     lines.push(`Difficulty mix: ${counts.easy || 0} easy, ${counts.medium || 0} medium and ${counts.hard || 0} hard; the CUET pattern is about ${target[0]}% easy, ${target[1]}% medium and ${target[2]}% hard.`);
   }
+  const numericalShort = deviations.find((deviation) => deviation.kind === 'numerical_short');
+  if (numericalShort) lines.push(`Numerical questions: ${numericalShort.actual} instead of ${numericalShort.expected.replace('-', ' to ')}, because the bank is short of them.`);
   if (deviations.some((deviation) => deviation.kind === 'set_kinds')) lines.push('Both reading passages are of the same kind; the real paper mixes factual, narrative and literary passages.');
   if (deviations.some((deviation) => deviation.kind === 'order_chapter_run' || deviation.kind === 'order_type_run')) lines.push('A few questions of the same kind sit next to each other more often than in the real paper.');
   if (extras.paragraphJumbles) lines.push(`The ${extras.paragraphJumbles} rearrangement question${extras.paragraphJumbles === 1 ? ' orders' : 's order'} sentences of a paragraph; the real paper rearranges parts of one sentence.`);
@@ -967,7 +1078,7 @@ function refusal(model, reason, details) {
     no_scored_questions: details.scored
       ? `NTA mode is not ready for ${subject} yet: none of its questions has a quality score of ${details.minScore} or more out of 10. ${tryInstead}`
       : `NTA mode is not ready for ${subject} yet: its questions have not been quality-scored, and NTA mode uses only questions scoring ${details.minScore} or more out of 10. ${tryInstead}`,
-    no_passage_sets: `NTA mode for ${subject} needs ${model.sets.count.min} complete reading passages with ${model.sets.size.min} to ${model.sets.size.max} questions each, as in the real paper. The bank has ${details.sets} such passage${details.sets === 1 ? '' : 's'} that meet${details.sets === 1 ? 's' : ''} the quality bar right now. ${tryInstead}`,
+    no_passage_sets: `NTA mode for ${subject} needs ${model.sets.count.min} complete reading passages${model.sets.passageWords ? ` of ${model.sets.passageWords.min} to ${model.sets.passageWords.max} words` : ''} with ${model.sets.size.min} to ${model.sets.size.max} different questions each, as in the real paper. The bank has ${details.sets} such passage${details.sets === 1 ? '' : 's'} that meet${details.sets === 1 ? 's' : ''} the quality bar right now. ${tryInstead}`,
     too_few_questions: `NTA mode for ${subject} could place only ${details.total} of ${model.total} questions in the CUET pattern from questions that meet the quality bar, so it would not be a fair exam paper. ${tryInstead}`,
     time_budget: `Building the ${subject} paper took too long, so it was stopped. Please try again in a minute.`,
     engine_error: `The ${subject} paper could not be laid out correctly, so it was not started. Please try again; if it happens again, try a Full Mock for ${subject}.`,

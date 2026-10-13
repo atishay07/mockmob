@@ -7,7 +7,8 @@
 // For every NTA subject it builds three papers in a row for one simulated student (paper 2 treats
 // paper 1's questions as seen, paper 3 treats both as seen), with the same loader and engine the
 // website uses (data/nta_pool.js, data/nta_engine.js), and prints structure, deviations and timing.
-// It also counts what the pool would hold at other score thresholds.
+// It also counts what the pool would hold at other score thresholds, checks five fresh papers per
+// serving subject for repeated concepts, and times the slim read the index path would make.
 import fs from 'node:fs';
 import { createClient } from '@supabase/supabase-js';
 
@@ -22,7 +23,19 @@ process.env.CUET_EVIDENCE_SIGNING_KEY = env.CUET_EVIDENCE_SIGNING_KEY || '';
 
 const { CUET_PUBLIC_ALLOWED_SUBJECTS, toInternalSubjectId } = await import('../data/cuet_controls.js');
 const { NTA_MIN_SCORE, NTA_ENGINE_VERSION, NTA_MIN_SERVE_QUESTIONS, assembleNtaPaper, getNtaBlueprint, ntaEligibility } = await import('../data/nta_engine.js');
-const { buildNtaPaper, loadNtaPool, attachPassages, loadOpenDisputes, loadHeldFamilies } = await import('../data/nta_pool.js');
+const { buildNtaPaper, loadNtaPool, attachPassages, loadOpenDisputes, loadHeldFamilies, NTA_SLIM_COLUMNS } = await import('../data/nta_pool.js');
+const { contentTokens, jaccard, isNumericalItem, objectiveTagOf } = await import('../data/nta_item_checks.js');
+const { getQuestionText, normalizeOptions } = await import('../data/nta_question_selector.js');
+
+// Gates added by the 13 Oct review (data/nta_item_checks.js, quarantine, fail-closed scores).
+const REVIEW_GATES = new Set([
+  'options_repeated_in_stem', 'sequence_options_not_orderings_of_stem_items', 'match_list_two_missing', 'match_options_not_pairings',
+  'match_options_use_labels_not_in_stem', 'statement_options_use_labels_not_in_stem', 'stem_states_rule_for_this_question',
+  'stem_cites_unstated_condition', 'stem_cites_source_text', 'stem_defines_what_is_tested', 'stem_hedges_options', 'stem_refers_to_options',
+  'sequence_order_given_in_stem', 'sequence_order_narrated_in_stem', 'sequence_of_study_material', 'explanation_cites_item_not_concept',
+  'nta_quarantined', 'score_needs_both_judges', 'blind_solver_key_missing', 'independent_solver_key_missing', 'score_unsigned',
+]);
+const fullText = (row) => contentTokens(`${getQuestionText(row)} ${normalizeOptions(row.options, row).map((option) => option.text).join(' ')}`);
 
 const outMd = process.argv[2] || 'docs/brain/NTA-ENGINE-RUN.md';
 const outJson = outMd.replace(/\.md$/, '.json').replace('docs/brain/', 'docs/brain/reports/');
@@ -36,7 +49,7 @@ for (const subject of CUET_PUBLIC_ALLOWED_SUBJECTS) {
   const papers = [];
   const seen = new Set();
   for (let i = 1; i <= 3; i += 1) {
-    const result = await buildNtaPaper(db, internal, { seenIds: new Set(seen), seed: `engine-run-${subject}-${i}` });
+    const result = await buildNtaPaper(db, internal, { seenIds: new Set(seen), seed: `engine-run-${subject}-${i}`, cache: false });
     for (const entry of result.paper) seen.add(entry.id);
     papers.push({
       paper: i,
@@ -49,13 +62,61 @@ for (const subject of CUET_PUBLIC_ALLOWED_SUBJECTS) {
       pool: result.pool,
       timings: result.timings,
       order: result.paper.map((entry) => ({ q: entry.position, section: entry.sectionIndex, type: entry.type, chapter: entry.chapter, difficulty: entry.difficulty, set: entry.setIndex, seen: entry.item.seen })),
+      numerical: result.paper.filter((entry) => isNumericalItem(entry.row)).length,
     });
   }
+  // The same paper again from the in-memory pool cache, as a second student start would get it.
+  const warm = await buildNtaPaper(db, internal, { seenIds: new Set(), seed: `engine-run-${subject}-warm` });
+  const cachedStart = await buildNtaPaper(db, internal, { seenIds: new Set(), seed: `engine-run-${subject}-cached` });
+  const cachedMs = cachedStart.timings.endToEndMs;
+  void warm;
 
   // Thresholds: same pool and gates, different bar.
   const pool = await attachPassages(db, await loadNtaPool(db, internal));
   const disputedIds = await loadOpenDisputes(db);
   const heldFamilies = await loadHeldFamilies(db, pool);
+  // What the review gates removed: questions at the bar that pass the old gates but fail a new one.
+  const reviewGateCounts = {};
+  let atBarOldGates = 0;
+  let keptOut = 0;
+  for (const row of pool) {
+    const verdict = ntaEligibility(row, { subject: internal, disputedIds, heldFamilies });
+    if (verdict.score === null || verdict.score < NTA_MIN_SCORE) continue;
+    const others = verdict.reasons.filter((reason) => !REVIEW_GATES.has(reason));
+    if (others.length) continue;
+    atBarOldGates += 1;
+    if (verdict.reasons.length) keptOut += 1;
+    for (const reason of verdict.reasons) reviewGateCounts[reason] = (reviewGateCounts[reason] || 0) + 1;
+  }
+  // Five fresh papers (no seen questions): what is left of repeated concepts.
+  const fresh = [];
+  for (let i = 1; i <= 5; i += 1) {
+    const trial = assembleNtaPaper(pool, { subject, disputedIds, heldFamilies, seed: `fresh-${subject}-${i}` });
+    if (trial.status === 'refused') { fresh.push({ status: trial.status }); continue; }
+    const tokens = trial.paper.map((entry) => fullText(entry.row));
+    let near04 = 0;
+    let near05 = 0;
+    for (let a = 0; a < tokens.length; a += 1) for (let b = a + 1; b < tokens.length; b += 1) {
+      const score = jaccard(tokens[a], tokens[b]);
+      if (score >= 0.4) near04 += 1;
+      if (score >= 0.5) near05 += 1;
+    }
+    const tags = new Map();
+    for (const entry of trial.paper) { const tag = objectiveTagOf(entry.row); if (tag) tags.set(tag, (tags.get(tag) || 0) + 1); }
+    fresh.push({ status: trial.status, near04, near05, repeatedTags: [...tags.values()].filter((n) => n > 1).length,
+      duplicates: trial.deviations.filter((deviation) => deviation.kind === 'duplicate').length,
+      numerical: trial.paper.filter((entry) => isNumericalItem(entry.row)).length, types: trial.structure.types });
+  }
+  // The index path's read: the same questions without the evidence column (select only).
+  const slimStarted = Date.now();
+  let slimBytes = 0;
+  const ids = pool.map((row) => row.id);
+  for (let i = 0; i < ids.length; i += 300) {
+    const { data, error } = await db.from('questions').select(NTA_SLIM_COLUMNS).in('id', ids.slice(i, i + 300));
+    if (error) throw error;
+    slimBytes += Buffer.byteLength(JSON.stringify(data || []));
+  }
+  const slimRead = { ms: Date.now() - slimStarted, bytes: slimBytes, fullBytes: Buffer.byteLength(JSON.stringify(pool)), rows: ids.length };
   const thresholds = {};
   for (const minScore of [7, 7.5, 8, 8.5, 9]) {
     const eligible = pool.filter((row) => ntaEligibility(row, { subject: internal, minScore, disputedIds, heldFamilies }).eligible).length;
@@ -63,7 +124,7 @@ for (const subject of CUET_PUBLIC_ALLOWED_SUBJECTS) {
     thresholds[minScore] = { eligible, status: trial.status, questions: trial.paper.length, completeSets: trial.pool.completeSets };
   }
   const { count: liveCount } = await db.from('questions').select('id', { count: 'exact', head: true }).eq('subject', internal).eq('status', 'live').eq('is_deleted', false);
-  runs.push({ subject, internal, blueprintVersion: bp.blueprintVersion, kind: bp.kind, live: liveCount, loadedWithScoreSource: pool.length, papers, thresholds });
+  runs.push({ subject, internal, blueprintVersion: bp.blueprintVersion, kind: bp.kind, live: liveCount, loadedWithScoreSource: pool.length, papers, thresholds, reviewGateCounts, atBarOldGates, keptOut, fresh, slimRead, cachedMs });
   console.log(subject.padEnd(18), papers.map((p) => `${p.status}:${p.questions}:${p.timings.endToEndMs}ms`).join('  '));
 }
 
@@ -87,7 +148,42 @@ for (const run of runs) {
   lines.push(`| ${run.subject} | ${run.live} | ${p[0].pool.eligible} | ${label(p[0].status)} (${p[0].questions}) | ${label(p[1].status)} (${p[1].questions}) | ${label(p[2].status)} (${p[2].questions}) | ${ms(Math.max(...p.map((x) => x.timings.endToEndMs)))} | ${main.replace(/\|/g, '/')} |`);
 }
 lines.push('');
-lines.push('"Eligible at the bar" counts questions that pass every gate at the current bar: score, signed and unchanged score record, both blind solvers on the stored key, answer-key guard, content gate, publication, no open dispute, no family hold, chapter in the 2026 syllabus.');
+lines.push('"Eligible at the bar" counts questions that pass every gate at the current bar: score, signed and unchanged score record from both judges, both blind solvers on the stored key, answer-key guard, content gate, publication, no open dispute, no family hold, chapter in the 2026 syllabus, NTA quarantine, the structural gate (options fit the stem) and the wording gate (no rule stated, no option pointed at, no narrated order, no "the excerpt").');
+lines.push('');
+lines.push('## Review fixes: what each gate removed');
+lines.push('');
+lines.push('Questions at the bar that pass every earlier gate, and how many of them each review gate now keeps out (one question can fail several).');
+lines.push('');
+lines.push('| Subject | At the bar, old gates | Kept out by review gates | Reasons |');
+lines.push('|---|---:|---:|---|');
+for (const run of runs) {
+  if (!run.atBarOldGates) continue;
+  const reasons = Object.entries(run.reviewGateCounts).sort((a, b) => b[1] - a[1]).map(([reason, count]) => `${reason.replace(/_/g, ' ')} ${count}`).join('; ');
+  lines.push(`| ${run.subject} | ${run.atBarOldGates} | ${run.keptOut} | ${reasons || 'none'} |`);
+}
+lines.push('');
+lines.push('## Five fresh papers per subject');
+lines.push('');
+lines.push('No seen questions; seeds fresh-<subject>-1..5. "Text pairs" counts question pairs whose stem and options share at least 40% / 50% of their content words (the review measured these). "Repeated tags" counts learning objectives that appear twice. The engine refuses any paper its own duplicate check flags, so that column is a self-check.');
+lines.push('');
+lines.push('| Subject | Status | Text pairs >= 0.4 | Text pairs >= 0.5 | Repeated tags | Duplicates flagged | Numerical | Statement-based |');
+lines.push('|---|---|---|---|---|---|---|---|');
+for (const run of runs) {
+  if (run.fresh.every((paper) => paper.status === 'refused')) continue;
+  const cell = (key) => run.fresh.map((paper) => (paper.status === 'refused' ? '-' : paper[key])).join('/');
+  lines.push(`| ${run.subject} | ${run.fresh.map((paper) => paper.status).join('/')} | ${cell('near04')} | ${cell('near05')} | ${cell('repeatedTags')} | ${cell('duplicates')} | ${cell('numerical')} | ${run.fresh.map((paper) => paper.types?.statement_based ?? '-').join('/')} |`);
+}
+lines.push('');
+lines.push('## Pool read: full versus index');
+lines.push('');
+lines.push('The full read (used until supabase/migrations/20261013190000_nta_question_index.sql is applied and scripts/nta-index-build.mjs has run) carries each evidence record. The index path reads the signed slim index rows and the questions without evidence; this run times that question read directly (select only). "Cached start" is a second start of the same subject served from the in-memory pool cache (5 minutes).');
+lines.push('');
+lines.push('| Subject | Rows | Full payload | Slim payload | Slim read | Cached start end to end |');
+lines.push('|---|---:|---:|---:|---:|---:|');
+for (const run of runs) {
+  if (!run.slimRead.rows) continue;
+  lines.push(`| ${run.subject} | ${run.slimRead.rows} | ${(run.slimRead.fullBytes / 1e6).toFixed(2)} MB | ${(run.slimRead.bytes / 1e6).toFixed(2)} MB | ${ms(run.slimRead.ms)} | ${ms(run.cachedMs)} |`);
+}
 lines.push('');
 lines.push('## Other score bars (same gates)');
 lines.push('');
@@ -124,7 +220,7 @@ for (const run of runs) {
     lines.push('');
     lines.push(`Units: ${paper.structure.units.map((u) => `${u.section}:${u.unit} ${u.questions} (${u.range})`).join('; ')}.`);
     lines.push('');
-    lines.push(`Difficulty: ${['easy', 'medium', 'hard'].map((key) => `${key} ${paper.structure.difficulty[key] || 0}`).join(', ')}.`);
+    lines.push(`Difficulty: ${['easy', 'medium', 'hard'].map((key) => `${key} ${paper.structure.difficulty[key] || 0}`).join(', ')}. Numerical questions: ${paper.numerical}.`);
     lines.push('');
     lines.push(`Order: ${paper.order.map((o) => `${o.q}${o.set !== null ? `[S${o.set + 1}]` : ''}:${o.type.replace(/_.*/, '')}`).join(' ')}`);
     lines.push('');
