@@ -172,6 +172,8 @@ function TestRunner() {
   const autoSubmitTried = useRef(false);
   const [showVoteCoach, setShowVoteCoach] = useState(false);
   const [mobilePaletteOpen, setMobilePaletteOpen] = useState(false);
+  // The paper notice opens by default on wide screens only: on a phone it would push the first question below the fold.
+  const [noticeOpen, setNoticeOpen] = useState(() => typeof window === 'undefined' || window.matchMedia('(min-width: 1024px)').matches);
   const mobilePaletteTriggerRef = useRef(null);
   const mobilePaletteCloseRef = useRef(null);
   const mobilePaletteDialogRef = useRef(null);
@@ -283,12 +285,20 @@ function TestRunner() {
         const ends = receivedAt + (Number.isFinite(remainingMs) ? Math.max(0, remainingMs) : resolveRunnerDurationSec(mode, loadedQuestions) * 1000);
         startedRef.current = receivedAt - Math.max(0, serverNow - Date.parse(payload.startedAt));
         eventsRef.current = payload.events || [];
+        // A session resumed from the server (new device, cleared storage) has its saved events: every
+        // question the student visited or answered stays visited, so the palette does not show
+        // them as "Not visited". Marks for review are not saved on the server.
+        const restoredVisited = {};
+        for (const event of eventsRef.current) {
+          const at = loadedQuestions.findIndex((question) => question.id === event.qid);
+          if (at >= 0) Object.assign(restoredVisited, visitedForBlock(loadedQuestions, at));
+        }
         recordEvent(loadedQuestions[0].id, 'visit');
         setQuestions(loadedQuestions);
         const restoredAnswers = {};
-        for (const event of eventsRef.current) if (event.type === 'answer') restoredAnswers[event.qid] = event.answer;
+        for (const event of eventsRef.current) if (event.type === 'answer') { if (event.answer === null) delete restoredAnswers[event.qid]; else restoredAnswers[event.qid] = event.answer; }
         setAnswers(restoredAnswers);
-        setVisited(visitedForBlock(loadedQuestions, 0));
+        setVisited({ ...restoredVisited, ...visitedForBlock(loadedQuestions, 0) });
         setMarked({});
         setIdx(0);
         setEndsAt(ends);
@@ -312,7 +322,7 @@ function TestRunner() {
           setLoading(false);
           return;
         }
-        setError(e.message === 'INSUFFICIENT_VERIFIED_CONTENT' ? 'Verified questions are not ready for this selection yet. No credits were charged.' : e.message === 'INSUFFICIENT_PRACTICE_CONTENT' ? (isNtaMode ? 'An NTA mode paper needs 50 checked questions laid out like the real CUET paper, and this subject does not have enough yet. Try a full mock instead. No credits were charged.' : 'There are not enough questions for this selection. Try fewer questions or another chapter. No credits were charged.') : e.message === 'RECOVERY_MIGRATION_REQUIRED' ? 'Recovery content is being prepared. Return to Practice to use the existing question library.' : e.message || 'Failed to load questions');
+        setError(e.message === 'PREMIUM_REQUIRED' ? `${mode.label} is part of Pro. Upgrade to start it, or go back and pick another mode.` : e.message === 'INSUFFICIENT_VERIFIED_CONTENT' ? 'Verified questions are not ready for this selection yet. No credits were charged.' : e.message === 'INSUFFICIENT_PRACTICE_CONTENT' ? (isNtaMode ? 'An NTA mode paper needs 50 checked questions laid out like the real CUET paper, and this subject does not have enough yet. Try a full mock instead. No credits were charged.' : 'There are not enough questions for this selection. Try fewer questions or another chapter. No credits were charged.') : e.message === 'RECOVERY_MIGRATION_REQUIRED' ? 'Recovery content is being prepared. Return to Practice to use the existing question library.' : e.message || 'Failed to load questions');
         setLoading(false);
       }
     }
@@ -770,7 +780,7 @@ function TestRunner() {
         )}
 
         {isNtaMode && selectionMeta?.ntaPaper?.status === 'closest' && selectionMeta.ntaPaper.items?.length > 0 && (
-          <details className="nta-alert nta-paper-notice" open>
+          <details className="nta-alert nta-paper-notice" open={noticeOpen} onToggle={(event) => setNoticeOpen(event.currentTarget.open)}>
             <summary>
               <Icon name="alert" />
               <span>How this paper differs from the real CUET paper ({selectionMeta.ntaPaper.items.length})</span>
