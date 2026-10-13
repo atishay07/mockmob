@@ -270,6 +270,7 @@ function fakeDb(tables) {
     const query = {
       select() { calls.push(['select', table]); return query; },
       eq(column, value) { filters.push((row) => row[column] === value); return query; },
+      is(column, value) { filters.push((row) => (row[column] ?? null) === value); return query; },
       gt(column, value) { filters.push((row) => Number(row[column]) > value); return query; },
       in(column, values) { filters.push((row) => values.includes(row[column])); return query; },
       or() { filters.push((row) => row.evidence != null || Number(row.quality_score) > 0); return query; },

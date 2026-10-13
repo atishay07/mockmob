@@ -2,36 +2,4755 @@
   "note": "Agent scores for NTA mode (data/nta_agent_scores.js). Written by scripts/nta-pass-merge.mjs from two independent judges per question under docs/brain/NTA-AGENT-RUBRIC.md. A judge-dependent label, not evidence: it admits a question only while the table is calibrated, both judges are at or above the calibrated threshold, both blind answers equal the key, neither judge raised a blocking flag, and the question content still has the scored hash. Factory evidence, where present, always takes precedence.",
   "subject": "psychology",
   "rubric_version": "nta-agent-rubric-1",
-  "rubric_sha256": "834fa2b5ea19d2a77db224f4fd6db0f09203929bfc4d78d87517550824a0a19c",
-  "merged_at": null,
-  "models": [],
+  "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
+  "merged_at": "2026-10-13T14:15:20.538Z",
+  "models": [
+    "claude-haiku-5-5"
+  ],
   "calibration": {
-    "status": "pending",
-    "threshold": null,
+    "status": "calibrated",
+    "threshold": 7,
     "owner_bar": 8,
-    "model": null,
-    "date": null,
-    "source": null,
-    "measures": null,
-    "why": "no calibration decision at tmp\\nta-pass\\calibration.json"
+    "model": "claude-haiku-5-5",
+    "date": "2026-10-13",
+    "source": "tmp/nta-pass/CALIBRATION.md (calibration report) + orchestrator decision section",
+    "measures": {
+      "n": 100,
+      "haiku_mean": 6.38,
+      "factory_mean": 8.14,
+      "clean_item_offset": -1,
+      "clean_item_r": 0.5,
+      "judge_r": 0.76,
+      "judge_within1": 0.85,
+      "blind_key_match": 0.98,
+      "rules_on_calibration_set": {
+        "each>=7 clean": {
+          "pass": 47,
+          "factory>=8": 45,
+          "precision": 0.96,
+          "factory>=8.5": 28
+        },
+        "mean>=7.5 & each>=7 clean": {
+          "pass": 33,
+          "factory>=8": 32,
+          "precision": 0.97,
+          "factory>=8.5": 24
+        },
+        "each>=7.5 clean": {
+          "pass": 13,
+          "factory>=8": 12,
+          "precision": 0.92
+        }
+      }
+    }
   },
   "measures": {
-    "judged_by_both": 0,
+    "judged_by_both": 87,
     "judged_by_one": 0,
-    "score_mean_abs_diff": null,
-    "score_exact_agreement_pct": null,
-    "score_within_1_pct": null,
-    "score_pearson_r": null,
-    "key_both_match": 0,
+    "score_mean_abs_diff": 0.48,
+    "score_exact_agreement_pct": 60.9,
+    "score_within_1_pct": 92,
+    "score_pearson_r": 0.828,
+    "key_both_match": 85,
     "key_one_match": 0,
-    "key_none_match": 0,
-    "blind_answers_agree_pct": null,
-    "tag_agreement_pct": null,
-    "difficulty_agreement_pct": null,
-    "blocking_flagged": 0,
-    "flags": {},
-    "mean_of_means": null,
-    "admissible_before_row_checks": 0
+    "key_none_match": 2,
+    "blind_answers_agree_pct": 100,
+    "tag_agreement_pct": 29.9,
+    "difficulty_agreement_pct": 79.3,
+    "blocking_flagged": 13,
+    "flags": {
+      "answer_in_stem": 2,
+      "multiple_defensible": 6,
+      "doubtful_key": 5,
+      "broken_layout": 1,
+      "wrong_key": 1
+    },
+    "mean_of_means": 6.71,
+    "admissible_before_row_checks": 53
   },
-  "questions": {}
+  "questions": {
+    "5e5adec9-6f4d-4ac3-816f-542bda941869": {
+      "question_id": "5e5adec9-6f4d-4ac3-816f-542bda941869",
+      "batch": "psychology__attitude-and-social-cognition__01",
+      "chapter": "Attitude & Social Cognition",
+      "key": "A",
+      "content_hash": "dfc5d68b6287400f40705ee9efeec01f6cbf216b6010c830a7010919bdbda867",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.attitude-and-social-cognition.stereotype-as-overgeneralised-belief",
+          "flags": [],
+          "note": "Clean direct-recall definition. Distractors (prejudice, discrimination, schema) are each a different attitude or cognition term, so they are decent. Key A is correct."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.attitude-and-social-cognition.stereotype-definition",
+          "flags": [],
+          "note": "Clean direct-recall definition with a plausible distractor (schema). Fits an NTA mock as an easy item."
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.attitude-and-social-cognition.stereotype-as-overgeneralised-belief",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "958f8ee2-5df5-4297-8f57-82125dd64d71": {
+      "question_id": "958f8ee2-5df5-4297-8f57-82125dd64d71",
+      "batch": "psychology__attitude-and-social-cognition__01",
+      "chapter": "Attitude & Social Cognition",
+      "key": "C",
+      "content_hash": "ffe2dcecb95c6e145ce659192f9cf17f268d79ab0fa40ffda5c1a8d597eaea82",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.attitude-and-social-cognition.factors-affecting-attitude-change",
+          "flags": [],
+          "note": "Both statements are standard persuasion findings (expert source, two-sided messages). Key C holds. The 'both incorrect' option is a throwaway and the item is one-idea-per-statement, so it is below paper polish. Labelled hard, but it is medi"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.attitude-and-social-cognition.persuasion-source-and-message-factors",
+          "flags": [],
+          "note": "Both statements are standard persuasion findings, so the key holds, but Statement II rests on message-sidedness research beyond NCERT wording. Both-true structure weakens distractors. Labelled hard; medium is closer."
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.attitude-and-social-cognition.factors-affecting-attitude-change",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": "medium"
+      },
+      "key_dispute": false
+    },
+    "a5200d37-05ac-4c54-9354-9743d24172f7": {
+      "question_id": "a5200d37-05ac-4c54-9354-9743d24172f7",
+      "batch": "psychology__attitude-and-social-cognition__01",
+      "chapter": "Attitude & Social Cognition",
+      "key": "B",
+      "content_hash": "08b80f536152d6c015895cb8b0a143df4035bec1ccbfcaee8a81adc2d0fb98e2",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 5,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.attitude-and-social-cognition.cognitive-dissonance-attitude-behaviour-conflict",
+          "flags": [
+            "answer_in_stem"
+          ],
+          "note": "Stem names 'Cognitive Dissonance Theory' and asks for the state it describes, so the key's wording is in the stem; the item is recall only. Key B is correct. Labelled medium, judged easy."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 5,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.attitude-and-social-cognition.cognitive-dissonance-theory",
+          "flags": [
+            "answer_in_stem"
+          ],
+          "note": "Stem names Festinger's Cognitive Dissonance Theory and the key is 'Cognitive dissonance', so the theory name gives the answer. Case itself is a good application scenario; distractors are reasonable."
+        }
+      ],
+      "mean": 5,
+      "min": 5,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [
+        "answer_in_stem"
+      ],
+      "blocking": true,
+      "unknown_flags": [],
+      "objective_tag": "psychology.attitude-and-social-cognition.cognitive-dissonance-attitude-behaviour-conflict",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "ba5a53a9-bfae-497f-b4fe-99a1643eb373": {
+      "question_id": "ba5a53a9-bfae-497f-b4fe-99a1643eb373",
+      "batch": "psychology__attitude-and-social-cognition__01",
+      "chapter": "Attitude & Social Cognition",
+      "key": "D",
+      "content_hash": "c49956b56c4361dfaf160157a8adbbafe40954eb615d06b52866df68311c4c65",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.attitude-and-social-cognition.halo-effect-in-person-judgment",
+          "flags": [],
+          "note": "Clear case application of the halo effect. Primacy and recency are order effects a student can eliminate, but fundamental attribution error is a real competitor. Key D is correct."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.attitude-and-social-cognition.halo-effect-impression-bias",
+          "flags": [],
+          "note": "Short case applied to a named bias, with reasonable distractors (primacy, recency, fundamental attribution error). Clean and in scope."
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.attitude-and-social-cognition.halo-effect-in-person-judgment",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "dd4ba16c-6c90-4885-bce6-b73a15134f99": {
+      "question_id": "dd4ba16c-6c90-4885-bce6-b73a15134f99",
+      "batch": "psychology__attitude-and-social-cognition__01",
+      "chapter": "Attitude & Social Cognition",
+      "key": "A",
+      "content_hash": "8cbc2a61a7ac68564e78b247097c0936f7d76d6dd35983e9d7e8bfc53b646b75",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.attitude-and-social-cognition.origins-of-prejudice-through-learning",
+          "flags": [],
+          "note": "Option D is wrong: prejudice is the affective component, while stereotype is the cognitive one. B and C are clearly false, so A is the only correct option and the item is easy to eliminate."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.attitude-and-social-cognition.prejudice-learning-mechanisms",
+          "flags": [],
+          "note": "Key A holds. Option D is arguable because stereotypes are the cognitive part, but prejudice is usually the affective part, so it is a defensible distractor. Option A is the longest, a mild test-wise cue."
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.attitude-and-social-cognition.origins-of-prejudice-through-learning",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "e58c1fc0-92b1-4aa5-aecc-f15286183c8a": {
+      "question_id": "e58c1fc0-92b1-4aa5-aecc-f15286183c8a",
+      "batch": "psychology__attitude-and-social-cognition__01",
+      "chapter": "Attitude & Social Cognition",
+      "key": "C",
+      "content_hash": "4caca818e6c93667e620391b882a520f4e4f35cb55f2e810709a3814a7e3440c",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.attitude-and-social-cognition.social-cognition-as-umbrella-term",
+          "flags": [],
+          "note": "Impression formation and attribution are sub-processes, and the stem's 'collectively known as' points to the umbrella term, so C is correct. Plain definitional stem with a real near-competitor, slightly textbook in style."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.attitude-and-social-cognition.social-cognition-definition",
+          "flags": [],
+          "note": "Umbrella term question. Attribution and impression formation are sub-processes, so they are plausible but wrong distractors. Clean direct recall."
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.attitude-and-social-cognition.social-cognition-as-umbrella-term",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "faa63656-efd0-4fa3-ac89-d8b2790e7196": {
+      "question_id": "faa63656-efd0-4fa3-ac89-d8b2790e7196",
+      "batch": "psychology__attitude-and-social-cognition__01",
+      "chapter": "Attitude & Social Cognition",
+      "key": "B",
+      "content_hash": "5ef1ba0fcb8be54fdd83bbb8f5fe0465836bd597f460f9d631e424a8249f71ce",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.attitude-and-social-cognition.fundamental-attribution-error-definition",
+          "flags": [],
+          "note": "Clean direct-recall item. Actor-observer effect is a credible distractor, but the stem's 'others' behaviour' describes the fundamental attribution error. Key B is correct."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.attitude-and-social-cognition.fundamental-attribution-error",
+          "flags": [],
+          "note": "Direct definition of the named bias. Actor-observer effect is a sound near-distractor. Labelled medium; easy is the closer level for a definition recall."
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.attitude-and-social-cognition.fundamental-attribution-error-definition",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": "easy"
+      },
+      "key_dispute": false
+    },
+    "fc5d8112-7735-4469-9843-9459d5baa843": {
+      "question_id": "fc5d8112-7735-4469-9843-9459d5baa843",
+      "batch": "psychology__attitude-and-social-cognition__01",
+      "chapter": "Attitude & Social Cognition",
+      "key": "A",
+      "content_hash": "37f93de6c228648f4f23a13e1887707602da67f7e0ef89b06b3c82324b1c406c",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.attitude-and-social-cognition.attitude-as-evaluative-state",
+          "flags": [],
+          "note": "Standard definition with a long, wordy stem. Schema and cognition are obviously off, so only belief is a real competitor. Key A is correct."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.attitude-and-social-cognition.attitude-as-evaluative-state",
+          "flags": [],
+          "note": "Standard NCERT definition of attitude. Belief is a plausible distractor since it lacks the evaluative feature. Clean and in scope."
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.attitude-and-social-cognition.attitude-as-evaluative-state",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "0a2058de-669b-48c6-9539-928fda8b914f": {
+      "question_id": "0a2058de-669b-48c6-9539-928fda8b914f",
+      "batch": "psychology__developing-psychological-skills__01",
+      "chapter": "Developing Psychological Skills",
+      "key": "A",
+      "content_hash": "fe2d3d3163bb8668771e149a95e71c5c377e6ea415fd6ba78c59b2fabd42b034",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.developing-psychological-skills.general-vs-specific-skills",
+          "flags": [],
+          "note": "Correct key. Three distractors are general skills against one technical skill, so the answer falls by elimination. Practice-grade."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.developing-psychological-skills.specific-vs-general-skills",
+          "flags": [],
+          "note": "Correct and clean. Distractors are general skills, which is the right contrast, though the set is a little predictable."
+        }
+      ],
+      "mean": 7,
+      "min": 6,
+      "spread": 2,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.developing-psychological-skills.general-vs-specific-skills",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "128b93ce-c03c-478d-9fc0-921b361e230a": {
+      "question_id": "128b93ce-c03c-478d-9fc0-921b361e230a",
+      "batch": "psychology__developing-psychological-skills__01",
+      "chapter": "Developing Psychological Skills",
+      "key": "D",
+      "content_hash": "81c402c226cd0b6d2dccd29daf1cd7c817a21a23441b927776551833c7fccc5d",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.developing-psychological-skills.attending-behaviour-non-verbal-cues",
+          "flags": [],
+          "note": "Clean direct-recall term. Distractors are reasonable foils; Distracted listening is a good near-miss."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.developing-psychological-skills.attending-behaviour",
+          "flags": [],
+          "note": "Direct recall of the term for non-verbal listening cues. Sympathetic gestures is a fair distractor; aggressive posture is a throwaway."
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.developing-psychological-skills.attending-behaviour-non-verbal-cues",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "27e6b360-96f8-4ac7-95ad-b46230eb4b6a": {
+      "question_id": "27e6b360-96f8-4ac7-95ad-b46230eb4b6a",
+      "batch": "psychology__developing-psychological-skills__01",
+      "chapter": "Developing Psychological Skills",
+      "key": "B",
+      "content_hash": "b8ea8a62a3da894ece24f61651de7e0633e51c66c5540cfdd6bb08745a7fc931",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.developing-psychological-skills.quasi-experimental-design-selection",
+          "flags": [],
+          "note": "Key correct. Chapter fit is weak (research design, not developing skills). Stem's 'cannot randomly assign' eliminates C, and option D is ruled out by 'impact', so it is easy to reach. Label easy vs check medium, one level off."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.developing-psychological-skills.quasi-experimental-design",
+          "flags": [],
+          "note": "Key B is correct: no random assignment points to quasi-experimental. Explanation is null. Design topic sits in research methods more than this chapter. Labelled easy but needs a design distinction."
+        }
+      ],
+      "mean": 6.5,
+      "min": 6,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.developing-psychological-skills.quasi-experimental-design-selection",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": "medium"
+      },
+      "key_dispute": false
+    },
+    "2dee1da4-b97d-48db-b4fa-fb7e7155babd": {
+      "question_id": "2dee1da4-b97d-48db-b4fa-fb7e7155babd",
+      "batch": "psychology__developing-psychological-skills__01",
+      "chapter": "Developing Psychological Skills",
+      "key": "A",
+      "content_hash": "bfaf41dbaeb081e7acdbaf4e609cf60955ed85181325e0e737166e8baa5e7f62",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.developing-psychological-skills.active-listening-components",
+          "flags": [],
+          "note": "Correct. The three distractors (advice, debating, interrupting) are obviously non-listening behaviours, so the item falls by elimination."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.developing-psychological-skills.active-listening-core-skill",
+          "flags": [],
+          "note": "Correct, but the other three options are obviously wrong, so the answer falls out by elimination."
+        }
+      ],
+      "mean": 6,
+      "min": 6,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.developing-psychological-skills.active-listening-components",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "6ca4f143-9800-431e-b101-c910a58fac15": {
+      "question_id": "6ca4f143-9800-431e-b101-c910a58fac15",
+      "batch": "psychology__developing-psychological-skills__01",
+      "chapter": "Developing Psychological Skills",
+      "key": "A",
+      "content_hash": "69f177814c0909652f576a52ffd2d01544567e8fb568a9d8a74dd936b8be2830",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.developing-psychological-skills.self-awareness-bias-in-practice",
+          "flags": [],
+          "note": "Correct and clean. Distractors B and C are weak; D is plausible-sounding but wrong. Usable at factory-floor level."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.developing-psychological-skills.self-awareness-and-bias",
+          "flags": [],
+          "note": "Correct and clean. Options B and C are obvious, and D (professional distance) is the only tempting distractor."
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.developing-psychological-skills.self-awareness-bias-in-practice",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "710c365c-517e-4e8c-83ea-48f26a8e83ef": {
+      "question_id": "710c365c-517e-4e8c-83ea-48f26a8e83ef",
+      "batch": "psychology__developing-psychological-skills__01",
+      "chapter": "Developing Psychological Skills",
+      "key": "C",
+      "content_hash": "638fac0eab0a179808aa0c392a91afb81e635cc07105768976b7222cff702e4f",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.developing-psychological-skills.active-listening-components",
+          "flags": [],
+          "note": "NOT-form item with key C correct. Options A, B and D are plainly active-listening behaviours, so C stands out as the only odd one. Same idea as the fundamental-component item, same tag."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.developing-psychological-skills.components-of-active-listening",
+          "flags": [],
+          "note": "NOT-question with a correct key. Interrupting for solutions is clearly the barrier; the other three are standard active-listening components."
+        }
+      ],
+      "mean": 6.5,
+      "min": 6,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.developing-psychological-skills.active-listening-components",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "747568fc-8bf4-4d72-9184-6e4a9b04ee9b": {
+      "question_id": "747568fc-8bf4-4d72-9184-6e4a9b04ee9b",
+      "batch": "psychology__developing-psychological-skills__01",
+      "chapter": "Developing Psychological Skills",
+      "key": "C",
+      "content_hash": "edf99def9bc99b89eed812fcf0797d92fd887ec62c0ceb9d650cb5ce1036e878",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.developing-psychological-skills.open-ended-questions-to-elicit-elaboration",
+          "flags": [],
+          "note": "Key correct. Stem signposts with 'detailed descriptions' and 'without leading them', so leading and closed options fall away. Wordy stem costs a point."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.developing-psychological-skills.open-ended-questioning-elicits-elaboration",
+          "flags": [],
+          "note": "Correct. Stem phrase 'without leading them' narrows the choice a little, so score is down a point. Explanation is wordy for CUET style."
+        }
+      ],
+      "mean": 6.5,
+      "min": 6,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.developing-psychological-skills.open-ended-questions-to-elicit-elaboration",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "7a843176-9df0-40d9-b31d-3fb7fe2090eb": {
+      "question_id": "7a843176-9df0-40d9-b31d-3fb7fe2090eb",
+      "batch": "psychology__developing-psychological-skills__01",
+      "chapter": "Developing Psychological Skills",
+      "key": "A",
+      "content_hash": "1f8e71a8e2c4f90ed7339e2fecf0b6cbe007004c35ec1399c555acb7d7ea5460",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.developing-psychological-skills.confidentiality-exceptions-duty-to-protect",
+          "flags": [],
+          "note": "Key correct and explanation consistent. Options B, C and D are weak foils that fall to elimination, and the stem is wordy. Usable but practice-grade."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.developing-psychological-skills.confidentiality-exception-duty-to-protect",
+          "flags": [],
+          "note": "Correct, but B, C and D are plainly not exceptions, so it is answerable by elimination. Option A omits the imminence the explanation relies on."
+        }
+      ],
+      "mean": 6,
+      "min": 6,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.developing-psychological-skills.confidentiality-exceptions-duty-to-protect",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "easy"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "b77dce90-5d50-4885-bcf5-e77d2c3a7d9b": {
+      "question_id": "b77dce90-5d50-4885-bcf5-e77d2c3a7d9b",
+      "batch": "psychology__developing-psychological-skills__01",
+      "chapter": "Developing Psychological Skills",
+      "key": "D",
+      "content_hash": "5cbe02f89e00c02b456774656e73b74b25e7466f65398bdea807bfff1de65b41",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.developing-psychological-skills.unconditional-positive-regard-meaning",
+          "flags": [],
+          "note": "Correct and unambiguous. Distractors A, B and C are common student misconceptions, a good set for a recall item."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.developing-psychological-skills.unconditional-positive-regard",
+          "flags": [],
+          "note": "Clean Rogers recall. Agreeing with everything is a fair distractor; the feeling-sorry option is weak."
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.developing-psychological-skills.unconditional-positive-regard-meaning",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "c59f3484-e7b5-44e6-8ee0-8d9c582edefc": {
+      "question_id": "c59f3484-e7b5-44e6-8ee0-8d9c582edefc",
+      "batch": "psychology__developing-psychological-skills__01",
+      "chapter": "Developing Psychological Skills",
+      "key": "B",
+      "content_hash": "c7f750c3653e3131ec265923c0839941d42a6d33be422b47ddeca58d66abfa8a",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.developing-psychological-skills.reflecting-feelings-as-listening-skill",
+          "flags": [],
+          "note": "Key correct. Stem repeats the word 'feeling' that option B uses, a signpost costing one point. Label medium vs check easy: the item is recognition of a named skill."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.developing-psychological-skills.reflecting-feelings-as-listening-skill",
+          "flags": [],
+          "note": "Correct. Three of four distractors (advice, diagnosis, challenge) are clearly off-task, so the distractor set is weak."
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.developing-psychological-skills.reflecting-feelings-as-listening-skill",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "e0bbe7a2-9e28-412a-ab33-577f20cb620d": {
+      "question_id": "e0bbe7a2-9e28-412a-ab33-577f20cb620d",
+      "batch": "psychology__developing-psychological-skills__01",
+      "chapter": "Developing Psychological Skills",
+      "key": "A",
+      "content_hash": "d9e90d337236cdd88ce751e8e24be01656d89acbd401f549bf3661ef724024b1",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.developing-psychological-skills.confidentiality-as-ethical-principle",
+          "flags": [],
+          "note": "Correct definition-to-term item. Distractors beneficence, integrity and justice are real ethics principles, good foils."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.developing-psychological-skills.confidentiality-as-ethical-principle",
+          "flags": [],
+          "note": "Definition-to-term recall with plausible ethics-principle distractors (beneficence, integrity, justice). Clean."
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.developing-psychological-skills.confidentiality-as-ethical-principle",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "f42ae264-c997-42a9-8537-807b525a9029": {
+      "question_id": "f42ae264-c997-42a9-8537-807b525a9029",
+      "batch": "psychology__developing-psychological-skills__01",
+      "chapter": "Developing Psychological Skills",
+      "key": "C",
+      "content_hash": "61f5b71875e4c5437e3ce66aa6eb27c4ce5512b48fd71c24d0bf41388ddf671d",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.developing-psychological-skills.open-ended-questions-to-elicit-elaboration",
+          "flags": [],
+          "note": "Key correct. The stem's example 'Can you tell me more' points straight at elaboration, and the other three options are absurd, so it is answered by elimination."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.developing-psychological-skills.open-ended-questioning-elicits-elaboration",
+          "flags": [],
+          "note": "Correct. The stem example makes the purpose obvious, and the other three options are plainly absurd, so it is answerable by elimination."
+        }
+      ],
+      "mean": 6,
+      "min": 6,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.developing-psychological-skills.open-ended-questions-to-elicit-elaboration",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "0bb53666-1adc-4f2d-95ce-d482d11f1939": {
+      "question_id": "0bb53666-1adc-4f2d-95ce-d482d11f1939",
+      "batch": "psychology__meeting-life-challenges__01",
+      "chapter": "Meeting Life Challenges",
+      "key": "A",
+      "content_hash": "d6bf82d4cef6843c7648b1940543b1f6c41d2ca3e806b44034a390bbc36316b9",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.meeting-life-challenges.primary-appraisal-threat-vs-challenge",
+          "flags": [],
+          "note": "Key correct and clean. Stem signposts the answer (opportunity rather than threat maps directly to primary appraisal), so one point lower. Reappraisal is a plausible distractor."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.meeting-life-challenges.primary-appraisal-challenge-vs-threat",
+          "flags": [],
+          "note": "Correct and clean recall. Stem paraphrases the primary appraisal definition (threat vs challenge), so it is near-signposted; Reappraisal is a plausible distractor. Difficulty is easy, not medium."
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.meeting-life-challenges.primary-appraisal-threat-vs-challenge",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "easy"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "25c88815-9bae-4fc0-a31c-cf6adce8745c": {
+      "question_id": "25c88815-9bae-4fc0-a31c-cf6adce8745c",
+      "batch": "psychology__meeting-life-challenges__01",
+      "chapter": "Meeting Life Challenges",
+      "key": "B",
+      "content_hash": "967b8e682c4c0f8dcc1ef793a2af315a8d49a8ae73102b68512e59aff08400e7",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.meeting-life-challenges.secondary-appraisal-of-resources",
+          "flags": [],
+          "note": "Key correct. Stem wording (financial buffer and skill set) echoes option B's word resources, a mild clue. Options C and D are weak distractors."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.meeting-life-challenges.secondary-appraisal-of-resources",
+          "flags": [],
+          "note": "Correct. Two distractors (avoidance, maladaptive behavioural coping) are obviously wrong; primary appraisal is the only real confuser. Practice-grade item."
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.meeting-life-challenges.secondary-appraisal-of-resources",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "easy"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "293917c3-9301-4e51-88a4-5e65fe7de923": {
+      "question_id": "293917c3-9301-4e51-88a4-5e65fe7de923",
+      "batch": "psychology__meeting-life-challenges__01",
+      "chapter": "Meeting Life Challenges",
+      "key": "C",
+      "content_hash": "b6de83be254135701fc4b4a8d05e7696230633b6487af1c0d8e9b86cada23606",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.meeting-life-challenges.gas-exhaustion-stage",
+          "flags": [],
+          "note": "Correct GAS stage, explanation accurate. Long stem with a fair scenario; Adaptation Stage is a usable distractor since it is not a Selye stage name."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.meeting-life-challenges.gas-exhaustion-stage",
+          "flags": [],
+          "note": "Correct. All four options are real GAS stage names, so distractors are good. Stem is wordy but does not give the answer; it narrates symptoms the student must map to the stage."
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.meeting-life-challenges.gas-exhaustion-stage",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "4c762946-544b-455a-a99d-c09f3a4fce61": {
+      "question_id": "4c762946-544b-455a-a99d-c09f3a4fce61",
+      "batch": "psychology__meeting-life-challenges__01",
+      "chapter": "Meeting Life Challenges",
+      "key": "C",
+      "content_hash": "7d3d7aa54fb803087cf25d6ba3c9434da452870b511990a50632d50f917aac4d",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.meeting-life-challenges.coping-strategy-classification",
+          "flags": [],
+          "note": "Clean classification item. Direct action on the source of stress is clearly problem-focused. Avoidance and social support are weaker distractors."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.meeting-life-challenges.problem-focused-coping",
+          "flags": [],
+          "note": "Correct. Stem lists only direct problem-directed actions, so it nearly names the answer. Avoidance and social support are clearly wrong distractors. Difficulty is easy, not medium."
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.meeting-life-challenges.coping-strategy-classification",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "easy"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "590d0f2f-32b3-45aa-82da-13ac06c640d2": {
+      "question_id": "590d0f2f-32b3-45aa-82da-13ac06c640d2",
+      "batch": "psychology__meeting-life-challenges__01",
+      "chapter": "Meeting Life Challenges",
+      "key": "A",
+      "content_hash": "1b7a3a45dcfde03e31440f0fc358222fe49e851573418c4e7dae75644bb22efd",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.meeting-life-challenges.stress-and-immune-function",
+          "flags": [],
+          "note": "Standard assertion-reason; both statements true and the cortisol mechanism explains the assertion. Explanation is null. Labelled hard but is a one-step recall, so medium."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.meeting-life-challenges.chronic-stress-immune-suppression",
+          "flags": [],
+          "note": "Correct; the reason explains the assertion (cortisol mechanism). Clean assertion-reason with a real A-vs-B trap. Explanation is null and label hard is one level high."
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.meeting-life-challenges.stress-and-immune-function",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": "medium"
+      },
+      "key_dispute": false
+    },
+    "c4fae9a1-0529-4901-80fc-68ab92486be4": {
+      "question_id": "c4fae9a1-0529-4901-80fc-68ab92486be4",
+      "batch": "psychology__meeting-life-challenges__01",
+      "chapter": "Meeting Life Challenges",
+      "key": "A",
+      "content_hash": "627b44c299b6640363296ec6eaf4ba6ce39a7d8d1b1458d4be37008b5abdf27c",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.meeting-life-challenges.eustress-vs-distress",
+          "flags": [],
+          "note": "Key correct. Key is the only option with a qualifying clause and is the longest, a cue; stem achievement wording also points to positive. Other options are weak."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.meeting-life-challenges.eustress-positive-stress",
+          "flags": [],
+          "note": "Correct but practice-grade. Key is the only option with a positive rationale and is longest, so it is obvious by elimination; D and B are strawmen. Explanation is null."
+        }
+      ],
+      "mean": 6.5,
+      "min": 6,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.meeting-life-challenges.eustress-vs-distress",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "dd3b7dc4-1186-40d0-a6e8-da0887915e54": {
+      "question_id": "dd3b7dc4-1186-40d0-a6e8-da0887915e54",
+      "batch": "psychology__meeting-life-challenges__01",
+      "chapter": "Meeting Life Challenges",
+      "key": "B",
+      "content_hash": "a4f7314a1d78ba7e2cd2e66df1c5f7dc225f686d8842637378535e8111132f23",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.meeting-life-challenges.coping-strategy-classification",
+          "flags": [],
+          "note": "Key correct. Stem phrase manage the distress nearly names the emotion-focused category, so one point lower. Appraisal-focused distractor is weak."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.meeting-life-challenges.emotion-focused-coping",
+          "flags": [],
+          "note": "Correct. Stem says the student acts to manage distress, which echoes the emotion-focused definition and narrows the choice. Task-oriented and avoidance distractors are reasonable."
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.meeting-life-challenges.coping-strategy-classification",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "f0d4bdb4-dc9d-41d4-b2e6-ef32adf711c1": {
+      "question_id": "f0d4bdb4-dc9d-41d4-b2e6-ef32adf711c1",
+      "batch": "psychology__meeting-life-challenges__01",
+      "chapter": "Meeting Life Challenges",
+      "key": "A",
+      "content_hash": "827fe9213cb2cd9ed3d4662ca0303879ed123c54ad479e25ce167ed6cb0aa232",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.meeting-life-challenges.stress-as-overarching-term",
+          "flags": [],
+          "note": "Correct definition-to-term recall; Stress is the overarching term and the stem does not say negative. Eustress and Distress are plausible confusions. Strain is weaker."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.meeting-life-challenges.stress-definition-umbrella-term",
+          "flags": [],
+          "note": "Key Stress is defensible as the umbrella term. Distress is a close alternative since the stem says demands are taxing, and the generic answer is a giveaway. Not flagged; scored down for the ambiguity."
+        }
+      ],
+      "mean": 7,
+      "min": 6,
+      "spread": 2,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.meeting-life-challenges.stress-as-overarching-term",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "945d9bf0-9a96-4668-a339-726d29d7ff2b": {
+      "question_id": "945d9bf0-9a96-4668-a339-726d29d7ff2b",
+      "batch": "psychology__psychological-disorders__01",
+      "chapter": "Psychological Disorders",
+      "key": "C",
+      "content_hash": "935fc4d08a403ee752412872fed35a95558eaeb45fbf0760cb148abd0b0cdb69",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.psychological-disorders.schizophrenia-features-and-treatment",
+          "flags": [],
+          "note": "Key C verified: I and II are true, III is false (treatment combines medication with psychosocial care). Scored 7 because 'mainly' qualifies every option and makes the statement judgement vague."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.psychological-disorders.schizophrenia-symptoms-onset-treatment",
+          "flags": [],
+          "note": "Key C is right: I and II are true, III is false because schizophrenia treatment combines medication with psychosocial care. Option wording with 'mainly' is vague and awkward for a CUET paper."
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.psychological-disorders.schizophrenia-features-and-treatment",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "afbb1b90-92d3-4aea-8da9-89b34a5e30f3": {
+      "question_id": "afbb1b90-92d3-4aea-8da9-89b34a5e30f3",
+      "batch": "psychology__psychological-disorders__01",
+      "chapter": "Psychological Disorders",
+      "key": "A",
+      "content_hash": "1bb8a0a028b680689091b3014537302fee3b1a5fb89252f41051f7eea5376096",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.psychological-disorders.psychodynamic-perspective-unconscious-conflicts",
+          "flags": [],
+          "note": "Key A correct (Freud, unconscious conflict). Stem nearly defines the answer and the distractors are easy to eliminate, but this is a valid direct-recall item."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.psychological-disorders.psychodynamic-perspective-causation",
+          "flags": [],
+          "note": "Clean direct-recall definition-to-term item with three distinct perspectives as distractors. Explanation agrees with key A."
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.psychological-disorders.psychodynamic-perspective-unconscious-conflicts",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "cfc1d472-f539-4b06-b9e4-eb491d996f96": {
+      "question_id": "cfc1d472-f539-4b06-b9e4-eb491d996f96",
+      "batch": "psychology__psychological-disorders__01",
+      "chapter": "Psychological Disorders",
+      "key": "A",
+      "content_hash": "9c25e734ced3ece55577c1f2f918b36234962b1c6f314a21bc8ffc0ca7915131",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 4,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.psychological-disorders.normal-stress-vs-disorder-distinction",
+          "flags": [
+            "multiple_defensible"
+          ],
+          "note": "Options A and D both answer No. D's claim that the student meets no full criteria is not established by the stem, so two options are defensible. Keep A as key."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 4,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.psychological-disorders.transient-stress-response-vs-disorder",
+          "flags": [
+            "multiple_defensible"
+          ],
+          "note": "Options A and D both answer No. D rests on unstated diagnostic criteria the stem never gives, so A is not the only defensible key. Stem's 'subside after exams' signposts transience."
+        }
+      ],
+      "mean": 4,
+      "min": 4,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [
+        "multiple_defensible"
+      ],
+      "blocking": true,
+      "unknown_flags": [],
+      "objective_tag": "psychology.psychological-disorders.normal-stress-vs-disorder-distinction",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "04071df4-a9d8-45e0-80a7-0abdfdf0cc9f": {
+      "question_id": "04071df4-a9d8-45e0-80a7-0abdfdf0cc9f",
+      "batch": "psychology__psychology-and-life__01",
+      "chapter": "Psychology & Life",
+      "key": "B",
+      "content_hash": "6cbcbe048a208bcbeb86f27be96e5cbbea1d61fbbcaa42ff5f0f7e0f8dbb8ad9",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.psychology-and-life.noise-exposure-psychological-effects",
+          "flags": [],
+          "note": "Correct. The three distractors are positive outcomes, so elimination is trivial; practice-grade rather than paper-grade."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.psychology-and-life.environmental-stressor-noise-effects",
+          "flags": [],
+          "note": "Correct and clean, but the key is the only option naming a negative effect, so it is answerable by elimination. Practice-grade."
+        }
+      ],
+      "mean": 6,
+      "min": 6,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.psychology-and-life.noise-exposure-psychological-effects",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "1b27a8c4-182d-46d1-a125-da70222360e3": {
+      "question_id": "1b27a8c4-182d-46d1-a125-da70222360e3",
+      "batch": "psychology__psychology-and-life__01",
+      "chapter": "Psychology & Life",
+      "key": "B",
+      "content_hash": "82576adb0723ce98b9e898d61d29a3b9470e8906154e1cd86eb0dbf0f19464d1",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 4,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.psychology-and-life.emotion-focused-coping-definition",
+          "flags": [
+            "multiple_defensible"
+          ],
+          "note": "A holds only if social support is read as emotional, not instrumental; D asserts the instrumental reading as problem-focused. Options C and D are fragments starting 'is'."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.psychology-and-life.emotion-focused-coping-definition",
+          "flags": [],
+          "note": "Key B holds under the usual reading that seeking emotional support is emotion-focused, but the Assertion rests on a classification some texts dispute, and option D exploits that. Score lowered for it."
+        }
+      ],
+      "mean": 5,
+      "min": 4,
+      "spread": 2,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [
+        "multiple_defensible"
+      ],
+      "blocking": true,
+      "unknown_flags": [],
+      "objective_tag": "psychology.psychology-and-life.emotion-focused-coping-definition",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "414fd80f-dee2-4386-866e-2a11d6da42f3": {
+      "question_id": "414fd80f-dee2-4386-866e-2a11d6da42f3",
+      "batch": "psychology__psychology-and-life__01",
+      "chapter": "Psychology & Life",
+      "key": "A",
+      "content_hash": "d2938ee132f5a6ea9123d7b92b9541b62b39ca8dfd1e46cd1cd69a39d39b1e66",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 5,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.psychology-and-life.well-being-individual-environment-interaction",
+          "flags": [],
+          "note": "Key A is correct. R supports only the environmental half of the assertion and no 'R not the explanation' option is offered, so the item is near-trivial."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.psychology-and-life.wellbeing-individual-environment-interaction",
+          "flags": [],
+          "note": "Key A is accepted, but the Reason restates only the environmental half of the Assertion, so 'explains' is loose. Options are obvious by elimination, so practice-grade."
+        }
+      ],
+      "mean": 5.5,
+      "min": 5,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.psychology-and-life.well-being-individual-environment-interaction",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "63183cf0-cf3d-446d-95eb-cd49fa50d980": {
+      "question_id": "63183cf0-cf3d-446d-95eb-cd49fa50d980",
+      "batch": "psychology__psychology-and-life__01",
+      "chapter": "Psychology & Life",
+      "key": "C",
+      "content_hash": "85d066319da414273f8f22b1bd810ff5898ca0939071651c6247d35185eb7c3c",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.psychology-and-life.resilience-can-be-developed",
+          "flags": [],
+          "note": "Correct and clean. Statement I is textbook and II is the reversed claim, so elimination is easy; options A and D are weak."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.psychology-and-life.resilience-is-trainable",
+          "flags": [],
+          "note": "Key C is correct: resilience can be built, so Statement I is true and II false. Clean statement-based item with plausible reversed distractors. Label medium is one level high."
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.psychology-and-life.resilience-can-be-developed",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": "easy"
+      },
+      "key_dispute": false
+    },
+    "86e45e07-c28a-495e-8e3c-3146e95ffa63": {
+      "question_id": "86e45e07-c28a-495e-8e3c-3146e95ffa63",
+      "batch": "psychology__psychology-and-life__01",
+      "chapter": "Psychology & Life",
+      "key": "C",
+      "content_hash": "3a205e7467805fe011f83f8b06d3d8ba86b7bbb00179796b5bd7363be2287c28",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.psychology-and-life.problem-focused-coping-identification",
+          "flags": [],
+          "note": "Correct: updating the resume and applying addresses the problem. Option A is a plausible trap; B and D are weak."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.psychology-and-life.problem-focused-coping-identification",
+          "flags": [],
+          "note": "Correct and clean. Two distractors are clearly wrong and the 'because' clauses are parallel, so the key is easy to spot. Usable."
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.psychology-and-life.problem-focused-coping-identification",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "96ca882a-4e8c-40d6-860b-df700ad8e6aa": {
+      "question_id": "96ca882a-4e8c-40d6-860b-df700ad8e6aa",
+      "batch": "psychology__psychology-and-life__01",
+      "chapter": "Psychology & Life",
+      "key": "B",
+      "content_hash": "bed4967076e653fdcedcbe5401d72f9d9fb17d1ee93d1c9648914e7d1700985b",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 4,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.psychology-and-life.fines-without-support-least-effective",
+          "flags": [
+            "multiple_defensible"
+          ],
+          "note": "B is the only option with a negative contrast, so it stands out. An awareness-only campaign (C) is also weak for lasting change, so B is not uniquely least effective."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.psychology-and-life.punitive-measures-less-effective-for-behaviour-change",
+          "flags": [],
+          "note": "Key B is defensible: unsupported fines give short-term compliance and resentment. Lean on a judgement ('least effective') but no other option is clearly weaker. Label hard is one level high."
+        }
+      ],
+      "mean": 5.5,
+      "min": 4,
+      "spread": 3,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [
+        "multiple_defensible"
+      ],
+      "blocking": true,
+      "unknown_flags": [],
+      "objective_tag": "psychology.psychology-and-life.fines-without-support-least-effective",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": "medium"
+      },
+      "key_dispute": false
+    },
+    "be2e7ce4-2f40-48da-a213-6b593e8f4497": {
+      "question_id": "be2e7ce4-2f40-48da-a213-6b593e8f4497",
+      "batch": "psychology__psychology-and-life__01",
+      "chapter": "Psychology & Life",
+      "key": "A",
+      "content_hash": "fd0305fcdbc165e1fc1d90c099ccdcede6b8bfcb39559affe363fc826a70230e",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.psychology-and-life.superordinate-goals-reduce-intergroup-hostility",
+          "flags": [],
+          "note": "Correct: superordinate goals explain why cooperation reduces hostility. The Reason repeats the Assertion's wording, which lowers polish."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.psychology-and-life.superordinate-goals-reduce-hostility",
+          "flags": [],
+          "note": "Key A is correct: Sherif's superordinate goals explain the cooperation-hostility link. Wordy Reason and a label of hard that is one level high."
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.psychology-and-life.superordinate-goals-reduce-intergroup-hostility",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": "medium"
+      },
+      "key_dispute": false
+    },
+    "c39df4e6-9372-4459-9e0c-65c4b71a898e": {
+      "question_id": "c39df4e6-9372-4459-9e0c-65c4b71a898e",
+      "batch": "psychology__psychology-and-life__01",
+      "chapter": "Psychology & Life",
+      "key": "C",
+      "content_hash": "0cf131a203d0f65bacab3573ff003fc7fbea6f8a3901295ca413b05dcf6f33e7",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.psychology-and-life.empowerment-in-community-psychology",
+          "flags": [],
+          "note": "Correct definition-to-term recall. Social hierarchy and passive compliance are obviously wrong, so elimination is easy."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.psychology-and-life.empowerment-in-community-psychology",
+          "flags": [],
+          "note": "Correct. The stem paraphrases the definition of empowerment and the three distractors are obviously wrong, so it is a one-step recall by elimination. Practice-grade."
+        }
+      ],
+      "mean": 6,
+      "min": 6,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.psychology-and-life.empowerment-in-community-psychology",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": "easy"
+      },
+      "key_dispute": false
+    },
+    "c8595359-8221-42f7-9da1-e00493bf235e": {
+      "question_id": "c8595359-8221-42f7-9da1-e00493bf235e",
+      "batch": "psychology__psychology-and-life__01",
+      "chapter": "Psychology & Life",
+      "key": "B",
+      "content_hash": "057e8cbb9ad2fb24a23096041085b50275d9186d0c1742d15caafbf22ae63a64",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.psychology-and-life.primary-vs-secondary-appraisal",
+          "flags": [],
+          "note": "Correct per Lazarus: primary appraisal assesses harm or threat, secondary evaluates coping resources. C (reversed order) and D are plausible. Distinction makes it medium, not easy."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.psychology-and-life.primary-vs-secondary-appraisal",
+          "flags": [],
+          "note": "Key B is correct and clean. Option C is a plausible reversal error, but A and D are plainly off, so distractors are uneven."
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.psychology-and-life.primary-vs-secondary-appraisal",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "medium",
+          "easy"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "db47b608-cf0e-4c1a-bf15-dc10a0ec7551": {
+      "question_id": "db47b608-cf0e-4c1a-bf15-dc10a0ec7551",
+      "batch": "psychology__psychology-and-life__01",
+      "chapter": "Psychology & Life",
+      "key": "A",
+      "content_hash": "49cd5443536aa0719b426e1e2f79e6e17d68f77846971b5b913d476395135684",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.psychology-and-life.hall-personal-distance-zone",
+          "flags": [],
+          "note": "Correct: Hall's personal zone runs 18 inches to 4 feet, so 2 feet falls in it. Intimate zone is a sound trap for a close friend. Direct one-step recall."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.psychology-and-life.hall-personal-distance-zone",
+          "flags": [],
+          "note": "Key A is correct: 2 ft (24 in) falls in Hall's personal zone (18 in to 4 ft). Intimate is a fair trap. Fit for a mock; the stem's 'close friend' could invite intimate."
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.psychology-and-life.hall-personal-distance-zone",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "f0d2e3d5-d98e-4f0b-acfe-244669e980e9": {
+      "question_id": "f0d2e3d5-d98e-4f0b-acfe-244669e980e9",
+      "batch": "psychology__psychology-and-life__01",
+      "chapter": "Psychology & Life",
+      "key": "A",
+      "content_hash": "7a414e15a877f77acc4235945a68f7b815ea4c4605b592e76f69d7f658cbef51",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 3,
+          "blind_answer": "C",
+          "key_matches": false,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.psychology-and-life.cognitive-reappraisal-as-coping",
+          "flags": [
+            "doubtful_key"
+          ],
+          "note": "Key A 'appraisal-focused coping' is not in the NCERT two-category scheme. Reframing a threat as a challenge is cognitive reappraisal, usually classed as emotion-focused (C). Key not establishable from syllabus."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 4,
+          "blind_answer": "C",
+          "key_matches": false,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.psychology-and-life.reframing-as-appraisal-coping",
+          "flags": [
+            "multiple_defensible"
+          ],
+          "note": "Key A (appraisal-focused, per Lazarus) is defensible, but reframing a threat as a challenge is also standardly classed as emotion-focused coping (C). Two options hold; cap 4."
+        }
+      ],
+      "mean": 3.5,
+      "min": 3,
+      "spread": 1,
+      "key_agreement": "none",
+      "blind_answers_agree": true,
+      "flags": [
+        "doubtful_key",
+        "multiple_defensible"
+      ],
+      "blocking": true,
+      "unknown_flags": [],
+      "objective_tag": "psychology.psychology-and-life.cognitive-reappraisal-as-coping",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": true
+    },
+    "18344e27-49a2-4124-97c9-10e3940a6454": {
+      "question_id": "18344e27-49a2-4124-97c9-10e3940a6454",
+      "batch": "psychology__self-and-personality__01",
+      "chapter": "Self & Personality",
+      "key": "C",
+      "content_hash": "72f4d4b3b99338d21c0e5a43ef0df7aa5ead07185b9c647a27d67dabbf81e607",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.self-efficacy-vs-locus-of-control",
+          "flags": [],
+          "note": "Clean two-concept item: efficacy belief for speaker A, luck attribution for speaker B. Distractors pair real concepts wrongly. Stem signposts only slightly."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.self-efficacy-vs-locus-of-control",
+          "flags": [],
+          "note": "Clean two-part comparison that tests self-efficacy and external locus. Distractors mix in self-esteem claims the stem never tests, so they are weak but fair."
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.self-and-personality.self-efficacy-vs-locus-of-control",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "1cb7a866-1c02-4895-a6b4-9297d2919041": {
+      "question_id": "1cb7a866-1c02-4895-a6b4-9297d2919041",
+      "batch": "psychology__self-and-personality__01",
+      "chapter": "Self & Personality",
+      "key": "C",
+      "content_hash": "c736e7bdf57de00ca153a433f27fa25ab3356095bb19eb4df2d073ea3d05e0ad",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.self-efficacy-drives-task-engagement",
+          "flags": [],
+          "note": "Clean assertion-reason item; the reason explains the assertion through task-specific efficacy. Label hard is one level high, so medium."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.self-efficacy-drives-behaviour",
+          "flags": [],
+          "note": "Standard assertion-reason; the reason is the definition and explains the behaviour. Key C is right. Labelled hard, but a prepared student gets it about half the time."
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.self-and-personality.self-efficacy-drives-task-engagement",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": "medium"
+      },
+      "key_dispute": false
+    },
+    "209aed36-3baa-423c-9e0e-b0a722796662": {
+      "question_id": "209aed36-3baa-423c-9e0e-b0a722796662",
+      "batch": "psychology__self-and-personality__01",
+      "chapter": "Self & Personality",
+      "key": "B",
+      "content_hash": "a2392ccea6c78f122071147b635ad36376ded9a8bd8809708edd79b24c9c1665",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 4,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.self-concept-and-social-performance",
+          "flags": [
+            "multiple_defensible"
+          ],
+          "note": "Reason is clearly false, but the assertion is a vague generalisation. If the assertion is false, option D also fits, so the key rests on an unstated assumption."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 4,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.self-concept-and-social-behaviour",
+          "flags": [
+            "doubtful_key"
+          ],
+          "note": "Key B needs the Assertion to be true, but a strong self-image improving social performance is not an NCERT claim, and self-image is not a syllabus term. Reason is clearly false."
+        }
+      ],
+      "mean": 4,
+      "min": 4,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [
+        "multiple_defensible",
+        "doubtful_key"
+      ],
+      "blocking": true,
+      "unknown_flags": [],
+      "objective_tag": "psychology.self-and-personality.self-concept-and-social-performance",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "23da6798-a31e-4aac-8c9c-af083722bab1": {
+      "question_id": "23da6798-a31e-4aac-8c9c-af083722bab1",
+      "batch": "psychology__self-and-personality__01",
+      "chapter": "Self & Personality",
+      "key": "C",
+      "content_hash": "08c3a98741fff38d1151893b4dcf578c12d7b2f0b14e58001d6c72d44c5ea948",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.self-efficacy-task-specificity-and-sources",
+          "flags": [],
+          "note": "Clean statement item: I and III true, II false because efficacy is task-specific. Label hard is one level high."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.self-efficacy-properties",
+          "flags": [],
+          "note": "Sound statement item: I and III are true, II (success in every task) is the trap. Two-step, so medium rather than hard."
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.self-and-personality.self-efficacy-task-specificity-and-sources",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": "medium"
+      },
+      "key_dispute": false
+    },
+    "488318ed-9877-4bcc-8d62-72acc5aeb452": {
+      "question_id": "488318ed-9877-4bcc-8d62-72acc5aeb452",
+      "batch": "psychology__self-and-personality__01",
+      "chapter": "Self & Personality",
+      "key": "A",
+      "content_hash": "db8cf14a18c1e6dcbb55cc7dd410e502b7dc1f1ee4b91aa847121e0945b3ad21",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.freud-structures-and-principles",
+          "flags": [],
+          "note": "Freud's order and principles are correct. Each distractor swaps one principle or position, so the item is accurate and clean."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.self-and-personality.freud-personality-structures-principles",
+          "flags": [],
+          "note": "Direct Freud recall with correct principles and developmental order. D is clearly wrong; B and C are plausible ordering slips. Easy-to-medium, labelled medium."
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.self-and-personality.freud-structures-and-principles",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "easy"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "50aeb0de-66d9-44d4-a4b1-09ac11e7af3d": {
+      "question_id": "50aeb0de-66d9-44d4-a4b1-09ac11e7af3d",
+      "batch": "psychology__self-and-personality__01",
+      "chapter": "Self & Personality",
+      "key": "A",
+      "content_hash": "bcbb036e31785096c5ec988a77461c42faf8d8a147cb50c51649b570654a5330",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 4,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.self-concept-shaped-by-reflection-not-only-others",
+          "flags": [
+            "doubtful_key"
+          ],
+          "note": "No option directly contradicts 'largely determined by others'. Option A says 'partly' shaped by reflection, so it is the closest, not a clear contradiction. Easy label is too low."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 4,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.self-concept-determinants",
+          "flags": [
+            "doubtful_key"
+          ],
+          "note": "No option directly contradicts 'largely shaped by others'. Key A says 'partly shaped by self-reflection', which is compatible with the belief, so the key is only the best fit."
+        }
+      ],
+      "mean": 4,
+      "min": 4,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [
+        "doubtful_key"
+      ],
+      "blocking": true,
+      "unknown_flags": [],
+      "objective_tag": "psychology.self-and-personality.self-concept-determinants",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": "medium"
+      },
+      "key_dispute": false
+    },
+    "522814e3-b0b9-4418-a891-39ca424e16c7": {
+      "question_id": "522814e3-b0b9-4418-a891-39ca424e16c7",
+      "batch": "psychology__self-and-personality__01",
+      "chapter": "Self & Personality",
+      "key": "A",
+      "content_hash": "0a743639eb016e141c5b12bf7b570294d4a23507213efb2ce1413afe963d3fce",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.self-and-personality.self-concept-vs-self-esteem",
+          "flags": [],
+          "note": "Standard definitional distinction, but the scenario does not need it. Options B and D cleanly swap the definitions. Generic framing."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.self-and-personality.self-concept-vs-self-esteem",
+          "flags": [],
+          "note": "Good case that separates domain ability (self-concept) from worth (self-esteem). D reverses the two definitions, a useful trap."
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.self-and-personality.self-concept-vs-self-esteem",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "55615ca7-3254-43bb-a73f-4252321dda46": {
+      "question_id": "55615ca7-3254-43bb-a73f-4252321dda46",
+      "batch": "psychology__self-and-personality__01",
+      "chapter": "Self & Personality",
+      "key": "B",
+      "content_hash": "21b36e76614fa51629cb28c606460df7404c3cbe105933807a457e096fdfc7a2",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.self-esteem-buffers-negative-events",
+          "flags": [],
+          "note": "Assertion and reason are both defensible and the reason explains it. The buffering claim is a general description rather than a syllabus line. Label hard is one level high."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.self-esteem-as-buffer",
+          "flags": [],
+          "note": "Both claims are true and the reason explains the assertion. The depression claim goes a little beyond NCERT, so 7 not 8. Labelled hard; medium is fair."
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.self-and-personality.self-esteem-buffers-negative-events",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": "medium"
+      },
+      "key_dispute": false
+    },
+    "582f938a-1985-4cf9-a123-bd42c82e5ecc": {
+      "question_id": "582f938a-1985-4cf9-a123-bd42c82e5ecc",
+      "batch": "psychology__self-and-personality__01",
+      "chapter": "Self & Personality",
+      "key": "C",
+      "content_hash": "e49efc8e03ce906b217f2e992cd87ad51a41d5df7f2f0ee3c6826b81cafbc79c",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.positive-self-concept-and-motivation",
+          "flags": [],
+          "note": "Clean assertion-reason item with a well-built option set. The reason explains the assertion through the view of challenges as growth."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.self-concept-and-motivation",
+          "flags": [],
+          "note": "Key C is right, but the reason's claim about viewing challenges as growth is loosely supported and the stem's 'which is true' leads the student. Options A, B and D are easy to drop."
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.self-and-personality.positive-self-concept-and-motivation",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "588d8937-66f6-49e7-a2fa-ed1b6211f0cd": {
+      "question_id": "588d8937-66f6-49e7-a2fa-ed1b6211f0cd",
+      "batch": "psychology__self-and-personality__01",
+      "chapter": "Self & Personality",
+      "key": "A",
+      "content_hash": "0866c35a56dbac46b4ae4af74ce95bf1560057991c023e3d69b4104042c68dac",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.self-and-personality.allport-cardinal-trait",
+          "flags": [],
+          "note": "Clean one-step recall with plausible distractors (central, secondary, surface). Labelled hard but it is direct recall, so easy: two-level gap."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 5,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.allport-cardinal-trait",
+          "flags": [
+            "answer_in_stem"
+          ],
+          "note": "Stem restates the cardinal-trait definition ('entire life governed by the single pursuit') nearly verbatim, so the key is recognisable without applying the concept. Labelled hard; medium is fair."
+        }
+      ],
+      "mean": 6,
+      "min": 5,
+      "spread": 2,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [
+        "answer_in_stem"
+      ],
+      "blocking": true,
+      "unknown_flags": [],
+      "objective_tag": "psychology.self-and-personality.allport-cardinal-trait",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "easy",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "7a02219d-f37f-4805-aae3-d7e435c5e46a": {
+      "question_id": "7a02219d-f37f-4805-aae3-d7e435c5e46a",
+      "batch": "psychology__self-and-personality__01",
+      "chapter": "Self & Personality",
+      "key": "D",
+      "content_hash": "d90225c38fd0853454ea201d0f5c082fe7f780b0b355074b48a14b2be5176034",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 4,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.personal-identity-and-conformity",
+          "flags": [
+            "doubtful_key"
+          ],
+          "note": "Key D matches the blind solve. The claim that personal identity buffers conformity is not established from the CUET syllabus, so the assertion's truth is an unstated assumption."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 4,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.personal-identity-and-conformity",
+          "flags": [
+            "doubtful_key"
+          ],
+          "note": "Key D needs the assertion that a strong personal identity reduces conformity, and the reason's buffering claim, to be established. Neither is clearly in the NCERT syllabus."
+        }
+      ],
+      "mean": 4,
+      "min": 4,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [
+        "doubtful_key"
+      ],
+      "blocking": true,
+      "unknown_flags": [],
+      "objective_tag": "psychology.self-and-personality.personal-identity-and-conformity",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "82ecb29b-ec76-41f2-8805-93bf20af0263": {
+      "question_id": "82ecb29b-ec76-41f2-8805-93bf20af0263",
+      "batch": "psychology__self-and-personality__01",
+      "chapter": "Self & Personality",
+      "key": "A",
+      "content_hash": "d3f2690bc96562fc271e0d1b04e20845e31b240438269b52d35b52f2aeb72595",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.type-a-behaviour-pattern",
+          "flags": [],
+          "note": "Textbook description of Type A. The stem's traits map one-to-one onto the explanation, so it is signposted. Conscientious is a fair decoy."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.type-a-personality",
+          "flags": [],
+          "note": "Good case-based recall of Type A features. Conscientious is a sensible trap, and the stem avoids naming the concept, so it needs the mapping step."
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.self-and-personality.type-a-behaviour-pattern",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "83496229-7de1-44ed-9d67-c4e1b430d658": {
+      "question_id": "83496229-7de1-44ed-9d67-c4e1b430d658",
+      "batch": "psychology__self-and-personality__01",
+      "chapter": "Self & Personality",
+      "key": "A",
+      "content_hash": "e77a6849d8950f04c25d40e6dc3a86e623dbbac28497ac9878934f793ace4af2",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 4,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.self-and-personality.self-concept-vs-self-esteem",
+          "flags": [
+            "multiple_defensible"
+          ],
+          "note": "'Good at maths, poor at sports' is a domain ability belief, which also fits self-efficacy (option B) with self-esteem as the overall evaluation. Two options are defensible."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.self-and-personality.self-concept-vs-self-esteem",
+          "flags": [],
+          "note": "Key A is the only fitting pair, but the stem's example is domain-specific self-concept, not a confusion. The question logic is weak, so it is practice-grade."
+        }
+      ],
+      "mean": 5,
+      "min": 4,
+      "spread": 2,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [
+        "multiple_defensible"
+      ],
+      "blocking": true,
+      "unknown_flags": [],
+      "objective_tag": "psychology.self-and-personality.self-concept-vs-self-esteem",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "a675822f-bc4d-45f1-a8ad-0afc2ac83dec": {
+      "question_id": "a675822f-bc4d-45f1-a8ad-0afc2ac83dec",
+      "batch": "psychology__self-and-personality__01",
+      "chapter": "Self & Personality",
+      "key": "A",
+      "content_hash": "5f859d0075880d82372b00afcc7fd696c62ab5d67323d8d04617c2f313b8aa7b",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.self-efficacy-drives-task-engagement",
+          "flags": [],
+          "note": "Persistence framing of the same efficacy idea as the other A/R item in this batch. Clean, and the reason explains the assertion."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.self-efficacy-drives-behaviour",
+          "flags": [],
+          "note": "Correct assertion-reason on task-specific efficacy and persistence; the reason explains the assertion. Explanation is thin but correct. Medium is fair."
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.self-and-personality.self-efficacy-drives-task-engagement",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "ad5f0953-5a92-4a4c-aa29-e5f21c0a847f": {
+      "question_id": "ad5f0953-5a92-4a4c-aa29-e5f21c0a847f",
+      "batch": "psychology__self-and-personality__01",
+      "chapter": "Self & Personality",
+      "key": "A",
+      "content_hash": "925de0626c86173ac51ab917259fc297dbff8eb5e0e244b796da7e5cb1924af9",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.self-and-personality.self-esteem-definition",
+          "flags": [],
+          "note": "Direct definition with distractors for self-presentation, self-efficacy and self-actualisation. Easy and clean."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.self-and-personality.self-esteem-definition",
+          "flags": [],
+          "note": "Direct definition recall, correct key. Distractors B (self-presentation) and D (self-actualisation) are weak, so it is usable but plain."
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.self-and-personality.self-esteem-definition",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "c3a11666-835e-452c-9157-d30f40d3e19c": {
+      "question_id": "c3a11666-835e-452c-9157-d30f40d3e19c",
+      "batch": "psychology__self-and-personality__01",
+      "chapter": "Self & Personality",
+      "key": "A",
+      "content_hash": "64d9b1d96fc183db54e9e2ac0ed9ae1cea197074967ba081994e80b49e70afa5",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.self-esteem-not-mainly-external-validation",
+          "flags": [],
+          "note": "Statement II is false because self-esteem is not mainly from peers. Statements I and III are standard. Clean with a medium load."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.self-concept-role-and-self-esteem-source",
+          "flags": [],
+          "note": "Statement II says self-esteem is 'mainly' from peer validation, which is contestable; the key depends on that word. I and III are clearly true. Usable, not a 9."
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.self-and-personality.self-esteem-not-mainly-external-validation",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "d97e2640-fdd8-4661-a5bf-e207382a5ab6": {
+      "question_id": "d97e2640-fdd8-4661-a5bf-e207382a5ab6",
+      "batch": "psychology__self-and-personality__01",
+      "chapter": "Self & Personality",
+      "key": "B",
+      "content_hash": "a93eac6df8a58db098412362ee2492d23b6b443232d4288da35bc68ddadea0af",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.internal-locus-of-control-responsibility",
+          "flags": [],
+          "note": "Reason restates the assertion almost word for word, so the explains link is trivial. Option set is well built. Label hard is one level high."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.self-and-personality.internal-locus-of-control",
+          "flags": [],
+          "note": "Reason largely restates the assertion, so the 'explains' link is near-tautological. Label is hard; this is a definition-level item, so easy."
+        }
+      ],
+      "mean": 6.5,
+      "min": 6,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.self-and-personality.internal-locus-of-control-responsibility",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "easy"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "f1c913b3-5b6f-4b70-8fed-3824bd9e41ed": {
+      "question_id": "f1c913b3-5b6f-4b70-8fed-3824bd9e41ed",
+      "batch": "psychology__self-and-personality__01",
+      "chapter": "Self & Personality",
+      "key": "A",
+      "content_hash": "910290613df4f0b781589392ce2388492d88c3a421c83d412f35c2ffa873cce3",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.self-and-personality.self-regulation-components",
+          "flags": [],
+          "note": "Key is the full triad, which fits the scenario. Stem asks for 'which component' in the singular and narrates goal-setting, monitoring and adjustment, so it signposts the answer."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.self-regulation-components",
+          "flags": [],
+          "note": "Key A (full triad) is the only complete fit, but B and C are partial and 'self-reflection' is not a Bandura term. The stem's behaviour is generic, so it is practice-grade."
+        }
+      ],
+      "mean": 6,
+      "min": 6,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.self-and-personality.self-regulation-components",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "f642bd76-bb56-413f-9048-0b9db3b9a5a5": {
+      "question_id": "f642bd76-bb56-413f-9048-0b9db3b9a5a5",
+      "batch": "psychology__self-and-personality__01",
+      "chapter": "Self & Personality",
+      "key": "A",
+      "content_hash": "c80363d4e23df4a3e2ae48d0df5e568fe494dbd00edd1b521c25e6691bfe7deb",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.unconditional-positive-regard-and-congruence",
+          "flags": [],
+          "note": "Rogers' unconditional positive regard and congruence link is standard, and the reason explains the assertion. Clean, medium load."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.rogers-unconditional-positive-regard",
+          "flags": [],
+          "note": "Correct Rogers item: unconditional positive regard fosters congruence and the reason explains the assertion. Distractors C and D are plausible reversals."
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.self-and-personality.unconditional-positive-regard-and-congruence",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "f9f3c833-20e3-425f-9ed2-3339b991d2e9": {
+      "question_id": "f9f3c833-20e3-425f-9ed2-3339b991d2e9",
+      "batch": "psychology__self-and-personality__01",
+      "chapter": "Self & Personality",
+      "key": "A",
+      "content_hash": "65ca414cee9bc6ce0c132f24648d93b9891ac8f68fd05742a5baa8c9df3ba5d5",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.social-comparison-and-self-enhancement",
+          "flags": [],
+          "note": "Key is defensible under self-enhancement research, but the idea sits at the edge of the NCERT-level syllabus and option C uses jargon. Practice grade."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.social-comparison-self-enhancement",
+          "flags": [],
+          "note": "Key A depends on a research-level claim about high self-esteem and favourable comparisons, which is beyond NCERT. Option C's self-verification contrast is a fair trap. Practice-grade."
+        }
+      ],
+      "mean": 6,
+      "min": 6,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.self-and-personality.social-comparison-and-self-enhancement",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "1283ce32-e1c2-40b8-9498-735c9a457842": {
+      "question_id": "1283ce32-e1c2-40b8-9498-735c9a457842",
+      "batch": "psychology__social-influence-and-group-processes__01",
+      "chapter": "Social Influence & Group Processes",
+      "key": "B",
+      "content_hash": "9346d4b25e83413ce2ef1bdab7722a73d87904172c8d39fcf5c15623672289b1",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.social-influence-and-group-processes.groupthink-harmony-over-appraisal",
+          "flags": [],
+          "note": "Key B holds, but the Reason restates the definition of groupthink rather than explaining its causes, so option A is arguable. Recall-level, labelled hard."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.social-influence-and-group-processes.groupthink-harmony-over-appraisal",
+          "flags": [],
+          "note": "Key B correct and clean AR item; the Reason restates the groupthink definition, so it is recall. Label hard is two levels above easy."
+        }
+      ],
+      "mean": 7,
+      "min": 6,
+      "spread": 2,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.social-influence-and-group-processes.groupthink-harmony-over-appraisal",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "easy"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "2f46d294-55bd-4a1f-8e1f-ba8e4b36dd99": {
+      "question_id": "2f46d294-55bd-4a1f-8e1f-ba8e4b36dd99",
+      "batch": "psychology__social-influence-and-group-processes__01",
+      "chapter": "Social Influence & Group Processes",
+      "key": "C",
+      "content_hash": "4c74b378fa4e7295f7b5b1f35214de082d462ab7e1b58ed73033e38ff8db2a2f",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.social-influence-and-group-processes.deindividuation-reduces-accountability",
+          "flags": [],
+          "note": "Clean assertion-reason where the Reason explains the Assertion; distractors B and D are plausible misconceptions about anonymity and accountability."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.social-influence-and-group-processes.deindividuation-and-antinormative-behaviour",
+          "flags": [],
+          "note": "Key C correct. Options B and D carry false explanatory clauses, so C is the only option without one, a test-wise cue. Label hard is two levels above easy."
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.social-influence-and-group-processes.deindividuation-reduces-accountability",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "easy"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "5134bebe-527a-419a-b1b7-f7dc196862b9": {
+      "question_id": "5134bebe-527a-419a-b1b7-f7dc196862b9",
+      "batch": "psychology__social-influence-and-group-processes__01",
+      "chapter": "Social Influence & Group Processes",
+      "key": "A",
+      "content_hash": "019175ac9efb1ed4b0eba97abaf676bcd00b66153f69744f4cad007210ac9ca3",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.social-influence-and-group-processes.social-influence-can-change-beliefs",
+          "flags": [],
+          "note": "Correct one-step recall. Statement II is too blatant a negation, and the explanation is vacuous. Labelled medium, judged easy."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.social-influence-and-group-processes.social-influence-on-beliefs-not-values",
+          "flags": [],
+          "note": "Key A correct: Statement I true, Statement II false. Two options are trivially wrong and the explanation is vague but not wrong."
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.social-influence-and-group-processes.social-influence-can-change-beliefs",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": "easy"
+      },
+      "key_dispute": false
+    },
+    "6196f891-b805-4a0a-b09d-345c0afc9114": {
+      "question_id": "6196f891-b805-4a0a-b09d-345c0afc9114",
+      "batch": "psychology__social-influence-and-group-processes__01",
+      "chapter": "Social Influence & Group Processes",
+      "key": "D",
+      "content_hash": "2aca4251ab858e03f51a453f3884d79438808717e93930267c8b32c78b4185db",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.social-influence-and-group-processes.groupthink-symptoms-and-prevention",
+          "flags": [],
+          "note": "Key D is correct. Options A to C are textbook prevention strategies, so D stands out by elimination. The long scenario stem is heavy for a one-step item."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.social-influence-and-group-processes.groupthink-symptoms-and-prevention",
+          "flags": [],
+          "note": "Key D correct: it lists groupthink symptoms, the only option that would not prevent it. Stem is wordy and D stands out from three parallel remedy options."
+        }
+      ],
+      "mean": 6.5,
+      "min": 6,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.social-influence-and-group-processes.groupthink-symptoms-and-prevention",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": "medium"
+      },
+      "key_dispute": false
+    },
+    "b8dea37a-8908-4100-bdcd-2faff0d0d2c6": {
+      "question_id": "b8dea37a-8908-4100-bdcd-2faff0d0d2c6",
+      "batch": "psychology__social-influence-and-group-processes__01",
+      "chapter": "Social Influence & Group Processes",
+      "key": "A",
+      "content_hash": "62a13f6f380798e4f0d9bcc8268128a31dc3a5e8a7e10a726f8d596d7cb7e36c",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.social-influence-and-group-processes.single-dissenter-reduces-conformity",
+          "flags": [],
+          "note": "Both statements true and the Reason explains the Assertion, since a dissenter breaks the pressure of unanimity. Distractors are fair. Labelled hard, judged medium."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.social-influence-and-group-processes.unanimity-and-dissenter-effect-on-conformity",
+          "flags": [],
+          "note": "Key A is defensible (Asch unanimity and dissenter findings), but the Reason is about dissent, so the explains link is inferential. Not flagged."
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.social-influence-and-group-processes.single-dissenter-reduces-conformity",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": "medium"
+      },
+      "key_dispute": false
+    },
+    "e8f6a019-c959-4663-ad72-0042a381d038": {
+      "question_id": "e8f6a019-c959-4663-ad72-0042a381d038",
+      "batch": "psychology__social-influence-and-group-processes__01",
+      "chapter": "Social Influence & Group Processes",
+      "key": "A",
+      "content_hash": "49346a5a4b3e1cd466d8d38af135f1e75022c1aec1aa5bc8c8319466613563bf",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 3,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.social-influence-and-group-processes.social-influence-not-always-negative",
+          "flags": [
+            "broken_layout"
+          ],
+          "note": "Option texts carry stray labels D, A, B, C that do not match the keys (option A reads 'D Social influence...'). Key A is correct on content: the absolute 'always negative' claim is false."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 3,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.social-influence-and-group-processes.social-influence-not-always-negative",
+          "flags": [
+            "broken_layout"
+          ],
+          "note": "Key A is correct (always-negative is false), but option texts carry stray labels: A starts 'D', B starts 'A', C starts 'B', D starts 'C'. Labels and text do not match."
+        }
+      ],
+      "mean": 3,
+      "min": 3,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [
+        "broken_layout"
+      ],
+      "blocking": true,
+      "unknown_flags": [],
+      "objective_tag": "psychology.social-influence-and-group-processes.social-influence-not-always-negative",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": "easy"
+      },
+      "key_dispute": false
+    },
+    "fe890728-404a-483d-b14f-e502353ee6f1": {
+      "question_id": "fe890728-404a-483d-b14f-e502353ee6f1",
+      "batch": "psychology__social-influence-and-group-processes__01",
+      "chapter": "Social Influence & Group Processes",
+      "key": "A",
+      "content_hash": "281ede201d0520df592154992a112ca919ef9a8e09e2dffb56a56b2223839800",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.social-influence-and-group-processes.compliance-vs-internalization-belief-change",
+          "flags": [],
+          "note": "Both statements are true, so key A is correct. Labelled hard but this is direct recall, so judged easy (two-level gap). Distractors B to D are weak."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.social-influence-and-group-processes.kelman-compliance-vs-internalization",
+          "flags": [],
+          "note": "Both statements are true under Kelman's model; clean true/false set. Confirm Kelman's processes are in the 2026 syllabus. Label hard is one level high."
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.social-influence-and-group-processes.compliance-vs-internalization-belief-change",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "easy",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "0e5ff47c-2e06-404b-bc4c-eedf560a1015": {
+      "question_id": "0e5ff47c-2e06-404b-bc4c-eedf560a1015",
+      "batch": "psychology__therapeutic-approaches__01",
+      "chapter": "Therapeutic Approaches",
+      "key": "A",
+      "content_hash": "7e0d10cd9ed41bd5cc44795249ec1876105853adc875a6da06756f5fda8ddede",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.therapeutic-approaches.systematic-desensitisation-vs-flooding",
+          "flags": [],
+          "note": "Correct: desensitisation is gradual via a hierarchy, not direct exposure. Options C and D are plainly false and B is a weak pairing distractor, so the distractor set is thin."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.therapeutic-approaches.systematic-desensitisation-vs-flooding",
+          "flags": [],
+          "note": "Clean recall item: stem describes flooding, key names the confusion and the gradual hierarchy. Distractors C and D are plainly false, so options are weak."
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.therapeutic-approaches.systematic-desensitisation-vs-flooding",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "23c45b10-fea8-48e6-bd5a-2919f64587c1": {
+      "question_id": "23c45b10-fea8-48e6-bd5a-2919f64587c1",
+      "batch": "psychology__therapeutic-approaches__01",
+      "chapter": "Therapeutic Approaches",
+      "key": "A",
+      "content_hash": "f363afb7df2f284689278d9f0f1e01ddeaf9ce489ec7677833733220ac869e97",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.therapeutic-approaches.free-association-technique",
+          "flags": [],
+          "note": "Clean definition-to-term recall with plausible psychoanalytic distractors. The stem is a little long for the item."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.therapeutic-approaches.free-association-technique",
+          "flags": [],
+          "note": "Fair NCERT-style definition item with three recognisable psychoanalytic distractors. Key correct and unambiguous."
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.therapeutic-approaches.free-association-technique",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "3477113b-a358-48e3-9bcf-3eefea9980a5": {
+      "question_id": "3477113b-a358-48e3-9bcf-3eefea9980a5",
+      "batch": "psychology__therapeutic-approaches__01",
+      "chapter": "Therapeutic Approaches",
+      "key": "B",
+      "content_hash": "871e703e301c0fbdc53e6791ece3e30acc4cd986b9d0751e315786929abf6914",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.therapeutic-approaches.behaviour-therapy-observable-behaviour-focus",
+          "flags": [],
+          "note": "Key B is right, but the scenario stem is long and wordy, and A, C and D fall by elimination. Labelled hard; the reasoning is one step, so medium."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.therapeutic-approaches.behaviour-therapy-observable-behaviour-focus",
+          "flags": [],
+          "note": "Key defensible, but the stem is a long scenario mixing psychodynamic terms, not CUET style. Option C is easy to eliminate. Label hard is one level high."
+        }
+      ],
+      "mean": 6,
+      "min": 6,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.therapeutic-approaches.behaviour-therapy-observable-behaviour-focus",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": "medium"
+      },
+      "key_dispute": false
+    },
+    "39340af9-5550-4bb7-904c-28c89a5582fe": {
+      "question_id": "39340af9-5550-4bb7-904c-28c89a5582fe",
+      "batch": "psychology__therapeutic-approaches__01",
+      "chapter": "Therapeutic Approaches",
+      "key": "C",
+      "content_hash": "49f7e2f6c1cc6b98be1778159a23b0a6028f7aa4667f4e14992236d4d8d6072d",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 4,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.therapeutic-approaches.behaviour-vs-cognitive-therapy-focus",
+          "flags": [
+            "doubtful_key"
+          ],
+          "note": "Key C needs Statement I's 'exclusively' to be true and Statement II's 'may overlook' to be false. Both depend on contested characterisations, so the key is not established from the syllabus."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 4,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.therapeutic-approaches.behaviour-vs-cognitive-therapy-targets",
+          "flags": [
+            "doubtful_key"
+          ],
+          "note": "Statement II says cognitive therapy 'may overlook' behavioural components, so its truth depends on how 'may' is read. Key C is defensible but not clean."
+        }
+      ],
+      "mean": 4,
+      "min": 4,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [
+        "doubtful_key"
+      ],
+      "blocking": true,
+      "unknown_flags": [],
+      "objective_tag": "psychology.therapeutic-approaches.behaviour-vs-cognitive-therapy-focus",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "3a8fbc1b-e14e-4102-a73b-06b1480aa6a9": {
+      "question_id": "3a8fbc1b-e14e-4102-a73b-06b1480aa6a9",
+      "batch": "psychology__therapeutic-approaches__01",
+      "chapter": "Therapeutic Approaches",
+      "key": "A",
+      "content_hash": "a186dcb836ed5de5cfb8a3eb701ae1f8d7c0b2813fe94dc7183b5cedfc07ce84",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.therapeutic-approaches.systematic-desensitisation-vs-aversive-conditioning",
+          "flags": [],
+          "note": "Clean two-part pair item. Each distractor is wrong in one half, so the student must recall both techniques. Key verified."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.therapeutic-approaches.matching-behaviour-techniques-to-therapies",
+          "flags": [],
+          "note": "Correct pair follows from gradual exposure with relaxation and pairing with an unpleasant stimulus. B and C each break on one term, so elimination is easy."
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.therapeutic-approaches.systematic-desensitisation-vs-aversive-conditioning",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "3e3f1a07-22d9-4359-8bdd-31822bf97889": {
+      "question_id": "3e3f1a07-22d9-4359-8bdd-31822bf97889",
+      "batch": "psychology__therapeutic-approaches__01",
+      "chapter": "Therapeutic Approaches",
+      "key": "B",
+      "content_hash": "21363896004baec8515e9ba1de42dddc39dcecdd8391d5688497d7451d1ca1e2",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.therapeutic-approaches.rebt-disputing-irrational-beliefs",
+          "flags": [],
+          "note": "Key B holds: disputing is REBT's method and rational, self-accepting outlook is its goal, so the reason explains the assertion. Standard A-R form; labelled hard, judged medium."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.therapeutic-approaches.rebt-disputing-irrational-beliefs",
+          "flags": [],
+          "note": "Both halves are true and the reason gives the goal that disputing serves, so B holds. Reasonable AR item. Label hard is one level high."
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.therapeutic-approaches.rebt-disputing-irrational-beliefs",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": "medium"
+      },
+      "key_dispute": false
+    },
+    "7ed9e3db-3066-4ce7-b6b5-95bacdf61791": {
+      "question_id": "7ed9e3db-3066-4ce7-b6b5-95bacdf61791",
+      "batch": "psychology__therapeutic-approaches__01",
+      "chapter": "Therapeutic Approaches",
+      "key": "A",
+      "content_hash": "737894cc9fdcfc40f1165f5a3538f866dc1f65bc632cb21bf17964eeae0ad4a2",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.therapeutic-approaches.humanistic-therapy-personal-growth",
+          "flags": [],
+          "note": "Correct, but the three distractors fall by elimination (exclusive behaviour focus, avoids emotion, medication). Generic stem; practice-grade. Labelled medium."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.therapeutic-approaches.humanistic-personal-growth",
+          "flags": [],
+          "note": "Correct but obvious by elimination: B, C and D are each plainly false. Stem is generic filler. Label medium is one level high."
+        }
+      ],
+      "mean": 6,
+      "min": 6,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.therapeutic-approaches.humanistic-therapy-personal-growth",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": "easy"
+      },
+      "key_dispute": false
+    },
+    "837970a3-145e-4b88-be75-01538f0c385d": {
+      "question_id": "837970a3-145e-4b88-be75-01538f0c385d",
+      "batch": "psychology__therapeutic-approaches__01",
+      "chapter": "Therapeutic Approaches",
+      "key": "B",
+      "content_hash": "764ff1fd0dea406164ebf48b1a4f4c142ab47835f8f9f2a2a0cf71a8ea2f6dfa",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.therapeutic-approaches.behaviour-therapy-observable-behaviour-focus",
+          "flags": [],
+          "note": "Correct, but A, C and D are obviously wrong, so elimination gives the key. Generic one-fact stem; practice-grade. Labelled medium."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.therapeutic-approaches.behaviour-therapy-reinforcement-based-modification",
+          "flags": [],
+          "note": "Correct, but the other three options are plainly false by elimination. Explanation is a bare restatement of the key."
+        }
+      ],
+      "mean": 6,
+      "min": 6,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.therapeutic-approaches.behaviour-therapy-observable-behaviour-focus",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": "easy"
+      },
+      "key_dispute": false
+    },
+    "9c95fa34-538e-4cf2-ab14-589f5f48068c": {
+      "question_id": "9c95fa34-538e-4cf2-ab14-589f5f48068c",
+      "batch": "psychology__therapeutic-approaches__01",
+      "chapter": "Therapeutic Approaches",
+      "key": "A",
+      "content_hash": "0d1e957dfe4b59920c6fcb19fe510915edfc1e02817ae375293757f4522baf25",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 1,
+          "blind_answer": "D",
+          "key_matches": false,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.therapeutic-approaches.cbt-targets-conscious-cognitions",
+          "flags": [
+            "wrong_key"
+          ],
+          "note": "Key A is wrong: the reason says CBT is primarily concerned with unconscious processes, which is false, and the explanation itself says so. Correct key is D (assertion true, reason false)."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 2,
+          "blind_answer": "D",
+          "key_matches": false,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.therapeutic-approaches.cbt-focus-on-conscious-cognition",
+          "flags": [
+            "wrong_key"
+          ],
+          "note": "Key A is wrong. The reason (CBT concerns unconscious processes) is false, so the correct answer is D. The item's own explanation says the reason is incorrect."
+        }
+      ],
+      "mean": 1.5,
+      "min": 1,
+      "spread": 1,
+      "key_agreement": "none",
+      "blind_answers_agree": true,
+      "flags": [
+        "wrong_key"
+      ],
+      "blocking": true,
+      "unknown_flags": [],
+      "objective_tag": "psychology.therapeutic-approaches.cbt-targets-conscious-cognitions",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "key_dispute": true
+    },
+    "cd935a57-3296-4043-be41-1e21be8b5992": {
+      "question_id": "cd935a57-3296-4043-be41-1e21be8b5992",
+      "batch": "psychology__therapeutic-approaches__01",
+      "chapter": "Therapeutic Approaches",
+      "key": "B",
+      "content_hash": "b55555e0389c68f083b56e24e3810f7c780b5dbd7a2b4131b5469a8a7d163386",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.therapeutic-approaches.cbt-structured-behaviour-change",
+          "flags": [],
+          "note": "Correct, but the one-line case points straight at CBT and the other three approaches are clearly off-target. Practice-grade. Labelled medium."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 6,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.therapeutic-approaches.identifying-cbt-from-description",
+          "flags": [],
+          "note": "Only CBT fits the structured, anxiety-focused behaviour-change description, so it is answerable by elimination. Label medium is one level high."
+        }
+      ],
+      "mean": 6,
+      "min": 6,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.therapeutic-approaches.cbt-structured-behaviour-change",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": "easy"
+      },
+      "key_dispute": false
+    },
+    "3681c6b3-ae67-4f92-b54e-aab358f536b8": {
+      "question_id": "3681c6b3-ae67-4f92-b54e-aab358f536b8",
+      "batch": "psychology__variations-in-psychological-attributes__01",
+      "chapter": "Variations in Psychological Attributes",
+      "key": "B",
+      "content_hash": "91b988ac6e50ec124867e5e0f6c00adb330b1d4f11b34350f180d6b267c78020",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.variations-in-psychological-attributes.person-centered-unconditional-regard",
+          "flags": [],
+          "note": "Clean direct-recall item. Option text repeats the key letter (A A Cognitive therapy), a layout nit only, not blocking."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.variations-in-psychological-attributes.person-centered-unconditional-positive-regard",
+          "flags": [],
+          "note": "Key B correct (Rogers). Option text repeats the key letter (A Cognitive therapy), so a doubled letter may show on screen; strip the prefix. Not blocking."
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.variations-in-psychological-attributes.person-centered-unconditional-regard",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "61dc61bc-8137-4f02-8bdb-98a6c2d8a346": {
+      "question_id": "61dc61bc-8137-4f02-8bdb-98a6c2d8a346",
+      "batch": "psychology__variations-in-psychological-attributes__01",
+      "chapter": "Variations in Psychological Attributes",
+      "key": "B",
+      "content_hash": "2a325eaac6808b2304915f438168c401bfcc0c3c69a67841236b6e3438f9d789",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.variations-in-psychological-attributes.coping-strategy-classification",
+          "flags": [],
+          "note": "Correct: resume updating is problem-focused, sharing feelings is emotion-focused. Label hard is one level high; the item needs two classifications."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.variations-in-psychological-attributes.coping-strategy-types",
+          "flags": [],
+          "note": "Key B correct: resume and employer contact are problem-focused, sharing feelings is emotion-focused. Labelled hard, judged medium (two-step case). Stem opens with a Case label but holds the full case."
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.variations-in-psychological-attributes.coping-strategy-classification",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": "medium"
+      },
+      "key_dispute": false
+    },
+    "61f1e1b7-a260-4409-a352-1806785d2171": {
+      "question_id": "61f1e1b7-a260-4409-a352-1806785d2171",
+      "batch": "psychology__variations-in-psychological-attributes__01",
+      "chapter": "Variations in Psychological Attributes",
+      "key": "C",
+      "content_hash": "56c4b7f69e1ca09784092f67a6ea46b0f1c40c25cb9c76a819c3d4ef0b089fbc",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.variations-in-psychological-attributes.resilience-trainable-not-solely-genetic",
+          "flags": [],
+          "note": "Key C is correct. The word solely makes the reason obviously false, and the label hard is overstated. Resilience-as-trainable sits at the edge of the chapter; not flagged."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.variations-in-psychological-attributes.resilience-trainable-not-solely-genetic",
+          "flags": [],
+          "note": "Key C correct: resilience is trainable (assertion true), genetic-only reason is false. Labelled hard; the false reason is easy to spot, so judged medium."
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.variations-in-psychological-attributes.resilience-trainable-not-solely-genetic",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": "medium"
+      },
+      "key_dispute": false
+    },
+    "7a15f1a9-d61d-4ee0-a232-53cc21a74e28": {
+      "question_id": "7a15f1a9-d61d-4ee0-a232-53cc21a74e28",
+      "batch": "psychology__variations-in-psychological-attributes__01",
+      "chapter": "Variations in Psychological Attributes",
+      "key": "C",
+      "content_hash": "dcc05f5a43a7f441bfacc7845ebd1af03513a508ae0b3f73ab316ba3dbb9c57c",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.variations-in-psychological-attributes.behaviour-therapy-observable-focus",
+          "flags": [],
+          "note": "Key C is correct: assertion true, reason false (unconscious motives are psychoanalytic). Reason is easy to dismiss; label hard is one level high."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.variations-in-psychological-attributes.behaviour-therapy-observable-behaviour-focus",
+          "flags": [],
+          "note": "Key C correct: behaviour therapy targets observable behaviour, while unconscious motives are the psychoanalytic focus, so the reason is false. Labelled hard, judged medium."
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.variations-in-psychological-attributes.behaviour-therapy-observable-focus",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": "medium"
+      },
+      "key_dispute": false
+    },
+    "9997a965-2f8e-4ba7-9fb6-80ab272907c8": {
+      "question_id": "9997a965-2f8e-4ba7-9fb6-80ab272907c8",
+      "batch": "psychology__variations-in-psychological-attributes__01",
+      "chapter": "Variations in Psychological Attributes",
+      "key": "A",
+      "content_hash": "b0d0e9173abe00964540ffc485284244747f141fb28d61b358e655726a922117",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.variations-in-psychological-attributes.therapy-approach-primary-focus",
+          "flags": [],
+          "note": "Correct pairing 1-B, 2-D, 3-A, 4-C. Four standard NCERT pairs; distractors are permutations, one shares two pairs with the key. Fair mock item."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.variations-in-psychological-attributes.therapy-approaches-matched-to-focus",
+          "flags": [],
+          "note": "Key A is the only fully correct pairing (1-B, 2-D, 3-A, 4-C). Clean four-pair match in NCERT form; held at 8 because the four-pair scale is small and distractors are easy to reject."
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.variations-in-psychological-attributes.therapy-approach-primary-focus",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "bc28754e-7a25-4b10-a51d-86ad1de4680d": {
+      "question_id": "bc28754e-7a25-4b10-a51d-86ad1de4680d",
+      "batch": "psychology__variations-in-psychological-attributes__01",
+      "chapter": "Variations in Psychological Attributes",
+      "key": "C",
+      "content_hash": "a8db1b1dc4c3e2eb1edee8b1c8a308eeaa284e848377c4bb0d2fd7a1bdefd5db",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.variations-in-psychological-attributes.standard-deviation-score-interpretation",
+          "flags": [],
+          "note": "Clean two-step z-score item: (70-50)/10 = 2 SD above. Distractors B (sign slip) and A (misreading) are realistic. Label easy is one level low."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.variations-in-psychological-attributes.standard-score-z-interpretation",
+          "flags": [],
+          "note": "Key C correct: z = (70-50)/10 = +2. All inputs are in the stem; B is a sign slip. Explanation says significantly more extraverted, which is loose (no percentile or norm stated)."
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.variations-in-psychological-attributes.standard-deviation-score-interpretation",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "medium",
+          "easy"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "c393bdc7-e680-4f73-a710-e94fba28459a": {
+      "question_id": "c393bdc7-e680-4f73-a710-e94fba28459a",
+      "batch": "psychology__variations-in-psychological-attributes__01",
+      "chapter": "Variations in Psychological Attributes",
+      "key": "A",
+      "content_hash": "d014539600c8802295628901ea85138123ca40ea9e422241d082db1f86cc2133",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.variations-in-psychological-attributes.coping-strategy-classification",
+          "flags": [],
+          "note": "Key A correct: 1-B, 2-C, 3-A, 4-D. Four-way match is clean, but social support and positive reappraisal go beyond the usual NCERT two-way split; scored down, not flagged."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.variations-in-psychological-attributes.coping-strategy-types",
+          "flags": [],
+          "note": "Key A is the only fully correct pairing (1-B, 2-C, 3-A, 4-D). Clean four-pair match; held at 8 for the small scale and easy elimination."
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.variations-in-psychological-attributes.coping-strategy-classification",
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    },
+    "f1ef284c-2f5d-4670-aab1-4019e9c1e554": {
+      "question_id": "f1ef284c-2f5d-4670-aab1-4019e9c1e554",
+      "batch": "psychology__variations-in-psychological-attributes__01",
+      "chapter": "Variations in Psychological Attributes",
+      "key": "B",
+      "content_hash": "65da457e8a756c1d1a167dd7a1b77bae9c611c970530dd56043ab190ed6f4000",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.variations-in-psychological-attributes.defence-mechanism-projection",
+          "flags": [],
+          "note": "Correct: blaming others for own faults is projection. Distractors are the other standard defence mechanisms. Defence mechanisms sit at the edge of this chapter; not flagged."
+        },
+        {
+          "judge": "j2",
+          "model": "claude-haiku-5-5",
+          "date": "2026-10-13",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "psychology.variations-in-psychological-attributes.defence-mechanism-projection",
+          "flags": [],
+          "note": "Key B correct: blaming others and feeling they are out to get her is projection. Options are standard defence types with sublimation clearly off. Stem has a Case label but the case is in the stem."
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.variations-in-psychological-attributes.defence-mechanism-projection",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "key_dispute": false
+    }
+  }
 }

@@ -53,7 +53,7 @@ A blocking flag is a defect that makes the item unfit for NTA mode however well 
 | `wrong_key` | The stored key is not correct. Re-derive it; name the right letter in `note`. | 2 |
 | `doubtful_key` | The key may be right but you cannot establish it from the syllabus, the explanation contradicts the key, or the source of truth is disputed. | 4 |
 | `multiple_defensible` | More than one option is correct on a fair reading, or the item is correct only under an unstated assumption. | 4 |
-| `answer_in_stem` | The stem gives the answer away: states the rule it then asks about, repeats the correct option's wording, defines the tested term, or names the answer in a clue. | 5 |
+| `answer_in_stem` | The stem gives the answer away: a student with no subject knowledge could pick the key from the stem alone. Use it when the stem states the rule it then asks you to apply, states the very figure or fact the key is, or uses the key's own wording as a clue. Signposting is not this flag: a stem that only narrows the choice (names the first and last step of a sequence, repeats one phrase that an option also uses while the student still needs the concept, is long or wordy) lowers the score by a point and nothing more. Asking which term fits a given definition ("which function instructs, guides and motivates people?") is the normal NCERT recall form and is not this flag. A sequence stem that narrates the whole order is `broken_layout`, not this flag. | 5 |
 | `hedge_wording` | Factory hedges and fix-ups: "Assume ...", "For this question ...", "In this item ...", "the stated condition/rule/principle", "is stipulated", "used to mean", "as defined here". A real paper never says these. | 5 |
 | `cites_source_text` | The stem or an option says "the excerpt", "the passage" where there is none, "the source text", "the case stipulates", "options B-D", or otherwise points at material or options the student cannot see. | 4 |
 | `factual_error` | Any statement of fact in the stem, options, passage or explanation is wrong (including the explanation contradicting the key). | 3 |
@@ -63,7 +63,7 @@ A blocking flag is a defect that makes the item unfit for NTA mode however well 
 | `duplicate_options` | Two options are identical or equivalent, or an option repeats text from the stem so that it stands out. | 3 |
 | `garbled_text` | Encoding corruption, truncated sentence, empty option, unresolved placeholder, LaTeX or markup that would show as raw code. | 2 |
 
-Flag only what you can point to. If you flag, `note` must say where. Several flags may apply; the lowest cap wins. Do not invent flags outside this list; put anything else in `note`.
+Flag only what you can point to. If you flag, `note` must say where. When unsure whether a stem is a leak or only signposts, do not flag; score it down one point and say why in `note` (calibration found `answer_in_stem` was the least stable flag: 17 items flagged by either judge, 4 by both). Several flags may apply; the lowest cap wins. Do not invent flags outside this list; put anything else in `note`.
 
 Non-blocking weaknesses (weak distractors, wordy stem, a trivial item) are not flags. They lower the score only.
 

@@ -84,7 +84,17 @@ test('only agent ids that pass every row-free check are worth reading', () => {
   const agentScores = tableFor('economics', rows, { entry: (row) => (row.id === rows[0].id ? entryFor(row, { flags: ['wrong_key'] }) : entryFor(row)) });
   assert.deepEqual(ntaAgentAdmissibleIds('economics', { agentScores }).sort(), rows.slice(1).map((row) => row.id).sort());
   assert.deepEqual(ntaAgentAdmissibleIds('economics', { agentScores: tableFor('economics', rows, { calibration: { status: 'pending' } }) }), []);
-  assert.deepEqual(ntaAgentAdmissibleIds('economics'), [], 'the committed tables admit nothing until calibration');
+  // The committed table (agent pass 13 Oct) admits exactly the clean entries at the calibrated threshold.
+  const committed = JSON.parse(fs.readFileSync(new URL('../nta_agent_scores/economics.json', import.meta.url), 'utf8'));
+  const admitted = ntaAgentAdmissibleIds('economics');
+  if (committed.calibration?.status !== 'calibrated') assert.deepEqual(admitted, [], 'an uncalibrated table admits nothing');
+  assert.equal(admitted.length, committed.measures.admissible_before_row_checks);
+  for (const id of admitted) {
+    const entry = committed.questions[id];
+    assert.equal(entry.judges.length, 2);
+    assert.ok(entry.judges.every((j) => j.quality_score >= committed.calibration.threshold && j.blind_answer === entry.key), id);
+    assert.equal(entry.blocking, false, id);
+  }
 });
 
 // ---------------------------------------------------------------------------------------------
