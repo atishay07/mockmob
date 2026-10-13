@@ -5,30 +5,38 @@ import 'package:dio/dio.dart';
 import '../api/token_provider.dart';
 import '../config/app_config.dart';
 import '../storage/secure_store.dart';
+import 'session_keeper.dart';
 import 'session_lock.dart';
-import 'stored_session.dart';
+import 'session_vault.dart';
+import 'token_client.dart';
 
 /// Token source for the headless WorkManager isolate (design spec 5.5.1, point 3).
 ///
-/// The isolate has no Supabase client, so it reads the stored session, and when the access
-/// token is about to expire it calls the Supabase token endpoint itself and writes the new
-/// session back. All of that happens under the shared [SessionLock] so the foreground and
-/// background isolates never spend the same refresh token twice.
+/// The isolate has no Supabase client. It reads the stored session and, when the access token
+/// is about to expire, refreshes it through [SessionKeeper], the same code the foreground uses,
+/// under the shared [SessionLock], so the two isolates never spend one refresh token twice.
+///
+/// It never deletes the session: when Supabase rejects the refresh token it only reports
+/// [sessionLost], and the foreground clears the session on its next refresh.
 class BackgroundTokenRefresher implements ApiTokenProvider {
   BackgroundTokenRefresher({
-    required this._config,
-    required this._store,
-    required this._lock,
+    required AppConfig config,
+    required SecureStore store,
+    required SessionLock lock,
     Dio? dio,
     DateTime Function()? now,
-  })  : _dio = dio ?? Dio(BaseOptions(connectTimeout: const Duration(seconds: 8), receiveTimeout: const Duration(seconds: 10))),
-        _now = now ?? DateTime.now;
+    Future<void> Function(Duration)? pause,
+  })  : _config = config,
+        _keeper = SessionKeeper(
+          // The same hardened storage as the foreground (session_vault.dart).
+          store: SessionVault.around(store),
+          lock: lock,
+          client: SupabaseTokenClient(config: config, dio: dio, pause: pause),
+          now: now,
+        );
 
   final AppConfig _config;
-  final SecureStore _store;
-  final SessionLock _lock;
-  final Dio _dio;
-  final DateTime Function() _now;
+  final SessionKeeper _keeper;
 
   bool _lost = false;
 
@@ -37,62 +45,36 @@ class BackgroundTokenRefresher implements ApiTokenProvider {
 
   @override
   Future<String?> accessToken() async {
-    final session = StoredSession.tryParse(await _store.read(SecureKeys.supabaseSession));
+    final session = await _keeper.read();
     if (session == null) return null;
-    if (session.isFresh(_now())) return session.accessToken;
+    if (session.isFresh(_keeper.now())) return session.accessToken;
+    if (!_config.supabaseConfigured) return null;
     try {
-      return await _refresh(force: false) ? _current() : null;
+      return _tokenFrom(await _keeper.ensureFresh(staleAccessToken: session.accessToken));
     } on RefreshUnavailable {
       return null; // Offline: the next job run tries again.
     }
   }
 
   @override
-  Future<bool> refresh() => _refresh(force: true);
+  Future<bool> refresh() async {
+    if (!_config.supabaseConfigured) return false;
+    final stale = (await _keeper.read())?.accessToken;
+    return _tokenFrom(await _keeper.ensureFresh(force: true, staleAccessToken: stale)) != null;
+  }
 
   @override
   Future<void> onSessionLost() async => _lost = true;
 
-  Future<String?> _current() async => StoredSession.tryParse(await _store.read(SecureKeys.supabaseSession))?.accessToken;
-
-  /// False when the refresh token was rejected or there is nothing to refresh; throws
-  /// [RefreshUnavailable] when the network or the lock stopped it.
-  Future<bool> _refresh({required bool force}) async {
-    if (!_config.supabaseConfigured) return false;
-    final staleToken = StoredSession.tryParse(await _store.read(SecureKeys.supabaseSession))?.accessToken;
-    try {
-      return await _lock.synchronized(() async {
-        // Re-read inside the lock: the foreground may have refreshed while we waited.
-        final stored = StoredSession.tryParse(await _store.read(SecureKeys.supabaseSession));
-        if (stored == null) return false;
-        final alreadyRefreshed = staleToken != null && stored.accessToken != staleToken;
-        if (stored.isFresh(_now()) && (!force || alreadyRefreshed)) return true;
-        final refreshToken = stored.refreshToken;
-        if (refreshToken == null || refreshToken.isEmpty) return false;
-        try {
-          final response = await _dio.post<Object?>(
-            '${_config.supabaseUrl.replaceAll(RegExp(r'/+$'), '')}/auth/v1/token',
-            queryParameters: {'grant_type': 'refresh_token'},
-            data: {'refresh_token': refreshToken},
-            options: Options(headers: {'apikey': _config.supabaseAnonKey, 'Content-Type': 'application/json'}),
-          );
-          final body = response.data;
-          if (body is! Map<String, dynamic> || body['access_token'] is! String) return false;
-          await _store.write(SecureKeys.supabaseSession, stored.withRefreshed(body, _now()).encode());
-          return true;
-        } on DioException catch (e) {
-          final status = e.response?.statusCode;
-          // 400 and 401 mean the refresh token itself was refused. Network errors are retried
-          // by the next job run, not treated as a lost session.
-          if (status == 400 || status == 401 || status == 403) {
-            _lost = true;
-            return false;
-          }
-          throw const RefreshUnavailable();
-        }
-      });
-    } on TimeoutException {
-      throw const RefreshUnavailable();
+  String? _tokenFrom(KeepResult result) {
+    switch (result) {
+      case KeepFresh(:final session):
+        return session.accessToken;
+      case KeepRejected():
+        _lost = true;
+        return null;
+      case KeepNone():
+        return null;
     }
   }
 }

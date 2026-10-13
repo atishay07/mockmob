@@ -24,8 +24,16 @@ final authServiceProvider = FutureProvider<AuthService?>(
     final store = ref.watch(secureStoreProvider);
     final client = await initializeSupabase(config, store);
     if (client == null) return null;
-    final service = AuthService(client: client, store: store, lock: await openSessionLock(), config: config);
+    final service = AuthService(
+      client: client,
+      store: store,
+      lock: await openSessionLock(),
+      config: config,
+      links: appLinkStream(),
+    );
     ref.onDispose(service.dispose);
+    // Loads the stored session (offline-safe) before anyone asks for a token.
+    await service.restore();
     return service;
   },
   retry: (retryCount, error) => null,

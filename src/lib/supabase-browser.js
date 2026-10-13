@@ -1,6 +1,7 @@
 "use client";
 
 import { createBrowserClient } from '@supabase/ssr';
+import { authSafeFetch, isTransientAuthError } from '@/lib/supabase-auth-errors';
 
 let browserClient = null;
 
@@ -17,8 +18,12 @@ export function getSupabaseBrowserClient() {
   if (browserClient) return browserClient;
   const { url, anonKey } = getSupabaseKeys();
   browserClient = createBrowserClient(url, anonKey, {
+    // A 429 or 5xx on a token refresh must not delete the session (supabase-auth-errors.js).
+    global: { fetch: authSafeFetch },
     auth: {
-      // The dedicated /auth/callback page owns PKCE code exchange.
+      // Google sign-in uses PKCE: the code verifier stays in this browser and /auth/callback
+      // exchanges the code. The callback page owns that exchange, so no auto-detection.
+      flowType: 'pkce',
       detectSessionInUrl: false,
     },
   });
@@ -49,16 +54,34 @@ export async function signInWithEmailOtp(email, redirectTo) {
   return { data, error: null };
 }
 
+/** Turns a Supabase verify error into copy that names the next step. */
+export function friendlyOtpError(error) {
+  if (!error) return null;
+  const status = Number(error.status);
+  if (status === 429 || error.code === 'over_request_rate_limit') {
+    return { code: 'rate_limited', message: 'Too many tries for now. Wait a minute, then type the code again.' };
+  }
+  if (isTransientAuthError(error)) {
+    return { code: 'offline', message: 'Could not reach MockMob. Check your connection and try the same code again.' };
+  }
+  return {
+    code: 'invalid_code',
+    message: 'That code is wrong or has expired. Use the newest email from MockMob, or send a new code.',
+  };
+}
+
 export async function verifyEmailOtp(email, token) {
   const supabase = getSupabaseBrowserClient();
-  const types = ['magiclink', 'email'];
+  // Our /api/auth/email-login mints the code with generateLink: existing accounts get a
+  // magic-link code and new accounts a sign-up code. Type 'email' accepts both; 'magiclink'
+  // stays as a fallback for older Supabase Auth versions.
   let lastResult = null;
-
-  for (const type of types) {
+  for (const type of ['email', 'magiclink']) {
     const result = await supabase.auth.verifyOtp({ email, token, type });
     if (!result.error) return result;
     lastResult = result;
+    // A network failure or rate limit will not change with the other type.
+    if (isTransientAuthError(result.error)) break;
   }
-
-  return lastResult;
+  return { ...lastResult, error: friendlyOtpError(lastResult?.error) };
 }

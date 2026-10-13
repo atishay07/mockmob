@@ -1,170 +1,93 @@
 import 'server-only';
-import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
 import { createServerClient } from '@supabase/ssr';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { Database } from "@/../data/db";
 import { supabaseAdmin } from '@/lib/supabase';
-import { randomBytes } from 'node:crypto';
+import { AUTH_STALE_HEADER, isTransientAuthError } from '@/lib/supabase-auth-errors';
+import { ensureDbUser, hasConfirmedEmail, readCookieUser } from '@/lib/server/cookieSession';
 
-// Vestigial next-auth setup: live login is Supabase (see AuthProvider.jsx). No typed-name demo
-// login provider, no placeholder client ids and no literal secret fallback. Google is enabled only
-// when real env vars exist.
-const googleConfigured = Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET);
+// Live sign-in is Supabase only (Google OAuth with PKCE and the emailed code). The old
+// next-auth setup and its /api/auth/[...nextauth] route were removed on 13 Oct 2026: nothing
+// used them, and they were a second, unmonitored way to create accounts.
 
-export const authOptions = {
-  providers: googleConfigured
-    ? [
-        GoogleProvider({
-          clientId: process.env.GOOGLE_CLIENT_ID as string,
-          clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-        }),
-      ]
-    : [],
-  callbacks: {
-    async signIn({ user, account }) {
-      if (account?.provider === 'google') {
-        let dbUser = await Database.getUserByEmail(user.email);
-        if (!dbUser) {
-          dbUser = await Database.createUser({
-            name: user.name || user.email.split('@')[0],
-            email: user.email,
-            image: user.image
-          });
-        }
-        // Attach db id
-        user.id = dbUser.id;
-      }
-      return true;
-    },
-    async jwt({ token, user, trigger, session }) {
-      if (user) {
-        token.id = user.id;
-      }
-      if (trigger === "update" && session?.subjects) {
-        token.subjects = session.subjects;
-      }
-      // Get latest subjects from DB
-      if (token.id) {
-        const dbUser = await Database.getUserById(token.id);
-        if (dbUser) {
-          token.subjects = dbUser.subjects;
-        }
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (token) {
-        session.user.id = token.id;
-        session.user.subjects = token.subjects || [];
-      }
-      return session;
-    }
-  },
-  pages: {
-    signIn: '/login',
-  },
-  session: {
-    strategy: "jwt"
-  },
-  // A per-process random secret (never a literal) keeps the unused next-auth route from failing
-  // with MissingSecret when no secret is configured. No live login depends on it.
-  secret: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET || randomBytes(32).toString('hex'),
+type SupabaseIdentity = {
+  id: string;
+  email?: string | null;
+  email_confirmed_at?: string | null;
+  user_metadata?: Record<string, any> | null;
 };
+type UserLookup = { user: SupabaseIdentity | null; transient: boolean };
 
-const { handlers } = NextAuth(authOptions);
-
-async function getSupabaseUserFromCookies() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!url || !anonKey) return null;
-
+async function getSupabaseUserFromCookies(): Promise<UserLookup> {
   try {
-    const cookieStore = await cookies();
-    const supabase = createServerClient(url, anonKey, {
-      cookies: {
-        getAll: () => cookieStore.getAll().map(({ name, value }) => ({ name, value })),
-        setAll: (cookiesToSet) => {
-          for (const { name, value, options } of cookiesToSet) {
-            try {
-              cookieStore.set(name, value, options);
-            } catch {
-              // Some server contexts are read-only for cookies. That's fine for read-path auth.
-            }
-          }
-        },
-      },
+    const [cookieStore, requestHeaders] = await Promise.all([cookies(), headers()]);
+    return await readCookieUser({
+      cookieStore,
+      createServerClient,
+      supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
+      supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+      // src/proxy.js could not refresh this request: do not spend the refresh token here.
+      stale: Boolean(requestHeaders.get(AUTH_STALE_HEADER)),
     });
-
-    const { data, error } = await supabase.auth.getUser();
-    if (error || !data?.user) return null;
-    return data.user;
-  } catch {
-    return null;
+  } catch (error) {
+    return { user: null, transient: isTransientAuthError(error) };
   }
 }
 
-async function ensureDbUserFromIdentity(identity) {
-  if (!identity?.email) return null;
-
-  let dbUser = await Database.getUserByEmail(identity.email);
-  if (!dbUser) {
-    dbUser = await Database.createUser({
-      id: identity.id,
-      name: identity.name || identity.email.split('@')[0],
-      email: identity.email,
-      image: identity.image || null,
-      subjects: [],
-    });
-    return dbUser;
+async function getSupabaseUserFromBearer(authorization: string): Promise<UserLookup> {
+  if (!authorization.startsWith('Bearer ')) return { user: null, transient: false };
+  const token = authorization.slice(7).trim();
+  if (!token) return { user: null, transient: false };
+  try {
+    const { data, error } = await supabaseAdmin().auth.getUser(token);
+    if (error) return { user: null, transient: isTransientAuthError(error) };
+    return { user: data?.user || null, transient: false };
+  } catch (error) {
+    return { user: null, transient: isTransientAuthError(error) };
   }
-
-  const updates = {};
-  if (!dbUser.name && identity.name) updates.name = identity.name;
-  if (!dbUser.email && identity.email) updates.email = identity.email;
-  if (!dbUser.image && identity.image) updates.image = identity.image;
-
-  if (Object.keys(updates).length > 0) {
-    dbUser = await Database.updateUser(dbUser.id, updates);
-  }
-
-  return dbUser;
 }
 
-export async function auth(request?: Request) {
+/**
+ * Resolves the MockMob session and says whether a failure was transient (Supabase or the
+ * network was unreachable). Callers that decide whether a student is signed out, such as
+ * /api/auth/me, must answer 503 on a transient failure so clients retry instead of signing out.
+ */
+export async function authWithStatus(request?: Request): Promise<{ session: any; transient: boolean }> {
   const authorization = request?.headers.get('authorization');
-  let supabaseUser;
-  if (authorization) {
-    if (!authorization.startsWith('Bearer ')) return null;
-    const { data, error } = await supabaseAdmin().auth.getUser(authorization.slice(7));
-    if (error) return null;
-    supabaseUser = data.user;
-  } else {
-    supabaseUser = await getSupabaseUserFromCookies();
-  }
-  if (!supabaseUser?.email) return null;
+  const lookup = authorization
+    ? await getSupabaseUserFromBearer(authorization)
+    : await getSupabaseUserFromCookies();
+  const supabaseUser = lookup.user;
+  if (!supabaseUser?.email) return { session: null, transient: lookup.transient };
+  // An identity whose email was never confirmed (for example a sign-up made directly against
+  // the Auth API with someone else's address) never resolves to a MockMob account.
+  if (!hasConfirmedEmail(supabaseUser)) return { session: null, transient: false };
 
-  const dbUser = await ensureDbUserFromIdentity({
+  const dbUser = await ensureDbUser({
     id: supabaseUser.id,
     name: supabaseUser.user_metadata?.full_name || supabaseUser.user_metadata?.name || null,
     email: supabaseUser.email,
     image: supabaseUser.user_metadata?.avatar_url || null,
-  });
-  if (!dbUser) return null;
+  }, Database);
+  if (!dbUser) return { session: null, transient: false };
 
   return {
-    user: {
-      id: dbUser.id,
-      name: dbUser.name || '',
-      email: dbUser.email || '',
-      image: dbUser.image,
-      subjects: dbUser.subjects || [],
-      role: dbUser.role || 'student',
-      creditBalance: dbUser.creditBalance || 0,
-      supabaseId: supabaseUser.id,
+    transient: false,
+    session: {
+      user: {
+        id: dbUser.id,
+        name: dbUser.name || '',
+        email: dbUser.email || '',
+        image: dbUser.image,
+        subjects: dbUser.subjects || [],
+        role: dbUser.role || 'student',
+        creditBalance: dbUser.creditBalance || 0,
+        supabaseId: supabaseUser.id,
+      },
     },
   };
 }
 
-export { handlers };
+export async function auth(request?: Request) {
+  return (await authWithStatus(request)).session;
+}

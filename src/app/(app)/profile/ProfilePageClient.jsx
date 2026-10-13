@@ -9,6 +9,7 @@ import { SkeletonCard, ErrorState } from '@/components/ui/Skeleton';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/ToastProvider';
 import { PlanCard } from '@/components/billing/PlanCard';
+import { SignOutOtherDevicesSection } from '@/components/auth/SignOutOtherDevices';
 import { api, apiGet, apiPatch, apiPost } from '@/lib/fetcher';
 import './profile-privacy.css';
 import ArenaHead from '@/components/arena/ArenaHead';
@@ -301,6 +302,7 @@ export default function ProfilePageClient() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <UsageDataSection />
+        <SignOutOtherDevicesSection />
         <DeleteAccountSection />
       </div>
     </div>

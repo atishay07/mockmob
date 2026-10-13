@@ -7,6 +7,11 @@ import 'dart:io';
 /// POSIX file locks belong to the process, so two isolates of one app would not exclude each
 /// other. This uses an exclusive file create instead, which is atomic across isolates and
 /// processes. A lock older than [staleAfter] is treated as abandoned by a killed isolate.
+///
+/// Taking over an abandoned lock is itself serialized: a waiter first creates a second file
+/// (`<lock>.reclaim`) exclusively and checks the verdict again while holding it. Without that,
+/// two waiters could both judge the lock stale, the first could delete it and take a fresh
+/// one, and the second would then delete the first one's fresh lock and take it too.
 class SessionLock {
   SessionLock(
     this._file, {
@@ -41,9 +46,10 @@ class SessionLock {
       try {
         await _file.create(exclusive: true);
       } on FileSystemException {
-        // Held by someone else: drop it if abandoned, otherwise wait.
+        // Held by someone else: reclaim it if abandoned, otherwise wait.
         if (await _isStale()) {
-          await _deleteQuietly();
+          await _reclaimStale();
+          if (!_now().isBefore(deadline)) throw TimeoutException('Session lock busy', wait);
           continue;
         }
         if (!_now().isBefore(deadline)) {
@@ -67,13 +73,38 @@ class SessionLock {
     }
   }
 
-  Future<void> _deleteQuietly() async {
+  /// A reclaim guard older than this belongs to a waiter that died mid-reclaim.
+  static const _reclaimStaleAfter = Duration(seconds: 10);
+
+  File get _reclaimGuard => File('${_file.path}.reclaim');
+
+  /// Deletes an abandoned lock, one waiter at a time, re-checking the verdict under the guard
+  /// so a lock another waiter has just created is never deleted.
+  Future<void> _reclaimStale() async {
+    final guard = _reclaimGuard;
+    try {
+      await guard.create(exclusive: true);
+    } on FileSystemException {
+      // Another waiter is reclaiming. Clear its guard only if that waiter died part-way.
+      if (await _ageExceeds(guard, _reclaimStaleAfter)) await _deleteQuietly(guard);
+      await Future<void>.delayed(pollEvery);
+      return;
+    }
+    try {
+      if (await _isStale()) await _deleteQuietly(_file);
+    } finally {
+      await _deleteQuietly(guard);
+    }
+  }
+
+  Future<void> _deleteQuietly([File? target]) async {
+    final file = target ?? _file;
     for (var attempt = 0; attempt < 5; attempt++) {
       try {
-        await _file.delete();
+        await file.delete();
         return;
       } on FileSystemException {
-        if (!await _file.exists()) return;
+        if (!await file.exists()) return;
         await Future<void>.delayed(const Duration(milliseconds: 5));
       }
     }
@@ -93,10 +124,12 @@ class SessionLock {
     }
   }
 
-  Future<bool> _fileAgeExceeds() async {
+  Future<bool> _fileAgeExceeds() => _ageExceeds(_file, staleAfter);
+
+  Future<bool> _ageExceeds(File file, Duration limit) async {
     try {
-      final modified = await _file.lastModified();
-      return _now().difference(modified) > staleAfter;
+      final modified = await file.lastModified();
+      return _now().difference(modified) > limit;
     } on FileSystemException {
       return false;
     }

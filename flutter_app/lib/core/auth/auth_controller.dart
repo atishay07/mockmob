@@ -14,6 +14,7 @@ import '../notifications/notification_service.dart';
 import '../repositories/consent_repository.dart';
 import '../storage/storage_providers.dart';
 import '../sync/sync_providers.dart';
+import 'access_failure.dart';
 import 'auth_me_loader.dart';
 import 'auth_providers.dart';
 import 'auth_service.dart';
@@ -66,8 +67,10 @@ class AuthController extends Notifier<AuthSnapshot> {
 
   void _onAuthEvent(AuthService service, AuthChangeEvent event, Session? session) {
     switch (event) {
+      // A new sign-in, including one finished by the browser callback link. `initialSession`
+      // is not handled here: the service raises it whenever it restores or refreshes a session,
+      // and _start already handled the launch session.
       case AuthChangeEvent.signedIn:
-      case AuthChangeEvent.initialSession:
         _handleSession(session);
       case AuthChangeEvent.signedOut:
         if (!_explicitSignOut && state.status == AuthStatus.signedIn) {
@@ -105,7 +108,13 @@ class AuthController extends Notifier<AuthSnapshot> {
       await _applyProfile(me, fromCache: false);
     } on ApiError catch (e) {
       if (!ref.mounted) return;
-      if (e.isUnauthorized) return; // The API client signed out and the lost-session stream set the state.
+      if (e.isUnauthorized) {
+        // Normally the session is gone and the lost-session stream set the state. When Supabase
+        // still accepts the session (the MockMob server refused it for another reason), the
+        // student stays signed in and this is a load failure like any other.
+        final service = await _service();
+        if (!ref.mounted || service?.session == null) return;
+      }
       final cached = await _cachedProfileFor(session.user.email);
       if (cached != null) {
         await _applyProfile(cached, fromCache: true);
@@ -206,13 +215,76 @@ class AuthController extends Notifier<AuthSnapshot> {
     await _handleSession(service.session);
   }
 
-  /// Native Google sign-in. Returns false when the student cancelled.
+  /// Google sign-in for the email-code screens. True when signed in on the spot; false when the
+  /// student cancelled or the browser opened (the session then arrives through the callback
+  /// link and the router moves on by itself). Throws [SignInException].
   Future<bool> signInWithGoogle() async {
+    try {
+      return await continueWithGoogle() == GoogleOutcome.signedIn;
+    } on AccessException catch (e) {
+      throw SignInException(switch (e.failure) {
+        AccessFailure.offline => AuthFailure.offline,
+        AccessFailure.rateLimited => AuthFailure.rateLimited,
+        AccessFailure.notConfigured => AuthFailure.notConfigured,
+        _ => AuthFailure.googleUnavailable,
+      });
+    }
+  }
+
+  /// "Continue with Google": the native account sheet when it works here, else the browser.
+  /// Throws [AccessException].
+  Future<GoogleOutcome> continueWithGoogle() async {
+    final service = await _requireService();
+    final outcome = await service.signInWithGoogle();
+    if (outcome == GoogleOutcome.signedIn) await _handleSession(service.session);
+    return outcome;
+  }
+
+  /// Google in the browser, chosen by the student ("Use the browser instead"). Throws
+  /// [AccessException].
+  Future<void> continueWithGoogleInBrowser() async => (await _requireService()).startGoogleBrowser();
+
+  /// Results of browser sign-ins (signed in, cancelled, failed) for the screen to acknowledge.
+  Stream<OAuthReturn> oauthReturns() async* {
     final service = await _service();
-    if (service == null) throw const SignInException(AuthFailure.notConfigured);
-    final signedIn = await service.signInWithGoogle();
-    if (signedIn) await _handleSession(service.session);
-    return signedIn;
+    if (service != null) yield* service.oauthReturns;
+  }
+
+  /// Email and password. Throws [AccessException].
+  Future<void> signInWithPassword(String email, String password) async {
+    final service = await _requireService();
+    await service.signInWithPassword(email, password);
+    await _handleSession(service.session);
+  }
+
+  /// Sets or changes the password of the signed-in student. Throws [AccessException].
+  Future<void> setPassword(String password) async => (await _requireService()).setPassword(password);
+
+  /// Ends the account's sessions on every other device (the website, other phones), keeping
+  /// this one. Throws [AccessException].
+  Future<void> signOutOtherDevices() async => (await _requireService()).signOutOtherDevices();
+
+  /// Phone sign-in (behind PHONE_SIGN_IN). Throws [AccessException].
+  Future<void> sendPhoneCode(String phoneE164) async => (await _requireService()).sendPhoneCode(phoneE164);
+
+  /// Throws [AccessException].
+  Future<void> verifyPhoneCode(String phoneE164, String code) async {
+    final service = await _requireService();
+    await service.verifyPhoneCode(phoneE164, code);
+    await _handleSession(service.session);
+  }
+
+  /// Adds a phone to the signed-in account. Throws [AccessException].
+  Future<void> addPhone(String phoneE164) async => (await _requireService()).addPhone(phoneE164);
+
+  /// Throws [AccessException].
+  Future<void> verifyPhoneChange(String phoneE164, String code) async =>
+      (await _requireService()).verifyPhoneChange(phoneE164, code);
+
+  Future<AuthService> _requireService() async {
+    final service = await _service();
+    if (service == null) throw const AccessException(AccessFailure.notConfigured);
+    return service;
   }
 
   /// Signs out on purpose: clears the tokens, this account's drafts and usage-data queue,

@@ -9,6 +9,8 @@ class AppConfig {
     required this.supabaseAnonKey,
     this.googleWebClientId = '',
     this.freshChecksLive = false,
+    this.googleSignInModeName = 'auto',
+    this.phoneSignInEnabled = false,
   });
 
   /// Reads the compile-time defines. `API_BASE_URL` defaults to the production `www` host:
@@ -18,7 +20,9 @@ class AppConfig {
         supabaseUrl = const String.fromEnvironment('SUPABASE_URL'),
         supabaseAnonKey = const String.fromEnvironment('SUPABASE_ANON_KEY'),
         googleWebClientId = const String.fromEnvironment('GOOGLE_WEB_CLIENT_ID'),
-        freshChecksLive = const bool.fromEnvironment('FRESH_CHECKS_LIVE');
+        freshChecksLive = const bool.fromEnvironment('FRESH_CHECKS_LIVE'),
+        googleSignInModeName = const String.fromEnvironment('GOOGLE_SIGN_IN', defaultValue: 'auto'),
+        phoneSignInEnabled = const bool.fromEnvironment('PHONE_SIGN_IN');
 
   final String apiBaseUrl;
   final String supabaseUrl;
@@ -28,8 +32,31 @@ class AppConfig {
   /// The content gate for fresh-question checks. False until the owner opens it.
   final bool freshChecksLive;
 
-  /// Google sign-in is hidden when no web client id is configured.
-  bool get googleSignInEnabled => googleWebClientId.isNotEmpty;
+  /// `GOOGLE_SIGN_IN`: `auto` (default), `native`, `browser` or `off`. See docs/AUTH.md.
+  final String googleSignInModeName;
+
+  /// `PHONE_SIGN_IN`: phone sign-in by SMS code. Off until the owner sets up an SMS provider
+  /// (docs/AUTH.md, "Phone sign-in").
+  final bool phoneSignInEnabled;
+
+  GoogleSignInMode get googleSignInMode => switch (googleSignInModeName.trim().toLowerCase()) {
+        'native' => GoogleSignInMode.native,
+        'browser' => GoogleSignInMode.browser,
+        'off' => GoogleSignInMode.off,
+        _ => GoogleSignInMode.auto,
+      };
+
+  /// The one-tap Android account sheet (Credential Manager). Needs the Google web client id.
+  bool get googleNativeEnabled =>
+      googleWebClientId.isNotEmpty && (googleSignInMode == GoogleSignInMode.auto || googleSignInMode == GoogleSignInMode.native);
+
+  /// Google through the browser, like the website (Supabase OAuth with PKCE, back through
+  /// `in.mockmob.app://login-callback`). Needs no Android OAuth client.
+  bool get googleBrowserEnabled =>
+      supabaseConfigured && (googleSignInMode == GoogleSignInMode.auto || googleSignInMode == GoogleSignInMode.browser);
+
+  /// Whether to show "Continue with Google" at all.
+  bool get googleSignInEnabled => googleNativeEnabled || googleBrowserEnabled;
 
   /// Supabase cannot start without both values, so auth reports a clear failure instead.
   bool get supabaseConfigured => supabaseUrl.isNotEmpty && supabaseAnonKey.isNotEmpty;
@@ -37,5 +64,9 @@ class AppConfig {
   /// Path used for the light reachability ping while work is pending (cached at the edge).
   String get pingUrl => '${apiBaseUrl.replaceAll(RegExp(r'/+$'), '')}/api/stats';
 }
+
+/// How Google sign-in is offered. `auto` uses the native account sheet when a web client id is
+/// configured and falls back to the browser when the sheet cannot be used on this phone.
+enum GoogleSignInMode { auto, native, browser, off }
 
 final appConfigProvider = Provider<AppConfig>((ref) => const AppConfig.fromEnvironment());
