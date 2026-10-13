@@ -36,6 +36,13 @@ class RunnerMetaRow extends StatelessWidget {
   /// A tap on "Not saved yet. Tap to retry".
   final VoidCallback? onRetrySave;
 
+  /// The line's height. Shorter than a finger, so the retry fills it and the runner wraps the
+  /// line in a `TapSlop` that makes up the rest of its 48 dp ([retryShowing]).
+  static const double height = 32;
+
+  /// True while the line offers the retry, which then needs the taller touch band.
+  static bool retryShowing(SaveSnapshot snapshot, {required bool canRetry}) => canRetry && snapshot.state == SaveState.notSaved;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -47,7 +54,7 @@ class RunnerMetaRow extends StatelessWidget {
     return MediaQuery.withClampedTextScaling(
       maxScaleFactor: 1.3,
       child: ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 32),
+        constraints: const BoxConstraints(minHeight: height),
         child: ValueListenableBuilder<SaveSnapshot>(
           valueListenable: save,
           builder: (context, snapshot, _) {
@@ -91,14 +98,14 @@ class RunnerMetaRow extends StatelessWidget {
                 if (!waiting || warning != null) ...[
                   Expanded(child: left),
                   if (openUntil != null && !stacked) ...[const SizedBox(width: MmSpace.s8), _OpenUntilChip(text: openUntil!)],
-                  if (glyph) ...[const SizedBox(width: MmSpace.s12), SaveGlyph(snapshot: snapshot, onRetry: onRetrySave)],
+                  if (glyph) ...[const SizedBox(width: MmSpace.s12), SaveGlyph(snapshot: snapshot, onRetry: onRetrySave, lineHeight: height)],
                 ] else
                   Expanded(
                     child: Stack(
                       alignment: Alignment.centerRight,
                       children: [
                         Opacity(opacity: 0, child: Text(line, style: type.caption, maxLines: 1)),
-                        SaveGlyph(snapshot: snapshot, full: true, onRetry: onRetrySave),
+                        SaveGlyph(snapshot: snapshot, full: true, onRetry: onRetrySave, lineHeight: height),
                       ],
                     ),
                   ),

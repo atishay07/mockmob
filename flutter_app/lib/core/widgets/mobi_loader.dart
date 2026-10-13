@@ -8,7 +8,7 @@ import 'mobi.dart';
 
 /// The designed loading state of a screen or a large slot: nothing for the first 300 ms (a fast
 /// load never flashes), then the living Mobi thinking, and after a second a one-line [status]
-/// beside it. Under reduced motion Mobi holds still. TalkBack hears [status] once, when Mobi
+/// fading in under it. Under reduced motion Mobi holds still. TalkBack hears [status] once, when Mobi
 /// appears.
 ///
 /// Keep `MmSpinner` for in-flight work inside keys and inline rows.
@@ -73,22 +73,23 @@ class _MobiLoaderState extends State<MobiLoader> {
       child: Center(
         child: Padding(
           padding: const EdgeInsets.all(MmSpace.s24),
-          child: Row(
+          // A centred column: the line is always laid out (only its opacity changes), so Mobi
+          // sits in the middle from the first frame and never moves when the line appears.
+          child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Mobi(pose: MobiPose.think, size: widget.size),
-              Flexible(
-                child: AnimatedOpacity(
-                  opacity: _saying ? 1 : 0,
-                  duration: Motion.of(context, Motion.ui),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: MmSpace.s12),
-                    child: Text(
-                      widget.status,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: type.body.copyWith(color: colors.ink2),
-                    ),
+              AnimatedOpacity(
+                opacity: _saying ? 1 : 0,
+                duration: Motion.of(context, Motion.ui),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: MmSpace.s12),
+                  child: Text(
+                    widget.status,
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    style: type.body.copyWith(color: colors.ink2),
                   ),
                 ),
               ),

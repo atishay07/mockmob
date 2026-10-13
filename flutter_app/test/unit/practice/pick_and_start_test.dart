@@ -209,6 +209,22 @@ void main() {
       expect(router.state.uri.path, '/run/sess-1');
     });
 
+    testWidgets('a picked subject while the attempts have not loaded claims nothing about papers', (tester) async {
+      await pumpRouted(
+        tester,
+        location: '/practice',
+        routes: _routes(),
+        overrides: practiceOverrides(quotes: _quotes(), auth: _twoSubjects, attempts: null),
+      );
+      await _settle(tester);
+      await tester.ensureVisible(find.text('Business Studies').first);
+      await tester.tap(find.text('Business Studies').first);
+      await _settle(tester);
+      expect(find.text('Business Studies, quick practice'), findsOneWidget);
+      expect(find.textContaining('paper yet'), findsNothing);
+      expect(find.text('Ten questions shows where you stand.'), findsOneWidget);
+    });
+
     testWidgets('it starts in the subject the student picked last time', (tester) async {
       final starter = FakeStarter();
       final prefs = MemoryPrefsStore()..values[pickedSubjectKey('u1')] = 'business_studies';

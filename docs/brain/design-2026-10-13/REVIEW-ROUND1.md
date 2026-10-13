@@ -507,3 +507,68 @@ All paths are under `C:\Users\atish\Desktop\mockmob copy\mockmob-next\flutter_ap
 
 ## Not measured
 - The Full blur cost and frame timing on the M06. This needs a profile APK (not debug), with glass forced to Full and the auto-downgrade off. Scroll Today, Practice and Review for 10 s each, open the quick-start sheet over Today, and record raster p90 in DevTools.
+
+## Screenshot evidence after the round 1 fixes
+
+The `r1-*` screenshots in `tmp/app-shots/pass2` were taken after the round 1 fixes, at commit `49f4100`. They replace the earlier pass 2 shots of the same screens, which no longer match the code.
+
+- **Superseded:** pass 2 screenshots 23 to 27 (`23-demo-today` to `27-demo-today-insights`) are superseded by `r1-23-demo-today`, `r1-24-demo-today-scroll` and `r1-25-demo-today-road` (and the variants `r1-25b-demo-today-colleges`, `r1-25b-demo-today-compass-row` and `r1-26-demo-alternatives-length`). Use the `r1-*` files as evidence.
+
+| Screenshot | Commit |
+|---|---|
+| `r1-01-welcome.png` | `49f4100` |
+| `r1-03-onb-stage.png` | `49f4100` |
+| `r1-05-onb-course.png` | `49f4100` |
+| `r1-107-stream.png` | `49f4100` |
+| `r1-110-rhythm.png` | `49f4100` |
+| `r1-111-milestones.png` | `49f4100` |
+| `r1-111b-milestones-repairs.png` | `49f4100` |
+| `r1-23-demo-today.png` | `49f4100` |
+| `r1-24-demo-today-scroll.png` | `49f4100` |
+| `r1-25-demo-today-road.png` | `49f4100` |
+| `r1-25b-demo-today-colleges.png` | `49f4100` |
+| `r1-25b-demo-today-compass-row.png` | `49f4100` |
+| `r1-26-demo-alternatives-length.png` | `49f4100` |
+| `r1-28-demo-start-sheet.png` | `49f4100` |
+| `r1-29-demo-practice.png` | `49f4100` |
+| `r1-32-demo-quick-confirm-5.png` | `49f4100` |
+| `r1-33-demo-runner-q1.png` | `49f4100` |
+| `r1-35-demo-runner-last.png` | `49f4100` |
+| `r1-36-demo-submit.png` | `49f4100` |
+| `r1-37-demo-sending.png` | `49f4100` |
+| `r1-38-demo-finish-0.png` | `49f4100` |
+| `r1-38-demo-finish-typing.png` | `49f4100` |
+| `r1-39-demo-finish-1.png` | `49f4100` |
+| `r1-40-demo-finish.png` | `49f4100` |
+| `r1-44-practice-modes.png` | `49f4100` |
+| `r1-45-day-nta-instructions.png` | `49f4100` |
+| `r1-45-nta-instructions-top.png` | `49f4100` |
+| `r1-45b-nta-look-back.png` | `49f4100` |
+| `r1-46-nta-instructions-mockmob-look.png` | `49f4100` |
+| `r1-47-nta-instructions-end.png` | `49f4100` |
+| `r1-48-nta-preparing.png` | `49f4100` |
+| `r1-49-nta-q1.png` | `49f4100` |
+| `r1-50-nta-q1-answered.png` | `49f4100` |
+| `r1-52-nta-palette.png` | `49f4100` |
+| `r1-57-nta-submit-summary.png` | `49f4100` |
+| `r1-58-nta-sending.png` | `49f4100` |
+| `r1-59-nta-after-submit.png` | `49f4100` |
+| `r1-61-mock8-result.png` | `49f4100` |
+| `r1-64-review.png` | `49f4100` |
+| `r1-64b-review-chapters.png` | `49f4100` |
+| `r1-65-review-past.png` | `49f4100` |
+| `r1-66-record.png` | `49f4100` |
+| `r1-67-record-2.png` | `49f4100` |
+| `r1-68-saved.png` | `49f4100` |
+| `r1-71-repair.png` | `49f4100` |
+| `r1-71b-repair-question.png` | `49f4100` |
+| `r1-73-repair-ending.png` | `49f4100` |
+| `r1-74-you.png` | `49f4100` |
+| `r1-81-edit-subjects.png` | `49f4100` |
+| `r1-85-edit-subjects-sixth-refused.png` | `49f4100` |
+| `r1-90-appearance-auto-lite.png` | `49f4100` |
+| `r1-91-day-today.png` | `49f4100` |
+| `r1-91-today-after-practice.png` | `49f4100` |
+| `r1-92-review-after-repair.png` | `49f4100` |
+| `r1-93-day-practice.png` | `49f4100` |
+| `r1-94-day-review.png` | `49f4100` |

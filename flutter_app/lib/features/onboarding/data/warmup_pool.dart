@@ -34,9 +34,6 @@ class WarmupQuestion {
   /// always where the author wrote it, and a question looks the same on every return.
   /// [answer] and a stored choice stay indexes into [options].
   List<int> get order => stableOrder(options.length, stableSeed(id));
-
-  /// Where [answer] is shown (0 is A).
-  int get shownAnswer => order.indexOf(answer);
 }
 
 /// A 31-bit FNV-1a hash of [text]: the same on every phone and every run (String.hashCode is not

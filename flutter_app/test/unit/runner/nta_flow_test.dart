@@ -112,7 +112,10 @@ void main() {
     expect(h.haptics.calls, isNotEmpty);
     expect(h.prefs.values['nta.strikes.sess-1'], 1);
 
-    await tester.tap(find.text('5:3:2'), warnIfMissed: false);
+    // Tap the option's row at its left edge: the warning card's button sits over the option's
+    // centre, and a tap there would be the return itself.
+    final option = tester.getRect(find.text('5:3:2'));
+    await tester.tapAt(Offset(12, option.center.dy));
     await _flush(tester);
     expect(s.answers, isEmpty, reason: 'answering waits behind the warning');
 

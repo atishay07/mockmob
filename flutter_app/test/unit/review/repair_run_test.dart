@@ -10,9 +10,12 @@ import 'package:mockmob/core/models/ai_credits.dart';
 import 'package:mockmob/core/models/repair.dart';
 import 'package:mockmob/core/models/rhythm.dart';
 import 'package:mockmob/core/repositories/credits_repository.dart';
+import 'package:mockmob/core/repositories/notification_prefs_repository.dart' show studentTimezoneProvider;
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/repositories/repair_local_repository.dart';
+import 'package:mockmob/core/copy/formatters.dart';
 import 'package:mockmob/core/repositories/rhythm_repository.dart';
+import 'package:mockmob/core/repositories/rhythm_seen_repository.dart';
 import 'package:mockmob/core/storage/app_database.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/storage/storage_providers.dart';
@@ -69,6 +72,7 @@ void main() {
         authSnapshotProvider.overrideWithBuild((ref, n) => const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1')),
         appDatabaseProvider.overrideWithValue(db),
         nowProvider.overrideWithValue(() => lateUtc),
+        studentTimezoneProvider.overrideWithValue('Asia/Kolkata'),
         reviewInputsProvider.overrideWith(
           (ref) => ReviewInputs(
             attempts: RemoteState(value: allAttempts, fetchedAt: eveningUtc),
@@ -224,7 +228,9 @@ void main() {
   });
 
   group('the repair ending fires the one repairFinished moment (rhythm-01)', () {
-    test('it consumes the moment with the acknowledged time, once, in the run scope', () async {
+    Future<Set<String>> spent() async => (await container.read(rhythmSeenRepositoryProvider).read()).celebratedIds;
+
+    test('finishing alone fires nothing: no slot is on screen yet, so no id is spent', () async {
       run().open('m7-q0');
       run().begin(limit: 2);
       await settle();
@@ -232,10 +238,29 @@ void main() {
       await settle();
       run().next();
       await settle();
+      expect(state().phase, RepairPhase.ending);
+      expect(container.read(celebrationControllerProvider).byScope, isEmpty);
+      expect(await spent(), isEmpty);
+    });
+
+    test('the ending consumes the moment with the acknowledged time, once, in the run scope', () async {
+      run().open('m7-q0');
+      run().begin(limit: 2);
+      await settle();
+      run().next();
+      await settle();
+      run().next();
+      await settle();
+      final shown = await run().celebrateEnding();
       final c = container.read(celebrationControllerProvider).byScope[CelebrationScope.repair('m7')];
       expect(c, isNotNull);
-      expect(c!.id, startsWith('repair:m7:'));
-      expect(c.receipt, startsWith('Repair finished.'));
+      expect(shown?.id, c!.id);
+      expect(c.id, startsWith('repair:m7:'));
+      // The student's clock (Asia/Kolkata), as the ending screen shows it, not UTC.
+      expect(c.receipt, 'Repair finished. Recorded at ${formatTime12(container.read(reviewClockProvider).local(state().lastAckedAt!))}.');
+      expect(await spent(), contains(c.id));
+      // The same ending drawn again keeps the moment showing.
+      expect((await run().celebrateEnding())?.id, c.id);
     });
 
     test('a run with nothing repaired fires nothing', () async {
@@ -245,6 +270,7 @@ void main() {
       await settle();
       run().finish();
       await settle();
+      expect(await run().celebrateEnding(), isNull);
       expect(container.read(celebrationControllerProvider).byScope, isEmpty);
     });
 
@@ -255,7 +281,9 @@ void main() {
       await settle();
       run().finish();
       await settle();
+      expect(await run().celebrateEnding(), isNull);
       expect(container.read(celebrationControllerProvider).byScope, isEmpty);
+      expect(await spent(), isEmpty);
     });
   });
 

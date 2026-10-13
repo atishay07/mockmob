@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/router/router_redirect.dart';
 
+const _loadFailed = AuthSnapshot(status: AuthStatus.unknown, loadFailed: true);
 const _signedIn = AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1');
 
 String? _redirect(AuthSnapshot auth, String location, [IntendedRoute? intended]) =>
@@ -37,6 +38,37 @@ void main() {
       _redirect(AuthSnapshot.unknown, '/today', intended);
       _redirect(AuthSnapshot.unknown, '/sign-in', intended);
       expect(intended.location, isNull);
+    });
+  });
+
+  group('auth load failed (unknown with loadFailed)', () {
+    test('everything goes to /load-failed, which stays', () {
+      expect(_redirect(_loadFailed, '/splash'), '/load-failed');
+      expect(_redirect(_loadFailed, '/today'), '/load-failed');
+      expect(_redirect(_loadFailed, '/welcome'), '/load-failed');
+      expect(_redirect(_loadFailed, '/load-failed'), isNull);
+    });
+
+    test('a deep link is remembered, but /load-failed never is', () {
+      final intended = IntendedRoute();
+      expect(_redirect(_loadFailed, '/result/abc', intended), '/load-failed');
+      expect(intended.location, '/result/abc');
+      final other = IntendedRoute();
+      _redirect(_loadFailed, '/load-failed', other);
+      expect(other.location, isNull);
+    });
+
+    test('unknown without loadFailed still goes to the splash, and leaves /load-failed', () {
+      expect(_redirect(AuthSnapshot.unknown, '/today'), '/splash');
+      expect(_redirect(AuthSnapshot.unknown, '/load-failed'), '/splash');
+    });
+
+    test('once the state is known /load-failed goes to the normal target', () {
+      expect(_redirect(AuthSnapshot.signedOut, '/load-failed'), '/welcome');
+      expect(_redirect(_signedIn, '/load-failed'), '/today');
+      final intended = IntendedRoute()..remember('/result/abc');
+      expect(_redirect(AuthSnapshot.signedOut, '/load-failed', intended), '/sign-in');
+      expect(_redirect(_signedIn, '/load-failed', intended), '/result/abc');
     });
   });
 

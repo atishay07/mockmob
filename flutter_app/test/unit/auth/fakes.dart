@@ -66,9 +66,38 @@ class FakeGateway implements SignInGateway {
 }
 
 /// A preferences store whose every call fails, like a phone whose storage is not answering.
+///
+/// Every method returns a correctly typed rejected future (a `noSuchMethod` stub cannot: its
+/// untyped error future fails the return cast and is then reported as an unhandled error).
 class BrokenPrefs implements PrefsStore {
+  Future<T> _down<T>() => Future<T>.error(StateError('prefs down'));
+
   @override
-  dynamic noSuchMethod(Invocation invocation) => Future<void>.error(StateError('prefs down'));
+  Future<bool?> getBool(String key) => _down();
+
+  @override
+  Future<int?> getInt(String key) => _down();
+
+  @override
+  Future<String?> getString(String key) => _down();
+
+  @override
+  Future<List<String>?> getStringList(String key) => _down();
+
+  @override
+  Future<void> setBool(String key, bool value) => _down();
+
+  @override
+  Future<void> setInt(String key, int value) => _down();
+
+  @override
+  Future<void> setString(String key, String value) => _down();
+
+  @override
+  Future<void> setStringList(String key, List<String> value) => _down();
+
+  @override
+  Future<void> remove(String key) => _down();
 }
 
 class FakeNetwork extends NetworkStatusNotifier {

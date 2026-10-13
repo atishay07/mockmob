@@ -108,6 +108,29 @@ void main() {
     ),
   );
 
+  // As the app shows it: acknowledged repairs carry their requestId, so the ending fires the
+  // repairFinished moment into its own slot, in the receipt's place.
+  reviewGolden(
+    'repair_ending_first_moment',
+    () => const RepairEndingScreen(attemptId: 'm7'),
+    overrides: () => reviewOverrides(
+      run: runOf(
+        phase: RepairPhase.ending,
+        outcomes: [_withId(explained, 'req-a'), _withId(explained2, 'req-b'), const OutcomeSetAside(heldByServer: true)],
+        index: 2,
+        repairedBefore: false,
+      ),
+    ),
+  );
+
+  reviewGolden(
+    'repair_ending_moment',
+    () => const RepairEndingScreen(attemptId: 'm7'),
+    overrides: () => reviewOverrides(
+      run: runOf(phase: RepairPhase.ending, outcomes: [_withId(explained, 'req-a'), _withId(explained2, 'req-b')], index: 1),
+    ),
+  );
+
   reviewGolden(
     'repair_ending_nothing',
     () => const RepairEndingScreen(attemptId: 'm7'),
@@ -120,3 +143,5 @@ void main() {
     ),
   );
 }
+
+OutcomeExplained _withId(OutcomeExplained o, String requestId) => OutcomeExplained(o.response, ackedAt: o.ackedAt, requestId: requestId);

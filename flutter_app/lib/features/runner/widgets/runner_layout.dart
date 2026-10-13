@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/sync/session/save_state.dart';
 import '../../../core/sync/session/session_engine.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -11,6 +12,7 @@ import 'question_view.dart';
 import 'runner_bottom_bar.dart';
 import 'runner_meta_row.dart';
 import 'runner_top_bar.dart';
+import 'tap_slop.dart';
 import 'timing_track.dart';
 
 /// The answering layout (spec 5.5): top bar, the meta line, the timing track, the question
@@ -77,20 +79,31 @@ class RunnerLayout extends StatelessWidget {
                     onLeave: onLeave,
                     onQuestions: onQuestions,
                   ),
-                  // The away strip lies over the meta line as glass: nothing below it reflows.
-                  Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      RunnerMetaRow(
-                        subjectLine: RunnerCopy.subjectLine(s.subject, q.chapter ?? s.chapter),
-                        openUntil: s.isMock ? null : RunnerCopy.openUntil(s.endsAt.toLocal()),
-                        save: s.saveState,
-                        showSave: s.answeredCount > 0,
-                        warning: warning,
-                        onRetrySave: onRetrySave,
-                      ),
-                      Positioned.fill(child: _AwayStrip(session: s)),
-                    ],
+                  // The retry on the 32 dp meta line gets its 48 dp of touch from the band just
+                  // above and below the line; the track's cells, tested first, keep theirs.
+                  ValueListenableBuilder<SaveSnapshot>(
+                    valueListenable: s.saveState,
+                    builder: (context, snapshot, line) => TapSlop(
+                      vertical: RunnerMetaRow.retryShowing(snapshot, canRetry: onRetrySave != null)
+                          ? (MmTarget.min - RunnerMetaRow.height) / 2
+                          : 0,
+                      child: line,
+                    ),
+                    // The away strip lies over the meta line as glass: nothing below it reflows.
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        RunnerMetaRow(
+                          subjectLine: RunnerCopy.subjectLine(s.subject, q.chapter ?? s.chapter),
+                          openUntil: s.isMock ? null : RunnerCopy.openUntil(s.endsAt.toLocal()),
+                          save: s.saveState,
+                          showSave: s.answeredCount > 0,
+                          warning: warning,
+                          onRetrySave: onRetrySave,
+                        ),
+                        Positioned.fill(child: _AwayStrip(session: s)),
+                      ],
+                    ),
                   ),
                   TimingTrack(cells: cells, onJump: s.canAnswer ? onJump : null),
                 ],

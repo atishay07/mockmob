@@ -104,7 +104,7 @@ void main() {
   });
 
   group('a labelled, tappable strip', () {
-    testWidgets('reads "Question 3 of 20, answered" and jumps on a tap with a 44 dp box', (tester) async {
+    testWidgets('reads "Question 3 of 20, answered" and jumps on a tap with a 48 dp box', (tester) async {
       final handle = tester.ensureSemantics();
       final jumps = <int>[];
       await _pump(tester, _cells(20, 2, answered: {0, 1, 2}), 328, onJump: jumps.add);
@@ -112,7 +112,8 @@ void main() {
       expect(find.bySemanticsLabel(RegExp('^Question 8, not visited')), findsOneWidget);
 
       final cell = find.byKey(const ValueKey('track-cell-7'));
-      expect(tester.getSize(cell).height, 44);
+      expect(tester.getSize(cell), const Size(48, 48), reason: 'a full 48 dp screen-reader target');
+      expect(tester.getSize(find.byType(TimingTrack)).height, 48);
       await tester.tap(cell);
       expect(jumps, [7]);
       // The current cell is not a jump.

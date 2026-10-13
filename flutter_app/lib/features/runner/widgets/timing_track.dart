@@ -57,7 +57,8 @@ class TrackGeometry {
 /// current mark a taller paper-white bar.
 ///
 /// The strip is a labelled control, not a picture: it reads "Question 3 of 20, answered", and a
-/// tap on a bubble jumps there (a 44 dp tall hit box per cell). Timing marks are too fine to
+/// tap on a bubble jumps there (a 48 dp tall hit box per cell; the screen-reader target of every
+/// cell is a full 48 x 48 dp, wider than the slot it is drawn in). Timing marks are too fine to
 /// tap, so on a long paper only TalkBack gets jump targets, for the few cells around the current
 /// question; the Questions key holds the whole sheet.
 class TimingTrack extends StatelessWidget {
@@ -69,7 +70,10 @@ class TimingTrack extends StatelessWidget {
   final ValueChanged<int>? onJump;
 
   /// Height of the bubble strip: the touch height of one cell.
-  static const double tappableHeight = 44;
+  static const double tappableHeight = 48;
+
+  /// The smallest screen-reader (and touch) target of one cell, in either direction.
+  static const double minTarget = 48;
 
   /// Height of the timing-mark strip: 4 dp of air above 14 dp of marks.
   static const double marksHeight = 18;
@@ -100,6 +104,8 @@ class TimingTrack extends StatelessWidget {
             height: height,
             width: double.infinity,
             child: Stack(
+              // The cells' screen-reader targets are 48 dp tall even on the 18 dp marks strip.
+              clipBehavior: Clip.none,
               children: [
                 Positioned.fill(
                   child: ExcludeSemantics(
@@ -111,7 +117,7 @@ class TimingTrack extends StatelessWidget {
                   ),
                 ),
                 if (onJump != null)
-                  for (var i = from; i <= to; i++) _cellTarget(i, geometry, touch: !geometry.marks),
+                  for (var i = from; i <= to; i++) ..._cellTarget(i, geometry, height: height, touch: !geometry.marks),
               ],
             ),
           ),
@@ -120,32 +126,48 @@ class TimingTrack extends StatelessWidget {
     );
   }
 
-  Widget _cellTarget(int i, TrackGeometry geometry, {required bool touch}) {
+  /// One cell's targets. The screen-reader node is at least 48 x 48 dp, centred on the slot it is
+  /// drawn in (on a crowded strip it overlaps its neighbours' nodes; swipe navigation reads them
+  /// in order). A finger's hit box is the slot itself, so neighbours never share a touch.
+  List<Widget> _cellTarget(int i, TrackGeometry geometry, {required double height, required bool touch}) {
     final c = cells[i];
     final (start, end) = geometry.slot(i);
-    return Positioned(
-      key: ValueKey('track-cell-$i'),
-      left: start,
-      width: (end - start).clamp(1.0, geometry.width),
-      top: 0,
-      bottom: 0,
-      child: Semantics(
-        button: true,
-        selected: c.current,
-        label: RunnerCopy.cellSemantics(
-          number: c.number,
-          answered: c.answered,
-          visited: c.visited,
-          marked: c.marked,
-          unsynced: c.unsynced,
-          current: c.current,
+    final slot = (end - start).clamp(1.0, geometry.width);
+    final nodeWidth = slot < minTarget ? minTarget : slot;
+    final nodeHeight = height < minTarget ? minTarget : height;
+    return [
+      Positioned(
+        key: ValueKey('track-cell-$i'),
+        left: start + slot / 2 - nodeWidth / 2,
+        width: nodeWidth,
+        top: (height - nodeHeight) / 2,
+        height: nodeHeight,
+        child: Semantics(
+          button: true,
+          selected: c.current,
+          label: RunnerCopy.cellSemantics(
+            number: c.number,
+            answered: c.answered,
+            visited: c.visited,
+            marked: c.marked,
+            unsynced: c.unsynced,
+            current: c.current,
+          ),
+          onTap: () => onJump!(i),
+          child: const SizedBox.expand(),
         ),
-        onTap: () => onJump!(i),
-        child: touch
-            ? GestureDetector(behavior: HitTestBehavior.opaque, onTap: c.current ? null : () => onJump!(i), child: const SizedBox.expand())
-            : const SizedBox.expand(),
       ),
-    );
+      if (touch)
+        Positioned(
+          left: start,
+          width: slot,
+          top: 0,
+          bottom: 0,
+          child: ExcludeSemantics(
+            child: GestureDetector(behavior: HitTestBehavior.opaque, onTap: c.current ? null : () => onJump!(i), child: const SizedBox.expand()),
+          ),
+        ),
+    ];
   }
 }
 
@@ -199,6 +221,11 @@ class _TrackPainter extends CustomPainter {
       );
     }
   }
+
+  /// The picture takes no taps: the cells' own boxes do, and the strip's empty space stays free
+  /// for the touch band of the meta line's retry above it (`TapSlop`).
+  @override
+  bool? hitTest(Offset position) => false;
 
   @override
   bool shouldRepaint(_TrackPainter old) => old.colors != colors || old.geometry.width != geometry.width || !_same(old.cells);

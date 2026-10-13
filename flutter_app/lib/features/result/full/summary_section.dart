@@ -68,7 +68,15 @@ class SummarySection extends StatelessWidget {
                   ),
                   child: SizedBox(
                     width: g.width,
-                    height: g.naturalBodyHeight,
+                    // The number lines grow with the text size, so the sheet grows with them.
+                    height: g.naturalBodyHeight +
+                        BubbleGrid.heightFor(
+                          rows: g.rows,
+                          bubbleSize: g.bubble,
+                          rowGap: SheetGeometry.rowGap,
+                          numberHeight: BubbleGrid.numberHeightFor(MediaQuery.textScalerOf(context)),
+                        ) -
+                        SheetGeometry.gridHeight(g.rows, g.bubble),
                     child: SheetBody(geometry: g, cells: m.cells, sealed: false),
                   ),
                 ),

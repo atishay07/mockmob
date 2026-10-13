@@ -77,7 +77,11 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
     _reduced = reduced;
     if (reduced) {
       _sleep();
-      _rig.value = MobiMoves.keyPose(_started ? (_sim.act ?? _actForStance()) : widget.entrance);
+      _rig.value = MobiMoves.keyPose(
+        _started ? (_sim.act ?? _actForStance()) : widget.entrance,
+        pointAngle: _sim.pointAngle,
+        pointSide: _sim.pointSide,
+      );
     } else if (!_started) {
       play(widget.entrance);
     } else {
@@ -154,7 +158,7 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
     if (_reduced) {
       if (MobiMoves.stanceAfter(act) != null && act != MobiAct.appear) {
         _sim.play(act);
-        _rig.value = MobiMoves.keyPose(act);
+        _rig.value = MobiMoves.keyPose(act, pointAngle: _sim.pointAngle, pointSide: _sim.pointSide);
       }
       return;
     }

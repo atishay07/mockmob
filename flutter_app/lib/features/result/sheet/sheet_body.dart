@@ -43,16 +43,35 @@ class SheetBody extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: SheetGeometry.headerGap),
-              BubbleGrid(
-                states: cells,
-                columns: geometry.columns,
-                bubbleSize: geometry.bubble,
-                minGap: 4,
-                maxGap: 18,
-                rowGap: SheetGeometry.rowGap,
-                sealed: sealed,
-                reveal: sealed ? null : reveal,
-                semanticsLabel: semanticsLabel,
+              // The number lines grow with the text size; when the rows with them would not fit
+              // the body, the numbers give way (the sheet keeps its summary) rather than overflow.
+              Expanded(
+                child: LayoutBuilder(
+                  builder: (context, box) {
+                    final rows = (cells.length / geometry.columns).ceil();
+                    final withNumbers = BubbleGrid.heightFor(
+                      rows: rows,
+                      bubbleSize: geometry.bubble,
+                      rowGap: SheetGeometry.rowGap,
+                      numberHeight: BubbleGrid.numberHeightFor(MediaQuery.textScalerOf(context)),
+                    );
+                    return Align(
+                      alignment: Alignment.topCenter,
+                      child: BubbleGrid(
+                        states: cells,
+                        columns: geometry.columns,
+                        bubbleSize: geometry.bubble,
+                        minGap: 4,
+                        maxGap: 18,
+                        rowGap: SheetGeometry.rowGap,
+                        numbers: !box.hasBoundedHeight || withNumbers <= box.maxHeight,
+                        sealed: sealed,
+                        reveal: sealed ? null : reveal,
+                        semanticsLabel: semanticsLabel,
+                      ),
+                    );
+                  },
+                ),
               ),
             ],
           ),

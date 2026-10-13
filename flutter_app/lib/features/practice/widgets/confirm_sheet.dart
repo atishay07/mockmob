@@ -32,10 +32,40 @@ Future<void> showPracticeConfirm(BuildContext context, {required PracticeSelecti
   try {
     await showMmSheet<void>(
       context: context,
-      builder: (sheetContext) => PracticeComposer(initial: selection, controller: controller, exits: exitsFor(sheetContext)),
+      builder: (sheetContext) => ComposerLifetime(
+        controller: controller,
+        child: PracticeComposer(initial: selection, controller: controller, exits: exitsFor(sheetContext)),
+      ),
       footer: (sheetContext) => PracticeComposerKeys(controller: controller, exits: exitsFor(sheetContext)),
     );
   } finally {
+    // Stops the pending re-quote on every way out; the notifier itself is disposed by
+    // [ComposerLifetime] when the sheet's content leaves the tree.
     controller.close();
+  }
+}
+
+/// Owns [controller] for as long as the sheet's content is mounted and disposes it when the
+/// sheet unmounts (the body and the pinned footer both listen to it; both are gone by then).
+class ComposerLifetime extends StatefulWidget {
+  const ComposerLifetime({super.key, required this.controller, required this.child});
+
+  final ComposerController controller;
+  final Widget child;
+
+  @override
+  State<ComposerLifetime> createState() => _ComposerLifetimeState();
+}
+
+class _ComposerLifetimeState extends State<ComposerLifetime> {
+  @override
+  Widget build(BuildContext context) => widget.child;
+
+  @override
+  void dispose() {
+    widget.controller
+      ..close()
+      ..dispose();
+    super.dispose();
   }
 }

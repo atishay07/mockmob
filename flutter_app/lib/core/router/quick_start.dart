@@ -149,12 +149,17 @@ class QuickStartSheet extends ConsumerWidget {
               QuickStartRow(
                 key: const ValueKey('quick-start-resume'),
                 glyph: SheetGlyph.resume,
-                title: 'Resume ${subjectDisplayName(draft.subject)} ${draft.isMock ? 'mock' : 'practice'}'
-                    '${answered == null ? '' : ', $answered of ${draft.view.questions.length}'}',
+                // The title never changes when the answered count resolves; the count lives on the
+                // note line, which already holds a sentence.
+                title: 'Resume ${subjectDisplayName(draft.subject)} ${draft.isMock ? 'mock' : 'practice'}',
                 note: draft.isMock
                     ? 'Ends at ${formatTime12(DateTime.fromMillisecondsSinceEpoch(draft.endsAtWallMs))}.'
-                    : 'Pick up where you left off.',
+                        '${answered == null ? '' : ' $answered of ${draft.view.questions.length} answered.'}'
+                    : answered == null
+                        ? 'Pick up where you left off.'
+                        : 'Pick up at $answered of ${draft.view.questions.length}.',
                 lit: true,
+                noteLines: 2,
                 onTap: () => go(AppRoutes.run(draft.sessionId)),
               ),
               const SizedBox(height: MmSpace.s8),
@@ -234,13 +239,17 @@ class _SettleIn extends StatelessWidget {
 /// One choice of the quick-start sheet: a bubble glyph in a 40 dp tile, the title and a note.
 /// The first choice carries the lit edge (the one light in the sheet).
 class QuickStartRow extends StatelessWidget {
-  const QuickStartRow({super.key, required this.glyph, required this.title, required this.note, required this.onTap, this.lit = false});
+  const QuickStartRow({super.key, required this.glyph, required this.title, required this.note, required this.onTap, this.lit = false, this.noteLines = 1});
 
   final SheetGlyph glyph;
   final String title;
   final String note;
   final VoidCallback onTap;
   final bool lit;
+
+  /// Note lines the row always reserves. The Resume row reserves two, so its note can grow when
+  /// the count lands without moving the rows below.
+  final int noteLines;
 
   @override
   Widget build(BuildContext context) {
@@ -266,7 +275,10 @@ class QuickStartRow extends StatelessWidget {
                       children: [
                         Text(title, style: type.labelLarge),
                         const SizedBox(height: 2),
-                        Text(note, style: type.caption.copyWith(color: colors.ink2)),
+                        ConstrainedBox(
+                          constraints: BoxConstraints(minHeight: noteLines <= 1 ? 0 : MediaQuery.textScalerOf(context).scale(type.caption.height! * type.caption.fontSize!) * noteLines),
+                          child: Text(note, style: type.caption.copyWith(color: colors.ink2)),
+                        ),
                       ],
                     ),
                   ),

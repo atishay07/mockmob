@@ -5,6 +5,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../domain/du_combos.dart' show duDefaultMaxPapers;
 import '../domain/du_helpers.dart';
 import '../domain/du_models.dart';
 import '../widgets/action_chip.dart';
@@ -105,9 +106,9 @@ class CompassHero extends ConsumerWidget {
             const SizedBox(height: MmSpace.s8),
             Text(ToolsCopy.fromSheet, style: type.caption.copyWith(color: colors.ink2)),
           ],
-          if (s.selection.count > 5) ...[
+          if (s.selection.count > duDefaultMaxPapers) ...[
             const SizedBox(height: MmSpace.s12),
-            InlineBanner(message: ToolsCopy.overLimit(s.selection.count), tone: BannerTone.warning),
+            InlineBanner(message: ToolsCopy.overLimit(s.selection.count, duDefaultMaxPapers), tone: BannerTone.warning),
           ],
           const SizedBox(height: MmSpace.s16),
           KeyButton.secondary(

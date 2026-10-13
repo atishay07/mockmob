@@ -65,9 +65,36 @@ void main() {
       count.complete(ResumeOffer(draft: draft, answered: 4));
       await tester.pump();
       await _pumpFor(tester, const Duration(milliseconds: 500));
-      expect(find.text('Resume Accountancy mock, 4 of 10'), findsOneWidget);
+      expect(find.text('Resume Accountancy mock'), findsOneWidget, reason: 'the title does not reflow when the count lands');
+      expect(find.textContaining('4 of 10 answered'), findsOneWidget);
       expect(tester.getTopLeft(find.text('Quick 10')).dy, quickTop, reason: 'the rows below never jump');
       expect(find.ancestor(of: find.text('Quick 10'), matching: find.byType(LitEdge)), findsNothing);
+    });
+
+    testWidgets('a 50-question mock at 360 dp: the count lands on the note line and nothing moves', (tester) async {
+      tester.view.physicalSize = const Size(360, 800);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      final draft = draftOf(endsAtWallMs: DateTime(2026, 10, 13, 22, 40).millisecondsSinceEpoch, count: 50);
+      final count = Completer<ResumeOffer?>();
+      await tester.pumpWidget(_app(
+        const SingleChildScrollView(child: QuickStartSheet()),
+        overrides: [
+          resumeDraftProvider.overrideWith((ref) => draft),
+          resumeOfferProvider.overrideWith((ref) => count.future),
+        ],
+      ));
+      final titleTop = tester.getTopLeft(find.text('Resume Accountancy mock')).dy;
+      final titleHeight = tester.getSize(find.text('Resume Accountancy mock')).height;
+      final quickTop = tester.getTopLeft(find.text('Quick 10')).dy;
+
+      count.complete(ResumeOffer(draft: draft, answered: 12));
+      await tester.pump();
+      await _pumpFor(tester, const Duration(milliseconds: 500));
+      expect(tester.getTopLeft(find.text('Resume Accountancy mock')).dy, titleTop);
+      expect(tester.getSize(find.text('Resume Accountancy mock')).height, titleHeight);
+      expect(find.textContaining('12 of 50 answered'), findsOneWidget);
+      expect(tester.getTopLeft(find.text('Quick 10')).dy, quickTop);
     });
 
     testWidgets('no draft: Quick 10 is lit and Ask your record is offered', (tester) async {
@@ -277,6 +304,19 @@ void main() {
       await tester.pumpWidget(const SizedBox());
     });
 
+    testWidgets('Mobi is centred from the first frame and does not move when the line appears', (tester) async {
+      await tester.pumpWidget(_app(const SizedBox(width: 360, child: MobiLoader(status: 'Opening your record'))));
+      await tester.pump(const Duration(milliseconds: 350));
+      final screenCentre = tester.getCenter(find.byType(MobiLoader)).dx;
+      final before = tester.getCenter(find.byType(MobiCharacter));
+      expect(before.dx, closeTo(screenCentre, 0.5));
+
+      await tester.pump(const Duration(milliseconds: 800));
+      expect(tester.getCenter(find.byType(MobiCharacter)), before);
+      expect(find.text('Opening your record'), findsOneWidget);
+      await tester.pumpWidget(const SizedBox());
+    });
+
     testWidgets('a fast load never shows it', (tester) async {
       await tester.pumpWidget(_app(const MobiLoader()));
       await tester.pump(const Duration(milliseconds: 200));
@@ -374,6 +414,44 @@ void main() {
       expect(find.byType(Icon), findsNothing);
       await tester.pumpWidget(_app(const Center(child: SubjectGlyphTile('physics'))));
       expect(find.byType(Icon), findsOneWidget);
+    });
+  });
+
+  test('the lit tile pane lives in MmColors with the values the dock always used', () {
+    expect(MmColors.dark.litTile.toARGB32(), 0x1FFFF6E4);
+    expect(MmColors.light.litTile.toARGB32(), MmColors.light.ink.withValues(alpha: 0.07).toARGB32());
+  });
+
+  group('Mobi points at a target under reduced motion', () {
+    Future<MobiRig> pointRig(WidgetTester tester, Offset target, {required bool reduced}) async {
+      final controller = MobiController();
+      await tester.pumpWidget(_app(
+        Center(child: MobiCharacter(controller: controller, size: 160, entrance: MobiAct.point)),
+        reduced: reduced,
+      ));
+      await tester.pump();
+      controller.pointAt(target);
+      await tester.pump(const Duration(milliseconds: 50));
+      final painter = tester.widgetList<CustomPaint>(find.byType(CustomPaint)).map((c) => c.painter).whereType<MobiPainter>().first;
+      return painter.rig.value;
+    }
+
+    testWidgets('the still pose aims the arm at the target instead of the default angle', (tester) async {
+      final centre = tester.view.physicalSize.center(Offset.zero) / tester.view.devicePixelRatio;
+      // Straight below Mobi: the arm hangs well below the 1.5 rad default (almost level).
+      final rig = await pointRig(tester, centre + const Offset(30, 300), reduced: true);
+      final arm = rig.armR.point > 0.5 ? rig.armR : rig.armL;
+      expect(arm.point, 1);
+      expect(arm.angle, lessThan(0.9), reason: 'down at the target, not the default 1.5');
+      await tester.pumpWidget(const SizedBox());
+    });
+
+    testWidgets('a target to the left points with the left arm', (tester) async {
+      final centre = tester.view.physicalSize.center(Offset.zero) / tester.view.devicePixelRatio;
+      final rig = await pointRig(tester, centre + const Offset(-200, 40), reduced: true);
+      expect(rig.armL.point, 1);
+      expect(rig.armR.point, isNot(1));
+      await tester.pumpWidget(const SizedBox());
     });
   });
 

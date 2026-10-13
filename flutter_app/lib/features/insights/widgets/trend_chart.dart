@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -159,7 +160,7 @@ class _TrendSectionState extends State<TrendSection> with SingleTickerProviderSt
                       ),
                     ),
                   ),
-                  if (picked != null) _tooltip(geo, shown[picked], geo.point(picked)),
+                  if (picked != null) _tooltip(shown[picked], geo.point(picked)),
                 ],
               ),
             );
@@ -191,48 +192,74 @@ class _TrendSectionState extends State<TrendSection> with SingleTickerProviderSt
   String _describe(TrendPoint p) =>
       InsightsCopy.trendPointLabel(formatDayMonthShort(p.at.toLocal()), p.marks, p.maxMarks, p.maxMarks ~/ 5);
 
+  static const double _tooltipWidth = 176;
+
   /// A small glass note above the picked dot: its day, marks and paper length, and Show me.
-  Widget _tooltip(_TrendGeometry geo, TrendPoint p, Offset at) {
+  Widget _tooltip(TrendPoint p, Offset at) {
     final colors = context.mmColors;
     final type = context.mmType;
-    const width = 176.0;
-    final left = (at.dx - width / 2).clamp(0.0, geo.size.width - width);
-    // Above the dot when there is room, otherwise below it.
-    final above = at.dy > 96;
-    return Positioned(
-      left: left,
-      width: width,
-      top: above ? null : at.dy + 14,
-      bottom: above ? geo.size.height - at.dy + 14 : null,
-      child: Semantics(
-        container: true,
-        liveRegion: true,
-        child: FakeGlass(
-          borderRadius: MmRadius.smallAll,
-          grain: false,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.s8, 0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(formatDayMonthShort(p.at.toLocal()), style: type.caption.copyWith(color: colors.ink2)),
-                Text(
-                  InsightsCopy.trendPointMarks(p.marks, p.maxMarks),
-                  style: type.labelLarge.copyWith(fontFeatures: const [FontFeature.tabularFigures()]),
-                ),
-                Text(InsightsCopy.trendPointPaper(p.maxMarks ~/ 5), style: type.caption.copyWith(color: colors.ink2)),
-                ShowMePill(
-                  semanticsLabel: InsightsCopy.showMeSessions(1),
-                  onTap: () => unawaited(context.push<void>(AppRoutes.result(p.attemptId))),
-                ),
-              ],
+    // The note is placed by its measured height (it grows with large text), never a guess:
+    // above the dot when it fits inside the chart, otherwise below it.
+    return Positioned.fill(
+      child: CustomSingleChildLayout(
+        delegate: _TooltipLayout(at: at, width: MediaQuery.textScalerOf(context).scale(_tooltipWidth)),
+        child: Semantics(
+          container: true,
+          liveRegion: true,
+          child: FakeGlass(
+            borderRadius: MmRadius.smallAll,
+            grain: false,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.s8, 0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(formatDayMonthShort(p.at.toLocal()), style: type.caption.copyWith(color: colors.ink2)),
+                  Text(
+                    InsightsCopy.trendPointMarks(p.marks, p.maxMarks),
+                    style: type.labelLarge.copyWith(fontFeatures: const [FontFeature.tabularFigures()]),
+                  ),
+                  Text(InsightsCopy.trendPointPaper(p.maxMarks ~/ 5), style: type.caption.copyWith(color: colors.ink2)),
+                  ShowMePill(
+                    semanticsLabel: InsightsCopy.showMeSessions(1),
+                    onTap: () => unawaited(context.push<void>(AppRoutes.result(p.attemptId))),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
   }
+}
+
+/// Puts the note above the dot when its measured height fits inside the chart, else below the
+/// dot (over the date row, never over the heading), keeping the note's width inside the chart.
+/// The note is wider at large text so Show me never overflows.
+class _TooltipLayout extends SingleChildLayoutDelegate {
+  const _TooltipLayout({required this.at, required this.width});
+
+  final Offset at;
+  final double width;
+
+  /// The gap between the dot and the note.
+  static const double gap = 14;
+
+  @override
+  BoxConstraints getConstraintsForChild(BoxConstraints constraints) =>
+      BoxConstraints.tightFor(width: math.min(width, constraints.maxWidth));
+
+  @override
+  Offset getPositionForChild(Size size, Size childSize) {
+    final left = (at.dx - childSize.width / 2).clamp(0.0, (size.width - childSize.width).clamp(0.0, double.infinity));
+    final above = at.dy - gap - childSize.height >= 0;
+    return Offset(left, above ? at.dy - gap - childSize.height : at.dy + gap);
+  }
+
+  @override
+  bool shouldRelayout(_TooltipLayout old) => old.at != at || old.width != width;
 }
 
 /// Where each session sits on the chart, shared by the painter, the taps and the note.

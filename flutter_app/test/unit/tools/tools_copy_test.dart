@@ -54,7 +54,7 @@ void main() {
     for (final gone in ['comboFine', 'honesty', 'provisional', 'papersNote']) {
       expect(source.contains('static const $gone'), isFalse, reason: gone);
     }
-    expect(ToolsCopy.overLimit(7), isNot(contains('2027')));
-    expect(ToolsCopy.overLimit(7), contains('7'));
+    expect(ToolsCopy.overLimit(7, 5), 'You have picked 7 papers. The limit is 5.');
+    expect(ToolsCopy.overLimit(7, 5), isNot(contains('202')));
   });
 }

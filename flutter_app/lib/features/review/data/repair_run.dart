@@ -11,7 +11,7 @@ import '../../../core/models/repair.dart';
 import '../../../core/repositories/credits_repository.dart';
 import '../../../core/repositories/repair_local_repository.dart';
 import '../../../core/repositories/rhythm_repository.dart';
-import '../../rhythm/rhythm.dart' show CelebrationEvent, CelebrationScope, celebrationControllerProvider, rhythmPrefsProvider, rhythmVisibleProvider;
+import '../../rhythm/rhythm.dart' show Celebration, CelebrationEvent, CelebrationScope, celebrationControllerProvider, rhythmPrefsProvider, rhythmVisibleProvider;
 import 'mistake_index.dart';
 import 'repair_api.dart';
 import 'repair_state.dart';
@@ -107,39 +107,49 @@ class RepairRun extends Notifier<RepairRunState?> {
       // The week row and the wallet are the server's to update.
       unawaited(ref.read(rhythmRepositoryProvider.notifier).refresh());
       unawaited(ref.read(creditsRepositoryProvider.notifier).refresh());
-      unawaited(_celebrate(s));
     }
   }
 
   /// The run's repairs were acknowledged by the server: fire the one `repairFinished` moment
-  /// (consuming `first_repair` for a first repair, so Today never celebrates it a second time).
-  /// The ending screen draws its own receipt, so nothing else is mounted for it. Skipped while
-  /// the student has turned the weekly rhythm off, so the moment is not spent unseen.
-  Future<void> _celebrate(RepairRunState s) async {
-    try {
-      await ref.read(rhythmPrefsProvider.notifier).ensureLoaded();
-      if (!ref.read(rhythmVisibleProvider)) return;
-      RepairStep? first;
-      for (final step in s.steps) {
-        if (step.countsAsRepaired && (step.outcome as OutcomeExplained).requestId != null) {
-          first = step;
-          break;
-        }
+  /// (consuming `first_repair` for a first repair, so Today never celebrates it a second time)
+  /// and return what is shown, or null.
+  ///
+  /// Only the ending screen calls this, once it is on screen with its `CelebrationSlot` for
+  /// `CelebrationScope.repair(attemptId)` mounted: the controller spends an id when it accepts
+  /// it, so firing from [finish] could spend the moment with nothing there to show it. Skipped
+  /// while the student has turned the weekly rhythm off, so the moment waits for a later run.
+  Future<Celebration?> celebrateEnding() async {
+    final s = state;
+    if (s == null || s.phase != RepairPhase.ending || s.repairedCount == 0) return null;
+    RepairStep? first;
+    for (final step in s.steps) {
+      if (step.countsAsRepaired && step.outcome is OutcomeExplained && (step.outcome as OutcomeExplained).requestId != null) {
+        first = step;
+        break;
       }
-      final at = s.lastAckedAt;
-      if (first == null || at == null) return;
-      final controller = ref.read(celebrationControllerProvider.notifier);
-      controller.clearScope(CelebrationScope.repair(attemptId));
-      await controller.celebrate(
-        CelebrationEvent.repairFinished(
-          attemptId: attemptId,
-          firstRequestId: (first.outcome as OutcomeExplained).requestId!,
-          at: at,
-          firstEver: !s.repairedBefore,
-        ),
+    }
+    final at = s.lastAckedAt;
+    if (first == null || at == null) return null;
+    try {
+      final event = CelebrationEvent.repairFinished(
+        attemptId: attemptId,
+        firstRequestId: (first.outcome as OutcomeExplained).requestId!,
+        // The receipt reads the student's clock, the same time the ending screen shows.
+        at: ref.read(reviewClockProvider).local(at),
+        firstEver: !s.repairedBefore,
       );
+      await ref.read(rhythmPrefsProvider.notifier).ensureLoaded();
+      if (!ref.mounted || !ref.read(rhythmVisibleProvider)) return null;
+      final scope = CelebrationScope.repair(attemptId);
+      // The same ending drawn again (a rebuilt route): keep the moment that is already showing.
+      final showing = ref.read(celebrationControllerProvider).byScope[scope];
+      if (showing != null && showing.id == event.id) return showing;
+      // A later run on the same paper ends with a new id in the same scope.
+      final controller = ref.read(celebrationControllerProvider.notifier)..clearScope(scope);
+      return await controller.celebrate(event);
     } on Object {
       // The ending is already on screen; a missed moment never breaks it.
+      return null;
     }
   }
 

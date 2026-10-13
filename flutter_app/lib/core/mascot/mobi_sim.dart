@@ -121,6 +121,10 @@ class MobiSim {
     if (_talkW < 0.01) _talkT = 0;
   }
 
+  /// The pointing arm's aim (see [aim]); reduced motion draws its still pose from them.
+  double get pointAngle => _pointAngle;
+  double get pointSide => _pointSide;
+
   /// Aims the pointing arm: [angle] from straight down toward [side] (-1 left, 1 right).
   void aim(double angle, double side) {
     _pointAngle = angle.clamp(0.35, 2.9);

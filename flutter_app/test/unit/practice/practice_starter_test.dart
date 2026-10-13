@@ -247,12 +247,15 @@ void main() {
     expect(bodyOf(0).containsKey('purpose'), isFalse);
   });
 
-  test('an earlier session with unsent answers blocks the start and points at that session', () async {
+  test('an earlier session with unsent answers never blocks the start; it stays owed', () async {
     final earlier = draftOf(sessionId: 'old-1', count: 10, mode: 'quick', endsAtWallMs: wall + 600000, pending: true, mockNumber: null);
     await drafts.save(earlier);
     sessionApi.submitFailure = const ApiError(kind: ApiErrorKind.network, code: 'network');
     final outcome = await starter.start(quick, quote: _quote());
-    expect(outcome, isA<StartPendingElsewhere>().having((o) => o.sessionId, 'sessionId', 'old-1'));
+    expect(outcome, isA<Started>());
+    final kept = (await drafts.bySessionId('old-1'))!;
+    expect(kept.pendingSubmission, isTrue);
+    expect(kept.draftKey, SessionDraftRepository.archiveKeyOf('old-1'));
   });
 
   test('the draft key matches the engine draft key for the same selection', () {

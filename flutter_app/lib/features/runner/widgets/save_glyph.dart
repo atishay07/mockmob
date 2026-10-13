@@ -16,7 +16,7 @@ import '../copy.dart';
 ///
 /// A polite live region, so TalkBack hears changes only.
 class SaveGlyph extends StatelessWidget {
-  const SaveGlyph({super.key, required this.snapshot, this.full = false, this.onRetry});
+  const SaveGlyph({super.key, required this.snapshot, this.full = false, this.onRetry, this.lineHeight = 0});
 
   final SaveSnapshot snapshot;
 
@@ -25,6 +25,10 @@ class SaveGlyph extends StatelessWidget {
 
   /// Spells out "waiting for network" when the line has room.
   final bool full;
+
+  /// The height of the line the glyph sits on. The retry fills it, so a `TapSlop` around the
+  /// line can hand it taps from just above and below (see `RunnerMetaRow`).
+  final double lineHeight;
 
   static String wordsFor(SaveSnapshot s, {bool short = false}) => switch (s.state) {
     SaveState.saved => RunnerCopy.saved,
@@ -79,6 +83,42 @@ class SaveGlyph extends StatelessWidget {
       ),
     );
     if (!notSaved || onRetry == null) return row;
-    return GestureDetector(behavior: HitTestBehavior.opaque, onTap: onRetry, child: row);
+    // The retry is a button: at least 48 dp wide and as tall as its line, and its screen-reader
+    // node a full 48 dp tall, centred on the line (like the timing track's cells).
+    final box = ConstrainedBox(
+      constraints: BoxConstraints(minWidth: MmTarget.min, minHeight: lineHeight),
+      child: Align(widthFactor: 1, heightFactor: 1, alignment: AlignmentDirectional.centerEnd, child: row),
+    );
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onRetry,
+      // The node below carries the tap for TalkBack.
+      excludeFromSemantics: true,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          ExcludeSemantics(child: box),
+          Positioned.fill(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final height = constraints.maxHeight < MmTarget.min ? MmTarget.min : constraints.maxHeight;
+                return OverflowBox(
+                  minHeight: height,
+                  maxHeight: height,
+                  child: Semantics(
+                    container: true,
+                    liveRegion: true,
+                    button: true,
+                    onTap: onRetry,
+                    label: wordsFor(snapshot),
+                    child: const SizedBox.expand(),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

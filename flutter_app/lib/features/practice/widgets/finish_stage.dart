@@ -21,8 +21,8 @@ import 'sheet_columns.dart';
 /// the end; reduced motion and a result opened again show the end at once.
 ///
 /// The screen mounts it only once the sheet has rows (or the read has settled without them) and
-/// keys it by the number of bubbles. Should rows still arrive after it mounted empty, the ink is
-/// timed again for the real sheet and starts from 0, and Mobi reacts only when that ink ends.
+/// keys it by the number of bubbles, so rows that arrive after an empty mount make a new stage:
+/// the ink is timed for the real sheet and starts from 0.
 class FinishStage extends ConsumerStatefulWidget {
   const FinishStage({
     super.key,
@@ -69,7 +69,7 @@ const double _mobiSize = 92;
 
 class _FinishStageState extends ConsumerState<FinishStage> with SingleTickerProviderStateMixin {
   late final AnimationController _c = AnimationController(vsync: this, duration: FinishStage.durationFor(widget.cells.length));
-  late Animation<double> _ink;
+  late final Animation<double> _ink;
   final MobiController _mobi = MobiController();
   final GlobalKey _sheetKey = GlobalKey();
   bool _reacted = false;
@@ -88,21 +88,6 @@ class _FinishStageState extends ConsumerState<FinishStage> with SingleTickerProv
   Animation<double> _inkFor(Duration total) {
     final ms = total.inMilliseconds;
     return CurvedAnimation(parent: _c, curve: Interval(FinishStage.lead.inMilliseconds / ms, 1 - FinishStage.tail.inMilliseconds / ms));
-  }
-
-  @override
-  void didUpdateWidget(FinishStage oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    // The first real rows of a fresh moment that began without them: time the ink for this sheet
-    // and play it from the first bubble. Mobi's reaction waits for this ink to end.
-    if (oldWidget.cells.isEmpty && widget.cells.isNotEmpty && widget.fresh && !Motion.reduced(context)) {
-      _c.stop();
-      _c.duration = FinishStage.durationFor(widget.cells.length);
-      _ink = _inkFor(_c.duration!);
-      _reacted = false;
-      _mobi.hush();
-      _c.forward(from: 0);
-    }
   }
 
   @override

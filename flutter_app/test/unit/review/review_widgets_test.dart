@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/models/repair.dart';
+import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/review/data/repair_state.dart';
 import 'package:mockmob/features/review/screens/repair_ending_screen.dart';
 import 'package:mockmob/features/review/screens/repair_screen.dart';
 import 'package:mockmob/features/review/screens/review_screen.dart';
+import 'package:mockmob/features/rhythm/rhythm.dart' show CelebrationSlot;
 
 import '../../golden/review/review_golden_support.dart';
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
 import 'support/review_fixtures.dart';
 
-Future<void> pump(WidgetTester tester, Widget screen, {RepairRunState? run, DateTime? now}) => pumpMockmob(
+Future<void> pump(WidgetTester tester, Widget screen, {RepairRunState? run, DateTime? now, MemoryRhythmSeen? seen, MemoryPrefsStore? rhythmStore}) => pumpMockmob(
   tester,
   screen,
   size: const Size(384, 2400),
   disableAnimations: true,
   wrapInScaffold: false,
-  overrides: reviewOverrides(records: [repairedRecord], run: run, nowUtc: now),
+  overrides: reviewOverrides(records: [repairedRecord], run: run, nowUtc: now, seen: seen, rhythmStore: rhythmStore),
 );
 
 void main() {
@@ -66,6 +69,62 @@ void main() {
     expect(find.text('Repair finished. Recorded at 11:21 PM.'), findsOneWidget);
     expect(find.byType(MobiCharacter), findsOneWidget);
     expect(find.text('Repair 1 more mistake'), findsOneWidget);
+  });
+
+  group('the repairFinished moment', () {
+    // Acknowledged repairs carry the server's requestId: the stable part of the moment's id.
+    final acked = OutcomeExplained(RepairResponse.fromJson(explainedJson()), ackedAt: DateTime.utc(2026, 10, 12, 17, 38), requestId: 'req-a');
+    final acked2 = OutcomeExplained(RepairResponse.fromJson(explainedJson()), ackedAt: DateTime.utc(2026, 10, 12, 17, 51), requestId: 'req-b');
+
+    testWidgets('fires into a slot the ending mounts, in the receipt place, said once', (tester) async {
+      final seen = MemoryRhythmSeen();
+      await pump(
+        tester,
+        const RepairEndingScreen(attemptId: 'm7'),
+        run: runOf(phase: RepairPhase.ending, outcomes: [acked, acked2], index: 1),
+        seen: seen,
+      );
+      await tester.pumpAndSettle();
+      expect(seen.ids, {'repair:m7:req-a'});
+      final slot = find.byType(CelebrationSlot);
+      expect(slot, findsOneWidget);
+      expect(find.descendant(of: slot, matching: find.text('Repair finished. Recorded at 11:21 PM.')), findsOneWidget);
+      expect(find.text('Repair finished. Recorded at 11:21 PM.'), findsOneWidget, reason: 'the screen leaves its own receipt out');
+      expect(find.byType(MobiCharacter), findsOneWidget);
+      expect(find.descendant(of: slot, matching: find.byType(MobiCharacter)), findsNothing, reason: 'an L1 moment has no Mobi of its own');
+    });
+
+    testWidgets('a first repair is said by the moment, with one Mobi', (tester) async {
+      final seen = MemoryRhythmSeen();
+      await pump(
+        tester,
+        const RepairEndingScreen(attemptId: 'm7'),
+        run: runOf(phase: RepairPhase.ending, outcomes: [acked, acked2], index: 1, repairedBefore: false),
+        seen: seen,
+      );
+      await tester.pumpAndSettle();
+      expect(seen.ids, containsAll(['repair:m7:req-a', 'first_repair']));
+      expect(find.descendant(of: find.byType(CelebrationSlot), matching: find.text('That was your first repair.')), findsOneWidget);
+      expect(find.text('This is your first repair.'), findsNothing);
+      expect(find.byType(MobiCharacter), findsOneWidget, reason: "the moment's Mobi hop is the one Mobi");
+      expect(find.descendant(of: find.byType(CelebrationSlot), matching: find.byType(MobiCharacter)), findsOneWidget);
+    });
+
+    testWidgets('with rhythm turned off nothing is spent and the screen keeps its receipt', (tester) async {
+      final seen = MemoryRhythmSeen();
+      final store = MemoryPrefsStore()..values['rhythm_hidden_u1'] = true;
+      await pump(
+        tester,
+        const RepairEndingScreen(attemptId: 'm7'),
+        run: runOf(phase: RepairPhase.ending, outcomes: [acked, acked2], index: 1),
+        seen: seen,
+        rhythmStore: store,
+      );
+      await tester.pumpAndSettle();
+      expect(seen.ids, isEmpty);
+      expect(find.byType(CelebrationSlot), findsNothing);
+      expect(find.text('Repair finished. Recorded at 11:21 PM.'), findsOneWidget);
+    });
   });
 
   testWidgets('nothing repaired: no number, no Mobi, no receipt', (tester) async {

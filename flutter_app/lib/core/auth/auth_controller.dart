@@ -9,6 +9,7 @@ import '../analytics/analytics_client.dart';
 import '../api/api_client.dart';
 import '../api/api_error.dart';
 import '../api/api_providers.dart';
+import '../connectivity/connectivity.dart' show networkRestoredProvider;
 import '../models/auth_me.dart';
 import '../notifications/notification_service.dart';
 import '../repositories/consent_repository.dart';
@@ -27,6 +28,9 @@ class AuthController extends Notifier<AuthSnapshot> {
   StreamSubscription<AuthState>? _changes;
   StreamSubscription<void>? _lost;
   _ResumeObserver? _observer;
+  ProviderSubscription<AsyncValue<void>>? _restoredWatch;
+  AuthService? _running;
+  bool _starting = false;
   Future<void>? _profileLoad;
   bool _explicitSignOut = false;
   Timer? _startRetry;
@@ -43,6 +47,7 @@ class AuthController extends Notifier<AuthSnapshot> {
       _startRetry?.cancel();
       _changes?.cancel();
       _lost?.cancel();
+      _restoredWatch?.close();
       final observer = _observer;
       if (observer != null) WidgetsBinding.instance.removeObserver(observer);
     });
@@ -53,6 +58,16 @@ class AuthController extends Notifier<AuthSnapshot> {
   Future<AuthService?> _service() => ref.read(authServiceProvider.future);
 
   Future<void> _start() async {
+    if (_starting) return;
+    _starting = true;
+    try {
+      await _startOnce();
+    } finally {
+      _starting = false;
+    }
+  }
+
+  Future<void> _startOnce() async {
     AuthService? service;
     try {
       service = await _service();
@@ -62,6 +77,7 @@ class AuthController extends Notifier<AuthSnapshot> {
       // is untouched and may be fine. Say so (the profile-load-failed state, with a retry)
       // instead of sending the student to sign in.
       state = const AuthSnapshot(status: AuthStatus.unknown, loadFailed: true);
+      _watchForRecovery();
       _scheduleStartRetry();
       return;
     }
@@ -72,13 +88,35 @@ class AuthController extends Notifier<AuthSnapshot> {
       return;
     }
     _startFailures = 0;
+    _running = service;
     _changes = service.changes.listen((event) => _onAuthEvent(service!, event.event, event.session));
     _lost = service.sessionLost.listen((_) {
       if (!_explicitSignOut) state = const AuthSnapshot(status: AuthStatus.signedOut, sessionExpired: true);
     });
-    _observer = _ResumeObserver(() => service!.syncFromStorage());
-    WidgetsBinding.instance.addObserver(_observer!);
+    _watchForRecovery();
     await _handleSession(service.session);
+  }
+
+  /// Retries a failed start or profile load when the app comes back to the front and when the
+  /// network returns, and keeps checking the stored session on resume. The timers in
+  /// [_scheduleStartRetry] stop after a few tries; these do not.
+  void _watchForRecovery() {
+    if (_observer == null) {
+      _observer = _ResumeObserver(_onResumed);
+      WidgetsBinding.instance.addObserver(_observer!);
+    }
+    _restoredWatch ??= ref.listen<AsyncValue<void>>(networkRestoredProvider, (_, _) {
+      if (state.loadFailed) unawaited(retryStart());
+    });
+  }
+
+  Future<void> _onResumed() async {
+    if (!ref.mounted) return;
+    if (state.loadFailed) {
+      await retryStart();
+      return;
+    }
+    await _running?.syncFromStorage();
   }
 
   void _scheduleStartRetry() {
@@ -90,11 +128,20 @@ class AuthController extends Notifier<AuthSnapshot> {
     });
   }
 
-  /// Starts the auth service again after it failed to start. Safe to call at any time; it does
-  /// nothing once the service is running.
+  /// Tries again after a load failure ([AuthSnapshot.loadFailed]): starts the auth service again
+  /// when it failed to start, or reads the profile again when the service is running but the
+  /// profile did not load. Safe to call at any time; it does nothing while a start is already in
+  /// progress, or when nothing has failed.
   Future<void> retryStart() async {
-    if (_changes != null || !ref.mounted) return;
+    if (!ref.mounted || _starting) return;
     _startRetry?.cancel();
+    final running = _running;
+    if (running != null) {
+      if (!state.loadFailed) return;
+      state = AuthSnapshot.unknown;
+      await _handleSession(running.session);
+      return;
+    }
     state = AuthSnapshot.unknown;
     ref.invalidate(authServiceProvider);
     await _start();
@@ -219,8 +266,8 @@ class AuthController extends Notifier<AuthSnapshot> {
 
   /// Reloads the profile (after onboarding or any change that affects subjects or Pro status).
   Future<void> reload() async {
-    if (_changes == null && state.loadFailed) {
-      // The service never started: starting it again also loads the profile.
+    if (state.loadFailed) {
+      // Starting the service again, or reading the profile again, is what failed.
       await retryStart();
       return;
     }
@@ -376,7 +423,7 @@ class AuthController extends Notifier<AuthSnapshot> {
 class _ResumeObserver with WidgetsBindingObserver {
   _ResumeObserver(this._onResume);
 
-  final Future<bool> Function() _onResume;
+  final Future<void> Function() _onResume;
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {

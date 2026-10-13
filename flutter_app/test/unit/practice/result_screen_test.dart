@@ -317,11 +317,29 @@ void main() {
       expect(find.text('8'), findsOneWidget);
     });
 
-    testWidgets('opened again later, the end state shows at once from the cache', (tester) async {
-      await pumpResult(tester, resultOverrides(attemptId: 'p1', loading: true, cachedAttempt: countsOnly()));
+    testWidgets('opened again later with the rows in the cache, the end state shows at once', (tester) async {
+      final cached = Attempt.fromJson(attemptJson(id: 'p1', mode: 'quick', subject: 'accountancy', questions: _mixed));
+      await pumpResult(tester, resultOverrides(attemptId: 'p1', loading: true, cachedAttempt: cached));
       await tester.pump();
       await tester.pump();
       expect(find.byType(FinishStage), findsOneWidget);
+      expect(find.text('8'), findsOneWidget);
+    });
+
+    testWidgets('opened again before the rows arrive, Mobi reads and no empty stage mounts; the full stage then shows at once', (tester) async {
+      await pumpResult(tester, resultOverrides(attemptId: 'p1', loading: true, cachedAttempt: countsOnly()));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(find.byType(FinishStage), findsNothing);
+      expect(find.text('Reading your sheet'), findsOneWidget);
+
+      final container = ProviderScope.containerOf(tester.element(find.byType(PracticeResultScreen)));
+      (container.read(attemptDetailProvider('p1').notifier) as FakeDetail).deliver(detailOf(_mixed));
+      await tester.pump();
+      await tester.pump();
+      final stage = tester.widget<FinishStage>(find.byType(FinishStage));
+      expect(stage.cells, hasLength(10));
+      expect(stage.fresh, isFalse);
       expect(find.text('8'), findsOneWidget);
     });
   });

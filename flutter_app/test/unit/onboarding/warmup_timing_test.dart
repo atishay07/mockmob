@@ -36,7 +36,7 @@ void main() {
 
     now = now.add(const Duration(seconds: 12));
     final q = warmupQuestionFor(OnboardingAnswers.empty);
-    await tester.tap(find.bySemanticsLabel(RegExp('^Option ${'ABCD'[q.shownAnswer]}, ')).first);
+    await tester.tap(find.bySemanticsLabel(RegExp('^Option ${'ABCD'[q.order.indexOf(q.answer)]}, ')).first);
     await tester.pump(const Duration(milliseconds: 500));
 
     final container = ProviderScope.containerOf(tester.element(find.byType(QuestionStep)));

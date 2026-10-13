@@ -169,6 +169,8 @@ void main() {
       return youOverrides(api: api, drafts: draftsWithUnsent(0));
     },
     interact: (tester) async {
+      await tester.enterText(find.byType(TextField), 'DELETE');
+      await tester.pump();
       await tester.tap(find.text('Request deletion'));
       // The warn haptic reaches the platform channel on the real event loop, then waits 80 ms.
       await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 200)));

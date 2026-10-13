@@ -23,4 +23,8 @@ abstract final class CuetDates {
   /// CSAS rounds, after the results.
   static final DateTime counsellingStart = DateTime.utc(2027, 6, 20);
   static const String counsellingWhen = 'After the results';
+
+  /// When the CSAS rounds are expected to finish, so Today's road and the college ladder stay
+  /// until then. PLACEHOLDER (end of September 2027): owner to confirm the date.
+  static final DateTime counsellingEnd = DateTime.utc(2027, 9, 30);
 }

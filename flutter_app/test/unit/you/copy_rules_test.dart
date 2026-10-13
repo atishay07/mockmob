@@ -30,8 +30,9 @@ void main() {
     for (final s in strings) {
       final words = RegExp(r'[A-Za-z]{4,}').allMatches(s).map((m) => m.group(0)!);
       for (final w in words) {
-        // The only capitalised-in-full word the feature uses is the exam name DELETE-free, so none.
-        expect(w == w.toUpperCase() && !{'CUET', 'CSAS'}.contains(w), isFalse, reason: 'ALL CAPS "$w" in "$s"');
+        // Allowed in full capitals: the exam names, and DELETE, the word the student types to
+        // confirm account deletion (it must read exactly as the page says). No other word.
+        expect(w == w.toUpperCase() && !{'CUET', 'CSAS', 'DELETE'}.contains(w), isFalse, reason: 'ALL CAPS "$w" in "$s"');
       }
     }
   });

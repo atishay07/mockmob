@@ -23,6 +23,11 @@ abstract final class AuthCopy {
       'Please sign in again. Your work is still on this phone.';
   static const String offlineBanner = 'You are offline. Connect to sign in.';
 
+  // The account could not be opened at launch (not a sign-out).
+  static const String loadFailedTitle = 'We could not open your account';
+  static const String loadFailedBody = 'Your work is still on this phone.';
+  static const String tryAgain = 'Try again';
+
   // Code screen.
   static const String codeTitle = 'Check your email';
   static const String codeLeadPrefix = 'Enter the 8-digit code we emailed to ';

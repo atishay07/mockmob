@@ -1,7 +1,8 @@
 // "The road to May" as plain values: the weeks to the expected CUET window, the stops on the way
 // (registration, boards, the exam window, CSAS after the results: every date comes from
 // CuetDates), and the student's dream ladder with real CSAS 2026 Round 1 closing scores. After
-// 1 May 2027 the road stays: first the window is open, then CSAS follows the results. Calendar
+// 1 May 2027 the road stays: first the window is open, then CSAS follows the results, and the road
+// and the ladder stay until CuetDates.counsellingEnd. Calendar
 // arithmetic and the student's own choices only: no projections of marks or chances.
 import '../../../core/domain/cuet_dates.dart';
 import '../../onboarding/data/calendar.dart';
@@ -48,11 +49,13 @@ final List<RoadStop> roadStops = [
     title: TodayCopy.stopCounselling,
     when: TodayCopy.whenCounselling,
     start: CuetDates.counsellingStart,
+    // The road and the college ladder stay until the rounds end (owner to confirm the date).
+    end: CuetDates.counsellingEnd,
     expected: true,
   ),
 ];
 
-/// The right edge of the road: the first of the month after the last stop.
+/// The right edge of the road: the first of the month after the last stop (the end of CSAS).
 DateTime roadEndFor(List<RoadStop> stops) {
   final last = stops.map((s) => s.end ?? s.start).reduce((a, b) => a.isAfter(b) ? a : b);
   return DateTime.utc(last.year, last.month + 1);

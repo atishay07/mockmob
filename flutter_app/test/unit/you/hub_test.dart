@@ -21,7 +21,8 @@ Future<GoRouter> _pumpHub(
   RecordingOpener? opener,
   StudentTarget? target,
 }) async {
-  tester.view.physicalSize = const Size(768, 3600);
+  // Tall enough for the whole hub, tools shelf included, so every row is built and hit-testable.
+  tester.view.physicalSize = const Size(768, 5000);
   tester.view.devicePixelRatio = 2;
   addTearDown(tester.view.reset);
   final router = GoRouter(

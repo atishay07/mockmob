@@ -61,6 +61,8 @@ class _SaveStepState extends ConsumerState<SaveStep> {
       offline: offline,
       googleEnabled: google,
       googleBusy: sign.busy == SignInBusy.google,
+      googleInBrowser: sign.googleInBrowser,
+      onCancelBrowser: () => ref.read(signInControllerProvider.notifier).cancelGoogleBrowser(),
       busy: sign.isBusy,
       problem: problemText,
       onAge: ref.read(onboardingAnswersProvider.notifier).setAge,
@@ -100,6 +102,8 @@ class SaveView extends StatelessWidget {
     this.offline = false,
     this.googleEnabled = true,
     this.googleBusy = false,
+    this.googleInBrowser = false,
+    this.onCancelBrowser,
     this.busy = false,
     this.problem,
     this.note,
@@ -122,6 +126,11 @@ class SaveView extends StatelessWidget {
   final bool offline;
   final bool googleEnabled;
   final bool googleBusy;
+
+  /// Google sign-in handed over to the browser: say what to do there, and let the student stop
+  /// waiting ([onCancelBrowser]).
+  final bool googleInBrowser;
+  final VoidCallback? onCancelBrowser;
   final bool busy;
   final String? problem;
 
@@ -141,8 +150,20 @@ class SaveView extends StatelessWidget {
           KeyButton(
             label: googleBusy ? OnboardingCopy.googleBusy : OnboardingCopy.continueWithGoogle,
             loading: googleBusy,
-            onPressed: offline || busy ? null : onGoogle,
+            onPressed: offline || busy || googleInBrowser ? null : onGoogle,
           ),
+          if (googleInBrowser) ...[
+            const SizedBox(height: MmSpace.s12),
+            Semantics(
+              liveRegion: true,
+              child: Text(AuthCopy.googleInBrowser, style: type.small.copyWith(color: colors.ink2)),
+            ),
+            const SizedBox(height: MmSpace.s4),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: KeyButton.quiet(label: OnboardingCopy.cancelBrowser, onPressed: onCancelBrowser),
+            ),
+          ],
           const SizedBox(height: MmSpace.s12),
         ],
         googleEnabled

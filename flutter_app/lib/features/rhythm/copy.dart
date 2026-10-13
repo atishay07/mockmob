@@ -47,7 +47,14 @@ abstract final class RhythmCopy {
 
   static const String pausedKeepsRun = 'Paused weeks do not break your run.';
 
-  static String goalSentence(int goal) => goal >= 7 ? 'Your goal is 7 study days.' : 'Your goal is ${plural(goal, 'study day')}. $restDays';
+  /// "Your goal is 4 study days. The other days are rest days." The rest-day line is said only
+  /// when the student has chosen their study days ([hasPlan]); without a plan nothing says which
+  /// days are rest.
+  static String goalSentence(int goal, {bool hasPlan = false}) {
+    if (goal >= 7) return 'Your goal is 7 study days.';
+    final base = 'Your goal is ${plural(goal, 'study day')}.';
+    return hasPlan ? '$base $restDays' : base;
+  }
 
   /// "2 mocks, 7 mistakes repaired", from `mocksThisWeek` and `repairsThisWeek`. Null when both
   /// are unknown or zero.
@@ -130,7 +137,7 @@ abstract final class RhythmCopy {
     'repairs_10' => '10 repairs finished on $date',
     'repairs_25' => '25 repairs finished on $date',
     'sessions_10' => '10 sessions finished on $date',
-    'first_week_met' => 'First week met on $date',
+    'first_week_met' => 'First week in rhythm on $date',
     'weeks_met_4' => '4 weeks met on $date',
     _ => null,
   };
@@ -300,7 +307,7 @@ abstract final class RhythmCopy {
     'repairs_5' => 'Your 5th finished repair',
     'repairs_10' => 'Your 10th finished repair',
     'repairs_25' => 'Your 25th finished repair',
-    'first_week_met' => 'Your first week at your goal',
+    'first_week_met' => 'Your first week in rhythm',
     'weeks_met_4' => 'Your fourth week at your goal',
     _ => null,
   };

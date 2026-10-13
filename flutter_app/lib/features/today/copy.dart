@@ -176,14 +176,16 @@ abstract final class TodayCopy {
     return 'About $about study ${about == 1 ? 'session' : 'sessions'} at $goal a week.';
   }
   static const String stopRegistration = 'CUET registration';
-  static const String whenRegistration = CuetDates.registrationWhen;
+  static const String whenRegistration = CuetDates.registrationMonths;
   static const String stopBoards = 'Class 12 boards';
   static const String whenBoards = CuetDates.boardsWhen;
   static const String noteBoards = 'The plan goes lighter from mid-February.';
   static const String stopExam = 'CUET UG';
-  static const String whenExam = CuetDates.windowWhen;
+  static const String whenExam = CuetDates.windowMonth;
   static const String stopCounselling = 'CSAS rounds';
   static const String whenCounselling = CuetDates.counsellingWhen;
+  /// The tag on a stop whose date NTA or CBSE has not published.
+  static const String expectedTag = 'Expected';
   static const String nowLabel = 'Now';
   static String weekNeedsOnTrack(int n) => n == 1 ? 'This week: 1 more study day by Sunday.' : 'This week: $n more study days by Sunday.';
   static const String weekNeedsMet = 'This week: your goal is met. Anything more is extra.';

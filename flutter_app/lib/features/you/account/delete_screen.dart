@@ -98,6 +98,13 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
         _step = _Step.ask;
         _error = e.isOffline ? YouCopy.deleteOffline : YouCopy.deleteFailed;
       });
+    } on Object {
+      // Anything else (a decode failure, a bad response) must not leave the key spinning.
+      if (!mounted) return;
+      setState(() {
+        _step = _Step.ask;
+        _error = YouCopy.deleteFailed;
+      });
     }
   }
 
@@ -202,7 +209,7 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
         const SizedBox(height: MmSpace.s8),
         Semantics(
           liveRegion: true,
-          child: Text(receipt.alreadyRequested ? YouCopy.deleteAlready : YouCopy.deleteConsequences, style: type.lead),
+          child: Text(receipt.alreadyRequested ? YouCopy.deleteAlready : YouCopy.deleteRecordedHeadline, style: type.lead),
         ),
         const SizedBox(height: MmSpace.s16),
         ReceiptLine(

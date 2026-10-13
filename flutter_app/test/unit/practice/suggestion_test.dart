@@ -31,6 +31,32 @@ void main() {
     expect(unknown.selection.purpose, isNull);
   });
 
+  test('a picked subject with the attempts not loaded is not told "no paper yet"; with them loaded and none in it, it is', () {
+    final unknown = suggestPractice(
+      draft: null,
+      now: now,
+      attempts: null,
+      fallbackSubject: 'accountancy',
+      chosenSubjects: const ['accountancy'],
+      pickedSubject: 'business_studies',
+    ) as StartingSuggestion;
+    expect(unknown.picked, isTrue);
+    expect(unknown.attemptsKnown, isFalse);
+    expect(unknown.firstEver, isFalse);
+
+    final other = attemptOf(id: 'a', subject: 'accountancy', completedAt: ms(const Duration(days: 1)), questions: chapterOf('Goodwill', wrong: 2));
+    final known = suggestPractice(
+      draft: null,
+      now: now,
+      attempts: [other],
+      fallbackSubject: 'accountancy',
+      chosenSubjects: const ['accountancy'],
+      pickedSubject: 'business_studies',
+    ) as StartingSuggestion;
+    expect(known.attemptsKnown, isTrue);
+    expect(known.firstEver, isFalse);
+  });
+
   test('the chapter that cost the most in the latest paper of a chosen subject', () {
     final older = attemptOf(id: 'a', completedAt: ms(const Duration(days: 3)), questions: chapterOf('Goodwill', wrong: 4));
     final latest = attemptOf(

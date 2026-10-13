@@ -239,7 +239,8 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     final marks = FinishMarks(correct: attempt.correct, wrong: attempt.wrong, blank: attempt.unattempted, total: attempt.total);
     // The moment plays on the real sheet: straight from the cached attempt (the submit put it
     // there with its rows), without waiting for the full result read. Only when the cache has no
-    // rows does a fresh moment wait for them, and only until the read has settled either way.
+    // rows does the moment, fresh or reopened, wait for them, and only until the read has settled
+    // either way (a reopened result would otherwise mount with no bubbles and jump when they arrive).
     final rowsSettled = model.hasRows || detail != null || failedKeys;
     final isFresh = _fresh;
 
@@ -271,7 +272,7 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
                             // this is the first open (so it never plays twice or not at all), and
                             // for the sheet's rows; meanwhile Mobi reads the sheet. Keyed by the
                             // number of bubbles, so rows that arrive late ink in from the start.
-                            if (isFresh != null && (!isFresh || rowsSettled))
+                            if (isFresh != null && rowsSettled)
                               FinishStage(
                                 key: ValueKey('finish-${model.cells.length}'),
                                 marks: marks,

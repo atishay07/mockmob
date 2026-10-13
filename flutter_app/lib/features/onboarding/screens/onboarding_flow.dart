@@ -175,6 +175,14 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
     final loaded = sheet.hasError ? null : sheet.value;
     final answers = loaded ?? OnboardingAnswers.empty;
     ref.listen(onboardingAnswersProvider, (previous, next) {
+      // The read the kept tap was waiting for failed: the tap is spent. Welcome shows the
+      // notice and Try again, never a key that stays loading.
+      if (next.hasError && !next.isLoading && _startWhenLoaded) {
+        scheduleMicrotask(() {
+          if (mounted) setState(() => _startWhenLoaded = false);
+        });
+        return;
+      }
       final after = next.value;
       if (after == null || next.isLoading) return;
       if (_startWhenLoaded && !_inDeck) {
@@ -205,7 +213,8 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
           returning: loaded != null && answers.started && answers.step != null,
           filled: filled,
           lateNight: _isLate(ref.watch(nowProvider)()),
-          pending: _startWhenLoaded,
+          // Loading only while a read is in flight: a failed read leaves the key tappable.
+          pending: _startWhenLoaded && sheet.isLoading,
           notice: switch (error?.failure) {
             null => null,
             SheetReadFailure.unreadable => OnboardingCopy.sheetUnreadable,

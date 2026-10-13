@@ -63,46 +63,52 @@ Legend. Status: Done, Partial, Missing (checked against `flutter_app/lib`). Pri:
 
 ## 3. Master index
 
-| ID | Feature | Status | Home | Pri | Size |
-|---|---|---|---|---|---|
-| A1 | Today next step, time chips, study sequence, tonight recorded | Partial | Today | P0 finding line, P1 sequence | S |
-| A2 | Practice setup: subject, mode, count, chapters, difficulty, summary, cost | Partial | Practice, setup | P0 | M |
-| A3 | Deep links and Start sheet honour subject, mode, count, chapters | Partial (bug reported) | router, Start | P0 | S |
-| A4 | Runner parity for Quick, Smart, Full | Partial | Runner | P0 (Smart), P1 (votes) | S |
-| A5 | **NTA mode console** (two skins, palette, strikes, preparing, preview) | Missing | Runner, Practice | **P0** | L |
-| A6 | Submit, sync, offline, resume, auto-submit, grace window | Done | Runner | none | none |
-| A7 | Result: summary, gap bar, observations, answer by answer, filters, timing, changes, report, corrections | Partial | Result | P0 | M |
-| A8 | Prove: 5 fresh questions (`recovery/replay`) | Missing | Result | P0 | S |
-| A9 | Decision note to the playbook (`POST /api/recovery`) | Missing | Result, Review | P1 | S |
-| A10 | Mistake Repair (+ key review notices) | Done | Review | none | none |
-| A11 | Review hub: sessions, mistakes, due cards, links to Insights and Saved | Partial | Review | P0 links | S |
-| A12 | Repair record across devices (`/api/me/repair-record`) | Missing (local only) | Review record | P0 | S |
-| A13 | Practice finish moment (animated) | Missing | Practice result | P0 | M |
-| B1 | Learn library, lesson, run, recall | Done | Learn | none | none |
-| B2 | Chapter summary reader (`/api/study/summary`) | Missing | Learn | P1 | S |
-| B3 | Study preferences (subjects, minutes) `PUT /api/study/preferences` | Missing | You, Today | P1 | S |
-| B4 | Weekly plan, 7 days, Pro | Missing | You, Today week sheet | P1 | M |
-| B5 | Lesson help with AI (1 PrepOS credit) | Missing | Learn | P2 | S |
-| C1 | Insights (the record): ledger, findings, chapters, changes, pace, week | Missing | Review | **P0** | M |
-| C2 | Score trend and by-subject | Missing | Review | P0 | S |
-| C3 | Ask your record (free, local) and model reply | Missing | Ask sheet | P1 / P2 | M |
-| C4 | Progress: concept checks (blocked state) and playbook list | Missing | Review record | P1 | S |
-| D1 | Explore stream with instant feedback | Missing | Practice | **P0** | M |
-| D2 | Vote, report, explanation opened | Missing | Stream, Result | P0 (vote, report) | S |
-| D3 | Saved questions (bookmarks) | Missing | Review | **P0** | S |
-| E1 | Compass: DU eligibility, cutoffs by category and round | Missing (Custom Tab) | Tools | **P0** | L |
-| E2 | Combo Planner | Missing (Custom Tab) | Tools | **P0** | M |
-| E3 | Compass Pro: projection, shortlist, paper to work on | Missing | Tools | P1 | M |
-| E4 | CUET 2027 guide | Missing | Tools | P1 | S |
-| E5 | Subject hubs, PYQ guide, free-mock pages | Missing | Custom Tab | P2 | none |
-| F1 | Edit subjects | Missing | You | **P0** | S |
-| F2 | Edit display name | Missing | You, Account | **P0** | S |
-| F3 | Plan and credits card (read-only) | Partial | You | P0 | S |
-| F4 | Usage data consent, delete account, notifications, appearance | Done | You | none | none |
-| F5 | Guided first-run tour with Mobi | Missing | Today | P1 | M |
-| G1 | Leaderboard | not built | none | P2 | none |
-| G2 | Rival benchmark | Missing | none | P2 | none |
-| G3 | Upload, My uploads, Moderation, Creator, Admin | Missing | Custom Tab | P2 | none |
+Status below was re-derived from `flutter_app/lib` on 13 October 2026 (evening). The section 1 verdict and the "App:" lines in section 4 are the original research and are older than this table; where they differ, this table wins. H1 to H4 were added after the first index.
+
+| ID | Feature | Status | Home | Pri | Size | Evidence in `flutter_app/lib` |
+|---|---|---|---|---|---|---|
+| A1 | Today next step, time chips, study sequence, tonight recorded | Partial | Today | P1 sequence | S | Record finding card, minutes chips, resume, sealed hero, why, alternatives, week and road are built (`features/today`, `InsightsCard` in `today_routes.dart`). `LearningPlan.sequence` is parsed (`core/models/learning_plan.dart`) but not rendered; Today's minutes chip is not saved to `study/preferences` (You > study length saves it) |
+| A2 | Practice setup: subject, mode, count, chapters, difficulty, summary, cost | Done | Practice, setup | none | none | `practice_setup_screen.dart`, `chapter_picker.dart` (search, units, up to 12, one chapter when a name has a comma), difficulty in `practice_selection.dart`, counts from `/api/stats` in `practice_catalog.dart`, Smart and NTA modes, `stale_subjects_banner.dart` |
+| A3 | Deep links and Start sheet honour subject, mode, count, chapters | Partial | router, Start | P1 | S | `practice_link.dart` and `action_router.dart` carry subject, count, chapter, chapters, difficulty, purpose, `recoveryFrom`; `StartPendingElsewhere` is handled in `launch_flow.dart`. `tonightKey` and `tonightMinutes` are not carried (no match in `lib`) |
+| A4 | Runner parity for Quick, Smart, Full | Done | Runner | none | none | Smart is not a mock (`runner_session.dart` `isMock` is full and NTA only), so it uses the practice skin with the server's deadline. Votes are deliberately absent from timed runs; the flag action is on the result (`report_key.dart`) |
+| A5 | **NTA mode console** (two skins, palette, strikes, preparing, preview) | Done | Runner, Practice | none | none | `features/runner/nta/**` (skins, palette, `nta_integrity.dart` strikes, `nta_instructions_screen.dart`, preparing, submit summary), NTA-only `FLAG_SECURE` (`status_tint.dart`, `MainActivity.kt`). The free exam-screen preview (`/practice/exam-preview`) is not built |
+| A6 | Submit, sync, offline, resume, auto-submit, grace window | Done | Runner | none | none | `core/sync/session/**`, `features/runner/**` |
+| A7 | Result: summary, gap bar, observations, answer by answer, filters, timing, changes, report, corrections | Done | Result | none | none | `features/practice/model/session_analysis.dart`, `observations_panel.dart`, `result_list.dart`, `marks_bar.dart`, `report_key.dart`, `KeyState.held` for non-corrected reviews in `practice_result_model.dart` |
+| A8 | Prove: 5 fresh questions (`recovery/replay`) | Done | Result | none | none | `prove_card.dart`, `result_actions.dart` (`/api/recovery/replay`), `recoveryFrom` in `practice_link.dart` and `practice_starter.dart` |
+| A9 | Decision note to the playbook (`POST /api/recovery`) | Missing | Result, Review | P1 | S | No call to `/api/recovery` itself in `lib` (only `/api/recovery/repair` and `/replay`) |
+| A10 | Mistake Repair (+ key review notices) | Done | Review | none | none | `features/review/**`, `repair_api.dart` |
+| A11 | Review hub: sessions, mistakes, due cards, links to Insights and Saved | Done | Review | none | none | `review_screen.dart` mounts `ReviewInsightsRows` (Where your marks go, Saved with count) next to sessions, mistakes and the tonight card |
+| A12 | Repair record across devices (`/api/me/repair-record`) | Missing (local only) | Review record | P1 | S | No `repair-record` call in `lib`; `repair_local_repository.dart` keeps repairs on the phone |
+| A13 | Practice finish moment (animated) | Done | Practice result | none | none | `finish_stage.dart`, `model/finish_reaction.dart` |
+| B1 | Learn library, lesson, run, recall | Done | Learn | none | none | `features/learn/**` |
+| B2 | Chapter summary reader (`/api/study/summary`) | Partial | Learn | P1 | S | `summary_screen.dart`, `summary_loader.dart`, `study_api.dart` are built. `LearnPaths.summary()` opens it, but `router.dart` has no page for the summary route yet (review round 3, pkg-09 finding 1, owned by the router agent); until that lands the screen is not reachable |
+| B3 | Study preferences (subjects, minutes) `PUT /api/study/preferences` | Done | You, Today | none | none | `you/data/study_length.dart` (GET and PUT with `expectedRevision`), `profile_editor.dart`; subjects are edited at `/you/subjects` |
+| B4 | Weekly plan, 7 days, Pro | Partial | You, Today week sheet | P1 | M | The weekdays the student plans are chosen and shown (`rhythm/logic/plan_week.dart`, `week_sheet.dart`, `you/sheet/week_editor.dart`) but kept on the phone (`study_days.dart` `PhoneOnlyStudyDays`). The Pro `weeklyPlan` field of `study/preferences` (a subject and minutes per weekday) is not read or written. See H3 |
+| B5 | Lesson help with AI (1 PrepOS credit) | Missing | Learn | P2 | S | No lesson-level `mentor/chat` call (Ask uses it for record questions only) |
+| C1 | Insights (the record): ledger, findings, chapters, changes, pace, week | Done | Review | none | none | `features/insights/screens/insights_screen.dart`, `record_sections.dart`, `ledger_hero.dart`; Pro rows via `ProRow` |
+| C2 | Score trend and by-subject | Done | Review | none | none | `widgets/trend_chart.dart`, `data/trend.dart` (`trendSeries`, `subjectLines`; one format per line) |
+| C3 | Ask your record (free, local) and model reply | Done | Ask sheet | none | none | `data/ask_controller.dart` (local answers, then `POST /api/ai/mentor/chat`), `screens/ask_screen.dart` |
+| C4 | Progress: concept checks (blocked state) and playbook list | Missing | Review record | P1 | S | No `GET /api/recovery` call in `lib` |
+| D1 | Explore stream with instant feedback | Done | Practice | none | none | `insights/screens/stream_screen.dart`, `data/feed_api.dart` (`/api/questions/feed`) |
+| D2 | Vote, report, explanation opened | Done | Stream, Result | none | none | `feed_api.dart` (`/vote`), `widgets/question_actions.dart`, `report_key.dart` |
+| D3 | Saved questions (bookmarks) | Done | Review | none | none | `insights/screens/saved_screen.dart`, `data/saved_repository.dart` (`/api/bookmarks`) |
+| E1 | Compass: DU eligibility, cutoffs by category and round | Done | Tools | none | none | `features/tools/compass/**`, `domain/du_eligibility.dart`, `data/du_repository.dart` |
+| E2 | Combo Planner | Done | Tools | none | none | `features/tools/combo/**`, `domain/du_combos.dart` |
+| E3 | Compass Pro: projection, shortlist, paper to work on | Done | Tools | none | none | `tools/pro/**`; see H4 |
+| E4 | CUET 2027 guide | Done | Tools | none | none | `tools/guide/guide_2027_screen.dart`, `/tools/guide-2027` |
+| E5 | Subject hubs, PYQ guide, free-mock pages | Missing | Custom Tab | P2 | none | Not built; opens on the website only |
+| F1 | Edit subjects | Done | You | none | none | `you/subjects/subjects_screen.dart`, `profile_editor.dart` (`PATCH /api/users/{id}`) |
+| F2 | Edit display name | Done | You, Account | none | none | `you/account/name_sheet.dart` |
+| F3 | Plan and credits card (read-only) | Done | You | none | none | `you/account/plan_card.dart` |
+| F4 | Usage data consent, delete account, notifications, appearance | Done | You | none | none | `features/you/privacy`, `account`, `appearance`, `features/notifications` |
+| F5 | Guided first-run tour with Mobi | Missing | Today | P1 | M | No spotlight or tour widget in `lib` |
+| G1 | Leaderboard | not built | none | P2 | none | Deliberately not built (section 10) |
+| G2 | Rival benchmark | Missing | none | P2 | none | Not built (section 10) |
+| G3 | Upload, My uploads, Moderation, Creator, Admin | Missing | Custom Tab | P2 | none | Not built (section 10) |
+| H1 | NTA inactive grace: another window may cover the exam for 1.5 s before a warning counts (**owner to confirm the 1.5 s**) | Done | Runner | none | none | `runner/nta/nta_integrity.dart` `defaultInactiveGrace` (1500 ms). It follows section 5.3 item 4; the value is ours, not the website's, so the owner confirms it. (The code comment cites it as decision 4 of section 11, but that list's item 4 is about Compass; the NTA rule is 5.3 item 4) |
+| H2 | Subject monogram: a subject with no art shows its initials, never another subject's object | Done | Everywhere subjects show | none | none | `core/widgets/art/subject_glyph.dart` `subjectMonogram`, `learn/widgets/subject_mark.dart`, `insights/widgets/insights_bits.dart` (also logs the missing id). Section 11 item 9 |
+| H3 | Per-weekday study plan: which weekdays the student plans, with rest days | Partial | You, Today week | P1 | M | Chosen in onboarding and `you/sheet/week_editor.dart`, shown by `plan_week_strip.dart` and `week_sheet.dart`; stored on the phone only (`study_days.dart`) because no endpoint holds weekdays. Done when the server gains a field or maps onto Pro `weeklyPlan` (B4) |
+| H4 | Compass Pro: practice projection per paper, paper to work on, shortlist against 2026 cutoffs (Pro only) | Done | Tools | none | none | `tools/pro/compass_pro_section.dart`, `compass_pro_repository.dart` (`GET /api/compass/pro`); the section is absent for an account the server locks (`pro.locked`), no lock or pitch |
 
 ---
 

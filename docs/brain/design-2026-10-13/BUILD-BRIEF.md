@@ -72,7 +72,7 @@ Glide (enter) `cubic-bezier(0.15, 0.5, 0.5, 1)` 300 ms; exit `cubic-bezier(0.4, 
 ## 8. Copy
 
 - Remove every defensive footer and caption: "MockMob is not affiliated...", "Sample questions. This is not a diagnosis.", "Practice, not proof", "Example, not your plan yet", "On this phone" on guest screens, "This only decides your data settings", cost-first headlines. The non-affiliation statement lives in You > Help > About and the Play listing.
-- Voice: a sharp senior who has been through CUET. Short, specific, a little dry, in the student's words. Real dates (boards mid-February to early April 2027; CUET registration January to March 2027; the exam in May 2027; CSAS rounds after results). At most one Hinglish caption per screen, never in an instruction ("Aaj ka repair: 10 minutes, Partnership.").
+- Voice: a sharp senior who has been through CUET. Short, specific, a little dry, in the student's words. Real dates (boards mid-February to early April 2027; CUET registration February to March 2027; the exam in May 2027; CSAS rounds after results). At most one Hinglish caption per screen, never in an instruction ("Aaj ka repair: 10 minutes, Partnership.").
 - Vocabulary for mistakes: **Found, Repaired, Checked, Holds** ("Holds" only after a fresh check passes). Never "mastered" or "fixed forever".
 - Sentence case, no emoji, no exclamation marks, no arrows in buttons, 12-hour time, tabular figures in data.
 - Costs live on the confirm sheet, written as what you get: "10 questions, about 10 minutes. 10 credits."

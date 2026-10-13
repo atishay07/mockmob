@@ -69,11 +69,14 @@ class SubjectSuggestion extends PracticeSuggestion {
 /// the subject they picked on the tiles. [firstEver] is true only when the attempts list is known
 /// to be empty; then the quote is asked with `purpose=baseline`, so a first-use allowance shows on
 /// the confirm sheet when it exists. [picked] is true when the subject is the student's own pick.
+/// [attemptsKnown] is false while the attempts have not loaded: then no sentence may claim there
+/// is no paper yet.
 class StartingSuggestion extends PracticeSuggestion {
-  const StartingSuggestion({required String subjectId, required this.firstEver, this.picked = false}) : super(subjectId);
+  const StartingSuggestion({required String subjectId, required this.firstEver, this.picked = false, this.attemptsKnown = true}) : super(subjectId);
 
   final bool firstEver;
   final bool picked;
+  final bool attemptsKnown;
 
   int get count => defaultPracticeCount;
 
@@ -118,14 +121,14 @@ PracticeSuggestion suggestPractice({
         if (publicSubjectOf(a.subject, catalog) == pickedSubject) a,
     ];
     if (mine.isEmpty) {
-      return StartingSuggestion(subjectId: pickedSubject, firstEver: all != null && all.isEmpty, picked: true);
+      return StartingSuggestion(subjectId: pickedSubject, firstEver: all != null && all.isEmpty, picked: true, attemptsKnown: all != null);
     }
     mine.sort((a, b) => b.completedAt.compareTo(a.completedAt));
     return _fromLatest(mine.first, pickedSubject, all!);
   }
 
   final first = chosenSubjects.isEmpty ? fallbackSubject : chosenSubjects.first;
-  if (all == null || all.isEmpty) return StartingSuggestion(subjectId: first, firstEver: all != null);
+  if (all == null || all.isEmpty) return StartingSuggestion(subjectId: first, firstEver: all != null, attemptsKnown: all != null);
 
   final chosen = chosenSubjects.toSet();
   final sorted = [...all]..sort((a, b) => b.completedAt.compareTo(a.completedAt));

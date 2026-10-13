@@ -103,7 +103,7 @@ class SuggestionHero extends ConsumerWidget {
           title: s.firstEver ? PracticeCopy.startingTitle : PracticeCopy.subjectTitle(subject),
           kicker: s.firstEver ? PracticeCopy.startingKicker(subject) : PracticeCopy.subjectKicker,
           reason: s.picked
-              ? PracticeCopy.pickedStartReason(subject)
+              ? (s.attemptsKnown ? PracticeCopy.pickedStartReason(subject) : PracticeCopy.pickedUnknownReason)
               : (s.firstEver ? PracticeCopy.startingReason(subject) : PracticeCopy.firstOnListReason(subject)),
           actionLabel: PracticeCopy.startKey,
           onAction: () => confirm(s.selection),

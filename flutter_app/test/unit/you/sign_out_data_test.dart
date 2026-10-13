@@ -5,6 +5,7 @@ import 'dart:async';
 
 import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/widgets.dart' show AppLifecycleState, WidgetsBinding;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/analytics/analytics.dart';
 import 'package:mockmob/core/api/api_client.dart';
@@ -12,6 +13,7 @@ import 'package:mockmob/core/api/api_providers.dart';
 import 'package:mockmob/core/auth/auth.dart';
 import 'package:mockmob/core/auth/auth_providers.dart';
 import 'package:mockmob/core/auth/auth_service.dart';
+import 'package:mockmob/core/connectivity/connectivity_providers.dart' show networkRestoredProvider;
 import 'package:mockmob/core/models/consent.dart';
 import 'package:mockmob/core/repositories/local_scope.dart';
 import 'package:mockmob/core/notifications/notification_service.dart';
@@ -29,7 +31,7 @@ import '../core_data/support/test_db.dart';
 import 'you_test_support.dart';
 
 class _FakeService extends Fake implements AuthService {
-  _FakeService({this.session});
+  _FakeService();
 
   @override
   Session? session;
@@ -96,12 +98,15 @@ void main() {
   late _FakeService service;
   late ProviderContainer container;
   late _MeApi api;
+  late StreamController<void> restored;
 
   Future<_Auth> start({AppDatabase? database, FutureOr<AuthService?> Function()? serviceBuilder}) async {
     db = database ?? newTestDb();
     store = MemoryPrefsStore();
     service = _FakeService();
     api = _MeApi();
+    restored = StreamController<void>.broadcast();
+    addTearDown(restored.close);
     final analytics = MockAnalytics();
     when(analytics.discardAll).thenAnswer((_) async {});
     final notifications = _MockNotifications();
@@ -116,6 +121,7 @@ void main() {
       consentRepositoryProvider.overrideWith(() => FakeConsent(consentState(AgeBand.adult))),
       syncCoordinatorProvider.overrideWithValue(_FakeSync()),
       apiClientProvider.overrideWithValue(api),
+      networkRestoredProvider.overrideWith((ref) => restored.stream),
     ]);
     addTearDown(() {
       container.dispose();
@@ -245,6 +251,59 @@ void main() {
       s = container.read(authSnapshotProvider);
       expect(s.loadFailed, isFalse);
       expect(s.status, AuthStatus.signedOut, reason: 'the second start answered "not configured", which is a real signed-out');
+    });
+
+    /// A service that fails to start the first time and starts the second.
+    Future<_Auth> failFirstStart() async {
+      var attempt = 0;
+      final auth = await start(serviceBuilder: () {
+        attempt++;
+        if (attempt == 1) throw StateError('keystore busy');
+        return service;
+      });
+      expect(container.read(authSnapshotProvider).loadFailed, isTrue);
+      return auth;
+    }
+
+    test('the network coming back starts it again', () async {
+      await failFirstStart();
+      restored.add(null);
+      await pumpEventQueue();
+      final s = container.read(authSnapshotProvider);
+      expect(s.loadFailed, isFalse);
+      expect(s.status, AuthStatus.signedOut, reason: 'the second start worked and there is no session');
+    });
+
+    test('coming back to the app starts it again', () async {
+      await failFirstStart();
+      final binding = WidgetsBinding.instance;
+      binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+      binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      await pumpEventQueue();
+      final s = container.read(authSnapshotProvider);
+      expect(s.loadFailed, isFalse);
+      expect(s.status, AuthStatus.signedOut);
+    });
+
+    test('a profile that did not load is read again by retryStart, with the service already running', () async {
+      final auth = await start();
+      service.session = _session('a@x.com');
+      var calls = 0;
+      when(() => api.get('/api/auth/me', options: any(named: 'options'))).thenAnswer((_) async {
+        calls++;
+        if (calls == 1) throw offlineError();
+        return _me('a', 'a@x.com');
+      });
+      await auth.reload();
+      await pumpEventQueue();
+      expect(container.read(authSnapshotProvider).loadFailed, isTrue);
+
+      await auth.retryStart();
+      await pumpEventQueue();
+      final s = container.read(authSnapshotProvider);
+      expect(s.loadFailed, isFalse);
+      expect(s.status, AuthStatus.signedIn);
+      expect(s.userId, 'a');
     });
   });
 }

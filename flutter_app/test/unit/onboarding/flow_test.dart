@@ -238,6 +238,27 @@ void main() {
     expect(find.text(OnboardingCopy.worryTitle), findsOneWidget);
   });
 
+  testWidgets('a tap kept while the sheet loads, then a failed read, leaves Try again tappable', (tester) async {
+    final prefs = _FailingPrefs()..values[AnswersStore.key] = jsonEncode(studentUpTo(Steps.subjects, step: Steps.worry).toJson());
+    final slow = _SlowFailingStore(prefs);
+    await _pump(tester, store: slow, settle: false);
+    await tester.pump();
+    await tester.tap(find.text(OnboardingCopy.buildPlan));
+    await tester.pump();
+    slow.gate.complete();
+    await _settle(tester);
+
+    expect(find.text(OnboardingCopy.sheetUnreadable), findsOneWidget);
+    final key = tester.widget<KeyButton>(find.widgetWithText(KeyButton, OnboardingCopy.tryAgain));
+    expect(key.loading, isFalse, reason: 'the kept tap is spent when the read fails');
+    expect(key.onPressed, isNotNull);
+
+    // Storage comes back: Try again reads the real sheet and opens the deck where it was.
+    prefs.fail = false;
+    await _tap(tester, OnboardingCopy.tryAgain);
+    expect(find.text(OnboardingCopy.worryTitle), findsOneWidget);
+  });
+
   testWidgets('course Next says why it waits', (tester) async {
     await _pump(tester, answers: studentUpTo(Steps.stage, step: Steps.course).copyWith(courseId: 'b-com-hons'));
     await _tap(tester, OnboardingCopy.continuePlan);
@@ -258,6 +279,22 @@ class _SlowStore extends AnswersStore {
   Future<OnboardingAnswers> load() async {
     await gate.future;
     return answers;
+  }
+}
+
+class _SlowFailingStore extends AnswersStore {
+  _SlowFailingStore(super.prefs);
+
+  final Completer<void> gate = Completer<void>();
+  bool _first = true;
+
+  @override
+  Future<OnboardingAnswers> load() async {
+    if (_first) {
+      _first = false;
+      await gate.future;
+    }
+    return super.load();
   }
 }
 

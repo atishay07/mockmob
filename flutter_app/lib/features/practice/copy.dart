@@ -49,6 +49,9 @@ abstract final class PracticeCopy {
   static String firstOnListReason(String subject) => '$subject is first on your list.';
   static String pickedStartReason(String subject) => 'No $subject paper yet. Ten questions shows where you stand.';
 
+  /// The picked subject while the attempts have not loaded: it claims nothing about papers.
+  static const String pickedUnknownReason = 'Ten questions shows where you stand.';
+
   static String heroSemantics(String title, String reason) => '$title. $reason';
 
   // The modes, as what you get.

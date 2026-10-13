@@ -21,6 +21,8 @@ Future<FakeAuth> _pumpAccount(
     const AccountScreen(),
     wrapInScaffold: false,
     disableAnimations: true,
+    // Tall enough for the Security section and the sign-out key below it to be built.
+    size: const Size(360, 1500),
     overrides: youOverrides(fakeAuth: auth, drafts: draftsWithUnsent(unsent)),
   );
   return auth;
@@ -28,6 +30,12 @@ Future<FakeAuth> _pumpAccount(
 
 ApiResponse _deleteResponse({required DateTime requestedAt, String message = 'We delete your account and study records within 30 days. Payment records required by law are kept.'}) =>
     ApiResponse(200, {'status': 'pending', 'requestedAt': requestedAt.toUtc().toIso8601String(), 'message': message});
+
+/// Types the confirmation word the delete page asks for, so the request key turns on.
+Future<void> _typeDelete(WidgetTester tester, [String word = 'DELETE']) async {
+  await tester.enterText(find.byType(TextField), word);
+  await tester.pump();
+}
 
 void main() {
   group('account', () {
@@ -108,6 +116,7 @@ void main() {
         const DeleteScreen(),
         wrapInScaffold: false,
         disableAnimations: true,
+        size: const Size(360, 1500),
         overrides: youOverrides(fakeAuth: auth, api: api, drafts: draftsWithUnsent(unsent)),
       );
       await tester.pump();
@@ -133,16 +142,36 @@ void main() {
       expect(find.text('2 answers on this phone have not been sent. They will be removed when you are signed out.'), findsOneWidget);
     });
 
+    testWidgets('the request key stays off until DELETE is typed, in any case', (tester) async {
+      final (_, api) = await pump(tester);
+      when(() => api.post('/api/me/delete', body: any(named: 'body'))).thenAnswer((_) async => _deleteResponse(requestedAt: DateTime(2026, 10, 12, 22, 39)));
+      expect(find.text('Type DELETE to confirm'), findsOneWidget);
+      await tester.tap(find.text('Request deletion'), warnIfMissed: false);
+      await tester.pump();
+      verifyNever(() => api.post(any(), body: any(named: 'body')));
+      await _typeDelete(tester, 'delet');
+      await tester.tap(find.text('Request deletion'), warnIfMissed: false);
+      await tester.pump();
+      verifyNever(() => api.post(any(), body: any(named: 'body')));
+      await _typeDelete(tester, 'delete');
+      await tester.tap(find.text('Request deletion'));
+      await tester.pump();
+      await tester.pump();
+      verify(() => api.post('/api/me/delete', body: {'source': 'android'})).called(1);
+    });
+
     testWidgets('success shows the returned message and signs out only when the student continues', (tester) async {
       final (auth, api) = await pump(tester);
       when(() => api.post('/api/me/delete', body: any(named: 'body'))).thenAnswer((_) async => _deleteResponse(requestedAt: DateTime(2026, 10, 12, 22, 39)));
+      await _typeDelete(tester);
       await tester.tap(find.text('Request deletion'));
       await tester.pump();
       await tester.pump();
       verify(() => api.post('/api/me/delete', body: {'source': 'android'})).called(1);
       expect(find.text('Your request is with us'), findsOneWidget);
-      expect(find.textContaining('We delete your account and study records within 30 days. Payment records required by law are kept.'), findsOneWidget);
-      expect(find.textContaining('Request recorded on the server at'), findsOneWidget);
+      expect(find.text('Your request is recorded. Sign out when you are ready.'), findsOneWidget);
+      expect(find.textContaining('You will be signed out'), findsNothing, reason: 'sign-out is manual, so the page must not promise it');
+      expect(find.text('Request recorded at 10:39 PM.'), findsOneWidget);
       expect(auth.signOutCalls, 0, reason: 'sign-out is a separate step after the request is recorded');
 
       await tester.tap(find.text('Sign out'));
@@ -155,6 +184,7 @@ void main() {
       final (_, api) = await pump(tester);
       when(() => api.post('/api/me/delete', body: any(named: 'body')))
           .thenAnswer((_) async => _deleteResponse(requestedAt: DateTime(2026, 10, 9, 20, 0)));
+      await _typeDelete(tester);
       await tester.tap(find.text('Request deletion'));
       await tester.pump();
       await tester.pump();
@@ -165,6 +195,7 @@ void main() {
     testWidgets('a failed request signs nobody out and offers another try', (tester) async {
       final (auth, api) = await pump(tester);
       when(() => api.post('/api/me/delete', body: any(named: 'body'))).thenThrow(offlineError());
+      await _typeDelete(tester);
       await tester.tap(find.text('Request deletion'));
       await tester.pump();
       await tester.pump();
@@ -176,10 +207,23 @@ void main() {
     testWidgets('a server fault is a plain "nothing was requested"', (tester) async {
       final (_, api) = await pump(tester);
       when(() => api.post('/api/me/delete', body: any(named: 'body'))).thenThrow(unavailableError());
+      await _typeDelete(tester);
       await tester.tap(find.text('Request deletion'));
       await tester.pump();
       await tester.pump();
       expect(find.text('We could not send your request. Nothing was requested. Try again.'), findsOneWidget);
+    });
+
+    testWidgets('an unexpected error does not leave the key spinning', (tester) async {
+      final (auth, api) = await pump(tester);
+      when(() => api.post('/api/me/delete', body: any(named: 'body'))).thenThrow(const FormatException('bad body'));
+      await _typeDelete(tester);
+      await tester.tap(find.text('Request deletion'));
+      await tester.pump();
+      await tester.pump();
+      expect(find.text('We could not send your request. Nothing was requested. Try again.'), findsOneWidget);
+      expect(find.text('Request deletion'), findsOneWidget);
+      expect(auth.signOutCalls, 0);
     });
 
     testWidgets('the screen never says the account is deleted', (tester) async {

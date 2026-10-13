@@ -157,9 +157,11 @@ class CelebrationEvent {
   /// Other ids that fire with this one and are consumed with it.
   final List<String> extraIds;
 
-  /// The moment that must not celebrate, as the caller knows it (spec 6.2): a suppressed event
-  /// is refused and not used up, so it can fire later. The caller that fires a repair or a
-  /// result moment passes it; the rhythm watcher never needs it.
+  /// The moment that must not celebrate, as a caller can state it (spec 6.2): the controller
+  /// refuses a suppressed event and does not use it up, so it can fire later. No production
+  /// caller sets it today: the repair run and the result flow simply do not fire a moment when
+  /// the repair failed or the result is held, and the rhythm watcher never needs it. It stays
+  /// as the controller's tested guard for a caller that would rather fire and be refused.
   final CelebrationSuppression? suppressedBy;
 
   /// A quiet key under the receipt ("See your milestones") and the in-app route it opens.

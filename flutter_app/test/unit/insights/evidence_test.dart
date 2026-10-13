@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/insights/copy.dart';
 import 'package:mockmob/features/insights/data/ask_controller.dart';
 import 'package:mockmob/features/insights/data/evidence.dart';
@@ -81,6 +82,56 @@ void main() {
       expect(find.text('Show me'), findsOneWidget);
       expect(find.text('39 of 50 marks'), findsOneWidget);
       expect(find.text('10 questions'), findsOneWidget);
+    });
+  });
+
+  group('trend note placement', () {
+    TrendSeries seriesAt(List<int> marks) => TrendSeries(
+          key: 'k',
+          subject: 'accountancy',
+          mode: 'quick',
+          total: 10,
+          points: [
+            for (var i = 0; i < marks.length; i++)
+              TrendPoint(attemptId: 'p$i', at: DateTime.utc(2026, 10, 3 + i), marks: marks[i], maxMarks: 50),
+          ],
+        );
+
+    Future<(Rect chart, Rect note)> pick(WidgetTester tester, List<int> marks, double textScale) async {
+      await pumpMockmob(
+        tester,
+        Padding(padding: const EdgeInsets.all(16), child: TrendSection(series: [seriesAt(marks)])),
+        brightness: Brightness.dark,
+        disableAnimations: true,
+        textScale: textScale,
+      );
+      final chart = tester.getRect(find.byType(CustomPaint).last);
+      await tester.tapAt(Offset(chart.right - 10, chart.center.dy));
+      await tester.pump();
+      return (chart, tester.getRect(find.byType(FakeGlass)));
+    }
+
+    testWidgets('a dot near the top gets its note below it, inside the chart', (tester) async {
+      final (chart, note) = await pick(tester, [41, 44, 49], 1);
+      expect(note.top, greaterThanOrEqualTo(chart.top));
+      expect(note.bottom, lessThanOrEqualTo(chart.bottom + 16));
+    });
+
+    testWidgets('the note is wider at large text, so Show me does not overflow', (tester) async {
+      final (chart, note) = await pick(tester, [41, 44, 49], 1.6);
+      expect(tester.takeException(), isNull);
+      expect(note.width, greaterThan(176));
+      expect(note.top, greaterThanOrEqualTo(chart.top));
+    });
+
+    testWidgets('a dot too low for the note above it still keeps the note out of the heading', (tester) async {
+      for (final marks in [
+        [20, 30, 25],
+        [20, 10, 2],
+      ]) {
+        final (chart, note) = await pick(tester, marks, 1);
+        expect(note.top, greaterThanOrEqualTo(chart.top));
+      }
     });
   });
 

@@ -18,10 +18,13 @@ import 'package:mockmob/core/repositories/credits_repository.dart';
 import 'package:mockmob/core/repositories/notification_prefs_repository.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/repositories/repair_local_repository.dart';
+import 'package:mockmob/core/repositories/rhythm_seen_repository.dart';
+import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/review/data/repair_run.dart';
 import 'package:mockmob/features/review/data/repair_state.dart';
 import 'package:mockmob/features/review/data/retry.dart';
 import 'package:mockmob/features/review/data/review_providers.dart';
+import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
 import 'package:mockmob/features/rhythm/rhythm.dart' show CelebrationMode, celebrationModeProvider;
 import 'package:mockmob/features/you/you_providers.dart' show lateNightLinesProvider;
 
@@ -31,6 +34,23 @@ import '../../unit/review/support/review_fixtures.dart';
 
 /// The Night Sheet golden frame: 384 by 853 logical px at DPR 2.
 const Size kReviewSize = Size(384, 853);
+
+/// The celebration ids this phone has spent, in memory (the real one is a `rhythm_seen` row).
+class MemoryRhythmSeen implements RhythmSeenRepository {
+  final Set<String> ids = {};
+
+  @override
+  Future<RhythmSeenState> read() async => RhythmSeenState(celebratedIds: {...ids});
+
+  @override
+  Future<bool> hasCelebrated(String id) async => ids.contains(id);
+
+  @override
+  Future<bool> markCelebrated(String id) async => ids.add(id);
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
 
 /// The Review overrides: a signed-in student, fixed clock and zone, the given attempts and
 /// local records, no network.
@@ -45,6 +65,8 @@ List<Override> reviewOverrides({
   RetryOffer retry = const RetryAvailable(subjectId: 'accountancy', cost: 5),
   ConceptLink? concept,
   CelebrationMode celebration = CelebrationMode.full,
+  PrefsStore? rhythmStore,
+  RhythmSeenRepository? seen,
 }) => [
   authSnapshotProvider.overrideWithBuild((ref, n) => const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', name: 'Riya')),
   studentTimezoneProvider.overrideWithValue('Asia/Kolkata'),
@@ -71,6 +93,9 @@ List<Override> reviewOverrides({
   if (run != null) repairRunProvider(run.attemptId).overrideWithBuild((ref, n) => run),
   retryOfferProvider.overrideWith((ref, subject) async => retry),
   conceptLinkProvider.overrideWith((ref, chapter) => concept),
+  // The repair ending fires its moment into the rhythm module: its choices and spent ids.
+  rhythmPrefsStoreProvider.overrideWithValue(rhythmStore ?? MemoryPrefsStore()),
+  rhythmSeenRepositoryProvider.overrideWithValue(seen ?? MemoryRhythmSeen()),
 ];
 
 /// Runs [build] once per theme as `goldens/<name>_<night|day>.png`.

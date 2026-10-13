@@ -196,7 +196,7 @@ class _Loaded extends StatelessWidget {
 
     final secondary = switch (week.status) {
       WeekStatus.paused => RhythmCopy.pausedKeepsRun,
-      WeekStatus.open => outlook?.sentence ?? RhythmCopy.goalSentence(week.goal),
+      WeekStatus.open => outlook?.sentence ?? RhythmCopy.goalSentence(week.goal, hasPlan: plan != null && plan!.isNotEmpty),
       WeekStatus.met || WeekStatus.extra => null,
     };
     String sentence(String t) => t.endsWith('.') ? t : '$t.';

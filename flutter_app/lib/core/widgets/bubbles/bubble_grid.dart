@@ -55,6 +55,19 @@ class BubbleGrid extends StatelessWidget {
 
   int get _rows => (states.length / columns).ceil();
 
+  /// The height of the number line under a row at the student's text size, or 0 when the numbers
+  /// are left out ([numbers] false, or the text is above [maxNumberScale]).
+  static double numberHeightFor(TextScaler scaler, {bool numbers = true}) {
+    final scale = scaler.scale(_numberSize) / _numberSize;
+    if (!numbers || scale > maxNumberScale) return 0;
+    return (_numberHeight * (scale < 1 ? 1.0 : scale)).ceilToDouble();
+  }
+
+  /// The height of [rows] rows of [bubbleSize] bubbles with their number lines of [numberHeight]
+  /// (0 for none), as the grid lays them out.
+  static double heightFor({required int rows, required double bubbleSize, required double rowGap, required double numberHeight}) =>
+      rows * (bubbleSize + (numberHeight > 0 ? numberHeight + 3 : 0)) + math.max(0, rows - 1) * rowGap;
+
   double _rowHeight(double numberHeight) => bubbleSize + (numberHeight > 0 ? numberHeight + 3 : 0);
 
   String _describe() {
@@ -73,9 +86,9 @@ class BubbleGrid extends StatelessWidget {
     final colors = context.mmColors;
     final numberStyle = context.mmType.caption.copyWith(fontSize: _numberSize, height: 1, color: colors.ink3, fontWeight: FontWeight.w600);
     final scale = MediaQuery.textScalerOf(context).scale(_numberSize) / _numberSize;
-    final showNumbers = numbers && scale <= maxNumberScale;
+    final numberHeight = numberHeightFor(MediaQuery.textScalerOf(context), numbers: numbers);
+    final showNumbers = numberHeight > 0;
     final numberScale = scale < 1 ? 1.0 : scale;
-    final numberHeight = showNumbers ? (_numberHeight * numberScale).ceilToDouble() : 0.0;
     return Semantics(
       container: true,
       label: semanticsLabel ?? _describe(),

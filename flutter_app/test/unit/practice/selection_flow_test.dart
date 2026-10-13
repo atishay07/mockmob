@@ -1,3 +1,4 @@
+import 'package:flutter/painting.dart' show Size;
 // The owner's bug (13 October): "Even when I'm starting from Business Studies ... it's just
 // redirecting me to the accounting page", and a 5-question practice that did not start 5. These
 // tests drive the real screens and prove the chosen subject and length reach the quote and the
@@ -107,6 +108,22 @@ void main() {
     expect(find.bySemanticsLabel('Quick practice, Economics'), findsOneWidget);
     expect(quotes.calls.last.subject, 'economics');
     expect(quotes.calls.last.count, 15);
+  });
+
+  testWidgets('at 1.3x text the difficulty choice is a list with every name whole, not cut segments', (tester) async {
+    await pumpRouted(
+      tester,
+      location: '/practice/setup/quick?subject=economics&count=10',
+      routes: _routes(),
+      overrides: practiceOverrides(quotes: _quotes(), attempts: const []),
+      size: const Size(360, 640),
+      textScale: 1.3,
+    );
+    await _settle(tester);
+    expect(find.byType(MmSegmented<PracticeDifficulty>), findsNothing);
+    for (final name in ['Balanced', 'Easy', 'Medium', 'Hard']) {
+      expect(find.text(name), findsOneWidget, reason: name);
+    }
   });
 
   test('a link is read without dropping anything', () {

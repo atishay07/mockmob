@@ -39,6 +39,7 @@ class MmColors extends ThemeExtension<MmColors> {
     required this.glassTintLite,
     required this.edgeTop,
     required this.edgeBottom,
+    required this.litTile,
     required this.glassShadow,
     required this.grain,
   });
@@ -104,6 +105,9 @@ class MmColors extends ThemeExtension<MmColors> {
   final Color edgeTop;
   final Color edgeBottom;
 
+  /// The dock's lit tile pane: warm paper white at 12% on Night, ink at 7% on Daylight.
+  final Color litTile;
+
   /// The soft drop under floating glass (rounded rects only, so Impeller draws it analytically).
   final List<BoxShadow> glassShadow;
 
@@ -150,6 +154,7 @@ class MmColors extends ThemeExtension<MmColors> {
     glassTintLite: Color(0xE01C1A16),
     edgeTop: Color(0x24FFF6E4),
     edgeBottom: Color(0x08FFF6E4),
+    litTile: Color(0x1FFFF6E4),
     glassShadow: [
       BoxShadow(color: Color(0x80000000), offset: Offset(0, 20), blurRadius: 40, spreadRadius: -22),
       BoxShadow(color: Color(0x33000000), offset: Offset(0, 2), blurRadius: 6, spreadRadius: -2),
@@ -192,6 +197,7 @@ class MmColors extends ThemeExtension<MmColors> {
     glassTintLite: Color(0xEBFFFDF8),
     edgeTop: Color(0xCCFFFFFF),
     edgeBottom: Color(0x1F2A2010),
+    litTile: Color(0x1217150F),
     glassShadow: [
       BoxShadow(color: Color(0x2E2A2010), offset: Offset(0, 18), blurRadius: 36, spreadRadius: -20),
       BoxShadow(color: Color(0x142A2010), offset: Offset(0, 1), blurRadius: 3),
@@ -240,6 +246,7 @@ class MmColors extends ThemeExtension<MmColors> {
     Color? glassTintLite,
     Color? edgeTop,
     Color? edgeBottom,
+    Color? litTile,
     List<BoxShadow>? glassShadow,
     double? grain,
   }) {
@@ -274,6 +281,7 @@ class MmColors extends ThemeExtension<MmColors> {
       glassTintLite: glassTintLite ?? this.glassTintLite,
       edgeTop: edgeTop ?? this.edgeTop,
       edgeBottom: edgeBottom ?? this.edgeBottom,
+      litTile: litTile ?? this.litTile,
       glassShadow: glassShadow ?? this.glassShadow,
       grain: grain ?? this.grain,
     );
@@ -314,6 +322,7 @@ class MmColors extends ThemeExtension<MmColors> {
       glassTintLite: c(glassTintLite, other.glassTintLite),
       edgeTop: c(edgeTop, other.edgeTop),
       edgeBottom: c(edgeBottom, other.edgeBottom),
+      litTile: c(litTile, other.litTile),
       glassShadow: t < 0.5 ? glassShadow : other.glassShadow,
       grain: grain + (other.grain - grain) * t,
     );

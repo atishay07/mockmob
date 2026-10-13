@@ -43,7 +43,11 @@
             <!-- App Links (spec 4.3): https://www.mockmob.in only. The apex redirects and
                  verification does not follow redirects, so it is not listed. Verification needs
                  the Play App Signing SHA-256 on the server (ANDROID_CERT_SHA256); until then the
-                 links open in the browser. Pricing and checkout paths are intentionally absent. -->
+                 links open in the browser. Pricing and checkout paths are intentionally absent.
+
+                 flutter_deeplinking_enabled is deliberately not set to true: links are read by app_links
+                 (router.dart) and run through ActionRouter, and the Flutter 3.27+ default already
+                 hands the same intent to the engine, so an explicit true would only double-handle them. -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -55,6 +59,15 @@
                 <data android:pathPrefix="/review" />
                 <data android:pathPrefix="/dashboard" />
                 <data android:pathPrefix="/learn" />
+                <!-- The signed-in website pages ActionRouter maps to a native screen (each has a
+                     matching folder under src/app/(app)). -->
+                <data android:pathPrefix="/test" />
+                <data android:pathPrefix="/recovery" />
+                <data android:pathPrefix="/progress" />
+                <data android:pathPrefix="/study" />
+                <data android:pathPrefix="/explore" />
+                <data android:pathPrefix="/saved" />
+                <data android:pathPrefix="/analytics" />
             </intent-filter>
 
             <!-- Browser sign-in callback (docs/AUTH.md): in.mockmob.app://login-callback?code=...

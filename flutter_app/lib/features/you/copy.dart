@@ -208,6 +208,7 @@ abstract final class YouCopy {
   static const deleteFailed = 'We could not send your request. Nothing was requested. Try again.';
   static const deleteReceivedTitle = 'Your request is with us';
   static const deleteAlready = 'Your request is already with us.';
+  static const deleteRecordedHeadline = 'Your request is recorded. Sign out when you are ready.';
   static String deleteRecordedAt(DateTime at) => 'Request recorded at ${formatTime12(at)}.';
   static String deleteRequestedOn(DateTime at) => 'Requested on ${formatDayMonth(at)}.';
   static const deleteSignOutNote = 'Signing out ends your session on this phone.';

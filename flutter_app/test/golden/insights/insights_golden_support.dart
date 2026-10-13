@@ -99,6 +99,7 @@ void insightsGolden(
   List<Override> Function()? overrides,
   Size size = kInsightsSize,
   double textScale = 1,
+  Future<void> Function(WidgetTester tester)? after,
 }) {
   setUpAll(loadAppFonts);
   for (final brightness in [Brightness.dark, Brightness.light]) {
@@ -116,6 +117,7 @@ void insightsGolden(
         wrapInScaffold: false,
       );
       await settleImages(tester);
+      if (after != null) await after(tester);
       await expectLater(find.byKey(boundary), matchesGoldenFile('goldens/${name}_$tag.png'));
       await _preview(tester, boundary, '${name}_$tag');
     });

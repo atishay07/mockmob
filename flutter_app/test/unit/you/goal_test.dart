@@ -55,13 +55,13 @@ void main() {
     await pumpMockmob(tester, const GoalScreen(), wrapInScaffold: false, disableAnimations: true, overrides: youOverrides(goal: goal, analytics: analytics));
     await tester.tap(_day(5));
     await tester.pump();
-    expect(find.textContaining('Goal saved on the server'), findsNothing);
+    expect(find.textContaining('Goal saved'), findsNothing);
     await tester.tap(find.text('Save goal'));
     await tester.pump();
     await tester.pump();
     expect(goal.saves, [(5, '2026-10-26')]);
     verify(() => analytics.track('goal_set', props: {'count': 5})).called(1);
-    expect(find.textContaining('Goal saved on the server at'), findsOneWidget);
+    expect(find.text('Goal saved at 10:39 PM.'), findsOneWidget);
     expect(find.text('Rhythm is paused until 26 October. Changing the goal keeps the pause.'), findsOneWidget);
   });
 

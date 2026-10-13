@@ -154,7 +154,7 @@ class WeekHero extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final status = switch (week.status) {
-      WeekStatus.open => RhythmCopy.goalSentence(week.goal),
+      WeekStatus.open => RhythmCopy.goalSentence(week.goal, hasPlan: plan != null && plan!.isNotEmpty),
       WeekStatus.met => RhythmCopy.weekDoneSentence,
       WeekStatus.extra || WeekStatus.paused => week.label,
     };

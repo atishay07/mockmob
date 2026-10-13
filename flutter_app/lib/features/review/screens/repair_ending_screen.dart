@@ -11,7 +11,8 @@ import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
-import '../../rhythm/rhythm.dart' show CelebrationMode, celebrationModeProvider;
+import '../../rhythm/rhythm.dart'
+    show CelebrationMode, CelebrationScope, CelebrationSlot, celebrationControllerProvider, celebrationModeProvider, rhythmVisibleProvider;
 import '../../you/you_providers.dart' show lateNightLinesProvider;
 import '../copy.dart';
 import '../data/mistake_index.dart';
@@ -24,6 +25,9 @@ import '../data/ending_model.dart';
 /// `/review/repair/:attemptId/ending` (spec 5.8 ending, celebration L1/L2): the handed-back
 /// sheet with tonight's repairs ringing in, the count, the life row, the receipt from the last
 /// acknowledgement, one Mobi hop, and the next move. Nothing here claims the repair holds.
+///
+/// The `repairFinished` moment is fired from here, after the first frame, into the
+/// `CelebrationSlot` this screen mounts in the receipt's place, so it is never spent unseen.
 class RepairEndingScreen extends ConsumerStatefulWidget {
   const RepairEndingScreen({super.key, required this.attemptId});
 
@@ -57,8 +61,16 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
         if (s == AnimationStatus.completed && mounted) setState(() => _lifeInked = true);
       });
     }
-    // Every count here is a server acknowledgement, so the success pattern may fire once.
-    if (model.repaired > 0 && ref.read(celebrationModeProvider) != CelebrationMode.off) unawaited(ref.read(hapticsProvider).success());
+    if (model.repaired > 0) WidgetsBinding.instance.addPostFrameCallback((_) => unawaited(_celebrate()));
+  }
+
+  /// Fires the moment now that its slot is on screen. A Full moment opens with its own haptic;
+  /// otherwise every count here is a server acknowledgement, so the success pattern fires once.
+  Future<void> _celebrate() async {
+    if (!mounted) return;
+    final shown = await ref.read(repairRunProvider(widget.attemptId).notifier).celebrateEnding();
+    if (!mounted || (shown != null && !shown.textOnly)) return;
+    if (ref.read(celebrationModeProvider) != CelebrationMode.off) unawaited(ref.read(hapticsProvider).success());
   }
 
   @override
@@ -86,8 +98,14 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
     final next = index?.nextAfter(widget.attemptId, model.touchedKeys);
     final ackedAt = model.lastAckedAt;
     final nothing = model.repaired == 0;
+    // The fired moment takes the receipt's place and, for a first repair, says so with its own
+    // sentence and Mobi hop; the screen then leaves those out rather than say them twice.
+    final scope = CelebrationScope.repair(widget.attemptId);
+    final moment = ref.watch(celebrationControllerProvider.select((s) => s.byScope[scope]));
+    final momentShown = moment != null && moment.showsMoment && ref.watch(rhythmVisibleProvider);
+    final momentSays = momentShown && moment?.sentence != null;
     final mobiLine = !model.repairedBefore && !nothing
-        ? ReviewCopy.firstRepair
+        ? (momentSays ? null : ReviewCopy.firstRepair)
         : (lateNight && !nothing ? ReviewCopy.goodPlaceToStop(clock.now()) : null);
 
     return PopScope(
@@ -142,7 +160,8 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
                                   ),
                                 ),
                               ),
-                              if (full) const MobiCharacter(size: 96, entrance: MobiAct.celebrate, seed: 19),
+                              if (full && !(momentShown && (moment?.mobiHop ?? false)))
+                                const MobiCharacter(size: 96, entrance: MobiAct.celebrate, seed: 19),
                             ],
                           ),
                           const SizedBox(height: MmSpace.s8),
@@ -162,7 +181,10 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Si
                           const SizedBox(height: MmSpace.s12),
                           Text(ReviewCopy.checkedLater, style: type.small.copyWith(color: colors.ink2)),
                           const SizedBox(height: MmSpace.s12),
-                          ackedAt == null ? const ReceiptLine.pending() : ReceiptLine(text: Receipts.repairFinished(clock.local(ackedAt))),
+                          if (momentShown)
+                            CelebrationSlot(scope: scope)
+                          else
+                            ackedAt == null ? const ReceiptLine.pending() : ReceiptLine(text: Receipts.repairFinished(clock.local(ackedAt))),
                         ],
                         if (mobiLine != null) ...[
                           const SizedBox(height: MmSpace.s16),

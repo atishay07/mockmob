@@ -77,17 +77,6 @@ class SessionEngineServices {
   DateTime now() => (_now ?? DateTime.now)();
 }
 
-/// Starting a session was refused because an earlier session with the same selection still has
-/// answers the server never received. Route the student to that session's pending submit first.
-class PendingSubmitBlocksStart implements Exception {
-  const PendingSubmitBlocksStart(this.pending);
-
-  final SessionDraft pending;
-
-  @override
-  String toString() => 'PendingSubmitBlocksStart(${pending.sessionId})';
-}
-
 /// One-time notices while answering.
 enum SessionWarning { fiveMinutes, oneMinute, timeUp }
 
@@ -220,11 +209,13 @@ class SessionEngine extends ChangeNotifier {
   }
 
   /// The draft table holds one row per selection, so saving a new session would overwrite an
-  /// earlier one whose answers were never acknowledged. Send those first, or refuse to start.
+  /// earlier one whose answers were never acknowledged. Try to send those first.
   ///
-  /// Settling can fail in ways that say nothing about the new session (a local write, an
-  /// unexpected response), and must never block it. What could not be settled is archived under
-  /// its own session id, never overwritten: a rejected or still-owed draft keeps its answers.
+  /// Nothing here blocks the new session: an offline phone, a retryable failure, a local write
+  /// or an unexpected response say nothing about it. What could not be settled is archived under
+  /// its own session id, never overwritten: a rejected or still-owed draft keeps its answers, and
+  /// a still-owed one keeps `pendingSubmission` so the backup job (which finds drafts by session
+  /// id) still sends it while the server's window is open.
   static Future<void> _settleEarlierDraft(SessionEngineServices services, String draftKey, {required String newSessionId}) async {
     final earlier = await services.drafts.byKey(draftKey);
     if (earlier == null || earlier.sessionId == newSessionId) return;
@@ -233,22 +224,37 @@ class SessionEngine extends ChangeNotifier {
         final journal = await SessionJournal.open(services.db, userId: services.userId, sessionId: earlier.sessionId, now: services.now);
         final clock = services.clockFactory?.call() ?? SessionClock();
         clock.restore(startedRefWallMs: earlier.startedRefWallMs, endsAtWallMs: earlier.endsAtWallMs);
-        final outcome = await services.submitter.submit(draft: earlier, journal: journal, durationMs: clock.durationMs);
-        if (outcome is SubmitPending) throw PendingSubmitBlocksStart(earlier);
-      } on PendingSubmitBlocksStart {
-        rethrow;
+        // SubmitPending (offline, or a failure worth retrying) is archived below like any other
+        // unsettled draft; the student's new session starts either way.
+        await services.submitter.submit(draft: earlier, journal: journal, durationMs: clock.durationMs);
       } on Object {
         // Not settled, and not a reason to refuse: archived below.
       }
     }
     // Whatever is still owed or was refused stays on the phone under its own session id.
+    SessionDraft? owed;
     try {
       final left = await services.drafts.byKey(draftKey);
       if (left != null && left.sessionId != newSessionId && (left.rejected || (left.pendingSubmission && !left.windowClosed))) {
         await services.drafts.archive(left);
+        if (left.pendingSubmission && !left.rejected) owed = left;
       }
     } on Object {
       // Best effort; the journal rows are kept either way.
+    }
+    if (owed == null) return;
+    // The earlier engine queued the backup job when its submit ended pending; queue it again
+    // under the archive key so a lost or finished job cannot leave the answers unsent. It waits
+    // for a network and replaces any job already queued for that session.
+    try {
+      await services.scheduler.scheduleSubmit(
+        userId: services.userId,
+        sessionId: owed.sessionId,
+        draftKey: SessionDraftRepository.archiveKeyOf(owed.sessionId),
+        runAt: services.now(),
+      );
+    } on Object {
+      // The answers stay archived on the phone, flag and journal intact.
     }
   }
 

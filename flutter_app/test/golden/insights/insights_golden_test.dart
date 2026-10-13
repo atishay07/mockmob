@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/models/ai_credits.dart';
 import 'package:mockmob/core/models/attempt.dart';
@@ -8,11 +9,13 @@ import 'package:mockmob/features/insights/data/ask_controller.dart';
 import 'package:mockmob/features/insights/data/insights_models.dart';
 import 'package:mockmob/features/insights/data/saved_repository.dart';
 import 'package:mockmob/features/insights/data/stream_controller.dart';
+import 'package:mockmob/features/insights/data/trend.dart';
 import 'package:mockmob/features/insights/screens/ask_screen.dart';
 import 'package:mockmob/features/insights/screens/insights_screen.dart';
 import 'package:mockmob/features/insights/screens/saved_screen.dart';
 import 'package:mockmob/features/insights/screens/stream_screen.dart';
 import 'package:mockmob/features/insights/widgets/entry_points.dart';
+import 'package:mockmob/features/insights/widgets/trend_chart.dart';
 
 import '../../unit/insights/support/insights_fixtures.dart';
 import 'insights_golden_support.dart';
@@ -46,7 +49,37 @@ class _Entries extends StatelessWidget {
       );
 }
 
+/// A format whose latest sessions sit near the top of the chart, so the picked dot has no room
+/// above it for the note.
+final _topSeries = TrendSeries(
+  key: 'top',
+  subject: 'accountancy',
+  mode: 'quick',
+  total: 10,
+  points: [
+    for (var i = 0; i < 4; i++)
+      TrendPoint(attemptId: 'top$i', at: DateTime.utc(2026, 10, 3 + i * 2, 12), marks: [41, 44, 47, 49][i], maxMarks: 50),
+  ],
+);
+
 void main() {
+  // ---- The trend note ----
+  // The note flips below a dot near the top, and stays out of the heading above the chart.
+  insightsGolden(
+    'trend_picked_top',
+    () => Scaffold(
+      backgroundColor: Colors.transparent,
+      body: SafeArea(child: Padding(padding: const EdgeInsets.all(16), child: TrendSection(series: [_topSeries]))),
+    ),
+    size: const Size(384, 420),
+    after: (tester) async {
+      final chart = tester.getRect(find.byType(CustomPaint).last);
+      // The last dot, at the top right of the plot.
+      await tester.tapAt(Offset(chart.right - 10, chart.top + 12));
+      await tester.pump();
+    },
+  );
+
   // ---- Your record ----
   insightsGolden('record_top', () => const InsightsScreen());
   insightsGolden('record_full_free', () => const InsightsScreen(), size: const Size(384, 3000));

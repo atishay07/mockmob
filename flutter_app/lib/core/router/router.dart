@@ -188,6 +188,7 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
   return [
     // First run and auth.
     page(AppRoutes.splash, splashScreen, transition: MmTransition.fade),
+    page(AppRoutes.loadFailed, authLoadFailedScreen, transition: MmTransition.fade),
     page(AppRoutes.welcome, welcomeScreen, transition: MmTransition.fade),
     page('/onboarding/subject', onboardingSubjectScreen),
     page('/onboarding/sample/result', onboardingSampleResultScreen),
@@ -277,6 +278,8 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
       page('run/:runId', learnRunScreen, root: true, routes: [
         page('done', learnRunDoneScreen, transition: MmTransition.fade, root: true),
       ]),
+      // The chapter reader, before the :unitId pattern.
+      page(LearnPaths.summaryTemplate, learnSummaryScreen, root: true),
       page(':unitId', learnUnitScreen, root: true),
     ]),
 

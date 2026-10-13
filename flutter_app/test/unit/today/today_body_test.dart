@@ -21,6 +21,7 @@ import 'package:mockmob/features/today/logic/today_model.dart';
 import 'package:mockmob/features/today/logic/why_model.dart';
 import 'package:mockmob/features/today/screens/alternatives_sheet.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
+import 'package:mockmob/features/today/widgets/road_timeline.dart' show RoadStops;
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
@@ -146,7 +147,26 @@ void main() {
       expect(find.text(stop.when), findsOneWidget, reason: '${stop.title} states its dates');
       if (stop.note != null) expect(find.text(stop.note!), findsOneWidget);
     }
-    expect(find.text(CuetDates.registrationWhen), findsOneWidget);
+    expect(find.text(CuetDates.registrationMonths), findsOneWidget);
+  });
+
+  testWidgets('every road stop whose date is not published carries an Expected tag, once each', (tester) async {
+    final view = buildToday(ashaInputs());
+    await pumpToday(tester, view);
+    await tester.scrollUntilVisible(find.text(TodayCopy.roadTitle), 300, scrollable: find.byType(Scrollable).first);
+    final expected = view.road!.stops.where((s) => s.expected).length;
+    expect(expected, 4);
+    expect(find.text(TodayCopy.expectedTag), findsNWidgets(expected));
+  });
+
+  testWidgets('a stop that is not expected carries no tag', (tester) async {
+    final stops = [
+      for (final s in buildToday(ashaInputs()).road!.stops)
+        RoadStop(kind: s.kind, title: s.title, when: s.when, start: s.start, end: s.end, note: s.note),
+    ];
+    await pumpMockmob(tester, RoadStops(stops: stops), size: const Size(384, 600), disableAnimations: true, overrides: overrides);
+    expect(find.text(TodayCopy.expectedTag), findsNothing);
+    expect(find.text(stops.first.title), findsOneWidget);
   });
 
   testWidgets('after the exam window opens the road says so instead of vanishing', (tester) async {

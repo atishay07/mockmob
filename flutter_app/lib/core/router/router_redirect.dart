@@ -54,7 +54,8 @@ class IntendedRoute {
 /// The pure redirect decision of spec 4.2 and 4.3.
 ///
 /// - `/dashboard` is an alias of `/today`.
-/// - Auth state unknown: show `/splash`, remembering a deep-link target.
+/// - Auth state unknown: show `/splash`, remembering a deep-link target; when loading it failed
+///   ([AuthSnapshot.loadFailed]) show `/load-failed` instead, which is reachable only then.
 /// - Signed out: only the welcome, onboarding and sign-in flows. A deep link goes to
 ///   `/sign-in` and is continued after sign-in; anything else goes to `/welcome`. Leaving the
 ///   splash with a fresh remembered link goes to `/sign-in` too. Entering welcome or onboarding
@@ -66,15 +67,22 @@ String? resolveRedirect({required AuthSnapshot auth, required Uri uri, required 
   if (path == AppRoutes.dashboard) return AppRoutes.today;
 
   final here = uri.hasQuery ? '$path?${uri.query}' : path;
-  final isDeepTarget = !AppRoutes.isAuthPath(path) && path != AppRoutes.beforeYouStart && path != AppRoutes.today;
+  final isDeepTarget = !AppRoutes.isAuthPath(path) &&
+      path != AppRoutes.loadFailed &&
+      path != AppRoutes.beforeYouStart &&
+      path != AppRoutes.today;
 
   switch (auth.status) {
     case AuthStatus.unknown:
-      if (path == AppRoutes.splash) return null;
+      // Loading the auth state failed: a calm retry screen instead of an endless splash.
+      final target = auth.loadFailed ? AppRoutes.loadFailed : AppRoutes.splash;
+      if (path == target) return null;
       if (isDeepTarget) intended.remember(here);
-      return AppRoutes.splash;
+      return target;
 
     case AuthStatus.signedOut:
+      // The load-failed screen only belongs to an unknown state.
+      if (path == AppRoutes.loadFailed) return intended.location != null ? AppRoutes.signIn : AppRoutes.welcome;
       if (path == AppRoutes.welcome || path.startsWith('/onboarding/')) {
         intended.clear();
         return null;
@@ -94,7 +102,7 @@ String? resolveRedirect({required AuthSnapshot auth, required Uri uri, required 
       return AppRoutes.welcome;
 
     case AuthStatus.signedIn:
-      if (AppRoutes.isAuthPath(path)) return intended.take() ?? AppRoutes.today;
+      if (path == AppRoutes.loadFailed || AppRoutes.isAuthPath(path)) return intended.take() ?? AppRoutes.today;
       return null;
   }
 }

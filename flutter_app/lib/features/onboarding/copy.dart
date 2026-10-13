@@ -148,6 +148,7 @@ abstract final class OnboardingCopy {
   static const String ageNote = 'Under 18, usage tracking stays off.';
   static const String continueWithGoogle = 'Continue with Google';
   static const String googleBusy = 'Signing in';
+  static const String cancelBrowser = 'Cancel';
   static const String useEmailCode = 'Use an email code';
   static const String notNow = 'Not now';
   static const String offline = 'You\'re offline. Your sheet is safe here; connect to save it.';

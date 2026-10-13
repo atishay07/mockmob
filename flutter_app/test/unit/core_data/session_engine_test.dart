@@ -11,6 +11,7 @@ import 'package:mockmob/core/sync/session/session_clock.dart';
 import 'package:mockmob/core/domain/session_rules.dart';
 import 'package:mockmob/core/sync/session/session_engine.dart';
 import 'package:mockmob/core/sync/session/session_heartbeat.dart';
+import 'package:mockmob/core/sync/session/session_journal.dart';
 import 'package:mockmob/core/sync/session/session_submitter.dart';
 import 'package:mockmob/core/sync/session/session_work_scheduler.dart';
 
@@ -20,11 +21,14 @@ import 'support/test_db.dart';
 
 class RecordingScheduler implements SessionWorkScheduler {
   final List<({String sessionId, DateTime runAt})> scheduled = [];
+  final List<String> scheduledKeys = [];
   final List<String> cancelled = [];
 
   @override
-  Future<void> scheduleSubmit({required String userId, required String sessionId, required String draftKey, required DateTime runAt}) async =>
-      scheduled.add((sessionId: sessionId, runAt: runAt));
+  Future<void> scheduleSubmit({required String userId, required String sessionId, required String draftKey, required DateTime runAt}) async {
+    scheduled.add((sessionId: sessionId, runAt: runAt));
+    scheduledKeys.add(draftKey);
+  }
 
   @override
   Future<void> cancelSubmit(String sessionId) async => cancelled.add(sessionId);
@@ -422,19 +426,58 @@ void main() {
       expect(await drafts.bySessionId('sess-2'), isNotNull);
     });
 
-    test('starting is refused while the earlier answers still cannot be sent', () async {
+    test('an offline earlier submit never blocks the start: it is archived still owed', () async {
+      final first = await start();
+      await first.selectAnswer('q1', 1);
+      api.submitFailure = const ApiError(kind: ApiErrorKind.network, code: 'network');
+      await first.submit();
+      first.dispose();
+      engines.remove(first);
+      scheduler.scheduled.clear();
+      scheduler.scheduledKeys.clear();
+
+      // Still offline when the student starts the same selection again.
+      final view = sessionViewOf(id: 'sess-2', startedAt: 1000000, serverNow: 1000000);
+      final second = await SessionEngine.start(services: services, view: view, subject: 'accountancy', mode: 'full', count: 3, generationKey: 'gen-2');
+      engines.add(second);
+
+      expect(second.draft.sessionId, 'sess-2');
+      expect(await drafts.byKey(second.draft.draftKey), isNotNull);
+      // The earlier answers are kept under their own session id, still marked owed, which is
+      // how the backup job finds them (it looks drafts up by session id).
+      final kept = (await drafts.bySessionId('sess-1'))!;
+      expect(kept.pendingSubmission, isTrue);
+      expect(kept.draftKey, SessionDraftRepository.archiveKeyOf('sess-1'));
+      expect(resumableDraft(kept, sessionId: 'sess-1', nowMs: wall), isTrue);
+      // And the backup job is queued again for them.
+      expect(scheduler.scheduled.map((j) => j.sessionId), contains('sess-1'));
+      expect(scheduler.scheduledKeys, contains(SessionDraftRepository.archiveKeyOf('sess-1')));
+
+      // Back online, the job's own submit for the archived draft goes through.
+      api.submitFailure = null;
+      final journal = await SessionJournal.open(db, userId: 'u1', sessionId: 'sess-1');
+      final outcome = await services.submitter.submit(draft: kept, journal: journal, durationMs: 1000);
+      expect(outcome, isA<SubmitReceived>());
+      expect(api.submits.last['sessionId'], 'sess-1');
+      expect(await drafts.bySessionId('sess-1'), isNull);
+      expect(await drafts.bySessionId('sess-2'), isNotNull);
+    });
+
+    test('a rejected earlier submit is archived without queueing the backup job', () async {
       final first = await start();
       api.submitFailure = const ApiError(kind: ApiErrorKind.network, code: 'network');
       await first.submit();
+      first.dispose();
+      engines.remove(first);
+      scheduler.scheduled.clear();
+      api.submitFailure = const ApiError(status: 422, kind: ApiErrorKind.validation, code: 'invalid_answer');
 
       final view = sessionViewOf(id: 'sess-2', startedAt: 1000000, serverNow: 1000000);
-      await expectLater(
-        SessionEngine.start(services: services, view: view, subject: 'accountancy', mode: 'full', count: 3, generationKey: 'gen-2'),
-        throwsA(isA<PendingSubmitBlocksStart>()),
-      );
+      engines.add(await SessionEngine.start(services: services, view: view, subject: 'accountancy', mode: 'full', count: 3, generationKey: 'gen-2'));
       final kept = (await drafts.bySessionId('sess-1'))!;
-      expect(kept.pendingSubmission, isTrue);
-      expect(await drafts.bySessionId('sess-2'), isNull);
+      expect(kept.rejected, isTrue);
+      expect(kept.draftKey, SessionDraftRepository.archiveKeyOf('sess-1'));
+      expect(scheduler.scheduled.where((j) => j.sessionId == 'sess-1'), isEmpty);
     });
   });
 

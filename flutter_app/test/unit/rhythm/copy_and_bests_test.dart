@@ -16,6 +16,7 @@ void main() {
       RhythmCopy.stripExtra(5),
       RhythmCopy.paused('26 October'),
       RhythmCopy.goalSentence(4),
+      RhythmCopy.goalSentence(4, hasPlan: true),
       RhythmCopy.goalSentence(7),
       RhythmCopy.weeksInRhythm(3),
       RhythmCopy.weeksInRhythmNone,
@@ -96,6 +97,27 @@ void main() {
         RhythmCopy.milestoneReceipt('first_repair', '11 October', others: 1),
         'Your first repair landed on 11 October. 1 more milestone landed while you were away.',
       );
+    });
+
+    test('the rest-day line is said only when the student has a plan', () {
+      expect(RhythmCopy.goalSentence(4), 'Your goal is 4 study days.');
+      expect(RhythmCopy.goalSentence(4, hasPlan: true), 'Your goal is 4 study days. The other days are rest days.');
+      expect(RhythmCopy.goalSentence(7, hasPlan: true), 'Your goal is 7 study days.');
+    });
+
+    test('one name per milestone across the row, the moment, the token and the receipt', () {
+      expect(RhythmCopy.milestoneRow('first_week_met', '9 October'), 'First week in rhythm on 9 October');
+      expect(RhythmCopy.firstWeekSentence, contains('first week in rhythm'));
+      expect(RhythmCopy.tokenFirstWeek.toLowerCase(), contains('first week in rhythm'));
+      expect(RhythmCopy.milestoneReceipt('first_week_met', '9 October'), 'Your first week in rhythm landed on 9 October.');
+      for (final text in [
+        RhythmCopy.milestoneRow('first_repair', '9 October')!,
+        RhythmCopy.firstRepairSentence,
+        RhythmCopy.tokenFirstRepair,
+        RhythmCopy.milestoneReceipt('first_repair', '9 October'),
+      ]) {
+        expect(text.toLowerCase(), contains('first repair'), reason: text);
+      }
     });
 
     test('the long pause says how long it is, and the paused panel keeps the run', () {

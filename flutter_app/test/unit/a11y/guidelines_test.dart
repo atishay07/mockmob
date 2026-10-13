@@ -64,7 +64,11 @@ void main() {
         brightness: brightness,
         size: const Size(384, 853),
         disableAnimations: true,
-        overrides: [resumeOfferProvider.overrideWith((ref) async => null)],
+        overrides: [
+          // The sheet reads the live draft first, which would open the real database.
+          resumeDraftProvider.overrideWith((ref) => null),
+          resumeOfferProvider.overrideWith((ref) async => null),
+        ],
       );
       await _meetsAll(tester);
     });

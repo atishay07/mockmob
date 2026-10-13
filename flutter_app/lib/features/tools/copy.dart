@@ -36,7 +36,7 @@ abstract final class ToolsCopy {
   static const emptyHeroBody =
       'Most DU programmes need one language and three domain subjects, or one language, one domain subject and the General Aptitude Test.';
   static const fromSheet = 'Ticked from your sheet. Change them freely here.';
-  static String overLimit(int n) => 'You have picked $n papers. CUET UG 2026 let a student take up to 5.';
+  static String overLimit(int n, int limit) => 'You have picked $n papers. The limit is $limit.';
 
   static const categoryHeading = 'Category and score';
   static String categorySummary(String category, String? score) =>

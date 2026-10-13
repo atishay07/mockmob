@@ -4,6 +4,9 @@ abstract final class AppRoutes {
   // First run and auth.
   static const String splash = '/splash';
   static const String welcome = '/welcome';
+
+  /// Shown while the auth state is unknown because loading it failed (no dock, no sign-in).
+  static const String loadFailed = '/load-failed';
   static const String onboardingSubject = '/onboarding/subject';
   static const String onboardingSampleResult = '/onboarding/sample/result';
   static const String signIn = '/sign-in';
@@ -105,6 +108,7 @@ abstract final class AppRoutes {
   /// paths and by tests to prove the route table is complete.
   static const List<String> templates = [
     splash,
+    loadFailed,
     welcome,
     onboardingSubject,
     '/onboarding/sample/:i',
@@ -129,6 +133,7 @@ abstract final class AppRoutes {
     learn,
     '/learn/:unitId',
     '/learn/run/:runId',
+    '/learn/summary/:subject/:chapter',
     you,
     youGoal,
     youRhythm,

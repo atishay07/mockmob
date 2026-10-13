@@ -43,6 +43,10 @@ String ntaPaperSizeMessage(int n) =>
     'We could put together only $n of the 50 questions an NTA paper needs for this subject. Nothing was charged.';
 
 /// An earlier session for the same selection still has answers the server never received.
+///
+/// The starter no longer returns this: the engine archives such a session (the backup job still
+/// sends it) and starts the new one, so an offline submit never blocks practice. Kept only while
+/// the launch flow and its screens still switch on it.
 class StartPendingElsewhere extends StartOutcome {
   const StartPendingElsewhere(this.sessionId);
 
@@ -156,8 +160,6 @@ class PracticeStarter implements PracticeStarting {
       // The draft and journal are on the phone now. The runner restores its own engine from
       // them, so this one only existed to write them.
       engine.dispose();
-    } on PendingSubmitBlocksStart catch (pending) {
-      return StartPendingElsewhere(pending.pending.sessionId);
     } on Object {
       // The session exists on the server; the same key returns it on the next try.
       return const StartFailed(StartFailure.generic);

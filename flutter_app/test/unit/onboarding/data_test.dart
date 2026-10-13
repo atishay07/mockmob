@@ -153,16 +153,16 @@ void main() {
     });
 
     test('the right answer is not always in the same place', () {
-      final shown = [for (final q in kWarmupPool) q.shownAnswer];
+      final shown = [for (final q in kWarmupPool) q.order.indexOf(q.answer)];
       expect(shown.toSet().length, greaterThan(2), reason: 'shown positions $shown');
       for (final q in kWarmupPool) {
         expect(q.order.toSet(), {0, 1, 2, 3}, reason: '${q.id}: every option shows once');
         expect(q.order, q.order, reason: 'stable');
-        expect(q.options[q.order[q.shownAnswer]], q.options[q.answer], reason: q.id);
+        expect(q.options[q.order[q.order.indexOf(q.answer)]], q.options[q.answer], reason: q.id);
       }
       // Both accountancy answers were written at A; at least one now shows elsewhere.
       final acc = kWarmupPool.where((q) => q.subject == SheetSubject.accountancy);
-      expect(acc.map((q) => q.shownAnswer).toSet(), isNot({0}));
+      expect(acc.map((q) => q.order.indexOf(q.answer)).toSet(), isNot({0}));
     });
 
     test('the shuffle is the same on every run (no String.hashCode)', () {

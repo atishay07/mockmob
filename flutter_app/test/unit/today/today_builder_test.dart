@@ -447,31 +447,37 @@ void main() {
       expect(june.studyDays, isNull, reason: 'no countdown arithmetic after the window');
       expect(june.stops.map((s) => s.kind.name), ['counselling']);
       expect(june.ladder.first.dream, isTrue);
-      // Once the rounds have begun the stop is behind us; the road still shows the ladder.
-      final july = buildRoad(ashaInputs(now: DateTime.utc(2027, 6, 25, 8)))!;
-      expect(july.phase, RoadPhase.csas);
-      expect(july.stops, isEmpty);
+      // The rounds run on after they begin, so the road and the ladder stay through them.
+      for (final day in [DateTime.utc(2027, 6, 25, 8), DateTime.utc(2027, 7, 2, 8), DateTime.utc(2027, 9, 29, 8)]) {
+        final during = buildRoad(ashaInputs(now: day))!;
+        expect(during.phase, RoadPhase.csas, reason: '$day');
+        expect(during.stops.map((s) => s.kind.name), ['counselling'], reason: '$day');
+        expect(during.ladder, isNotEmpty, reason: '$day');
+      }
     });
 
-    test('the road ends the month after its last stop, and nothing remains after that', () {
+    test('the road ends the month after the CSAS end, and nothing remains after that', () {
       final road = buildRoad(ashaInputs())!;
-      expect(road.end, DateTime.utc(2027, 7, 1));
+      expect(road.end, DateTime.utc(2027, 10, 1));
+      expect(CuetDates.counsellingEnd.isAfter(CuetDates.counsellingStart), isTrue);
       expect(roadEndFor(road.stops), road.end);
       expect(roadEndFor([road.stops.first]), DateTime.utc(2027, 4, 1), reason: 'derived from the last stop, not a constant');
-      expect(buildRoad(ashaInputs(now: DateTime.utc(2027, 7, 2))), isNull);
+      expect(buildRoad(ashaInputs(now: DateTime.utc(2027, 9, 30, 8))), isNotNull, reason: 'still inside CSAS');
+      expect(buildRoad(ashaInputs(now: DateTime.utc(2027, 10, 2))), isNull);
     });
 
     test('the registration window reads the same everywhere Today states it', () {
       final reg = roadStops.firstWhere((s) => s.kind == RoadStopKind.registration);
       expect(reg.start, CuetDates.registrationStart);
       expect(reg.end, CuetDates.registrationEnd);
-      expect(reg.when, CuetDates.registrationWhen);
-      expect(TodayCopy.whenRegistration, CuetDates.registrationWhen);
+      expect(reg.when, CuetDates.registrationMonths, reason: 'the Expected tag carries the word, so the line is the months');
+      expect(TodayCopy.whenRegistration, CuetDates.registrationMonths);
       // The words name the same months and year the dates do.
       const months = ['January', 'February', 'March', 'April', 'May', 'June'];
       expect(CuetDates.registrationMonths, '${months[CuetDates.registrationStart.month - 1]} to ${months[CuetDates.registrationEnd.month - 1]} ${CuetDates.registrationEnd.year}');
       final exam = roadStops.firstWhere((s) => s.kind == RoadStopKind.exam);
-      expect(exam.when, 'Expected ${months[exam.start.month - 1]} ${exam.start.year}');
+      expect(exam.when, '${months[exam.start.month - 1]} ${exam.start.year}');
+      expect(roadStops.every((s) => s.expected), isTrue, reason: 'no 2027 date is published yet');
       expect(TodayCopy.weeksLabel(3), contains(CuetDates.windowMonth));
       // No Today string types the window again.
       final copy = File('lib/features/today/copy.dart').readAsStringSync();

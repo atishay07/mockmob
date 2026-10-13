@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -74,17 +76,75 @@ class DifficultyPicker extends StatelessWidget {
           ],
         ),
         const SizedBox(height: MmSpace.s8),
-        MmSegmented<PracticeDifficulty>(
-          semanticsLabel: PracticeCopy.difficultyLabel,
-          segments: [for (final d in PracticeDifficulty.values) MmSegment(d, label(d))],
-          value: isPro ? value : PracticeDifficulty.balanced,
-          onChanged: isPro ? onChanged : null,
-        ),
+        // Four equal segments cut "Balanced" and "Medium" to "Balan..." from 1.3x text up: the
+        // same choice reads as a short list of rows there, with nothing cut.
+        if (MediaQuery.textScalerOf(context).scale(1) >= _listTextScale)
+          _DifficultyRows(value: isPro ? value : PracticeDifficulty.balanced, onChanged: isPro ? onChanged : null)
+        else
+          MmSegmented<PracticeDifficulty>(
+            semanticsLabel: PracticeCopy.difficultyLabel,
+            segments: [for (final d in PracticeDifficulty.values) MmSegment(d, label(d))],
+            value: isPro ? value : PracticeDifficulty.balanced,
+            onChanged: isPro ? onChanged : null,
+          ),
         if (!isPro) ...[
           const SizedBox(height: MmSpace.s8),
           Text(PracticeCopy.difficultyProNote, style: type.small.copyWith(color: colors.ink2)),
         ],
       ],
+    );
+  }
+}
+
+/// From this text scale the difficulty choice is a list of rows, not four narrow segments.
+const double _listTextScale = 1.25;
+
+class _DifficultyRows extends ConsumerWidget {
+  const _DifficultyRows({required this.value, required this.onChanged});
+
+  final PracticeDifficulty value;
+  final ValueChanged<PracticeDifficulty>? onChanged;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Semantics(
+      container: true,
+      label: PracticeCopy.difficultyLabel,
+      child: Column(
+        children: [
+          for (final d in PracticeDifficulty.values)
+            Semantics(
+              button: true,
+              selected: d == value,
+              inMutuallyExclusiveGroup: true,
+              child: InkWell(
+                onTap: onChanged == null || d == value
+                    ? null
+                    : () {
+                        ref.read(hapticsProvider).selection();
+                        onChanged!(d);
+                      },
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(minHeight: 48),
+                  child: Row(
+                    children: [
+                      SelectBubble(selected: d == value),
+                      const SizedBox(width: MmSpace.s12),
+                      Expanded(
+                        child: Text(
+                          DifficultyPicker.label(d),
+                          style: type.labelLarge.copyWith(color: d == value ? colors.ink : colors.ink2),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }

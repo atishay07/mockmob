@@ -86,9 +86,6 @@ abstract final class MmDock {
   /// Lift above the gesture inset.
   static const double lift = 10;
 
-  /// The lit tile's pane on Night: warm paper white at 12%.
-  static const Color litTileNight = Color(0x1FFFF6E4);
-
   /// What the shell adds to a tab root's bottom padding (on top of the gesture inset) so the last
   /// row scrolls clear of the dock and its scrim.
   static const double clearanceAbove = height + lift + 24;

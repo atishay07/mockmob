@@ -104,6 +104,13 @@ class _RoadPainter extends CustomPainter {
         case RoadStopKind.exam:
           canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromLTRB(a, axis - 6, b, axis + 6), const Radius.circular(6)), Paint()..color = color);
         case RoadStopKind.counselling:
+          // The rounds run for months: a faint span, then the open ring where they begin.
+          if (b - a > 2) {
+            canvas.drawRRect(
+              RRect.fromRectAndRadius(Rect.fromLTRB(a, axis - 3, b, axis + 3), const Radius.circular(3)),
+              Paint()..color = color.withValues(alpha: 0.22),
+            );
+          }
           canvas.drawCircle(Offset(a, axis), 5, Paint()..color = colors.ground);
           canvas.drawCircle(Offset(a, axis), 5, Paint()
             ..style = PaintingStyle.stroke
@@ -153,7 +160,7 @@ class RoadStops extends StatelessWidget {
         for (final s in stops)
           Semantics(
             container: true,
-            label: '${s.title}. ${s.when}.${s.note == null ? '' : ' ${s.note}'}',
+            label: '${s.title}. ${s.expected ? '${TodayCopy.expectedTag}. ' : ''}${s.when}.${s.note == null ? '' : ' ${s.note}'}',
             excludeSemantics: true,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: MmSpace.s6),
@@ -166,7 +173,15 @@ class RoadStops extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(s.title, style: type.labelLarge),
+                        Wrap(
+                          spacing: MmSpace.s8,
+                          runSpacing: MmSpace.s4,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            Text(s.title, style: type.labelLarge),
+                            if (s.expected) const _ExpectedTag(),
+                          ],
+                        ),
                         Text(s.when, style: type.caption.copyWith(color: colors.ink2)),
                         if (s.note != null) Text(s.note!, style: type.caption.copyWith(color: colors.ink3)),
                       ],
@@ -177,6 +192,27 @@ class RoadStops extends StatelessWidget {
             ),
           ),
       ],
+    );
+  }
+}
+
+/// "Expected": the stop's date is not published yet. The same sunken pill the practice chips use.
+class _ExpectedTag extends StatelessWidget {
+  const _ExpectedTag();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.sunken,
+        borderRadius: MmRadius.pillAll,
+        border: Border.all(color: colors.line),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: 2),
+        child: Text(TodayCopy.expectedTag, style: context.mmType.caption.copyWith(color: colors.ink2), maxLines: 1, softWrap: false),
+      ),
     );
   }
 }

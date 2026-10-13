@@ -7,6 +7,7 @@ import 'package:mockmob/features/onboarding/model/choices.dart';
 import 'package:mockmob/features/onboarding/model/deck.dart';
 import 'package:mockmob/features/onboarding/screens/after_sign_in_sheet.dart';
 import 'package:mockmob/features/onboarding/screens/onboarding_flow.dart';
+import 'package:mockmob/features/onboarding/steps/save_step.dart' show SaveView;
 import 'package:mockmob/features/onboarding/state/sheet_sync.dart';
 import 'package:mockmob/core/theme/theme.dart';
 
@@ -100,6 +101,12 @@ void main() {
     'save_ready',
     _flow,
     overrides: () => onboardingOverrides(answers: studentUpTo(Steps.plan, step: Steps.save).copyWith(age: AgeAnswer.adult)),
+  );
+
+  // Google handed over to the browser: what to do there, and a way to stop waiting.
+  onboardingGolden(
+    'save_in_browser',
+    () => SaveView(age: AgeAnswer.adult, onAge: (_) {}, onGoogle: () {}, onEmail: () {}, onNotNow: () {}, googleInBrowser: true, onCancelBrowser: () {}),
   );
 
   onboardingGolden(
