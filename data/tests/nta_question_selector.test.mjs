@@ -76,22 +76,69 @@ function standalonePool(count, start = 1, overrides = {}) {
   return Array.from({ length: count }, (_, index) => validQuestion(start + index, overrides));
 }
 
+const VERBAL = [
+  ['Vocabulary', 'vocabulary'],
+  ['Correct Word Usage', 'correct_word_usage'],
+  ['Para Jumbles', 'para_jumble'],
+  ['Match the Following', 'match_the_following'],
+];
+
+// A passage set whose questions are unique to the set (shared bodies would be deduplicated).
+function passageSet(groupId, size, chapter = 'Factual Passage', overrides = {}) {
+  return Array.from({ length: size }, (_, index) => validPassageQuestion(`${groupId}_${index + 1}`, index + 1, {
+    chapter,
+    body: `According to the passage in set ${groupId}, which statement is supported by detail ${index + 1}?`,
+    options: [
+      { key: 'A', text: index === 0 ? 'The library measured only issued books.' : `${groupId} distractor A ${index + 1}` },
+      { key: 'B', text: index === 1 ? 'Students were asked to write short notes.' : `${groupId} distractor B ${index + 1}` },
+      { key: 'C', text: index === 2 ? 'Teachers could judge whether reading was thoughtful.' : `${groupId} distractor C ${index + 1}` },
+      { key: 'D', text: `${groupId} distractor D ${index + 1}` },
+    ],
+    explanation: `The correct answer is ${index === 0 ? 'A' : index === 1 ? 'B' : 'C'} because the passage states this detail directly.`,
+    passage_group_id: groupId,
+    passage_id: groupId,
+    ...overrides,
+  }));
+}
+
+// An English bank with every CUET section stocked: four passage sets and plenty of verbal items.
+function englishPool({ perVerbal = 20, sets = [['set_f', 5, 'Factual Passage'], ['set_n', 5, 'Narrative Passage'], ['set_l', 5, 'Literary Passage'], ['set_f2', 4, 'Factual Passage']], start = 1, overrides = {} } = {}) {
+  const rows = [];
+  VERBAL.forEach(([chapter, type], sectionIndex) => {
+    for (let i = 0; i < perVerbal; i += 1) rows.push(validQuestion(start + sectionIndex * 1000 + i, { chapter, question_type: type, ...overrides }));
+  });
+  for (const [groupId, size, chapter] of sets) rows.push(...passageSet(groupId, size, chapter));
+  return rows;
+}
+
+function blocksOf(rows) {
+  const blocks = [];
+  for (const row of rows) {
+    const key = row.passage_text ? row.passage_group_id : `section:${row.chapter}`;
+    const last = blocks.at(-1);
+    if (last && last.key === key) last.rows.push(row);
+    else blocks.push({ key, passage: Boolean(row.passage_text), chapter: row.chapter, rows: [row] });
+  }
+  return blocks;
+}
+
 test('NTA selector returns exactly 50 when 50+ usable questions exist', () => {
-  const { selectedRows, diagnostics } = selectNtaQuestionSet(standalonePool(60), 25, { subjectId: 'english', seed: 'fixed' });
+  const { selectedRows, diagnostics } = selectNtaQuestionSet(englishPool(), 25, { subjectId: 'english', seed: 'fixed' });
   assert.equal(selectedRows.length, NTA_QUESTION_COUNT);
   assert.equal(diagnostics.poolStats.selected, NTA_QUESTION_COUNT);
   assert.equal(diagnostics.canBuild50, true);
 });
 
 test('NTA selector does not fail because chapter is missing', () => {
-  const pool = standalonePool(55, 1, { chapter: '' });
+  // Chapters missing: verbal items are placed by question type, passages by their set.
+  const pool = englishPool({ overrides: { chapter: '' } });
   const { selectedRows, diagnostics } = selectNtaQuestionSet(pool, 50, { subjectId: 'english', seed: 'fixed' });
   assert.equal(selectedRows.length, NTA_QUESTION_COUNT);
   assert.ok(diagnostics.poolStats.tier2 + diagnostics.poolStats.tier3 > 0);
 });
 
 test('NTA selector does not fail because quality metadata is missing', () => {
-  const pool = standalonePool(55).map((row) => ({
+  const pool = englishPool().map((row) => ({
     ...row,
     verification_state: undefined,
     exploration_state: undefined,
@@ -133,17 +180,13 @@ test('accepts valid direct recall without a depth requirement', () => {
 });
 
 test('NTA selector preserves passage group order', () => {
-  const pool = [
-    ...standalonePool(47, 10),
-    validPassageQuestion('p3', 3),
-    validPassageQuestion('p1', 1),
-    validPassageQuestion('p2', 2),
-  ];
+  const pool = [...englishPool({ sets: [] }), ...passageSet('set_order', 3).reverse(), ...passageSet('set_b', 5, 'Narrative Passage'), ...passageSet('set_c', 5, 'Literary Passage')];
 
   const { selectedRows, diagnostics } = selectNtaQuestionSet(pool, 50, { subjectId: 'english', seed: 'fixed' });
   assert.equal(selectedRows.length, NTA_QUESTION_COUNT);
-  assert.equal(diagnostics.poolStats.passageGroupsSelected, 1);
-  assert.deepEqual(selectedRows.slice(0, 3).map((row) => row.id), ['p1', 'p2', 'p3']);
+  assert.equal(diagnostics.poolStats.passageGroupsSelected, 3);
+  const at = selectedRows.findIndex((row) => row.id === 'set_order_1');
+  assert.deepEqual(selectedRows.slice(at, at + 3).map((row) => row.id), ['set_order_1', 'set_order_2', 'set_order_3']);
 });
 
 test('NTA selector returns passage context for linked questions', () => {
@@ -169,7 +212,7 @@ test('NTA mode forces 60-minute duration', () => {
 test('NTA mode ignores requested count and returns 50', () => {
   const mode = getMode('nta');
   assert.equal(resolveCount(mode, 25), NTA_QUESTION_COUNT);
-  const { selectedRows, diagnostics } = selectNtaQuestionSet(standalonePool(55), 10, { subjectId: 'english', seed: 'fixed' });
+  const { selectedRows, diagnostics } = selectNtaQuestionSet(englishPool(), 10, { subjectId: 'english', seed: 'fixed' });
   assert.equal(selectedRows.length, NTA_QUESTION_COUNT);
   assert.equal(diagnostics.requestedCount, 10);
   assert.equal(diagnostics.finalCount, NTA_QUESTION_COUNT);
@@ -242,31 +285,16 @@ test('rejects orphan passage-dependent row even when options and answer are vali
   assert.match(result.reasons.join(','), /orphan_passage_question/);
 });
 
-test('accepts valid English passage group with real passage and four linked questions', () => {
-  const pool = [
-    ...standalonePool(46, 100),
-    validPassageQuestion('pg4_1', 1),
-    validPassageQuestion('pg4_2', 2),
-    validPassageQuestion('pg4_3', 3),
-    validPassageQuestion('pg4_4', 4, {
-      body: 'According to the passage, what did the reform encourage students to connect with daily observations?',
-      options: [
-        { key: 'A', text: 'Classroom questions and ideas from reading' },
-        { key: 'B', text: 'Library membership fees and sports records' },
-        { key: 'C', text: 'Attendance sheets and transport timings' },
-        { key: 'D', text: 'Unrelated textbook indexes and notices' },
-      ],
-      correct_answer: 'A',
-    }),
-  ];
+test('accepts valid English passage groups with real passages and four linked questions each', () => {
+  const pool = englishPool({ sets: [['set_a', 4, 'Factual Passage'], ['set_b', 4, 'Narrative Passage'], ['set_c', 4, 'Literary Passage']] });
 
   const { selectedRows, diagnostics } = selectNtaQuestionSet(pool, 50, { subjectId: 'english', seed: 'passage-four' });
   assert.equal(selectedRows.length, NTA_QUESTION_COUNT);
-  assert.equal(diagnostics.poolStats.passageGroupsSelected, 1);
-  assert.equal(selectedRows.filter((row) => row.passage_group_id === 'pg_library').length, 4);
+  assert.equal(diagnostics.poolStats.passageGroupsSelected, 3);
+  for (const set of ['set_a', 'set_b', 'set_c']) assert.equal(selectedRows.filter((row) => row.passage_group_id === set).length, 4);
 });
 
-test('English NTA selection excludes fake passage labels and keeps standalone verbal ability only', () => {
+test('English NTA selection excludes fake passage labels', () => {
   const badRows = [
     validQuestion(1, {
       id: 'bad_literary_excerpt_select',
@@ -294,7 +322,7 @@ test('English NTA selection excludes fake passage labels and keeps standalone ve
       ],
     }),
   ];
-  const { selectedRows, diagnostics } = selectNtaQuestionSet([...standalonePool(55, 20), ...badRows], 50, {
+  const { selectedRows, diagnostics } = selectNtaQuestionSet([...englishPool({ start: 20 }), ...badRows], 50, {
     subjectId: 'english',
     seed: 'fake-passage-guard',
   });
@@ -305,14 +333,15 @@ test('English NTA selection excludes fake passage labels and keeps standalone ve
 });
 
 test('NTA selector returns fewer than 50 when fewer than 50 acceptable questions exist', () => {
-  const { selectedRows, diagnostics } = selectNtaQuestionSet(standalonePool(49), 50, {
+  const { selectedRows, diagnostics } = selectNtaQuestionSet(englishPool({ perVerbal: 8, sets: [['set_a', 5, 'Factual Passage'], ['set_b', 5, 'Narrative Passage'], ['set_c', 5, 'Literary Passage']] }), 50, {
     subjectId: 'english',
-    seed: 'forty-nine',
+    seed: 'forty-seven',
   });
 
-  assert.equal(selectedRows.length, 49);
+  assert.equal(selectedRows.length, 47);
   assert.equal(diagnostics.canBuild50, false);
   assert.equal(diagnostics.durationMinutes, NTA_DURATION_MINUTES);
+  assert.match(diagnostics.message, /50 are required/);
 });
 
 test('answer integrity guard rejects explanation that points to another key', () => {
@@ -334,11 +363,7 @@ test('NTA answer integrity excludes bad keyed row and refills to 50', () => {
     pyq_anchor_id: 'pyq_bad_runtime',
     quality_score: 1,
   });
-  const clean = standalonePool(50, 100, {
-    anchor_tier: 3,
-    pyq_anchor_id: null,
-    quality_band: undefined,
-  });
+  const clean = englishPool({ start: 100, overrides: { anchor_tier: 3, pyq_anchor_id: null, quality_band: undefined } });
 
   const { selectedRows, diagnostics } = selectNtaQuestionSet([bad, ...clean], 50, {
     subjectId: 'english',
@@ -361,8 +386,15 @@ test('NTA answer integrity refuses to start when only 49 clean questions remain'
     anchor_tier: 1,
     pyq_anchor_id: 'pyq_bad_no_refill',
   });
+  // Exactly the pattern's 50 slots exist (12 vocabulary, 9 word usage, 7, 7, three sets of 5); one is bad.
+  const counts = [11, 9, 7, 7];
+  const clean = [];
+  VERBAL.forEach(([chapter, type], sectionIndex) => {
+    for (let i = 0; i < counts[sectionIndex]; i += 1) clean.push(validQuestion(200 + sectionIndex * 100 + i, { chapter, question_type: type }));
+  });
+  clean.push(...passageSet('set_a', 5), ...passageSet('set_b', 5, 'Narrative Passage'), ...passageSet('set_c', 5, 'Literary Passage'));
 
-  const { selectedRows, diagnostics } = selectNtaQuestionSet([bad, ...standalonePool(49, 200)], 50, {
+  const { selectedRows, diagnostics } = selectNtaQuestionSet([bad, ...clean], 50, {
     subjectId: 'english',
     seed: 'answer-no-refill',
   });
@@ -383,10 +415,10 @@ test('NTA answer integrity refill keeps passage group ordering intact', () => {
   });
   const pool = [
     bad,
-    ...standalonePool(47, 300, { anchor_tier: 3, pyq_anchor_id: null, quality_band: undefined }),
-    validPassageQuestion('guard_p3', 3),
-    validPassageQuestion('guard_p1', 1),
-    validPassageQuestion('guard_p2', 2),
+    ...englishPool({ start: 300, sets: [], overrides: { anchor_tier: 3, pyq_anchor_id: null, quality_band: undefined } }),
+    ...passageSet('guard', 3).reverse(),
+    ...passageSet('set_b', 5, 'Narrative Passage'),
+    ...passageSet('set_c', 5, 'Literary Passage'),
   ];
 
   const { selectedRows, diagnostics } = selectNtaQuestionSet(pool, 50, {
@@ -396,7 +428,9 @@ test('NTA answer integrity refill keeps passage group ordering intact', () => {
 
   assert.equal(selectedRows.length, NTA_QUESTION_COUNT);
   assert.equal(diagnostics.answerIntegrity.finalVerifiedCount, NTA_QUESTION_COUNT);
-  assert.deepEqual(selectedRows.slice(0, 3).map((row) => row.id), ['guard_p1', 'guard_p2', 'guard_p3']);
+  assert.ok(!selectedRows.some((row) => row.id === 'bad_before_passage'));
+  const at = selectedRows.findIndex((row) => row.id === 'guard_1');
+  assert.deepEqual(selectedRows.slice(at, at + 3).map((row) => row.id), ['guard_1', 'guard_2', 'guard_3']);
 });
 
 test('NTA AI verifier only checks low-confidence rows and refills rejected answers', async () => {
@@ -408,11 +442,12 @@ test('NTA AI verifier only checks low-confidence rows and refills rejected answe
     pyq_anchor_id: 'pyq_ai_bad',
     quality_score: 1,
   });
-  const clean = standalonePool(50, 400, {
+  // Eleven clean vocabulary items: the twelve-item vocabulary block must include the bad row.
+  const clean = englishPool({ start: 400, perVerbal: 11, overrides: {
     explanation: 'The correct answer is B because the option gives the closest precise meaning.',
     anchor_tier: 1,
     quality_score: 0.9,
-  });
+  } });
   const calls = [];
 
   const { selectedRows, diagnostics } = await selectNtaQuestionSetWithAnswerVerification([bad, ...clean], 50, {
@@ -431,18 +466,21 @@ test('NTA AI verifier only checks low-confidence rows and refills rejected answe
         : {
             id: row.id,
             verdict: 'pass',
-            solved_answer: 'B',
+            solved_answer: row.correct_answer,
             confidence: 0.96,
             reason: 'stored answer matches independent solve',
           });
     },
   });
 
+  // Only low-confidence rows are sent: the bad row and passage questions (which always need a
+  // context check), never the well-explained verbal items.
   assert.equal(calls.length, 1);
-  assert.deepEqual(calls[0], ['ai_bad_low_confidence']);
+  assert.ok(calls[0].includes('ai_bad_low_confidence'));
+  assert.ok(calls[0].every((id) => id === 'ai_bad_low_confidence' || id.startsWith('set_')));
   assert.equal(selectedRows.length, NTA_QUESTION_COUNT);
   assert.equal(diagnostics.canBuild50, true);
-  assert.equal(diagnostics.answerIntegrity.ai.checkedCount, 1);
+  assert.equal(diagnostics.answerIntegrity.ai.checkedCount, calls[0].length);
   assert.equal(diagnostics.answerIntegrity.ai.failedCount, 1);
   assert.ok(diagnostics.answerIntegrity.ai.failedQuestionIds.includes('ai_bad_low_confidence'));
   assert.ok(!selectedRows.some((row) => row.id === 'ai_bad_low_confidence'));

@@ -31,13 +31,53 @@
 .nta-runner .legend.marked-answered::after { content: ''; position: absolute; right: 0; bottom: 0; width: 7px; height: 7px; border-radius: 50%; background: #65d833; }
 .nta-runner[data-interface='nta'] .legend.notvisited { background: #efefef; border-color: #b3b3b3; }
 .nta-runner[data-interface='nta'] .nta-legend { font-family: Arial, sans-serif; font-weight: 400; font-size: 12px; letter-spacing: 0; }
-.nta-runner[data-interface='nta'] :is(.nta-mobile-actions, .nta-sheet-head, .nta-passage) { background: #eaf0f4; border-color: #bdccd5; }
-.nta-runner[data-interface='nta'] .nta-mobile-actions button { background: #32688f; color: white; }
-/* The branded console hides its bottom navigation below 1024px (the fixed action bar
-   replaces it); the NTA-style console keeps it so Mark for Review & Next and Clear
-   response stay available on tablets too. */
-@media (max-width: 1023px) { .nta-runner[data-interface='nta'] .nta-navigation { display: flex; } .nta-runner[data-interface='nta'] .nta-nav-button { flex: 1 1 auto; } }
 @media (max-width: 760px) { .nta-interface-toolbar { padding: 10px 16px; gap: 8px; } .nta-interface-toolbar small { flex-basis: 100%; margin: 0; } }
-/* The NTA-style console never follows the Arena light/dark preference: it pins its own
-   pre-theme token values, so shared runner rules render exactly as before. */
-.nta-runner[data-interface='nta'] { --a-ink: #f4f6ed; --a-ink-2: #d4d4d8; --a-ink-3: #a1a1aa; --a-line: rgba(255,255,255,.1); --a-line-hover: rgba(255,255,255,.24); --a-hover: rgba(255,255,255,.035); --a-topbar: rgba(8,9,7,.92); --a-raised: #0f100d; --a-accent-text: #d2f000; --a-bad-text: #fca5a5; --a-warn-text: #fde68a; --a-good-text: #86efac; --a-purple-text: #c4b5fd; --a-sheet: #0f1612; --a-line-strong: #536445; --a-focus: #d2f000; }
+/* The NTA-style console never follows the Arena light/dark preference. Its surface is always
+   light, so its ink tokens are dark in both themes: shared runner rules (passage text, the
+   palette close icon, the warnings pill, alerts) stay readable on it. */
+.nta-runner[data-interface='nta'] { --a-ink: #1f2933; --a-ink-2: #2f3b45; --a-ink-3: #4f5d68; --a-line: #c4cfd6; --a-line-hover: #8fa3b1; --a-hover: #f3f6f8; --a-topbar: #ffffff; --a-raised: #ffffff; --a-accent-text: #1f5f8b; --a-bad-text: #b42318; --a-warn-text: #8a5300; --a-good-text: #1d6b2a; --a-purple-text: #5b3392; --a-sheet: #ffffff; --a-line-strong: #8fa3b1; --a-focus: #286590; }
+.nta-runner[data-interface='nta'] .nta-interface-toolbar { background: #dfe7ec; border-color: #bdccd5; color: #2f3b45; }
+.nta-runner[data-interface='nta'] .nta-interface-toolbar > div { border-color: #9fb2bf; background: #fff; }
+.nta-runner[data-interface='nta'] .nta-interface-toolbar button { color: #264963; }
+.nta-runner[data-interface='nta'] .nta-interface-toolbar button[aria-pressed='true'] { background: #32688f; color: #fff; }
+.nta-runner[data-interface='nta'] .nta-passage { background: #f7fafc; border: 1px solid #bdccd5; border-radius: 3px; }
+.nta-runner[data-interface='nta'] .nta-passage-head { color: #32688f; font-family: Arial, sans-serif; letter-spacing: .04em; }
+.nta-runner[data-interface='nta'] .nta-passage p { color: #1f2933; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.7; white-space: pre-line; }
+.nta-runner[data-interface='nta'] .nta-alert { color: #6b4200; background: #fff6e0; border-color: #e5c27a; }
+.nta-runner[data-interface='nta'] .nta-integrity-status { padding: 6px 24px; }
+
+/* Phone and tablet: the paper flows as one column, the timer stays in the sticky header, and
+   the NTA actions sit in a fixed bar so Save & next, Mark for review & next and Clear response
+   are always one tap away. The palette opens as a bottom sheet. Desktop is unchanged. */
+@media (max-width: 1023px) {
+  .nta-runner[data-interface='nta'] .nta-navigation { display: none; }
+  .nta-runner[data-interface='nta'] .nta-shell { padding: 12px 10px calc(132px + env(safe-area-inset-bottom, 0px)); }
+  .nta-runner[data-interface='nta'] .nta-paper { scroll-margin-top: 112px; }
+  .nta-runner[data-interface='nta'] .nta-paper-head { padding: 12px 14px; min-height: 0; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+  .nta-runner[data-interface='nta'] .nta-paper-tags { flex: 1 1 auto; justify-content: flex-end; }
+  .nta-runner[data-interface='nta'] .nta-paper-head .nta-kicker { display: none; }
+  .nta-runner[data-interface='nta'] .nta-paper-head h1 { margin: 0; font-size: 17px; }
+  .nta-runner[data-interface='nta'] .nta-passage { margin: 12px; padding: 12px; }
+  .nta-runner[data-interface='nta'] .nta-passage p { font-size: 15px; line-height: 1.65; max-width: none; }
+  .nta-runner[data-interface='nta'] .nta-question-block { padding: 14px; }
+  .nta-runner[data-interface='nta'] .nta-question-meta { flex-direction: row; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
+  .nta-runner[data-interface='nta'] .nta-question-actions { width: auto; margin-left: auto; }
+  .nta-runner[data-interface='nta'] .nta-text-button { flex: 0 0 auto; padding: 0 12px; }
+  .nta-runner[data-interface='nta'] .nta-question-text { font-size: 16px; line-height: 1.55; font-weight: 700; }
+  .nta-runner[data-interface='nta'] .nta-option { min-height: 48px; padding: 10px 8px; align-items: center; grid-template-columns: 20px minmax(0, 1fr); gap: 10px; }
+  .nta-runner[data-interface='nta'] .nta-option-text { font-size: 15px; }
+  .nta-runner[data-interface='nta'] .nta-mobile-actions { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; padding: 8px 8px calc(8px + env(safe-area-inset-bottom, 0px)); background: #fff; border-top: 1px solid #bdccd5; backdrop-filter: none; box-shadow: 0 -4px 16px rgba(31, 41, 51, .08); }
+  .nta-runner[data-interface='nta'] .nta-mobile-actions button { grid-column: span 2; min-height: 44px; padding: 0 6px; border-radius: 3px; border: 1px solid #aebdc7; background: #edf2f5; color: #264963; font-family: Arial, sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0; text-transform: none; line-height: 1.15; text-align: center; }
+  .nta-runner[data-interface='nta'] .nta-mobile-actions .nta-m-review { grid-column: span 3; background: #754b9c; border-color: #68408d; color: #fff; }
+  .nta-runner[data-interface='nta'] .nta-mobile-actions .nta-m-save { grid-column: span 3; background: #348638; border-color: #28712d; color: #fff; }
+  .nta-runner[data-interface='nta'] .nta-mobile-actions button:disabled { opacity: .45; }
+  .nta-runner[data-interface='nta'] .nta-integrity-status { padding: 6px 12px; }
+}
+@media (max-width: 360px) {
+  .nta-runner[data-interface='nta'] .nta-mobile-actions button { font-size: 12px; }
+}
+/* Header sits on the NTA blue in every theme. */
+.nta-runner[data-interface='nta'] .nta-timer { background: rgba(255, 255, 255, .14); border-color: rgba(255, 255, 255, .5); }
+.nta-runner[data-interface='nta'] .nta-timer.is-low { background: #b42318; border-color: #fff; }
+.nta-runner[data-interface='nta'] .nta-test-header .bar { background: rgba(255, 255, 255, .25); }
+.nta-runner[data-interface='nta'] .nta-test-header .bar > .fill { background: #fff; box-shadow: none; }

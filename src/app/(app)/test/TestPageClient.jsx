@@ -23,6 +23,8 @@ const subscribeConnection = callback => {
 };
 const connectionSnapshot = () => navigator.onLine;
 
+const CHIP_LABELS = { answered: 'Answered', marked: 'Marked', 'marked-answered': 'Answered and marked', visited: 'Not answered', notvisited: 'Not visited' };
+
 const storageKey = (uid, subject, chapter, count, difficulty = 'auto', modeId = 'quick') =>
   `mm:test:${uid || 'anon'}:${subject}:${chapter || '*'}:${count}:${difficulty || 'auto'}:${modeId}`;
 
@@ -303,7 +305,7 @@ function TestRunner() {
           router.replace('/pricing?reason=insufficient_credits');
           return;
         }
-        setError(e.message === 'INSUFFICIENT_VERIFIED_CONTENT' ? 'Verified questions are not ready for this selection yet. No credits were charged.' : e.message === 'INSUFFICIENT_PRACTICE_CONTENT' ? 'There are not enough questions for this selection. Try fewer questions or another chapter. No credits were charged.' : e.message === 'RECOVERY_MIGRATION_REQUIRED' ? 'Recovery content is being prepared. Return to Practice to use the existing question library.' : e.message || 'Failed to load questions');
+        setError(e.message === 'INSUFFICIENT_VERIFIED_CONTENT' ? 'Verified questions are not ready for this selection yet. No credits were charged.' : e.message === 'INSUFFICIENT_PRACTICE_CONTENT' ? (isNtaMode ? 'An NTA mode paper needs 50 checked questions laid out like the real CUET paper, and this subject does not have enough yet. Try a full mock instead. No credits were charged.' : 'There are not enough questions for this selection. Try fewer questions or another chapter. No credits were charged.') : e.message === 'RECOVERY_MIGRATION_REQUIRED' ? 'Recovery content is being prepared. Return to Practice to use the existing question library.' : e.message || 'Failed to load questions');
         setLoading(false);
       }
     }
@@ -498,6 +500,19 @@ function TestRunner() {
     };
   }, [mobilePaletteOpen]);
 
+  // A new question or passage set starts at its top, below the sticky header.
+  const paperRef = useRef(null);
+  const shownBlockRef = useRef(null);
+  const currentBlockStart = questions.length ? getQuestionBlock(questions, idx).startIdx : null;
+  useEffect(() => {
+    if (currentBlockStart == null) return;
+    if (shownBlockRef.current != null && shownBlockRef.current !== currentBlockStart) {
+      const paper = paperRef.current;
+      if (paper && paper.getBoundingClientRect().top < 120) paper.scrollIntoView({ block: 'start' });
+    }
+    shownBlockRef.current = currentBlockStart;
+  }, [currentBlockStart]);
+
   if (!subjectId) return (
     <div className="container-narrow max-w-3xl pt-10">
       <ErrorState message="No subject selected" />
@@ -574,6 +589,11 @@ function TestRunner() {
     else gotoQuestion(block.endIdx + 1);
   };
 
+  const markAndNext = () => {
+    setMarked((prev) => ({ ...prev, [q.id]: true }));
+    if (!isLastBlock) gotoQuestion(block.endIdx + 1);
+  };
+
   const renderQuestion = (question, questionIndex) => (
     <section
       key={question.id}
@@ -584,7 +604,7 @@ function TestRunner() {
         <div>
           <span className="nta-question-number">Question {questionIndex + 1}</span>
           <span className={`nta-chip nta-chip--${chipStateFor(question.id)}`}>
-            {chipStateFor(question.id).replace('-', ' + ')}
+            {CHIP_LABELS[chipStateFor(question.id)]}
           </span>
         </div>
         <div className="nta-question-actions">
@@ -624,7 +644,12 @@ function TestRunner() {
               key={`${question.id}-${optionIndex}`}
               type="button"
               className={`nta-option ${selected ? 'is-selected' : ''}`}
-              onClick={() => chooseAnswer(question.id, optionIndex)}
+              onClick={() => {
+                chooseAnswer(question.id, optionIndex);
+                // Inside a passage set, the answered question becomes current, so Clear response
+                // and Mark for review & next act on it.
+                if (questionIndex !== idx) gotoQuestion(questionIndex);
+              }}
               aria-pressed={selected}
               disabled={pendingSubmission || timeLeft <= 0 || submitting}
             >
@@ -738,11 +763,11 @@ function TestRunner() {
         )}
 
         <div className="nta-grid">
-          <div className="nta-paper">
+          <div className="nta-paper" ref={paperRef}>
             <div className="nta-paper-head">
               <div>
                 <span className="nta-kicker">MockMob CUET Test Console</span>
-                <h1>{block.isPassage ? 'Passage Set' : `Question ${idx + 1}`}</h1>
+                <h1>{block.isPassage ? `Questions ${block.startIdx + 1} to ${block.endIdx + 1}` : `Question ${idx + 1}`}</h1>
               </div>
               <div className="nta-paper-tags">
                 <span>{q.chapter}</span>
@@ -766,10 +791,7 @@ function TestRunner() {
 
             <div className="nta-navigation">
               {classicInterface && <>
-                <button type="button" className="nta-nav-button nta-classic-review" onClick={() => {
-                  setMarked((prev) => ({ ...prev, [q.id]: true }));
-                  if (!isLastBlock) gotoQuestion(block.endIdx + 1);
-                }}>Mark for Review & Next</button>
+                <button type="button" className="nta-nav-button nta-classic-review" onClick={markAndNext}>Mark for review & next</button>
                 <button type="button" className="nta-nav-button" onClick={() => clearAnswer(q.id)}>Clear response</button>
               </>}
               <button
@@ -786,7 +808,7 @@ function TestRunner() {
                 onClick={goNext}
                 disabled={submitting}
               >
-                {isLastBlock ? (submitting ? 'Submitting...' : 'Submit Test') : classicInterface ? 'Save & Next' : 'Next'}
+                {isLastBlock ? (submitting ? 'Submitting...' : 'Submit test') : classicInterface ? 'Save & next' : 'Next'}
                 {!isLastBlock && <Icon name="chevR" />}
               </button>
             </div>
@@ -819,13 +841,23 @@ function TestRunner() {
 
       <div className="nta-mobile-actions">
         <button type="button" disabled={block.startIdx === 0} onClick={() => gotoQuestion(block.startIdx - 1)}>
-          <Icon name="chevL" /> Prev
+          <Icon name="chevL" /> {classicInterface ? 'Back' : 'Prev'}
         </button>
-        <button ref={mobilePaletteTriggerRef} type="button" onClick={() => setMobilePaletteOpen(true)}>
-          Palette
+        {classicInterface && (
+          <button type="button" onClick={() => clearAnswer(q.id)} disabled={answers[q.id] === undefined}>
+            Clear response
+          </button>
+        )}
+        <button ref={mobilePaletteTriggerRef} type="button" onClick={() => setMobilePaletteOpen(true)} aria-label={`Question palette, ${answered} of ${questions.length} answered`}>
+          {classicInterface ? `Palette ${answered}/${questions.length}` : 'Palette'}
         </button>
-        <button type="button" className="is-primary" onClick={goNext} disabled={submitting}>
-          {isLastBlock ? 'Submit' : 'Next'} {!isLastBlock && <Icon name="chevR" />}
+        {classicInterface && (
+          <button type="button" className="nta-m-review" onClick={markAndNext}>
+            Mark for review & next
+          </button>
+        )}
+        <button type="button" className={classicInterface ? 'is-primary nta-m-save' : 'is-primary'} onClick={goNext} disabled={submitting}>
+          {isLastBlock ? (submitting ? 'Submitting...' : 'Submit') : classicInterface ? 'Save & next' : 'Next'} {!isLastBlock && !classicInterface && <Icon name="chevR" />}
         </button>
       </div>
 
@@ -835,7 +867,7 @@ function TestRunner() {
           <div className="nta-sheet-panel">
             <div className="nta-sheet-head">
               <div>
-                <span className="nta-kicker">Review Palette</span>
+                <span className="nta-kicker">Review palette</span>
                 <strong>{answered}/{questions.length} answered</strong>
               </div>
               <button ref={mobilePaletteCloseRef} type="button" className="nta-icon-button" onClick={() => setMobilePaletteOpen(false)} aria-label="Close palette">
@@ -982,6 +1014,7 @@ function TestRunner() {
           align-items: start;
         }
         .nta-paper {
+          scroll-margin-top: 92px;
           width: 100%;
           max-width: 930px;
           justify-self: end;

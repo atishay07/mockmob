@@ -1,6 +1,7 @@
 import OpenAI from 'openai';
 import { isValidTopSyllabusPair } from './canonical_syllabus.js';
 import { toInternalSubjectId } from './cuet_controls.js';
+import { assembleNtaPaper, longestPassageRun } from './nta_paper_pattern.js';
 import {
   ANSWER_LOCAL_CONFIDENCE_THRESHOLD,
   scoreAnswerLocalConfidence as scoreNtaAnswerLocalConfidence,
@@ -671,22 +672,12 @@ function selectCandidate(candidate, selected, fingerprints, targetCount, diagnos
   return true;
 }
 
-function selectRankedCandidates(rankedPassages, rankedStandalone, targetCount, diagnostics, opts = {}) {
+function assemblePaper(subjectId, rankedPassages, rankedStandalone, targetCount, diagnostics, opts = {}) {
   const selected = [];
   const fingerprints = new Set();
-
-  for (const tier of [1, 2, 3]) {
-    for (const candidate of rankedPassages.filter((entry) => entry.tier === tier)) {
-      if (selectedQuestionCount(selected) >= targetCount) break;
-      selectCandidate(candidate, selected, fingerprints, targetCount, diagnostics, opts);
-    }
-    for (const candidate of rankedStandalone.filter((entry) => entry.tier === tier)) {
-      if (selectedQuestionCount(selected) >= targetCount) break;
-      selectCandidate(candidate, selected, fingerprints, targetCount, diagnostics, opts);
-    }
-  }
-
-  return selected;
+  const take = (candidate) => selectCandidate(candidate, selected, fingerprints, targetCount, diagnostics, opts);
+  const paper = assembleNtaPaper(subjectId, { passages: rankedPassages, standalone: rankedStandalone }, take, targetCount);
+  return { selected: paper.ordered, paper };
 }
 
 export function selectNtaQuestionSet(rows, requestedCount = NTA_QUESTION_COUNT, options = {}) {
@@ -697,7 +688,7 @@ export function selectNtaQuestionSet(rows, requestedCount = NTA_QUESTION_COUNT, 
     requestedCount: Number(requestedCount) || targetCount,
     finalCount: targetCount,
     durationMinutes: NTA_DURATION_MINUTES,
-    selectionStrategy: 'ranked_quality_fallback',
+    selectionStrategy: 'cuet_paper_pattern',
     totalCandidates: Array.isArray(rows) ? rows.length : 0,
     acceptedCandidates: 0,
     finalSelectedCount: 0,
@@ -748,13 +739,17 @@ export function selectNtaQuestionSet(rows, requestedCount = NTA_QUESTION_COUNT, 
   const { passageGroups, standalone } = buildCandidates(usable, diagnostics, subjectId);
   const seed = options.seed || '';
 
+  const ranked = (candidate) => ({ ...candidate, rank: candidateScore(candidate, seed) });
   const rankedPassages = passageGroups
     .filter((candidate) => candidate.size <= targetCount)
-    .sort((a, b) => candidateScore(b, seed) - candidateScore(a, seed));
+    .map(ranked)
+    .sort((a, b) => b.rank - a.rank);
   const rankedStandalone = standalone
-    .sort((a, b) => candidateScore(b, seed) - candidateScore(a, seed));
+    .map(ranked)
+    .sort((a, b) => b.rank - a.rank);
 
-  const selectedBeforeVerification = selectRankedCandidates(
+  const { selected: selectedBeforeVerification } = assemblePaper(
+    subjectId,
     rankedPassages,
     rankedStandalone,
     targetCount,
@@ -763,7 +758,8 @@ export function selectNtaQuestionSet(rows, requestedCount = NTA_QUESTION_COUNT, 
   );
   diagnostics.answerIntegrity.selectedBeforeVerification = selectedQuestionCount(selectedBeforeVerification);
 
-  const selected = selectRankedCandidates(
+  const { selected, paper } = assemblePaper(
+    subjectId,
     rankedPassages,
     rankedStandalone,
     targetCount,
@@ -772,14 +768,22 @@ export function selectNtaQuestionSet(rows, requestedCount = NTA_QUESTION_COUNT, 
   );
 
   const selectedRows = selected.flatMap((candidate) => candidate.rows).slice(0, targetCount);
+  diagnostics.pattern = {
+    id: paper.pattern.id,
+    kind: paper.pattern.kind,
+    label: paper.pattern.label,
+    sections: paper.sections,
+    layout: paper.blocks.map((block) => ({ section: block.section, label: block.label, questions: block.candidates.reduce((sum, candidate) => sum + candidate.size, 0), passage: Boolean(block.passageKey) })),
+    longestPassageRun: longestPassageRun(selectedRows),
+    shortfall: paper.shortfall,
+    notes: paper.notes,
+  };
   diagnostics.answerIntegrity.refilledCount = Math.max(
     0,
     selectedRows.filter((row) => !selectedBeforeVerification.some((candidate) => candidate.rows.some((candidateRow) => candidateRow.id === row.id))).length,
   );
   diagnostics.answerIntegrity.finalVerifiedCount = selectedRows.length;
-  diagnostics.answerIntegrity.passed = selectedRows.length === targetCount && diagnostics.answerIntegrity.rejectedByAnswerGuard === 0
-    ? true
-    : selectedRows.length === targetCount;
+  diagnostics.answerIntegrity.passed = selectedRows.length === targetCount;
   diagnostics.answerIntegrity.topRejectReasons = topReasons(diagnostics.answerIntegrity.rejectReasons);
 
   diagnostics.finalSelectedCount = selectedRows.length;
@@ -798,9 +802,11 @@ export function selectNtaQuestionSet(rows, requestedCount = NTA_QUESTION_COUNT, 
   diagnostics.canBuild50 = selectedRows.length === targetCount;
   diagnostics.message = diagnostics.canBuild50
     ? undefined
+    : paper.shortfall === 'not_enough_complete_passage_sets'
+    ? `NTA mode needs at least ${paper.pattern.passages.minSets} complete reading passages with their questions; the checked bank has ${paper.sections[0].sets} right now, so a 50-question paper in the CUET pattern cannot be built yet.`
     : diagnostics.answerIntegrity.rejectedByAnswerGuard > 0
-    ? `The database has ${diagnostics.poolStats.usable} structurally usable NTA questions, but only ${selectedRows.length} passed answer integrity; 50 are required.`
-    : `The database has ${diagnostics.poolStats.usable} usable NTA question${diagnostics.poolStats.usable === 1 ? '' : 's'} for this subject after hard rejection; 50 are required.`;
+    ? `The database has ${diagnostics.poolStats.usable} structurally usable NTA questions, but only ${selectedRows.length} passed answer integrity and fit the CUET paper pattern; 50 are required.`
+    : `The database has ${diagnostics.poolStats.usable} usable NTA question${diagnostics.poolStats.usable === 1 ? '' : 's'} for this subject; only ${selectedRows.length} fit the CUET paper pattern and 50 are required.`;
 
   return { selectedRows, diagnostics };
 }
