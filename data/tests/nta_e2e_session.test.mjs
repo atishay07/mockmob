@@ -39,12 +39,19 @@ function keyIndexOf(row) {
   // Old seed rows carry only correct_index; the server prefers it, as data/db.js resolveCorrectIndex does.
   return { fromLetter: byLetter >= 0 ? byLetter : byText >= 0 ? byText : (letter ? -1 : fromIndex ?? -1), fromIndex };
 }
+// The engine serves each paper's options in a per-session order and remaps the key (data/nta_item_checks.js
+// ntaServedRow), so the key's index in the served paper is found by the text of the answer in the bank.
+function servedKeyIndex(question, row) {
+  const answerText = plainOptionTexts(row.options)[keyIndexOf(row).fromLetter];
+  return plainOptionTexts(question.options).indexOf(answerText);
+}
 // The student's plan: i%5 = 0 and 3 right, 1 and 4 wrong, 2 left blank; question 5 is changed twice.
 function plan(questions, rowsById) {
   const answers = {}; const events = []; let seq = 0; const expected = { correct: 0, wrong: 0, blank: 0, details: {} };
   const push = (qid, type, extra = {}) => { seq += 1; events.push({ seq, qid, type, at: seq * 2, ...extra }); };
   questions.forEach((question, i) => {
-    const keyIdx = keyIndexOf(rowsById.get(question.id)).fromLetter;
+    const keyIdx = servedKeyIndex(question, rowsById.get(question.id));
+    assert.ok(keyIdx >= 0, `the bank's answer is not among the served options of ${question.id}`);
     const kind = i % 5;
     push(question.id, 'visit');
     if (kind === 2) { expected.blank += 1; expected.details[question.id] = { givenIndex: null, isCorrect: null }; return; }
@@ -172,7 +179,10 @@ for (const mode of ['asis', 'promoted']) {
           const { fromLetter, fromIndex } = keyIndexOf(rowsById.get(q.id));
           assert.ok(fromLetter >= 0, `no key for ${q.id}`);
           if (fromIndex !== null) assert.equal(fromIndex, fromLetter, `correct_index and correct_answer disagree for ${q.id}`);
-          assert.equal(q.correctIndex, fromLetter, `snapshot key differs from the bank for ${q.id}`);
+          // Options are served in a per-session order with the key remapped: the snapshot key must point at the bank's answer text.
+          const bankAnswer = plainOptionTexts(rowsById.get(q.id).options)[fromLetter];
+          assert.equal(plainOptionTexts(q.options)[q.correctIndex], bankAnswer, `snapshot key differs from the bank for ${q.id}`);
+          assert.equal(snapshot.selection_meta.ntaOptionLayout.key[q.id], 'ABCD'[q.correctIndex], `stored key letter for ${q.id}`);
         }
       });
       await step('paper: passage sets are whole, contiguous and carry visible passage text', () => {

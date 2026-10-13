@@ -47,3 +47,9 @@ test('attempt provenance separates server practice, recovery sessions and browse
   assert.equal(isRecoverySession({selectionMeta:{scoringVersion:'server_practice_v1'}}),false);
   assert.equal(isRecoverySession({selectionMeta:{scoringVersion:'server_snapshot_v1'}}),true);
 });
+test('a mark for review is a validated session event that never reaches the scored timeline', () => {
+  const marked=scoreSession(questions,{q1:0},[{seq:1,qid:'q1',at:0,type:'visit'},{seq:2,qid:'q1',at:5,type:'mark',marked:true},{seq:3,qid:'q1',at:9,type:'answer',answer:0}],100);
+  assert.equal(marked.rawScore,5); assert.deepEqual(marked.recovery.timeline.map(e=>e.type),['visit','answer']);
+  assert.throws(()=>scoreSession(questions,{},[{seq:1,qid:'q1',at:0,type:'mark',marked:'yes'}]),/invalid_event_mark/);
+  assert.equal(scorePracticeSubmission(questions,{q1:0},[{seq:1,qid:'q1',at:0,type:'mark'}],100).recovery.telemetry,'invalid');
+});

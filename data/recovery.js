@@ -14,11 +14,15 @@ export function scoreSession(questions, answers = {}, events = [], durationMs = 
   let last = 0; let lastAt = 0;
   const timeline = events.map(event => {
     const q = questions.find(q => q.id === event.qid);
-    if (!q || !Number.isInteger(event.seq) || event.seq <= last || !Number.isFinite(event.at) || event.at < lastAt || event.at < 0 || event.at > durationMs || !['answer','visit'].includes(event.type)) throw new Error('invalid_event_sequence');
+    if (!q || !Number.isInteger(event.seq) || event.seq <= last || !Number.isFinite(event.at) || event.at < lastAt || event.at < 0 || event.at > durationMs || !['answer','visit','mark'].includes(event.type)) throw new Error('invalid_event_sequence');
     if (event.type === 'answer' && event.answer !== null && (!Number.isInteger(event.answer) || event.answer < 0 || event.answer >= q.options.length)) throw new Error('invalid_event_answer');
+    // A mark for review is a student's own flag (event.marked true or false), kept with the session so a
+    // resume on another device restores it. It is validated like every event but is not part of the
+    // scored timeline: it carries no answer and must not split a question's time.
+    if (event.type === 'mark' && typeof event.marked !== 'boolean') throw new Error('invalid_event_mark');
     last = event.seq; lastAt = event.at;
-    return { seq: event.seq, qid: event.qid, at: event.at, type: event.type, ...(event.type === 'answer' ? { answer: event.answer } : {}) };
-  });
+    return { seq: event.seq, qid: event.qid, at: event.at, type: event.type, ...(event.type === 'answer' ? { answer: event.answer } : {}), ...(event.type === 'mark' ? { marked: event.marked } : {}) };
+  }).filter(event => event.type !== 'mark');
   let correct = 0; let wrong = 0;
   const details = questions.map(q => {
     const given = answers[q.id] ?? null;

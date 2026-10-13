@@ -1,6 +1,6 @@
 // Transitional practice uses authenticated encryption over the server-selected snapshot.
 // The client cannot read keys or change questions, owner, deadline, or entitlement.
-import { createCipheriv, createDecipheriv, createHash, createHmac, randomBytes } from 'node:crypto';
+import { createCipheriv, createDecipheriv, createHash, createHmac, randomBytes, timingSafeEqual } from 'node:crypto';
 import { deflateRawSync, inflateRawSync } from 'node:zlib';
 
 const MAX_TICKET_LENGTH = 500000;
@@ -42,4 +42,29 @@ export function openPractice(ticket, secret, userId, now = Date.now(), { allowEx
   if (row.user_id !== userId) throw new Error('SESSION_NOT_FOUND');
   if (!allowExpired && now > Date.parse(row.expires_at) + 120000) throw new Error('SESSION_EXPIRED');
   return row;
+}
+
+// Start receipt: the server's own record of when a device-held session began. A device-held
+// session keeps no server row, so a reload that lost its saved draft (cleared storage, a fresh tab,
+// a restored browser session) would be served a brand new clock. The server signs the start time it
+// chose, the runner keeps the receipt in the page address, and the next start with the same key
+// proves the original start with it. It is bound to the owner and the session id, so it cannot move
+// to another student, paper or key. The duration is never in it: that is always the official one.
+const START_PREFIX = 'mockmob-practice-start-v1';
+function startMac(secret, userId, id, startedAtMs) {
+  return createHmac('sha256', key(secret)).update(JSON.stringify([START_PREFIX, userId, id, startedAtMs])).digest('hex').slice(0, 32);
+}
+export function sealStart(secret, userId, id, startedAtMs) {
+  if (!Number.isSafeInteger(startedAtMs) || startedAtMs <= 0) throw new Error('INVALID_START_RECEIPT');
+  return `${startedAtMs.toString(36)}-${startMac(secret, userId, id, startedAtMs)}`;
+}
+/** The signed start time in ms, or null when the receipt is missing, altered or for another session. */
+export function openStart(receipt, secret, userId, id) {
+  if (typeof receipt !== 'string' || !/^[0-9a-z]{6,12}-[0-9a-f]{32}$/.test(receipt)) return null;
+  const [time, mac] = receipt.split('-');
+  const startedAtMs = parseInt(time, 36);
+  if (!Number.isSafeInteger(startedAtMs) || startedAtMs <= 0) return null;
+  const expected = Buffer.from(startMac(secret, userId, id, startedAtMs));
+  const given = Buffer.from(mac);
+  return expected.length === given.length && timingSafeEqual(expected, given) ? startedAtMs : null;
 }

@@ -9,7 +9,7 @@ import { LAUNCH_SUBJECTS, publicSessionView } from '@/../shared/recoveryContract
 import { episodeCheckQuestion, respondEpisode } from './learning';
 import { replayExposures } from '@/../data/mistake_replay';
 import { studyExposures } from './studyExposure';
-import { assertNtaPaperServable } from './ntaPaper';
+import { assertNtaPaperServable, ntaOptionLayout } from './ntaPaper';
 
 export function publicSession(row) {
   return publicSessionView(row);
@@ -49,7 +49,8 @@ export async function startSession(userId, input) {
   if (existing) {
     if (existing.state !== 'active') throw new Error('SESSION_ALREADY_SUBMITTED');
     if (Date.parse(existing.expires_at) <= Date.now()) throw new Error('SESSION_EXPIRED');
-    return publicSession(existing);
+    // A resumed session carries its saved events: answers, visits and marks for review.
+    return { ...publicSession(existing), events: existing.events };
   }
   const user = await Database.getUserById(userId);
   if (mode.premium && !user?.isPremium) throw new Error('PREMIUM_REQUIRED');
@@ -76,10 +77,11 @@ export async function startSession(userId, input) {
   }
   if (mode.id === 'nta') assertNtaPaperServable(result.questions, result.meta, 'INSUFFICIENT_VERIFIED_CONTENT');
   else if (result.questions.length < count) throw new Error('INSUFFICIENT_VERIFIED_CONTENT');
+  const optionLayout = mode.id === 'nta' ? ntaOptionLayout(result.questions, result.meta, 'INSUFFICIENT_VERIFIED_CONTENT') : null;
   const id = randomUUID();
   const created = new Date();
   const row = { id, user_id: userId, request_key: input.generationKey, subject: selection.internalSubject,
-    mode: mode.id, state: 'active', questions: result.questions, selection_meta: result.meta,
+    mode: mode.id, state: 'active', questions: result.questions, selection_meta: optionLayout ? { ...result.meta, ntaOptionLayout: optionLayout } : result.meta,
     created_at: created.toISOString(), expires_at: new Date(+created + resolveDurationSec(mode, result.questions) * 1000).toISOString() };
   // Credit charge and session insert share one transaction; insufficient inventory is checked first.
   const { data, error } = await db.rpc('start_recovery_session', { p_row: row,

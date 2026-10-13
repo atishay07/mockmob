@@ -11,7 +11,7 @@ import { api, apiPost } from '@/lib/fetcher';
 import { useAuth } from '@/components/AuthProvider';
 import { VoteControls } from '@/components/questions/VoteControls';
 import { getMode, isValidModeId, resolveCount, resolveDurationSec } from '@/../data/test_modes';
-import { resumableDraft, SUBMISSION_GRACE_MS } from '@/../data/session_draft';
+import { progressFromEvents, resumableDraft, SUBMISSION_GRACE_MS } from '@/../data/session_draft';
 import { plainOptionTexts } from '@/../data/option_text';
 import './nta-classic.css';
 import { useExamIntegrity, IntegrityPill, IntegrityOverlay } from '@/components/arena/ExamIntegrityGuard';
@@ -181,6 +181,9 @@ function TestRunner() {
   const fullscreenTarget = useRef(null);
   const finishExamRef = useRef(null);
 
+  // The start receipt is added to the address after the server answers; it must not look like a new launch.
+  const launchKey = useMemo(() => { const p = new URLSearchParams(searchParams.toString()); p.delete('startReceipt'); return p.toString(); }, [searchParams]);
+
   const userId = user?.id;
   const key = useMemo(
     () => storageKey(userId, subjectId, chapters || chapter, count, difficulty || 'auto', modeId),
@@ -188,24 +191,40 @@ function TestRunner() {
   );
 
   const answersRef = useRef(answers);
+  const markedRef = useRef(marked);
   const eventsRef = useRef([]);
   const startedRef = useRef(0);
-  const recordEvent = useCallback((qid, type, answer) => {
+  // value: the chosen option index (or null) for an answer, true or false for a mark for review.
+  const recordEvent = useCallback((qid, type, value) => {
     if (!startedRef.current || eventsRef.current.length >= 5000) return;
     const prior = eventsRef.current.at(-1);
     eventsRef.current.push({ seq: (prior?.seq || 0) + 1, qid, type,
       at: Math.max(prior?.at || 0, Date.now() - startedRef.current),
-      ...(type === 'answer' ? { answer } : {}) });
+      ...(type === 'answer' ? { answer: value } : {}),
+      ...(type === 'mark' ? { marked: value === true } : {}) });
+  }, []);
+  // A device-held session has no server row; the server's signed start time rides in the address so a
+  // reload that lost the saved draft is given the same clock, never a new one.
+  const rememberStart = useCallback((receipt) => {
+    if (!receipt || typeof window === 'undefined') return;
+    try {
+      const url = new URL(window.location.href);
+      if (url.searchParams.get('startReceipt') === receipt) return;
+      url.searchParams.set('startReceipt', receipt);
+      window.history.replaceState(null, '', url);
+    } catch { /* the address is a convenience; the saved draft still resumes this device */ }
   }, []);
   const questionsRef = useRef(questions);
   const submittedRef = useRef(false);
   useEffect(() => { answersRef.current = answers; }, [answers]);
+  useEffect(() => { markedRef.current = marked; }, [marked]);
   useEffect(() => { questionsRef.current = questions; }, [questions]);
 
   useEffect(() => {
     if (authStatus === 'loading') return;
     if (!subjectId) return;
 
+    const launch = new URLSearchParams(launchKey);
     let alive = true;
     async function load() {
       setLoading(true);
@@ -214,7 +233,7 @@ function TestRunner() {
       setPendingSubmission(false);
       autoSubmitTried.current = false;
       submittedRef.current = false;
-      if ((!generationKey || generationKey.length < 12) && !searchParams.get('sessionId')) {
+      if ((!generationKey || generationKey.length < 12) && !launch.get('sessionId')) {
         if (!alive) return;
         setError('Missing generation key. Start a fresh test from the dashboard.');
         setLoading(false);
@@ -226,7 +245,7 @@ function TestRunner() {
           const raw = window.localStorage.getItem(key);
           if (raw) {
             const saved = JSON.parse(raw);
-            if (resumableDraft(saved,{generationKey,sessionId:searchParams.get('sessionId')})) {
+            if (resumableDraft(saved,{generationKey,sessionId:launch.get('sessionId')})) {
               if (!alive) return;
               setQuestions(saved.questions);
               eventsRef.current = saved.events || [];
@@ -234,6 +253,14 @@ function TestRunner() {
               setAnswers(saved.answers || {});
               setVisited(saved.visited || {});
               setMarked(saved.marked || {});
+              markedRef.current = saved.marked || {};
+              // Marks saved before they were recorded as events are added to the event log now, so the
+              // server learns them too.
+              if (!saved.pendingSubmission && Date.now() < saved.endsAt) {
+                const recorded = progressFromEvents(eventsRef.current, saved.questions).marked;
+                for (const qid of Object.keys(saved.marked || {})) if (!recorded[qid]) recordEvent(qid, 'mark', true);
+              }
+              rememberStart(saved.selectionMeta?.startReceipt);
               setSelectionMeta(saved.selectionMeta || null);
               setEndsAt(saved.endsAt);
               setIdx(typeof saved.idx === 'number' ? Math.min(saved.idx, saved.questions.length - 1) : 0);
@@ -255,9 +282,12 @@ function TestRunner() {
         else if (chapter) qs.set('chapter', chapter);
         if (difficulty) qs.set('difficulty', difficulty);
         if (generationKey) qs.set('generationKey', generationKey);
-        qs.set('experience', searchParams.get('recoveryFrom') ? 'recovery' : 'practice');
-        if (searchParams.get('recoveryFrom')) qs.set('recoveryFrom', searchParams.get('recoveryFrom'));
-        for (const name of ['sessionId','episodeId','purpose','tonightKey','tonightMinutes','variant']) if (searchParams.get(name)) qs.set(name, searchParams.get(name));
+        qs.set('experience', launch.get('recoveryFrom') ? 'recovery' : 'practice');
+        if (launch.get('recoveryFrom')) qs.set('recoveryFrom', launch.get('recoveryFrom'));
+        for (const name of ['sessionId','episodeId','purpose','tonightKey','tonightMinutes','variant']) if (launch.get(name)) qs.set(name, launch.get(name));
+        // Same key, saved draft gone: the receipt in the address makes the server return the original start.
+        const receipt = new URLSearchParams(window.location.search).get('startReceipt');
+        if (receipt) qs.set('startReceipt', receipt);
         const payload = await apiPost('/api/sessions', Object.fromEntries(qs));
         if (!alive) return;
 
@@ -286,21 +316,22 @@ function TestRunner() {
         const ends = receivedAt + (Number.isFinite(remainingMs) ? Math.max(0, remainingMs) : resolveRunnerDurationSec(mode, loadedQuestions) * 1000);
         startedRef.current = receivedAt - Math.max(0, serverNow - Date.parse(payload.startedAt));
         eventsRef.current = payload.events || [];
-        // A session resumed from the server (new device, cleared storage) has its saved events: every
-        // question the student visited or answered stays visited, so the palette does not show
-        // them as "Not visited". Marks for review are not saved on the server.
+        // A session resumed from the server (new device, cleared storage) has its saved events: the
+        // answers, the marks for review, and every question the student visited, answered or marked
+        // (so the palette does not show them as "Not visited").
+        const restored = progressFromEvents(eventsRef.current, loadedQuestions);
         const restoredVisited = {};
-        for (const event of eventsRef.current) {
-          const at = loadedQuestions.findIndex((question) => question.id === event.qid);
+        for (const qid of restored.touched) {
+          const at = loadedQuestions.findIndex((question) => question.id === qid);
           if (at >= 0) Object.assign(restoredVisited, visitedForBlock(loadedQuestions, at));
         }
         recordEvent(loadedQuestions[0].id, 'visit');
         setQuestions(loadedQuestions);
-        const restoredAnswers = {};
-        for (const event of eventsRef.current) if (event.type === 'answer') { if (event.answer === null) delete restoredAnswers[event.qid]; else restoredAnswers[event.qid] = event.answer; }
-        setAnswers(restoredAnswers);
+        setAnswers(restored.answers);
         setVisited({ ...restoredVisited, ...visitedForBlock(loadedQuestions, 0) });
-        setMarked({});
+        markedRef.current = restored.marked;
+        setMarked(restored.marked);
+        rememberStart(meta?.startReceipt);
         setIdx(0);
         setEndsAt(ends);
         setLoading(false);
@@ -323,13 +354,13 @@ function TestRunner() {
           setLoading(false);
           return;
         }
-        setError(e.message === 'PREMIUM_REQUIRED' ? `${mode.label} is part of Pro. Upgrade to start it, or go back and pick another mode.` : e.message === 'INSUFFICIENT_VERIFIED_CONTENT' ? 'Verified questions are not ready for this selection yet. No credits were charged.' : e.message === 'INSUFFICIENT_PRACTICE_CONTENT' ? (isNtaMode ? 'An NTA mode paper needs 50 checked questions laid out like the real CUET paper, and this subject does not have enough yet. Try a full mock instead. No credits were charged.' : 'There are not enough questions for this selection. Try fewer questions or another chapter. No credits were charged.') : e.message === 'RECOVERY_MIGRATION_REQUIRED' ? 'Recovery content is being prepared. Return to Practice to use the existing question library.' : e.message || 'Failed to load questions');
+        setError(e.message === 'PREMIUM_REQUIRED' ? `${mode.label} is part of Pro. Upgrade to start it, or go back and pick another mode.` : e.message === 'INSUFFICIENT_VERIFIED_CONTENT' ? 'Verified questions are not ready for this selection yet. No credits were charged.' : e.message === 'INSUFFICIENT_PRACTICE_CONTENT' ? (isNtaMode ? 'An NTA mode paper needs 50 checked questions laid out like the real CUET paper, and this subject does not have enough yet. Try a full mock instead. No credits were charged.' : 'There are not enough questions for this selection. Try fewer questions or another chapter. No credits were charged.') : e.message === 'RECOVERY_MIGRATION_REQUIRED' ? 'Recovery content is being prepared. Return to Practice to use the existing question library.' : e.message === 'SESSION_EXPIRED' ? 'The time for this test is over, so it cannot be reopened or restarted. Start a new test from the dashboard.' : e.message === 'INVALID_START_RECEIPT' ? 'This test link no longer matches its session. Start a new test from the dashboard.' : e.message || 'Failed to load questions');
         setLoading(false);
       }
     }
     load();
     return () => { alive = false; };
-  }, [subjectId, chapter, chapters, difficulty, count, mode, modeId, generationKey, key, authStatus, refreshSession, router, isNtaMode, recordEvent, searchParams]);
+  }, [subjectId, chapter, chapters, difficulty, count, mode, modeId, generationKey, key, authStatus, refreshSession, router, isNtaMode, recordEvent, rememberStart, launchKey]);
 
   useEffect(() => {
     if (loading || !endsAt || typeof window === 'undefined') return;
@@ -447,6 +478,18 @@ function TestRunner() {
       const next = { ...prev }; if (answer === null) delete next[qid]; else next[qid] = answer;
       answersRef.current = next; return next;
     });
+  }, [canAnswer, recordEvent, pendingSubmission, endsAt, submitting]);
+
+  // Mark for review is recorded like an answer: an event in the session log, so it is saved on the
+  // server and comes back when the session is resumed on another device or after storage is cleared.
+  const setMark = useCallback((qid, value) => {
+    if (!canAnswer() || submittedRef.current || submitting || pendingSubmission || (endsAt && Date.now() >= endsAt)) return;
+    if (!!markedRef.current[qid] === value) return;
+    recordEvent(qid, 'mark', value);
+    const next = { ...markedRef.current };
+    if (value) next[qid] = true; else delete next[qid];
+    markedRef.current = next;
+    setMarked(next);
   }, [canAnswer, recordEvent, pendingSubmission, endsAt, submitting]);
 
   const timeLeft = endsAt ? Math.max(0, Math.floor((endsAt - now) / 1000)) : 0;
@@ -583,14 +626,7 @@ function TestRunner() {
     return 'notvisited';
   };
 
-  const toggleMarked = (qid) => {
-    setMarked((prev) => {
-      const next = { ...prev };
-      if (next[qid]) delete next[qid];
-      else next[qid] = true;
-      return next;
-    });
-  };
+  const toggleMarked = (qid) => setMark(qid, !markedRef.current[qid]);
 
   const clearAnswer = (qid) => chooseAnswer(qid, null);
 
@@ -608,7 +644,7 @@ function TestRunner() {
   };
 
   const markAndNext = () => {
-    setMarked((prev) => ({ ...prev, [q.id]: true }));
+    setMark(q.id, true);
     if (!isLastBlock) gotoQuestion(block.endIdx + 1);
   };
 

@@ -4,13 +4,14 @@ import { normalizeSubjectSelection } from '@/../data/cuet_controls';
 import { isValidTopSyllabusPair } from '@/../data/canonical_syllabus';
 import { getMode, isValidModeId, resolveCount, resolveDurationSec } from '@/../data/test_modes';
 import { scoreSession, scorePracticeSubmission } from '@/../data/recovery';
-import { openPractice, practiceId, sealPractice } from '@/../data/practice_ticket';
+import { openPractice, openStart, practiceId, sealPractice, sealStart } from '@/../data/practice_ticket';
 import { publicSessionView } from '@/../shared/recoveryContract';
 import { supabaseAdmin } from '@/lib/supabase';
 import { durableLearningEnabled, episodeCheckQuestion } from './learning';
 import { allowancePeriod } from '@/../data/learning_engine';
 import { tonightMetadata } from '@/../data/study_progress';
-import { assertNtaPaperServable } from './ntaPaper';
+import { assertNtaPaperServable, ntaOptionLayout } from './ntaPaper';
+import { SUBMISSION_GRACE_MS } from '@/../data/session_draft';
 
 const secret = () => process.env.PRACTICE_SESSION_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY;
 
@@ -57,10 +58,20 @@ export async function startPractice(userId, input) {
   if (mode.id === 'nta') assertNtaPaperServable(questions, meta);
   else if (questions.length < count) throw new Error('INSUFFICIENT_PRACTICE_CONTENT');
   scoreSession(questions); // A malformed key cannot become a scored session.
-  const created = Date.now();
+  // The option order and remapped key the engine served are stored with the session (see ntaOptionLayout).
+  const optionLayout = mode.id === 'nta' ? ntaOptionLayout(questions, meta) : null;
+  // Device-held sessions keep no server row, so a start whose saved draft is gone must prove when the
+  // session began. A valid receipt restores that start (and so the deadline); without one the session
+  // starts now. The receipt covers the start only: the duration is always the official one.
+  let created = Date.now();
+  if (!durableLearningEnabled() && input.startReceipt !== undefined && input.startReceipt !== null && input.startReceipt !== '') {
+    const proven = openStart(input.startReceipt, secret(), userId, id);
+    if (proven === null) throw new Error('INVALID_START_RECEIPT');
+    created = Math.min(proven, created);
+  }
   const row = { id, user_id: userId, subject: selection.internalSubject, mode: mode.id,
     created_at: new Date(created).toISOString(), expires_at: new Date(created + resolveDurationSec(mode, questions) * 1000).toISOString(),
-    questions, selection_meta: { ...meta, ...tonightMetadata({...input, mode:mode.id, count}, created), scoringVersion: 'server_practice_v1', scoringAuthority: 'server_snapshot', contentEvidence: 'legacy_bank', learningPurpose: input.purpose === 'baseline' ? 'baseline' : 'ordinary_practice' } };
+    questions, selection_meta: { ...meta, ...(optionLayout ? { ntaOptionLayout: optionLayout } : {}), ...tonightMetadata({...input, mode:mode.id, count}, created), scoringVersion: 'server_practice_v1', scoringAuthority: 'server_snapshot', contentEvidence: 'legacy_bank', learningPurpose: input.purpose === 'baseline' ? 'baseline' : 'ordinary_practice' } };
   if (durableLearningEnabled()) {
     let quota = null;
     if (!user?.isPremium && mode.id === 'quick' && count === 10) quota = 'daily_practice';
@@ -70,6 +81,8 @@ export async function startPractice(userId, input) {
     if (error) throw new Error(/credit/.test(error.message) ? 'INSUFFICIENT_CREDITS' : 'SESSION_CREATE_FAILED');
     return publicSessionView(data);
   }
+  // Past the deadline and the upload grace there is nothing left to resume, and nothing may restart.
+  if (Date.now() > Date.parse(row.expires_at) + SUBMISSION_GRACE_MS) throw new Error('SESSION_EXPIRED');
   const ticket = sealPractice(row, secret());
   // Existing atomic ledger makes retries free; charge only after a complete usable set exists.
   if (!user?.isPremium && mode.creditAction) {
@@ -77,7 +90,7 @@ export async function startPractice(userId, input) {
     if (!paid) throw new Error('INSUFFICIENT_CREDITS');
   }
   const view = publicSessionView(row);
-  view.meta = { ...view.meta, sessionTicket: ticket, storage: 'device', contentEvidence: 'legacy_bank' };
+  view.meta = { ...view.meta, sessionTicket: ticket, startReceipt: sealStart(secret(), userId, id, created), storage: 'device', contentEvidence: 'legacy_bank' };
   return view;
 }
 

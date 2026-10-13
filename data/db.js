@@ -1224,7 +1224,9 @@ export const Database = {
     });
     console.info('[nta-engine]', JSON.stringify({ subject: subjectId, status: result.status, built: result.paper.length, eligible: result.pool.eligible, timings: result.timings }));
     if (result.shortfall) await recordNtaShortfall(db, result);
-    const questions = result.rows.map(questionOut);
+    // result.rows are the served rows: options in the session's order, key remapped. The permutation
+    // (served position i shows stored option optionOrder[i]) rides along so the session can keep it.
+    const questions = result.rows.map((row) => ({ ...questionOut(row), optionOrder: Array.isArray(row.nta_option_order) ? row.nta_option_order : null, optionsShuffled: row.nta_options_shuffled === true }));
     const meta = {
       mode: 'nta',
       requestedCount: NTA_QUESTION_COUNT,
