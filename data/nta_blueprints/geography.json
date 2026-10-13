@@ -1,0 +1,385 @@
+{
+  "$schema": "./_schema.json",
+  "schemaVersion": 1,
+  "blueprintVersion": "2026.10.13-1",
+  "subject": "geography",
+  "internalSubject": "geography",
+  "ntaCode": "313",
+  "officialName": "Geography / Geology",
+  "kind": "domain",
+  "appliesTo": "CUET UG 2026 rules and syllabus; pattern from the 2025 paper; provisional for 2027",
+  "exam": {
+    "totalQuestions": 50,
+    "attempt": "all_compulsory",
+    "durationMinutes": 60,
+    "secondsPerQuestion": 72,
+    "optionsPerQuestion": 4,
+    "answerType": "single_correct_mcq",
+    "marking": {
+      "correct": 5,
+      "incorrect": -1,
+      "unanswered": 0,
+      "maxMarks": 250,
+      "moreThanOneCorrectOption": "award +5 only to candidates who marked any of the correct options",
+      "noCorrectOptionOrDropped": "award +5 to every candidate who appeared"
+    },
+    "mode": "CBT",
+    "medium": "Bilingual: English plus the chosen language; the English version prevails",
+    "calculatorAllowed": false,
+    "pwbdCompensatoryMinutesPerHour": 20,
+    "sources": [
+      "S1",
+      "S2"
+    ],
+    "confidence": "high"
+  },
+  "variants": [
+    {
+      "id": "default",
+      "label": "Single paper",
+      "default": true,
+      "sections": [
+        {
+          "id": "main",
+          "label": "Whole paper",
+          "questions": 50,
+          "positions": [
+            1,
+            50
+          ],
+          "units": [
+            {
+              "name": "Human Geography - Nature and Scope",
+              "questions": {
+                "min": 1,
+                "target": 2,
+                "max": 3
+              },
+              "chapters": [
+                {
+                  "name": "Human Geography — Nature & Scope",
+                  "min": 1,
+                  "target": 2,
+                  "max": 3
+                }
+              ]
+            },
+            {
+              "name": "People",
+              "questions": {
+                "min": 7,
+                "target": 10,
+                "max": 13
+              },
+              "chapters": [
+                {
+                  "name": "Population — Distribution, Density, Growth",
+                  "min": 2,
+                  "target": 3,
+                  "max": 5
+                },
+                {
+                  "name": "Migration",
+                  "min": 0,
+                  "target": 1,
+                  "max": 2
+                },
+                {
+                  "name": "Human Development",
+                  "min": 2,
+                  "target": 4,
+                  "max": 6
+                },
+                {
+                  "name": "India — People & Economy",
+                  "min": 1,
+                  "target": 2,
+                  "max": 4
+                }
+              ]
+            },
+            {
+              "name": "Human Activities",
+              "questions": {
+                "min": 7,
+                "target": 10,
+                "max": 12
+              },
+              "chapters": [
+                {
+                  "name": "Primary Activities",
+                  "min": 2,
+                  "target": 4,
+                  "max": 5
+                },
+                {
+                  "name": "Secondary Activities",
+                  "min": 2,
+                  "target": 3,
+                  "max": 4
+                },
+                {
+                  "name": "Tertiary & Quaternary Activities",
+                  "min": 1,
+                  "target": 3,
+                  "max": 4
+                }
+              ]
+            },
+            {
+              "name": "Transport, Communication and Trade",
+              "questions": {
+                "min": 9,
+                "target": 12,
+                "max": 15
+              },
+              "chapters": [
+                {
+                  "name": "Transport & Communication",
+                  "min": 6,
+                  "target": 9,
+                  "max": 12
+                },
+                {
+                  "name": "International Trade",
+                  "min": 2,
+                  "target": 3,
+                  "max": 5
+                }
+              ]
+            },
+            {
+              "name": "Human Settlements",
+              "questions": {
+                "min": 2,
+                "target": 3,
+                "max": 5
+              },
+              "chapters": [
+                {
+                  "name": "Human Settlements",
+                  "min": 2,
+                  "target": 3,
+                  "max": 5
+                }
+              ]
+            },
+            {
+              "name": "Resources and Development",
+              "questions": {
+                "min": 7,
+                "target": 10,
+                "max": 13
+              },
+              "chapters": [
+                {
+                  "name": "Resources & Development",
+                  "min": 3,
+                  "target": 5,
+                  "max": 7
+                },
+                {
+                  "name": "Manufacturing Industries",
+                  "min": 0,
+                  "target": 0,
+                  "max": 1
+                },
+                {
+                  "name": "Planning & Sustainable Development",
+                  "min": 3,
+                  "target": 5,
+                  "max": 7
+                }
+              ]
+            },
+            {
+              "name": "Geographical Perspective on Selected Issues and Problems",
+              "questions": {
+                "min": 1,
+                "target": 3,
+                "max": 4
+              },
+              "chapters": [
+                {
+                  "name": "Geographical Perspective on Selected Issues and Problems",
+                  "min": 1,
+                  "target": 3,
+                  "max": 4
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "excludedChapters": [],
+  "typeQuotas": {
+    "single_mcq": {
+      "min": 21,
+      "target": 25,
+      "max": 30
+    },
+    "match_the_following": {
+      "min": 3,
+      "target": 5,
+      "max": 6
+    },
+    "sequence_ordering": {
+      "min": 3,
+      "target": 5,
+      "max": 6
+    },
+    "statement_based": {
+      "min": 3,
+      "target": 5,
+      "max": 6
+    },
+    "assertion_reason": {
+      "min": 0,
+      "target": 0,
+      "max": 2
+    }
+  },
+  "sets": {
+    "count": {
+      "min": 0,
+      "target": 2,
+      "max": 2
+    },
+    "size": {
+      "min": 4,
+      "target": 5,
+      "max": 5
+    },
+    "questions": {
+      "min": 0,
+      "target": 10,
+      "max": 10
+    },
+    "placement": "end",
+    "positions": [
+      [
+        41,
+        45
+      ],
+      [
+        46,
+        50
+      ]
+    ],
+    "oneChapterPerSet": true,
+    "kinds": [
+      "case_study_passage"
+    ],
+    "itemTypes": "Mostly single MCQs on the passage; a statement-based or \"which is NOT\" item may appear inside a set.",
+    "passageWords": {
+      "min": 120,
+      "target": 200,
+      "max": 300
+    },
+    "ifUnavailable": "Use standalone questions from the same chapters at the end of the paper; never split a set or use a set of fewer than 4 questions.",
+    "note": "2025 paper read: about Q42-45 a passage on gender and development (human development), Q46-50 the Bharmaur tribal-area case study (planning in India)."
+  },
+  "order": {
+    "layout": "standalone_mixed_then_sets",
+    "standalonePositions": [
+      1,
+      40
+    ],
+    "setPositions": [
+      [
+        41,
+        45
+      ],
+      [
+        46,
+        50
+      ]
+    ],
+    "chapterGrouping": "mixed",
+    "maxSameChapterRun": 3,
+    "maxSameTypeRun": 3,
+    "note": "In the 2025 papers read, standalone questions are not grouped by chapter or unit and special types (match, sequence, statements) are scattered through Q1-40. Passage sets sit together at Q41-50."
+  },
+  "difficulty": {
+    "easy": {
+      "min": 0.3,
+      "target": 0.4,
+      "max": 0.5
+    },
+    "medium": {
+      "min": 0.35,
+      "target": 0.45,
+      "max": 0.55
+    },
+    "hard": {
+      "min": 0.1,
+      "target": 0.15,
+      "max": 0.25
+    },
+    "basis": "MockMob difficulty labels (data/cuet_controls.js CUET_DIFFICULTY_STANDARD). NTA publishes no difficulty mix.",
+    "reported": {
+      "2026": "moderate (Hitbullseye)"
+    },
+    "inferred": true,
+    "note": "Sequence items are rankings (HDI, road length, north-to-south, language-family share) and chronology of Indian agricultural programmes."
+  },
+  "evidence": {
+    "observed": [
+      {
+        "paper": "CUET UG 2025 Geography, one shift (Oswaal solved reprint)",
+        "source": "S4",
+        "counts": {
+          "books": {
+            "fundamentals_of_human_geography": 25,
+            "india_people_and_economy": 25
+          },
+          "topics": {
+            "nature_scope": 2,
+            "population": 4,
+            "human_development": 7,
+            "primary": 3,
+            "secondary": 2,
+            "tertiary": 1,
+            "transport": 12,
+            "trade": 2,
+            "settlements": 3,
+            "resources": 4,
+            "planning_sd": 8,
+            "pollution_issues": 2
+          },
+          "types": {
+            "single_mcq_standalone": 25,
+            "match_the_following": 5,
+            "sequence_ordering": 5,
+            "statement_based": 5,
+            "assertion_reason": 0,
+            "set_items": 10
+          },
+          "passage_sets": "2 at the end (about 4 + 5)"
+        }
+      }
+    ],
+    "confidence": {
+      "examRules": "high",
+      "sectionStructure": "high",
+      "unitWeights": "medium",
+      "typeMix": "medium",
+      "sets": "medium",
+      "difficulty": "low"
+    },
+    "inferred": [
+      "chapter mapping between the MockMob canonical chapters and the two NCERT books",
+      "Migration and Manufacturing Industries are not named in the 2026 syllabus; kept at 0-2",
+      "difficulty"
+    ]
+  },
+  "sources": [
+    "S1",
+    "S2",
+    "S3",
+    "S4",
+    "S9"
+  ]
+}

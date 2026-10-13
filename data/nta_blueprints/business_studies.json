@@ -1,0 +1,418 @@
+{
+  "$schema": "./_schema.json",
+  "schemaVersion": 1,
+  "blueprintVersion": "2026.10.13-1",
+  "subject": "business_studies",
+  "internalSubject": "business_studies",
+  "ntaCode": "305",
+  "officialName": "Business Studies",
+  "kind": "domain",
+  "appliesTo": "CUET UG 2026 rules and syllabus; pattern from the 2025 paper; provisional for 2027",
+  "exam": {
+    "totalQuestions": 50,
+    "attempt": "all_compulsory",
+    "durationMinutes": 60,
+    "secondsPerQuestion": 72,
+    "optionsPerQuestion": 4,
+    "answerType": "single_correct_mcq",
+    "marking": {
+      "correct": 5,
+      "incorrect": -1,
+      "unanswered": 0,
+      "maxMarks": 250,
+      "moreThanOneCorrectOption": "award +5 only to candidates who marked any of the correct options",
+      "noCorrectOptionOrDropped": "award +5 to every candidate who appeared"
+    },
+    "mode": "CBT",
+    "medium": "Bilingual: English plus the chosen language; the English version prevails",
+    "calculatorAllowed": false,
+    "pwbdCompensatoryMinutesPerHour": 20,
+    "sources": [
+      "S1",
+      "S2"
+    ],
+    "confidence": "high"
+  },
+  "variants": [
+    {
+      "id": "default",
+      "label": "Single paper",
+      "default": true,
+      "sections": [
+        {
+          "id": "main",
+          "label": "Whole paper",
+          "questions": 50,
+          "positions": [
+            1,
+            50
+          ],
+          "units": [
+            {
+              "name": "Nature and Significance of Management",
+              "questions": {
+                "min": 3,
+                "target": 4,
+                "max": 6
+              },
+              "chapters": [
+                {
+                  "name": "Nature & Significance of Management",
+                  "min": 3,
+                  "target": 4,
+                  "max": 6
+                }
+              ]
+            },
+            {
+              "name": "Principles of Management",
+              "questions": {
+                "min": 3,
+                "target": 5,
+                "max": 6
+              },
+              "chapters": [
+                {
+                  "name": "Principles of Management",
+                  "min": 3,
+                  "target": 5,
+                  "max": 6
+                }
+              ]
+            },
+            {
+              "name": "Business Environment",
+              "questions": {
+                "min": 2,
+                "target": 3,
+                "max": 5
+              },
+              "chapters": [
+                {
+                  "name": "Business Environment",
+                  "min": 2,
+                  "target": 3,
+                  "max": 5
+                }
+              ]
+            },
+            {
+              "name": "Planning",
+              "questions": {
+                "min": 3,
+                "target": 4,
+                "max": 6
+              },
+              "chapters": [
+                {
+                  "name": "Planning",
+                  "min": 3,
+                  "target": 4,
+                  "max": 6
+                }
+              ]
+            },
+            {
+              "name": "Organising",
+              "questions": {
+                "min": 3,
+                "target": 4,
+                "max": 6
+              },
+              "chapters": [
+                {
+                  "name": "Organising",
+                  "min": 3,
+                  "target": 4,
+                  "max": 6
+                }
+              ]
+            },
+            {
+              "name": "Staffing",
+              "questions": {
+                "min": 3,
+                "target": 4,
+                "max": 6
+              },
+              "chapters": [
+                {
+                  "name": "Staffing",
+                  "min": 3,
+                  "target": 4,
+                  "max": 6
+                }
+              ]
+            },
+            {
+              "name": "Directing",
+              "questions": {
+                "min": 4,
+                "target": 6,
+                "max": 8
+              },
+              "chapters": [
+                {
+                  "name": "Directing",
+                  "min": 4,
+                  "target": 6,
+                  "max": 8
+                }
+              ]
+            },
+            {
+              "name": "Controlling",
+              "questions": {
+                "min": 2,
+                "target": 4,
+                "max": 5
+              },
+              "chapters": [
+                {
+                  "name": "Controlling",
+                  "min": 2,
+                  "target": 4,
+                  "max": 5
+                }
+              ]
+            },
+            {
+              "name": "Business Finance",
+              "questions": {
+                "min": 3,
+                "target": 5,
+                "max": 7
+              },
+              "chapters": [
+                {
+                  "name": "Financial Management",
+                  "min": 3,
+                  "target": 5,
+                  "max": 7
+                }
+              ]
+            },
+            {
+              "name": "Financial Markets",
+              "questions": {
+                "min": 0,
+                "target": 3,
+                "max": 5
+              },
+              "chapters": [
+                {
+                  "name": "Financial Markets",
+                  "min": 0,
+                  "target": 3,
+                  "max": 5
+                }
+              ]
+            },
+            {
+              "name": "Marketing",
+              "questions": {
+                "min": 3,
+                "target": 5,
+                "max": 6
+              },
+              "chapters": [
+                {
+                  "name": "Marketing Management",
+                  "min": 3,
+                  "target": 5,
+                  "max": 6
+                }
+              ]
+            },
+            {
+              "name": "Consumer Protection",
+              "questions": {
+                "min": 2,
+                "target": 3,
+                "max": 5
+              },
+              "chapters": [
+                {
+                  "name": "Consumer Protection",
+                  "min": 2,
+                  "target": 3,
+                  "max": 5
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "excludedChapters": [
+    {
+      "name": "Entrepreneurship Development",
+      "reason": "Not in the CUET UG 2026 Business Studies syllabus (12 units)."
+    }
+  ],
+  "typeQuotas": {
+    "single_mcq": {
+      "min": 22,
+      "target": 26,
+      "max": 30
+    },
+    "match_the_following": {
+      "min": 3,
+      "target": 5,
+      "max": 6
+    },
+    "sequence_ordering": {
+      "min": 3,
+      "target": 4,
+      "max": 6
+    },
+    "statement_based": {
+      "min": 3,
+      "target": 5,
+      "max": 6
+    },
+    "assertion_reason": {
+      "min": 0,
+      "target": 0,
+      "max": 2
+    }
+  },
+  "sets": {
+    "count": {
+      "min": 0,
+      "target": 2,
+      "max": 2
+    },
+    "size": {
+      "min": 4,
+      "target": 5,
+      "max": 5
+    },
+    "questions": {
+      "min": 0,
+      "target": 10,
+      "max": 10
+    },
+    "placement": "end",
+    "positions": [
+      [
+        41,
+        45
+      ],
+      [
+        46,
+        50
+      ]
+    ],
+    "oneChapterPerSet": true,
+    "kinds": [
+      "business_case"
+    ],
+    "itemTypes": "Mostly single MCQs on the passage; a statement-based or \"which is NOT\" item may appear inside a set.",
+    "passageWords": {
+      "min": 120,
+      "target": 200,
+      "max": 300
+    },
+    "ifUnavailable": "Use standalone questions from the same chapters at the end of the paper; never split a set or use a set of fewer than 4 questions.",
+    "note": "2025 paper read: Q41-45 a staffing case (company \"Apex Solutions\"), Q46-50 a financial-planning case (\"ABC Manufacturing Ltd.\")."
+  },
+  "order": {
+    "layout": "standalone_mixed_then_sets",
+    "standalonePositions": [
+      1,
+      40
+    ],
+    "setPositions": [
+      [
+        41,
+        45
+      ],
+      [
+        46,
+        50
+      ]
+    ],
+    "chapterGrouping": "mixed",
+    "maxSameChapterRun": 3,
+    "maxSameTypeRun": 3,
+    "note": "In the 2025 papers read, standalone questions are not grouped by chapter or unit and special types (match, sequence, statements) are scattered through Q1-40. Passage sets sit together at Q41-50."
+  },
+  "difficulty": {
+    "easy": {
+      "min": 0.3,
+      "target": 0.4,
+      "max": 0.5
+    },
+    "medium": {
+      "min": 0.35,
+      "target": 0.45,
+      "max": 0.55
+    },
+    "hard": {
+      "min": 0.1,
+      "target": 0.15,
+      "max": 0.25
+    },
+    "basis": "MockMob difficulty labels (data/cuet_controls.js CUET_DIFFICULTY_STANDARD). NTA publishes no difficulty mix.",
+    "reported": {
+      "2026": "easy to moderate (Hitbullseye)"
+    },
+    "inferred": true,
+    "note": "Mostly direct NCERT recall; application items are one-line scenarios."
+  },
+  "evidence": {
+    "observed": [
+      {
+        "paper": "CUET UG 2025 Business Studies, one shift (Oswaal solved reprint)",
+        "source": "S4",
+        "counts": {
+          "chapters": {
+            "nature": 5,
+            "principles": 4,
+            "business_environment": 3,
+            "planning": 4,
+            "organising": 4,
+            "staffing": 5,
+            "directing": 7,
+            "controlling": 4,
+            "financial_management": 6,
+            "financial_markets": 0,
+            "marketing": 4,
+            "consumer_protection": 3,
+            "out_of_syllabus_entrepreneurship": 1
+          },
+          "types": {
+            "single_mcq_standalone": 26,
+            "match_the_following": 5,
+            "sequence_ordering": 4,
+            "statement_based": 5,
+            "assertion_reason": 0,
+            "set_items": 10
+          },
+          "passage_sets": "2 x 5 at Q41-50"
+        }
+      }
+    ],
+    "confidence": {
+      "examRules": "high",
+      "sectionStructure": "high",
+      "unitWeights": "medium",
+      "typeMix": "medium",
+      "sets": "medium",
+      "difficulty": "low"
+    },
+    "inferred": [
+      "Financial Markets target (0 in the paper read; syllabus unit)",
+      "difficulty"
+    ]
+  },
+  "sources": [
+    "S1",
+    "S2",
+    "S3",
+    "S4",
+    "S9"
+  ]
+}

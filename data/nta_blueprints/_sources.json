@@ -1,0 +1,82 @@
+{
+  "checkedAt": "2026-10-13",
+  "sources": {
+    "S1": {
+      "title": "CUET (UG)-2026 Information Bulletin, National Testing Agency (published 3 January 2026)",
+      "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2026/01/202601031633478370.pdf",
+      "listedAt": "https://cuet.nta.nic.in/",
+      "used": "Para 4 'Broad features', 2.3 'Scheme of Examination' (50 questions per paper, all compulsory, 60 minutes, +5/-1), 2.4 (objective MCQs), 12.1 'Marking scheme' (multiple-correct and dropped-question rules), Appendix II (subject codes).",
+      "kind": "official",
+      "reliability": "high"
+    },
+    "S2": {
+      "title": "CUET (UG)-2025 Information Bulletin, National Testing Agency",
+      "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/03/2025030146.pdf",
+      "used": "Scheme of examination: the same 50 compulsory questions in 60 minutes, first applied in 2025.",
+      "kind": "official",
+      "reliability": "high"
+    },
+    "S3": {
+      "title": "CUET (UG)-2026 subject syllabi, National Testing Agency",
+      "url": "https://cuet.nta.nic.in/cuetug-2026-syllabus/",
+      "localCopy": "data/CUET 2026/<subject>.pdf",
+      "used": "Units and chapters in each 2026 syllabus; English passage types and 300-word limit; Section A/B1/B2 structure for Mathematics (319) and Computer Science/Informatics Practices (308); Computerised Accounting 'Optional to Unit V'.",
+      "kind": "official",
+      "reliability": "high"
+    },
+    "S4": {
+      "title": "CUET (UG) Exam Paper 2025, solved reprints of one shift per subject (Oswaal Books)",
+      "urls": {
+        "english": "https://www.oswaal360.com/pluginfile.php/10939/mod_folder/content/0/CUET/2025/Eng.pdf",
+        "mathematics": "https://www.oswaal360.com/pluginfile.php/10939/mod_folder/content/0/CUET/2025/Math.pdf",
+        "physics": "https://www.oswaal360.com/pluginfile.php/10939/mod_folder/content/0/CUET/2025/Phy.pdf",
+        "chemistry": "https://www.oswaal360.com/pluginfile.php/10939/mod_folder/content/0/CUET/2025/Che.pdf",
+        "biology": "https://www.oswaal360.com/pluginfile.php/10939/mod_folder/content/0/CUET/2025/Bio.pdf",
+        "economics": "https://www.oswaal360.com/pluginfile.php/10939/mod_folder/content/0/CUET/2025/Eco.pdf",
+        "accountancy": "https://www.oswaal360.com/pluginfile.php/10939/mod_folder/content/0/CUET/2025/Acc.pdf",
+        "business_studies": "https://www.oswaal360.com/pluginfile.php/10939/mod_folder/content/0/CUET/2025/BS.pdf",
+        "history": "https://www.oswaal360.com/pluginfile.php/10939/mod_folder/content/0/CUET/2025/His.pdf",
+        "geography": "https://www.oswaal360.com/pluginfile.php/10939/mod_folder/content/0/CUET/2025/Geo.pdf",
+        "informatics_practices": "https://www.oswaal360.com/pluginfile.php/10939/mod_folder/content/0/CUET/2025/IP.pdf"
+      },
+      "used": "Every question of each paper was classified by chapter and type (counts in each blueprint's evidence.observed). Shift and date are not printed in the reprints. Not found for General Test, Political Science, Psychology, Sociology or Computer Science (B1).",
+      "kind": "real paper, publisher reprint",
+      "reliability": "medium-high (real NTA questions; one shift per subject; a reprint can omit passage headers)"
+    },
+    "S5": {
+      "title": "Careers360, CUET English Question Paper 2026 (shift-wise student and expert recall, 11-31 May 2026)",
+      "url": "https://university.careers360.com/articles/cuet-english-question-paper-2026",
+      "used": "Passage counts and sizes per shift, verbal-ability type counts per shift, difficulty.",
+      "kind": "analysis (recall)",
+      "reliability": "medium-low"
+    },
+    "S6": {
+      "title": "Careers360, CUET 2025 General Aptitude Test question paper analysis (shift-wise)",
+      "url": "https://university.careers360.com/articles/cuet-2025-general-aptitude-test-question-paper-analysis",
+      "used": "Quant, reasoning and GK question counts per shift; question types seen; difficulty.",
+      "kind": "analysis (recall)",
+      "reliability": "low-medium"
+    },
+    "S7": {
+      "title": "Careers360, CUET Political Science 2025 question paper with solutions (memory-based)",
+      "url": "https://university.careers360.com/articles/cuet-political-science-2025-question-paper-with-solutions",
+      "used": "Memory-based items (all single MCQs), mention of passage-based sets, difficulty.",
+      "kind": "analysis (recall)",
+      "reliability": "low"
+    },
+    "S8": {
+      "title": "Careers360, CUET Psychology question paper analysis 2025",
+      "url": "https://university.careers360.com/articles/cuet-psychology-question-paper-analysis-2025",
+      "used": "Unit emphasis (disorders highest), ordering and matching items, passage-based item, difficulty.",
+      "kind": "analysis (recall)",
+      "reliability": "low"
+    },
+    "S9": {
+      "title": "Hitbullseye, CUET 2026 Analysis: a summary of exam structure and subject performance",
+      "url": "https://cuet.hitbullseye.com/blog/cuet-2026-analysis-a-summary-of-exam-structure-subject-performance-more.php",
+      "used": "Reported 2026 difficulty per subject (qualitative only).",
+      "kind": "analysis",
+      "reliability": "low"
+    }
+  }
+}

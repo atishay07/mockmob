@@ -1,0 +1,466 @@
+{
+  "$schema": "./_schema.json",
+  "schemaVersion": 1,
+  "blueprintVersion": "2026.10.13-1",
+  "subject": "computer_science",
+  "internalSubject": "computer_science",
+  "ntaCode": "308",
+  "officialName": "Computer Science / Informatics Practices",
+  "kind": "domain_sectioned",
+  "appliesTo": "CUET UG 2026 rules and syllabus; section structure from the 2025 IP paper; provisional for 2027",
+  "exam": {
+    "totalQuestions": 50,
+    "attempt": "all_compulsory",
+    "durationMinutes": 60,
+    "secondsPerQuestion": 72,
+    "optionsPerQuestion": 4,
+    "answerType": "single_correct_mcq",
+    "marking": {
+      "correct": 5,
+      "incorrect": -1,
+      "unanswered": 0,
+      "maxMarks": 250,
+      "moreThanOneCorrectOption": "award +5 only to candidates who marked any of the correct options",
+      "noCorrectOptionOrDropped": "award +5 to every candidate who appeared"
+    },
+    "mode": "CBT",
+    "medium": "Bilingual: English plus the chosen language; the English version prevails",
+    "calculatorAllowed": false,
+    "pwbdCompensatoryMinutesPerHour": 20,
+    "sources": [
+      "S1",
+      "S2"
+    ],
+    "confidence": "high",
+    "attemptNote": "Candidate answers 50: Section A (15, compulsory) plus EITHER Section B1 Computer Science (35) OR Section B2 Informatics Practices (35)."
+  },
+  "variants": [
+    {
+      "id": "cs",
+      "label": "Computer Science (Section A + B1)",
+      "default": true,
+      "sections": [
+        {
+          "id": "A",
+          "label": "Section A (common to Computer Science and Informatics Practices)",
+          "questions": 15,
+          "positions": [
+            1,
+            15
+          ],
+          "units": [
+            {
+              "name": "Section A: Database and Networks",
+              "questions": {
+                "min": 15,
+                "target": 15,
+                "max": 15
+              },
+              "chapters": [
+                {
+                  "name": "Database Concepts",
+                  "min": 3,
+                  "target": 4,
+                  "max": 6
+                },
+                {
+                  "name": "Structured Query Language",
+                  "min": 3,
+                  "target": 5,
+                  "max": 7
+                },
+                {
+                  "name": "MySQL",
+                  "min": 1,
+                  "target": 2,
+                  "max": 4
+                },
+                {
+                  "name": "Computer Networks",
+                  "min": 3,
+                  "target": 4,
+                  "max": 5
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "B1",
+          "label": "Section B1: Computer Science",
+          "questions": 35,
+          "positions": [
+            16,
+            50
+          ],
+          "units": [
+            {
+              "name": "Section B1: Computer Science",
+              "questions": {
+                "min": 35,
+                "target": 35,
+                "max": 35
+              },
+              "chapters": [
+                {
+                  "name": "Exception and File Handling in Python",
+                  "min": 3,
+                  "target": 5,
+                  "max": 7,
+                  "aliases": [
+                    "File Handling"
+                  ]
+                },
+                {
+                  "name": "Stack",
+                  "min": 2,
+                  "target": 3,
+                  "max": 5,
+                  "aliases": [
+                    "Data Structures"
+                  ]
+                },
+                {
+                  "name": "Queue",
+                  "min": 2,
+                  "target": 3,
+                  "max": 5
+                },
+                {
+                  "name": "Searching",
+                  "min": 2,
+                  "target": 3,
+                  "max": 5
+                },
+                {
+                  "name": "Sorting",
+                  "min": 2,
+                  "target": 3,
+                  "max": 5
+                },
+                {
+                  "name": "Understanding Data",
+                  "min": 1,
+                  "target": 2,
+                  "max": 4
+                },
+                {
+                  "name": "Database Concepts",
+                  "min": 1,
+                  "target": 2,
+                  "max": 4
+                },
+                {
+                  "name": "Structured Query Language",
+                  "min": 3,
+                  "target": 5,
+                  "max": 7
+                },
+                {
+                  "name": "Computer Networks",
+                  "min": 2,
+                  "target": 3,
+                  "max": 5
+                },
+                {
+                  "name": "Data Communication",
+                  "min": 2,
+                  "target": 3,
+                  "max": 5,
+                  "aliases": [
+                    "Communication Technologies"
+                  ]
+                },
+                {
+                  "name": "Security Aspects",
+                  "min": 2,
+                  "target": 3,
+                  "max": 5
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ip",
+      "label": "Informatics Practices (Section A + B2)",
+      "default": false,
+      "sections": [
+        {
+          "id": "A",
+          "label": "Section A (common to Computer Science and Informatics Practices)",
+          "questions": 15,
+          "positions": [
+            1,
+            15
+          ],
+          "units": [
+            {
+              "name": "Section A: Database and Networks",
+              "questions": {
+                "min": 15,
+                "target": 15,
+                "max": 15
+              },
+              "chapters": [
+                {
+                  "name": "Database Concepts",
+                  "min": 3,
+                  "target": 4,
+                  "max": 6
+                },
+                {
+                  "name": "Structured Query Language",
+                  "min": 3,
+                  "target": 5,
+                  "max": 7
+                },
+                {
+                  "name": "MySQL",
+                  "min": 1,
+                  "target": 2,
+                  "max": 4
+                },
+                {
+                  "name": "Computer Networks",
+                  "min": 3,
+                  "target": 4,
+                  "max": 5
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "B2",
+          "label": "Section B2: Informatics Practices",
+          "questions": 35,
+          "positions": [
+            16,
+            50
+          ],
+          "units": [
+            {
+              "name": "Section B2: Informatics Practices",
+              "questions": {
+                "min": 35,
+                "target": 35,
+                "max": 35
+              },
+              "chapters": [
+                {
+                  "name": "Structured Query Language",
+                  "min": 5,
+                  "target": 7,
+                  "max": 9,
+                  "aliases": [
+                    "MySQL"
+                  ]
+                },
+                {
+                  "name": "Data Handling using Pandas",
+                  "min": 9,
+                  "target": 12,
+                  "max": 14
+                },
+                {
+                  "name": "Plotting Data using Matplotlib",
+                  "min": 4,
+                  "target": 6,
+                  "max": 8
+                },
+                {
+                  "name": "Computer Networks",
+                  "min": 3,
+                  "target": 4,
+                  "max": 6
+                },
+                {
+                  "name": "Societal Impacts",
+                  "min": 4,
+                  "target": 6,
+                  "max": 8
+                },
+                {
+                  "name": "Project Based Learning",
+                  "min": 0,
+                  "target": 0,
+                  "max": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "excludedChapters": [
+    {
+      "name": "Python Revision",
+      "reason": "Not in the CUET UG 2026 Computer Science / Informatics Practices syllabus."
+    },
+    {
+      "name": "Functions",
+      "reason": "Not in the CUET UG 2026 Computer Science / Informatics Practices syllabus."
+    },
+    {
+      "name": "Interface Python with MySQL",
+      "reason": "Not in the CUET UG 2026 Computer Science / Informatics Practices syllabus."
+    },
+    {
+      "name": "Boolean Algebra",
+      "reason": "Not in the CUET UG 2026 Computer Science / Informatics Practices syllabus."
+    }
+  ],
+  "chapterAliases": {
+    "File Handling": "Exception and File Handling in Python",
+    "Data Structures": "Stack",
+    "Communication Technologies": "Data Communication",
+    "MySQL": "Structured Query Language (in B2)"
+  },
+  "typeQuotas": {
+    "single_mcq": {
+      "min": 30,
+      "target": 34,
+      "max": 38
+    },
+    "match_the_following": {
+      "min": 3,
+      "target": 5,
+      "max": 6
+    },
+    "sequence_ordering": {
+      "min": 3,
+      "target": 5,
+      "max": 6
+    },
+    "statement_based": {
+      "min": 3,
+      "target": 6,
+      "max": 7
+    },
+    "assertion_reason": {
+      "min": 0,
+      "target": 0,
+      "max": 2
+    }
+  },
+  "overlays": {
+    "code_or_query_output": {
+      "min": 4,
+      "target": 8,
+      "max": 12
+    }
+  },
+  "sets": {
+    "count": {
+      "min": 0,
+      "target": 0,
+      "max": 2
+    },
+    "size": {
+      "min": 4,
+      "target": 5,
+      "max": 5
+    },
+    "questions": {
+      "min": 0,
+      "target": 0,
+      "max": 10
+    },
+    "placement": "end",
+    "positions": [],
+    "oneChapterPerSet": true,
+    "kinds": [
+      "case_based"
+    ],
+    "ifUnavailable": "No sets needed.",
+    "note": "No passage sets in the 2025 IP paper read."
+  },
+  "order": {
+    "layout": "sections_in_order",
+    "standalonePositions": [
+      1,
+      50
+    ],
+    "setPositions": [],
+    "chapterGrouping": "mixed_within_section",
+    "maxSameChapterRun": 3,
+    "maxSameTypeRun": 3,
+    "note": "Section A (Q1-15) first, then the chosen B section (Q16-50)."
+  },
+  "difficulty": {
+    "easy": {
+      "min": 0.25,
+      "target": 0.35,
+      "max": 0.45
+    },
+    "medium": {
+      "min": 0.4,
+      "target": 0.5,
+      "max": 0.6
+    },
+    "hard": {
+      "min": 0.1,
+      "target": 0.15,
+      "max": 0.25
+    },
+    "basis": "MockMob difficulty labels (data/cuet_controls.js CUET_DIFFICULTY_STANDARD). NTA publishes no difficulty mix.",
+    "reported": {
+      "2026": "moderate (Hitbullseye)"
+    },
+    "inferred": true,
+    "note": "SQL output, Pandas output and topology items are one-step."
+  },
+  "evidence": {
+    "observed": [
+      {
+        "paper": "CUET UG 2025 Informatics Practices, one shift (Oswaal solved reprint): Section A Q1-15 + Section B2 Q16-50",
+        "source": "S4",
+        "counts": {
+          "sectionA": {
+            "database_sql": 11,
+            "networks": 4
+          },
+          "sectionB2": {
+            "pandas": 12,
+            "matplotlib": 6,
+            "sql_database": 7,
+            "societal_impacts": 6,
+            "networks_web": 4
+          },
+          "types": {
+            "single_mcq": 34,
+            "match_the_following": 5,
+            "sequence_ordering": 5,
+            "statement_based": 6,
+            "assertion_reason": 0
+          },
+          "passage_sets": 0
+        }
+      }
+    ],
+    "confidence": {
+      "examRules": "high",
+      "sectionStructure": "high",
+      "unitWeights": "medium for A and B2, low for B1 (no B1 paper read)",
+      "typeMix": "medium",
+      "sets": "medium",
+      "difficulty": "low"
+    },
+    "inferred": [
+      "Section B1 chapter targets (spread over the 11 syllabus units)",
+      "chapter aliases",
+      "difficulty"
+    ]
+  },
+  "sources": [
+    "S1",
+    "S2",
+    "S3",
+    "S4",
+    "S9"
+  ]
+}

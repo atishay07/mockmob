@@ -1,0 +1,362 @@
+{
+  "$schema": "./_schema.json",
+  "schemaVersion": 1,
+  "blueprintVersion": "2026.10.13-1",
+  "subject": "economics",
+  "internalSubject": "economics",
+  "ntaCode": "309",
+  "officialName": "Economics / Business Economics",
+  "kind": "domain",
+  "appliesTo": "CUET UG 2026 rules and syllabus; pattern from the 2025 paper; provisional for 2027",
+  "exam": {
+    "totalQuestions": 50,
+    "attempt": "all_compulsory",
+    "durationMinutes": 60,
+    "secondsPerQuestion": 72,
+    "optionsPerQuestion": 4,
+    "answerType": "single_correct_mcq",
+    "marking": {
+      "correct": 5,
+      "incorrect": -1,
+      "unanswered": 0,
+      "maxMarks": 250,
+      "moreThanOneCorrectOption": "award +5 only to candidates who marked any of the correct options",
+      "noCorrectOptionOrDropped": "award +5 to every candidate who appeared"
+    },
+    "mode": "CBT",
+    "medium": "Bilingual: English plus the chosen language; the English version prevails",
+    "calculatorAllowed": false,
+    "pwbdCompensatoryMinutesPerHour": 20,
+    "sources": [
+      "S1",
+      "S2"
+    ],
+    "confidence": "high"
+  },
+  "variants": [
+    {
+      "id": "default",
+      "label": "Single paper",
+      "default": true,
+      "sections": [
+        {
+          "id": "main",
+          "label": "Whole paper",
+          "questions": 50,
+          "positions": [
+            1,
+            50
+          ],
+          "units": [
+            {
+              "name": "Introductory Microeconomics",
+              "questions": {
+                "min": 16,
+                "target": 20,
+                "max": 24
+              },
+              "chapters": [
+                {
+                  "name": "Introduction & Theory of Consumer Behaviour",
+                  "min": 5,
+                  "target": 8,
+                  "max": 10
+                },
+                {
+                  "name": "Production & Costs",
+                  "min": 2,
+                  "target": 4,
+                  "max": 6
+                },
+                {
+                  "name": "Theory of Firms under Perfect Competition",
+                  "min": 2,
+                  "target": 3,
+                  "max": 5
+                },
+                {
+                  "name": "Market Equilibrium & Simple Applications",
+                  "min": 3,
+                  "target": 5,
+                  "max": 9
+                }
+              ]
+            },
+            {
+              "name": "Introductory Macroeconomics",
+              "questions": {
+                "min": 22,
+                "target": 26,
+                "max": 30
+              },
+              "chapters": [
+                {
+                  "name": "National Income & Related Aggregates",
+                  "min": 4,
+                  "target": 6,
+                  "max": 8,
+                  "aliases": [
+                    "National Income and Related Aggregates"
+                  ]
+                },
+                {
+                  "name": "Money & Banking",
+                  "min": 4,
+                  "target": 6,
+                  "max": 8
+                },
+                {
+                  "name": "Income Determination",
+                  "min": 4,
+                  "target": 6,
+                  "max": 9
+                },
+                {
+                  "name": "Government Budget & the Economy",
+                  "min": 2,
+                  "target": 3,
+                  "max": 5
+                },
+                {
+                  "name": "Balance of Payments",
+                  "min": 2,
+                  "target": 5,
+                  "max": 7
+                }
+              ]
+            },
+            {
+              "name": "Indian Economic Development",
+              "questions": {
+                "min": 0,
+                "target": 4,
+                "max": 8
+              },
+              "chapters": [
+                {
+                  "name": "Indian Economy on the Eve of Independence",
+                  "min": 0,
+                  "target": 1,
+                  "max": 2
+                },
+                {
+                  "name": "Indian Economic Development 1950–1990",
+                  "min": 0,
+                  "target": 1,
+                  "max": 2
+                },
+                {
+                  "name": "Economic Reforms Since 1991",
+                  "min": 0,
+                  "target": 1,
+                  "max": 2
+                },
+                {
+                  "name": "Human Capital Formation",
+                  "min": 0,
+                  "target": 0,
+                  "max": 1
+                },
+                {
+                  "name": "Rural Development",
+                  "min": 0,
+                  "target": 0,
+                  "max": 1
+                },
+                {
+                  "name": "Employment",
+                  "min": 0,
+                  "target": 0,
+                  "max": 1
+                },
+                {
+                  "name": "Infrastructure",
+                  "min": 0,
+                  "target": 0,
+                  "max": 1
+                },
+                {
+                  "name": "Environment & Sustainable Development",
+                  "min": 0,
+                  "target": 1,
+                  "max": 2
+                },
+                {
+                  "name": "Development Experiences of India",
+                  "min": 0,
+                  "target": 0,
+                  "max": 1
+                }
+              ],
+              "note": "In the syllabus (Course III) but 0 questions in the 2025 paper read. Kept small and marked inferred."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "excludedChapters": [],
+  "typeQuotas": {
+    "single_mcq": {
+      "min": 22,
+      "target": 25,
+      "max": 30
+    },
+    "match_the_following": {
+      "min": 3,
+      "target": 5,
+      "max": 6
+    },
+    "sequence_ordering": {
+      "min": 3,
+      "target": 5,
+      "max": 6
+    },
+    "statement_based": {
+      "min": 3,
+      "target": 5,
+      "max": 7
+    },
+    "assertion_reason": {
+      "min": 0,
+      "target": 0,
+      "max": 2
+    }
+  },
+  "overlays": {
+    "numerical_share": {
+      "min": 0.1,
+      "target": 0.2,
+      "max": 0.3
+    }
+  },
+  "sets": {
+    "count": {
+      "min": 0,
+      "target": 2,
+      "max": 2
+    },
+    "size": {
+      "min": 4,
+      "target": 5,
+      "max": 5
+    },
+    "questions": {
+      "min": 0,
+      "target": 10,
+      "max": 10
+    },
+    "placement": "end",
+    "positions": [
+      [
+        41,
+        45
+      ],
+      [
+        46,
+        50
+      ]
+    ],
+    "oneChapterPerSet": true,
+    "kinds": [
+      "economics_concept_passage"
+    ],
+    "itemTypes": "Mostly single MCQs on the passage; a statement-based or \"which is NOT\" item may appear inside a set.",
+    "passageWords": {
+      "min": 120,
+      "target": 200,
+      "max": 300
+    },
+    "ifUnavailable": "Use standalone questions from the same chapters at the end of the paper; never split a set or use a set of fewer than 4 questions.",
+    "note": "2025 paper read: Q41-45 on income and the exchange rate (open economy), Q46-50 on price ceilings."
+  },
+  "order": {
+    "layout": "standalone_mixed_then_sets",
+    "standalonePositions": [
+      1,
+      40
+    ],
+    "setPositions": [
+      [
+        41,
+        45
+      ],
+      [
+        46,
+        50
+      ]
+    ],
+    "chapterGrouping": "mixed",
+    "maxSameChapterRun": 3,
+    "maxSameTypeRun": 3,
+    "note": "In the 2025 papers read, standalone questions are not grouped by chapter or unit and special types (match, sequence, statements) are scattered through Q1-40. Passage sets sit together at Q41-50."
+  },
+  "difficulty": {
+    "easy": {
+      "min": 0.3,
+      "target": 0.4,
+      "max": 0.5
+    },
+    "medium": {
+      "min": 0.35,
+      "target": 0.45,
+      "max": 0.55
+    },
+    "hard": {
+      "min": 0.1,
+      "target": 0.15,
+      "max": 0.25
+    },
+    "basis": "MockMob difficulty labels (data/cuet_controls.js CUET_DIFFICULTY_STANDARD). NTA publishes no difficulty mix.",
+    "reported": {
+      "2026": "moderate; some reports \"tougher in 2026\" (Hitbullseye, search summaries)"
+    },
+    "inferred": true,
+    "note": "Numericals: multiplier, MPC, credit creation, NI aggregates, utility, price-ceiling excess demand."
+  },
+  "evidence": {
+    "observed": [
+      {
+        "paper": "CUET UG 2025 Economics, one shift (Oswaal solved reprint)",
+        "source": "S4",
+        "counts": {
+          "courses": {
+            "microeconomics": 21,
+            "macroeconomics": 29,
+            "indian_economic_development": 0
+          },
+          "types": {
+            "single_mcq_standalone": 25,
+            "match_the_following": 5,
+            "sequence_ordering": 5,
+            "statement_based": 5,
+            "assertion_reason": 0,
+            "set_items": 10
+          },
+          "numerical": 10,
+          "passage_sets": "2 x 5 at Q41-50"
+        }
+      }
+    ],
+    "confidence": {
+      "examRules": "high",
+      "sectionStructure": "high",
+      "unitWeights": "medium (IED low)",
+      "typeMix": "medium",
+      "sets": "medium",
+      "difficulty": "low"
+    },
+    "inferred": [
+      "Indian Economic Development share",
+      "chapter splits",
+      "difficulty"
+    ]
+  },
+  "sources": [
+    "S1",
+    "S2",
+    "S3",
+    "S4",
+    "S9"
+  ]
+}

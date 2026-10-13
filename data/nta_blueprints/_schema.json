@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mockmob/nta_blueprint/1",
+  "title": "MockMob NTA-mode paper blueprint",
+  "description": "How one CUET UG subject paper is built. Every range is {min, target, max}: an engine aims for target and must stay within min..max. Counts are questions out of 50 unless stated. Chapter names are MockMob canonical chapter names (data/canonical_syllabus.js), which are the values stored in questions.chapter. Spec and sources: docs/brain/NTA-PATTERN-SPEC.md.",
+  "type": "object",
+  "required": ["schemaVersion", "blueprintVersion", "subject", "internalSubject", "ntaCode", "officialName", "kind", "appliesTo", "exam", "variants", "excludedChapters", "typeQuotas", "sets", "order", "difficulty", "evidence", "sources"],
+  "$defs": {
+    "range": {
+      "type": "object",
+      "required": ["min", "target", "max"],
+      "properties": { "min": { "type": "number" }, "target": { "type": "number" }, "max": { "type": "number" } }
+    },
+    "chapter": {
+      "type": "object",
+      "required": ["name", "min", "target", "max"],
+      "properties": {
+        "name": { "type": "string" },
+        "min": { "type": "integer" }, "target": { "type": "integer" }, "max": { "type": "integer" },
+        "aliases": { "type": "array", "items": { "type": "string" }, "description": "Other stored chapter names that count toward this quota." },
+        "subtypes": { "type": "object", "additionalProperties": { "$ref": "#/$defs/range" }, "description": "English only: question-type quotas inside the chapter." },
+        "note": { "type": "string" }
+      }
+    },
+    "unit": {
+      "type": "object",
+      "required": ["name", "questions", "chapters"],
+      "properties": {
+        "name": { "type": "string", "description": "Syllabus unit (MockMob canonical unit name where one exists)." },
+        "questions": { "$ref": "#/$defs/range" },
+        "chapters": { "type": "array", "items": { "$ref": "#/$defs/chapter" } },
+        "note": { "type": "string" }
+      }
+    },
+    "section": {
+      "type": "object",
+      "required": ["id", "label", "questions", "positions", "units"],
+      "properties": {
+        "id": { "type": "string" },
+        "label": { "type": "string" },
+        "questions": { "type": "integer", "description": "Exact number of questions in this section." },
+        "positions": { "type": "array", "items": { "type": "integer" }, "minItems": 2, "maxItems": 2, "description": "First and last question number of the section in the paper." },
+        "units": { "type": "array", "items": { "$ref": "#/$defs/unit" } }
+      }
+    }
+  },
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "blueprintVersion": { "type": "string" },
+    "subject": { "type": "string", "description": "MockMob public subject id (cuet_controls.js CUET_PUBLIC_ALLOWED_SUBJECTS)." },
+    "internalSubject": { "type": "string", "description": "Stored questions.subject value (gat for general_test)." },
+    "ntaCode": { "type": "string" },
+    "officialName": { "type": "string" },
+    "kind": { "enum": ["language", "aptitude", "domain", "domain_sectioned"] },
+    "appliesTo": { "type": "string" },
+    "exam": {
+      "type": "object",
+      "required": ["totalQuestions", "attempt", "durationMinutes", "marking"],
+      "description": "Rules from the Information Bulletin (identical for every subject). attemptNote explains sectioned papers."
+    },
+    "variants": {
+      "type": "array", "minItems": 1,
+      "description": "One paper layout per candidate choice. Mathematics: core (A+B1) and applied (A+B2). Computer Science: cs (A+B1) and ip (A+B2). Others: one 'default' variant. Section question counts sum to 50.",
+      "items": {
+        "type": "object",
+        "required": ["id", "label", "default", "sections"],
+        "properties": { "id": { "type": "string" }, "label": { "type": "string" }, "default": { "type": "boolean" }, "sections": { "type": "array", "items": { "$ref": "#/$defs/section" } } }
+      }
+    },
+    "excludedChapters": { "type": "array", "items": { "type": "object", "required": ["name", "reason"] }, "description": "Stored chapters that are not in the 2026 syllabus and must never enter an NTA paper." },
+    "chapterAliases": { "type": "object", "additionalProperties": { "type": "string" } },
+    "typeQuotas": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/range" },
+      "description": "Standalone questions (outside passage sets) by type; see _types.json. Targets plus sets.questions.target equal 50."
+    },
+    "overlays": { "type": "object", "additionalProperties": { "$ref": "#/$defs/range" }, "description": "Features counted across types (numerical_share is a fraction of all 50; code_or_query_output is a count)." },
+    "sets": {
+      "type": "object",
+      "required": ["count", "size", "questions", "placement", "positions"],
+      "description": "Passage or case sets. A set is always served whole, inside one chapter, at the stated positions."
+    },
+    "order": {
+      "type": "object",
+      "required": ["layout", "chapterGrouping"],
+      "properties": {
+        "layout": { "enum": ["sets_first_then_mixed_verbal", "standalone_mixed_then_sets", "standalone_mixed", "sections_in_order"] },
+        "chapterGrouping": { "enum": ["mixed", "mixed_within_section"] },
+        "maxSameChapterRun": { "type": "integer" },
+        "maxSameTypeRun": { "type": "integer" }
+      }
+    },
+    "difficulty": {
+      "type": "object",
+      "required": ["easy", "medium", "hard"],
+      "description": "Fractions of the 50 by MockMob difficulty label. Inferred: NTA publishes no difficulty mix."
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["observed", "confidence", "inferred"],
+      "description": "What was counted in real papers or reports, confidence per aspect (high, medium, low) and the list of inferred fields."
+    },
+    "sources": { "type": "array", "items": { "type": "string" }, "description": "Keys into _sources.json." }
+  }
+}

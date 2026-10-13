@@ -1,0 +1,638 @@
+{
+  "$schema": "./_schema.json",
+  "schemaVersion": 1,
+  "blueprintVersion": "2026.10.13-1",
+  "subject": "mathematics",
+  "internalSubject": "mathematics",
+  "ntaCode": "319",
+  "officialName": "Mathematics / Applied Mathematics",
+  "kind": "domain_sectioned",
+  "appliesTo": "CUET UG 2026 rules and syllabus; section structure from the 2025 paper; provisional for 2027",
+  "exam": {
+    "totalQuestions": 50,
+    "attempt": "all_compulsory",
+    "durationMinutes": 60,
+    "secondsPerQuestion": 72,
+    "optionsPerQuestion": 4,
+    "answerType": "single_correct_mcq",
+    "marking": {
+      "correct": 5,
+      "incorrect": -1,
+      "unanswered": 0,
+      "maxMarks": 250,
+      "moreThanOneCorrectOption": "award +5 only to candidates who marked any of the correct options",
+      "noCorrectOptionOrDropped": "award +5 to every candidate who appeared"
+    },
+    "mode": "CBT",
+    "medium": "Bilingual: English plus the chosen language; the English version prevails",
+    "calculatorAllowed": false,
+    "pwbdCompensatoryMinutesPerHour": 20,
+    "sources": [
+      "S1",
+      "S2"
+    ],
+    "confidence": "high",
+    "attemptNote": "Candidate answers 50: Section A (15, compulsory) plus EITHER Section B1 Core Mathematics (35) OR Section B2 Applied Mathematics (35). All 35 of the chosen B section are compulsory."
+  },
+  "variants": [
+    {
+      "id": "core",
+      "label": "Mathematics (Section A + B1 Core)",
+      "default": true,
+      "sections": [
+        {
+          "id": "A",
+          "label": "Section A (common to Mathematics and Applied Mathematics)",
+          "questions": 15,
+          "positions": [
+            1,
+            15
+          ],
+          "units": [
+            {
+              "name": "Section A1 (common)",
+              "questions": {
+                "min": 15,
+                "target": 15,
+                "max": 15
+              },
+              "chapters": [
+                {
+                  "name": "Matrices",
+                  "min": 2,
+                  "target": 2,
+                  "max": 4
+                },
+                {
+                  "name": "Determinants",
+                  "min": 1,
+                  "target": 2,
+                  "max": 3
+                },
+                {
+                  "name": "Continuity & Differentiability",
+                  "min": 0,
+                  "target": 1,
+                  "max": 2
+                },
+                {
+                  "name": "Application of Derivatives",
+                  "min": 1,
+                  "target": 2,
+                  "max": 3
+                },
+                {
+                  "name": "Integrals",
+                  "min": 1,
+                  "target": 2,
+                  "max": 3
+                },
+                {
+                  "name": "Application of Integrals",
+                  "min": 0,
+                  "target": 1,
+                  "max": 2
+                },
+                {
+                  "name": "Differential Equations",
+                  "min": 1,
+                  "target": 2,
+                  "max": 3
+                },
+                {
+                  "name": "Linear Programming",
+                  "min": 1,
+                  "target": 2,
+                  "max": 3
+                },
+                {
+                  "name": "Probability Distributions",
+                  "min": 0,
+                  "target": 1,
+                  "max": 2
+                }
+              ],
+              "note": "Syllabus Section A1: matrices and determinants, derivatives (second order, increasing/decreasing, maxima-minima), integration and area, differential equations (order, degree, variable separable), probability distributions, LPP (graphical)."
+            }
+          ]
+        },
+        {
+          "id": "B1",
+          "label": "Section B1: Mathematics (Core)",
+          "questions": 35,
+          "positions": [
+            16,
+            50
+          ],
+          "units": [
+            {
+              "name": "Relations and Functions",
+              "questions": {
+                "min": 2,
+                "target": 3,
+                "max": 5
+              },
+              "chapters": [
+                {
+                  "name": "Relations & Functions",
+                  "min": 1,
+                  "target": 2,
+                  "max": 4
+                },
+                {
+                  "name": "Inverse Trigonometric Functions",
+                  "min": 0,
+                  "target": 1,
+                  "max": 2
+                }
+              ]
+            },
+            {
+              "name": "Algebra",
+              "questions": {
+                "min": 3,
+                "target": 5,
+                "max": 7
+              },
+              "chapters": [
+                {
+                  "name": "Matrices",
+                  "min": 1,
+                  "target": 2,
+                  "max": 4
+                },
+                {
+                  "name": "Determinants",
+                  "min": 2,
+                  "target": 3,
+                  "max": 4
+                }
+              ]
+            },
+            {
+              "name": "Calculus",
+              "questions": {
+                "min": 12,
+                "target": 16,
+                "max": 18
+              },
+              "chapters": [
+                {
+                  "name": "Continuity & Differentiability",
+                  "min": 2,
+                  "target": 4,
+                  "max": 5
+                },
+                {
+                  "name": "Application of Derivatives",
+                  "min": 2,
+                  "target": 3,
+                  "max": 4
+                },
+                {
+                  "name": "Integrals",
+                  "min": 2,
+                  "target": 4,
+                  "max": 5
+                },
+                {
+                  "name": "Application of Integrals",
+                  "min": 1,
+                  "target": 2,
+                  "max": 3
+                },
+                {
+                  "name": "Differential Equations",
+                  "min": 2,
+                  "target": 3,
+                  "max": 4
+                }
+              ]
+            },
+            {
+              "name": "Vectors and Three-Dimensional Geometry",
+              "questions": {
+                "min": 4,
+                "target": 6,
+                "max": 8
+              },
+              "chapters": [
+                {
+                  "name": "Vector Algebra",
+                  "min": 2,
+                  "target": 3,
+                  "max": 4
+                },
+                {
+                  "name": "Three Dimensional Geometry",
+                  "min": 2,
+                  "target": 3,
+                  "max": 4
+                }
+              ]
+            },
+            {
+              "name": "Linear Programming",
+              "questions": {
+                "min": 1,
+                "target": 2,
+                "max": 3
+              },
+              "chapters": [
+                {
+                  "name": "Linear Programming",
+                  "min": 1,
+                  "target": 2,
+                  "max": 3
+                }
+              ]
+            },
+            {
+              "name": "Probability",
+              "questions": {
+                "min": 3,
+                "target": 3,
+                "max": 5
+              },
+              "chapters": [
+                {
+                  "name": "Probability",
+                  "min": 3,
+                  "target": 3,
+                  "max": 5
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "applied",
+      "label": "Applied Mathematics (Section A + B2 Applied)",
+      "default": false,
+      "sections": [
+        {
+          "id": "A",
+          "label": "Section A (common to Mathematics and Applied Mathematics)",
+          "questions": 15,
+          "positions": [
+            1,
+            15
+          ],
+          "units": [
+            {
+              "name": "Section A1 (common)",
+              "questions": {
+                "min": 15,
+                "target": 15,
+                "max": 15
+              },
+              "chapters": [
+                {
+                  "name": "Matrices",
+                  "min": 2,
+                  "target": 2,
+                  "max": 4
+                },
+                {
+                  "name": "Determinants",
+                  "min": 1,
+                  "target": 2,
+                  "max": 3
+                },
+                {
+                  "name": "Continuity & Differentiability",
+                  "min": 0,
+                  "target": 1,
+                  "max": 2
+                },
+                {
+                  "name": "Application of Derivatives",
+                  "min": 1,
+                  "target": 2,
+                  "max": 3
+                },
+                {
+                  "name": "Integrals",
+                  "min": 1,
+                  "target": 2,
+                  "max": 3
+                },
+                {
+                  "name": "Application of Integrals",
+                  "min": 0,
+                  "target": 1,
+                  "max": 2
+                },
+                {
+                  "name": "Differential Equations",
+                  "min": 1,
+                  "target": 2,
+                  "max": 3
+                },
+                {
+                  "name": "Linear Programming",
+                  "min": 1,
+                  "target": 2,
+                  "max": 3
+                },
+                {
+                  "name": "Probability Distributions",
+                  "min": 0,
+                  "target": 1,
+                  "max": 2
+                }
+              ],
+              "note": "Syllabus Section A1: matrices and determinants, derivatives (second order, increasing/decreasing, maxima-minima), integration and area, differential equations (order, degree, variable separable), probability distributions, LPP (graphical)."
+            }
+          ]
+        },
+        {
+          "id": "B2",
+          "label": "Section B2: Applied Mathematics",
+          "questions": 35,
+          "positions": [
+            16,
+            50
+          ],
+          "units": [
+            {
+              "name": "Applied Mathematics",
+              "questions": {
+                "min": 21,
+                "target": 24,
+                "max": 27
+              },
+              "chapters": [
+                {
+                  "name": "Numbers, Quantification and Numerical Applications",
+                  "min": 4,
+                  "target": 7,
+                  "max": 8
+                },
+                {
+                  "name": "Probability Distributions",
+                  "min": 3,
+                  "target": 5,
+                  "max": 6
+                },
+                {
+                  "name": "Time Based Data",
+                  "min": 2,
+                  "target": 3,
+                  "max": 4
+                },
+                {
+                  "name": "Inferential Statistics",
+                  "min": 2,
+                  "target": 3,
+                  "max": 4
+                },
+                {
+                  "name": "Financial Mathematics",
+                  "min": 4,
+                  "target": 6,
+                  "max": 8
+                }
+              ]
+            },
+            {
+              "name": "Algebra",
+              "questions": {
+                "min": 1,
+                "target": 3,
+                "max": 4
+              },
+              "chapters": [
+                {
+                  "name": "Matrices",
+                  "min": 1,
+                  "target": 2,
+                  "max": 3
+                },
+                {
+                  "name": "Determinants",
+                  "min": 0,
+                  "target": 1,
+                  "max": 2
+                }
+              ]
+            },
+            {
+              "name": "Calculus",
+              "questions": {
+                "min": 3,
+                "target": 5,
+                "max": 7
+              },
+              "chapters": [
+                {
+                  "name": "Application of Derivatives",
+                  "min": 1,
+                  "target": 2,
+                  "max": 3
+                },
+                {
+                  "name": "Integrals",
+                  "min": 0,
+                  "target": 1,
+                  "max": 2
+                },
+                {
+                  "name": "Application of Integrals",
+                  "min": 0,
+                  "target": 1,
+                  "max": 2
+                },
+                {
+                  "name": "Differential Equations",
+                  "min": 0,
+                  "target": 1,
+                  "max": 2
+                }
+              ]
+            },
+            {
+              "name": "Linear Programming",
+              "questions": {
+                "min": 2,
+                "target": 3,
+                "max": 4
+              },
+              "chapters": [
+                {
+                  "name": "Linear Programming",
+                  "min": 2,
+                  "target": 3,
+                  "max": 4
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "excludedChapters": [],
+  "typeQuotas": {
+    "single_mcq": {
+      "min": 38,
+      "target": 42,
+      "max": 46
+    },
+    "match_the_following": {
+      "min": 2,
+      "target": 5,
+      "max": 7
+    },
+    "sequence_ordering": {
+      "min": 0,
+      "target": 0,
+      "max": 2
+    },
+    "statement_based": {
+      "min": 1,
+      "target": 3,
+      "max": 5
+    },
+    "assertion_reason": {
+      "min": 0,
+      "target": 0,
+      "max": 1
+    }
+  },
+  "overlays": {
+    "numerical_share": {
+      "min": 0.7,
+      "target": 0.8,
+      "max": 0.9
+    }
+  },
+  "sets": {
+    "count": {
+      "min": 0,
+      "target": 0,
+      "max": 2
+    },
+    "size": {
+      "min": 4,
+      "target": 5,
+      "max": 5
+    },
+    "questions": {
+      "min": 0,
+      "target": 0,
+      "max": 10
+    },
+    "placement": "end",
+    "positions": [],
+    "oneChapterPerSet": true,
+    "kinds": [
+      "case_based"
+    ],
+    "ifUnavailable": "No sets needed.",
+    "note": "No passage sets in the 2025 paper read."
+  },
+  "order": {
+    "layout": "sections_in_order",
+    "standalonePositions": [
+      1,
+      50
+    ],
+    "setPositions": [],
+    "chapterGrouping": "mixed_within_section",
+    "maxSameChapterRun": 3,
+    "maxSameTypeRun": 3,
+    "note": "Section A (Q1-15) comes first, then the chosen B section (Q16-50). Chapters are mixed inside each section."
+  },
+  "difficulty": {
+    "easy": {
+      "min": 0.2,
+      "target": 0.3,
+      "max": 0.4
+    },
+    "medium": {
+      "min": 0.4,
+      "target": 0.5,
+      "max": 0.6
+    },
+    "hard": {
+      "min": 0.1,
+      "target": 0.2,
+      "max": 0.3
+    },
+    "basis": "MockMob difficulty labels (data/cuet_controls.js CUET_DIFFICULTY_STANDARD). NTA publishes no difficulty mix.",
+    "reported": {
+      "2025": "easy, NCERT-based (Hitbullseye 2025 analysis, via search summary)",
+      "2026": "moderate to challenging (Hitbullseye)"
+    },
+    "inferred": true,
+    "note": "All items are short computations; no calculator."
+  },
+  "evidence": {
+    "observed": [
+      {
+        "paper": "CUET UG 2025 Mathematics/Applied Mathematics, one shift (Oswaal solved reprint, 85 printed questions: A 1-15, B1 16-50, B2 51-85)",
+        "source": "S4",
+        "counts": {
+          "sectionA": {
+            "integrals": 2,
+            "application_of_derivatives": 2,
+            "differential_equations": 2,
+            "matrices": 3,
+            "determinants": 1,
+            "linear_programming": 2,
+            "continuity_differentiability": 1,
+            "application_of_integrals": 1,
+            "probability_distribution": 1
+          },
+          "sectionB1_identified_28_of_35": {
+            "relations_functions": 2,
+            "matrices": 1,
+            "determinants": 3,
+            "continuity_differentiability": 3,
+            "application_of_derivatives": 2,
+            "integrals": 1,
+            "application_of_integrals": 2,
+            "differential_equations": 2,
+            "vectors": 3,
+            "three_d": 3,
+            "linear_programming": 2,
+            "probability": 4
+          },
+          "sectionB2_identified_29_of_35": {
+            "linear_programming": 3,
+            "probability_distributions": 4,
+            "financial_mathematics": 5,
+            "numbers_quantification": 5,
+            "time_based_data": 3,
+            "inferential_statistics": 3,
+            "calculus": 4,
+            "matrices": 2
+          },
+          "types": "match_the_following about 6, statement_based about 3, the rest single computational MCQs; no sequence or assertion-reason items"
+        }
+      }
+    ],
+    "confidence": {
+      "examRules": "high",
+      "sectionStructure": "high",
+      "unitWeights": "medium",
+      "typeMix": "medium",
+      "sets": "high",
+      "difficulty": "low"
+    },
+    "inferred": [
+      "B1/B2 chapter targets (7 and 6 questions of the paper read could not be mapped from the extracted text)",
+      "difficulty"
+    ]
+  },
+  "sources": [
+    "S1",
+    "S2",
+    "S3",
+    "S4",
+    "S9"
+  ]
+}

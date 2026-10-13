@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "blueprintVersion": "2026.10.13-1",
+  "spec": "docs/brain/NTA-PATTERN-SPEC.md",
+  "schema": "data/nta_blueprints/_schema.json",
+  "types": "data/nta_blueprints/_types.json",
+  "sources": "data/nta_blueprints/_sources.json",
+  "subjects": {
+    "english": "english.json",
+    "general_test": "general_test.json",
+    "accountancy": "accountancy.json",
+    "business_studies": "business_studies.json",
+    "economics": "economics.json",
+    "mathematics": "mathematics.json",
+    "physics": "physics.json",
+    "chemistry": "chemistry.json",
+    "biology": "biology.json",
+    "history": "history.json",
+    "political_science": "political_science.json",
+    "geography": "geography.json",
+    "psychology": "psychology.json",
+    "sociology": "sociology.json",
+    "computer_science": "computer_science.json"
+  }
+}

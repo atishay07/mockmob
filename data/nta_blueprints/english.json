@@ -1,0 +1,352 @@
+{
+  "$schema": "./_schema.json",
+  "schemaVersion": 1,
+  "blueprintVersion": "2026.10.13-1",
+  "subject": "english",
+  "internalSubject": "english",
+  "ntaCode": "101",
+  "officialName": "English",
+  "kind": "language",
+  "appliesTo": "CUET UG 2026 rules (Information Bulletin 2026); pattern observed in 2025 and 2026 papers; provisional for 2027",
+  "exam": {
+    "totalQuestions": 50,
+    "attempt": "all_compulsory",
+    "durationMinutes": 60,
+    "secondsPerQuestion": 72,
+    "optionsPerQuestion": 4,
+    "answerType": "single_correct_mcq",
+    "marking": {
+      "correct": 5,
+      "incorrect": -1,
+      "unanswered": 0,
+      "maxMarks": 250,
+      "moreThanOneCorrectOption": "award +5 only to candidates who marked any of the correct options",
+      "noCorrectOptionOrDropped": "award +5 to every candidate who appeared"
+    },
+    "mode": "CBT",
+    "medium": "Bilingual: English plus the chosen language; the English version prevails",
+    "calculatorAllowed": false,
+    "pwbdCompensatoryMinutesPerHour": 20,
+    "sources": [
+      "S1",
+      "S2"
+    ],
+    "confidence": "high"
+  },
+  "variants": [
+    {
+      "id": "default",
+      "label": "Single paper",
+      "default": true,
+      "sections": [
+        {
+          "id": "main",
+          "label": "Whole paper",
+          "questions": 50,
+          "positions": [
+            1,
+            50
+          ],
+          "units": [
+            {
+              "name": "Reading Comprehension",
+              "questions": {
+                "min": 8,
+                "target": 10,
+                "max": 15
+              },
+              "chapters": [
+                {
+                  "name": "Factual Passage",
+                  "min": 0,
+                  "target": 5,
+                  "max": 10
+                },
+                {
+                  "name": "Narrative Passage",
+                  "min": 0,
+                  "target": 5,
+                  "max": 10
+                },
+                {
+                  "name": "Literary Passage",
+                  "min": 0,
+                  "target": 0,
+                  "max": 5
+                }
+              ],
+              "note": "Questions come only as passage sets. At least two different passage kinds per paper."
+            },
+            {
+              "name": "Verbal Ability",
+              "questions": {
+                "min": 35,
+                "target": 40,
+                "max": 42
+              },
+              "chapters": [
+                {
+                  "name": "Vocabulary",
+                  "min": 9,
+                  "target": 13,
+                  "max": 16,
+                  "subtypes": {
+                    "synonym": {
+                      "min": 2,
+                      "target": 4,
+                      "max": 6
+                    },
+                    "antonym": {
+                      "min": 2,
+                      "target": 4,
+                      "max": 6
+                    },
+                    "idiom_phrase": {
+                      "min": 1,
+                      "target": 3,
+                      "max": 6
+                    },
+                    "one_word_substitution": {
+                      "min": 0,
+                      "target": 2,
+                      "max": 4
+                    }
+                  }
+                },
+                {
+                  "name": "Correct Word Usage",
+                  "min": 7,
+                  "target": 11,
+                  "max": 14,
+                  "subtypes": {
+                    "fill_in_blank_word_choice": {
+                      "min": 4,
+                      "target": 6,
+                      "max": 9
+                    },
+                    "grammar_tense_preposition_article_voice_narration": {
+                      "min": 2,
+                      "target": 4,
+                      "max": 6
+                    },
+                    "error_detection": {
+                      "min": 0,
+                      "target": 1,
+                      "max": 2
+                    }
+                  }
+                },
+                {
+                  "name": "Para Jumbles",
+                  "min": 4,
+                  "target": 7,
+                  "max": 9,
+                  "subtypes": {
+                    "sentence_part_rearrangement": {
+                      "min": 4,
+                      "target": 7,
+                      "max": 9
+                    }
+                  },
+                  "note": "NTA items rearrange four parts (A)-(D) of ONE sentence; options are orders like \"(B), (A), (D), (C)\". Paragraph-level jumbles are not the observed form."
+                },
+                {
+                  "name": "Match the Following",
+                  "min": 3,
+                  "target": 9,
+                  "max": 11,
+                  "note": "List-I/List-II with four pairs: idioms, proverbs (meaning or opposite), phrasal verbs, words and meanings, figures of speech, homonyms, sentences with blanks and the words that fill them."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "excludedChapters": [],
+  "typeQuotas": {
+    "match_the_following": {
+      "min": 3,
+      "target": 9,
+      "max": 11
+    },
+    "sentence_rearrangement": {
+      "min": 4,
+      "target": 7,
+      "max": 9
+    },
+    "synonym": {
+      "min": 2,
+      "target": 4,
+      "max": 6
+    },
+    "antonym": {
+      "min": 2,
+      "target": 4,
+      "max": 6
+    },
+    "idiom_phrase": {
+      "min": 1,
+      "target": 3,
+      "max": 6
+    },
+    "one_word_substitution": {
+      "min": 0,
+      "target": 2,
+      "max": 4
+    },
+    "fill_in_blank": {
+      "min": 6,
+      "target": 10,
+      "max": 13
+    },
+    "error_detection": {
+      "min": 0,
+      "target": 1,
+      "max": 2
+    },
+    "assertion_reason": {
+      "min": 0,
+      "target": 0,
+      "max": 0
+    }
+  },
+  "sets": {
+    "count": {
+      "min": 2,
+      "target": 2,
+      "max": 3
+    },
+    "size": {
+      "min": 4,
+      "target": 5,
+      "max": 5
+    },
+    "questions": {
+      "min": 8,
+      "target": 10,
+      "max": 15
+    },
+    "placement": "start",
+    "positions": [
+      [
+        1,
+        5
+      ],
+      [
+        6,
+        10
+      ]
+    ],
+    "oneChapterPerSet": true,
+    "kinds": [
+      "factual",
+      "narrative",
+      "literary"
+    ],
+    "distinctKindsMin": 2,
+    "passageWords": {
+      "min": 200,
+      "target": 280,
+      "max": 300
+    },
+    "itemTypes": "Central idea, detail, inference, tone or author attitude, vocabulary in context, title, complete-the-sentence from the passage, \"which is NOT mentioned\".",
+    "ifUnavailable": "Do not start the paper. A paper without two complete passage sets of 4-5 questions is not a CUET English paper.",
+    "note": "Syllabus: three passage types (factual, narrative, literary), maximum 300 words. 2025 paper read: 3 sets x 4 (discursive/factual, narrative, factual) at Q1-12. 2026 shift reports (Careers360): mostly 2 sets x about 5; one shift added a third short unseen passage, placed at the end."
+  },
+  "order": {
+    "layout": "sets_first_then_mixed_verbal",
+    "setPositions": [
+      [
+        1,
+        5
+      ],
+      [
+        6,
+        10
+      ]
+    ],
+    "standalonePositions": [
+      11,
+      50
+    ],
+    "chapterGrouping": "mixed",
+    "maxSameTypeRun": 3,
+    "note": "Observed 2025: all passages first (Q1-12), then verbal-ability types interleaved (match, synonym, fill-in, rearrangement, antonym ...), never in type blocks. A run of 10-12 passage questions at the start is authentic; fragments of 1-3 questions and more than 3 passages are not."
+  },
+  "difficulty": {
+    "easy": {
+      "min": 0.25,
+      "target": 0.35,
+      "max": 0.45
+    },
+    "medium": {
+      "min": 0.4,
+      "target": 0.5,
+      "max": 0.6
+    },
+    "hard": {
+      "min": 0.1,
+      "target": 0.15,
+      "max": 0.25
+    },
+    "basis": "MockMob difficulty labels (data/cuet_controls.js CUET_DIFFICULTY_STANDARD). NTA publishes no difficulty mix.",
+    "reported": {
+      "2026": "easy to moderate on most shifts; vocabulary the hardest part (Careers360, Hitbullseye)"
+    },
+    "inferred": true,
+    "note": "Vocabulary and idiom items carry most of the hard share; RC items are mostly easy to medium."
+  },
+  "evidence": {
+    "observed": [
+      {
+        "paper": "CUET UG 2025 English, one shift (Oswaal solved reprint, 50 questions)",
+        "source": "S4",
+        "counts": {
+          "reading_comprehension": 12,
+          "passages": "3 x 4 (Q1-4 reflective/factual, Q5-8 narrative, Q9-12 factual)",
+          "match_the_following": 10,
+          "synonym": 5,
+          "antonym": 5,
+          "fill_in_blank": 10,
+          "sentence_rearrangement": 8
+        }
+      },
+      {
+        "paper": "CUET UG 2026 English, shift recall (14 shifts, 11-31 May 2026)",
+        "source": "S5",
+        "counts": {
+          "passages": "2 per shift typical, about 5 questions each; one shift 2 + a short unseen passage at the end",
+          "synonyms_antonyms": "3-10",
+          "sentence_rearrangement": "3-7",
+          "idioms": "2-7",
+          "one_word_substitution": "1-4",
+          "error_detection": "1-2",
+          "match_the_following": "2-3 on one shift, \"significant\" on another",
+          "fill_in_blank": "4-5+"
+        }
+      }
+    ],
+    "confidence": {
+      "examRules": "high",
+      "sectionStructure": "high",
+      "unitWeights": "medium",
+      "typeMix": "medium",
+      "sets": "high",
+      "difficulty": "low"
+    },
+    "inferred": [
+      "difficulty",
+      "subtype ranges merge one 2025 paper with 2026 recall"
+    ]
+  },
+  "sources": [
+    "S1",
+    "S2",
+    "S3",
+    "S4",
+    "S5",
+    "S9"
+  ]
+}

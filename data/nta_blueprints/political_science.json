@@ -1,0 +1,329 @@
+{
+  "$schema": "./_schema.json",
+  "schemaVersion": 1,
+  "blueprintVersion": "2026.10.13-1",
+  "subject": "political_science",
+  "internalSubject": "political_science",
+  "ntaCode": "323",
+  "officialName": "Political Science",
+  "kind": "domain",
+  "appliesTo": "CUET UG 2026 rules and syllabus; type pattern inferred from the common NTA domain template; provisional for 2027",
+  "exam": {
+    "totalQuestions": 50,
+    "attempt": "all_compulsory",
+    "durationMinutes": 60,
+    "secondsPerQuestion": 72,
+    "optionsPerQuestion": 4,
+    "answerType": "single_correct_mcq",
+    "marking": {
+      "correct": 5,
+      "incorrect": -1,
+      "unanswered": 0,
+      "maxMarks": 250,
+      "moreThanOneCorrectOption": "award +5 only to candidates who marked any of the correct options",
+      "noCorrectOptionOrDropped": "award +5 to every candidate who appeared"
+    },
+    "mode": "CBT",
+    "medium": "Bilingual: English plus the chosen language; the English version prevails",
+    "calculatorAllowed": false,
+    "pwbdCompensatoryMinutesPerHour": 20,
+    "sources": [
+      "S1",
+      "S2"
+    ],
+    "confidence": "high"
+  },
+  "variants": [
+    {
+      "id": "default",
+      "label": "Single paper",
+      "default": true,
+      "sections": [
+        {
+          "id": "main",
+          "label": "Whole paper",
+          "questions": 50,
+          "positions": [
+            1,
+            50
+          ],
+          "units": [
+            {
+              "name": "Politics in India Since Independence",
+              "questions": {
+                "min": 22,
+                "target": 27,
+                "max": 30
+              },
+              "chapters": [
+                {
+                  "name": "Challenges of Nation Building",
+                  "min": 1,
+                  "target": 3,
+                  "max": 5
+                },
+                {
+                  "name": "Era of One-Party Dominance",
+                  "min": 1,
+                  "target": 3,
+                  "max": 5
+                },
+                {
+                  "name": "Politics of Planned Development",
+                  "min": 1,
+                  "target": 3,
+                  "max": 5
+                },
+                {
+                  "name": "India's External Relations",
+                  "min": 1,
+                  "target": 3,
+                  "max": 5
+                },
+                {
+                  "name": "Challenges to & Restoration of the Congress System",
+                  "min": 1,
+                  "target": 3,
+                  "max": 5
+                },
+                {
+                  "name": "Crisis of the Democratic Order",
+                  "min": 1,
+                  "target": 3,
+                  "max": 5
+                },
+                {
+                  "name": "Regional Aspirations",
+                  "min": 1,
+                  "target": 3,
+                  "max": 5
+                },
+                {
+                  "name": "Democratic Upsurge and Coalition Politics",
+                  "min": 1,
+                  "target": 3,
+                  "max": 5
+                },
+                {
+                  "name": "Recent Issues and Challenges",
+                  "min": 1,
+                  "target": 3,
+                  "max": 5
+                }
+              ]
+            },
+            {
+              "name": "Contemporary World Politics",
+              "questions": {
+                "min": 20,
+                "target": 23,
+                "max": 28
+              },
+              "chapters": [
+                {
+                  "name": "End of Bipolarity",
+                  "min": 2,
+                  "target": 4,
+                  "max": 5
+                },
+                {
+                  "name": "Alternative Centres of Power",
+                  "min": 2,
+                  "target": 4,
+                  "max": 5
+                },
+                {
+                  "name": "Contemporary South Asia",
+                  "min": 2,
+                  "target": 4,
+                  "max": 5
+                },
+                {
+                  "name": "International Organisations",
+                  "min": 1,
+                  "target": 3,
+                  "max": 5
+                },
+                {
+                  "name": "Security in the Contemporary World",
+                  "min": 1,
+                  "target": 3,
+                  "max": 5
+                },
+                {
+                  "name": "Environment & Natural Resources",
+                  "min": 1,
+                  "target": 3,
+                  "max": 5
+                },
+                {
+                  "name": "Globalisation",
+                  "min": 1,
+                  "target": 2,
+                  "max": 4
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "excludedChapters": [
+    {
+      "name": "Cold War Era",
+      "reason": "Not in the CUET UG 2026 Political Science syllabus (9 + 7 topics)."
+    },
+    {
+      "name": "US Hegemony in World Politics",
+      "reason": "Not in the CUET UG 2026 Political Science syllabus (9 + 7 topics)."
+    },
+    {
+      "name": "Rise of Popular Movements",
+      "reason": "Not in the CUET UG 2026 Political Science syllabus (9 + 7 topics)."
+    }
+  ],
+  "typeQuotas": {
+    "single_mcq": {
+      "min": 26,
+      "target": 30,
+      "max": 34
+    },
+    "match_the_following": {
+      "min": 2,
+      "target": 4,
+      "max": 6
+    },
+    "sequence_ordering": {
+      "min": 1,
+      "target": 2,
+      "max": 4
+    },
+    "statement_based": {
+      "min": 2,
+      "target": 4,
+      "max": 6
+    },
+    "assertion_reason": {
+      "min": 0,
+      "target": 0,
+      "max": 3
+    }
+  },
+  "sets": {
+    "count": {
+      "min": 0,
+      "target": 2,
+      "max": 2
+    },
+    "size": {
+      "min": 4,
+      "target": 5,
+      "max": 5
+    },
+    "questions": {
+      "min": 0,
+      "target": 10,
+      "max": 10
+    },
+    "placement": "end",
+    "positions": [
+      [
+        41,
+        45
+      ],
+      [
+        46,
+        50
+      ]
+    ],
+    "oneChapterPerSet": true,
+    "kinds": [
+      "source_based_passage"
+    ],
+    "itemTypes": "Mostly single MCQs on the passage; a statement-based or \"which is NOT\" item may appear inside a set.",
+    "passageWords": {
+      "min": 120,
+      "target": 200,
+      "max": 300
+    },
+    "ifUnavailable": "Use standalone questions from the same chapters at the end of the paper; never split a set or use a set of fewer than 4 questions.",
+    "note": "No 2025 paper read. 2025 shift reports mention passage-based sets (LTTE, Nepal, Partition, princely states); 2026 reports mention assertion-reason and timeline items."
+  },
+  "order": {
+    "layout": "standalone_mixed_then_sets",
+    "standalonePositions": [
+      1,
+      40
+    ],
+    "setPositions": [
+      [
+        41,
+        45
+      ],
+      [
+        46,
+        50
+      ]
+    ],
+    "chapterGrouping": "mixed",
+    "maxSameChapterRun": 3,
+    "maxSameTypeRun": 3,
+    "note": "In the 2025 papers read, standalone questions are not grouped by chapter or unit and special types (match, sequence, statements) are scattered through Q1-40. Passage sets sit together at Q41-50."
+  },
+  "difficulty": {
+    "easy": {
+      "min": 0.3,
+      "target": 0.4,
+      "max": 0.5
+    },
+    "medium": {
+      "min": 0.35,
+      "target": 0.45,
+      "max": 0.55
+    },
+    "hard": {
+      "min": 0.1,
+      "target": 0.15,
+      "max": 0.25
+    },
+    "basis": "MockMob difficulty labels (data/cuet_controls.js CUET_DIFFICULTY_STANDARD). NTA publishes no difficulty mix.",
+    "reported": {
+      "2025": "easy to moderate (Careers360 shift reports)",
+      "2026": "moderate (Hitbullseye)"
+    },
+    "inferred": true,
+    "note": "Factual recall of events, years, leaders and agreements dominates."
+  },
+  "evidence": {
+    "observed": [
+      {
+        "paper": "CUET UG 2025 Political Science, shift recall (Careers360): 10 memory-based items, all single MCQs (7 Indian politics, 3 external relations)",
+        "source": "S7",
+        "counts": {
+          "passage_sets_reported": "yes (LTTE, Nepal, Partition, princely states)"
+        }
+      }
+    ],
+    "confidence": {
+      "examRules": "high",
+      "sectionStructure": "medium",
+      "unitWeights": "low",
+      "typeMix": "low",
+      "sets": "medium",
+      "difficulty": "low"
+    },
+    "inferred": [
+      "all chapter targets (even spread across the 16 syllabus topics)",
+      "type quotas (common NTA domain template)",
+      "difficulty"
+    ]
+  },
+  "sources": [
+    "S1",
+    "S2",
+    "S3",
+    "S7",
+    "S9"
+  ]
+}

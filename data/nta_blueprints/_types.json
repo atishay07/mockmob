@@ -1,0 +1,55 @@
+{
+  "note": "Question types as they appear in real CUET UG 2025 papers (S4). Most live rows have question_type = null, so an engine must classify from the stem. Patterns are case-insensitive JavaScript regex sources, tried in the order listed; the first match wins. 'dbTypes' lists question_type values already used in MockMob data that mean the same thing.",
+  "order": ["assertion_reason", "match_the_following", "sentence_rearrangement", "sequence_ordering", "statement_based", "synonym", "antonym", "idiom_phrase", "one_word_substitution", "error_detection", "fill_in_blank", "single_mcq"],
+  "types": {
+    "single_mcq": {
+      "label": "Single-correct MCQ",
+      "nta": "One stem, four options (1)-(4), one correct. Includes 'Which of the following is NOT ...' and one-statement 'identify the correct statement' items whose options are full sentences.",
+      "patterns": [],
+      "dbTypes": ["direct_mcq", "conceptual_mcq", "direct_concept", "application_based", "numerical", "case_application", "comparison_based", "code_output", "sql_query"]
+    },
+    "match_the_following": {
+      "label": "Match List-I with List-II",
+      "nta": "Four items (A)-(D) in List-I, four (I)-(IV) in List-II, then 'Choose the correct answer from the options given below'. Options are mappings like '(A)-(II), (B)-(III), (C)-(IV), (D)-(I)'.",
+      "patterns": ["match\\s+(the\\s+)?list\\s*[-–]?\\s*(i|l)\\b", "list\\s*[-–]?\\s*i\\b[\\s\\S]*list\\s*[-–]?\\s*ii\\b", "\\(a\\)\\s*-\\s*\\((i|ii|iii|iv)\\)"],
+      "dbTypes": ["matching", "match_the_following", "match_list"]
+    },
+    "sequence_ordering": {
+      "label": "Arrange in sequence / chronological order",
+      "nta": "Four items (A)-(D) to put in order: process steps, chronology, increasing/decreasing property, ranking. Options are permutations like '(B), (A), (D), (C)'.",
+      "patterns": ["\\barrange\\b", "correct\\s+(sequence|order)", "chronological(ly)?\\s+order", "(increasing|decreasing|ascending|descending)\\s+order"],
+      "dbTypes": ["sequence_ordering", "sequence"]
+    },
+    "sentence_rearrangement": {
+      "label": "English: rearrange parts of a sentence",
+      "nta": "'Rearrange the following parts in the correct sequence to form a meaningful sentence: (A) ... (B) ... (C) ... (D) ...'. Counted under the Para Jumbles chapter.",
+      "patterns": ["rearrange\\s+the\\s+following\\s+parts", "form\\s+a\\s+meaningful\\s+sentence"],
+      "dbTypes": ["para_jumble", "para_jumbles", "rearrangement", "sequence_ordering"],
+      "subjects": ["english"]
+    },
+    "statement_based": {
+      "label": "Multi-statement selection",
+      "nta": "Statements (A)-(D) followed by 'Choose the correct answer from the options given below'; options are combinations like '(A), (B) and (C) only'.",
+      "patterns": ["\\(a\\)[\\s\\S]*\\(b\\)[\\s\\S]*\\(c\\)[\\s\\S]*(only|choose the correct answer)", "statements?\\s+(i|1)\\b[\\s\\S]*statements?\\s+(ii|2)\\b"],
+      "dbTypes": ["statement_based", "statement_selection"]
+    },
+    "assertion_reason": {
+      "label": "Assertion (A) and Reason (R)",
+      "nta": "Not seen in any 2025 paper read; reported in 2026 History, Political Science and GAT shifts. Standard four options.",
+      "patterns": ["assertion\\s*(\\(a\\))?\\s*:", "\\breason\\s*(\\(r\\))?\\s*:"],
+      "dbTypes": ["assertion_reason", "assertion-reason"]
+    },
+    "synonym": { "label": "English: word similar in meaning", "nta": "'Select the word similar in meaning to the given word: Munificent'.", "patterns": ["similar\\s+in\\s+meaning", "\\bsynonym"], "dbTypes": ["synonym"], "subjects": ["english"] },
+    "antonym": { "label": "English: word opposite in meaning", "nta": "'Select the word opposite in meaning to the given word: Sagacious'.", "patterns": ["opposite\\s+in\\s+meaning", "\\bantonym"], "dbTypes": ["antonym"], "subjects": ["english"] },
+    "idiom_phrase": { "label": "English: idiom or phrase meaning", "nta": "Standalone idiom/phrase meaning items (idioms also appear inside Match the Following).", "patterns": ["\\bidiom", "\\bphrase\\b[\\s\\S]*\\bmean"], "dbTypes": ["idiom"], "subjects": ["english"] },
+    "one_word_substitution": { "label": "English: one-word substitution", "nta": "Reported on 2026 shifts (1-4 per paper).", "patterns": ["one[-\\s]word\\s+substitut", "one\\s+word\\s+for"], "dbTypes": ["one_word_substitution"], "subjects": ["english"] },
+    "error_detection": { "label": "English: error detection or correction", "nta": "Reported on 2026 shifts (0-2 per paper).", "patterns": ["\\berror\\b", "grammatically\\s+(in)?correct"], "dbTypes": ["error_detection", "sentence_correction"], "subjects": ["english"] },
+    "fill_in_blank": { "label": "English: choose the correct word or phrase for the blank", "nta": "'Choose the correct option to fill in the blank in the given sentence'. Tests word choice, tense, prepositions, phrasal verbs. Counted under Correct Word Usage.", "patterns": ["fill\\s+in\\s+the\\s+blank", "_{3,}", "complete\\s+the\\s+(given\\s+)?sentence"], "dbTypes": ["correct_word_usage", "fill_in_blank"], "subjects": ["english"] },
+    "passage_set_item": {
+      "label": "Question inside a passage or case set",
+      "nta": "English: passages first. Domain papers: two passages of five questions at Q41-45 and Q46-50 ('Read the passage carefully and answer the questions').",
+      "detect": "Row has passage_group_id / passage_id, or shares a passage text with other rows.",
+      "dbTypes": ["reading_comprehension", "central_idea", "inference", "detail_based", "tone", "author_purpose", "vocabulary_in_context", "case_based"]
+    }
+  }
+}

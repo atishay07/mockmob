@@ -1,0 +1,302 @@
+{
+  "$schema": "./_schema.json",
+  "schemaVersion": 1,
+  "blueprintVersion": "2026.10.13-1",
+  "subject": "sociology",
+  "internalSubject": "sociology",
+  "ntaCode": "326",
+  "officialName": "Sociology",
+  "kind": "domain",
+  "appliesTo": "CUET UG 2026 rules and syllabus; type pattern inferred from the common NTA domain template; provisional for 2027",
+  "exam": {
+    "totalQuestions": 50,
+    "attempt": "all_compulsory",
+    "durationMinutes": 60,
+    "secondsPerQuestion": 72,
+    "optionsPerQuestion": 4,
+    "answerType": "single_correct_mcq",
+    "marking": {
+      "correct": 5,
+      "incorrect": -1,
+      "unanswered": 0,
+      "maxMarks": 250,
+      "moreThanOneCorrectOption": "award +5 only to candidates who marked any of the correct options",
+      "noCorrectOptionOrDropped": "award +5 to every candidate who appeared"
+    },
+    "mode": "CBT",
+    "medium": "Bilingual: English plus the chosen language; the English version prevails",
+    "calculatorAllowed": false,
+    "pwbdCompensatoryMinutesPerHour": 20,
+    "sources": [
+      "S1",
+      "S2"
+    ],
+    "confidence": "high"
+  },
+  "variants": [
+    {
+      "id": "default",
+      "label": "Single paper",
+      "default": true,
+      "sections": [
+        {
+          "id": "main",
+          "label": "Whole paper",
+          "questions": 50,
+          "positions": [
+            1,
+            50
+          ],
+          "units": [
+            {
+              "name": "Indian Society",
+              "questions": {
+                "min": 20,
+                "target": 23,
+                "max": 27
+              },
+              "chapters": [
+                {
+                  "name": "Introducing Indian Society",
+                  "min": 0,
+                  "target": 1,
+                  "max": 2
+                },
+                {
+                  "name": "Demographic Structure",
+                  "min": 3,
+                  "target": 5,
+                  "max": 7
+                },
+                {
+                  "name": "Social Institutions",
+                  "min": 4,
+                  "target": 6,
+                  "max": 8
+                },
+                {
+                  "name": "Patterns of Social Inequality",
+                  "min": 4,
+                  "target": 6,
+                  "max": 8
+                },
+                {
+                  "name": "Challenges of Cultural Diversity",
+                  "min": 3,
+                  "target": 5,
+                  "max": 7
+                }
+              ]
+            },
+            {
+              "name": "Social Change and Development in India",
+              "questions": {
+                "min": 23,
+                "target": 27,
+                "max": 30
+              },
+              "chapters": [
+                {
+                  "name": "Structural Change",
+                  "min": 2,
+                  "target": 3,
+                  "max": 5
+                },
+                {
+                  "name": "Cultural Change",
+                  "min": 2,
+                  "target": 4,
+                  "max": 6
+                },
+                {
+                  "name": "Story of Indian Democracy",
+                  "min": 2,
+                  "target": 3,
+                  "max": 5
+                },
+                {
+                  "name": "Change & Development in Rural Society",
+                  "min": 2,
+                  "target": 4,
+                  "max": 6
+                },
+                {
+                  "name": "Change & Development in Industrial Society",
+                  "min": 2,
+                  "target": 3,
+                  "max": 5
+                },
+                {
+                  "name": "Market as a Social Institution",
+                  "min": 2,
+                  "target": 3,
+                  "max": 5
+                },
+                {
+                  "name": "Globalisation & Social Change",
+                  "min": 2,
+                  "target": 3,
+                  "max": 5
+                },
+                {
+                  "name": "Mass Media & Communications",
+                  "min": 1,
+                  "target": 2,
+                  "max": 4
+                },
+                {
+                  "name": "Social Movements",
+                  "min": 1,
+                  "target": 2,
+                  "max": 5
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "excludedChapters": [],
+  "typeQuotas": {
+    "single_mcq": {
+      "min": 26,
+      "target": 30,
+      "max": 34
+    },
+    "match_the_following": {
+      "min": 2,
+      "target": 4,
+      "max": 6
+    },
+    "sequence_ordering": {
+      "min": 1,
+      "target": 2,
+      "max": 4
+    },
+    "statement_based": {
+      "min": 2,
+      "target": 4,
+      "max": 6
+    },
+    "assertion_reason": {
+      "min": 0,
+      "target": 0,
+      "max": 2
+    }
+  },
+  "sets": {
+    "count": {
+      "min": 0,
+      "target": 2,
+      "max": 2
+    },
+    "size": {
+      "min": 4,
+      "target": 5,
+      "max": 5
+    },
+    "questions": {
+      "min": 0,
+      "target": 10,
+      "max": 10
+    },
+    "placement": "end",
+    "positions": [
+      [
+        41,
+        45
+      ],
+      [
+        46,
+        50
+      ]
+    ],
+    "oneChapterPerSet": true,
+    "kinds": [
+      "source_based_passage"
+    ],
+    "itemTypes": "Mostly single MCQs on the passage; a statement-based or \"which is NOT\" item may appear inside a set.",
+    "passageWords": {
+      "min": 120,
+      "target": 200,
+      "max": 300
+    },
+    "ifUnavailable": "Use standalone questions from the same chapters at the end of the paper; never split a set or use a set of fewer than 4 questions.",
+    "note": "No 2025 paper read; passage sets assumed from the common NTA domain template (6 of 9 domain papers read had them)."
+  },
+  "order": {
+    "layout": "standalone_mixed_then_sets",
+    "standalonePositions": [
+      1,
+      40
+    ],
+    "setPositions": [
+      [
+        41,
+        45
+      ],
+      [
+        46,
+        50
+      ]
+    ],
+    "chapterGrouping": "mixed",
+    "maxSameChapterRun": 3,
+    "maxSameTypeRun": 3,
+    "note": "In the 2025 papers read, standalone questions are not grouped by chapter or unit and special types (match, sequence, statements) are scattered through Q1-40. Passage sets sit together at Q41-50."
+  },
+  "difficulty": {
+    "easy": {
+      "min": 0.3,
+      "target": 0.4,
+      "max": 0.5
+    },
+    "medium": {
+      "min": 0.35,
+      "target": 0.45,
+      "max": 0.55
+    },
+    "hard": {
+      "min": 0.1,
+      "target": 0.15,
+      "max": 0.25
+    },
+    "basis": "MockMob difficulty labels (data/cuet_controls.js CUET_DIFFICULTY_STANDARD). NTA publishes no difficulty mix.",
+    "reported": {
+      "2025": "easy and scoring (19 May shift report)",
+      "2026": "moderate (Hitbullseye)"
+    },
+    "inferred": true,
+    "note": "Concept-to-thinker and term-definition recall dominate."
+  },
+  "evidence": {
+    "observed": [
+      {
+        "paper": "CUET UG 2025 Sociology: only qualitative shift reports found",
+        "source": "S9",
+        "counts": {}
+      }
+    ],
+    "confidence": {
+      "examRules": "high",
+      "sectionStructure": "medium",
+      "unitWeights": "low",
+      "typeMix": "low",
+      "sets": "low",
+      "difficulty": "low"
+    },
+    "inferred": [
+      "all chapter targets (spread over the 2026 syllabus topics)",
+      "type quotas",
+      "passage sets",
+      "difficulty"
+    ]
+  },
+  "sources": [
+    "S1",
+    "S2",
+    "S3",
+    "S9"
+  ]
+}

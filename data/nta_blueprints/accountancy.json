@@ -1,0 +1,360 @@
+{
+  "$schema": "./_schema.json",
+  "schemaVersion": 1,
+  "blueprintVersion": "2026.10.13-1",
+  "subject": "accountancy",
+  "internalSubject": "accountancy",
+  "ntaCode": "301",
+  "officialName": "Accountancy / Book Keeping",
+  "kind": "domain",
+  "appliesTo": "CUET UG 2026 rules and syllabus; pattern from the 2025 paper; provisional for 2027",
+  "exam": {
+    "totalQuestions": 50,
+    "attempt": "all_compulsory",
+    "durationMinutes": 60,
+    "secondsPerQuestion": 72,
+    "optionsPerQuestion": 4,
+    "answerType": "single_correct_mcq",
+    "marking": {
+      "correct": 5,
+      "incorrect": -1,
+      "unanswered": 0,
+      "maxMarks": 250,
+      "moreThanOneCorrectOption": "award +5 only to candidates who marked any of the correct options",
+      "noCorrectOptionOrDropped": "award +5 to every candidate who appeared"
+    },
+    "mode": "CBT",
+    "medium": "Bilingual: English plus the chosen language; the English version prevails",
+    "calculatorAllowed": false,
+    "pwbdCompensatoryMinutesPerHour": 20,
+    "sources": [
+      "S1",
+      "S2"
+    ],
+    "confidence": "high"
+  },
+  "variants": [
+    {
+      "id": "default",
+      "label": "Single paper",
+      "default": true,
+      "sections": [
+        {
+          "id": "main",
+          "label": "Whole paper",
+          "questions": 50,
+          "positions": [
+            1,
+            50
+          ],
+          "units": [
+            {
+              "name": "Accounting for Partnership",
+              "questions": {
+                "min": 6,
+                "target": 8,
+                "max": 10
+              },
+              "chapters": [
+                {
+                  "name": "Partnership Fundamentals",
+                  "min": 2,
+                  "target": 4,
+                  "max": 6
+                },
+                {
+                  "name": "Profit & Loss Appropriation Account",
+                  "min": 2,
+                  "target": 4,
+                  "max": 5
+                }
+              ]
+            },
+            {
+              "name": "Reconstitution of a Partnership firm",
+              "questions": {
+                "min": 10,
+                "target": 13,
+                "max": 15
+              },
+              "chapters": [
+                {
+                  "name": "Change in Profit Sharing Ratio",
+                  "min": 1,
+                  "target": 2,
+                  "max": 4
+                },
+                {
+                  "name": "Goodwill Valuation",
+                  "min": 1,
+                  "target": 3,
+                  "max": 4
+                },
+                {
+                  "name": "Admission of Partner",
+                  "min": 3,
+                  "target": 5,
+                  "max": 6
+                },
+                {
+                  "name": "Retirement & Death of Partner",
+                  "min": 2,
+                  "target": 3,
+                  "max": 5
+                }
+              ]
+            },
+            {
+              "name": "Dissolution of Partnership Firm",
+              "questions": {
+                "min": 5,
+                "target": 8,
+                "max": 10
+              },
+              "chapters": [
+                {
+                  "name": "Dissolution of Partnership Firm",
+                  "min": 0,
+                  "target": 8,
+                  "max": 10
+                },
+                {
+                  "name": "Dissolution of Partnership",
+                  "min": 0,
+                  "target": 0,
+                  "max": 10
+                }
+              ],
+              "note": "The two chapter names are one syllabus topic; count them together."
+            },
+            {
+              "name": "Company Accounts: Accounting for Share and Debenture Capital",
+              "questions": {
+                "min": 11,
+                "target": 14,
+                "max": 16
+              },
+              "chapters": [
+                {
+                  "name": "Share Capital",
+                  "min": 6,
+                  "target": 9,
+                  "max": 11
+                },
+                {
+                  "name": "Debentures",
+                  "min": 3,
+                  "target": 5,
+                  "max": 7
+                }
+              ]
+            },
+            {
+              "name": "Analysis of Financial Statements",
+              "questions": {
+                "min": 5,
+                "target": 7,
+                "max": 9
+              },
+              "chapters": [
+                {
+                  "name": "Financial Statements of Company",
+                  "min": 0,
+                  "target": 1,
+                  "max": 2
+                },
+                {
+                  "name": "Analysis of Financial Statements",
+                  "min": 0,
+                  "target": 1,
+                  "max": 2
+                },
+                {
+                  "name": "Comparative & Common Size Statements",
+                  "min": 0,
+                  "target": 1,
+                  "max": 2
+                },
+                {
+                  "name": "Accounting Ratios",
+                  "min": 1,
+                  "target": 2,
+                  "max": 3
+                },
+                {
+                  "name": "Cash Flow Statement",
+                  "min": 1,
+                  "target": 2,
+                  "max": 3
+                }
+              ]
+            },
+            {
+              "name": "Computerized Accounting System",
+              "questions": {
+                "min": 0,
+                "target": 0,
+                "max": 0
+              },
+              "chapters": [
+                {
+                  "name": "Computerized Accounting System",
+                  "min": 0,
+                  "target": 0,
+                  "max": 0
+                }
+              ],
+              "note": "Syllabus lists CAS as \"Optional to Unit V\". With all 50 compulsory (2025 onward) the 2025 paper asked none."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "excludedChapters": [
+    {
+      "name": "Computerized Accounting System",
+      "reason": "Optional alternative to Unit V in the syllabus; 0 questions in the 2025 all-compulsory paper."
+    }
+  ],
+  "typeQuotas": {
+    "single_mcq": {
+      "min": 30,
+      "target": 35,
+      "max": 40
+    },
+    "match_the_following": {
+      "min": 2,
+      "target": 4,
+      "max": 6
+    },
+    "sequence_ordering": {
+      "min": 3,
+      "target": 6,
+      "max": 7
+    },
+    "statement_based": {
+      "min": 3,
+      "target": 5,
+      "max": 6
+    },
+    "assertion_reason": {
+      "min": 0,
+      "target": 0,
+      "max": 2
+    }
+  },
+  "overlays": {
+    "numerical_share": {
+      "min": 0.15,
+      "target": 0.25,
+      "max": 0.35
+    }
+  },
+  "sets": {
+    "count": {
+      "min": 0,
+      "target": 0,
+      "max": 2
+    },
+    "size": {
+      "min": 4,
+      "target": 5,
+      "max": 5
+    },
+    "questions": {
+      "min": 0,
+      "target": 0,
+      "max": 10
+    },
+    "placement": "end",
+    "positions": [],
+    "oneChapterPerSet": true,
+    "kinds": [
+      "case_based"
+    ],
+    "ifUnavailable": "No sets needed.",
+    "note": "The 2025 paper read had no passage sets (Q46-50 were five standalone Analysis of Financial Statements items)."
+  },
+  "order": {
+    "layout": "standalone_mixed",
+    "standalonePositions": [
+      1,
+      50
+    ],
+    "setPositions": [],
+    "chapterGrouping": "mixed",
+    "maxSameChapterRun": 3,
+    "maxSameTypeRun": 3,
+    "note": "In the 2025 papers read, standalone questions are not grouped by chapter or unit and special types (match, sequence, statements) are scattered through Q1-40. Passage sets sit together at Q41-50."
+  },
+  "difficulty": {
+    "easy": {
+      "min": 0.3,
+      "target": 0.4,
+      "max": 0.5
+    },
+    "medium": {
+      "min": 0.35,
+      "target": 0.45,
+      "max": 0.55
+    },
+    "hard": {
+      "min": 0.1,
+      "target": 0.15,
+      "max": 0.25
+    },
+    "basis": "MockMob difficulty labels (data/cuet_controls.js CUET_DIFFICULTY_STANDARD). NTA publishes no difficulty mix.",
+    "reported": {
+      "2026": "moderate (Hitbullseye)"
+    },
+    "inferred": true,
+    "note": "Numericals are one-step (interest on drawings, goodwill, forfeiture, sacrifice ratio)."
+  },
+  "evidence": {
+    "observed": [
+      {
+        "paper": "CUET UG 2025 Accountancy, one shift (Oswaal solved reprint)",
+        "source": "S4",
+        "counts": {
+          "units": {
+            "partnership": 8,
+            "reconstitution": 13,
+            "dissolution": 10,
+            "company_accounts": 14,
+            "analysis_of_fs": 5,
+            "cas": 0
+          },
+          "types": {
+            "single_mcq": 35,
+            "match_the_following": 4,
+            "sequence_ordering": 6,
+            "statement_based": 5,
+            "assertion_reason": 0
+          },
+          "numerical": 8,
+          "passage_sets": 0
+        }
+      }
+    ],
+    "confidence": {
+      "examRules": "high",
+      "sectionStructure": "high",
+      "unitWeights": "medium",
+      "typeMix": "medium",
+      "sets": "medium",
+      "difficulty": "low"
+    },
+    "inferred": [
+      "chapter splits inside units",
+      "difficulty"
+    ]
+  },
+  "sources": [
+    "S1",
+    "S2",
+    "S3",
+    "S4",
+    "S9"
+  ]
+}
