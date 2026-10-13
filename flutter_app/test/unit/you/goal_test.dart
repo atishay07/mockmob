@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
@@ -18,7 +17,7 @@ Finder _day(int n) => find.bySemanticsLabel(RegExp('^$n days? a week'));
 void main() {
   testWidgets('shows the saved goal, the rest-days line and a disabled Save', (tester) async {
     await _pump(tester, FakeGoal(goalState(4)));
-    expect(find.text('4 days a week'), findsOneWidget);
+    expect(find.bySemanticsLabel(RegExp('^Goal: 4 days a week')), findsOneWidget);
     expect(find.text('The other days are rest days.'), findsOneWidget);
     expect(find.text('study'), findsOneWidget);
     expect(find.text('rest'), findsOneWidget);
@@ -27,28 +26,26 @@ void main() {
 
   testWidgets('picking a day updates the figure and the study/rest split', (tester) async {
     await _pump(tester, FakeGoal(goalState(4)));
-    await tester.tap(find.text('6'));
+    await tester.tap(_day(6));
     await tester.pump();
-    expect(find.text('6 days a week'), findsOneWidget);
-    await tester.tap(find.text('1'));
+    expect(find.bySemanticsLabel(RegExp('^Goal: 6 days a week')), findsOneWidget);
+    await tester.tap(_day(1));
     await tester.pump();
-    expect(find.text('1 day a week'), findsOneWidget);
-    await tester.tap(find.text('7'));
+    expect(find.bySemanticsLabel(RegExp('^Goal: 1 day a week')), findsOneWidget);
+    await tester.tap(_day(7));
     await tester.pump();
     expect(find.text('Every day of the week. There are no rest days at this goal.'), findsOneWidget);
     expect(find.text('rest'), findsNothing);
   });
 
-  testWidgets('every day circle is a labelled radio with a 44 dp target', (tester) async {
+  testWidgets('every day bubble is a labelled radio with a full-size target', (tester) async {
     await _pump(tester, FakeGoal(goalState(3)));
     for (var n = 1; n <= 7; n++) {
       expect(_day(n), findsOneWidget, reason: '$n');
     }
-    final target = find.ancestor(
-      of: find.text('5'),
-      matching: find.byWidgetPredicate((w) => w is SizedBox && w.width == 44 && w.height == 44),
-    );
-    expect(target, findsOneWidget);
+    final target = tester.getSize(_day(5));
+    expect(target.height, greaterThanOrEqualTo(48));
+    expect(target.width, greaterThanOrEqualTo(44));
     expect(find.bySemanticsLabel('3 days a week, selected'), findsOneWidget);
   });
 
@@ -56,7 +53,7 @@ void main() {
     final goal = FakeGoal(goalState(4, pausedUntil: '2026-10-26'));
     final analytics = quietAnalytics();
     await pumpMockmob(tester, const GoalScreen(), wrapInScaffold: false, disableAnimations: true, overrides: youOverrides(goal: goal, analytics: analytics));
-    await tester.tap(find.text('5'));
+    await tester.tap(_day(5));
     await tester.pump();
     expect(find.textContaining('Goal saved on the server'), findsNothing);
     await tester.tap(find.text('Save goal'));
@@ -70,7 +67,7 @@ void main() {
 
   testWidgets('an offline save says nothing was changed and shows no receipt', (tester) async {
     await _pump(tester, FakeGoal(goalState(4), saveError: offlineError()));
-    await tester.tap(find.text('2'));
+    await tester.tap(_day(2));
     await tester.pump();
     await tester.tap(find.text('Save goal'));
     await tester.pump();
@@ -81,7 +78,7 @@ void main() {
 
   testWidgets('a rejected goal is explained', (tester) async {
     await _pump(tester, FakeGoal(goalState(4), saveError: validationError()));
-    await tester.tap(find.text('2'));
+    await tester.tap(_day(2));
     await tester.pump();
     await tester.tap(find.text('Save goal'));
     await tester.pump();
@@ -101,7 +98,7 @@ void main() {
   testWidgets('while the first load runs it shows a skeleton, not a number', (tester) async {
     await _pump(tester, FakeGoal(const RemoteState<Goal>(loading: true)));
     expect(find.bySemanticsLabel('Loading your goal'), findsOneWidget);
-    expect(find.textContaining('days a week'), findsNothing);
+    expect(find.bySemanticsLabel(RegExp('days a week')), findsNothing);
   });
 
   testWidgets('an offline cached goal is labelled as such', (tester) async {

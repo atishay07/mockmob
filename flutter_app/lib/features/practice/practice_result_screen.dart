@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../core/analytics/analytics.dart';
 import '../../core/api/api.dart';
@@ -182,19 +181,23 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> wit
       },
       child: Scaffold(
         backgroundColor: colors.ground,
-        body: SafeArea(
+        body: Stack(
+          children: [
+          Positioned(top: 0, left: 0, right: 0, height: 440, child: IgnorePointer(child: LightField.lamp(context, strength: 0.75))),
+          SafeArea(
           child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
               child: Column(
                 children: [
-                  const PracticeAppBar(title: PracticeCopy.resultTitle),
+                  const PracticeAppBar(),
                   Expanded(
                     child: ListView(
                       controller: _scroll,
-                      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s20, MmSpace.gutter, MmSpace.s24),
+                      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s24),
                       children: [
                         ResultHeader(
+                          subject: subjectNameFor(_publicSubject(attempt), ref.watch(practiceSubjectsProvider).value),
                           correct: attempt.correct,
                           total: attempt.total,
                           wrong: attempt.wrong,
@@ -243,6 +246,8 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> wit
               ),
             ),
           ),
+          ),
+          ],
         ),
       ),
     );
@@ -264,8 +269,8 @@ class _Foot extends StatelessWidget {
     final colors = context.mmColors;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: colors.ground,
         border: Border(top: BorderSide(color: colors.line)),
+        color: colors.ground,
       ),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12, MmSpace.gutter, MmSpace.s8),
@@ -276,9 +281,7 @@ class _Foot extends StatelessWidget {
             KeyButton(label: primaryLabel, onPressed: onPrimary),
             if (showFinish) ...[
               const SizedBox(height: MmSpace.s4),
-              Align(
-                child: KeyButton.quiet(label: PracticeCopy.finishForNow, onPressed: onFinish),
-              ),
+              Align(child: KeyButton.quiet(label: PracticeCopy.finishForNow, onPressed: onFinish)),
             ],
           ],
         ),
@@ -293,30 +296,8 @@ class _LoadFailed extends StatelessWidget {
   final VoidCallback onRetry;
 
   @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Semantics(
-          liveRegion: true,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 2),
-                child: ExcludeSemantics(child: Icon(LucideIcons.circleAlert, size: 20, color: colors.badText)),
-              ),
-              const SizedBox(width: MmSpace.s12),
-              Expanded(child: Text(PracticeCopy.resultLoadFailed, style: context.mmType.body)),
-            ],
-          ),
-        ),
-        const SizedBox(height: MmSpace.s8),
-        KeyButton.secondary(label: PracticeCopy.retry, expanded: false, onPressed: onRetry),
-      ],
-    );
-  }
+  Widget build(BuildContext context) =>
+      InlineBanner(message: PracticeCopy.resultLoadFailed, tone: BannerTone.error, actionLabel: PracticeCopy.retry, onAction: onRetry);
 }
 
 /// The ending after "Finish for now": one plain line and nothing else.
@@ -409,7 +390,7 @@ class _NoAttempt extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            const PracticeAppBar(title: PracticeCopy.resultTitle),
+            const PracticeAppBar(),
             Expanded(child: body),
           ],
         ),

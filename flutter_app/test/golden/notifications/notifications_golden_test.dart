@@ -13,12 +13,13 @@ import 'package:mockmob/features/notifications/widgets/time_sheet.dart';
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
 import '../../unit/notifications/support.dart';
+import '../you/you_golden_kit.dart' show kSheetSize, loadMaterialIcons;
 import '../../unit/notifications/widget_support.dart';
 
 const _window = StudyWindow(start: ClockTime(20, 0), end: ClockTime(21, 0));
 
 Future<void> _shoot(WidgetTester tester, String name, Brightness b) =>
-    expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/${name}_${b.name}.png'));
+    expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/${name}_${b == Brightness.dark ? 'night' : 'day'}.png'));
 
 Future<void> _openSheet(
   WidgetTester tester,
@@ -34,6 +35,7 @@ Future<void> _openSheet(
       ),
     ),
     brightness: brightness,
+    size: kSheetSize,
     overrides: overrides,
   );
   await tester.tap(find.text('open'));
@@ -55,6 +57,7 @@ Future<void> _settings(
     tester,
     const NotificationSettingsScreen(),
     brightness: brightness,
+    size: kSheetSize,
     wrapInScaffold: false,
     overrides: featureOverrides(
       rig: rig,
@@ -70,9 +73,12 @@ Future<void> _settings(
 }
 
 void main() {
-  setUpAll(loadAppFonts);
+  setUpAll(() async {
+    await loadAppFonts();
+    await loadMaterialIcons();
+  });
 
-  for (final b in Brightness.values) {
+  for (final b in [Brightness.dark, Brightness.light]) {
     group('pre-prompt sheet, ${b.name}', () {
       testWidgets('ask', (tester) async {
         final rig = Rig();
@@ -192,6 +198,7 @@ void main() {
           tester,
           const NotificationSettingsScreen(),
           brightness: b,
+          size: kSheetSize,
           wrapInScaffold: false,
           overrides: featureOverrides(rig: rig, repo: FakePrefsRepo(null), permission: FakePermissionRequester(NotificationPermission.granted)),
         );

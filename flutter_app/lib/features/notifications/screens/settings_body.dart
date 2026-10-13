@@ -4,6 +4,7 @@ import '../../../core/models/notification_prefs.dart';
 import '../../../core/permissions/permission_requester.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../you/widgets/you_row.dart' show YouPanel;
 import '../copy.dart';
 import '../data/reminder_state.dart';
 import '../widgets/day_shape.dart';
@@ -102,99 +103,87 @@ class SettingsBody extends StatelessWidget {
         ],
         PermissionPanel(permission: permission, onTurnOn: actions.onTurnOn),
         const SectionHeading(NotificationsCopy.dayHeading),
-        DayShape(
-          quietStart: prefs.quietStart,
-          quietEnd: prefs.quietEnd,
-          window: window,
+        YouPanel(
+          margin: EdgeInsets.zero,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12, MmSpace.gutter, MmSpace.gutter),
+              child: DayShape(quietStart: prefs.quietStart, quietEnd: prefs.quietEnd, window: window),
+            ),
+          ],
         ),
         const SectionHeading(NotificationsCopy.channelsHeading),
-        ChannelRow(
-          title: NotificationsCopy.channelResult,
-          body: NotificationsCopy.channelResultBody,
-          value: prefs.channelOn(NotificationChannelKeys.resultReady),
-          onChanged: (on) =>
-              actions.onChannel(NotificationChannelKeys.resultReady, on),
+        YouPanel(
+          margin: EdgeInsets.zero,
+          children: [
+            ChannelRow(
+              title: NotificationsCopy.channelResult,
+              body: NotificationsCopy.channelResultBody,
+              value: prefs.channelOn(NotificationChannelKeys.resultReady),
+              onChanged: (on) => actions.onChannel(NotificationChannelKeys.resultReady, on),
+            ),
+            ChannelRow(
+              title: NotificationsCopy.channelStudy,
+              body: NotificationsCopy.channelStudyBody,
+              value: _on(NotificationChannelKeys.studyWindow),
+              note: _pausedNote(NotificationChannelKeys.studyWindow),
+              onChanged: (on) => actions.onChannel(NotificationChannelKeys.studyWindow, on),
+            ),
+            ChannelRow(
+              title: NotificationsCopy.channelWeekly,
+              body: NotificationsCopy.channelWeeklyBody,
+              value: _on(NotificationChannelKeys.weeklyPlan),
+              note: _pausedNote(NotificationChannelKeys.weeklyPlan),
+              onChanged: (on) => actions.onChannel(NotificationChannelKeys.weeklyPlan, on),
+            ),
+            if (freshChecksOpen)
+              ChannelRow(
+                title: NotificationsCopy.channelCheck,
+                body: NotificationsCopy.channelCheckBody,
+                value: _on(NotificationChannelKeys.checkDue),
+                note: _pausedNote(NotificationChannelKeys.checkDue),
+                onChanged: (on) => actions.onChannel(NotificationChannelKeys.checkDue, on),
+              ),
+          ],
         ),
-        const Hairline(),
-        ChannelRow(
-          title: NotificationsCopy.channelStudy,
-          body: NotificationsCopy.channelStudyBody,
-          value: _on(NotificationChannelKeys.studyWindow),
-          note: _pausedNote(NotificationChannelKeys.studyWindow),
-          onChanged: (on) =>
-              actions.onChannel(NotificationChannelKeys.studyWindow, on),
-        ),
-        const Hairline(),
-        ChannelRow(
-          title: NotificationsCopy.channelWeekly,
-          body: NotificationsCopy.channelWeeklyBody,
-          value: _on(NotificationChannelKeys.weeklyPlan),
-          note: _pausedNote(NotificationChannelKeys.weeklyPlan),
-          onChanged: (on) =>
-              actions.onChannel(NotificationChannelKeys.weeklyPlan, on),
-        ),
-        if (freshChecksOpen) ...[
-          const Hairline(),
-          ChannelRow(
-            title: NotificationsCopy.channelCheck,
-            body: NotificationsCopy.channelCheckBody,
-            value: _on(NotificationChannelKeys.checkDue),
-            note: _pausedNote(NotificationChannelKeys.checkDue),
-            onChanged: (on) =>
-                actions.onChannel(NotificationChannelKeys.checkDue, on),
-          ),
-        ],
         const SectionHeading(NotificationsCopy.windowHeading),
         if (window == null)
           const QuietNote(NotificationsCopy.windowEmpty)
         else ...[
-          ValueRow(
-            label: NotificationsCopy.windowStarts,
-            value: formatClock(window.start),
-            onTap: actions.onWindowStart,
-          ),
-          ValueRow(
-            label: NotificationsCopy.windowEnds,
-            value: formatClock(window.end),
-            onTap: actions.onWindowEnd,
+          YouPanel(
+            margin: EdgeInsets.zero,
+            children: [
+              ValueRow(label: NotificationsCopy.windowStarts, value: formatClock(window.start), onTap: actions.onWindowStart),
+              ValueRow(label: NotificationsCopy.windowEnds, value: formatClock(window.end), onTap: actions.onWindowEnd),
+            ],
           ),
           if (prefs.studyWindowInQuietHours) ...[
-            const SizedBox(height: MmSpace.s4),
-            ConflictLine(
-              text: NotificationsCopy.conflict(formatClock(window.start)),
+            const SizedBox(height: MmSpace.s12),
+            Padding(
+              padding: const EdgeInsets.only(left: 4),
+              child: ConflictLine(text: NotificationsCopy.conflict(formatClock(window.start))),
             ),
           ],
           const SizedBox(height: MmSpace.s4),
           Align(
             alignment: Alignment.centerLeft,
             child: Transform.translate(
-              offset: const Offset(-MmSpace.s16, 0),
-              child: KeyButton.quiet(
-                label: NotificationsCopy.windowRemove,
-                onPressed: actions.onRemoveWindow,
-              ),
+              offset: const Offset(-MmSpace.s12, 0),
+              child: KeyButton.quiet(label: NotificationsCopy.windowRemove, onPressed: actions.onRemoveWindow),
             ),
           ),
         ],
         const SectionHeading(NotificationsCopy.quietHeading),
-        ValueRow(
-          label: NotificationsCopy.quietStarts,
-          value: formatClock(prefs.quietStart),
-          onTap: actions.onQuietStart,
+        YouPanel(
+          margin: EdgeInsets.zero,
+          children: [
+            ValueRow(label: NotificationsCopy.quietStarts, value: formatClock(prefs.quietStart), onTap: actions.onQuietStart),
+            ValueRow(label: NotificationsCopy.quietEnds, value: formatClock(prefs.quietEnd), onTap: actions.onQuietEnd),
+          ],
         ),
-        ValueRow(
-          label: NotificationsCopy.quietEnds,
-          value: formatClock(prefs.quietEnd),
-          onTap: actions.onQuietEnd,
-        ),
-        QuietNote(
-          quietOff
-              ? NotificationsCopy.dayQuietOff
-              : NotificationsCopy.quietBody,
-        ),
+        QuietNote(quietOff ? NotificationsCopy.dayQuietOff : NotificationsCopy.quietBody),
         const SectionHeading(NotificationsCopy.capHeading),
         CapChips(value: cap, onChanged: actions.onCap),
-        const SizedBox(height: MmSpace.s8),
         const QuietNote(NotificationsCopy.capBody),
         const SectionHeading(NotificationsCopy.muteHeading),
         MuteSection(

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../core/api/api_providers.dart';
 import '../../core/auth/auth_state.dart';
 import '../../core/copy/copy.dart';
-import '../../core/models/consent.dart';
 import '../../core/motion/motion.dart';
 import '../../core/repositories/repositories.dart';
 import '../../core/router/action_router.dart';
@@ -13,12 +12,20 @@ import '../../core/router/external_link_opener.dart';
 import '../../core/router/routes.dart';
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
+import '../rhythm/logic/tokens.dart';
+import '../rhythm/logic/week_view.dart' show WeekStatus, runNote, weeksInRhythmText;
+import '../rhythm/rhythm.dart';
+import '../rhythm/widgets/token_shelf.dart';
 import 'copy.dart';
+import 'data/student_target.dart';
+import 'hub/hub_sections.dart';
+import 'hub/sheet_card.dart';
+import 'hub/sheet_fields.dart';
 import 'widgets/you_page.dart';
-import 'widgets/you_row.dart';
 
-/// The You tab (spec 5.10): list rows, not cards, in three quiet groups. Each row shows one live
-/// fact when we have it, so the hub answers "where am I" before you open anything.
+/// You (brief section 12): identity first, settings second. The student's sheet for the season
+/// sits in the lamp light at the top, the brass milestone tokens stand on their shelf beneath it,
+/// and the calm settings panels follow. Opened from the avatar on every tab root.
 class YouHubScreen extends ConsumerStatefulWidget {
   const YouHubScreen({super.key});
 
@@ -27,7 +34,7 @@ class YouHubScreen extends ConsumerStatefulWidget {
 }
 
 class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerProviderStateMixin {
-  late final AnimationController _enter = AnimationController(vsync: this, duration: Motion.milestone);
+  late final AnimationController _enter = AnimationController(vsync: this, duration: const Duration(milliseconds: 620));
   bool _started = false;
   bool _openFailed = false;
 
@@ -56,159 +63,146 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> with SingleTickerPr
     if (mounted) setState(() => _openFailed = !ok);
   }
 
-  /// One group rises 8 dp and fades in over 200 ms, each 70 ms after the one before. It plays
-  /// once when the tab is first built and never again.
-  Widget _group(int index, Widget child) {
-    final start = index * 70 / Motion.milestone.inMilliseconds;
-    final end = start + Motion.ui.inMilliseconds / Motion.milestone.inMilliseconds;
-    final curve = CurvedAnimation(parent: _enter, curve: Interval(start, end.clamp(0, 1).toDouble(), curve: Motion.out));
+  /// One block glides up 10 dp and fades in over 300 ms, each 60 ms after the one before. It
+  /// plays once when You opens and never again.
+  Widget _rise(int index, Widget child) {
+    const total = 620.0;
+    final start = (index * 60 / total).clamp(0.0, 0.6);
+    final end = (start + 300 / total).clamp(0.0, 1.0);
+    final curve = CurvedAnimation(parent: _enter, curve: Interval(start, end, curve: Motion.glide));
     return FadeTransition(
       opacity: curve,
-      child: SlideTransition(
-        position: Tween(begin: const Offset(0, 0.04), end: Offset.zero).animate(curve),
+      child: AnimatedBuilder(
+        animation: curve,
+        builder: (context, child) => Transform.translate(offset: Offset(0, 10 * (1 - curve.value)), child: child),
         child: child,
       ),
+    );
+  }
+
+  SheetWeek _week(RhythmSnapshot snapshot, bool off) {
+    if (off) return const SheetWeek.off();
+    if (snapshot.isInitialLoading) return const SheetWeek.loading();
+    final rhythm = snapshot.rhythm;
+    final week = snapshot.week;
+    if (rhythm == null || week == null) {
+      return SheetWeek.failed(() => ref.read(rhythmRepositoryProvider.notifier).refresh(force: true));
+    }
+    final paused = week.status == WeekStatus.paused;
+    final days = [
+      for (final d in week.days) WeekBubbleDay(mark: d.studyDay ? WeekDayMark.done : WeekDayMark.open, isToday: d.isToday),
+    ];
+    final note = paused ? week.label : (runNote(rhythm) ?? weeksInRhythmText(rhythm));
+    final count = YouCopy.weekCount(week.studyDays, week.goal);
+    final study = [for (var i = 0; i < 7; i++) if (week.days[i].studyDay) weekdayNames[i]];
+    return SheetWeek.ready(
+      days: days,
+      count: count,
+      note: note,
+      description: [count, study.isEmpty ? 'No study days yet this week' : 'Studied ${joinWithAnd(study)}'].join('. '),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final type = context.mmType;
     final auth = ref.watch(authSnapshotProvider);
-    final goal = ref.watch(goalRepositoryProvider).value;
-    final rhythm = ref.watch(rhythmRepositoryProvider).value;
-    final consent = ref.watch(consentRepositoryProvider);
+    final snapshot = ref.watch(rhythmSnapshotProvider);
+    final prefs = ref.watch(rhythmPrefsProvider);
+    final target = ref.watch(studentTargetProvider);
+    final now = ref.watch(nowProvider)();
+    final off = prefs.loaded && prefs.hidden;
+    final bottom = MediaQuery.viewPaddingOf(context).bottom;
 
-    return YouPage(
-      title: YouCopy.hubTitle,
-      showBack: false,
-      large: true,
-      children: [
-        if (auth.email != null)
-          Padding(
-            padding: youGutter,
-            child: Text(YouCopy.signedInAs(auth.email!), style: type.small.copyWith(color: colors.ink2)),
+    return Scaffold(
+      backgroundColor: colors.ground,
+      body: Stack(
+        children: [
+          Positioned(
+            left: 0,
+            right: 0,
+            top: 0,
+            height: 520,
+            child: IgnorePointer(child: LightField.lamp(context, center: const Alignment(-1.05, -1.0), strength: 0.9)),
           ),
-        if (_openFailed)
-          Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s16, MmSpace.gutter, 0),
-            child: const InlineBanner(message: YouCopy.toolOpenFailed, tone: BannerTone.error),
+          SafeArea(
+            bottom: false,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
+                child: ListView(
+                  padding: EdgeInsets.only(bottom: MmSpace.s32 + bottom),
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.gutter, MmSpace.s8),
+                      child: Align(alignment: Alignment.centerLeft, child: BackKey()),
+                    ),
+                    if (_openFailed)
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s12),
+                        child: InlineBanner(message: YouCopy.toolOpenFailed, tone: BannerTone.error),
+                      ),
+                    _rise(
+                      0,
+                      Padding(
+                        padding: youGutter,
+                        child: SheetCard(
+                          name: auth.name,
+                          email: auth.email,
+                          target: target,
+                          subjects: auth.subjects.isNotEmpty ? auth.subjects : target.subjects,
+                          week: _week(snapshot, off),
+                          onOpenRhythm: () => context.push(AppRoutes.youRhythm),
+                        ),
+                      ),
+                    ),
+                    _rise(1, _shelf(snapshot, now)),
+                    _rise(2, const Column(children: [GroupHeading(YouCopy.hubProgress), ProgressPanel()])),
+                    _rise(3, const Column(children: [GroupHeading(YouCopy.hubSettings), SettingsPanel()])),
+                    _rise(4, Column(children: [const GroupHeading(YouCopy.hubTools), ToolsPanel(onOpen: _openTool)])),
+                    const HubFooter(),
+                  ],
+                ),
+              ),
+            ),
           ),
-        _group(
-          0,
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const GroupHeading(YouCopy.hubProgress),
-              YouRow(
-                icon: LucideIcons.target,
-                title: YouCopy.rowRhythm,
-                note: _rhythmNote(goal?.daysPerWeek, goal?.pausedUntil, rhythm?.weeksMetStreak),
-                onTap: () => context.push(AppRoutes.youRhythm),
-              ),
-              YouRow(
-                icon: LucideIcons.clipboardCheck,
-                title: YouCopy.rowRecord,
-                onTap: () => context.push(AppRoutes.reviewRecord),
-              ),
-              YouRow(
-                icon: LucideIcons.calendarDays,
-                title: YouCopy.rowMilestones,
-                onTap: () => context.push(AppRoutes.youMilestones),
-              ),
-              YouRow(
-                icon: LucideIcons.medal,
-                title: YouCopy.rowBests,
-                onTap: () => context.push(AppRoutes.youBests),
-              ),
-            ],
-          ),
-        ),
-        _group(
-          1,
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const GroupHeading(YouCopy.hubSettings),
-              YouRow(
-                icon: LucideIcons.bell,
-                title: YouCopy.rowNotifications,
-                onTap: () => context.push(AppRoutes.youNotifications),
-              ),
-              YouRow(
-                icon: LucideIcons.palette,
-                title: YouCopy.rowAppearance,
-                onTap: () => context.push(AppRoutes.youAppearance),
-              ),
-              YouRow(
-                icon: LucideIcons.shieldCheck,
-                title: YouCopy.rowPrivacy,
-                note: _privacyNote(consent),
-                onTap: () => context.push(AppRoutes.youPrivacy),
-              ),
-              YouRow(
-                icon: LucideIcons.user,
-                title: YouCopy.rowAccount,
-                onTap: () => context.push(AppRoutes.youAccount),
-              ),
-              YouRow(
-                icon: LucideIcons.lifeBuoy,
-                title: YouCopy.rowHelp,
-                onTap: () => context.push(AppRoutes.youHelp),
-              ),
-            ],
-          ),
-        ),
-        _group(
-          2,
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const GroupHeading(YouCopy.hubTools),
-              YouRow(
-                icon: LucideIcons.compass,
-                title: YouCopy.toolCompass,
-                external: true,
-                onTap: () => _openTool('/admission-compass'),
-              ),
-              YouRow(
-                icon: LucideIcons.layoutGrid,
-                title: YouCopy.toolCombo,
-                external: true,
-                onTap: () => _openTool('/cuet-subject-combination'),
-              ),
-            ],
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
-  /// "Goal: 4 days a week" over "Weeks in rhythm: 3". The weeks figure is left out at zero (a run that
-  /// has not started is not shown as a number), and a pause replaces it.
-  static String? _rhythmNote(int? days, String? pausedUntil, int? weeks) {
-    final parts = <String>[];
-    if (days != null) parts.add(YouCopy.goalNote(days));
-    final pause = _pauseDate(pausedUntil);
-    if (pause != null) {
-      parts.add(YouCopy.pausedUntil(formatDayMonth(pause)));
-    } else if (weeks != null && weeks > 0) {
-      parts.add(YouCopy.weeksInRhythm(weeks));
-    }
-    return parts.isEmpty ? null : parts.join('\n');
-  }
-
-  static DateTime? _pauseDate(String? raw) {
-    final date = raw == null ? null : DateTime.tryParse(raw);
-    if (date == null) return null;
-    final now = DateTime.now();
-    return date.isBefore(DateTime(now.year, now.month, now.day)) ? null : date;
-  }
-
-  static String? _privacyNote(ConsentState consent) {
-    if (!consent.isLoaded) return null;
-    if (consent.consent.ageBand != AgeBand.adult) return YouCopy.privacyOffForAccount;
-    return consent.analyticsActive ? YouCopy.privacyOn : YouCopy.privacyOff;
+  Widget _shelf(RhythmSnapshot snapshot, DateTime now) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final failed = !snapshot.hasData && !snapshot.isInitialLoading;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        GroupHeading(
+          YouCopy.shelfTitle,
+          trailing: KeyButton.quiet(label: YouCopy.shelfSeeAll, onPressed: () => context.push(AppRoutes.youMilestones)),
+        ),
+        Padding(
+          padding: youGutter,
+          child: failed
+              ? Row(
+                  children: [
+                    Expanded(child: Text(YouCopy.shelfLoadFailed, style: type.small.copyWith(color: colors.ink2))),
+                    KeyButton.quiet(
+                      label: YouCopy.tryAgain,
+                      onPressed: () => ref.read(rhythmRepositoryProvider.notifier).refresh(force: true),
+                    ),
+                  ],
+                )
+              : TokenShelf(
+                  slots: tokenSlots(snapshot.rhythm?.milestones ?? const []),
+                  zone: snapshot.timezone,
+                  now: now,
+                  loading: snapshot.isInitialLoading,
+                ),
+        ),
+      ],
+    );
   }
 }

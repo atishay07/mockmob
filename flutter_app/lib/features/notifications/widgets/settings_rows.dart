@@ -4,6 +4,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/widgets.dart' show Skeleton, SkeletonGroup;
 
 /// A group heading: sentence case, no eyebrow styling, 32 dp above to separate independent groups.
 class SectionHeading extends StatelessWidget {
@@ -15,10 +16,10 @@ class SectionHeading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: topGap, bottom: MmSpace.s8),
+      padding: EdgeInsets.only(top: topGap, bottom: MmSpace.s8, left: 4),
       child: Semantics(
         header: true,
-        child: Text(text, style: context.mmType.title),
+        child: Text(text, style: context.mmType.labelLarge.copyWith(color: context.mmColors.ink2)),
       ),
     );
   }
@@ -31,9 +32,12 @@ class QuietNote extends StatelessWidget {
   final String text;
 
   @override
-  Widget build(BuildContext context) => Text(
-    text,
-    style: context.mmType.small.copyWith(color: context.mmColors.ink3),
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.only(left: 4, top: MmSpace.s8),
+    child: Text(
+      text,
+      style: context.mmType.caption.copyWith(color: context.mmColors.ink2),
+    ),
   );
 }
 
@@ -93,13 +97,15 @@ class _ValueRowState extends State<ValueRow> {
             behavior: HitTestBehavior.opaque,
             onTap: widget.onTap,
             child: ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: 56),
-              child: Row(
+              constraints: const BoxConstraints(minHeight: 60),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter, vertical: MmSpace.s6),
+                child: Row(
                 children: [
                   Expanded(
                     child: Text(
                       widget.label,
-                      style: type.body.copyWith(color: colors.ink),
+                      style: type.labelLarge.copyWith(fontSize: 16, color: colors.ink),
                     ),
                   ),
                   const SizedBox(width: MmSpace.s12),
@@ -109,12 +115,13 @@ class _ValueRowState extends State<ValueRow> {
                       minWidth: 92,
                     ),
                     child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: _pressed ? colors.line : colors.sunken,
-                        borderRadius: MmRadius.smallAll,
-                        border: Border.all(
-                          color: _focused ? colors.focusRing : colors.line,
-                          width: _focused ? 2 : 1,
+                      decoration: ShapeDecoration(
+                        color: _pressed ? colors.line : (colors.isNight ? colors.sunken : colors.raised2),
+                        shape: StadiumBorder(
+                          side: BorderSide(
+                            color: _focused ? colors.focusRing : colors.line,
+                            width: _focused ? 2 : 1,
+                          ),
                         ),
                       ),
                       child: Padding(
@@ -127,6 +134,7 @@ class _ValueRowState extends State<ValueRow> {
                             widget.value,
                             style: type.button.copyWith(
                               fontSize: 16,
+                              fontWeight: FontWeight.w700,
                               color: colors.ink,
                             ),
                           ),
@@ -135,6 +143,7 @@ class _ValueRowState extends State<ValueRow> {
                     ),
                   ),
                 ],
+              ),
               ),
             ),
           ),
@@ -187,9 +196,9 @@ class ChannelRow extends ConsumerWidget {
         behavior: HitTestBehavior.opaque,
         onTap: enabled ? toggle : null,
         child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 56),
+          constraints: const BoxConstraints(minHeight: 64),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
+            padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter, vertical: MmSpace.s12),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -197,11 +206,11 @@ class ChannelRow extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(title, style: type.subhead),
+                      Text(title, style: type.labelLarge.copyWith(fontSize: 16)),
                       const SizedBox(height: 2),
                       Text(
                         body,
-                        style: type.small.copyWith(color: colors.ink2),
+                        style: type.caption.copyWith(color: colors.ink2),
                       ),
                       if (note != null) ...[
                         const SizedBox(height: MmSpace.s4),
@@ -260,4 +269,28 @@ class Hairline extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
       SizedBox(height: 1, child: ColoredBox(color: context.mmColors.line));
+}
+
+/// The settings list while the first read is in flight.
+class LoadingRows extends StatelessWidget {
+  const LoadingRows({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const SkeletonGroup(
+      child: Column(
+        children: [
+          Skeleton(height: 96, radius: MmRadius.panel),
+          SizedBox(height: MmSpace.s32),
+          Skeleton(height: 40),
+          SizedBox(height: MmSpace.s32),
+          Skeleton(height: 56),
+          SizedBox(height: MmSpace.s12),
+          Skeleton(height: 56),
+          SizedBox(height: MmSpace.s12),
+          Skeleton(height: 56),
+        ],
+      ),
+    );
+  }
 }

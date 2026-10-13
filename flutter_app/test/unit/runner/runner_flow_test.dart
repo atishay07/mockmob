@@ -1,0 +1,297 @@
+import 'package:flutter/material.dart';
+import 'dart:ui' show Tristate;
+
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/api/api_error.dart';
+import 'package:mockmob/core/sync/session/session_engine.dart';
+import 'package:mockmob/core/sync/session/session_submitter.dart';
+import 'package:mockmob/features/runner/data/runner_loader.dart';
+import 'package:mockmob/features/runner/screens/submit_screen.dart';
+import 'package:mockmob/features/runner/widgets/palette_sheet.dart';
+
+import '../../helpers/fonts.dart';
+import 'support/fake_session.dart';
+import 'support/harness.dart';
+
+Future<void> _flush(WidgetTester tester) async {
+  for (var i = 0; i < 4; i++) {
+    await tester.pump(const Duration(milliseconds: 1));
+  }
+}
+
+/// Fails with the full diagnostics (which widget, which constraints) when layout overflowed.
+void _expectClean(WidgetTester tester) {
+  final e = tester.takeException();
+  if (e is FlutterError) fail(e.toStringDeep());
+  expect(e, isNull);
+}
+
+void main() {
+  setUpAll(loadAppFonts);
+
+  group('answering', () {
+    testWidgets('opens in focus mode and leaves it when the runner closes', (tester) async {
+      final s = FakeRunnerSession();
+      final h = await pumpRunner(tester, session: s);
+      expect(h.systemUi.calls, ['enter']);
+      expect(find.text('Questions'), findsOneWidget);
+      expect(find.text('47:12'), findsOneWidget);
+
+      await tester.binding.handlePopRoute();
+      await settle(tester);
+      await tester.tap(find.text('Leave the mock'));
+      await settle(tester);
+      expect(h.location, '/practice');
+      expect(h.systemUi.calls, ['enter', 'exit']);
+      // The open session was flushed and closed, never discarded.
+      expect(s.closed, isTrue);
+      expect(s.calls, isNot(contains('submit')));
+    });
+
+    testWidgets('choosing an option writes it, then ticks', (tester) async {
+      final s = FakeRunnerSession();
+      final h = await pumpRunner(tester, session: s);
+      await tester.tap(find.text('3:2:1'));
+      await tester.pump();
+      expect(s.answers['q1'], 1);
+      expect(h.haptics.calls, ['selection']);
+      final node = tester.getSemantics(find.bySemanticsLabel('Option B, 3:2:1'));
+      expect(node.flagsCollection.isSelected, Tristate.isTrue);
+
+      await tester.tap(find.text('Clear my answer'));
+      await tester.pump();
+      expect(s.answers.containsKey('q1'), isFalse);
+      // Clearing is not a selection: no second tick.
+      expect(h.haptics.calls, ['selection']);
+    });
+
+    testWidgets('options are closed once answering stops', (tester) async {
+      final s = FakeRunnerSession(canAnswer: false);
+      await pumpRunner(tester, session: s);
+      await tester.tap(find.text('3:2:1'));
+      await tester.pump();
+      expect(s.calls, isNot(contains('select q1 1')));
+    });
+
+    testWidgets('save and next, previous and mark move through the paper', (tester) async {
+      final s = FakeRunnerSession();
+      await pumpRunner(tester, session: s);
+      expect(find.bySemanticsLabel('Question 1 of 50'), findsOneWidget);
+      await tester.tap(find.text('Save and next'));
+      await tester.pump();
+      expect(s.currentIndex, 1);
+      expect(find.bySemanticsLabel('Question 2 of 50'), findsOneWidget);
+
+      await tester.tap(find.text('Mark for review'));
+      await tester.pump();
+      expect(s.marked, contains('q2'));
+      expect(find.text('Marked for review'), findsOneWidget);
+
+      await tester.tap(find.text('Previous').last);
+      await tester.pump();
+      expect(s.currentIndex, 0);
+    });
+
+    testWidgets('the palette jumps to a question', (tester) async {
+      final s = FakeRunnerSession();
+      await pumpRunner(tester, session: s);
+      await tester.tap(find.text('Questions'));
+      await settle(tester);
+      expect(find.text('Your answer sheet'), findsOneWidget);
+      await tester.tap(find.bySemanticsLabel('Question 6, not visited'));
+      await settle(tester);
+      expect(s.currentIndex, 5);
+      expect(find.text('Your answer sheet'), findsNothing);
+    });
+
+    testWidgets('keep going keeps the student in the mock', (tester) async {
+      final s = FakeRunnerSession();
+      final h = await pumpRunner(tester, session: s);
+      await tester.tap(find.bySemanticsLabel('Leave the mock'));
+      await settle(tester);
+      expect(find.text('Leave this mock?'), findsOneWidget);
+      // The warn pattern: two light impacts.
+      expect(h.haptics.calls, ['light', 'light']);
+      await tester.tap(find.text('Keep going'));
+      await settle(tester);
+      expect(h.location, '/run/sess-1');
+      expect(s.closed, isFalse);
+    });
+
+    testWidgets('a warning holds the meta line for three seconds', (tester) async {
+      final s = FakeRunnerSession(remaining: const Duration(minutes: 4, seconds: 59));
+      final h = await pumpRunner(tester, session: s);
+      s.warningController.add(SessionWarning.fiveMinutes);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 16));
+      expect(find.text('5 minutes left'), findsOneWidget);
+      expect(h.haptics.calls, ['light']);
+      await tester.pump(const Duration(seconds: 3, milliseconds: 100));
+      expect(find.text('5 minutes left'), findsNothing);
+    });
+
+    testWidgets('pause and resume reach the engine', (tester) async {
+      final s = FakeRunnerSession();
+      await pumpRunner(tester, session: s);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      await tester.pump();
+      expect(s.calls, containsAllInOrder(['paused', 'resumed']));
+    });
+
+    testWidgets('the practice skin hides the timer and says feedback comes later', (tester) async {
+      final s = FakeRunnerSession(questions: accountancyQuestions(10), mode: 'quick', mockNumber: null);
+      await pumpRunner(tester, session: s);
+      expect(find.text('47:12'), findsNothing);
+      expect(find.text('Feedback comes after you finish.'), findsOneWidget);
+      await tester.tap(find.text('3:2:1'));
+      await tester.pump();
+      expect(find.text('Feedback comes after you finish.'), findsNothing);
+    });
+  });
+
+  group('submit', () {
+    Map<String, int> all(int n) => {for (var i = 1; i <= n; i++) 'q$i': 0};
+
+    testWidgets('review and submit, then the sealed sheet opens after the acknowledgement', (tester) async {
+      final s = FakeRunnerSession(questions: accountancyQuestions(5), currentIndex: 4, answers: all(4));
+      final h = await pumpRunner(tester, session: s);
+      await tester.tap(find.text('Review and submit'));
+      await settle(tester);
+      expect(find.text('Submit now?'), findsOneWidget);
+      expect(find.text('1 not answered'), findsOneWidget);
+
+      await tester.tap(find.text('Submit mock'));
+      await _flush(tester);
+      expect(find.text('Answers received. Saved on the server at 10:42 PM.'), findsOneWidget);
+      expect(h.afterSubmit, [s]);
+      // The success pattern only after the 200: medium then light.
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(h.haptics.calls, containsAllInOrder(['medium', 'light']));
+
+      await tester.pump(SubmitPage.handOffDelay);
+      await settle(tester);
+      expect(h.location, '/result/att-1/sealed');
+    });
+
+    testWidgets('practice hands off to the practice result', (tester) async {
+      final s = FakeRunnerSession(questions: accountancyQuestions(3), mode: 'quick', mockNumber: null, currentIndex: 2, answers: all(3));
+      final h = await pumpRunner(tester, session: s);
+      await tester.tap(find.text('Review and submit'));
+      await settle(tester);
+      await tester.tap(find.text('Submit practice'));
+      await _flush(tester);
+      await tester.tap(find.text('See your answers'));
+      await settle(tester);
+      expect(h.location, '/practice/result/att-1');
+    });
+
+    testWidgets('keep working goes back to the question', (tester) async {
+      final s = FakeRunnerSession(questions: accountancyQuestions(3), currentIndex: 2);
+      final h = await pumpRunner(tester, session: s);
+      await tester.tap(find.text('Review and submit'));
+      await settle(tester);
+      await tester.tap(find.text('Keep working'));
+      await settle(tester);
+      expect(h.location, '/run/sess-1');
+      expect(find.text('Save and next'), findsNothing);
+      expect(find.text('Review and submit'), findsOneWidget);
+      expect(s.submits, 0);
+    });
+
+    testWidgets('time up opens the submit page with its stage', (tester) async {
+      final s = FakeRunnerSession(questions: accountancyQuestions(5))..nextOutcome = null;
+      final h = await pumpRunner(tester, session: s);
+      // The engine submits by itself at zero.
+      await s.submit(timedOut: true);
+      await settle(tester);
+      expect(find.text('Time is up.'), findsOneWidget);
+      expect(find.text('Sending your answers'), findsOneWidget);
+      expect(h.afterSubmit, isEmpty);
+    });
+
+    testWidgets('a submit owed from before a restart is retried on open', (tester) async {
+      final s = FakeRunnerSession(questions: accountancyQuestions(5), submitOwedOnOpen: true)
+        ..nextOutcome = const SubmitPending(ApiError(kind: ApiErrorKind.network, code: 'network'));
+      final h = await pumpRunner(tester, session: s);
+      await settle(tester);
+      expect(s.submits, 1);
+      expect(find.text('Not sent yet'), findsOneWidget);
+      expect(find.text('Your answers are on this phone. We will send them when you are online.'), findsOneWidget);
+      expect(find.text('Not on the server yet'), findsOneWidget);
+
+      s.nextOutcome = SubmitReceived(attempt: const {'id': 'att-9'}, receivedAt: DateTime(2026, 10, 13, 22, 50));
+      await tester.tap(find.text('Try again'));
+      await _flush(tester);
+      expect(s.submits, 2);
+      expect(find.text('Answers received. Saved on the server at 10:50 PM.'), findsOneWidget);
+      await tester.pump(SubmitPage.handOffDelay);
+      await settle(tester);
+      expect(h.location, '/result/att-9/sealed');
+    });
+
+    testWidgets('back while sending does nothing; back after the window closed goes to Today', (tester) async {
+      final s = FakeRunnerSession(questions: accountancyQuestions(5))..nextOutcome = null;
+      final h = await pumpRunner(tester, session: s, location: '/run/sess-1/submit');
+      await settle(tester);
+      await tester.tap(find.text('Submit mock'));
+      await settle(tester);
+      await tester.binding.handlePopRoute();
+      await settle(tester);
+      expect(h.location, '/run/sess-1/submit');
+
+      s.submitState.value = const SubmitUiState(SubmitStage.windowClosed, outcome: SubmitWindowClosed());
+      await settle(tester);
+      expect(find.text('The submission window has ended, so this mock could not be recorded.'), findsOneWidget);
+      await tester.binding.handlePopRoute();
+      await settle(tester);
+      expect(h.location, '/today');
+    });
+  });
+
+  group('opening', () {
+    testWidgets('a session that is not on this phone offers Practice, and back goes there too', (tester) async {
+      final h = await pumpRunner(tester, load: const RunnerMissing());
+      await settle(tester);
+      expect(find.text('This session is not on this phone.'), findsOneWidget);
+      await tester.binding.handlePopRoute();
+      await settle(tester);
+      expect(h.location, '/practice');
+    });
+
+    testWidgets('an ended session points to Today', (tester) async {
+      final h = await pumpRunner(tester, load: const RunnerEnded(isMock: true));
+      await settle(tester);
+      expect(find.text('Time ran out on this mock.'), findsOneWidget);
+      await tester.tap(find.text('Go to Today'));
+      await settle(tester);
+      expect(h.location, '/today');
+    });
+  });
+
+  group('large text', () {
+    for (final scale in [1.3, 2.0]) {
+      testWidgets('runner, palette and submit page hold at $scale on a small phone', (tester) async {
+        final s = FakeRunnerSession(currentIndex: 2, answers: {'q1': 0, 'q3': 2}, marked: {'q3'});
+        await pumpRunner(tester, session: s, size: const Size(360, 640), textScale: scale);
+        await settle(tester);
+        _expectClean(tester);
+        await tester.tap(find.text('Questions'));
+        await settle(tester);
+        _expectClean(tester);
+        Navigator.of(tester.element(find.byType(PaletteSheet))).pop();
+        await settle(tester);
+        await s.goTo(49);
+        await tester.pump();
+        await tester.tap(find.text('Review and submit'));
+        await settle(tester);
+        _expectClean(tester);
+        expect(find.text('Submit mock'), findsOneWidget);
+      });
+    }
+  });
+}

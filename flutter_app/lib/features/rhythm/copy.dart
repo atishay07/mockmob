@@ -20,6 +20,10 @@ abstract final class RhythmCopy {
 
   static String stripMet(int days, int goal) => '$days of ${plural(goal, 'study day')}. This week is done.';
 
+  static String ofGoal(int goal) => 'of ${plural(goal, 'study day')}';
+
+  static const String goalMet = 'Goal met.';
+
   static String stripExtra(int days) => '$days days this week';
 
   static String paused(String? untilDate) => untilDate == null ? 'Rhythm is paused.' : 'Rhythm is paused until $untilDate.';
@@ -111,6 +115,19 @@ abstract final class RhythmCopy {
     _ => null,
   };
 
+  // Milestone tokens (the brass shelf).
+  static const String shelfTitle = 'Your shelf';
+  static const String tokenFirstMock = 'First mock';
+  static const String tokenFirstRepair = 'First repair';
+  static const String tokenFirstWeek = 'First week in rhythm';
+  static const String tokenFirstMockEmpty = 'Lands with your first full mock';
+  static const String tokenFirstRepairEmpty = 'Lands when a repair is finished';
+  static const String tokenFirstWeekEmpty = 'Lands when a week meets your goal';
+  static String tokenEarned(String name, String date) => '$name, earned on $date';
+  static String tokenWaiting(String name, String hint) => '$name, not earned yet. $hint';
+  static const String timelineTitle = 'Every milestone, newest first';
+  static const String milestonesNone = 'Nothing yet. Your first one is dated the day it happens.';
+
   // Personal bests.
   static const String bestsTitle = 'Personal bests';
   static const String bestsEmptyTitle = 'Nothing to compare yet';
@@ -126,6 +143,10 @@ abstract final class RhythmCopy {
 
   static String bestPair(String best, String latest) => 'Best on this mock type: $best. Latest: $latest.';
 
+  static String outOf(int max) => 'of $max';
+
+  static String latestLine(String marks) => 'Latest: $marks.';
+
   static String bestMarks(String marks, int outOf) => '$marks of $outOf marks';
 
   static String bestDates(String bestDate, String latestDate) => 'Best on $bestDate. Latest on $latestDate.';
@@ -133,7 +154,7 @@ abstract final class RhythmCopy {
   static String bestSingleDate(String date) => 'Saved on $date.';
 
   // Weekly ending (6.9).
-  static String endingMet(int days) => 'You finished ${plural(days, 'study day')} last week. Fresh checks are not available yet.';
+  static String endingMet(int days) => 'You finished ${plural(days, 'study day')} last week. That met your goal.';
 
   static String endingNotMet(int days, int goal) =>
       'You finished $days of $goal study days. Nothing is lost. Your record is as you left it.';

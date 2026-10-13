@@ -47,12 +47,12 @@ void main() {
     test('credits are quoted with the balance', () {
       final line = costLineFor(q(cost: 50, balance: 120));
       expect(line.kind, CostKind.credits);
-      expect(line.text, 'Uses 50 credits. You have 120.');
+      expect(line.text, '50 credits. You have 120.');
     });
 
     test('a used allowance falls back to the ordinary cost', () {
       final line = costLineFor(q(cost: 10, balance: 100, allowance: {'kind': 'daily_practice', 'state': 'used'}));
-      expect(line.text, 'Uses 10 credits. You have 100.');
+      expect(line.text, '10 credits. You have 100.');
     });
 
     test('Pro has no cost line', () {
@@ -62,7 +62,7 @@ void main() {
     test('access_required is the Pro gate, with no price anywhere', () {
       final line = costLineFor(q(state: 'blocked', launchable: false, reasonCode: 'access_required', reason: 'NTA Mode needs Pro.'));
       expect(line.kind, CostKind.proGated);
-      expect(line.text, 'Part of Pro');
+      expect(line.text, 'Pro');
       expect(line.text, isNot(contains('Rs')));
     });
 
@@ -79,7 +79,7 @@ void main() {
         q(state: 'blocked', launchable: false, reasonCode: 'insufficient_credits', reason: 'costs 10', cost: 10, balance: 8),
       );
       expect(line.kind, CostKind.credits);
-      expect(line.text, 'Uses 10 credits. You have 8.');
+      expect(line.text, '10 credits. You have 8.');
     });
   });
 
@@ -88,7 +88,7 @@ void main() {
 
     test('quick and chapter practice use the exact spec sentence', () {
       final c = creditsLowFor(low)!;
-      expect(c.message(PracticeMode.quick), 'You have 8 credits. A Quick practice costs 10, and chapter practice costs the same.');
+      expect(c.message(PracticeMode.quick), 'You have 8 credits, and this takes 10. One chapter takes the same.');
       expect(c.message(PracticeMode.chapter), c.message(PracticeMode.quick));
     });
 

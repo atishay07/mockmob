@@ -1,175 +1,185 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/router/routes.dart';
-import 'package:mockmob/core/widgets/widgets.dart';
+import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/onboarding/copy.dart';
+import 'package:mockmob/features/onboarding/data/subjects.dart';
+import 'package:mockmob/features/onboarding/model/answers.dart';
+import 'package:mockmob/features/onboarding/model/choices.dart';
+import 'package:mockmob/features/onboarding/model/deck.dart';
+import 'package:mockmob/features/onboarding/onboarding_routes.dart';
+import 'package:mockmob/features/onboarding/state/answers_controller.dart';
 
+import '../../golden/onboarding/support.dart';
 import '../../helpers/fonts.dart';
-import 'support.dart';
+import '../../helpers/golden_harness.dart';
 
-Future<void> _tapText(WidgetTester tester, String text) async {
-  await tester.tap(find.text(text).first);
-  await settleFlow(tester);
+Future<void> _settle(WidgetTester tester) async {
+  for (var i = 0; i < 4; i++) {
+    await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 20)));
+    await tester.pump(const Duration(milliseconds: 400));
+  }
+}
+
+Future<ProviderContainer> _pump(WidgetTester tester, {OnboardingAnswers answers = OnboardingAnswers.empty}) async {
+  tester.view.physicalSize = const Size(768, 1706);
+  tester.view.devicePixelRatio = 2;
+  addTearDown(tester.view.reset);
+  Widget stub(String name) => Scaffold(body: Center(child: Text('STUB $name')));
+  final router = GoRouter(
+    initialLocation: AppRoutes.welcome,
+    routes: [
+      GoRoute(path: AppRoutes.welcome, builder: welcomeScreen),
+      GoRoute(path: AppRoutes.signIn, builder: (c, s) => stub('sign-in')),
+      GoRoute(path: AppRoutes.today, builder: (c, s) => stub('today')),
+    ],
+  );
+  addTearDown(router.dispose);
+  final scope = ProviderScope(
+    overrides: onboardingOverrides(answers: answers),
+    child: DefaultAssetBundle(
+      bundle: FileAssetBundle(),
+      child: MaterialApp.router(theme: buildTheme(Brightness.dark), routerConfig: router),
+    ),
+  );
+  await tester.pumpWidget(scope);
+  await _settle(tester);
+  return ProviderScope.containerOf(tester.element(find.byType(MaterialApp)));
+}
+
+Future<void> _tap(WidgetTester tester, String text) async {
+  final f = find.text(text).last;
+  await tester.ensureVisible(f);
+  await tester.pump();
+  await tester.tap(f);
+  await _settle(tester);
 }
 
 void main() {
   setUpAll(loadAppFonts);
 
-  testWidgets('welcome: the promise, Try 5 questions, no Prove clause, the footer', (tester) async {
-    final h = OnboardingHarness();
-    final router = await h.pumpFlow(tester);
+  testWidgets('a whole run: every answer lands on the phone and Not now ends on the first move', (tester) async {
+    final c = await _pump(tester);
+    expect(find.text(OnboardingCopy.welcomeHeadlineSet), findsOneWidget);
 
-    expect(find.text(OnboardingCopy.welcomeHeadline), findsOneWidget);
-    expect(find.textContaining('Prove'), findsNothing);
-    expect(find.text(OnboardingCopy.tryFive), findsOneWidget);
-    expect(find.text(OnboardingCopy.haveAccount), findsOneWidget);
-    expect(find.text(OnboardingCopy.notAffiliated), findsOneWidget);
-    expect(find.byType(Mobi), findsOneWidget);
+    await _tap(tester, OnboardingCopy.buildPlan);
+    expect(find.text(OnboardingCopy.stageTitle), findsOneWidget);
+    await _tap(tester, Stage.classTwelve.option);
+    expect(find.text(OnboardingCopy.weeksUnit(2027)), findsOneWidget, reason: 'the weeks roll onto the sheet');
+    await _tap(tester, OnboardingCopy.next);
 
-    await _tapText(tester, OnboardingCopy.tryFive);
-    expect(locationOf(router), AppRoutes.onboardingSubject);
-  });
+    await _tap(tester, 'B.Com (Hons)');
+    expect(find.text(OnboardingCopy.ladderTitle), findsOneWidget);
+    expect(find.text('924.3'), findsOneWidget);
+    await _tap(tester, 'Hindu College');
+    await _tap(tester, OnboardingCopy.next);
 
-  testWidgets('welcome: I already have an account opens sign-in', (tester) async {
-    final router = await OnboardingHarness().pumpFlow(tester);
-    await _tapText(tester, OnboardingCopy.haveAccount);
-    expect(locationOf(router), AppRoutes.signIn);
-  });
+    expect(find.text(OnboardingCopy.subjectsTitle), findsOneWidget);
+    expect(find.text('This set keeps B.Com (Hons) open.'), findsOneWidget);
+    await _tap(tester, OnboardingCopy.next);
 
-  testWidgets('welcome: a half finished sample is welcomed back to the next question', (tester) async {
-    final h = OnboardingHarness(guest: guestWith(keys: ['B', 'A']));
-    final router = await h.pumpFlow(tester);
-    expect(find.text(OnboardingCopy.welcomeBack(2, 5)), findsOneWidget);
-    await _tapText(tester, OnboardingCopy.continueSample);
-    expect(locationOf(router), AppRoutes.onboardingSample(3));
-  });
+    await _tap(tester, Worry.knewIt.option);
+    expect(find.text(Worry.knewIt.mobiLine), findsOneWidget);
+    await _tap(tester, OnboardingCopy.next);
 
-  testWidgets('subject: four 56 dp rows, the reason line, one tap goes to question 1', (tester) async {
-    final h = OnboardingHarness();
-    final router = await h.pumpFlow(tester, initial: AppRoutes.onboardingSubject);
+    expect(find.text(OnboardingCopy.questionTitle('Accountancy')), findsOneWidget);
+    await _tap(tester, '12:8:5');
+    expect(find.text(OnboardingCopy.trapLead), findsOneWidget);
+    await _tap(tester, OnboardingCopy.next);
 
-    expect(find.text(OnboardingCopy.subjectTitle), findsOneWidget);
-    for (final name in ['English', 'Accountancy', 'Business Studies', 'Economics']) {
-      final row = find.ancestor(of: find.text(name), matching: find.byType(KeyButtonFace)).first;
-      expect(tester.getSize(row).height, greaterThanOrEqualTo(56), reason: name);
-    }
-    expect(find.text(OnboardingCopy.subjectReason), findsOneWidget);
-    expect(find.text(OnboardingCopy.sameQuestions), findsOneWidget);
-    expect(find.text(OnboardingCopy.otherSubjects), findsOneWidget);
+    expect(find.text(OnboardingCopy.rhythmTitle), findsOneWidget);
+    await _tap(tester, OnboardingCopy.next);
 
-    await _tapText(tester, 'Accountancy');
-    expect(locationOf(router), AppRoutes.onboardingSample(1));
-    expect((await h.store.load()).subject, 'accountancy');
-  });
+    expect(find.text('Week one starts with Partnership.'), findsOneWidget);
+    await _tap(tester, OnboardingCopy.sealIt);
+    await _tap(tester, OnboardingCopy.next);
 
-  testWidgets('subject: Other subjects lists the remaining supported papers', (tester) async {
-    final h = OnboardingHarness();
-    final router = await h.pumpFlow(tester, initial: AppRoutes.onboardingSubject);
-    await _tapText(tester, OnboardingCopy.otherSubjects);
-    expect(find.text('Physics'), findsOneWidget);
-    expect(find.text(OnboardingCopy.otherSubjectsNote), findsOneWidget);
-    await _tapText(tester, 'Physics');
-    expect((await h.store.load()).subject, 'physics');
-    expect(locationOf(router), AppRoutes.onboardingSample(1));
-  });
-
-  testWidgets('question: no Mobi before a choice, Mobi and the reason after a right answer', (tester) async {
-    final h = OnboardingHarness(guest: guestWith());
-    await h.pumpFlow(tester, initial: AppRoutes.onboardingSample(1));
-
-    expect(find.text('Question 1 of 5'), findsOneWidget);
-    expect(find.text(OnboardingCopy.sampleCaption), findsOneWidget);
-    expect(find.byType(Mobi), findsNothing);
-    expect(find.text(OnboardingCopy.sampleDisclaimer), findsOneWidget);
-
-    await _tapText(tester, 'Frank');
-    expect(find.byType(Mobi), findsOneWidget);
-    expect(find.text(OnboardingCopy.answerCorrect), findsOneWidget);
-    expect(find.textContaining('Candid means frank'), findsOneWidget);
-    expect(find.text(OnboardingCopy.nextQuestion), findsOneWidget);
-    expect((await h.store.load()).answers, {'q1': 'B'});
-  });
-
-  testWidgets('question: a wrong answer shows the right one in words and the explanation', (tester) async {
-    final h = OnboardingHarness(guest: guestWith());
-    await h.pumpFlow(tester, initial: AppRoutes.onboardingSample(1));
-
-    await _tapText(tester, 'Hidden');
-    expect(find.text(OnboardingCopy.answerWrong), findsOneWidget);
-    expect(find.text(OnboardingCopy.answerIs('B', 'Frank')), findsOneWidget);
-    expect(find.byType(Mobi), findsOneWidget);
-    expect((await h.store.load()).answers, {'q1': 'A'});
-  });
-
-  testWidgets('question: other keys stop answering once one is chosen', (tester) async {
-    final h = OnboardingHarness(guest: guestWith());
-    await h.pumpFlow(tester, initial: AppRoutes.onboardingSample(1));
-    await _tapText(tester, 'Frank');
-    await _tapText(tester, 'Hidden');
-    expect((await h.store.load()).answers, {'q1': 'B'});
-  });
-
-  testWidgets('question: going back to an answered question shows it resolved and loses nothing', (tester) async {
-    final h = OnboardingHarness(guest: guestWith(keys: ['A']));
-    await h.pumpFlow(tester, initial: AppRoutes.onboardingSample(1));
-    expect(find.text(OnboardingCopy.answerWrong), findsOneWidget);
-    expect(find.text(OnboardingCopy.nextQuestion), findsOneWidget);
-    expect(find.text(OnboardingCopy.sampleDisclaimer).hitTestable(), findsNothing);
-  });
-
-  testWidgets('question: the last question offers See my result', (tester) async {
-    final h = OnboardingHarness(guest: guestWith(keys: ['B', 'B', 'C', 'C']));
-    final router = await h.pumpFlow(tester, initial: AppRoutes.onboardingSample(5));
-    await _tapText(tester, 'Controlling');
-    expect(find.text(OnboardingCopy.seeMyResult), findsOneWidget);
-    await _tapText(tester, OnboardingCopy.seeMyResult);
-    expect(locationOf(router), AppRoutes.onboardingSampleResult);
-  });
-
-  testWidgets('result: the true count, the sheet note, the dashed example and the two keys', (tester) async {
-    final h = OnboardingHarness(guest: guestWith(keys: ['B', 'B', 'C', 'A', 'B']));
-    await h.pumpFlow(tester, initial: AppRoutes.onboardingSampleResult);
-
-    expect(find.bySemanticsLabel('4 of 5 correct'), findsOneWidget);
-    expect(find.text(OnboardingCopy.resultLine), findsOneWidget);
-    expect(find.text(OnboardingCopy.exampleLabel), findsOneWidget);
-    expect(find.text(OnboardingCopy.exampleBody), findsOneWidget);
-    expect(find.text(OnboardingCopy.saveAndContinue), findsOneWidget);
-    expect(find.text(OnboardingCopy.tryAnotherSubject), findsOneWidget);
-    expect(find.byType(Mobi), findsNothing);
-  });
-
-  testWidgets('result: a poor result gets the same calm page', (tester) async {
-    final h = OnboardingHarness(guest: guestWith(keys: ['A', 'A', 'A', 'A', 'A']));
-    await h.pumpFlow(tester, initial: AppRoutes.onboardingSampleResult);
-    expect(find.bySemanticsLabel('0 of 5 correct'), findsOneWidget);
-    expect(find.text(OnboardingCopy.resultLine), findsOneWidget);
-  });
-
-  testWidgets('result: opened early it says where things stand and continues the sample', (tester) async {
-    final h = OnboardingHarness(guest: guestWith(keys: ['B', 'B', 'C']));
-    final router = await h.pumpFlow(tester, initial: AppRoutes.onboardingSampleResult);
-    expect(find.text(OnboardingCopy.unfinishedTitle(3, 5)), findsOneWidget);
-    await _tapText(tester, OnboardingCopy.continueSample);
-    expect(locationOf(router), AppRoutes.onboardingSample(4));
-  });
-
-  testWidgets('result: Save this and continue opens the account step, still on this phone', (tester) async {
-    final h = OnboardingHarness(guest: guestWith(keys: rightKeys));
-    await h.pumpFlow(tester, initial: AppRoutes.onboardingSampleResult);
-    await _tapText(tester, OnboardingCopy.saveAndContinue);
-
-    expect(find.text(OnboardingCopy.accountTitle), findsOneWidget);
-    expect(find.text(OnboardingCopy.accountOnPhone), findsOneWidget);
-    expect(find.text(OnboardingCopy.continueWithGoogle), findsOneWidget);
+    expect(find.text(OnboardingCopy.saveTitle), findsOneWidget);
+    expect(find.text(OnboardingCopy.useEmailCode), findsNothing, reason: 'age comes first');
+    await _tap(tester, AgeAnswer.minor.label);
     expect(find.text(OnboardingCopy.useEmailCode), findsOneWidget);
-    expect(find.textContaining('Saved to your account'), findsNothing);
+    await _tap(tester, OnboardingCopy.notNow);
+    expect(find.text(OnboardingCopy.firstMoveTitle), findsOneWidget);
+
+    await c.read(onboardingAnswersProvider.notifier).flushed();
+    final a = c.read(onboardingAnswersProvider).value!;
+    expect(a.stage, Stage.classTwelve);
+    expect(a.courseId, 'b-com-hons');
+    expect(a.colleges, ['Hindu College']);
+    expect(a.subjects, [SheetSubject.english, SheetSubject.accountancy, SheetSubject.businessStudies, SheetSubject.economics]);
+    expect(a.worry, Worry.knewIt);
+    expect(a.warmup!.correct, isFalse);
+    expect(a.sealed, isTrue);
+    expect(a.age, AgeAnswer.minor);
+    expect(a.notNow, isTrue);
+    expect(a.step, Steps.firstMove);
+    for (final s in kOnboardingDeck.sheetSteps) {
+      expect(a.isDone(s.id), isTrue, reason: s.id);
+    }
   });
 
-  testWidgets('account step: the email code route opens sign-in', (tester) async {
-    final h = OnboardingHarness(guest: guestWith(keys: rightKeys));
-    final router = await h.pumpFlow(tester, initial: AppRoutes.onboardingSampleResult);
-    await _tapText(tester, OnboardingCopy.saveAndContinue);
-    await _tapText(tester, OnboardingCopy.useEmailCode);
-    expect(locationOf(router), AppRoutes.signIn);
+  testWidgets('a return opens on Welcome with the sheet waiting, and picks up at the same step', (tester) async {
+    await _pump(tester, answers: studentUpTo(Steps.subjects, step: Steps.worry));
+    expect(find.text(OnboardingCopy.continuePlan), findsOneWidget);
+    await _tap(tester, OnboardingCopy.continuePlan);
+    expect(find.text(OnboardingCopy.worryTitle), findsOneWidget);
+  });
+
+  testWidgets('back walks the deck backwards, and from the first step returns to Welcome', (tester) async {
+    final semantics = tester.ensureSemantics();
+    await _pump(tester, answers: studentUpTo(Steps.stage, step: Steps.course));
+    await _tap(tester, OnboardingCopy.continuePlan);
+    expect(find.text(OnboardingCopy.courseTitle), findsOneWidget);
+    await tester.tap(find.bySemanticsLabel(OnboardingCopy.back));
+    await _settle(tester);
+    expect(find.text(OnboardingCopy.stageTitle), findsOneWidget);
+    await tester.tap(find.bySemanticsLabel(OnboardingCopy.back));
+    await _settle(tester);
+    expect(find.text(OnboardingCopy.continuePlan), findsOneWidget);
+    semantics.dispose();
+  });
+
+  testWidgets('skip leaves a dotted bubble and moves on', (tester) async {
+    final c = await _pump(tester, answers: const OnboardingAnswers(step: Steps.stage));
+    await _tap(tester, OnboardingCopy.buildPlan);
+    await _tap(tester, OnboardingCopy.skip);
+    expect(find.text(OnboardingCopy.courseTitle), findsOneWidget);
+    expect(c.read(onboardingAnswersProvider).value!.isSkipped(Steps.stage), isTrue);
+  });
+
+  testWidgets('holding the seal for 1.2 seconds seals the sheet', (tester) async {
+    final semantics = tester.ensureSemantics();
+    final c = await _pump(tester, answers: studentUpTo(Steps.rhythm, step: Steps.plan));
+    await _tap(tester, OnboardingCopy.continuePlan);
+    final hold = find.bySemanticsLabel(OnboardingCopy.holdToSeal);
+    final gesture = await tester.startGesture(tester.getCenter(hold));
+    for (var i = 0; i < 7; i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+    expect(c.read(onboardingAnswersProvider).value!.sealed, isFalse, reason: 'not yet');
+    expect(find.text(OnboardingCopy.sealing), findsWidgets, reason: 'the pill fills while held');
+    for (var i = 0; i < 8; i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+    await gesture.up();
+    await _settle(tester);
+    expect(c.read(onboardingAnswersProvider).value!.sealed, isTrue);
+    semantics.dispose();
+  });
+
+  testWidgets('letting go early does not seal', (tester) async {
+    final semantics = tester.ensureSemantics();
+    final c = await _pump(tester, answers: studentUpTo(Steps.rhythm, step: Steps.plan));
+    await _tap(tester, OnboardingCopy.continuePlan);
+    final gesture = await tester.startGesture(tester.getCenter(find.bySemanticsLabel(OnboardingCopy.holdToSeal)));
+    for (var i = 0; i < 6; i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+    await gesture.up();
+    await _settle(tester);
+    expect(c.read(onboardingAnswersProvider).value!.sealed, isFalse);
+    semantics.dispose();
   });
 }

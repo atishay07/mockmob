@@ -1,6 +1,10 @@
 import 'dart:async';
+import 'dart:io';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/api/api.dart';
@@ -8,34 +12,43 @@ import 'package:mockmob/core/connectivity/connectivity.dart';
 import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/models/practice_quote.dart';
 import 'package:mockmob/features/practice/data/practice_starter.dart';
-import 'package:mockmob/features/practice/model/practice_selection.dart';
 import 'package:mockmob/features/practice/practice_routes.dart';
-import 'package:mockmob/features/practice/widgets/mock_start_sheet.dart';
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart' show settleImages;
-import '../../unit/practice/support/harness.dart';
 import '../../unit/core_data/support/fixtures.dart';
+import '../../unit/learn/support/learn_fixtures.dart';
+import '../../unit/practice/support/harness.dart';
+
+/// The Night Sheet frame: 384 by 853 logical px at DPR 2.
+const Size _size = Size(384, 853);
 
 List<GoRoute> _routes() => [
   GoRoute(path: '/practice', builder: (c, s) => practiceScreen(c, s)),
   GoRoute(path: '/practice/setup/:mode', builder: (c, s) => practiceSetupScreen(c, s)),
+  GoRoute(path: '/practice/start', builder: (c, s) => practiceStartScreen(c, s)),
   GoRoute(path: '/practice/result/:attemptId', builder: (c, s) => practiceResultScreen(c, s)),
   stubRoute('/run/:sessionId'),
   stubRoute('/today'),
 ];
 
-Future<void> _settle(WidgetTester tester, {int ms = 700}) async {
-  for (var i = 0; i < 4; i++) {
-    await tester.pump(Duration(milliseconds: ms ~/ 4));
-  }
-}
-
 FakeQuoteRepository _tabQuotes() => FakeQuoteRepository((s, m, c, p) {
   if (m == 'full') return creditsQuote(cost: 50, balance: 120, mode: 'full', count: 50);
   if (m == 'nta') return proGate();
-  return dailyFree();
+  return dailyFree(count: c ?? 10);
 });
+
+final DateTime _evening = DateTime(2026, 10, 12, 20, 10);
+
+Attempt _mock() => attemptOf(
+  id: 'm7',
+  completedAt: _evening.subtract(const Duration(days: 1)).millisecondsSinceEpoch,
+  questions: [
+    ...chapterOf('Admission of a partner', right: 2, wrong: 3, blank: 1),
+    ...chapterOf('Goodwill', right: 5, wrong: 1),
+    ...chapterOf('Issue of shares', right: 6),
+  ],
+);
 
 AttemptDetail _detail(List<(String, V)> questions, {Map<String, dynamic>? reviews}) => AttemptDetail.fromJson({
   ...attemptJson(id: 'p1', mode: 'quick', subject: 'accountancy', questions: questions),
@@ -44,332 +57,197 @@ AttemptDetail _detail(List<(String, V)> questions, {Map<String, dynamic>? review
 });
 
 final _mixed = [
-  for (var i = 0; i < 8; i++) ('Admission of a partner', V.right),
+  for (var i = 0; i < 7; i++) ('Admission of a partner', V.right),
   ('Admission of a partner', V.wrong),
+  ('Goodwill', V.wrong),
   ('Admission of a partner', V.blank),
 ];
 
-Future<void> _shot(WidgetTester tester, String name, Brightness b) =>
-    expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/${name}_${b.name}.png'));
+Future<void> _settle(WidgetTester tester, {int ms = 900}) async {
+  for (var i = 0; i < 6; i++) {
+    await tester.pump(Duration(milliseconds: ms ~/ 6));
+  }
+  await settleImages(tester);
+}
+
+Future<void> _shot(WidgetTester tester, String name, Brightness b) async {
+  final tag = b == Brightness.dark ? 'night' : 'day';
+  await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/${name}_$tag.png'));
+  final dir = Platform.environment['MM_PREVIEW_DIR'];
+  if (dir == null || dir.isEmpty) return;
+  final boundary = previewBoundary.currentContext!.findRenderObject()! as RenderRepaintBoundary;
+  await tester.runAsync(() async {
+    final image = await boundary.toImage(pixelRatio: 2);
+    final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
+    image.dispose();
+    await File('$dir/practice_${name}_$tag.png').writeAsBytes(bytes!.buffer.asUint8List());
+  });
+}
+
+Future<void> _pump(WidgetTester tester, String location, Brightness b, List<Override> overrides, {Size size = _size}) =>
+    pumpRouted(tester, location: location, routes: _routes(), brightness: b, size: size, overrides: overrides);
+
+/// Opens a sheet from the tab and lets it rise and its quote arrive.
+Future<void> _open(WidgetTester tester, String label) async {
+  await tester.ensureVisible(find.text(label).first);
+  await tester.pump();
+  await tester.tap(find.text(label).first);
+  await _settle(tester);
+}
 
 void main() {
   setUpAll(loadAppFonts);
 
-  for (final b in Brightness.values) {
+  for (final b in [Brightness.dark, Brightness.light]) {
     group('practice, ${b.name}', () {
-      testWidgets('tab with quotes loaded', (tester) async {
-        await pumpRouted(
-          tester,
-          location: '/practice',
-          routes: _routes(),
-          brightness: b,
-          overrides: practiceOverrides(quotes: _tabQuotes()),
-        );
+      testWidgets('tab, a new student, evening', (tester) async {
+        await _pump(tester, '/practice', b, practiceOverrides(quotes: _tabQuotes(), attempts: const [], now: _evening));
         await _settle(tester);
-        await _shot(tester, 'tab_loaded', b);
+        await _shot(tester, 'tab_new', b);
       });
 
-      testWidgets('tab while the quote is slow', (tester) async {
-        final gate = Completer<PracticeQuote>();
-        await pumpRouted(
-          tester,
-          location: '/practice',
-          routes: _routes(),
-          brightness: b,
-          overrides: practiceOverrides(quotes: FakeQuoteRepository((s, m, c, p) => gate.future)),
-        );
+      testWidgets('tab, the chapter from the last mock, late at night', (tester) async {
+        await _pump(tester, '/practice', b, practiceOverrides(quotes: _tabQuotes(), attempts: [_mock()]));
+        await _settle(tester);
+        await _shot(tester, 'tab_chapter_late', b);
+      });
+
+      testWidgets('tab, scrolled to choose your own and the concepts shelf', (tester) async {
+        await _pump(tester, '/practice', b, practiceOverrides(quotes: _tabQuotes(), attempts: [_mock()], learn: catalog(due: 4), now: _evening));
+        await _settle(tester);
+        await tester.drag(find.byType(Scrollable).first, const Offset(0, -560));
         await _settle(tester, ms: 600);
-        await _shot(tester, 'tab_slow_quote', b);
-        gate.complete(dailyFree());
-        await tester.pump();
+        await _shot(tester, 'tab_choose_concepts', b);
       });
 
-      testWidgets('tab with a mock still running', (tester) async {
+      testWidgets('tab, a mock still running', (tester) async {
         final endsAt = testNow.add(const Duration(minutes: 47)).millisecondsSinceEpoch;
-        final draft = draftOf(sessionId: 'sess-7', count: 50, mode: 'full', endsAtWallMs: endsAt, mockNumber: 7);
-        await pumpRouted(
-          tester,
-          location: '/practice',
-          routes: _routes(),
-          brightness: b,
-          overrides: practiceOverrides(quotes: _tabQuotes(), draft: draft),
-        );
+        final draft = draftOf(sessionId: 'sess-7', count: 50, mode: 'full', endsAtWallMs: endsAt, mockNumber: 7, subject: 'economics');
+        await _pump(tester, '/practice', b, practiceOverrides(quotes: _tabQuotes(), draft: draft, answered: 23));
         await _settle(tester);
-        await _shot(tester, 'tab_mock_running', b);
+        await _shot(tester, 'tab_resume', b);
       });
 
-      testWidgets('quick setup with the daily practice free', (tester) async {
-        await pumpRouted(
-          tester,
-          location: '/practice/setup/quick?subject=accountancy',
-          routes: _routes(),
-          brightness: b,
-          overrides: practiceOverrides(quotes: FakeQuoteRepository((s, m, c, p) => dailyFree(count: c ?? 10))),
-        );
+      testWidgets('tab offline', (tester) async {
+        await _pump(tester, '/practice', b, practiceOverrides(quotes: _tabQuotes(), attempts: const [], network: NetworkStatus.offline, now: _evening, auth: signedIn(subjects: const ['english', 'accountancy'])));
         await _settle(tester);
-        await _shot(tester, 'setup_quick_free', b);
+        await _shot(tester, 'tab_offline', b);
       });
 
-      testWidgets('quick setup with credits', (tester) async {
-        await pumpRouted(
-          tester,
-          location: '/practice/setup/quick?subject=english&count=15',
-          routes: _routes(),
-          brightness: b,
-          overrides: practiceOverrides(quotes: FakeQuoteRepository((s, m, c, p) => creditsQuote(count: c ?? 10))),
-        );
+      testWidgets('confirm, quick practice free today', (tester) async {
+        await _pump(tester, '/practice', b, practiceOverrides(quotes: _tabQuotes(), attempts: const [], now: _evening));
         await _settle(tester);
-        await _shot(tester, 'setup_quick_credits', b);
+        await _open(tester, 'Quick practice');
+        await _shot(tester, 'confirm_quick_free', b);
       });
 
-      testWidgets('quick setup while the quote is slow', (tester) async {
-        final gate = Completer<PracticeQuote>();
-        await pumpRouted(
-          tester,
-          location: '/practice/setup/quick?subject=accountancy',
-          routes: _routes(),
-          brightness: b,
-          overrides: practiceOverrides(quotes: FakeQuoteRepository((s, m, c, p) => gate.future)),
-        );
-        await _settle(tester, ms: 600);
-        await _shot(tester, 'setup_quick_slow_quote', b);
-        gate.complete(dailyFree());
-        await tester.pump();
+      testWidgets('confirm, chapter practice with credits', (tester) async {
+        final quotes = FakeQuoteRepository((s, m, c, p) => creditsQuote(cost: 10, balance: 90, count: c ?? 10));
+        await _pump(tester, '/practice', b, practiceOverrides(quotes: quotes, attempts: [_mock()], now: _evening));
+        await _settle(tester);
+        await _open(tester, 'Start');
+        await _shot(tester, 'confirm_chapter_credits', b);
       });
 
-      testWidgets('credits low', (tester) async {
+      testWidgets('confirm, full mock', (tester) async {
+        await _pump(tester, '/practice', b, practiceOverrides(quotes: _tabQuotes(), attempts: const [], now: _evening));
+        await _settle(tester);
+        await _open(tester, 'Full mock');
+        await _shot(tester, 'confirm_mock', b);
+      });
+
+      testWidgets('confirm, exam-day layout comes with Pro', (tester) async {
+        await _pump(tester, '/practice', b, practiceOverrides(quotes: _tabQuotes(), attempts: const [], now: _evening));
+        await _settle(tester);
+        await _open(tester, 'Exam-day layout');
+        await _shot(tester, 'confirm_pro', b);
+      });
+
+      testWidgets('confirm, credits low', (tester) async {
         final quotes = FakeQuoteRepository((s, m, c, p) => c == 10 ? dailyFree() : lowCredits());
-        await pumpRouted(
-          tester,
-          location: '/practice/setup/quick?subject=accountancy&count=15',
-          routes: _routes(),
-          brightness: b,
-          overrides: practiceOverrides(quotes: quotes),
-        );
+        await _pump(tester, '/practice/setup/quick?subject=accountancy&count=15', b, practiceOverrides(quotes: quotes, learn: catalog(due: 2)));
         await _settle(tester);
         await _shot(tester, 'setup_credits_low', b);
       });
 
-      testWidgets('chapter practice with a chapter chosen', (tester) async {
-        await pumpRouted(
-          tester,
-          location: '/practice/setup/chapter?subject=accountancy&chapter=Admission%20of%20a%20partner',
-          routes: _routes(),
-          brightness: b,
-          overrides: practiceOverrides(quotes: FakeQuoteRepository((s, m, c, p) => creditsQuote(count: c ?? 10))),
-        );
+      testWidgets('confirm, the quote failed', (tester) async {
+        final quotes = FakeQuoteRepository((s, m, c, p) => throw const ApiError(kind: ApiErrorKind.server, code: 'server_error'));
+        await _pump(tester, '/practice/setup/quick?subject=economics', b, practiceOverrides(quotes: quotes));
         await _settle(tester);
-        await _shot(tester, 'setup_chapter_chosen', b);
+        await _shot(tester, 'setup_quote_failed', b);
       });
 
-      testWidgets('chapter practice, picking a chapter', (tester) async {
-        await pumpRouted(
-          tester,
-          location: '/practice/setup/chapter?subject=accountancy',
-          routes: _routes(),
-          brightness: b,
-          overrides: practiceOverrides(quotes: FakeQuoteRepository((s, m, c, p) => creditsQuote(count: c ?? 10))),
-        );
+      testWidgets('confirm, still checking', (tester) async {
+        final gate = Completer<PracticeQuote>();
+        await _pump(tester, '/practice/setup/chapter?subject=english&chapter=Reading%20comprehension', b, practiceOverrides(quotes: FakeQuoteRepository((s, m, c, p) => gate.future)));
         await _settle(tester);
-        await tester.tap(find.text('Choose a chapter').first);
-        await _settle(tester, ms: 900);
-        await _shot(tester, 'chapter_sheet', b);
+        await _shot(tester, 'setup_checking', b);
+        gate.complete(dailyFree());
+        await tester.pump();
       });
 
-      testWidgets('Full mock setup', (tester) async {
-        await pumpRouted(
-          tester,
-          location: '/practice/setup/full?subject=accountancy',
-          routes: _routes(),
-          brightness: b,
-          overrides: practiceOverrides(
-            quotes: FakeQuoteRepository((s, m, c, p) => creditsQuote(cost: 50, balance: 120, mode: 'full', count: 50)),
-          ),
-        );
-        await _settle(tester);
-        await _shot(tester, 'setup_full_mock', b);
-      });
-
-      testWidgets('pre-start sheet for a mock', (tester) async {
-        await pumpRouted(
-          tester,
-          location: '/practice/setup/full?subject=accountancy',
-          routes: _routes(),
-          brightness: b,
-          overrides: practiceOverrides(
-            quotes: FakeQuoteRepository((s, m, c, p) => creditsQuote(cost: 50, balance: 120, mode: 'full', count: 50)),
-          ),
-        );
-        await _settle(tester);
-        await tester.tap(find.text('Start mock'));
-        await _settle(tester, ms: 900);
-        await _shot(tester, 'mock_sheet', b);
-      });
-
-      testWidgets('pre-start sheet for a mock in ticket mode', (tester) async {
-        await pumpRouted(
-          tester,
-          location: '/practice/setup/full?subject=accountancy',
-          routes: _routes(),
-          brightness: b,
-          overrides: practiceOverrides(
-            quotes: FakeQuoteRepository((s, m, c, p) => creditsQuote(cost: 50, balance: 120, mode: 'full', count: 50)),
-          ),
-        );
-        await _settle(tester);
-        final context = tester.element(find.byType(Scaffold).first);
-        unawaited(
-          showMockStartSheet(
-            context,
-            selection: const PracticeSelection(mode: PracticeMode.full, subjectId: 'accountancy'),
-            quote: creditsQuote(cost: 50, balance: 120, mode: 'full', count: 50),
-            ticketBy: DateTime(2026, 10, 12, 23, 42),
-          ),
-        );
-        await _settle(tester, ms: 900);
-        await _shot(tester, 'mock_sheet_ticket', b);
-      });
-
-      testWidgets('Pro-gated mode', (tester) async {
-        await pumpRouted(
-          tester,
-          location: '/practice/setup/nta?subject=accountancy',
-          routes: _routes(),
-          brightness: b,
-          overrides: practiceOverrides(quotes: FakeQuoteRepository((s, m, c, p) => proGate())),
-        );
-        await _settle(tester);
-        await _shot(tester, 'setup_pro_gate', b);
-      });
-
-      testWidgets('offline', (tester) async {
-        await pumpRouted(
-          tester,
-          location: '/practice/setup/quick?subject=accountancy',
-          routes: _routes(),
-          brightness: b,
-          overrides: practiceOverrides(network: NetworkStatus.offline),
-        );
+      testWidgets('confirm, offline, with a start failure', (tester) async {
+        await _pump(tester, '/practice/setup/quick?subject=accountancy', b, practiceOverrides(network: NetworkStatus.offline));
         await _settle(tester);
         await _shot(tester, 'setup_offline', b);
       });
 
-      testWidgets('not enough questions', (tester) async {
-        await pumpRouted(
-          tester,
-          location: '/practice/setup/quick?subject=accountancy',
-          routes: _routes(),
-          brightness: b,
-          overrides: practiceOverrides(
-            quotes: FakeQuoteRepository((s, m, c, p) => creditsQuote()),
-            starter: FakeStarter(const StartFailed(StartFailure.notEnoughQuestions)),
-          ),
-        );
+      testWidgets('confirm, not enough questions after Start', (tester) async {
+        final starter = FakeStarter(const StartFailed(StartFailure.notEnoughQuestions));
+        await _pump(tester, '/practice/setup/quick?subject=accountancy', b, practiceOverrides(quotes: FakeQuoteRepository((s, m, c, p) => creditsQuote()), starter: starter));
         await _settle(tester);
+        await tester.ensureVisible(find.text('Start practice'));
         await tester.tap(find.text('Start practice'));
-        await _settle(tester);
-        await _shot(tester, 'setup_not_enough_questions', b);
+        await _settle(tester, ms: 400);
+        await _shot(tester, 'setup_start_failed', b);
       });
 
-      testWidgets('practice result, mixed', (tester) async {
-        await pumpRouted(
-          tester,
-          location: '/practice/result/p1',
-          routes: _routes(),
-          brightness: b,
-          overrides: resultOverrides(attemptId: 'p1', detail: _detail(_mixed), chapter: 'Admission of a partner'),
-        );
-        await _settle(tester, ms: 900);
+      testWidgets('chapter picker', (tester) async {
+        await _pump(tester, '/practice', b, practiceOverrides(quotes: _tabQuotes(), attempts: const [], now: _evening));
+        await _settle(tester);
+        await _open(tester, 'One chapter');
+        await _shot(tester, 'chapter_picker', b);
+      });
+
+      testWidgets('getting the questions ready', (tester) async {
+        final starter = FakeStarter()..hold = Completer<void>();
+        await _pump(tester, '/practice/start?mode=quick&subject=accountancy&count=10', b, practiceOverrides(quotes: FakeQuoteRepository((s, m, c, p) => dailyFree()), starter: starter));
+        await _settle(tester, ms: 700);
+        await _shot(tester, 'start_ready', b);
+        starter.hold!.complete();
+        await tester.pump();
+      });
+
+      testWidgets('result, mixed', (tester) async {
+        await _pump(tester, '/practice/result/p1', b, resultOverrides(attemptId: 'p1', detail: _detail(_mixed), chapter: 'Admission of a partner'));
+        await _settle(tester);
         await _shot(tester, 'result_mixed', b);
       });
 
-      testWidgets('practice result, scrolled to the lists', (tester) async {
-        await pumpRouted(
-          tester,
-          location: '/practice/result/p1',
-          routes: _routes(),
-          brightness: b,
-          overrides: resultOverrides(attemptId: 'p1', detail: _detail(_mixed), chapter: 'Admission of a partner'),
-        );
-        await _settle(tester, ms: 900);
-        await tester.drag(find.byType(Scrollable).first, const Offset(0, -420));
-        await _settle(tester, ms: 400);
-        await tester.tap(find.text('Question 10, Not attempted'));
-        await _settle(tester, ms: 400);
-        await _shot(tester, 'result_blank_open', b);
-      });
-
-      testWidgets('practice result, nothing wrong', (tester) async {
-        final all = [for (var i = 0; i < 10; i++) ('Goodwill', V.right)];
-        await pumpRouted(
-          tester,
-          location: '/practice/result/p1',
-          routes: _routes(),
-          brightness: b,
-          overrides: resultOverrides(attemptId: 'p1', detail: _detail(all), chapter: 'Goodwill'),
-        );
-        await _settle(tester, ms: 900);
+      testWidgets('result, all correct', (tester) async {
+        await _pump(tester, '/practice/result/p1', b, resultOverrides(attemptId: 'p1', detail: _detail([for (var i = 0; i < 10; i++) ('Goodwill', V.right)])));
+        await _settle(tester);
         await _shot(tester, 'result_all_correct', b);
       });
 
-      testWidgets('practice result, answers still loading', (tester) async {
-        final cached = Attempt.fromJson(attemptJson(id: 'p1', mode: 'quick', subject: 'accountancy', questions: _mixed));
-        await pumpRouted(
-          tester,
-          location: '/practice/result/p1',
-          routes: _routes(),
-          brightness: b,
-          overrides: resultOverrides(attemptId: 'p1', loading: true, cachedAttempt: cached),
-        );
-        await _settle(tester, ms: 900);
-        await _shot(tester, 'result_loading_keys', b);
+      testWidgets('result, answers failed to load', (tester) async {
+        final cached = attemptOf(id: 'p1', mode: 'quick', questions: _mixed);
+        await _pump(tester, '/practice/result/p1', b, resultOverrides(attemptId: 'p1', cachedAttempt: cached, error: const ApiError(kind: ApiErrorKind.server, code: 'server_error')));
+        await _settle(tester);
+        await _shot(tester, 'result_keys_failed', b);
       });
 
-      testWidgets('practice result, load failed', (tester) async {
-        await pumpRouted(
-          tester,
-          location: '/practice/result/p1',
-          routes: _routes(),
-          brightness: b,
-          overrides: resultOverrides(
-            attemptId: 'p1',
-            error: const ApiError(kind: ApiErrorKind.server, code: 'server_error', status: 500),
-          ),
-        );
+      testWidgets('result, loading', (tester) async {
+        await _pump(tester, '/practice/result/p1', b, resultOverrides(attemptId: 'p1', loading: true));
+        await _settle(tester, ms: 300);
+        await _shot(tester, 'result_loading', b);
+      });
+
+      testWidgets('result, offline with nothing cached', (tester) async {
+        await _pump(tester, '/practice/result/p1', b, resultOverrides(attemptId: 'p1', error: const ApiError(kind: ApiErrorKind.network, code: 'network')));
         await _settle(tester);
-        await settleImages(tester);
-        await _shot(tester, 'result_error', b);
+        await _shot(tester, 'result_offline', b);
       });
     });
   }
-
-  group('large text', () {
-    testWidgets('setup at 200 percent text', (tester) async {
-      await pumpRouted(
-        tester,
-        location: '/practice/setup/chapter?subject=accountancy&chapter=Retirement%20and%20death%20of%20a%20partner',
-        routes: _routes(),
-        textScale: 2,
-        size: const Size(360, 640),
-        overrides: practiceOverrides(quotes: FakeQuoteRepository((s, m, c, p) => lowCredits())),
-      );
-      await _settle(tester);
-      expect(tester.takeException(), isNull);
-      await _shot(tester, 'setup_text_200', Brightness.light);
-    });
-
-    testWidgets('result at 200 percent text', (tester) async {
-      await pumpRouted(
-        tester,
-        location: '/practice/result/p1',
-        routes: _routes(),
-        textScale: 2,
-        size: const Size(360, 640),
-        overrides: resultOverrides(attemptId: 'p1', detail: _detail(_mixed), chapter: 'Retirement and death of a partner'),
-      );
-      await _settle(tester, ms: 900);
-      expect(tester.takeException(), isNull);
-      await _shot(tester, 'result_text_200', Brightness.light);
-    });
-  });
 }

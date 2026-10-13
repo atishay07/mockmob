@@ -1,8 +1,7 @@
-// `/you/milestones`: dated rows on a plain timeline. Never a badge wall: no locked items, no
+// `/you/milestones`: the brass token shelf, then dated rows on a thread of bubbles. Never a badge wall: no locked items, no
 // counts to chase, nothing unlocks. A row that just arrived fades in once (L3).
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/api/api_providers.dart';
 import '../../../core/models/rhythm.dart';
@@ -14,7 +13,10 @@ import '../celebration/celebration_controller.dart';
 import '../copy.dart';
 import '../data/rhythm_providers.dart';
 import '../logic/dates.dart';
+import '../../you/widgets/you_row.dart' show YouPanel;
+import '../logic/tokens.dart';
 import '../widgets/rhythm_page.dart';
+import '../widgets/token_shelf.dart';
 
 class MilestoneRowData {
   const MilestoneRowData({required this.id, required this.text});
@@ -75,17 +77,13 @@ class _YouMilestonesScreenState extends ConsumerState<YouMilestonesScreen> {
       );
     }
     final rows = milestoneRows(snapshot.rhythm!.milestones, zone: snapshot.timezone, now: now);
-    if (rows.isEmpty) {
-      return const RhythmPage(
-        title: RhythmCopy.milestonesTitle,
-        scrollable: false,
-        child: StateView(kind: StateViewKind.empty, title: RhythmCopy.milestonesEmptyTitle, message: RhythmCopy.milestonesEmptyBody),
-      );
-    }
     return RhythmPage(
       title: RhythmCopy.milestonesTitle,
       child: MilestoneTimeline(
         rows: rows,
+        slots: tokenSlots(snapshot.rhythm!.milestones),
+        zone: snapshot.timezone,
+        now: now,
         freshIds: _fresh,
         asOf: snapshot.stale ? snapshot.fetchedAt : null,
       ),
@@ -93,10 +91,22 @@ class _YouMilestonesScreenState extends ConsumerState<YouMilestonesScreen> {
   }
 }
 
+/// The shelf of brass tokens, then every milestone as a dated row on a thread of inked bubbles.
 class MilestoneTimeline extends StatelessWidget {
-  const MilestoneTimeline({super.key, required this.rows, this.freshIds = const {}, this.asOf});
+  const MilestoneTimeline({
+    super.key,
+    required this.rows,
+    required this.slots,
+    required this.zone,
+    required this.now,
+    this.freshIds = const {},
+    this.asOf,
+  });
 
   final List<MilestoneRowData> rows;
+  final List<TokenSlot> slots;
+  final String zone;
+  final DateTime now;
   final Set<String> freshIds;
   final DateTime? asOf;
 
@@ -108,16 +118,40 @@ class MilestoneTimeline extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (asOf != null) ...[
-          Text(RhythmCopy.asOf(asOf!), style: type.small.copyWith(color: colors.ink3)),
-          const SizedBox(height: MmSpace.s8),
+          Padding(
+            padding: const EdgeInsets.only(left: 4, bottom: MmSpace.s8),
+            child: Text(RhythmCopy.asOf(asOf!), style: type.caption.copyWith(color: colors.ink3)),
+          ),
         ],
-        for (var i = 0; i < rows.length; i++)
-          _MilestoneRow(
-            key: ValueKey(rows[i].id),
-            data: rows[i],
-            isFirst: i == 0,
-            isLast: i == rows.length - 1,
-            fresh: freshIds.contains(rows[i].id),
+        TokenShelf(slots: slots, zone: zone, now: now),
+        const SizedBox(height: MmSpace.s32),
+        const GroupHeading(RhythmCopy.timelineTitle),
+        if (rows.isEmpty)
+          Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: Text(RhythmCopy.milestonesNone, style: type.body.copyWith(color: colors.ink2)),
+          )
+        else
+          YouPanel(
+            margin: EdgeInsets.zero,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter, vertical: MmSpace.s8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    for (var i = 0; i < rows.length; i++)
+                      _MilestoneRow(
+                        key: ValueKey(rows[i].id),
+                        data: rows[i],
+                        isFirst: i == 0,
+                        isLast: i == rows.length - 1,
+                        fresh: freshIds.contains(rows[i].id),
+                      ),
+                  ],
+                ),
+              ),
+            ],
           ),
       ],
     );
@@ -174,12 +208,9 @@ class _MilestoneRowState extends State<_MilestoneRow> with SingleTickerProviderS
               width: 24,
               child: Column(
                 children: [
-                  SizedBox(width: 1, height: 14, child: widget.isFirst ? null : ColoredBox(color: colors.lineStrong)),
-                  DecoratedBox(
-                    decoration: BoxDecoration(color: colors.ink, shape: BoxShape.circle),
-                    child: SizedBox(width: 20, height: 20, child: Icon(LucideIcons.check, size: 13, color: colors.ground)),
-                  ),
-                  if (!widget.isLast) Expanded(child: SizedBox(width: 1, child: ColoredBox(color: colors.lineStrong))),
+                  SizedBox(width: 1.5, height: 16, child: widget.isFirst ? null : ColoredBox(color: colors.lineStrong)),
+                  const Bubble(state: BubbleState.filled, size: 16),
+                  if (!widget.isLast) Expanded(child: SizedBox(width: 1.5, child: ColoredBox(color: colors.lineStrong))),
                 ],
               ),
             ),
@@ -187,7 +218,7 @@ class _MilestoneRowState extends State<_MilestoneRow> with SingleTickerProviderS
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
-                child: Text(widget.data.text, style: type.body),
+                child: Text(widget.data.text, style: type.labelLarge.copyWith(fontSize: 16, fontWeight: FontWeight.w500)),
               ),
             ),
           ],

@@ -31,7 +31,7 @@ void main() {
       final words = RegExp(r'[A-Za-z]{4,}').allMatches(s).map((m) => m.group(0)!);
       for (final w in words) {
         // The only capitalised-in-full word the feature uses is the exam name DELETE-free, so none.
-        expect(w == w.toUpperCase() && !{'CUET'}.contains(w), isFalse, reason: 'ALL CAPS "$w" in "$s"');
+        expect(w == w.toUpperCase() && !{'CUET', 'CSAS'}.contains(w), isFalse, reason: 'ALL CAPS "$w" in "$s"');
       }
     }
   });

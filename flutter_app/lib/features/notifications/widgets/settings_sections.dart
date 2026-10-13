@@ -4,6 +4,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/permissions/permission_requester.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../you/widgets/you_row.dart' show IconWell;
 import '../copy.dart';
 import 'select_chip.dart';
 import 'settings_rows.dart';
@@ -44,56 +45,41 @@ class PermissionPanel extends StatelessWidget {
     };
     final canAsk = permission == NotificationPermission.notAsked;
 
-    return Semantics(
-      container: true,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.sunken,
-          borderRadius: MmRadius.panelAll,
-          border: Border.all(color: colors.line),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(MmSpace.cardPadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ExcludeSemantics(
-                    child: Icon(icon, size: 24, color: colors.ink),
+    final panel = FakeGlass(
+      child: Padding(
+        padding: const EdgeInsets.all(MmSpace.cardPadding),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ExcludeSemantics(
+                  child: IconWell(icon, color: permission == NotificationPermission.granted ? colors.ink : colors.ink2),
+                ),
+                const SizedBox(width: MmSpace.s12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Semantics(header: true, child: Text(title, style: type.labelLarge.copyWith(fontSize: 16))),
+                      const SizedBox(height: MmSpace.s4),
+                      Text(body, style: type.small.copyWith(color: colors.ink2)),
+                    ],
                   ),
-                  const SizedBox(width: MmSpace.s12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Semantics(
-                          header: true,
-                          child: Text(title, style: type.subhead),
-                        ),
-                        const SizedBox(height: MmSpace.s4),
-                        Text(
-                          body,
-                          style: type.small.copyWith(color: colors.ink2),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              if (canAsk) ...[
-                const SizedBox(height: MmSpace.s16),
-                KeyButton(
-                  label: NotificationsCopy.permissionTurnOn,
-                  onPressed: onTurnOn,
                 ),
               ],
+            ),
+            if (canAsk) ...[
+              const SizedBox(height: MmSpace.s16),
+              KeyButton(label: NotificationsCopy.permissionTurnOn, onPressed: onTurnOn),
             ],
-          ),
+          ],
         ),
       ),
     );
+    // The one lit element of the screen is the way to turn reminders on, when there is one.
+    return Semantics(container: true, child: canAsk ? LitEdge(child: panel) : panel);
   }
 }
 

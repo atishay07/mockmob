@@ -7,6 +7,7 @@ import 'package:mockmob/core/connectivity/connectivity.dart';
 import 'package:mockmob/core/connectivity/connectivity_providers.dart'
     show NetworkStatusNotifier;
 import 'package:mockmob/core/storage/prefs_store.dart';
+import 'package:mockmob/features/auth/after_sign_in.dart';
 import 'package:mockmob/features/auth/sign_in_controller.dart';
 import 'package:mockmob/features/auth/sign_in_gateway.dart';
 
@@ -25,6 +26,9 @@ class FakeGateway implements SignInGateway {
   final List<String> sent = [];
   final List<(String, String)> verified = [];
   int googleCalls = 0;
+
+  /// Times the after-sign-in sheet was opened over Today.
+  int sheetLaunches = 0;
 
   @override
   Future<void> sendCode(String email) async {
@@ -84,6 +88,7 @@ List<Override> authOverrides({
   final c = clock ?? TestClock();
   return [
     signInGatewayProvider.overrideWithValue(gateway),
+    afterSignInSheetLauncherProvider.overrideWithValue(() => gateway.sheetLaunches++),
     signInPrefsStoreProvider.overrideWithValue(prefs ?? MemoryPrefsStore()),
     nowProvider.overrideWithValue(c.call),
     networkStatusProvider.overrideWith(() => FakeNetwork(network)),

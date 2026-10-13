@@ -18,13 +18,21 @@ class LearnPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     return DecoratedBox(
-      decoration: BoxDecoration(
+      decoration: ShapeDecoration(
         color: colors.raised,
-        borderRadius: MmRadius.panelAll,
-        border: Border.all(color: colors.line),
-        boxShadow: colors.cardShadow,
+        shape: RoundedSuperellipseBorder(borderRadius: MmRadius.panelAll, side: BorderSide(color: colors.line)),
+        shadows: colors.cardShadow,
       ),
-      child: Padding(padding: padding, child: child),
+      child: CustomPaint(
+        foregroundPainter: EdgeLightPainter(
+          borderRadius: MmRadius.panelAll,
+          top: colors.edgeTop,
+          bottom: colors.edgeBottom.withValues(alpha: 0),
+          lamp: colors.isNight ? colors.lamp : null,
+          sheen: false,
+        ),
+        child: Padding(padding: padding, child: child),
+      ),
     );
   }
 }
@@ -63,20 +71,40 @@ class DueCard extends StatelessWidget {
     final headline = due > 0 ? LearnCopy.dueSummary(due) : LearnCopy.nothingDue;
     final label = due > 0 ? LearnCopy.startReview : LearnCopy.startNewCards;
 
-    return LearnPanel(
+    final panel = LearnPanel(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CardStackMark(count: due),
-              const SizedBox(width: MmSpace.s20),
-              Expanded(
-                child: Semantics(header: true, child: Text(headline, style: type.title)),
+          if (due > 0)
+            Semantics(
+              header: true,
+              label: headline,
+              excludeSemantics: true,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  MonumentalNumber(value: '$due', style: type.figureHero),
+                  const SizedBox(width: MmSpace.s12),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: MmSpace.s12),
+                    child: Text(due == 1 ? 'card due' : 'cards due', style: type.title.copyWith(color: colors.ink2)),
+                  ),
+                  const Spacer(),
+                  CardStackMark(count: due),
+                ],
               ),
-            ],
-          ),
+            )
+          else
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CardStackMark(count: due),
+                const SizedBox(width: MmSpace.s20),
+                Expanded(
+                  child: Semantics(header: true, child: Text(headline, style: type.title)),
+                ),
+              ],
+            ),
           if (due == 0 && newReady > 0)
             Padding(
               padding: const EdgeInsets.only(top: MmSpace.s12),
@@ -105,6 +133,7 @@ class DueCard extends StatelessWidget {
         ],
       ),
     );
+    return primary && canStart ? LitEdge(glow: true, child: panel) : panel;
   }
 }
 

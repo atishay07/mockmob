@@ -1,0 +1,172 @@
+// Every line Today says (Night Sheet brief sections 1.1, 8 and 12; design spec 5.3, 6.7, 6.8).
+// Voice: a sharp senior who has been through CUET. Short, specific, warm, never defensive.
+// Sentence case, no exclamation marks, no arrows, 12-hour times, real dates.
+import '../../core/copy/formatters.dart';
+
+abstract final class TodayCopy {
+  // Header.
+  static String greeting(int hour, String? firstName) {
+    final who = firstName == null || firstName.isEmpty ? null : firstName;
+    final part = switch (hour) {
+      >= 5 && < 12 => 'Morning',
+      >= 12 && < 17 => 'Afternoon',
+      >= 17 && < 23 => 'Evening',
+      _ => 'Up late',
+    };
+    return who == null ? (part == 'Up late' ? 'Up late tonight' : 'Good ${part.toLowerCase()}') : '$part, $who';
+  }
+
+  static String updatedAt(DateTime time) => 'Updated ${formatTime12(time)}';
+  static const String offlineSuffix = 'You are offline.';
+  static String updatedOffline(DateTime time) => 'Updated ${formatTime12(time)}. You are offline.';
+
+  // Hero overlines.
+  static String moveOverline(int hour) => hour >= 17 || hour < 5 ? "Tonight's move" : "Today's move";
+  static const String firstMoveOverline = 'Your first move';
+  static const String resumeOverline = 'Still open';
+  static const String endedOverline = 'While you were away';
+  static const String sealedOverline = 'Back from marking';
+
+  // Day one and new user (brief 11.11).
+  static const String questionsUnit = 'questions';
+  static String startingPointLine(String subject) =>
+      'Ten real CUET questions in $subject. The result shows where your marks go, chapter by chapter.';
+  static String startingPointWith(String subject, String framing) => 'Ten real CUET questions in $subject. $framing';
+  static String checkSetFor(DateTime at) => 'Your check is set for ${formatTime12(at)}.';
+  static const String startNow = 'Start now, about 10 minutes';
+  static const String fullMockInstead = 'Sit a full mock instead';
+  static const String subjectChanged = 'You changed your subjects. Earlier results stay under the old ones.';
+
+  // Ready (client-built repair).
+  static String mistakesLabel(int n, String source) => '${pluralWord(n, 'mistake')}\nfrom $source';
+  static String chapterHolds(String chapter, int count, int total, {required bool sameAsTask}) {
+    if (count == total) return 'All of them are in $chapter.';
+    return sameAsTask ? '$chapter holds $count of them.' : '$chapter holds $count of the $total waiting.';
+  }
+
+  static String questionNumbers(List<int> numbers) {
+    final shown = numbers.take(3).map((n) => '$n').toList();
+    final more = numbers.length > 3 ? ' and ${numbers.length - 3} more' : '';
+    return 'Questions ${joinWithAnd(shown)}$more.';
+  }
+
+  static String startRepair(int minutes) => 'Start repair, about $minutes minutes';
+  static String aajKaRepair(int minutes, String chapter) => 'Aaj ka repair: $minutes minutes, $chapter.';
+  static String basedOn(DateTime date) => 'Marked on ${formatDayMonth(date)}.';
+  static const String earlySignal = 'Early signal from one paper.';
+
+  // Other next-move states (spec 5.3 table, in this voice).
+  static String staleLabel(int days) => '${pluralWord(days, 'day')}\nsince a mock';
+  static String staleLine(DateTime date) => 'Your last mock was on ${formatDayMonth(date)}. A fresh set will update this.';
+  static const String practiseToRefresh = 'Practise to refresh';
+  static String thinLabel(int n) => '${pluralWord(n, 'question')}\nso far';
+  static const String thinLine = "An early signal, not a pattern yet. Ten more questions will tell us more.";
+  static const String checkThisSkill = 'Check this skill, about 10 minutes';
+  static String repairedLabel(int n) => 'repaired\nfrom $n';
+  static String repairedNumberLabel(String source) => 'repaired\nfrom $source';
+  static const String repairedLine = 'Fresh checks are not open yet. Practise another skill while those settle.';
+  static const String practiseAnother = 'Practise another skill';
+  static const String minutesUnit = 'minutes\nof mixed practice';
+  static const String noStrongWeakness = 'Nothing stands out right now. Mixed practice keeps things fresh.';
+  static String startMixed(int minutes) => 'Start mixed practice, $minutes minutes';
+  static const String unavailableTitle = 'Your earlier results are still there.';
+  static const String unavailableLine = 'We could not load a new suggestion just now.';
+  static const String tryAgain = 'Try again';
+  static const String choosePractice = 'Choose practice';
+  static const String chooseSomethingElse = 'Choose something else';
+  static const String hiddenUntilTomorrow = 'Hidden until tomorrow. Your mistakes are still in Review.';
+  static const String connectToStart = 'Connect to start.';
+  static const String showMe = 'Show me';
+
+  // Returning and late night (brief 1.1, spec 6.7, 6.8).
+  static String welcomeBack(String? firstName) => firstName == null ? 'Welcome back.' : 'Welcome back, $firstName.';
+  static const String howLong = 'How long have you got tonight?';
+  static String lastMockStillHere(String source, DateTime date, int mistakes) => mistakes > 0
+      ? 'Your last mock was $source on ${formatDayMonth(date)}. Its ${plural(mistakes, 'mistake')} are still here.'
+      : 'Your last mock was $source on ${formatDayMonth(date)}. Nothing was lost.';
+  static const String lateNight = 'Late one tonight. Ten minutes, then sleep.';
+  static const String mobiLateNight = 'Ten minutes, then sleep.';
+  static const String mobiWelcomeBack = 'Good to see you.';
+  static const String mobiDayOne = "Let's find your marks.";
+
+  // Resume and ended (spec 5.3 item 2).
+  static String resumeTitle(String label, String subject) => '$label, $subject';
+  static String answeredLabel(int total) => 'of $total\nanswered';
+  static String endsAt(DateTime at) => 'Ends at ${formatTime12(at)}.';
+  static String savedAt(DateTime at) => 'Saved on the server at ${formatTime12(at)}.';
+  static const String answersOnPhone = 'Answers are on this phone.';
+  static const String continueKey = 'Continue';
+  static String endedRecorded(String label, DateTime at, int answered) =>
+      '$label ended at ${formatTime12(at)}. Your ${plural(answered, 'answer')} sent before then were recorded.';
+  static String endedSending(String label, DateTime at) =>
+      '$label ended at ${formatTime12(at)}. Your answers are on this phone and are being sent.';
+  static String endedClosed(String label, DateTime at, int answered) =>
+      'The submission window for $label has ended, so it could not be recorded. '
+      '${plural(answered, 'answer')} ${answered == 1 ? 'was' : 'were'} sent before ${formatTime12(at)}.';
+  static String endedChecking(String label, DateTime at) =>
+      '$label ended at ${formatTime12(at)}. Checking what reached the server.';
+  static const String openResult = 'Open result';
+
+  // Sealed result (spec 5.3 item 3, brief 12 Result).
+  static String sealedTitle(String label, String subject) => '$label, $subject';
+  static String receivedAt(DateTime at) => 'Received at ${formatTime12(at)}. Your result is ready.';
+  static const String openSheet = 'Open your sheet';
+  static const String openDirectly = 'Open results directly';
+  static String moreResults(int n) => n == 1 ? '1 more result is ready to open.' : '$n more results are ready to open.';
+
+  // Compact slots.
+  static String nextUp(String what) => 'Next: $what';
+  static String repairWhat(int n, String source) => 'repair ${plural(n, 'mistake')} from $source';
+
+  // Your sheet.
+  static const String yourSheet = 'Your sheet';
+  static String sheetCaption(int n) => n == 1 ? 'Your last paper' : 'Your last $n papers';
+  static const String sealed = 'Sealed';
+  static String quickLabel(int total) => 'Quick $total';
+  static String marksOf(int outOf) => 'of $outOf';
+
+  // The road.
+  static const String roadTitle = 'The road to May';
+  static String weeksLabel(int weeks) => '${weeks == 1 ? 'week' : 'weeks'} to the expected\nMay 2027 window';
+  static const String boardsLine = 'Boards run mid-February to early April. The plan goes lighter from mid-February.';
+  static String ladderCaption(String category) => 'CSAS 2026, Round 1 closing scores, $category';
+  static const String chooseColleges = 'Choose your colleges';
+  static const String ladderEmpty = 'Pick up to three colleges and see where each one closed last year.';
+
+  // Why this sheet.
+  static const String whyTitle = 'Why this';
+  static String whyFrom(String source, String subject, DateTime date) => 'From $source, $subject, on ${formatDayMonth(date)}.';
+  static String whyCounts(int wrong, int correct, int blank) =>
+      '$wrong wrong, $correct right, $blank not attempted.';
+  static String chapterRow(int wrong, int blank) {
+    if (blank == 0) return '$wrong wrong';
+    if (wrong == 0) return '$blank not attempted';
+    return '$wrong wrong, $blank not attempted';
+  }
+  static const String whyEarly =
+      'One paper is an early signal, not a verdict. Each mock you add makes this sharper.';
+  static const String whyRepair =
+      'A repair walks you through each mistake with a worked explanation, then lets you try a similar question.';
+  static const String seeMyAnswers = 'See my answers';
+  static const String whyMissing = 'This suggestion has changed since you opened it.';
+
+  // Alternatives sheet.
+  static const String alternativesTitle = 'Something else tonight';
+  static const String altFullMock = 'Full mock';
+  static const String altFullMockLine = '50 questions, 60 minutes.';
+  static const String altQuick = 'Quick practice';
+  static const String altQuickLine = '10 questions, about 10 minutes.';
+  static const String altChapter = 'One chapter';
+  static const String altChapterLine = 'Pick a chapter and practise only that.';
+  static const String altReview = 'Review your mistakes';
+  static const String altReviewLine = 'Read the worked explanations. Free.';
+  static const String notToday = 'Not today';
+  static const String notTodayNote = "Hides tonight's repair until tomorrow. Your mistakes stay in Review.";
+
+  // Weekly ending page.
+  static const String weeklyEndingTitle = 'Your week';
+  static const String back = 'Back to Today';
+
+  // Loading.
+  static const String loading = 'Loading Today';
+}

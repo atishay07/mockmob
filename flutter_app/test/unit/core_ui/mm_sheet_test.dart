@@ -33,7 +33,7 @@ void main() {
     expect(route.sheetAnimationStyle!.curve, Curves.linear);
   });
 
-  testWidgets('a routed sheet slides in 280 ms at full motion', (tester) async {
+  testWidgets('a routed sheet rises in 420 ms at full motion', (tester) async {
     late BuildContext captured;
     await pumpMockmob(tester, Builder(builder: (context) {
       captured = context;
@@ -45,7 +45,7 @@ void main() {
     expect(route.sheetAnimationStyle!.reverseDuration, Motion.sheetOut);
   });
 
-  testWidgets('opens with the 28 dp top radius and closes on the scrim', (tester) async {
+  testWidgets('opens as glass with the 32 dp top radius and closes on the scrim', (tester) async {
     late Future<void> closed;
     await pumpMockmob(tester, _opener((f) => closed = f));
 
@@ -55,11 +55,11 @@ void main() {
     expect(find.text('This week'), findsOneWidget);
     expect(find.text('Close'), findsNothing, reason: 'a normal sheet has a drag handle, not a Close key');
 
-    final material = tester.widget<Material>(
-      find.ancestor(of: find.byType(MmSheetScaffold), matching: find.byType(Material)).first,
+    final glass = tester.widget<GlassSurface>(
+      find.ancestor(of: find.byType(MmSheetScaffold), matching: find.byType(GlassSurface)).first,
     );
-    final shape = material.shape as RoundedRectangleBorder;
-    expect(shape.borderRadius, MmRadius.sheetTopOnly);
+    expect(glass.borderRadius, MmRadius.sheetTopOnly);
+    expect(glass.role, GlassRole.sheet);
 
     await tester.tapAt(const Offset(180, 20));
     await tester.pumpAndSettle();

@@ -4,8 +4,7 @@ import '../../../core/theme/theme.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../copy.dart';
 import '../model/practice_result_model.dart';
-import 'mode_row.dart' show RowDivider;
-import 'pressable.dart';
+import '../../../core/widgets/widgets.dart';
 import 'result_question_card.dart';
 
 /// Which rows are open, which not-attempted questions are being tried, and the keys used to
@@ -82,11 +81,10 @@ class ResultList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: MmSpace.s4),
-          child: Semantics(header: true, child: Text(title, style: context.mmType.subhead)),
+          padding: const EdgeInsets.only(left: MmSpace.s4, bottom: MmSpace.s8),
+          child: Semantics(header: true, child: Text(title, style: context.mmType.title.copyWith(fontSize: 20))),
         ),
-        const RowDivider(),
-        for (final q in items) ...[_row(q), const RowDivider()],
+        ResultPanel(children: [for (final q in items) _row(q)]),
       ],
     );
   }
@@ -106,8 +104,7 @@ class ResultList extends StatelessWidget {
           if (wrong.isNotEmpty) ...[_group(context, PracticeCopy.sectionWrong(wrong.length), wrong), const SizedBox(height: MmSpace.group)],
           if (blank.isNotEmpty) ...[_group(context, PracticeCopy.sectionBlank(blank.length), blank), const SizedBox(height: MmSpace.group)],
           if (correct.isNotEmpty)
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+            ResultPanel(
               children: [
                 _CorrectHeader(
                   count: correct.length,
@@ -116,12 +113,41 @@ class ResultList extends StatelessWidget {
                   type: type,
                   colors: colors,
                 ),
-                const RowDivider(),
                 if (controller.correctGroupOpen)
-                  for (final q in correct) ...[_row(q), const RowDivider()],
+                  for (final q in correct) _row(q),
               ],
             ),
         ],
+      ),
+    );
+  }
+}
+
+/// A solid panel of result rows divided by hairlines (the work layer: calm, no art).
+class ResultPanel extends StatelessWidget {
+  const ResultPanel({super.key, required this.children});
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return DecoratedBox(
+      decoration: ShapeDecoration(
+        color: colors.raised,
+        shape: RoundedSuperellipseBorder(borderRadius: MmRadius.panelAll, side: BorderSide(color: colors.line)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s4),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            for (var i = 0; i < children.length; i++) ...[
+              if (i > 0) Divider(height: 1, thickness: 1, color: colors.line),
+              children[i],
+            ],
+          ],
+        ),
       ),
     );
   }
@@ -138,18 +164,21 @@ class _CorrectHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Pressable(
+    return MmPressable(
       onTap: onTap,
-      expanded: open,
       semanticsLabel: PracticeCopy.sectionCorrect(count),
-      minHeight: 52,
-      builder: (_, _) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
-        child: Row(
-          children: [
-            Expanded(child: Text(PracticeCopy.sectionCorrect(count), style: type.subhead)),
-            ExcludeSemantics(child: Icon(open ? LucideIcons.chevronUp : LucideIcons.chevronDown, size: 20, color: colors.ink3)),
-          ],
+      focusRadius: MmRadius.keyAll,
+      pressedScale: 0.985,
+      builder: (_, _, _) => ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 56),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4, vertical: MmSpace.s12),
+          child: Row(
+            children: [
+              Expanded(child: Text(PracticeCopy.sectionCorrect(count), style: type.cardTitle.copyWith(fontSize: 16))),
+              ExcludeSemantics(child: Icon(open ? LucideIcons.chevronUp : LucideIcons.chevronDown, size: 20, color: colors.ink3)),
+            ],
+          ),
         ),
       ),
     );

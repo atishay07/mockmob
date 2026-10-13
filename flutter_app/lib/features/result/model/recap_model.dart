@@ -1,0 +1,209 @@
+import '../../../core/domain/domain.dart';
+import '../../../core/models/models.dart';
+import '../../../core/widgets/bubbles/bubble_painter.dart' show BubbleState;
+import 'recap_variant.dart';
+import 'subject_names.dart';
+
+/// The previous comparable mock (server `recap.previousComparable`, spec 5.6).
+class PreviousMock {
+  const PreviousMock({required this.label, required this.marks, required this.max});
+
+  /// "Mock 6", or "Your last mock" when its number is not known on this phone.
+  final String label;
+  final int marks;
+  final int max;
+}
+
+/// Everything the recap and the full result show, derived once from server facts. Every number
+/// comes from the attempt's own counts through the core domain functions; nothing is invented.
+class RecapModel {
+  const RecapModel({
+    required this.attemptId,
+    required this.subjectId,
+    required this.subjectName,
+    required this.ordinal,
+    required this.questionCount,
+    required this.durationMinutes,
+    required this.submittedAt,
+    required this.receivedAt,
+    required this.breakdown,
+    required this.cells,
+    required this.variant,
+    required this.keysUnavailable,
+    required this.heldCount,
+    required this.chapters,
+    required this.candidates,
+    required this.blankCount,
+    required this.monthMockCount,
+    this.previous,
+    this.creditBalance,
+    this.firstMockTokenAt,
+    this.detailLoaded = true,
+    this.mode = 'full',
+  });
+
+  final String attemptId;
+
+  /// Attempt-side subject id (`accountancy`, `gat`, ...).
+  final String subjectId;
+  final String subjectName;
+
+  /// "Mock 7"; null for Quick practice.
+  final int? ordinal;
+  final int questionCount;
+  final int? durationMinutes;
+
+  /// Local time of completion.
+  final DateTime submittedAt;
+
+  /// When this phone received the server's acknowledgment (falls back to [submittedAt]).
+  final DateTime receivedAt;
+  final MarkBreakdown breakdown;
+
+  /// One bubble per question in paper order: filled (correct), wrong, blank, marked (held).
+  final List<BubbleState> cells;
+  final RecapVariant variant;
+  final bool keysUnavailable;
+  final int heldCount;
+
+  /// Observed chapter breakdown, held questions excluded.
+  final ChapterBreakdown chapters;
+
+  /// Wrong answers that repair may offer.
+  final List<RepairCandidate> candidates;
+  final int blankCount;
+
+  /// Full and NTA-style mocks finished this calendar month, this one included.
+  final int monthMockCount;
+  final PreviousMock? previous;
+
+  /// Explanation credits; null when unknown (never treated as zero).
+  final int? creditBalance;
+
+  /// The server's `first_full_mock` milestone when this attempt earned it.
+  final DateTime? firstMockTokenAt;
+
+  /// False when only the cached attempt is known (the detail read failed or is loading).
+  final bool detailLoaded;
+
+  /// `full`, `nta` or `quick` (for analytics only).
+  final String mode;
+
+  String get mockLabel => ordinal == null ? 'Quick practice' : 'Mock $ordinal';
+  String get title => '$mockLabel, $subjectName';
+  int get marks => breakdown.scored;
+  int get maxMarks => breakdown.max;
+  int get correct => breakdown.correct;
+  int get wrong => breakdown.wrong;
+  int get unattempted => breakdown.unattempted;
+  bool get isHeld => variant == RecapVariant.held;
+
+  /// Default repair size: the 10-minute chip when it exists, else all candidates.
+  int get defaultRepairMinutes {
+    final options = repairDurationOptions(candidates.length);
+    for (final o in options) {
+      if (o.minutes == 10) return 10;
+    }
+    if (options.isNotEmpty) return options.first.minutes;
+    return repairMinutes(candidates.length) ?? 0;
+  }
+}
+
+/// Builds the [RecapModel]. [attempts] is the cached list (may not hold this attempt yet);
+/// [repairedIds] are questions repaired on this phone; [milestones] are the server's.
+RecapModel buildRecapModel({
+  required Attempt attempt,
+  AttemptDetail? detail,
+  List<Attempt> attempts = const [],
+  Set<String> repairedIds = const {},
+  int? creditBalance,
+  DateTime? receivedAt,
+  List<RhythmMilestone> milestones = const [],
+}) {
+  final ordinal = mockOrdinal(attempts, attempt);
+  final held = detail?.heldQuestionIds.toSet() ?? const <String>{};
+  final variant = resolveRecapVariant(hasHeld: held.isNotEmpty, ordinal: ordinal, tone: detail?.recap?.tone);
+
+  final cells = <BubbleState>[];
+  for (final q in attempt.questions) {
+    final d = attempt.detailFor(q.id);
+    if (held.contains(q.id)) {
+      cells.add(BubbleState.marked);
+    } else if (d?.isCorrect == true) {
+      cells.add(BubbleState.filled);
+    } else if (d?.isCorrect == false) {
+      cells.add(BubbleState.wrong);
+    } else {
+      cells.add(BubbleState.blank);
+    }
+  }
+
+  final local = attempt.completedAt.toLocal();
+  return RecapModel(
+    attemptId: attempt.id,
+    subjectId: attempt.subject,
+    subjectName: subjectDisplayName(attempt.subject),
+    ordinal: ordinal,
+    questionCount: attempt.total,
+    durationMinutes: attempt.selectionMeta.durationMinutes,
+    submittedAt: local,
+    receivedAt: (receivedAt ?? attempt.completedAt).toLocal(),
+    breakdown: markBreakdownOf(attempt),
+    cells: cells,
+    variant: variant,
+    keysUnavailable: detail?.reviewsUnavailable ?? false,
+    heldCount: held.length,
+    chapters: observedChapterBreakdown(attempt, excludeQuestionIds: held),
+    candidates: repairCandidates(attempt, reviews: detail?.answerReviews ?? const {}, repairedIds: repairedIds),
+    blankCount: attempt.unattempted,
+    monthMockCount: monthMockCount(attempts, attempt),
+    previous: _previous(detail, attempts),
+    creditBalance: creditBalance,
+    firstMockTokenAt: _firstMockToken(attempts, attempt, milestones),
+    detailLoaded: detail != null,
+    mode: attempt.mode ?? 'full',
+  );
+}
+
+PreviousMock? _previous(AttemptDetail? detail, List<Attempt> attempts) {
+  final recap = detail?.recap;
+  if (recap == null || !recap.hasPrevious) return null;
+  String label = 'Your last mock';
+  final id = recap.previousAttemptId;
+  if (id != null) {
+    for (final a in attempts) {
+      if (a.id == id) {
+        final n = mockOrdinal(attempts, a);
+        if (n != null) label = 'Mock $n';
+      }
+    }
+  }
+  return PreviousMock(label: label, marks: recap.previousMarks!, max: recap.previousMax!);
+}
+
+/// Full and NTA-style mocks, any subject, finished in the same local calendar month as
+/// [attempt] and not after it, counting [attempt] itself once.
+int monthMockCount(Iterable<Attempt> attempts, Attempt attempt) {
+  if (!attempt.isMock) return 0;
+  final at = attempt.completedAt.toLocal();
+  var n = 1;
+  for (final a in attempts) {
+    if (a.id == attempt.id || !a.isMock) continue;
+    final t = a.completedAt.toLocal();
+    if (t.year == at.year && t.month == at.month && !a.completedAt.isAfter(attempt.completedAt)) n++;
+  }
+  return n;
+}
+
+/// The brass first-mock token shows only when the server recorded `first_full_mock` and this
+/// attempt is the student's only full or NTA-style mock up to now (any subject).
+DateTime? _firstMockToken(List<Attempt> attempts, Attempt attempt, List<RhythmMilestone> milestones) {
+  if (!attempt.isMock) return null;
+  RhythmMilestone? m;
+  for (final x in milestones) {
+    if (x.id == 'first_full_mock' && x.earned) m = x;
+  }
+  if (m == null) return null;
+  final earlier = attempts.where((a) => a.id != attempt.id && a.isMock && !a.completedAt.isAfter(attempt.completedAt));
+  return earlier.isEmpty ? m.achievedAt!.toLocal() : null;
+}

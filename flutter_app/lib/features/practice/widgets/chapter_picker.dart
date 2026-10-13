@@ -8,7 +8,6 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/practice_catalog.dart';
-import 'pressable.dart';
 
 /// The single chapter field of chapter practice: a labelled row that opens the chapter list.
 /// The chosen name is never truncated.
@@ -28,32 +27,37 @@ class ChapterField extends StatelessWidget {
       children: [
         Text(PracticeCopy.chapterLabel, style: type.label.copyWith(color: colors.ink2)),
         const SizedBox(height: MmSpace.s8),
-        Pressable(
+        MmPressable(
           onTap: onTap,
-          minHeight: MmTarget.option,
+          focusRadius: MmRadius.keyAll,
+          pressedScale: 0.985,
           semanticsLabel: '${PracticeCopy.chapterLabel}, ${chosen ? chapter! : PracticeCopy.chooseChapter}',
-          builder: (context, pressed) => DecoratedBox(
-            decoration: BoxDecoration(
-              color: pressed ? colors.sunken : colors.raised,
-              borderRadius: MmRadius.keyAll,
-              border: Border.all(color: chosen ? colors.ink : colors.lineStrong, width: chosen ? 1.5 : 1),
+          builder: (context, pressed, _) => DecoratedBox(
+            decoration: ShapeDecoration(
+              color: pressed ? colors.ink.withValues(alpha: 0.08) : colors.ink.withValues(alpha: colors.isNight ? 0.045 : 0.035),
+              shape: RoundedSuperellipseBorder(
+                borderRadius: MmRadius.keyAll,
+                side: BorderSide(color: chosen ? colors.ink : colors.ink.withValues(alpha: 0.12), width: chosen ? 1.5 : 1),
+              ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      chosen ? chapter! : PracticeCopy.chooseChapter,
-                      style: type.body.copyWith(
-                        color: chosen ? colors.ink : colors.ink3,
-                        fontWeight: chosen ? FontWeight.w600 : FontWeight.w400,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: MmTarget.option),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
+                child: Row(
+                  children: [
+                    Icon(LucideIcons.bookOpen, size: 18, color: chosen ? colors.ink : colors.ink2),
+                    const SizedBox(width: MmSpace.s12),
+                    Expanded(
+                      child: Text(
+                        chosen ? chapter! : PracticeCopy.chooseChapter,
+                        style: type.labelLarge.copyWith(color: chosen ? colors.ink : colors.ink2),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: MmSpace.s8),
-                  ExcludeSemantics(child: Icon(LucideIcons.chevronRight, size: 20, color: colors.ink3)),
-                ],
+                    const SizedBox(width: MmSpace.s8),
+                    Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
+                  ],
+                ),
               ),
             ),
           ),
@@ -133,7 +137,7 @@ class _Units extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s16, MmSpace.s4, MmSpace.s4),
               child: Semantics(
                 header: true,
-                child: Text(unit.name, style: type.label.copyWith(color: colors.ink2)),
+                child: Text(unit.name, style: type.label.copyWith(color: colors.ink3)),
               ),
             ),
           for (final chapter in unit.chapters) _ChapterRow(name: chapter.name, selected: chapter.name == selected, onPick: onPick),
@@ -154,19 +158,30 @@ class _ChapterRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    return Pressable(
+    return MmPressable(
       onTap: () => onPick(name),
+      semanticsLabel: name,
       selected: selected,
-      minHeight: 52,
-      builder: (_, _) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4, vertical: MmSpace.s12),
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(name, style: type.body.copyWith(fontWeight: selected ? FontWeight.w700 : FontWeight.w400)),
+      inMutuallyExclusiveGroup: true,
+      focusRadius: MmRadius.keyAll,
+      pressedScale: 0.985,
+      builder: (context, pressed, _) => DecoratedBox(
+        decoration: ShapeDecoration(
+          color: pressed ? colors.ink.withValues(alpha: 0.06) : Colors.transparent,
+          shape: const RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll),
+        ),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 52),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: MmSpace.s12),
+            child: Row(
+              children: [
+                Expanded(child: Text(name, style: type.body.copyWith(fontWeight: selected ? FontWeight.w600 : FontWeight.w400))),
+                const SizedBox(width: MmSpace.s12),
+                Bubble(state: selected ? BubbleState.filled : BubbleState.hollow, size: 18),
+              ],
             ),
-            if (selected) ExcludeSemantics(child: Icon(LucideIcons.check, size: 20, color: colors.ink)),
-          ],
+          ),
         ),
       ),
     );

@@ -10,8 +10,9 @@ import 'copy.dart';
 import 'sign_in_controller.dart';
 import 'sign_in_state.dart';
 
-/// The frame both sign-in screens share: banners that sit in the layout above a scrolling,
-/// keyboard-safe column of content, at most 600 dp wide.
+/// The frame both sign-in screens share, in the Night Sheet room: the desk lamp's warm light
+/// from the upper left over the ground, banners that sit in the layout above a scrolling,
+/// keyboard-safe column of content (at most 600 dp wide), and the MockMob mark at its head.
 class AuthPage extends ConsumerWidget {
   const AuthPage({
     super.key,
@@ -42,7 +43,11 @@ class AuthPage extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: colors.ground,
-      body: SafeArea(
+      body: Stack(
+        children: [
+          Positioned.fill(child: LightField.lamp(context, strength: 0.9)),
+          const Positioned.fill(child: IgnorePointer(child: Grain())),
+          SafeArea(
         child: Column(
           children: [
             if (offline)
@@ -79,7 +84,15 @@ class AuthPage extends ConsumerWidget {
                                   child: BackKey(onPressed: onBack!),
                                 ),
                         ),
-                        const SizedBox(height: MmSpace.s12),
+                        const SizedBox(height: MmSpace.s16),
+                        const Row(
+                          children: [
+                            MmMark(size: 40),
+                            SizedBox(width: MmSpace.s12),
+                            Wordmark(height: 22),
+                          ],
+                        ),
+                        const SizedBox(height: MmSpace.s20),
                         child,
                       ],
                     ),
@@ -89,6 +102,8 @@ class AuthPage extends ConsumerWidget {
             ),
           ],
         ),
+          ),
+        ],
       ),
     );
   }

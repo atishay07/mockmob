@@ -9,6 +9,7 @@ import 'package:mockmob/features/practice/model/practice_selection.dart';
 import 'package:mockmob/features/practice/practice_routes.dart';
 
 import '../../helpers/fonts.dart';
+import '../learn/support/learn_fixtures.dart';
 import 'support/harness.dart';
 
 List<GoRoute> _routes() => [
@@ -41,12 +42,12 @@ void main() {
       overrides: practiceOverrides(quotes: quotes),
     );
     await tester.pump(const Duration(milliseconds: 100));
-    expect(text('Checking what this costs.'), findsOneWidget);
+    expect(text('Checking what this takes.'), findsOneWidget);
     expect(quotes.calls, hasLength(1));
     // The controls stay usable while the quote is slow.
     await tester.tap(text('English'));
     await tester.pump(const Duration(milliseconds: 500));
-    expect(find.bySemanticsLabel('More questions'), findsOneWidget);
+    expect(text('20'), findsOneWidget);
     gate.complete(dailyFree());
     await settle(tester);
     // The quote for the first subject finished, but the selection changed: the new one is asked.
@@ -77,30 +78,24 @@ void main() {
     expect(router.state.uri.path, '/run/sess-1');
   });
 
-  testWidgets('the count steps through 5, 10, 15 and 20 only', (tester) async {
+  testWidgets('the length is 5, 10, 15 or 20 only, and a change is quoted again', (tester) async {
     final quotes = FakeQuoteRepository((s, m, c, p) => creditsQuote(count: c ?? 10));
     await pumpRouted(
       tester,
-      location: '/practice/setup/quick?subject=accountancy&count=15',
+      location: '/practice/setup/quick?subject=accountancy&count=13',
       routes: _routes(),
       overrides: practiceOverrides(quotes: quotes),
     );
     await settle(tester);
-    expect(text('15'), findsOneWidget);
-    await tester.tap(find.bySemanticsLabel('More questions'));
-    await tester.pump();
-    expect(text('20'), findsOneWidget);
-    // At the top the plus key is disabled.
-    await tester.tap(find.bySemanticsLabel('More questions'), warnIfMissed: false);
-    await tester.pump();
-    expect(text('20'), findsOneWidget);
-    for (var i = 0; i < 3; i++) {
-      await tester.tap(find.bySemanticsLabel('Fewer questions'));
-      await tester.pump(const Duration(milliseconds: 300));
+    // 13 is not offered: the nearest offered length is chosen.
+    expect(text('15 questions, about 15 minutes.'), findsOneWidget);
+    for (final n in ['5', '10', '15', '20']) {
+      expect(text(n), findsOneWidget);
     }
-    expect(text('5'), findsOneWidget);
+    await tester.tap(text('5'));
     await settle(tester);
-    expect(quotes.calls.map((c) => c.count).toSet(), contains(5));
+    expect(text('5 questions, about 5 minutes.'), findsOneWidget);
+    expect(quotes.calls.map((c) => c.count).toSet(), {15, 5});
   });
 
   testWidgets('chapter practice needs a chapter, sends the single chapter, and costs like Quick practice', (tester) async {
@@ -152,13 +147,13 @@ void main() {
       tester,
       location: '/practice/setup/quick?subject=accountancy&count=15',
       routes: _routes(),
-      overrides: practiceOverrides(quotes: quotes),
+      overrides: practiceOverrides(quotes: quotes, learn: catalog(due: 2)),
     );
     await settle(tester);
-    expect(text('You have 8 credits. A Quick practice costs 10, and chapter practice costs the same.'), findsOneWidget);
+    expect(text('You have 8 credits, and this takes 10. One chapter takes the same.'), findsOneWidget);
     expect(text('Free right now'), findsOneWidget);
-    expect(text('Learn'), findsOneWidget);
-    expect(text('Review your answers and keys, explanations included'), findsOneWidget);
+    expect(text('Concepts'), findsOneWidget);
+    expect(text('Your answers and keys, explanations included'), findsOneWidget);
     expect(text('Today’s free 10-question practice'), findsOneWidget);
     expect(find.textContaining('still open'), findsNothing);
   });
@@ -174,7 +169,8 @@ void main() {
     await settle(tester);
     expect(text('Free right now'), findsOneWidget);
     expect(text('Today’s free 10-question practice'), findsNothing);
-    expect(text('Learn'), findsOneWidget);
+    // Concepts are listed only while study content is on.
+    expect(text('Concepts'), findsNothing);
   });
 
   testWidgets('a blocked quote shows words chosen by its reason code, never the server text', (tester) async {
@@ -253,18 +249,17 @@ void main() {
       overrides: practiceOverrides(quotes: quotes, starter: starter, catalog: FakeCatalog(mocks: 6)),
     );
     await settle(tester);
-    expect(text('Uses 50 credits. You have 120.'), findsOneWidget);
-    await tester.tap(text('Start mock'));
-    await tester.pump(const Duration(milliseconds: 400));
-    await tester.pump(const Duration(milliseconds: 400));
+    expect(text('50 credits. You have 120.'), findsOneWidget);
+    // One confirm step, not a wizard: the before-mock lines are already here.
     expect(text('Mock 7, Accountancy'), findsOneWidget);
     expect(text('50 questions, 60 minutes.'), findsOneWidget);
-    expect(find.textContaining('5 marks'), findsNothing);
+    expect(text('5 marks for each correct answer, minus 1 for each wrong one.'), findsOneWidget);
     expect(text('The timer keeps running if you leave the app. Submit ends the mock.'), findsOneWidget);
     expect(text('For fewer interruptions, turn on Do Not Disturb from Quick Settings.'), findsOneWidget);
     // The ticket-mode line needs a ticket-mode session, which only exists after the start.
     expect(find.textContaining('open MockMob again'), findsNothing);
-    await tester.tap(text('Start mock').last);
+    await tester.ensureVisible(text('Start mock'));
+    await tester.tap(text('Start mock'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 500));
     await tester.pump(const Duration(milliseconds: 500));
@@ -279,14 +274,22 @@ void main() {
       tester,
       location: '/practice/setup/nta?subject=accountancy',
       routes: _routes(),
-      overrides: practiceOverrides(quotes: FakeQuoteRepository((s, m, c, p) => proGate())),
+      overrides: practiceOverrides(
+        quotes: FakeQuoteRepository((s, m, c, p) => m == 'nta' ? proGate() : creditsQuote(cost: 50, balance: 120, mode: 'full', count: 50)),
+      ),
     );
     await settle(tester);
-    expect(text('NTA-style mode is part of Pro'), findsOneWidget);
-    expect(text('Your account includes Full mock, Quick practice and Chapter practice.'), findsOneWidget);
+    expect(text('Exam-day layout comes with Pro'), findsOneWidget);
+    expect(text('Everything else here is yours: Full mock, Quick practice and One chapter. A Full mock is the same length.'), findsOneWidget);
     expect(text('Take a Full mock instead'), findsOneWidget);
     expect(find.textContaining('Rs'), findsNothing);
     expect(find.textContaining('Upgrade'), findsNothing);
+    // The open alternative switches the same screen to a Full mock.
+    await tester.ensureVisible(text('Take a Full mock instead'));
+    await tester.tap(text('Take a Full mock instead'));
+    await settle(tester);
+    expect(text('Mock 7, Accountancy'), findsOneWidget);
+    expect(text('Start mock'), findsOneWidget);
   });
 
   testWidgets('the skeleton appears only after 400 ms', (tester) async {
@@ -298,9 +301,9 @@ void main() {
       overrides: practiceOverrides(quotes: FakeQuoteRepository((s, m, c, p) => gate.future)),
     );
     await tester.pump(const Duration(milliseconds: 200));
-    expect(find.bySemanticsLabel('Checking what this costs'), findsNothing);
+    expect(find.bySemanticsLabel('Checking what this takes.'), findsNothing);
     await tester.pump(const Duration(milliseconds: 300));
-    expect(find.bySemanticsLabel('Checking what this costs'), findsOneWidget);
+    expect(find.bySemanticsLabel('Checking what this takes.'), findsOneWidget);
     gate.complete(dailyFree());
     await tester.pump();
     await tester.pump();

@@ -17,6 +17,7 @@ import 'data/practice_starter.dart' show StartFailure;
 import 'model/cost_line.dart';
 import 'model/practice_selection.dart';
 import 'widgets/failure_copy.dart';
+import 'widgets/inking_sheet.dart';
 
 /// `/practice/start`: starts Quick or chapter practice straight from a link or from Today, with
 /// no setup screen, using the same quote check and launch as the setup screen. Mocks always go
@@ -147,32 +148,33 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
     final type = context.mmType;
     return Scaffold(
       backgroundColor: colors.ground,
-      body: SafeArea(
-        child: _working
-            ? Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(MmSpace.s24),
-                  child: Semantics(
-                    liveRegion: true,
-                    container: true,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        MmSpinner(color: colors.ink, size: 28),
-                        const SizedBox(height: MmSpace.s16),
-                        Text(PracticeCopy.gettingReady, style: type.subhead, textAlign: TextAlign.center),
-                        const SizedBox(height: MmSpace.s4),
-                        Text(
-                          PracticeCopy.gettingReadyNote,
-                          style: type.small.copyWith(color: colors.ink2),
-                          textAlign: TextAlign.center,
+      body: Stack(
+        children: [
+          Positioned.fill(child: IgnorePointer(child: LightField.lamp(context, strength: 0.7))),
+          SafeArea(
+            child: _working
+                ? Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(MmSpace.s24),
+                      child: Semantics(
+                        liveRegion: true,
+                        container: true,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const InkingSheet(),
+                            const SizedBox(height: MmSpace.s24),
+                            Text(PracticeCopy.gettingReady, style: type.title, textAlign: TextAlign.center),
+                            const SizedBox(height: MmSpace.s8),
+                            Text(PracticeCopy.gettingReadyNote, style: type.small.copyWith(color: colors.ink2), textAlign: TextAlign.center),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-              )
-            : _stopped(),
+                  )
+                : _stopped(),
+          ),
+        ],
       ),
     );
   }

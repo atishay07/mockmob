@@ -1,90 +1,136 @@
-/// Every user-facing string of the onboarding feature (spec 5.1). Sentence case, no middle dots,
-/// no emoji, no arrows on keys, no exclamation successes, 12-hour times. Work that has not left
-/// the device is worded "On this phone"; the word for server-acknowledged work appears only
-/// after the server has replied.
+/// Every user-facing string of the onboarding ("Your sheet"). The voice of a sharp senior who
+/// has been through CUET: short, specific, a little dry. Sentence case, no emoji, no
+/// exclamation marks, no arrows in buttons, 12-hour times, no defensive footers.
 library;
 
 abstract final class OnboardingCopy {
   // Shared.
   static const String back = 'Back';
-  static const String notAffiliated = 'MockMob is not affiliated with NTA or Delhi University.';
+  static const String next = 'Continue';
+  static const String skip = 'Skip';
+  static const String sheetTitle = 'Your sheet';
 
-  // Welcome (5.1.1).
-  static const String welcomeHeadline = "Find the marks you're losing. Repair the mistake.";
-  static const String welcomeLead = 'Start with five CUET-style questions. No account needed.';
-  static const String welcomeSheetHint = 'Your answer sheet fills in as you go.';
-  static const String tryFive = 'Try 5 questions';
-  static const String continueSample = 'Continue the sample';
-  static const String seeMyResult = 'See my result';
+  // Welcome (the brief's own words).
+  static const String welcomeHeadline = 'Every lost mark has a pattern.';
+
+  /// The same line, broken where it reads best at the moment size.
+  static const String welcomeHeadlineSet = 'Every lost mark\nhas a pattern.';
+  static const String welcomeSupport =
+      'MockMob finds yours, helps you repair it, and checks the repair holds. Two minutes to set up.';
+  static const String buildPlan = 'Build my plan';
   static const String haveAccount = 'I already have an account';
-  static const String mobiGreetingLabel = 'Mobi, the MockMob folded-sheet mascot, waving hello';
+  static const String continuePlan = 'Pick up my sheet';
+  static const String welcomeBackLine = 'Your sheet is on this phone, right where you left it.';
+  static const String mobiHello = 'Mobi, the MockMob mascot, waving hello';
+  static const String mobiSleepy = 'Mobi, the MockMob mascot, yawning';
 
-  /// Shown on a return to Welcome while the guest sample is part way through.
-  static String welcomeBack(int answered, int total) =>
-      'You answered $answered of $total. Your answers are on this phone. Pick up where you left off.';
-  static const String welcomeBackComplete = 'You finished the sample. Your five answers are on this phone.';
+  /// After 11 PM, above the headline.
+  static const String lateNight = 'Late one tonight. Two minutes, then sleep.';
 
-  // Subject (5.1.2).
-  static const String subjectTitle = 'Which paper first?';
-  static const String subjectReason = 'We use this to set up your first mock. You can change this later in You.';
-  static const String sameQuestions = 'The five sample questions are the same for every paper.';
-  static const String otherSubjects = 'Other subjects';
-  static const String otherSubjectsNote =
-      'These papers work in MockMob. The free first diagnostic and the free first full mock are for English, '
-      'Accountancy, Business Studies and Economics.';
-  static const String otherSubjectsClose = 'Close';
+  // Stage.
+  static const String stageTitle = 'Which CUET are you writing?';
+  static const String stageSupport = 'No dates to type. We work them out.';
+  static String weeksUnit(int year) => 'weeks to the expected May $year window';
+  static const String datesNotOut = 'Dates not out yet';
+  static const String classElevenNote = 'You\'re early. That helps.';
+  static const String boardsNote = 'Boards land mid-February to early April. The plan goes lighter then.';
 
-  // Sample questions (5.1.3).
-  static const String sampleCaption = 'Sample questions. This is not a diagnosis.';
-  static const String sampleDisclaimer = 'Five original sample questions. No signup. Not an official PYQ or a scored diagnostic.';
-  static const String nextQuestion = 'Next question';
-  static const String answerCorrect = 'Correct';
-  static const String answerWrong = 'Not quite';
-  static const String onThisPhone = 'On this phone';
+  // Course and colleges.
+  static const String courseTitle = 'Which seat are you after?';
+  static const String courseSupport = 'Commerce at DU, with how many colleges took each course through CUET in 2026.';
+  static String collegesCount(int n) => n == 1 ? '1 college' : '$n colleges';
+  static String collegesUnit(int n) => n == 1 ? 'college took it in 2026' : 'colleges took it in 2026';
+  static const String notSure = 'Not sure yet';
+  static const String notSureNote = 'Fine. The plan works without it.';
+  static const String ladderTitle = 'Which colleges would you say yes to tomorrow?';
+  static const String ladderSupport = 'The lowest score that got a seat in CSAS 2026, Round 1, out of 1000. Pick up to three.';
+  static String showing(String category) => 'Showing $category';
+  static const String categoryTitle = 'Category for the figures';
+  static const String categoryNote = 'This stays on your phone. It only changes which figures you see.';
+  static const String openToAny = 'Open to any college';
+  static String showAll(int n) => 'Show all $n';
+  static const String showFewer = 'Show fewer';
+  static const String changeCourse = 'Change course';
+  static const String threeIsPlenty = 'Three is plenty. Drop one to swap it.';
+  static String barLine(String college, String score, int perPaper) =>
+      '$college needed $score of 1000 in Round 1. That\'s about $perPaper of 250 a paper.';
+  static String noSeatsFor(String category) => 'No Round 1 seats went to $category here.';
 
-  static String position(int index, int total) => 'Question $index of $total';
-  static String answerIs(String key, String text) => 'The answer is $key, $text.';
-  static String optionLabel(String key, String text) => 'Option $key, $text';
-  static const String semanticsYourAnswer = 'Your answer';
-  static const String semanticsCorrectAnswer = 'Correct answer';
-  static const String semanticsCorrect = 'Correct';
-  static const String semanticsWrong = 'Wrong';
+  // Subjects.
+  static const String subjectsTitle = 'Your subjects. How solid is each, honestly?';
+  static const String subjectsSupport = 'Be harsh. Your first check shows where your gut was right.';
+  static const String fiveMax = 'Five is the most a profile takes. Drop one to add another.';
+  static const String practiceReady = 'Starting point ready';
+  static const String pickOne = 'Pick at least one subject.';
 
-  // Sample result (5.1.4).
-  static String resultFigureNumber(int correct) => '$correct';
-  static String resultFigureRest(int total) => 'of $total correct';
-  static String resultFigureSemantics(int correct, int total) => '$correct of $total correct';
-  static const String resultLine =
-      'Sample, not a diagnosis. Five questions can show how MockMob explains things. They cannot say where you stand.';
-  static const String resultSheetNote = 'This is your answer sheet. After a mock, the same sheet shows every question.';
-  static const String exampleLabel = 'Example, not your plan yet';
-  static const String exampleBody = 'After your first full mock, your first thing to fix appears here, with the evidence behind it.';
-  static const String saveAndContinue = 'Save this and continue';
-  static const String tryAnotherSubject = 'Try another subject';
-  static String unfinishedTitle(int answered, int total) => 'You have answered $answered of $total';
-  static const String unfinishedMessage = 'Finish the sample to see your result. Your answers so far are on this phone.';
+  // Worry.
+  static const String worryTitle = 'Where do your marks actually go?';
+  static const String worrySupport = 'Pick the one that stings most. It changes where you start.';
 
-  // Account step and carry-over (5.1.5).
-  static const String accountTitle = 'Create a free account to keep your five answers and start a mock.';
-  static const String accountOnPhone = 'Your five answers are on this phone. Not sent yet.';
+  // Question.
+  static String questionTitle(String subject) => 'One real question. $subject.';
+  static const String questionSupport = 'Answer the way you would in the hall.';
+  static String rightIn(int seconds) => seconds <= 1 ? 'Right, in about a second.' : 'Right, in $seconds seconds.';
+  static const String trapLead = 'That\'s a trap. Here\'s the ten-second fix:';
+  static const String skipQuestion = 'Skip this one';
+  static String optionSemantics(String letter, String text) => 'Option $letter, $text';
+
+  // Rhythm.
+  static const String rhythmTitle = 'Pick a pace you can keep.';
+  static const String minutesLabel = 'Each session';
+  static const String daysLabel = 'Study days';
+  static const String timeLabel = 'Around';
+  static const String restDays = 'Dotted days are rest days. Rest is part of the plan.';
+  static const String boardWeeks = 'Board weeks count as two.';
+  static String minutes(int m) => '$m min';
+
+  // Plan.
+  static const String planLead = 'Your plan, built from your answers.';
+  static String planFrom(String date) => 'From $date';
+  static const String holdToSeal = 'Hold to seal';
+  static const String sealing = 'Keep holding';
+  static const String sealIt = 'Seal it';
+  static const String sealed = 'Sealed';
+  static const String changeSomething = 'Change something';
+  static const String sharpens = 'It sharpens after your first check.';
+  static const String changeTitle = 'What do you want to change?';
+
+  // Save.
+  static const String saveTitle = 'Keep your sheet.';
+  static const String saveSupport = 'Sign in and it follows you to mockmob.in and any phone.';
+  static const String ageQuestion = 'Quick one: are you 18 yet?';
+  static const String ageNote = 'Under 18, usage tracking stays off.';
   static const String continueWithGoogle = 'Continue with Google';
+  static const String googleBusy = 'Signing in';
   static const String useEmailCode = 'Use an email code';
   static const String notNow = 'Not now';
-  static const String offlineSignIn = 'You are offline. Connect to sign in.';
-  static const String googleUnavailable = 'Google sign-in is not available right now. Use an email code instead.';
-  static const String signInFailed = 'Sign-in did not work. Your answers are still on this phone. Try again.';
-  static const String importPending = 'Saving';
-  static const String importAccepted = 'Saved to your account';
-  static const String importFailed = 'We could not save yet. Your answers are still on this phone. Try again.';
-  static const String tryAgain = 'Try again';
+  static const String offline = 'You\'re offline. Your sheet is safe here; connect to save it.';
+  static const String stillOnPhone = 'Everything so far is on this phone until you save.';
+  static String sealedAt(String time, String chapter) => 'Sealed at $time. Week one starts with $chapter.';
 
-  // Before you start (5.1.6).
+  // First move.
+  static const String firstMoveTitle = 'Your starting point';
+  static const String firstMoveUnit = 'questions to your starting point';
+  static String firstMoveChapter(String chapter) => 'Week one starts with $chapter.';
+  static const String startNow = 'Start now, about 10 minutes';
+  static const String checkNeedsAccount = 'The check is marked on our server, so it needs your account. Your sheet comes with you.';
+  static String setFor(String when) => 'Set for ${when[0].toLowerCase()}${when.substring(1)}. It waits here when you open MockMob.';
+  static const String saveNow = 'Save my sheet';
+
+  // After sign-in (the "Before you start" sheet).
+  static const String savingSheet = 'Saving your sheet';
+  static const String savedSheet = 'Saved to your account.';
+  static const String savedWhat = 'Subjects, study days and study time are on your account. Course and colleges stay on this phone for now.';
+  static const String savedFailed = 'Couldn\'t save yet. Your sheet is still on this phone.';
+  static const String savedOffline = 'You\'re offline. Your sheet is still on this phone and saves when you\'re back.';
+  static const String keptExisting = 'Your account already had subjects, so we kept them. This sheet stays on this phone.';
+  static const String tryAgain = 'Try again';
+  static const String done = 'Done';
   static const String beforeTitle = 'Before you start';
-  static const String ageQuestion = 'Are you 18 or older?';
+  static const String ageQuestionPlain = 'Are you 18 or older?';
   static const String ageYes = 'Yes';
   static const String ageNo = 'No';
   static const String agePreferNot = 'Prefer not to say';
-  static const String ageNote = 'This only decides your data settings.';
   static const String skipForNow = 'Skip for now';
   static const String consentSaveFailed = 'We could not save that. Your choice was not changed. Try again.';
   static const String consentOffline = 'You are offline. Your choice was not changed.';
@@ -97,12 +143,10 @@ abstract final class OnboardingCopy {
   static const String seeEvents = 'See every event we collect';
   static const String hideEvents = 'Hide the event list';
   static const String eventsIntro = 'Each event below is sent with the time and the app version only.';
-  static const String usageDone = 'Done';
   static const String usageTurnOnFailed = 'We could not turn that on. Usage data is still off. Try again.';
   static const String usageTurnOffFailed = 'Your choice was saved, but deleting earlier data failed. Try again.';
-  static const String usageSaving = 'Saving';
 
-  /// The server allowlist of usage events [API 2.2], in plain words.
+  /// The server allowlist of usage events (API 2.2), in plain words.
   static const List<String> eventsPlain = [
     'Starting a mock or practice',
     'Submitting a mock or practice',

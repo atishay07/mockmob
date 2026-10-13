@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import '../../core/theme/theme.dart';
 import 'copy.dart';
 
-/// The 52 dp email field. The label sits above it (not floating), so it stays readable while
-/// typing and under large text.
+/// The 56 dp email field: a solid well in the room, its edge lit volt while focused. The label
+/// sits above it (not floating), so it stays readable while typing and under large text.
 class EmailField extends StatelessWidget {
   const EmailField({
     super.key,
@@ -67,17 +67,17 @@ class EmailField extends StatelessWidget {
               filled: true,
               fillColor: colors.raised,
               isDense: true,
-              constraints: const BoxConstraints(minHeight: 52),
+              constraints: const BoxConstraints(minHeight: 56),
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: MmSpace.s16,
-                vertical: 14,
+                vertical: 16,
               ),
               enabledBorder: border(
-                hasError ? colors.badText : colors.lineStrong,
-                hasError ? 2 : 1,
+                hasError ? colors.badText : colors.line,
+                hasError ? 1.5 : 1,
               ),
               disabledBorder: border(colors.line, 1),
-              focusedBorder: border(hasError ? colors.badText : colors.ink, 2),
+              focusedBorder: border(hasError ? colors.badText : colors.focusRing, 1.5),
             ),
           ),
         ),

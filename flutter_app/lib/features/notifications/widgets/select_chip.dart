@@ -4,9 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
 
-/// A small choice key: an hour, a minute, AM or PM, a weekly cap. At least 44 dp square. The
-/// chosen one is filled with ink (never volt) and reads as selected to TalkBack; pressed shows
-/// a stronger fill instead of a ripple; focus shows the ring.
+/// A small choice key drawn as an answer bubble: an hour, a minute, AM or PM, a weekly cap. At
+/// least 48 dp. The chosen one is inked (volt, dark numerals) and reads as selected to TalkBack;
+/// pressed shows a fill instead of a ripple; focus shows the ring.
 class SelectChip extends ConsumerStatefulWidget {
   const SelectChip({
     super.key,
@@ -42,10 +42,11 @@ class _SelectChipState extends ConsumerState<SelectChip> {
     final type = context.mmType;
     final enabled = widget.onSelected != null;
 
+    // Chosen reads as an inked answer bubble: volt with dark ink, the ring gone.
     final fill = widget.selected
-        ? colors.ink
-        : (_pressed ? colors.line : colors.sunken);
-    final textColor = widget.selected ? colors.ground : colors.ink;
+        ? colors.volt
+        : (_pressed ? (colors.isNight ? colors.raised2 : colors.sunken) : Colors.transparent);
+    final textColor = widget.selected ? colors.voltInk : colors.ink;
 
     return Semantics(
       button: true,
@@ -78,14 +79,15 @@ class _SelectChipState extends ConsumerState<SelectChip> {
                 minHeight: MmTarget.min,
               ),
               child: DecoratedBox(
-                decoration: BoxDecoration(
+                decoration: ShapeDecoration(
                   color: fill,
-                  borderRadius: MmRadius.smallAll,
-                  border: Border.all(
-                    color: _focused
-                        ? colors.focusRing
-                        : (widget.selected ? colors.ink : colors.line),
-                    width: _focused ? 2 : 1,
+                  shape: StadiumBorder(
+                    side: BorderSide(
+                      color: _focused
+                          ? colors.focusRing
+                          : (widget.selected ? colors.volt : colors.lineStrong),
+                      width: _focused ? 2 : 1.4,
+                    ),
                   ),
                 ),
                 child: Padding(
@@ -96,6 +98,7 @@ class _SelectChipState extends ConsumerState<SelectChip> {
                       widget.label,
                       style: type.button.copyWith(
                         fontSize: 16,
+                        fontWeight: FontWeight.w700,
                         color: textColor.withValues(alpha: enabled ? 1 : 0.45),
                       ),
                     ),

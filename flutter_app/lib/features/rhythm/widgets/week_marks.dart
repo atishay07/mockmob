@@ -1,28 +1,31 @@
-// The large week strip of the week sheet and the You rhythm screen: seven 36 dp marks, the date
-// under each. A study day is an ink circle with a check, today has a 2 dp outline, the other days
-// are hairline circles. When the screen opens, the checks draw in one after another over 600 ms
-// (the one motion on this strip); reduced motion shows them finished.
+// The large week row of the week sheet and the You rhythm screen: seven answer bubbles, Monday
+// first, each with its weekday letter printed inside like the rings of an OMR sheet and the
+// date beneath. A study day is inked over its letter (volt on Night); today carries the ring.
+// When the screen opens the study days ink one after another, from the upper left like a pencil
+// stroke (the one motion here); reduced motion shows them inked.
 import 'package:flutter/material.dart';
 
 import '../../../core/copy/formatters.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/widgets.dart' show BubblePaint, BubbleState;
 import '../logic/week_view.dart';
 
 class WeekMarks extends StatefulWidget {
-  const WeekMarks({super.key, required this.week, this.animate = true});
+  const WeekMarks({super.key, required this.week, this.animate = true, this.mark = 36});
 
   final WeekView week;
   final bool animate;
 
-  static const double mark = 36;
+  /// Bubble diameter.
+  final double mark;
 
   @override
   State<WeekMarks> createState() => _WeekMarksState();
 }
 
 class _WeekMarksState extends State<WeekMarks> with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 600));
+  late final AnimationController _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 640));
   bool _started = false;
 
   @override
@@ -66,11 +69,12 @@ class _WeekMarksState extends State<WeekMarks> with SingleTickerProviderStateMix
       excludeSemantics: true,
       child: RepaintBoundary(
         child: SizedBox(
-          height: WeekMarks.mark + 8 + 16,
+          height: widget.mark + 14 + 16,
           width: double.infinity,
           child: CustomPaint(
             painter: _MarksPainter(
               days: widget.week.days,
+              mark: widget.mark,
               progress: _controller,
               colors: colors,
               labelStyle: type.label,
@@ -83,96 +87,71 @@ class _WeekMarksState extends State<WeekMarks> with SingleTickerProviderStateMix
 }
 
 class _MarksPainter extends CustomPainter {
-  _MarksPainter({required this.days, required this.progress, required this.colors, required this.labelStyle}) : super(repaint: progress);
+  _MarksPainter({required this.days, required this.mark, required this.progress, required this.colors, required this.labelStyle})
+      : super(repaint: progress);
 
   final List<WeekDayMark> days;
+  final double mark;
   final Animation<double> progress;
   final MmColors colors;
   final TextStyle labelStyle;
 
   @override
   void paint(Canvas canvas, Size size) {
-    const d = WeekMarks.mark;
-    const r = d / 2;
-    final gap = ((size.width - d * 7) / 6).clamp(2.0, 24.0);
-    final total = d * 7 + gap * 6;
+    final r = mark / 2;
+    const pad = 5.0;
+    final gap = ((size.width - pad * 2 - mark * 7) / 6).clamp(2.0, 28.0);
+    final total = mark * 7 + gap * 6;
     final left = (size.width - total) / 2;
-
-    final hairline = Paint()
-      ..color = colors.lineStrong
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1;
-    final ring = Paint()
-      ..color = colors.ink
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2;
+    final bubbles = BubblePaint(colors);
 
     var studyIndex = 0;
     for (var i = 0; i < 7; i++) {
       final day = days[i];
-      final c = Offset(left + r + i * (d + gap), r);
+      final c = Offset(left + r + i * (mark + gap), pad + r);
       if (day.studyDay) {
-        // Each study day starts a little after the one before it.
-        final start = studyIndex * 0.09;
+        // Each study day starts inking a little after the one before it.
+        final start = studyIndex * 0.12;
         studyIndex++;
-        final t = ((progress.value - start) / 0.4).clamp(0.0, 1.0);
-        final fillT = Curves.easeOut.transform((t / 0.5).clamp(0.0, 1.0));
-        final checkT = ((t - 0.4) / 0.6).clamp(0.0, 1.0);
-        final radius = day.isToday ? r - 4.5 : r;
-        // Fill grows from 90% to full: opacity-free, so it stays one flat layer.
-        canvas.drawCircle(c, radius * (0.9 + 0.1 * fillT), Paint()..color = Color.lerp(colors.ground, colors.ink, fillT)!);
-        if (day.isToday) canvas.drawCircle(c, r - 1, ring);
-        _check(canvas, c, checkT, day.isToday ? 0.85 : 1);
+        final t = Curves.easeOut.transform(((progress.value - start) / 0.45).clamp(0.0, 1.0));
+        bubbles.paint(canvas, c, r, BubbleState.filled, fill: t, origin: const Offset(-0.6, -0.6), emphasis: day.isToday);
+        if (t < 1) _letter(canvas, weekdayInitials[i], c, (1 - t) * (day.isToday ? 1 : 0.9));
       } else {
-        canvas.drawCircle(c, day.isToday ? r - 1 : r - 0.5, day.isToday ? ring : hairline);
-        _text(canvas, weekdayInitials[i], c, 14, day.isToday ? colors.ink : colors.ink3, center: true);
+        bubbles.paint(canvas, c, r, BubbleState.hollow, emphasis: day.isToday);
+        _letter(canvas, weekdayInitials[i], c, day.isToday ? 1 : 0.9, today: day.isToday);
       }
       final date = day.date;
       if (date != null) {
-        _text(canvas, '${date.day}', Offset(c.dx, d + 8), 12, day.isToday ? colors.ink : colors.ink3, center: false);
+        _text(canvas, '${date.day}', Offset(c.dx, pad + mark + 10), 12, day.isToday ? colors.ink : colors.ink3);
       }
     }
   }
 
-  void _check(Canvas canvas, Offset c, double t, double k) {
-    if (t <= 0) return;
-    final a = c + Offset(-5.5 * k, 0.5 * k);
-    final b = c + Offset(-1.8 * k, 4.2 * k);
-    final e = c + Offset(5.5 * k, -3.6 * k);
-    final first = (b - a).distance;
-    final second = (e - b).distance;
-    final drawn = (first + second) * t;
-    final path = Path()..moveTo(a.dx, a.dy);
-    if (drawn <= first) {
-      final p = a + (b - a) * (drawn / first);
-      path.lineTo(p.dx, p.dy);
-    } else {
-      path.lineTo(b.dx, b.dy);
-      final p = b + (e - b) * ((drawn - first) / second);
-      path.lineTo(p.dx, p.dy);
-    }
-    canvas.drawPath(
-      path,
-      Paint()
-        ..color = colors.ground
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 2.4
-        ..strokeCap = StrokeCap.round
-        ..strokeJoin = StrokeJoin.round,
-    );
+  void _letter(Canvas canvas, String letter, Offset c, double opacity, {bool today = false}) {
+    final color = (today ? colors.ink : colors.ink3);
+    final painter = TextPainter(
+      text: TextSpan(
+        text: letter,
+        style: labelStyle.copyWith(fontSize: mark * 0.36, height: 1, color: color.withValues(alpha: color.a * opacity)),
+      ),
+      textDirection: TextDirection.ltr,
+      textScaler: TextScaler.noScaling,
+    )..layout();
+    painter.paint(canvas, c - Offset(painter.width / 2, painter.height / 2));
+    painter.dispose();
   }
 
-  void _text(Canvas canvas, String text, Offset at, double size, Color color, {required bool center}) {
+  void _text(Canvas canvas, String text, Offset at, double size, Color color) {
     final painter = TextPainter(
       text: TextSpan(text: text, style: labelStyle.copyWith(fontSize: size, height: 1, color: color)),
       textDirection: TextDirection.ltr,
       textScaler: TextScaler.noScaling,
     )..layout();
-    final origin = center ? at - Offset(painter.width / 2, painter.height / 2) : at - Offset(painter.width / 2, 0);
-    painter.paint(canvas, origin);
+    painter.paint(canvas, at - Offset(painter.width / 2, 0));
     painter.dispose();
   }
 
   @override
-  bool shouldRepaint(_MarksPainter old) => old.colors != colors || old.labelStyle != labelStyle || old.days != days;
+  bool shouldRepaint(_MarksPainter old) =>
+      old.colors != colors || old.labelStyle != labelStyle || old.days != days || old.mark != mark;
 }

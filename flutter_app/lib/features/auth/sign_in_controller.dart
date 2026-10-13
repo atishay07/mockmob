@@ -3,12 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/api/api.dart' show nowProvider;
 import '../../core/auth/auth.dart' show AuthFailure, SignInException;
 import '../../core/router/router.dart' show intendedRouteProvider;
-import '../../core/router/routes.dart';
 import '../../core/storage/prefs_store.dart';
+import 'after_sign_in.dart';
 import 'sign_in_gateway.dart';
 import 'sign_in_state.dart';
 
-/// Where the "Before you start" offer is remembered on this phone, so it comes up once.
+/// Where the after-sign-in sheet offer is remembered on this phone, so it comes up once.
 final signInPrefsStoreProvider = Provider<PrefsStore>(
   (ref) => SharedPrefsStore(),
 );
@@ -92,15 +92,13 @@ class SignInController extends Notifier<SignInState> {
       clearProblem: true,
       codeResentNotice: false,
     );
-    final offered = await _rememberBeforeYouStart();
+    final offer = await _shouldOfferSheet();
     try {
       await ref.read(signInGatewayProvider).verifyCode(email, code);
-      await _finish(offered);
+      await _finish(offer);
     } on SignInException catch (e) {
-      await _undoOffer(offered);
       _failFrom(e.failure, SignInStep.code);
     } on Object {
-      await _undoOffer(offered);
       _fail(SignInProblem.unknown, SignInStep.code);
     }
   }
@@ -109,25 +107,22 @@ class SignInController extends Notifier<SignInState> {
   Future<void> signInWithGoogle() async {
     if (state.isBusy) return;
     state = state.copyWith(busy: SignInBusy.google, clearProblem: true);
-    final offered = await _rememberBeforeYouStart();
+    final offer = await _shouldOfferSheet();
     try {
       final signedIn = await ref.read(signInGatewayProvider).signInWithGoogle();
       if (!signedIn) {
-        await _undoOffer(offered);
         if (ref.mounted) state = state.copyWith(busy: SignInBusy.none);
         return;
       }
-      await _finish(offered);
+      await _finish(offer);
     } on SignInException catch (e) {
-      await _undoOffer(offered);
       _failFrom(e.failure, SignInStep.email);
     } on Object {
-      await _undoOffer(offered);
       _fail(SignInProblem.unknown, SignInStep.email);
     }
   }
 
-  Future<void> _finish(bool offered) async {
+  Future<void> _finish(bool offer) async {
     if (!ref.mounted) return;
     if (!ref.read(signInGatewayProvider).isSignedIn) {
       // The code worked but the account did not load. Work and email stay; the router keeps
@@ -135,33 +130,20 @@ class SignInController extends Notifier<SignInState> {
       _fail(SignInProblem.accountNotLoaded, SignInStep.code);
       return;
     }
-    if (offered) await _markOffered();
+    if (offer) {
+      ref.read(afterSignInSheetLauncherProvider)();
+      await _markOffered();
+    }
     if (ref.mounted) state = const SignInState();
   }
 
-  /// New accounts see "Before you start" once (spec 5.2, 5.1.6). A deep link the student was
-  /// heading to wins, and so does a phone that has already shown it. The router reads the
-  /// remembered route as soon as the session turns signed in, so this has to be set first.
-  Future<bool> _rememberBeforeYouStart() async {
-    final intended = ref.read(intendedRouteProvider);
-    if (intended.location != null) return false;
-    if (await ref
-            .read(signInPrefsStoreProvider)
-            .getBool(_beforeYouStartOfferedKey) ??
-        false) {
-      return false;
-    }
-    intended.remember(AppRoutes.beforeYouStart);
-    return true;
-  }
-
-  Future<void> _undoOffer(bool offered) async {
-    if (!offered || !ref.mounted) return;
-    final intended = ref.read(intendedRouteProvider);
-    if (intended.location == AppRoutes.beforeYouStart &&
-        !ref.read(signInGatewayProvider).isSignedIn) {
-      intended.clear();
-    }
+  /// The first sign-in on a phone is followed by one sheet over Today (the saved state of the
+  /// student's sheet and the usage-data choice; spec 5.2, 5.1.6). A deep link the student was
+  /// heading to wins, and so does a phone that has already shown it. The router itself goes to
+  /// the remembered route or Today; the sheet opens on top once Today is there.
+  Future<bool> _shouldOfferSheet() async {
+    if (ref.read(intendedRouteProvider).location != null) return false;
+    return !(await ref.read(signInPrefsStoreProvider).getBool(_beforeYouStartOfferedKey) ?? false);
   }
 
   Future<void> _markOffered() => ref

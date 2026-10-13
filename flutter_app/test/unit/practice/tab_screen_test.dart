@@ -6,19 +6,25 @@ import 'package:mockmob/features/practice/practice_routes.dart';
 
 import '../../helpers/fonts.dart';
 import '../core_data/support/fixtures.dart';
+import '../learn/support/learn_fixtures.dart';
 import 'support/harness.dart';
 
 List<GoRoute> _routes() => [
   GoRoute(path: '/practice', builder: (c, s) => practiceScreen(c, s)),
   GoRoute(path: '/practice/start', builder: (c, s) => practiceStartScreen(c, s)),
   stubRoute('/practice/setup/:mode'),
+  stubRoute('/practice/result/:attemptId'),
+  stubRoute('/result/:attemptId'),
   stubRoute('/run/:sessionId'),
+  stubRoute('/learn'),
+  stubRoute('/learn/:unitId'),
+  stubRoute('/review'),
 ];
 
 FakeQuoteRepository _quotes({bool nta = true}) => FakeQuoteRepository((s, m, c, p) {
   if (m == 'full') return creditsQuote(cost: 50, balance: 120, mode: 'full', count: 50);
   if (m == 'nta') return nta ? proGate() : modeUnavailable();
-  return dailyFree();
+  return dailyFree(count: c ?? 10);
 });
 
 Future<void> settle(WidgetTester tester) async {
@@ -26,87 +32,187 @@ Future<void> settle(WidgetTester tester) async {
   await tester.pump(const Duration(milliseconds: 500));
 }
 
+/// Opens a sheet and lets it rise and its quote arrive.
+Future<void> openSheet(WidgetTester tester, Finder target) async {
+  await tester.ensureVisible(target);
+  await tester.pump();
+  await tester.tap(target);
+  for (var i = 0; i < 6; i++) {
+    await tester.pump(const Duration(milliseconds: 150));
+  }
+}
+
+int _ms(DateTime t) => t.millisecondsSinceEpoch;
+
 void main() {
   setUpAll(loadAppFonts);
 
-  testWidgets('each row states the cost the quote returns, and Chapter practice costs what Quick practice costs', (tester) async {
+  testWidgets('a new student is offered a starting point from the subjects they chose, with no cost on the tab', (tester) async {
     final quotes = _quotes();
-    await pumpRouted(
-      tester,
-      location: '/practice',
-      routes: _routes(),
-      overrides: practiceOverrides(quotes: quotes),
-    );
+    await pumpRouted(tester, location: '/practice', routes: _routes(), overrides: practiceOverrides(quotes: quotes, attempts: const []));
     await settle(tester);
-    expect(find.text('Full mock'), findsOneWidget);
-    expect(find.text('50 questions, 60 minutes'), findsWidgets);
-    expect(find.text('Uses 50 credits. You have 120.'), findsOneWidget);
-    expect(find.text('Quick practice'), findsOneWidget);
-    expect(find.text('5 to 20 questions'), findsOneWidget);
-    expect(find.text('Chapter practice'), findsOneWidget);
-    expect(find.text('Practice, not proof'), findsOneWidget);
-    expect(find.text('Free today'), findsNWidgets(2));
-    // Costs come from the quote: a Full mock asks with its first-use allowance purpose, Quick practice with none.
-    final full = quotes.calls.firstWhere((c) => c.mode == 'full');
-    expect(full.purpose, 'full_sample');
-    expect(full.count, 50);
-    expect(quotes.calls.firstWhere((c) => c.mode == 'quick').purpose, isNull);
-    expect(quotes.calls.where((c) => c.mode == 'quick').map((c) => c.count).toSet(), {10});
+    expect(find.text('Your starting point'), findsOneWidget);
+    expect(find.text('Accountancy is first on your list. Ten questions shows where you stand.'), findsOneWidget);
+    // Costs never appear on the tab, and the defensive tails are gone.
+    expect(find.textContaining('credit'), findsNothing);
+    expect(find.text('Free today'), findsNothing);
+    expect(find.textContaining('not proof'), findsNothing);
+
+    await openSheet(tester, find.text('Start'));
+    expect(find.text('What you get'), findsOneWidget);
+    expect(find.text('10 questions, about 10 minutes.'), findsOneWidget);
+    expect(find.text('Free today'), findsOneWidget);
+    expect(quotes.calls.any((c) => c.mode == 'quick' && c.purpose == 'baseline'), isTrue);
   });
 
-  testWidgets('a Pro-gated NTA-style row says "Part of Pro" with a free alternative and no price', (tester) async {
-    await pumpRouted(
-      tester,
-      location: '/practice',
-      routes: _routes(),
-      overrides: practiceOverrides(quotes: _quotes()),
+  testWidgets('the suggestion names the chapter that cost the most in the latest mock, and Show me opens it', (tester) async {
+    final mock = attemptOf(
+      id: 'm1',
+      completedAt: _ms(testNow.subtract(const Duration(days: 1))),
+      questions: [...chapterOf('Admission of a partner', right: 1, wrong: 3), ...chapterOf('Goodwill', right: 4)],
     );
-    await settle(tester);
-    expect(find.text('NTA-style mode'), findsOneWidget);
-    expect(find.text('Part of Pro. You can take a Full mock instead.'), findsOneWidget);
-    expect(find.byIcon(Icons.lock), findsNothing);
-    expect(find.textContaining('Rs'), findsNothing);
-    expect(find.textContaining('Upgrade'), findsNothing);
-  });
-
-  testWidgets('the NTA-style row is shown only when the quote returns it', (tester) async {
-    await pumpRouted(
-      tester,
-      location: '/practice',
-      routes: _routes(),
-      overrides: practiceOverrides(quotes: _quotes(nta: false)),
-    );
-    await settle(tester);
-    expect(find.text('NTA-style mode'), findsNothing);
-    expect(find.text('Full mock'), findsOneWidget);
-  });
-
-  testWidgets('a row opens its setup with the chosen subject', (tester) async {
     final router = await pumpRouted(
       tester,
       location: '/practice',
       routes: _routes(),
-      overrides: practiceOverrides(quotes: _quotes()),
+      overrides: practiceOverrides(quotes: _quotes(), attempts: [mock]),
     );
     await settle(tester);
-    await tester.tap(find.text('Chapter practice'));
-    await tester.pump(const Duration(milliseconds: 500));
-    expect(router.state.uri.path, '/practice/setup/chapter');
-    expect(router.state.uri.queryParameters['subject'], 'accountancy');
+    expect(find.text('Admission of a partner'), findsOneWidget);
+    expect(find.text('It cost you 18 marks in Mock 1.'), findsOneWidget);
+    await tester.tap(find.text('Show me'));
+    await settle(tester);
+    expect(router.state.uri.path, '/result/m1');
   });
 
-  testWidgets('changing the subject asks the quote again for that subject', (tester) async {
-    final quotes = _quotes();
+  testWidgets('without a nameable chapter the suggestion is the last paper\'s subject, with when it was', (tester) async {
+    final practice = attemptOf(
+      id: 'p1',
+      mode: 'quick',
+      subject: 'english',
+      completedAt: _ms(testNow.subtract(const Duration(days: 1))),
+      questions: [('Reading', V.right), ('Grammar', V.wrong)],
+    );
     await pumpRouted(
       tester,
       location: '/practice',
       routes: _routes(),
-      overrides: practiceOverrides(quotes: quotes),
+      overrides: practiceOverrides(quotes: _quotes(), attempts: [practice]),
     );
     await settle(tester);
+    expect(find.text('English, quick practice'), findsOneWidget);
+    expect(find.text('Your last English paper was yesterday.'), findsOneWidget);
+  });
+
+  testWidgets('a mock still running is the suggestion, with its fixed end time, and Resume opens it', (tester) async {
+    final endsAt = testNow.add(const Duration(minutes: 47)).millisecondsSinceEpoch;
+    final draft = draftOf(sessionId: 'sess-7', count: 50, mode: 'full', endsAtWallMs: endsAt, mockNumber: 7);
+    final router = await pumpRouted(
+      tester,
+      location: '/practice',
+      routes: _routes(),
+      overrides: practiceOverrides(quotes: _quotes(), draft: draft),
+    );
+    await settle(tester);
+    expect(find.text('Mock 7, Accountancy'), findsOneWidget);
+    expect(find.text('The clock kept running. It ends at 11:47 PM.'), findsOneWidget);
+    await tester.tap(find.text('Resume'));
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(router.state.uri.path, '/run/sess-7');
+  });
+
+  testWidgets('the exam-day row says it comes with Pro, warmly and with no price', (tester) async {
+    await pumpRouted(tester, location: '/practice', routes: _routes(), overrides: practiceOverrides(quotes: _quotes()));
+    await settle(tester);
+    expect(find.text('Exam-day layout'), findsOneWidget);
+    expect(find.text('Pro'), findsOneWidget);
+    expect(find.text('Comes with Pro. A Full mock is open to you now.'), findsOneWidget);
+    expect(find.textContaining('Rs'), findsNothing);
+    expect(find.textContaining('Upgrade'), findsNothing);
+  });
+
+  testWidgets('the exam-day row is shown only when the quote returns the mode', (tester) async {
+    await pumpRouted(tester, location: '/practice', routes: _routes(), overrides: practiceOverrides(quotes: _quotes(nta: false)));
+    await settle(tester);
+    expect(find.text('Exam-day layout'), findsNothing);
+    expect(find.text('Full mock'), findsOneWidget);
+  });
+
+  testWidgets('Quick practice opens the confirm sheet; Start starts once and opens the runner', (tester) async {
+    final starter = FakeStarter();
+    final router = await pumpRouted(
+      tester,
+      location: '/practice',
+      routes: _routes(),
+      overrides: practiceOverrides(quotes: _quotes(), starter: starter),
+    );
+    await settle(tester);
+    await openSheet(tester, find.text('Quick practice'));
+    expect(find.text('Quick practice, Accountancy'), findsOneWidget);
+    await tester.tap(find.text('15'));
+    for (var i = 0; i < 6; i++) {
+      await tester.pump(const Duration(milliseconds: 150));
+    }
+    expect(find.text('15 questions, about 15 minutes.'), findsOneWidget);
+    await tester.tap(find.text('Start practice'));
+    await tester.tap(find.text('Start practice'), warnIfMissed: false);
+    await settle(tester);
+    expect(starter.started, hasLength(1));
+    expect(starter.started.single.count, 15);
+    expect(router.state.uri.path, '/run/sess-1');
+  });
+
+  testWidgets('One chapter asks for the chapter first, then confirms with it', (tester) async {
+    final starter = FakeStarter();
+    await pumpRouted(tester, location: '/practice', routes: _routes(), overrides: practiceOverrides(quotes: _quotes(), starter: starter));
+    await settle(tester);
+    await openSheet(tester, find.text('One chapter'));
+    await openSheet(tester, find.text('Goodwill'));
+    expect(find.text('One chapter, Accountancy'), findsOneWidget);
+    expect(find.text('Goodwill'), findsOneWidget);
+    await tester.tap(find.text('Start chapter practice'));
+    await settle(tester);
+    expect(starter.started.single.chapter, 'Goodwill');
+  });
+
+  testWidgets('changing the subject asks the quote again for that subject', (tester) async {
+    final quotes = _quotes();
+    await pumpRouted(tester, location: '/practice', routes: _routes(), overrides: practiceOverrides(quotes: quotes));
+    await settle(tester);
+    await tester.ensureVisible(find.text('English'));
     await tester.tap(find.text('English'));
     await settle(tester);
     expect(quotes.calls.any((c) => c.subject == 'english' && c.mode == 'full'), isTrue);
+  });
+
+  testWidgets('the Concepts shelf shows lessons while study content is on, and opens one', (tester) async {
+    final router = await pumpRouted(
+      tester,
+      location: '/practice',
+      routes: _routes(),
+      size: const Size(384, 1400),
+      overrides: practiceOverrides(quotes: _quotes(), learn: catalog(due: 4)),
+    );
+    await settle(tester);
+    expect(find.text('Concepts'), findsOneWidget);
+    // Due lessons lead the shelf.
+    expect(find.text('Vocabulary set 1'), findsOneWidget);
+    await tester.tap(find.text('Vocabulary set 1'));
+    await settle(tester);
+    expect(router.state.uri.path, '/learn/eng-vocab');
+  });
+
+  testWidgets('with study content switched off there is no Concepts shelf and no "not available" line', (tester) async {
+    await pumpRouted(
+      tester,
+      location: '/practice',
+      routes: _routes(),
+      size: const Size(384, 1400),
+      overrides: practiceOverrides(quotes: _quotes(), learn: catalog(state: 'disabled')),
+    );
+    await settle(tester);
+    expect(find.text('Concepts'), findsNothing);
+    expect(find.textContaining('not available'), findsNothing);
   });
 
   testWidgets('offline says so once, plainly', (tester) async {
@@ -118,22 +224,6 @@ void main() {
     );
     await settle(tester);
     expect(find.text('Connect to start. Your downloaded reviews still work.'), findsOneWidget);
-  });
-
-  testWidgets('a mock still running is offered before a new one, with its fixed end time', (tester) async {
-    final endsAt = testNow.add(const Duration(minutes: 47)).millisecondsSinceEpoch;
-    final draft = draftOf(sessionId: 'sess-7', count: 50, mode: 'full', endsAtWallMs: endsAt, mockNumber: 7);
-    final router = await pumpRouted(
-      tester,
-      location: '/practice',
-      routes: _routes(),
-      overrides: practiceOverrides(quotes: _quotes(), draft: draft),
-    );
-    await settle(tester);
-    expect(find.text('Mock 7, Accountancy is still running. It ends at 11:47 PM.'), findsOneWidget);
-    await tester.tap(find.text('Continue').first);
-    await tester.pump(const Duration(milliseconds: 500));
-    expect(router.state.uri.path, '/run/sess-7');
   });
 
   testWidgets('a start link for Quick practice opens a session without a setup screen', (tester) async {
@@ -150,7 +240,7 @@ void main() {
     expect(router.state.uri.path, '/run/sess-1');
   });
 
-  testWidgets('a start link for a mock goes to setup, where the pre-start sheet lives', (tester) async {
+  testWidgets('a start link for a mock goes to setup, where the confirm step lives', (tester) async {
     final starter = FakeStarter();
     final router = await pumpRouted(
       tester,

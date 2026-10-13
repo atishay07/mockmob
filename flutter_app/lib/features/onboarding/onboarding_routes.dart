@@ -1,27 +1,34 @@
-// Route builders for the onboarding feature (spec 5.1). This feature module owns this file.
-// lib/core/router/screens.dart re-exports these names and router.dart binds them to the paths of
-// spec 4.2.
+// Route builders for the onboarding feature ("Your sheet", brief section 11). This feature module
+// owns this file. lib/core/router/screens.dart re-exports these names and router.dart binds them
+// to the paths of spec 4.2.
+//
+// The five-question sample is gone from the app (it stays on the website). Its old paths
+// (`/onboarding/subject`, `/onboarding/sample/:i`, `/onboarding/sample/result`) are still in the
+// route table, so they open the onboarding, which resumes wherever the student's sheet is.
 
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
-import 'screens/before_you_start_sheet.dart';
-import 'screens/sample_question_screen.dart';
-import 'screens/sample_result_screen.dart';
-import 'screens/subject_screen.dart';
-import 'screens/welcome_screen.dart';
+import 'screens/after_sign_in_sheet.dart';
+import 'screens/onboarding_flow.dart';
+import 'state/sheet_sync.dart';
 
-export 'state/sample_import.dart' show sampleImportProvider;
+/// `/welcome`: the cold open on first launch, Welcome, then the step deck.
+Widget welcomeScreen(BuildContext context, GoRouterState state) => const OnboardingFlow();
 
-Widget welcomeScreen(BuildContext context, GoRouterState state) => const WelcomeScreen();
+/// Retired sample path: opens the onboarding.
+Widget onboardingSubjectScreen(BuildContext context, GoRouterState state) => const OnboardingFlow(skipColdOpen: true);
 
-Widget onboardingSubjectScreen(BuildContext context, GoRouterState state) => const SubjectScreen();
+/// Retired sample path: opens the onboarding.
+Widget onboardingSampleScreen(BuildContext context, GoRouterState state) => const OnboardingFlow(skipColdOpen: true);
 
-/// `/onboarding/sample/:i`, where `i` is 1 to 5. Anything else opens the first question.
-Widget onboardingSampleScreen(BuildContext context, GoRouterState state) =>
-    SampleQuestionScreen(index: int.tryParse(state.pathParameters['i'] ?? '') ?? 1);
+/// Retired sample path: opens the onboarding.
+Widget onboardingSampleResultScreen(BuildContext context, GoRouterState state) => const OnboardingFlow(skipColdOpen: true);
 
-Widget onboardingSampleResultScreen(BuildContext context, GoRouterState state) => const SampleResultScreen();
+/// `/before-you-start`, a sheet body after sign-in: the sheet's save state and usage data, or
+/// the age question for a student who signed straight in. `MmSheetPage` supplies the frame.
+Widget beforeYouStartScreen(BuildContext context, GoRouterState state) => const AfterSignInSheet();
 
-/// A sheet body: `MmSheetPage` supplies the frame, so there is no `Scaffold` here.
-Widget beforeYouStartScreen(BuildContext context, GoRouterState state) => const BeforeYouStartSheet();
+/// The provider `app.dart` keeps alive for the whole session, under the name it already uses:
+/// it writes the sealed sheet to the account after sign-in.
+final sampleImportProvider = sheetSyncProvider;

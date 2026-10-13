@@ -23,24 +23,25 @@ class _CountingDriver implements HapticDriver {
 }
 
 void main() {
-  group('MmBottomNav', () {
+  group('SplitDock', () {
     testWidgets('names each tab with its position and marks the active one selected', (tester) async {
       final handle = tester.ensureSemantics();
       await pumpMockmob(tester, const Align(alignment: Alignment.bottomCenter, child: _Nav(index: 1)));
 
-      expect(tabSemanticsLabel(1), 'Practice, tab 2 of 5');
-      for (var i = 0; i < 5; i++) {
+      expect(tabSemanticsLabel(1), 'Practice, tab 2 of 3');
+      for (var i = 0; i < 3; i++) {
         final data = tester.getSemantics(find.bySemanticsLabel(tabSemanticsLabel(i))).getSemanticsData();
         expect(data.flagsCollection.isSelected, i == 1 ? Tristate.isTrue : Tristate.isFalse, reason: 'tab $i');
         expect(data.flagsCollection.isButton, isTrue);
       }
+      expect(find.bySemanticsLabel(StartButton.semanticsLabel), findsOneWidget);
       handle.dispose();
     });
 
     testWidgets('the Review dot adds a spoken hint and no number', (tester) async {
       final handle = tester.ensureSemantics();
       await pumpMockmob(tester, const Align(alignment: Alignment.bottomCenter, child: _Nav(index: 0, dot: true)));
-      expect(find.bySemanticsLabel('Review, tab 3 of 5, new result'), findsOneWidget);
+      expect(find.bySemanticsLabel('Review, tab 3 of 3, new result'), findsOneWidget);
       expect(find.textContaining(RegExp(r'\d')), findsNothing);
       handle.dispose();
     });
@@ -54,18 +55,31 @@ void main() {
         overrides: <Override>[hapticsProvider.overrideWithValue(Haptics(enabled: true, driver: driver))],
       );
 
-      await tester.tap(find.text('Learn'));
+      await tester.tap(find.text('Review'));
       await tester.pump();
-      expect(taps, [3]);
+      expect(taps, [2]);
       expect(driver.selections, 1);
 
       await tester.tap(find.text('Today'));
       await tester.pump();
-      expect(taps, [3, 0]);
+      expect(taps, [2, 0]);
       expect(driver.selections, 1, reason: 'a re-tap of the current tab is not a change');
     });
 
-    testWidgets('labels clamp the text scale at 1.3', (tester) async {
+    testWidgets('Start reports its rect for the morph', (tester) async {
+      final starts = <Rect>[];
+      await pumpMockmob(
+        tester,
+        Align(alignment: Alignment.bottomCenter, child: _Nav(index: 0, onStart: starts.add)),
+        size: const Size(384, 853),
+      );
+      await tester.tap(find.bySemanticsLabel(StartButton.semanticsLabel));
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(starts, hasLength(1));
+      expect(starts.single.width, closeTo(60, 1));
+    });
+
+    testWidgets('labels clamp the text scale at 1.2', (tester) async {
       await pumpMockmob(
         tester,
         const Align(alignment: Alignment.bottomCenter, child: _Nav(index: 0)),
@@ -73,13 +87,15 @@ void main() {
       );
       final label = tester.widget<Text>(find.text('Practice'));
       final scaler = MediaQuery.textScalerOf(tester.element(find.text('Practice')));
-      expect(scaler.scale(12), closeTo(12 * 1.3, 0.001));
+      expect(scaler.scale(12), closeTo(12 * 1.2, 0.001));
       expect(label.maxLines, 1);
+      expect(tester.takeException(), isNull);
     });
 
-    testWidgets('is 64 dp tall plus the bottom inset', (tester) async {
+    testWidgets('the pill is 60 dp tall and the tabs are at least 48 dp wide', (tester) async {
       await pumpMockmob(tester, const Align(alignment: Alignment.bottomCenter, child: _Nav(index: 0)));
-      expect(tester.getSize(find.byType(MmBottomNav)).height, 64);
+      expect(tester.getSize(find.byType(DockPill)).height, 60);
+      expect(tester.getSize(find.byType(StartButton)).height, greaterThanOrEqualTo(48));
     });
   });
 
@@ -192,16 +208,14 @@ void main() {
       handle.dispose();
     });
 
-    testWidgets('maps every pose to its asset', (tester) async {
-      expect(MobiPose.values.map((p) => p.asset), [
-        'assets/mobi/attentive.webp',
-        'assets/mobi/celebrating.webp',
-        'assets/mobi/encouraging.webp',
-        'assets/mobi/greeting.webp',
-        'assets/mobi/idle.webp',
-        'assets/mobi/pointing.webp',
-        'assets/mobi/thinking.webp',
-      ]);
+    testWidgets('maps every pose to a warm render with the old artwork as fallback', (tester) async {
+      expect(MobiPose.greet.asset, 'assets/art/mobi-greet.webp');
+      expect(MobiPose.sleepy.asset, 'assets/art/mobi-sleepy.webp');
+      expect(MobiPose.greeting.legacyAsset, 'assets/mobi/greeting.webp');
+      for (final pose in MobiPose.values) {
+        expect(pose.asset, startsWith('assets/art/mobi-'));
+        expect(pose.legacyAsset, startsWith('assets/mobi/'));
+      }
     });
 
     testWidgets('stays static under reduced motion', (tester) async {
@@ -264,13 +278,14 @@ void main() {
 }
 
 class _Nav extends ConsumerWidget {
-  const _Nav({required this.index, this.dot = false, this.onTap});
+  const _Nav({required this.index, this.dot = false, this.onTap, this.onStart});
 
   final int index;
   final bool dot;
   final ValueChanged<int>? onTap;
+  final ValueChanged<Rect>? onStart;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) =>
-      MmBottomNav(currentIndex: index, showReviewDot: dot, onTap: onTap ?? (_) {});
+      SplitDock(currentIndex: index, showReviewDot: dot, onTab: onTap ?? (_) {}, onStart: onStart ?? (_) {});
 }

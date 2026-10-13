@@ -12,6 +12,8 @@ import 'package:mockmob/core/models/consent.dart';
 import 'package:mockmob/core/models/rhythm.dart';
 import 'package:mockmob/core/repositories/consent_repository.dart';
 import 'package:mockmob/core/repositories/goal_repository.dart';
+import 'package:mockmob/core/repositories/local_scope.dart';
+import 'package:mockmob/core/repositories/notification_prefs_repository.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/repositories/rhythm_repository.dart';
 import 'package:mockmob/core/repositories/session_draft_repository.dart';
@@ -19,6 +21,8 @@ import 'package:mockmob/core/router/external_link_opener.dart';
 import 'package:mockmob/core/storage/app_prefs.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/storage/storage_providers.dart';
+import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart';
+import 'package:mockmob/features/you/data/student_target.dart';
 import 'package:mockmob/features/you/you_providers.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -27,7 +31,22 @@ const youUser = AuthSnapshot(
   userId: 'u1',
   email: 'asha.verma@example.com',
   name: 'Asha Verma',
+  subjects: ['accountancy', 'business_studies', 'economics', 'english'],
 );
+
+/// What setup kept for Asha: B.Com (Hons) and three colleges in order.
+const ashaTarget = StudentTarget(
+  course: 'B.Com (Hons)',
+  colleges: ['Shri Ram College of Commerce', 'Hansraj College', 'Kirori Mal College'],
+);
+
+/// Two of the three tokens earned.
+final earnedMilestones = [
+  RhythmMilestone(id: 'first_scored_session', achievedAt: DateTime.utc(2026, 9, 21, 9)),
+  RhythmMilestone(id: 'first_full_mock', achievedAt: DateTime.utc(2026, 9, 27, 12)),
+  RhythmMilestone(id: 'first_repair', achievedAt: DateTime.utc(2026, 10, 9, 15)),
+  const RhythmMilestone(id: 'first_week_met'),
+];
 
 /// A signed-in snapshot with the given plan.
 AuthSnapshot userWith({bool pro = false, DateTime? until}) => AuthSnapshot(
@@ -96,17 +115,24 @@ class FakeRhythm extends RhythmRepository {
   Future<void> refresh({bool force = false}) async {}
 }
 
-RemoteState<Rhythm> rhythmState({int streak = 3}) => RemoteState(
+RemoteState<Rhythm> rhythmState({
+  int streak = 3,
+  int best = 6,
+  List<String> studyDayDates = const ['2026-10-12'],
+  List<RhythmMilestone> milestones = const [],
+}) =>
+    RemoteState(
       value: Rhythm(
         timeZone: 'Asia/Kolkata',
         weekStart: '2026-10-12',
-        studyDays: 2,
-        studyDayDates: const [],
+        studyDays: studyDayDates.length,
+        studyDayDates: studyDayDates,
         daysGoal: 4,
         metThisWeek: false,
         paused: false,
         weeksMetStreak: streak,
-        bestRun: 6,
+        bestRun: best,
+        milestones: milestones,
       ),
       fetchedAt: DateTime(2026, 10, 12, 21, 15),
     );
@@ -212,9 +238,11 @@ List<Override> youOverrides({
   ExternalLinkOpener? opener,
   SupportMailer? mailer,
   AppPrefs? prefs,
-  PrefsStore? celebrationStore,
+  PrefsStore? rhythmStore,
+  StudentTarget? target,
   String? version = '1.0.0 (1)',
 }) {
+
   return [
     authSnapshotProvider.overrideWith(() => fakeAuth ?? FakeAuth(auth)),
     goalRepositoryProvider.overrideWith(() => goal ?? FakeGoal(goalState(4))),
@@ -227,7 +255,10 @@ List<Override> youOverrides({
     nowProvider.overrideWithValue(() => DateTime(2026, 10, 12, 22, 39, 30)),
     supportMailerProvider.overrideWithValue(mailer ?? RecordingMailer()),
     appPrefsProvider.overrideWithValue(prefs ?? AppPrefs(MemoryPrefsStore())),
-    celebrationStoreProvider.overrideWithValue(celebrationStore ?? MemoryPrefsStore()),
+    rhythmPrefsStoreProvider.overrideWithValue(rhythmStore ?? MemoryPrefsStore()),
+    studentTargetProvider.overrideWithValue(target ?? StudentTarget.none),
+    userIdProvider.overrideWithValue('u1'),
+    studentTimezoneProvider.overrideWithValue('Asia/Kolkata'),
     appVersionProvider.overrideWith((ref) async => version),
   ];
 }

@@ -9,6 +9,7 @@ import 'package:mockmob/features/rhythm/screens/rhythm_screen.dart';
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
+import '../you/you_golden_kit.dart' show kSheetSize, loadMaterialIcons;
 import 'rhythm_test_kit.dart';
 
 const _history = [
@@ -53,7 +54,10 @@ const _bests = [
 ];
 
 void main() {
-  setUpAll(loadAppFonts);
+  setUpAll(() async {
+    await loadAppFonts();
+    await loadMaterialIcons();
+  });
 
   Future<void> shoot(
     WidgetTester tester,
@@ -70,20 +74,21 @@ void main() {
       tester,
       screen,
       brightness: brightness,
+      size: kSheetSize,
       disableAnimations: true,
       wrapInScaffold: false,
       overrides: rhythmOverrides(rhythm: rhythm, goal: goal, hidden: hidden, bests: bests),
     );
     await tester.pump(const Duration(milliseconds: 100));
     if (scrollBy != 0) {
-      await tester.drag(find.byType(SingleChildScrollView).first, Offset(0, -scrollBy));
+      await tester.drag(find.byType(Scrollable).first, Offset(0, -scrollBy));
       await tester.pump(const Duration(milliseconds: 100));
     }
-    await expectLater(find.byType(Scaffold).first, matchesGoldenFile('goldens/${name}_${brightness.name}.png'));
+    await expectLater(find.byType(Scaffold).first, matchesGoldenFile('goldens/${name}_${brightness == Brightness.dark ? 'night' : 'day'}.png'));
   }
 
-  for (final brightness in Brightness.values) {
-    final b = brightness.name;
+  for (final brightness in [Brightness.dark, Brightness.light]) {
+    final b = brightness == Brightness.dark ? 'night' : 'day';
 
     testWidgets('rhythm screen top, $b', (tester) async {
       await shoot(tester, 'rhythm_screen_top', brightness, const YouRhythmScreen(), rhythm: loaded(_rhythm));

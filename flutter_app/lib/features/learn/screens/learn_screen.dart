@@ -5,8 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/repositories/remote_state.dart';
-import '../../../core/motion/motion.dart';
-import '../../../core/router/app_shell.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -19,6 +17,7 @@ import '../models/learn_catalog.dart';
 import '../widgets/due_card.dart';
 import '../widgets/lesson_list.dart';
 import '../widgets/offline_packs.dart';
+import '../widgets/screen_bits.dart';
 
 /// Runs that have an event on this phone the server has not acknowledged.
 final pendingRunIdsProvider = FutureProvider.autoDispose<List<String>>((ref) => ref.read(learnStoreProvider).pendingRunIds());
@@ -36,8 +35,6 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
   final _scroll = ScrollController();
   bool _starting = false;
   String? _startMessage;
-
-  static const int _learnTabIndex = 3;
 
   @override
   void dispose() {
@@ -75,13 +72,25 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    ref.listen(tabReselectProvider, (previous, next) {
-      if (next != null && next.tabIndex == _learnTabIndex && _scroll.hasClients) {
-        _scroll.animateTo(0, duration: Motion.of(context, Motion.card), curve: Motion.out);
+  /// While study content is switched off there is nothing to show here: leave quietly
+  /// instead of drawing a "not available" screen.
+  bool _leaving = false;
+
+  void _leave() {
+    if (_leaving) return;
+    _leaving = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      if (context.canPop()) {
+        context.pop();
+      } else {
+        context.go(AppRoutes.practice);
       }
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final colors = context.mmColors;
     final state = ref.watch(learnCatalogProvider);
     final catalog = state.value;
@@ -90,26 +99,28 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
     if (catalog == null) {
       body = _emptyBody(state);
     } else if (catalog.isDisabled) {
-      body = StateView(
-        kind: StateViewKind.empty,
-        title: LearnCopy.disabledTitle,
-        message: LearnCopy.disabledMessage,
-        primary: StateAction(LearnCopy.disabledAction, () => context.go(AppRoutes.practice)),
-      );
+      _leave();
+      body = const SizedBox.shrink();
     } else {
       body = _content(catalog, state);
     }
 
     return Scaffold(
       backgroundColor: colors.ground,
-      body: SafeArea(
-        bottom: false,
-        child: Column(
-          children: [
-            if (state.isStale && (state.error?.isOffline ?? false)) const InlineBanner.offlineStrip(),
-            Expanded(child: body),
-          ],
-        ),
+      body: Stack(
+        children: [
+          Positioned(top: 0, left: 0, right: 0, height: 380, child: IgnorePointer(child: LightField.lamp(context, strength: 0.75))),
+          SafeArea(
+            bottom: false,
+            child: Column(
+              children: [
+                if (state.isStale && (state.error?.isOffline ?? false)) const InlineBanner.offlineStrip(),
+                ConceptsHeader(onBack: () => context.canPop() ? context.pop() : context.go(AppRoutes.practice)),
+                Expanded(child: body),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -143,7 +154,7 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
       child: ListView(
         controller: _scroll,
         physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s16, MmSpace.gutter, MmSpace.s32),
+        padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s4, MmSpace.gutter, MmSpace.s32 + MediaQuery.paddingOf(context).bottom),
         children: [
           Center(
             child: ConstrainedBox(
@@ -152,8 +163,8 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: MmSpace.s4, bottom: MmSpace.s16),
-                    child: Semantics(header: true, child: Text(LearnCopy.title, style: type.headline)),
+                    padding: const EdgeInsets.only(left: MmSpace.s4, bottom: MmSpace.s20),
+                    child: Text(LearnCopy.subtitle, style: type.body.copyWith(color: colors.ink2)),
                   ),
                   if (hasResume) ...[
                     ResumeCard(
@@ -233,8 +244,6 @@ class _LearnSkeleton extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Skeleton(width: 120, height: 32),
-            SizedBox(height: MmSpace.s16),
             Skeleton(height: 168, radius: MmRadius.panel),
             SizedBox(height: MmSpace.group),
             Skeleton(width: 140, height: 20),

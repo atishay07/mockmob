@@ -66,11 +66,50 @@ class _AppView extends ConsumerWidget {
             quality: ref.watch(glassQualityProvider),
             child: MediaQuery(
               data: MediaQuery.of(context).copyWith(textScaler: scaler),
-              child: child ?? const SizedBox.shrink(),
+              child: _StatusBarScrim(child: child ?? const SizedBox.shrink()),
             ),
           ),
         );
       },
+    );
+  }
+}
+
+/// Edge to edge, scrolled content would run under the status bar icons. A short fade of the
+/// ground colour behind the bar keeps the clock and icons legible on every screen without a
+/// hard band (it is environment, not chrome, so it never takes touches).
+class _StatusBarScrim extends StatelessWidget {
+  const _StatusBarScrim({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final top = MediaQuery.paddingOf(context).top;
+    if (top <= 0) return child;
+    final ground = context.mmColors.ground;
+    return Stack(
+      children: [
+        Positioned.fill(child: child),
+        Positioned(
+          left: 0,
+          right: 0,
+          top: 0,
+          height: top + 18,
+          child: IgnorePointer(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: [0, top / (top + 18), 1],
+                  colors: [ground.withValues(alpha: 0.95), ground.withValues(alpha: 0.86), ground.withValues(alpha: 0)],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

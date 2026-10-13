@@ -1,0 +1,247 @@
+import 'package:flutter/foundation.dart';
+
+import '../data/du_catalog.dart';
+import '../data/subjects.dart';
+import 'choices.dart';
+
+/// The single real question, as answered.
+@immutable
+class WarmupResult {
+  const WarmupResult({required this.questionId, required this.chosen, required this.correct, required this.millis});
+
+  final String questionId;
+  final int chosen;
+  final bool correct;
+
+  /// Measured from the question appearing to the tap.
+  final int millis;
+
+  Map<String, Object?> toJson() => {'q': questionId, 'c': chosen, 'ok': correct, 'ms': millis};
+
+  static WarmupResult? fromJson(Object? raw) {
+    if (raw is! Map) return null;
+    final q = raw['q'], c = raw['c'], ok = raw['ok'], ms = raw['ms'];
+    if (q is! String || c is! int || ok is! bool || ms is! int) return null;
+    return WarmupResult(questionId: q, chosen: c, correct: ok, millis: ms);
+  }
+}
+
+/// Everything the student told the onboarding, kept on the phone (versioned) from the first tap.
+/// Only the parts the API supports are written to the account, after sign-in.
+@immutable
+class OnboardingAnswers {
+  const OnboardingAnswers({
+    this.stage,
+    this.courseId,
+    this.courseUndecided = false,
+    this.colleges = const [],
+    this.openToAny = false,
+    this.category = DuCatalog.defaultCategory,
+    this.subjects = const [],
+    this.subjectsTouched = false,
+    this.confidence = const {},
+    this.worry,
+    this.warmup,
+    this.minutes = 20,
+    this.days = const {0, 1, 3, 5},
+    this.window = StudyTime.evening,
+    this.done = const {},
+    this.skipped = const {},
+    this.step,
+    this.sealedAt,
+    this.age,
+    this.notNow = false,
+    this.tonight = false,
+    this.syncedFor,
+  });
+
+  /// Store format. Bump with a migration in [fromJson] when a field changes meaning.
+  static const int version = 1;
+
+  static const OnboardingAnswers empty = OnboardingAnswers();
+
+  final Stage? stage;
+
+  /// A DU course id from [DuCatalog], or null.
+  final String? courseId;
+
+  /// "Not sure yet" on the course step.
+  final bool courseUndecided;
+
+  /// Up to three colleges (full names as DU prints them).
+  final List<String> colleges;
+  final bool openToAny;
+
+  /// The category the ladder shows. Stays on the phone.
+  final String category;
+
+  /// The chosen subjects, in the order they were added.
+  final List<SheetSubject> subjects;
+
+  /// False until the student changes the pre-ticked set, so the set can follow the course.
+  final bool subjectsTouched;
+  final Map<SheetSubject, Confidence> confidence;
+  final Worry? worry;
+  final WarmupResult? warmup;
+
+  /// 10, 20 or 30.
+  final int minutes;
+
+  /// Study days, 0 = Monday.
+  final Set<int> days;
+  final StudyTime window;
+
+  /// Step ids answered, and those skipped (a skipped step shows its default on the sheet).
+  final Set<String> done;
+  final Set<String> skipped;
+
+  /// The step the student is on, so a return resumes there.
+  final String? step;
+  final DateTime? sealedAt;
+  final AgeAnswer? age;
+
+  /// "Not now" on the save step: the plan stays on the phone.
+  final bool notNow;
+
+  /// The first move was put off to tonight.
+  final bool tonight;
+
+  /// The account the sheet was written to, once every write was acknowledged.
+  final String? syncedFor;
+
+  DuCourse? get course => DuCatalog.course(courseId);
+  bool get sealed => sealedAt != null;
+  bool get started => done.isNotEmpty || skipped.isNotEmpty;
+  bool isDone(String step) => done.contains(step);
+  bool isSkipped(String step) => skipped.contains(step);
+
+  /// The chosen subjects, weakest first.
+  List<SheetSubject> get ranked => weakestFirst(subjects, confidence);
+
+  OnboardingAnswers copyWith({
+    Stage? stage,
+    Object? courseId = _keep,
+    bool? courseUndecided,
+    List<String>? colleges,
+    bool? openToAny,
+    String? category,
+    List<SheetSubject>? subjects,
+    bool? subjectsTouched,
+    Map<SheetSubject, Confidence>? confidence,
+    Worry? worry,
+    Object? warmup = _keep,
+    int? minutes,
+    Set<int>? days,
+    StudyTime? window,
+    Set<String>? done,
+    Set<String>? skipped,
+    Object? step = _keep,
+    Object? sealedAt = _keep,
+    AgeAnswer? age,
+    bool? notNow,
+    bool? tonight,
+    Object? syncedFor = _keep,
+  }) {
+    return OnboardingAnswers(
+      stage: stage ?? this.stage,
+      courseId: identical(courseId, _keep) ? this.courseId : courseId as String?,
+      courseUndecided: courseUndecided ?? this.courseUndecided,
+      colleges: colleges ?? this.colleges,
+      openToAny: openToAny ?? this.openToAny,
+      category: category ?? this.category,
+      subjects: subjects ?? this.subjects,
+      subjectsTouched: subjectsTouched ?? this.subjectsTouched,
+      confidence: confidence ?? this.confidence,
+      worry: worry ?? this.worry,
+      warmup: identical(warmup, _keep) ? this.warmup : warmup as WarmupResult?,
+      minutes: minutes ?? this.minutes,
+      days: days ?? this.days,
+      window: window ?? this.window,
+      done: done ?? this.done,
+      skipped: skipped ?? this.skipped,
+      step: identical(step, _keep) ? this.step : step as String?,
+      sealedAt: identical(sealedAt, _keep) ? this.sealedAt : sealedAt as DateTime?,
+      age: age ?? this.age,
+      notNow: notNow ?? this.notNow,
+      tonight: tonight ?? this.tonight,
+      syncedFor: identical(syncedFor, _keep) ? this.syncedFor : syncedFor as String?,
+    );
+  }
+
+  /// Marks [step] answered (and no longer skipped).
+  OnboardingAnswers mark(String step) => copyWith(done: {...done, step}, skipped: {...skipped}..remove(step));
+
+  /// Marks [step] skipped, unless it was answered.
+  OnboardingAnswers skip(String step) => done.contains(step) ? this : copyWith(skipped: {...skipped, step});
+
+  Map<String, Object?> toJson() => {
+        'v': version,
+        'stage': stage?.name,
+        'course': courseId,
+        'courseUndecided': courseUndecided,
+        'colleges': colleges,
+        'openToAny': openToAny,
+        'category': category,
+        'subjects': [for (final s in subjects) s.id],
+        'subjectsTouched': subjectsTouched,
+        'confidence': {for (final e in confidence.entries) e.key.id: e.value.name},
+        'worry': worry?.name,
+        'warmup': warmup?.toJson(),
+        'minutes': minutes,
+        'days': (days.toList()..sort()),
+        'window': window.name,
+        'done': done.toList(),
+        'skipped': skipped.toList(),
+        'step': step,
+        'sealedAt': sealedAt?.toIso8601String(),
+        'age': age?.name,
+        'notNow': notNow,
+        'tonight': tonight,
+        'syncedFor': syncedFor,
+      };
+
+  /// Reads a stored sheet. Anything unreadable, or from a newer store version, starts fresh.
+  static OnboardingAnswers fromJson(Map<String, Object?> j) {
+    if (j['v'] is! int || (j['v']! as int) > version) return empty;
+    List<String> strings(Object? raw) => raw is List ? [for (final e in raw) if (e is String) e] : const [];
+    final course = j['course'] is String ? j['course']! as String : null;
+    final minutes = j['minutes'];
+    final confidence = <SheetSubject, Confidence>{};
+    final rawConfidence = j['confidence'];
+    if (rawConfidence is Map) {
+      for (final e in rawConfidence.entries) {
+        final s = SheetSubject.byId(e.key as String?);
+        final c = Confidence.byName(e.value as String?);
+        if (s != null && c != null) confidence[s] = c;
+      }
+    }
+    final days = j['days'] is List ? {for (final d in j['days']! as List) if (d is int && d >= 0 && d < 7) d} : null;
+    final category = j['category'] is String && DuCatalog.categories.contains(j['category']) ? j['category']! as String : null;
+    return OnboardingAnswers(
+      stage: Stage.byName(j['stage'] as String?),
+      courseId: DuCatalog.course(course) == null ? null : course,
+      courseUndecided: j['courseUndecided'] == true,
+      colleges: strings(j['colleges']).take(3).toList(),
+      openToAny: j['openToAny'] == true,
+      category: category ?? DuCatalog.defaultCategory,
+      subjects: [for (final id in strings(j['subjects'])) ?SheetSubject.byId(id)],
+      subjectsTouched: j['subjectsTouched'] == true,
+      confidence: confidence,
+      worry: Worry.byName(j['worry'] as String?),
+      warmup: WarmupResult.fromJson(j['warmup']),
+      minutes: minutes is int && const [10, 20, 30].contains(minutes) ? minutes : 20,
+      days: days == null || days.isEmpty ? const {0, 1, 3, 5} : days,
+      window: StudyTime.byName(j['window'] as String?) ?? StudyTime.evening,
+      done: strings(j['done']).toSet(),
+      skipped: strings(j['skipped']).toSet(),
+      step: j['step'] as String?,
+      sealedAt: j['sealedAt'] is String ? DateTime.tryParse(j['sealedAt']! as String) : null,
+      age: AgeAnswer.byName(j['age'] as String?),
+      notNow: j['notNow'] == true,
+      tonight: j['tonight'] == true,
+      syncedFor: j['syncedFor'] as String?,
+    );
+  }
+}
+
+const Object _keep = Object();

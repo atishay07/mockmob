@@ -1,21 +1,20 @@
-// Route builders for the today feature. This feature module owns this file and replaces each
-// placeholder body with its real screen. Keep the function names: lib/core/router/screens.dart
-// re-exports them and router.dart binds them to the paths of spec 4.2.
+// Route builders for the today feature. Keep the function names: lib/core/router/screens.dart
+// re-exports them and router.dart binds them to the paths of spec 4.2. Sheet routes return a
+// sheet body only; `MmSheetPage` supplies the glass frame.
 
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/router/placeholder_screen.dart';
-import '../../core/router/routes.dart';
+import 'screens/alternatives_sheet.dart';
+import 'screens/today_screen.dart';
+import 'screens/weekly_ending_page.dart';
+import 'screens/why_sheet.dart';
 
-Widget todayScreen(BuildContext context, GoRouterState state) =>
-    const PlaceholderScreen(title: 'Today', route: AppRoutes.today);
+Widget todayScreen(BuildContext context, GoRouterState state) => const TodayScreen();
 
 Widget todayWhyScreen(BuildContext context, GoRouterState state) =>
-    const PlaceholderScreen(title: 'Why this', route: '/today/why/:actionId', isSheet: true);
+    WhySheet(key: ValueKey(state.uri.toString()), attemptId: state.pathParameters['actionId'] ?? '');
 
-Widget todayAlternativesScreen(BuildContext context, GoRouterState state) =>
-    const PlaceholderScreen(title: 'Choose something else', route: AppRoutes.todayAlternatives, isSheet: true);
+Widget todayAlternativesScreen(BuildContext context, GoRouterState state) => const AlternativesSheet();
 
-Widget todayWeeklyEndingScreen(BuildContext context, GoRouterState state) =>
-    const PlaceholderScreen(title: 'Weekly ending', route: AppRoutes.todayWeeklyEnding);
+Widget todayWeeklyEndingScreen(BuildContext context, GoRouterState state) => const WeeklyEndingPage();

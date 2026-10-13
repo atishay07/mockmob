@@ -57,11 +57,15 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
       title: YouCopy.accountTitle,
       children: [
         const SizedBox(height: MmSpace.s8),
-        if (auth.name != null && auth.name!.trim().isNotEmpty) _Fact(label: YouCopy.accountName, value: auth.name!),
-        if (auth.email != null) _Fact(label: YouCopy.accountEmail, value: auth.email!),
-        _Fact(label: YouCopy.accountPlan, value: plan, note: YouCopy.planHonoured),
+        YouPanel(
+          children: [
+            if (auth.name != null && auth.name!.trim().isNotEmpty) _Fact(label: YouCopy.accountName, value: auth.name!),
+            if (auth.email != null) _Fact(label: YouCopy.accountEmail, value: auth.email!),
+            _Fact(label: YouCopy.accountPlan, value: plan, note: YouCopy.planHonoured),
+          ],
+        ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.group, MmSpace.gutter, 0),
+          padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s24, MmSpace.gutter, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -73,12 +77,17 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
             ],
           ),
         ),
-        const SizedBox(height: MmSpace.group),
-        YouRow(
-          icon: LucideIcons.trash2,
-          title: YouCopy.deleteRow,
-          note: YouCopy.deleteRowNote,
-          onTap: () => context.push(AppRoutes.youDelete),
+        const SizedBox(height: MmSpace.s32),
+        YouPanel(
+          children: [
+            YouRow(
+              icon: LucideIcons.trash2,
+              title: YouCopy.deleteRow,
+              note: YouCopy.deleteRowNote,
+              destructive: true,
+              onTap: () => context.push(AppRoutes.youDelete),
+            ),
+          ],
         ),
       ],
     );
@@ -102,12 +111,12 @@ class _Fact extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: type.label.copyWith(color: colors.ink2)),
+          Text(label, style: type.caption.copyWith(color: colors.ink3)),
           const SizedBox(height: 2),
-          Text(value, style: type.body),
+          Text(value, style: type.labelLarge.copyWith(fontSize: 16)),
           if (note != null) ...[
             const SizedBox(height: MmSpace.s4),
-            Text(note!, style: type.small.copyWith(color: colors.ink2)),
+            Text(note!, style: type.caption.copyWith(color: colors.ink2)),
           ],
         ],
       ),

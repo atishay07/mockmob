@@ -15,6 +15,7 @@ import 'package:mockmob/features/rhythm/widgets/weekly_ending_card.dart';
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
+import '../you/you_golden_kit.dart' show kSheetSize;
 import 'rhythm_test_kit.dart';
 
 RhythmSnapshot _snap(RemoteState<Rhythm> state, {String? pausedUntil}) => composeSnapshot(
@@ -56,16 +57,18 @@ void main() {
   setUpAll(loadAppFonts);
 
   void golden(String name, Widget Function() build) {
-    for (final brightness in Brightness.values) {
-      testWidgets('$name, ${brightness.name}', (tester) async {
+    for (final brightness in [Brightness.dark, Brightness.light]) {
+      final tag = brightness == Brightness.dark ? 'night' : 'day';
+      testWidgets('$name, $tag', (tester) async {
         await pumpMockmob(
           tester,
           build(),
           brightness: brightness,
+          size: kSheetSize,
           disableAnimations: true,
           overrides: [...rhythmOverrides(rhythm: loaded(_open))],
         );
-        await expectLater(find.byType(Scaffold).first, matchesGoldenFile('goldens/${name}_${brightness.name}.png'));
+        await expectLater(find.byType(Scaffold).first, matchesGoldenFile('goldens/${name}_$tag.png'));
       });
     }
   }

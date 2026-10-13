@@ -1,22 +1,74 @@
-import 'package:flutter/gestures.dart' show kTouchSlop;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/widgets.dart';
 
-/// A full-width pressable list row with the app's pressed fill (no ripple), a focus ring and a
-/// hairline under it. [onTap] null means the row is information only.
-class RowFrame extends ConsumerStatefulWidget {
+/// A group of rows on one solid raised pane (the work layer): continuous corners, the room's
+/// edge light along the top with the lamp's warm catch, and hairlines between the rows inset by
+/// [inset]. Never nest a panel in a panel.
+class YouPanel extends StatelessWidget {
+  const YouPanel({super.key, required this.children, this.inset = MmSpace.gutter, this.margin = youPanelMargin});
+
+  final List<Widget> children;
+
+  /// Where the hairline between two rows starts (64 lines up with text beside an icon well).
+  final double inset;
+  final EdgeInsetsGeometry margin;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final rows = <Widget>[];
+    for (var i = 0; i < children.length; i++) {
+      if (i > 0) {
+        rows.add(Padding(
+          padding: EdgeInsets.only(left: inset),
+          child: SizedBox(height: 1, child: ColoredBox(color: colors.line)),
+        ));
+      }
+      rows.add(children[i]);
+    }
+    return Padding(
+      padding: margin,
+      child: DecoratedBox(
+        decoration: ShapeDecoration(color: colors.raised, shape: mmShapeBorder(MmRadius.panelAll), shadows: colors.cardShadow),
+        child: CustomPaint(
+          foregroundPainter: EdgeLightPainter(
+            borderRadius: MmRadius.panelAll,
+            top: colors.edgeTop,
+            bottom: colors.edgeBottom,
+            lamp: colors.isNight ? colors.lamp : null,
+            sheen: false,
+          ),
+          child: MmClip(
+            borderRadius: MmRadius.panelAll,
+            child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, mainAxisSize: MainAxisSize.min, children: rows),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// The outer margin of a [YouPanel].
+const EdgeInsets youPanelMargin = EdgeInsets.symmetric(horizontal: MmSpace.gutter);
+
+/// A full-width pressable row inside a panel: the pressed fill deepens toward raised 2 (no
+/// ripple), the row sinks a touch, keyboard focus draws the ring. [onTap] null means the row is
+/// information only. [hairline] is kept for callers outside a panel.
+class RowFrame extends ConsumerWidget {
   const RowFrame({
     super.key,
     required this.child,
     this.onTap,
     this.semanticsLabel,
     this.toggled,
-    this.hairline = true,
+    this.hairline = false,
     this.tick = true,
+    this.padding = const EdgeInsets.symmetric(horizontal: MmSpace.gutter, vertical: MmSpace.s12),
   });
 
   final Widget child;
@@ -27,82 +79,72 @@ class RowFrame extends ConsumerStatefulWidget {
   final bool? toggled;
   final bool hairline;
 
-  /// Fire the `tick` haptic when the row is activated.
+  /// Fire the selection haptic when the row is activated.
   final bool tick;
+  final EdgeInsetsGeometry padding;
 
   @override
-  ConsumerState<RowFrame> createState() => _RowFrameState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.mmColors;
+    Widget frame(bool pressed) => DecoratedBox(
+          decoration: BoxDecoration(
+            color: pressed ? (colors.isNight ? colors.raised2 : colors.sunken) : Colors.transparent,
+            border: hairline ? Border(bottom: BorderSide(color: colors.line)) : null,
+          ),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 56),
+            child: Padding(padding: padding, child: Align(alignment: Alignment.centerLeft, widthFactor: 1, child: child)),
+          ),
+        );
+
+    if (onTap == null) {
+      if (semanticsLabel == null) return frame(false);
+      return Semantics(container: true, label: semanticsLabel, excludeSemantics: true, child: frame(false));
+    }
+
+    void activate() {
+      if (tick) ref.read(hapticsProvider).selection();
+      onTap!();
+    }
+
+    // One node for TalkBack: the row's words, button or switch, and the tap.
+    return Semantics(
+      container: true,
+      button: toggled == null,
+      toggled: toggled,
+      label: semanticsLabel,
+      onTap: activate,
+      excludeSemantics: semanticsLabel != null,
+      child: MmPressable(
+        pressedScale: 0.985,
+        focusRadius: MmRadius.smallAll,
+        onTap: activate,
+        builder: (context, pressed, _) => frame(pressed),
+      ),
+    );
+  }
 }
 
-class _RowFrameState extends ConsumerState<RowFrame> {
-  bool _pressed = false;
-  bool _focused = false;
-  Offset _downAt = Offset.zero;
+/// The round well an icon sits in at the start of a row: raised 2 on Night, sunken paper on
+/// Daylight. 36 dp, icons 18 dp.
+class IconWell extends StatelessWidget {
+  const IconWell(this.icon, {super.key, this.color});
 
-  void _activate() {
-    if (widget.onTap == null) return;
-    if (widget.tick) ref.read(hapticsProvider).tick();
-    widget.onTap!();
-  }
+  final IconData icon;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final interactive = widget.onTap != null;
-
-    Widget row = DecoratedBox(
-      decoration: BoxDecoration(
-        color: _pressed ? colors.sunken : Colors.transparent,
-        border: widget.hairline ? Border(bottom: BorderSide(color: colors.line)) : null,
-      ),
-      child: Container(
-        constraints: const BoxConstraints(minHeight: MmTarget.min),
-        padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter, vertical: MmSpace.s12),
-        foregroundDecoration: _focused
-            ? BoxDecoration(border: Border.all(color: colors.focusRing, width: 2))
-            : null,
-        child: widget.child,
-      ),
-    );
-
-    if (!interactive) return row;
-
-    row = FocusableActionDetector(
-      onShowFocusHighlight: (value) => setState(() => _focused = value),
-      mouseCursor: SystemMouseCursors.click,
-      actions: {
-        ActivateIntent: CallbackAction<ActivateIntent>(onInvoke: (_) {
-          _activate();
-          return null;
-        }),
-      },
-      child: Listener(
-        onPointerDown: (e) {
-          _downAt = e.position;
-          setState(() => _pressed = true);
-        },
-        onPointerMove: (e) {
-          if (_pressed && (e.position - _downAt).distance > kTouchSlop) setState(() => _pressed = false);
-        },
-        onPointerUp: (_) => setState(() => _pressed = false),
-        onPointerCancel: (_) => setState(() => _pressed = false),
-        child: GestureDetector(behavior: HitTestBehavior.opaque, onTap: _activate, child: row),
-      ),
-    );
-
-    return Semantics(
-      button: widget.toggled == null,
-      toggled: widget.toggled,
-      container: true,
-      label: widget.semanticsLabel,
-      excludeSemantics: widget.semanticsLabel != null,
-      onTap: _activate,
-      child: row,
+    return DecoratedBox(
+      decoration: BoxDecoration(shape: BoxShape.circle, color: colors.isNight ? colors.raised2 : colors.sunken),
+      child: SizedBox.square(dimension: 36, child: Icon(icon, size: 18, color: color ?? colors.ink2)),
     );
   }
 }
 
-/// A navigation row: an icon, a title, an optional one-line note and a trailing glyph.
+/// A navigation row: an icon well, a title, an optional note, an optional value on the right
+/// and a quiet chevron (or the external glyph for a page that opens outside the app).
 class YouRow extends StatelessWidget {
   const YouRow({
     super.key,
@@ -110,52 +152,66 @@ class YouRow extends StatelessWidget {
     required this.title,
     required this.onTap,
     this.note,
+    this.value,
     this.external = false,
-    this.hairline = true,
+    this.hairline = false,
+    this.destructive = false,
   });
 
   final IconData icon;
   final String title;
   final String? note;
-  final VoidCallback onTap;
 
-  /// Opens outside the app (a Custom Tab): shows the external glyph instead of the chevron.
+  /// A short live fact on the right ("Night", "On").
+  final String? value;
+  final VoidCallback onTap;
   final bool external;
   final bool hairline;
+
+  /// The title reads in the bad-text colour (Delete account).
+  final bool destructive;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    final label = [title, ?note, ?value].join('. ');
     return RowFrame(
       onTap: onTap,
       hairline: hairline,
-      semanticsLabel: note == null ? title : '$title. $note',
+      semanticsLabel: label,
       child: Row(
         children: [
-          Icon(icon, size: 24, color: colors.ink2),
-          const SizedBox(width: MmSpace.s16),
+          IconWell(icon, color: destructive ? colors.badText : null),
+          const SizedBox(width: MmSpace.s12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: type.subhead),
+                Text(title, style: type.labelLarge.copyWith(fontSize: 16, color: destructive ? colors.badText : colors.ink)),
                 if (note != null) ...[
                   const SizedBox(height: 2),
-                  Text(note!, style: type.small.copyWith(color: colors.ink2)),
+                  Text(note!, style: type.caption.copyWith(color: colors.ink2)),
                 ],
               ],
             ),
           ),
+          if (value != null) ...[
+            const SizedBox(width: MmSpace.s8),
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 140),
+              child: Text(value!, style: type.caption.copyWith(color: colors.ink2), textAlign: TextAlign.end),
+            ),
+          ],
           const SizedBox(width: MmSpace.s8),
-          Icon(external ? LucideIcons.externalLink : LucideIcons.chevronRight, size: 18, color: colors.ink3),
+          Icon(external ? LucideIcons.externalLink : LucideIcons.chevronRight, size: 16, color: colors.ink3),
         ],
       ),
     );
   }
 }
 
-/// A switch row. The whole row toggles; the switch itself is drawn by the theme (ink on, with a
+/// A switch row. The whole row toggles; the switch is drawn by the theme (volt on, with a
 /// check glyph) so state never depends on colour alone.
 class YouSwitchRow extends StatelessWidget {
   const YouSwitchRow({
@@ -164,7 +220,7 @@ class YouSwitchRow extends StatelessWidget {
     required this.value,
     required this.onChanged,
     this.note,
-    this.hairline = true,
+    this.hairline = false,
   });
 
   final String title;
@@ -192,18 +248,16 @@ class YouSwitchRow extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: type.subhead.copyWith(color: enabled ? colors.ink : colors.ink3)),
+                Text(title, style: type.labelLarge.copyWith(fontSize: 16, color: enabled ? colors.ink : colors.ink3)),
                 if (note != null) ...[
                   const SizedBox(height: 2),
-                  Text(note!, style: type.small.copyWith(color: colors.ink2)),
+                  Text(note!, style: type.caption.copyWith(color: colors.ink2)),
                 ],
               ],
             ),
           ),
           const SizedBox(width: MmSpace.s16),
-          ExcludeSemantics(
-            child: IgnorePointer(child: Switch(value: value, onChanged: enabled ? (_) {} : null)),
-          ),
+          ExcludeSemantics(child: IgnorePointer(child: Switch(value: value, onChanged: enabled ? (_) {} : null))),
         ],
       ),
     );

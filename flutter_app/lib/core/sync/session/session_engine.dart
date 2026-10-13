@@ -360,6 +360,13 @@ class SessionEngine extends ChangeNotifier {
     if (!_disposed) away.value = null;
   }
 
+  /// Sends unacknowledged answers now and waits for the call (the student is leaving the
+  /// runner). Does nothing in ticket mode or after dispose.
+  Future<void> flushAnswers() async {
+    if (_disposed) return;
+    await _syncer.flushNow();
+  }
+
   // Lifecycle.
 
   /// The app went to the background: flush answers now, save the draft, show the silent status
@@ -544,6 +551,9 @@ class SessionEngine extends ChangeNotifier {
   Future<void> flushDraft() async {
     _draftTimer?.cancel();
     _draftTimer = null;
+    // The submitter deleted the draft once the server took the submit; writing it again would
+    // bring back a finished session as resumable (a late debounce, a pause, the runner closing).
+    if (submitState.value.stage == SubmitStage.received) return;
     _draft = _draft.copyWith(
       visited: _visited,
       marked: _marked,

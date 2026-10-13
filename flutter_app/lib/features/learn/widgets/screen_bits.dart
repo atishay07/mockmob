@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/widgets.dart';
+import '../copy.dart';
 
 /// The keys pinned at the foot of a screen on a raised bar, with an optional plain line above
 /// them. The content above scrolls; these never leave the screen.
@@ -16,7 +19,7 @@ class PinnedActions extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     return DecoratedBox(
-      decoration: BoxDecoration(color: colors.raised, border: Border(top: BorderSide(color: colors.line))),
+      decoration: BoxDecoration(color: colors.ground, border: Border(top: BorderSide(color: colors.line))),
       child: Center(
         heightFactor: 1,
         child: ConstrainedBox(
@@ -64,6 +67,50 @@ class IconTap extends StatelessWidget {
         behavior: HitTestBehavior.opaque,
         onTap: onTap,
         child: SizedBox(width: 48, height: 48, child: Icon(icon, size: 24, color: context.mmColors.ink)),
+      ),
+    );
+  }
+}
+
+/// The top of the Concepts page: a small glass back disc and the title in the Bricolage cut.
+class ConceptsHeader extends StatelessWidget {
+  const ConceptsHeader({super.key, required this.onBack});
+
+  final VoidCallback onBack;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s4, MmSpace.gutter, MmSpace.s8),
+      child: SizedBox(
+        height: 56,
+        child: Row(
+          children: [
+            MmPressable(
+              semanticsLabel: LearnCopy.back,
+              onTap: onBack,
+              builder: (context, pressed, _) => SizedBox.square(
+                dimension: MmTarget.min,
+                child: Center(
+                  child: SizedBox.square(
+                    dimension: 44,
+                    child: FakeGlass(
+                      borderRadius: MmRadius.pillAll,
+                      pressed: pressed,
+                      grain: false,
+                      child: Center(child: Icon(LucideIcons.arrowLeft, size: 20, color: colors.ink)),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: MmSpace.s8),
+            Expanded(
+              child: Semantics(header: true, child: Text(LearnCopy.title, style: context.mmType.screenTitle)),
+            ),
+          ],
+        ),
       ),
     );
   }

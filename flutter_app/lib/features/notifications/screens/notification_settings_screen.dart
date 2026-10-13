@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 import '../../../core/api/api_error.dart';
@@ -17,10 +16,12 @@ import '../../../core/router/routes.dart';
 import '../../../core/storage/storage_providers.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../you/widgets/you_page.dart' show BackKey;
 import '../copy.dart';
 import '../data/reminder_state.dart';
 import '../data/reminder_store.dart';
 import '../services/notification_providers.dart';
+import '../widgets/settings_rows.dart' show LoadingRows;
 import '../widgets/time_sheet.dart';
 import 'settings_body.dart';
 
@@ -308,7 +309,7 @@ class _NotificationSettingsScreenState
           ),
           const Padding(
             padding: EdgeInsets.all(MmSpace.gutter),
-            child: _LoadingRows(),
+            child: LoadingRows(),
           ),
         ],
       );
@@ -316,16 +317,37 @@ class _NotificationSettingsScreenState
 
     return Scaffold(
       backgroundColor: colors.ground,
-      body: SafeArea(
-        child: Align(
-          alignment: Alignment.topCenter,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(
-              maxWidth: MmSpace.contentMaxWidth,
+      body: Stack(
+        children: [
+          Positioned(
+            left: 0,
+            right: 0,
+            top: 0,
+            height: 300,
+            child: IgnorePointer(
+              child: LightField(
+                pools: [
+                  LightPool(
+                    color: colors.lamp.withValues(alpha: colors.isNight ? 0.13 : 0.10),
+                    center: const Alignment(-1.15, -1.25),
+                    radius: 0.95,
+                    aspect: 1.4,
+                  ),
+                ],
+              ),
             ),
-            child: content,
           ),
-        ),
+          SafeArea(
+            bottom: false,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
+                child: content,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -341,37 +363,17 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.mmColors;
     final type = context.mmType;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Semantics(
-            button: true,
-            label: NotificationsCopy.settingsBack,
-            excludeSemantics: true,
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: onBack,
-              child: SizedBox(
-                width: 56,
-                height: 56,
-                child: Center(
-                  child: Icon(
-                    LucideIcons.arrowLeft,
-                    size: 24,
-                    color: colors.ink,
-                  ),
-                ),
-              ),
-            ),
-          ),
+        Padding(
+          padding: const EdgeInsets.only(top: MmSpace.s8),
+          child: Align(alignment: Alignment.centerLeft, child: Transform.translate(offset: const Offset(-4, 0), child: BackKey(onTap: onBack))),
         ),
-        Semantics(
-          header: true,
-          child: Text(NotificationsCopy.settingsTitle, style: type.headline),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(4, MmSpace.s12, 0, 0),
+          child: Semantics(header: true, child: Text(NotificationsCopy.settingsTitle, style: type.headline)),
         ),
         const SizedBox(height: MmSpace.s12),
         if (stale != null) ...[
@@ -385,29 +387,6 @@ class _Header extends StatelessWidget {
         ),
         const SizedBox(height: MmSpace.s12),
       ],
-    );
-  }
-}
-
-class _LoadingRows extends StatelessWidget {
-  const _LoadingRows();
-
-  @override
-  Widget build(BuildContext context) {
-    return const SkeletonGroup(
-      child: Column(
-        children: [
-          Skeleton(height: 96, radius: MmRadius.panel),
-          SizedBox(height: MmSpace.s32),
-          Skeleton(height: 40),
-          SizedBox(height: MmSpace.s32),
-          Skeleton(height: 56),
-          SizedBox(height: MmSpace.s12),
-          Skeleton(height: 56),
-          SizedBox(height: MmSpace.s12),
-          Skeleton(height: 56),
-        ],
-      ),
     );
   }
 }

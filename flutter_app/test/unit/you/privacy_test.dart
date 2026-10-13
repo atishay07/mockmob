@@ -130,7 +130,7 @@ void main() {
 
     testWidgets('the operational data note says the switch does not control it', (tester) async {
       await _pump(tester, FakeConsent(consentState(AgeBand.adult)));
-      expect(find.textContaining('This switch does not control them'), findsOneWidget);
+      expect(find.textContaining('This switch controls neither'), findsOneWidget);
       expect(find.textContaining('Google Play also reports crashes'), findsOneWidget);
     });
   });
@@ -153,7 +153,7 @@ void main() {
     await tester.tap(find.text('Change my answer'));
     await tester.pumpAndSettle();
     expect(find.text('Are you 18 or older?'), findsOneWidget);
-    expect(find.text('This only decides your data settings.'), findsOneWidget);
+    expect(find.text('This only decides your data settings.'), findsNothing, reason: 'the defensive caption is gone');
     expect(find.text('Yes'), findsOneWidget);
     expect(find.text('No'), findsOneWidget);
     expect(find.text('Prefer not to say'), findsOneWidget);

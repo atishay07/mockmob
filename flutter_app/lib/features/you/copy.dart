@@ -1,18 +1,33 @@
-/// Every user-facing string of the You feature (spec 5.10 to 5.12). Binding rules apply:
-/// sentence case, no middle dots, no emoji, no arrows, no exclamation successes, 12-hour times,
-/// "On this phone" for local work, "Saved on the server" for acknowledged work, no prices.
+/// Every user-facing string of the You feature. Binding rules apply: sentence case, no middle
+/// dots, no emoji, no arrows, no exclamation successes, 12-hour times, "Saved" only for work the
+/// server acknowledged, no prices. Voice: a senior who has been through CUET, warm and plain.
 library;
 
 import '../../core/copy/copy.dart';
 
 abstract final class YouCopy {
-  // Hub (5.10).
+  // The sheet card (identity first).
   static const hubTitle = 'You';
+  static const sheetOverline = 'Your sheet, CUET UG 2027';
+  static const sheetNameFallback = 'Your sheet';
+  static String signedInAs(String email) => 'Signed in as $email';
+  static const fieldCourse = 'Course';
+  static const fieldColleges = 'Colleges';
+  static const fieldSubjects = 'Subjects';
+  static const fieldWeek = 'This week';
+  static const fieldWeekFailed = 'This week did not load.';
+  static const rhythmOffLine = 'Rhythm is off. Your record stays.';
+  static String collegeChoice(int rank, String name) => 'Choice $rank, $name';
+
+  // The token shelf.
+  static const shelfTitle = 'Milestones';
+  static const shelfSeeAll = 'See all';
+  static const shelfLoadFailed = 'Your milestones did not load.';
+
+  // Hub groups and rows.
   static const hubProgress = 'Progress';
   static const hubSettings = 'Settings';
   static const hubTools = 'CUET tools';
-  static String signedInAs(String email) => 'Signed in as $email';
-
   static const rowRhythm = 'Weekly goal and rhythm';
   static const rowRecord = 'Repair record';
   static const rowMilestones = 'Milestones';
@@ -21,25 +36,28 @@ abstract final class YouCopy {
   static const rowAppearance = 'Appearance and feel';
   static const rowPrivacy = 'Privacy';
   static const rowAccount = 'Account';
-  static const rowHelp = 'Help';
+  static const rowHelp = 'Help and about';
   static const toolCompass = 'Compass';
   static const toolCombo = 'Combo Planner';
   static const toolOpenFailed = 'We could not open that page. Check your connection and try again.';
+  static const accountPro = 'Pro';
 
   static String goalNote(int days) => 'Goal: ${days == 1 ? '1 day' : '$days days'} a week';
   static String weeksInRhythm(int weeks) => 'Weeks in rhythm: $weeks';
   static String pausedUntil(String date) => 'Rhythm is paused until $date.';
+  static String weekCount(int days, int goal) => '$days of ${plural(goal, 'study day')}';
 
   static const privacyOffForAccount = 'Off for your account';
   static const privacyOn = 'Usage data is on';
   static const privacyOff = 'Usage data is off';
   static const privacyUnknown = 'Usage data is treated as off';
 
-  // Goal editor (5.11, 6.1).
+  // Goal editor.
   static const goalTitle = 'Weekly goal';
   static const goalQuestion = 'How many days a week do you want to study?';
   static const goalCounts = 'A study day is a day you finish a practice, a mock or a repair.';
   static String goalFigure(int days) => days == 1 ? '1 day a week' : '$days days a week';
+  static String goalUnit(int days) => days == 1 ? 'day a week' : 'days a week';
   static const goalRestDays = 'The other days are rest days.';
   static const goalEveryDay = 'Every day of the week. There are no rest days at this goal.';
   static const goalStudy = 'study';
@@ -57,15 +75,17 @@ abstract final class YouCopy {
   static const tryAgain = 'Try again';
   static const goalStale = 'Showing the goal from the last time you were online.';
 
-  // Appearance and feel (5.12.2).
+  // Appearance and feel.
   static const appearanceTitle = 'Appearance and feel';
   static const themeHeading = 'Theme';
+  static const themeDark = 'Night';
+  static const themeDarkNote = 'Warm charcoal and lamp light';
+  static const themeLight = 'Daylight';
+  static const themeLightNote = 'Warm paper';
   static const themeSystem = 'Match phone';
-  static const themeSystemNote = 'Light or dark, whichever your phone uses.';
-  static const themeLight = 'Light';
-  static const themeLightNote = 'Paper colours.';
-  static const themeDark = 'Dark';
-  static const themeDarkNote = 'Night colours.';
+  static const themeSystemNote = 'Follows your phone';
+  static const glassHeading = 'Glass';
+  static const glassNote = 'Full blurs the dock and sheets. Lite and Off are easier on older phones.';
   static const feelHeading = 'Feel';
   static const reduceMotion = 'Reduce motion';
   static const reduceMotionNote = 'Keeps screens still. It follows your phone unless you turn it on here.';
@@ -84,7 +104,7 @@ abstract final class YouCopy {
   static const celebrationsQuietNote = 'The same moments as plain text, with no motion or tap.';
   static const celebrationsOffNote = 'Nothing extra. Your record still updates.';
 
-  // Privacy and usage data (5.12.3).
+  // Privacy and usage data.
   static const privacyTitle = 'Usage data';
   static const consentExplanation =
       'We count which parts of the app are used, such as starting a mock or finishing a repair, '
@@ -97,15 +117,13 @@ abstract final class YouCopy {
       'These are all of them. Each one has a name, a time, your app version and, at most, a few '
       'plain labels such as the subject or the kind of practice.';
   static const offForAccount = 'Off for your account.';
-  static const offForAccountNote =
-      'Usage data can only be turned on by someone who says they are 18 or older.';
+  static const offForAccountNote = 'Usage data can only be turned on by someone who says they are 18 or older.';
+  static const operationalHeading = 'What this switch does not cover';
   static const operationalNote =
-      'Your sessions, scores, notification settings and plan are kept to run your account. This '
-      'switch does not control them. Google Play also reports crashes and performance to us, and '
-      'this switch does not control that either.';
+      'Your sessions, scores, notification settings and plan are kept to run your account. Google '
+      'Play also reports crashes and performance to us. This switch controls neither.';
   static const changeAnswer = 'Change my answer';
   static const ageQuestion = 'Are you 18 or older?';
-  static const ageNote = 'This only decides your data settings.';
   static const ageYes = 'Yes';
   static const ageNo = 'No';
   static const agePreferNot = 'Prefer not to say';
@@ -115,8 +133,7 @@ abstract final class YouCopy {
   static const consentEnabling = 'Saving your choice';
   static const consentTurningOff = 'Turning off. Collection has already stopped.';
   static const consentEnableFailed = 'We could not save that. Usage data is still off. Try again.';
-  static const consentWithdrawn =
-      'Usage data is off. We stopped collecting it. Earlier usage data was deleted.';
+  static const consentWithdrawn = 'Usage data is off. We stopped collecting it. Earlier usage data was deleted.';
   static const consentEnabled = 'Usage data is on. Saved. You can turn it off here any time.';
   static const consentWithdrawnShort = 'Usage data is off. We stopped collecting it.';
   static const consentDeleteFailed = 'Your choice was saved, but deleting earlier data failed. Try again.';
@@ -124,7 +141,7 @@ abstract final class YouCopy {
       'Collection is off on this phone. We could not reach the server to delete earlier data. Try again.';
   static const ageChangeFailed = 'We could not save your answer. Try again.';
 
-  // Account (5.12.4).
+  // Account.
   static const accountTitle = 'Account';
   static const accountName = 'Name';
   static const accountEmail = 'Email';
@@ -142,10 +159,11 @@ abstract final class YouCopy {
   static const signOutStay = 'Stay signed in';
   static const signOutAnyway = 'Sign out anyway';
   static const signOutFailed = 'We could not sign you out. Try again.';
+  static const cancel = 'Cancel';
   static const deleteRow = 'Delete account';
   static const deleteRowNote = 'Ask us to delete your account and study records';
 
-  // Delete account (5.12.4).
+  // Delete account.
   static const deleteTitle = 'Delete your MockMob account';
   static const deleteConsequences =
       'We delete your account and study records within 30 days. Payment records required by law '
@@ -165,11 +183,11 @@ abstract final class YouCopy {
   static const deleteSignOutNote = 'Signing out ends your session on this phone.';
   static const deleteSignOutFailed = 'Your request is recorded, but we could not sign you out. Try again.';
 
-  // Help (5.12.4).
-  static const helpTitle = 'Help';
+  // Help and about.
+  static const helpTitle = 'Help and about';
   static const supportEmail = 'support@mockmob.in';
   static const helpContact = 'Write to us';
-  static const helpContactNote = 'Questions, problems with a result, or anything that looks wrong.';
+  static const helpContactNote = 'A result that looks wrong, a question that confused you, or anything else. A person reads every mail.';
   static const helpEmail = 'Email support';
   static const helpCopy = 'Copy address';
   static const helpCopied = 'Address copied.';
@@ -177,7 +195,35 @@ abstract final class YouCopy {
   static const helpPolicies = 'Policies';
   static const helpPrivacyPolicy = 'Privacy policy';
   static const helpTerms = 'Terms of use';
-  static const helpNonAffiliation = 'MockMob is not affiliated with NTA or Delhi University.';
+  static const aboutHeading = 'About';
+  static const helpNonAffiliation =
+      'MockMob is an independent practice app. It is not affiliated with the National Testing Agency '
+      '(NTA) or the University of Delhi.';
+  static const sourcesHeading = 'Where the facts come from';
+  static const sourceExam = 'Exam pattern and dates';
+  static const sourceExamFrom = 'NTA, cuet.nta.nic.in';
+  static const sourceCourses = 'Course eligibility';
+  static const sourceCoursesFrom = 'DU Bulletin 2026-27, du.ac.in';
+  static const sourceScores = 'College scores';
+  static const sourceScoresFrom = 'CSAS 2026, Round 1, admission.uod.ac.in';
   static String helpVersion(String version) => 'Version $version';
   static const supportMailSubject = 'MockMob app help';
+}
+
+/// Display names for the public subject ids, so the sheet never prints a raw id.
+String subjectDisplayName(String id) => switch (id) {
+      'accountancy' => 'Accountancy',
+      'business_studies' || 'business' => 'Business Studies',
+      'economics' => 'Economics',
+      'english' => 'English',
+      'general_test' || 'gat' => 'General Test',
+      'mathematics' || 'maths' => 'Mathematics',
+      'applied_mathematics' => 'Applied Mathematics',
+      _ => _humanize(id),
+    };
+
+String _humanize(String id) {
+  final words = id.replaceAll(RegExp(r'[_\-]+'), ' ').trim();
+  if (words.isEmpty) return id;
+  return words[0].toUpperCase() + words.substring(1);
 }

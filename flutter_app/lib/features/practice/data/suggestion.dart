@@ -1,0 +1,141 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../core/api/api.dart';
+import '../../../core/auth/auth_state.dart';
+import '../../../core/domain/domain.dart';
+import '../../../core/models/models.dart';
+import '../../../core/repositories/attempts_repository.dart';
+import '../../../core/repositories/session_draft_repository.dart';
+import '../model/practice_selection.dart';
+import 'practice_catalog.dart';
+
+/// The one session the Practice tab suggests at the top, with the evidence behind it. Every
+/// suggestion names a reason the student can check: an open session, a chapter that cost marks
+/// in a named paper, the last paper's subject, or the order of subjects they chose.
+sealed class PracticeSuggestion {
+  const PracticeSuggestion(this.subjectId);
+
+  /// Public subject id (`accountancy`, `general_test`).
+  final String subjectId;
+}
+
+/// A session still open on this phone: the default is to finish it.
+class ResumeSuggestion extends PracticeSuggestion {
+  ResumeSuggestion(this.draft) : super(draft.subject);
+
+  final SessionDraft draft;
+}
+
+/// The chapter that cost the most in the latest paper, as chapter practice of [count].
+class ChapterSuggestion extends PracticeSuggestion {
+  const ChapterSuggestion({
+    required String subjectId,
+    required this.chapter,
+    required this.attempt,
+    required this.marksLost,
+    required this.missed,
+    this.mockNumber,
+  }) : super(subjectId);
+
+  final String chapter;
+
+  /// The evidence: the paper it came from ("Show me" opens it).
+  final Attempt attempt;
+  final int marksLost;
+
+  /// Wrong plus not attempted in that chapter.
+  final int missed;
+
+  /// "Mock 7" when the paper was a mock.
+  final int? mockNumber;
+
+  int get count => defaultPracticeCount;
+
+  PracticeSelection get selection =>
+      PracticeSelection(mode: PracticeMode.chapter, subjectId: subjectId, count: count, chapter: chapter);
+}
+
+/// Quick practice in the subject of the latest paper, when no chapter can be named.
+class SubjectSuggestion extends PracticeSuggestion {
+  const SubjectSuggestion({required String subjectId, required this.attempt}) : super(subjectId);
+
+  final Attempt attempt;
+
+  int get count => defaultPracticeCount;
+
+  PracticeSelection get selection => PracticeSelection(mode: PracticeMode.quick, subjectId: subjectId, count: count);
+}
+
+/// No paper yet (or none readable): ten questions in the first subject the student chose.
+/// [firstEver] is true only when the attempts list is known to be empty; then the quote is asked
+/// with `purpose=baseline`, so a first-use allowance shows on the confirm sheet when it exists.
+class StartingSuggestion extends PracticeSuggestion {
+  const StartingSuggestion({required String subjectId, required this.firstEver}) : super(subjectId);
+
+  final bool firstEver;
+
+  int get count => defaultPracticeCount;
+
+  PracticeSelection get selection => PracticeSelection(
+        mode: PracticeMode.quick,
+        subjectId: subjectId,
+        count: count,
+        purpose: firstEver ? 'baseline' : null,
+      );
+}
+
+/// The public id of an attempt's subject (`gat` is stored for General Test).
+String publicSubjectOf(String internal, List<Subject>? catalog) {
+  for (final s in catalog ?? const <Subject>[]) {
+    if (s.internalId == internal) return s.id;
+  }
+  return internal == 'gat' ? 'general_test' : internal;
+}
+
+/// The rules, in order. Pure, so the precedence is unit tested.
+PracticeSuggestion suggestPractice({
+  required SessionDraft? draft,
+  required DateTime now,
+  required List<Attempt>? attempts,
+  required List<String> chosenSubjects,
+  List<Subject>? catalog,
+}) {
+  if (draft != null && resumableDraft(draft, sessionId: draft.sessionId, nowMs: now.millisecondsSinceEpoch)) {
+    return ResumeSuggestion(draft);
+  }
+  final first = chosenSubjects.isEmpty ? 'accountancy' : chosenSubjects.first;
+  final all = attempts;
+  if (all == null || all.isEmpty) return StartingSuggestion(subjectId: first, firstEver: all != null);
+
+  final chosen = chosenSubjects.toSet();
+  final sorted = [...all]..sort((a, b) => b.completedAt.compareTo(a.completedAt));
+  final latest = sorted.firstWhere(
+    (a) => chosen.isEmpty || chosen.contains(publicSubjectOf(a.subject, catalog)),
+    orElse: () => sorted.first,
+  );
+  final subject = publicSubjectOf(latest.subject, catalog);
+  final leader = observedChapterBreakdown(latest).leader;
+  if (leader != null && leader.chapter.trim().isNotEmpty && leader.wrong > 0) {
+    return ChapterSuggestion(
+      subjectId: subject,
+      chapter: leader.chapter.trim(),
+      attempt: latest,
+      marksLost: leader.marksLost,
+      missed: leader.wrong + leader.unattempted,
+      mockNumber: mockOrdinal(all, latest),
+    );
+  }
+  return SubjectSuggestion(subjectId: subject, attempt: latest);
+}
+
+/// The suggestion for the Practice tab, from what is already on the phone (drafts, cached
+/// attempts, the chosen subjects). Never waits on the network: unknown attempts give the
+/// starting suggestion until they arrive.
+final practiceSuggestionProvider = Provider.autoDispose<PracticeSuggestion>((ref) {
+  final draft = ref.watch(latestSessionDraftProvider).value;
+  final attempts = ref.watch(attemptsRepositoryProvider.select((s) => s.value));
+  final subjects = ref.watch(authSnapshotProvider.select((a) => a.subjects));
+  final catalog = ref.watch(practiceSubjectsProvider).value;
+  final now = ref.watch(nowProvider)();
+  return suggestPractice(draft: draft, now: now, attempts: attempts, chosenSubjects: subjects, catalog: catalog);
+});

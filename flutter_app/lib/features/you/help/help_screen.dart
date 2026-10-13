@@ -11,8 +11,9 @@ import '../widgets/you_page.dart';
 import '../widgets/you_row.dart';
 import '../you_providers.dart';
 
-/// Help (spec 5.12.4): the support address, the two policies, the non-affiliation line and the
-/// app version. The address is always on screen as text, so nothing depends on an email app.
+/// Help and about: the support address (always on screen as text, so nothing depends on an email
+/// app), the two policies, and About, which is where the non-affiliation statement and the
+/// official sources live (brief section 8).
 class HelpScreen extends ConsumerStatefulWidget {
   const HelpScreen({super.key});
 
@@ -62,47 +63,110 @@ class _HelpScreenState extends ConsumerState<HelpScreen> {
     return YouPage(
       title: YouCopy.helpTitle,
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, 0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(YouCopy.helpContact, style: type.title),
-              const SizedBox(height: MmSpace.s8),
-              Text(YouCopy.helpContactNote, style: type.body.copyWith(color: colors.ink2)),
-              const SizedBox(height: MmSpace.s12),
-              SelectableText(YouCopy.supportEmail, style: type.subhead),
-              const SizedBox(height: MmSpace.s16),
-              if (_notice != null) ...[
-                if (_noticeIsError)
-                  InlineBanner(message: _notice!, tone: BannerTone.warning)
-                else
-                  Semantics(liveRegion: true, child: ReceiptLine(text: _notice!)),
-                const SizedBox(height: MmSpace.s16),
-              ],
-              KeyButton(label: YouCopy.helpEmail, onPressed: _email),
-              const SizedBox(height: MmSpace.s8),
-              Align(child: KeyButton.quiet(label: YouCopy.helpCopy, onPressed: _copy)),
-            ],
-          ),
+        const SizedBox(height: MmSpace.s8),
+        YouPanel(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(MmSpace.s20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    children: [
+                      const IconWell(LucideIcons.mail),
+                      const SizedBox(width: MmSpace.s12),
+                      Expanded(child: Text(YouCopy.helpContact, style: type.title)),
+                    ],
+                  ),
+                  const SizedBox(height: MmSpace.s12),
+                  Text(YouCopy.helpContactNote, style: type.body.copyWith(color: colors.ink2)),
+                  const SizedBox(height: MmSpace.s12),
+                  SelectableText(YouCopy.supportEmail, style: type.labelLarge.copyWith(fontSize: 17)),
+                  const SizedBox(height: MmSpace.s16),
+                  if (_notice != null) ...[
+                    if (_noticeIsError)
+                      InlineBanner(message: _notice!, tone: BannerTone.warning)
+                    else
+                      Semantics(liveRegion: true, child: ReceiptLine(text: _notice!)),
+                    const SizedBox(height: MmSpace.s16),
+                  ],
+                  KeyButton(label: YouCopy.helpEmail, onPressed: _email),
+                  const SizedBox(height: MmSpace.s4),
+                  Align(child: KeyButton.quiet(label: YouCopy.helpCopy, onPressed: _copy)),
+                ],
+              ),
+            ),
+          ],
         ),
         const GroupHeading(YouCopy.helpPolicies),
-        YouRow(icon: LucideIcons.shieldCheck, title: YouCopy.helpPrivacyPolicy, external: true, onTap: () => _open('/privacy')),
-        YouRow(icon: LucideIcons.fileText, title: YouCopy.helpTerms, external: true, onTap: () => _open('/terms')),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.group, MmSpace.gutter, 0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(YouCopy.helpNonAffiliation, style: type.small.copyWith(color: colors.ink2)),
-              if (version != null) ...[
-                const SizedBox(height: MmSpace.s8),
-                Text(YouCopy.helpVersion(version), style: type.small.copyWith(color: colors.ink2)),
-              ],
-            ],
-          ),
+        YouPanel(
+          inset: MmSpace.gutter + 48,
+          children: [
+            YouRow(icon: LucideIcons.shieldCheck, title: YouCopy.helpPrivacyPolicy, external: true, onTap: () => _open('/privacy')),
+            YouRow(icon: LucideIcons.fileText, title: YouCopy.helpTerms, external: true, onTap: () => _open('/terms')),
+          ],
+        ),
+        const GroupHeading(YouCopy.aboutHeading),
+        YouPanel(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(MmSpace.s20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const MmMark(size: 40),
+                      const SizedBox(width: MmSpace.s12),
+                      ExcludeSemantics(child: Wordmark(height: 26, color: colors.ink)),
+                    ],
+                  ),
+                  const SizedBox(height: MmSpace.s16),
+                  Text(YouCopy.helpNonAffiliation, style: type.body.copyWith(color: colors.ink2)),
+                  if (version != null) ...[
+                    const SizedBox(height: MmSpace.s12),
+                    Text(YouCopy.helpVersion(version), style: type.caption.copyWith(color: colors.ink3)),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
+        const GroupHeading(YouCopy.sourcesHeading),
+        const YouPanel(
+          children: [
+            _Source(YouCopy.sourceExam, YouCopy.sourceExamFrom),
+            _Source(YouCopy.sourceCourses, YouCopy.sourceCoursesFrom),
+            _Source(YouCopy.sourceScores, YouCopy.sourceScoresFrom),
+          ],
         ),
       ],
+    );
+  }
+}
+
+/// One official source: what it is used for, then where it comes from. Selectable, never a link
+/// out of the app.
+class _Source extends StatelessWidget {
+  const _Source(this.what, this.from);
+
+  final String what;
+  final String from;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter, vertical: MmSpace.s12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(what, style: type.caption.copyWith(color: colors.ink3)),
+          const SizedBox(height: 2),
+          SelectableText(from, style: type.labelLarge.copyWith(color: colors.ink)),
+        ],
+      ),
     );
   }
 }

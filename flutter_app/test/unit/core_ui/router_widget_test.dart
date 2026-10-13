@@ -15,7 +15,7 @@ import 'package:mockmob/core/storage/app_prefs.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/storage/storage_providers.dart';
 import 'package:mockmob/core/theme/theme.dart';
-import 'package:mockmob/core/widgets/bottom_nav.dart';
+import 'package:mockmob/core/widgets/dock/dock_pill.dart';
 
 class _Auth extends Notifier<AuthSnapshot> {
   @override
@@ -78,7 +78,7 @@ Future<void> _settle(WidgetTester tester) async {
 
 GoRouter _router(ProviderContainer container) => container.read(routerProvider);
 
-Finder _tab(String label) => find.descendant(of: find.byType(MmBottomNav), matching: find.text(label));
+Finder _tab(String label) => find.descendant(of: find.byType(DockPill), matching: find.text(label));
 
 String _location(ProviderContainer container) => _router(container).routerDelegate.currentConfiguration.uri.toString();
 
@@ -109,12 +109,32 @@ void _test(String name, Future<void> Function(WidgetTester tester) body) {
 void main() {
   setUp(() => SharedPreferencesAsyncPlatform.instance = InMemorySharedPreferencesAsync.empty());
 
-  _test('cold start with a known signed-in user lands on Today with the bottom nav', (tester) async {
+  _test('cold start with a known signed-in user lands on Today with the dock', (tester) async {
     final container = await _pump(tester);
     expect(_location(container), '/today');
-    expect(find.byType(MmBottomNav), findsOneWidget);
+    expect(find.byType(DockPill), findsOneWidget);
     expect(_tab('Practice'), findsOneWidget);
-    expect(_tab('You'), findsOneWidget);
+    expect(_tab('Review'), findsOneWidget);
+    expect(_tab('Learn'), findsNothing, reason: 'Learn is no longer a tab');
+    expect(_tab('You'), findsNothing, reason: 'You opens from the avatar');
+  });
+
+  _test('You and Learn open over the shell, without the dock', (tester) async {
+    final container = await _pump(tester);
+    final router = _router(container);
+    router.go(AppRoutes.you);
+    await _settle(tester);
+    expect(_location(container), '/you');
+    expect(find.byType(DockPill), findsNothing);
+
+    router.go(AppRoutes.learn);
+    await _settle(tester);
+    expect(_location(container), '/learn');
+    expect(find.byType(DockPill), findsNothing);
+
+    router.go(AppRoutes.today);
+    await _settle(tester);
+    expect(find.byType(DockPill), findsOneWidget);
   });
 
   _test('unknown auth shows the splash, signed out shows welcome', (tester) async {
@@ -171,9 +191,9 @@ void main() {
     await _settle(tester);
     expect(_location(container), '/practice/setup/full');
 
-    await tester.tap(_tab('Learn'));
+    await tester.tap(_tab('Review'));
     await _settle(tester);
-    expect(_location(container), '/learn');
+    expect(_location(container), '/review');
 
     // Back to Practice: its pushed screen is still there.
     await tester.tap(_tab('Practice'));
@@ -202,9 +222,9 @@ void main() {
 
   _test('back from another tab goes to Today, then exits', (tester) async {
     final container = await _pump(tester);
-    await tester.tap(_tab('You'));
+    await tester.tap(_tab('Review'));
     await _settle(tester);
-    expect(_location(container), '/you');
+    expect(_location(container), '/review');
 
     final handled = await tester.binding.handlePopRoute();
     await _settle(tester);
@@ -240,7 +260,7 @@ void main() {
   _test('the Review dot follows its provider', (tester) async {
     final container = await _pump(tester);
     final handle = tester.ensureSemantics();
-    expect(find.bySemanticsLabel('Review, tab 3 of 5'), findsOneWidget);
+    expect(find.bySemanticsLabel('Review, tab 3 of 3'), findsOneWidget);
     handle.dispose();
     expect(container.read(reviewDotProvider), isFalse);
   });

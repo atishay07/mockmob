@@ -1,21 +1,26 @@
-// The page frame shared by the three You screens of this feature: a back key, a title, and a
-// scrolling body no wider than 600 dp. Rows are hairline-separated, never nested cards.
+// The page frame shared by the You screens of this feature: the lit back key, a large title,
+// the lamp in the upper left, and a scrolling body no wider than 600 dp. Same frame as the rest
+// of You, so moving between them never jumps.
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/key_button.dart';
+import '../../../core/widgets/materials/light_field.dart';
+import '../../you/widgets/you_page.dart' show BackKey;
 
 class RhythmPage extends StatelessWidget {
-  const RhythmPage({super.key, required this.title, required this.child, this.scrollable = true});
+  const RhythmPage({super.key, required this.title, required this.child, this.scrollable = true, this.padded = true});
 
   final String title;
   final Widget child;
 
-  /// False when [child] scrolls by itself (a state view).
+  /// False when [child] fills the rest of the page by itself (a state view).
   final bool scrollable;
+
+  /// Gives [child] the screen gutter. Off for children that bring their own (panels).
+  final bool padded;
 
   void _back(BuildContext context) {
     final router = GoRouter.maybeOf(context);
@@ -32,56 +37,65 @@ class RhythmPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final body = scrollable
-        ? SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s48),
-            child: child,
-          )
-        : child;
+    final bottom = MediaQuery.viewPaddingOf(context).bottom;
+    final header = [
+      Padding(
+        padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.gutter, 0),
+        child: Align(alignment: Alignment.centerLeft, child: BackKey(onTap: () => _back(context))),
+      ),
+      Padding(
+        padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s12, MmSpace.gutter, MmSpace.s8),
+        child: Semantics(header: true, child: Text(title, style: type.headline)),
+      ),
+    ];
+    final body = padded ? Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: child) : child;
+
     return Scaffold(
       backgroundColor: colors.ground,
-      body: SafeArea(
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s4, MmSpace.gutter, 0),
-                  child: Row(
-                    children: [
-                      Semantics(
-                        button: true,
-                        label: 'Back',
-                        excludeSemantics: true,
-                        child: GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onTap: () => _back(context),
-                          child: SizedBox(
-                            width: MmTarget.min,
-                            height: MmTarget.min,
-                            child: Icon(LucideIcons.arrowLeft, size: 24, color: colors.ink),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Semantics(header: true, child: Text(title, style: type.title)),
-                      ),
-                    ],
+      body: Stack(
+        children: [
+          Positioned(
+            left: 0,
+            right: 0,
+            top: 0,
+            height: 320,
+            child: IgnorePointer(
+              child: LightField(
+                pools: [
+                  LightPool(
+                    color: colors.lamp.withValues(alpha: colors.isNight ? 0.13 : 0.10),
+                    center: const Alignment(-1.15, -1.25),
+                    radius: 0.95,
+                    aspect: 1.4,
                   ),
-                ),
-                Expanded(child: body),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
+          SafeArea(
+            bottom: false,
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
+                child: scrollable
+                    ? ListView(
+                        padding: EdgeInsets.only(bottom: MmSpace.s48 + bottom),
+                        children: [...header, const SizedBox(height: MmSpace.s8), body],
+                      )
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [...header, Expanded(child: child)],
+                      ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
-/// A hairline-topped row: [child] with an optional trailing widget, at least 44 dp tall.
+/// A hairline-topped row: [child] with an optional trailing widget, at least 48 dp tall.
 class HairlineRow extends StatelessWidget {
   const HairlineRow({super.key, required this.child, this.trailing, this.first = false, this.padding});
 
@@ -113,7 +127,7 @@ class HairlineRow extends StatelessWidget {
   }
 }
 
-/// A group heading: sentence case Gabarito label, no kicker caps.
+/// A group heading: sentence case, quiet, no kicker caps.
 class GroupHeading extends StatelessWidget {
   const GroupHeading(this.text, {super.key});
 
@@ -122,13 +136,13 @@ class GroupHeading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: MmSpace.s8),
-      child: Semantics(header: true, child: Text(text, style: context.mmType.subhead)),
+      padding: const EdgeInsets.only(left: 4, bottom: MmSpace.s8),
+      child: Semantics(header: true, child: Text(text, style: context.mmType.labelLarge.copyWith(color: context.mmColors.ink2))),
     );
   }
 }
 
-/// A quiet key whose label lines up with the text above it: the key keeps its 44 dp target and
+/// A quiet key whose label lines up with the text above it: the key keeps its 48 dp target and
 /// its label sits where the body text starts, not 16 dp in.
 class FlushQuietKey extends StatelessWidget {
   const FlushQuietKey({super.key, required this.label, required this.onPressed});

@@ -6,7 +6,6 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../model/practice_result_model.dart';
-import 'pressable.dart';
 
 /// How a not-attempted question is being shown: hidden answer, a private try, or the answer.
 enum BlankMode { question, trying, answer }
@@ -51,23 +50,26 @@ class ResultQuestionRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final header = Pressable(
-      onTap: onToggle,
+    final header = Semantics(
       expanded: expanded,
+      child: MmPressable(
+      onTap: onToggle,
       semanticsLabel: '${PracticeCopy.questionNumber(item.number)}, $_status${item.chapter == null ? '' : ', ${item.chapter}'}',
-      minHeight: 60,
-      radius: MmRadius.small,
-      builder: (context, pressed) => Padding(
+      focusRadius: MmRadius.keyAll,
+      pressedScale: 0.985,
+      builder: (context, pressed, _) => ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 60),
+        child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4, vertical: MmSpace.s12),
         child: Row(
           children: [
-            QuestionStrip(cells: [item.cell], columns: 1, cellSize: 24, gap: 0),
+            QuestionStrip(cells: [item.cell], columns: 1, cellSize: 22, gap: 0),
             const SizedBox(width: MmSpace.s12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${PracticeCopy.questionNumber(item.number)}, $_status', style: type.subhead.copyWith(fontSize: 16)),
+                  Text('${PracticeCopy.questionNumber(item.number)}, $_status', style: type.cardTitle.copyWith(fontSize: 16)),
                   if (item.chapter != null) Text(item.chapter!, style: type.small.copyWith(color: colors.ink2)),
                 ],
               ),
@@ -75,6 +77,8 @@ class ResultQuestionRow extends StatelessWidget {
             ExcludeSemantics(child: Icon(expanded ? LucideIcons.chevronUp : LucideIcons.chevronDown, size: 20, color: colors.ink3)),
           ],
         ),
+      ),
+      ),
       ),
     );
 
@@ -259,23 +263,26 @@ class _Footer extends StatelessWidget {
 }
 
 class _Letter extends StatelessWidget {
-  const _Letter(this.letter);
+  const _Letter(this.letter, {this.state = BubbleState.hollow});
 
   final String letter;
+  final BubbleState state;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
+    final inked = state == BubbleState.filled;
+    final wrong = state == BubbleState.wrong;
     return Container(
       width: 28,
       height: 28,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: colors.sunken,
-        borderRadius: MmRadius.smallAll,
-        border: Border.all(color: colors.lineStrong),
+        shape: BoxShape.circle,
+        color: inked ? colors.volt : (wrong ? colors.wrongBorder : Colors.transparent),
+        border: Border.all(color: inked ? colors.volt : (wrong ? colors.wrongBorder : colors.lineStrong), width: 1.5),
       ),
-      child: Text(letter, style: context.mmType.label.copyWith(color: colors.ink)),
+      child: Text(letter, style: context.mmType.label.copyWith(color: inked ? colors.voltInk : (wrong ? (colors.isNight ? colors.wrongText : colors.wrongSurface) : colors.ink2))),
     );
   }
 }
@@ -304,7 +311,7 @@ class OptionLine extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final marked = isGiven || isKey;
-    final Color fill = givenWrong ? colors.wrongSurface : colors.raised;
+    final Color fill = givenWrong ? colors.wrongSurface : colors.ground;
     final Color border = givenWrong ? colors.wrongBorder : (marked ? colors.ink : colors.line);
     final tag = switch ((isGiven, isKey)) {
       (true, true) => '$givenLabel, the correct answer',
@@ -319,17 +326,16 @@ class OptionLine extends StatelessWidget {
       label: '${option.key}. ${option.text}${tag == null ? '' : '. $tag'}',
       excludeSemantics: true,
       child: DecoratedBox(
-        decoration: BoxDecoration(
+        decoration: ShapeDecoration(
           color: fill,
-          borderRadius: MmRadius.keyAll,
-          border: Border.all(color: border, width: marked ? 2 : 1),
+          shape: RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll, side: BorderSide(color: border, width: marked ? 1.5 : 1)),
         ),
         child: Padding(
           padding: const EdgeInsets.all(MmSpace.s12),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _Letter(option.key),
+              _Letter(option.key, state: givenWrong ? BubbleState.wrong : (isKey ? BubbleState.filled : BubbleState.hollow)),
               const SizedBox(width: MmSpace.s12),
               Expanded(
                 child: Column(

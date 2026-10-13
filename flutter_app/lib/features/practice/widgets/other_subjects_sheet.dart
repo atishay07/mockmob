@@ -5,7 +5,6 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/practice_catalog.dart';
-import 'pressable.dart';
 
 /// Opens the remaining supported subjects. Returns the chosen public subject id.
 Future<String?> showOtherSubjects(BuildContext context, List<SubjectChoice> subjects) {
@@ -33,18 +32,37 @@ class OtherSubjectsList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (final s in subjects)
-          Pressable(
+          MmPressable(
             onTap: () => onPick(s.id),
-            minHeight: 52,
-            builder: (_, _) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4, vertical: MmSpace.s12),
-              child: Row(
-                children: [
-                  Expanded(child: Text(s.name, style: type.subhead)),
-                  ExcludeSemantics(child: Icon(LucideIcons.chevronRight, size: 20, color: colors.ink3)),
-                ],
-              ),
-            ),
+            semanticsLabel: s.name,
+            focusRadius: MmRadius.keyAll,
+            pressedScale: 0.985,
+            builder: (context, pressed, _) {
+              final art = MmArt.subjectObject(s.id);
+              return DecoratedBox(
+                decoration: ShapeDecoration(
+                  color: pressed ? colors.ink.withValues(alpha: 0.06) : Colors.transparent,
+                  shape: const RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll),
+                ),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(minHeight: 56),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: MmSpace.s8),
+                    child: Row(
+                      children: [
+                        SizedBox.square(
+                          dimension: 40,
+                          child: art == null ? Icon(LucideIcons.bookMarked, size: 20, color: colors.ink2) : ArtImage(art, width: 40, height: 40),
+                        ),
+                        const SizedBox(width: MmSpace.s12),
+                        Expanded(child: Text(s.name, style: type.labelLarge)),
+                        Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
           ),
       ],
     );

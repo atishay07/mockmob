@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/haptics/haptics.dart';
-import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 
-/// Seven numbered circles, one per possible goal. Tapping a circle sets the goal to that number:
-/// the circles up to it fill ink (study days) and the rest stay hairline (rest days), with a
-/// bracket underneath that names the split. The picture is the explanation, so the rest-days
-/// idea needs no extra screen. State is the fill plus the words, never colour alone.
+/// Seven numbered answer bubbles, one per possible goal. Tapping bubble 4 sets the goal to four:
+/// bubbles 1 to 4 ink (study days, the ink spreading from the finger) and the rest stay open
+/// rings (rest days), with a bracket underneath that names the split. The picture is the
+/// explanation. State is the fill, the ring and the words, never colour alone.
 class GoalPicker extends ConsumerWidget {
   const GoalPicker({super.key, required this.value, required this.onChanged});
 
@@ -18,14 +18,13 @@ class GoalPicker extends ConsumerWidget {
   /// Null disables the picker (a save is in flight).
   final ValueChanged<int>? onChanged;
 
-  static const double circle = 44;
+  static const double bubble = 36;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final reduced = Motion.reduced(context);
-    // The numerals sit in a fixed circle, so they stop growing at 1.3x. The words below scale.
+    // The numerals sit in a fixed bubble, so they stop growing at 1.3x. The words below scale.
     final numeralScaler = MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.3);
 
     return Semantics(
@@ -35,10 +34,10 @@ class GoalPicker extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               for (var day = 1; day <= 7; day++)
-                Semantics(
+                Expanded(
+                  child: Semantics(
                   inMutuallyExclusiveGroup: true,
                   button: true,
                   selected: day == value,
@@ -50,17 +49,10 @@ class GoalPicker extends ConsumerWidget {
                     behavior: HitTestBehavior.opaque,
                     onTap: onChanged == null ? null : () => _pick(ref, day),
                     child: SizedBox(
-                      width: circle,
-                      height: circle,
-                      child: Center(
-                        child: AnimatedScale(
-                          scale: day == value ? 1.0 : 0.92,
-                          duration: reduced ? Duration.zero : Motion.ui,
-                          curve: Motion.out,
-                          child: _Dot(day: day, filled: day <= value, current: day == value, scaler: numeralScaler),
-                        ),
-                      ),
+                      height: MmTarget.min,
+                      child: Center(child: _DayBubble(day: day, filled: day <= value, current: day == value, scaler: numeralScaler)),
                     ),
+                  ),
                   ),
                 ),
             ],
@@ -72,7 +64,11 @@ class GoalPicker extends ConsumerWidget {
               children: [
                 Expanded(
                   flex: value,
-                  child: _Bracket(label: YouCopy.goalStudy, color: colors.ink, textStyle: type.label.copyWith(color: colors.ink)),
+                  child: _Bracket(
+                    label: YouCopy.goalStudy,
+                    color: colors.isNight ? colors.volt : colors.accentText,
+                    textStyle: type.label.copyWith(color: colors.ink),
+                  ),
                 ),
                 if (value < 7) ...[
                   const SizedBox(width: MmSpace.s4),
@@ -91,13 +87,13 @@ class GoalPicker extends ConsumerWidget {
 
   void _pick(WidgetRef ref, int day) {
     if (day == value) return;
-    ref.read(hapticsProvider).tick();
+    ref.read(hapticsProvider).selection();
     onChanged!(day);
   }
 }
 
-class _Dot extends StatelessWidget {
-  const _Dot({required this.day, required this.filled, required this.current, required this.scaler});
+class _DayBubble extends StatelessWidget {
+  const _DayBubble({required this.day, required this.filled, required this.current, required this.scaler});
 
   final int day;
   final bool filled;
@@ -108,23 +104,25 @@ class _Dot extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: filled ? colors.ink : Colors.transparent,
-        border: Border.all(color: filled ? colors.ink : colors.lineStrong, width: current ? 2 : 1),
-      ),
-      child: SizedBox(
-        width: GoalPicker.circle - 4,
-        height: GoalPicker.circle - 4,
-        child: Center(
-          child: Text(
-            '$day',
-            textScaler: scaler,
-            style: type.button.copyWith(color: filled ? colors.ground : colors.ink3),
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Bubble(
+          state: filled ? BubbleState.filled : BubbleState.hollow,
+          size: GoalPicker.bubble,
+          emphasis: current,
+          inkOrigin: const Offset(-0.5, -0.5),
+        ),
+        Text(
+          '$day',
+          textScaler: scaler,
+          style: type.button.copyWith(
+            fontSize: 15,
+            fontWeight: FontWeight.w700,
+            color: filled ? colors.voltInk : colors.ink3,
           ),
         ),
-      ),
+      ],
     );
   }
 }

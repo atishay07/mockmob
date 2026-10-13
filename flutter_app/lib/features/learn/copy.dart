@@ -6,7 +6,9 @@ import '../../core/models/study.dart';
 
 abstract final class LearnCopy {
   // Tab.
-  static const String title = 'Learn';
+  static const String title = 'Concepts';
+  static const String subtitle = 'Short lessons and recall cards, from the chapters you practise.';
+  static const String back = 'Back';
   static const String lessonsHeading = 'Lessons';
   static const String nextLessonHeading = 'Next lesson';
   static const String nothingDue = 'Nothing is due right now.';
@@ -15,13 +17,13 @@ abstract final class LearnCopy {
   static const String newCardsPaused = 'New cards are paused until your reviews are caught up.';
   static const String resumeHeading = 'Pick up where you left off';
   static const String resumeKey = 'Continue';
-  static const String disabledTitle = 'Learning is not available right now.';
+  static const String disabledTitle = 'Concepts are paused right now.';
   static const String disabledMessage = 'Practice and Review are still open.';
   static const String disabledAction = 'Open Practice';
-  static const String loadFailedTitle = 'We could not load Learn';
+  static const String loadFailedTitle = 'We could not load Concepts';
   static const String loadFailedMessage = 'Check your connection and try again.';
   static const String offlineTitle = 'You are offline';
-  static const String offlineMessage = 'Learn shows your lessons once it has loaded them. Connect and try again.';
+  static const String offlineMessage = 'Your lessons show here once they have loaded. Connect and try again.';
   static const String tryAgain = 'Try again';
   static const String closeRun = 'Close';
   static const String noLessonsTitle = 'No lessons yet';
@@ -67,10 +69,10 @@ abstract final class LearnCopy {
   static const String continueLesson = 'Continue lesson';
   static const String lessonAgain = 'Go through it again';
   static const String unitMissingTitle = 'This lesson is not available';
-  static const String unitMissingMessage = 'It may have been updated or withdrawn. Go back to Learn for the current list.';
+  static const String unitMissingMessage = 'It may have been updated or withdrawn. Go back to Concepts for the current list.';
   static const String unitOfflineTitle = 'This lesson is not on this phone';
   static const String unitOfflineMessage = 'Connect to open it. Lessons you open can be kept for offline use.';
-  static const String backToLearn = 'Back to Learn';
+  static const String backToLearn = 'Back to Concepts';
 
   static String reviewLessonCards(int n) => 'Review ${plural(n, 'card')} from this lesson';
 
@@ -126,7 +128,7 @@ abstract final class LearnCopy {
   static String stepSemantics(int n, int total, String text) => 'Step $n of $total. $text';
 
   // Run ending (spec 5.9).
-  static const String doneBack = 'Back to Learn';
+  static const String doneBack = 'Back to Concepts';
   static const String doneFinish = 'Finish for now';
   static const String doneAgainHeading = 'Marked Forgot or Hard';
   static const String doneRetry = 'Send now';

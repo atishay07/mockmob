@@ -9,7 +9,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../core/haptics/haptics.dart';
 import '../../core/motion/reduced_motion.dart';
 import '../../core/storage/app_prefs.dart';
-import '../../core/storage/prefs_store.dart';
 import '../../core/storage/storage_providers.dart';
 import 'copy.dart';
 
@@ -86,50 +85,6 @@ Future<void> setReduceMotion(WidgetRef ref, bool value) async {
     // Applies for this session.
   }
 }
-
-/// How much celebration the student wants (spec 6.2): Full, Quiet (L0 and L1 as text) or Off.
-enum CelebrationMode {
-  full,
-  quiet,
-  off;
-
-  static CelebrationMode fromName(String? name) =>
-      CelebrationMode.values.asNameMap()[name] ?? CelebrationMode.full;
-}
-
-/// Where the celebration choice is stored. Replaced in tests.
-final celebrationStoreProvider = Provider<PrefsStore>((ref) => SharedPrefsStore());
-
-const celebrationPrefKey = 'celebration_mode';
-
-class CelebrationModeSetting extends Notifier<CelebrationMode> {
-  @override
-  CelebrationMode build() {
-    _load();
-    return CelebrationMode.full;
-  }
-
-  Future<void> _load() async {
-    try {
-      final saved = await ref.read(celebrationStoreProvider).getString(celebrationPrefKey);
-      if (ref.mounted && saved != null) state = CelebrationMode.fromName(saved);
-    } on Object {
-      // Keep the default.
-    }
-  }
-
-  Future<void> choose(CelebrationMode mode) async {
-    state = mode;
-    try {
-      await ref.read(celebrationStoreProvider).setString(celebrationPrefKey, mode.name);
-    } on Object {
-      // Applies for this session.
-    }
-  }
-}
-
-/// The saved Celebrations choice. The rhythm and result features read it before they celebrate.
-final celebrationModeProvider = NotifierProvider<CelebrationModeSetting, CelebrationMode>(CelebrationModeSetting.new);
 
 /// Opens the email app for support. Replaced in tests.
 abstract interface class SupportMailer {

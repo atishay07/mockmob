@@ -45,14 +45,9 @@ class WeeklyEndingCard extends StatelessWidget {
     final keep = data.keys.first;
     final others = data.keys.skip(1).toList();
 
-    return Container(
-      width: double.infinity,
+    return FakeGlass(
+      child: Padding(
       padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.s12, MmSpace.s8, MmSpace.cardPadding),
-      decoration: BoxDecoration(
-        color: colors.raised,
-        borderRadius: MmRadius.panelAll,
-        border: Border.all(color: colors.line),
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -97,6 +92,7 @@ class WeeklyEndingCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
       ),
     );
   }

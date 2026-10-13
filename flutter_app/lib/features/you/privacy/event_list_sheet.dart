@@ -32,7 +32,14 @@ class EventList extends StatelessWidget {
             decoration: BoxDecoration(border: Border(bottom: BorderSide(color: colors.line))),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
-              child: Text(text, style: type.body),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(padding: EdgeInsets.only(top: 6), child: Bubble(state: BubbleState.hollow, size: 12)),
+                  const SizedBox(width: MmSpace.s12),
+                  Expanded(child: Text(text, style: type.body)),
+                ],
+              ),
             ),
           ),
       ],
@@ -57,7 +64,6 @@ class _AgeQuestion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final type = context.mmType;
     Widget option(String label, AgeBand band) => Padding(
           padding: const EdgeInsets.only(bottom: MmSpace.s8),
           child: KeyButton.option(
@@ -74,8 +80,6 @@ class _AgeQuestion extends StatelessWidget {
         option(YouCopy.ageYes, AgeBand.adult),
         option(YouCopy.ageNo, AgeBand.minor),
         option(YouCopy.agePreferNot, AgeBand.unknown),
-        const SizedBox(height: MmSpace.s4),
-        Text(YouCopy.ageNote, style: type.small.copyWith(color: context.mmColors.ink2)),
       ],
     );
   }

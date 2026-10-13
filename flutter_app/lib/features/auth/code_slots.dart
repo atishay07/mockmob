@@ -10,10 +10,9 @@ import 'copy.dart';
 const int kCodeLength = 8;
 
 /// The eight-digit code entry. One real text field (so the keyboard, one-time-code autofill
-/// and paste from the keyboard all work) sits invisibly over eight keycap slots. An empty slot
-/// stands up with its lip showing; a typed digit presses its key flush, the same motion as
-/// every key in the app. A wrong code gives the row one short sideways nudge (never under
-/// reduced motion).
+/// and paste from the keyboard all work) sits invisibly over eight boxes. The next box to fill
+/// carries the volt edge; a typed digit settles in. A wrong code gives the row one short
+/// sideways nudge (never under reduced motion).
 class CodeSlots extends StatefulWidget {
   const CodeSlots({
     super.key,
@@ -98,7 +97,7 @@ class _CodeSlotsState extends State<CodeSlots>
           return Transform.translate(offset: Offset(dx, 0), child: child);
         },
         child: SizedBox(
-          height: _slotFace + _lip,
+          height: _slotFace,
           child: Stack(
             children: [
               ExcludeSemantics(
@@ -163,10 +162,11 @@ class _CodeSlotsState extends State<CodeSlots>
   }
 }
 
-const double _slotFace = 52;
-const double _lip = 3;
+const double _slotFace = 60;
 const double _gap = 6;
 
+/// One digit's box. Empty: a quiet well. The next box to fill: a volt edge and a short volt
+/// caret (still, never blinking). A typed digit settles in from 0.9 in condensed figures.
 class _Slot extends StatelessWidget {
   const _Slot({
     required this.digit,
@@ -187,56 +187,40 @@ class _Slot extends StatelessWidget {
     final filled = digit != null;
     final borderColor = hasError
         ? colors.badText
-        : (current ? colors.ink : (filled ? colors.lineStrong : colors.line));
-    final borderWidth = hasError || current ? 2.0 : 1.0;
-    final radius = BorderRadius.circular(12);
+        : (current ? colors.focusRing : (filled ? colors.lineStrong : colors.line));
+    final borderWidth = hasError || current ? 1.5 : 1.0;
 
-    return TweenAnimationBuilder<double>(
-      tween: Tween<double>(end: filled ? 1 : 0),
-      duration: Motion.of(context, Motion.keyDown),
-      curve: Motion.out,
-      builder: (context, depth, _) {
-        return SizedBox(
-          height: _slotFace + _lip,
-          child: Stack(
-            children: [
-              Positioned(
-                top: _lip,
-                left: 0,
-                right: 0,
-                height: _slotFace,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: colors.optionLip,
-                    borderRadius: radius,
+    return DecoratedBox(
+      decoration: ShapeDecoration(
+        color: dimmed ? colors.sunken : (filled ? colors.raised2 : colors.raised),
+        shape: RoundedSuperellipseBorder(
+          borderRadius: BorderRadius.circular(14),
+          side: BorderSide(color: borderColor, width: borderWidth),
+        ),
+      ),
+      child: SizedBox(
+        height: _slotFace,
+        child: Center(
+          child: filled
+              ? TweenAnimationBuilder<double>(
+                  key: ValueKey(digit),
+                  tween: Tween<double>(begin: 0, end: 1),
+                  duration: Motion.of(context, Motion.press),
+                  curve: Motion.out,
+                  builder: (context, t, child) => Opacity(
+                    opacity: t,
+                    child: Transform.scale(scale: 0.9 + 0.1 * t, child: child),
                   ),
-                ),
-              ),
-              Positioned(
-                top: depth * _lip,
-                left: 0,
-                right: 0,
-                height: _slotFace,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: dimmed ? colors.sunken : colors.raised,
-                    borderRadius: radius,
-                    border: Border.all(color: borderColor, width: borderWidth),
+                  child: Text(
+                    digit!,
+                    style: type.figureCompact.copyWith(fontSize: 30, height: 1, color: dimmed ? colors.ink3 : colors.ink),
                   ),
-                  child: Center(
-                    child: Text(
-                      digit ?? '',
-                      style: type.title.copyWith(
-                        color: dimmed ? colors.ink3 : colors.ink,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
+                )
+              : (current
+                  ? Container(width: 2, height: 26, decoration: BoxDecoration(color: colors.focusRing, borderRadius: MmRadius.pillAll))
+                  : null),
+        ),
+      ),
     );
   }
 }

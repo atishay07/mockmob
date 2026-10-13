@@ -1,0 +1,193 @@
+import '../../core/copy/formatters.dart';
+
+/// Every line of the result feature (spec 5.6 and 5.7, Night Sheet brief sections 1.1 and 8).
+/// Sentence case, no middle dots, no exclamation marks, no arrows, 12-hour times. "Saved" only
+/// for what the server acknowledged.
+abstract final class ResultCopy {
+  // ---- Identity -------------------------------------------------------------------------
+
+  /// "Mock 7" or "Quick practice".
+  static String mockLabel(int? ordinal) => ordinal == null ? 'Quick practice' : 'Mock $ordinal';
+
+  /// "Mock 7, Accountancy".
+  static String title(int? ordinal, String subject) => '${mockLabel(ordinal)}, $subject';
+
+  /// "50 questions, 60 minutes."
+  static String paperShape(int questions, int? minutes) =>
+      minutes == null ? '${plural(questions, 'question')}.' : '${plural(questions, 'question')}, ${plural(minutes, 'minute')}.';
+
+  static String submittedAt(DateTime at) => 'Submitted at ${formatTime12(at)}.';
+  static const savedOnServer = 'Saved on the server.';
+  static const answerSheet = 'Answer sheet';
+  static const answers = 'Answers';
+  static String range(int n) => '1 to $n';
+
+  // ---- Sealed sheet (5.6.2) -------------------------------------------------------------
+
+  static const sheetBack = 'Your sheet is back.';
+  static const openWhenReady = 'Marked on the server. Open it when you are ready.';
+  static const openTab = 'Open your result';
+  static const openWithoutReveal = 'Open without the reveal';
+  static const dragHint = 'Swipe up to unfold';
+
+  /// "Mock 7 result, sealed."
+  static String sealedLabel(String mock) => '$mock result, sealed.';
+
+  // ---- Effort, separate from the score (brief 1.1) -----------------------------------------
+
+  /// "Mock 7 done. That's your third full paper this month."
+  static String effort(String mock, int monthCount) => monthCount <= 1
+      ? '$mock done. Your first full paper this month.'
+      : '$mock done. That\'s your ${ordinalWord(monthCount)} full paper this month.';
+
+  static String ordinalWord(int n) {
+    const words = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth'];
+    if (n >= 1 && n <= words.length) return words[n - 1];
+    final mod100 = n % 100;
+    final suffix = (mod100 >= 11 && mod100 <= 13)
+        ? 'th'
+        : switch (n % 10) {
+            1 => 'st',
+            2 => 'nd',
+            3 => 'rd',
+            _ => 'th',
+          };
+    return '$n$suffix';
+  }
+
+  // ---- Story bar --------------------------------------------------------------------------
+
+  static String cardOf(int card, int count) => 'Card $card of $count';
+  static const skip = 'Skip to full result';
+
+  // ---- Card 1, the marks ------------------------------------------------------------------
+
+  static const marks = 'Marks';
+  static String outOf(int max) => 'of $max';
+  static String figureLabel(int marks, int max) => formatMarks(marks, max);
+  static const scheme = '5 marks for each correct answer, minus 1 for each wrong answer.';
+  static String correct(int n) => '$n correct';
+  static String wrong(int n) => '$n wrong';
+  static String notAttempted(int n) => '$n not attempted';
+  static String sum(int c, int w, int u) => '$c + $w + $u = ${plural(c + w + u, 'question')}.';
+  static String previous(String mock, int marks, int max) => '$mock, same format: ${formatSignedNumber(marks)} out of $max.';
+  static String higherCompare(String prev, int pm, String now, int m, int max) =>
+      '$prev: ${formatSignedNumber(pm)} out of $max. $now: ${formatSignedNumber(m)} out of $max.';
+  static const noEarlier = 'No earlier mock to compare.';
+  static const lowerLine = 'Your result is ready. Start with one repeated pattern.';
+  static const showFirstFix = 'Show me the first thing to fix';
+  static const nextMarks = 'Where the marks went';
+  static const heldTitle = 'Marks held';
+  static String heldBody(int n) =>
+      '${plural(n, 'question')} ${n == 1 ? 'is' : 'are'} being checked. Your marks will update here, and we will tell you.';
+  static const keysUnavailable = 'We could not check for answer-key updates just now. Your marks may change.';
+  static String heldCell(int n) => '${plural(n, 'question')} being checked';
+
+  // ---- Card 2, where the marks went ---------------------------------------------------------
+
+  static String breakdownTitle(int lost) => 'Where the other $lost marks went';
+  static String allScored(int max) => 'All $max marks scored.';
+  static const rowScored = 'Scored';
+  static const rowTakenOff = 'Taken off by wrong answers';
+  static const rowNotEarnedWrong = 'Not earned on wrong answers';
+  static const rowNotEarnedBlank = 'Not earned on blank answers';
+  static String marksValue(int n) => '${formatSignedNumber(n)} ${n == 1 || n == -1 ? 'mark' : 'marks'}';
+  static String eachOf(int per, int count) => '$per for each of $count';
+  static String breakdownCaption(int max, int scored, int takenOff, int wrongNot, int blankNot) =>
+      'Of $max marks: ${formatSignedNumber(scored)} scored, $takenOff taken off, $wrongNot not earned on wrong answers, '
+      '$blankNot not earned on blanks. $takenOff + $wrongNot + $blankNot = ${takenOff + wrongNot + blankNot}.';
+  static const showArithmetic = 'Show the arithmetic';
+  static const hideArithmetic = 'Hide the arithmetic';
+  static String arithmetic(int correct, int wrong, int scored) => '$correct × 5 $minusSign $wrong = ${formatSignedNumber(scored)}';
+  static const nextFix = 'The first thing to fix';
+  static const barLabelStart = '0';
+
+  // ---- Card 3, the first thing to fix -------------------------------------------------------
+
+  static String startWith(String chapter) => 'Start with $chapter';
+  static String startWithBlanks(String chapter) => 'Start with the questions you left blank in $chapter';
+  static const startWithWrong = 'Start with your wrong answers';
+  static const nothingToFix = 'Nothing to repair in this mock.';
+  static const costMost = 'This chapter cost the most marks in this mock.';
+  static String chapterCounts(int q, int c, int w, int u) => '${plural(q, 'question')}: $c correct, $w wrong, $u not attempted.';
+  static String blanksEvidence(int u, int q) => 'You did not attempt $u of $q questions here. Blank answers are not mistakes to repair.';
+  static String wrongByNumber(int n) =>
+      'No chapter had enough questions to single out, so here ${n == 1 ? 'is the one answer' : 'are the $n answers'} you got wrong.';
+  static const everyAnswerRight = 'Every answer you gave was correct.';
+  static const earlySignal = 'Early signal from one mock.';
+  static const yourAnswersHere = 'Your answers in this chapter';
+  static const yourWrongAnswers = 'Your wrong answers';
+  static const whyThis = 'Why this?';
+  static const whyTitle = 'Why this chapter';
+  static String whyBody(int wrong, int blank) =>
+      'Each wrong answer is 6 marks below a right one: 5 not earned and 1 taken off. Each blank is 5. '
+      'Here that is ${wrong * 6 + blank * 5} marks, more than any other chapter with 3 or more questions in this mock.';
+  static const nextChoose = 'Choose how to fix it';
+  static const practiseChapter = 'Practise this chapter';
+  static const nextWhatsNext = 'See what is recorded';
+  static String questionTile(int n, String state) => 'Question $n, $state. Opens the answer.';
+
+  // ---- Card 4, the record and the next ask ----------------------------------------------------
+
+  static String inRecord(String mock) => '$mock is in your record.';
+  static String savedAt(DateTime at) => 'Saved on the server at ${formatTime12(at)}.';
+  static String readyToRepair(int n, int? minutes) => minutes == null
+      ? '${plural(n, 'wrong answer')} ready to repair.'
+      : '${plural(n, 'wrong answer')} ready to repair, about $minutes minutes.';
+  static String blanksInReview(int n) => '$n not attempted. ${n == 1 ? 'It is' : 'They are'} in Review.';
+  static const noMistakes = 'No wrong answers to repair from this mock.';
+  static const freshCheck = 'Fresh check: not available yet.';
+  static String walletShort(int needed, int balance) =>
+      'This repair needs $needed explanation credits. You have $balance. Start with ${plural(balance, 'mistake')}, or read the key explanations in Review.';
+  static const tryAgain = 'Try again';
+  static String chip(int minutes) => '$minutes min';
+  static String chipLabel(int minutes, int mistakes) => '$minutes minutes, ${plural(mistakes, 'mistake')}';
+  static String startRepair(int minutes) => 'Start $minutes-minute repair';
+  static const chooseElse = 'Choose something else';
+  static const finishForNow = 'Finish for now';
+  static const reminderAsk = 'Want a reminder when your repair is due? You choose the time.';
+  static const setReminder = 'Set a reminder';
+  static const notNow = 'Not now';
+  static const skipHint = 'Prefer to skip the reveal? Change it in You.';
+  static String firstMockToken(DateTime at) => 'First full mock. Recorded on ${formatDayMonth(at)}.';
+  static String finishLine(String mock, int mistakes) => mistakes == 0
+      ? '$mock is in your record.'
+      : '$mock is in your record. Your ${plural(mistakes, 'mistake')} ${mistakes == 1 ? 'is' : 'are'} waiting in Review.';
+
+  // ---- Full result (5.7) ----------------------------------------------------------------------
+
+  static const replay = 'Replay recap';
+  static String continueRecap(int card) => 'Continue recap, card $card of 4';
+  static String submittedOn(DateTime at) => 'Submitted at ${formatTime12(at)}, ${formatDayMonth(at)}.';
+  static String countsWithDenominators(int c, int w, int u, int n) => '$c of $n correct, $w wrong, $u not attempted.';
+  static const sectionWhere = 'Where the marks went';
+  static const sectionFirstFix = 'The first thing to fix';
+  static const sectionAnswers = 'Answer by answer';
+  static String groupWrong(int n) => 'Wrong answers ($n)';
+  static String groupBlank(int n) => 'Not attempted ($n)';
+  static String groupCorrect(int n) => 'Correct ($n)';
+  static String groupHeld(int n) => 'Being checked ($n)';
+  static String question(int n) => 'Question $n';
+  static const statusCorrect = 'Correct';
+  static const statusWrong = 'Wrong';
+  static const statusBlank = 'Not attempted';
+  static const statusHeld = 'Being checked';
+  static const yourAnswer = 'Your answer';
+  static const correctAnswer = 'Correct answer';
+  static const didNotAnswer = 'You did not answer this question.';
+  static const keyHeld = 'The answer for this question is being checked, so it is not shown yet.';
+  static const keysOff = 'Answers and explanations are not available for this result right now.';
+  static const changedAnswer = 'You changed this answer during the mock.';
+  static const repairThis = 'Repair this mistake';
+  static const repaired = 'Repaired. Recorded on the server.';
+  static const explanation = 'Explanation';
+  static const passage = 'Passage';
+  static String repairN(int n) => 'Repair ${plural(n, 'mistake')}';
+  static String corrected(int n) =>
+      '${plural(n, 'answer key')} ${n == 1 ? 'was' : 'were'} corrected after this mock. Marked answers follow the corrected ${n == 1 ? 'key' : 'keys'}.';
+  static String lastLoaded(DateTime at) => 'Offline. Showing what was last loaded at ${formatTime12(at)}.';
+  static const loadFailed = 'We could not load this result. Your result was recorded. Try again.';
+  static const notFound = 'This result is not on this account.';
+  static const loading = 'Loading your result';
+  static const backToReview = 'Go to Review';
+}

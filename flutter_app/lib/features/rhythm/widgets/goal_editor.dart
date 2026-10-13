@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../you/goal/goal_picker.dart';
 import '../copy.dart';
 import '../data/rhythm_providers.dart';
 
@@ -65,32 +65,14 @@ class _GoalEditorState extends ConsumerState<GoalEditor> {
       children: [
         Text(RhythmCopy.goalPrompt, style: type.label.copyWith(color: colors.ink2)),
         const SizedBox(height: MmSpace.s12),
-        LayoutBuilder(
-          builder: (context, constraints) {
-            // Seven 44 dp targets in one row when they fit; two rows on a very narrow screen.
-            final width = constraints.maxWidth;
-            final spare = width - 7 * 44;
-            return Wrap(
-              spacing: spare >= 0 ? spare / 6 : ((width - 4 * 44) / 3).clamp(4.0, 48.0),
-              runSpacing: MmSpace.s8,
-              children: [
-                for (var d = 1; d <= 7; d++)
-                  _DayChoice(
-                    value: d,
-                    selected: d == _days,
-                    onTap: _saving
-                        ? null
-                        : () {
-                            ref.read(hapticsProvider).tick();
-                            setState(() {
-                              _days = d;
-                              _failed = false;
-                            });
-                          },
-                  ),
-              ],
-            );
-          },
+        GoalPicker(
+          value: _days,
+          onChanged: _saving
+              ? null
+              : (d) => setState(() {
+                    _days = d;
+                    _failed = false;
+                  }),
         ),
         const SizedBox(height: MmSpace.s16),
         Text(RhythmCopy.goalSentence(_days), style: type.body.copyWith(color: colors.ink2)),
@@ -101,43 +83,6 @@ class _GoalEditorState extends ConsumerState<GoalEditor> {
         const SizedBox(height: MmSpace.s24),
         KeyButton(label: RhythmCopy.saveGoal, onPressed: _saving ? null : _save, loading: _saving),
       ],
-    );
-  }
-}
-
-class _DayChoice extends StatelessWidget {
-  const _DayChoice({required this.value, required this.selected, required this.onTap});
-
-  final int value;
-  final bool selected;
-  final VoidCallback? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    return Semantics(
-      button: true,
-      selected: selected,
-      label: '$value ${value == 1 ? 'day' : 'days'} a week',
-      excludeSemantics: true,
-      onTap: onTap,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: SizedBox(
-          width: 44,
-          height: 44,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: selected ? colors.ink : colors.raised,
-              border: Border.all(color: selected ? colors.ink : colors.lineStrong, width: selected ? 2 : 1),
-            ),
-            child: Center(child: Text('$value', style: type.button.copyWith(color: selected ? colors.ground : colors.ink))),
-          ),
-        ),
-      ),
     );
   }
 }

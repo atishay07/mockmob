@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/auth/auth.dart';
 import 'package:mockmob/core/router/router.dart' show intendedRouteProvider;
-import 'package:mockmob/core/router/routes.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/auth/sign_in_controller.dart';
 import 'package:mockmob/features/auth/sign_in_state.dart';
@@ -207,7 +206,7 @@ void main() {
 
   group('continue after sign-in', () {
     test(
-      'a new phone is sent to before you start once, and never again',
+      'a new phone gets the after-sign-in sheet once, and never again',
       () async {
         final prefs = MemoryPrefsStore();
         final gateway = FakeGateway();
@@ -216,38 +215,38 @@ void main() {
         c.read(signInControllerProvider.notifier).setEmail('asha@example.com');
 
         await c.read(signInControllerProvider.notifier).verify('12345678');
-        expect(intended.location, AppRoutes.beforeYouStart);
+        expect(gateway.sheetLaunches, 1);
+        expect(intended.location, isNull, reason: 'the router goes to Today and the sheet opens over it');
         expect(await prefs.getBool('auth_before_you_start_offered'), isTrue);
 
-        intended.clear();
         c.read(signInControllerProvider.notifier).setEmail('asha@example.com');
         await c.read(signInControllerProvider.notifier).verify('12345678');
-        expect(
-          intended.location,
-          isNull,
-          reason: 'the offer is once per phone',
-        );
+        expect(gateway.sheetLaunches, 1, reason: 'the offer is once per phone');
       },
     );
 
     test('a deep link the student was heading to is kept', () async {
       final prefs = MemoryPrefsStore();
-      final c = _container(FakeGateway(), prefs: prefs);
+      final gateway = FakeGateway();
+      final c = _container(gateway, prefs: prefs);
       final intended = c.read(intendedRouteProvider)..remember('/result/abc');
       c.read(signInControllerProvider.notifier).setEmail('asha@example.com');
       await c.read(signInControllerProvider.notifier).verify('12345678');
       expect(intended.location, '/result/abc');
+      expect(gateway.sheetLaunches, 0);
       expect(await prefs.getBool('auth_before_you_start_offered'), isNull);
     });
 
-    test('a failed code takes the remembered offer back', () async {
+    test('a failed code opens nothing and remembers nothing', () async {
+      final prefs = MemoryPrefsStore();
       final gateway = FakeGateway()
         ..verifyError = failure(AuthFailure.invalidCode);
-      final c = _container(gateway);
-      final intended = c.read(intendedRouteProvider);
+      final c = _container(gateway, prefs: prefs);
       c.read(signInControllerProvider.notifier).setEmail('asha@example.com');
       await c.read(signInControllerProvider.notifier).verify('12345678');
-      expect(intended.location, isNull);
+      expect(gateway.sheetLaunches, 0);
+      expect(c.read(intendedRouteProvider).location, isNull);
+      expect(await prefs.getBool('auth_before_you_start_offered'), isNull);
     });
   });
 
@@ -259,7 +258,7 @@ void main() {
       final s = c.read(signInControllerProvider);
       expect(s.problem, isNull);
       expect(s.busy, SignInBusy.none);
-      expect(c.read(intendedRouteProvider).location, isNull);
+      expect(gateway.sheetLaunches, 0);
     });
 
     test('a failure shows the Google line on the email screen', () async {
@@ -272,10 +271,12 @@ void main() {
       expect(s.problemStep, SignInStep.email);
     });
 
-    test('success continues to before you start on a new phone', () async {
-      final c = _container(FakeGateway());
+    test('success opens the after-sign-in sheet on a new phone', () async {
+      final gateway = FakeGateway();
+      final c = _container(gateway);
       await c.read(signInControllerProvider.notifier).signInWithGoogle();
-      expect(c.read(intendedRouteProvider).location, AppRoutes.beforeYouStart);
+      expect(gateway.sheetLaunches, 1);
+      expect(c.read(intendedRouteProvider).location, isNull);
     });
   });
 }

@@ -1,17 +1,27 @@
-// Route builders for the result feature. This feature module owns this file and replaces each
-// placeholder body with its real screen. Keep the function names: lib/core/router/screens.dart
+// Route builders for the result feature. Keep the function names: lib/core/router/screens.dart
 // re-exports them and router.dart binds them to the paths of spec 4.2.
 
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/router/placeholder_screen.dart';
+import 'full/full_result_screen.dart';
+import 'recap/recap_screens.dart';
 
+String _id(GoRouterState state) => state.pathParameters['attemptId'] ?? '';
+
+/// `/result/:attemptId/sealed`: the folded, sealed answer sheet.
 Widget resultSealedScreen(BuildContext context, GoRouterState state) =>
-    const PlaceholderScreen(title: 'Your sheet', route: '/result/:attemptId/sealed');
+    SealedResultScreen(key: ValueKey('sealed-${_id(state)}'), attemptId: _id(state));
 
-Widget resultRecapScreen(BuildContext context, GoRouterState state) =>
-    const PlaceholderScreen(title: 'Recap', route: '/result/:attemptId/recap/:card');
+/// `/result/:attemptId/recap/:card` (card 1 to 4).
+Widget resultRecapScreen(BuildContext context, GoRouterState state) {
+  final card = (int.tryParse(state.pathParameters['card'] ?? '') ?? 1).clamp(1, 4);
+  return RecapScreen(key: ValueKey('recap-${_id(state)}-$card'), attemptId: _id(state), card: card);
+}
 
-Widget resultScreen(BuildContext context, GoRouterState state) =>
-    const PlaceholderScreen(title: 'Result', route: '/result/:attemptId');
+/// `/result/:attemptId?q=12`: the full result, optionally opened at one question.
+Widget resultScreen(BuildContext context, GoRouterState state) => FullResultScreen(
+  key: ValueKey(state.uri.toString()),
+  attemptId: _id(state),
+  focusQuestion: int.tryParse(state.uri.queryParameters['q'] ?? ''),
+);

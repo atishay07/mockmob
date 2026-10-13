@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import '../../core/api/api.dart';
-import '../../core/connectivity/connectivity.dart';
 import '../../core/auth/auth_state.dart';
-import '../../core/models/practice_quote.dart';
+import '../../core/connectivity/connectivity.dart';
 import '../../core/motion/motion.dart';
-import '../../core/repositories/session_draft_repository.dart';
 import '../../core/router/app_shell.dart';
-import '../../core/router/routes.dart';
 import '../../core/theme/theme.dart';
+import '../../core/widgets/widgets.dart';
 import 'copy.dart';
 import 'data/practice_catalog.dart';
 import 'data/practice_quote.dart';
 import 'model/cost_line.dart';
 import 'model/practice_selection.dart';
-import 'widgets/mode_row.dart';
+import 'widgets/chapter_picker.dart';
+import 'widgets/concepts_shelf.dart';
+import 'widgets/confirm_sheet.dart';
+import 'widgets/mode_list.dart';
 import 'widgets/other_subjects_sheet.dart';
-import 'widgets/resume_slot.dart';
-import 'widgets/subject_chips.dart';
+import 'widgets/subject_tiles.dart';
+import 'widgets/suggestion_hero.dart';
 
-/// The Practice tab (spec 5.4): a subject, then the ways to start, each with the cost the quote
-/// states for that subject. Rows open `/practice/setup/:mode`.
+/// The Practice tab (brief 12): one suggested session at the top, lit, with the reason from the
+/// student's own record; then "Choose your own" (subject, mode, and the length on the confirm
+/// sheet); then the Concepts shelf when study content is on. No cost appears on this screen.
 class PracticeScreen extends ConsumerStatefulWidget {
   const PracticeScreen({super.key});
 
@@ -40,29 +39,12 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
     super.dispose();
   }
 
-  ModeCost _costOf(AsyncValue<PracticeQuote> quote) {
-    if (quote.isLoading && !quote.hasValue) return const ModeCost.loading();
-    final q = quote.value;
-    if (q == null) return const ModeCost.none();
-    final line = costLineFor(q);
-    return switch (line.kind) {
-      CostKind.none => const ModeCost.none(),
-      CostKind.proGated => const ModeCost.none(),
-      CostKind.blocked => ModeCost.text(line.text!, emphasis: false),
-      _ => ModeCost.text(line.text!),
-    };
-  }
+  void _confirm(PracticeSelection selection) => showPracticeConfirm(context, selection: selection);
 
-  /// The size line comes only from the quote; until it arrives the row says it is checking.
-  String _minutesLine(PracticeQuote? q, String Function({required int questions, int? minutes}) make) {
-    final count = q?.count;
-    if (q == null || count == null) return PracticeCopy.lengthChecking;
-    final seconds = q.durationSec;
-    return make(questions: count, minutes: seconds == null ? null : (seconds / 60).round());
+  Future<void> _chapter(String subject) async {
+    final name = await showChapterPicker(context, subjectId: subject);
+    if (name != null && mounted) _confirm(PracticeSelection(mode: PracticeMode.chapter, subjectId: subject, chapter: name));
   }
-
-  void _open(PracticeMode mode, String subject) =>
-      context.push(Uri(path: AppRoutes.practiceSetup(mode.name), queryParameters: {'subject': subject}).toString());
 
   Future<void> _pickOther(List<SubjectChoice> others) async {
     final id = await showOtherSubjects(context, others);
@@ -78,7 +60,6 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
     });
 
     final colors = context.mmColors;
-    final type = context.mmType;
     final subject = ref.watch(practiceSubjectProvider);
     final auth = ref.watch(authSnapshotProvider);
     final catalog = ref.watch(practiceSubjectsProvider).value;
@@ -86,110 +67,89 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
     final others = otherSubjects(shown: choices, catalog: catalog);
     final offline = ref.watch(networkStatusProvider) == NetworkStatus.offline;
 
-    final full = ref.watch(
-      practiceQuoteProvider(QuoteQuery(subject: subject, apiMode: 'full', count: mockQuestionCount, purpose: 'full_sample')),
-    );
-    final quick = ref.watch(practiceQuoteProvider(QuoteQuery(subject: subject, apiMode: 'quick', count: defaultPracticeCount)));
-    final nta = ref.watch(practiceQuoteProvider(QuoteQuery(subject: subject, apiMode: 'nta', count: mockQuestionCount)));
+    // Only what the rows need: the mock's length, and whether the exam-day layout is offered.
+    final full = ref.watch(practiceQuoteProvider(PracticeSelection(mode: PracticeMode.full, subjectId: subject).quoteQuery)).value;
+    final nta = ref.watch(practiceQuoteProvider(QuoteQuery(subject: subject, apiMode: 'nta', count: mockQuestionCount))).value;
+    final showNta = nta != null && quoteOffersMode(nta);
+    final ntaGated = nta != null && costLineFor(nta).kind == CostKind.proGated;
+    final fullMinutes = full?.durationSec == null ? null : (full!.durationSec! / 60).round();
 
-    final draft = ref.watch(latestSessionDraftProvider).value;
-    final now = ref.watch(nowProvider)();
-    final showResume = canContinue(draft, now);
-
-    final ntaQuote = nta.value;
-    final showNta = ntaQuote != null && quoteOffersMode(ntaQuote);
-    final ntaGated = ntaQuote != null && costLineFor(ntaQuote).kind == CostKind.proGated;
+    final bottom = MediaQuery.paddingOf(context).bottom;
+    const gutter = EdgeInsets.symmetric(horizontal: MmSpace.gutter);
 
     return Scaffold(
       backgroundColor: colors.ground,
-      body: SafeArea(
-        bottom: false,
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
-            child: ListView(
-              controller: _scroll,
-              padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s16, MmSpace.gutter, MmSpace.s32),
-              children: [
-                Semantics(header: true, child: Text(PracticeCopy.tabTitle, style: type.headline)),
-                const SizedBox(height: MmSpace.s20),
-                if (offline) ...[_OfflineNote(text: PracticeCopy.offlineStart), const SizedBox(height: MmSpace.s20)],
-                if (showResume) ...[
-                  ResumeSlot(draft: draft!, onContinue: () => context.go(AppRoutes.run(draft.sessionId))),
-                  const SizedBox(height: MmSpace.group),
-                ],
-                SubjectChips(
-                  choices: choices,
-                  selectedId: subject,
-                  onSelected: (id) => ref.read(practiceSubjectProvider.notifier).select(id),
-                  onOther: others.isEmpty ? null : () => _pickOther(others),
+      body: Stack(
+        children: [
+          // The room's lamp, pooling from the upper left behind the header and the suggestion.
+          Positioned(top: 0, left: 0, right: 0, height: 420, child: IgnorePointer(child: LightField.lamp(context, strength: 0.8))),
+          SafeArea(
+            bottom: false,
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
+                child: ListView(
+                  controller: _scroll,
+                  padding: EdgeInsets.only(top: MmSpace.s8, bottom: bottom + MmSpace.s32),
+                  children: [
+                    const Padding(padding: gutter, child: TabRootHeader(title: PracticeCopy.tabTitle)),
+                    const SizedBox(height: MmSpace.s16),
+                    if (offline) ...[
+                      const Padding(padding: gutter, child: InlineBanner(message: PracticeCopy.offlineStart, tone: BannerTone.offline)),
+                      const SizedBox(height: MmSpace.s16),
+                    ],
+                    const Padding(padding: gutter, child: SuggestionHero()),
+                    const SizedBox(height: MmSpace.group + MmSpace.s8),
+                    const Padding(padding: gutter, child: SectionHeading(title: PracticeCopy.chooseOwn)),
+                    const SizedBox(height: MmSpace.s12),
+                    SubjectTiles(
+                      choices: choices,
+                      selectedId: subject,
+                      onSelected: (id) => ref.read(practiceSubjectProvider.notifier).select(id),
+                      onMore: others.isEmpty ? null : () => _pickOther(others),
+                    ),
+                    const SizedBox(height: MmSpace.s16),
+                    Padding(
+                      padding: gutter,
+                      child: ModeList(
+                        choices: [
+                          ModeChoice(
+                            icon: ModeIcons.quick,
+                            title: PracticeCopy.quickTitle,
+                            line: PracticeCopy.quickLine,
+                            onTap: () => _confirm(PracticeSelection(mode: PracticeMode.quick, subjectId: subject)),
+                          ),
+                          ModeChoice(
+                            icon: ModeIcons.chapter,
+                            title: PracticeCopy.chapterTitle,
+                            line: PracticeCopy.chapterLine,
+                            onTap: () => _chapter(subject),
+                          ),
+                          ModeChoice(
+                            icon: ModeIcons.full,
+                            title: PracticeCopy.fullMockTitle,
+                            line: PracticeCopy.fullMockLine(questions: mockQuestionCount, minutes: fullMinutes),
+                            onTap: () => _confirm(PracticeSelection(mode: PracticeMode.full, subjectId: subject)),
+                          ),
+                          if (showNta)
+                            ModeChoice(
+                              icon: ModeIcons.nta,
+                              title: PracticeCopy.ntaTitle,
+                              tag: ntaGated ? PracticeCopy.proTag : null,
+                              line: ntaGated ? PracticeCopy.ntaGatedLine : PracticeCopy.ntaLine(questions: mockQuestionCount),
+                              onTap: () => _confirm(PracticeSelection(mode: PracticeMode.nta, subjectId: subject)),
+                            ),
+                        ],
+                      ),
+                    ),
+                    const ConceptsShelf(),
+                  ],
                 ),
-                const SizedBox(height: MmSpace.group),
-                ModeRow(
-                  featured: true,
-                  title: PracticeCopy.fullMockTitle,
-                  line: _minutesLine(full.value, PracticeCopy.fullMockLine),
-                  cost: _costOf(full),
-                  glyphCount: mockQuestionCount,
-                  onTap: () => _open(PracticeMode.full, subject),
-                ),
-                const SizedBox(height: MmSpace.s24),
-                ModeRow(
-                  title: PracticeCopy.quickTitle,
-                  line: PracticeCopy.quickLine,
-                  cost: _costOf(quick),
-                  glyphCount: 10,
-                  onTap: () => _open(PracticeMode.quick, subject),
-                ),
-                const RowDivider(),
-                ModeRow(
-                  title: PracticeCopy.chapterTitle,
-                  line: PracticeCopy.chapterModeLine,
-                  // Chapter practice costs exactly what Quick practice costs.
-                  cost: _costOf(quick),
-                  glyphCount: 5,
-                  onTap: () => _open(PracticeMode.chapter, subject),
-                ),
-                if (showNta) ...[
-                  const RowDivider(),
-                  ModeRow(
-                    title: PracticeCopy.ntaTitle,
-                    line: ntaGated ? PracticeCopy.partOfProAlternative : _minutesLine(ntaQuote, PracticeCopy.ntaLine),
-                    cost: ntaGated ? const ModeCost.none() : _costOf(nta),
-                    glyphCount: mockQuestionCount,
-                    locked: ntaGated,
-                    onTap: () => _open(PracticeMode.nta, subject),
-                  ),
-                ],
-              ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
-    );
-  }
-}
-
-class _OfflineNote extends StatelessWidget {
-  const _OfflineNote({required this.text});
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 2),
-          child: ExcludeSemantics(child: Icon(LucideIcons.wifiOff, size: 18, color: colors.ink2)),
-        ),
-        const SizedBox(width: MmSpace.s12),
-        Expanded(
-          child: Text(text, style: context.mmType.body.copyWith(color: colors.ink)),
-        ),
-      ],
     );
   }
 }

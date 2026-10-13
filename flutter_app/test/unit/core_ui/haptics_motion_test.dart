@@ -66,8 +66,21 @@ void main() {
       expect(Motion.ui, const Duration(milliseconds: 200));
       expect(Motion.card, const Duration(milliseconds: 240));
       expect(Motion.result, const Duration(milliseconds: 320));
-      expect(Motion.figureRoll, const Duration(milliseconds: 420));
+      expect(Motion.figureRoll, const Duration(milliseconds: 500));
       expect(Motion.milestone, const Duration(milliseconds: 500));
+    });
+
+    testWidgets('keeps the Night Sheet curves and durations (brief section 7)', (tester) async {
+      expect(Motion.glide, const Cubic(0.15, 0.5, 0.5, 1));
+      expect(Motion.glideDuration, const Duration(milliseconds: 300));
+      expect(Motion.exit, const Cubic(0.4, 0.3, 0.8, 0.6));
+      expect(Motion.exitDuration, const Duration(milliseconds: 200));
+      expect(Motion.emphasized, const Cubic(0.16, 1, 0.3, 1));
+      expect(Motion.emphasizedDuration, const Duration(milliseconds: 420));
+      expect(Motion.sweep, const Duration(milliseconds: 700));
+      expect(Motion.engrave, const Duration(milliseconds: 280));
+      expect(Motion.numberRoll, const Duration(milliseconds: 500));
+      expect(Springs.pressedScale, 0.96);
     });
 
     Future<bool> reducedWith(WidgetTester tester, {required bool system, required bool override}) async {

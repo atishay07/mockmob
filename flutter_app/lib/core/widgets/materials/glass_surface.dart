@@ -48,17 +48,19 @@ class GlassSurface extends StatelessWidget {
   final GlassQuality? quality;
 
   double get _sigma => switch (role) {
-        GlassRole.dock => MmElevation.sigmaDock,
-        GlassRole.sheet => MmElevation.sigmaSheet,
-        GlassRole.control => MmElevation.sigmaControl,
-      };
+    GlassRole.dock => MmElevation.sigmaDock,
+    GlassRole.sheet => MmElevation.sigmaSheet,
+    GlassRole.control => MmElevation.sigmaControl,
+  };
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final q = quality ?? GlassScope.of(context);
     final tint = switch (q) {
-      GlassQuality.full => colors.glassTint,
+      // A sheet holds text a student reads over whatever was on screen, so its tint stays
+      // dense enough to keep 4.5:1 even where a GPU drops or weakens the blur.
+      GlassQuality.full => role == GlassRole.sheet ? colors.glassTint.withValues(alpha: colors.isNight ? 0.86 : 0.88) : colors.glassTint,
       GlassQuality.lite => colors.glassTintLite,
       GlassQuality.off => colors.raised,
     };
@@ -78,7 +80,10 @@ class GlassSurface extends StatelessWidget {
     );
 
     if (q == GlassQuality.full) {
-      pane = BackdropFilter.grouped(filter: ImageFilter.blur(sigmaX: _sigma, sigmaY: _sigma), child: pane);
+      pane = BackdropFilter.grouped(
+        filter: ImageFilter.blur(sigmaX: _sigma, sigmaY: _sigma),
+        child: pane,
+      );
     }
     pane = MmClip(borderRadius: borderRadius, child: pane);
 

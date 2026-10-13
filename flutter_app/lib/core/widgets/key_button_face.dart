@@ -200,11 +200,16 @@ class KeyButtonFace extends StatelessWidget {
   }
 
   Widget _centeredContent(Color textColor, TextStyle style) {
-    Widget row(bool showSpinner) => Row(
+    // [ghost] reserves the spinner's room with an empty box: an invisible spinner would keep a
+    // ticker running (and the phone awake) for as long as the key is on screen.
+    Widget row(bool showSpinner, {bool ghost = false}) => Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (showSpinner) ...[MmSpinner(color: textColor), const SizedBox(width: MmSpace.s8)],
+            if (showSpinner) ...[
+              ghost ? const SizedBox.square(dimension: 18) : MmSpinner(color: textColor),
+              const SizedBox(width: MmSpace.s8),
+            ],
             Flexible(child: Text(label, style: style, textAlign: TextAlign.center)),
           ],
         );
@@ -215,7 +220,7 @@ class KeyButtonFace extends StatelessWidget {
     return Stack(
       alignment: Alignment.center,
       children: [
-        Visibility(visible: false, maintainSize: true, maintainAnimation: true, maintainState: true, child: row(true)),
+        Visibility(visible: false, maintainSize: true, maintainAnimation: true, maintainState: true, child: row(true, ghost: true)),
         row(loading),
       ],
     );

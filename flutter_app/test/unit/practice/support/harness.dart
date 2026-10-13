@@ -12,7 +12,9 @@ import 'package:mockmob/core/connectivity/connectivity.dart';
 import 'package:mockmob/core/connectivity/connectivity_providers.dart' show NetworkStatusNotifier;
 import 'package:mockmob/core/haptics/haptics.dart';
 import 'package:mockmob/core/models/models.dart';
-import 'package:mockmob/features/practice/widgets/resume_slot.dart' show draftSummaryProvider;
+import 'package:mockmob/features/practice/widgets/suggestion_hero.dart' show draftSummaryProvider;
+import 'package:mockmob/features/learn/data/catalog_repository.dart';
+import 'package:mockmob/features/learn/models/learn_catalog.dart';
 import 'package:mockmob/core/repositories/attempts_repository.dart';
 import 'package:mockmob/core/repositories/pending_result_repository.dart';
 import 'package:mockmob/core/repositories/quote_repository.dart';
@@ -255,19 +257,28 @@ List<Override> practiceOverrides({
   FakeAnalytics? analytics,
   FakePendingResults? pending,
   SessionDraft? draft,
+  int? answered,
+  List<Attempt>? attempts,
+  LearnCatalog? learn,
+  DateTime? now,
   List<Override> extra = const [],
 }) => [
+  attemptsRepositoryProvider.overrideWith(() => FakeAttempts(attempts)),
+  learnCatalogProvider.overrideWithBuild((ref, notifier) => learn == null ? const RemoteState.idle() : RemoteState(value: learn, fetchedAt: testNow)),
   quoteRepositoryProvider.overrideWithValue(quotes ?? FakeQuoteRepository((s, m, c, p) => creditsQuote())),
   practiceCatalogApiProvider.overrideWithValue(catalog ?? FakeCatalog()),
   practiceStarterProvider.overrideWithValue(starter ?? FakeStarter()),
   authSnapshotProvider.overrideWith(() => FakeAuth(auth ?? signedIn())),
   networkStatusProvider.overrideWith(() => FakeNetwork(network)),
   latestSessionDraftProvider.overrideWith((ref) => Stream.value(draft)),
-  if (draft != null) draftSummaryProvider(draft.sessionId).overrideWith((ref) async => null),
+  if (draft != null)
+    draftSummaryProvider(draft.sessionId).overrideWith(
+      (ref) async => answered == null ? null : DraftSummary(answered: answered, acknowledgedAnswered: answered, total: draft.count),
+    ),
   hapticsProvider.overrideWithValue(const Haptics(enabled: false)),
   analyticsClientProvider.overrideWithValue(analytics ?? FakeAnalytics()),
   pendingResultRepositoryProvider.overrideWithValue(pending ?? FakePendingResults()),
-  nowProvider.overrideWithValue(() => testNow),
+  nowProvider.overrideWithValue(() => now ?? testNow),
   studentTimezoneProvider.overrideWithValue('Asia/Kolkata'),
   rhythmPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
   lateNightLinesProvider.overrideWith(() => PrefToggle(initial: true, read: (_) async => true, write: (_, _) async {})),
@@ -294,7 +305,9 @@ Future<GoRouter> pumpRouted(
       overrides: overrides,
       child: DefaultAssetBundle(
         bundle: FileAssetBundle(),
-        child: MaterialApp.router(
+        child: RepaintBoundary(
+          key: previewBoundary,
+          child: MaterialApp.router(
           debugShowCheckedModeBanner: false,
           theme: buildTheme(Brightness.light),
           darkTheme: buildTheme(Brightness.dark),
@@ -305,12 +318,16 @@ Future<GoRouter> pumpRouted(
             child: app!,
           ),
         ),
+        ),
       ),
     ),
   );
   await tester.pump();
   return router;
 }
+
+/// Wraps the app pumped by [pumpRouted], so a golden test can also save a DPR 2 preview.
+final GlobalKey previewBoundary = GlobalKey(debugLabel: 'preview');
 
 /// A route that only shows its own path, so a test can see where the app went.
 GoRoute stubRoute(String path) => GoRoute(
@@ -332,11 +349,10 @@ List<Override> resultOverrides({
   FakeAnalytics? analytics,
   FakePendingResults? pending,
 }) => [
-  ...practiceOverrides(catalog: catalog, analytics: analytics, pending: pending),
+  ...practiceOverrides(catalog: catalog, analytics: analytics, pending: pending, attempts: cachedAttempt == null ? null : [cachedAttempt]),
   attemptDetailProvider(
     attemptId,
   ).overrideWith(() => FakeDetail(attemptId, detail: detail, error: error, loading: loading, fetchedAt: fetchedAt)),
-  attemptsRepositoryProvider.overrideWith(() => FakeAttempts(cachedAttempt == null ? null : [cachedAttempt])),
   resultReceivedAtProvider.overrideWith((ref, id) async => received ?? DateTime(2026, 10, 12, 23, 51)),
   practiceNoteProvider.overrideWith((ref, id) async => PracticeNote(chapter: chapter, mode: 'quick')),
 ];

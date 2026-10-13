@@ -1,17 +1,14 @@
-// Goldens for the You feature at 360 by 780 logical px, device pixel ratio 2, light and dark.
-// Long screens (appearance, privacy) use a taller frame so everything below the fold is checked.
-
-import 'dart:io';
+// Goldens for the You feature at 384 by 853 logical px, DPR 2, Night and Daylight. Long screens
+// use a taller frame so everything below the fold is checked.
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_client.dart';
+import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/models/consent.dart';
 import 'package:mockmob/core/models/rhythm.dart';
+import 'package:mockmob/core/repositories/consent_repository.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
-import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/features/you/account/account_screen.dart';
 import 'package:mockmob/features/you/account/delete_screen.dart';
 import 'package:mockmob/features/you/appearance/appearance_screen.dart';
@@ -21,63 +18,64 @@ import 'package:mockmob/features/you/privacy/privacy_screen.dart';
 import 'package:mockmob/features/you/you_hub_screen.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../helpers/fonts.dart';
-import '../../helpers/golden_harness.dart';
 import '../../unit/you/you_test_support.dart';
-
-typedef _Interact = Future<void> Function(WidgetTester tester);
-
-void _golden(
-  String name,
-  Widget Function() screen, {
-  required List<Override> Function() overrides,
-  Size size = kGoldenSize,
-  _Interact? interact,
-}) {
-  for (final brightness in Brightness.values) {
-    testWidgets('$name, ${brightness.name}', (tester) async {
-      await pumpMockmob(
-        tester,
-        screen(),
-        brightness: brightness,
-        size: size,
-        wrapInScaffold: false,
-        disableAnimations: true,
-        overrides: overrides(),
-      );
-      await tester.pump();
-      if (interact != null) await interact(tester);
-      // Let a switch thumb or a sheet finish moving before the picture is taken.
-      await tester.pumpAndSettle();
-      await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/${name}_${brightness.name}.png'));
-    });
-  }
-}
+import 'you_golden_kit.dart';
 
 void main() {
-  setUpAll(() async {
-    await loadAppFonts();
-    await _loadMaterialIcons();
-  });
+  setUpGoldenFonts();
 
-  _golden('hub', () => const YouHubScreen(), overrides: () => youOverrides());
+  sheetGolden(
+    'hub',
+    () => const YouHubScreen(),
+    overrides: () => youOverrides(target: ashaTarget, rhythm: FakeRhythm(rhythmState(milestones: earnedMilestones))),
+  );
 
-  _golden(
+  sheetGolden(
+    'hub_full_page',
+    () => const YouHubScreen(),
+    size: const Size(384, 1720),
+    overrides: () => youOverrides(target: ashaTarget, rhythm: FakeRhythm(rhythmState(milestones: earnedMilestones))),
+  );
+
+  // Day one: no setup answers kept, no milestones, no run yet.
+  sheetGolden(
+    'hub_new',
+    () => const YouHubScreen(),
+    overrides: () => youOverrides(rhythm: FakeRhythm(rhythmState(streak: 0, best: 0, studyDayDates: const []))),
+  );
+
+  sheetGolden(
+    'hub_loading',
+    () => const YouHubScreen(),
+    settle: false,
+    overrides: () => youOverrides(target: ashaTarget, rhythm: FakeRhythm(const RemoteState<Rhythm>(loading: true))),
+  );
+
+  sheetGolden(
+    'hub_failed',
+    () => const YouHubScreen(),
+    overrides: () => youOverrides(
+      target: ashaTarget,
+      rhythm: FakeRhythm(const RemoteState<Rhythm>(error: ApiError(kind: ApiErrorKind.network, code: 'network'))),
+    ),
+  );
+
+  sheetGolden(
     'goal',
     () => const GoalScreen(),
     overrides: () => youOverrides(goal: FakeGoal(goalState(4, pausedUntil: '2026-10-26'))),
     interact: (tester) async {
-      await tester.tap(find.text('3'));
+      await tester.tap(find.bySemanticsLabel('3 days a week'));
       await tester.pump();
     },
   );
 
-  _golden(
+  sheetGolden(
     'goal_saved',
     () => const GoalScreen(),
     overrides: () => youOverrides(goal: FakeGoal(goalState(4))),
     interact: (tester) async {
-      await tester.tap(find.text('6'));
+      await tester.tap(find.bySemanticsLabel('6 days a week'));
       await tester.pump();
       await tester.tap(find.text('Save goal'));
       await tester.pump();
@@ -85,30 +83,23 @@ void main() {
     },
   );
 
-  _golden(
+  sheetGolden(
     'goal_error',
     () => const GoalScreen(),
     overrides: () => youOverrides(goal: FakeGoal(const RemoteState<Goal>(error: ApiError(kind: ApiErrorKind.network, code: 'network')))),
   );
 
-  _golden(
+  sheetGolden(
     'privacy_adult_off',
     () => const PrivacyScreen(),
-    size: const Size(360, 900),
+    size: const Size(384, 960),
     overrides: () => youOverrides(consent: FakeConsent(consentState(AgeBand.adult))),
   );
 
-  _golden(
-    'privacy_adult_on',
-    () => const PrivacyScreen(),
-    size: const Size(360, 900),
-    overrides: () => youOverrides(consent: FakeConsent(consentState(AgeBand.adult, on: true))),
-  );
-
-  _golden(
+  sheetGolden(
     'privacy_withdrawn',
     () => const PrivacyScreen(),
-    size: const Size(360, 900),
+    size: const Size(384, 960),
     overrides: () => youOverrides(consent: FakeConsent(consentState(AgeBand.adult, on: true))),
     interact: (tester) async {
       await tester.tap(find.text('Allow usage data to improve MockMob'));
@@ -117,19 +108,20 @@ void main() {
     },
   );
 
-  _golden(
+  sheetGolden(
     'privacy_minor',
     () => const PrivacyScreen(),
     overrides: () => youOverrides(consent: FakeConsent(consentState(AgeBand.minor))),
   );
 
-  _golden(
-    'privacy_unknown',
+  sheetGolden(
+    'privacy_loading',
     () => const PrivacyScreen(),
-    overrides: () => youOverrides(consent: FakeConsent(consentState(AgeBand.unknown))),
+    settle: false,
+    overrides: () => youOverrides(consent: FakeConsent(consentState(AgeBand.unknown, status: ConsentStatus.loading))),
   );
 
-  _golden(
+  sheetGolden(
     'privacy_events',
     () => const PrivacyScreen(),
     overrides: () => youOverrides(consent: FakeConsent(consentState(AgeBand.adult))),
@@ -139,19 +131,13 @@ void main() {
     },
   );
 
-  _golden(
+  sheetGolden(
     'account_pro',
     () => const AccountScreen(),
     overrides: () => youOverrides(fakeAuth: FakeAuth(userWith(pro: true, until: DateTime(2027, 7, 31, 12)))),
   );
 
-  _golden(
-    'account_free',
-    () => const AccountScreen(),
-    overrides: () => youOverrides(drafts: draftsWithUnsent(0)),
-  );
-
-  _golden(
+  sheetGolden(
     'sign_out_unsent',
     () => const AccountScreen(),
     overrides: () => youOverrides(drafts: draftsWithUnsent(3)),
@@ -161,14 +147,14 @@ void main() {
     },
   );
 
-  _golden(
+  sheetGolden(
     'delete_ask',
     () => const DeleteScreen(),
     overrides: () => youOverrides(drafts: draftsWithUnsent(2), api: MockApi()),
     interact: (tester) async => tester.pump(),
   );
 
-  _golden(
+  sheetGolden(
     'delete_recorded',
     () => const DeleteScreen(),
     overrides: () {
@@ -191,24 +177,7 @@ void main() {
     },
   );
 
-  _golden(
-    'appearance',
-    () => const AppearanceScreen(),
-    size: const Size(360, 1180),
-    overrides: () => youOverrides(),
-  );
+  sheetGolden('appearance', () => const AppearanceScreen(), size: const Size(384, 1240), overrides: () => youOverrides());
 
-  _golden('help', () => const HelpScreen(), overrides: () => youOverrides());
-}
-
-/// The check glyph on a switch thumb comes from the Material icon font, which the test font
-/// loader does not include. Load it from the Flutter SDK so the golden shows what a phone shows.
-Future<void> _loadMaterialIcons() async {
-  final root = Platform.environment['FLUTTER_ROOT'];
-  if (root == null) return;
-  final file = File('$root/bin/cache/artifacts/material_fonts/materialicons-regular.otf');
-  if (!file.existsSync()) return;
-  final bytes = await file.readAsBytes();
-  final loader = FontLoader('MaterialIcons')..addFont(Future.value(ByteData.sublistView(Uint8List.fromList(bytes))));
-  await loader.load();
+  sheetGolden('help', () => const HelpScreen(), size: const Size(384, 1240), overrides: () => youOverrides());
 }

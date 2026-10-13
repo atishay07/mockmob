@@ -37,18 +37,17 @@ class ReturningCard extends StatelessWidget {
     final weeks = [for (final w in closedWeeks(rhythm)) if (w.studyDays > 0) w].take(returningWeeksShown).toList();
     final greet = returningGreetsWithMobi(rhythm);
 
-    return Container(
-      width: double.infinity,
+    return FakeGlass(
+      child: Padding(
       padding: const EdgeInsets.all(MmSpace.cardPadding),
-      decoration: BoxDecoration(color: colors.raised, borderRadius: MmRadius.panelAll, border: Border.all(color: colors.line)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              if (greet) ...[const Mobi(pose: MobiPose.greeting, size: 64, motion: MobiMotion.settle), const SizedBox(width: MmSpace.s16)],
-              Expanded(child: Semantics(header: true, child: Text(RhythmCopy.welcomeBack, style: type.subhead))),
+              if (greet) ...[const Mobi(pose: MobiPose.greet, size: 72, motion: MobiMotion.settle), const SizedBox(width: MmSpace.s16)],
+              Expanded(child: Semantics(header: true, child: Text(RhythmCopy.welcomeBack, style: type.title))),
             ],
           ),
           if (extraLine != null) ...[
@@ -68,6 +67,7 @@ class ReturningCard extends StatelessWidget {
             Text(RhythmCopy.nothingLost, style: type.small.copyWith(color: colors.ink2)),
           ],
         ],
+      ),
       ),
     );
   }

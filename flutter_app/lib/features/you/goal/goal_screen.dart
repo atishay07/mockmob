@@ -121,11 +121,21 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
               ),
               const SizedBox(height: MmSpace.s32),
               Semantics(
+                container: true,
                 liveRegion: true,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(YouCopy.goalFigure(days), style: type.figureCompact),
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: MonumentalNumber(
+                      value: '$days',
+                      unit: YouCopy.goalUnit(days),
+                      style: type.figure,
+                      semanticsLabel: YouCopy.goalNote(days),
+                    ),
+                    ),
                     const SizedBox(height: MmSpace.s8),
                     Text(
                       days == 7 ? YouCopy.goalEveryDay : YouCopy.goalRestDays,

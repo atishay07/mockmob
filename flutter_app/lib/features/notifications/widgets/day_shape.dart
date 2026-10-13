@@ -174,8 +174,8 @@ class _DayShapeState extends State<DayShape>
                     hasWindow: window != null,
                     track: colors.sunken,
                     trackBorder: colors.line,
-                    quiet: colors.lineStrong,
-                    study: colors.ink,
+                    quiet: colors.isNight ? colors.lineStrong : colors.ink4,
+                    study: colors.isNight ? colors.volt : colors.accentText,
                     clash: colors.warnText,
                     ground: colors.raised,
                   ),
@@ -244,8 +244,8 @@ class _LegendLine extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final color = switch (swatch) {
-      _Swatch.quiet => colors.lineStrong,
-      _Swatch.study => colors.ink,
+      _Swatch.quiet => colors.isNight ? colors.lineStrong : colors.ink4,
+      _Swatch.study => colors.isNight ? colors.volt : colors.accentText,
       _Swatch.clash => colors.warnText,
     };
     return Row(

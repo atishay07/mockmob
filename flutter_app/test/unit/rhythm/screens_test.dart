@@ -64,7 +64,9 @@ void main() {
 
     testWidgets('a pause preset sends the Sunday of this week and keeps the goal', (tester) async {
       await pumpMockmob(tester, const YouRhythmScreen(), wrapInScaffold: false, disableAnimations: true, overrides: overrides(rhythmFixture()));
-      await tester.tap(find.text('This week'));
+      final thisWeek = find.bySemanticsLabel('Pause rhythm, This week');
+      await tester.scrollUntilVisible(thisWeek, 200, scrollable: find.byType(Scrollable).first);
+      await tester.tap(thisWeek);
       await settle(tester);
       expect(goalRepo.saved, [4]);
       expect(goalRepo.savedPause, ['2026-10-18']);
@@ -72,8 +74,14 @@ void main() {
 
     testWidgets('2 weeks pauses to the Sunday after next, the long pause is the 100 day limit', (tester) async {
       await pumpMockmob(tester, const YouRhythmScreen(), wrapInScaffold: false, disableAnimations: true, overrides: overrides(rhythmFixture()));
+      await tester.scrollUntilVisible(find.text('2 weeks'), 200, scrollable: find.byType(Scrollable).first);
+      await tester.ensureVisible(find.text('2 weeks'));
+      await tester.pumpAndSettle();
       await tester.tap(find.text('2 weeks'));
       await settle(tester);
+      await tester.scrollUntilVisible(find.text('Until I turn it on'), 200, scrollable: find.byType(Scrollable).first);
+      await tester.ensureVisible(find.text('Until I turn it on'));
+      await tester.pumpAndSettle();
       await tester.tap(find.text('Until I turn it on'));
       await settle(tester);
       expect(goalRepo.savedPause, ['2026-10-25', '2027-01-22']);
@@ -82,7 +90,9 @@ void main() {
     testWidgets('turning rhythm off asks first, then hides it and keeps the records', (tester) async {
       await pumpMockmob(tester, const YouRhythmScreen(), wrapInScaffold: false, disableAnimations: true, overrides: overrides(rhythmFixture()));
       await settle(tester);
+      await tester.scrollUntilVisible(find.text('Turn off rhythm'), 200, scrollable: find.byType(Scrollable).first);
       await tester.ensureVisible(find.text('Turn off rhythm'));
+      await tester.pumpAndSettle();
       await tester.tap(find.text('Turn off rhythm'));
       await settle(tester);
       expect(find.text('Turn off rhythm?'), findsOneWidget);
@@ -97,7 +107,9 @@ void main() {
     testWidgets('the Celebrations choice is saved', (tester) async {
       await pumpMockmob(tester, const YouRhythmScreen(), wrapInScaffold: false, disableAnimations: true, overrides: overrides(rhythmFixture()));
       await settle(tester);
+      await tester.scrollUntilVisible(find.text('Quiet'), 200, scrollable: find.byType(Scrollable).first);
       await tester.ensureVisible(find.text('Quiet'));
+      await tester.pumpAndSettle();
       await tester.tap(find.text('Quiet'));
       await settle(tester);
       expect(store.values['rhythm_celebrations_u1'], 'quiet');
@@ -143,7 +155,7 @@ void main() {
     testWidgets('Try 5 saves the goal, says so, and the card does not come back', (tester) async {
       await pumpMockmob(tester, const SingleChildScrollView(child: WeeklyEndingSection()), overrides: overrides(closedMet));
       await settle(tester);
-      expect(find.text('You finished 4 study days last week. Fresh checks are not available yet.'), findsOneWidget);
+      expect(find.text('You finished 4 study days last week. That met your goal.'), findsOneWidget);
       await tester.tap(find.text('Try 5'));
       await settle(tester);
       expect(goalRepo.saved, [5]);

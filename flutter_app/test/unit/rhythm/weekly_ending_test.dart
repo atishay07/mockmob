@@ -12,7 +12,7 @@ void main() {
   group('weekly ending', () {
     test('met week: exact words and the three keys', () {
       final data = weeklyEndingFor(rhythmFixture(goal: 4, lastClosed: _closed()), dismissed: {})!;
-      expect(data.body, 'You finished 4 study days last week. Fresh checks are not available yet.');
+      expect(data.body, 'You finished 4 study days last week. That met your goal.');
       expect([for (final k in data.keys) k.label], ['Keep 4', 'Try 5', 'Take a lighter week']);
       expect(data.keys[1].goal, 5);
       expect(data.keys[2].goal, 3);

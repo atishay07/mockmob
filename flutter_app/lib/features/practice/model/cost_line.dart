@@ -26,7 +26,7 @@ class CostLine {
 }
 
 CostLine costLineFor(PracticeQuote quote) {
-  if (quote.isAccessRequired) return const CostLine(CostKind.proGated, PracticeCopy.partOfPro);
+  if (quote.isAccessRequired) return const CostLine(CostKind.proGated, PracticeCopy.proTag);
   if (!quote.launchable) {
     if (quote.isInsufficientCredits && quote.creditCost != null) {
       return CostLine(CostKind.credits, PracticeCopy.usesCredits(quote.creditCost!, quote.creditBalance));
@@ -55,7 +55,7 @@ class CreditsLow {
   final int cost;
 
   String message(PracticeMode mode) => mode.isMock
-      ? PracticeCopy.creditsLowMock(balance, cost, mode == PracticeMode.nta ? 'NTA-style mock' : 'Full mock')
+      ? PracticeCopy.creditsLowMock(balance, cost, mode == PracticeMode.nta ? 'exam-day mock' : 'Full mock')
       : PracticeCopy.creditsLowPractice(balance, cost);
 }
 

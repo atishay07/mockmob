@@ -39,9 +39,9 @@ void main() {
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed), chapter: 'Admission of a partner'));
     await tester.pump(const Duration(milliseconds: 500));
     expect(find.bySemanticsLabel(RegExp('8 of 10 correct')), findsWidgets);
-    expect(find.text('1 wrong, 1 not attempted'), findsOneWidget);
+    expect(find.text('8 right, 1 wrong, 1 not attempted'), findsOneWidget);
     expect(find.text('Chapter: Admission of a partner.'), findsOneWidget);
-    expect(find.text('Practice finished. Recorded at 11:51 PM. This is practice, not proof.'), findsOneWidget);
+    expect(find.text('Practice finished. Recorded at 11:51 PM.'), findsOneWidget);
     expect(find.text('Review 1 wrong answer'), findsWidgets);
     expect(find.text('Finish for now'), findsWidgets);
     expect(find.text('Wrong answers (1)'), findsOneWidget);
@@ -90,18 +90,18 @@ void main() {
   testWidgets('not attempted questions are listed apart with Try it again, never a repair key', (tester) async {
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed)));
     await tester.pump(const Duration(milliseconds: 500));
-    await tester.drag(find.byType(Scrollable).first, const Offset(0, -450));
+    await tester.ensureVisible(find.text('Question 10, Not attempted'));
     await tester.pump(const Duration(milliseconds: 300));
     await tester.tap(find.text('Question 10, Not attempted'));
     await tester.pump(const Duration(milliseconds: 300));
     expect(find.text('You did not answer this question.'), findsOneWidget);
     expect(find.text('Try it again'), findsWidgets);
     expect(find.text('Correct answer'), findsNWidgets(1)); // only the open wrong row shows its key
-    await tester.drag(find.byType(Scrollable).first, const Offset(0, -300));
+    await tester.ensureVisible(find.text('Try it again').first);
     await tester.pump(const Duration(milliseconds: 300));
     await tester.tap(find.text('Try it again').first);
     await tester.pump(const Duration(milliseconds: 300));
-    expect(find.text('This try is not recorded. It is practice, not proof.'), findsOneWidget);
+    expect(find.text('This try stays on your phone.'), findsOneWidget);
   });
 
   testWidgets('with no wrong answer the primary key is Practise another chapter', (tester) async {
@@ -110,7 +110,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 500));
     expect(find.text('Practise another chapter'), findsWidgets);
     expect(find.textContaining('Review'), findsNothing);
-    expect(find.text('No wrong answers, and none left blank.'), findsOneWidget);
+    expect(find.text('10 right. Nothing wrong, nothing left blank.'), findsOneWidget);
   });
 
   testWidgets('Finish for now ends with one plain line, then returns to Today', (tester) async {

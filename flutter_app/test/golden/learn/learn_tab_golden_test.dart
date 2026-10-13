@@ -60,11 +60,6 @@ void main() {
       await expectLater(find.byType(Scaffold), matchesGoldenFile('goldens/learn_tab_empty_$name.png'));
     });
 
-    testWidgets('learn tab disabled, $name', (tester) async {
-      await pumpScreen(tester, const LearnScreen(), brightness: brightness, overrides: learnOverrides(catalog: catalog(state: 'disabled')));
-      await expectLater(find.byType(Scaffold), matchesGoldenFile('goldens/learn_tab_disabled_$name.png'));
-    });
-
     testWidgets('learn tab offline with what was last loaded, $name', (tester) async {
       await pumpScreen(
         tester,

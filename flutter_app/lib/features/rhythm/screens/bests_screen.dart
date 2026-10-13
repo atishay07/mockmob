@@ -8,6 +8,7 @@ import '../../../core/copy/formatters.dart';
 import '../../../core/repositories/remote_state.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../you/copy.dart' show subjectDisplayName;
 import '../copy.dart';
 import '../data/bests.dart';
 import '../data/rhythm_providers.dart';
@@ -120,36 +121,72 @@ class BestsList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (asOf != null) ...[
-          Text(RhythmCopy.asOf(asOf!), style: type.small.copyWith(color: colors.ink3)),
-          const SizedBox(height: MmSpace.s8),
-        ],
-        for (var i = 0; i < mocks.length; i++)
-          HairlineRow(
-            first: i == 0,
-            padding: const EdgeInsets.symmetric(vertical: MmSpace.s16),
-            child: Semantics(
-              container: true,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    RhythmCopy.bestFormat(modeLabel(mocks[i].mode), humanizeSlug(mocks[i].subject), mocks[i].questions),
-                    style: type.subhead,
-                  ),
-                  const SizedBox(height: MmSpace.s8),
-                  Text(bestBody(mocks[i]), style: type.body),
-                  if (_dates(mocks[i]) case final dates?) ...[
-                    const SizedBox(height: MmSpace.s4),
-                    Text(dates, style: type.small.copyWith(color: colors.ink3)),
-                  ],
-                ],
-              ),
-            ),
+          Padding(
+            padding: const EdgeInsets.only(left: 4, bottom: MmSpace.s8),
+            child: Text(RhythmCopy.asOf(asOf!), style: type.caption.copyWith(color: colors.ink3)),
           ),
-        const SizedBox(height: MmSpace.s24),
-        Text(RhythmCopy.bestsFootnote, style: type.small.copyWith(color: colors.ink2)),
+        ],
+        for (var i = 0; i < mocks.length; i++) ...[
+          if (i > 0) const SizedBox(height: MmSpace.s16),
+          _BestPanel(best: mocks[i], dates: _dates(mocks[i]), lit: i == 0),
+        ],
+        Padding(
+          padding: const EdgeInsets.fromLTRB(4, MmSpace.s24, 0, 0),
+          child: Text(RhythmCopy.bestsFootnote, style: type.caption.copyWith(color: colors.ink2)),
+        ),
       ],
     );
+  }
+}
+
+/// One comparable mock type: its name, the best marks as a monumental number with the
+/// denominator beside it, and the latest beneath when there are two or more.
+class _BestPanel extends StatelessWidget {
+  const _BestPanel({required this.best, required this.dates, required this.lit});
+
+  final PersonalBest best;
+  final String? dates;
+
+  /// The first panel carries the screen's lit edge.
+  final bool lit;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final title = RhythmCopy.bestFormat(modeLabel(best.mode), subjectDisplayName(best.subject), best.questions);
+    final panel = FakeGlass(
+      child: Padding(
+        padding: const EdgeInsets.all(MmSpace.s20),
+        child: Semantics(
+          container: true,
+          label: [title, bestBody(best), ?dates].join(' '),
+          excludeSemantics: true,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title, style: type.labelLarge.copyWith(fontSize: 16)),
+              const SizedBox(height: MmSpace.s12),
+              MonumentalNumber(
+                value: formatSignedNumber(best.best.marks),
+                unit: RhythmCopy.outOf(best.best.max),
+                style: type.figure,
+              ),
+              const SizedBox(height: MmSpace.s8),
+              Text(
+                best.attempts < 2 ? RhythmCopy.bestFirst(modeNoun(best.mode)) : RhythmCopy.latestLine(marksText(best.latest)),
+                style: type.small.copyWith(color: colors.ink2),
+              ),
+              if (dates != null) ...[
+                const SizedBox(height: MmSpace.s4),
+                Text(dates!, style: type.caption.copyWith(color: colors.ink3)),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+    return lit ? LitEdge(child: panel) : panel;
   }
 }
 

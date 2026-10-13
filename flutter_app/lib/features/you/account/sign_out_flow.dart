@@ -63,7 +63,7 @@ class _SignOutSheet extends ConsumerWidget {
         ] else ...[
           KeyButton(label: YouCopy.signOut, onPressed: () => Navigator.of(context).pop(true)),
           const SizedBox(height: MmSpace.s8),
-          Align(child: KeyButton.quiet(label: 'Cancel', onPressed: () => Navigator.of(context).pop(false))),
+          Align(child: KeyButton.quiet(label: YouCopy.cancel, onPressed: () => Navigator.of(context).pop(false))),
         ],
       ],
     );

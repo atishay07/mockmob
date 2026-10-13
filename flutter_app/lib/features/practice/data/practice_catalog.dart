@@ -11,7 +11,7 @@ import '../../../core/repositories/attempts_repository.dart';
 const Map<String, String> fallbackSubjectNames = {
   'english': 'English',
   'accountancy': 'Accountancy',
-  'business_studies': 'Business studies',
+  'business_studies': 'Business Studies',
   'economics': 'Economics',
 };
 

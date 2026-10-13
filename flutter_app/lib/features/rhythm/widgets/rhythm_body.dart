@@ -1,11 +1,14 @@
-// The content of the You rhythm screen (spec 5.11): week marks, the run rows, goal, pause,
-// closed weeks, the Celebrations setting, and the quiet Turn off rhythm. Stateless: the screen
-// passes the state and the callbacks, and goldens render it directly.
+// The content of the You rhythm screen (spec 5.11): this week as the lit hero (the count as a
+// monumental number over seven answer bubbles), the run, the goal, pause, closed weeks, the
+// Celebrations setting, and the quiet Turn off rhythm. Stateless: the screen passes the state and
+// the callbacks, and goldens render it directly.
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/models/rhythm.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../you/widgets/you_row.dart' show IconWell, RowFrame, YouPanel;
 import '../copy.dart';
 import '../data/rhythm_prefs.dart';
 import '../data/rhythm_providers.dart';
@@ -61,35 +64,31 @@ class RhythmBody extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (snapshot.stale && snapshot.fetchedAt != null) ...[
-          Text(RhythmCopy.asOf(snapshot.fetchedAt!), style: type.small.copyWith(color: colors.ink3)),
-          const SizedBox(height: MmSpace.s8),
+          Padding(
+            padding: const EdgeInsets.only(left: 4, bottom: MmSpace.s8),
+            child: Text(RhythmCopy.asOf(snapshot.fetchedAt!), style: type.caption.copyWith(color: colors.ink3)),
+          ),
         ],
         if (errorText != null) ...[
           InlineBanner(message: errorText!, tone: BannerTone.error),
           const SizedBox(height: MmSpace.s12),
         ],
-        if (rhythmOff) ...[
-          Text(RhythmCopy.rhythmOffTitle, style: type.subhead),
-          const SizedBox(height: MmSpace.s4),
-          Text(RhythmCopy.rhythmOffBody, style: type.body.copyWith(color: colors.ink2)),
-          const SizedBox(height: MmSpace.s16),
-          KeyButton.secondary(label: RhythmCopy.turnOnRhythm, onPressed: onTurnOn, expanded: false),
-        ] else ...[
-          const SizedBox(height: MmSpace.s8),
-          WeekMarks(week: week),
-          const SizedBox(height: MmSpace.s12),
-          Text(week.label, style: type.subhead),
-        ],
+        if (rhythmOff) _OffPanel(onTurnOn: onTurnOn) else WeekHero(week: week),
         const SizedBox(height: MmSpace.s24),
-        HairlineRow(first: true, child: Text(note ?? weeksInRhythmText(rhythm), style: type.body)),
-        // The new-run note already says the best, so the Best run row would repeat it.
-        if (rhythm.bestRun > 0 && note == null) HairlineRow(child: Text(RhythmCopy.bestRun(rhythm.bestRun), style: type.body)),
-        HairlineRow(
-          trailing: KeyButton.quiet(label: RhythmCopy.editGoal, onPressed: busy ? null : onEditGoal),
-          child: Text(RhythmCopy.goalRow(goal), style: type.body),
+        YouPanel(
+          margin: EdgeInsets.zero,
+          children: [
+            _Line(text: note ?? weeksInRhythmText(rhythm)),
+            // The new-run note already says the best, so the Best run row would repeat it.
+            if (rhythm.bestRun > 0 && note == null) _Line(text: RhythmCopy.bestRun(rhythm.bestRun)),
+            _Line(
+              text: RhythmCopy.goalRow(goal),
+              trailing: KeyButton.quiet(label: RhythmCopy.editGoal, onPressed: busy ? null : onEditGoal),
+            ),
+          ],
         ),
         if (!rhythmOff) ...[
-          const SizedBox(height: MmSpace.group),
+          const SizedBox(height: MmSpace.s32),
           _PauseGroup(
             paused: week.status == WeekStatus.paused,
             busy: busy,
@@ -100,22 +99,157 @@ class RhythmBody extends StatelessWidget {
           ),
         ],
         if (closed.isNotEmpty) ...[
-          const SizedBox(height: MmSpace.group),
+          const SizedBox(height: MmSpace.s32),
           const GroupHeading(RhythmCopy.closedWeeks),
-          for (var i = 0; i < closed.length; i++)
-            HairlineRow(
-              first: i == 0,
-              trailing: closed[i].met ? Icon(LucideIcons.check, size: 18, color: colors.ink2, semanticLabel: 'Goal met') : null,
-              child: Text(closedWeekText(closed[i]), style: type.body),
-            ),
+          YouPanel(
+            margin: EdgeInsets.zero,
+            children: [for (final w in closed) _ClosedWeek(week: w)],
+          ),
         ],
-        const SizedBox(height: MmSpace.group),
-        _CelebrationsGroup(mode: mode, onMode: onMode),
+        const SizedBox(height: MmSpace.s32),
+        const GroupHeading(RhythmCopy.celebrationsTitle),
+        CelebrationsPicker(mode: mode, onMode: onMode),
         if (!rhythmOff) ...[
           const SizedBox(height: MmSpace.s24),
           FlushQuietKey(label: RhythmCopy.turnOff, onPressed: onTurnOff),
         ],
       ],
+    );
+  }
+}
+
+/// This week, lit: the count as a monumental number, the seven bubbles, and one plain line.
+class WeekHero extends StatelessWidget {
+  const WeekHero({super.key, required this.week});
+
+  final WeekView week;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final status = switch (week.status) {
+      WeekStatus.open => RhythmCopy.goalSentence(week.goal),
+      WeekStatus.met => RhythmCopy.weekDoneSentence,
+      WeekStatus.extra || WeekStatus.paused => week.label,
+    };
+    return LitEdge(
+      child: FakeGlass(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s20, MmSpace.s20, MmSpace.s20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(RhythmCopy.weekTitle, style: type.caption.copyWith(color: colors.ink2)),
+              const SizedBox(height: MmSpace.s8),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: MonumentalNumber(
+                  value: '${week.studyDays}',
+                  unit: RhythmCopy.ofGoal(week.goal),
+                  style: type.figure.copyWith(fontSize: 72, height: 66 / 72),
+                  semanticsLabel: week.label,
+                ),
+              ),
+              const SizedBox(height: MmSpace.s16),
+              WeekMarks(week: week),
+              const SizedBox(height: MmSpace.s12),
+              Text(status, style: type.small.copyWith(color: colors.ink2)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _OffPanel extends StatelessWidget {
+  const _OffPanel({required this.onTurnOn});
+
+  final VoidCallback onTurnOn;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return YouPanel(
+      margin: EdgeInsets.zero,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(MmSpace.s20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(RhythmCopy.rhythmOffTitle, style: type.title),
+              const SizedBox(height: MmSpace.s4),
+              Text(RhythmCopy.rhythmOffBody, style: type.body.copyWith(color: colors.ink2)),
+              const SizedBox(height: MmSpace.s16),
+              KeyButton.secondary(label: RhythmCopy.turnOnRhythm, onPressed: onTurnOn),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// One line of the run panel, with an optional key at its end.
+class _Line extends StatelessWidget {
+  const _Line({required this.text, this.trailing});
+
+  final String text;
+  final Widget? trailing;
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 56),
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, trailing == null ? MmSpace.gutter : MmSpace.s4, MmSpace.s8),
+        child: Row(
+          children: [
+            Expanded(child: Text(text, style: context.mmType.labelLarge.copyWith(fontSize: 16))),
+            ?trailing,
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// A closed week: its words and the week as a row of bubbles, the study days inked.
+class _ClosedWeek extends StatelessWidget {
+  const _ClosedWeek({required this.week});
+
+  final RhythmWeek week;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final days = week.studyDays;
+    final goal = week.goal;
+    final met = week.met;
+    final total = days > goal ? days : goal;
+    return Semantics(
+      container: true,
+      label: met ? '${closedWeekText(week)} ${RhythmCopy.goalMet}' : closedWeekText(week),
+      excludeSemantics: true,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter, vertical: MmSpace.s12),
+        child: Row(
+          children: [
+            Expanded(child: Text(closedWeekText(week), style: type.body.copyWith(color: colors.ink))),
+            const SizedBox(width: MmSpace.s12),
+            BubbleRow(
+              states: [for (var i = 0; i < total; i++) i < days ? BubbleState.filled : BubbleState.hollow],
+              bubbleSize: 10,
+              gap: 4,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -145,55 +279,53 @@ class _PauseGroup extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const GroupHeading(RhythmCopy.pauseTitle),
-        Text(RhythmCopy.pausedKeepsRun, style: type.body.copyWith(color: colors.ink2)),
-        const SizedBox(height: MmSpace.s8),
+        Padding(
+          padding: const EdgeInsets.only(left: 4, bottom: MmSpace.s12),
+          child: Text(RhythmCopy.pausedKeepsRun, style: type.small.copyWith(color: colors.ink2)),
+        ),
         if (paused)
-          Align(
-            alignment: Alignment.centerLeft,
-            child: KeyButton.secondary(label: RhythmCopy.resume, onPressed: busy ? null : onResume, expanded: false),
-          )
-        else ...[
-          _PauseRow(label: RhythmCopy.pauseThisWeek, first: true, onTap: busy ? null : onThisWeek),
-          _PauseRow(label: RhythmCopy.pauseTwoWeeks, onTap: busy ? null : onTwoWeeks),
-          _PauseRow(label: RhythmCopy.pauseUntilOn, onTap: busy ? null : onUntilOn),
-        ],
+          KeyButton.secondary(label: RhythmCopy.resume, onPressed: busy ? null : onResume)
+        else
+          YouPanel(
+            margin: EdgeInsets.zero,
+            inset: MmSpace.gutter + 36 + MmSpace.s12,
+            children: [
+              _PauseRow(label: RhythmCopy.pauseThisWeek, onTap: busy ? null : onThisWeek),
+              _PauseRow(label: RhythmCopy.pauseTwoWeeks, onTap: busy ? null : onTwoWeeks),
+              _PauseRow(label: RhythmCopy.pauseUntilOn, onTap: busy ? null : onUntilOn),
+            ],
+          ),
       ],
     );
   }
 }
 
-/// A pause preset as a plain tappable row with a pause glyph, so a preset reads as an action.
+/// A pause preset as a row with a pause glyph, so a preset reads as an action.
 class _PauseRow extends StatelessWidget {
-  const _PauseRow({required this.label, required this.onTap, this.first = false});
+  const _PauseRow({required this.label, required this.onTap});
 
   final String label;
   final VoidCallback? onTap;
-  final bool first;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    return Semantics(
-      button: true,
-      enabled: onTap != null,
-      label: '${RhythmCopy.pauseTitle}, $label',
-      excludeSemantics: true,
+    return RowFrame(
       onTap: onTap,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: HairlineRow(
-          first: first,
-          trailing: Icon(LucideIcons.pause, size: 18, color: onTap == null ? colors.ink4 : colors.ink2),
-          child: Text(label, style: type.body.copyWith(color: onTap == null ? colors.ink3 : colors.ink)),
-        ),
+      semanticsLabel: '${RhythmCopy.pauseTitle}, $label',
+      child: Row(
+        children: [
+          IconWell(LucideIcons.pause, color: onTap == null ? colors.ink4 : colors.ink2),
+          const SizedBox(width: MmSpace.s12),
+          Expanded(child: Text(label, style: type.labelLarge.copyWith(fontSize: 16, color: onTap == null ? colors.ink3 : colors.ink))),
+        ],
       ),
     );
   }
 }
 
-/// Celebrations: Full, Quiet or Off (spec 6.2). Selected is an ink fill plus a check, never colour alone.
+/// Celebrations: Full, Quiet or Off (spec 6.2), as a segmented control with the plain hint under it.
 class CelebrationsPicker extends StatelessWidget {
   const CelebrationsPicker({super.key, required this.mode, required this.onMode});
 
@@ -214,82 +346,20 @@ class CelebrationsPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            for (final m in CelebrationMode.values) ...[
-              if (m != CelebrationMode.values.first) const SizedBox(width: MmSpace.s8),
-              Expanded(child: _ModeChoice(label: label(m), selected: m == mode, onTap: () => onMode(m))),
-            ],
-          ],
-        ),
-        const SizedBox(height: MmSpace.s8),
-        Text(hint(mode), style: type.small.copyWith(color: colors.ink2)),
-      ],
-    );
-  }
-}
-
-class _CelebrationsGroup extends StatelessWidget {
-  const _CelebrationsGroup({required this.mode, required this.onMode});
-
-  final CelebrationMode mode;
-  final ValueChanged<CelebrationMode> onMode;
-
-  @override
-  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const GroupHeading(RhythmCopy.celebrationsTitle),
-        CelebrationsPicker(mode: mode, onMode: onMode),
-      ],
-    );
-  }
-}
-
-class _ModeChoice extends StatelessWidget {
-  const _ModeChoice({required this.label, required this.selected, required this.onTap});
-
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    return Semantics(
-      button: true,
-      selected: selected,
-      label: label,
-      excludeSemantics: true,
-      onTap: onTap,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: MmTarget.min),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: selected ? colors.ink : colors.raised,
-              borderRadius: MmRadius.keyAll,
-              border: Border.all(color: selected ? colors.ink : colors.lineStrong),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (selected) ...[Icon(LucideIcons.check, size: 16, color: colors.ground), const SizedBox(width: MmSpace.s4)],
-                Flexible(child: Text(label, style: type.button.copyWith(color: selected ? colors.ground : colors.ink), textAlign: TextAlign.center)),
-              ],
-            ),
-          ),
+        MmSegmented<CelebrationMode>(
+          semanticsLabel: RhythmCopy.celebrationsTitle,
+          segments: [for (final m in CelebrationMode.values) MmSegment(m, label(m))],
+          value: mode,
+          onChanged: onMode,
         ),
-      ),
+        Padding(
+          padding: const EdgeInsets.only(left: 4, top: MmSpace.s8),
+          child: Text(hint(mode), style: context.mmType.caption.copyWith(color: context.mmColors.ink2)),
+        ),
+      ],
     );
   }
 }
