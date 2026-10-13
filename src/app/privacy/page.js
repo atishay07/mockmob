@@ -16,7 +16,7 @@ export default function PrivacyPage() {
       <main className="container-narrow px-5 pb-20 pt-10">
         <div className="eyebrow mb-3">{'// Legal'}</div>
         <h1 className="display-lg mb-5">Privacy Policy</h1>
-        <p className="mb-10 text-zinc-400">Last updated: 12 October 2026</p>
+        <p className="mb-10 text-zinc-400">Last updated: 13 October 2026</p>
 
         <div className="legal-copy">
           <section>
@@ -33,11 +33,11 @@ export default function PrivacyPage() {
           </section>
           <section>
             <h2>Android app</h2>
-            <p>The Android app stores your push notification token so we can send reminders, plus your notification preferences and study goal. These are linked to your account and removed when your account is deleted. You can turn notifications off in the app or in your phone settings.</p>
+            <p>Reminders in the Android app are set on your phone itself. They are local notifications, so the app does not store a push notification token and nothing is sent to a push service for them. Your notification preferences and study goal are saved to your account and removed when your account is deleted. You can turn notifications off in the app or in your phone settings.</p>
           </section>
           <section>
             <h2>Deleting your account</h2>
-            <p>Open Profile, then Delete account, or email support@mockmob.in from your account email. We delete your account and study records within 30 days. Payment records required by law are kept. Details are on the <a href="/account-deletion">account deletion page</a>.</p>
+            <p>On the website open Profile, then Delete account. In the Android app open You, then Account, then Delete account. Or email support@mockmob.in from your account email. We delete your account and study records within 30 days. Payment records required by law are kept. Details are on the <a href="/account-deletion">account deletion page</a>.</p>
           </section>
           <section>
             <h2>Practice events and optional AI</h2><p>New sessions may record answers, answer changes, visits and elapsed times. These are device observations and are not assumed to explain why a question was skipped. Session snapshots, learning observations and corrections preserve history. Core recovery does not require paid AI. Optional AI, when enabled, sends your prompt and a compact study summary to the configured provider; it does not need your full raw attempt history. PrepOS currently explains the shared plan without a paid model call.</p></section><section><h2>Retention and requests</h2><p>Account and practice records remain while your account is active. Payment and fraud-prevention records may remain after a deletion request where reconciliation or legal obligations require them. Usage data is kept for 180 days. Deletion requests are handled within 30 days as described below. Request an export at support@mockmob.in.</p></section><section><h2>Payments</h2>

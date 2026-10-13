@@ -17,12 +17,14 @@ export default function AccountDeletionPage() {
       <main className="container-narrow px-5 pb-20 pt-10">
         <div className="eyebrow mb-3">Account</div>
         <h1 className="display-lg mb-5">Delete your MockMob account</h1>
-        <p className="mb-10 text-zinc-400">Last updated: 12 October 2026</p>
+        <p className="mb-10 text-zinc-400">Last updated: 13 October 2026</p>
 
         <div className="legal-copy">
           <section>
             <h2>Two ways to ask</h2>
-            <p>Signed in on the website or the Android app: open Profile, then Delete account, type DELETE to confirm and send the request. You will see the date of your request and that it is pending.</p>
+            <p>Signed in on the website: open Profile, then Delete account, type DELETE to confirm and send the request.</p>
+            <p>Signed in on the Android app: open You, then Account, then Delete account, type DELETE to confirm and send the request.</p>
+            <p>Either way you will see the time of your request and that it is pending.</p>
             <p>Cannot sign in: email <a className="mm-link" href="mailto:support@mockmob.in">support@mockmob.in</a> from the email address your account uses, and say you want the account deleted. We use that address to check the request is yours.</p>
           </section>
           <section>
@@ -30,7 +32,7 @@ export default function AccountDeletionPage() {
             <ul>
               <li>Your account and sign-in details.</li>
               <li>Your study records: mock attempts, saved and uploaded questions, bookmarks, votes, subjects and plans.</li>
-              <li>App data: push notification tokens, notification preferences and study goal.</li>
+              <li>App data: notification preferences and study goal. The Android app sets reminders on the phone itself and stores no push notification token.</li>
               <li>Any usage data collected, if you had allowed it.</li>
             </ul>
           </section>
