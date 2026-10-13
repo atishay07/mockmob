@@ -27,7 +27,7 @@ process.env.CUET_EVIDENCE_SIGNING_KEY = env.CUET_EVIDENCE_SIGNING_KEY || '';
 const { CUET_PUBLIC_ALLOWED_SUBJECTS, toInternalSubjectId } = await import('../data/cuet_controls.js');
 const { NTA_MIN_SCORE, NTA_ENGINE_VERSION, NTA_MIN_SERVE_QUESTIONS, assembleNtaPaper, getNtaBlueprint, ntaEligibility } = await import('../data/nta_engine.js');
 const { buildNtaPaper, loadNtaPool, attachPassages, loadOpenDisputes, loadHeldFamilies, NTA_SLIM_COLUMNS } = await import('../data/nta_pool.js');
-const { contentTokens, jaccard, isNumericalItem, objectiveTagOf } = await import('../data/nta_item_checks.js');
+const { contentTokens, jaccard, isNumericalItem, objectiveTagOf, ntaDifficultyOf } = await import('../data/nta_item_checks.js');
 const { getQuestionText, normalizeOptions } = await import('../data/nta_question_selector.js');
 const { ntaAgentTable, ntaAgentAdmissibleIds, NTA_AGENT_RUBRIC_VERSION } = await import('../data/nta_agent_scores.js');
 const keyDisputesFile = JSON.parse(fs.readFileSync('data/nta_key_disputes.json', 'utf8'));
@@ -156,7 +156,9 @@ for (const subject of CUET_PUBLIC_ALLOWED_SUBJECTS) {
     eligibleAgentScored: papers[0].pool.eligibleBySource?.agent_scored || 0,
     eligibleFactory: (papers[0].pool.eligibleBySource?.evidence_judges || 0) + (papers[0].pool.eligibleBySource?.nta_index || 0),
     keyDisputes: Object.values(keyDisputesFile.questions || {}).filter((entry) => entry.subject === subject).length,
-    difficultyCorrections: Object.values(difficultyFile.questions || {}).filter((entry) => entry.subject === subject).length,
+    // Corrections in the file for this subject, and the ones that change a loaded row's label now (the stored label may have moved on).
+    difficultyCorrectionsInFile: Object.values(difficultyFile.questions || {}).filter((entry) => entry.subject === subject).length,
+    difficultyCorrections: pool.filter((row) => ntaDifficultyOf(row) !== (String(row.difficulty || '').trim().toLowerCase() || 'medium')).length,
     objectiveTags: [...agentIds].filter((id) => (objectivesFile.agent_questions || {})[id]).length,
     measures: agentTable?.measures || null,
   };

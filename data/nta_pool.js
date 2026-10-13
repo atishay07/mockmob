@@ -208,16 +208,19 @@ export async function loadSeenQuestionIds(db, userId, subject, { signal } = {}) 
 /**
  * Questions served in this student's earlier NTA papers of this subject: submitted NTA attempts and
  * NTA sessions kept on the server. The engine leaves them out when the pool allows (data/nta_engine.js).
- * Lookup failures degrade to "no earlier paper".
+ * A failed lookup degrades to "no earlier paper" but is recorded: the returned set has lookupFailed = true,
+ * and buildNtaPaper copies that into structure.crossPaper so the paper's record says repeats were not guarded.
  */
 export async function loadPreviousNtaPaperIds(db, userId, subject, { signal } = {}) {
   const ids = new Set();
   if (!userId) return ids;
-  const settle = (query) => Promise.resolve().then(() => withSignal(query(), signal)).catch(() => ({ data: null }));
+  const settle = (query) => Promise.resolve().then(() => withSignal(query(), signal)).catch((error) => ({ data: null, error }));
   const [attempts, sessions] = await Promise.all([
-    settle(() => db.from('attempts').select('questions_snapshot,selection_meta').eq('user_id', userId).eq('subject', subject).order('completed_at', { ascending: false }).limit(40)),
-    settle(() => db.from('recovery_sessions').select('questions').eq('user_id', userId).eq('subject', subject).eq('mode', 'nta').limit(20)),
+    // NTA attempts only, newest first: a student with many other attempts in the subject keeps every NTA paper in view.
+    settle(() => db.from('attempts').select('questions_snapshot,selection_meta').eq('user_id', userId).eq('subject', subject).eq('selection_meta->>mode', 'nta').order('completed_at', { ascending: false }).limit(40)),
+    settle(() => db.from('recovery_sessions').select('questions').eq('user_id', userId).eq('subject', subject).eq('mode', 'nta').order('created_at', { ascending: false }).limit(20)),
   ]);
+  if (attempts?.error || sessions?.error) ids.lookupFailed = true;
   for (const attempt of attempts?.data || []) {
     if (attempt?.selection_meta?.mode !== 'nta') continue;
     for (const question of attempt.questions_snapshot || []) if (question?.id) ids.add(question.id);
@@ -260,6 +263,10 @@ export async function buildNtaPaper(db, subject, options = {}) {
     const heldFamilies = await loadHeldFamilies(db, rows, { signal });
     const loadMs = Date.now() - startedAt;
     const result = assembleNtaPaper(rows, { subject, variant: options.variant, seed: options.seed, shuffleKey: options.shuffleKey, seenIds, previousPaperIds, disputedIds, heldFamilies, deadline, agentScores: options.agentScores });
+    if (previousPaperIds?.lookupFailed) {
+      result.structure.crossPaper = { ...result.structure.crossPaper, lookupFailed: true };
+      if (result.shortfall) result.shortfall.crossPaper = result.structure.crossPaper;
+    }
     result.timings = { ...result.timings, readMs, loadMs, endToEndMs: Date.now() - startedAt, budgetMs: budget, poolSource: pool.source, poolCached: pool.cached };
     result.pool.loaded = rows.length;
     result.pool.source = pool.source;

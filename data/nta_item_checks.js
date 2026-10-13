@@ -126,9 +126,9 @@ export function optionLabelList(optionText) {
 /** "(A)-(II)" style pairs in a match option; null when the option is not a set of pairs. */
 export function optionPairs(optionText) {
   const value = text(optionText);
-  const pairs = [...value.matchAll(/\(?\b([A-F])\b\)?\s*[-–:→]\s*\(?\b(VI|IV|V|I{1,3}|[1-6]|[P-U])\b\)?/g)].map((match) => [match[1], match[2]]);
+  const pairs = [...value.matchAll(/\(?\b([A-F])\b\)?\s*[-–:→]\s*\(?\b(VI|IV|V|I{1,3}|[1-6]|[P-T])\b\)?/g)].map((match) => [match[1], match[2]]);
   if (pairs.length < 2) return null;
-  const rest = value.replace(/\(?\b([A-F])\b\)?\s*[-–:→]\s*\(?\b(VI|IV|V|I{1,3}|[1-6]|[P-U])\b\)?/g, '').replace(/[\s,;]+/g, '');
+  const rest = value.replace(/\(?\b([A-F])\b\)?\s*[-–:→]\s*\(?\b(VI|IV|V|I{1,3}|[1-6]|[P-T])\b\)?/g, '').replace(/[\s,;]+/g, '');
   return rest.length ? null : pairs;
 }
 
@@ -327,7 +327,8 @@ const DIFFICULTY_RANK = { easy: 0, medium: 1, hard: 2 };
  */
 export function ntaDifficultyOf(row, { corrections } = {}) {
   const stored = text(row?.difficulty).toLowerCase();
-  const correction = corrections ? corrections[String(row?.id)] : DIFFICULTY.get(String(row?.id));
+  const id = String(row?.id);
+  const correction = corrections ? (Object.hasOwn(corrections, id) ? corrections[id] : undefined) : DIFFICULTY.get(id);
   if (correction && DIFFICULTY_LEVELS.has(correction.to) && DIFFICULTY_LEVELS.has(stored)
     && text(correction.from).toLowerCase() === stored
     && Math.abs(DIFFICULTY_RANK[correction.to] - DIFFICULTY_RANK[stored]) === 2) return correction.to;
@@ -598,11 +599,16 @@ export function conceptKeysOf(row, { agentScores } = {}) {
 
 // Bank ids are UUIDs; factory candidates store the same 128 bits without hyphens.
 const QUESTION_ID = /^[0-9a-f]{8}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{12}$/i;
-const DEMO_MARKER = /^(?:seed|seeded|demo|sample data|dummy|placeholder|fixture|test data)\b/i;
-const DEMO_TAG = /^(?:seed|seeded|demo|dummy|placeholder|fixture)(?:[:_-]|$)/i;
+// A source or provenance kind that starts with a marker word ("seed", "seed_import", "demo-2026"; an
+// underscore is not a word break here), or carries one anywhere ("PYQ 2023 (seed)", "PYQ demo").
+const DEMO_MARKER = /^(?:seed|seeded|demo|sample[\s_-]?data|dummy|placeholder|fixture|test[\s_-]?data)(?![a-z0-9])/i;
+const DEMO_ANYWHERE = /\(\s*(?:seed|seeded|demo|dummy|placeholder|fixture|sample|test)\s*\)|\b(?:demo|dummy|placeholder)\b/i;
+// A tag that starts with a marker word, whatever separates it from the rest ("seed:2026-04", "seed 2026-04").
+const DEMO_TAG = /^(?:seed|seeded|demo|dummy|placeholder|fixture)(?![a-z])/i;
 
+/** Bank ids are UUIDs exactly as stored: a padded id would miss every Set and Map keyed by the stored id. */
 export function isNtaQuestionId(id) {
-  return QUESTION_ID.test(text(id));
+  return typeof id === 'string' && QUESTION_ID.test(id);
 }
 
 /**
@@ -613,7 +619,8 @@ export function seedOrDemoReasons(row) {
   const reasons = [];
   if (!isNtaQuestionId(row?.id)) reasons.push('id_not_uuid');
   const tags = Array.isArray(row?.tags) ? row.tags : [];
-  if (DEMO_MARKER.test(text(row?.source)) || DEMO_MARKER.test(text(row?.provenance?.kind)) || tags.some((tag) => DEMO_TAG.test(text(tag)))) reasons.push('seed_or_demo_row');
+  const labels = [text(row?.source), text(row?.provenance?.kind)];
+  if (labels.some((label) => DEMO_MARKER.test(label) || DEMO_ANYWHERE.test(label)) || tags.some((tag) => DEMO_TAG.test(text(tag)))) reasons.push('seed_or_demo_row');
   return reasons;
 }
 
@@ -633,7 +640,10 @@ const CORRUPTED_CONNECTIVES = [
   /\bmainly (?:if|when)\b/i,
   /\bmainly (?:partially|partly|slightly|fully|completely|wholly|exclusively|solely)\b/i,
   // A label list closed by "mainly" instead of "only": "I and III mainly", "Statement II mainly".
-  /(?:\b(?:and|or|Statements?|Only)\s+|,\s*)\(?(?:I{1,3}|IV|VI?|[A-F]|[1-6])\)?\s+mainly\b/,
+  // After a comma only a bracketed label or a roman numeral counts: "5 items, 2 mainly for households" and
+  // "Vitamin A, B mainly supports vision" are ordinary text.
+  /\b(?:and|or|Statements?|Only)\s+\(?(?:I{1,3}|IV|VI?|[A-F]|[1-6])\)?\s+mainly\b/,
+  /,\s*(?:\((?:I{1,3}|IV|VI?|[A-F]|[1-6])\)|(?:I{1,3}|IV|VI?))\s+mainly\b/,
   // "mainly" closing a clause where "only" stood: "observation and self-judgment mainly".
   /\bmainly\s*(?=[.,;:!?)\]"”]|$)/i,
 ];
@@ -671,7 +681,7 @@ function labelRank(label) {
   const value = text(label);
   if (ROMAN_RANK[value]) return ROMAN_RANK[value];
   if (/^[A-F]$/.test(value)) return value.charCodeAt(0) - 64;
-  if (/^[P-U]$/.test(value)) return value.charCodeAt(0) - 79;
+  if (/^[P-T]$/.test(value)) return value.charCodeAt(0) - 79;
   if (/^[1-6]$/.test(value)) return Number(value);
   return null;
 }
@@ -699,9 +709,41 @@ export function keyIndexOf(row) {
   return options.findIndex((option) => optionValue(option).toLowerCase() === answer.toLowerCase());
 }
 
+// The stem's own list: "(A) Mauryan empire (B) Gupta empire ..." as [{ label, item }] in the order it is printed.
+function stemListItems(stem) {
+  const value = text(stem);
+  const marks = [...value.matchAll(new RegExp(String.raw`\((${LABEL})\)`, 'g'))];
+  const items = [];
+  marks.forEach((mark, i) => {
+    if (items.some((entry) => entry.label === mark[1])) return;
+    const end = i + 1 < marks.length ? marks[i + 1].index : value.length;
+    items.push({ label: mark[1], item: value.slice(mark.index + mark[0].length, end).split(/[?]|\.\s/)[0] });
+  });
+  return items;
+}
+
+const plainWords = (value) => text(value).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+
+/** True when a key written as item text restates the stem's items in the order they are printed. */
+function keyRestatesItemsInOrder(keyText, items) {
+  const key = ` ${plainWords(keyText)} `;
+  if (items.length < 3 || key.trim().length < 6) return false;
+  let from = 0;
+  for (const { item } of items) {
+    const words = plainWords(item).split(' ').filter(Boolean).slice(0, 5).join(' ');
+    if (words.length < 3) return false;
+    const at = key.indexOf(` ${words}`, from);
+    if (at < 0) return false;
+    from = at + words.length;
+  }
+  return true;
+}
+
 /**
- * An arrange-in-sequence key that is the order the items are listed in ((A), (B), (C), (D)), or a match
- * key that pairs the lists in their listed order ((A)-(I), (B)-(II), ...), gives the answer away.
+ * An arrange-in-sequence key that is the order the items are listed in ((A), (B), (C), (D); a numbered
+ * "1. 2. 3. 4."; or the items' own text in the printed order), or a match key that pairs the lists in
+ * their listed order ((A)-(I), (B)-(II), ...), gives the answer away. When the stem prints its items
+ * out of alphabetical order ((C) (A) (D) (B)), the printed order is the one that counts.
  */
 export function listedOrderKeyReasons(row, type) {
   const options = normalizeOptions(row?.options, row);
@@ -709,13 +751,22 @@ export function listedOrderKeyReasons(row, type) {
   if (index < 0 || index >= options.length) return [];
   const keyText = plainOptionTexts(options.map((option) => option.text))[index];
   const reasons = [];
-  const list = optionLabelList(keyText);
-  if (list && list.length >= 3 && (['sequence_ordering', 'sentence_rearrangement'].includes(type) || isPermutationOptions(options))) {
-    const ranks = list.map(labelRank);
-    if (ranks.every((rank, i) => rank !== null && (i === 0 || rank === ranks[i - 1] + 1))) reasons.push('sequence_key_is_listed_order');
-  }
+  const sequenceType = ['sequence_ordering', 'sentence_rearrangement'].includes(type) || isPermutationOptions(options);
+  // "1. 2. 3. 4." names labels with full stops; the label list helper reads only bare labels.
+  const list = optionLabelList(text(keyText).replace(new RegExp(String.raw`\b(${LABEL})\.(?=\s|$)`, 'g'), '$1'));
+  const printed = stemListItems(getQuestionText(row)).map((entry) => entry.label);
+  if (list && list.length >= 3 && sequenceType) {
+    const sameLabels = printed.length === list.length && printed.every((label) => list.includes(label));
+    if (sameLabels) {
+      if (list.every((label, i) => label === printed[i])) reasons.push('sequence_key_is_listed_order');
+    } else {
+      const ranks = list.map(labelRank);
+      if (ranks.every((rank, i) => rank !== null && (i === 0 || rank === ranks[i - 1] + 1))) reasons.push('sequence_key_is_listed_order');
+    }
+  } else if (!list && sequenceType && ['sequence_ordering', 'sentence_rearrangement'].includes(type)
+    && keyRestatesItemsInOrder(keyText, stemListItems(getQuestionText(row)))) reasons.push('sequence_key_is_listed_order');
   const pairs = optionPairs(keyText);
-  if (pairs && pairs.length >= 3 && pairs.every(([left, right]) => labelRank(left) !== null && labelRank(left) === labelRank(right))) reasons.push('match_key_is_listed_order');
+  if (pairs && pairs.length >= 2 && pairs.every(([left, right]) => labelRank(left) !== null && labelRank(left) === labelRank(right))) reasons.push('match_key_is_listed_order');
   return reasons;
 }
 
@@ -754,8 +805,15 @@ function seededRandom(seed) {
 }
 
 // Explicit references to an option by letter or number: "option C", "options B and D", "answer is A".
-const OPTION_REFERENCE = /\b(options?|choices?|alternatives?)(\s*)((?:\(?[A-D1-4]\)?)(?:\s*(?:,|and|or|&|\/)\s*\(?[A-D1-4]\)?)*)(?![\w'’-])/g;
-const ANSWER_REFERENCE = /\b((?:correct\s+)?(?:answer|key)(?:\s+is)?)(\s*[:=-]?\s*)(\(?)([A-D])(\)?)(?![\w'’-])/g;
+// The word may be capitalised ("Option B"); the letters stay upper case, so "an option a student ..." is prose.
+// A linking word may stand between the word and the letters: "option is B", "Option B gives", "choice would be C".
+const OPTION_WORD = String.raw`(?:[Oo]ptions?|[Cc]hoices?|[Aa]lternatives?)`;
+const OPTION_LINK = String.raw`\s+(?:(?:is|are|was|were|has|have|gives?|giving|equals?|becomes?|remains?|seems?)|(?:would|must|should|will|can|could|may|might)\s+be)\s+|\s*[:=]\s*|\s*`;
+const OPTION_REFERENCE = new RegExp(String.raw`\b(${OPTION_WORD})(${OPTION_LINK})((?:\(?[A-D1-4]\)?)(?:\s*(?:,|and|or|&|\/)\s*\(?[A-D1-4]\)?)*)(?![\w'’-])`, 'g');
+// What is left of an option word and a letter once the rewritable references are taken out. Up to three
+// words (and commas, but no full stop) may stand between: "option, as the powers add, B is ...".
+const UNMATCHED_OPTION_REFERENCE = new RegExp(String.raw`\b${OPTION_WORD}\b(?:,?\s+[\w'’-]+){0,3}?,?\s*\(?\b[A-D1-4]\b\)?(?![\w'’-])`);
+const ANSWER_REFERENCE = /\b((?:[Cc]orrect\s+)?(?:[Aa]nswer|[Kk]ey)(?:\s+is)?)(\s*[:=-]?\s*)(\(?)([A-D])(\)?)(?![\w'’-])/g;
 const LETTER_VERDICT = /(?:^|[\s(])\(?([A-D])\)?\s+(?:is|was)\s+(?:the\s+)?(?:correct|incorrect|right|wrong|answer|key)\b/g;
 
 /**
@@ -788,7 +846,7 @@ export function shuffleBlockers(row) {
   // "(C) is correct" naming a statement the stem labels (C) is about the statement, not an option, and
   // cannot be told apart from an option reference, so such items keep their order.
   const rest = text(row.explanation).replace(OPTION_REFERENCE, ' ').replace(ANSWER_REFERENCE, ' ');
-  if ([...rest.matchAll(LETTER_VERDICT)].some((match) => labels.has(match[1]))) reasons.push('explanation_names_an_option');
+  if ([...rest.matchAll(LETTER_VERDICT)].some((match) => labels.has(match[1])) || UNMATCHED_OPTION_REFERENCE.test(rest)) reasons.push('explanation_names_an_option');
   return [...new Set(reasons)];
 }
 

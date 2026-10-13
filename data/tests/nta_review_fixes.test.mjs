@@ -15,7 +15,7 @@ import {
 import { buildNtaPaper, clearNtaPoolCache, loadPreviousNtaPaperIds, recordNtaShortfall } from '../nta_pool.js';
 import {
   conflictReason, corruptedConnectives, headwordsOf, isNtaQuestionId, isNumericalItem, itemFeatures, listedOrderKeyReasons, ntaDifficultyOf,
-  ntaQuarantine, ntaServedRow, seedOrDemoReasons, stemGramWeights, stemWordingAlike,
+  ntaQuarantine, ntaServedRow, seedOrDemoReasons, shuffleBlockers, stemGramWeights, stemWordingAlike,
 } from '../nta_item_checks.js';
 import committedDifficulty from '../nta_difficulty.json' with { type: 'json' };
 import { contentHash } from '../content_evidence.js';
@@ -212,7 +212,8 @@ function fakeDb(tables, { missing = [] } = {}) {
     let columns = '';
     const query = {
       select(value) { columns = value; calls.push(['select', table, value]); return query; },
-      eq(column, value) { filters.push((row) => row[column] === value); return query; },
+      // 'selection_meta->>mode' reads a key of a json column, as PostgREST does.
+      eq(column, value) { filters.push((row) => column.split('->>').reduce((cell, key) => cell?.[key], row) === value); return query; },
       is(column, value) { filters.push((row) => (row[column] ?? null) === value); return query; },
       gt(column, value) { filters.push((row) => Number(row[column]) > value); return query; },
       in(column, values) { filters.push((row) => values.includes(row[column])); return query; },
@@ -352,6 +353,42 @@ test('finding 1: options are served in a per-session order with the key, letters
   assert.equal(served.options[served.correct_index].text, '36');
 });
 
+test('finding 1: an explanation that names an option in any common phrasing follows the key, or the row keeps its order', () => {
+  const lens = (explanation) => item('physics', 'Ray Optics and Optical Instruments', 'Two thin lenses of powers +4 D and +2 D are placed in contact. What is the power of the combination?', ['+6 D', '+2 D', '-2 D', '+8 D'], { explanation });
+  // {A} {B} {C} {D}: the served letter of the option that was stored under that letter.
+  const phrasings = [
+    ['The correct option is A because the powers add.', 'The correct option is {A} because the powers add.'],
+    ['The right option is C.', 'The right option is {C}.'],
+    ['Option A is correct because the powers add.', 'Option {A} is correct because the powers add.'],
+    ['Option B gives the wrong total; option D is too large.', 'Option {B} gives the wrong total; option {D} is too large.'],
+    ['Option A gives the sum, while options B and C subtract.', 'Option {A} gives the sum, while options {B} and {C} subtract.'],
+    ['Hence the choice would be A.', 'Hence the choice would be {A}.'],
+    ['Powers add, so A is correct.', 'Powers add, so {A} is correct.'],
+  ];
+  let moved = 0;
+  for (const [explanation, template] of phrasings) {
+    for (let i = 0; i < 40; i += 1) {
+      const result = ntaServedRow(lens(explanation), `phrasing-${i}`);
+      const order = result.row.nta_option_order;
+      assert.equal(result.shuffled, true, explanation);
+      const letterOf = (stored) => 'ABCD'[order.indexOf('ABCD'.indexOf(stored))];
+      assert.equal(result.row.explanation, template.replace(/\{([A-D])\}/g, (_, stored) => letterOf(stored)), `${explanation} (${i})`);
+      assert.equal(result.row.options[result.row.correct_index].text, '+6 D');
+      if (order[0] !== 0) moved += 1;
+    }
+  }
+  assert.ok(moved > 0, 'the shuffle moved options');
+  // A reference this module cannot rewrite (letters apart from the word) keeps the stored order instead of going stale.
+  for (const explanation of ['Option, as powers add, B is not the sum.', 'The second choice, B, is wrong.']) {
+    const result = ntaServedRow(lens(explanation), 'stale');
+    assert.equal(result.row.explanation, explanation);
+    if (!result.shuffled) assert.deepEqual(result.row.nta_option_order, [0, 1, 2, 3]);
+  }
+  assert.ok(shuffleBlockers(lens('Option, as powers add, B is not the sum.')).includes('explanation_names_an_option'));
+  // Prose that merely contains the word "option" is not an option reference.
+  assert.equal(ntaServedRow(lens('An option a student might pick is the difference of the powers, which is wrong.'), 'prose').shuffled, true);
+});
+
 test('finding 1: options that name other options, error-spotting parts and a fixed last option keep their order', () => {
   const stay = (body, texts) => ntaServedRow(item('business_studies', 'Planning', body, texts), 'session-1');
   for (const [body, texts] of [
@@ -391,14 +428,19 @@ test('finding 1: a paper serves shuffled rows, the same seed serves the same ord
 
 test('finding 2: a blocking flag from either agent judge vetoes a factory-scored question', () => {
   const [row] = makeBank('accountancy', { copies: 1 }).filter((entry) => !entry.passage_group_id);
-  assert.equal(ntaEligibility(row, { subject: 'accountancy', agentScores: {} }).eligible, true);
+  // Whatever else gates the row (the CUET-fit bar has its own fixtures), the veto is its own reason.
+  assert.ok(!ntaEligibility(row, { subject: 'accountancy', agentScores: {} }).reasons.includes('agent_blocking_flag'));
   for (const flag of ['factual_error', 'answer_in_stem', 'broken_layout']) {
     const verdict = ntaEligibility(row, { subject: 'accountancy', agentScores: agentTable('accountancy', [[row, {}, { flags: [flag] }]]) });
     assert.equal(verdict.scoreSource, 'evidence_judges');
     assert.ok(verdict.reasons.includes('agent_blocking_flag'), flag);
   }
   // A weakness that is not a blocking flag does not exclude.
-  assert.equal(ntaEligibility(row, { subject: 'accountancy', agentScores: agentTable('accountancy', [[row, { flags: ['weak_distractor'] }]]) }).eligible, true);
+  assert.ok(!ntaEligibility(row, { subject: 'accountancy', agentScores: agentTable('accountancy', [[row, { flags: ['weak_distractor'] }]]) }).reasons.includes('agent_blocking_flag'));
+  // A judge's spelling of a blocking flag does not decide whether it vetoes.
+  for (const flag of ['Wrong_Key', 'factual error', ' FACTUAL-ERROR ']) {
+    assert.ok(ntaEligibility(row, { subject: 'accountancy', agentScores: agentTable('accountancy', [[row, {}, { flags: [flag] }]]) }).reasons.includes('agent_blocking_flag'), flag);
+  }
 });
 
 test('finding 3: rows whose id is not a UUID, and seed or demo rows, never enter NTA mode', () => {
@@ -411,6 +453,13 @@ test('finding 3: rows whose id is not a UUID, and seed or demo rows, never enter
   assert.ok(ntaEligibility({ ...row, source: 'demo' }, { subject: 'economics' }).reasons.includes('seed_or_demo_row'));
   assert.ok(ntaEligibility({ ...row, tags: ['seed:2026-04'] }, { subject: 'economics' }).reasons.includes('seed_or_demo_row'));
   assert.deepEqual(seedOrDemoReasons({ ...row, source: 'PYQ 2023' }), []);
+  // Marker spellings: an underscore is not a word break, a tag may be spaced, a marker may follow the real source.
+  for (const marked of [{ source: 'seed_import' }, { provenance: { kind: 'demo_import' } }, { tags: ['seed 2026-04'] }, { tags: ['Seed 2026'] }, { source: 'PYQ 2023 (seed)' }, { source: 'PYQ demo' }]) {
+    assert.deepEqual(seedOrDemoReasons({ ...row, ...marked }), ['seed_or_demo_row'], JSON.stringify(marked));
+  }
+  assert.deepEqual(seedOrDemoReasons({ ...row, source: 'Seedling Academy PYQ 2023', tags: ['seedless-grape'] }), [], 'real words that start with seed');
+  // The id is the stored id: a padded one would miss every Set and Map keyed by it.
+  assert.deepEqual(seedOrDemoReasons({ ...row, id: ` ${row.id} ` }), ['id_not_uuid']);
   // In a paper: the seed copies are counted out, never served.
   const bank = makeBank('economics');
   const seeds = bank.filter((entry) => !entry.passage_group_id).slice(0, 15).map((entry, i) => {
@@ -439,6 +488,10 @@ test('finding 4: the "only" to "mainly" corruption is caught; ordinary "mainly" 
   }
   const fine = item('biology', 'Environmental Issues', 'Acid rain is mainly caused by which pair of gases released by burning fossil fuels?', ['Sulphur dioxide and nitrogen oxides', 'Carbon dioxide and methane', 'Ozone and CFCs', 'Hydrogen and helium'], { explanation: 'It is mainly due to SO2 and NOx, which form acids in rain water.' });
   assert.deepEqual(corruptedConnectives(fine), []);
+  // A number or a vitamin letter after a comma is not a label list closed by "mainly".
+  for (const body of ['Calculate the cost of 5 items, 2 mainly for households, if each costs Rs 40.', 'Vitamin A, B mainly supports vision and metabolism. Which is correct?']) {
+    assert.deepEqual(corruptedConnectives(item('economics', 'Introduction to Macroeconomics', body, ['Rs 200', 'Rs 80', 'Rs 120', 'Rs 40'])), [], body);
+  }
 });
 
 test('finding 6: one concept appears once per paper even when the judges spell its tag differently', () => {
@@ -460,7 +513,8 @@ test('finding 6: one concept appears once per paper even when the judges spell i
   // Near-identical wording with different figures, whatever the tags say.
   const seriesA = item('physics', 'Electrostatic Potential and Capacitance', 'Two capacitors C1 = 2.0 μF and C2 = 3.0 μF are connected in series across a 100 V battery. What is the voltage across C1?', ['60 V', '40 V', '50 V', '100 V']);
   const seriesB = item('physics', 'Electrostatic Potential and Capacitance', 'Two capacitors C1 = 2.0 μF and C2 = 3.0 μF are connected in series across a 12 V battery. The total energy stored in the combination is', ['86.4 μJ', '144 μJ', '43.2 μJ', '72 μJ']);
-  assert.ok(['near_duplicate_stem_chars', 'near_duplicate_stem', 'near_duplicate_text', 'same_figures'].includes(conflictReason(features(seriesA), features(seriesB))));
+  assert.equal(stemWordingAlike(features(seriesA), features(seriesB)), true, 'the character 5-gram guard sees the pair on its own');
+  assert.ok(['near_duplicate_stem_chars', 'near_duplicate_stem', 'near_duplicate_text'].includes(conflictReason(features(seriesA), features(seriesB))), 'and the pair conflicts for wording, not by chance of figures');
   // Wording shared by many stems of the pool (a template) is weighed down: only rare 5-grams make two stems alike.
   const template = (n) => item('general_test', 'General Knowledge', `Read the following carefully and answer: in the yearly report, the auditor noted that the clerk ${word(`t${n}`, 1)} ${word(`t${n}`, 2)} ${word(`t${n}`, 3)} ${word(`t${n}`, 4)}.`, ['One', 'Two', 'Three', 'Four']);
   const templated = Array.from({ length: 12 }, (_, n) => template(n));
@@ -484,6 +538,7 @@ test('finding 7: the stored difficulty stands unless both judges put it two leve
   assert.equal(ntaDifficultyOf({ id: 'q3', difficulty: 'easy' }, { corrections }), 'hard');
   assert.equal(ntaDifficultyOf({ id: 'q4', difficulty: 'medium' }, { corrections }), 'medium');
   assert.equal(ntaDifficultyOf({ id: 'q2', difficulty: 'medium' }, { corrections }), 'medium', 'a later edit wins');
+  assert.equal(ntaDifficultyOf({ id: 'constructor', difficulty: 'hard' }, { corrections }), 'hard', 'an id that is an Object member is not a correction');
   for (const [id, entry] of Object.entries(committedDifficulty.questions)) {
     assert.equal(Math.abs(['easy', 'medium', 'hard'].indexOf(entry.from) - ['easy', 'medium', 'hard'].indexOf(entry.to)), 2, id);
   }
@@ -497,6 +552,15 @@ test('finding 8: a sequence or match key in the listed order is a giveaway and i
   const match = (key) => item('business_studies', 'Principles of Management', 'Match List-I with List-II. List-I (A) Order (B) Equity (C) Unity of command (D) Esprit de corps List-II (I) Right place for things (II) Kindness and justice (III) One boss (IV) Team spirit', [key, '(A)-(II), (B)-(I), (C)-(IV), (D)-(III)', '(A)-(III), (B)-(IV), (C)-(I), (D)-(II)', '(A)-(IV), (B)-(III), (C)-(II), (D)-(I)']);
   assert.deepEqual(listedOrderKeyReasons(match('(A)-(I), (B)-(II), (C)-(III), (D)-(IV)'), 'match_the_following'), ['match_key_is_listed_order']);
   assert.deepEqual(listedOrderKeyReasons(match('(A)-(II), (B)-(I), (C)-(IV), (D)-(III)'), 'match_the_following'), []);
+  // The giveaway in other spellings: numbered, the items' own text in printed order, or a two-pair match key.
+  assert.deepEqual(listedOrderKeyReasons(sequence('1. 2. 3. 4.'), 'sequence_ordering'), ['sequence_key_is_listed_order']);
+  assert.deepEqual(listedOrderKeyReasons(sequence('Mauryan empire, Gupta empire, Delhi Sultanate, Mughal empire'), 'sequence_ordering'), ['sequence_key_is_listed_order']);
+  assert.deepEqual(listedOrderKeyReasons(sequence('Gupta empire, Mauryan empire, Delhi Sultanate, Mughal empire'), 'sequence_ordering'), []);
+  assert.deepEqual(listedOrderKeyReasons(match('(A)-(I), (B)-(II)'), 'match_the_following'), ['match_key_is_listed_order']);
+  // A stem that prints its items out of alphabetical order: only the printed order is the giveaway.
+  const shuffled = (key) => item('history', 'Kings, Farmers and Towns', 'Arrange the following in chronological order: (C) Delhi Sultanate (A) Mauryan empire (D) Mughal empire (B) Gupta empire', [key, '(B), (A), (D), (C)', '(A), (C), (B), (D)', '(D), (C), (B), (A)']);
+  assert.deepEqual(listedOrderKeyReasons(shuffled('(A), (B), (C), (D)'), 'sequence_ordering'), []);
+  assert.deepEqual(listedOrderKeyReasons(shuffled('(C), (A), (D), (B)'), 'sequence_ordering'), ['sequence_key_is_listed_order']);
 });
 
 test('finding 9: a student\'s next paper leaves out the questions of earlier papers when the pool allows', () => {
@@ -530,5 +594,14 @@ test('finding 9: the loader reads a student\'s earlier NTA papers from attempts 
   assert.deepEqual([...ids].sort(), ['q-nta-1', 'q-nta-2', 'q-open']);
   assert.equal((await loadPreviousNtaPaperIds(fakeDb(rows), null, 'economics')).size, 0);
   const failing = { from: () => { throw new Error('down'); } };
-  assert.equal((await loadPreviousNtaPaperIds(failing, 'u1', 'economics')).size, 0, 'a failed lookup means no earlier paper');
+  const failed = await loadPreviousNtaPaperIds(failing, 'u1', 'economics');
+  assert.equal(failed.size, 0, 'a failed lookup means no earlier paper');
+  assert.equal(failed.lookupFailed, true, 'and the failure is recorded');
+  assert.equal(ids.lookupFailed, undefined);
+  // Only NTA attempts are asked for, so many other attempts in the subject cannot push earlier NTA papers out of the window.
+  const crowded = { attempts: [
+    ...Array.from({ length: 60 }, (_, i) => ({ user_id: 'u1', subject: 'economics', questions_snapshot: [{ id: `q-other-${i}` }], selection_meta: { mode: 'quick' } })),
+    { user_id: 'u1', subject: 'economics', questions_snapshot: [{ id: 'q-old-nta' }], selection_meta: { mode: 'nta' } },
+  ], recovery_sessions: [] };
+  assert.deepEqual([...await loadPreviousNtaPaperIds(fakeDb(crowded), 'u1', 'economics')], ['q-old-nta']);
 });

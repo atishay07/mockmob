@@ -119,7 +119,9 @@ export function ntaAgentTableReasons(table) {
  */
 export function ntaAgentBlockingFlags(entry) {
   const judges = Array.isArray(entry?.judges) ? entry.judges : [];
-  return [...new Set(judges.flatMap((judge) => (Array.isArray(judge?.flags) ? judge.flags : []).filter((flag) => BLOCKING.has(flag))))];
+  // "Wrong_Key" and "factual error" are the same flag as wrong_key and factual_error.
+  const canonical = (flag) => String(flag ?? '').trim().toLowerCase().replace(/[\s-]+/g, '_');
+  return [...new Set(judges.flatMap((judge) => (Array.isArray(judge?.flags) ? judge.flags : []).map(canonical).filter((flag) => BLOCKING.has(flag))))];
 }
 
 /**
