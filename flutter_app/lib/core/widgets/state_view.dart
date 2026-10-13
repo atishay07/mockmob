@@ -42,11 +42,16 @@ class StateView extends StatelessWidget {
   /// [MobiPose.idle] (the default) lets the kind choose the art.
   final MobiPose pose;
 
-  Widget _art(double size) {
+  Widget _art(BuildContext context, double size) {
     if (pose != MobiPose.idle) return Mobi(pose: pose, size: size, motion: MobiMotion.settle);
+    // The lamp-lit desk scenes melt into the Night ground; on Daylight paper they would read as
+    // a dark blot, so Daylight uses Mobi's cut-out poses instead.
+    final night = context.mmColors.isNight;
     return switch (kind) {
-      StateViewKind.empty => _Vignette(art: MmArt.emptyAllClear, height: size * 1.3),
-      StateViewKind.offline => _Vignette(art: MmArt.emptyOffline, height: size * 1.3),
+      StateViewKind.empty when night => _Vignette(art: MmArt.emptyAllClear, height: size * 1.3),
+      StateViewKind.offline when night => _Vignette(art: MmArt.emptyOffline, height: size * 1.3),
+      StateViewKind.empty => Mobi(pose: MobiPose.read, size: size, motion: MobiMotion.settle),
+      StateViewKind.offline => Mobi(pose: MobiPose.rest, size: size, motion: MobiMotion.settle),
       StateViewKind.error => Mobi(pose: MobiPose.think, size: size, motion: MobiMotion.settle),
     };
   }
@@ -100,7 +105,7 @@ class StateView extends StatelessWidget {
                         ],
                       ),
                     ),
-                    _art(artSize),
+                    _art(context, artSize),
                   ],
                 ),
               ),

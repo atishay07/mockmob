@@ -54,6 +54,26 @@ def prepare(path: Path, box, trim: bool) -> Image.Image:
         left, top = (im.width - side) // 2, (im.height - side) // 2
         im = im.crop((left, top, left + side, top + side))
     im.thumbnail(box, Image.LANCZOS)
+    if path.stem.startswith("empty-"):
+        im = feather(im)
+    return im
+
+
+def feather(im: Image.Image) -> Image.Image:
+    """Fades a scene's edges to transparent in an ellipse, so a vignette melts into the ground
+    instead of sitting on it as a rectangle (baked here: no runtime mask)."""
+    im = im.convert("RGBA")
+    w, h = im.size
+    cx, cy = w / 2, h * 0.48
+    alpha = Image.new("L", (w, h))
+    px = alpha.load()
+    for y in range(h):
+        for x in range(w):
+            d = ((x - cx) / (w * 0.5)) ** 2 + ((y - cy) / (h * 0.52)) ** 2
+            v = 1.0 if d <= 0.42 else max(0.0, 1.0 - (d - 0.42) / 0.5)
+            px[x, y] = int(255 * v * v * (3 - 2 * v))
+    im.putalpha(Image.composite(im.getchannel("A"), Image.new("L", (w, h)), alpha).point(lambda a: a))
+    im.putalpha(Image.eval(alpha, lambda a: a))
     return im
 
 
